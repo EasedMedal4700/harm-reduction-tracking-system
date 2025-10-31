@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../widgets/drawer_menu.dart';
 
 class QuickLogEntryPage extends StatefulWidget {
   const QuickLogEntryPage({super.key});
@@ -14,19 +15,19 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
   String _route = 'Oral';
   String _feeling = 'Neutral';
   String _location = 'Home';
-  DateTime _date = DateTime.now();
+  DateTime _date = DateTime.now(); // Add this: Initialize with current date
   int _hour = TimeOfDay.now().hour;
   int _minute = TimeOfDay.now().minute;
-  final _locationCtrl = TextEditingController();
   final _notesCtrl = TextEditingController();
-  
+
 
   @override
   void dispose() {
-    _locationCtrl.dispose();
     _notesCtrl.dispose();
     super.dispose();
   }
+
+  DateTime get selectedDateTime => DateTime(_date.year, _date.month, _date.day, _hour, _minute);
 
   void _save() {
     final result = {
@@ -34,9 +35,8 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
       'unit': _unit,
       'route': _route,
       'feeling': _feeling,
-      'date': DateFormat('yyyy-MM-dd').format(_date),
-      'time': '$_hour:${_minute.toString().padLeft(2, '0')}',
-      'location': _locationCtrl.text.trim(),
+      'datetime': selectedDateTime.toIso8601String(), // Now works
+      'location': _location,
       'notes': _notesCtrl.text.trim(),
     };
     ScaffoldMessenger.of(context).showSnackBar(
@@ -55,6 +55,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Quick Log Entry')),
+      drawer: const DrawerMenu(),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -118,51 +119,80 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
             }).toList(),
           ),
           const SizedBox(height: 16),
-
-          // Date
+          
+          // Add date selector here
           ListTile(
             leading: const Icon(Icons.calendar_today),
-            title: Text(DateFormat('yyyy-MM-dd').format(_date)),
+            title: const Text('Select Date'),
+            subtitle: Text(DateFormat('yyyy-MM-dd').format(_date)),
             trailing: TextButton(
               onPressed: () async {
                 final picked = await showDatePicker(
                   context: context,
-                  firstDate: DateTime(2020),
-                  lastDate: DateTime(2030),
                   initialDate: _date,
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
                 );
-                if (picked != null) setState(() => _date = picked);
+                if (picked != null) {
+                  setState(() => _date = picked);
+                }
               },
               child: const Text('Change'),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
 
-          // Time sliders
-          const Text('Hour'),
-          Slider(
-            min: 0,
-            max: 23,
-            divisions: 23,
-            value: _hour.toDouble(),
-            label: '$_hour',
-            onChanged: (v) => setState(() => _hour = v.toInt()),
+          // Time selector
+          const Text('Time'),
+          Row(
+            children: [
+              const Text('Hour:'),
+              Expanded(
+                child: Slider(
+                  value: _hour.toDouble(),
+                  min: 0,
+                  max: 23,
+                  divisions: 23,
+                  label: _hour.toString(),
+                  onChanged: (v) => setState(() => _hour = v.toInt()),
+                ),
+              ),
+              Text(_hour.toString().padLeft(2, '0')),
+            ],
           ),
-          const Text('Minute'),
-          Slider(
-            min: 0,
-            max: 59,
-            divisions: 59,
-            value: _minute.toDouble(),
-            label: _minute.toString(),
-            onChanged: (v) => setState(() => _minute = v.toInt()),
+          Row(
+            children: [
+              const Text('Minute:'),
+              Expanded(
+                child: Slider(
+                  value: _minute.toDouble(),
+                  min: 0,
+                  max: 59,
+                  divisions: 59,
+                  label: _minute.toString(),
+                  onChanged: (v) => setState(() => _minute = v.toInt()),
+                ),
+              ),
+              Text(_minute.toString().padLeft(2, '0')),
+            ],
           ),
           const SizedBox(height: 16),
 
+
+          // Selected time text (shown below the selector)
+          Text(
+            'Selected time: ${_hour.toString().padLeft(2, '0')}:${_minute.toString().padLeft(2, '0')}',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+
           // Location
-          TextFormField(
-            controller: _locationCtrl,
-            decoration: const InputDecoration(labelText: 'Location'),
+          const Text('Location'),
+          DropdownButton<String>(
+            value: _location,
+            items: locations
+                .map((loc) => DropdownMenuItem(value: loc, child: Text(loc)))
+                .toList(),
+            onChanged: (v) => setState(() => _location = v!),
           ),
           const SizedBox(height: 16),
 

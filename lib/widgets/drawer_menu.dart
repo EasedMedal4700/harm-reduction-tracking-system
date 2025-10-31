@@ -6,7 +6,7 @@ class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> pages = [
-      {'icon': Icons.home, 'title': 'Home', 'route': '/'},
+      {'icon': Icons.home, 'title': 'Home', 'route': '/home_page'},
       {'icon': Icons.note_add, 'title': 'Log Entry', 'route': '/log_entry'},
       {'icon': Icons.self_improvement, 'title': 'Reflection', 'route': '/reflection'},
       {'icon': Icons.analytics, 'title': 'Analytics', 'route': '/analytics'},
