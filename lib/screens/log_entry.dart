@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../widgets/drawer_menu.dart';
+import '../constants/drug_use_catalog.dart';
+
 
 class QuickLogEntryPage extends StatefulWidget {
   const QuickLogEntryPage({super.key});
@@ -12,8 +14,9 @@ class QuickLogEntryPage extends StatefulWidget {
 class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
   double _dose = 0;
   String _unit = 'mg';
+  String _substance = 'Weed';
   String _route = 'Oral';
-  String _feeling = 'Neutral';
+  String _feeling = 'Happy';
   String _location = 'Home';
   DateTime _date = DateTime.now(); // Add this: Initialize with current date
   int _hour = TimeOfDay.now().hour;
@@ -31,6 +34,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
 
   void _save() {
     final result = {
+      'substance': _substance,
       'dosage': _dose,
       'unit': _unit,
       'route': _route,
@@ -48,9 +52,9 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
   @override
   Widget build(BuildContext context) {
     final units = ['μg', 'mg', 'g', 'pills', 'ml'];
-    final routes = ['Oral', 'Sublingual', 'Intranasal', 'Inhaled', 'Injected'];
-    final feelings = ['Neutral', 'Good', 'Tired', 'Energized', 'Anxious'];
-    final locations = ['Home', 'Work', 'School', 'Public', 'Vehicle', 'Other']; // Add predefined locations
+    final routes = DrugUseCatalog.consumptionMethods; // Replace with catalog
+    final emotions = DrugUseCatalog.primaryEmotions; // Replace hardcoded list
+    final locations = ['Home', 'Work', 'School', 'Public', 'Vehicle', 'Gym', 'Other']; // Add predefined locations
 
 
     return Scaffold(
@@ -92,15 +96,40 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
           ),
           const SizedBox(height: 16),
 
+          // Substance with autocomplete
+          Autocomplete<String>(
+            optionsBuilder: (TextEditingValue textEditingValue) {
+              if (textEditingValue.text.isEmpty) {
+                return const Iterable<String>.empty();
+              }
+              return DrugUseCatalog.substances
+                  .where((String option) {
+                    return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                  });
+            },
+            onSelected: (String selection) {
+              setState(() => _substance = selection);
+            },
+            fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+              return TextFormField(
+                controller: textEditingController,
+                focusNode: focusNode,
+                decoration: const InputDecoration(labelText: 'Substance'),
+                onChanged: (value) => _substance = value,
+              );
+            },
+          ),
+          const SizedBox(height: 16),
+
           // Route
           const Text('Route of Administration'),
           Wrap(
             spacing: 8,
-            children: routes.map((r) {
+            children: routes.map((method) {
               return ChoiceChip(
-                label: Text(r),
-                selected: _route == r,
-                onSelected: (_) => setState(() => _route = r),
+                label: Text('${method['emoji']} ${method['name']!.toUpperCase()}'),
+                selected: _route == method['name'],
+                onSelected: (_) => setState(() => _route = method['name']!),
               );
             }).toList(),
           ),
@@ -110,11 +139,11 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
           const Text('How are you feeling?'),
           Wrap(
             spacing: 8,
-            children: feelings.map((f) {
+            children: emotions.map((f) {
               return ChoiceChip(
-                label: Text(f),
-                selected: _feeling == f,
-                onSelected: (_) => setState(() => _feeling = f),
+                label: Text('${f['emoji']} ${f['name']}'),
+                selected: _feeling == f['name'],
+                onSelected: (_) => setState(() => _feeling = f['name']!),
               );
             }).toList(),
           ),
