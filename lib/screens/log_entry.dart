@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../widgets/drawer_menu.dart';
 import '../constants/drug_use_catalog.dart';
+import '../utils/entry_validation.dart';
+import '../models/log_entry_model.dart'; // Import your LogEntry model
 
 
 class QuickLogEntryPage extends StatefulWidget {
@@ -14,14 +16,16 @@ class QuickLogEntryPage extends StatefulWidget {
 class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
   double _dose = 0;
   String _unit = 'mg';
-  String _substance = 'Weed';
-  String _route = 'Oral';
+  String _substance = '';
+  String _route = 'ORAL';
   String _feeling = 'Happy';
   String _location = 'Home';
   DateTime _date = DateTime.now(); // Add this: Initialize with current date
   int _hour = TimeOfDay.now().hour;
   int _minute = TimeOfDay.now().minute;
   final _notesCtrl = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>(); // Add this
 
 
   @override
@@ -33,20 +37,25 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
   DateTime get selectedDateTime => DateTime(_date.year, _date.month, _date.day, _hour, _minute);
 
   void _save() {
-    final result = {
-      'substance': _substance,
-      'dosage': _dose,
-      'unit': _unit,
-      'route': _route,
-      'feeling': _feeling,
-      'datetime': selectedDateTime.toIso8601String(), // Now works
-      'location': _location,
-      'notes': _notesCtrl.text.trim(),
-    };
+    if (!_formKey.currentState!.validate()) {
+      return; // Stop if validation fails
+    }
+
+    final entry = LogEntry(
+      substance: _substance,
+      dosage: _dose,
+      unit: _unit,
+      route: _route,
+      feeling: _feeling,
+      datetime: selectedDateTime,
+      location: _location,
+      notes: _notesCtrl.text.trim(),
+    );
+    print(entry.toJson()); // For now, later save to Supabase
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Entry saved')),
     );
-    print(result);
   }
 
   @override
@@ -60,9 +69,11 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Quick Log Entry')),
       drawer: const DrawerMenu(),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
           // Dosage row
           Row(
             children: [
@@ -75,6 +86,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
                   textAlign: TextAlign.center,
                   decoration: const InputDecoration(labelText: 'Dosage'),
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  validator: ValidationUtils.validateDosage,
                   onChanged: (v) => setState(() => _dose = double.tryParse(v) ?? _dose),
                   controller:
                       TextEditingController(text: _dose.toStringAsFixed(1)),
@@ -106,6 +118,10 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
                   .where((String option) {
                     return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
                   });
+                  
+
+
+                  
             },
             onSelected: (String selection) {
               setState(() => _substance = selection);
@@ -115,6 +131,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
                 controller: textEditingController,
                 focusNode: focusNode,
                 decoration: const InputDecoration(labelText: 'Substance'),
+                validator: ValidationUtils.validateSubstance, // Add this
                 onChanged: (value) => _substance = value,
               );
             },
@@ -239,6 +256,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
             child: const Text('Save Entry'),
           ),
         ],
+      ),
       ),
     );
   }
