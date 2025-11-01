@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import '../widgets/drawer_menu.dart';
-import '../constants/drug_use_catalog.dart';
-import '../utils/entry_validation.dart';
-import '../models/log_entry_model.dart'; // Import your LogEntry model
-
+// import '../constants/drug_use_catalog.dart';
+// import '../utils/entry_validation.dart';
+import '../models/log_entry_model.dart';
+import '../widgets/log_entry/dosage_input.dart';
+import '../widgets/log_entry/substance_autocomplete.dart';
+import '../widgets/log_entry/route_selection.dart';
+import '../widgets/log_entry/feeling_selection.dart';
+import '../widgets/log_entry/date_selector.dart';
+import '../widgets/log_entry/time_selector.dart';
+import '../widgets/log_entry/location_dropdown.dart';
 
 class QuickLogEntryPage extends StatefulWidget {
   const QuickLogEntryPage({super.key});
@@ -17,16 +23,15 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
   double _dose = 0;
   String _unit = 'mg';
   String _substance = '';
-  String _route = 'ORAL';
-  String _feeling = 'Happy';
+  String _route = 'oral';
+  List<String> _feelings = [];
+  Map<String, List<String>> _secondaryFeelings = {};
   String _location = 'Home';
-  DateTime _date = DateTime.now(); // Add this: Initialize with current date
+  DateTime _date = DateTime.now();
   int _hour = TimeOfDay.now().hour;
   int _minute = TimeOfDay.now().minute;
   final _notesCtrl = TextEditingController();
-
-  final _formKey = GlobalKey<FormState>(); // Add this
-
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -38,7 +43,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
 
   void _save() {
     if (!_formKey.currentState!.validate()) {
-      return; // Stop if validation fails
+      return;
     }
 
     final entry = LogEntry(
@@ -46,12 +51,13 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
       dosage: _dose,
       unit: _unit,
       route: _route,
-      feeling: _feeling,
+      feelings: _feelings,
+      secondaryFeelings: _secondaryFeelings,
       datetime: selectedDateTime,
       location: _location,
       notes: _notesCtrl.text.trim(),
     );
-    print(entry.toJson()); // For now, later save to Supabase
+    print(entry.toJson());
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Entry saved')),
@@ -61,10 +67,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
   @override
   Widget build(BuildContext context) {
     final units = ['μg', 'mg', 'g', 'pills', 'ml'];
-    final routes = DrugUseCatalog.consumptionMethods; // Replace with catalog
-    final emotions = DrugUseCatalog.primaryEmotions; // Replace hardcoded list
-    final locations = ['Home', 'Work', 'School', 'Public', 'Vehicle', 'Gym', 'Other']; // Add predefined locations
-
+    final locations = ['Home', 'Work', 'School', 'Public', 'Vehicle', 'Gym', 'Other'];
 
     return Scaffold(
       appBar: AppBar(title: const Text('Quick Log Entry')),
@@ -74,189 +77,71 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-          // Dosage row
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.remove),
-                onPressed: () => setState(() => _dose = (_dose - 1).clamp(0, 9999)),
-              ),
-              Expanded(
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  decoration: const InputDecoration(labelText: 'Dosage'),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  validator: ValidationUtils.validateDosage,
-                  onChanged: (v) => setState(() => _dose = double.tryParse(v) ?? _dose),
-                  controller:
-                      TextEditingController(text: _dose.toStringAsFixed(1)),
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () => setState(() => _dose = _dose + 1),
-              ),
-              const SizedBox(width: 8),
-              DropdownButton<String>(
-                value: _unit,
-                items: units
-                    .map((u) => DropdownMenuItem(value: u, child: Text(u)))
-                    .toList(),
-                onChanged: (v) => setState(() => _unit = v!),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-
-          // Substance with autocomplete
-          Autocomplete<String>(
-            optionsBuilder: (TextEditingValue textEditingValue) {
-              if (textEditingValue.text.isEmpty) {
-                return const Iterable<String>.empty();
-              }
-              return DrugUseCatalog.substances
-                  .where((String option) {
-                    return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
-                  });
-                  
-
-
-                  
-            },
-            onSelected: (String selection) {
-              setState(() => _substance = selection);
-            },
-            fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
-              return TextFormField(
-                controller: textEditingController,
-                focusNode: focusNode,
-                decoration: const InputDecoration(labelText: 'Substance'),
-                validator: ValidationUtils.validateSubstance, // Add this
-                onChanged: (value) => _substance = value,
-              );
-            },
-          ),
-          const SizedBox(height: 16),
-
-          // Route
-          const Text('Route of Administration'),
-          Wrap(
-            spacing: 8,
-            children: routes.map((method) {
-              return ChoiceChip(
-                label: Text('${method['emoji']} ${method['name']!.toUpperCase()}'),
-                selected: _route == method['name'],
-                onSelected: (_) => setState(() => _route = method['name']!),
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 16),
-
-          // Feeling
-          const Text('How are you feeling?'),
-          Wrap(
-            spacing: 8,
-            children: emotions.map((f) {
-              return ChoiceChip(
-                label: Text('${f['emoji']} ${f['name']}'),
-                selected: _feeling == f['name'],
-                onSelected: (_) => setState(() => _feeling = f['name']!),
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 16),
-          
-          // Add date selector here
-          ListTile(
-            leading: const Icon(Icons.calendar_today),
-            title: const Text('Select Date'),
-            subtitle: Text(DateFormat('yyyy-MM-dd').format(_date)),
-            trailing: TextButton(
-              onPressed: () async {
-                final picked = await showDatePicker(
-                  context: context,
-                  initialDate: _date,
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2100),
-                );
-                if (picked != null) {
-                  setState(() => _date = picked);
-                }
-              },
-              child: const Text('Change'),
+            DosageInput(
+              dose: _dose,
+              unit: _unit,
+              units: units,
+              onDoseChanged: (dose) => setState(() => _dose = dose),
+              onUnitChanged: (unit) => setState(() => _unit = unit),
             ),
-          ),
-          const SizedBox(height: 16),
+            const SizedBox(height: 16),
 
-          // Time selector
-          const Text('Time'),
-          Row(
-            children: [
-              const Text('Hour:'),
-              Expanded(
-                child: Slider(
-                  value: _hour.toDouble(),
-                  min: 0,
-                  max: 23,
-                  divisions: 23,
-                  label: _hour.toString(),
-                  onChanged: (v) => setState(() => _hour = v.toInt()),
-                ),
-              ),
-              Text(_hour.toString().padLeft(2, '0')),
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Minute:'),
-              Expanded(
-                child: Slider(
-                  value: _minute.toDouble(),
-                  min: 0,
-                  max: 59,
-                  divisions: 59,
-                  label: _minute.toString(),
-                  onChanged: (v) => setState(() => _minute = v.toInt()),
-                ),
-              ),
-              Text(_minute.toString().padLeft(2, '0')),
-            ],
-          ),
-          const SizedBox(height: 16),
+            SubstanceAutocomplete(
+              substance: _substance,
+              onSubstanceChanged: (substance) => setState(() => _substance = substance),
+            ),
+            const SizedBox(height: 16),
 
+            const Text('Route of Administration'),
+            RouteSelection(
+              route: _route,
+              onRouteChanged: (route) => setState(() => _route = route),
+            ),
+            const SizedBox(height: 16),
 
-          // Selected time text (shown below the selector)
-          Text(
-            'Selected time: ${_hour.toString().padLeft(2, '0')}:${_minute.toString().padLeft(2, '0')}',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+            FeelingSelection(
+              feelings: _feelings,
+              secondaryFeelings: _secondaryFeelings,
+              onFeelingsChanged: (feelings) => setState(() => _feelings = feelings),
+              onSecondaryFeelingsChanged: (secondary) => setState(() => _secondaryFeelings = secondary),
+            ),
+            const SizedBox(height: 16),
 
-          // Location
-          const Text('Location'),
-          DropdownButton<String>(
-            value: _location,
-            items: locations
-                .map((loc) => DropdownMenuItem(value: loc, child: Text(loc)))
-                .toList(),
-            onChanged: (v) => setState(() => _location = v!),
-          ),
-          const SizedBox(height: 16),
+            DateSelector(
+              date: _date,
+              onDateChanged: (date) => setState(() => _date = date),
+            ),
+            const SizedBox(height: 16),
 
-          // Notes
-          TextFormField(
-            controller: _notesCtrl,
-            maxLines: 3,
-            decoration: const InputDecoration(labelText: 'Notes'),
-          ),
-          const SizedBox(height: 24),
+            TimeSelector(
+              hour: _hour,
+              minute: _minute,
+              onHourChanged: (hour) => setState(() => _hour = hour),
+              onMinuteChanged: (minute) => setState(() => _minute = minute),
+            ),
+            const SizedBox(height: 16),
 
-          // Save
-          ElevatedButton(
-            onPressed: _save,
-            child: const Text('Save Entry'),
-          ),
-        ],
-      ),
+            const Text('Location'),
+            LocationDropdown(
+              location: _location,
+              locations: locations,
+              onLocationChanged: (location) => setState(() => _location = location),
+            ),
+            const SizedBox(height: 16),
+
+            TextFormField(
+              controller: _notesCtrl,
+              maxLines: 3,
+              decoration: const InputDecoration(labelText: 'Notes'),
+            ),
+            const SizedBox(height: 24),
+
+            ElevatedButton(
+              onPressed: _save,
+              child: const Text('Save Entry'),
+            ),
+          ],
+        ),
       ),
     );
   }

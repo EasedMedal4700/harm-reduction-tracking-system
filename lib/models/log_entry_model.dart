@@ -3,7 +3,8 @@ class LogEntry {
   final double dosage;
   final String unit;
   final String route;
-  final String feeling;
+  final List<String> feelings;
+  final Map<String, List<String>> secondaryFeelings;
   final DateTime datetime;
   final String location;
   final String notes;
@@ -13,7 +14,8 @@ class LogEntry {
     required this.dosage,
     required this.unit,
     required this.route,
-    required this.feeling,
+    required this.feelings,
+    required this.secondaryFeelings,
     required this.datetime,
     required this.location,
     required this.notes,
@@ -26,7 +28,8 @@ class LogEntry {
       'dosage': dosage,
       'unit': unit,
       'route': route,
-      'feeling': feeling,
+      'feeling': feelings,
+      'secondaryFeeling': secondaryFeelings,
       'datetime': datetime.toIso8601String(),
       'location': location,
       'notes': notes,
@@ -40,7 +43,8 @@ class LogEntry {
       dosage: json['dosage'],
       unit: json['unit'],
       route: json['route'],
-      feeling: json['feeling'],
+      feelings: List<String>.from(json['feelings'] ?? []),
+      secondaryFeelings: Map<String, List<String>>.from(json['secondaryFeelings'] ?? {}),
       datetime: DateTime.parse(json['datetime']),
       location: json['location'],
       notes: json['notes'],

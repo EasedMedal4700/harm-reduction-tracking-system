@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final authService = AuthService();
+  State<LoginPage> createState() => _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final authService = AuthService();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
@@ -33,12 +45,12 @@ class LoginPage extends StatelessWidget {
                 final password = passwordController.text;
 
                 final success = await authService.login(email, password);
+                if (!mounted) return;
 
                 if (success) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Login successful!')),
                   );
-                  // Add navigation here
                   Navigator.pushReplacementNamed(context, '/home_page');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(

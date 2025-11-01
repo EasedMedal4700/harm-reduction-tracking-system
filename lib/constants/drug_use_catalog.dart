@@ -10,7 +10,7 @@ class DrugUseCatalog {
     {'name': 'sublingual', 'emoji': '👅'},
     {'name': 'rectal', 'emoji': '🩺'}, // Neutral medical icon; adjust if needed
     {'name': 'intravenous', 'emoji': '💉'},
-    {'name': 'intramuscular', 'emoji': '💉'},
+    {'name': 'intramuscular', 'emoji': '💪'},
   ];
 
   // ============================================================================
