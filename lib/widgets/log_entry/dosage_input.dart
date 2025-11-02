@@ -23,6 +23,28 @@ class DosageInput extends StatefulWidget {
 }
 
 class _DosageInputState extends State<DosageInput> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.dose.toStringAsFixed(1));
+  }
+
+  @override
+  void didUpdateWidget(covariant DosageInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.dose != widget.dose) {
+      _controller.text = widget.dose.toStringAsFixed(1);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -37,8 +59,8 @@ class _DosageInputState extends State<DosageInput> {
             decoration: const InputDecoration(labelText: 'Dosage'),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             validator: ValidationUtils.validateDosage,
+            controller: _controller,
             onChanged: (v) => widget.onDoseChanged(double.tryParse(v) ?? widget.dose),
-            controller: TextEditingController(text: widget.dose.toStringAsFixed(1)),
           ),
         ),
         IconButton(
