@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../services/analytics_service.dart';
 import '../models/log_entry_model.dart';
+import '../widgets/analytics/time_period_selector.dart';
+import '../widgets/analytics/analytics_summary.dart';
 
 final user_id = '2';
+
+enum TimePeriod { all, last7Days, last7Weeks, last7Months }
 
 class AnalyticsPage extends StatefulWidget {
   const AnalyticsPage({super.key});
@@ -15,35 +18,22 @@ class AnalyticsPage extends StatefulWidget {
 class _AnalyticsPageState extends State<AnalyticsPage> {
   List<LogEntry> _entries = [];
   bool _isLoading = true;
+  late AnalyticsService _service;
+  TimePeriod _selectedPeriod = TimePeriod.all;
 
   @override
   void initState() {
     super.initState();
+    _service = AnalyticsService(user_id);
     _fetchData();
   }
 
   Future<void> _fetchData() async {
     try {
-      final supabase = Supabase.instance.client;
-      final response = await supabase
-          .from('drug_use')
-          .select('*')
-          .eq('user_id', user_id); // Filter by user_id
-      print('Response: $response'); // Debug: Print the full response
-      final data = response as List<dynamic>;
-      print('Fetched data: $data'); // Debug: Print raw data
-      _entries = data.map((json) {
-        try {
-          return LogEntry.fromJson(json);
-        } catch (e) {
-          print('Error parsing entry: $json, error: $e'); // Debug: Print parsing errors
-          return null;
-        }
-      }).where((entry) => entry != null).cast<LogEntry>().toList();
-      print('Parsed entries: ${_entries.length}'); // Debug: Print number of entries
+      _entries = await _service.fetchEntries();
+      print('Parsed entries: ${_entries.length}');
     } catch (e) {
-      print('Error fetching data: $e'); // Debug: Print fetch errors
-      // Optionally show a snackbar or error message
+      print('Error fetching data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error loading analytics: $e')),
       );
@@ -51,6 +41,21 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  List<LogEntry> _getFilteredEntries() {
+    final now = DateTime.now();
+    switch (_selectedPeriod) {
+      case TimePeriod.last7Days:
+        return _entries.where((e) => e.datetime.isAfter(now.subtract(const Duration(days: 7)))).toList();
+      case TimePeriod.last7Weeks:
+        return _entries.where((e) => e.datetime.isAfter(now.subtract(const Duration(days: 49)))).toList();
+      case TimePeriod.last7Months:
+        return _entries.where((e) => e.datetime.isAfter(now.subtract(const Duration(days: 210)))).toList();
+      case TimePeriod.all:
+      default:
+        return _entries;
+    }
   }
 
   @override
@@ -61,11 +66,14 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       );
     }
 
-    // Basic summary: Count substances (keep for potential future use)
-    final substanceCounts = <String, int>{};
-    for (final entry in _entries) {
-      substanceCounts[entry.substance] = (substanceCounts[entry.substance] ?? 0) + 1;
-    }
+    final filteredEntries = _getFilteredEntries();
+    final avgPerWeek = _service.calculateAvgPerWeek(filteredEntries);
+    final substanceCounts = _service.getSubstanceCounts(filteredEntries);
+    final mostUsed = _service.getMostUsedSubstance(substanceCounts);
+
+    final selectedPeriodText = _selectedPeriod == TimePeriod.all ? 'All Time' :
+                               _selectedPeriod == TimePeriod.last7Days ? 'Last 7 Days' :
+                               _selectedPeriod == TimePeriod.last7Weeks ? 'Last 7 Weeks' : 'Last 7 Months';
 
     return Scaffold(
       appBar: AppBar(title: const Text('Analytics')),
@@ -73,8 +81,18 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text('Total Entries: ${_entries.length}'),
-            // Removed charts; add text summaries or lists here if needed
+            TimePeriodSelector(
+              selectedPeriod: _selectedPeriod,
+              onPeriodChanged: (period) => setState(() => _selectedPeriod = period),
+            ),
+            const SizedBox(height: 16),
+            AnalyticsSummary(
+              totalEntries: filteredEntries.length,
+              avgPerWeek: avgPerWeek,
+              mostUsedSubstance: mostUsed.key,
+              mostUsedCount: mostUsed.value,
+              selectedPeriodText: selectedPeriodText,
+            ),
           ],
         ),
       ),
