@@ -5,6 +5,7 @@ import '../widgets/analytics/time_period_selector.dart';
 import '../widgets/analytics/analytics_summary.dart';
 import '../widgets/analytics/category_pie_chart.dart';
 import '../widgets/analytics/usage_trend_chart.dart';
+import '../widgets/common/filter.dart'; // Update import to filter.dart
 import '../constants/drug_categories.dart';
 import '../constants/drug_theme.dart';
 import '../constants/time_period.dart'; // Import the enum from here
@@ -25,6 +26,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   bool _isLoading = true;
   late AnalyticsService _service;
   TimePeriod _selectedPeriod = TimePeriod.all;
+  String? _selectedSubstance; // Add this
+  String? _selectedCategory; // Add this
+  int _selectedTypeIndex = 0; // Add this
 
   @override
   void initState() {
@@ -71,7 +75,11 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       );
     }
     
-    final filteredEntries = _service.filterEntriesByPeriod(_entries, _selectedPeriod);
+    final periodFilteredEntries = _service.filterEntriesByPeriod(_entries, _selectedPeriod);
+    final filteredEntries = _selectedSubstance == null
+        ? periodFilteredEntries
+        : periodFilteredEntries.where((e) => e.substance == _selectedSubstance).toList();
+    
     final avgPerWeek = _service.calculateAvgPerWeek(filteredEntries);
     final categoryCounts = _service.getCategoryCounts(filteredEntries);
     final mostUsed = _service.getMostUsedCategory(categoryCounts);
@@ -84,6 +92,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 
     final selectedPeriodText = _getSelectedPeriodText();
 
+    final uniqueSubstances = periodFilteredEntries.map((e) => e.substance).toSet().toList()..sort();
+    final uniqueCategories = categoryCounts.keys.toList()..sort();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Analytics')),
       body: Padding(
@@ -94,6 +105,17 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
               TimePeriodSelector(
                 selectedPeriod: _selectedPeriod,
                 onPeriodChanged: (period) => setState(() => _selectedPeriod = period),
+              ),
+              const SizedBox(height: 16),
+              FilterWidget( // Replace the separate filters with this
+                uniqueCategories: uniqueCategories,
+                uniqueSubstances: uniqueSubstances,
+                selectedCategory: _selectedCategory,
+                onCategoryChanged: (value) => setState(() => _selectedCategory = value == 'All' ? null : value),
+                selectedSubstance: _selectedSubstance,
+                onSubstanceChanged: (value) => setState(() => _selectedSubstance = value == 'All' ? null : value),
+                selectedTypeIndex: _selectedTypeIndex,
+                onTypeChanged: (index) => setState(() => _selectedTypeIndex = index),
               ),
               const SizedBox(height: 16),
               AnalyticsSummary(
