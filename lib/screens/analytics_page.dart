@@ -4,12 +4,16 @@ import '../models/log_entry_model.dart';
 import '../widgets/analytics/time_period_selector.dart';
 import '../widgets/analytics/analytics_summary.dart';
 import '../widgets/analytics/category_pie_chart.dart'; // Add this import
+import '../widgets/analytics/usage_trend_chart.dart'; // Add this import
 import '../constants/drug_categories.dart';
 import '../constants/drug_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:convert';
+import '../../screens/analytics_page.dart'; // For TimePeriod enum
+import '../../models/log_entry_model.dart'; // Add this import for LogEntry
 
 final user_id = '2';
+
 
 enum TimePeriod { all, last7Days, last7Weeks, last7Months }
 
@@ -85,7 +89,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         body: Center(child: CircularProgressIndicator()),
       );
     }
-
+    
     final filteredEntries = _getFilteredEntries();
     final avgPerWeek = _service.calculateAvgPerWeek(filteredEntries);
     final categoryCounts = _service.getCategoryCounts(filteredEntries);
@@ -112,7 +116,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
               selectedPeriodText: selectedPeriodText,
             ),
             const SizedBox(height: 16),
-            CategoryPieChart(categoryCounts: categoryCounts), // Use the new widget
+            CategoryPieChart(categoryCounts: categoryCounts),
+            const SizedBox(height: 16),
+            UsageTrendChart(filteredEntries: filteredEntries, period: _selectedPeriod, substanceToCategory: _service.substanceToCategory),
           ],
         ),
       ),
