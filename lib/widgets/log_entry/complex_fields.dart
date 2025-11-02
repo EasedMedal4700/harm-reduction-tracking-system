@@ -31,6 +31,7 @@ class ComplexFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DropdownButtonFormField<String>(
           value: intention.isEmpty ? null : intention,
@@ -51,7 +52,7 @@ class ComplexFields extends StatelessWidget {
         Row(
           children: [
             const Text('Medical Purpose?'),
-            const Spacer(),
+            const SizedBox(width: 16),
             Switch(
               value: isMedicalPurpose,
               onChanged: onMedicalPurposeChanged,
@@ -71,7 +72,7 @@ class ComplexFields extends StatelessWidget {
           spacing: 8.0,
           children: triggers.map((trigger) => FilterChip(
             label: Text(trigger),
-            selected: bodySignals.contains(trigger), // Wait, this should be triggers.contains(trigger)
+            selected: triggers.contains(trigger),
             onSelected: (selected) {
               final newTriggers = List<String>.from(triggers);
               if (selected) {

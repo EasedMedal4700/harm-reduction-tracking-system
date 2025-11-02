@@ -59,6 +59,7 @@ class SimpleFields extends StatelessWidget {
     final locations = ['Home', 'Work', 'School', 'Public', 'Vehicle', 'Gym', 'Other'];
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DosageInput(
           dose: dose,

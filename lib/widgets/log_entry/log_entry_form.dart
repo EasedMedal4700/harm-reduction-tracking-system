@@ -80,9 +80,11 @@ class LogEntryForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
-      child: ListView(
-        padding: const EdgeInsets.only(right: 16, top: 16, bottom: 16), // Add padding only on right, top, bottom for left alignment
-        children: [
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: ListView(
+          padding: const EdgeInsets.only(right: 16, top: 16, bottom: 16), // Add padding only on right, top, bottom for left alignment
+          children: [
           SimpleFields(
             dose: dose,
             unit: unit,
@@ -129,6 +131,7 @@ class LogEntryForm extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }
