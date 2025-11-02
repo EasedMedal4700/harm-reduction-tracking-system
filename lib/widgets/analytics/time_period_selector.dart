@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../screens/analytics_page.dart'; // For TimePeriod enum
+import '../../constants/time_period.dart';
 
 class TimePeriodSelector extends StatelessWidget {
   final TimePeriod selectedPeriod;

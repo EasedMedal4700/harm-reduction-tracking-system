@@ -1,6 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/log_entry_model.dart';
 import '../constants/drug_categories.dart';
+import '../../constants/time_period.dart';
 
 class AnalyticsService {
   final String userId;
@@ -53,5 +54,37 @@ class AnalyticsService {
 
   void setSubstanceToCategory(Map<String, String> map) { // Add this method
     substanceToCategory = map;
+  }
+
+  List<LogEntry> filterEntriesByPeriod(List<LogEntry> entries, TimePeriod period) {
+    final now = DateTime.now();
+    switch (period) {
+      case TimePeriod.last7Days:
+        return entries.where((e) => e.datetime.isAfter(now.subtract(const Duration(days: 7)))).toList();
+      case TimePeriod.last7Weeks:
+        return entries.where((e) => e.datetime.isAfter(now.subtract(const Duration(days: 49)))).toList();
+      case TimePeriod.last7Months:
+        return entries.where((e) => e.datetime.isAfter(now.subtract(const Duration(days: 210)))).toList();
+      case TimePeriod.all:
+      default:
+        return entries;
+    }
+  }
+
+  Map<String, int> getSubstanceCounts(List<LogEntry> entries) {
+    final counts = <String, int>{};
+    for (final entry in entries) {
+      counts[entry.substance] = (counts[entry.substance] ?? 0) + 1;
+    }
+    return counts;
+  }
+
+  MapEntry<String, int> getMostUsedSubstance(Map<String, int> substanceCounts) {
+    if (substanceCounts.isEmpty) return MapEntry<String, int>('', 0);
+    return substanceCounts.entries.reduce((a, b) => a.value > b.value ? a : b);
+  }
+
+  int getTopCategoryPercent(int mostUsedCount, int totalEntries) {
+    return totalEntries > 0 ? (mostUsedCount / totalEntries * 100).round() : 0;
   }
 }
