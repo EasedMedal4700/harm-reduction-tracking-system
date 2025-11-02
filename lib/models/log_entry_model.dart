@@ -9,6 +9,11 @@ class LogEntry {
   final String location;
   final String notes;
   final double timezoneOffset;
+  final bool isMedicalPurpose;
+  final double cravingIntensity;
+  final String intention;
+  final List<String> triggers; // Add this
+  final List<String> bodySignals; // Add this
 
   LogEntry({
     required this.substance,
@@ -21,6 +26,11 @@ class LogEntry {
     required this.location,
     required this.notes,
     required this.timezoneOffset,
+    required this.isMedicalPurpose,
+    required this.cravingIntensity,
+    required this.intention,
+    required this.triggers,
+    required this.bodySignals,
   });
 
   // Convert to JSON (for saving to Supabase)
@@ -36,6 +46,11 @@ class LogEntry {
       'location': location,
       'notes': notes,
       'timezoneOffset': timezoneOffset,
+      'isMedicalPurpose': isMedicalPurpose,
+      'cravingIntensity': cravingIntensity,
+      'intention': intention,
+      'triggers': triggers,
+      'bodySignals': bodySignals,
     };
   }
 
@@ -52,6 +67,11 @@ class LogEntry {
       location: json['location'],
       notes: json['notes'],
       timezoneOffset: json['timezoneOffset']?.toDouble() ?? 0.0,
+      isMedicalPurpose: json['isMedicalPurpose'] ?? false,
+      cravingIntensity: json['cravingIntensity']?.toDouble() ?? 0.0,
+      intention: json['intention'] ?? '',
+      triggers: List<String>.from(json['triggers'] ?? []),
+      bodySignals: List<String>.from(json['bodySignals'] ?? []),
     );
   }
 }

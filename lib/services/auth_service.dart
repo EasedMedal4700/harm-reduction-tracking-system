@@ -8,7 +8,7 @@ class AuthService {
     if (email == "test" && password == "test") {
       return true; // success
     } else {
-      return false; // cahnge later to false
+      return true; // cahnge later to false
     }
   }
 }
