@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; // Add this import for Icons
+import 'package:flutter/material.dart';
 
 class DrugCategories {
   // Category priority list (higher priority first)
@@ -17,6 +17,7 @@ class DrugCategories {
     "Nootropic",
     "SSRI",
     "Experimental",
+    "Placeholder",
   ];
 
   // Category icon map (Material Icons)

@@ -1,8 +1,10 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/log_entry_model.dart';
+import '../constants/drug_categories.dart';
 
 class AnalyticsService {
   final String userId;
+  Map<String, String> substanceToCategory = {}; // Ensure this is added
 
   AnalyticsService(this.userId);
 
@@ -34,16 +36,22 @@ class AnalyticsService {
     return entries.length / weeks;
   }
 
-    Map<String, int> getSubstanceCounts(List<LogEntry> entries) {
+  // Updated to use the DB-fetched map
+  Map<String, int> getCategoryCounts(List<LogEntry> entries) {
     final counts = <String, int>{};
     for (final entry in entries) {
-      counts[entry.substance] = (counts[entry.substance] ?? 0) + 1;
+      final category = substanceToCategory[entry.substance.toLowerCase()] ?? 'Placeholder'; // Use lowercase lookup
+      counts[category] = (counts[category] ?? 0) + 1;
     }
     return counts;
   }
 
-  MapEntry<String, int> getMostUsedSubstance(Map<String, int> counts) {
+  MapEntry<String, int> getMostUsedCategory(Map<String, int> counts) {
     if (counts.isEmpty) return const MapEntry('None', 0);
     return counts.entries.reduce((a, b) => a.value > b.value ? a : b);
+  }
+
+  void setSubstanceToCategory(Map<String, String> map) { // Add this method
+    substanceToCategory = map;
   }
 }

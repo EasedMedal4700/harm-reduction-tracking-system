@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AnalyticsSummary extends StatelessWidget {
   final int totalEntries;
   final double avgPerWeek;
-  final String mostUsedSubstance;
+  final String mostUsedCategory;
   final int mostUsedCount;
   final String selectedPeriodText;
 
@@ -11,7 +11,7 @@ class AnalyticsSummary extends StatelessWidget {
     super.key,
     required this.totalEntries,
     required this.avgPerWeek,
-    required this.mostUsedSubstance,
+    required this.mostUsedCategory,
     required this.mostUsedCount,
     required this.selectedPeriodText,
   });
@@ -24,7 +24,7 @@ class AnalyticsSummary extends StatelessWidget {
         const SizedBox(height: 16),
         Text('Total Entries: $totalEntries'),
         Text('Average per Week: ${avgPerWeek.toStringAsFixed(2)}'),
-        Text('Most Used Substance: $mostUsedSubstance ($mostUsedCount times)'),
+        Text('Most Used Category: $mostUsedCategory ($mostUsedCount times)'), // Updated
       ],
     );
   }

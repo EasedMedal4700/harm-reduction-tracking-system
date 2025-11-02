@@ -7,7 +7,7 @@ class DrugCategoryColors {
   // Individual category colors
   static const Color psychedelic = Color(0xFF9C6BFF); // purple
   static const Color deliriant = Color(0xFFC67EFF); // violet
-  static const Color dissociative = Color(0xFFA970FF); // indigo
+  static const Color dissociative = Color(0xFF00BFFF);
   static const Color empathogen = Color(0xFFFF5FB7); // pink
   static const Color opioid = Color(0xFFFF914D); // orange
   static const Color depressant = Color(0xFF1E90FF); // blue

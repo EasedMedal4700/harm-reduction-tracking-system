@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart'; // Add this import
 import '../services/analytics_service.dart';
 import '../models/log_entry_model.dart';
 import '../widgets/analytics/time_period_selector.dart';
 import '../widgets/analytics/analytics_summary.dart';
+import '../widgets/analytics/category_pie_chart.dart'; // Add this import
+import '../constants/drug_categories.dart';
+import '../constants/drug_theme.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:convert';
 
 final user_id = '2';
 
@@ -31,7 +35,22 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 
   Future<void> _fetchData() async {
     try {
+      final supabase = Supabase.instance.client;
+      // Fetch entries
       _entries = await _service.fetchEntries();
+      // Fetch substance-to-category map from drug_profiles
+      final substanceResponse = await supabase.from('drug_profiles').select('name, categories');
+      final substanceData = substanceResponse as List<dynamic>;
+      final substanceToCategory = <String, String>{};
+      for (var item in substanceData) {
+        final categories = (item['categories'] as List<dynamic>?)?.map((e) => e as String).toList() ?? ['Placeholder'];
+        final validCategories = categories.where((c) => DrugCategories.categoryPriority.contains(c)).toList();
+        final category = validCategories.isNotEmpty
+            ? validCategories.reduce((a, b) => DrugCategories.categoryPriority.indexOf(a) < DrugCategories.categoryPriority.indexOf(b) ? a : b)
+            : 'Placeholder';
+        substanceToCategory[(item['name'] as String).toLowerCase()] = category; // Use lowercase key
+      }
+      _service.setSubstanceToCategory(substanceToCategory);
       print('Parsed entries: ${_entries.length}');
     } catch (e) {
       print('Error fetching data: $e');
@@ -69,12 +88,10 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 
     final filteredEntries = _getFilteredEntries();
     final avgPerWeek = _service.calculateAvgPerWeek(filteredEntries);
-    final substanceCounts = _service.getSubstanceCounts(filteredEntries);
-    final mostUsed = _service.getMostUsedSubstance(substanceCounts);
+    final categoryCounts = _service.getCategoryCounts(filteredEntries);
+    final mostUsed = _service.getMostUsedCategory(categoryCounts);
 
-    final selectedPeriodText = _selectedPeriod == TimePeriod.all ? 'All Time' :
-                               _selectedPeriod == TimePeriod.last7Days ? 'Last 7 Days' :
-                               _selectedPeriod == TimePeriod.last7Weeks ? 'Last 7 Weeks' : 'Last 7 Months';
+    final selectedPeriodText = _getSelectedPeriodText();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Analytics')),
@@ -90,28 +107,29 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
             AnalyticsSummary(
               totalEntries: filteredEntries.length,
               avgPerWeek: avgPerWeek,
-              mostUsedSubstance: mostUsed.key,
+              mostUsedCategory: mostUsed.key,
               mostUsedCount: mostUsed.value,
               selectedPeriodText: selectedPeriodText,
             ),
             const SizedBox(height: 16),
-            const Text('Substance Distribution', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(
-              height: 200,
-              child: PieChart(
-                PieChartData(
-                  sections: substanceCounts.entries.map((e) => PieChartSectionData(
-                    value: e.value.toDouble(),
-                    title: '${e.key}\n${e.value}',
-                    color: Colors.primaries[substanceCounts.keys.toList().indexOf(e.key) % Colors.primaries.length],
-                    radius: 50,
-                  )).toList(),
-                ),
-              ),
-            ),
+            CategoryPieChart(categoryCounts: categoryCounts), // Use the new widget
           ],
         ),
       ),
     );
+  }
+
+  // Add this helper method
+  String _getSelectedPeriodText() {
+    switch (_selectedPeriod) {
+      case TimePeriod.all:
+        return 'All Time';
+      case TimePeriod.last7Days:
+        return 'Last 7 Days';
+      case TimePeriod.last7Weeks:
+        return 'Last 7 Weeks';
+      case TimePeriod.last7Months:
+        return 'Last 7 Months';
+    }
   }
 }
