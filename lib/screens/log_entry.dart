@@ -11,6 +11,7 @@ import '../widgets/log_entry/feeling_selection.dart';
 import '../widgets/log_entry/date_selector.dart';
 import '../widgets/log_entry/time_selector.dart';
 import '../widgets/log_entry/location_dropdown.dart';
+import '../services/timezone_service.dart';
 
 class QuickLogEntryPage extends StatefulWidget {
   const QuickLogEntryPage({super.key});
@@ -32,6 +33,8 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
   int _minute = TimeOfDay.now().minute;
   final _notesCtrl = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final TimezoneService _timezoneService = TimezoneService(); // Add this
+
 
   @override
   void dispose() {
@@ -56,6 +59,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
       datetime: selectedDateTime,
       location: _location,
       notes: _notesCtrl.text.trim(),
+      timezoneOffset: _timezoneService.getTimezoneOffset(), // Add this
     );
     print(entry.toJson());
 

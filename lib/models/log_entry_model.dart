@@ -8,6 +8,7 @@ class LogEntry {
   final DateTime datetime;
   final String location;
   final String notes;
+  final double timezoneOffset;
 
   LogEntry({
     required this.substance,
@@ -19,6 +20,7 @@ class LogEntry {
     required this.datetime,
     required this.location,
     required this.notes,
+    required this.timezoneOffset,
   });
 
   // Convert to JSON (for saving to Supabase)
@@ -28,11 +30,12 @@ class LogEntry {
       'dosage': dosage,
       'unit': unit,
       'route': route,
-      'feeling': feelings,
-      'secondaryFeeling': secondaryFeelings,
+      'feelings': feelings,
+      'secondaryFeelings': secondaryFeelings,
       'datetime': datetime.toIso8601String(),
       'location': location,
       'notes': notes,
+      'timezoneOffset': timezoneOffset,
     };
   }
 
@@ -48,6 +51,7 @@ class LogEntry {
       datetime: DateTime.parse(json['datetime']),
       location: json['location'],
       notes: json['notes'],
+      timezoneOffset: json['timezoneOffset']?.toDouble() ?? 0.0,
     );
   }
 }
