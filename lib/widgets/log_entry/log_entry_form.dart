@@ -19,8 +19,8 @@ class LogEntryForm extends StatelessWidget {
   final bool isMedicalPurpose;
   final double cravingIntensity;
   final String intention;
-  final List<String> triggers;
-  final List<String> bodySignals;
+  final List<String> selectedTriggers;
+  final List<String> selectedBodySignals;
   final ValueChanged<double> onDoseChanged;
   final ValueChanged<String> onUnitChanged;
   final ValueChanged<String> onSubstanceChanged;
@@ -56,8 +56,8 @@ class LogEntryForm extends StatelessWidget {
     required this.isMedicalPurpose,
     required this.cravingIntensity,
     required this.intention,
-    required this.triggers,
-    required this.bodySignals,
+    required this.selectedTriggers,
+    required this.selectedBodySignals,
     required this.onDoseChanged,
     required this.onUnitChanged,
     required this.onSubstanceChanged,
@@ -111,8 +111,8 @@ class LogEntryForm extends StatelessWidget {
             isMedicalPurpose: isMedicalPurpose,
             cravingIntensity: cravingIntensity,
             intention: intention,
-            triggers: triggers,
-            bodySignals: bodySignals,
+            selectedTriggers: selectedTriggers,
+            selectedBodySignals: selectedBodySignals,
             onMedicalPurposeChanged: onMedicalPurposeChanged,
             onCravingIntensityChanged: onCravingIntensityChanged,
             onIntentionChanged: onIntentionChanged,

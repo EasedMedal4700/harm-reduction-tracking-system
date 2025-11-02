@@ -6,8 +6,8 @@ class ComplexFields extends StatelessWidget {
   final bool isMedicalPurpose;
   final double cravingIntensity;
   final String intention;
-  final List<String> triggers;
-  final List<String> bodySignals;
+  final List<String> selectedTriggers; // Renamed to avoid conflict
+  final List<String> selectedBodySignals; // Renamed
   final ValueChanged<bool> onMedicalPurposeChanged;
   final ValueChanged<double> onCravingIntensityChanged;
   final ValueChanged<String> onIntentionChanged;
@@ -19,8 +19,8 @@ class ComplexFields extends StatelessWidget {
     required this.isMedicalPurpose,
     required this.cravingIntensity,
     required this.intention,
-    required this.triggers,
-    required this.bodySignals,
+    required this.selectedTriggers,
+    required this.selectedBodySignals,
     required this.onMedicalPurposeChanged,
     required this.onCravingIntensityChanged,
     required this.onIntentionChanged,
@@ -70,11 +70,11 @@ class ComplexFields extends StatelessWidget {
         const Text('Triggers'),
         Wrap(
           spacing: 8.0,
-          children: triggers.map((trigger) => FilterChip(
+          children: triggers.map((trigger) => FilterChip( // Map over catalog triggers
             label: Text(trigger),
-            selected: triggers.contains(trigger),
+            selected: selectedTriggers.contains(trigger), // Check against renamed parameter
             onSelected: (selected) {
-              final newTriggers = List<String>.from(triggers);
+              final newTriggers = List<String>.from(selectedTriggers);
               if (selected) {
                 newTriggers.add(trigger);
               } else {
@@ -91,9 +91,9 @@ class ComplexFields extends StatelessWidget {
           spacing: 8.0,
           children: physicalSensations.map((signal) => FilterChip(
             label: Text(signal),
-            selected: bodySignals.contains(signal),
+            selected: selectedBodySignals.contains(signal), // Updated
             onSelected: (selected) {
-              final newBodySignals = List<String>.from(bodySignals);
+              final newBodySignals = List<String>.from(selectedBodySignals);
               if (selected) {
                 newBodySignals.add(signal);
               } else {

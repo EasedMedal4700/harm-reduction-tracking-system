@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart'; // Add this import
 import '../services/analytics_service.dart';
 import '../models/log_entry_model.dart';
 import '../widgets/analytics/time_period_selector.dart';
@@ -92,6 +93,21 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
               mostUsedSubstance: mostUsed.key,
               mostUsedCount: mostUsed.value,
               selectedPeriodText: selectedPeriodText,
+            ),
+            const SizedBox(height: 16),
+            const Text('Substance Distribution', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(
+              height: 200,
+              child: PieChart(
+                PieChartData(
+                  sections: substanceCounts.entries.map((e) => PieChartSectionData(
+                    value: e.value.toDouble(),
+                    title: '${e.key}\n${e.value}',
+                    color: Colors.primaries[substanceCounts.keys.toList().indexOf(e.key) % Colors.primaries.length],
+                    radius: 50,
+                  )).toList(),
+                ),
+              ),
             ),
           ],
         ),
