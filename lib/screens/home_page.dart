@@ -8,6 +8,9 @@ class HomePage extends StatelessWidget {
   void _openLogEntry(BuildContext context) {
     Navigator.pushNamed(context, '/log_entry');
   }
+  void _openAnalytics(BuildContext context) {
+    Navigator.pushNamed(context, '/analytics');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,7 @@ class HomePage extends StatelessWidget {
     final quickActions = [
       {'icon': Icons.note_add, 'label': 'Log Entry', 'onTap': () => _openLogEntry(context)},
       {'icon': Icons.self_improvement, 'label': 'Reflection', 'onTap': () => print('Reflection pressed')},
-      {'icon': Icons.analytics, 'label': 'Analytics', 'onTap': () => print('Analytics pressed')},
+      {'icon': Icons.analytics, 'label': 'Analytics', 'onTap': () => _openAnalytics(context)},
       {'icon': Icons.local_fire_department, 'label': 'Cravings', 'onTap': () => print('Cravings pressed')},
       {'icon': Icons.directions_run, 'label': 'Activity', 'onTap': () => print('Activity pressed')},
       {'icon': Icons.dashboard, 'label': 'Dashboard', 'onTap': () => print('Dashboard pressed')},

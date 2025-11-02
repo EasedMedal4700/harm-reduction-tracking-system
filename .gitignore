@@ -89,3 +89,4 @@ Thumbnails.db
 .env
 .env.local
 .env.*
+/db
