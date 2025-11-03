@@ -83,10 +83,49 @@ class FilterWidget extends StatelessWidget {
               const SizedBox(height: 16),
               FilterButtons(
                 label: 'Substance',
-                options: uniqueSubstances, // Removed 'All'
-                selectedValues: selectedSubstances, // Changed to selectedValues
-                onChanged: onSubstanceChanged, // Changed to onChanged
-                allOptions: uniqueSubstances, // Added for Select All
+                options: uniqueSubstances,
+                selectedValues: selectedSubstances,
+                onChanged: onSubstanceChanged,
+                allOptions: uniqueSubstances,
+              ),
+              const SizedBox(height: 16),
+              FilterButtons(
+                label: 'Location',
+                options: uniquePlaces,
+                selectedValues: selectedPlaces,
+                onChanged: onPlaceChanged,
+                allOptions: uniquePlaces,
+              ),
+              const SizedBox(height: 16),
+              FilterButtons(
+                label: 'Route',
+                options: uniqueRoutes,
+                selectedValues: selectedRoutes,
+                onChanged: onRouteChanged,
+                allOptions: uniqueRoutes,
+              ),
+              const SizedBox(height: 16),
+              FilterButtons(
+                label: 'Emotions',
+                options: uniqueFeelings,
+                selectedValues: selectedFeelings,
+                onChanged: onFeelingChanged,
+                allOptions: uniqueFeelings,
+              ),
+              const SizedBox(height: 16),
+              // Craving slider
+              const Text('Craving Intensity', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+              const SizedBox(height: 8),
+              RangeSlider(
+                values: RangeValues(minCraving, maxCraving),
+                min: 0,
+                max: 10,
+                divisions: 10,
+                labels: RangeLabels(minCraving.toString(), maxCraving.toString()),
+                onChanged: (values) {
+                  onMinCravingChanged(values.start);
+                  onMaxCravingChanged(values.end);
+                },
               ),
             ],
           ),
