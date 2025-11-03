@@ -3,29 +3,57 @@ import 'package:flutter/material.dart';
 class FilterWidget extends StatelessWidget {
   final List<String> uniqueCategories;
   final List<String> uniqueSubstances;
-  final String? selectedCategory;
-  final ValueChanged<String?> onCategoryChanged;
-  final String? selectedSubstance;
-  final ValueChanged<String?> onSubstanceChanged;
-  final int selectedTypeIndex; // 0: All, 1: Medical, 2: Non-Medical
+  final List<String> selectedCategories;
+  final ValueChanged<List<String>> onCategoryChanged;
+  final List<String> selectedSubstances; // Changed to list for multi-select
+  final ValueChanged<List<String>> onSubstanceChanged; // Changed to list
+  final int selectedTypeIndex;
   final ValueChanged<int> onTypeChanged;
+  final List<String> uniquePlaces;
+  final List<String> selectedPlaces;
+  final ValueChanged<List<String>> onPlaceChanged;
+  final List<String> uniqueRoutes;
+  final List<String> selectedRoutes;
+  final ValueChanged<List<String>> onRouteChanged;
+  final List<String> uniqueFeelings;
+  final List<String> selectedFeelings;
+  final ValueChanged<List<String>> onFeelingChanged;
+  final double minCraving;
+  final double maxCraving;
+  final ValueChanged<double> onMinCravingChanged;
+  final ValueChanged<double> onMaxCravingChanged;
+
 
   const FilterWidget({
     super.key,
     required this.uniqueCategories,
     required this.uniqueSubstances,
-    this.selectedCategory,
+    required this.selectedCategories,
     required this.onCategoryChanged,
-    this.selectedSubstance,
-    required this.onSubstanceChanged,
+    required this.selectedSubstances, // Updated
+    required this.onSubstanceChanged, // Updated
     required this.selectedTypeIndex,
     required this.onTypeChanged,
+    required this.uniquePlaces,
+    required this.selectedPlaces,
+    required this.onPlaceChanged,
+    required this.uniqueRoutes,
+    required this.selectedRoutes,
+    required this.onRouteChanged,
+    required this.uniqueFeelings,
+    required this.selectedFeelings,
+    required this.onFeelingChanged,
+    required this.minCraving,
+    required this.maxCraving,
+    required this.onMinCravingChanged,
+    required this.onMaxCravingChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: const Text('Filters', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+      initiallyExpanded: true,
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -47,16 +75,18 @@ class FilterWidget extends StatelessWidget {
               const SizedBox(height: 16),
               FilterButtons(
                 label: 'Category',
-                options: ['All', ...uniqueCategories],
-                selectedValue: selectedCategory ?? 'All',
+                options: uniqueCategories,
+                selectedValues: selectedCategories,
                 onChanged: onCategoryChanged,
+                allOptions: uniqueCategories,
               ),
               const SizedBox(height: 16),
               FilterButtons(
                 label: 'Substance',
-                options: ['All', ...uniqueSubstances],
-                selectedValue: selectedSubstance ?? 'All',
-                onChanged: onSubstanceChanged,
+                options: uniqueSubstances, // Removed 'All'
+                selectedValues: selectedSubstances, // Changed to selectedValues
+                onChanged: onSubstanceChanged, // Changed to onChanged
+                allOptions: uniqueSubstances, // Added for Select All
               ),
             ],
           ),
@@ -69,31 +99,63 @@ class FilterWidget extends StatelessWidget {
 class FilterButtons extends StatelessWidget {
   final String label;
   final List<String> options;
-  final String? selectedValue;
-  final ValueChanged<String?> onChanged;
+  final List<String>? selectedValues; // For multi-select
+  final String? selectedValue; // For single-select
+  final ValueChanged<List<String>>? onChanged; // For multi
+  final ValueChanged<String?>? onSingleChanged; // For single
+  final List<String>? allOptions; // For Select All
 
   const FilterButtons({
     super.key,
     required this.label,
     required this.options,
+    this.selectedValues,
     this.selectedValue,
-    required this.onChanged,
+    this.onChanged,
+    this.onSingleChanged,
+    this.allOptions,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isMulti = selectedValues != null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+            if (allOptions != null && onChanged != null) ...[
+              const Spacer(),
+              ElevatedButton(
+                onPressed: () => onChanged!(allOptions!),
+                child: const Text('Select All'),
+              ),
+            ],
+          ],
+        ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8.0,
           runSpacing: 8.0,
           children: options.map((option) {
-            final isSelected = selectedValue == option;
+            final isSelected = isMulti
+                ? selectedValues!.contains(option)
+                : selectedValue == option;
             return ElevatedButton(
-              onPressed: () => onChanged(option == 'All' ? null : option),
+              onPressed: () {
+                if (isMulti && onChanged != null) {
+                  final newSelected = List<String>.from(selectedValues!);
+                  if (newSelected.contains(option)) {
+                    newSelected.remove(option);
+                  } else {
+                    newSelected.add(option);
+                  }
+                  onChanged!(newSelected);
+                } else if (onSingleChanged != null) {
+                  onSingleChanged!(option == 'All' ? null : option);
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: isSelected ? Theme.of(context).primaryColor : Colors.grey[300],
                 foregroundColor: isSelected ? Colors.white : Colors.black,
