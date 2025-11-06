@@ -1,6 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/log_entry_model.dart';
-import '../constants/drug_categories.dart';
 import '../repo/substance_repository.dart';
 import '../../constants/time_period.dart';
 
