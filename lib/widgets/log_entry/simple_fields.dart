@@ -5,7 +5,8 @@ import 'route_selection.dart';
 import 'feeling_selection.dart';
 import 'date_selector.dart';
 import 'time_selector.dart';
-import 'location_dropdown.dart';
+import '../common/location_dropdown.dart';
+import '../../constants/drug_use_catalog.dart';
 
 class SimpleFields extends StatelessWidget {
   final double dose;
@@ -60,7 +61,7 @@ class SimpleFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final units = ['μg', 'mg', 'g', 'pills', 'ml'];
-    final locations = ['Home', 'Work', 'School', 'Public', 'Vehicle', 'Gym', 'Other'];
+    final locations = DrugUseCatalog.locations;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,8 +121,7 @@ class SimpleFields extends StatelessWidget {
         const Text('Location'),
         LocationDropdown(
           location: location,
-          locations: locations,
-          onLocationChanged: onLocationChanged,
+          onLocationChanged: onLocationChanged, // Removed locations: locations
         ),
         const SizedBox(height: 16),
 
