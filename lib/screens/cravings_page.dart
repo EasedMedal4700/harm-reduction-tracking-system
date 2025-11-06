@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import '../services/analytics_service.dart'; // For user ID and potential saving
 import '../constants/body_and_mind_catalog.dart'; // For physical sensations
 import '../constants/drug_use_catalog.dart'; // For emotions
+import '../constants/craving_consatnts.dart'; // Add this import for craving categories
 import '../widgets/log_entry/craving_slider.dart'; // For intensity slider
-import '../widgets/log_entry/feeling_selection.dart'; // For emotions
+import '../widgets/common/feeling_selection.dart'; // For emotion selection
 import '../widgets/common/location_dropdown.dart'; // For location dropdown
+
 
 class CravingsPage extends StatefulWidget {
   const CravingsPage({super.key});
@@ -17,14 +19,14 @@ class _CravingsPageState extends State<CravingsPage> {
   final AnalyticsService _service = AnalyticsService('user_id'); // Use service for user context
   String? cravingWhat;
   double intensity = 5.0;
-  String? location;
+  String location = 'Home'; // Changed to non-null
   String? withWho;
   List<String> selectedEmotions = [];
   String? thoughts;
   List<String> selectedSensations = [];
   String? whatDidYouDo;
   bool actedOnCraving = false;
-  String? howFeelNow;
+  List<String> selectedCravings = []; // Changed to list for multi-select
 
   // Reuse constants for options
   final List<String> withWhos = ['Alone', 'Friends', 'Family', 'Other'];
@@ -58,15 +60,37 @@ class _CravingsPageState extends State<CravingsPage> {
 
             // Craving Details
             const Text('Craving Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'What were you craving?'),
-              onChanged: (value) => cravingWhat = value,
+            const Text('What were you craving?'),
+            Wrap(
+              spacing: 8.0, // Space between buttons
+              children: cravingCategories.entries.map((entry) {
+                final isSelected = selectedCravings.contains(entry.value); // Check if in list
+                return TextButton( // Changed to TextButton for simplicity
+                  onPressed: () => setState(() {
+                    if (isSelected) {
+                      selectedCravings.remove(entry.value); // Remove if selected
+                    } else {
+                      selectedCravings.add(entry.value); // Add if not selected
+                    }
+                  }),
+                  style: TextButton.styleFrom(
+                    backgroundColor: isSelected ? Colors.blue : null, // Highlight selected
+                    foregroundColor: isSelected ? Colors.white : null,
+                  ),
+                  child: Text(entry.key), // Display label with emoji
+                );
+              }).toList(),
             ),
+            if (selectedCravings.isNotEmpty) Text('Selected: ${selectedCravings.join(', ')}'), // Show selected values
+
             CravingSlider( // Reuse widget
               value: intensity,
               onChanged: (value) => setState(() => intensity = value),
             ),
- 
+            LocationDropdown( // Reuse widget
+              location: location,
+              onLocationChanged: (value) => setState(() => location = value ?? 'Home'), // Handle null
+            ),
             DropdownButtonFormField<String>(
               decoration: const InputDecoration(labelText: 'Who were you with?'),
               value: withWho,
@@ -78,10 +102,10 @@ class _CravingsPageState extends State<CravingsPage> {
             // Emotional State
             const Text('Emotional State', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             FeelingSelection( // Reuse widget
-              feelings: emotions, // Required: list of primary emotions
-              secondaryFeelings: <String, List<String>>{}, // Required: list of secondary emotions (empty if not used)
-              onFeelingsChanged: (emotions) => setState(() => selectedEmotions = emotions), // Required: callback for primary
-              onSecondaryFeelingsChanged: (_) {}, // Required: callback for secondary (do nothing if not used)
+              feelings: selectedEmotions, // Changed from selectedEmotions (this is the selected list)
+              onFeelingsChanged: (emotions) => setState(() => selectedEmotions = emotions), // Changed from onSelectionChanged
+              secondaryFeelings: <String, List<String>>{}, // Map of secondary emotions
+              onSecondaryFeelingsChanged: (_) {},
             ),
             
             TextFormField(
@@ -122,16 +146,7 @@ class _CravingsPageState extends State<CravingsPage> {
               value: actedOnCraving,
               onChanged: (value) => setState(() => actedOnCraving = value),
             ),
-            const Text('How do you feel now?'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: ['😊', '😐', '😔', '😡', '😌'].map((emoji) {
-                return ElevatedButton(
-                  onPressed: () => setState(() => howFeelNow = emoji),
-                  child: Text(emoji, style: const TextStyle(fontSize: 24)),
-                );
-              }).toList(),
-            ),
+
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => ScaffoldMessenger.of(context).showSnackBar(

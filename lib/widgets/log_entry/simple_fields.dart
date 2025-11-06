@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dosage_input.dart';
 import 'substance_autocomplete.dart';
 import 'route_selection.dart';
-import 'feeling_selection.dart';
+import '../common/feeling_selection.dart';
 import 'date_selector.dart';
 import 'time_selector.dart';
 import '../common/location_dropdown.dart';
