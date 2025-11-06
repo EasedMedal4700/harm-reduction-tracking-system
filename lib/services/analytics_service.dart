@@ -13,7 +13,7 @@ class AnalyticsService {
     final supabase = Supabase.instance.client;
     final response = await supabase
         .from('drug_use')
-        .select('name, dose, consumption, medical, place, craving_0_10, primary_emotions, start_time') // Add 'place' and 'craving_0_10'
+        .select('name, dose, consumption, medical, place, craving_0_10, primary_emotions, secondary_emotions, body_signals, triggers, people, start_time') // Added secondary_emotions, body_signals, triggers, people
         .eq('user_id', userId);
     final data = response as List<dynamic>;
     return data.map((json) {

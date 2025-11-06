@@ -65,6 +65,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
       intention: _intention,
       triggers: _triggers, // Add this
       bodySignals: _bodySignals, // Add this
+      people: [], // Add this
     );
     print(entry.toJson());
 

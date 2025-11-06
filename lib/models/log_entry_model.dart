@@ -13,7 +13,8 @@ class LogEntry {
   final double cravingIntensity;
   final String intention;
   final List<String> triggers; // Add this
-  final List<String> bodySignals; // Add this
+  final List<String> bodySignals;
+  final List<String> people; // Add this
 
   LogEntry({
     required this.substance,
@@ -31,6 +32,7 @@ class LogEntry {
     required this.intention,
     required this.triggers,
     required this.bodySignals,
+    required this.people,
   });
 
   // Convert to JSON (for saving to Supabase)
@@ -51,41 +53,45 @@ class LogEntry {
       'intention': intention,
       'triggers': triggers,
       'bodySignals': bodySignals,
+      'people': people,
     };
   }
 
   // Create from JSON (for loading from Supabase)
   factory LogEntry.fromJson(Map<String, dynamic> json) {
-    // Helper to parse dose string like '10 mg' into number and unit
-    final doseString = json['dose'] as String?;
-    final doseParts = doseString?.split(' ') ?? ['', ''];
-    final parsedDose = double.tryParse(doseParts[0]) ?? 0.0;
-    final parsedUnit = doseParts.length > 1 ? doseParts[1] : '';
+    // Helper to parse list or fallback to splitting string
+    List<String> parseList(dynamic value, {String separator = ';'}) {
+      if (value is List) {
+        return value.map((e) => e.toString()).toList(); // Already a list
+      } else if (value is String && value.isNotEmpty) {
+        return value.split(separator).map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+      }
+      return [];
+    }
+
+    // Safely parse dose and unit
+    String doseStr = json['dose']?.toString() ?? '';
+    List<String> doseParts = doseStr.split(' ');
+    double dosage = double.tryParse(doseParts[0]) ?? 0.0;
+    String unit = doseParts.length > 1 ? doseParts[1] : '';
 
     return LogEntry(
-      substance: json['name'] as String? ?? '',
-      dosage: parsedDose,
-      unit: parsedUnit,
-      route: json['consumption'] as String? ?? '',
-      feelings: (json['primary_emotions'] as String?)?.isEmpty ?? true
-          ? []
-          : (json['primary_emotions'] as String).split(','),
-      secondaryFeelings: json['secondary_emotions'] is Map<String, dynamic>
-          ? Map<String, List<String>>.from(json['secondary_emotions'])
-          : {},
-      datetime: DateTime.parse(json['start_time'] as String? ?? DateTime.now().toIso8601String()),
-      location: json['place'] as String? ?? '',
-      notes: json['notes'] as String? ?? '',
-      timezoneOffset: (json['timezone'] as num?)?.toDouble() ?? 0.0,
-      isMedicalPurpose: json['medical'] as bool? ?? false,
-      cravingIntensity: (json['craving_0_10'] as num?)?.toDouble() ?? 0.0,
-      intention: json['intention'] as String? ?? '',
-      triggers: (json['triggers'] as String?)?.isEmpty ?? true
-          ? []
-          : (json['triggers'] as String).split(','),
-      bodySignals: (json['body_signals'] as String?)?.isEmpty ?? true
-          ? []
-          : (json['body_signals'] as String).split(','),
+      substance: json['name'] ?? '',
+      dosage: dosage,
+      unit: unit,
+      route: json['consumption'] ?? '',
+      feelings: parseList(json['primary_emotions'], separator: ';'),
+      secondaryFeelings: {}, // Add parsing if needed: parseList(json['secondary_emotions'], separator: ';')
+      datetime: DateTime.parse(json['start_time'] ?? DateTime.now().toIso8601String()),
+      location: json['place'] ?? '',
+      notes: json['notes'] ?? '',
+      timezoneOffset: double.tryParse(json['timezone']?.toString() ?? '0') ?? 0.0,
+      isMedicalPurpose: json['medical'] == 'true' || json['medical'] == true,
+      cravingIntensity: double.tryParse(json['craving_0_10']?.toString() ?? '0') ?? 0.0,
+      intention: json['intention'] ?? '',
+      triggers: parseList(json['triggers'], separator: ';'),
+      bodySignals: parseList(json['body_signals'], separator: ';'),
+      people: parseList(json['people'], separator: ' '),
     );
   }
 }
