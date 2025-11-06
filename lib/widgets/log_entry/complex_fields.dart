@@ -3,12 +3,10 @@ import 'craving_slider.dart';
 import '../../constants/body_and_mind_catalog.dart';
 
 class ComplexFields extends StatelessWidget {
-  final bool isMedicalPurpose;
   final double cravingIntensity;
   final String intention;
-  final List<String> selectedTriggers; // Renamed to avoid conflict
-  final List<String> selectedBodySignals; // Renamed
-  final ValueChanged<bool> onMedicalPurposeChanged;
+  final List<String> selectedTriggers; 
+  final List<String> selectedBodySignals;
   final ValueChanged<double> onCravingIntensityChanged;
   final ValueChanged<String> onIntentionChanged;
   final ValueChanged<List<String>> onTriggersChanged;
@@ -16,12 +14,10 @@ class ComplexFields extends StatelessWidget {
 
   const ComplexFields({
     super.key,
-    required this.isMedicalPurpose,
     required this.cravingIntensity,
     required this.intention,
     required this.selectedTriggers,
     required this.selectedBodySignals,
-    required this.onMedicalPurposeChanged,
     required this.onCravingIntensityChanged,
     required this.onIntentionChanged,
     required this.onTriggersChanged,
@@ -35,8 +31,8 @@ class ComplexFields extends StatelessWidget {
       children: [
         DropdownButtonFormField<String>(
           value: intention.isEmpty ? null : intention,
-          decoration: InputDecoration(
-            labelText: isMedicalPurpose ? 'Intention (optional)' : 'Intention',
+          decoration: const InputDecoration(
+            labelText: 'Intention', // Simplified: removed isMedicalPurpose reference
           ),
           items: intentions.map((String value) {
             return DropdownMenuItem<String>(
@@ -46,18 +42,6 @@ class ComplexFields extends StatelessWidget {
           }).toList(),
           onChanged: (value) => onIntentionChanged(value ?? ''),
           validator: (value) => null,
-        ),
-        const SizedBox(height: 16),
-
-        Row(
-          children: [
-            const Text('Medical Purpose?'),
-            const SizedBox(width: 16),
-            Switch(
-              value: isMedicalPurpose,
-              onChanged: onMedicalPurposeChanged,
-            ),
-          ],
         ),
         const SizedBox(height: 16),
 

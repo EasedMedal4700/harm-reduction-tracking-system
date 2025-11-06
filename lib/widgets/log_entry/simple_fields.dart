@@ -28,6 +28,8 @@ class SimpleFields extends StatelessWidget {
   final ValueChanged<DateTime> onDateChanged;
   final ValueChanged<int> onHourChanged;
   final ValueChanged<int> onMinuteChanged;
+  final bool isMedicalPurpose;
+  final ValueChanged<bool> onMedicalPurposeChanged;
 
   const SimpleFields({
     super.key,
@@ -51,6 +53,8 @@ class SimpleFields extends StatelessWidget {
     required this.onDateChanged,
     required this.onHourChanged,
     required this.onMinuteChanged,
+    required this.isMedicalPurpose,
+    required this.onMedicalPurposeChanged,
   });
 
   @override
@@ -61,6 +65,14 @@ class SimpleFields extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+
+
+        SubstanceAutocomplete(
+          substance: substance,
+          onSubstanceChanged: onSubstanceChanged,
+        ),
+        const SizedBox(height: 16),
+
         DosageInput(
           dose: dose,
           unit: unit,
@@ -70,18 +82,18 @@ class SimpleFields extends StatelessWidget {
         ),
         const SizedBox(height: 16),
 
-        SubstanceAutocomplete(
-          substance: substance,
-          onSubstanceChanged: onSubstanceChanged,
-        ),
-        const SizedBox(height: 16),
-
         const Text('Route of Administration'),
         RouteSelection(
           route: route,
           onRouteChanged: onRouteChanged,
         ),
         const SizedBox(height: 16),
+
+        SwitchListTile(
+          title: const Text('Medical Purpose'),
+          value: isMedicalPurpose,
+          onChanged: onMedicalPurposeChanged,
+        ),
 
         FeelingSelection(
           feelings: feelings,
@@ -112,6 +124,8 @@ class SimpleFields extends StatelessWidget {
           onLocationChanged: onLocationChanged,
         ),
         const SizedBox(height: 16),
+
+
       ],
     );
   }
