@@ -5,6 +5,7 @@ import 'screens/log_entry.dart';
 import 'screens/analytics_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/catalog_page.dart';
+import 'screens/cravings_page.dart';
 
 
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/log_entry': (context) => const QuickLogEntryPage(),
         '/analytics': (context) => const AnalyticsPage(),
         '/catalog': (context) => const CatalogPage(),
+        '/cravings': (context) => const CravingsPage(),
       },
     );
   }

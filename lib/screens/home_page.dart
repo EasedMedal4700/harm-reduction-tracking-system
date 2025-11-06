@@ -14,19 +14,28 @@ class HomePage extends StatelessWidget {
   void _openCatalog(BuildContext context) {
     Navigator.pushNamed(context, '/catalog');
   }
+  void _openCravings(BuildContext context) {
+    Navigator.pushNamed(context, '/cravings');
+  }
+  void _openBloodLevels(BuildContext context) {
+    Navigator.pushNamed(context, '/blood_levels');
+  }
+  void _openReflection(BuildContext context) {
+    Navigator.pushNamed(context, '/reflection');
+  }
 
   @override
   Widget build(BuildContext context) {
     // Define all quick actions in one list (modular, like your drawer)
     final quickActions = [
       {'icon': Icons.note_add, 'label': 'Log Entry', 'onTap': () => _openLogEntry(context)},
-      {'icon': Icons.self_improvement, 'label': 'Reflection', 'onTap': () => print('Reflection pressed')},
+      {'icon': Icons.self_improvement, 'label': 'Reflection', 'onTap': () => _openReflection(context)},
       {'icon': Icons.analytics, 'label': 'Analytics', 'onTap': () => _openAnalytics(context)},
-      {'icon': Icons.local_fire_department, 'label': 'Cravings', 'onTap': () => print('Cravings pressed')},
+      {'icon': Icons.local_fire_department, 'label': 'Cravings', 'onTap': () => _openCravings(context)},
       {'icon': Icons.directions_run, 'label': 'Activity', 'onTap': () => print('Activity pressed')},
-      {'icon': Icons.dashboard, 'label': 'Dashboard', 'onTap': () => print('Dashboard pressed')},
       {'icon': Icons.menu_book, 'label': 'Library', 'onTap': () => print('Library pressed')},
       {'icon': Icons.inventory, 'label': 'Catalog', 'onTap': () => _openCatalog(context)},
+      {'icon': Icons.bloodtype, 'label': 'Blood Levels', 'onTap': () => _openBloodLevels(context)},
     ];
 
     return Scaffold(
