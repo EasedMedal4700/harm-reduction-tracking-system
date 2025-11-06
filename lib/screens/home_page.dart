@@ -11,6 +11,9 @@ class HomePage extends StatelessWidget {
   void _openAnalytics(BuildContext context) {
     Navigator.pushNamed(context, '/analytics');
   }
+  void _openCatalog(BuildContext context) {
+    Navigator.pushNamed(context, '/catalog');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class HomePage extends StatelessWidget {
       {'icon': Icons.directions_run, 'label': 'Activity', 'onTap': () => print('Activity pressed')},
       {'icon': Icons.dashboard, 'label': 'Dashboard', 'onTap': () => print('Dashboard pressed')},
       {'icon': Icons.menu_book, 'label': 'Library', 'onTap': () => print('Library pressed')},
-      {'icon': Icons.inventory, 'label': 'Catalog', 'onTap': () => print('Catalog pressed')},
+      {'icon': Icons.inventory, 'label': 'Catalog', 'onTap': () => _openCatalog(context)},
     ];
 
     return Scaffold(

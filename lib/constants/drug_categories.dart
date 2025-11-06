@@ -16,8 +16,6 @@ class DrugCategories {
     "Depressant",
     "Nootropic",
     "SSRI",
-    "Experimental",
-    "Placeholder",
   ];
 
   // Category icon map (Material Icons)

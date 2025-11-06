@@ -1,6 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/log_entry_model.dart';
 import '../constants/drug_categories.dart';
+import '../repo/substance_repository.dart';
 import '../../constants/time_period.dart';
 
 class AnalyticsService {
@@ -35,6 +36,11 @@ class AnalyticsService {
     final daysDiff = end.difference(start).inDays;
     final weeks = daysDiff > 0 ? daysDiff / 7.0 : 1.0;
     return entries.length / weeks;
+  }
+
+  Future<List<Map<String, dynamic>>> fetchSubstancesCatalog() async {
+    final repository = SubstanceRepository();
+    return repository.fetchSubstancesCatalog();
   }
 
   // Updated to use the DB-fetched map
