@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../repo/substance_repository.dart';
-import '../widgets/common/category_filter.dart'; // Add this import
+import '../widgets/catalog/catalog_filters.dart';
+import '../widgets/catalog/substance_list.dart';
 
 class CatalogPage extends StatefulWidget {
   const CatalogPage({super.key});
@@ -58,57 +59,30 @@ class _CatalogPageState extends State<CatalogPage> {
       appBar: AppBar(title: const Text('Substance Catalog')),
       body: Column(
         children: [
-          // Update CategoryFilter with switch
-          CategoryFilter(
+          CatalogFilters(
             selectedCategories: _selectedCategories,
+            showCommonOnly: _showCommonOnly,
             onCategoriesChanged: (categories) {
               setState(() => _selectedCategories = categories);
               _applyFilters();
             },
-            showCommonOnly: _showCommonOnly, // Add this
-            onShowCommonOnlyChanged: (value) {
+            onCommonOnlyChanged: (value) {
               setState(() => _showCommonOnly = value);
-              _applyFilters(); // Re-apply filters when switch changes
+              _applyFilters();
+            },
+            onSearchChanged: (query) {
+              _searchQuery = query;
+              _applyFilters();
             },
           ),
-          const SizedBox(height: 8),
-          // Search Bar (searches by pretty_name)
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                labelText: 'Search Substances',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (query) {
-                _searchQuery = query;
-                _applyFilters(); // Re-apply filters when search changes
-              },
-            ),
-          ),
           Expanded(
-            child: ListView(
-              children: _filteredSubstances.map((sub) {
-                final prettyName = sub['pretty_name'] ?? sub['name'];
-                final description = sub['description'];
-                final categories = (sub['categories'] as List<dynamic>).join(', ');
-                return ListTile(
-                  title: Text(prettyName),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (description.isNotEmpty) Text(description, maxLines: 2, overflow: TextOverflow.ellipsis),
-                      Text('Categories: $categories'),
-                    ],
-                  ),
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Selected: $prettyName')),
-                    );
-                  },
+            child: SubstanceList(
+              substances: _filteredSubstances,
+              onSubstanceSelected: (substance) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Selected: $substance')),
                 );
-              }).toList(),
+              },
             ),
           ),
         ],
@@ -116,14 +90,13 @@ class _CatalogPageState extends State<CatalogPage> {
     );
   }
 
-  // Update _applyFilters to check for lowercase "common"
   void _applyFilters() {
     setState(() {
       _filteredSubstances = _allSubstances.where((sub) {
         final matchesSearch = (sub['pretty_name'] ?? sub['name']).toLowerCase().contains(_searchQuery.toLowerCase());
         final matchesCategory = _selectedCategories.isEmpty ||
             _selectedCategories.any((selected) => (sub['categories'] as List<dynamic>).contains(selected));
-        final matchesCommon = !_showCommonOnly || (sub['categories'] as List<dynamic>).contains('common'); // Changed to lowercase
+        final matchesCommon = !_showCommonOnly || (sub['categories'] as List<dynamic>).contains('common');
         return matchesSearch && matchesCategory && matchesCommon;
       }).toList();
     });
