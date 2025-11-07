@@ -19,7 +19,7 @@ class LogEntryState extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
   final TimezoneService timezoneService = TimezoneService();
   bool isMedicalPurpose = false;
-  double cravingIntensity = 5;
+  double cravingIntensity = 0; // default to 0 now
   String? intention = '-- Select Intention--';
   List<String> triggers = [];
   List<String> bodySignals = [];
@@ -39,7 +39,7 @@ class LogEntryState extends ChangeNotifier {
     secondaryFeelings = {};
     location = 'Home';
     isMedicalPurpose = false;
-    cravingIntensity = 5;
+    cravingIntensity = 0;
     intention = '';
     triggers = [];
     bodySignals = [];

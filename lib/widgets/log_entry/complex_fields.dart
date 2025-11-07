@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'craving_slider.dart';
+import '../common/craving_slider.dart';
 import '../../constants/body_and_mind_catalog.dart';
 
 class ComplexFields extends StatelessWidget {

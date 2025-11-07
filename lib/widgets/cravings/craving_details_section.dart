@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/craving_consatnts.dart';
-import '../log_entry/craving_slider.dart';
+import '../common/craving_slider.dart';
 import '../common/location_dropdown.dart';
 
 class CravingDetailsSection extends StatelessWidget {
