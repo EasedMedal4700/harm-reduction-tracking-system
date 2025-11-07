@@ -6,6 +6,10 @@ import '../widgets/cravings/craving_details_section.dart'; // Add imports
 import '../widgets/cravings/emotional_state_section.dart';
 import '../widgets/cravings/body_mind_signals_section.dart';
 import '../widgets/cravings/outcome_section.dart';
+import '../models/craving_model.dart'; // Add
+import '../services/craving_service.dart'; // Add
+import '../services/timezone_service.dart'; // Add
+import '../services/user_service.dart'; // Add
 
 class CravingsPage extends StatefulWidget {
   const CravingsPage({super.key});
@@ -17,7 +21,7 @@ class CravingsPage extends StatefulWidget {
 class _CravingsPageState extends State<CravingsPage> {
   final AnalyticsService _service = AnalyticsService('user_id');
   List<String> selectedCravings = [];
-  double intensity = 5.0;
+  double intensity = 0.0;
   String location = 'Home';
   String? withWho;
   List<String> selectedEmotions = [];
@@ -25,9 +29,62 @@ class _CravingsPageState extends State<CravingsPage> {
   List<String> selectedSensations = [];
   String? whatDidYouDo;
   bool actedOnCraving = false;
+  final CravingService _cravingService = CravingService(); // Add
+  final TimezoneService _timezoneService = TimezoneService(); // Add
+  bool _isSaving = false; // Add loading state
 
   final List<String> sensations = physicalSensations;
   final List<String> emotions = DrugUseCatalog.primaryEmotions.map((e) => e['name']!).toList();
+
+  Future<void> _save() async {
+    setState(() => _isSaving = true);
+    final now = DateTime.now();
+    final craving = Craving(
+      userId: UserService.getCurrentUserId(),
+      substance: selectedCravings.isNotEmpty ? selectedCravings.join(', ') : '',
+      intensity: intensity,
+      date: now,
+      time: '${now.toIso8601String().split('T')[0]} ${now.toUtc().toIso8601String().split('T')[1].split('.')[0]}+00', // Format as '2025-11-07 21:56:00+00'
+      location: location,
+      people: withWho ?? '',
+      activity: whatDidYouDo ?? '',
+      thoughts: thoughts ?? '',
+      triggers: [], // Add if you collect triggers
+      bodySensations: selectedSensations,
+      primaryEmotion: selectedEmotions.isNotEmpty ? selectedEmotions.join(', ') : '',
+      secondaryEmotion: null, // Add if you have secondary emotions
+      action: actedOnCraving ? 'Acted' : 'Resisted',
+      timezone: _timezoneService.getTimezoneOffset(),
+    );
+
+    try {
+      await _cravingService.saveCraving(craving);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Craving saved!')),
+      );
+      _resetForm();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Save failed: $e')),
+      );
+    } finally {
+      setState(() => _isSaving = false);
+    }
+  }
+
+  void _resetForm() {
+    setState(() {
+      selectedCravings = [];
+      intensity = 5.0;
+      location = 'Home';
+      withWho = null;
+      selectedEmotions = [];
+      thoughts = null;
+      selectedSensations = [];
+      whatDidYouDo = null;
+      actedOnCraving = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +93,8 @@ class _CravingsPageState extends State<CravingsPage> {
         title: const Text('Cravings'),
         actions: [
           TextButton(
-            onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Saved (placeholder)')),
-            ),
-            child: const Text('Save'),
+            onPressed: _isSaving ? null : _save, // Disable if saving
+            child: _isSaving ? const CircularProgressIndicator() : const Text('Save'),
           ),
         ],
       ),
@@ -84,10 +139,8 @@ class _CravingsPageState extends State<CravingsPage> {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Entry Saved (placeholder)')),
-              ),
-              child: const Text('Save Entry'),
+              onPressed: _isSaving ? null : _save, // Disable if saving
+              child: _isSaving ? const CircularProgressIndicator() : const Text('Save Entry'),
             ),
           ],
         ),

@@ -90,3 +90,7 @@ Thumbnails.db
 .env.local
 .env.*
 /db
+
+.venv/
+venv/
+__pycache__/
