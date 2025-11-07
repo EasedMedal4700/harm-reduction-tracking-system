@@ -32,10 +32,13 @@ class _DosageInputState extends State<DosageInput> {
   }
 
   @override
-  void didUpdateWidget(covariant DosageInput oldWidget) {
+  void didUpdateWidget(DosageInput oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.dose != widget.dose) {
-      _controller.text = widget.dose.toStringAsFixed(1);
+      // Schedule text update after build
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _controller.text = widget.dose.toStringAsFixed(1); // Use toStringAsFixed for consistency
+      });
     }
   }
 

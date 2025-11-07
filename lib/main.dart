@@ -6,6 +6,7 @@ import 'screens/analytics_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/catalog_page.dart';
 import 'screens/cravings_page.dart';
+import 'screens/blood_levels_page.dart';
 
 
 
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/analytics': (context) => const AnalyticsPage(),
         '/catalog': (context) => const CatalogPage(),
         '/cravings': (context) => const CravingsPage(),
+        '/blood_levels': (context) => const BloodLevelsPage(),
       },
     );
   }

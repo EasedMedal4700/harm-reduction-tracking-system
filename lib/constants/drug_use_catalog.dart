@@ -44,11 +44,8 @@ class DrugUseCatalog {
   // ============================================================================
 
   static const List<String> substances = [
-    'Cannabis', 'Cocaine', 'Heroin', 'Methamphetamine', 'MDMA', 'Alcohol', 'Nicotine', 'Other',
+    'Test', 'Cannabis', 'Cocaine', 'Heroin', 'Methamphetamine', 'MDMA', 'Alcohol', 'Nicotine', 'Other',
   ];
 
-  static const List<String> locations = ['Home', 'Work', 'School', 'Public', 'Vehicle', 'Gym', 'Other'];
-
+  static const List<String> locations = ['Select a location', 'Home', 'Work', 'School', 'Public', 'Vehicle', 'Gym', 'Other'];
 }
-
-
