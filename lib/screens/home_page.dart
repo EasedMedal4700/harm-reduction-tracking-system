@@ -23,6 +23,14 @@ class HomePage extends StatelessWidget {
   void _openReflection(BuildContext context) {
     Navigator.pushNamed(context, '/reflection');
   }
+  void _openActivity(BuildContext context) {
+    // Placeholder for Activity page navigation
+    print('Activity page navigation not implemented yet.');
+  }
+  void _openLibrary(BuildContext context) {
+    // Placeholder for Library page navigation
+    print('Library page navigation not implemented yet.');
+  }
 
   @override
   Widget build(BuildContext context) {

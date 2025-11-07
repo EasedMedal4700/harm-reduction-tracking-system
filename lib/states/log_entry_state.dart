@@ -11,7 +11,7 @@ class LogEntryState extends ChangeNotifier {
   String route = 'oral';
   List<String> feelings = [];
   Map<String, List<String>> secondaryFeelings = {};
-  String location = 'Home';
+  String location = 'Select a location'; // Set default
   DateTime date = DateTime.now();
   int hour = TimeOfDay.now().hour;
   int minute = TimeOfDay.now().minute;
@@ -37,7 +37,7 @@ class LogEntryState extends ChangeNotifier {
     substance = '';
     feelings = [];
     secondaryFeelings = {};
-    location = 'Home';
+    location = 'Select a location'; // Set default on reset
     isMedicalPurpose = false;
     cravingIntensity = 0;
     intention = '';

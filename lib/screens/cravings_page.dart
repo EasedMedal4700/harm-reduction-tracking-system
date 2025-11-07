@@ -22,7 +22,7 @@ class _CravingsPageState extends State<CravingsPage> {
   final AnalyticsService _service = AnalyticsService('user_id');
   List<String> selectedCravings = [];
   double intensity = 0.0;
-  String location = 'Home';
+  String location = 'Select a location'; // Set default
   String? withWho;
   List<String> selectedEmotions = [];
   String? thoughts;
@@ -76,7 +76,7 @@ class _CravingsPageState extends State<CravingsPage> {
     setState(() {
       selectedCravings = [];
       intensity = 5.0;
-      location = 'Home';
+      location = 'Select a location'; // Set default on reset
       withWho = null;
       selectedEmotions = [];
       thoughts = null;

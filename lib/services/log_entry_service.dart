@@ -7,6 +7,11 @@ class LogEntryService {
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
 
   Future<void> saveLogEntry(LogEntry entry) async {
+    // Add validation
+    if (entry.location == 'Select a location') {
+      throw Exception('Please select a valid location');
+    }
+
     try {
       final data = {
         'user_id': UserService.getCurrentUserId(),
@@ -23,7 +28,7 @@ class LogEntryService {
         'secondary_emotions': entry.secondaryFeelings.values.expand((list) => list).toList(), // Flatten map to list
         'triggers': entry.triggers,
         'people': entry.people,
-        'place': entry.location,
+        'place': entry.location, // Remove default; use as-is
         'body_signals': entry.bodySignals,
         'notes': entry.notes,
         'linked_craving_ids': '{}',
@@ -38,9 +43,34 @@ class LogEntryService {
           throw Exception('Table not found. Please contact support.');
         case '23505':
           throw Exception('Duplicate entry detected.');
+        case '42501':
+          throw Exception('Permission denied. Please log in again.');
         default:
           throw Exception('Database error: ${e.message}');
       }
+    } on Exception catch (e) {
+      // Handle network/auth/other errors
+      if (e.toString().contains('network')) {
+        throw Exception('Network error. Check your connection.');
+      } else if (e.toString().contains('auth')) {
+        throw Exception('Authentication error. Please log in.');
+      } else {
+        throw Exception('Unexpected error: $e');
+      }
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchRecentEntriesRaw() async {
+    try {
+      final response = await Supabase.instance.client
+        .from('drug_use')
+        .select('use_id, name, dose, start_time, place') // Select key fields
+        .eq('user_id', UserService.getCurrentUserId())
+        .order('start_time', ascending: false)
+        .limit(10);
+      return List<Map<String, dynamic>>.from(response);
+    } on PostgrestException catch (e) {
+      throw Exception('Failed to fetch entries: ${e.message}');
     } catch (e) {
       throw Exception('Unexpected error: $e');
     }

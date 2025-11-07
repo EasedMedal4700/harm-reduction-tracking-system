@@ -1,11 +1,10 @@
-// filepath: c:\Users\user\Desktop\Power BI\mobile_drug_use_app\lib\services\craving_service.dart
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:uuid/uuid.dart'; // Add this
+import 'package:uuid/uuid.dart';
 import '../models/craving_model.dart';
 import '../services/user_service.dart';
 
 class CravingService {
-  final _uuid = const Uuid(); // Add UUID generator
+  final _uuid = const Uuid();
 
   Future<void> saveCraving(Craving craving) async {
     // Add validation
@@ -15,16 +14,19 @@ class CravingService {
     if (craving.substance.isEmpty || craving.substance == 'Unspecified' || craving.substance == null) {
       throw Exception('Substance must be one from the list and not unspecified or null');
     }
+    if (craving.location == 'Select a location') {
+      throw Exception('Please select a valid location');
+    }
 
     try {
       final data = {
-        'craving_id': _uuid.v4(), // Generate UUID v4
+        'craving_id': _uuid.v4(),
         'user_id': craving.userId,
         'substance': craving.substance,
-        'intensity': craving.intensity.toInt(), // Convert double to int
+        'intensity': craving.intensity.toInt(),
         'date': craving.date.toIso8601String().split('T')[0],
         'time': craving.time,
-        'location': craving.location,
+        'location': craving.location, // Remove default; use as-is
         'people': craving.people,
         'activity': craving.activity,
         'thoughts': craving.thoughts,
@@ -37,9 +39,26 @@ class CravingService {
       };
       await Supabase.instance.client.from('cravings').insert(data);
     } on PostgrestException catch (e) {
-      throw Exception('DB error: ${e.message}');
-    } catch (e) {
-      throw Exception('Unexpected error: $e');
+      // Handle specific DB errors
+      switch (e.code) {
+        case 'PGRST116':
+          throw Exception('Table not found. Please contact support.');
+        case '23505':
+          throw Exception('Duplicate craving detected.');
+        case '42501':
+          throw Exception('Permission denied. Please log in again.');
+        default:
+          throw Exception('Database error: ${e.message}');
+      }
+    } on Exception catch (e) {
+      // Handle network/auth/other errors
+      if (e.toString().contains('network')) {
+        throw Exception('Network error. Check your connection.');
+      } else if (e.toString().contains('auth')) {
+        throw Exception('Authentication error. Please log in.');
+      } else {
+        throw Exception('Unexpected error: $e');
+      }
     }
   }
 }
