@@ -18,7 +18,7 @@ class LogEntryForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final bool isMedicalPurpose;
   final double cravingIntensity;
-  final String intention;
+  final String? intention;
   final List<String> selectedTriggers;
   final List<String> selectedBodySignals;
   final ValueChanged<double> onDoseChanged;
@@ -33,7 +33,7 @@ class LogEntryForm extends StatelessWidget {
   final ValueChanged<int> onMinuteChanged;
   final ValueChanged<bool> onMedicalPurposeChanged;
   final ValueChanged<double> onCravingIntensityChanged;
-  final ValueChanged<String> onIntentionChanged;
+  final ValueChanged<String?> onIntentionChanged;
   final ValueChanged<List<String>> onTriggersChanged;
   final ValueChanged<List<String>> onBodySignalsChanged;
   final VoidCallback onSave;

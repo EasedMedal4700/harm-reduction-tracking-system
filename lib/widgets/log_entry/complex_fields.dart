@@ -4,11 +4,11 @@ import '../../constants/body_and_mind_catalog.dart';
 
 class ComplexFields extends StatelessWidget {
   final double cravingIntensity;
-  final String intention;
+  final String? intention;
   final List<String> selectedTriggers; 
   final List<String> selectedBodySignals;
   final ValueChanged<double> onCravingIntensityChanged;
-  final ValueChanged<String> onIntentionChanged;
+  final ValueChanged<String?> onIntentionChanged; // Change to nullable
   final ValueChanged<List<String>> onTriggersChanged;
   final ValueChanged<List<String>> onBodySignalsChanged;
 
@@ -30,18 +30,10 @@ class ComplexFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DropdownButtonFormField<String>(
-          value: intention.isEmpty ? null : intention,
-          decoration: const InputDecoration(
-            labelText: 'Intention', // Simplified: removed isMedicalPurpose reference
-          ),
-          items: intentions.map((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-          onChanged: (value) => onIntentionChanged(value ?? ''),
-          validator: (value) => null,
+          decoration: const InputDecoration(labelText: 'Intention'),
+          value: intention,
+          items: intentions.map((i) => DropdownMenuItem(value: i, child: Text(i))).toList(),
+          onChanged: onIntentionChanged, // Single, matches
         ),
         const SizedBox(height: 16),
 
@@ -54,9 +46,9 @@ class ComplexFields extends StatelessWidget {
         const Text('Triggers'),
         Wrap(
           spacing: 8.0,
-          children: triggers.map((trigger) => FilterChip( // Map over catalog triggers
+          children: triggers.map((trigger) => FilterChip(
             label: Text(trigger),
-            selected: selectedTriggers.contains(trigger), // Check against renamed parameter
+            selected: selectedTriggers.contains(trigger),
             onSelected: (selected) {
               final newTriggers = List<String>.from(selectedTriggers);
               if (selected) {
@@ -75,7 +67,7 @@ class ComplexFields extends StatelessWidget {
           spacing: 8.0,
           children: physicalSensations.map((signal) => FilterChip(
             label: Text(signal),
-            selected: selectedBodySignals.contains(signal), // Updated
+            selected: selectedBodySignals.contains(signal),
             onSelected: (selected) {
               final newBodySignals = List<String>.from(selectedBodySignals);
               if (selected) {

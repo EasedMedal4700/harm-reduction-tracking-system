@@ -14,7 +14,9 @@ class LogEntryService {
         'dose': '${entry.dosage} ${entry.unit}',
         'start_time': formatter.format(entry.datetime.toUtc()), // Format as UTC+00
         'consumption': entry.route,
-        'intention': entry.intention,
+        'intention': (entry.intention == null || entry.intention == '-- Select Intention--')
+            ? null
+            : entry.intention,
         'craving_0_10': entry.cravingIntensity.toInt(), // Convert double to int
         'medical': entry.isMedicalPurpose.toString(),
         'primary_emotions': entry.feelings,
@@ -27,6 +29,7 @@ class LogEntryService {
         'linked_craving_ids': '{}',
         'timezone': entry.timezoneOffset.toString(),
       };
+
       await Supabase.instance.client.from('drug_use').insert(data);
     } on PostgrestException catch (e) {
       // Handle specific DB errors

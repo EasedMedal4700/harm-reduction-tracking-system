@@ -20,7 +20,7 @@ class LogEntryState extends ChangeNotifier {
   final TimezoneService timezoneService = TimezoneService();
   bool isMedicalPurpose = false;
   double cravingIntensity = 5;
-  String intention = '';
+  String? intention = '-- Select Intention--';
   List<String> triggers = [];
   List<String> bodySignals = [];
   final LogEntryService logEntryService = LogEntryService();
@@ -70,7 +70,7 @@ class LogEntryState extends ChangeNotifier {
       timezoneOffset: timezoneService.getTimezoneOffset(),
       isMedicalPurpose: isMedicalPurpose,
       cravingIntensity: cravingIntensity,
-      intention: intention,
+      intention: intention ?? '-- Select Intention--',
       triggers: triggers,
       bodySignals: bodySignals,
       people: [],
@@ -158,8 +158,8 @@ class LogEntryState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setIntention(String value) {
-    intention = value;
+  void setIntention(String? value) { // Change to nullable
+    intention = value ?? '-- Select Intention--'; // Fallback
     notifyListeners();
   }
 
