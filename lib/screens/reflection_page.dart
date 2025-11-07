@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/log_entry_service.dart';
 import '../services/user_service.dart';
+import '../widgets/reflection/reflection_form.dart';
+import '../widgets/reflection/reflection_selection.dart';
 
 class ReflectionPage extends StatefulWidget {
   const ReflectionPage({super.key});
@@ -18,7 +20,6 @@ class _ReflectionPageState extends State<ReflectionPage> {
   bool _isLoading = true;
   bool _isSaving = false;
 
-  // Replace controllers with variables
   double _effectiveness = 5.0;
   double _sleepHours = 8.0;
   String _sleepQuality = 'Good';
@@ -35,12 +36,6 @@ class _ReflectionPageState extends State<ReflectionPage> {
   void initState() {
     super.initState();
     _loadEntries();
-  }
-
-  @override
-  void dispose() {
-    // Dispose controllers (same as before)
-    super.dispose();
   }
 
   Future<void> _loadEntries() async {
@@ -67,7 +62,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
         .limit(1);
       return response.isNotEmpty ? (response[0]['reflection_id'] as int) + 1 : 1;
     } catch (e) {
-      return 1; // Fallback
+      return 1;
     }
   }
 
@@ -79,7 +74,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
       return;
     }
 
-    final nextId = await _getNextReflectionId(); // Get next ID
+    final nextId = await _getNextReflectionId();
 
     setState(() => _isSaving = true);
     try {
@@ -132,6 +127,16 @@ class _ReflectionPageState extends State<ReflectionPage> {
     });
   }
 
+  void _onEntryChanged(String id, bool selected) {
+    setState(() {
+      if (selected) {
+        _selectedIds.add(id);
+      } else {
+        _selectedIds.remove(id);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,136 +153,38 @@ class _ReflectionPageState extends State<ReflectionPage> {
       ),
       body: _isLoading
         ? const Center(child: CircularProgressIndicator())
-        : _showForm ? _buildForm() : _buildSelection(),
-    );
-  }
-
-  Widget _buildSelection() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Select Recent Entries', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
-          ..._entries.map((entry) => CheckboxListTile(
-            key: ValueKey(entry['use_id']),
-            title: Text('${entry['name']} - ${entry['dose']}'),
-            subtitle: Text('${DateTime.parse(entry['start_time']).toLocal()} - ${entry['place']}'),
-            value: _selectedIds.contains(entry['use_id']?.toString()),
-            onChanged: (selected) {
-              final id = entry['use_id']?.toString();
-              if (id == null) return;
-              setState(() {
-                if (selected ?? false) {
-                  _selectedIds.add(id);
-                } else {
-                  _selectedIds.remove(id);
-                }
-              });
-            },
-          )),
-          if (_selectedIds.isNotEmpty)
-            ElevatedButton(
-              onPressed: () => setState(() => _showForm = true),
-              child: const Text('Next'),
+        : _showForm
+          ? ReflectionForm(
+              selectedCount: _selectedIds.length,
+              effectiveness: _effectiveness,
+              onEffectivenessChanged: (value) => setState(() => _effectiveness = value),
+              sleepHours: _sleepHours,
+              onSleepHoursChanged: (value) => setState(() => _sleepHours = value),
+              sleepQuality: _sleepQuality,
+              onSleepQualityChanged: (value) => setState(() => _sleepQuality = value),
+              nextDayMood: _nextDayMood,
+              onNextDayMoodChanged: (value) => setState(() => _nextDayMood = value),
+              energyLevel: _energyLevel,
+              onEnergyLevelChanged: (value) => setState(() => _energyLevel = value),
+              sideEffects: _sideEffects,
+              onSideEffectsChanged: (value) => setState(() => _sideEffects = value),
+              postUseCraving: _postUseCraving,
+              onPostUseCravingChanged: (value) => setState(() => _postUseCraving = value),
+              copingStrategies: _copingStrategies,
+              onCopingStrategiesChanged: (value) => setState(() => _copingStrategies = value),
+              copingEffectiveness: _copingEffectiveness,
+              onCopingEffectivenessChanged: (value) => setState(() => _copingEffectiveness = value),
+              overallSatisfaction: _overallSatisfaction,
+              onOverallSatisfactionChanged: (value) => setState(() => _overallSatisfaction = value),
+              notes: _notes,
+              onNotesChanged: (value) => setState(() => _notes = value),
+            )
+          : ReflectionSelection(
+              entries: _entries,
+              selectedIds: _selectedIds,
+              onEntryChanged: _onEntryChanged, // Pass the function directly
+              onNext: () => setState(() => _showForm = true),
             ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildForm() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Reflecting on ${_selectedIds.length} selected entries', style: const TextStyle(fontSize: 16)),
-          const SizedBox(height: 16),
-          // Effectiveness Slider
-          const Text('Effectiveness (1-10)'),
-          Slider(
-            value: _effectiveness,
-            min: 1,
-            max: 10,
-            divisions: 9,
-            label: _effectiveness.round().toString(),
-            onChanged: (value) => setState(() => _effectiveness = value),
-          ),
-          // Sleep Hours
-          TextField(
-            decoration: const InputDecoration(labelText: 'Sleep Hours'),
-            keyboardType: TextInputType.number,
-            onChanged: (value) => _sleepHours = double.tryParse(value) ?? 8.0,
-          ),
-          // Sleep Quality Dropdown
-          const Text('Sleep Quality'),
-          DropdownButton<String>(
-            value: _sleepQuality,
-            onChanged: (value) => setState(() => _sleepQuality = value!),
-            items: ['Poor', 'Fair', 'Good', 'Excellent'].map((q) => DropdownMenuItem(value: q, child: Text(q))).toList(),
-          ),
-          // Next Day Mood
-          TextField(
-            decoration: const InputDecoration(labelText: 'Next Day Mood'),
-            onChanged: (value) => _nextDayMood = value,
-          ),
-          // Energy Level Dropdown
-          const Text('Energy Level'),
-          DropdownButton<String>(
-            value: _energyLevel,
-            onChanged: (value) => setState(() => _energyLevel = value!),
-            items: ['Low', 'Neutral', 'High'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-          ),
-          // Side Effects
-          TextField(
-            decoration: const InputDecoration(labelText: 'Side Effects'),
-            onChanged: (value) => _sideEffects = value,
-          ),
-          // Post Use Craving Slider
-          const Text('Post Use Craving (1-10)'),
-          Slider(
-            value: _postUseCraving,
-            min: 1,
-            max: 10,
-            divisions: 9,
-            label: _postUseCraving.round().toString(),
-            onChanged: (value) => setState(() => _postUseCraving = value),
-          ),
-          // Coping Strategies
-          TextField(
-            decoration: const InputDecoration(labelText: 'Coping Strategies'),
-            onChanged: (value) => _copingStrategies = value,
-          ),
-          // Coping Effectiveness Slider
-          const Text('Coping Effectiveness (1-10)'),
-          Slider(
-            value: _copingEffectiveness,
-            min: 1,
-            max: 10,
-            divisions: 9,
-            label: _copingEffectiveness.round().toString(),
-            onChanged: (value) => setState(() => _copingEffectiveness = value),
-          ),
-          // Overall Satisfaction Slider
-          const Text('Overall Satisfaction (1-10)'),
-          Slider(
-            value: _overallSatisfaction,
-            min: 1,
-            max: 10,
-            divisions: 9,
-            label: _overallSatisfaction.round().toString(),
-            onChanged: (value) => setState(() => _overallSatisfaction = value),
-          ),
-          // Notes
-          TextField(
-            decoration: const InputDecoration(labelText: 'Notes'),
-            maxLines: 3,
-            onChanged: (value) => _notes = value,
-          ),
-        ],
-      ),
     );
   }
 }
