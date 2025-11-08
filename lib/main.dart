@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/login_page.dart';
 import 'screens/home_page.dart';
-import 'screens/log_entry.dart';
+import 'screens/log_entry_page.dart';
 import 'screens/analytics_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/catalog_page.dart';

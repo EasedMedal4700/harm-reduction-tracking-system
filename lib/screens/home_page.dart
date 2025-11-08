@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import '../widgets/drawer_menu.dart';
 import '../widgets/quick_action_button.dart';
+import '../routes/app_routes.dart'; // Ensure this import is added
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   void _openLogEntry(BuildContext context) {
-    Navigator.pushNamed(context, '/log_entry');
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildLogEntryPage()));
   }
   void _openAnalytics(BuildContext context) {
     Navigator.pushNamed(context, '/analytics');
@@ -21,7 +22,7 @@ class HomePage extends StatelessWidget {
     Navigator.pushNamed(context, '/blood_levels');
   }
   void _openReflection(BuildContext context) {
-    Navigator.pushNamed(context, '/reflection');
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildReflectionPage()));
   }
   void _openActivity(BuildContext context) {
     // Placeholder for Activity page navigation

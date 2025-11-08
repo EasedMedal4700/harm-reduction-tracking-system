@@ -19,11 +19,11 @@ class ReflectionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleEntry(String id) {
-    if (_selectedIds.contains(id)) {
-      _selectedIds.remove(id);
-    } else {
+  void toggleEntry(String id, bool selected) { // Add selected parameter
+    if (selected) {
       _selectedIds.add(id);
+    } else {
+      _selectedIds.remove(id);
     }
     notifyListeners();
   }
