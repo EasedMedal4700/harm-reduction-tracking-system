@@ -10,27 +10,25 @@ class HomePage extends StatelessWidget {
     Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildLogEntryPage()));
   }
   void _openAnalytics(BuildContext context) {
-    Navigator.pushNamed(context, '/analytics');
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildAnalyticsPage()));
   }
   void _openCatalog(BuildContext context) {
-    Navigator.pushNamed(context, '/catalog');
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildCatalogPage()));
   }
   void _openCravings(BuildContext context) {
-    Navigator.pushNamed(context, '/cravings');
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildCravingsPage()));
   }
   void _openBloodLevels(BuildContext context) {
-    Navigator.pushNamed(context, '/blood_levels');
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildBloodLevelsPage()));
   }
   void _openReflection(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildReflectionPage()));
   }
   void _openActivity(BuildContext context) {
-    // Placeholder for Activity page navigation
-    print('Activity page navigation not implemented yet.');
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildActivityPage()));
   }
   void _openLibrary(BuildContext context) {
-    // Placeholder for Library page navigation
-    print('Library page navigation not implemented yet.');
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildLibraryPage()));
   }
 
   @override
@@ -41,8 +39,8 @@ class HomePage extends StatelessWidget {
       {'icon': Icons.self_improvement, 'label': 'Reflection', 'onTap': () => _openReflection(context)},
       {'icon': Icons.analytics, 'label': 'Analytics', 'onTap': () => _openAnalytics(context)},
       {'icon': Icons.local_fire_department, 'label': 'Cravings', 'onTap': () => _openCravings(context)},
-      {'icon': Icons.directions_run, 'label': 'Activity', 'onTap': () => print('Activity pressed')},
-      {'icon': Icons.menu_book, 'label': 'Library', 'onTap': () => print('Library pressed')},
+      {'icon': Icons.directions_run, 'label': 'Activity', 'onTap': () => _openActivity(context)},
+      {'icon': Icons.menu_book, 'label': 'Library', 'onTap': () => _openLibrary(context)},
       {'icon': Icons.inventory, 'label': 'Catalog', 'onTap': () => _openCatalog(context)},
       {'icon': Icons.bloodtype, 'label': 'Blood Levels', 'onTap': () => _openBloodLevels(context)},
     ];
