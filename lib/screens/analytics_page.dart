@@ -6,8 +6,7 @@ import '../constants/drug_categories.dart';
 import '../constants/time_period.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../widgets/drawer_menu.dart';
-
-final user_id = '2';
+import '../services/user_service.dart';
 
 class AnalyticsPage extends StatefulWidget {
   const AnalyticsPage({super.key});
@@ -33,7 +32,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   @override
   void initState() {
     super.initState();
-    _service = AnalyticsService(user_id);
+    _service = AnalyticsService(UserService.getCurrentUserId());
     _fetchData();
   }
 
