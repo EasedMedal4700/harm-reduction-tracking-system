@@ -4,6 +4,7 @@ import '../services/log_entry_service.dart';
 import '../providers/reflection_provider.dart';
 import '../widgets/reflection/reflection_form.dart';
 import '../widgets/reflection/reflection_selection.dart';
+import '../widgets/drawer_menu.dart';
 
 class ReflectionPage extends StatefulWidget {
   const ReflectionPage({super.key});

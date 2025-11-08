@@ -8,7 +8,7 @@ import '../screens/cravings_page.dart';
 import '../screens/blood_levels_page.dart';
 import '../screens/reflection_page.dart';
 import '../screens/activity_page.dart';
-import '../screens/library_page.dart'; // Add LibraryPage import
+import '../screens/personal_library_page.dart'; // Add LibraryPage import
 
 class AppRoutes {
   static Widget buildLogEntryPage() => const QuickLogEntryPage(); // Change to QuickLogEntryPage
@@ -16,7 +16,7 @@ class AppRoutes {
   static Widget buildCatalogPage() => const CatalogPage();
   static Widget buildCravingsPage() => const CravingsPage();
   static Widget buildBloodLevelsPage() => const BloodLevelsPage();
-  static Widget buildLibraryPage() => const LibraryPage(); // Add if implemented
+  static Widget buildLibraryPage() => const PersonalLibraryPage(); // Add if implemented
   static Widget buildReflectionPage() => ChangeNotifierProvider(
     create: (_) => ReflectionProvider(),
     child: const ReflectionPage(),
