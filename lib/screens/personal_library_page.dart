@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/drawer_menu.dart';
+import '../widgets/common/drawer_menu.dart';
 
 class PersonalLibraryPage extends StatelessWidget {
   const PersonalLibraryPage({super.key});

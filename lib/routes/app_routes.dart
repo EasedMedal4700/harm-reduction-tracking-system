@@ -9,8 +9,10 @@ import '../screens/blood_levels_page.dart';
 import '../screens/reflection_page.dart';
 import '../screens/activity_page.dart';
 import '../screens/personal_library_page.dart'; // Add LibraryPage import
+import '../screens/home_page.dart';
 
 class AppRoutes {
+  static Widget buildHomePage() => const HomePage();
   static Widget buildLogEntryPage() => const QuickLogEntryPage(); // Change to QuickLogEntryPage
   static Widget buildAnalyticsPage() => const AnalyticsPage();
   static Widget buildCatalogPage() => const CatalogPage();
@@ -23,4 +25,5 @@ class AppRoutes {
   );
   static Widget buildActivityPage() => const ActivityPage(); // Update to actual class name
   // Add buildLibraryPage() if implemented
+  static Widget buildSettingsPage() => const Scaffold(body: Center(child: Text('Settings Page'))); // Placeholder
 }

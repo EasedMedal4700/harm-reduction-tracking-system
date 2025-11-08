@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/drawer_menu.dart';
+import '../widgets/common/drawer_menu.dart';
 import '../widgets/log_entry/log_entry_form.dart';
 import '../states/log_entry_state.dart';
 
