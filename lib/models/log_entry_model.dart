@@ -1,97 +1,154 @@
 class LogEntry {
+  final String? id; // use_id or id
   final String substance;
   final double dosage;
   final String unit;
   final String route;
+  final DateTime datetime;
+  final String? notes;
+  final int timeDifferenceMinutes;
+  final String? timezone; // raw tz value if present
   final List<String> feelings;
   final Map<String, List<String>> secondaryFeelings;
-  final DateTime datetime;
+  final List<String> triggers;
+  final List<String> bodySignals;
   final String location;
-  final String notes;
-  final double timezoneOffset;
   final bool isMedicalPurpose;
   final double cravingIntensity;
-  final String intention;
-  final List<String> triggers; // Add this
-  final List<String> bodySignals;
-  final List<String> people; // Add this
+  final String? intention;
+  final double timezoneOffset; // parsed offset (e.g., hours)
+  final List<String> people;
 
   LogEntry({
+    this.id,
     required this.substance,
     required this.dosage,
     required this.unit,
     required this.route,
-    required this.feelings,
-    required this.secondaryFeelings,
     required this.datetime,
-    required this.location,
-    required this.notes,
-    required this.timezoneOffset,
-    required this.isMedicalPurpose,
-    required this.cravingIntensity,
-    required this.intention,
-    required this.triggers,
-    required this.bodySignals,
-    required this.people,
+    this.notes,
+    this.timeDifferenceMinutes = 0,
+    this.timezone,
+    this.feelings = const [],
+    this.secondaryFeelings = const {},
+    this.triggers = const [],
+    this.bodySignals = const [],
+    this.location = '',
+    this.isMedicalPurpose = false,
+    this.cravingIntensity = 0.0,
+    this.intention,
+    this.timezoneOffset = 0.0,
+    this.people = const [],
   });
 
-  // Convert to JSON (for saving to Supabase)
-  Map<String, dynamic> toJson() {
-    return {
-      'substance': substance,
-      'dosage': dosage,
-      'unit': unit,
-      'route': route,
-      'feelings': feelings,
-      'secondaryFeelings': secondaryFeelings,
-      'datetime': datetime.toIso8601String(),
-      'location': location,
-      'notes': notes,
-      'timezoneOffset': timezoneOffset,
-      'isMedicalPurpose': isMedicalPurpose,
-      'cravingIntensity': cravingIntensity,
-      'intention': intention,
-      'triggers': triggers,
-      'bodySignals': bodySignals,
-      'people': people,
-    };
-  }
-
-  // Create from JSON (for loading from Supabase)
   factory LogEntry.fromJson(Map<String, dynamic> json) {
-    // Helper to parse list or fallback to splitting string
-    List<String> parseList(dynamic value, {String separator = ';'}) {
-      if (value is List) {
-        return value.map((e) => e.toString()).toList(); // Already a list
-      } else if (value is String && value.isNotEmpty) {
-        return value.split(separator).map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+    double _parseDouble(dynamic v) => double.tryParse(v?.toString() ?? '') ?? 0.0;
+    int _parseInt(dynamic v) => int.tryParse(v?.toString() ?? '') ?? 0;
+    List<String> _toList(dynamic v) {
+      if (v == null) return [];
+      if (v is List) return v.map((e) => e?.toString() ?? '').where((s) => s.isNotEmpty).toList();
+      if (v is String && v.isNotEmpty) {
+        try {
+          // try comma or semicolon separated
+          return v.split(RegExp(r'[;,]')).map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
+        } catch (_) {}
       }
       return [];
     }
+    Map<String, List<String>> _toMap(dynamic v) {
+      if (v == null) return {};
+      if (v is Map) {
+        return v.map((k, val) => MapEntry(k.toString(), (val is List) ? val.map((e) => e.toString()).toList() : [val.toString()]));
+      }
+      // fallback: treat as single-key list if string/list
+      final list = _toList(v);
+      return list.isEmpty ? {} : {'default': list};
+    }
+    double _parseTimezone(dynamic v) {
+      if (v == null) return 0.0;
+      final str = v.toString();
+      final match = RegExp(r'([+-])(\d{1,2}):?(\d{2})').firstMatch(str);
+      if (match != null) {
+        final sign = match.group(1) == '-' ? -1 : 1;
+        final hours = int.parse(match.group(2)!);
+        final minutes = int.parse(match.group(3)!);
+        return sign * (hours + minutes / 60.0);
+      }
+      return double.tryParse(str) ?? 0.0;
+    }
 
-    // Safely parse dose and unit
-    String doseStr = json['dose']?.toString() ?? '';
-    List<String> doseParts = doseStr.split(' ');
-    double dosage = double.tryParse(doseParts[0]) ?? 0.0;
-    String unit = doseParts.length > 1 ? doseParts[1] : '';
+    // flexible dose parsing
+    double dosage = 0.0;
+    String unit = '';
+    if (json['dosage'] != null) {
+      dosage = _parseDouble(json['dosage']);
+      unit = json['unit']?.toString() ?? unit;
+    } else if (json['dose'] != null) {
+      // dose might be "10 mg" or numeric
+      final d = json['dose'];
+      final dStr = d.toString();
+      final parts = dStr.split(RegExp(r'\s+'));
+      dosage = _parseDouble(parts.isNotEmpty ? parts[0] : dStr);
+      if (parts.length > 1) unit = parts.sublist(1).join(' ');
+      unit = unit.isEmpty ? (json['unit']?.toString() ?? '') : unit;
+    }
+
+    // parse datetime and apply offsets
+    DateTime dt = DateTime.now();
+    final startRaw = json['start_time'] ?? json['time'] ?? json['created_at'];
+    if (startRaw != null) {
+      try {
+        dt = DateTime.parse(startRaw.toString());
+      } catch (_) {}
+    }
+    final diffMin = _parseInt(json['time_difference'] ?? json['time_diff'] ?? json['tz_offset_minutes']);
+    if (diffMin != 0) dt = dt.add(Duration(minutes: diffMin));
+
+    final tzOffset = _parseTimezone(json['timezone'] ?? json['tz'] ?? json['time_zone']);
+    if (tzOffset != 0.0) dt = dt.add(Duration(minutes: (tzOffset * 60).round()));
 
     return LogEntry(
-      substance: json['name'] ?? '',
+      id: json['use_id']?.toString() ?? json['id']?.toString(),
+      substance: json['name']?.toString() ?? json['substance']?.toString() ?? '',
       dosage: dosage,
       unit: unit,
-      route: json['consumption'] ?? '',
-      feelings: parseList(json['primary_emotions'], separator: ';'),
-      secondaryFeelings: {}, // Add parsing if needed: parseList(json['secondary_emotions'], separator: ';')
-      datetime: DateTime.parse(json['start_time'] ?? DateTime.now().toIso8601String()),
-      location: json['place'] ?? '',
-      notes: json['notes'] ?? '',
-      timezoneOffset: double.tryParse(json['timezone']?.toString() ?? '0') ?? 0.0,
-      isMedicalPurpose: json['medical'] == 'true' || json['medical'] == true,
-      cravingIntensity: double.tryParse(json['craving_0_10']?.toString() ?? '0') ?? 0.0,
-      intention: json['intention'] ?? '',
-      triggers: parseList(json['triggers'], separator: ';'),
-      bodySignals: parseList(json['body_signals'], separator: ';'),
-      people: parseList(json['people'], separator: ' '),
+      route: json['route']?.toString() ?? json['consumption']?.toString() ?? '',
+      datetime: dt,
+      notes: json['notes']?.toString(),
+      timeDifferenceMinutes: diffMin,
+      timezone: json['timezone']?.toString(), // Ensure .toString()
+      feelings: _toList(json['feelings'] ?? json['primary_emotions']),
+      secondaryFeelings: _toMap(json['secondary_feelings']),
+      triggers: _toList(json['triggers']),
+      bodySignals: _toList(json['body_signals']),
+      location: json['place']?.toString() ?? json['location']?.toString() ?? '',
+      isMedicalPurpose: (json['medical_purpose'] == true || json['medical_purpose']?.toString() == 'true'),
+      cravingIntensity: _parseDouble(json['craving_intensity'] ?? json['intensity'] ?? json['craving_0_10']),
+      intention: json['intention']?.toString(),
+      people: _toList(json['people']),
+      timezoneOffset: tzOffset,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'use_id': id,
+        'name': substance,
+        'dosage': dosage,
+        'unit': unit,
+        'route': route,
+        'start_time': datetime.toIso8601String(),
+        'time_difference': timeDifferenceMinutes,
+        'timezone': timezone,
+        'feelings': feelings,
+        'secondary_feelings': secondaryFeelings,
+        'triggers': triggers,
+        'body_signals': bodySignals,
+        'place': location,
+        'notes': notes,
+        'medical_purpose': isMedicalPurpose,
+        'craving_intensity': cravingIntensity,
+        'intention': intention,
+        'timezone_offset': timezoneOffset,
+        'people': people,
+      };
 }

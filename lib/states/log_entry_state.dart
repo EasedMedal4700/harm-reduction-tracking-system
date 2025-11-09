@@ -16,6 +16,8 @@ class LogEntryState extends ChangeNotifier {
   int hour = TimeOfDay.now().hour;
   int minute = TimeOfDay.now().minute;
   final notesCtrl = TextEditingController();
+  final TextEditingController doseCtrl = TextEditingController();
+  final TextEditingController substanceCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final TimezoneService timezoneService = TimezoneService();
   bool isMedicalPurpose = false;
@@ -26,10 +28,15 @@ class LogEntryState extends ChangeNotifier {
   final LogEntryService logEntryService = LogEntryService();
   bool isSaving = false;
 
+  String entryId = ''; // Add this
+
   DateTime get selectedDateTime => DateTime(date.year, date.month, date.day, hour, minute);
 
   void dispose() {
+    doseCtrl.dispose();
+    substanceCtrl.dispose();
     notesCtrl.dispose();
+    super.dispose();
   }
 
   void resetForm() {
@@ -44,6 +51,7 @@ class LogEntryState extends ChangeNotifier {
     triggers = [];
     bodySignals = [];
     notesCtrl.clear();
+    entryId = ''; // Add this
     notifyListeners();
   }
 
@@ -77,7 +85,13 @@ class LogEntryState extends ChangeNotifier {
     );
 
     try {
-      await logEntryService.saveLogEntry(entry);
+      if (entryId.isNotEmpty) {
+        // Update existing entry
+        await logEntryService.updateLogEntry(entryId, entry.toJson());
+      } else {
+        // Create new entry
+        await logEntryService.saveLogEntry(entry);
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Entry saved successfully!')),
       );
@@ -99,7 +113,8 @@ class LogEntryState extends ChangeNotifier {
   }
 
   void setDose(double value) {
-    dose = value;
+    dose = value; // Fix: assign the double value
+    doseCtrl.text = (value == 0) ? '' : value.toString();
     notifyListeners();
   }
 
@@ -110,6 +125,7 @@ class LogEntryState extends ChangeNotifier {
 
   void setSubstance(String value) {
     substance = value;
+    substanceCtrl.text = value;
     notifyListeners();
   }
 

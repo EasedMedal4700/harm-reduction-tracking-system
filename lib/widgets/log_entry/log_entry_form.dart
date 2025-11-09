@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'simple_fields.dart';
 import 'complex_fields.dart';
 
-class LogEntryForm extends StatelessWidget {
+class LogEntryForm extends StatefulWidget {
   final bool isSimpleMode;
   final double dose;
   final String unit;
@@ -18,7 +18,7 @@ class LogEntryForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final bool isMedicalPurpose;
   final double cravingIntensity;
-  final String? intention;
+  final String? intention; // Change to nullable
   final List<String> selectedTriggers;
   final List<String> selectedBodySignals;
   final ValueChanged<double> onDoseChanged;
@@ -37,6 +37,8 @@ class LogEntryForm extends StatelessWidget {
   final ValueChanged<List<String>> onTriggersChanged;
   final ValueChanged<List<String>> onBodySignalsChanged;
   final VoidCallback onSave;
+  final TextEditingController? doseCtrl;
+  final TextEditingController? substanceCtrl;
 
   const LogEntryForm({
     super.key,
@@ -55,7 +57,7 @@ class LogEntryForm extends StatelessWidget {
     required this.formKey,
     required this.isMedicalPurpose,
     required this.cravingIntensity,
-    required this.intention,
+    this.intention, // Make optional or nullable
     required this.selectedTriggers,
     required this.selectedBodySignals,
     required this.onDoseChanged,
@@ -74,61 +76,69 @@ class LogEntryForm extends StatelessWidget {
     required this.onTriggersChanged,
     required this.onBodySignalsChanged,
     required this.onSave,
+    this.doseCtrl,
+    this.substanceCtrl,
   });
 
   @override
+  State<LogEntryForm> createState() => _LogEntryFormState();
+}
+
+class _LogEntryFormState extends State<LogEntryForm> {
+  @override
   Widget build(BuildContext context) {
     return Form(
-      key: formKey,
+      key: widget.formKey,
       child: Align(
         alignment: Alignment.topLeft,
-        child: SingleChildScrollView( // Add for scrolling if needed
+        child: SingleChildScrollView(
           padding: const EdgeInsets.only(right: 16, top: 16, bottom: 16),
-          child: Column( // Changed from ListView to Column
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SimpleFields(
-                dose: dose,
-                unit: unit,
-                substance: substance,
-                route: route,
-                feelings: feelings,
-                secondaryFeelings: secondaryFeelings,
-                location: location,
-                date: date,
-                hour: hour,
-                minute: minute,
-                onDoseChanged: onDoseChanged,
-                onUnitChanged: onUnitChanged,
-                onSubstanceChanged: onSubstanceChanged,
-                onRouteChanged: onRouteChanged,
-                onFeelingsChanged: onFeelingsChanged,
-                onSecondaryFeelingsChanged: onSecondaryFeelingsChanged,
-                onLocationChanged: onLocationChanged,
-                onDateChanged: onDateChanged,
-                onHourChanged: onHourChanged,
-                onMinuteChanged: onMinuteChanged,
-                onMedicalPurposeChanged: onMedicalPurposeChanged,
-                isMedicalPurpose: isMedicalPurpose,
+                dose: widget.dose,
+                unit: widget.unit,
+                substance: widget.substance,
+                route: widget.route,
+                feelings: widget.feelings,
+                secondaryFeelings: widget.secondaryFeelings,
+                location: widget.location,
+                date: widget.date,
+                hour: widget.hour,
+                minute: widget.minute,
+                onDoseChanged: widget.onDoseChanged,
+                onUnitChanged: widget.onUnitChanged,
+                onSubstanceChanged: widget.onSubstanceChanged,
+                onRouteChanged: widget.onRouteChanged,
+                onFeelingsChanged: widget.onFeelingsChanged,
+                onSecondaryFeelingsChanged: widget.onSecondaryFeelingsChanged,
+                onLocationChanged: widget.onLocationChanged,
+                onDateChanged: widget.onDateChanged,
+                onHourChanged: widget.onHourChanged,
+                onMinuteChanged: widget.onMinuteChanged,
+                onMedicalPurposeChanged: widget.onMedicalPurposeChanged,
+                isMedicalPurpose: widget.isMedicalPurpose,
               ),
-              if (!isSimpleMode) ComplexFields(
-                cravingIntensity: cravingIntensity,
-                intention: intention,
-                selectedTriggers: selectedTriggers,
-                selectedBodySignals: selectedBodySignals,
-                onCravingIntensityChanged: onCravingIntensityChanged,
-                onIntentionChanged: onIntentionChanged,
-                onTriggersChanged: onTriggersChanged,
-                onBodySignalsChanged: onBodySignalsChanged,
-              ),
+              if (!widget.isSimpleMode)
+                ComplexFields(
+                  cravingIntensity: widget.cravingIntensity,
+                  intention: widget.intention,
+                  selectedTriggers: widget.selectedTriggers,
+                  selectedBodySignals: widget.selectedBodySignals,
+                  onCravingIntensityChanged: widget.onCravingIntensityChanged,
+                  onIntentionChanged: widget.onIntentionChanged,
+                  onTriggersChanged: widget.onTriggersChanged,
+                  onBodySignalsChanged: widget.onBodySignalsChanged,
+                ),
               TextFormField(
-                controller: notesCtrl,
+                controller: widget.notesCtrl,
                 maxLines: 3,
                 decoration: const InputDecoration(labelText: 'Notes'),
               ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: onSave,
+                onPressed: widget.onSave,
                 child: const Text('Save Entry'),
               ),
             ],

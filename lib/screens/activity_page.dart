@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/common/drawer_menu.dart';
 import '../services/activity_service.dart';
+import 'edit/edit_log_entry_page.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});
@@ -47,15 +48,23 @@ class _ActivityPageState extends State<ActivityPage> {
         : ListView(
             padding: const EdgeInsets.all(16.0),
             children: [
-              _buildSection('Recent Drug Use', _activity['entries'] ?? [], (entry) => '${entry['name']} - ${entry['dose']} at ${entry['place']}'),
-              _buildSection('Recent Cravings', _activity['cravings'] ?? [], (craving) => 'Craving level: ${craving['intensity']} - ${craving['notes']}'), // Change to 'intensity'
+              _buildSection(
+                'Recent Drug Use',
+                _activity['entries'] ?? [],
+                (entry) => '${entry['name']} - ${entry['dose']} at ${entry['place']}',
+                onTap: (entry) => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => EditDrugUsePage(entry: entry)),
+                ),
+              ),
+              _buildSection('Recent Cravings', _activity['cravings'] ?? [], (craving) => 'Craving level: ${craving['intensity']} - ${craving['notes']}'),
               _buildSection('Recent Reflections', _activity['reflections'] ?? [], (reflection) => 'Notes: ${reflection['notes']}'),
             ],
           ),
     );
   }
 
-  Widget _buildSection(String title, List items, String Function(dynamic) itemText) {
+  Widget _buildSection(String title, List items, String Function(dynamic) itemText, {void Function(dynamic)? onTap}) { // Add optional onTap
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -64,7 +73,8 @@ class _ActivityPageState extends State<ActivityPage> {
         ...items.map((item) => Card(
           child: ListTile(
             title: Text(itemText(item)),
-            subtitle: Text(_formatDate(item)), // Use a helper method
+            subtitle: Text(_formatDate(item)),
+            onTap: onTap != null ? () => onTap(item) : null, // Add onTap
           ),
         )),
         if (items.isEmpty) const Text('No recent activity.'),

@@ -6,6 +6,16 @@ import '../services/user_service.dart'; // For user_id
 class LogEntryService {
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
 
+  Future<void> updateLogEntry(String id, Map<String, dynamic> data) async {
+    final supabase = Supabase.instance.client;
+    final userId = UserService.getCurrentUserId();
+    await supabase
+      .from('drug_use')
+      .update(data)
+      .eq('user_id', userId)
+      .eq('use_id', id);
+  }  
+
   Future<void> saveLogEntry(LogEntry entry) async {
     // Add validation
     if (entry.location == 'Select a location') {

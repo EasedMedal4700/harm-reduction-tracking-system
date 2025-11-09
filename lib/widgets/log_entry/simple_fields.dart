@@ -68,9 +68,12 @@ class SimpleFields extends StatelessWidget {
       children: [
 
 
-        SubstanceAutocomplete(
-          substance: substance,
-          onSubstanceChanged: onSubstanceChanged,
+        TextFormField(
+          // substance: substance,
+          controller: TextEditingController(text: substance), // Change from initialValue to controller
+          decoration: const InputDecoration(labelText: 'Substance'),
+          onChanged: onSubstanceChanged,
+          validator: (value) => (value == null || value.isEmpty) ? 'Required' : null,
         ),
         const SizedBox(height: 16),
 
