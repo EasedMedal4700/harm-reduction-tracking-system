@@ -62,12 +62,19 @@ void main() {
         expect(state.isSimpleMode, isTrue);
       });
 
-      test('setDose updates dose and controller', () {
+      test('setDose updates dose only (not controller)', () {
         state.setDose(10.5);
+        expect(state.dose, 10.5);
+        // setDose should NOT update controller (avoids cursor reset)
+        expect(state.doseCtrl.text, '');
+      });
+
+      test('prefillDose updates both dose and controller', () {
+        state.prefillDose(10.5);
         expect(state.dose, 10.5);
         expect(state.doseCtrl.text, '10.5');
         
-        state.setDose(0);
+        state.prefillDose(0);
         expect(state.dose, 0);
         expect(state.doseCtrl.text, '');
       });
@@ -80,8 +87,15 @@ void main() {
         expect(state.unit, 'ml');
       });
 
-      test('setSubstance updates substance and controller', () {
+      test('setSubstance updates substance only (not controller)', () {
         state.setSubstance('Cannabis');
+        expect(state.substance, 'Cannabis');
+        // setSubstance should NOT update controller (avoids cursor reset)
+        expect(state.substanceCtrl.text, '');
+      });
+
+      test('prefillSubstance updates both substance and controller', () {
+        state.prefillSubstance('Cannabis');
         expect(state.substance, 'Cannabis');
         expect(state.substanceCtrl.text, 'Cannabis');
       });
@@ -258,19 +272,19 @@ void main() {
     });
 
     group('Controller synchronization', () {
-      test('doseCtrl syncs with dose setter', () {
-        state.setDose(25.5);
+      test('doseCtrl syncs with prefillDose only', () {
+        state.prefillDose(25.5);
         expect(state.doseCtrl.text, '25.5');
         
-        state.setDose(0);
+        state.prefillDose(0);
         expect(state.doseCtrl.text, '');
       });
 
-      test('substanceCtrl syncs with substance setter', () {
-        state.setSubstance('Cannabis');
+      test('substanceCtrl syncs with prefillSubstance only', () {
+        state.prefillSubstance('Cannabis');
         expect(state.substanceCtrl.text, 'Cannabis');
         
-        state.setSubstance('');
+        state.prefillSubstance('');
         expect(state.substanceCtrl.text, '');
       });
 
