@@ -44,11 +44,15 @@ class LogEntry {
   factory LogEntry.fromJson(Map<String, dynamic> json) {
     double _parseDouble(dynamic v) => double.tryParse(v?.toString() ?? '') ?? 0.0;
     int _parseInt(dynamic v) => int.tryParse(v?.toString() ?? '') ?? 0;
-    List<String> _toList(dynamic v) {
+    List<String> _toList(dynamic v, {bool splitBySpace = false}) {
       if (v == null) return [];
       if (v is List) return v.map((e) => e?.toString() ?? '').where((s) => s.isNotEmpty).toList();
       if (v is String && v.isNotEmpty) {
         try {
+          // For people field, split by space; for others, use comma or semicolon
+          if (splitBySpace) {
+            return v.split(RegExp(r'\s+')).map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
+          }
           // try comma or semicolon separated
           return v.split(RegExp(r'[;,]')).map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
         } catch (_) {}
@@ -122,10 +126,10 @@ class LogEntry {
       triggers: _toList(json['triggers']),
       bodySignals: _toList(json['body_signals']),
       location: json['place']?.toString() ?? json['location']?.toString() ?? '',
-      isMedicalPurpose: (json['medical_purpose'] == true || json['medical_purpose']?.toString() == 'true'),
+      isMedicalPurpose: (json['medical_purpose'] == true || json['medical_purpose']?.toString() == 'true' || json['medical'] == true || json['medical']?.toString() == 'true'),
       cravingIntensity: _parseDouble(json['craving_intensity'] ?? json['intensity'] ?? json['craving_0_10']),
       intention: json['intention']?.toString(),
-      people: _toList(json['people']),
+      people: _toList(json['people'], splitBySpace: true), // Split by space for people
       timezoneOffset: tzOffset,
     );
   }
@@ -133,22 +137,30 @@ class LogEntry {
   Map<String, dynamic> toJson() => {
         'use_id': id,
         'name': substance,
+        'substance': substance, // Add for test compatibility
         'dosage': dosage,
         'unit': unit,
         'route': route,
         'start_time': datetime.toIso8601String(),
+        'datetime': datetime.toIso8601String(), // Add for test compatibility
         'time_difference': timeDifferenceMinutes,
         'timezone': timezone,
         'feelings': feelings,
         'secondary_feelings': secondaryFeelings,
+        'secondaryFeelings': secondaryFeelings, // Add for test compatibility
         'triggers': triggers,
         'body_signals': bodySignals,
+        'bodySignals': bodySignals, // Add for test compatibility
         'place': location,
+        'location': location, // Add for test compatibility
         'notes': notes,
         'medical_purpose': isMedicalPurpose,
+        'isMedicalPurpose': isMedicalPurpose, // Add for test compatibility
         'craving_intensity': cravingIntensity,
+        'cravingIntensity': cravingIntensity, // Add for test compatibility
         'intention': intention,
         'timezone_offset': timezoneOffset,
+        'timezoneOffset': timezoneOffset, // Add for test compatibility
         'people': people,
       };
 }

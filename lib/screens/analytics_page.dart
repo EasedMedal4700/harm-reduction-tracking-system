@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import '../services/analytics_service.dart';
 import '../models/log_entry_model.dart';
-import '../widgets/analytics/analytics_content.dart'; // Add this
+import '../widgets/analytics/analytics_content.dart';
 import '../constants/drug_categories.dart';
 import '../constants/time_period.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../widgets/common/drawer_menu.dart';
 import '../services/user_service.dart';
 
 class AnalyticsPage extends StatefulWidget {

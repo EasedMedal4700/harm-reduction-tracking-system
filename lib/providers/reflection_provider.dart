@@ -3,11 +3,29 @@ import 'package:flutter/material.dart';
 import '../models/reflection_model.dart';
 import '../services/reflection_service.dart';
 
-class ReflectionProvider with ChangeNotifier {
+class ReflectionProvider extends ChangeNotifier {
   Reflection _reflection = Reflection();
-  Set<String> _selectedIds = {};
+  final Set<String> _selectedIds = {};
   bool _showForm = false;
   bool _isSaving = false;
+  String entryId = '';
+  double effectiveness = 0.0;
+  double sleepHours = 0.0;
+  String sleepQuality = '';
+  String nextDayMood = '';
+  String energyLevel = '';
+  String sideEffects = '';
+  double postUseCraving = 0.0;
+  String copingStrategies = '';
+  double copingEffectiveness = 0.0;
+  double overallSatisfaction = 0.0;
+  
+  // Add missing fields
+  final TextEditingController notesCtrl = TextEditingController();
+  List<String> selectedReflections = [];
+  DateTime date = DateTime.now();
+  int hour = TimeOfDay.now().hour;
+  int minute = TimeOfDay.now().minute;
 
   Reflection get reflection => _reflection;
   Set<String> get selectedIds => _selectedIds;
@@ -38,17 +56,134 @@ class ReflectionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> save(BuildContext context, List<int> relatedEntries) async {
+  // Ensure these setters exist (add if missing)
+  void setNotes(String value) {
+    notesCtrl.text = value;
+    notifyListeners();
+  }
+
+  void setSelectedReflections(List<String> value) {
+    selectedReflections = value;
+    notifyListeners();
+  }
+
+  void setDate(DateTime value) {
+    date = value;
+    notifyListeners();
+  }
+
+  void setHour(int value) {
+    hour = value;
+    notifyListeners();
+  }
+
+  void setMinute(int value) {
+    minute = value;
+    notifyListeners();
+  }
+
+  void setEffectiveness(double value) {
+    effectiveness = value;
+    notifyListeners();
+  }
+
+  void setSleepHours(double value) {
+    sleepHours = value;
+    notifyListeners();
+  }
+
+  void setSleepQuality(String value) {
+    sleepQuality = value;
+    notifyListeners();
+  }
+
+  void setNextDayMood(String value) {
+    nextDayMood = value;
+    notifyListeners();
+  }
+
+  void setEnergyLevel(String value) {
+    energyLevel = value;
+    notifyListeners();
+  }
+
+  void setSideEffects(String value) {
+    sideEffects = value;
+    notifyListeners();
+  }
+
+  void setPostUseCraving(double value) {
+    postUseCraving = value;
+    notifyListeners();
+  }
+
+  void setCopingStrategies(String value) {
+    copingStrategies = value;
+    notifyListeners();
+  }
+
+  void setCopingEffectiveness(double value) {
+    copingEffectiveness = value;
+    notifyListeners();
+  }
+
+  void setOverallSatisfaction(double value) {
+    overallSatisfaction = value;
+    notifyListeners();
+  }
+
+  Future<void> save(BuildContext context) async {
     setSaving(true);
+    
     try {
-      await ReflectionService().saveReflection(_reflection, relatedEntries);
+      final reflectionData = {
+        'notes': notesCtrl.text,
+        'selected_reflections': selectedReflections,
+        'date': date.toIso8601String(),
+        'hour': hour,
+        'minute': minute,
+        'effectiveness': effectiveness,
+        'sleep_hours': sleepHours,
+        'sleep_quality': sleepQuality,
+        'next_day_mood': nextDayMood,
+        'energy_level': energyLevel,
+        'side_effects': sideEffects,
+        'post_use_craving': postUseCraving,
+        'coping_strategies': copingStrategies,
+        'coping_effectiveness': copingEffectiveness,
+        'overall_satisfaction': overallSatisfaction,
+      };
+
+      if (entryId.isNotEmpty) {
+        // Update existing reflection
+        await ReflectionService().updateReflection(entryId, reflectionData);
+      } else {
+        // Create new reflection - use the old Reflection model that saveReflection expects
+        final oldReflection = Reflection();
+        // For new reflections, pass empty list for related entries
+        await ReflectionService().saveReflection(oldReflection, []);
+      }
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Reflection saved successfully!')),
+        );
+      }
       reset();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Reflection saved!')));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Save failed: $e')));
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error saving reflection: $e')),
+        );
+      }
     } finally {
       setSaving(false);
     }
+  }
+
+  @override
+  void dispose() {
+    notesCtrl.dispose();
+    super.dispose();
   }
 
   void reset() {

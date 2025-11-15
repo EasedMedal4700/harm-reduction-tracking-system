@@ -1,7 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../models/craving_model.dart';
-import '../services/user_service.dart';
 
 class CravingService {
   final _uuid = const Uuid();
@@ -11,7 +10,7 @@ class CravingService {
     if (craving.intensity <= 0) {
       throw Exception('Intensity must be higher than 0');
     }
-    if (craving.substance.isEmpty || craving.substance == 'Unspecified' || craving.substance == null) {
+    if (craving.substance.isEmpty || craving.substance == 'Unspecified') {
       throw Exception('Substance must be one from the list and not unspecified or null');
     }
     if (craving.location == 'Select a location') {

@@ -4,7 +4,6 @@ import '../services/log_entry_service.dart';
 import '../providers/reflection_provider.dart';
 import '../widgets/reflection/reflection_form.dart';
 import '../widgets/reflection/reflection_selection.dart';
-import '../widgets/common/drawer_menu.dart';
 
 class ReflectionPage extends StatefulWidget {
   const ReflectionPage({super.key});
@@ -57,13 +56,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
                   TextButton(
                     onPressed: provider.isSaving
                       ? null
-                      : () => provider.save(
-                          context,
-                          _entries
-                            .where((e) => provider.selectedIds.contains(e['use_id']?.toString()))
-                            .map((e) => e['use_id'] as int)
-                            .toList(),
-                        ),
+                      : () => provider.save(context),
                     child: provider.isSaving
                       ? const CircularProgressIndicator()
                       : const Text('Save'),

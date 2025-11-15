@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/common/drawer_menu.dart';
 import '../services/activity_service.dart';
 import 'edit/edit_log_entry_page.dart';
+import 'edit/edit_refelction_page.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});
@@ -58,7 +59,15 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
               ),
               _buildSection('Recent Cravings', _activity['cravings'] ?? [], (craving) => 'Craving level: ${craving['intensity']} - ${craving['notes']}'),
-              _buildSection('Recent Reflections', _activity['reflections'] ?? [], (reflection) => 'Notes: ${reflection['notes']}'),
+              _buildSection(
+                'Recent Reflections',
+                _activity['reflections'] ?? [],
+                (reflection) => 'Notes: ${reflection['notes']}',
+                onTap: (reflection) => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => EditReflectionPage(entry: reflection)),
+                ),
+              ),
             ],
           ),
     );

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dosage_input.dart';
-import 'substance_autocomplete.dart';
 import 'route_selection.dart';
 import '../common/feeling_selection.dart';
 import 'date_selector.dart';
 import 'time_selector.dart';
 import '../common/location_dropdown.dart';
-import '../../constants/drug_use_catalog.dart';
 
 class SimpleFields extends StatelessWidget {
   final double dose;
@@ -61,7 +59,6 @@ class SimpleFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final units = ['μg', 'mg', 'g', 'pills', 'ml'];
-    final locations = DrugUseCatalog.locations;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

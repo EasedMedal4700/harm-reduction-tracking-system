@@ -28,4 +28,16 @@ class ReflectionService {
       'is_simple': false,
     });
   }
+
+  Future<void> updateReflection(String id, Map<String, dynamic> data) async {
+    final supabase = Supabase.instance.client;
+    final userId = UserService.getCurrentUserId();
+    if (userId == null) throw Exception('User not logged in');
+
+    await supabase
+      .from('reflections')
+      .update(data)
+      .eq('user_id', userId)
+      .eq('id', id);
+  }
 }

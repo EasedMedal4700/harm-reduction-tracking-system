@@ -20,6 +20,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage> {
   void initState() {
     super.initState();
     _state = LogEntryState();
+    _state.isSimpleMode = false; // Always show complex version for editing
 
     // DEBUG: Print raw DB entry
     print('=== RAW DB ENTRY ===');
@@ -66,9 +67,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage> {
 
     // keep entry id for update
     _state.entryId = widget.entry['use_id']?.toString() ?? widget.entry['id']?.toString() ?? '';
-
-    // Notify to update the form with pre-filled values
-    _state.notifyListeners();
   }
 
   @override
