@@ -29,6 +29,8 @@ class SimpleFields extends StatelessWidget {
   final ValueChanged<int> onMinuteChanged;
   final bool isMedicalPurpose;
   final ValueChanged<bool> onMedicalPurposeChanged;
+  final TextEditingController? substanceCtrl;
+  final TextEditingController? doseCtrl;
 
   const SimpleFields({
     super.key,
@@ -54,6 +56,8 @@ class SimpleFields extends StatelessWidget {
     required this.onMinuteChanged,
     required this.isMedicalPurpose,
     required this.onMedicalPurposeChanged,
+    this.substanceCtrl,
+    this.doseCtrl,
   });
 
   @override
@@ -66,8 +70,7 @@ class SimpleFields extends StatelessWidget {
 
 
         TextFormField(
-          // substance: substance,
-          controller: TextEditingController(text: substance), // Change from initialValue to controller
+          controller: substanceCtrl,
           decoration: const InputDecoration(labelText: 'Substance'),
           onChanged: onSubstanceChanged,
           validator: (value) => (value == null || value.isEmpty) ? 'Required' : null,

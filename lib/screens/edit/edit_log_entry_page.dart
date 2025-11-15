@@ -20,34 +20,12 @@ class _EditDrugUsePageState extends State<EditDrugUsePage> {
   void initState() {
     super.initState();
     _state = LogEntryState();
-    _state.isSimpleMode = false; // Always show complex version for editing
 
-    // DEBUG: Print raw DB entry
-    print('=== RAW DB ENTRY ===');
-    print('Keys: ${widget.entry.keys.toList()}');
-    print('Full entry: ${widget.entry}');
-    print('name field: ${widget.entry['name']}');
-    print('substance field: ${widget.entry['substance']}');
-    print('drug field: ${widget.entry['drug']}');
-
-    // build model from raw DB map (uses parsing logic in LogEntry.fromJson)
     final LogEntry model = LogEntry.fromJson(widget.entry);
 
-    // DEBUG: Print parsed model
-    print('=== PARSED MODEL ===');
-    print('model.substance: "${model.substance}"');
-    print('model.dosage: ${model.dosage}');
-    print('model.unit: ${model.unit}');
-
-    // Prefill state from model using existing fields
-    _state.dose = model.dosage;
-    _state.substance = model.substance;
-    _state.substanceCtrl.text = model.substance; // Add this to sync controller
-    _state.doseCtrl.text = model.dosage.toString(); // Add this too
-    print('=== STATE AFTER PREFILL ===');
-    print('_state.substance: "${_state.substance}"');
-    print('_state.dose: ${_state.dose}');
-
+    // prefills
+    _state.prefillDose(model.dosage);
+    _state.prefillSubstance(model.substance); // sets controller.text once
     _state.unit = model.unit;
     _state.route = model.route;
     _state.location = model.location;

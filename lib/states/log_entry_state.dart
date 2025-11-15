@@ -18,6 +18,19 @@ class LogEntryState extends ChangeNotifier {
   final notesCtrl = TextEditingController();
   final TextEditingController doseCtrl = TextEditingController();
   final TextEditingController substanceCtrl = TextEditingController();
+
+  void setSubstance(String value) {
+    // don't call substanceCtrl.text = value here — it resets selection/cursor
+    substance = value;
+    notifyListeners();
+  }
+
+  void prefillSubstance(String value) {
+    substance = value;
+    substanceCtrl.text = value; // only set controller once when pre-filling
+    // don't notify here if called before provider is attached, otherwise call notifyListeners()
+  }
+
   final formKey = GlobalKey<FormState>();
   final TimezoneService timezoneService = TimezoneService();
   bool isMedicalPurpose = false;
@@ -114,18 +127,18 @@ class LogEntryState extends ChangeNotifier {
 
   void setDose(double value) {
     dose = value; // Fix: assign the double value
+    // DON'T update doseCtrl.text here — it resets cursor
+    notifyListeners();
+  }
+
+  void prefillDose(double value) {
+    dose = value;
     doseCtrl.text = (value == 0) ? '' : value.toString();
     notifyListeners();
   }
 
   void setUnit(String value) {
     unit = value;
-    notifyListeners();
-  }
-
-  void setSubstance(String value) {
-    substance = value;
-    substanceCtrl.text = value;
     notifyListeners();
   }
 

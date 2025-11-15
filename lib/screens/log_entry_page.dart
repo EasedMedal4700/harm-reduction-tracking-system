@@ -52,6 +52,8 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage> {
                 dose: state.dose,
                 unit: state.unit,
                 substance: state.substance,
+                substanceCtrl: state.substanceCtrl,
+                doseCtrl: state.doseCtrl,
                 route: state.route,
                 feelings: state.feelings,
                 secondaryFeelings: state.secondaryFeelings,

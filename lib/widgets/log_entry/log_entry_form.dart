@@ -100,6 +100,8 @@ class _LogEntryFormState extends State<LogEntryForm> {
                 dose: widget.dose,
                 unit: widget.unit,
                 substance: widget.substance,
+                substanceCtrl: widget.substanceCtrl,
+                doseCtrl: widget.doseCtrl,
                 route: widget.route,
                 feelings: widget.feelings,
                 secondaryFeelings: widget.secondaryFeelings,
