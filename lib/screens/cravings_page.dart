@@ -41,7 +41,7 @@ class _CravingsPageState extends State<CravingsPage> {
     final now = DateTime.now();
     final craving = Craving(
       userId: UserService.getCurrentUserId(),
-      substance: selectedCravings.isNotEmpty ? selectedCravings.join(', ') : '',
+      substance: selectedCravings.isNotEmpty ? selectedCravings.join('; ') : '', // Use semicolon separator
       intensity: intensity,
       date: now,
       time: '${now.toIso8601String().split('T')[0]} ${now.toUtc().toIso8601String().split('T')[1].split('.')[0]}+00', // Format as '2025-11-07 21:56:00+00'

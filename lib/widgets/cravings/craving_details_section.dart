@@ -35,12 +35,13 @@ class CravingDetailsSection extends StatelessWidget {
         Wrap(
           spacing: 8.0,
           children: cravingCategories.entries.map((entry) {
-            final isSelected = selectedCravings.contains(entry.value);
+            // Check against the key (full name with emoji) since DB stores keys
+            final isSelected = selectedCravings.contains(entry.key);
             return TextButton(
               onPressed: () => onCravingsChanged(
                 isSelected
-                  ? selectedCravings.where((c) => c != entry.value).toList()
-                  : [...selectedCravings, entry.value],
+                  ? selectedCravings.where((c) => c != entry.key).toList()
+                  : [...selectedCravings, entry.key],
               ),
               style: TextButton.styleFrom(
                 backgroundColor: isSelected ? Colors.blue : null,
@@ -50,12 +51,12 @@ class CravingDetailsSection extends StatelessWidget {
             );
           }).toList(),
         ),
-        if (selectedCravings.isNotEmpty) Text('Selected: ${selectedCravings.join(', ')}'),
+        if (selectedCravings.isNotEmpty) Text('Selected: ${selectedCravings.join('; ')}'),
         CravingSlider(value: intensity, onChanged: onIntensityChanged),
         LocationDropdown(location: location, onLocationChanged: onLocationChanged),
         DropdownButtonFormField<String>(
           decoration: const InputDecoration(labelText: 'Who were you with?'),
-          value: withWho,
+          value: withWho?.isEmpty == true ? null : withWho,
           items: ['Alone', 'Friends', 'Family', 'Other'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
           onChanged: onWithWhoChanged,
         ),

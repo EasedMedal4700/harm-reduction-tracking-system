@@ -3,6 +3,7 @@ import '../widgets/common/drawer_menu.dart';
 import '../services/activity_service.dart';
 import 'edit/edit_log_entry_page.dart';
 import 'edit/edit_refelction_page.dart';
+import 'edit/edit_craving_page.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});
@@ -58,7 +59,15 @@ class _ActivityPageState extends State<ActivityPage> {
                   MaterialPageRoute(builder: (_) => EditDrugUsePage(entry: entry)),
                 ),
               ),
-              _buildSection('Recent Cravings', _activity['cravings'] ?? [], (craving) => 'Craving level: ${craving['intensity']} - ${craving['notes']}'),
+              _buildSection(
+                'Recent Cravings',
+                _activity['cravings'] ?? [],
+                (craving) => 'Craving level: ${craving['intensity']} - ${craving['substance']}',
+                onTap: (craving) => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => EditCravingPage(entry: craving)),
+                ),
+              ),
               _buildSection(
                 'Recent Reflections',
                 _activity['reflections'] ?? [],
