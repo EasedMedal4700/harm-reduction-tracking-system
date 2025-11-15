@@ -94,3 +94,5 @@ Thumbnails.db
 .venv/
 venv/
 __pycache__/
+
+login_data.json

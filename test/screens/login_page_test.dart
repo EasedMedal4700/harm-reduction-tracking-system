@@ -1,6 +1,22 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/screens/login_page.dart';
+
+Map<String, dynamic> _loadLoginData() {
+  final file = File('login_data.json');
+  if (!file.existsSync()) {
+    throw StateError('login_data.json not found at project root.');
+  }
+  final contents = file.readAsStringSync();
+  return jsonDecode(contents) as Map<String, dynamic>;
+}
+
+final Map<String, dynamic> _loginData = _loadLoginData();
+final String _testEmail = _loginData['email'] as String;
+final String _testPassword = _loginData['password'] as String;
 
 void main() {
   group('LoginPage', () {
@@ -46,15 +62,20 @@ void main() {
       expect(emailField.obscureText, isFalse);
     });
 
+    testWidgets('login_data.json provides credentials', (tester) async {
+      expect(_testEmail, isNotEmpty);
+      expect(_testPassword, isNotEmpty);
+    });
+
     testWidgets('can enter text in email field', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(home: LoginPage()),
       );
 
       final emailField = find.widgetWithText(TextField, 'Email');
-      await tester.enterText(emailField, 'test@example.com');
+      await tester.enterText(emailField, _testEmail);
       
-      expect(find.text('test@example.com'), findsOneWidget);
+      expect(find.text(_testEmail), findsOneWidget);
     });
 
     testWidgets('can enter text in password field', (tester) async {
@@ -63,7 +84,7 @@ void main() {
       );
 
       final passwordField = find.widgetWithText(TextField, 'Password');
-      await tester.enterText(passwordField, 'password123');
+      await tester.enterText(passwordField, _testPassword);
       
       // Password is obscured, so the actual text won't be visible
       // But we can verify text was entered by checking the controller

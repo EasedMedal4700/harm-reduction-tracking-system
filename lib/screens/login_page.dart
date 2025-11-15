@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,6 +14,94 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final authService = AuthService();
+  static const String _rememberMeKey = 'remember_me';
+  bool _rememberMe = false;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeSessionState();
+  }
+
+  Future<void> _initializeSessionState() async {
+    final remember = await _readRememberPreference();
+    final client = _tryGetSupabaseClient();
+    final session = client?.auth.currentSession;
+
+    if (!mounted) return;
+
+    setState(() => _rememberMe = remember);
+
+    if (session != null && client != null) {
+      if (remember) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            _navigateToHome();
+          }
+        });
+      } else {
+        await authService.logout();
+      }
+    }
+  }
+
+  Future<void> _handleLogin() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter both email and password')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    final success = await authService.login(email, password);
+    if (!mounted) return;
+
+    setState(() => _isLoading = false);
+
+    if (success) {
+      await _persistRememberPreference(_rememberMe);
+      _navigateToHome();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid credentials, please try again')),
+      );
+    }
+  }
+
+  void _navigateToHome() {
+    Navigator.pushReplacementNamed(context, '/home_page');
+  }
+
+  SupabaseClient? _tryGetSupabaseClient() {
+    try {
+      return Supabase.instance.client;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<bool> _readRememberPreference() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getBool(_rememberMeKey) ?? false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<void> _persistRememberPreference(bool value) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(_rememberMeKey, value);
+    } catch (_) {
+      // Ignore persistence issues; user will be asked to log in again.
+    }
+  }
 
   @override
   void dispose() {
@@ -28,34 +118,41 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: emailController,
+              enabled: !_isLoading,
               decoration: const InputDecoration(labelText: 'Email'),
+              keyboardType: TextInputType.emailAddress,
             ),
             TextField(
               controller: passwordController,
+              enabled: !_isLoading,
               decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
+            CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Keep me logged in'),
+              value: _rememberMe,
+              onChanged: _isLoading
+                  ? null
+                  : (value) => setState(() => _rememberMe = value ?? false),
+            ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                final email = emailController.text;
-                final password = passwordController.text;
-
-                final success = await authService.login(email, password);
-                if (!mounted) return;
-
-                if (success) {
-                  Navigator.pushReplacementNamed(context, '/home_page');
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Invalid credentials')),
-                  );
-                }
-              },
-              child: const Text('Login'),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _isLoading ? null : _handleLogin,
+                child: _isLoading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Login'),
+              ),
             ),
           ],
         ),

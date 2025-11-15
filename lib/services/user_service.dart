@@ -2,7 +2,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserService {
   static String getCurrentUserId() {
-    return Supabase.instance.client.auth.currentUser?.id ?? '2'; // Changed fallback to '2'
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) {
+      throw StateError('User is not logged in.');
+    }
+    return user.id;
   }
 
   static bool isUserLoggedIn() {

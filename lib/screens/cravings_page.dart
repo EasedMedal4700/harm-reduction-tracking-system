@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../services/analytics_service.dart';
 import '../constants/body_and_mind_catalog.dart';
 import '../constants/drug_use_catalog.dart';
 import '../widgets/cravings/craving_details_section.dart'; // Add imports
@@ -19,7 +18,6 @@ class CravingsPage extends StatefulWidget {
 }
 
 class _CravingsPageState extends State<CravingsPage> {
-  final AnalyticsService _service = AnalyticsService('user_id');
   List<String> selectedCravings = [];
   double intensity = 0.0;
   String location = 'Select a location'; // Set default
@@ -34,24 +32,31 @@ class _CravingsPageState extends State<CravingsPage> {
   bool _isSaving = false; // Add loading state
 
   final List<String> sensations = physicalSensations;
-  final List<String> emotions = DrugUseCatalog.primaryEmotions.map((e) => e['name']!).toList();
+  final List<String> emotions = DrugUseCatalog.primaryEmotions
+      .map((e) => e['name']!)
+      .toList();
 
   Future<void> _save() async {
     setState(() => _isSaving = true);
     final now = DateTime.now();
     final craving = Craving(
       userId: UserService.getCurrentUserId(),
-      substance: selectedCravings.isNotEmpty ? selectedCravings.join('; ') : '', // Use semicolon separator
+      substance: selectedCravings.isNotEmpty
+          ? selectedCravings.join('; ')
+          : '', // Use semicolon separator
       intensity: intensity,
       date: now,
-      time: '${now.toIso8601String().split('T')[0]} ${now.toUtc().toIso8601String().split('T')[1].split('.')[0]}+00', // Format as '2025-11-07 21:56:00+00'
+      time:
+          '${now.toIso8601String().split('T')[0]} ${now.toUtc().toIso8601String().split('T')[1].split('.')[0]}+00', // Format as '2025-11-07 21:56:00+00'
       location: location,
       people: withWho ?? '',
       activity: whatDidYouDo ?? '',
       thoughts: thoughts ?? '',
       triggers: [], // Add if you collect triggers
       bodySensations: selectedSensations,
-      primaryEmotion: selectedEmotions.isNotEmpty ? selectedEmotions.join(', ') : '',
+      primaryEmotion: selectedEmotions.isNotEmpty
+          ? selectedEmotions.join(', ')
+          : '',
       secondaryEmotion: null, // Add if you have secondary emotions
       action: actedOnCraving ? 'Acted' : 'Resisted',
       timezone: _timezoneService.getTimezoneOffset(),
@@ -59,14 +64,14 @@ class _CravingsPageState extends State<CravingsPage> {
 
     try {
       await _cravingService.saveCraving(craving);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Craving saved!')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Craving saved!')));
       _resetForm();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Save failed: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Save failed: $e')));
     } finally {
       setState(() => _isSaving = false);
     }
@@ -94,7 +99,9 @@ class _CravingsPageState extends State<CravingsPage> {
         actions: [
           TextButton(
             onPressed: _isSaving ? null : _save, // Disable if saving
-            child: _isSaving ? const CircularProgressIndicator() : const Text('Save'),
+            child: _isSaving
+                ? const CircularProgressIndicator()
+                : const Text('Save'),
           ),
         ],
       ),
@@ -103,24 +110,30 @@ class _CravingsPageState extends State<CravingsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Craving Reflection', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const Text(
+              'Craving Reflection',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
             const Text('Log your recent craving experience'),
             const Divider(),
             CravingDetailsSection(
               selectedCravings: selectedCravings,
-              onCravingsChanged: (cravings) => setState(() => selectedCravings = cravings),
+              onCravingsChanged: (cravings) =>
+                  setState(() => selectedCravings = cravings),
               intensity: intensity,
               onIntensityChanged: (value) => setState(() => intensity = value),
               location: location,
-              onLocationChanged: (value) => setState(() => location = value ?? 'Home'),
+              onLocationChanged: (value) =>
+                  setState(() => location = value ?? 'Home'),
               withWho: withWho,
               onWithWhoChanged: (value) => setState(() => withWho = value),
             ),
             const Divider(),
             EmotionalStateSection(
               selectedEmotions: selectedEmotions,
-              onEmotionsChanged: (emotions) => setState(() => selectedEmotions = emotions),
+              onEmotionsChanged: (emotions) =>
+                  setState(() => selectedEmotions = emotions),
               thoughts: thoughts,
               onThoughtsChanged: (value) => setState(() => thoughts = value),
             ),
@@ -128,19 +141,24 @@ class _CravingsPageState extends State<CravingsPage> {
             BodyMindSignalsSection(
               sensations: sensations,
               selectedSensations: selectedSensations,
-              onSensationsChanged: (sensations) => setState(() => selectedSensations = sensations),
+              onSensationsChanged: (sensations) =>
+                  setState(() => selectedSensations = sensations),
             ),
             const Divider(),
             OutcomeSection(
               whatDidYouDo: whatDidYouDo,
-              onWhatDidYouDoChanged: (value) => setState(() => whatDidYouDo = value),
+              onWhatDidYouDoChanged: (value) =>
+                  setState(() => whatDidYouDo = value),
               actedOnCraving: actedOnCraving,
-              onActedOnCravingChanged: (value) => setState(() => actedOnCraving = value),
+              onActedOnCravingChanged: (value) =>
+                  setState(() => actedOnCraving = value),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _isSaving ? null : _save, // Disable if saving
-              child: _isSaving ? const CircularProgressIndicator() : const Text('Save Entry'),
+              child: _isSaving
+                  ? const CircularProgressIndicator()
+                  : const Text('Save Entry'),
             ),
           ],
         ),
