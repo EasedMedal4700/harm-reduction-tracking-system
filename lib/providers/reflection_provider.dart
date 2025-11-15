@@ -19,8 +19,7 @@ class ReflectionProvider extends ChangeNotifier {
   String copingStrategies = '';
   double copingEffectiveness = 0.0;
   double overallSatisfaction = 0.0;
-  
-  // Add missing fields
+
   final TextEditingController notesCtrl = TextEditingController();
   List<String> selectedReflections = [];
   DateTime date = DateTime.now();
@@ -37,7 +36,7 @@ class ReflectionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleEntry(String id, bool selected) { // Add selected parameter
+  void toggleEntry(String id, bool selected) {
     if (selected) {
       _selectedIds.add(id);
     } else {
@@ -56,7 +55,6 @@ class ReflectionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Ensure these setters exist (add if missing)
   void setNotes(String value) {
     notesCtrl.text = value;
     notifyListeners();
@@ -134,10 +132,11 @@ class ReflectionProvider extends ChangeNotifier {
 
   Future<void> save(BuildContext context) async {
     setSaving(true);
-    
+
     try {
       final reflectionData = {
         'notes': notesCtrl.text,
+        'related_entries': selectedReflections,
         'selected_reflections': selectedReflections,
         'date': date.toIso8601String(),
         'hour': hour,
@@ -155,12 +154,9 @@ class ReflectionProvider extends ChangeNotifier {
       };
 
       if (entryId.isNotEmpty) {
-        // Update existing reflection
         await ReflectionService().updateReflection(entryId, reflectionData);
       } else {
-        // Create new reflection - use the old Reflection model that saveReflection expects
         final oldReflection = Reflection();
-        // For new reflections, pass empty list for related entries
         await ReflectionService().saveReflection(oldReflection, []);
       }
       if (context.mounted) {

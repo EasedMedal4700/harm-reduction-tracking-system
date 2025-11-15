@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../widgets/common/drawer_menu.dart';
-import '../../providers/reflection_provider.dart';
-import '../../widgets/reflection/reflection_form.dart';
+import '../../widgets/reflection/edit_reflection_form.dart';
 import '../../models/reflection_model.dart';
+import '../../services/reflection_service.dart';
+import '../../utils/error_handler.dart';
+import '../../utils/reflection_exceptions.dart';
+import '../../utils/reflection_validator.dart';
 
 class EditReflectionPage extends StatefulWidget {
   final Map<String, dynamic> entry;
@@ -14,76 +16,383 @@ class EditReflectionPage extends StatefulWidget {
 }
 
 class _EditReflectionPageState extends State<EditReflectionPage> {
-  late ReflectionProvider _provider;
+  late ReflectionModel _model;
+  bool _isSaving = false;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _provider = ReflectionProvider();
-
-    final ReflectionModel model = ReflectionModel.fromJson(widget.entry);
-
-    // Pre-fill all fields
-    _provider.setNotes(model.notes ?? '');
-    _provider.setSelectedReflections(model.selectedReflections);
-    _provider.setDate(model.date);
-    _provider.setHour(model.hour);
-    _provider.setMinute(model.minute);
-    _provider.setEffectiveness(model.effectiveness);
-    _provider.setSleepHours(model.sleepHours);
-    _provider.setSleepQuality(model.sleepQuality);
-    _provider.setNextDayMood(model.nextDayMood);
-    _provider.setEnergyLevel(model.energyLevel);
-    _provider.setSideEffects(model.sideEffects);
-    _provider.setPostUseCraving(model.postUseCraving);
-    _provider.setCopingStrategies(model.copingStrategies);
-    _provider.setCopingEffectiveness(model.copingEffectiveness);
-    _provider.setOverallSatisfaction(model.overallSatisfaction);
-    _provider.entryId = widget.entry['id']?.toString() ?? '';
+    _model = ReflectionModel.fromJson(widget.entry);
+    _loadFullEntry();
   }
 
-  @override
-  void dispose() {
-    _provider.dispose();
-    super.dispose();
+  Future<void> _loadFullEntry() async {
+    setState(() => _isLoading = true);
+    
+    try {
+      final id = widget.entry['reflection_id']?.toString() ?? 
+                 widget.entry['id']?.toString() ?? '';
+      
+      ErrorHandler.logDebug('EditReflectionPage', 'Loading reflection with ID: $id');
+      
+      if (id.isEmpty) {
+        throw ReflectionFetchException(
+          'Missing reflection ID',
+          details: 'Entry data does not contain reflection_id or id field',
+        );
+      }
+
+      final fetched = await ReflectionService().fetchReflectionById(id);
+      
+      if (fetched == null) {
+        throw ReflectionNotFoundException(id);
+      }
+
+      ErrorHandler.logDebug('EditReflectionPage', 'Loaded reflection - selectedReflections: ${fetched.selectedReflections}, notes length: ${fetched.notes?.length ?? 0}');
+      
+      if (mounted) {
+        setState(() => _model = fetched);
+      }
+    } on ReflectionException catch (e) {
+      ErrorHandler.logError('EditReflectionPage._loadFullEntry', e);
+      if (mounted) {
+        ErrorHandler.showErrorDialog(
+          context,
+          title: 'Failed to Load Reflection',
+          message: e.message,
+          details: e.details,
+          onRetry: _loadFullEntry,
+        );
+      }
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('EditReflectionPage._loadFullEntry', e, stackTrace);
+      if (mounted) {
+        ErrorHandler.showErrorDialog(
+          context,
+          title: 'Unexpected Error',
+          message: 'An unexpected error occurred while loading the reflection.',
+          details: e.toString(),
+          onRetry: _loadFullEntry,
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Future<void> _saveChanges() async {
+    if (_isSaving) return; // Prevent double-save
+    
+    setState(() => _isSaving = true);
+    
+    try {
+      ErrorHandler.logDebug('EditReflectionPage', 'Saving changes for reflection: ${_model.id}');
+
+      // Validate the model before saving
+      ReflectionValidator.validateReflection(_model);
+
+      final reflectionData = {
+        'notes': ReflectionValidator.sanitizeNotes(_model.notes),
+        'related_entries': _model.selectedReflections,
+        // Note: 'date', 'hour', 'minute' are not in DB schema - use created_at instead
+        'effectiveness': _model.effectiveness.round(),
+        'sleep_hours': _model.sleepHours,
+        'sleep_quality': _model.sleepQuality,
+        'next_day_mood': _model.nextDayMood,
+        'energy_level': _model.energyLevel,
+        'side_effects': _model.sideEffects,
+        'post_use_craving': _model.postUseCraving.round(),
+        'coping_strategies': _model.copingStrategies,
+        'coping_effectiveness': _model.copingEffectiveness.round(),
+        'overall_satisfaction': _model.overallSatisfaction.round(),
+      };
+
+      ErrorHandler.logDebug('EditReflectionPage', 'Update data prepared with ${reflectionData.keys.length} fields');
+
+      await ReflectionService().updateReflection(_model.id ?? '', reflectionData);
+      
+      if (mounted) {
+        ErrorHandler.showSuccessSnackbar(
+          context,
+          message: 'Reflection updated successfully!',
+        );
+        Navigator.pop(context, true);
+      }
+    } on ReflectionValidationException catch (e) {
+      ErrorHandler.logError('EditReflectionPage._saveChanges', e);
+      if (mounted) {
+        ErrorHandler.showErrorDialog(
+          context,
+          title: 'Validation Error',
+          message: 'Please fix the following errors:',
+          details: e.details,
+        );
+      }
+    } on ReflectionException catch (e) {
+      ErrorHandler.logError('EditReflectionPage._saveChanges', e);
+      if (mounted) {
+        ErrorHandler.showErrorDialog(
+          context,
+          title: 'Failed to Save',
+          message: e.message,
+          details: e.details,
+          onRetry: _saveChanges,
+        );
+      }
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('EditReflectionPage._saveChanges', e, stackTrace);
+      if (mounted) {
+        ErrorHandler.showErrorDialog(
+          context,
+          title: 'Unexpected Error',
+          message: 'An unexpected error occurred while saving.',
+          details: e.toString(),
+          onRetry: _saveChanges,
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isSaving = false);
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ReflectionProvider>.value(
-      value: _provider,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Edit Reflection'),
-        ),
-        drawer: const DrawerMenu(),
-        body: Consumer<ReflectionProvider>(
-          builder: (context, provider, child) => ReflectionForm(
-            selectedCount: provider.selectedReflections.length,
-            notes: provider.notesCtrl.text,
-            effectiveness: provider.effectiveness,
-            onEffectivenessChanged: provider.setEffectiveness,
-            sleepHours: provider.sleepHours,
-            onSleepHoursChanged: provider.setSleepHours,
-            sleepQuality: provider.sleepQuality,
-            onSleepQualityChanged: provider.setSleepQuality,
-            nextDayMood: provider.nextDayMood,
-            onNextDayMoodChanged: provider.setNextDayMood,
-            energyLevel: provider.energyLevel,
-            onEnergyLevelChanged: provider.setEnergyLevel,
-            sideEffects: provider.sideEffects,
-            onSideEffectsChanged: provider.setSideEffects,
-            postUseCraving: provider.postUseCraving,
-            onPostUseCravingChanged: provider.setPostUseCraving,
-            copingStrategies: provider.copingStrategies,
-            onCopingStrategiesChanged: provider.setCopingStrategies,
-            copingEffectiveness: provider.copingEffectiveness,
-            onCopingEffectivenessChanged: provider.setCopingEffectiveness,
-            overallSatisfaction: provider.overallSatisfaction,
-            onOverallSatisfactionChanged: provider.setOverallSatisfaction,
-            onNotesChanged: provider.setNotes,
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Edit Reflection'),
+        actions: [
+          if (_isSaving)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: CircularProgressIndicator(),
+              ),
+            )
+          else
+            TextButton(
+              onPressed: _saveChanges,
+              child: const Text('Save', style: TextStyle(color: Colors.white)),
+            ),
+        ],
+      ),
+      drawer: const DrawerMenu(),
+  body: _isLoading ? const Center(child: CircularProgressIndicator()) : EditReflectionForm(
+        selectedCount: _model.selectedReflections.length,
+        effectiveness: _model.effectiveness,
+        onEffectivenessChanged: (value) => setState(() => _model = ReflectionModel(
+          id: _model.id,
+          notes: _model.notes,
+          selectedReflections: _model.selectedReflections,
+          date: _model.date,
+          hour: _model.hour,
+          minute: _model.minute,
+          effectiveness: value,
+          sleepHours: _model.sleepHours,
+          sleepQuality: _model.sleepQuality,
+          nextDayMood: _model.nextDayMood,
+          energyLevel: _model.energyLevel,
+          sideEffects: _model.sideEffects,
+          postUseCraving: _model.postUseCraving,
+          copingStrategies: _model.copingStrategies,
+          copingEffectiveness: _model.copingEffectiveness,
+          overallSatisfaction: _model.overallSatisfaction,
+        )),
+        sleepHours: _model.sleepHours,
+        onSleepHoursChanged: (value) => setState(() => _model = ReflectionModel(
+          id: _model.id,
+          notes: _model.notes,
+          selectedReflections: _model.selectedReflections,
+          date: _model.date,
+          hour: _model.hour,
+          minute: _model.minute,
+          effectiveness: _model.effectiveness,
+          sleepHours: value,
+          sleepQuality: _model.sleepQuality,
+          nextDayMood: _model.nextDayMood,
+          energyLevel: _model.energyLevel,
+          sideEffects: _model.sideEffects,
+          postUseCraving: _model.postUseCraving,
+          copingStrategies: _model.copingStrategies,
+          copingEffectiveness: _model.copingEffectiveness,
+          overallSatisfaction: _model.overallSatisfaction,
+        )),
+        sleepQuality: _model.sleepQuality.isEmpty ? 'Good' : _model.sleepQuality,
+        onSleepQualityChanged: (value) => setState(() => _model = ReflectionModel(
+          id: _model.id,
+          notes: _model.notes,
+          selectedReflections: _model.selectedReflections,
+          date: _model.date,
+          hour: _model.hour,
+          minute: _model.minute,
+          effectiveness: _model.effectiveness,
+          sleepHours: _model.sleepHours,
+          sleepQuality: value,
+          nextDayMood: _model.nextDayMood,
+          energyLevel: _model.energyLevel,
+          sideEffects: _model.sideEffects,
+          postUseCraving: _model.postUseCraving,
+          copingStrategies: _model.copingStrategies,
+          copingEffectiveness: _model.copingEffectiveness,
+          overallSatisfaction: _model.overallSatisfaction,
+        )),
+        nextDayMood: _model.nextDayMood,
+        onNextDayMoodChanged: (value) => setState(() => _model = ReflectionModel(
+          id: _model.id,
+          notes: _model.notes,
+          selectedReflections: _model.selectedReflections,
+          date: _model.date,
+          hour: _model.hour,
+          minute: _model.minute,
+          effectiveness: _model.effectiveness,
+          sleepHours: _model.sleepHours,
+          sleepQuality: _model.sleepQuality,
+          nextDayMood: value,
+          energyLevel: _model.energyLevel,
+          sideEffects: _model.sideEffects,
+          postUseCraving: _model.postUseCraving,
+          copingStrategies: _model.copingStrategies,
+          copingEffectiveness: _model.copingEffectiveness,
+          overallSatisfaction: _model.overallSatisfaction,
+        )),
+        energyLevel: _model.energyLevel.isEmpty ? 'Neutral' : _model.energyLevel,
+        onEnergyLevelChanged: (value) => setState(() => _model = ReflectionModel(
+          id: _model.id,
+          notes: _model.notes,
+          selectedReflections: _model.selectedReflections,
+          date: _model.date,
+          hour: _model.hour,
+          minute: _model.minute,
+          effectiveness: _model.effectiveness,
+          sleepHours: _model.sleepHours,
+          sleepQuality: _model.sleepQuality,
+          nextDayMood: _model.nextDayMood,
+          energyLevel: value,
+          sideEffects: _model.sideEffects,
+          postUseCraving: _model.postUseCraving,
+          copingStrategies: _model.copingStrategies,
+          copingEffectiveness: _model.copingEffectiveness,
+          overallSatisfaction: _model.overallSatisfaction,
+        )),
+        sideEffects: _model.sideEffects,
+        onSideEffectsChanged: (value) => setState(() => _model = ReflectionModel(
+          id: _model.id,
+          notes: _model.notes,
+          selectedReflections: _model.selectedReflections,
+          date: _model.date,
+          hour: _model.hour,
+          minute: _model.minute,
+          effectiveness: _model.effectiveness,
+          sleepHours: _model.sleepHours,
+          sleepQuality: _model.sleepQuality,
+          nextDayMood: _model.nextDayMood,
+          energyLevel: _model.energyLevel,
+          sideEffects: value,
+          postUseCraving: _model.postUseCraving,
+          copingStrategies: _model.copingStrategies,
+          copingEffectiveness: _model.copingEffectiveness,
+          overallSatisfaction: _model.overallSatisfaction,
+        )),
+        postUseCraving: _model.postUseCraving,
+        onPostUseCravingChanged: (value) => setState(() => _model = ReflectionModel(
+          id: _model.id,
+          notes: _model.notes,
+          selectedReflections: _model.selectedReflections,
+          date: _model.date,
+          hour: _model.hour,
+          minute: _model.minute,
+          effectiveness: _model.effectiveness,
+          sleepHours: _model.sleepHours,
+          sleepQuality: _model.sleepQuality,
+          nextDayMood: _model.nextDayMood,
+          energyLevel: _model.energyLevel,
+          sideEffects: _model.sideEffects,
+          postUseCraving: value,
+          copingStrategies: _model.copingStrategies,
+          copingEffectiveness: _model.copingEffectiveness,
+          overallSatisfaction: _model.overallSatisfaction,
+        )),
+        copingStrategies: _model.copingStrategies,
+        onCopingStrategiesChanged: (value) => setState(() => _model = ReflectionModel(
+          id: _model.id,
+          notes: _model.notes,
+          selectedReflections: _model.selectedReflections,
+          date: _model.date,
+          hour: _model.hour,
+          minute: _model.minute,
+          effectiveness: _model.effectiveness,
+          sleepHours: _model.sleepHours,
+          sleepQuality: _model.sleepQuality,
+          nextDayMood: _model.nextDayMood,
+          energyLevel: _model.energyLevel,
+          sideEffects: _model.sideEffects,
+          postUseCraving: _model.postUseCraving,
+          copingStrategies: value,
+          copingEffectiveness: _model.copingEffectiveness,
+          overallSatisfaction: _model.overallSatisfaction,
+        )),
+        copingEffectiveness: _model.copingEffectiveness,
+        onCopingEffectivenessChanged: (value) => setState(() => _model = ReflectionModel(
+          id: _model.id,
+          notes: _model.notes,
+          selectedReflections: _model.selectedReflections,
+          date: _model.date,
+          hour: _model.hour,
+          minute: _model.minute,
+          effectiveness: _model.effectiveness,
+          sleepHours: _model.sleepHours,
+          sleepQuality: _model.sleepQuality,
+          nextDayMood: _model.nextDayMood,
+          energyLevel: _model.energyLevel,
+          sideEffects: _model.sideEffects,
+          postUseCraving: _model.postUseCraving,
+          copingStrategies: _model.copingStrategies,
+          copingEffectiveness: value,
+          overallSatisfaction: _model.overallSatisfaction,
+        )),
+        overallSatisfaction: _model.overallSatisfaction,
+        onOverallSatisfactionChanged: (value) => setState(() => _model = ReflectionModel(
+          id: _model.id,
+          notes: _model.notes,
+          selectedReflections: _model.selectedReflections,
+          date: _model.date,
+          hour: _model.hour,
+          minute: _model.minute,
+          effectiveness: _model.effectiveness,
+          sleepHours: _model.sleepHours,
+          sleepQuality: _model.sleepQuality,
+          nextDayMood: _model.nextDayMood,
+          energyLevel: _model.energyLevel,
+          sideEffects: _model.sideEffects,
+          postUseCraving: _model.postUseCraving,
+          copingStrategies: _model.copingStrategies,
+          copingEffectiveness: _model.copingEffectiveness,
+          overallSatisfaction: value,
+        )),
+        notes: _model.notes ?? '',
+        onNotesChanged: (value) => setState(() => _model = ReflectionModel(
+          id: _model.id,
+          notes: value,
+          selectedReflections: _model.selectedReflections,
+          date: _model.date,
+          hour: _model.hour,
+          minute: _model.minute,
+          effectiveness: _model.effectiveness,
+          sleepHours: _model.sleepHours,
+          sleepQuality: _model.sleepQuality,
+          nextDayMood: _model.nextDayMood,
+          energyLevel: _model.energyLevel,
+          sideEffects: _model.sideEffects,
+          postUseCraving: _model.postUseCraving,
+          copingStrategies: _model.copingStrategies,
+          copingEffectiveness: _model.copingEffectiveness,
+          overallSatisfaction: _model.overallSatisfaction,
+        )),
+        onSave: _saveChanges,
       ),
     );
   }
