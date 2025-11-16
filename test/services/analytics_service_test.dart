@@ -37,7 +37,7 @@ void main() {
     late AnalyticsService service;
 
     setUp(() {
-      service = AnalyticsService('user');
+      service = AnalyticsService();
       service.setSubstanceToCategory({
         'cannabis': 'Depressant',
         'mdma': 'Empathogen',

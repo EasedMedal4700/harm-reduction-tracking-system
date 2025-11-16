@@ -16,6 +16,7 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       final provider = context.read<DailyCheckinProvider>();
       provider.initialize();
       provider.checkExistingCheckin();

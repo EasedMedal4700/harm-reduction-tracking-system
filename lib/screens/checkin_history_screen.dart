@@ -15,6 +15,7 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       context.read<DailyCheckinProvider>().loadRecentCheckins();
     });
   }

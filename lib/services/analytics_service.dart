@@ -1,20 +1,20 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/log_entry_model.dart';
 import '../repo/substance_repository.dart';
-import '../../constants/time_period.dart';
+import '../constants/time_period.dart';
+import '../services/user_service.dart';
 
 class AnalyticsService {
-  final String userId;
-  Map<String, String> substanceToCategory = {}; // Ensure this is added
-
-  AnalyticsService(this.userId);
+  Map<String, String> substanceToCategory = {};
 
   Future<List<LogEntry>> fetchEntries() async {
     final supabase = Supabase.instance.client;
+    final intUserId = await UserService.getIntegerUserId();
     final response = await supabase
         .from('drug_use')
-        .select('name, dose, consumption, medical, place, craving_0_10, primary_emotions, secondary_emotions, body_signals, triggers, people, start_time') // Added secondary_emotions, body_signals, triggers, people
-        .eq('user_id', userId);
+        .select(
+            'name, dose, consumption, medical, place, craving_0_10, primary_emotions, secondary_emotions, body_signals, triggers, people, start_time')
+        .eq('user_id', intUserId);
     final data = response as List<dynamic>;
     return data.map((json) {
       try {

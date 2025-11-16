@@ -37,6 +37,7 @@ class _DosageInputState extends State<DosageInput> {
     if (oldWidget.dose != widget.dose) {
       // Schedule text update after build
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
         _controller.text = widget.dose.toStringAsFixed(1); // Use toStringAsFixed for consistency
       });
     }
