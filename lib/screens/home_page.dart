@@ -6,6 +6,9 @@ import '../widgets/home/daily_checkin_banner.dart';
 import '../providers/daily_checkin_provider.dart';
 import '../routes/app_routes.dart';
 import '../services/daily_checkin_service.dart';
+import '../services/user_service.dart';
+import '../screens/profile_screen.dart';
+import '../screens/admin_panel_screen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key, this.dailyCheckinRepository});
@@ -52,7 +55,41 @@ class HomePage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(
+        title: const Text('Home'),
+        actions: [
+          // Profile Button
+          IconButton(
+            icon: const Icon(Icons.account_circle),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
+              );
+            },
+            tooltip: 'Profile',
+          ),
+          // Admin Panel Button (shown only for admins)
+          FutureBuilder<bool>(
+            future: UserService.isAdmin(),
+            builder: (context, snapshot) {
+              if (snapshot.data == true) {
+                return IconButton(
+                  icon: const Icon(Icons.admin_panel_settings),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const AdminPanelScreen()),
+                    );
+                  },
+                  tooltip: 'Admin Panel',
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+        ],
+      ),
       drawer: const DrawerMenu(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openLogEntry(context),

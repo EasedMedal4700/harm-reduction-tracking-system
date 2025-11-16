@@ -12,6 +12,8 @@ import 'package:provider/provider.dart';
 import 'providers/daily_checkin_provider.dart';
 import 'screens/daily_checkin_screen.dart';
 import 'screens/checkin_history_screen.dart';
+import 'screens/profile_screen.dart';
+import 'screens/admin_panel_screen.dart';
 
 
 
@@ -50,6 +52,8 @@ class MyApp extends StatelessWidget {
           create: (_) => DailyCheckinProvider(),
           child: const CheckinHistoryScreen(),
         ),
+        '/profile': (context) => const ProfileScreen(),
+        '/admin-panel': (context) => const AdminPanelScreen(),
       },
     );
   }

@@ -13,6 +13,8 @@ import '../screens/personal_library_page.dart'; // Add LibraryPage import
 import '../screens/home_page.dart';
 import '../screens/daily_checkin_screen.dart';
 import '../screens/checkin_history_screen.dart';
+import '../screens/profile_screen.dart';
+import '../screens/admin_panel_screen.dart';
 
 class AppRoutes {
   static Widget buildHomePage() => const HomePage();
@@ -35,6 +37,8 @@ class AppRoutes {
     create: (_) => DailyCheckinProvider(),
     child: const CheckinHistoryScreen(),
   );
+  static Widget buildProfilePage() => const ProfileScreen();
+  static Widget buildAdminPanelPage() => const AdminPanelScreen();
   // Add buildLibraryPage() if implemented
   static Widget buildSettingsPage() => const Scaffold(body: Center(child: Text('Settings Page'))); // Placeholder
 }

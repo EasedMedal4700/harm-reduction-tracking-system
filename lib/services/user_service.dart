@@ -2,6 +2,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserService {
   static int? _cachedUserId;
+  static bool? _cachedIsAdmin;
+  static Map<String, dynamic>? _cachedUserData;
   
   static String getCurrentUserId() {
     final user = Supabase.instance.client.auth.currentUser;
@@ -37,9 +39,65 @@ class UserService {
     }
   }
 
-  /// Clear the cached user ID (call on logout)
+  /// Check if the current user is an admin
+  static Future<bool> isAdmin() async {
+    // Return cached value if available
+    if (_cachedIsAdmin != null) {
+      return _cachedIsAdmin!;
+    }
+
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) {
+      return false;
+    }
+
+    try {
+      final response = await Supabase.instance.client
+          .from('users')
+          .select('is_admin')
+          .eq('email', user.email!)
+          .single();
+
+      _cachedIsAdmin = response['is_admin'] as bool? ?? false;
+      return _cachedIsAdmin!;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Get current user data including display name, email, etc.
+  static Future<Map<String, dynamic>> getUserData() async {
+    if (_cachedUserData != null) {
+      return _cachedUserData!;
+    }
+
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) {
+      throw StateError('User is not logged in.');
+    }
+
+    try {
+      final response = await Supabase.instance.client
+          .from('users')
+          .select('user_id, email, display_name, is_admin, created_at, updated_at')
+          .eq('email', user.email!)
+          .single();
+
+      _cachedUserData = response;
+      _cachedUserId = response['user_id'] as int?;
+      _cachedIsAdmin = response['is_admin'] as bool? ?? false;
+      
+      return _cachedUserData!;
+    } catch (e) {
+      throw StateError('Failed to fetch user data: $e');
+    }
+  }
+
+  /// Clear the cached user data (call on logout)
   static void clearCache() {
     _cachedUserId = null;
+    _cachedIsAdmin = null;
+    _cachedUserData = null;
   }
 
   static bool isUserLoggedIn() {
