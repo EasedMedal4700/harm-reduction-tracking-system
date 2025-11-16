@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/reflection_provider.dart';
+import '../providers/daily_checkin_provider.dart';
 import '../screens/log_entry_page.dart'; // Add other imports as needed
 import '../screens/analytics_page.dart';
 import '../screens/catalog_page.dart';
@@ -10,6 +11,8 @@ import '../screens/reflection_page.dart';
 import '../screens/activity_page.dart';
 import '../screens/personal_library_page.dart'; // Add LibraryPage import
 import '../screens/home_page.dart';
+import '../screens/daily_checkin_screen.dart';
+import '../screens/checkin_history_screen.dart';
 
 class AppRoutes {
   static Widget buildHomePage() => const HomePage();
@@ -24,6 +27,14 @@ class AppRoutes {
     child: const ReflectionPage(),
   );
   static Widget buildActivityPage() => const ActivityPage(); // Update to actual class name
+  static Widget buildDailyCheckinPage() => ChangeNotifierProvider(
+    create: (_) => DailyCheckinProvider(),
+    child: const DailyCheckinScreen(),
+  );
+  static Widget buildCheckinHistoryPage() => ChangeNotifierProvider(
+    create: (_) => DailyCheckinProvider(),
+    child: const CheckinHistoryScreen(),
+  );
   // Add buildLibraryPage() if implemented
   static Widget buildSettingsPage() => const Scaffold(body: Center(child: Text('Settings Page'))); // Placeholder
 }

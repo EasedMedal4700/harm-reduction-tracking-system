@@ -9,6 +9,7 @@ class DrawerMenu extends StatelessWidget {
     final List<Map<String, dynamic>> pages = [
       {'icon': Icons.home, 'title': 'Home', 'builder': AppRoutes.buildHomePage}, // Add builders
       {'icon': Icons.note_add, 'title': 'Log Entry', 'builder': AppRoutes.buildLogEntryPage},
+      {'icon': Icons.mood, 'title': 'Daily Check-In', 'builder': AppRoutes.buildDailyCheckinPage},
       {'icon': Icons.self_improvement, 'title': 'Reflection', 'builder': AppRoutes.buildReflectionPage},
       {'icon': Icons.analytics, 'title': 'Analytics', 'builder': AppRoutes.buildAnalyticsPage},
       {'icon': Icons.local_fire_department, 'title': 'Cravings', 'builder': AppRoutes.buildCravingsPage},

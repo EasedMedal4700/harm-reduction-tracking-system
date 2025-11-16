@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'user_service.dart';
 
 class AuthService {
   SupabaseClient get _client => Supabase.instance.client;
@@ -20,6 +21,7 @@ class AuthService {
   Future<void> logout() async {
     try {
       await _client.auth.signOut();
+      UserService.clearCache(); // Clear cached user ID
     } catch (e) {
       debugPrint('Logout failed: $e');
     }

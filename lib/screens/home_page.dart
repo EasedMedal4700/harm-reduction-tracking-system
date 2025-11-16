@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../widgets/common/drawer_menu.dart';
 import '../widgets/quick_action_button.dart';
+import '../widgets/home/daily_checkin_banner.dart';
+import '../providers/daily_checkin_provider.dart';
 import '../routes/app_routes.dart';
 
 class HomePage extends StatelessWidget {
@@ -53,22 +56,37 @@ class HomePage extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.zero,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Quick Actions',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            // Daily Check-In Banner at the top
+            ChangeNotifierProvider(
+              create: (_) => DailyCheckinProvider(),
+              child: const DailyCheckinBanner(),
             ),
-            const SizedBox(height: 16),
 
-            // Generate buttons automatically from the list
-            ...quickActions.map((action) => QuickActionButton(
-                  icon: action['icon'] as IconData,
-                  label: action['label'] as String,
-                  onPressed: action['onTap'] as VoidCallback,
-                )),
+            // Quick Actions section
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    'Quick Actions',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Generate buttons automatically from the list
+                  ...quickActions.map((action) => QuickActionButton(
+                        icon: action['icon'] as IconData,
+                        label: action['label'] as String,
+                        onPressed: action['onTap'] as VoidCallback,
+                      )),
+                ],
+              ),
+            ),
           ],
         ),
       ),

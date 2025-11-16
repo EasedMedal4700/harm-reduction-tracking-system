@@ -1,0 +1,238 @@
+import 'package:flutter/material.dart';
+import '../models/daily_checkin_model.dart';
+import '../services/daily_checkin_service.dart';
+
+class DailyCheckinProvider extends ChangeNotifier {
+  final DailyCheckinService _service = DailyCheckinService();
+
+  // Current check-in being edited
+  String _mood = 'Okay';
+  List<String> _emotions = [];
+  String _timeOfDay = 'morning';
+  String _notes = '';
+  DateTime _selectedDate = DateTime.now();
+  
+  // Existing check-in (if editing)
+  DailyCheckin? _existingCheckin;
+  
+  // Loading states
+  bool _isSaving = false;
+  bool _isLoading = false;
+  
+  // History
+  List<DailyCheckin> _recentCheckins = [];
+
+  // Getters
+  String get mood => _mood;
+  List<String> get emotions => _emotions;
+  String get timeOfDay => _timeOfDay;
+  String get notes => _notes;
+  DateTime get selectedDate => _selectedDate;
+  DailyCheckin? get existingCheckin => _existingCheckin;
+  bool get isSaving => _isSaving;
+  bool get isLoading => _isLoading;
+  List<DailyCheckin> get recentCheckins => _recentCheckins;
+
+  // Available options
+  final List<String> availableMoods = [
+    'Great',
+    'Good',
+    'Okay',
+    'Struggling',
+    'Poor',
+  ];
+
+  final List<String> availableTimesOfDay = [
+    'morning',
+    'afternoon',
+    'evening',
+  ];
+
+  // Available emotions (can be expanded)
+  final List<String> availableEmotions = [
+    'Happy',
+    'Calm',
+    'Energetic',
+    'Tired',
+    'Anxious',
+    'Stressed',
+    'Sad',
+    'Angry',
+    'Content',
+    'Motivated',
+    'Overwhelmed',
+    'Peaceful',
+  ];
+
+  // Setters
+  void setMood(String value) {
+    _mood = value;
+    notifyListeners();
+  }
+
+  void setEmotions(List<String> value) {
+    _emotions = value;
+    notifyListeners();
+  }
+
+  void toggleEmotion(String emotion) {
+    if (_emotions.contains(emotion)) {
+      _emotions.remove(emotion);
+    } else {
+      _emotions.add(emotion);
+    }
+    notifyListeners();
+  }
+
+  void setTimeOfDay(String value) {
+    _timeOfDay = value;
+    notifyListeners();
+  }
+
+  void setNotes(String value) {
+    _notes = value;
+    notifyListeners();
+  }
+
+  void setSelectedDate(DateTime value) {
+    _selectedDate = value;
+    notifyListeners();
+  }
+
+  /// Check if a check-in already exists for the selected date and time
+  Future<void> checkExistingCheckin() async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      _existingCheckin = await _service.fetchCheckinByDateAndTime(
+        _selectedDate,
+        _timeOfDay,
+      );
+
+      if (_existingCheckin != null) {
+        // Load existing data
+        _mood = _existingCheckin!.mood;
+        _emotions = List.from(_existingCheckin!.emotions);
+        _notes = _existingCheckin!.notes ?? '';
+      }
+    } catch (e) {
+      debugPrint('Error checking existing check-in: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  /// Save the current check-in
+  Future<void> saveCheckin(BuildContext context) async {
+    try {
+      _isSaving = true;
+      notifyListeners();
+
+      final checkin = DailyCheckin(
+        id: _existingCheckin?.id,
+        userId: '', // Will be set by the service
+        checkinDate: _selectedDate,
+        mood: _mood,
+        emotions: _emotions,
+        timeOfDay: _timeOfDay,
+        notes: _notes.isEmpty ? null : _notes,
+      );
+
+      if (_existingCheckin != null) {
+        // Update existing
+        await _service.updateCheckin(_existingCheckin!.id!, checkin);
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Check-in updated successfully!')),
+          );
+        }
+      } else {
+        // Create new
+        await _service.saveCheckin(checkin);
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Check-in saved successfully!')),
+          );
+        }
+      }
+
+      // Refresh recent check-ins
+      await loadRecentCheckins();
+      
+      // Reload to check existing again
+      await checkExistingCheckin();
+      
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error saving check-in: $e')),
+        );
+      }
+    } finally {
+      _isSaving = false;
+      notifyListeners();
+    }
+  }
+
+  /// Load recent check-ins (last 7 days)
+  Future<void> loadRecentCheckins() async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      final endDate = DateTime.now();
+      final startDate = endDate.subtract(const Duration(days: 7));
+
+      _recentCheckins = await _service.fetchCheckinsInRange(startDate, endDate);
+    } catch (e) {
+      debugPrint('Error loading recent check-ins: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  /// Load check-ins for a specific date
+  Future<List<DailyCheckin>> loadCheckinsForDate(DateTime date) async {
+    try {
+      return await _service.fetchCheckinsByDate(date);
+    } catch (e) {
+      debugPrint('Error loading check-ins for date: $e');
+      return [];
+    }
+  }
+
+  /// Reset the form to default values
+  void reset() {
+    _mood = 'Okay';
+    _emotions = [];
+    _timeOfDay = _getDefaultTimeOfDay();
+    _notes = '';
+    _selectedDate = DateTime.now();
+    _existingCheckin = null;
+    notifyListeners();
+  }
+
+  /// Get default time of day based on current time
+  String _getDefaultTimeOfDay() {
+    final hour = TimeOfDay.now().hour;
+    if (hour < 12) {
+      return 'morning';
+    } else if (hour < 17) {
+      return 'afternoon';
+    } else {
+      return 'evening';
+    }
+  }
+
+  /// Initialize provider with default time of day
+  void initialize() {
+    _timeOfDay = _getDefaultTimeOfDay();
+    notifyListeners();
+  }
+}

@@ -8,6 +8,10 @@ import 'screens/catalog_page.dart';
 import 'screens/cravings_page.dart';
 import 'screens/blood_levels_page.dart';
 import 'screens/reflection_page.dart';
+import 'package:provider/provider.dart';
+import 'providers/daily_checkin_provider.dart';
+import 'screens/daily_checkin_screen.dart';
+import 'screens/checkin_history_screen.dart';
 
 
 
@@ -38,6 +42,14 @@ class MyApp extends StatelessWidget {
         '/cravings': (context) => const CravingsPage(),
         '/blood_levels': (context) => const BloodLevelsPage(),
         '/reflection': (context) => const ReflectionPage(),
+        '/daily-checkin': (context) => ChangeNotifierProvider(
+          create: (_) => DailyCheckinProvider(),
+          child: const DailyCheckinScreen(),
+        ),
+        '/checkin-history': (context) => ChangeNotifierProvider(
+          create: (_) => DailyCheckinProvider(),
+          child: const CheckinHistoryScreen(),
+        ),
       },
     );
   }
