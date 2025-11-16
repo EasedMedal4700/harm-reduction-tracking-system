@@ -3,7 +3,10 @@ import '../models/daily_checkin_model.dart';
 import '../services/daily_checkin_service.dart';
 
 class DailyCheckinProvider extends ChangeNotifier {
-  final DailyCheckinService _service = DailyCheckinService();
+  DailyCheckinProvider({DailyCheckinRepository? repository})
+      : _repository = repository ?? DailyCheckinService();
+
+  final DailyCheckinRepository _repository;
 
   // Current check-in being edited
   String _mood = 'Okay';
@@ -105,7 +108,7 @@ class DailyCheckinProvider extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      _existingCheckin = await _service.fetchCheckinByDateAndTime(
+      _existingCheckin = await _repository.fetchCheckinByDateAndTime(
         _selectedDate,
         _timeOfDay,
       );
@@ -142,7 +145,7 @@ class DailyCheckinProvider extends ChangeNotifier {
 
       if (_existingCheckin != null) {
         // Update existing
-        await _service.updateCheckin(_existingCheckin!.id!, checkin);
+        await _repository.updateCheckin(_existingCheckin!.id!, checkin);
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Check-in updated successfully!')),
@@ -150,7 +153,7 @@ class DailyCheckinProvider extends ChangeNotifier {
         }
       } else {
         // Create new
-        await _service.saveCheckin(checkin);
+        await _repository.saveCheckin(checkin);
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Check-in saved successfully!')),
@@ -188,7 +191,7 @@ class DailyCheckinProvider extends ChangeNotifier {
       final endDate = DateTime.now();
       final startDate = endDate.subtract(const Duration(days: 7));
 
-      _recentCheckins = await _service.fetchCheckinsInRange(startDate, endDate);
+      _recentCheckins = await _repository.fetchCheckinsInRange(startDate, endDate);
     } catch (e) {
       debugPrint('Error loading recent check-ins: $e');
     } finally {
@@ -200,7 +203,7 @@ class DailyCheckinProvider extends ChangeNotifier {
   /// Load check-ins for a specific date
   Future<List<DailyCheckin>> loadCheckinsForDate(DateTime date) async {
     try {
-      return await _service.fetchCheckinsByDate(date);
+      return await _repository.fetchCheckinsByDate(date);
     } catch (e) {
       debugPrint('Error loading check-ins for date: $e');
       return [];

@@ -3,10 +3,20 @@ import '../models/daily_checkin_model.dart';
 import '../services/user_service.dart';
 import '../utils/error_handler.dart';
 
-class DailyCheckinService {
+abstract class DailyCheckinRepository {
+  Future<void> saveCheckin(DailyCheckin checkin);
+  Future<void> updateCheckin(String id, DailyCheckin checkin);
+  Future<List<DailyCheckin>> fetchCheckinsByDate(DateTime date);
+  Future<List<DailyCheckin>> fetchCheckinsInRange(DateTime startDate, DateTime endDate);
+  Future<DailyCheckin?> fetchCheckinByDateAndTime(DateTime date, String timeOfDay);
+  Future<void> deleteCheckin(String id);
+}
+
+class DailyCheckinService implements DailyCheckinRepository {
   final SupabaseClient _client = Supabase.instance.client;
 
   /// Save a new daily check-in to the database
+  @override
   Future<void> saveCheckin(DailyCheckin checkin) async {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Saving new check-in');
@@ -33,6 +43,7 @@ class DailyCheckinService {
   }
 
   /// Update an existing daily check-in
+  @override
   Future<void> updateCheckin(String id, DailyCheckin checkin) async {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Updating check-in: $id');
@@ -65,6 +76,7 @@ class DailyCheckinService {
   }
 
   /// Fetch check-ins for a specific date
+  @override
   Future<List<DailyCheckin>> fetchCheckinsByDate(DateTime date) async {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Fetching check-ins for date: $date');
@@ -92,6 +104,7 @@ class DailyCheckinService {
   }
 
   /// Fetch check-ins for a date range
+  @override
   Future<List<DailyCheckin>> fetchCheckinsInRange(DateTime startDate, DateTime endDate) async {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Fetching check-ins from $startDate to $endDate');
@@ -122,6 +135,7 @@ class DailyCheckinService {
   }
 
   /// Check if a check-in exists for a specific date and time of day
+  @override
   Future<DailyCheckin?> fetchCheckinByDateAndTime(DateTime date, String timeOfDay) async {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Checking for existing check-in: $date, $timeOfDay');
@@ -149,6 +163,7 @@ class DailyCheckinService {
   }
 
   /// Delete a check-in
+  @override
   Future<void> deleteCheckin(String id) async {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Deleting check-in: $id');

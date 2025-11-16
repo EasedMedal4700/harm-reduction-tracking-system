@@ -5,9 +5,12 @@ import '../widgets/quick_action_button.dart';
 import '../widgets/home/daily_checkin_banner.dart';
 import '../providers/daily_checkin_provider.dart';
 import '../routes/app_routes.dart';
+import '../services/daily_checkin_service.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, this.dailyCheckinRepository});
+
+  final DailyCheckinRepository? dailyCheckinRepository;
 
   void _openLogEntry(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildLogEntryPage()));
@@ -62,7 +65,7 @@ class HomePage extends StatelessWidget {
           children: [
             // Daily Check-In Banner at the top
             ChangeNotifierProvider(
-              create: (_) => DailyCheckinProvider(),
+              create: (_) => DailyCheckinProvider(repository: dailyCheckinRepository),
               child: const DailyCheckinBanner(),
             ),
 
