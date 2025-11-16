@@ -5,6 +5,7 @@ import '../common/feeling_selection.dart';
 import 'date_selector.dart';
 import 'time_selector.dart';
 import '../common/location_dropdown.dart';
+import 'substance_autocomplete.dart';
 
 class SimpleFields extends StatelessWidget {
   final double dose;
@@ -69,11 +70,10 @@ class SimpleFields extends StatelessWidget {
       children: [
 
 
-        TextFormField(
+        SubstanceAutocomplete(
+          substance: substance,
           controller: substanceCtrl,
-          decoration: const InputDecoration(labelText: 'Substance'),
-          onChanged: onSubstanceChanged,
-          validator: (value) => (value == null || value.isEmpty) ? 'Required' : null,
+          onSubstanceChanged: onSubstanceChanged,
         ),
         const SizedBox(height: 16),
 
