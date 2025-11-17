@@ -116,6 +116,108 @@ class AdminService {
     }
   }
 
+  Future<Map<String, dynamic>> getErrorAnalytics() async {
+    try {
+      ErrorHandler.logDebug('AdminService', 'Fetching error analytics');
+
+      final now = DateTime.now();
+      final last24h = now.subtract(const Duration(hours: 24));
+
+      final rawLogs = await _client
+          .from('error_logs')
+          .select(
+            'id, user_id, app_version, platform, os_version, device_model, screen_name, error_message, stacktrace, extra_data, created_at',
+          )
+          .order('created_at', ascending: false)
+          .limit(500) as List;
+
+      final logs = rawLogs
+          .map((item) => Map<String, dynamic>.from(item as Map))
+          .toList();
+
+      final totalErrors = logs.length;
+      final last24hCount = logs.where((log) {
+        final createdAt = DateTime.tryParse('${log['created_at']}');
+        return createdAt != null && createdAt.isAfter(last24h);
+      }).length;
+
+      List<Map<String, dynamic>> buildTopCounts(
+        String sourceKey,
+        String labelKey,
+      ) {
+        final counts = <String, int>{};
+        for (final log in logs) {
+          final value = (log[sourceKey] ?? 'Unknown').toString();
+          counts[value] = (counts[value] ?? 0) + 1;
+        }
+        final entries = counts.entries.toList()
+          ..sort((a, b) => b.value.compareTo(a.value));
+        return entries
+            .map((e) => {labelKey: e.key, 'count': e.value})
+            .toList();
+      }
+
+      final recentLogs = logs.take(20).toList();
+
+      return {
+        'total_errors': totalErrors,
+        'last_24h': last24hCount,
+        'platform_breakdown': buildTopCounts('platform', 'platform'),
+        'screen_breakdown': buildTopCounts('screen_name', 'screen_name'),
+        'message_breakdown': buildTopCounts('error_message', 'error_message'),
+        'recent_logs': recentLogs,
+      };
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('AdminService.getErrorAnalytics', e, stackTrace);
+      return {
+        'total_errors': 0,
+        'last_24h': 0,
+        'platform_breakdown': const <Map<String, dynamic>>[],
+        'screen_breakdown': const <Map<String, dynamic>>[],
+        'message_breakdown': const <Map<String, dynamic>>[],
+        'recent_logs': const <Map<String, dynamic>>[],
+      };
+    }
+  }
+
+  Future<void> clearErrorLogs({
+    bool deleteAll = false,
+    int? olderThanDays,
+    String? platform,
+    String? screenName,
+  }) async {
+    if (!deleteAll &&
+        olderThanDays == null &&
+        (platform == null || platform.isEmpty) &&
+        (screenName == null || screenName.isEmpty)) {
+      throw ArgumentError('Select at least one filter or choose delete all.');
+    }
+
+    try {
+      ErrorHandler.logDebug('AdminService', 'Clearing error logs');
+
+      var deleteQuery = _client.from('error_logs').delete();
+
+      if (!deleteAll) {
+        if (olderThanDays != null) {
+          final cutoff = DateTime.now().subtract(Duration(days: olderThanDays));
+          deleteQuery = deleteQuery.lt('created_at', cutoff.toIso8601String());
+        }
+        if (platform != null && platform.isNotEmpty) {
+          deleteQuery = deleteQuery.eq('platform', platform);
+        }
+        if (screenName != null && screenName.isNotEmpty) {
+          deleteQuery = deleteQuery.eq('screen_name', screenName);
+        }
+      }
+
+      await deleteQuery;
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('AdminService.clearErrorLogs', e, stackTrace);
+      rethrow;
+    }
+  }
+
   /// Delete a user (admin only)
   Future<void> deleteUser(int userId) async {
     try {
