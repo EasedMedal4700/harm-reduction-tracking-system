@@ -39,7 +39,8 @@ class CravingService {
         'timezone': craving.timezone.toString(),
       };
       await Supabase.instance.client.from('cravings').insert(data);
-    } on PostgrestException catch (e) {
+    } on PostgrestException catch (e, stackTrace) {
+      ErrorHandler.logError('CravingService.saveCraving.Postgrest', e, stackTrace);
       // Handle specific DB errors
       switch (e.code) {
         case 'PGRST116':
@@ -51,7 +52,8 @@ class CravingService {
         default:
           throw Exception('Database error: ${e.message}');
       }
-    } on Exception catch (e) {
+    } on Exception catch (e, stackTrace) {
+      ErrorHandler.logError('CravingService.saveCraving', e, stackTrace);
       // Handle network/auth/other errors
       if (e.toString().contains('network')) {
         throw Exception('Network error. Check your connection.');
@@ -126,8 +128,8 @@ class CravingService {
       }
 
       ErrorHandler.logInfo('CravingService', 'Craving updated successfully: $cravingId');
-    } on PostgrestException catch (e) {
-      ErrorHandler.logError('CravingService.updateCraving', e);
+    } on PostgrestException catch (e, stackTrace) {
+      ErrorHandler.logError('CravingService.updateCraving', e, stackTrace);
       switch (e.code) {
         case 'PGRST116':
           throw Exception('Table not found. Please contact support.');

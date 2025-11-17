@@ -1,19 +1,26 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
-import '../models/log_entry_model.dart';
 import 'package:intl/intl.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../models/log_entry_model.dart';
 import '../services/user_service.dart'; // For user_id
+import '../utils/error_handler.dart';
 
 class LogEntryService {
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
 
   Future<void> updateLogEntry(String id, Map<String, dynamic> data) async {
-    final supabase = Supabase.instance.client;
-    final userId = UserService.getCurrentUserId();
-    await supabase
-      .from('drug_use')
-      .update(data)
-      .eq('user_id', userId)
-      .eq('use_id', id);
+    try {
+      final supabase = Supabase.instance.client;
+      final userId = UserService.getCurrentUserId();
+      await supabase
+          .from('drug_use')
+          .update(data)
+          .eq('user_id', userId)
+          .eq('use_id', id);
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('LogEntryService.updateLogEntry', e, stackTrace);
+      rethrow;
+    }
   }  
 
   Future<void> saveLogEntry(LogEntry entry) async {
@@ -46,7 +53,8 @@ class LogEntryService {
       };
 
       await Supabase.instance.client.from('drug_use').insert(data);
-    } on PostgrestException catch (e) {
+    } on PostgrestException catch (e, stackTrace) {
+      ErrorHandler.logError('LogEntryService.saveLogEntry', e, stackTrace);
       // Handle specific DB errors
       switch (e.code) {
         case 'PGRST116':
@@ -58,7 +66,8 @@ class LogEntryService {
         default:
           throw Exception('Database error: ${e.message}');
       }
-    } on Exception catch (e) {
+    } on Exception catch (e, stackTrace) {
+      ErrorHandler.logError('LogEntryService.saveLogEntry', e, stackTrace);
       // Handle network/auth/other errors
       if (e.toString().contains('network')) {
         throw Exception('Network error. Check your connection.');
@@ -79,9 +88,11 @@ class LogEntryService {
         .order('start_time', ascending: false)
         .limit(10);
       return List<Map<String, dynamic>>.from(response);
-    } on PostgrestException catch (e) {
+    } on PostgrestException catch (e, stackTrace) {
+      ErrorHandler.logError('LogEntryService.fetchRecentEntriesRaw', e, stackTrace);
       throw Exception('Failed to fetch entries: ${e.message}');
-    } catch (e) {
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('LogEntryService.fetchRecentEntriesRaw', e, stackTrace);
       throw Exception('Unexpected error: $e');
     }
   }

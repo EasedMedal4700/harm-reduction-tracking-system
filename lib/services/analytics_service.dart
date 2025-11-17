@@ -1,29 +1,41 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../constants/time_period.dart';
 import '../models/log_entry_model.dart';
 import '../repo/substance_repository.dart';
-import '../constants/time_period.dart';
 import '../services/user_service.dart';
+import '../utils/error_handler.dart';
 
 class AnalyticsService {
   Map<String, String> substanceToCategory = {};
 
   Future<List<LogEntry>> fetchEntries() async {
-    final supabase = Supabase.instance.client;
-    final intUserId = await UserService.getIntegerUserId();
-    final response = await supabase
-        .from('drug_use')
-        .select(
-            'name, dose, consumption, medical, place, craving_0_10, primary_emotions, secondary_emotions, body_signals, triggers, people, start_time')
-        .eq('user_id', intUserId);
-    final data = response as List<dynamic>;
-    return data.map((json) {
-      try {
-        return LogEntry.fromJson(json);
-      } catch (e) {
-        print('Error parsing entry: $json, error: $e');
-        return null;
-      }
-    }).where((entry) => entry != null).cast<LogEntry>().toList();
+    try {
+      final supabase = Supabase.instance.client;
+      final intUserId = await UserService.getIntegerUserId();
+      final response = await supabase
+          .from('drug_use')
+          .select(
+            'name, dose, consumption, medical, place, craving_0_10, primary_emotions, secondary_emotions, body_signals, triggers, people, start_time',
+          )
+          .eq('user_id', intUserId);
+      final data = response as List<dynamic>;
+      return data.map((json) {
+        try {
+          return LogEntry.fromJson(json);
+        } catch (e, stackTrace) {
+          ErrorHandler.logError(
+            'AnalyticsService.parseLogEntry',
+            e,
+            stackTrace,
+          );
+          return null;
+        }
+      }).where((entry) => entry != null).cast<LogEntry>().toList();
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('AnalyticsService.fetchEntries', e, stackTrace);
+      rethrow;
+    }
   }
 
   double calculateAvgPerWeek(List<LogEntry> entries) {
@@ -38,8 +50,13 @@ class AnalyticsService {
   }
 
   Future<List<Map<String, dynamic>>> fetchSubstancesCatalog() async {
-    final repository = SubstanceRepository();
-    return repository.fetchSubstancesCatalog();
+    try {
+      final repository = SubstanceRepository();
+      return await repository.fetchSubstancesCatalog();
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('AnalyticsService.fetchSubstancesCatalog', e, stackTrace);
+      rethrow;
+    }
   }
 
   // Updated to use the DB-fetched map

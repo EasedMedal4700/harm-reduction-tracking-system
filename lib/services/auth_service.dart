@@ -1,5 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../utils/error_handler.dart';
 import 'user_service.dart';
 
 class AuthService {
@@ -9,11 +10,11 @@ class AuthService {
     try {
       await _client.auth.signInWithPassword(email: email, password: password);
       return true;
-    } on AuthException catch (e) {
-      debugPrint('Auth error: ${e.message}');
+    } on AuthException catch (e, stackTrace) {
+      ErrorHandler.logError('AuthService.login.AuthException', e, stackTrace);
       return false;
-    } catch (e) {
-      debugPrint('Unexpected login error: $e');
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('AuthService.login', e, stackTrace);
       return false;
     }
   }
@@ -22,8 +23,8 @@ class AuthService {
     try {
       await _client.auth.signOut();
       UserService.clearCache(); // Clear cached user ID
-    } catch (e) {
-      debugPrint('Logout failed: $e');
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('AuthService.logout', e, stackTrace);
     }
   }
 }

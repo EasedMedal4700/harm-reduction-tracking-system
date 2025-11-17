@@ -1,5 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../utils/error_handler.dart';
+
 class UserService {
   static int? _cachedUserId;
   static bool? _cachedIsAdmin;
@@ -34,7 +36,8 @@ class UserService {
 
       _cachedUserId = response['user_id'] as int;
       return _cachedUserId!;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('UserService.getIntegerUserId', e, stackTrace);
       throw StateError('Failed to fetch user ID from users table: $e');
     }
   }
@@ -60,7 +63,8 @@ class UserService {
 
       _cachedIsAdmin = response['is_admin'] as bool? ?? false;
       return _cachedIsAdmin!;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('UserService.isAdmin', e, stackTrace);
       return false;
     }
   }
@@ -88,7 +92,8 @@ class UserService {
       _cachedIsAdmin = response['is_admin'] as bool? ?? false;
       
       return _cachedUserData!;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('UserService.getUserData', e, stackTrace);
       throw StateError('Failed to fetch user data: $e');
     }
   }

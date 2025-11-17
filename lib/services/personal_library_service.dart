@@ -49,7 +49,9 @@ class PersonalLibraryService {
           quantity: local.quantity,
         ),
       );
-    });      catalog.sort(
+    });
+
+      catalog.sort(
         (a, b) => (b.lastUsed ?? DateTime.fromMillisecondsSinceEpoch(0))
             .compareTo(a.lastUsed ?? DateTime.fromMillisecondsSinceEpoch(0)),
       );
@@ -118,8 +120,8 @@ class PersonalLibraryService {
       if (profiles.isNotEmpty) {
         return profiles;
       }
-    } catch (e) {
-      ErrorHandler.logWarning('PersonalLibraryService', 'Failed to load drug profiles: $e');
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('PersonalLibraryService._loadDrugProfiles', e, stackTrace);
     }
     
     return {
@@ -130,13 +132,18 @@ class PersonalLibraryService {
 
   Future<List<Map<String, dynamic>>> _loadDatabaseEntries() async {
     // RLS (Row Level Security) automatically filters by authenticated user
-    final response = await Supabase.instance.client
-        .from('drug_use')
-        .select('name, start_time, dose')
-        .order('start_time', ascending: false);
-    
-    return (response as List<dynamic>)
-        .map((item) => Map<String, dynamic>.from(item as Map<String, dynamic>))
-        .toList();
+    try {
+      final response = await Supabase.instance.client
+          .from('drug_use')
+          .select('name, start_time, dose')
+          .order('start_time', ascending: false);
+      
+      return (response as List<dynamic>)
+          .map((item) => Map<String, dynamic>.from(item as Map<String, dynamic>))
+          .toList();
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('PersonalLibraryService._loadDatabaseEntries', e, stackTrace);
+      rethrow;
+    }
   }
 }

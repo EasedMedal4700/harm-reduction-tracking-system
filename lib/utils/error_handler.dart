@@ -1,7 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
-/// Central error handler for the application
+import '../services/error_logging_service.dart';
+
+/// Central error handler for the application with automatic DB reporting.
 class ErrorHandler {
+  static final ErrorLoggingService _errorLoggingService =
+      ErrorLoggingService.instance;
+
   /// Show error dialog with details
   static void showErrorDialog(
     BuildContext context, {
@@ -111,29 +118,41 @@ class ErrorHandler {
     );
   }
 
-  /// Log error to console with context
+  /// Log error to console and Supabase
   static void logError(String context, dynamic error, [StackTrace? stackTrace]) {
-    print('❌ ERROR [$context]: $error');
+    debugPrint('ERROR [$context]: $error');
     if (stackTrace != null) {
-      print('Stack trace: $stackTrace');
+      debugPrint('Stack trace: $stackTrace');
     }
+
+    unawaited(
+      _errorLoggingService.logError(
+        screenName: context,
+        error: error,
+        stackTrace: stackTrace,
+        extraData: {
+          'context': context,
+          'handled': true,
+        },
+      ),
+    );
   }
 
   /// Log warning to console
   static void logWarning(String context, String message) {
-    print('⚠️  WARNING [$context]: $message');
+    debugPrint('WARNING [$context]: $message');
   }
 
   /// Log info to console
   static void logInfo(String context, String message) {
-    print('ℹ️  INFO [$context]: $message');
+    debugPrint('INFO [$context]: $message');
   }
 
   /// Log debug to console
   static void logDebug(String context, String message, [dynamic data]) {
-    print('🔍 DEBUG [$context]: $message');
+    debugPrint('DEBUG [$context]: $message');
     if (data != null) {
-      print('   Data: $data');
+      debugPrint('   Data: $data');
     }
   }
 }
