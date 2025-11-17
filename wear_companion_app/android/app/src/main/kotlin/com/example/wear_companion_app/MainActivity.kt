@@ -111,7 +111,7 @@ class MainActivity : FlutterActivity(), SensorEventListener {
         sensorManager?.let { manager ->
             val sensorTypes = listOf(
                 Sensor.TYPE_HEART_RATE,
-                Sensor.TYPE_BODY_TEMPERATURE,
+                // Sensor.TYPE_BODY_TEMPERATURE, // Not available on all devices
                 Sensor.TYPE_AMBIENT_TEMPERATURE,
                 Sensor.TYPE_STEP_COUNTER,
                 Sensor.TYPE_RELATIVE_HUMIDITY,

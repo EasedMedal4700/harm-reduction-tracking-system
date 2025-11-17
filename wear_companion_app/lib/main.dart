@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const WearCompanionApp());
@@ -23,8 +22,22 @@ class WearCompanionApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: colorScheme,
-        textTheme: GoogleFonts.spaceGroteskTextTheme(
-          ThemeData(brightness: Brightness.dark).textTheme,
+        textTheme: TextTheme(
+          displayLarge: TextStyle(fontFamily: 'Roboto'),
+          displayMedium: TextStyle(fontFamily: 'Roboto'),
+          displaySmall: TextStyle(fontFamily: 'Roboto'),
+          headlineLarge: TextStyle(fontFamily: 'Roboto'),
+          headlineMedium: TextStyle(fontFamily: 'Roboto'),
+          headlineSmall: TextStyle(fontFamily: 'Roboto'),
+          titleLarge: TextStyle(fontFamily: 'Roboto'),
+          titleMedium: TextStyle(fontFamily: 'Roboto'),
+          titleSmall: TextStyle(fontFamily: 'Roboto'),
+          bodyLarge: TextStyle(fontFamily: 'Roboto'),
+          bodyMedium: TextStyle(fontFamily: 'Roboto'),
+          bodySmall: TextStyle(fontFamily: 'Roboto'),
+          labelLarge: TextStyle(fontFamily: 'Roboto'),
+          labelMedium: TextStyle(fontFamily: 'Roboto'),
+          labelSmall: TextStyle(fontFamily: 'Roboto'),
         ),
         useMaterial3: true,
       ),
@@ -326,7 +339,7 @@ class SensorConfig {
 
 abstract class SensorType {
   static const heartRate = 21;
-  static const bodyTemperature = 38;
+  // static const bodyTemperature = 38; // Not available on all devices
   static const ambientTemperature = 13;
   static const humidity = 12;
   static const stepCounter = 19;
@@ -340,13 +353,13 @@ const sensorConfigs = <int, SensorConfig>{
     icon: Icons.favorite,
     gradient: [Color(0xFFff5f6d), Color(0xFFffc371)],
   ),
-  SensorType.bodyTemperature: SensorConfig(
-    sensorType: SensorType.bodyTemperature,
-    label: 'Body Temp',
-    unit: ' °C',
-    icon: Icons.thermostat,
-    gradient: [Color(0xFF36d1dc), Color(0xFF5b86e5)],
-  ),
+  // SensorType.bodyTemperature: SensorConfig( // Not available on all devices
+  //   sensorType: SensorType.bodyTemperature,
+  //   label: 'Body Temp',
+  //   unit: ' °C',
+  //   icon: Icons.thermostat,
+  //   gradient: [Color(0xFF36d1dc), Color(0xFF5b86e5)],
+  // ),
   SensorType.ambientTemperature: SensorConfig(
     sensorType: SensorType.ambientTemperature,
     label: 'Ambient Temp',
