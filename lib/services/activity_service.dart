@@ -7,7 +7,7 @@ class ActivityService {
   Future<Map<String, dynamic>> fetchRecentActivity() async {
     try {
       final supabase = Supabase.instance.client;
-      final userId = UserService.getCurrentUserId();
+      final userId = await UserService.getIntegerUserId();
 
       // Fetch recent entries (last 10)
       final entries = await supabase
