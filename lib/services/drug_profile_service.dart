@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
+import 'cache_service.dart';
 
 /// Result of a drug name search with normalization info
 class DrugSearchResult {
@@ -16,9 +17,19 @@ class DrugSearchResult {
 
 /// Service for searching and fetching drug profiles
 class DrugProfileService {
+  final _cache = CacheService();
+  
   /// Search drug profiles by name and aliases
   Future<List<DrugSearchResult>> searchDrugNamesWithAliases(String query) async {
     if (query.isEmpty) return [];
+    
+    // Check cache first (short TTL for search results)
+    final cacheKey = 'drug_search:$query';
+    final cached = _cache.get<List<DrugSearchResult>>(cacheKey);
+    if (cached != null) {
+      ErrorHandler.logDebug('DrugProfileService', 'Cache hit for: $query');
+      return cached;
+    }
     
     try {
       ErrorHandler.logDebug('DrugProfileService', 'Searching for: $query');
@@ -84,6 +95,10 @@ class DrugProfileService {
       }
       
       ErrorHandler.logInfo('DrugProfileService', 'Found ${results.length} results');
+      
+      // Cache the results with short TTL (search results change frequently)
+      _cache.set(cacheKey, results, ttl: CacheService.shortTTL);
+      
       return results;
     } catch (e, stackTrace) {
       // Silently handle AssertionError when Supabase is not initialized (e.g., in tests)
@@ -103,6 +118,13 @@ class DrugProfileService {
   
   /// Get all drug names (for initial suggestions)
   Future<List<String>> getAllDrugNames() async {
+    // Check cache first (long TTL since drug names don't change often)
+    final cached = _cache.get<List<String>>(CacheKeys.allDrugNames);
+    if (cached != null) {
+      ErrorHandler.logDebug('DrugProfileService', 'Cache hit for all drug names');
+      return cached;
+    }
+    
     try {
       final response = await Supabase.instance.client
           .from('drug_profiles')
@@ -124,7 +146,12 @@ class DrugProfileService {
         }
       }
       
-      return names.toList()..sort();
+      final sortedNames = names.toList()..sort();
+      
+      // Cache with long TTL (drug names don't change often)
+      _cache.set(CacheKeys.allDrugNames, sortedNames, ttl: CacheService.longTTL);
+      
+      return sortedNames;
     } catch (e, stackTrace) {
       // Silently handle AssertionError when Supabase is not initialized (e.g., in tests)
       if (e is AssertionError && e.toString().contains('_isInitialized')) {

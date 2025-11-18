@@ -1,11 +1,13 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../utils/error_handler.dart';
+import 'cache_service.dart';
 
 class UserService {
   static int? _cachedUserId;
   static bool? _cachedIsAdmin;
   static Map<String, dynamic>? _cachedUserData;
+  static final _cache = CacheService();
   
   static String getCurrentUserId() {
     final user = Supabase.instance.client.auth.currentUser;
@@ -22,6 +24,13 @@ class UserService {
       return _cachedUserId!;
     }
 
+    // Check cache service
+    final cachedId = _cache.get<int>(CacheKeys.currentUserId);
+    if (cachedId != null) {
+      _cachedUserId = cachedId;
+      return cachedId;
+    }
+
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) {
       throw StateError('User is not logged in.');
@@ -35,6 +44,10 @@ class UserService {
           .single();
 
       _cachedUserId = response['user_id'] as int;
+      
+      // Store in cache service
+      _cache.set(CacheKeys.currentUserId, _cachedUserId!, ttl: CacheService.longTTL);
+      
       return _cachedUserId!;
     } catch (e, stackTrace) {
       ErrorHandler.logError('UserService.getIntegerUserId', e, stackTrace);
@@ -47,6 +60,13 @@ class UserService {
     // Return cached value if available
     if (_cachedIsAdmin != null) {
       return _cachedIsAdmin!;
+    }
+
+    // Check cache service
+    final cachedAdmin = _cache.get<bool>(CacheKeys.currentUserIsAdmin);
+    if (cachedAdmin != null) {
+      _cachedIsAdmin = cachedAdmin;
+      return cachedAdmin;
     }
 
     final user = Supabase.instance.client.auth.currentUser;
@@ -62,6 +82,10 @@ class UserService {
           .single();
 
       _cachedIsAdmin = response['is_admin'] as bool? ?? false;
+      
+      // Store in cache service
+      _cache.set(CacheKeys.currentUserIsAdmin, _cachedIsAdmin!, ttl: CacheService.longTTL);
+      
       return _cachedIsAdmin!;
     } catch (e, stackTrace) {
       ErrorHandler.logError('UserService.isAdmin', e, stackTrace);
@@ -73,6 +97,15 @@ class UserService {
   static Future<Map<String, dynamic>> getUserData() async {
     if (_cachedUserData != null) {
       return _cachedUserData!;
+    }
+
+    // Check cache service
+    final cachedData = _cache.get<Map<String, dynamic>>(CacheKeys.currentUserData);
+    if (cachedData != null) {
+      _cachedUserData = cachedData;
+      _cachedUserId = cachedData['user_id'] as int?;
+      _cachedIsAdmin = cachedData['is_admin'] as bool? ?? false;
+      return cachedData;
     }
 
     final user = Supabase.instance.client.auth.currentUser;
@@ -91,6 +124,9 @@ class UserService {
       _cachedUserId = response['user_id'] as int?;
       _cachedIsAdmin = response['is_admin'] as bool? ?? false;
       
+      // Store in cache service
+      _cache.set(CacheKeys.currentUserData, _cachedUserData!, ttl: CacheService.longTTL);
+      
       return _cachedUserData!;
     } catch (e, stackTrace) {
       ErrorHandler.logError('UserService.getUserData', e, stackTrace);
@@ -103,6 +139,11 @@ class UserService {
     _cachedUserId = null;
     _cachedIsAdmin = null;
     _cachedUserData = null;
+    
+    // Clear from cache service
+    _cache.remove(CacheKeys.currentUserId);
+    _cache.remove(CacheKeys.currentUserIsAdmin);
+    _cache.remove(CacheKeys.currentUserData);
   }
 
   static bool isUserLoggedIn() {

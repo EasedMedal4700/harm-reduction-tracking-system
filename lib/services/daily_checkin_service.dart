@@ -2,6 +2,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/daily_checkin_model.dart';
 import '../services/user_service.dart';
 import '../utils/error_handler.dart';
+import 'cache_service.dart';
 
 abstract class DailyCheckinRepository {
   Future<void> saveCheckin(DailyCheckin checkin);
@@ -14,6 +15,7 @@ abstract class DailyCheckinRepository {
 
 class DailyCheckinService implements DailyCheckinRepository {
   final SupabaseClient _client = Supabase.instance.client;
+  final _cache = CacheService();
 
   /// Save a new daily check-in to the database
   @override
@@ -34,6 +36,9 @@ class DailyCheckinService implements DailyCheckinRepository {
       };
 
       await _client.from('daily_checkins').insert(data);
+      
+      // Invalidate cache
+      _cache.removePattern('daily_checkin');
 
       ErrorHandler.logInfo('DailyCheckinService', 'Check-in saved successfully');
     } catch (e, stackTrace) {
@@ -67,6 +72,9 @@ class DailyCheckinService implements DailyCheckinRepository {
       if (response.isEmpty) {
         throw Exception('Check-in not found or access denied');
       }
+      
+      // Invalidate cache
+      _cache.removePattern('daily_checkin');
 
       ErrorHandler.logInfo('DailyCheckinService', 'Check-in updated successfully');
     } catch (e, stackTrace) {

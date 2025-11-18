@@ -4,9 +4,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/log_entry_model.dart';
 import '../services/user_service.dart'; // For user_id
 import '../utils/error_handler.dart';
+import 'cache_service.dart';
 
 class LogEntryService {
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+  final _cache = CacheService();
 
   Future<void> updateLogEntry(String id, Map<String, dynamic> data) async {
     try {
@@ -17,6 +19,11 @@ class LogEntryService {
           .update(data)
           .eq('user_id', userId)
           .eq('use_id', id);
+      
+      // Invalidate cache for user's entries
+      _cache.remove(CacheKeys.recentEntries(userId));
+      _cache.remove(CacheKeys.drugEntry(id));
+      _cache.removePattern('drug_entries:user:$userId');
     } catch (e, stackTrace) {
       ErrorHandler.logError('LogEntryService.updateLogEntry', e, stackTrace);
       rethrow;
@@ -56,6 +63,10 @@ class LogEntryService {
       };
 
       await Supabase.instance.client.from('drug_use').insert(data);
+      
+      // Invalidate cache for user's entries
+      _cache.remove(CacheKeys.recentEntries(userId));
+      _cache.removePattern('drug_entries:user:$userId');
     } on PostgrestException catch (e, stackTrace) {
       ErrorHandler.logError('LogEntryService.saveLogEntry', e, stackTrace);
       // Handle specific DB errors
@@ -85,13 +96,27 @@ class LogEntryService {
   Future<List<Map<String, dynamic>>> fetchRecentEntriesRaw() async {
     try {
       final userId = await UserService.getIntegerUserId();
+      
+      // Check cache first
+      final cacheKey = CacheKeys.recentEntries(userId);
+      final cached = _cache.get<List<Map<String, dynamic>>>(cacheKey);
+      if (cached != null) {
+        return cached;
+      }
+      
       final response = await Supabase.instance.client
         .from('drug_use')
         .select('use_id, name, dose, start_time, place') // Select key fields
         .eq('user_id', userId)
         .order('start_time', ascending: false)
         .limit(10);
-      return List<Map<String, dynamic>>.from(response);
+      
+      final results = List<Map<String, dynamic>>.from(response);
+      
+      // Cache the results
+      _cache.set(cacheKey, results, ttl: CacheService.defaultTTL);
+      
+      return results;
     } on PostgrestException catch (e, stackTrace) {
       ErrorHandler.logError('LogEntryService.fetchRecentEntriesRaw', e, stackTrace);
       throw Exception('Failed to fetch entries: ${e.message}');
