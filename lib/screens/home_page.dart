@@ -9,6 +9,7 @@ import '../services/daily_checkin_service.dart';
 import '../services/user_service.dart';
 import '../screens/profile_screen.dart';
 import '../screens/admin_panel_screen.dart';
+import '../screens/tolerance_dashboard_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key, this.dailyCheckinRepository});
@@ -39,6 +40,9 @@ class HomePage extends StatelessWidget {
   void _openLibrary(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildLibraryPage()));
   }
+  void _openToleranceDashboard(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildToleranceDashboardPage()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +56,7 @@ class HomePage extends StatelessWidget {
       {'icon': Icons.menu_book, 'label': 'Library', 'onTap': () => _openLibrary(context)},
       {'icon': Icons.inventory, 'label': 'Catalog', 'onTap': () => _openCatalog(context)},
       {'icon': Icons.bloodtype, 'label': 'Blood Levels', 'onTap': () => _openBloodLevels(context)},
+      {'icon': Icons.speed, 'label': 'Tolerance Dashboard', 'onTap': () => _openToleranceDashboard(context)},
     ];
 
     return Scaffold(
