@@ -26,12 +26,15 @@ class ComplexFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Ensure the current intention value exists in the list, or use null
+    final validIntention = intentions.contains(intention) ? intention : null;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DropdownButtonFormField<String>(
           decoration: const InputDecoration(labelText: 'Intention'),
-          value: intention,
+          value: validIntention,
           items: intentions.map((i) => DropdownMenuItem(value: i, child: Text(i))).toList(),
           onChanged: onIntentionChanged, // Single, matches
         ),

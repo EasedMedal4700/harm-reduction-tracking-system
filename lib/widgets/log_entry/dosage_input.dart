@@ -24,21 +24,42 @@ class DosageInput extends StatefulWidget {
 
 class _DosageInputState extends State<DosageInput> {
   late TextEditingController _controller;
+  bool _isUserEditing = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.dose.toStringAsFixed(1));
+    // Remove trailing zeros for cleaner display
+    _controller = TextEditingController(text: _formatDose(widget.dose));
+  }
+
+  String _formatDose(double dose) {
+    // Remove unnecessary trailing zeros
+    if (dose == dose.roundToDouble()) {
+      return dose.toInt().toString();
+    }
+    return dose.toString();
   }
 
   @override
   void didUpdateWidget(DosageInput oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.dose != widget.dose) {
+    // Only update text if the value changed externally (not from user typing)
+    if (oldWidget.dose != widget.dose && !_isUserEditing) {
       // Schedule text update after build
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
-        _controller.text = widget.dose.toStringAsFixed(1); // Use toStringAsFixed for consistency
+        final currentSelection = _controller.selection;
+        _controller.text = _formatDose(widget.dose);
+        // Restore cursor position if text length allows
+        if (currentSelection.baseOffset <= _controller.text.length) {
+          _controller.selection = currentSelection;
+        } else {
+          // Move cursor to end if previous position is out of bounds
+          _controller.selection = TextSelection.fromPosition(
+            TextPosition(offset: _controller.text.length),
+          );
+        }
       });
     }
   }
@@ -55,7 +76,10 @@ class _DosageInputState extends State<DosageInput> {
       children: [
         IconButton(
           icon: const Icon(Icons.remove),
-          onPressed: () => widget.onDoseChanged((widget.dose - 1).clamp(0, 9999)),
+          onPressed: () {
+            _isUserEditing = false;
+            widget.onDoseChanged((widget.dose - 1).clamp(0, 9999));
+          },
         ),
         Expanded(
           child: TextFormField(
@@ -64,12 +88,29 @@ class _DosageInputState extends State<DosageInput> {
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             validator: ValidationUtils.validateDosage,
             controller: _controller,
-            onChanged: (v) => widget.onDoseChanged(double.tryParse(v) ?? widget.dose),
+            onTap: () {
+              // Mark that user is actively editing
+              _isUserEditing = true;
+            },
+            onChanged: (v) {
+              _isUserEditing = true;
+              final parsedValue = double.tryParse(v);
+              if (parsedValue != null) {
+                widget.onDoseChanged(parsedValue);
+              }
+            },
+            onEditingComplete: () {
+              // User finished editing
+              _isUserEditing = false;
+            },
           ),
         ),
         IconButton(
           icon: const Icon(Icons.add),
-          onPressed: () => widget.onDoseChanged(widget.dose + 1),
+          onPressed: () {
+            _isUserEditing = false;
+            widget.onDoseChanged(widget.dose + 1);
+          },
         ),
         const SizedBox(width: 8),
         DropdownButton<String>(

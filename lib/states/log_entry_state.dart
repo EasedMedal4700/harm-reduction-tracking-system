@@ -60,7 +60,7 @@ class LogEntryState extends ChangeNotifier {
     location = 'Select a location'; // Set default on reset
     isMedicalPurpose = false;
     cravingIntensity = 0;
-    intention = '';
+    intention = '-- Select Intention--'; // Use valid default value
     triggers = [];
     bodySignals = [];
     notesCtrl.clear();

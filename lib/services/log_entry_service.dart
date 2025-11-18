@@ -11,7 +11,7 @@ class LogEntryService {
   Future<void> updateLogEntry(String id, Map<String, dynamic> data) async {
     try {
       final supabase = Supabase.instance.client;
-      final userId = UserService.getCurrentUserId();
+      final userId = await UserService.getIntegerUserId();
       await supabase
           .from('drug_use')
           .update(data)
@@ -30,8 +30,11 @@ class LogEntryService {
     }
 
     try {
+      // Get the integer user ID from the users table
+      final userId = await UserService.getIntegerUserId();
+      
       final data = {
-        'user_id': UserService.getCurrentUserId(),
+        'user_id': userId,
         'name': entry.substance,
         'dose': '${entry.dosage} ${entry.unit}',
         'start_time': formatter.format(entry.datetime.toUtc()), // Format as UTC+00
@@ -81,10 +84,11 @@ class LogEntryService {
 
   Future<List<Map<String, dynamic>>> fetchRecentEntriesRaw() async {
     try {
+      final userId = await UserService.getIntegerUserId();
       final response = await Supabase.instance.client
         .from('drug_use')
         .select('use_id, name, dose, start_time, place') // Select key fields
-        .eq('user_id', UserService.getCurrentUserId())
+        .eq('user_id', userId)
         .order('start_time', ascending: false)
         .limit(10);
       return List<Map<String, dynamic>>.from(response);

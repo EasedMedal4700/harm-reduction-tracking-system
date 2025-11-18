@@ -140,15 +140,17 @@ class _SubstanceAutocompleteState extends State<SubstanceAutocomplete> {
           },
           fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
             // Sync the autocomplete's controller with our external controller
+            // Only sync outside of build to avoid setState during build
             if (widget.controller != null) {
-              // Keep text in sync but preserve cursor position
-              if (controller.text != widget.controller!.text) {
-                controller.text = widget.controller!.text;
-                // Restore cursor position at the end after sync
-                controller.selection = TextSelection.fromPosition(
-                  TextPosition(offset: controller.text.length),
-                );
-              }
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (controller.text != widget.controller!.text) {
+                  controller.text = widget.controller!.text;
+                  // Restore cursor position at the end after sync
+                  controller.selection = TextSelection.fromPosition(
+                    TextPosition(offset: controller.text.length),
+                  );
+                }
+              });
             }
             
             return TextFormField(
