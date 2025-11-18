@@ -20,6 +20,7 @@ import 'screens/log_entry_page.dart';
 import 'screens/login_page.dart';
 import 'screens/profile_screen.dart';
 import 'screens/reflection_page.dart';
+import 'screens/register_page.dart';
 import 'screens/settings_screen.dart';
 import 'services/error_logging_service.dart';
 
@@ -101,6 +102,7 @@ class MyApp extends StatelessWidget {
           '/profile': (context) => const ProfileScreen(),
           '/admin-panel': (context) => const AdminPanelScreen(),
           '/settings': (context) => const SettingsScreen(),
+          '/register': (context) => const RegisterPage(),
         },
         navigatorObservers: [navigatorObserver],
       ),

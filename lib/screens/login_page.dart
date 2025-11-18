@@ -154,6 +154,12 @@ class _LoginPageState extends State<LoginPage> {
                     : const Text('Login'),
               ),
             ),
+            TextButton(
+              onPressed: _isLoading
+                  ? null
+                  : () => Navigator.pushNamed(context, '/register'),
+              child: const Text('Create an account'),
+            ),
           ],
         ),
       ),
