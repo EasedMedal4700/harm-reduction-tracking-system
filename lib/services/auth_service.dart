@@ -1,7 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:postgrest/postgrest.dart';
-
 import '../utils/error_handler.dart';
 import 'user_service.dart';
 

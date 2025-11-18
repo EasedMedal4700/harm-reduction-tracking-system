@@ -23,6 +23,7 @@ import 'screens/reflection_page.dart';
 import 'screens/register_page.dart';
 import 'screens/settings_screen.dart';
 import 'services/error_logging_service.dart';
+import 'screens/tolerance_dashboard_page.dart';
 
 Future<void> main() async {
   final errorLoggingService = ErrorLoggingService.instance;
@@ -103,6 +104,12 @@ class MyApp extends StatelessWidget {
           '/admin-panel': (context) => const AdminPanelScreen(),
           '/settings': (context) => const SettingsScreen(),
           '/register': (context) => const RegisterPage(),
+          '/tolerance-dashboard': (context) {
+            final args =
+                ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+            final substance = args?['substance'] as String?;
+            return ToleranceDashboardPage(initialSubstance: substance);
+          },
         },
         navigatorObservers: [navigatorObserver],
       ),

@@ -16,6 +16,7 @@ import '../screens/checkin_history_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/admin_panel_screen.dart';
 import '../screens/settings_screen.dart';
+import '../screens/tolerance_dashboard_page.dart'; // Import ToleranceDashboardPage
 
 class AppRoutes {
   static Widget buildHomePage() => const HomePage();
@@ -42,4 +43,5 @@ class AppRoutes {
   static Widget buildAdminPanelPage() => const AdminPanelScreen();
   // Add buildLibraryPage() if implemented
   static Widget buildSettingsPage() => const SettingsScreen();
+  static Widget buildToleranceDashboardPage() => const ToleranceDashboardPage();
 }
