@@ -36,12 +36,26 @@ class ToleranceService {
     try {
       final response = await _supabase
           .from('drug_profiles')
-          .select('properties')
+          .select('tolerance_model, properties')
           .or('name.eq.$substanceName,pretty_name.eq.$substanceName')
           .maybeSingle();
 
-      final properties = response != null ? response['properties'] as Map<String, dynamic>? : null;
-      final toleranceJson = properties?['tolerance_data'] as Map<String, dynamic>?;
+      if (response == null) {
+        ErrorHandler.logInfo(
+          'ToleranceService',
+          'No drug profile found for $substanceName',
+        );
+        return null;
+      }
+
+      // First check tolerance_model column
+      var toleranceJson = response['tolerance_model'] as Map<String, dynamic>?;
+      
+      // Fallback to properties.tolerance_data for backward compatibility
+      if (toleranceJson == null) {
+        final properties = response['properties'] as Map<String, dynamic>?;
+        toleranceJson = properties?['tolerance_data'] as Map<String, dynamic>?;
+      }
 
       if (toleranceJson == null) {
         ErrorHandler.logInfo(
