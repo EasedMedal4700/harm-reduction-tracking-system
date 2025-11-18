@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'providers/daily_checkin_provider.dart';
+import 'providers/settings_provider.dart';
 import 'routes/screen_tracking_observer.dart';
 import 'screens/admin_panel_screen.dart';
 import 'screens/analytics_page.dart';
@@ -19,6 +20,7 @@ import 'screens/log_entry_page.dart';
 import 'screens/login_page.dart';
 import 'screens/profile_screen.dart';
 import 'screens/reflection_page.dart';
+import 'screens/settings_screen.dart';
 import 'services/error_logging_service.dart';
 
 Future<void> main() async {
@@ -74,31 +76,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // Remove 'const' here
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/login_page',
-      routes: {
-        '/login_page': (context) => const LoginPage(),
-        '/home_page': (context) => const HomePage(),
-        '/log_entry': (context) => const QuickLogEntryPage(),
-        '/analytics': (context) => const AnalyticsPage(),
-        '/catalog': (context) => const CatalogPage(),
-        '/cravings': (context) => const CravingsPage(),
-        '/blood_levels': (context) => const BloodLevelsPage(),
-        '/reflection': (context) => const ReflectionPage(),
-        '/daily-checkin': (context) => ChangeNotifierProvider(
-          create: (_) => DailyCheckinProvider(),
-          child: const DailyCheckinScreen(),
-        ),
-        '/checkin-history': (context) => ChangeNotifierProvider(
-          create: (_) => DailyCheckinProvider(),
-          child: const CheckinHistoryScreen(),
-        ),
-        '/profile': (context) => const ProfileScreen(),
-        '/admin-panel': (context) => const AdminPanelScreen(),
-      },
-      navigatorObservers: [navigatorObserver],
+    return ChangeNotifierProvider(
+      create: (_) => SettingsProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/login_page',
+        routes: {
+          '/login_page': (context) => const LoginPage(),
+          '/home_page': (context) => const HomePage(),
+          '/log_entry': (context) => const QuickLogEntryPage(),
+          '/analytics': (context) => const AnalyticsPage(),
+          '/catalog': (context) => const CatalogPage(),
+          '/cravings': (context) => const CravingsPage(),
+          '/blood_levels': (context) => const BloodLevelsPage(),
+          '/reflection': (context) => const ReflectionPage(),
+          '/daily-checkin': (context) => ChangeNotifierProvider(
+            create: (_) => DailyCheckinProvider(),
+            child: const DailyCheckinScreen(),
+          ),
+          '/checkin-history': (context) => ChangeNotifierProvider(
+            create: (_) => DailyCheckinProvider(),
+            child: const CheckinHistoryScreen(),
+          ),
+          '/profile': (context) => const ProfileScreen(),
+          '/admin-panel': (context) => const AdminPanelScreen(),
+          '/settings': (context) => const SettingsScreen(),
+        },
+        navigatorObservers: [navigatorObserver],
+      ),
     );
   }
 }
