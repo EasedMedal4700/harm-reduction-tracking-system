@@ -1,5 +1,15 @@
 import 'dart:math';
 
+/// Global bucket list for tolerance tracking
+const List<String> kToleranceBuckets = [
+  'gaba',
+  'stimulant',
+  'serotonin',
+  'opioid',
+  'nmda',
+  'cannabinoid',
+];
+
 /// Model for tolerance calculation data from Supabase
 class ToleranceModel {
   final String notes;
@@ -23,7 +33,7 @@ class ToleranceModel {
     });
 
     return ToleranceModel(
-      notes: json['notes'] as String,
+      notes: json['notes'] as String? ?? '',
       neuroBuckets: buckets,
       halfLifeHours: (json['half_life_hours'] as num).toDouble(),
       toleranceDecayDays: (json['tolerance_decay_days'] as num).toDouble(),
@@ -113,8 +123,156 @@ class UseEvent {
   });
 }
 
+/// Use log entry from database
+class UseLogEntry {
+  final String substanceSlug;
+  final DateTime timestamp;
+  final double doseUnits;
+
+  const UseLogEntry({
+    required this.substanceSlug,
+    required this.timestamp,
+    required this.doseUnits,
+  });
+}
+
+/// System state classification
+enum ToleranceSystemState {
+  recovered,    // 0-20%
+  lightStress,  // 20-40%
+  moderateStrain, // 40-60%
+  highStrain,   // 60-80%
+  depleted,     // 80-100%
+}
+
+/// Extension for system state display
+extension ToleranceSystemStateExtension on ToleranceSystemState {
+  String get displayName {
+    switch (this) {
+      case ToleranceSystemState.recovered:
+        return 'Recovered';
+      case ToleranceSystemState.lightStress:
+        return 'Light Stress';
+      case ToleranceSystemState.moderateStrain:
+        return 'Moderate Strain';
+      case ToleranceSystemState.highStrain:
+        return 'High Strain';
+      case ToleranceSystemState.depleted:
+        return 'Depleted';
+    }
+  }
+}
+
 /// Tolerance calculation utilities
 class ToleranceCalculator {
+  /// Logistic curve parameter for load -> percent conversion
+  static const double kLogisticK = 100.0;
+
+  /// Classify system state based on tolerance percentage
+  /// 
+  /// Returns:
+  /// - Recovered: 0-20%
+  /// - Light Stress: 20-40%
+  /// - Moderate Strain: 40-60%
+  /// - High Strain: 60-80%
+  /// - Depleted: 80-100%
+  static ToleranceSystemState classifySystemState(double percent) {
+    if (percent < 20) return ToleranceSystemState.recovered;
+    if (percent < 40) return ToleranceSystemState.lightStress;
+    if (percent < 60) return ToleranceSystemState.moderateStrain;
+    if (percent < 80) return ToleranceSystemState.highStrain;
+    return ToleranceSystemState.depleted;
+  }
+
+  /// Compute raw bucket load using exponential decay
+  /// 
+  /// Formula: load += doseUnits * weight * exp(-hoursSince / halfLifeHours)
+  static double computeRawBucketLoad({
+    required List<UseLogEntry> useLogs,
+    required Map<String, ToleranceModel> toleranceModels,
+    required String bucket,
+    required DateTime now,
+  }) {
+    double load = 0.0;
+
+    for (final log in useLogs) {
+      final model = toleranceModels[log.substanceSlug];
+      if (model == null) continue;
+
+      final neuroBucket = model.neuroBuckets[bucket];
+      if (neuroBucket == null) continue;
+
+      final hoursSince = now.difference(log.timestamp).inMinutes / 60.0;
+      if (hoursSince < 0) continue;
+
+      final weight = neuroBucket.weight;
+      final halfLife = model.halfLifeHours;
+      
+      if (halfLife <= 0) continue;
+
+      final decayFactor = exp(-hoursSince / halfLife);
+      load += log.doseUnits * weight * decayFactor;
+    }
+
+    return load;
+  }
+
+  /// Convert raw load to tolerance percentage using logistic curve
+  /// 
+  /// Formula: percent = 100 * (1 - exp(-load / K))
+  /// where K = 100
+  static double loadToPercent(double load) {
+    if (load <= 0) return 0.0;
+    final percent = 100.0 * (1.0 - exp(-load / kLogisticK));
+    return percent.clamp(0.0, 100.0);
+  }
+
+  /// Compute tolerance percentages for all buckets
+  /// 
+  /// Returns Map<String, double> like:
+  /// {
+  ///   "gaba": 72.4,
+  ///   "stimulant": 33.8,
+  ///   "serotonin": 49.1,
+  ///   "opioid": 11.8,
+  ///   "nmda": 22.0,
+  ///   "cannabinoid": 5.3
+  /// }
+  static Map<String, double> computeAllBucketTolerances({
+    required List<UseLogEntry> useLogs,
+    required Map<String, ToleranceModel> toleranceModels,
+    DateTime? now,
+  }) {
+    final currentTime = now ?? DateTime.now();
+    final result = <String, double>{};
+
+    for (final bucket in kToleranceBuckets) {
+      final load = computeRawBucketLoad(
+        useLogs: useLogs,
+        toleranceModels: toleranceModels,
+        bucket: bucket,
+        now: currentTime,
+      );
+
+      result[bucket] = loadToPercent(load);
+    }
+
+    return result;
+  }
+
+  /// Compute system states for all buckets
+  static Map<String, ToleranceSystemState> computeAllBucketStates({
+    required Map<String, double> tolerances,
+  }) {
+    final result = <String, ToleranceSystemState>{};
+
+    for (final entry in tolerances.entries) {
+      result[entry.key] = classifySystemState(entry.value);
+    }
+
+    return result;
+  }
+
   /// Calculate effective plasma level at a given time
   /// Uses exponential decay: C(t) = C0 * e^(-kt)
   /// where k = ln(2) / half_life

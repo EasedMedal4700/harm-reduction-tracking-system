@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../models/tolerance_model.dart';
 import '../services/tolerance_service.dart';
 import '../services/user_service.dart';
+import '../widgets/system_tolerance_widget.dart';
 
 class ToleranceDashboardPage extends StatefulWidget {
   final String? initialSubstance;
@@ -27,10 +28,32 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   double _currentTolerance = 0;
   double _daysUntilBaseline = 0;
 
+  // System tolerance data
+  SystemToleranceData? _systemToleranceData;
+  bool _isLoadingSystemTolerance = false;
+
   @override
   void initState() {
     super.initState();
     _loadSubstances();
+    _loadSystemTolerance();
+  }
+
+  Future<void> _loadSystemTolerance() async {
+    setState(() => _isLoadingSystemTolerance = true);
+    try {
+      final data = await loadSystemToleranceData();
+      if (mounted) {
+        setState(() {
+          _systemToleranceData = data;
+          _isLoadingSystemTolerance = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoadingSystemTolerance = false);
+      }
+    }
   }
 
   Future<void> _loadSubstances() async {
@@ -175,6 +198,19 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
 
     return ListView(
       children: [
+        // System-wide tolerance section
+        if (_isLoadingSystemTolerance)
+          const Card(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Center(child: CircularProgressIndicator()),
+            ),
+          )
+        else if (_systemToleranceData != null)
+          buildSystemToleranceSection(_systemToleranceData!),
+        const SizedBox(height: 16),
+        
+        // Per-substance tolerance section
         if (_errorMessage != null)
           Card(
             color: Colors.grey.shade100,
