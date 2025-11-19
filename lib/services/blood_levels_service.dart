@@ -31,6 +31,8 @@ class BloodLevelsService {
         if (startTime == null || startTime.isAfter(now)) continue;
         
         final doseMg = _parseDose(doseString);
+        ErrorHandler.logDebug('BloodLevelsService', 'Entry: $drugName, dose: "$doseString" -> ${doseMg}mg, time: $startTime');
+        
         if (doseMg <= 0) continue;
         
         final hoursElapsed = now.difference(startTime).inHours.toDouble();
@@ -46,31 +48,27 @@ class BloodLevelsService {
             drugName: drugName,
             totalDose: 0,
             totalRemaining: 0,
-            lastDose: 0,
+            lastDose: doseMg,  // Set to first dose (most recent due to ordering)
             lastUse: startTime,
             halfLife: halfLife,
             doses: [],
           );
         }
         
-        levels[drugName] = levels[drugName]!.copyWith(
-          totalDose: levels[drugName]!.totalDose + doseMg,
-          totalRemaining: levels[drugName]!.totalRemaining + remaining,
-          doses: [...levels[drugName]!.doses, DoseEntry(
+        final currentLevel = levels[drugName]!;
+        levels[drugName] = currentLevel.copyWith(
+          totalDose: currentLevel.totalDose + doseMg,
+          totalRemaining: currentLevel.totalRemaining + remaining,
+          doses: [...currentLevel.doses, DoseEntry(
             dose: doseMg,
             startTime: startTime,
             remaining: remaining,
             hoursElapsed: hoursElapsed,
           )],
+          // Update last dose if this is more recent
+          lastDose: startTime.isAfter(currentLevel.lastUse) ? doseMg : null,
+          lastUse: startTime.isAfter(currentLevel.lastUse) ? startTime : null,
         );
-        
-        // Update last dose if more recent
-        if (startTime.isAfter(levels[drugName]!.lastUse)) {
-          levels[drugName] = levels[drugName]!.copyWith(
-            lastDose: doseMg,
-            lastUse: startTime,
-          );
-        }
       }
       
       ErrorHandler.logInfo('BloodLevelsService', 'Found ${levels.length} active substances');
@@ -104,6 +102,8 @@ class BloodLevelsService {
       'alcohol': 5.0,
       'ketamine': 2.5,
       'dxm': 3.0,
+      'bromazolam': 14.0,  // Benzodiazepine with ~14h half-life
+      '2-fdck': 3.0,  // Similar to ketamine
     };
     
     return halfLives[drugName.toLowerCase()] ?? 8.0; // Default 8h
