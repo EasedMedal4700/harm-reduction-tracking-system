@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/tolerance_model.dart';
+import 'dart:math' as math;
 import '../utils/error_handler.dart';
 
 /// Service for tolerance calculation engine
@@ -62,27 +63,45 @@ class ToleranceEngineService {
 
       final response = await _supabase
           .from('drug_use')
-          .select('substance_slug, start_time, dose')
+          .select('name, start_time, dose')
           .eq('user_id', userId)
           .gte('start_time', cutoffDate.toIso8601String())
           .order('start_time', ascending: false);
 
       final logs = <UseLogEntry>[];
 
+      // Build mapping from profile name/pretty_name to slug once
+      final profilesResp = await _supabase
+          .from('drug_profiles')
+          .select('slug, name, pretty_name');
+
+      final nameToSlug = <String, String>{};
+      for (final r in profilesResp as List) {
+        final slugVal = (r['slug'] as String?)?.trim();
+        final rawName = (r['name'] as String?)?.trim();
+        final pretty = (r['pretty_name'] as String?)?.trim();
+        if (slugVal == null) continue;
+        if (rawName != null) nameToSlug[rawName.toLowerCase()] = slugVal;
+        if (pretty != null) nameToSlug[pretty.toLowerCase()] = slugVal;
+      }
+
       for (final row in response as List) {
-        final slug = row['substance_slug'] as String?;
+  final name = (row['name'] as String?)?.trim();
         final timestampString = row['start_time'] as String?;
         final rawDose = row['dose'];
 
-        if (slug == null || timestampString == null) continue;
+  if (name == null || timestampString == null) continue;
 
         final timestamp = DateTime.tryParse(timestampString);
         if (timestamp == null) continue;
 
         final doseUnits = _parseDose(rawDose);
 
+        // Attempt to map the recorded name to a slug if we have a mapping.
+  final mappedSlug = nameToSlug[name.toLowerCase()] ?? name;
+
         logs.add(UseLogEntry(
-          substanceSlug: slug,
+          substanceSlug: mappedSlug,
           timestamp: timestamp,
           doseUnits: doseUnits,
         ));
@@ -171,6 +190,74 @@ class ToleranceEngineService {
     return ToleranceCalculator.computeAllBucketStates(
       tolerances: tolerances,
     );
+  }
+
+  /// Compute a simple tolerance percentage per substance for debug
+  /// Returns Map<substanceSlug, percent>
+  /// Algorithm: For each substance, compute raw load using sum(weights) and
+  /// apply exponential decay by hours since use. Then convert to percent via logistic.
+  static Future<Map<String, double>> computePerSubstanceTolerances({
+    required int userId,
+    int daysBack = 30,
+  }) async {
+    try {
+      final results = await Future.wait([
+        fetchAllToleranceModels(),
+        fetchUseLogs(userId: userId, daysBack: daysBack),
+      ]);
+
+      final toleranceModels = results[0] as Map<String, ToleranceModel>;
+      final useLogs = results[1] as List<UseLogEntry>;
+
+      if (useLogs.isEmpty) return {};
+
+      final now = DateTime.now();
+      final map = <String, double>{};
+
+      // Group logs by slug
+      final grouped = <String, List<UseLogEntry>>{};
+      for (final log in useLogs) {
+        grouped.putIfAbsent(log.substanceSlug, () => []).add(log);
+      }
+
+      for (final entry in grouped.entries) {
+        final slug = entry.key;
+        final logs = entry.value;
+
+        final model = toleranceModels[slug];
+        if (model == null) {
+          // No model configured -> skip (or return 0)
+          map[slug] = 0.0;
+          continue;
+        }
+
+        // Sum of weights across neuro buckets
+        final weightSum = model.neuroBuckets.values.fold<double>(0.0, (s, b) => s + b.weight);
+  final halfLife = model.halfLifeHours;
+
+        var rawLoad = 0.0;
+        for (final logEntry in logs) {
+          final hoursSince = now.difference(logEntry.timestamp).inMinutes / 60.0;
+          if (hoursSince < 0) continue;
+          final decay = halfLife > 0 ? math.exp(-hoursSince / halfLife) : 0.0;
+          rawLoad += logEntry.doseUnits * weightSum * decay;
+        }
+
+        final percent = ToleranceCalculator.loadToPercent(rawLoad);
+        map[slug] = percent;
+      }
+
+      // Sort map by percent desc when returned (stable)
+      final sorted = Map.fromEntries(
+        map.entries.toList()
+          ..sort((a, b) => b.value.compareTo(a.value)),
+      );
+
+      return sorted;
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('ToleranceEngineService.computePerSubstanceTolerances', e, stackTrace);
+      return {};
+    }
   }
 
   /// Get detailed tolerance report

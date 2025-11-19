@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../models/tolerance_model.dart';
 import '../services/tolerance_service.dart';
 import '../services/user_service.dart';
+import '../services/tolerance_engine_service.dart';
 import '../widgets/system_tolerance_widget.dart';
 
 class ToleranceDashboardPage extends StatefulWidget {
@@ -31,6 +32,10 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   // System tolerance data
   SystemToleranceData? _systemToleranceData;
   bool _isLoadingSystemTolerance = false;
+  // Debugging per-substance tolerance
+  bool _showDebugSubstances = false;
+  Map<String, double> _perSubstanceTolerances = {};
+  bool _isLoadingPerSubstance = false;
 
   @override
   void initState() {
@@ -53,6 +58,22 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       if (mounted) {
         setState(() => _isLoadingSystemTolerance = false);
       }
+    }
+  }
+
+  Future<void> _loadPerSubstanceTolerances() async {
+    if (_userId == null) return;
+    setState(() => _isLoadingPerSubstance = true);
+    try {
+      final values = await ToleranceEngineService.computePerSubstanceTolerances(userId: _userId!);
+      if (!mounted) return;
+      setState(() {
+        _perSubstanceTolerances = values;
+        _isLoadingPerSubstance = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _isLoadingPerSubstance = false);
     }
   }
 
@@ -141,6 +162,19 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tolerance dashboard'),
+        actions: [
+          // Debug toggle
+          IconButton(
+            icon: Icon(_showDebugSubstances ? Icons.bug_report : Icons.bug_report_outlined),
+            onPressed: () async {
+              setState(() => _showDebugSubstances = !_showDebugSubstances);
+              if (_showDebugSubstances) {
+                await _loadPerSubstanceTolerances();
+              }
+            },
+            tooltip: 'Toggle substance tolerance debug',
+          ),
+        ],
       ),
       body: _isLoadingOptions
           ? const Center(child: CircularProgressIndicator())
@@ -225,6 +259,38 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
           if (_toleranceModel!.notes.isNotEmpty) _buildNotesCard(),
         ],
         _buildRecentUsesCard(),
+        // Debug per-substance tolerance table
+        if (_showDebugSubstances) ...[
+          const SizedBox(height: 12),
+          Card(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('DEBUG: Per-substance tolerance', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  if (_isLoadingPerSubstance)
+                    const Center(child: CircularProgressIndicator())
+                  else if (_perSubstanceTolerances.isEmpty)
+                    const Text('No data')
+                  else
+                    ..._perSubstanceTolerances.entries.map((e) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(e.key, style: const TextStyle(fontSize: 14)),
+                              Text('${e.value.toStringAsFixed(1)} %', style: const TextStyle(fontSize: 14)),
+                            ],
+                          ),
+                        )),
+                ],
+              ),
+            ),
+          ),
+        ],
       ],
     );
   }
