@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../models/tolerance_model.dart';
 import '../services/tolerance_service.dart';
 import '../services/user_service.dart';
 import '../services/tolerance_engine_service.dart';
 import '../widgets/system_tolerance_widget.dart';
+import '../widgets/tolerance/tolerance_summary_card.dart';
+import '../widgets/tolerance/tolerance_stats_card.dart';
+import '../widgets/tolerance/tolerance_notes_card.dart';
+import '../widgets/tolerance/recent_uses_card.dart';
+import '../widgets/tolerance/debug_substance_list.dart';
 
 class ToleranceDashboardPage extends StatefulWidget {
   final String? initialSubstance;
@@ -254,178 +258,27 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
             ),
           ),
         if (_toleranceModel != null) ...[
-          _buildSummaryCard(),
-          _buildStatsCard(),
-          if (_toleranceModel!.notes.isNotEmpty) _buildNotesCard(),
+          ToleranceSummaryCard(currentTolerance: _currentTolerance),
+          ToleranceStatsCard(
+            toleranceModel: _toleranceModel!,
+            daysUntilBaseline: _daysUntilBaseline,
+            recentUseCount: _useEvents.length,
+          ),
+          ToleranceNotesCard(notes: _toleranceModel!.notes),
         ],
-        _buildRecentUsesCard(),
+        RecentUsesCard(
+          useEvents: _useEvents,
+          substanceName: _selectedSubstance,
+        ),
         // Debug per-substance tolerance table
         if (_showDebugSubstances) ...[
           const SizedBox(height: 12),
-          Card(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('DEBUG: Per-substance tolerance', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  if (_isLoadingPerSubstance)
-                    const Center(child: CircularProgressIndicator())
-                  else if (_perSubstanceTolerances.isEmpty)
-                    const Text('No data')
-                  else
-                    ..._perSubstanceTolerances.entries.map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(e.key, style: const TextStyle(fontSize: 14)),
-                              Text('${e.value.toStringAsFixed(1)} %', style: const TextStyle(fontSize: 14)),
-                            ],
-                          ),
-                        )),
-                ],
-              ),
-            ),
+          DebugSubstanceList(
+            perSubstanceTolerances: _perSubstanceTolerances,
+            isLoading: _isLoadingPerSubstance,
           ),
         ],
       ],
     );
-  }
-
-  Widget _buildSummaryCard() {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Current tolerance',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '${_currentTolerance.toStringAsFixed(1)}%',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 12),
-            LinearProgressIndicator(
-              value: (_currentTolerance / 100).clamp(0.0, 1.0),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              _toleranceLabel(_currentTolerance),
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatsCard() {
-    final model = _toleranceModel!;
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Key metrics', style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 12),
-            _buildMetricRow('Half-life', '${model.halfLifeHours} h'),
-            _buildMetricRow('Tolerance decay', '${model.toleranceDecayDays} days'),
-            _buildMetricRow('Days until baseline', _daysUntilBaseline.toStringAsFixed(1)),
-            _buildMetricRow('Recent uses (30 d)', _useEvents.length.toString()),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNotesCard() {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Notes', style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 8),
-            Text(
-              _toleranceModel!.notes,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRecentUsesCard() {
-    if (_useEvents.isEmpty) {
-      return Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(
-            'No recent use events recorded for $_selectedSubstance.',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ),
-      );
-    }
-
-    final recentEvents = _useEvents.take(5).toList();
-    final formatter = DateFormat('MMM d · HH:mm');
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Recent use events', style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 12),
-            ...recentEvents.map(
-              (event) => ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(formatter.format(event.timestamp)),
-                subtitle: Text('${event.dose.toStringAsFixed(1)} units'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMetricRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label),
-          Text(
-            value,
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _toleranceLabel(double tolerance) {
-    if (tolerance < 10) return 'Baseline';
-    if (tolerance < 30) return 'Low';
-    if (tolerance < 50) return 'Moderate';
-    if (tolerance < 70) return 'High';
-    return 'Very high';
   }
 }

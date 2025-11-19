@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 
 import '../services/admin_service.dart';
 import '../utils/error_handler.dart';
+import '../widgets/admin/admin_stats_section.dart';
+import '../widgets/admin/admin_user_list.dart';
 
 class AdminPanelScreen extends StatefulWidget {
   const AdminPanelScreen({super.key});
@@ -97,81 +99,21 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Stats Dashboard
-                    _buildStatsSection(),
+                    AdminStatsSection(stats: _stats),
                     const SizedBox(height: 24),
                     _buildErrorAnalyticsSection(),
                     const SizedBox(height: 24),
 
                     // User Management
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'User Management',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.refresh),
-                          onPressed: _loadData,
-                        ),
-                      ],
+                    AdminUserList(
+                      users: _users,
+                      onToggleAdmin: _toggleAdmin,
+                      onRefresh: _loadData,
                     ),
-                    const SizedBox(height: 16),
-                    _buildUserList(),
                   ],
                 ),
               ),
             ),
-    );
-  }
-
-  Widget _buildStatsSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Quick Stats',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
-          childAspectRatio: 1.5,
-          children: [
-            _buildStatCard(
-              'Total Entries',
-              _stats['total_entries']?.toString() ?? '0',
-              Icons.analytics,
-              Colors.blue,
-            ),
-            _buildStatCard(
-              'Active Users',
-              _stats['active_users']?.toString() ?? '0',
-              Icons.people,
-              Colors.green,
-            ),
-            _buildStatCard(
-              'Cache Hit Rate',
-              '${(_stats['cache_hit_rate'] ?? 0.0).toStringAsFixed(1)}%',
-              Icons.memory,
-              Colors.orange,
-            ),
-            _buildStatCard(
-              'Avg Response',
-              '${(_stats['avg_response_time'] ?? 0.0).toStringAsFixed(0)}ms',
-              Icons.speed,
-              Colors.purple,
-            ),
-          ],
-        ),
-      ],
     );
   }
 

@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../providers/settings_provider.dart';
+import '../widgets/settings/ui_settings_section.dart';
+import '../widgets/settings/notification_settings_section.dart';
+import '../widgets/settings/privacy_settings_section.dart';
+import '../widgets/settings/data_sync_settings_section.dart';
+import '../widgets/settings/entry_preferences_section.dart';
+import '../widgets/settings/display_settings_section.dart';
+import '../widgets/settings/about_section.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -49,278 +56,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           return ListView(
             children: [
-              _buildSection(
-                'UI Settings',
-                Icons.palette,
-                [
-                  SwitchListTile(
-                    title: const Text('Dark Mode'),
-                    subtitle: const Text('Use dark theme'),
-                    value: settings.darkMode,
-                    onChanged: settingsProvider.setDarkMode,
-                  ),
-                  ListTile(
-                    title: const Text('Theme Color'),
-                    subtitle: Text(settings.themeColor),
-                    trailing: _buildColorIndicator(settings.themeColor),
-                    onTap: () => _showThemeColorPicker(context, settingsProvider),
-                  ),
-                  ListTile(
-                    title: const Text('Font Size'),
-                    subtitle: Slider(
-                      value: settings.fontSize,
-                      min: 12.0,
-                      max: 20.0,
-                      divisions: 8,
-                      label: settings.fontSize.toStringAsFixed(0),
-                      onChanged: settingsProvider.setFontSize,
-                    ),
-                  ),
-                  SwitchListTile(
-                    title: const Text('Compact Mode'),
-                    subtitle: const Text('Reduce spacing and padding'),
-                    value: settings.compactMode,
-                    onChanged: settingsProvider.setCompactMode,
-                  ),
-                  ListTile(
-                    title: const Text('Language'),
-                    subtitle: Text(settings.language),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => _showLanguagePicker(context, settingsProvider),
-                  ),
-                ],
+              UISettingsSection(
+                settingsProvider: settingsProvider,
+                onThemeColorTap: () => _showThemeColorPicker(context, settingsProvider),
+                onLanguageTap: () => _showLanguagePicker(context, settingsProvider),
               ),
-              _buildSection(
-                'Notifications',
-                Icons.notifications,
-                [
-                  SwitchListTile(
-                    title: const Text('Enable Notifications'),
-                    value: settings.notificationsEnabled,
-                    onChanged: settingsProvider.setNotificationsEnabled,
-                  ),
-                  SwitchListTile(
-                    title: const Text('Daily Check-in Reminder'),
-                    subtitle: Text('At ${settings.checkinReminderTime}'),
-                    value: settings.dailyCheckinReminder,
-                    onChanged: settings.notificationsEnabled
-                        ? settingsProvider.setDailyCheckinReminder
-                        : null,
-                  ),
-                  if (settings.dailyCheckinReminder && settings.notificationsEnabled)
-                    ListTile(
-                      title: const Text('Reminder Time'),
-                      subtitle: Text(settings.checkinReminderTime),
-                      trailing: const Icon(Icons.access_time),
-                      onTap: () => _showTimePicker(context, settingsProvider, settings.checkinReminderTime),
-                    ),
-                  SwitchListTile(
-                    title: const Text('Medication Reminders'),
-                    value: settings.medicationReminders,
-                    onChanged: settings.notificationsEnabled
-                        ? settingsProvider.setMedicationReminders
-                        : null,
-                  ),
-                  SwitchListTile(
-                    title: const Text('Craving Alerts'),
-                    value: settings.cravingAlerts,
-                    onChanged: settings.notificationsEnabled
-                        ? settingsProvider.setCravingAlerts
-                        : null,
-                  ),
-                  SwitchListTile(
-                    title: const Text('Weekly Reports'),
-                    value: settings.weeklyReports,
-                    onChanged: settings.notificationsEnabled
-                        ? settingsProvider.setWeeklyReports
-                        : null,
-                  ),
-                ],
+              NotificationSettingsSection(
+                settingsProvider: settingsProvider,
+                onReminderTimeTap: () => _showTimePicker(context, settingsProvider, settings.checkinReminderTime),
               ),
-              _buildSection(
-                'Privacy & Security',
-                Icons.lock,
-                [
-                  SwitchListTile(
-                    title: const Text('Biometric Lock'),
-                    subtitle: const Text('Use fingerprint/face to unlock'),
-                    value: settings.biometricLock,
-                    onChanged: settingsProvider.setBiometricLock,
-                  ),
-                  SwitchListTile(
-                    title: const Text('Require PIN on Open'),
-                    value: settings.requirePinOnOpen,
-                    onChanged: settingsProvider.setRequirePinOnOpen,
-                  ),
-                  ListTile(
-                    title: const Text('Auto-lock Duration'),
-                    subtitle: Text(settings.autoLockDuration),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => _showAutoLockPicker(context, settingsProvider),
-                  ),
-                  SwitchListTile(
-                    title: const Text('Hide in Recent Apps'),
-                    subtitle: const Text('Blur content in app switcher'),
-                    value: settings.hideContentInRecents,
-                    onChanged: settingsProvider.setHideContentInRecents,
-                  ),
-                  SwitchListTile(
-                    title: const Text('Analytics'),
-                    subtitle: const Text('Share anonymous usage data'),
-                    value: settings.analyticsEnabled,
-                    onChanged: settingsProvider.setAnalyticsEnabled,
-                  ),
-                ],
+              PrivacySettingsSection(
+                settingsProvider: settingsProvider,
+                onAutoLockTap: () => _showAutoLockPicker(context, settingsProvider),
               ),
-              _buildSection(
-                'Data & Sync',
-                Icons.cloud,
-                [
-                  SwitchListTile(
-                    title: const Text('Auto Backup'),
-                    subtitle: Text('Frequency: ${settings.backupFrequency}'),
-                    value: settings.autoBackup,
-                    onChanged: settingsProvider.setAutoBackup,
-                  ),
-                  if (settings.autoBackup)
-                    ListTile(
-                      title: const Text('Backup Frequency'),
-                      subtitle: Text(settings.backupFrequency),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => _showBackupFrequencyPicker(context, settingsProvider),
-                    ),
-                  SwitchListTile(
-                    title: const Text('Cloud Sync'),
-                    subtitle: const Text('Sync data across devices'),
-                    value: settings.syncEnabled,
-                    onChanged: settingsProvider.setSyncEnabled,
-                  ),
-                  SwitchListTile(
-                    title: const Text('Offline Mode'),
-                    subtitle: const Text('Work without internet'),
-                    value: settings.offlineMode,
-                    onChanged: settingsProvider.setOfflineMode,
-                  ),
-                  SwitchListTile(
-                    title: const Text('Enable Cache'),
-                    subtitle: Text('Duration: ${settings.cacheDuration}'),
-                    value: settings.cacheEnabled,
-                    onChanged: settingsProvider.setCacheEnabled,
-                  ),
-                  if (settings.cacheEnabled)
-                    ListTile(
-                      title: const Text('Cache Duration'),
-                      subtitle: Text(settings.cacheDuration),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => _showCacheDurationPicker(context, settingsProvider),
-                    ),
-                ],
+              DataSyncSettingsSection(
+                settingsProvider: settingsProvider,
+                onBackupFrequencyTap: () => _showBackupFrequencyPicker(context, settingsProvider),
+                onCacheDurationTap: () => _showCacheDurationPicker(context, settingsProvider),
               ),
-              _buildSection(
-                'Entry Preferences',
-                Icons.edit,
-                [
-                  ListTile(
-                    title: const Text('Default Dose Unit'),
-                    subtitle: Text(settings.defaultDoseUnit),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => _showDoseUnitPicker(context, settingsProvider),
-                  ),
-                  SwitchListTile(
-                    title: const Text('Quick Entry Mode'),
-                    subtitle: const Text('Skip confirmation dialogs'),
-                    value: settings.quickEntryMode,
-                    onChanged: settingsProvider.setQuickEntryMode,
-                  ),
-                  SwitchListTile(
-                    title: const Text('Auto-save Entries'),
-                    subtitle: const Text('Save without confirmation'),
-                    value: settings.autoSaveEntries,
-                    onChanged: settingsProvider.setAutoSaveEntries,
-                  ),
-                  SwitchListTile(
-                    title: const Text('Show Recent Substances'),
-                    subtitle: Text('Show last ${settings.recentSubstancesCount} used'),
-                    value: settings.showRecentSubstances,
-                    onChanged: settingsProvider.setShowRecentSubstances,
-                  ),
-                  if (settings.showRecentSubstances)
-                    ListTile(
-                      title: const Text('Recent Count'),
-                      subtitle: Slider(
-                        value: settings.recentSubstancesCount.toDouble(),
-                        min: 3,
-                        max: 10,
-                        divisions: 7,
-                        label: settings.recentSubstancesCount.toString(),
-                        onChanged: (value) => settingsProvider.setRecentSubstancesCount(value.round()),
-                      ),
-                    ),
-                ],
+              EntryPreferencesSection(
+                settingsProvider: settingsProvider,
+                onDoseUnitTap: () => _showDoseUnitPicker(context, settingsProvider),
               ),
-              _buildSection(
-                'Display',
-                Icons.display_settings,
-                [
-                  SwitchListTile(
-                    title: const Text('24-Hour Time'),
-                    value: settings.show24HourTime,
-                    onChanged: settingsProvider.setShow24HourTime,
-                  ),
-                  ListTile(
-                    title: const Text('Date Format'),
-                    subtitle: Text(settings.dateFormat),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => _showDateFormatPicker(context, settingsProvider),
-                  ),
-                  SwitchListTile(
-                    title: const Text('Show Blood Levels'),
-                    subtitle: const Text('Display pharmacokinetic graphs'),
-                    value: settings.showBloodLevels,
-                    onChanged: settingsProvider.setShowBloodLevels,
-                  ),
-                  SwitchListTile(
-                    title: const Text('Show Analytics'),
-                    subtitle: const Text('Display usage statistics'),
-                    value: settings.showAnalytics,
-                    onChanged: settingsProvider.setShowAnalytics,
-                  ),
-                ],
+              DisplaySettingsSection(
+                settingsProvider: settingsProvider,
+                onDateFormatTap: () => _showDateFormatPicker(context, settingsProvider),
               ),
-              _buildSection(
-                'About',
-                Icons.info,
-                [
-                  ListTile(
-                    title: const Text('App Version'),
-                    subtitle: Text(_packageInfo?.version ?? 'Loading...'),
-                  ),
-                  ListTile(
-                    title: const Text('Build Number'),
-                    subtitle: Text(_packageInfo?.buildNumber ?? 'Loading...'),
-                  ),
-                  ListTile(
-                    title: const Text('Open Source Licenses'),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => showLicensePage(context: context),
-                  ),
-                  ListTile(
-                    title: const Text('Privacy Policy'),
-                    trailing: const Icon(Icons.open_in_new),
-                    onTap: () => _showComingSoon(context, 'Privacy Policy'),
-                  ),
-                  ListTile(
-                    title: const Text('Terms of Service'),
-                    trailing: const Icon(Icons.open_in_new),
-                    onTap: () => _showComingSoon(context, 'Terms of Service'),
-                  ),
-                  ListTile(
-                    title: const Text('Support'),
-                    trailing: const Icon(Icons.open_in_new),
-                    onTap: () => _showComingSoon(context, 'Support'),
-                  ),
-                ],
-              ),
+              AboutSection(packageInfo: _packageInfo),
               const SizedBox(height: 16),
             ],
           );
@@ -329,33 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSection(String title, IconData icon, List<Widget> children) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-          child: Row(
-            children: [
-              Icon(icon, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-        ...children,
-        const Divider(),
-      ],
-    );
-  }
-
-  Widget _buildColorIndicator(String colorName) {
+  void _showThemeColorPicker(BuildContext context, SettingsProvider provider) {
     final colorMap = {
       'blue': Colors.blue,
       'purple': Colors.purple,
@@ -364,19 +100,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       'red': Colors.red,
       'teal': Colors.teal,
     };
-    final color = colorMap[colorName] ?? Colors.blue;
-    return Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.grey),
-      ),
-    );
-  }
-
-  void _showThemeColorPicker(BuildContext context, SettingsProvider provider) {
     final colors = ['blue', 'purple', 'green', 'orange', 'red', 'teal'];
     showDialog(
       context: context,
@@ -386,7 +109,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
           mainAxisSize: MainAxisSize.min,
           children: colors.map((color) {
             return ListTile(
-              leading: _buildColorIndicator(color),
+              leading: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: colorMap[color] ?? Colors.blue,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.grey),
+                ),
+              ),
               title: Text(color[0].toUpperCase() + color.substring(1)),
               onTap: () {
                 provider.setThemeColor(color);
@@ -569,22 +300,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
             },
             child: const Text('Reset'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showComingSoon(BuildContext context, String feature) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(feature),
-        content: const Text('This feature is coming soon.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
           ),
         ],
       ),
