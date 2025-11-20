@@ -116,7 +116,8 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
 
   Widget _buildSummary() {
     final activeCount = _levels.length;
-    final highRisk = _levels.values.where((l) => l.percentage > 20).length;
+    final highRisk = _levels.values.where((l) => l.status == 'HIGH').length;
+    final activeItems = _levels.values.where((l) => l.status == 'ACTIVE').length;
     final avgPct = _levels.values.isEmpty
         ? 0.0
         : _levels.values.map((l) => l.percentage).reduce((a, b) => a + b) /
@@ -127,9 +128,9 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
     if (highRisk > 0) {
       statusColor = Colors.red;
       statusText = 'HIGH';
-    } else if (avgPct > 10) {
+    } else if (activeItems > 0) {
       statusColor = Colors.orange;
-      statusText = 'MODERATE';
+      statusText = 'ACTIVE';
     }
 
     return Container(

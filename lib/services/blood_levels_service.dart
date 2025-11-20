@@ -11,7 +11,27 @@ class BloodLevelsService {
     final now = referenceTime ?? DateTime.now();
     
     try {
-      ErrorHandler.logDebug('BloodLevelsService', 'Fetching drug use data');
+      ErrorHandler.logDebug('BloodLevelsService', 'Fetching drug use data and profiles');
+      
+      // Fetch drug profiles to get duration and aftereffects data
+      final profilesResponse = await Supabase.instance.client
+          .from('drug_profiles')
+          .select('slug, name, pretty_name, formatted_duration, formatted_aftereffects');
+      
+      final profilesData = profilesResponse as List<dynamic>;
+      final profilesMap = <String, Map<String, dynamic>>{};
+      
+      for (final profile in profilesData) {
+        final slug = profile['slug'] as String?;
+        final name = (profile['name'] as String?)?.toLowerCase();
+        final prettyName = (profile['pretty_name'] as String?)?.toLowerCase();
+        
+        if (slug != null) {
+          profilesMap[slug.toLowerCase()] = profile;
+          if (name != null) profilesMap[name] = profile;
+          if (prettyName != null) profilesMap[prettyName] = profile;
+        }
+      }
       
       // RLS handles user filtering
       final response = await Supabase.instance.client
@@ -31,27 +51,52 @@ class BloodLevelsService {
         if (startTime == null || startTime.isAfter(now)) continue;
         
         final doseMg = _parseDose(doseString);
-        ErrorHandler.logDebug('BloodLevelsService', 'Entry: $drugName, dose: "$doseString" -> ${doseMg}mg, time: $startTime');
-        
         if (doseMg <= 0) continue;
         
-        final hoursElapsed = now.difference(startTime).inMinutes / 60.0;
-        final halfLife = _getHalfLife(drugName);
-        final remaining = doseMg * pow(0.5, hoursElapsed / halfLife);
+        final hoursSinceDose = now.difference(startTime).inMinutes / 60.0;
         
-        // Only include if >1% remaining
-        final percentage = (remaining / doseMg) * 100;
-        if (percentage < 1.0) continue;
+        // Get profile data for this drug
+        final profile = profilesMap[drugName];
+        final maxDuration = _parseMaxDuration(profile?['formatted_duration']);
+        final maxAftereffects = _parseMaxDuration(profile?['formatted_aftereffects']);
+        final fullActiveWindow = maxDuration + maxAftereffects;
+        final halfLife = _getHalfLife(drugName);
+        
+        ErrorHandler.logDebug('BloodLevelsService', 
+          'Entry: $drugName, dose: ${doseMg}mg, hours: ${hoursSinceDose.toStringAsFixed(2)}h, '
+          'duration: ${maxDuration}h, aftereffects: ${maxAftereffects}h, window: ${fullActiveWindow}h');
+        
+        // Skip if outside active window
+        if (hoursSinceDose > fullActiveWindow) {
+          ErrorHandler.logDebug('BloodLevelsService', 'Skipping $drugName - outside active window');
+          continue;
+        }
+        
+        // Calculate remaining using half-life decay
+        final remaining = doseMg * pow(0.5, hoursSinceDose / halfLife);
+        final percentRemaining = (remaining / doseMg) * 100;
+        
+        // Determine if in aftereffects phase
+        final inAftereffects = hoursSinceDose > maxDuration;
+        
+        // Keep doses with >10% remaining OR still in aftereffects window
+        if (percentRemaining < 10.0 && !inAftereffects) {
+          ErrorHandler.logDebug('BloodLevelsService', 
+            'Skipping $drugName - ${percentRemaining.toStringAsFixed(1)}% remaining, not in aftereffects');
+          continue;
+        }
         
         if (!levels.containsKey(drugName)) {
           levels[drugName] = DrugLevel(
             drugName: drugName,
             totalDose: 0,
             totalRemaining: 0,
-            lastDose: doseMg,  // Set to first dose (most recent due to ordering)
+            lastDose: doseMg,
             lastUse: startTime,
             halfLife: halfLife,
             doses: [],
+            activeWindow: fullActiveWindow,
+            maxDuration: maxDuration,
           );
         }
         
@@ -63,7 +108,8 @@ class BloodLevelsService {
             dose: doseMg,
             startTime: startTime,
             remaining: remaining,
-            hoursElapsed: hoursElapsed,
+            hoursElapsed: hoursSinceDose,
+            percentRemaining: percentRemaining,
           )],
           // Update last dose if this is more recent
           lastDose: startTime.isAfter(currentLevel.lastUse) ? doseMg : null,
@@ -76,6 +122,59 @@ class BloodLevelsService {
     } catch (e, stackTrace) {
       ErrorHandler.logError('BloodLevelsService.calculateLevels', e, stackTrace);
       rethrow;
+    }
+  }
+  
+  /// Parse maximum duration from formatted_duration JSON
+  /// Looks for the highest max value across all routes
+  double _parseMaxDuration(dynamic formattedDuration) {
+    if (formattedDuration == null) return 8.0; // Default 8 hours
+    
+    try {
+      final data = formattedDuration as Map<String, dynamic>?;
+      if (data == null) return 8.0;
+      
+      double maxHours = 0.0;
+      
+      // Iterate through all routes (oral, insufflated, etc.)
+      for (final route in data.values) {
+        if (route is! Map<String, dynamic>) continue;
+        
+        // Look for _unit fields that might contain duration info
+        for (final entry in route.entries) {
+          if (entry.key.endsWith('_unit') && entry.value is Map<String, dynamic>) {
+            final unitData = entry.value as Map<String, dynamic>;
+            final max = unitData['max'];
+            final units = unitData['units'] as String?;
+            
+            if (max != null && units != null) {
+              final hours = _convertToHours(max, units);
+              if (hours > maxHours) maxHours = hours;
+            }
+          }
+        }
+      }
+      
+      return maxHours > 0 ? maxHours : 8.0;
+    } catch (e) {
+      ErrorHandler.logDebug('BloodLevelsService', 'Error parsing duration: $e');
+      return 8.0;
+    }
+  }
+  
+  /// Convert duration to hours based on units
+  double _convertToHours(dynamic value, String units) {
+    final numValue = value is num ? value.toDouble() : double.tryParse(value.toString()) ?? 0.0;
+    
+    switch (units.toLowerCase()) {
+      case 'minutes':
+        return numValue / 60.0;
+      case 'hours':
+        return numValue;
+      case 'days':
+        return numValue * 24.0;
+      default:
+        return numValue; // Assume hours
     }
   }
   
@@ -119,6 +218,8 @@ class DrugLevel {
   final DateTime lastUse;
   final double halfLife;
   final List<DoseEntry> doses;
+  final double activeWindow; // Full active window (duration + aftereffects)
+  final double maxDuration; // Maximum duration before aftereffects
   
   const DrugLevel({
     required this.drugName,
@@ -128,9 +229,23 @@ class DrugLevel {
     required this.lastUse,
     required this.halfLife,
     required this.doses,
+    this.activeWindow = 8.0,
+    this.maxDuration = 6.0,
   });
   
-  double get percentage => lastDose > 0 ? (totalRemaining / totalDose) * 100 : 0.0;
+  /// Calculate overall percentage remaining (for all doses combined)
+  double get percentage => totalDose > 0 ? (totalRemaining / totalDose) * 100 : 0.0;
+  
+  /// Get status based on remaining percentage
+  String get status {
+    final hoursSinceLastUse = DateTime.now().difference(lastUse).inMinutes / 60.0;
+    final inAftereffects = hoursSinceLastUse > maxDuration;
+    
+    if (percentage > 40) return 'HIGH';
+    if (percentage >= 10) return 'ACTIVE';
+    if (inAftereffects && hoursSinceLastUse <= activeWindow) return 'TRACE';
+    return 'LOW';
+  }
   
   DrugLevel copyWith({
     double? totalDose,
@@ -138,6 +253,8 @@ class DrugLevel {
     double? lastDose,
     DateTime? lastUse,
     List<DoseEntry>? doses,
+    double? activeWindow,
+    double? maxDuration,
   }) {
     return DrugLevel(
       drugName: drugName,
@@ -147,6 +264,8 @@ class DrugLevel {
       lastUse: lastUse ?? this.lastUse,
       halfLife: halfLife,
       doses: doses ?? this.doses,
+      activeWindow: activeWindow ?? this.activeWindow,
+      maxDuration: maxDuration ?? this.maxDuration,
     );
   }
 }
@@ -157,11 +276,13 @@ class DoseEntry {
   final DateTime startTime;
   final double remaining;
   final double hoursElapsed;
+  final double percentRemaining;
   
   const DoseEntry({
     required this.dose,
     required this.startTime,
     required this.remaining,
     required this.hoursElapsed,
+    this.percentRemaining = 0.0,
   });
 }

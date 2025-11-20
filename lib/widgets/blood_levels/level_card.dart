@@ -10,7 +10,8 @@ class LevelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final percentage = level.percentage;
-    final color = _getStatusColor(percentage);
+    final status = level.status;
+    final color = _getColorForStatus(status);
     final timeAgo = DateTime.now().difference(level.lastUse);
     final remainingMg = level.totalRemaining;
     
@@ -39,7 +40,7 @@ class LevelCard extends StatelessWidget {
                     border: Border.all(color: color),
                   ),
                   child: Text(
-                    _getStatusText(percentage),
+                    status,
                     style: TextStyle(
                       color: color,
                       fontWeight: FontWeight.bold,
@@ -73,8 +74,8 @@ class LevelCard extends StatelessWidget {
                   _formatTimeAgo(timeAgo),
                 ),
                 _buildInfoColumn(
-                  'Half-life',
-                  '${level.halfLife.toStringAsFixed(1)}h',
+                  'Active Window',
+                  '${level.activeWindow.toStringAsFixed(1)}h',
                 ),
               ],
             ),
@@ -107,18 +108,17 @@ class LevelCard extends StatelessWidget {
     );
   }
   
-  Color _getStatusColor(double percentage) {
-    if (percentage > 20) return Colors.red;
-    if (percentage > 10) return Colors.orange;
-    if (percentage > 5) return Colors.amber;
-    return Colors.green;
-  }
-  
-  String _getStatusText(double percentage) {
-    if (percentage > 20) return 'HIGH';
-    if (percentage > 10) return 'MODERATE';
-    if (percentage > 5) return 'LOW';
-    return 'TRACE';
+  Color _getColorForStatus(String status) {
+    switch (status) {
+      case 'HIGH':
+        return Colors.red;
+      case 'ACTIVE':
+        return Colors.orange;
+      case 'TRACE':
+        return Colors.amber;
+      default:
+        return Colors.green;
+    }
   }
   
   String _formatTimeAgo(Duration duration) {
