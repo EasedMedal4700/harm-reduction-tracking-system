@@ -4,6 +4,7 @@ import '../models/tolerance_model.dart';
 import '../services/tolerance_service.dart';
 import '../services/user_service.dart';
 import '../services/tolerance_engine_service.dart';
+import '../utils/tolerance_calculator.dart';
 import '../widgets/system_tolerance_widget.dart';
 import '../widgets/tolerance/tolerance_summary_card.dart';
 import '../widgets/tolerance/tolerance_stats_card.dart';

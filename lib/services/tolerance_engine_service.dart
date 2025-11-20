@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/tolerance_model.dart';
+import '../utils/tolerance_calculator.dart';
 import 'dart:math' as math;
 import '../utils/error_handler.dart';
 

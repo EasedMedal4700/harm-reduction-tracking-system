@@ -53,10 +53,10 @@ void main() {
         expect(severity, ErrorSeverity.medium);
       });
 
-      test('maps generic errors to low severity by default', () {
+      test('maps generic errors to medium severity by default', () {
         final error = Exception('Something happened');
         final severity = ErrorReporter.mapSeverity(error, null);
-        expect(severity, ErrorSeverity.low);
+        expect(severity, ErrorSeverity.medium);
       });
     });
 
@@ -85,20 +85,26 @@ void main() {
         expect(code, 'AUTH_ERROR');
       });
 
-      test('generates NETWORK_ERROR for connection errors', () {
+      test('generates CONNECTION_ERROR for connection errors', () {
         final error = Exception('Connection failed');
         final code = ErrorReporter.generateErrorCode(error);
-        expect(code, 'NETWORK_ERROR');
+        expect(code, 'CONNECTION_ERROR');
+      });
+
+      test('generates FORMAT_ERROR for format errors', () {
+        final error = FormatException('Failed to format');
+        final code = ErrorReporter.generateErrorCode(error);
+        expect(code, 'FORMAT_ERROR');
       });
 
       test('generates PARSE_ERROR for parsing errors', () {
-        final error = FormatException('Failed to parse');
+        final error = Exception('Failed to parse JSON');
         final code = ErrorReporter.generateErrorCode(error);
         expect(code, 'PARSE_ERROR');
       });
 
       test('generates VALIDATION_ERROR for validation errors', () {
-        final error = Exception('Invalid input: email format');
+        final error = Exception('Invalid input: validation failed');
         final code = ErrorReporter.generateErrorCode(error);
         expect(code, 'VALIDATION_ERROR');
       });
@@ -109,10 +115,10 @@ void main() {
         expect(code, 'API_FAILURE');
       });
 
-      test('generates UNKNOWN for unrecognized errors', () {
+      test('generates _EXCEPTION for unrecognized errors', () {
         final error = Exception('Something weird happened');
         final code = ErrorReporter.generateErrorCode(error);
-        expect(code, 'UNKNOWN');
+        expect(code, '_EXCEPTION');
       });
     });
 

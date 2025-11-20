@@ -34,7 +34,11 @@ class _DosageInputState extends State<DosageInput> {
   }
 
   String _formatDose(double dose) {
-    // Remove unnecessary trailing zeros
+    // Always show "0.0" for zero dose
+    if (dose == 0.0) {
+      return '0.0';
+    }
+    // Remove unnecessary trailing zeros for other values
     if (dose == dose.roundToDouble()) {
       return dose.toInt().toString();
     }

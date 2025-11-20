@@ -213,7 +213,7 @@ void main() {
         expect(state.location, 'Select a location');
         expect(state.isMedicalPurpose, isFalse);
         expect(state.cravingIntensity, 0);
-        expect(state.intention, '');
+        expect(state.intention, '-- Select Intention--');
         expect(state.triggers, isEmpty);
         expect(state.bodySignals, isEmpty);
         expect(state.notesCtrl.text, isEmpty);

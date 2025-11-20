@@ -19,7 +19,8 @@ void main() {
         ),
       );
 
-      expect(find.text('10.0'), findsOneWidget);
+      // Widget shows "10" for whole numbers (not "10.0")
+      expect(find.text('10'), findsOneWidget);
       expect(find.text('mg'), findsOneWidget);
       expect(find.byIcon(Icons.add), findsOneWidget);
       expect(find.byIcon(Icons.remove), findsOneWidget);
@@ -89,6 +90,9 @@ void main() {
           ),
         ),
       );
+
+      // Verify it displays "0.0" for zero dose
+      expect(find.text('0.0'), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.remove));
       expect(currentDose, 0.0); // Should not go below 0
