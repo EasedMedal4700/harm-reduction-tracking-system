@@ -126,7 +126,7 @@ class AdminService {
       final rawLogs = await _client
           .from('error_logs')
           .select(
-            'id, user_id, app_version, platform, os_version, device_model, screen_name, error_message, stacktrace, extra_data, created_at',
+            'id, user_id, app_version, platform, os_version, device_model, screen_name, error_message, error_code, severity, stacktrace, extra_data, created_at',
           )
           .order('created_at', ascending: false)
           .limit(500) as List;
@@ -165,6 +165,8 @@ class AdminService {
         'platform_breakdown': buildTopCounts('platform', 'platform'),
         'screen_breakdown': buildTopCounts('screen_name', 'screen_name'),
         'message_breakdown': buildTopCounts('error_message', 'error_message'),
+        'severity_breakdown': buildTopCounts('severity', 'severity'),
+        'error_code_breakdown': buildTopCounts('error_code', 'error_code'),
         'recent_logs': recentLogs,
       };
     } catch (e, stackTrace) {
@@ -175,6 +177,8 @@ class AdminService {
         'platform_breakdown': const <Map<String, dynamic>>[],
         'screen_breakdown': const <Map<String, dynamic>>[],
         'message_breakdown': const <Map<String, dynamic>>[],
+        'severity_breakdown': const <Map<String, dynamic>>[],
+        'error_code_breakdown': const <Map<String, dynamic>>[],
         'recent_logs': const <Map<String, dynamic>>[],
       };
     }

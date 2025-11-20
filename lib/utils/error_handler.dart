@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../services/error_logging_service.dart';
+import 'error_reporter.dart';
 
 /// Central error handler for the application with automatic DB reporting.
 class ErrorHandler {
-  static final ErrorLoggingService _errorLoggingService =
-      ErrorLoggingService.instance;
+  static final ErrorReporter _errorReporter = ErrorReporter.instance;
 
   /// Show error dialog with details
   static void showErrorDialog(
@@ -118,7 +117,7 @@ class ErrorHandler {
     );
   }
 
-  /// Log error to console and Supabase
+  /// Log error to console and Supabase with severity tracking
   static void logError(String context, dynamic error, [StackTrace? stackTrace]) {
     debugPrint('ERROR [$context]: $error');
     if (stackTrace != null) {
@@ -126,14 +125,10 @@ class ErrorHandler {
     }
 
     unawaited(
-      _errorLoggingService.logError(
-        screenName: context,
-        error: error,
-        stackTrace: stackTrace,
-        extraData: {
-          'context': context,
-          'handled': true,
-        },
+      _errorReporter.reportWithContext(
+        context,
+        error,
+        stackTrace,
       ),
     );
   }

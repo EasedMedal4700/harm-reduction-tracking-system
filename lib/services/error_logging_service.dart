@@ -21,6 +21,13 @@ class ErrorLoggingService {
   String? _currentScreen;
   bool _initialized = false;
 
+  // Public getters for error reporter
+  String? get appVersion => _appVersion;
+  String? get platform => _platform;
+  String? get osVersion => _osVersion;
+  String? get deviceModel => _deviceModel;
+  String? get currentScreen => _currentScreen;
+
   Future<void> init() async {
     if (_initialized) return;
     _initialized = true;
