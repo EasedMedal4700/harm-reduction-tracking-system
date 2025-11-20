@@ -35,7 +35,7 @@ class BloodLevelsService {
         
         if (doseMg <= 0) continue;
         
-        final hoursElapsed = now.difference(startTime).inHours.toDouble();
+        final hoursElapsed = now.difference(startTime).inMinutes / 60.0;
         final halfLife = _getHalfLife(drugName);
         final remaining = doseMg * pow(0.5, hoursElapsed / halfLife);
         

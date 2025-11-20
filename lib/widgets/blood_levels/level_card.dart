@@ -12,6 +12,7 @@ class LevelCard extends StatelessWidget {
     final percentage = level.percentage;
     final color = _getStatusColor(percentage);
     final timeAgo = DateTime.now().difference(level.lastUse);
+    final remainingMg = level.totalRemaining;
     
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -61,7 +62,7 @@ class LevelCard extends StatelessWidget {
               children: [
                 _buildInfoColumn(
                   'Remaining',
-                  '${percentage.toStringAsFixed(1)}%',
+                  '${remainingMg.toStringAsFixed(1)}mg',
                 ),
                 _buildInfoColumn(
                   'Last Dose',
