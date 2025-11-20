@@ -41,22 +41,36 @@ Clean, modular implementation of the metabolism timeline graph from the old bloo
   - Supports units: hours, minutes, days
 
 ### 🎨 Widgets
-- **`lib/widgets/blood_levels/metabolism_timeline_card.dart`** (467 lines)
+- **`lib/widgets/blood_levels/metabolism_timeline_card.dart`** (275 lines)
   - **StatefulWidget** that fetches unfiltered doses via `getDosesForTimeline()`
   - **Accepts `List<DrugLevel>`** to show multiple drugs simultaneously
   - Main graph widget using FL_Chart
   - Features:
     - **Multiple drug lines** with different colors
     - **Normalized intensity (0-100%)** based on dosage thresholds
-    - **Horizontal legend** showing all drugs with half-lives
+    - Uses TimelineChartConfig for chart configuration
+    - Uses TimelineLegend for drug legend display
     - Smooth gradient area fill per drug
     - Exponential decay curves
-    - Vertical "NOW" line at x=0
     - Interactive tooltips showing drug name, time, and intensity %
-    - Adaptive/fixed Y-scale (capped at 200% for heavy doses)
-    - Y-axis labeled as **percentage** instead of mg
     - Loading state while fetching doses
     - Auto-reloads when time window or drugs change
+
+- **`lib/widgets/blood_levels/timeline_chart_config.dart`** (162 lines)
+  - Static helper class for chart configuration
+  - Methods:
+    - `buildTitlesData()` - Creates axis labels (X: time, Y: percentage)
+    - `buildGridData()` - Creates background grid
+    - `buildNowLine()` - Creates red "NOW" vertical line
+    - `calculateMaxY()` - Calculates adaptive or fixed Y-axis scale
+    - `buildTooltipItems()` - Generates interactive tooltips
+  - Pure UI configuration, no business logic
+
+- **`lib/widgets/blood_levels/timeline_legend.dart`** (50 lines)
+  - Stateless widget for horizontal scrolling legend
+  - Displays drug name, color indicator, and half-life
+  - Accepts list of legend items with name, color, halfLife
+  - Clean, reusable component
 
 - **`lib/widgets/blood_levels/metabolism_timeline_controls.dart`** (165 lines)
   - Timeline configuration UI
@@ -115,7 +129,8 @@ Example: Viewing 72h lookback, a dose from 48h ago (now fully inactive) will sti
 
 ### 🎯 Architecture Principles
 - ✅ **Separation of concerns** - UI, business logic, data models separate
-- ✅ **Small, focused files** - Largest file is 467 lines
+- ✅ **Small, focused files** - Largest file is 275 lines (timeline card)
+- ✅ **Reusable components** - Chart config and legend extracted as separate files
 - ✅ **Reusable services** - DecayService can be used elsewhere
 - ✅ **Dependency injection** - Services passed via constructors
 - ✅ **Proper state management** - StatefulWidget for async data loading

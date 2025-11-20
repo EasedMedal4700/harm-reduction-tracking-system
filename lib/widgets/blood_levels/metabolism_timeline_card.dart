@@ -3,6 +3,8 @@ import 'package:fl_chart/fl_chart.dart';
 import '../../services/blood_levels_service.dart';
 import '../../services/decay_service.dart';
 import '../../constants/drug_theme.dart';
+import 'timeline_chart_config.dart';
+import 'timeline_legend.dart';
 
 /// Card displaying metabolism timeline graph with decay curves for multiple drugs
 class MetabolismTimelineCard extends StatefulWidget {
@@ -177,7 +179,10 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
     }
     
     // Calculate max Y value
-    final maxY = _calculateMaxY(lineBarsData);
+    final maxY = TimelineChartConfig.calculateMaxY(
+      lineBarsData,
+      widget.adaptiveScale,
+    );
     
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -214,7 +219,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
           const SizedBox(height: 8),
           
           // Legend
-          _buildLegend(legendItems),
+          TimelineLegend(items: legendItems),
           const SizedBox(height: 12),
           
           // Chart
@@ -222,75 +227,25 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
             height: 250,
             child: LineChart(
               LineChartData(
-                gridData: FlGridData(
-                  show: true,
-                  drawVerticalLine: false,
-                  horizontalInterval: maxY / 4,
-                  getDrawingHorizontalLine: (value) {
-                    return FlLine(
-                      color: Colors.grey.withOpacity(0.1),
-                      strokeWidth: 0.5,
-                    );
-                  },
+                gridData: TimelineChartConfig.buildGridData(maxY),
+                titlesData: TimelineChartConfig.buildTitlesData(
+                  maxY: maxY,
+                  hoursBack: widget.hoursBack,
+                  hoursForward: widget.hoursForward,
                 ),
-                titlesData: _buildTitlesData(maxY),
                 borderData: FlBorderData(show: false),
                 minY: 0,
                 maxY: maxY,
                 lineBarsData: lineBarsData,
-                // Vertical "Now" line
-                extraLinesData: ExtraLinesData(
-                  verticalLines: [
-                    VerticalLine(
-                      x: 0,
-                      color: Colors.red.withOpacity(0.5),
-                      strokeWidth: 2,
-                      dashArray: [5, 5],
-                      label: VerticalLineLabel(
-                        show: true,
-                        alignment: Alignment.topCenter,
-                        style: const TextStyle(
-                          color: Colors.red,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        labelResolver: (line) => 'NOW',
-                      ),
-                    ),
-                  ],
-                ),
+                extraLinesData: TimelineChartConfig.buildNowLine(),
                 lineTouchData: LineTouchData(
                   touchTooltipData: LineTouchTooltipData(
                     getTooltipItems: (touchedSpots) {
-                      return touchedSpots.map((spot) {
-                        final hour = spot.x.toInt();
-                        final intensity = spot.y;
-                        final timeLabel = hour == 0
-                            ? 'Now'
-                            : hour > 0
-                            ? '+${hour}h'
-                            : '${hour}h';
-                        
-                        // Find which drug this spot belongs to
-                        final drugIndex = lineBarsData.indexOf(
-                          lineBarsData.firstWhere(
-                            (line) => line.spots.any((s) => s == spot),
-                            orElse: () => lineBarsData.first,
-                          ),
-                        );
-                        
-                        final drugName = legendItems[drugIndex]['name'] as String;
-                        final drugColor = legendItems[drugIndex]['color'] as Color;
-                        
-                        return LineTooltipItem(
-                          '$drugName\n$timeLabel: ${intensity.toStringAsFixed(0)}%',
-                          TextStyle(
-                            color: drugColor,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        );
-                      }).toList();
+                      return TimelineChartConfig.buildTooltipItems(
+                        touchedSpots,
+                        lineBarsData,
+                        legendItems,
+                      );
                     },
                   ),
                 ),
@@ -300,132 +255,6 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
         ],
       ),
     );
-  }
-  
-  Widget _buildLegend(List<Map<String, dynamic>> legendItems) {
-    return SizedBox(
-      height: 40,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: legendItems.length,
-        itemBuilder: (context, index) {
-          final item = legendItems[index];
-          return Container(
-            margin: const EdgeInsets.only(right: 16),
-            child: Row(
-              children: [
-                Container(
-                  width: 12,
-                  height: 12,
-                  decoration: BoxDecoration(
-                    color: item['color'] as Color,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Text(
-                  item['name'] as String,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  't½: ${(item['halfLife'] as double).toStringAsFixed(1)}h',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.grey[600],
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-  
-  FlTitlesData _buildTitlesData(double maxY) {
-    return FlTitlesData(
-      show: true,
-      rightTitles: AxisTitles(
-        sideTitles: SideTitles(showTitles: false),
-      ),
-      topTitles: AxisTitles(
-        sideTitles: SideTitles(showTitles: false),
-      ),
-      bottomTitles: AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 24,
-          interval: 24,
-          getTitlesWidget: (value, meta) {
-            final hour = value.toInt();
-            
-            // Show labels at key points
-            if (hour == -widget.hoursBack) {
-              return Text(
-                '-${widget.hoursBack}h',
-                style: const TextStyle(fontSize: 10, color: Colors.grey),
-              );
-            }
-            if (hour == 0) {
-              return const Text(
-                'Now',
-                style: TextStyle(fontSize: 10, color: Colors.red, fontWeight: FontWeight.bold),
-              );
-            }
-            if (hour == 24 || hour == -24) {
-              return Text(
-                hour > 0 ? '+24h' : '-24h',
-                style: const TextStyle(fontSize: 10, color: Colors.grey),
-              );
-            }
-            if (hour == widget.hoursForward) {
-              return Text(
-                '+${widget.hoursForward}h',
-                style: const TextStyle(fontSize: 10, color: Colors.grey),
-              );
-            }
-            
-            return const Text('');
-          },
-        ),
-      ),
-      leftTitles: AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: true,
-          interval: maxY / 4,
-          reservedSize: 40,
-          getTitlesWidget: (value, meta) {
-            return Text(
-              '${value.toStringAsFixed(0)}%',
-              style: const TextStyle(fontSize: 10, color: Colors.grey),
-            );
-          },
-        ),
-      ),
-    );
-  }
-  
-  double _calculateMaxY(List<LineChartBarData> lineBarsData) {
-    if (lineBarsData.isEmpty) return 100.0;
-    
-    double maxValue = 0.0;
-    for (final lineData in lineBarsData) {
-      for (final spot in lineData.spots) {
-        if (spot.y > maxValue) maxValue = spot.y;
-      }
-    }
-    
-    if (widget.adaptiveScale) {
-      // Add 30% padding for better visualization
-      return (maxValue * 1.3).clamp(20.0, 200.0);
-    } else {
-      // Fixed scale: minimum 100% or higher if needed
-      return maxValue < 100 ? 100.0 : (maxValue * 1.3).clamp(100.0, 200.0);
-    }
   }
   
   Widget _buildEmptyState() {
