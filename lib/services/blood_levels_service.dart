@@ -16,7 +16,7 @@ class BloodLevelsService {
       // Fetch drug profiles to get duration and aftereffects data
       final profilesResponse = await Supabase.instance.client
           .from('drug_profiles')
-          .select('slug, name, pretty_name, formatted_duration, formatted_aftereffects');
+          .select('slug, name, pretty_name, formatted_duration, formatted_aftereffects, categories');
       
       final profilesData = profilesResponse as List<dynamic>;
       final profilesMap = <String, Map<String, dynamic>>{};
@@ -61,6 +61,9 @@ class BloodLevelsService {
         final maxAftereffects = _parseMaxDuration(profile?['formatted_aftereffects']);
         final fullActiveWindow = maxDuration + maxAftereffects;
         final halfLife = _getHalfLife(drugName);
+        final categories = (profile?['categories'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ?? [];
         
         ErrorHandler.logDebug('BloodLevelsService', 
           'Entry: $drugName, dose: ${doseMg}mg, hours: ${hoursSinceDose.toStringAsFixed(2)}h, '
@@ -97,6 +100,7 @@ class BloodLevelsService {
             doses: [],
             activeWindow: fullActiveWindow,
             maxDuration: maxDuration,
+            categories: categories,
           );
         }
         
@@ -185,6 +189,73 @@ class BloodLevelsService {
     return match != null ? double.tryParse(match.group(1)!) ?? 0.0 : 0.0;
   }
   
+  /// Get all doses for a drug within a time window (for timeline visualization)
+  /// 
+  /// Unlike calculateLevels(), this does NOT filter based on:
+  /// - Active window (duration + aftereffects)
+  /// - Remaining percentage
+  /// 
+  /// Instead, it includes ANY dose whose timestamp falls within the time range.
+  /// This allows the timeline to show historical peaks even if the dose has 
+  /// fully decayed by the reference time.
+  Future<List<DoseEntry>> getDosesForTimeline({
+    required String drugName,
+    required DateTime referenceTime,
+    required int hoursBack,
+    required int hoursForward,
+  }) async {
+    try {
+      final startTime = referenceTime.subtract(Duration(hours: hoursBack));
+      final endTime = referenceTime.add(Duration(hours: hoursForward));
+      
+      ErrorHandler.logDebug('BloodLevelsService', 
+        'Fetching timeline doses for $drugName between $startTime and $endTime');
+      
+      // Fetch all doses within the time window (case-insensitive)
+      final response = await Supabase.instance.client
+          .from('drug_use')
+          .select('name, dose, start_time')
+          .ilike('name', drugName)
+          .gte('start_time', startTime.toIso8601String())
+          .lte('start_time', endTime.toIso8601String())
+          .order('start_time', ascending: true);
+      
+      final drugUseData = response as List<dynamic>;
+      final doses = <DoseEntry>[];
+      
+      for (final entry in drugUseData) {
+        final doseString = entry['dose']?.toString() ?? '';
+        final startTime = DateTime.tryParse(entry['start_time']?.toString() ?? '');
+        if (startTime == null) continue;
+        
+        final doseMg = _parseDose(doseString);
+        if (doseMg <= 0) continue;
+        
+        final hoursSinceDose = referenceTime.difference(startTime).inMinutes / 60.0;
+        final halfLife = _getHalfLife(drugName);
+        
+        // Calculate remaining at reference time (may be 0 if fully decayed)
+        final remaining = doseMg * pow(0.5, hoursSinceDose / halfLife);
+        final percentRemaining = (remaining / doseMg) * 100;
+        
+        doses.add(DoseEntry(
+          dose: doseMg,
+          startTime: startTime,
+          remaining: remaining,
+          hoursElapsed: hoursSinceDose,
+          percentRemaining: percentRemaining,
+        ));
+      }
+      
+      ErrorHandler.logInfo('BloodLevelsService', 
+        'Found ${doses.length} doses for $drugName in timeline window');
+      return doses;
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('BloodLevelsService.getDosesForTimeline', e, stackTrace);
+      rethrow;
+    }
+  }
+
   /// Get estimated half-life for a drug (simplified version)
   double _getHalfLife(String drugName) {
     const halfLives = <String, double>{
@@ -220,6 +291,7 @@ class DrugLevel {
   final List<DoseEntry> doses;
   final double activeWindow; // Full active window (duration + aftereffects)
   final double maxDuration; // Maximum duration before aftereffects
+  final List<String> categories; // Drug categories (e.g., 'Stimulant', 'Psychedelic')
   
   const DrugLevel({
     required this.drugName,
@@ -231,6 +303,7 @@ class DrugLevel {
     required this.doses,
     this.activeWindow = 8.0,
     this.maxDuration = 6.0,
+    this.categories = const [],
   });
   
   /// Calculate overall percentage remaining (for all doses combined)
@@ -266,6 +339,7 @@ class DrugLevel {
       doses: doses ?? this.doses,
       activeWindow: activeWindow ?? this.activeWindow,
       maxDuration: maxDuration ?? this.maxDuration,
+      categories: categories,
     );
   }
 }
