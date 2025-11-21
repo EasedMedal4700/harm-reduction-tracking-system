@@ -7,6 +7,7 @@ import '../widgets/home/quick_actions_grid.dart';
 import '../widgets/home/progress_overview_card.dart';
 import '../providers/daily_checkin_provider.dart';
 import '../providers/settings_provider.dart';
+import '../models/app_settings_model.dart';
 import '../routes/app_routes.dart';
 import '../services/daily_checkin_service.dart';
 import '../services/user_service.dart';
@@ -94,9 +95,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    // Get theme from settings
-    final settingsProvider = context.watch<SettingsProvider>();
-    final theme = AppTheme.fromSettings(settingsProvider.settings);
+    // Get theme from settings (fall back to defaults when provider is not present)
+    AppTheme theme;
+    try {
+      final settingsProvider = context.watch<SettingsProvider>();
+      theme = AppTheme.fromSettings(settingsProvider.settings);
+    } catch (e) {
+      // In tests or if SettingsProvider is not available, fall back to default settings
+      theme = AppTheme.fromSettings(const AppSettings());
+    }
     
     // Build quick actions list
     final quickActions = _buildQuickActions();
