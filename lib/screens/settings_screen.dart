@@ -58,7 +58,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               UISettingsSection(
                 settingsProvider: settingsProvider,
-                onThemeColorTap: () => _showThemeColorPicker(context, settingsProvider),
                 onLanguageTap: () => _showLanguagePicker(context, settingsProvider),
               ),
               NotificationSettingsSection(
@@ -87,45 +86,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ],
           );
         },
-      ),
-    );
-  }
-
-  void _showThemeColorPicker(BuildContext context, SettingsProvider provider) {
-    final colorMap = {
-      'blue': Colors.blue,
-      'purple': Colors.purple,
-      'green': Colors.green,
-      'orange': Colors.orange,
-      'red': Colors.red,
-      'teal': Colors.teal,
-    };
-    final colors = ['blue', 'purple', 'green', 'orange', 'red', 'teal'];
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Select Theme Color'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: colors.map((color) {
-            return ListTile(
-              leading: Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: colorMap[color] ?? Colors.blue,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey),
-                ),
-              ),
-              title: Text(color[0].toUpperCase() + color.substring(1)),
-              onTap: () {
-                provider.setThemeColor(color);
-                Navigator.pop(context);
-              },
-            );
-          }).toList(),
-        ),
       ),
     );
   }

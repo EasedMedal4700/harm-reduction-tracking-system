@@ -8,6 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'providers/daily_checkin_provider.dart';
 import 'providers/settings_provider.dart';
 import 'routes/screen_tracking_observer.dart';
+import 'theme/app_theme.dart';
 import 'screens/admin_panel_screen.dart';
 import 'screens/analytics_page.dart';
 import 'screens/blood_levels_page.dart';
@@ -80,38 +81,47 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => SettingsProvider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/login_page',
-        routes: {
-          '/login_page': (context) => const LoginPage(),
-          '/home_page': (context) => const HomePage(),
-          '/log_entry': (context) => const QuickLogEntryPage(),
-          '/analytics': (context) => const AnalyticsPage(),
-          '/catalog': (context) => const CatalogPage(),
-          '/cravings': (context) => const CravingsPage(),
-          '/blood_levels': (context) => const BloodLevelsPage(),
-          '/reflection': (context) => const ReflectionPage(),
-          '/daily-checkin': (context) => ChangeNotifierProvider(
-            create: (_) => DailyCheckinProvider(),
-            child: const DailyCheckinScreen(),
-          ),
-          '/checkin-history': (context) => ChangeNotifierProvider(
-            create: (_) => DailyCheckinProvider(),
-            child: const CheckinHistoryScreen(),
-          ),
-          '/profile': (context) => const ProfileScreen(),
-          '/admin-panel': (context) => const AdminPanelScreen(),
-          '/settings': (context) => const SettingsScreen(),
-          '/register': (context) => const RegisterPage(),
-          '/tolerance-dashboard': (context) {
-            final args =
-                ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-            final substance = args?['substance'] as String?;
-            return ToleranceDashboardPage(initialSubstance: substance);
-          },
+      child: Consumer<SettingsProvider>(
+        builder: (context, settingsProvider, _) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: settingsProvider.settings.darkMode
+                ? ThemeMode.dark
+                : ThemeMode.light,
+            initialRoute: '/login_page',
+            routes: {
+              '/login_page': (context) => const LoginPage(),
+              '/home_page': (context) => const HomePage(),
+              '/log_entry': (context) => const QuickLogEntryPage(),
+              '/analytics': (context) => const AnalyticsPage(),
+              '/catalog': (context) => const CatalogPage(),
+              '/cravings': (context) => const CravingsPage(),
+              '/blood_levels': (context) => const BloodLevelsPage(),
+              '/reflection': (context) => const ReflectionPage(),
+              '/daily-checkin': (context) => ChangeNotifierProvider(
+                create: (_) => DailyCheckinProvider(),
+                child: const DailyCheckinScreen(),
+              ),
+              '/checkin-history': (context) => ChangeNotifierProvider(
+                create: (_) => DailyCheckinProvider(),
+                child: const CheckinHistoryScreen(),
+              ),
+              '/profile': (context) => const ProfileScreen(),
+              '/admin-panel': (context) => const AdminPanelScreen(),
+              '/settings': (context) => const SettingsScreen(),
+              '/register': (context) => const RegisterPage(),
+              '/tolerance-dashboard': (context) {
+                final args =
+                    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                final substance = args?['substance'] as String?;
+                return ToleranceDashboardPage(initialSubstance: substance);
+              },
+            },
+            navigatorObservers: [navigatorObserver],
+          );
         },
-        navigatorObservers: [navigatorObserver],
       ),
     );
   }

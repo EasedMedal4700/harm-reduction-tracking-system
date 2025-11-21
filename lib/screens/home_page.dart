@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/common/drawer_menu.dart';
-import '../widgets/home/daily_checkin_banner.dart';
-import '../widgets/home/greeting_banner.dart';
-import '../widgets/home/quick_actions_grid.dart';
-import '../widgets/home/progress_overview_card.dart';
+import '../widgets/home_redesign/header_card.dart';
+import '../widgets/home_redesign/daily_checkin_card.dart';
+import '../widgets/home_redesign/quick_action_card.dart';
+import '../widgets/home_redesign/stat_card.dart';
 import '../providers/daily_checkin_provider.dart';
-import '../providers/settings_provider.dart';
-import '../models/app_settings_model.dart';
+import '../constants/ui_colors.dart';
+import '../constants/theme_constants.dart';
 import '../routes/app_routes.dart';
 import '../services/daily_checkin_service.dart';
 import '../services/user_service.dart';
 import '../screens/profile_screen.dart';
 import '../screens/admin_panel_screen.dart';
-import '../styles/app_theme.dart';
-import '../constants/app_theme_constants.dart';
 
+/// Redesigned Home Page with modular architecture
+/// Supports Light (wellness) and Dark (futuristic) themes
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.dailyCheckinRepository});
 
@@ -25,18 +25,18 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
     super.initState();
     
-    // Setup animations for card entrance
+    // Setup animations
     _animationController = AnimationController(
-      duration: AppThemeConstants.animationNormal,
+      duration: ThemeConstants.animationNormal,
       vsync: this,
     );
     
@@ -48,14 +48,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       curve: Curves.easeOut,
     ));
     
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: AppThemeConstants.animationCurveEmphasized,
-    ));
-    
     _animationController.forward();
   }
 
@@ -65,6 +57,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     super.dispose();
   }
 
+  // Navigation methods
   void _openLogEntry(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildLogEntryPage()));
   }
@@ -92,35 +85,22 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void _openToleranceDashboard(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildToleranceDashboardPage()));
   }
+  void _openDailyCheckin(BuildContext context) {
+    Navigator.pushNamed(context, '/daily-checkin');
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Get theme from settings (fall back to defaults when provider is not present)
-    AppTheme theme;
-    try {
-      final settingsProvider = context.watch<SettingsProvider>();
-      theme = AppTheme.fromSettings(settingsProvider.settings);
-    } catch (e) {
-      // In tests or if SettingsProvider is not available, fall back to default settings
-      theme = AppTheme.fromSettings(const AppSettings());
-    }
-    
-    // Build quick actions list
-    final quickActions = _buildQuickActions();
-    
-    // Build stats data (example - you can fetch real data)
-    final stats = _buildStatsData();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: theme.colors.background,
+      backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
       appBar: AppBar(
-        backgroundColor: theme.isDark ? theme.colors.surface : theme.accent.primary,
-        foregroundColor: theme.isDark ? theme.colors.textPrimary : theme.colors.textInverse,
-        elevation: 0,
         title: Text(
           'Home',
-          style: theme.typography.heading3.copyWith(
-            color: theme.isDark ? theme.colors.textPrimary : theme.colors.textInverse,
+          style: TextStyle(
+            fontWeight: ThemeConstants.fontSemiBold,
+            color: isDark ? UIColors.darkText : UIColors.lightText,
           ),
         ),
         actions: [
@@ -157,127 +137,192 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         ],
       ),
       drawer: const DrawerMenu(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openLogEntry(context),
-        backgroundColor: theme.accent.primary,
-        child: Icon(Icons.add, color: theme.colors.textInverse),
-      ),
+      floatingActionButton: _buildFAB(isDark),
       body: FadeTransition(
         opacity: _fadeAnimation,
-        child: SlideTransition(
-          position: _slideAnimation,
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Daily Check-In Banner (existing)
-                ChangeNotifierProvider(
-                  create: (_) => DailyCheckinProvider(repository: widget.dailyCheckinRepository),
-                  child: const DailyCheckinBanner(),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Header with greeting
+              const HeaderCard(),
+              
+              const SizedBox(height: ThemeConstants.cardSpacing),
+              
+              // Daily Check-in Card
+              ChangeNotifierProvider(
+                create: (_) => DailyCheckinProvider(repository: widget.dailyCheckinRepository),
+                child: Consumer<DailyCheckinProvider>(
+                  builder: (context, provider, _) {
+                    final hasCompleted = provider.existingCheckin != null;
+                    return DailyCheckinCard(
+                      isCompleted: hasCompleted,
+                      onTap: () => _openDailyCheckin(context),
+                      completedMessage: 'Keep up the great work!',
+                    );
+                  },
                 ),
-
-                SizedBox(height: theme.spacing.md),
-
-                // Greeting Banner (new)
-                GreetingBanner(theme: theme),
-
-                SizedBox(height: theme.spacing.xl),
-
-                // Quick Actions Grid (new design)
-                QuickActionsGrid(
-                  theme: theme,
-                  actions: quickActions,
+              ),
+              
+              const SizedBox(height: ThemeConstants.cardSpacing),
+              
+              // Section Title - Professional typography
+              Text(
+                'Quick Actions',
+                style: TextStyle(
+                  fontSize: ThemeConstants.fontXLarge,
+                  fontWeight: ThemeConstants.fontSemiBold,
+                  color: isDark ? UIColors.darkText : UIColors.lightText,
                 ),
-
-                SizedBox(height: theme.spacing.xl),
-
-                // Progress Overview (new)
-                ProgressOverviewCard(
-                  theme: theme,
-                  stats: stats,
+              ),
+              
+              const SizedBox(height: ThemeConstants.space16),
+              
+              // Quick Actions Grid - Always 2 columns for consistency
+              GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisSpacing: ThemeConstants.quickActionSpacing,
+                mainAxisSpacing: ThemeConstants.quickActionSpacing,
+                childAspectRatio: 1.1,
+                children: [
+                  QuickActionCard(
+                    actionKey: 'log_usage',
+                    icon: Icons.note_add,
+                    label: 'Log Entry',
+                    onTap: () => _openLogEntry(context),
+                  ),
+                  QuickActionCard(
+                    actionKey: 'reflection',
+                    icon: Icons.self_improvement,
+                    label: 'Reflection',
+                    onTap: () => _openReflection(context),
+                  ),
+                  QuickActionCard(
+                    actionKey: 'analytics',
+                    icon: Icons.analytics,
+                    label: 'Analytics',
+                    onTap: () => _openAnalytics(context),
+                  ),
+                  QuickActionCard(
+                    actionKey: 'cravings',
+                    icon: Icons.local_fire_department,
+                    label: 'Cravings',
+                    onTap: () => _openCravings(context),
+                  ),
+                  QuickActionCard(
+                    actionKey: 'activity',
+                    icon: Icons.directions_run,
+                    label: 'Activity',
+                    onTap: () => _openActivity(context),
+                  ),
+                  QuickActionCard(
+                    actionKey: 'library',
+                    icon: Icons.menu_book,
+                    label: 'Library',
+                    onTap: () => _openLibrary(context),
+                  ),
+                  QuickActionCard(
+                    actionKey: 'catalog',
+                    icon: Icons.inventory,
+                    label: 'Catalog',
+                    onTap: () => _openCatalog(context),
+                  ),
+                  QuickActionCard(
+                    actionKey: 'blood_levels',
+                    icon: Icons.bloodtype,
+                    label: 'Blood Levels',
+                    onTap: () => _openBloodLevels(context),
+                  ),
+                ],
+              ),
+              
+              const SizedBox(height: ThemeConstants.cardSpacing),
+              
+              // Progress Section
+              Text(
+                'Your Progress',
+                style: TextStyle(
+                  fontSize: ThemeConstants.fontXLarge,
+                  fontWeight: ThemeConstants.fontSemiBold,
+                  color: isDark ? UIColors.darkText : UIColors.lightText,
                 ),
-
-                SizedBox(height: theme.spacing.xl),
-              ],
-            ),
+              ),
+              
+              const SizedBox(height: ThemeConstants.space16),
+              
+              // Stats Grid
+              GridView.count(
+                crossAxisCount: 1,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisSpacing: ThemeConstants.cardSpacing,
+                mainAxisSpacing: ThemeConstants.cardSpacing,
+                childAspectRatio: 2.5,
+                children: const [
+                  StatCard(
+                    icon: Icons.calendar_today,
+                    value: '127',
+                    label: 'Days Tracked',
+                    subtitle: 'Keep up the momentum!',
+                  ),
+                  StatCard(
+                    icon: Icons.note_alt,
+                    value: '12',
+                    label: 'Entries This Week',
+                    subtitle: '+3 from last week',
+                  ),
+                  StatCard(
+                    icon: Icons.psychology,
+                    value: '8',
+                    label: 'Active Reflections',
+                    subtitle: 'Recent insights',
+                    progress: 0.65,
+                  ),
+                ],
+              ),
+              
+              const SizedBox(height: ThemeConstants.cardSpacing),
+            ],
           ),
         ),
       ),
     );
   }
 
-  List<QuickActionData> _buildQuickActions() {
-    return [
-      QuickActionData(
-        icon: Icons.note_add,
-        label: 'Log Entry',
-        onTap: () => _openLogEntry(context),
-      ),
-      QuickActionData(
-        icon: Icons.self_improvement,
-        label: 'Reflection',
-        onTap: () => _openReflection(context),
-      ),
-      QuickActionData(
-        icon: Icons.analytics,
-        label: 'Analytics',
-        onTap: () => _openAnalytics(context),
-      ),
-      QuickActionData(
-        icon: Icons.local_fire_department,
-        label: 'Cravings',
-        onTap: () => _openCravings(context),
-      ),
-      QuickActionData(
-        icon: Icons.directions_run,
-        label: 'Activity',
-        onTap: () => _openActivity(context),
-      ),
-      QuickActionData(
-        icon: Icons.menu_book,
-        label: 'Library',
-        onTap: () => _openLibrary(context),
-      ),
-      QuickActionData(
-        icon: Icons.inventory,
-        label: 'Catalog',
-        onTap: () => _openCatalog(context),
-      ),
-      QuickActionData(
-        icon: Icons.bloodtype,
-        label: 'Blood Levels',
-        onTap: () => _openBloodLevels(context),
-      ),
-      QuickActionData(
-        icon: Icons.speed,
-        label: 'Tolerance',
-        onTap: () => _openToleranceDashboard(context),
-      ),
-    ];
-  }
-
-  List<StatsData> _buildStatsData() {
-    // TODO: Replace with real data from services
-    return const [
-      StatsData(
-        title: 'Days Tracked',
-        value: '127',
-        subtitle: 'Keep up the momentum!',
-        icon: Icons.calendar_today,
-      ),
-      StatsData(
-        title: 'Entries This Week',
-        value: '12',
-        subtitle: '+3 from last week',
-        icon: Icons.note_alt,
-      ),
-      StatsData(
-        title: 'Active Reflections',
-        value: '8',
-        subtitle: 'Recent insights',
-        icon: Icons.psychology,
-      ),
-    ];
+  Widget _buildFAB(bool isDark) {
+    if (isDark) {
+      // Dark theme: subtle blue-purple gradient
+      return Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [UIColors.darkFabStart, UIColors.darkFabEnd],
+          ),
+          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          boxShadow: [
+            BoxShadow(
+              color: UIColors.darkFabStart.withValues(alpha: 0.3),
+              blurRadius: 20,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: FloatingActionButton(
+          onPressed: () => _openLogEntry(context),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: const Icon(Icons.add),
+        ),
+      );
+    } else {
+      // Light theme: blue
+      return FloatingActionButton(
+        onPressed: () => _openLogEntry(context),
+        child: const Icon(Icons.add),
+      );
+    }
   }
 }

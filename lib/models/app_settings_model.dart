@@ -2,7 +2,6 @@
 class AppSettings {
   // UI Settings
   final bool darkMode;
-  final String themeColor;
   final double fontSize;
   final bool compactMode;
   final String language;
@@ -46,7 +45,6 @@ class AppSettings {
   const AppSettings({
     // UI Settings
     this.darkMode = false,
-    this.themeColor = 'blue',
     this.fontSize = 14.0,
     this.compactMode = false,
     this.language = 'en',
@@ -93,7 +91,6 @@ class AppSettings {
     return AppSettings(
       // UI Settings
       darkMode: json['darkMode'] as bool? ?? false,
-      themeColor: json['themeColor'] as String? ?? 'blue',
       fontSize: (json['fontSize'] as num?)?.toDouble() ?? 14.0,
       compactMode: json['compactMode'] as bool? ?? false,
       language: json['language'] as String? ?? 'en',
@@ -141,7 +138,6 @@ class AppSettings {
     return {
       // UI Settings
       'darkMode': darkMode,
-      'themeColor': themeColor,
       'fontSize': fontSize,
       'compactMode': compactMode,
       'language': language,
@@ -187,7 +183,6 @@ class AppSettings {
   /// Create a copy with updated values
   AppSettings copyWith({
     bool? darkMode,
-    String? themeColor,
     double? fontSize,
     bool? compactMode,
     String? language,
@@ -220,7 +215,6 @@ class AppSettings {
   }) {
     return AppSettings(
       darkMode: darkMode ?? this.darkMode,
-      themeColor: themeColor ?? this.themeColor,
       fontSize: fontSize ?? this.fontSize,
       compactMode: compactMode ?? this.compactMode,
       language: language ?? this.language,

@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-/// Color schemes for light and dark themes
-/// Supports multiple accent colors (blue, purple, teal, etc.)
+/// DEPRECATED: This file is no longer used for theme colors.
+/// The app now uses a simplified light/dark theme system.
+/// 
+/// Theme colors are now defined in:
+/// - app_colors_light.dart (Light theme - wellness-focused)
+/// - app_colors_dark.dart (Dark theme - futuristic/neon)
+/// 
+/// Users can no longer select different theme colors.
+/// The theme is determined solely by the Dark Mode toggle.
+@Deprecated('Use AppColorsLight and AppColorsDark instead')
 class AppColorSchemes {
   AppColorSchemes._();
 

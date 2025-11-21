@@ -54,10 +54,6 @@ class SettingsProvider extends ChangeNotifier {
     await updateSetting((s) => s.copyWith(darkMode: enabled));
   }
 
-  Future<void> setThemeColor(String color) async {
-    await updateSetting((s) => s.copyWith(themeColor: color));
-  }
-
   Future<void> setFontSize(double size) async {
     await updateSetting((s) => s.copyWith(fontSize: size));
   }

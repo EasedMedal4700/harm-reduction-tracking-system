@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import '../constants/app_theme_constants.dart';
-import '../constants/color_schemes.dart';
+import '../constants/app_colors_light.dart';
+import '../constants/app_colors_dark.dart';
 import '../constants/app_typography.dart';
 import '../models/app_settings_model.dart';
 
 /// Main theme data class that provides all styling based on user settings
+/// Simplified to use only light and dark themes with built-in accent colors
 class AppTheme {
   final bool isDark;
-  final String themeColor;
   final double fontSize;
   final bool compactMode;
   
@@ -19,13 +20,12 @@ class AppTheme {
   late final List<BoxShadow> cardShadowHovered;
   late final List<BoxShadow> buttonShadow;
 
-  AppTheme({
+  AppTheme._({
     required this.isDark,
-    required this.themeColor,
     required this.fontSize,
     required this.compactMode,
   }) {
-    accent = AppColorSchemes.getAccentColors(themeColor, isDark);
+    accent = isDark ? _buildDarkAccent() : _buildLightAccent();
     typography = AppTypography.getTextStyles(fontSize, isDark);
     colors = isDark ? _buildDarkColors() : _buildLightColors();
     spacing = compactMode ? _buildCompactSpacing() : _buildNormalSpacing();
@@ -41,53 +41,101 @@ class AppTheme {
     }
   }
 
+  /// Create light theme (wellness-focused, inviting)
+  factory AppTheme.light({
+    double fontSize = 14.0,
+    bool compactMode = false,
+  }) {
+    return AppTheme._(
+      isDark: false,
+      fontSize: fontSize,
+      compactMode: compactMode,
+    );
+  }
+
+  /// Create dark theme (futuristic, neon-accented)
+  factory AppTheme.dark({
+    double fontSize = 14.0,
+    bool compactMode = false,
+  }) {
+    return AppTheme._(
+      isDark: true,
+      fontSize: fontSize,
+      compactMode: compactMode,
+    );
+  }
+
   /// Create theme from app settings
   factory AppTheme.fromSettings(AppSettings settings) {
-    return AppTheme(
-      isDark: settings.darkMode,
-      themeColor: settings.themeColor,
-      fontSize: settings.fontSize,
-      compactMode: settings.compactMode,
+    if (settings.darkMode) {
+      return AppTheme.dark(
+        fontSize: settings.fontSize,
+        compactMode: settings.compactMode,
+      );
+    } else {
+      return AppTheme.light(
+        fontSize: settings.fontSize,
+        compactMode: settings.compactMode,
+      );
+    }
+  }
+
+
+  AccentColors _buildLightAccent() {
+    return const AccentColors(
+      primary: AppColorsLight.accentPrimary,
+      primaryVariant: AppColorsLight.accentPrimaryVariant,
+      secondary: AppColorsLight.accentSecondary,
+      gradient: AppColorsLight.accentGradient,
+    );
+  }
+
+  AccentColors _buildDarkAccent() {
+    return const AccentColors(
+      primary: AppColorsDark.accentPrimary,
+      primaryVariant: AppColorsDark.accentPrimaryVariant,
+      secondary: AppColorsDark.accentSecondary,
+      gradient: AppColorsDark.accentGradient,
     );
   }
 
   ColorPalette _buildLightColors() {
-    return ColorPalette(
-      background: AppColorSchemes.lightBackground,
-      surface: AppColorSchemes.lightSurface,
-      surfaceVariant: AppColorSchemes.lightSurfaceVariant,
-      border: AppColorSchemes.lightBorder,
-      divider: AppColorSchemes.lightDivider,
-      textPrimary: AppColorSchemes.lightTextPrimary,
-      textSecondary: AppColorSchemes.lightTextSecondary,
-      textTertiary: AppColorSchemes.lightTextTertiary,
-      textInverse: AppColorSchemes.lightTextInverse,
-      success: AppColorSchemes.lightSuccess,
-      warning: AppColorSchemes.lightWarning,
-      error: AppColorSchemes.lightError,
-      info: AppColorSchemes.lightInfo,
-      overlay: AppColorSchemes.lightOverlay,
-      overlayHeavy: AppColorSchemes.lightOverlayHeavy,
+    return const ColorPalette(
+      background: AppColorsLight.background,
+      surface: AppColorsLight.surface,
+      surfaceVariant: AppColorsLight.surfaceVariant,
+      border: AppColorsLight.border,
+      divider: AppColorsLight.divider,
+      textPrimary: AppColorsLight.textPrimary,
+      textSecondary: AppColorsLight.textSecondary,
+      textTertiary: AppColorsLight.textTertiary,
+      textInverse: AppColorsLight.textInverse,
+      success: AppColorsLight.success,
+      warning: AppColorsLight.warning,
+      error: AppColorsLight.error,
+      info: AppColorsLight.info,
+      overlay: AppColorsLight.overlay,
+      overlayHeavy: AppColorsLight.overlayHeavy,
     );
   }
 
   ColorPalette _buildDarkColors() {
-    return ColorPalette(
-      background: AppColorSchemes.darkBackground,
-      surface: AppColorSchemes.darkSurface,
-      surfaceVariant: AppColorSchemes.darkSurfaceVariant,
-      border: AppColorSchemes.darkBorder,
-      divider: AppColorSchemes.darkDivider,
-      textPrimary: AppColorSchemes.darkTextPrimary,
-      textSecondary: AppColorSchemes.darkTextSecondary,
-      textTertiary: AppColorSchemes.darkTextTertiary,
-      textInverse: AppColorSchemes.darkTextInverse,
-      success: AppColorSchemes.darkSuccess,
-      warning: AppColorSchemes.darkWarning,
-      error: AppColorSchemes.darkError,
-      info: AppColorSchemes.darkInfo,
-      overlay: AppColorSchemes.darkOverlay,
-      overlayHeavy: AppColorSchemes.darkOverlayHeavy,
+    return const ColorPalette(
+      background: AppColorsDark.background,
+      surface: AppColorsDark.surface,
+      surfaceVariant: AppColorsDark.surfaceVariant,
+      border: AppColorsDark.border,
+      divider: AppColorsDark.divider,
+      textPrimary: AppColorsDark.textPrimary,
+      textSecondary: AppColorsDark.textSecondary,
+      textTertiary: AppColorsDark.textTertiary,
+      textInverse: AppColorsDark.textInverse,
+      success: AppColorsDark.success,
+      warning: AppColorsDark.warning,
+      error: AppColorsDark.error,
+      info: AppColorsDark.info,
+      overlay: AppColorsDark.overlay,
+      overlayHeavy: AppColorsDark.overlayHeavy,
     );
   }
 
@@ -261,5 +309,20 @@ class Spacing {
     required this.xl3,
     required this.cardPadding,
     required this.cardMargin,
+  });
+}
+
+/// Accent color set for a theme
+class AccentColors {
+  final Color primary;
+  final Color primaryVariant;
+  final Color secondary;
+  final LinearGradient gradient;
+
+  const AccentColors({
+    required this.primary,
+    required this.primaryVariant,
+    required this.secondary,
+    required this.gradient,
   });
 }

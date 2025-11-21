@@ -5,12 +5,10 @@ import 'settings_section.dart';
 /// UI Settings section widget
 class UISettingsSection extends StatelessWidget {
   final SettingsProvider settingsProvider;
-  final VoidCallback onThemeColorTap;
   final VoidCallback onLanguageTap;
 
   const UISettingsSection({
     required this.settingsProvider,
-    required this.onThemeColorTap,
     required this.onLanguageTap,
     super.key,
   });
@@ -25,15 +23,9 @@ class UISettingsSection extends StatelessWidget {
       children: [
         SwitchListTile(
           title: const Text('Dark Mode'),
-          subtitle: const Text('Use dark theme'),
+          subtitle: const Text('Switch between light and dark theme'),
           value: settings.darkMode,
           onChanged: settingsProvider.setDarkMode,
-        ),
-        ListTile(
-          title: const Text('Theme Color'),
-          subtitle: Text(settings.themeColor),
-          trailing: _buildColorIndicator(settings.themeColor),
-          onTap: onThemeColorTap,
         ),
         ListTile(
           title: const Text('Font Size'),
@@ -59,27 +51,6 @@ class UISettingsSection extends StatelessWidget {
           onTap: onLanguageTap,
         ),
       ],
-    );
-  }
-
-  Widget _buildColorIndicator(String colorName) {
-    final colors = {
-      'Blue': Colors.blue,
-      'Green': Colors.green,
-      'Purple': Colors.purple,
-      'Orange': Colors.orange,
-      'Red': Colors.red,
-      'Teal': Colors.teal,
-    };
-
-    return Container(
-      width: 24,
-      height: 24,
-      decoration: BoxDecoration(
-        color: colors[colorName] ?? Colors.blue,
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.grey.shade300),
-      ),
     );
   }
 }
