@@ -23,6 +23,7 @@ class SubstanceHeaderCard extends StatefulWidget {
 class _SubstanceHeaderCardState extends State<SubstanceHeaderCard> {
   final _drugProfileService = DrugProfileService();
   List<String>? _allDrugs;
+  TextEditingController? _fieldController;
   
   @override
   void initState() {
@@ -67,7 +68,6 @@ class _SubstanceHeaderCardState extends State<SubstanceHeaderCard> {
           
           // Autocomplete field with database search
           Autocomplete<DrugSearchResult>(
-            initialValue: TextEditingValue(text: widget.substance),
             optionsBuilder: (TextEditingValue textEditingValue) async {
               try {
                 if (textEditingValue.text.isEmpty) {
@@ -85,12 +85,35 @@ class _SubstanceHeaderCardState extends State<SubstanceHeaderCard> {
                 return [];
               }
             },
-            displayStringForOption: (DrugSearchResult option) => option.displayName,
+            // Show canonical name in the text field after selection, but still
+            // render the human-friendly display name in the options list.
+            displayStringForOption: (DrugSearchResult option) => option.canonicalName,
             onSelected: (DrugSearchResult selection) {
               // Use canonical name (normalized from aliases)
               widget.onSubstanceChanged(selection.canonicalName);
+              // Also set the inner text field to the canonical name so the
+              // normalized value is shown to the user instead of the alias
+              // (e.g., "Ritalin" -> "methylphenidate").
+              if (_fieldController != null) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _fieldController!.text = selection.canonicalName;
+                  _fieldController!.selection = TextSelection.fromPosition(
+                    TextPosition(offset: _fieldController!.text.length),
+                  );
+                });
+              }
+              // Also sync to any external controller passed in
+              if (widget.substanceCtrl != null) {
+                widget.substanceCtrl!.text = selection.canonicalName;
+                widget.substanceCtrl!.selection = TextSelection.fromPosition(
+                  TextPosition(offset: widget.substanceCtrl!.text.length),
+                );
+              }
             },
             fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+              // Keep a reference to the Autocomplete's inner controller so
+              // we can modify it when an alias is selected.
+              _fieldController = textEditingController;
               // Initialize with current substance value
               if (textEditingController.text.isEmpty && widget.substance.isNotEmpty) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {

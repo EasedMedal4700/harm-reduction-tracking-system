@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/ui_colors.dart';
 import '../../constants/theme_constants.dart';
+import '../log_entry/time_selector.dart';
 
 /// Time of use card (date + time)
 class TimeOfUseCard extends StatelessWidget {
@@ -47,7 +48,7 @@ class TimeOfUseCard extends StatelessWidget {
           
           const SizedBox(height: ThemeConstants.space12),
           
-          // Time picker
+          // Time picker (slider)
           _buildTimePicker(context, isDark),
         ],
       ),
@@ -105,98 +106,15 @@ class TimeOfUseCard extends StatelessWidget {
   }
 
   Widget _buildTimePicker(BuildContext context, bool isDark) {
-    return Row(
-      children: [
-        // Hour
-        Expanded(
-          child: _buildNumberPicker(
-            context,
-            isDark,
-            'Hour',
-            hour,
-            0,
-            23,
-            onHourChanged,
-          ),
-        ),
-        const SizedBox(width: ThemeConstants.space12),
-        // Minute
-        Expanded(
-          child: _buildNumberPicker(
-            context,
-            isDark,
-            'Minute',
-            minute,
-            0,
-            59,
-            onMinuteChanged,
-          ),
-        ),
-      ],
+    return TimeSelector(
+      hour: hour,
+      minute: minute,
+      onHourChanged: onHourChanged,
+      onMinuteChanged: onMinuteChanged,
     );
   }
 
-  Widget _buildNumberPicker(
-    BuildContext context,
-    bool isDark,
-    String label,
-    int value,
-    int min,
-    int max,
-    ValueChanged<int> onChanged,
-  ) {
-    return Container(
-      padding: const EdgeInsets.all(ThemeConstants.space12),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0x08FFFFFF) : Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-        border: Border.all(
-          color: isDark ? const Color(0x14FFFFFF) : UIColors.lightBorder,
-        ),
-      ),
-      child: Column(
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              color: isDark 
-                  ? UIColors.darkTextSecondary 
-                  : UIColors.lightTextSecondary,
-            ),
-          ),
-          const SizedBox(height: ThemeConstants.space8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.remove),
-                onPressed: () {
-                  if (value > min) onChanged(value - 1);
-                },
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-              ),
-              Text(
-                value.toString().padLeft(2, '0'),
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontXLarge,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  if (value < max) onChanged(value + 1);
-                },
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  // Number pickers removed in favor of a slider-based TimeSelector
 
   BoxDecoration _buildDecoration(bool isDark) {
     if (isDark) {

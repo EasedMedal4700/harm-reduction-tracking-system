@@ -1,5 +1,6 @@
-// filepath: c:\Users\user\Desktop\Power BI\mobile_drug_use_app\lib\widgets\log_entry\time_selector.dart
 import 'package:flutter/material.dart';
+import '../../constants/ui_colors.dart';
+import '../../constants/theme_constants.dart';
 
 class TimeSelector extends StatelessWidget {
   final int hour;
@@ -17,45 +18,64 @@ class TimeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text('Time'),
+        Text(
+          'Time',
+          style: TextStyle(
+            fontSize: ThemeConstants.fontMedium,
+            fontWeight: ThemeConstants.fontSemiBold,
+            color: isDark ? UIColors.darkText : UIColors.lightText,
+          ),
+        ),
+        const SizedBox(height: ThemeConstants.space8),
         Row(
           children: [
             const Text('Hour:'),
+            const SizedBox(width: ThemeConstants.space8),
             Expanded(
               child: Slider(
                 value: hour.toDouble(),
                 min: 0,
                 max: 23,
                 divisions: 23,
-                label: hour.toString(),
+                label: hour.toString().padLeft(2, '0'),
+                activeColor: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
                 onChanged: (v) => onHourChanged(v.toInt()),
               ),
             ),
+            const SizedBox(width: ThemeConstants.space8),
             Text(hour.toString().padLeft(2, '0')),
           ],
         ),
         Row(
           children: [
             const Text('Minute:'),
+            const SizedBox(width: ThemeConstants.space8),
             Expanded(
               child: Slider(
                 value: minute.toDouble(),
                 min: 0,
                 max: 59,
                 divisions: 59,
-                label: minute.toString(),
+                label: minute.toString().padLeft(2, '0'),
+                activeColor: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
                 onChanged: (v) => onMinuteChanged(v.toInt()),
               ),
             ),
+            const SizedBox(width: ThemeConstants.space8),
             Text(minute.toString().padLeft(2, '0')),
           ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: ThemeConstants.space12),
         Text(
           'Selected time: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: isDark ? UIColors.darkText : UIColors.lightText,
+          ),
         ),
       ],
     );

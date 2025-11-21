@@ -24,7 +24,7 @@ void main() {
         expect(state.route, 'oral');
         expect(state.feelings, isEmpty);
         expect(state.secondaryFeelings, isEmpty);
-        expect(state.location, 'Select a location');
+        expect(state.location, '');
         expect(state.isMedicalPurpose, isFalse);
         expect(state.cravingIntensity, 0);
         expect(state.intention, '-- Select Intention--');
