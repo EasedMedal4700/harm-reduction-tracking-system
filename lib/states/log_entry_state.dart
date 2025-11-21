@@ -11,7 +11,7 @@ class LogEntryState extends ChangeNotifier {
   String route = 'oral';
   List<String> feelings = [];
   Map<String, List<String>> secondaryFeelings = {};
-  String location = 'Select a location'; // Set default
+  String location = ''; // Empty string by default, will show hint text
   DateTime date = DateTime.now();
   int hour = TimeOfDay.now().hour;
   int minute = TimeOfDay.now().minute;

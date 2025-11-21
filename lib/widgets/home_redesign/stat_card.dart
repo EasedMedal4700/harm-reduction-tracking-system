@@ -33,6 +33,7 @@ class StatCard extends StatelessWidget {
       decoration: _buildDecoration(isDark, accentColor),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           // Icon and Value row
           Row(
@@ -40,35 +41,40 @@ class StatCard extends StatelessWidget {
               // Icon
               Icon(
                 icon,
-                size: 28,
+                size: 24,
                 color: accentColor,
               ),
               const Spacer(),
               
               // Value
-              Text(
-                value,
-                style: TextStyle(
-                  fontSize: ThemeConstants.font3XLarge,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+              Flexible(
+                child: Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: ThemeConstants.font2XLarge,
+                    fontWeight: ThemeConstants.fontSemiBold,
+                    color: isDark ? UIColors.darkText : UIColors.lightText,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
           
-          const SizedBox(height: ThemeConstants.space12),
+          const SizedBox(height: ThemeConstants.space8),
           
           // Label
           Text(
             label,
             style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
+              fontSize: ThemeConstants.fontSmall,
               fontWeight: ThemeConstants.fontMediumWeight,
               color: isDark
                   ? UIColors.darkTextSecondary
                   : UIColors.lightTextSecondary,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           
           // Subtitle
@@ -77,20 +83,22 @@ class StatCard extends StatelessWidget {
             Text(
               subtitle!,
               style: TextStyle(
-                fontSize: ThemeConstants.fontSmall,
+                fontSize: ThemeConstants.fontXSmall,
                 color: accentColor,
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
           
           // Progress bar
           if (progress != null) ...[
-            const SizedBox(height: ThemeConstants.space12),
+            const SizedBox(height: ThemeConstants.space8),
             ClipRRect(
               borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
               child: LinearProgressIndicator(
                 value: progress,
-                minHeight: 6,
+                minHeight: 4,
                 backgroundColor: isDark
                     ? const Color(0x14FFFFFF)
                     : UIColors.lightDivider,
