@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import '../services/analytics_service.dart';
 import '../models/log_entry_model.dart';
-import '../widgets/analytics/analytics_content.dart';
+import '../widgets/analytics/analytics_app_bar.dart';
+import '../widgets/analytics/analytics_filter_card.dart';
+import '../widgets/analytics/metrics_row.dart';
+import '../widgets/analytics/use_distribution_card.dart';
+import '../widgets/analytics/usage_trends_card.dart';
+import '../widgets/analytics/insight_summary_card.dart';
+import '../widgets/analytics/recent_activity_list.dart';
+import '../widgets/common/filter.dart';
 import '../constants/drug_categories.dart';
 import '../constants/time_period.dart';
+import '../constants/theme_constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
 
@@ -93,15 +101,15 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Analytics'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            tooltip: 'Reload',
-            onPressed: _isLoading ? null : _fetchData,
-          ),
-        ],
+      appBar: AnalyticsAppBar(
+        selectedPeriod: _selectedPeriod,
+        onPeriodChanged: (period) => setState(() => _selectedPeriod = period),
+        onExport: () {
+          // TODO: Implement export functionality
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Export functionality coming soon')),
+          );
+        },
       ),
       body: _buildBody(),
     );
@@ -123,28 +131,188 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       );
     }
 
-    return AnalyticsContent(
-      entries: _entries,
-      service: _service!,
-      selectedPeriod: _selectedPeriod,
-      onPeriodChanged: (period) => setState(() => _selectedPeriod = period),
-      selectedCategories: _selectedCategories,
-      onCategoryChanged: (categories) => setState(() => _selectedCategories = categories),
-      selectedSubstances: _selectedSubstances,
-      onSubstanceChanged: (substances) => setState(() => _selectedSubstances = substances),
-      selectedTypeIndex: _selectedTypeIndex,
-      onTypeChanged: (index) => setState(() => _selectedTypeIndex = index),
-      selectedPlaces: _selectedPlaces,
-      onPlaceChanged: (places) => setState(() => _selectedPlaces = places),
-      selectedRoutes: _selectedRoutes,
-      onRouteChanged: (routes) => setState(() => _selectedRoutes = routes),
-      selectedFeelings: _selectedFeelings,
-      onFeelingChanged: (feelings) => setState(() => _selectedFeelings = feelings),
-      minCraving: _minCraving,
-      onMinCravingChanged: (value) => setState(() => _minCraving = value),
-      maxCraving: _maxCraving,
-      onMaxCravingChanged: (value) => setState(() => _maxCraving = value),
+    // Calculate filtered data
+    final periodFilteredEntries = _service!.filterEntriesByPeriod(_entries, _selectedPeriod);
+    final categoryTypeFilteredEntries = periodFilteredEntries.where((e) {
+      final category = _service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder';
+      final matchesCategory = _selectedCategories.isEmpty || _selectedCategories.contains(category);
+      final matchesType = _selectedTypeIndex == 0 ||
+          (_selectedTypeIndex == 1 && e.isMedicalPurpose) ||
+          (_selectedTypeIndex == 2 && !e.isMedicalPurpose);
+      return matchesCategory && matchesType;
+    }).toList();
+    
+    final filteredEntries = categoryTypeFilteredEntries.where((e) {
+      final matchesSubstance = _selectedSubstances.isEmpty || _selectedSubstances.contains(e.substance);
+      final matchesPlace = _selectedPlaces.isEmpty || _selectedPlaces.contains(e.location);
+      final matchesRoute = _selectedRoutes.isEmpty || _selectedRoutes.contains(e.route);
+      final matchesFeeling = _selectedFeelings.isEmpty || e.feelings.any((f) => _selectedFeelings.contains(f));
+      final matchesCraving = e.cravingIntensity >= _minCraving && e.cravingIntensity <= _maxCraving;
+      return matchesSubstance && matchesPlace && matchesRoute && matchesFeeling && matchesCraving;
+    }).toList();
+
+    // Calculate metrics
+    final avgPerWeek = _service!.calculateAvgPerWeek(filteredEntries);
+    final categoryCounts = _service!.getCategoryCounts(filteredEntries);
+    final mostUsed = _service!.getMostUsedCategory(categoryCounts);
+    final substanceCounts = _service!.getSubstanceCounts(filteredEntries);
+    final mostUsedSubstance = _service!.getMostUsedSubstance(substanceCounts);
+    final totalEntries = filteredEntries.length;
+    final topCategoryPercent = _service!.getTopCategoryPercent(mostUsed.value, totalEntries).toDouble();
+    final selectedPeriodText = _getSelectedPeriodText();
+    
+    // Get unique values for filters
+    final uniqueSubstances = categoryTypeFilteredEntries.map((e) => e.substance).toSet().toList()..sort();
+    final uniqueCategories = periodFilteredEntries.map((e) => _service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder').toSet().toList()..sort();
+    final uniquePlaces = periodFilteredEntries.map((e) => e.location).toSet().toList()..sort();
+    final uniqueRoutes = periodFilteredEntries.map((e) => e.route).toSet().toList()..sort();
+    final uniqueFeelings = periodFilteredEntries.expand((e) => e.feelings).toSet().toList()..sort();
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWideScreen = constraints.maxWidth > 900;
+        
+        return AnimatedOpacity(
+          opacity: 1.0,
+          duration: ThemeConstants.animationNormal,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(ThemeConstants.homePagePadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Filters section
+                AnalyticsFilterCard(
+                  filterContent: FilterWidget(
+                    uniqueCategories: uniqueCategories,
+                    uniqueSubstances: uniqueSubstances,
+                    selectedCategories: _selectedCategories,
+                    onCategoryChanged: (categories) => setState(() => _selectedCategories = categories),
+                    selectedSubstances: _selectedSubstances,
+                    onSubstanceChanged: (substances) => setState(() => _selectedSubstances = substances),
+                    selectedTypeIndex: _selectedTypeIndex,
+                    onTypeChanged: (index) => setState(() => _selectedTypeIndex = index),
+                    uniquePlaces: uniquePlaces,
+                    selectedPlaces: _selectedPlaces,
+                    onPlaceChanged: (places) => setState(() => _selectedPlaces = places),
+                    uniqueRoutes: uniqueRoutes,
+                    selectedRoutes: _selectedRoutes,
+                    onRouteChanged: (routes) => setState(() => _selectedRoutes = routes),
+                    uniqueFeelings: uniqueFeelings,
+                    selectedFeelings: _selectedFeelings,
+                    onFeelingChanged: (feelings) => setState(() => _selectedFeelings = feelings),
+                    minCraving: _minCraving,
+                    maxCraving: _maxCraving,
+                    onMinCravingChanged: (value) => setState(() => _minCraving = value),
+                    onMaxCravingChanged: (value) => setState(() => _maxCraving = value),
+                  ),
+                ),
+                SizedBox(height: ThemeConstants.cardSpacing),
+                
+                // Metrics row
+                MetricsRow(
+                  totalEntries: totalEntries,
+                  mostUsedSubstance: mostUsedSubstance.key,
+                  mostUsedCount: mostUsedSubstance.value,
+                  weeklyAverage: avgPerWeek,
+                  topCategory: mostUsed.key,
+                  topCategoryPercent: topCategoryPercent,
+                ),
+                SizedBox(height: ThemeConstants.cardSpacing),
+                
+                // Two-column grid layout for wide screens
+                if (isWideScreen)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Left column
+                      Expanded(
+                        child: Column(
+                          children: [
+                            UseDistributionCard(
+                              categoryCounts: categoryCounts,
+                              substanceCounts: substanceCounts,
+                              filteredEntries: filteredEntries,
+                              substanceToCategory: _service!.substanceToCategory,
+                            ),
+                            SizedBox(height: ThemeConstants.cardSpacing),
+                            InsightSummaryCard(
+                              totalEntries: totalEntries,
+                              mostUsedCategory: mostUsed.key,
+                              weeklyAverage: avgPerWeek,
+                              selectedPeriodText: selectedPeriodText,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: ThemeConstants.cardSpacing),
+                      // Right column
+                      Expanded(
+                        child: Column(
+                          children: [
+                            UsageTrendsCard(
+                              filteredEntries: filteredEntries,
+                              period: _selectedPeriod,
+                              substanceToCategory: _service!.substanceToCategory,
+                            ),
+                            SizedBox(height: ThemeConstants.cardSpacing),
+                            RecentActivityList(
+                              entries: filteredEntries,
+                              substanceToCategory: _service!.substanceToCategory,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  // Single column layout for narrow screens
+                  Column(
+                    children: [
+                      UseDistributionCard(
+                        categoryCounts: categoryCounts,
+                        substanceCounts: substanceCounts,
+                        filteredEntries: filteredEntries,
+                        substanceToCategory: _service!.substanceToCategory,
+                      ),
+                      SizedBox(height: ThemeConstants.cardSpacing),
+                      UsageTrendsCard(
+                        filteredEntries: filteredEntries,
+                        period: _selectedPeriod,
+                        substanceToCategory: _service!.substanceToCategory,
+                      ),
+                      SizedBox(height: ThemeConstants.cardSpacing),
+                      InsightSummaryCard(
+                        totalEntries: totalEntries,
+                        mostUsedCategory: mostUsed.key,
+                        weeklyAverage: avgPerWeek,
+                        selectedPeriodText: selectedPeriodText,
+                      ),
+                      SizedBox(height: ThemeConstants.cardSpacing),
+                      RecentActivityList(
+                        entries: filteredEntries,
+                        substanceToCategory: _service!.substanceToCategory,
+                      ),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
     );
+  }
+
+  String _getSelectedPeriodText() {
+    switch (_selectedPeriod) {
+      case TimePeriod.all:
+        return 'All Time';
+      case TimePeriod.last7Days:
+        return 'Last 7 Days';
+      case TimePeriod.last7Weeks:
+        return 'Last 7 Weeks';
+      case TimePeriod.last7Months:
+        return 'Last 7 Months';
+    }
   }
 
   Widget _buildErrorState({String? message, String? details}) {
