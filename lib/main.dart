@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -32,13 +33,27 @@ Future<void> main() async {
   await runZonedGuarded<Future<void>>(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      
+      // Load environment variables from .env file
+      print('🔧 DEBUG: Loading .env file...');
+      await dotenv.load(fileName: ".env");
+      print('✅ DEBUG: .env file loaded successfully');
+      
+      final supabaseUrl = dotenv.env['SUPABASE_URL'];
+      final supabaseKey = dotenv.env['SUPABASE_ANON_KEY'];
+      
+      print('🔧 DEBUG: Supabase URL: ${supabaseUrl?.substring(0, 30)}...');
+      print('🔧 DEBUG: Supabase Key exists: ${supabaseKey != null && supabaseKey.isNotEmpty}');
+      
+      // Initialize Supabase with credentials from .env
       await Supabase.initialize(
-        url: 'https://grjukeipqjwcusmmirzw.supabase.co', // Your Supabase URL
-        anonKey:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyanVrZWlwcWp3Y3VzbW1pcnp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzMjU5NTgsImV4cCI6MjA3NDkwMTk1OH0.ovTstW0v7VHzx_Ua-Wcn2xGD6xVT7IB-v3CM0q_CjeE', // Your Supabase anon key
+        url: supabaseUrl!,
+        anonKey: supabaseKey!,
       );
+      print('✅ DEBUG: Supabase initialized successfully');
 
       await errorLoggingService.init();
+      print('✅ DEBUG: Error logging service initialized');
 
       FlutterError.onError = (details) {
         FlutterError.presentError(details);

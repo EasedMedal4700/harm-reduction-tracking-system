@@ -8,12 +8,29 @@ class AuthService {
 
   Future<bool> login(String email, String password) async {
     try {
-      await _client.auth.signInWithPassword(email: email, password: password);
+      print('🔐 DEBUG: Starting login for email: $email');
+      print('🔐 DEBUG: Attempting sign in with password...');
+      
+      final response = await _client.auth.signInWithPassword(
+        email: email, 
+        password: password,
+      );
+      
+      print('✅ DEBUG: Login successful!');
+      print('✅ DEBUG: User ID: ${response.user?.id}');
+      print('✅ DEBUG: Session exists: ${response.session != null}');
+      
       return true;
     } on AuthException catch (e, stackTrace) {
+      print('❌ DEBUG: AuthException during login');
+      print('❌ DEBUG: Error message: ${e.message}');
+      print('❌ DEBUG: Status code: ${e.statusCode}');
       ErrorHandler.logError('AuthService.login.AuthException', e, stackTrace);
       return false;
     } catch (e, stackTrace) {
+      print('❌ DEBUG: Generic exception during login');
+      print('❌ DEBUG: Error: $e');
+      print('❌ DEBUG: Stack trace: $stackTrace');
       ErrorHandler.logError('AuthService.login', e, stackTrace);
       return false;
     }

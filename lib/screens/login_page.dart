@@ -57,23 +57,49 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
+    print('🔑 DEBUG: Login button pressed');
+    print('🔑 DEBUG: Email: $email');
+    print('🔑 DEBUG: Password length: ${password.length}');
+
     setState(() => _isLoading = true);
-    final success = await authService.login(email, password);
-    if (!mounted) return;
+    
+    try {
+      final success = await authService.login(email, password);
+      if (!mounted) return;
 
-    setState(() => _isLoading = false);
+      setState(() => _isLoading = false);
 
-    if (success) {
-      await _persistRememberPreference(_rememberMe);
-      _navigateToHome();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Invalid credentials, please try again')),
-      );
+      if (success) {
+        print('✅ DEBUG: Login returned success');
+        await _persistRememberPreference(_rememberMe);
+        print('✅ DEBUG: Remember me preference saved: $_rememberMe');
+        print('✅ DEBUG: Navigating to home page...');
+        _navigateToHome();
+      } else {
+        print('❌ DEBUG: Login returned false');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Invalid credentials, please try again')),
+        );
+      }
+    } catch (e, stackTrace) {
+      print('❌ DEBUG: Exception in _handleLogin');
+      print('❌ DEBUG: Error: $e');
+      print('❌ DEBUG: Stack trace: $stackTrace');
+      
+      if (mounted) {
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login error: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
   void _navigateToHome() {
+    print('🏠 DEBUG: _navigateToHome called');
     Navigator.pushReplacementNamed(context, '/home_page');
   }
 
