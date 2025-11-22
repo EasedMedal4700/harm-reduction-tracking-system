@@ -117,17 +117,17 @@ class UIColors {
       case 'edit_entries':
         return darkNeonTeal; // Teal
       case 'analytics':
-        return darkNeonViolet; // Violet (changed from blue)
+        return darkNeonViolet; // Violet
       case 'blood_levels':
-        return darkNeonPink; // Pink (changed from teal)
+        return darkNeonPink; // Pink
       case 'settings':
         return darkNeonLavender; // Lavender
       case 'catalog':
-        return darkNeonEmerald; // Emerald (changed from violet)
+        return darkNeonEmerald; // Emerald/Green
       case 'activity':
-        return darkNeonGreen; // Green (changed from emerald)
+        return darkNeonTeal; // Teal (changed from green to avoid duplicate)
       case 'library':
-        return darkNeonOrange; // Keep orange (was pink)
+        return darkNeonLavender; // Lavender (changed from orange to avoid duplicate)
       case 'tolerance':
         return darkNeonGreen; // Green
       default:

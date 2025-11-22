@@ -39,19 +39,28 @@ class _DrawerMenuState extends State<DrawerMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> pages = [
+    // Section 1: Main Navigation
+    final List<Map<String, dynamic>> mainPages = [
       {'icon': Icons.home, 'title': 'Home', 'builder': AppRoutes.buildHomePage},
-      {'icon': Icons.note_add, 'title': 'Log Entry', 'builder': AppRoutes.buildLogEntryPage},
-      {'icon': Icons.mood, 'title': 'Daily Check-In', 'builder': AppRoutes.buildDailyCheckinPage},
-      {'icon': Icons.self_improvement, 'title': 'Reflection', 'builder': AppRoutes.buildReflectionPage},
-      {'icon': Icons.analytics, 'title': 'Analytics', 'builder': AppRoutes.buildAnalyticsPage},
-      {'icon': Icons.local_fire_department, 'title': 'Cravings', 'builder': AppRoutes.buildCravingsPage},
-      {'icon': Icons.access_time, 'title': 'Recent Activity', 'builder': AppRoutes.buildActivityPage},
       {'icon': Icons.bloodtype, 'title': 'Blood Levels', 'builder': AppRoutes.buildBloodLevelsPage},
+      {'icon': Icons.directions_run, 'title': 'Activity', 'builder': AppRoutes.buildActivityPage},
+      {'icon': Icons.local_fire_department, 'title': 'Cravings', 'builder': AppRoutes.buildCravingsPage},
+      {'icon': Icons.self_improvement, 'title': 'Reflection', 'builder': AppRoutes.buildReflectionPage},
+    ];
+
+    // Section 2: Data & Resources
+    final List<Map<String, dynamic>> dataPages = [
       {'icon': Icons.menu_book, 'title': 'Library', 'builder': AppRoutes.buildLibraryPage},
+      {'icon': Icons.analytics, 'title': 'Analytics', 'builder': AppRoutes.buildAnalyticsPage},
       {'icon': Icons.inventory, 'title': 'Catalog', 'builder': AppRoutes.buildCatalogPage},
-      {'icon': Icons.settings, 'title': 'Settings', 'builder': AppRoutes.buildSettingsPage},
-      {'icon': Icons.speed, 'title': 'Tolerance Dashboard', 'builder': AppRoutes.buildToleranceDashboardPage},
+    ];
+
+    // Section 3: Advanced Features (New)
+    final List<Map<String, dynamic>> advancedPages = [
+      {'icon': Icons.favorite, 'title': 'Physiological', 'builder': AppRoutes.buildBloodLevelsPage}, // Placeholder
+      {'icon': Icons.compare_arrows, 'title': 'Interactions', 'builder': AppRoutes.buildBloodLevelsPage}, // Placeholder
+      {'icon': Icons.speed, 'title': 'Tolerance', 'builder': AppRoutes.buildToleranceDashboardPage},
+      {'icon': Icons.watch, 'title': 'WearOS', 'builder': AppRoutes.buildHomePage}, // Placeholder
     ];
 
     return Drawer(
@@ -65,16 +74,40 @@ class _DrawerMenuState extends State<DrawerMenu> {
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
-              children: pages.map((page) {
-                return ListTile(
-                  leading: Icon(page['icon']),
-                  title: Text(page['title']),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => page['builder']()));
-                  },
-                );
-              }).toList(),
+              children: [
+                // Section 1: Main Navigation
+                ...mainPages.map((page) => _buildMenuItem(context, page)),
+                _buildSleekDivider(),
+                
+                // Section 2: Data & Resources
+                ...dataPages.map((page) => _buildMenuItem(context, page)),
+                _buildSleekDivider(),
+                
+                // Section 3: Advanced Features
+                ...advancedPages.map((page) => _buildMenuItem(context, page)),
+                _buildSleekDivider(),
+                
+                // Daily Check-In
+                _buildMenuItem(context, {
+                  'icon': Icons.mood,
+                  'title': 'Daily Check-In',
+                  'builder': AppRoutes.buildDailyCheckinPage
+                }),
+                
+                // Log Entry at bottom
+                _buildMenuItem(context, {
+                  'icon': Icons.note_add,
+                  'title': 'Log Entry',
+                  'builder': AppRoutes.buildLogEntryPage
+                }),
+                
+                // Settings
+                _buildMenuItem(context, {
+                  'icon': Icons.settings,
+                  'title': 'Settings',
+                  'builder': AppRoutes.buildSettingsPage
+                }),
+              ],
             ),
           ),
 
@@ -97,6 +130,35 @@ class _DrawerMenuState extends State<DrawerMenu> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(BuildContext context, Map<String, dynamic> page) {
+    return ListTile(
+      leading: Icon(page['icon']),
+      title: Text(page['title']),
+      onTap: () {
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (_) => page['builder']()));
+      },
+    );
+  }
+
+  Widget _buildSleekDivider() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Container(
+        height: 1,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.transparent,
+              Colors.grey.withOpacity(0.3),
+              Colors.transparent,
+            ],
+          ),
+        ),
       ),
     );
   }
