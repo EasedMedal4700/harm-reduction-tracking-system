@@ -88,7 +88,6 @@ class AnalyticsService {
       case TimePeriod.last7Months:
         return entries.where((e) => e.datetime.isAfter(now.subtract(const Duration(days: 210)))).toList();
       case TimePeriod.all:
-      default:
         return entries;
     }
   }
@@ -128,8 +127,18 @@ class AnalyticsService {
     ).toList();
 
     // Count by weekday
+    // For non-medical use, day ends at 5am (e.g., 4am Sunday counts as Saturday)
+    // For medical use, day ends at midnight (24:00)
     for (final entry in substanceEntries) {
-      final weekday = _getWeekdayName(entry.datetime.weekday);
+      DateTime adjustedTime = entry.datetime;
+      
+      // For non-medical use, shift the day cutoff to 5am
+      // If time is before 5am, count it as the previous day
+      if (!entry.isMedicalPurpose && entry.datetime.hour < 5) {
+        adjustedTime = entry.datetime.subtract(const Duration(hours: 5));
+      }
+      
+      final weekday = _getWeekdayName(adjustedTime.weekday);
       weekdays[weekday] = (weekdays[weekday] ?? 0) + 1;
     }
 

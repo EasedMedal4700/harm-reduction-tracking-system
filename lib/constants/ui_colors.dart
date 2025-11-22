@@ -11,8 +11,8 @@ class UIColors {
   
   static const Color lightBackground = Color(0xFFF8F9FF); // Very light pastel
   static const Color lightSurface = Color(0xFFFFFFFF); // Pure white
-  static const Color lightText = Color(0xFF1E1E1E); // Dark gray
-  static const Color lightTextSecondary = Color(0xFF6B7280);
+  static const Color lightText = Color(0xFF374151); // Softer dark gray (improved readability)
+  static const Color lightTextSecondary = Color(0xFF9CA3AF); // Lighter gray (reduced contrast)
   static const Color lightBorder = Color(0xFFE5E7EB);
   static const Color lightDivider = Color(0xFFF3F4F6);
   

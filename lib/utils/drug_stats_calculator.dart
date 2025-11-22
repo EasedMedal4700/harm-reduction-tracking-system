@@ -41,6 +41,8 @@ class DrugStatsCalculator {
 
   /// Calculate weekday usage statistics
   /// Returns a map with 'counts', 'mostActive', and 'leastActive'
+  /// For non-medical use, day ends at 5am (e.g., 4am Sunday counts as Saturday)
+  /// For medical use, day ends at midnight (24:00)
   static Map<String, dynamic> calculateWeekdayUsage(
     List<Map<String, dynamic>> entries,
   ) {
@@ -53,7 +55,21 @@ class DrugStatsCalculator {
       final parsed = DateTime.tryParse(raw);
       if (parsed == null) continue;
       
-      counts[parsed.weekday % 7] += 1;
+      // Check if this is medical use
+      final isMedical = entry['is_medical_purpose'] == true ||
+                        entry['is_medical_purpose'] == 1 ||
+                        entry['isMedicalPurpose'] == true ||
+                        entry['isMedicalPurpose'] == 1;
+      
+      DateTime adjustedTime = parsed;
+      
+      // For non-medical use, shift the day cutoff to 5am
+      // If time is before 5am, count it as the previous day
+      if (!isMedical && parsed.hour < 5) {
+        adjustedTime = parsed.subtract(const Duration(hours: 5));
+      }
+      
+      counts[adjustedTime.weekday % 7] += 1;
     }
     
     int most = 0;

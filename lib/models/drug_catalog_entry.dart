@@ -23,7 +23,10 @@ class DrugCatalogEntry {
   final String notes;
   final num quantity;
 
-  DrugCatalogEntry copyWith({bool? favorite}) {
+  DrugCatalogEntry copyWith({
+    bool? favorite,
+    bool? archived,
+  }) {
     return DrugCatalogEntry(
       name: name,
       categories: categories,
@@ -32,7 +35,7 @@ class DrugCatalogEntry {
       lastUsed: lastUsed,
       weekdayUsage: weekdayUsage,
       favorite: favorite ?? this.favorite,
-      archived: archived,
+      archived: archived ?? this.archived,
       notes: notes,
       quantity: quantity,
     );

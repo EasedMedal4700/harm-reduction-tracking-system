@@ -64,6 +64,30 @@ class DrugPreferencesManager {
     }
   }
 
+  /// Save/update archived status for a drug
+  static Future<void> saveArchived(
+    String drugName,
+    bool archived,
+    LocalPrefs current,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final updated = {
+      'favorite': current.favorite,
+      'archived': archived,
+      'notes': current.notes,
+      'quantity': current.quantity,
+    };
+    
+    final encoded = jsonEncode(updated);
+    final primary = _prefsKey(drugName);
+    final legacy = _legacyKey(drugName);
+    
+    await prefs.setString(primary, encoded);
+    if (legacy != primary) {
+      await prefs.setString(legacy, encoded);
+    }
+  }
+
   static num _parseQuantity(dynamic value) {
     if (value is num) return value;
     if (value == null) return 0;
