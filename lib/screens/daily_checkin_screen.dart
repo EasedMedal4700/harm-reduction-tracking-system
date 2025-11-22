@@ -115,17 +115,20 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
                 // Existing check-in notice
                 if (provider.existingCheckin != null)
                   Card(
-                    color: Colors.blue.shade50,
+                    color: Colors.red.shade50,
                     child: const Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Row(
                         children: [
-                          Icon(Icons.info_outline, color: Colors.blue),
+                          Icon(Icons.block, color: Colors.red),
                           SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'You already have a check-in for this time. Your changes will update it.',
-                              style: TextStyle(color: Colors.blue),
+                              'A check-in already exists for this time. Please select a different time or date.',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -196,7 +199,7 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: provider.isSaving
+                    onPressed: provider.isSaving || provider.existingCheckin != null
                         ? null
                         : () => provider.saveCheckin(context),
                     icon: provider.isSaving
@@ -210,11 +213,14 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
                       provider.isSaving
                           ? 'Saving...'
                           : provider.existingCheckin != null
-                              ? 'Update Check-In'
+                              ? 'Already Logged'
                               : 'Save Check-In',
                     ),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: provider.existingCheckin != null
+                          ? Colors.grey
+                          : null,
                     ),
                   ),
                 ),

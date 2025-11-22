@@ -4,6 +4,7 @@ import '../constants/ui_colors.dart';
 import '../constants/theme_constants.dart';
 import '../constants/drug_categories.dart';
 import '../constants/drug_theme.dart';
+import '../widgets/common/drawer_menu.dart';
 
 class CatalogPage extends StatefulWidget {
   const CatalogPage({super.key});
@@ -107,6 +108,8 @@ class _CatalogPageState extends State<CatalogPage> {
     if (_isLoading) {
       return Scaffold(
         backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
+        appBar: _buildAppBar(context, isDark, accentColor),
+        drawer: const DrawerMenu(),
         body: Center(child: CircularProgressIndicator(color: accentColor)),
       );
     }
@@ -114,6 +117,7 @@ class _CatalogPageState extends State<CatalogPage> {
     return Scaffold(
       backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
       appBar: _buildAppBar(context, isDark, accentColor),
+      drawer: const DrawerMenu(),
       body: Column(
         children: [
           // Search and filter section (pinned at top)
@@ -133,21 +137,26 @@ class _CatalogPageState extends State<CatalogPage> {
     return AppBar(
       backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
       elevation: 0,
-      leading: Container(
-        margin: EdgeInsets.all(ThemeConstants.space8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-          boxShadow: isDark ? UIColors.createNeonGlow(accentColor, intensity: 0.2) : null,
-        ),
-        child: Icon(Icons.science_outlined, color: accentColor),
-      ),
-      title: Text(
-        'Substance Catalog',
-        style: TextStyle(
-          fontSize: ThemeConstants.fontLarge,
-          fontWeight: ThemeConstants.fontBold,
-          color: isDark ? UIColors.darkText : UIColors.lightText,
-        ),
+      // Automatic hamburger menu icon when drawer is present
+      title: Row(
+        children: [
+          Container(
+            margin: EdgeInsets.only(right: ThemeConstants.space8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+              boxShadow: isDark ? UIColors.createNeonGlow(accentColor, intensity: 0.2) : null,
+            ),
+            child: Icon(Icons.science_outlined, color: accentColor),
+          ),
+          Text(
+            'Substance Catalog',
+            style: TextStyle(
+              fontSize: ThemeConstants.fontLarge,
+              fontWeight: ThemeConstants.fontBold,
+              color: isDark ? UIColors.darkText : UIColors.lightText,
+            ),
+          ),
+        ],
       ),
     );
   }

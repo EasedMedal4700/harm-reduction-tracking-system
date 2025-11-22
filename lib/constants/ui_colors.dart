@@ -109,27 +109,27 @@ class UIColors {
   static Color getDarkAccent(String actionKey) {
     switch (actionKey) {
       case 'log_usage':
-        return darkNeonCyan;
+        return darkNeonCyan; // Cyan/Blue-green
       case 'cravings':
-        return darkNeonOrange;
+        return darkNeonOrange; // Orange
       case 'reflection':
-        return darkNeonPurple;
+        return darkNeonPurple; // Purple
       case 'edit_entries':
-        return darkNeonTeal;
+        return darkNeonTeal; // Teal
       case 'analytics':
-        return darkNeonBlue;
+        return darkNeonViolet; // Violet (changed from blue)
       case 'blood_levels':
-        return darkNeonTeal;
+        return darkNeonPink; // Pink (changed from teal)
       case 'settings':
-        return darkNeonLavender;
+        return darkNeonLavender; // Lavender
       case 'catalog':
-        return darkNeonViolet;
+        return darkNeonEmerald; // Emerald (changed from violet)
       case 'activity':
-        return darkNeonEmerald;
+        return darkNeonGreen; // Green (changed from emerald)
       case 'library':
-        return darkNeonPink;
+        return darkNeonOrange; // Keep orange (was pink)
       case 'tolerance':
-        return darkNeonGreen;
+        return darkNeonGreen; // Green
       default:
         return darkNeonCyan;
     }

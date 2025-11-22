@@ -11,6 +11,7 @@ import '../widgets/log_entry_cards/intention_craving_card.dart';
 import '../widgets/log_entry_cards/triggers_card.dart';
 import '../widgets/log_entry_cards/body_signals_card.dart';
 import '../widgets/log_entry_cards/notes_card.dart';
+import '../widgets/log_entry_cards/medical_purpose_card.dart';
 import '../states/log_entry_state.dart';
 import '../constants/ui_colors.dart';
 import '../constants/theme_constants.dart';
@@ -111,6 +112,8 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                 RouteOfAdministrationCard(
                                   route: state.route,
                                   onRouteChanged: state.setRoute,
+                                  availableROAs: state.getAvailableROAs(),
+                                  isROAValidated: (roa) => state.substanceDetails != null && state.isROAValidated(roa),
                                 ),
                                 
                                 const SizedBox(height: ThemeConstants.cardSpacing),
@@ -124,6 +127,15 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                 ),
                                 
                                 const SizedBox(height: ThemeConstants.cardSpacing),
+                                
+                                // Medical Purpose (simple mode only)
+                                if (state.isSimpleMode) ...[
+                                  MedicalPurposeCard(
+                                    isMedicalPurpose: state.isMedicalPurpose,
+                                    onChanged: state.setIsMedicalPurpose,
+                                  ),
+                                  const SizedBox(height: ThemeConstants.cardSpacing),
+                                ],
                                 
                                 // Time of Use
                                 TimeOfUseCard(

@@ -7,10 +7,14 @@ import '../../constants/drug_use_catalog.dart';
 class RouteOfAdministrationCard extends StatelessWidget {
   final String route;
   final ValueChanged<String> onRouteChanged;
+  final List<String> availableROAs; // Dynamic ROA list
+  final bool Function(String)? isROAValidated; // Optional validation callback
 
   const RouteOfAdministrationCard({
     required this.route,
     required this.onRouteChanged,
+    required this.availableROAs,
+    this.isROAValidated,
     super.key,
   });
 
@@ -35,17 +39,23 @@ class RouteOfAdministrationCard extends StatelessWidget {
           ),
           const SizedBox(height: ThemeConstants.space12),
           
-          // ROA buttons
+          // ROA buttons - use dynamic availableROAs instead of static list
           Wrap(
             spacing: ThemeConstants.space8,
             runSpacing: ThemeConstants.space8,
-            children: DrugUseCatalog.consumptionMethods.map((method) {
-              final methodName = method['name']!;
-              final emoji = method['emoji']!;
+            children: availableROAs.map((methodName) {
               final isSelected = route.toLowerCase() == methodName.toLowerCase();
+              final isValidated = isROAValidated?.call(methodName) ?? true;
               final accentColor = isDark 
                   ? UIColors.darkNeonBlue
                   : UIColors.lightAccentBlue;
+              
+              // Find emoji from catalog, fallback to generic emoji
+              final catalogEntry = DrugUseCatalog.consumptionMethods.firstWhere(
+                (m) => m['name']!.toLowerCase() == methodName.toLowerCase(),
+                orElse: () => {'name': methodName, 'emoji': '💊'},
+              );
+              final emoji = catalogEntry['emoji']!;
               
               return _buildROAButton(
                 context,
@@ -53,6 +63,7 @@ class RouteOfAdministrationCard extends StatelessWidget {
                 methodName,
                 emoji,
                 isSelected,
+                isValidated,
                 accentColor,
               );
             }).toList(),
@@ -68,8 +79,14 @@ class RouteOfAdministrationCard extends StatelessWidget {
     String methodName,
     String emoji,
     bool isSelected,
+    bool isValidated,
     Color accentColor,
   ) {
+    // Use warning color if not validated
+    final buttonColor = !isValidated
+        ? (isDark ? UIColors.darkNeonOrange : Colors.orange)
+        : accentColor;
+
     return GestureDetector(
       onTap: () => onRouteChanged(methodName),
       child: AnimatedContainer(
@@ -80,17 +97,17 @@ class RouteOfAdministrationCard extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: isSelected
-              ? (isDark ? accentColor.withOpacity(0.15) : accentColor.withOpacity(0.1))
+              ? (isDark ? buttonColor.withOpacity(0.15) : buttonColor.withOpacity(0.1))
               : (isDark ? const Color(0x08FFFFFF) : UIColors.lightSurface),
           borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
           border: Border.all(
             color: isSelected
-                ? accentColor
+                ? buttonColor
                 : (isDark ? const Color(0x14FFFFFF) : UIColors.lightBorder),
             width: isSelected ? 2 : 1,
           ),
           boxShadow: isSelected
-              ? UIColors.createNeonGlow(accentColor, intensity: 0.2)
+              ? UIColors.createNeonGlow(buttonColor, intensity: 0.2)
               : null,
         ),
         child: Row(
@@ -113,6 +130,15 @@ class RouteOfAdministrationCard extends StatelessWidget {
                     : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
               ),
             ),
+            // Show warning icon if not validated
+            if (!isValidated) ...[
+              const SizedBox(width: ThemeConstants.space4),
+              Icon(
+                Icons.warning_amber_rounded,
+                size: 16,
+                color: buttonColor,
+              ),
+            ],
           ],
         ),
       ),

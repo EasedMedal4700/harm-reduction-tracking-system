@@ -21,4 +21,49 @@ class SubstanceRepository {
       };
     }).toList();
   }
+
+  /// Fetch substance details including formatted_dose for ROA validation
+  /// Returns null if substance doesn't exist in DB
+  Future<Map<String, dynamic>?> getSubstanceDetails(String substanceName) async {
+    try {
+      final response = await _client
+          .from('drug_profiles')
+          .select('name, pretty_name, formatted_dose')
+          .eq('name', substanceName)
+          .maybeSingle();
+
+      if (response == null) return null;
+
+      return {
+        'name': response['name'] ?? '',
+        'pretty_name': response['pretty_name'] ?? response['name'] ?? '',
+        'formatted_dose': response['formatted_dose'] != null
+            ? (response['formatted_dose'] is Map
+                ? response['formatted_dose']
+                : json.decode(response['formatted_dose']))
+            : {},
+      };
+    } catch (e) {
+      print('Error fetching substance details: $e');
+      return null;
+    }
+  }
+
+  /// Extract available ROAs from formatted_dose field
+  /// Returns list of available routes (lowercase) or empty list if none found
+  List<String> getAvailableROAs(Map<String, dynamic>? substanceDetails) {
+    if (substanceDetails == null) return [];
+
+    final formattedDose = substanceDetails['formatted_dose'] as Map<String, dynamic>?;
+    if (formattedDose == null || formattedDose.isEmpty) return [];
+
+    // Extract ROA keys and convert to lowercase (Oral -> oral, Insufflated -> insufflated, etc.)
+    return formattedDose.keys.map((key) => key.toString().toLowerCase()).toList();
+  }
+
+  /// Check if a specific ROA is valid for a substance
+  bool isROAValid(String roa, Map<String, dynamic>? substanceDetails) {
+    final availableROAs = getAvailableROAs(substanceDetails);
+    return availableROAs.contains(roa.toLowerCase());
+  }
 }

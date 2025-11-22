@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/log_entry_model.dart';
 import '../services/timezone_service.dart';
 import '../services/log_entry_service.dart';
+import '../repo/substance_repository.dart';
 
 class LogEntryState extends ChangeNotifier {
   bool isSimpleMode = true;
@@ -19,10 +20,39 @@ class LogEntryState extends ChangeNotifier {
   final TextEditingController doseCtrl = TextEditingController();
   final TextEditingController substanceCtrl = TextEditingController();
 
+  // Substance details for ROA validation
+  Map<String, dynamic>? substanceDetails;
+  final SubstanceRepository _substanceRepo = SubstanceRepository();
+
   void setSubstance(String value) {
     // don't call substanceCtrl.text = value here — it resets selection/cursor
     substance = value;
+    // Load substance details for ROA validation
+    _loadSubstanceDetails(value);
     notifyListeners();
+  }
+
+  Future<void> _loadSubstanceDetails(String substanceName) async {
+    if (substanceName.isEmpty) {
+      substanceDetails = null;
+      return;
+    }
+    substanceDetails = await _substanceRepo.getSubstanceDetails(substanceName);
+  }
+
+  /// Get available ROAs for current substance (base 4 + substance-specific)
+  List<String> getAvailableROAs() {
+    const baseROAs = ['oral', 'insufflated', 'inhaled', 'sublingual'];
+    final dbROAs = _substanceRepo.getAvailableROAs(substanceDetails);
+    
+    // Combine and deduplicate
+    final allROAs = {...baseROAs, ...dbROAs}.toList();
+    return allROAs;
+  }
+
+  /// Check if a specific ROA is validated in DB for this substance
+  bool isROAValidated(String roa) {
+    return _substanceRepo.isROAValid(roa, substanceDetails);
   }
 
   void prefillSubstance(String value) {
@@ -44,6 +74,102 @@ class LogEntryState extends ChangeNotifier {
   String entryId = ''; // Add this
 
   DateTime get selectedDateTime => DateTime(date.year, date.month, date.day, hour, minute);
+
+  /// Validate substance exists in DB
+  Future<bool> validateSubstance(BuildContext context) async {
+    if (substance.isEmpty) {
+      _showErrorDialog(context, 'Missing Substance', 'Please select a substance before saving.');
+      return false;
+    }
+
+    // Reload substance details to ensure it exists
+    await _loadSubstanceDetails(substance);
+    
+    if (substanceDetails == null) {
+      _showErrorDialog(
+        context,
+        'Substance Not Found',
+        'The substance "$substance" was not found in the database. Please select a valid substance.',
+      );
+      return false;
+    }
+    return true;
+  }
+
+  /// Validate ROA with user confirmation for unvalidated routes
+  Future<bool> validateROA(BuildContext context) async {
+    if (!isROAValidated(route)) {
+      return await _showConfirmDialog(
+        context,
+        'Unvalidated Route',
+        'The route "$route" is not validated for ${substanceDetails?['pretty_name'] ?? substance}. Are you sure you want to continue?',
+      );
+    }
+    return true;
+  }
+
+  /// Validate emotions required for non-medical use
+  Future<bool> validateEmotions(BuildContext context) async {
+    if (!isMedicalPurpose && feelings.isEmpty) {
+      return await _showConfirmDialog(
+        context,
+        'No Emotions Selected',
+        'Are you sure? No emotions selected for non-medical use.',
+      );
+    }
+    return true;
+  }
+
+  /// Validate craving required for non-medical detailed mode
+  Future<bool> validateCraving(BuildContext context) async {
+    if (!isMedicalPurpose && !isSimpleMode && cravingIntensity < 1) {
+      return await _showConfirmDialog(
+        context,
+        'No Craving Intensity',
+        'Are you sure? Craving intensity is 0 for non-medical use.',
+      );
+    }
+    return true;
+  }
+
+  /// Show error dialog
+  void _showErrorDialog(BuildContext context, String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Show confirmation dialog
+  Future<bool> _showConfirmDialog(BuildContext context, String title, String message) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Continue'),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
+  }
 
   void dispose() {
     doseCtrl.dispose();
@@ -75,6 +201,19 @@ class LogEntryState extends ChangeNotifier {
       );
       return;
     }
+
+    // Validate substance exists in DB
+    if (!await validateSubstance(context)) return;
+
+    // Validate ROA with user confirmation
+    if (!await validateROA(context)) return;
+
+    // Validate emotions for non-medical use
+    if (!await validateEmotions(context)) return;
+
+    // Validate craving for non-medical detailed mode
+    if (!await validateCraving(context)) return;
+
     isSaving = true;
     notifyListeners();
 

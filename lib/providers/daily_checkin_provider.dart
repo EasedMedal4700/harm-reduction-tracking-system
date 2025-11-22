@@ -129,12 +129,26 @@ class DailyCheckinProvider extends ChangeNotifier {
 
   /// Save the current check-in
   Future<void> saveCheckin(BuildContext context) async {
+    // Block if check-in already exists
+    if (_existingCheckin != null) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('A check-in already exists for this time. Please choose a different time or date.'),
+            backgroundColor: Colors.orange,
+            duration: Duration(seconds: 4),
+          ),
+        );
+      }
+      return;
+    }
+
     try {
       _isSaving = true;
       notifyListeners();
 
       final checkin = DailyCheckin(
-        id: _existingCheckin?.id,
+        id: null,
         userId: '', // Will be set by the service
         checkinDate: _selectedDate,
         mood: _mood,
@@ -143,22 +157,12 @@ class DailyCheckinProvider extends ChangeNotifier {
         notes: _notes.isEmpty ? null : _notes,
       );
 
-      if (_existingCheckin != null) {
-        // Update existing
-        await _repository.updateCheckin(_existingCheckin!.id!, checkin);
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Check-in updated successfully!')),
-          );
-        }
-      } else {
-        // Create new
-        await _repository.saveCheckin(checkin);
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Check-in saved successfully!')),
-          );
-        }
+      // Create new check-in only
+      await _repository.saveCheckin(checkin);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Check-in saved successfully!')),
+        );
       }
 
       // Refresh recent check-ins
