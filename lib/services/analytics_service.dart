@@ -109,4 +109,84 @@ class AnalyticsService {
   int getTopCategoryPercent(int mostUsedCount, int totalEntries) {
     return totalEntries > 0 ? (mostUsedCount / totalEntries * 100).round() : 0;
   }
+
+  /// Compute weekly usage for a substance (returns counts for Mon-Sun)
+  Map<String, int> computeWeeklyUse(List<LogEntry> entries, String substanceName) {
+    final weekdays = {
+      'Monday': 0,
+      'Tuesday': 0,
+      'Wednesday': 0,
+      'Thursday': 0,
+      'Friday': 0,
+      'Saturday': 0,
+      'Sunday': 0,
+    };
+
+    // Filter entries for this substance
+    final substanceEntries = entries.where(
+      (e) => e.substance.toLowerCase() == substanceName.toLowerCase(),
+    ).toList();
+
+    // Count by weekday
+    for (final entry in substanceEntries) {
+      final weekday = _getWeekdayName(entry.datetime.weekday);
+      weekdays[weekday] = (weekdays[weekday] ?? 0) + 1;
+    }
+
+    return weekdays;
+  }
+
+  /// Get the day with most activity for a substance
+  String getMostActiveDay(List<LogEntry> entries, String substanceName) {
+    final weeklyUse = computeWeeklyUse(entries, substanceName);
+    if (weeklyUse.values.every((count) => count == 0)) {
+      return 'None';
+    }
+
+    final maxEntry = weeklyUse.entries.reduce(
+      (a, b) => a.value > b.value ? a : b,
+    );
+
+    return maxEntry.value > 0 ? maxEntry.key : 'None';
+  }
+
+  /// Get the day with least activity for a substance (excluding zero days)
+  String getLeastActiveDay(List<LogEntry> entries, String substanceName) {
+    final weeklyUse = computeWeeklyUse(entries, substanceName);
+    
+    // Filter out days with zero activity
+    final nonZeroDays = weeklyUse.entries.where((e) => e.value > 0).toList();
+    
+    if (nonZeroDays.isEmpty) {
+      return 'None';
+    }
+
+    final minEntry = nonZeroDays.reduce(
+      (a, b) => a.value < b.value ? a : b,
+    );
+
+    return minEntry.key;
+  }
+
+  /// Helper to convert weekday number to name
+  String _getWeekdayName(int weekday) {
+    switch (weekday) {
+      case DateTime.monday:
+        return 'Monday';
+      case DateTime.tuesday:
+        return 'Tuesday';
+      case DateTime.wednesday:
+        return 'Wednesday';
+      case DateTime.thursday:
+        return 'Thursday';
+      case DateTime.friday:
+        return 'Friday';
+      case DateTime.saturday:
+        return 'Saturday';
+      case DateTime.sunday:
+        return 'Sunday';
+      default:
+        return 'Unknown';
+    }
+  }
 }

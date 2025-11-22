@@ -185,4 +185,91 @@ class DrugProfileUtils {
     
     return knownThresholds[drugName.toLowerCase()];
   }
+
+  /// Convert a dose value to milligrams based on unit and drug profile
+  /// 
+  /// Handles conversions:
+  /// - mg → mg (no conversion)
+  /// - g → mg (multiply by 1000)
+  /// - pill/tablet → extract mg from profile's formatted_dose
+  /// - ml → skip conversion (no standard conversion without density data)
+  static double convertToMg(
+    double value,
+    String unit,
+    Map<String, dynamic>? drugProfile,
+  ) {
+    final unitLower = unit.toLowerCase();
+
+    // Direct mg - no conversion needed
+    if (unitLower == 'mg') {
+      return value;
+    }
+
+    // Grams to milligrams
+    if (unitLower == 'g') {
+      return value * 1000;
+    }
+
+    // Micrograms to milligrams
+    if (unitLower == 'μg' || unitLower == 'ug' || unitLower == 'mcg') {
+      return value / 1000;
+    }
+
+    // Pills/tablets - try to extract mg per pill from profile
+    if (unitLower == 'pill' || unitLower == 'pills' || 
+        unitLower == 'tablet' || unitLower == 'tablets') {
+      final mgPerPill = _extractMgPerPill(drugProfile);
+      if (mgPerPill != null && mgPerPill > 0) {
+        return value * mgPerPill;
+      }
+      // If no profile data, return as-is (can't convert)
+      return value;
+    }
+
+    // ML - no conversion without density data
+    if (unitLower == 'ml') {
+      // Could add mg/ml lookup in future, for now return as-is
+      return value;
+    }
+
+    // Unknown unit - return as-is
+    return value;
+  }
+
+  /// Extract mg per pill/tablet from drug profile's formatted_dose
+  static double? _extractMgPerPill(Map<String, dynamic>? drugProfile) {
+    if (drugProfile == null) return null;
+
+    final formattedDose = drugProfile['formatted_dose'] as Map<String, dynamic>?;
+    if (formattedDose == null) return null;
+
+    // Try to find "common" dose as baseline for pill strength
+    const routes = ['Oral', 'Insufflated', 'Sublingual', 'Rectal'];
+    
+    for (final route in routes) {
+      if (formattedDose.containsKey(route)) {
+        final routeData = formattedDose[route];
+        if (routeData is! Map<String, dynamic>) continue;
+
+        // Try "common" dose first (most typical pill strength)
+        final common = _parseDoseValue(routeData['common']);
+        if (common != null && common > 0) {
+          return common;
+        }
+
+        // Fallback to "light" or "strong"
+        final light = _parseDoseValue(routeData['light']);
+        if (light != null && light > 0) {
+          return light;
+        }
+
+        final strong = _parseDoseValue(routeData['strong']);
+        if (strong != null && strong > 0) {
+          return strong;
+        }
+      }
+    }
+
+    return null;
+  }
 }

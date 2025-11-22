@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import '../repo/substance_repository.dart';
+import '../repo/stockpile_repository.dart';
+import '../services/analytics_service.dart';
 import '../constants/ui_colors.dart';
 import '../constants/theme_constants.dart';
 import '../constants/drug_categories.dart';
 import '../constants/drug_theme.dart';
 import '../widgets/common/drawer_menu.dart';
+import '../widgets/catalog/add_stockpile_sheet.dart';
+import '../models/stockpile_item.dart';
 
 class CatalogPage extends StatefulWidget {
   const CatalogPage({super.key});
@@ -15,6 +19,8 @@ class CatalogPage extends StatefulWidget {
 
 class _CatalogPageState extends State<CatalogPage> {
   final SubstanceRepository _repository = SubstanceRepository();
+  final StockpileRepository _stockpileRepo = StockpileRepository();
+  final AnalyticsService _analyticsService = AnalyticsService();
   List<Map<String, dynamic>> _allSubstances = [];
   List<Map<String, dynamic>> _filteredSubstances = [];
   String _searchQuery = '';
@@ -457,6 +463,7 @@ class _CatalogPageState extends State<CatalogPage> {
 
   Widget _buildSubstanceCard(Map<String, dynamic> substance, bool isDark) {
     final name = substance['pretty_name'] ?? substance['name'] ?? 'Unknown';
+    final substanceId = substance['name'] ?? 'unknown';
     final categories = (substance['categories'] as List<dynamic>?)
             ?.map((e) => e.toString())
             .toList() ??
@@ -496,99 +503,312 @@ class _CatalogPageState extends State<CatalogPage> {
             ),
       child: Material(
         color: Colors.transparent,
-        child: InkWell(
-          onTap: () => _showSubstanceDetails(substance),
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
-          child: Padding(
-            padding: EdgeInsets.all(ThemeConstants.space16),
-            child: Row(
-              children: [
-                // Left circular icon
-                Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [categoryColor, categoryColor.withValues(alpha: 0.7)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+        child: Column(
+          children: [
+            // Main card content
+            InkWell(
+              onTap: () => _showSubstanceDetails(substance),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(ThemeConstants.radiusLarge),
+                topRight: Radius.circular(ThemeConstants.radiusLarge),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(ThemeConstants.space16),
+                child: Row(
+                  children: [
+                    // Left circular icon
+                    Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [categoryColor, categoryColor.withValues(alpha: 0.7)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
+                        boxShadow: UIColors.createNeonGlow(categoryColor, intensity: 0.3),
+                      ),
+                      child: Icon(categoryIcon, color: Colors.white, size: ThemeConstants.iconLarge),
                     ),
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
-                    boxShadow: UIColors.createNeonGlow(categoryColor, intensity: 0.3),
-                  ),
-                  child: Icon(categoryIcon, color: Colors.white, size: ThemeConstants.iconLarge),
-                ),
-                SizedBox(width: ThemeConstants.space16),
-                // Content
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Name
-                      Text(
-                        name,
+                    SizedBox(width: ThemeConstants.space16),
+                    // Content
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Name
+                          Text(
+                            name,
+                            style: TextStyle(
+                              fontSize: ThemeConstants.fontLarge,
+                              fontWeight: ThemeConstants.fontBold,
+                              color: isDark ? UIColors.darkText : UIColors.lightText,
+                              letterSpacing: -0.5,
+                            ),
+                          ),
+                          if (aliases.isNotEmpty) ...[
+                            SizedBox(height: ThemeConstants.space4),
+                            Text(
+                              'Also known as: ${aliases.take(2).join(', ')}${aliases.length > 2 ? '...' : ''}',
+                              style: TextStyle(
+                                fontSize: ThemeConstants.fontSmall,
+                                color: isDark
+                                    ? UIColors.darkTextSecondary
+                                    : UIColors.lightTextSecondary,
+                              ),
+                            ),
+                          ],
+                          if (additionalInfo != null) ...[
+                            SizedBox(height: ThemeConstants.space4),
+                            Text(
+                              additionalInfo,
+                              style: TextStyle(
+                                fontSize: ThemeConstants.fontSmall,
+                                fontWeight: ThemeConstants.fontMediumWeight,
+                                color: categoryColor,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: ThemeConstants.space12),
+                    // Category chip
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: ThemeConstants.space12,
+                        vertical: ThemeConstants.space8,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [categoryColor, categoryColor.withValues(alpha: 0.8)],
+                        ),
+                        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                        boxShadow: UIColors.createNeonGlow(categoryColor, intensity: 0.2),
+                      ),
+                      child: Text(
+                        primaryCategory,
                         style: TextStyle(
-                          fontSize: ThemeConstants.fontLarge,
-                          fontWeight: ThemeConstants.fontBold,
-                          color: isDark ? UIColors.darkText : UIColors.lightText,
-                          letterSpacing: -0.5,
+                          fontSize: ThemeConstants.fontXSmall,
+                          fontWeight: ThemeConstants.fontSemiBold,
+                          color: Colors.white,
                         ),
                       ),
-                      if (aliases.isNotEmpty) ...[
-                        SizedBox(height: ThemeConstants.space4),
-                        Text(
-                          'Also known as: ${aliases.take(2).join(', ')}${aliases.length > 2 ? '...' : ''}',
-                          style: TextStyle(
-                            fontSize: ThemeConstants.fontSmall,
-                            color: isDark
-                                ? UIColors.darkTextSecondary
-                                : UIColors.lightTextSecondary,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Stockpile section with FutureBuilder
+            FutureBuilder<StockpileItem?>(
+              future: _stockpileRepo.getStockpile(substanceId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox.shrink();
+                }
+                
+                final stockpile = snapshot.data;
+                return Container(
+                  padding: EdgeInsets.all(ThemeConstants.space12),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          // Stockpile status
+                          Expanded(
+                            child: stockpile != null
+                                ? _buildStockpileStatus(stockpile, isDark, categoryColor)
+                                : Text(
+                                    'No stockpile tracked',
+                                    style: TextStyle(
+                                      fontSize: ThemeConstants.fontSmall,
+                                      color: isDark
+                                          ? UIColors.darkTextSecondary
+                                          : UIColors.lightTextSecondary,
+                                    ),
+                                  ),
                           ),
-                        ),
-                      ],
-                      if (additionalInfo != null) ...[
-                        SizedBox(height: ThemeConstants.space4),
-                        Text(
-                          additionalInfo,
-                          style: TextStyle(
-                            fontSize: ThemeConstants.fontSmall,
-                            fontWeight: ThemeConstants.fontMediumWeight,
-                            color: categoryColor,
+                          SizedBox(width: ThemeConstants.space8),
+                          // Add to Stockpile button
+                          ElevatedButton.icon(
+                            onPressed: () => _showAddStockpileSheet(substanceId, name, substance),
+                            icon: const Icon(Icons.add, size: 16),
+                            label: const Text('Add'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: categoryColor,
+                              foregroundColor: Colors.white,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: ThemeConstants.space12,
+                                vertical: ThemeConstants.space8,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                              ),
+                              elevation: 1,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      // Weekly usage stats
+                      FutureBuilder<String?>(
+                        future: _getMostActiveDay(name),
+                        builder: (context, daySnapshot) {
+                          if (daySnapshot.connectionState == ConnectionState.waiting) {
+                            return const SizedBox.shrink();
+                          }
+                          
+                          final mostActiveDay = daySnapshot.data;
+                          if (mostActiveDay == null) {
+                            return const SizedBox.shrink();
+                          }
+                          
+                          return Padding(
+                            padding: EdgeInsets.only(top: ThemeConstants.space8),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_today,
+                                  size: 14,
+                                  color: isDark
+                                      ? UIColors.darkTextSecondary
+                                      : UIColors.lightTextSecondary,
+                                ),
+                                SizedBox(width: ThemeConstants.space4),
+                                Text(
+                                  'Most active: $mostActiveDay',
+                                  style: TextStyle(
+                                    fontSize: ThemeConstants.fontXSmall,
+                                    color: isDark
+                                        ? UIColors.darkTextSecondary
+                                        : UIColors.lightTextSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
-                ),
-                SizedBox(width: ThemeConstants.space12),
-                // Category chip
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: ThemeConstants.space12,
-                    vertical: ThemeConstants.space8,
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [categoryColor, categoryColor.withValues(alpha: 0.8)],
-                    ),
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                    boxShadow: UIColors.createNeonGlow(categoryColor, intensity: 0.2),
-                  ),
-                  child: Text(
-                    primaryCategory,
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontXSmall,
-                      fontWeight: ThemeConstants.fontSemiBold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
-          ),
+          ],
         ),
       ),
     );
+  }
+
+  Widget _buildStockpileStatus(StockpileItem stockpile, bool isDark, Color categoryColor) {
+    final percentage = stockpile.getPercentage();
+    final isLow = stockpile.isLow();
+    final isEmpty = stockpile.isEmpty();
+    
+    Color statusColor;
+    if (isEmpty) {
+      statusColor = UIColors.lightAccentRed;
+    } else if (isLow) {
+      statusColor = UIColors.lightAccentAmber;
+    } else {
+      statusColor = UIColors.lightAccentGreen;
+    }
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(
+              Icons.inventory_2,
+              size: 16,
+              color: statusColor,
+            ),
+            SizedBox(width: ThemeConstants.space4),
+            Text(
+              '${stockpile.currentAmountMg.toStringAsFixed(1)}mg remaining',
+              style: TextStyle(
+                fontSize: ThemeConstants.fontSmall,
+                fontWeight: ThemeConstants.fontMediumWeight,
+                color: isDark ? UIColors.darkText : UIColors.lightText,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: ThemeConstants.space4),
+        // Progress bar
+        ClipRRect(
+          borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall / 2),
+          child: LinearProgressIndicator(
+            value: percentage / 100,
+            backgroundColor: isDark
+                ? UIColors.darkBorder
+                : UIColors.lightBorder,
+            valueColor: AlwaysStoppedAnimation<Color>(statusColor),
+            minHeight: 4,
+          ),
+        ),
+        SizedBox(height: ThemeConstants.space4),
+        Text(
+          '${percentage.toStringAsFixed(0)}% of ${stockpile.totalAddedMg.toStringAsFixed(1)}mg total',
+          style: TextStyle(
+            fontSize: ThemeConstants.fontXSmall,
+            color: isDark
+                ? UIColors.darkTextSecondary
+                : UIColors.lightTextSecondary,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showAddStockpileSheet(String substanceId, String substanceName, Map<String, dynamic> substance) async {
+    final result = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => AddStockpileSheet(
+        substanceId: substanceId,
+        substanceName: substanceName,
+        substanceDetails: substance,
+      ),
+    );
+    
+    // Refresh the list if stockpile was added
+    if (result == true && mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<String?> _getMostActiveDay(String substanceName) async {
+    try {
+      final entries = await _analyticsService.fetchEntries();
+      if (entries.isEmpty) {
+        return null;
+      }
+      
+      // Filter entries for this substance
+      final substanceEntries = entries.where((e) => 
+        e.substance.toLowerCase() == substanceName.toLowerCase()
+      ).toList();
+      
+      if (substanceEntries.isEmpty) {
+        return null;
+      }
+      
+      final mostActive = _analyticsService.getMostActiveDay(substanceEntries, substanceName);
+      return mostActive;
+    } catch (e) {
+      return null;
+    }
   }
 
   void _showSubstanceDetails(Map<String, dynamic> substance) {

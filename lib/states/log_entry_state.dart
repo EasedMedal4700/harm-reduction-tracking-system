@@ -3,6 +3,8 @@ import '../models/log_entry_model.dart';
 import '../services/timezone_service.dart';
 import '../services/log_entry_service.dart';
 import '../repo/substance_repository.dart';
+import '../repo/stockpile_repository.dart';
+import '../utils/drug_profile_utils.dart';
 
 class LogEntryState extends ChangeNotifier {
   bool isSimpleMode = true;
@@ -23,6 +25,7 @@ class LogEntryState extends ChangeNotifier {
   // Substance details for ROA validation
   Map<String, dynamic>? substanceDetails;
   final SubstanceRepository _substanceRepo = SubstanceRepository();
+  final StockpileRepository _stockpileRepo = StockpileRepository();
 
   void setSubstance(String value) {
     // don't call substanceCtrl.text = value here — it resets selection/cursor
@@ -244,9 +247,42 @@ class LogEntryState extends ChangeNotifier {
         // Create new entry
         await logEntryService.saveLogEntry(entry);
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Entry saved successfully!')),
-      );
+
+      // Subtract from stockpile after successful log
+      try {
+        // Convert dose to mg
+        final doseInMg = DrugProfileUtils.convertToMg(dose, unit, substanceDetails);
+        
+        // Subtract from stockpile
+        await _stockpileRepo.subtractFromStockpile(substance, doseInMg);
+        
+        // Get updated stockpile for confirmation message
+        final updatedStockpile = await _stockpileRepo.getStockpile(substance);
+        
+        if (updatedStockpile != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Entry saved! Stockpile updated: -${doseInMg.toStringAsFixed(1)}mg (${updatedStockpile.currentAmountMg.toStringAsFixed(1)}mg remaining)',
+              ),
+              duration: const Duration(seconds: 4),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Entry saved successfully!')),
+          );
+        }
+      } catch (stockpileError) {
+        // If stockpile update fails, still show success for the log entry
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Entry saved! (Stockpile update failed: ${stockpileError.toString()})'),
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
+
       resetForm();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
