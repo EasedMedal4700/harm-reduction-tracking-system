@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../constants/ui_colors.dart';
+import '../../constants/theme_constants.dart';
 
 /// Controls for adjusting metabolism timeline view parameters
 class MetabolismTimelineControls extends StatelessWidget {
@@ -23,26 +25,47 @@ class MetabolismTimelineControls extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accentColor = isDark ? UIColors.darkNeonTeal : UIColors.lightAccentRed;
+    
     return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(12),
-      ),
+      padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+      decoration: isDark
+          ? UIColors.createGlassmorphism(
+              accentColor: accentColor,
+              radius: ThemeConstants.cardRadius,
+            )
+          : BoxDecoration(
+              color: UIColors.lightSurface,
+              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+              border: Border.all(
+                color: UIColors.lightBorder,
+                width: ThemeConstants.borderThin,
+              ),
+              boxShadow: UIColors.createSoftShadow(),
+            ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.tune, size: 18),
-              SizedBox(width: 8),
+              Icon(
+                Icons.tune,
+                size: 18,
+                color: accentColor,
+              ),
+              SizedBox(width: ThemeConstants.space8),
               Text(
                 'Timeline Controls',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: ThemeConstants.fontSmall,
+                  fontWeight: ThemeConstants.fontBold,
+                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: ThemeConstants.space16),
           
           // Hours back and forward inputs
           Row(
@@ -52,45 +75,63 @@ class MetabolismTimelineControls extends StatelessWidget {
                   label: 'Hours Back',
                   value: hoursBack,
                   onChanged: (val) => onHoursBackChanged(val ?? hoursBack),
+                  isDark: isDark,
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: ThemeConstants.space16),
               Expanded(
                 child: _buildTimeInput(
                   label: 'Hours Forward',
                   value: hoursForward,
                   onChanged: (val) => onHoursForwardChanged(val ?? hoursForward),
+                  isDark: isDark,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: ThemeConstants.space16),
           
           // Scale toggle
           Row(
             children: [
-              const Icon(Icons.vertical_align_top, size: 16),
-              const SizedBox(width: 8),
-              const Text('Y-Axis Scale:', style: TextStyle(fontSize: 13)),
+              Icon(
+                Icons.vertical_align_top,
+                size: 16,
+                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              ),
+              SizedBox(width: ThemeConstants.space8),
+              Text(
+                'Y-Axis Scale:',
+                style: TextStyle(
+                  fontSize: ThemeConstants.fontXSmall,
+                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                ),
+              ),
               const Spacer(),
-              _buildScaleButton('Fixed 100%', !adaptiveScale, () => onAdaptiveScaleChanged(false)),
-              const SizedBox(width: 8),
-              _buildScaleButton('Adaptive', adaptiveScale, () => onAdaptiveScaleChanged(true)),
+              _buildScaleButton('Fixed 100%', !adaptiveScale, () => onAdaptiveScaleChanged(false), isDark, accentColor),
+              SizedBox(width: ThemeConstants.space8),
+              _buildScaleButton('Adaptive', adaptiveScale, () => onAdaptiveScaleChanged(true), isDark, accentColor),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: ThemeConstants.space12),
           
           // Preset buttons
-          const Text('Quick Presets:', style: TextStyle(fontSize: 12)),
-          const SizedBox(height: 8),
+          Text(
+            'Quick Presets:',
+            style: TextStyle(
+              fontSize: ThemeConstants.fontSmall,
+              color: isDark ? UIColors.darkText : UIColors.lightText,
+            ),
+          ),
+          SizedBox(height: ThemeConstants.space8),
           Wrap(
             spacing: 8,
             runSpacing: 8,
             children: [
-              _buildPresetButton('24h', 12, 12, context),
-              _buildPresetButton('48h', 24, 24, context),
-              _buildPresetButton('72h', 24, 48, context),
-              _buildPresetButton('1 Week', 72, 96, context),
+              _buildPresetButton('24h', 12, 12, context, isDark, accentColor),
+              _buildPresetButton('48h', 24, 24, context, isDark, accentColor),
+              _buildPresetButton('72h', 24, 48, context, isDark, accentColor),
+              _buildPresetButton('1 Week', 72, 96, context, isDark, accentColor),
             ],
           ),
         ],
@@ -102,24 +143,47 @@ class MetabolismTimelineControls extends StatelessWidget {
     required String label,
     required int value,
     required Function(int?) onChanged,
+    required bool isDark,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 12)),
-        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: ThemeConstants.fontSmall,
+            color: isDark ? UIColors.darkText : UIColors.lightText,
+          ),
+        ),
+        SizedBox(height: ThemeConstants.space4),
         TextFormField(
           initialValue: value.toString(),
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: ThemeConstants.space12,
+              vertical: ThemeConstants.space8,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+              borderSide: BorderSide(
+                color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+              ),
+            ),
             suffixText: 'h',
-            suffixStyle: const TextStyle(fontSize: 12),
+            suffixStyle: TextStyle(
+              fontSize: ThemeConstants.fontSmall,
+              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+            ),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: isDark 
+                ? UIColors.darkSurface.withValues(alpha: 0.5)
+                : UIColors.lightSurface,
           ),
-          style: const TextStyle(fontSize: 13),
+          style: TextStyle(
+            fontSize: ThemeConstants.fontXSmall,
+            color: isDark ? UIColors.darkText : UIColors.lightText,
+          ),
           onFieldSubmitted: (val) {
             final parsed = int.tryParse(val);
             if (parsed != null && parsed > 0 && parsed <= 168) {
@@ -131,32 +195,41 @@ class MetabolismTimelineControls extends StatelessWidget {
     );
   }
   
-  Widget _buildScaleButton(String label, bool selected, VoidCallback onTap) {
+  Widget _buildScaleButton(String label, bool selected, VoidCallback onTap, bool isDark, Color accentColor) {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: EdgeInsets.symmetric(
+          horizontal: ThemeConstants.space12,
+          vertical: ThemeConstants.space8,
+        ),
         decoration: BoxDecoration(
-          color: selected ? Colors.cyan.withOpacity(0.2) : Colors.transparent,
-          borderRadius: BorderRadius.circular(6),
+          color: selected
+              ? accentColor.withValues(alpha: isDark ? 0.2 : 0.15)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
           border: Border.all(
-            color: selected ? Colors.cyan : Colors.grey,
+            color: selected
+                ? accentColor
+                : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
             width: selected ? 2 : 1,
           ),
         ),
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 11,
-            fontWeight: selected ? FontWeight.bold : FontWeight.normal,
-            color: selected ? Colors.cyan[700] : Colors.grey[700],
+            fontSize: ThemeConstants.fontXSmall,
+            fontWeight: selected ? ThemeConstants.fontBold : ThemeConstants.fontMediumWeight,
+            color: selected
+                ? accentColor
+                : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
           ),
         ),
       ),
     );
   }
   
-  Widget _buildPresetButton(String label, int back, int forward, BuildContext context) {
+  Widget _buildPresetButton(String label, int back, int forward, BuildContext context, bool isDark, Color accentColor) {
     final isSelected = hoursBack == back && hoursForward == forward;
     
     return InkWell(
@@ -166,21 +239,32 @@ class MetabolismTimelineControls extends StatelessWidget {
         }
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: EdgeInsets.symmetric(
+          horizontal: ThemeConstants.space12,
+          vertical: ThemeConstants.space8,
+        ),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.cyan.withOpacity(0.2) : Colors.white,
-          borderRadius: BorderRadius.circular(6),
+          color: isSelected
+              ? accentColor.withValues(alpha: isDark ? 0.2 : 0.15)
+              : (isDark
+                  ? UIColors.darkSurface.withValues(alpha: 0.5)
+                  : UIColors.lightSurface),
+          borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
           border: Border.all(
-            color: isSelected ? Colors.cyan : Colors.grey[300]!,
+            color: isSelected
+                ? accentColor
+                : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
             width: isSelected ? 2 : 1,
           ),
         ),
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 11,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-            color: isSelected ? Colors.cyan[700] : Colors.grey[700],
+            fontSize: ThemeConstants.fontXSmall,
+            fontWeight: isSelected ? ThemeConstants.fontSemiBold : ThemeConstants.fontMediumWeight,
+            color: isSelected
+                ? accentColor
+                : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
           ),
         ),
       ),

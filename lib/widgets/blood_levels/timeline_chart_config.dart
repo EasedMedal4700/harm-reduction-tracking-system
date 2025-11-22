@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import '../../constants/ui_colors.dart';
 
 /// Configuration and builders for the metabolism timeline chart
 class TimelineChartConfig {
@@ -8,7 +9,10 @@ class TimelineChartConfig {
     required double maxY,
     required int hoursBack,
     required int hoursForward,
+    required bool isDark,
   }) {
+    final textColor = isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary;
+    
     return FlTitlesData(
       show: true,
       rightTitles: AxisTitles(
@@ -23,7 +27,7 @@ class TimelineChartConfig {
           reservedSize: 24,
           interval: 24,
           getTitlesWidget: (value, meta) {
-            return _buildBottomTitle(value, hoursBack, hoursForward);
+            return _buildBottomTitle(value, hoursBack, hoursForward, isDark);
           },
         ),
       ),
@@ -35,7 +39,7 @@ class TimelineChartConfig {
           getTitlesWidget: (value, meta) {
             return Text(
               '${value.toStringAsFixed(0)}%',
-              style: const TextStyle(fontSize: 10, color: Colors.grey),
+              style: TextStyle(fontSize: 10, color: textColor),
             );
           },
         ),
@@ -43,31 +47,34 @@ class TimelineChartConfig {
     );
   }
 
-  static Widget _buildBottomTitle(double value, int hoursBack, int hoursForward) {
+  static Widget _buildBottomTitle(double value, int hoursBack, int hoursForward, bool isDark) {
+    final textColor = isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary;
+    final nowColor = isDark ? UIColors.darkNeonPink : Colors.red;
+    
     final hour = value.toInt();
 
     if (hour == -hoursBack) {
       return Text(
         '-${hoursBack}h',
-        style: const TextStyle(fontSize: 10, color: Colors.grey),
+        style: TextStyle(fontSize: 10, color: textColor),
       );
     }
     if (hour == 0) {
-      return const Text(
+      return Text(
         'Now',
-        style: TextStyle(fontSize: 10, color: Colors.red, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 10, color: nowColor, fontWeight: FontWeight.bold),
       );
     }
     if (hour == 24 || hour == -24) {
       return Text(
         hour > 0 ? '+24h' : '-24h',
-        style: const TextStyle(fontSize: 10, color: Colors.grey),
+        style: TextStyle(fontSize: 10, color: textColor),
       );
     }
     if (hour == hoursForward) {
       return Text(
         '+${hoursForward}h',
-        style: const TextStyle(fontSize: 10, color: Colors.grey),
+        style: TextStyle(fontSize: 10, color: textColor),
       );
     }
 
@@ -75,14 +82,14 @@ class TimelineChartConfig {
   }
 
   /// Builds the grid configuration
-  static FlGridData buildGridData(double maxY) {
+  static FlGridData buildGridData(double maxY, bool isDark) {
     return FlGridData(
       show: true,
       drawVerticalLine: false,
       horizontalInterval: maxY / 4,
       getDrawingHorizontalLine: (value) {
         return FlLine(
-          color: Colors.grey.withOpacity(0.1),
+          color: (isDark ? Colors.white : Colors.grey).withValues(alpha: 0.1),
           strokeWidth: 0.5,
         );
       },
@@ -90,19 +97,21 @@ class TimelineChartConfig {
   }
 
   /// Builds the "NOW" vertical line
-  static ExtraLinesData buildNowLine() {
+  static ExtraLinesData buildNowLine(bool isDark) {
+    final nowColor = isDark ? UIColors.darkNeonPink : Colors.red;
+    
     return ExtraLinesData(
       verticalLines: [
         VerticalLine(
           x: 0,
-          color: Colors.red.withOpacity(0.5),
+          color: nowColor.withValues(alpha: 0.5),
           strokeWidth: 2,
           dashArray: [5, 5],
           label: VerticalLineLabel(
             show: true,
             alignment: Alignment.topCenter,
-            style: const TextStyle(
-              color: Colors.red,
+            style: TextStyle(
+              color: nowColor,
               fontSize: 10,
               fontWeight: FontWeight.bold,
             ),
@@ -141,6 +150,7 @@ class TimelineChartConfig {
     List<LineBarSpot> touchedSpots,
     List<LineChartBarData> lineBarsData,
     List<Map<String, dynamic>> legendItems,
+    bool isDark,
   ) {
     return touchedSpots.map((spot) {
       final hour = spot.x.toInt();

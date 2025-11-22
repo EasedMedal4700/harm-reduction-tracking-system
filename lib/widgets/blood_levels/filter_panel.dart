@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../constants/ui_colors.dart';
+import '../../constants/theme_constants.dart';
 
 /// Collapsible filter panel for drug inclusion/exclusion
 class FilterPanel extends StatelessWidget {
@@ -21,27 +23,59 @@ class FilterPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accentColor = isDark ? UIColors.darkNeonTeal : UIColors.lightAccentRed;
+    
     return Container(
-      color: Colors.grey[200],
-      padding: const EdgeInsets.all(16),
+      decoration: isDark
+          ? UIColors.createGlassmorphism(
+              accentColor: accentColor,
+              radius: 0,
+            )
+          : BoxDecoration(
+              color: UIColors.lightSurface,
+              border: Border(
+                bottom: BorderSide(
+                  color: UIColors.lightBorder,
+                  width: ThemeConstants.borderThin,
+                ),
+              ),
+            ),
+      padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
-              const Text('Filters', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                'Filters',
+                style: TextStyle(
+                  fontSize: ThemeConstants.fontMedium,
+                  fontWeight: ThemeConstants.fontBold,
+                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                ),
+              ),
               const Spacer(),
               if (includedDrugs.isNotEmpty || excludedDrugs.isNotEmpty)
                 TextButton(
                   onPressed: onClearAll,
-                  child: const Text('Clear All'),
+                  child: Text(
+                    'Clear All',
+                    style: TextStyle(color: accentColor),
+                  ),
                 ),
             ],
           ),
-          const SizedBox(height: 8),
-          const Text('Include Only:', style: TextStyle(fontSize: 12)),
-          const SizedBox(height: 4),
+          SizedBox(height: ThemeConstants.space8),
+          Text(
+            'Include Only:',
+            style: TextStyle(
+              fontSize: ThemeConstants.fontSmall,
+              color: isDark ? UIColors.darkText : UIColors.lightText,
+            ),
+          ),
+          SizedBox(height: ThemeConstants.space4),
           Wrap(
             spacing: 8,
             runSpacing: 4,
@@ -51,21 +85,47 @@ class FilterPanel extends StatelessWidget {
                 label: Text(drug.toUpperCase()),
                 selected: isSelected,
                 onSelected: (selected) => onIncludeChanged(drug, selected),
+                backgroundColor: isDark
+                    ? UIColors.darkSurface.withValues(alpha: 0.5)
+                    : UIColors.lightSurface,
+                selectedColor: accentColor.withValues(alpha: isDark ? 0.3 : 0.2),
+                checkmarkColor: accentColor,
+                labelStyle: TextStyle(
+                  color: isSelected
+                      ? accentColor
+                      : (isDark ? UIColors.darkText : UIColors.lightText),
+                ),
               );
             }).toList(),
           ),
-          const SizedBox(height: 12),
-          const Text('Exclude:', style: TextStyle(fontSize: 12)),
-          const SizedBox(height: 4),
+          SizedBox(height: ThemeConstants.space12),
+          Text(
+            'Exclude:',
+            style: TextStyle(
+              fontSize: ThemeConstants.fontSmall,
+              color: isDark ? UIColors.darkText : UIColors.lightText,
+            ),
+          ),
+          SizedBox(height: ThemeConstants.space4),
           Wrap(
             spacing: 8,
             runSpacing: 4,
             children: availableDrugs.map((drug) {
               final isSelected = excludedDrugs.contains(drug);
+              final excludeColor = isDark ? UIColors.darkNeonPink : Colors.red;
               return FilterChip(
                 label: Text(drug.toUpperCase()),
                 selected: isSelected,
-                selectedColor: Colors.red[300],
+                selectedColor: excludeColor.withValues(alpha: isDark ? 0.3 : 0.2),
+                backgroundColor: isDark
+                    ? UIColors.darkSurface.withValues(alpha: 0.5)
+                    : UIColors.lightSurface,
+                checkmarkColor: excludeColor,
+                labelStyle: TextStyle(
+                  color: isSelected
+                      ? excludeColor
+                      : (isDark ? UIColors.darkText : UIColors.lightText),
+                ),
                 onSelected: (selected) => onExcludeChanged(drug, selected),
               );
             }).toList(),

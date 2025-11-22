@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
+import '../../constants/ui_colors.dart';
+import '../../constants/theme_constants.dart';
 
 /// Risk assessment card with gradient indicator
 class RiskAssessmentCard extends StatelessWidget {
@@ -9,6 +11,8 @@ class RiskAssessmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     final highRisk = levels.values.where((l) => l.percentage > 20).length;
     final moderateRisk = levels.values.where((l) => l.percentage > 10 && l.percentage <= 20).length;
     final totalDose = levels.values.fold<double>(0.0, (sum, l) => sum + l.totalRemaining);
@@ -41,42 +45,57 @@ class RiskAssessmentCard extends StatelessWidget {
     }
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: riskColor.withOpacity(0.3)),
-        boxShadow: [
-          BoxShadow(
-            color: riskColor.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+      margin: EdgeInsets.symmetric(horizontal: ThemeConstants.space16),
+      padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+      decoration: isDark
+          ? UIColors.createGlassmorphism(
+              accentColor: riskColor,
+              radius: ThemeConstants.cardRadius,
+            )
+          : BoxDecoration(
+              color: UIColors.lightSurface,
+              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+              border: Border.all(
+                color: riskColor.withValues(alpha: 0.3),
+                width: ThemeConstants.borderThin,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: riskColor.withValues(alpha: 0.1),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Text(
+              Text(
                 'Risk Assessment',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: ThemeConstants.fontMedium,
+                  fontWeight: ThemeConstants.fontBold,
+                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                ),
               ),
               const Spacer(),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: EdgeInsets.symmetric(
+                  horizontal: ThemeConstants.space12,
+                  vertical: ThemeConstants.space8,
+                ),
                 decoration: BoxDecoration(
-                  color: riskColor.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: riskColor.withOpacity(0.5)),
+                  color: riskColor.withValues(alpha: isDark ? 0.2 : 0.15),
+                  borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                  border: Border.all(color: riskColor.withValues(alpha: 0.5)),
                 ),
                 child: Text(
                   riskLevel,
                   style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+                    fontSize: ThemeConstants.fontSmall,
+                    fontWeight: ThemeConstants.fontBold,
                     color: riskColor,
                     letterSpacing: 1,
                   ),
@@ -84,7 +103,7 @@ class RiskAssessmentCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: ThemeConstants.space16),
           Container(
             height: 12,
             decoration: BoxDecoration(
@@ -105,10 +124,13 @@ class RiskAssessmentCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: riskColor,
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
+                      border: Border.all(
+                        color: isDark ? UIColors.darkBackground : UIColors.lightSurface,
+                        width: 2,
+                      ),
                       boxShadow: [
                         BoxShadow(
-                          color: riskColor.withOpacity(0.6),
+                          color: riskColor.withValues(alpha: 0.6),
                           blurRadius: 8,
                           spreadRadius: 2,
                         ),
@@ -119,7 +141,7 @@ class RiskAssessmentCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: ThemeConstants.space8),
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -127,10 +149,13 @@ class RiskAssessmentCard extends StatelessWidget {
               Text('HIGH', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red)),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: ThemeConstants.space12),
           Text(
             warningMessage,
-            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+            style: TextStyle(
+              fontSize: ThemeConstants.fontSmall,
+              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+            ),
           ),
         ],
       ),

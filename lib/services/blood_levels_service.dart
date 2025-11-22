@@ -256,6 +256,47 @@ class BloodLevelsService {
     }
   }
 
+  /// Get all unique drug names that have doses within the timeline window
+  /// This includes both past and future doses relative to the reference time
+  Future<Set<String>> getDrugsInTimelineWindow({
+    required DateTime referenceTime,
+    required int hoursBack,
+    required int hoursForward,
+  }) async {
+    try {
+      final startTime = referenceTime.subtract(Duration(hours: hoursBack));
+      final endTime = referenceTime.add(Duration(hours: hoursForward));
+      
+      ErrorHandler.logDebug('BloodLevelsService', 
+        'Fetching all drugs in timeline window: $startTime to $endTime');
+      
+      // Fetch all drugs with doses in the window
+      final response = await Supabase.instance.client
+          .from('drug_use')
+          .select('name')
+          .gte('start_time', startTime.toIso8601String())
+          .lte('start_time', endTime.toIso8601String());
+      
+      final drugUseData = response as List<dynamic>;
+      final drugNames = <String>{};
+      
+      for (final entry in drugUseData) {
+        final name = (entry['name'] as String?)?.toLowerCase();
+        if (name != null && name.isNotEmpty) {
+          drugNames.add(name);
+        }
+      }
+      
+      ErrorHandler.logInfo('BloodLevelsService', 
+        'Found ${drugNames.length} unique drugs in timeline window: ${drugNames.join(", ")}');
+      
+      return drugNames;
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('BloodLevelsService.getDrugsInTimelineWindow', e, stackTrace);
+      return {};
+    }
+  }
+
   /// Get estimated half-life for a drug (simplified version)
   double _getHalfLife(String drugName) {
     const halfLives = <String, double>{

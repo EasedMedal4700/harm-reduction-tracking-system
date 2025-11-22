@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../constants/ui_colors.dart';
 
 /// Horizontal legend showing drug names, colors, and half-lives
 class TimelineLegend extends StatelessWidget {
@@ -8,6 +9,8 @@ class TimelineLegend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return SizedBox(
       height: 40,
       child: ListView.builder(
@@ -30,9 +33,10 @@ class TimelineLegend extends StatelessWidget {
                 const SizedBox(width: 6),
                 Text(
                   item['name'] as String,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
+                    color: isDark ? UIColors.darkText : UIColors.lightText,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -40,7 +44,7 @@ class TimelineLegend extends StatelessWidget {
                   't½: ${(item['halfLife'] as double).toStringAsFixed(1)}h',
                   style: TextStyle(
                     fontSize: 10,
-                    color: Colors.grey[600],
+                    color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
                   ),
                 ),
               ],

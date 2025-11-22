@@ -3,6 +3,8 @@ import 'package:fl_chart/fl_chart.dart';
 import '../../services/blood_levels_service.dart';
 import '../../services/decay_service.dart';
 import '../../constants/drug_theme.dart';
+import '../../constants/ui_colors.dart';
+import '../../constants/theme_constants.dart';
 import 'timeline_chart_config.dart';
 import 'timeline_legend.dart';
 
@@ -56,16 +58,23 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
       final service = BloodLevelsService();
       final Map<String, List<DoseEntry>> allDoses = {};
       
-      // Fetch doses for each drug
-      for (final drugLevel in widget.drugLevels) {
+      // First, get ALL drugs that have doses in the timeline window (including future doses)
+      final drugsInWindow = await service.getDrugsInTimelineWindow(
+        referenceTime: widget.referenceTime,
+        hoursBack: widget.hoursBack,
+        hoursForward: widget.hoursForward,
+      );
+      
+      // Fetch doses for each drug found in the window
+      for (final drugName in drugsInWindow) {
         final doses = await service.getDosesForTimeline(
-          drugName: drugLevel.drugName,
+          drugName: drugName,
           referenceTime: widget.referenceTime,
           hoursBack: widget.hoursBack,
           hoursForward: widget.hoursForward,
         );
         if (doses.isNotEmpty) {
-          allDoses[drugLevel.drugName] = doses;
+          allDoses[drugName] = doses;
         }
       }
       
@@ -87,27 +96,34 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accentColor = isDark ? UIColors.darkNeonTeal : UIColors.lightAccentRed;
+    
     if (_loading) {
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        padding: const EdgeInsets.all(32),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
+        margin: EdgeInsets.symmetric(
+          horizontal: ThemeConstants.space16,
+          vertical: ThemeConstants.space8,
         ),
-        child: const Center(child: CircularProgressIndicator()),
+        padding: EdgeInsets.all(ThemeConstants.cardPaddingLarge),
+        decoration: isDark
+            ? UIColors.createGlassmorphism(
+                accentColor: accentColor,
+                radius: ThemeConstants.cardRadius,
+              )
+            : BoxDecoration(
+                color: UIColors.lightSurface,
+                borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+                boxShadow: UIColors.createSoftShadow(),
+              ),
+        child: Center(
+          child: CircularProgressIndicator(color: accentColor),
+        ),
       );
     }
 
     if (_timelineDoses.isEmpty) {
-      return _buildEmptyState();
+      return _buildEmptyState(isDark);
     }
     
     // Generate normalized curves for all drugs
@@ -115,9 +131,27 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
     final lineBarsData = <LineChartBarData>[];
     final legendItems = <Map<String, dynamic>>[];
     
-    for (final drugLevel in widget.drugLevels) {
-      final doses = _timelineDoses[drugLevel.drugName];
+    // Loop through ALL drugs in timeline (including future doses)
+    for (final drugName in _timelineDoses.keys) {
+      final doses = _timelineDoses[drugName];
       if (doses == null || doses.isEmpty) continue;
+      
+      // Try to find drug level info from widget, or use defaults
+      final drugLevel = widget.drugLevels.firstWhere(
+        (level) => level.drugName.toLowerCase() == drugName.toLowerCase(),
+        orElse: () => DrugLevel(
+          drugName: drugName,
+          totalDose: 0,
+          totalRemaining: 0,
+          lastDose: 0,
+          lastUse: DateTime.now(),
+          halfLife: _getDefaultHalfLife(drugName),
+          doses: [],
+          activeWindow: 24,
+          maxDuration: 12,
+          categories: [],
+        ),
+      );
       
       // Generate normalized intensity curve (0-100%)
       final curvePoints = decayService.generateNormalizedCurve(
@@ -126,7 +160,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
         referenceTime: widget.referenceTime,
         hoursBack: widget.hoursBack,
         hoursForward: widget.hoursForward,
-        drugName: drugLevel.drugName,
+        drugName: drugName,
         stepHours: 2.0,
       );
       
@@ -157,9 +191,9 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                drugColor.withOpacity(0.4),
-                drugColor.withOpacity(0.2),
-                drugColor.withOpacity(0.0),
+                drugColor.withValues(alpha: 0.4),
+                drugColor.withValues(alpha: 0.2),
+                drugColor.withValues(alpha: 0.0),
               ],
               stops: const [0.0, 0.5, 1.0],
             ),
@@ -168,14 +202,14 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
       );
       
       legendItems.add({
-        'name': drugLevel.drugName.toUpperCase(),
+        'name': drugName.toUpperCase(),
         'color': drugColor,
         'halfLife': drugLevel.halfLife,
       });
     }
     
     if (lineBarsData.isEmpty) {
-      return _buildEmptyState();
+      return _buildEmptyState(isDark);
     }
     
     // Calculate max Y value
@@ -185,66 +219,73 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
     );
     
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+      margin: EdgeInsets.symmetric(
+        horizontal: ThemeConstants.space16,
+        vertical: ThemeConstants.space8,
       ),
+      padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+      decoration: isDark
+          ? UIColors.createGlassmorphism(
+              accentColor: accentColor,
+              radius: ThemeConstants.cardRadius,
+            )
+          : BoxDecoration(
+              color: UIColors.lightSurface,
+              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+              boxShadow: UIColors.createSoftShadow(),
+            ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header
           Row(
             children: [
-              Icon(Icons.timeline, color: Colors.cyan, size: 18),
-              const SizedBox(width: 8),
+              Icon(Icons.timeline, color: accentColor, size: 18),
+              SizedBox(width: ThemeConstants.space8),
               Text(
                 'Metabolism Timeline',
                 style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.cyan,
+                  fontSize: ThemeConstants.fontSmall,
+                  fontWeight: ThemeConstants.fontBold,
+                  color: accentColor,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: ThemeConstants.space8),
           
           // Legend
           TimelineLegend(items: legendItems),
-          const SizedBox(height: 12),
+          SizedBox(height: ThemeConstants.space12),
           
           // Chart
           SizedBox(
             height: 250,
             child: LineChart(
               LineChartData(
-                gridData: TimelineChartConfig.buildGridData(maxY),
+                gridData: TimelineChartConfig.buildGridData(maxY, isDark),
                 titlesData: TimelineChartConfig.buildTitlesData(
                   maxY: maxY,
                   hoursBack: widget.hoursBack,
                   hoursForward: widget.hoursForward,
+                  isDark: isDark,
                 ),
                 borderData: FlBorderData(show: false),
                 minY: 0,
                 maxY: maxY,
                 lineBarsData: lineBarsData,
-                extraLinesData: TimelineChartConfig.buildNowLine(),
+                extraLinesData: TimelineChartConfig.buildNowLine(isDark),
                 lineTouchData: LineTouchData(
                   touchTooltipData: LineTouchTooltipData(
+                    tooltipBgColor: isDark 
+                        ? UIColors.darkSurface.withValues(alpha: 0.9)
+                        : UIColors.lightSurface.withValues(alpha: 0.9),
                     getTooltipItems: (touchedSpots) {
                       return TimelineChartConfig.buildTooltipItems(
                         touchedSpots,
                         lineBarsData,
                         legendItems,
+                        isDark,
                       );
                     },
                   ),
@@ -257,27 +298,65 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
     );
   }
   
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(bool isDark) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(32),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(12),
+      margin: EdgeInsets.symmetric(
+        horizontal: ThemeConstants.space16,
+        vertical: ThemeConstants.space8,
       ),
+      padding: EdgeInsets.all(ThemeConstants.cardPaddingLarge),
+      decoration: isDark
+          ? UIColors.createGlassmorphism(
+              accentColor: isDark ? UIColors.darkNeonTeal : UIColors.lightAccentRed,
+              radius: ThemeConstants.cardRadius,
+            )
+          : BoxDecoration(
+              color: UIColors.lightSurface,
+              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+              boxShadow: UIColors.createSoftShadow(),
+            ),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.timeline_outlined, size: 48, color: Colors.grey[400]),
-            const SizedBox(height: 12),
+            Icon(
+              Icons.timeline_outlined,
+              size: 48,
+              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+            ),
+            SizedBox(height: ThemeConstants.space12),
             Text(
               'No dose data to display',
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+              style: TextStyle(
+                fontSize: ThemeConstants.fontSmall,
+                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+  
+  /// Get default half-life for a drug name
+  double _getDefaultHalfLife(String drugName) {
+    const halfLives = <String, double>{
+      'methylphenidate': 3.5,
+      'dexedrine': 10.0,
+      'amphetamine': 10.0,
+      'cocaine': 1.0,
+      'mdma': 8.0,
+      'lsd': 3.0,
+      'psilocybin': 2.5,
+      'cannabis': 24.0,
+      'thc': 24.0,
+      'caffeine': 5.0,
+      'nicotine': 2.0,
+      'alcohol': 5.0,
+      'ketamine': 2.5,
+      'dxm': 3.0,
+    };
+    
+    return halfLives[drugName.toLowerCase()] ?? 4.0; // Default to 4 hours
   }
 }
