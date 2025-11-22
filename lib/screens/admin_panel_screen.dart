@@ -193,11 +193,14 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Panel'),
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
+        backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
+        foregroundColor: isDark ? Colors.white : Colors.black87,
+        elevation: 0,
         actions: [
           IconButton(
             icon: _isLoading

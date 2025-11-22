@@ -80,6 +80,28 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
                 ),
                 const SizedBox(height: 16),
 
+                // Time selector
+                Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.access_time),
+                    title: const Text('Time'),
+                    subtitle: Text(
+                      '${provider.selectedTime?.hour.toString().padLeft(2, '0')}:${provider.selectedTime?.minute.toString().padLeft(2, '0')}',
+                    ),
+                    trailing: const Icon(Icons.edit),
+                    onTap: () async {
+                      final time = await showTimePicker(
+                        context: context,
+                        initialTime: provider.selectedTime ?? TimeOfDay.now(),
+                      );
+                      if (time != null) {
+                        provider.setSelectedTime(time);
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
+
                 // Time of day selection
                 const Text(
                   'Time of Day',

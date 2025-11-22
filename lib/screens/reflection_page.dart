@@ -32,19 +32,26 @@ class _ReflectionPageState extends State<ReflectionPage> {
       });
     } catch (e) {
       setState(() => _isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load entries: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to load entries: $e')),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Consumer<ReflectionProvider>(
       builder: (context, provider, child) {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Reflect on Recent Entries'),
+            backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
+            foregroundColor: isDark ? Colors.white : Colors.black87,
+            elevation: 0,
             leading: provider.showForm
               ? IconButton(
                   icon: const Icon(Icons.arrow_back),
@@ -58,7 +65,11 @@ class _ReflectionPageState extends State<ReflectionPage> {
                       ? null
                       : () => provider.save(context),
                     child: provider.isSaving
-                      ? const CircularProgressIndicator()
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
                       : const Text('Save'),
                   ),
                 ]

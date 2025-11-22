@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/user_service.dart';
 import '../services/auth_service.dart';
+import '../services/log_entry_service.dart';
 import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -12,6 +13,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Map<String, dynamic>? _userData;
+  Map<String, int>? _statistics;
   bool _isLoading = true;
 
   @override
@@ -24,8 +26,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() => _isLoading = true);
     try {
       final data = await UserService.getUserData();
+      final stats = await _loadStatistics();
       setState(() {
         _userData = data;
+        _statistics = stats;
         _isLoading = false;
       });
     } catch (e) {
@@ -35,6 +39,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SnackBar(content: Text('Error loading profile: $e')),
         );
       }
+    }
+  }
+
+  Future<Map<String, int>> _loadStatistics() async {
+    try {
+      final logService = LogEntryService();
+      final entries = await logService.fetchRecentEntriesRaw();
+      
+      // Calculate statistics from entries
+      final now = DateTime.now();
+      final thirtyDaysAgo = now.subtract(const Duration(days: 30));
+      final sevenDaysAgo = now.subtract(const Duration(days: 7));
+      
+      int last7Days = 0;
+      int last30Days = 0;
+      
+      for (var entry in entries) {
+        final timestamp = DateTime.parse(entry['timestamp'] as String);
+        if (timestamp.isAfter(sevenDaysAgo)) {
+          last7Days++;
+        }
+        if (timestamp.isAfter(thirtyDaysAgo)) {
+          last30Days++;
+        }
+      }
+
+      return {
+        'total_entries': entries.length,
+        'last_7_days': last7Days,
+        'last_30_days': last30Days,
+      };
+    } catch (e) {
+      return {
+        'total_entries': 0,
+        'last_7_days': 0,
+        'last_30_days': 0,
+      };
     }
   }
 
@@ -68,9 +109,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
+        backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
+        foregroundColor: isDark ? Colors.white : Colors.black87,
+        elevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -153,6 +199,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     const SizedBox(height: 32),
+                    // Statistics Card
+                    if (_statistics != null)
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Activity Statistics',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  _buildStatItem(
+                                    Icons.medication,
+                                    'Total Entries',
+                                    _statistics!['total_entries'].toString(),
+                                    Colors.blue,
+                                  ),
+                                  _buildStatItem(
+                                    Icons.calendar_today,
+                                    'Last 7 Days',
+                                    _statistics!['last_7_days'].toString(),
+                                    Colors.green,
+                                  ),
+                                  _buildStatItem(
+                                    Icons.calendar_month,
+                                    'Last 30 Days',
+                                    _statistics!['last_30_days'].toString(),
+                                    Colors.orange,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    const SizedBox(height: 32),
                     // Profile Information Card
                     Card(
                       child: Padding(
@@ -226,6 +316,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
+    );
+  }
+
+  Widget _buildStatItem(IconData icon, String label, String value, Color color) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(icon, color: color, size: 28),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey.shade600,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 

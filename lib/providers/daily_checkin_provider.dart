@@ -14,6 +14,7 @@ class DailyCheckinProvider extends ChangeNotifier {
   String _timeOfDay = 'morning';
   String _notes = '';
   DateTime _selectedDate = DateTime.now();
+  TimeOfDay? _selectedTime;
   
   // Existing check-in (if editing)
   DailyCheckin? _existingCheckin;
@@ -31,6 +32,7 @@ class DailyCheckinProvider extends ChangeNotifier {
   String get timeOfDay => _timeOfDay;
   String get notes => _notes;
   DateTime get selectedDate => _selectedDate;
+  TimeOfDay? get selectedTime => _selectedTime;
   DailyCheckin? get existingCheckin => _existingCheckin;
   bool get isSaving => _isSaving;
   bool get isLoading => _isLoading;
@@ -99,6 +101,11 @@ class DailyCheckinProvider extends ChangeNotifier {
 
   void setSelectedDate(DateTime value) {
     _selectedDate = value;
+    notifyListeners();
+  }
+
+  void setSelectedTime(TimeOfDay value) {
+    _selectedTime = value;
     notifyListeners();
   }
 
@@ -240,6 +247,7 @@ class DailyCheckinProvider extends ChangeNotifier {
   /// Initialize provider with default time of day
   void initialize() {
     _timeOfDay = _getDefaultTimeOfDay();
+    _selectedTime = TimeOfDay.now();
     notifyListeners();
   }
 }
