@@ -12,6 +12,7 @@ class UseDistributionCard extends StatefulWidget {
   final Map<String, int> substanceCounts;
   final List<LogEntry> filteredEntries;
   final Map<String, String> substanceToCategory;
+  final Function(String category)? onCategoryTapped;
 
   const UseDistributionCard({
     super.key,
@@ -19,6 +20,7 @@ class UseDistributionCard extends StatefulWidget {
     required this.substanceCounts,
     required this.filteredEntries,
     required this.substanceToCategory,
+    this.onCategoryTapped,
   });
 
   @override
@@ -28,6 +30,7 @@ class UseDistributionCard extends StatefulWidget {
 class _UseDistributionCardState extends State<UseDistributionCard> {
   DistributionViewType _viewType = DistributionViewType.category;
   int _touchedIndex = -1;
+  String? _selectedCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +72,11 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
               _buildTab(
                 context,
                 'Category',
-                _viewType == DistributionViewType.category,
-                () => setState(() => _viewType = DistributionViewType.category),
+                _viewType == DistributionViewType.category && _selectedCategory == null,
+                () => setState(() {
+                  _viewType = DistributionViewType.category;
+                  _selectedCategory = null;
+                }),
                 isDark,
                 accentColor,
               ),
@@ -79,12 +85,58 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                 context,
                 'Substance',
                 _viewType == DistributionViewType.substance,
-                () => setState(() => _viewType = DistributionViewType.substance),
+                () => setState(() {
+                  _viewType = DistributionViewType.substance;
+                  _selectedCategory = null;
+                }),
                 isDark,
                 accentColor,
               ),
             ],
           ),
+          // Breadcrumb for filtered category
+          if (_selectedCategory != null) ...[
+            SizedBox(height: ThemeConstants.space12),
+            InkWell(
+              onTap: () => setState(() {
+                _selectedCategory = null;
+                _viewType = DistributionViewType.category;
+              }),
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: ThemeConstants.space12,
+                  vertical: ThemeConstants.space8,
+                ),
+                decoration: BoxDecoration(
+                  color: accentColor.withValues(alpha: isDark ? 0.1 : 0.05),
+                  borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                  border: Border.all(
+                    color: accentColor.withValues(alpha: 0.3),
+                    width: ThemeConstants.borderThin,
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      size: ThemeConstants.iconSmall,
+                      color: accentColor,
+                    ),
+                    SizedBox(width: ThemeConstants.space8),
+                    Text(
+                      'Substances in $_selectedCategory',
+                      style: TextStyle(
+                        fontSize: ThemeConstants.fontSmall,
+                        fontWeight: ThemeConstants.fontMediumWeight,
+                        color: accentColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
           SizedBox(height: ThemeConstants.space24),
           // Donut chart
           SizedBox(
@@ -156,7 +208,9 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
   Widget _buildDonutChart(bool isDark) {
     final data = _viewType == DistributionViewType.category
         ? widget.categoryCounts
-        : widget.substanceCounts;
+        : (_selectedCategory != null
+            ? _getSubstancesForCategory(_selectedCategory!)
+            : widget.substanceCounts);
 
     if (data.isEmpty) {
       return Center(
@@ -199,34 +253,66 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
         centerSpaceRadius: 60,
         pieTouchData: PieTouchData(
           touchCallback: (event, response) {
-            setState(() {
-              if (!event.isInterestedForInteractions ||
-                  response == null ||
-                  response.touchedSection == null) {
+            if (!event.isInterestedForInteractions ||
+                response == null ||
+                response.touchedSection == null) {
+              setState(() {
                 _touchedIndex = -1;
-              } else {
-                _touchedIndex = response.touchedSection!.touchedSectionIndex;
-              }
+              });
+              return;
+            }
+
+            final touchedIndex = response.touchedSection!.touchedSectionIndex;
+            setState(() {
+              _touchedIndex = touchedIndex;
             });
+
+            // Handle tap on category to drill down to substances
+            if (_viewType == DistributionViewType.category && 
+                event is FlTapUpEvent) {
+              final tappedCategory = data.keys.toList()[touchedIndex];
+              setState(() {
+                _selectedCategory = tappedCategory;
+                _viewType = DistributionViewType.substance;
+                _touchedIndex = -1;
+              });
+            }
           },
         ),
       ),
     );
   }
 
+  Map<String, int> _getSubstancesForCategory(String category) {
+    final substances = <String, int>{};
+    for (final entry in widget.filteredEntries) {
+      final substanceCategory = widget.substanceToCategory[entry.substance.toLowerCase()] ?? 'Placeholder';
+      if (substanceCategory == category) {
+        substances[entry.substance] = (substances[entry.substance] ?? 0) + 1;
+      }
+    }
+    return substances;
+  }
+
   Widget _buildLegend(bool isDark) {
     final data = _viewType == DistributionViewType.category
         ? widget.categoryCounts
-        : widget.substanceCounts;
+        : (_selectedCategory != null
+            ? _getSubstancesForCategory(_selectedCategory!)
+            : widget.substanceCounts);
 
     if (data.isEmpty) {
       return const SizedBox.shrink();
     }
 
     final total = data.values.fold<int>(0, (sum, count) => sum + count);
+    
+    // Sort entries by count (descending - most at top)
+    final sortedEntries = data.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
 
     return Column(
-      children: data.entries.map((e) {
+      children: sortedEntries.map((e) {
         final color = _viewType == DistributionViewType.category
             ? DrugCategoryColors.colorFor(e.key)
             : DrugCategoryColors.colorFor(

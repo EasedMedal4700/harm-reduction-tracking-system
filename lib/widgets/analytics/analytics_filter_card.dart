@@ -54,7 +54,8 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final accentColor = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
 
-    return Container(
+    return AnimatedContainer(
+      duration: ThemeConstants.animationNormal,
       decoration: isDark
           ? UIColors.createGlassmorphism(
               accentColor: accentColor,
@@ -64,10 +65,18 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
               color: UIColors.lightSurface,
               borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
               border: Border.all(
-                color: UIColors.lightBorder,
-                width: ThemeConstants.borderThin,
+                color: _isExpanded ? accentColor.withValues(alpha: 0.3) : UIColors.lightBorder,
+                width: _isExpanded ? ThemeConstants.borderMedium : ThemeConstants.borderThin,
               ),
-              boxShadow: UIColors.createSoftShadow(),
+              boxShadow: _isExpanded 
+                  ? [
+                      BoxShadow(
+                        color: accentColor.withValues(alpha: 0.1),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ]
+                  : UIColors.createSoftShadow(),
             ),
       child: Column(
         children: [
@@ -76,41 +85,86 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
             color: Colors.transparent,
             child: InkWell(
               onTap: _toggleExpanded,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              child: Padding(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(ThemeConstants.cardRadius),
+                bottom: _isExpanded ? Radius.zero : Radius.circular(ThemeConstants.cardRadius),
+              ),
+              child: Container(
                 padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+                decoration: _isExpanded
+                    ? BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                            width: ThemeConstants.borderThin,
+                          ),
+                        ),
+                      )
+                    : null,
                 child: Row(
                   children: [
-                    // Filter icon
-                    Container(
-                      padding: EdgeInsets.all(ThemeConstants.space8),
+                    // Filter icon with animation
+                    AnimatedContainer(
+                      duration: ThemeConstants.animationNormal,
+                      padding: EdgeInsets.all(ThemeConstants.space12),
                       decoration: BoxDecoration(
-                        color: accentColor.withValues(alpha: isDark ? 0.2 : 0.1),
+                        color: accentColor.withValues(alpha: _isExpanded ? (isDark ? 0.25 : 0.15) : (isDark ? 0.15 : 0.08)),
                         borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                        boxShadow: _isExpanded && isDark
+                            ? UIColors.createNeonGlow(accentColor, intensity: 0.2)
+                            : null,
                       ),
                       child: Icon(
-                        Icons.filter_alt_outlined,
+                        Icons.tune_rounded,
                         color: accentColor,
                         size: ThemeConstants.iconMedium,
                       ),
                     ),
-                    SizedBox(width: ThemeConstants.space12),
+                    SizedBox(width: ThemeConstants.space16),
                     // Title and subtitle
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Filters',
-                            style: TextStyle(
-                              fontSize: ThemeConstants.fontMedium,
-                              fontWeight: ThemeConstants.fontSemiBold,
-                              color: isDark ? UIColors.darkText : UIColors.lightText,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                'Advanced Filters',
+                                style: TextStyle(
+                                  fontSize: ThemeConstants.fontMedium,
+                                  fontWeight: ThemeConstants.fontSemiBold,
+                                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                                ),
+                              ),
+                              if (_isExpanded) ...[
+                                SizedBox(width: ThemeConstants.space8),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: ThemeConstants.space8,
+                                    vertical: ThemeConstants.space4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: UIColors.darkNeonEmerald.withValues(alpha: isDark ? 0.2 : 0.1),
+                                    borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                                  ),
+                                  child: Text(
+                                    'ACTIVE',
+                                    style: TextStyle(
+                                      fontSize: ThemeConstants.fontXSmall,
+                                      fontWeight: ThemeConstants.fontBold,
+                                      color: UIColors.darkNeonEmerald,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
                           SizedBox(height: ThemeConstants.space4),
                           Text(
-                            'Customize data visibility',
+                            _isExpanded 
+                                ? 'Refine your analytics data'
+                                : 'Tap to customize data visibility',
                             style: TextStyle(
                               fontSize: ThemeConstants.fontXSmall,
                               fontWeight: ThemeConstants.fontRegular,
@@ -122,15 +176,25 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                         ],
                       ),
                     ),
-                    // Chevron icon
+                    SizedBox(width: ThemeConstants.space8),
+                    // Chevron icon with rotation animation
                     RotationTransition(
                       turns: _rotationAnimation,
-                      child: Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: isDark
-                            ? UIColors.darkTextSecondary
-                            : UIColors.lightTextSecondary,
-                        size: ThemeConstants.iconMedium,
+                      child: Container(
+                        padding: EdgeInsets.all(ThemeConstants.space4),
+                        decoration: BoxDecoration(
+                          color: isDark 
+                              ? UIColors.darkBorder.withValues(alpha: 0.5)
+                              : UIColors.lightBorder,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.expand_more_rounded,
+                          color: isDark
+                              ? UIColors.darkTextSecondary
+                              : UIColors.lightTextSecondary,
+                          size: ThemeConstants.iconMedium,
+                        ),
                       ),
                     ),
                   ],
@@ -139,20 +203,15 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
             ),
           ),
           // Expandable content
-          AnimatedCrossFade(
-            firstChild: const SizedBox.shrink(),
-            secondChild: Padding(
-              padding: EdgeInsets.only(
-                left: ThemeConstants.cardPaddingMedium,
-                right: ThemeConstants.cardPaddingMedium,
-                bottom: ThemeConstants.cardPaddingMedium,
-              ),
-              child: widget.filterContent,
-            ),
-            crossFadeState: _isExpanded
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
+          AnimatedSize(
             duration: ThemeConstants.animationNormal,
+            curve: Curves.easeInOut,
+            child: _isExpanded
+                ? Container(
+                    padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+                    child: widget.filterContent,
+                  )
+                : const SizedBox.shrink(),
           ),
         ],
       ),

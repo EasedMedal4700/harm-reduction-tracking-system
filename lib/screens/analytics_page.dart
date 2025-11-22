@@ -103,7 +103,10 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     return Scaffold(
       appBar: AnalyticsAppBar(
         selectedPeriod: _selectedPeriod,
-        onPeriodChanged: (period) => setState(() => _selectedPeriod = period),
+        onPeriodChanged: (period) {
+          print('📊 DEBUG: Period changed in AppBar to: ${period.toString()}');
+          setState(() => _selectedPeriod = period);
+        },
         onExport: () {
           // TODO: Implement export functionality
           ScaffoldMessenger.of(context).showSnackBar(
@@ -204,6 +207,11 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     maxCraving: _maxCraving,
                     onMinCravingChanged: (value) => setState(() => _minCraving = value),
                     onMaxCravingChanged: (value) => setState(() => _maxCraving = value),
+                    selectedPeriod: _selectedPeriod,
+                    onPeriodChanged: (period) {
+                      print('📊 DEBUG: Period changed in filter to: ${period.toString()}');
+                      setState(() => _selectedPeriod = period);
+                    },
                   ),
                 ),
                 SizedBox(height: ThemeConstants.cardSpacing),
@@ -233,6 +241,16 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                               substanceCounts: substanceCounts,
                               filteredEntries: filteredEntries,
                               substanceToCategory: _service!.substanceToCategory,
+                              onCategoryTapped: (category) {
+                                setState(() {
+                                  // Filter substances to only show those in the tapped category
+                                  _selectedSubstances = filteredEntries
+                                      .where((e) => (_service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder') == category)
+                                      .map((e) => e.substance)
+                                      .toSet()
+                                      .toList();
+                                });
+                              },
                             ),
                             SizedBox(height: ThemeConstants.cardSpacing),
                             InsightSummaryCard(
@@ -273,6 +291,16 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                         substanceCounts: substanceCounts,
                         filteredEntries: filteredEntries,
                         substanceToCategory: _service!.substanceToCategory,
+                        onCategoryTapped: (category) {
+                          setState(() {
+                            // Filter substances to only show those in the tapped category
+                            _selectedSubstances = filteredEntries
+                                .where((e) => (_service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder') == category)
+                                .map((e) => e.substance)
+                                .toSet()
+                                .toList();
+                          });
+                        },
                       ),
                       SizedBox(height: ThemeConstants.cardSpacing),
                       UsageTrendsCard(

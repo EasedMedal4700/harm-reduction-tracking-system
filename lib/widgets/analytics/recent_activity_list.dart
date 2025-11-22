@@ -157,7 +157,7 @@ class RecentActivityList extends StatelessWidget {
                       // Substance name + category chip
                       Row(
                         children: [
-                          Flexible(
+                          Expanded(
                             child: Text(
                               entry.substance,
                               style: TextStyle(
@@ -170,25 +170,29 @@ class RecentActivityList extends StatelessWidget {
                             ),
                           ),
                           SizedBox(width: ThemeConstants.space8),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: ThemeConstants.space8,
-                              vertical: ThemeConstants.space4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: categoryColor.withValues(alpha: isDark ? 0.2 : 0.1),
-                              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                              border: Border.all(
-                                color: categoryColor.withValues(alpha: 0.3),
-                                width: ThemeConstants.borderThin,
+                          Flexible(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: ThemeConstants.space8,
+                                vertical: ThemeConstants.space4,
                               ),
-                            ),
-                            child: Text(
-                              category,
-                              style: TextStyle(
-                                fontSize: ThemeConstants.fontXSmall,
-                                fontWeight: ThemeConstants.fontSemiBold,
-                                color: categoryColor,
+                              decoration: BoxDecoration(
+                                color: categoryColor.withValues(alpha: isDark ? 0.2 : 0.1),
+                                borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                                border: Border.all(
+                                  color: categoryColor.withValues(alpha: 0.3),
+                                  width: ThemeConstants.borderThin,
+                                ),
+                              ),
+                              child: Text(
+                                category,
+                                style: TextStyle(
+                                  fontSize: ThemeConstants.fontXSmall,
+                                  fontWeight: ThemeConstants.fontSemiBold,
+                                  color: categoryColor,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),
@@ -205,6 +209,8 @@ class RecentActivityList extends StatelessWidget {
                               ? UIColors.darkTextSecondary
                               : UIColors.lightTextSecondary,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: ThemeConstants.space8),
                       // Progress bar for "remaining"

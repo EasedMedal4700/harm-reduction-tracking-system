@@ -16,7 +16,7 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(140);
+  Size get preferredSize => const Size.fromHeight(100);
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +41,7 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           // Top row: Navigation + Export
           Row(
@@ -76,12 +77,12 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space8),
+          SizedBox(height: ThemeConstants.space4),
           // Title and subtitle
           Text(
             'DRUG USE ANALYTICS',
             style: TextStyle(
-              fontSize: ThemeConstants.font2XLarge,
+              fontSize: ThemeConstants.fontLarge,
               fontWeight: ThemeConstants.fontBold,
               color: isDark ? UIColors.darkText : UIColors.lightText,
               letterSpacing: 1.2,
@@ -89,83 +90,14 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           SizedBox(height: ThemeConstants.space4),
           Text(
-            'Analyze and visualize your pharmacological activity over time',
+            'Analyze your pharmacological activity',
             style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
+              fontSize: ThemeConstants.fontXSmall,
               fontWeight: ThemeConstants.fontRegular,
               color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
             ),
           ),
-          SizedBox(height: ThemeConstants.space16),
-          // Segment buttons
-          Row(
-            children: [
-              _buildSegmentButton(context, TimePeriod.last7Days, '7d', isDark, accentColor),
-              SizedBox(width: ThemeConstants.space8),
-              _buildSegmentButton(context, TimePeriod.last7Weeks, '30d', isDark, accentColor),
-              SizedBox(width: ThemeConstants.space8),
-              _buildSegmentButton(context, TimePeriod.last7Months, '90d', isDark, accentColor),
-              SizedBox(width: ThemeConstants.space8),
-              _buildSegmentButton(context, TimePeriod.all, 'All', isDark, accentColor),
-            ],
-          ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSegmentButton(
-    BuildContext context,
-    TimePeriod period,
-    String label,
-    bool isDark,
-    Color accentColor,
-  ) {
-    final isSelected = selectedPeriod == period;
-
-    return Expanded(
-      child: AnimatedContainer(
-        duration: ThemeConstants.animationNormal,
-        curve: Curves.easeOut,
-        decoration: BoxDecoration(
-          color: isSelected
-              ? accentColor.withValues(alpha: isDark ? 0.2 : 0.1)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-          border: Border.all(
-            color: isSelected
-                ? accentColor
-                : isDark
-                    ? UIColors.darkBorder
-                    : UIColors.lightBorder,
-            width: isSelected ? ThemeConstants.borderMedium : ThemeConstants.borderThin,
-          ),
-          boxShadow: isSelected && isDark ? UIColors.createNeonGlow(accentColor, intensity: 0.15) : null,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () => onPeriodChanged(period),
-            borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: ThemeConstants.space8),
-              child: Center(
-                child: Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontSmall,
-                    fontWeight: isSelected ? ThemeConstants.fontSemiBold : ThemeConstants.fontMediumWeight,
-                    color: isSelected
-                        ? accentColor
-                        : isDark
-                            ? UIColors.darkTextSecondary
-                            : UIColors.lightTextSecondary,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }

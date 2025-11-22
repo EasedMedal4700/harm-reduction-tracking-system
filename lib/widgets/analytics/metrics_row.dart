@@ -22,9 +22,18 @@ class MetricsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isNarrow = screenWidth < 600;
+    
+    // Use grid layout for narrow screens, evenly spaced row for wide
+    if (isNarrow) {
+      return GridView.count(
+        crossAxisCount: 2,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        mainAxisSpacing: ThemeConstants.space12,
+        crossAxisSpacing: ThemeConstants.space12,
+        childAspectRatio: 1.3,
         children: [
           _MetricCard(
             icon: Icons.analytics_outlined,
@@ -32,7 +41,6 @@ class MetricsRow extends StatelessWidget {
             value: totalEntries.toString(),
             label: 'Total Entries',
           ),
-          SizedBox(width: ThemeConstants.space12),
           _MetricCard(
             icon: Icons.medication_outlined,
             iconColor: UIColors.darkNeonPurple,
@@ -40,14 +48,12 @@ class MetricsRow extends StatelessWidget {
             label: 'Most Used',
             subtitle: mostUsedCount > 0 ? '$mostUsedCount uses' : null,
           ),
-          SizedBox(width: ThemeConstants.space12),
           _MetricCard(
             icon: Icons.calendar_today_outlined,
             iconColor: UIColors.darkNeonTeal,
             value: weeklyAverage.toStringAsFixed(1),
             label: 'Weekly Average',
           ),
-          SizedBox(width: ThemeConstants.space12),
           _MetricCard(
             icon: Icons.category_outlined,
             iconColor: UIColors.darkNeonEmerald,
@@ -56,7 +62,50 @@ class MetricsRow extends StatelessWidget {
             chipLabel: topCategoryPercent > 0 ? '${topCategoryPercent.toStringAsFixed(0)}%' : null,
           ),
         ],
-      ),
+      );
+    }
+    
+    // Wide screens: evenly spaced row with equal width cards
+    return Row(
+      children: [
+        Expanded(
+          child: _MetricCard(
+            icon: Icons.analytics_outlined,
+            iconColor: UIColors.darkNeonBlue,
+            value: totalEntries.toString(),
+            label: 'Total Entries',
+          ),
+        ),
+        SizedBox(width: ThemeConstants.space12),
+        Expanded(
+          child: _MetricCard(
+            icon: Icons.medication_outlined,
+            iconColor: UIColors.darkNeonPurple,
+            value: mostUsedSubstance.isEmpty ? '-' : mostUsedSubstance,
+            label: 'Most Used',
+            subtitle: mostUsedCount > 0 ? '$mostUsedCount uses' : null,
+          ),
+        ),
+        SizedBox(width: ThemeConstants.space12),
+        Expanded(
+          child: _MetricCard(
+            icon: Icons.calendar_today_outlined,
+            iconColor: UIColors.darkNeonTeal,
+            value: weeklyAverage.toStringAsFixed(1),
+            label: 'Weekly Average',
+          ),
+        ),
+        SizedBox(width: ThemeConstants.space12),
+        Expanded(
+          child: _MetricCard(
+            icon: Icons.category_outlined,
+            iconColor: UIColors.darkNeonEmerald,
+            value: topCategory.isEmpty ? '-' : topCategory,
+            label: 'Top Category',
+            chipLabel: topCategoryPercent > 0 ? '${topCategoryPercent.toStringAsFixed(0)}%' : null,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -83,7 +132,7 @@ class _MetricCard extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      width: 160,
+      constraints: const BoxConstraints(minHeight: 140),
       padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
       decoration: isDark
           ? UIColors.createGlassmorphism(
@@ -117,16 +166,19 @@ class _MetricCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: ThemeConstants.space12),
-          // Big number
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: ThemeConstants.font3XLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+          // Big number with flexible sizing
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: ThemeConstants.font2XLarge,
+                fontWeight: ThemeConstants.fontBold,
+                color: isDark ? UIColors.darkText : UIColors.lightText,
+              ),
+              maxLines: 1,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
           SizedBox(height: ThemeConstants.space4),
           // Label
@@ -139,6 +191,8 @@ class _MetricCard extends StatelessWidget {
                   ? UIColors.darkTextSecondary
                   : UIColors.lightTextSecondary,
             ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
           // Optional subtitle
           if (subtitle != null) ...[
@@ -152,6 +206,8 @@ class _MetricCard extends StatelessWidget {
                     ? UIColors.darkTextSecondary.withValues(alpha: 0.7)
                     : UIColors.lightTextSecondary.withValues(alpha: 0.7),
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
           // Optional category chip
@@ -177,6 +233,8 @@ class _MetricCard extends StatelessWidget {
                   fontWeight: ThemeConstants.fontSemiBold,
                   color: iconColor,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],

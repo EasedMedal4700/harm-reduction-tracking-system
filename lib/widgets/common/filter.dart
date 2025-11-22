@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../constants/time_period.dart';
 
 class FilterWidget extends StatelessWidget {
   final List<String> uniqueCategories;
@@ -22,6 +23,8 @@ class FilterWidget extends StatelessWidget {
   final double maxCraving;
   final ValueChanged<double> onMinCravingChanged;
   final ValueChanged<double> onMaxCravingChanged;
+  final TimePeriod? selectedPeriod;
+  final ValueChanged<TimePeriod>? onPeriodChanged;
 
 
   const FilterWidget({
@@ -47,6 +50,8 @@ class FilterWidget extends StatelessWidget {
     required this.maxCraving,
     required this.onMinCravingChanged,
     required this.onMaxCravingChanged,
+    this.selectedPeriod,
+    this.onPeriodChanged,
   });
 
   @override
@@ -60,6 +65,47 @@ class FilterWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Time Period filter (if provided)
+              if (selectedPeriod != null && onPeriodChanged != null) ...[
+                const Text('Time Period', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _PeriodButton(
+                        label: '7 Days',
+                        isSelected: selectedPeriod == TimePeriod.last7Days,
+                        onTap: () => onPeriodChanged!(TimePeriod.last7Days),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: _PeriodButton(
+                        label: '30 Days',
+                        isSelected: selectedPeriod == TimePeriod.last7Weeks,
+                        onTap: () => onPeriodChanged!(TimePeriod.last7Weeks),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: _PeriodButton(
+                        label: '90 Days',
+                        isSelected: selectedPeriod == TimePeriod.last7Months,
+                        onTap: () => onPeriodChanged!(TimePeriod.last7Months),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: _PeriodButton(
+                        label: 'All Time',
+                        isSelected: selectedPeriod == TimePeriod.all,
+                        onTap: () => onPeriodChanged!(TimePeriod.all),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+              ],
               // Type filter with buttons
               const Text('Filter by Type', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
@@ -131,6 +177,56 @@ class FilterWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _PeriodButton extends StatelessWidget {
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _PeriodButton({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? Theme.of(context).primaryColor.withValues(alpha: 0.15)
+                : Colors.grey.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: isSelected
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey.withValues(alpha: 0.3),
+              width: isSelected ? 2 : 1,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                color: isSelected
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey.shade700,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
