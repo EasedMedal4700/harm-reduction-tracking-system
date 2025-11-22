@@ -225,6 +225,9 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
 
   PreferredSizeWidget _buildAppBar(BuildContext context, bool isDark, LogEntryState state) {
     return AppBar(
+      backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
+      foregroundColor: isDark ? Colors.white : Colors.black87,
+      elevation: 0,
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -233,7 +236,6 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
             style: TextStyle(
               fontSize: ThemeConstants.fontXLarge,
               fontWeight: ThemeConstants.fontSemiBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
             ),
           ),
           Text(

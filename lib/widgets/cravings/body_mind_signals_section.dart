@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../common/modern_form_card.dart';
+import '../../constants/ui_colors.dart';
 
 class BodyMindSignalsSection extends StatelessWidget {
   final List<String> sensations;
@@ -14,24 +16,30 @@ class BodyMindSignalsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Body & Mind Signals', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        Wrap(
-          children: sensations.map((sensation) {
-            return FilterChip(
-              label: Text(sensation),
-              selected: selectedSensations.contains(sensation),
-              onSelected: (selected) => onSensationsChanged(
-                selected
-                  ? [...selectedSensations, sensation]
-                  : selectedSensations.where((s) => s != sensation).toList(),
-              ),
-            );
-          }).toList(),
-        ),
-      ],
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return ModernFormCard(
+      title: 'Body & Mind Signals',
+      icon: Icons.self_improvement,
+      accentColor: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
+      child: Wrap(
+        spacing: 8.0,
+        runSpacing: 8.0,
+        children: sensations.map((sensation) {
+          final isSelected = selectedSensations.contains(sensation);
+          return FilterChip(
+            label: Text(sensation),
+            selected: isSelected,
+            onSelected: (selected) => onSensationsChanged(
+              selected
+                ? [...selectedSensations, sensation]
+                : selectedSensations.where((s) => s != sensation).toList(),
+            ),
+            selectedColor: (isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen).withValues(alpha: 0.3),
+            checkmarkColor: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
+          );
+        }).toList(),
+      ),
     );
   }
 }

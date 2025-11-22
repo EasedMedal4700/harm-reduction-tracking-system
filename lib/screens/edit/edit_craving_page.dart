@@ -190,24 +190,31 @@ class _EditCravingPageState extends State<EditCravingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Craving'),
+        backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
+        foregroundColor: isDark ? Colors.white : Colors.black87,
+        elevation: 0,
         actions: [
           if (_isSaving)
             const Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: CircularProgressIndicator(color: Colors.white),
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
               ),
             )
           else
-            TextButton(
+            TextButton.icon(
               onPressed: _saveChanges,
-              child: const Text(
-                'Save',
-                style: TextStyle(color: Colors.white),
-              ),
+              icon: const Icon(Icons.check),
+              label: const Text('Save'),
             ),
         ],
       ),

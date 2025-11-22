@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../common/modern_form_card.dart';
+import '../../constants/ui_colors.dart';
+import '../../constants/theme_constants.dart';
 
 class EditReflectionForm extends StatefulWidget {
   final int selectedCount;
@@ -109,131 +112,189 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(ThemeConstants.space16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Reflecting on ${widget.selectedCount} selected entries',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-          const Text('Effectiveness (1-10)', style: TextStyle(fontWeight: FontWeight.w500)),
-          Slider(
-            value: widget.effectiveness,
-            min: 1,
-            max: 10,
-            divisions: 9,
-            label: widget.effectiveness.round().toString(),
-            onChanged: widget.onEffectivenessChanged,
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: _sleepHoursController,
-            decoration: const InputDecoration(
-              labelText: 'Sleep Hours',
-              border: OutlineInputBorder(),
+            style: TextStyle(
+              fontSize: ThemeConstants.fontLarge,
+              fontWeight: ThemeConstants.fontBold,
+              color: isDark ? UIColors.darkText : UIColors.lightText,
             ),
-            keyboardType: TextInputType.number,
-            onChanged: (value) {
-              final parsed = double.tryParse(value) ?? 8.0;
-              widget.onSleepHoursChanged(parsed);
-            },
           ),
-          const SizedBox(height: 16),
-          const Text('Sleep Quality', style: TextStyle(fontWeight: FontWeight.w500)),
-          DropdownButtonFormField<String>(
-            value: widget.sleepQuality.isEmpty ? 'Good' : widget.sleepQuality,
-            decoration: const InputDecoration(border: OutlineInputBorder()),
-            onChanged: (value) => widget.onSleepQualityChanged(value!),
-            items: ['Poor', 'Fair', 'Good', 'Excellent']
-                .map((q) => DropdownMenuItem(value: q, child: Text(q)))
-                .toList(),
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _nextDayMoodController,
-            decoration: const InputDecoration(
-              labelText: 'Next Day Mood',
-              border: OutlineInputBorder(),
+          SizedBox(height: ThemeConstants.space16),
+          
+          // Effectiveness Section
+          ModernFormCard(
+            title: 'Effectiveness',
+            icon: Icons.star,
+            accentColor: isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
+            child: ModernSlider(
+              label: 'Effectiveness Rating',
+              value: widget.effectiveness,
+              onChanged: widget.onEffectivenessChanged,
+              min: 1,
+              max: 10,
+              divisions: 9,
             ),
-            onChanged: widget.onNextDayMoodChanged,
           ),
-          const SizedBox(height: 16),
-          const Text('Energy Level', style: TextStyle(fontWeight: FontWeight.w500)),
-          DropdownButtonFormField<String>(
-            value: widget.energyLevel.isEmpty ? 'Neutral' : widget.energyLevel,
-            decoration: const InputDecoration(border: OutlineInputBorder()),
-            onChanged: (value) => widget.onEnergyLevelChanged(value!),
-            items: ['Low', 'Neutral', 'High']
-                .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                .toList(),
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _sideEffectsController,
-            decoration: const InputDecoration(
-              labelText: 'Side Effects',
-              border: OutlineInputBorder(),
+          SizedBox(height: ThemeConstants.space16),
+          
+          // Sleep Section
+          ModernFormCard(
+            title: 'Sleep',
+            icon: Icons.bedtime,
+            accentColor: isDark ? UIColors.darkNeonPurple : UIColors.lightAccentPurple,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ModernTextField(
+                  label: 'Sleep Hours',
+                  controller: _sleepHoursController,
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    final parsed = double.tryParse(value) ?? 8.0;
+                    widget.onSleepHoursChanged(parsed);
+                  },
+                ),
+                SizedBox(height: ThemeConstants.space16),
+                ModernDropdownField<String>(
+                  label: 'Sleep Quality',
+                  value: widget.sleepQuality.isEmpty ? 'Good' : widget.sleepQuality,
+                  items: const ['Poor', 'Fair', 'Good', 'Excellent'],
+                  itemLabel: (item) => item,
+                  onChanged: (value) => widget.onSleepQualityChanged(value!),
+                ),
+              ],
             ),
-            onChanged: widget.onSideEffectsChanged,
           ),
-          const SizedBox(height: 16),
-          const Text('Post Use Craving (1-10)', style: TextStyle(fontWeight: FontWeight.w500)),
-          Slider(
-            value: widget.postUseCraving,
-            min: 1,
-            max: 10,
-            divisions: 9,
-            label: widget.postUseCraving.round().toString(),
-            onChanged: widget.onPostUseCravingChanged,
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: _copingStrategiesController,
-            decoration: const InputDecoration(
-              labelText: 'Coping Strategies',
-              border: OutlineInputBorder(),
+          SizedBox(height: ThemeConstants.space16),
+          
+          // Mood & Energy Section
+          ModernFormCard(
+            title: 'Mood & Energy',
+            icon: Icons.psychology,
+            accentColor: isDark ? UIColors.darkNeonPink : UIColors.lightAccentAmber,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ModernTextField(
+                  label: 'Next Day Mood',
+                  controller: _nextDayMoodController,
+                  onChanged: widget.onNextDayMoodChanged,
+                ),
+                SizedBox(height: ThemeConstants.space16),
+                ModernDropdownField<String>(
+                  label: 'Energy Level',
+                  value: widget.energyLevel.isEmpty ? 'Neutral' : widget.energyLevel,
+                  items: const ['Low', 'Neutral', 'High'],
+                  itemLabel: (item) => item,
+                  onChanged: (value) => widget.onEnergyLevelChanged(value!),
+                ),
+              ],
             ),
-            onChanged: widget.onCopingStrategiesChanged,
           ),
-          const SizedBox(height: 16),
-          const Text('Coping Effectiveness (1-10)', style: TextStyle(fontWeight: FontWeight.w500)),
-          Slider(
-            value: widget.copingEffectiveness,
-            min: 1,
-            max: 10,
-            divisions: 9,
-            label: widget.copingEffectiveness.round().toString(),
-            onChanged: widget.onCopingEffectivenessChanged,
-          ),
-          const SizedBox(height: 16),
-          const Text('Overall Satisfaction (1-10)', style: TextStyle(fontWeight: FontWeight.w500)),
-          Slider(
-            value: widget.overallSatisfaction,
-            min: 1,
-            max: 10,
-            divisions: 9,
-            label: widget.overallSatisfaction.round().toString(),
-            onChanged: widget.onOverallSatisfactionChanged,
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _notesController,
-            decoration: const InputDecoration(
-              labelText: 'Notes',
-              border: OutlineInputBorder(),
+          SizedBox(height: ThemeConstants.space16),
+          
+          // Side Effects Section
+          ModernFormCard(
+            title: 'Side Effects',
+            icon: Icons.warning_amber,
+            accentColor: isDark ? UIColors.darkNeonOrange : UIColors.lightAccentOrange,
+            child: ModernTextField(
+              label: 'Side Effects',
+              controller: _sideEffectsController,
+              onChanged: widget.onSideEffectsChanged,
+              maxLines: 3,
             ),
-            maxLines: 3,
-            onChanged: widget.onNotesChanged,
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: ThemeConstants.space16),
+          
+          // Cravings & Coping Section
+          ModernFormCard(
+            title: 'Cravings & Coping',
+            icon: Icons.psychology_outlined,
+            accentColor: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ModernSlider(
+                  label: 'Post Use Craving',
+                  value: widget.postUseCraving,
+                  onChanged: widget.onPostUseCravingChanged,
+                  min: 1,
+                  max: 10,
+                  divisions: 9,
+                ),
+                SizedBox(height: ThemeConstants.space16),
+                ModernTextField(
+                  label: 'Coping Strategies',
+                  controller: _copingStrategiesController,
+                  onChanged: widget.onCopingStrategiesChanged,
+                  maxLines: 2,
+                ),
+                SizedBox(height: ThemeConstants.space16),
+                ModernSlider(
+                  label: 'Coping Effectiveness',
+                  value: widget.copingEffectiveness,
+                  onChanged: widget.onCopingEffectivenessChanged,
+                  min: 1,
+                  max: 10,
+                  divisions: 9,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: ThemeConstants.space16),
+          
+          // Overall & Notes Section
+          ModernFormCard(
+            title: 'Overall',
+            icon: Icons.assessment,
+            accentColor: isDark ? UIColors.darkNeonViolet : UIColors.lightAccentIndigo,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ModernSlider(
+                  label: 'Overall Satisfaction',
+                  value: widget.overallSatisfaction,
+                  onChanged: widget.onOverallSatisfactionChanged,
+                  min: 1,
+                  max: 10,
+                  divisions: 9,
+                ),
+                SizedBox(height: ThemeConstants.space16),
+                ModernTextField(
+                  label: 'Notes',
+                  controller: _notesController,
+                  onChanged: widget.onNotesChanged,
+                  maxLines: 3,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: ThemeConstants.space24),
+          
+          // Save Button
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
+            child: ElevatedButton.icon(
               onPressed: widget.onSave,
-              child: const Text('Save Changes'),
+              icon: const Icon(Icons.save),
+              label: const Text('Save Changes'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: ThemeConstants.space16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                ),
+              ),
             ),
           ),
         ],

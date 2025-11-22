@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../common/feeling_selection.dart';
+import '../common/modern_form_card.dart';
+import '../../constants/ui_colors.dart';
+import '../../constants/theme_constants.dart';
 
 class EmotionalStateSection extends StatelessWidget {
   final List<String> selectedEmotions;
@@ -17,23 +20,67 @@ class EmotionalStateSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Emotional State', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        FeelingSelection(
-          feelings: selectedEmotions,
-          onFeelingsChanged: onEmotionsChanged,
-          secondaryFeelings: <String, List<String>>{},
-          onSecondaryFeelingsChanged: (_) {},
-        ),
-        TextFormField(
-          decoration: const InputDecoration(labelText: 'Thoughts'),
-          maxLines: 3,
-          initialValue: thoughts,
-          onChanged: onThoughtsChanged,
-        ),
-      ],
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return ModernFormCard(
+      title: 'Emotional State',
+      icon: Icons.favorite,
+      accentColor: isDark ? UIColors.darkNeonPink : UIColors.lightAccentPurple,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FeelingSelection(
+            feelings: selectedEmotions,
+            onFeelingsChanged: onEmotionsChanged,
+            secondaryFeelings: <String, List<String>>{},
+            onSecondaryFeelingsChanged: (_) {},
+          ),
+          SizedBox(height: ThemeConstants.space16),
+          Text(
+            'Thoughts',
+            style: TextStyle(
+              fontSize: ThemeConstants.fontMedium,
+              fontWeight: ThemeConstants.fontMediumWeight,
+              color: isDark ? UIColors.darkText : UIColors.lightText,
+            ),
+          ),
+          SizedBox(height: ThemeConstants.space8),
+          TextFormField(
+            initialValue: thoughts,
+            onChanged: onThoughtsChanged,
+            maxLines: 3,
+            style: TextStyle(
+              color: isDark ? UIColors.darkText : UIColors.lightText,
+              fontSize: ThemeConstants.fontMedium,
+            ),
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: isDark
+                  ? UIColors.darkSurface.withValues(alpha: 0.3)
+                  : UIColors.lightSurface,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                borderSide: BorderSide(
+                  color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                borderSide: BorderSide(
+                  color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                borderSide: BorderSide(
+                  color: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
+                  width: 2,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -93,15 +93,25 @@ class _CravingsPageState extends State<CravingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cravings'),
+        title: const Text('Log Craving'),
+        backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
+        foregroundColor: isDark ? Colors.white : Colors.black87,
+        elevation: 0,
         actions: [
-          TextButton(
-            onPressed: _isSaving ? null : _save, // Disable if saving
-            child: _isSaving
-                ? const CircularProgressIndicator()
-                : const Text('Save'),
+          TextButton.icon(
+            onPressed: _isSaving ? null : _save,
+            icon: _isSaving
+                ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.check),
+            label: Text(_isSaving ? 'Saving...' : 'Save'),
           ),
         ],
       ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../constants/craving_consatnts.dart';
+import '../../constants/ui_colors.dart';
+import '../../constants/theme_constants.dart';
+import '../common/modern_form_card.dart';
 import '../common/craving_slider.dart';
 import '../common/location_dropdown.dart';
 
@@ -27,40 +30,66 @@ class CravingDetailsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Craving Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        const Text('What were you craving?'),
-        Wrap(
-          spacing: 8.0,
-          children: cravingCategories.entries.map((entry) {
-            // Check against the key (full name with emoji) since DB stores keys
-            final isSelected = selectedCravings.contains(entry.key);
-            return TextButton(
-              onPressed: () => onCravingsChanged(
-                isSelected
-                  ? selectedCravings.where((c) => c != entry.key).toList()
-                  : [...selectedCravings, entry.key],
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return ModernFormCard(
+      title: 'Craving Details',
+      icon: Icons.psychology,
+      accentColor: isDark ? UIColors.darkNeonPurple : UIColors.lightAccentPurple,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'What were you craving?',
+            style: TextStyle(
+              fontSize: ThemeConstants.fontMedium,
+              fontWeight: ThemeConstants.fontMediumWeight,
+              color: isDark ? UIColors.darkText : UIColors.lightText,
+            ),
+          ),
+          SizedBox(height: ThemeConstants.space12),
+          Wrap(
+            spacing: 8.0,
+            runSpacing: 8.0,
+            children: cravingCategories.entries.map((entry) {
+              final isSelected = selectedCravings.contains(entry.key);
+              return FilterChip(
+                label: Text(entry.key),
+                selected: isSelected,
+                onSelected: (selected) => onCravingsChanged(
+                  selected
+                      ? [...selectedCravings, entry.key]
+                      : selectedCravings.where((c) => c != entry.key).toList(),
+                ),
+                selectedColor: (isDark ? UIColors.darkNeonPurple : UIColors.lightAccentPurple).withValues(alpha: 0.3),
+                checkmarkColor: isDark ? UIColors.darkNeonPurple : UIColors.lightAccentPurple,
+              );
+            }).toList(),
+          ),
+          if (selectedCravings.isNotEmpty) ...[
+            SizedBox(height: ThemeConstants.space12),
+            Text(
+              'Selected: ${selectedCravings.join('; ')}',
+              style: TextStyle(
+                fontSize: ThemeConstants.fontSmall,
+                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
               ),
-              style: TextButton.styleFrom(
-                backgroundColor: isSelected ? Colors.blue : null,
-                foregroundColor: isSelected ? Colors.white : null,
-              ),
-              child: Text(entry.key),
-            );
-          }).toList(),
-        ),
-        if (selectedCravings.isNotEmpty) Text('Selected: ${selectedCravings.join('; ')}'),
-        CravingSlider(value: intensity, onChanged: onIntensityChanged),
-        LocationDropdown(location: location, onLocationChanged: onLocationChanged),
-        DropdownButtonFormField<String>(
-          decoration: const InputDecoration(labelText: 'Who were you with?'),
-          value: withWho?.isEmpty == true ? null : withWho,
-          items: ['Alone', 'Friends', 'Family', 'Other'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-          onChanged: onWithWhoChanged,
-        ),
-      ],
+            ),
+          ],
+          SizedBox(height: ThemeConstants.space16),
+          CravingSlider(value: intensity, onChanged: onIntensityChanged),
+          SizedBox(height: ThemeConstants.space16),
+          LocationDropdown(location: location, onLocationChanged: onLocationChanged),
+          SizedBox(height: ThemeConstants.space16),
+          ModernDropdownField<String>(
+            label: 'Who were you with?',
+            value: withWho?.isEmpty == true ? null : withWho,
+            items: const ['Alone', 'Friends', 'Family', 'Other'],
+            itemLabel: (item) => item,
+            onChanged: onWithWhoChanged,
+          ),
+        ],
+      ),
     );
   }
 }
