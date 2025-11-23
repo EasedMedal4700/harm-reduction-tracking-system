@@ -132,7 +132,7 @@ class _MetricCard extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      constraints: const BoxConstraints(minHeight: 140),
+      constraints: const BoxConstraints(minHeight: 130),
       padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
       decoration: isDark
           ? UIColors.createGlassmorphism(
@@ -154,7 +154,7 @@ class _MetricCard extends StatelessWidget {
         children: [
           // Icon with colored background
           Container(
-            padding: EdgeInsets.all(ThemeConstants.space8),
+            padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               color: iconColor.withValues(alpha: isDark ? 0.2 : 0.1),
               borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
@@ -162,25 +162,28 @@ class _MetricCard extends StatelessWidget {
             child: Icon(
               icon,
               color: iconColor,
-              size: ThemeConstants.iconMedium,
+              size: 20,
             ),
           ),
-          SizedBox(height: ThemeConstants.space12),
+          const SizedBox(height: 6),
           // Big number with flexible sizing
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.centerLeft,
-            child: Text(
-              value,
-              style: TextStyle(
-                fontSize: ThemeConstants.font2XLarge,
-                fontWeight: ThemeConstants.fontBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                value,
+                style: TextStyle(
+                  fontSize: ThemeConstants.font2XLarge,
+                  fontWeight: ThemeConstants.fontBold,
+                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 1,
             ),
           ),
-          SizedBox(height: ThemeConstants.space4),
+          const SizedBox(height: 2),
           // Label
           Text(
             label,

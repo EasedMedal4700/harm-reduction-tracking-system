@@ -293,8 +293,10 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                         substanceToCategory: _service!.substanceToCategory,
                         onCategoryTapped: (category) {
                           setState(() {
-                            // Filter substances to only show those in the tapped category
-                            _selectedSubstances = filteredEntries
+                            // Select the category and filter substances
+                            _selectedCategories = [category];
+                            // Get all substances in the selected category from period filtered entries
+                            _selectedSubstances = periodFilteredEntries
                                 .where((e) => (_service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder') == category)
                                 .map((e) => e.substance)
                                 .toSet()

@@ -284,10 +284,13 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
       ..sort((a, b) => DrugCategories.categoryPriority.indexOf(a)
           .compareTo(DrugCategories.categoryPriority.indexOf(b)));
 
-    return Wrap(
-      spacing: ThemeConstants.space16,
-      runSpacing: ThemeConstants.space8,
-      children: categories.map((cat) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 100),
+      child: SingleChildScrollView(
+        child: Wrap(
+          spacing: ThemeConstants.space12,
+          runSpacing: ThemeConstants.space8,
+          children: categories.map((cat) {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -311,6 +314,8 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
           ],
         );
       }).toList(),
+        ),
+      ),
     );
   }
 

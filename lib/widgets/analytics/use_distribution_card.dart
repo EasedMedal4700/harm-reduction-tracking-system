@@ -241,7 +241,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
             value: e.value.toDouble(),
             title: isTouched ? '${e.value}' : '',
             color: color,
-            radius: isTouched ? 120 : 100,
+            radius: isTouched ? 110 : 100,
             titleStyle: TextStyle(
               fontSize: ThemeConstants.fontMedium,
               fontWeight: ThemeConstants.fontBold,
@@ -311,8 +311,11 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
     final sortedEntries = data.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
 
-    return Column(
-      children: sortedEntries.map((e) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 300),
+      child: SingleChildScrollView(
+        child: Column(
+          children: sortedEntries.map((e) {
         final color = _viewType == DistributionViewType.category
             ? DrugCategoryColors.colorFor(e.key)
             : DrugCategoryColors.colorFor(
@@ -360,6 +363,8 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
           ),
         );
       }).toList(),
+        ),
+      ),
     );
   }
 }
