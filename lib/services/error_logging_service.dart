@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../utils/error_reporter.dart';
 
@@ -14,7 +13,6 @@ class ErrorLoggingService {
   static final ErrorLoggingService instance = ErrorLoggingService._();
 
   final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
-  SupabaseClient get _client => Supabase.instance.client;
 
   String? _appVersion;
   String? _platform;

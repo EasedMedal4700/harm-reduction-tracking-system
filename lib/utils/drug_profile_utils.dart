@@ -134,12 +134,21 @@ class DrugProfileUtils {
         final routeData = formattedDose[route];
         if (routeData is! Map<String, dynamic>) continue;
 
+        // Helper to find value with case-insensitive key
+        double? findValue(String key) {
+          final entry = routeData.entries.firstWhere(
+            (e) => e.key.toLowerCase() == key.toLowerCase(),
+            orElse: () => const MapEntry('', null),
+          );
+          return _parseDoseValue(entry.value, useUpperBound: true);
+        }
+
         // Extract threshold values
-        final threshold = _parseDoseValue(routeData['threshold']);
-        final light = _parseDoseValue(routeData['light']);
-        final common = _parseDoseValue(routeData['common']);
-        final strong = _parseDoseValue(routeData['strong']);
-        final heavy = _parseDoseValue(routeData['heavy']);
+        final threshold = findValue('threshold');
+        final light = findValue('light');
+        final common = findValue('common');
+        final strong = findValue('strong');
+        final heavy = findValue('heavy');
 
         if (strong != null && strong > 0) {
           return [
@@ -157,20 +166,31 @@ class DrugProfileUtils {
   }
 
   /// Parse dose value from various formats (e.g., "10 mg", "5-10 mg", "10")
-  static double? _parseDoseValue(dynamic value) {
+  /// [useUpperBound] - If true, takes the higher value in a range (e.g., "20-30" -> 30)
+  static double? _parseDoseValue(dynamic value, {bool useUpperBound = false}) {
     if (value == null) return null;
     if (value is num) return value.toDouble();
 
     final valueStr = value.toString();
     final doseRegExp = RegExp(r'(\d+(?:\.\d+)?)');
-    final match = doseRegExp.firstMatch(valueStr);
-    return match != null ? double.tryParse(match.group(1)!) : null;
+    final matches = doseRegExp.allMatches(valueStr).toList();
+
+    if (matches.isEmpty) return null;
+
+    if (useUpperBound && matches.length > 1) {
+      // Return the last number found (usually the upper bound)
+      return double.tryParse(matches.last.group(1)!);
+    }
+
+    // Return the first number found
+    return double.tryParse(matches.first.group(1)!);
   }
 
   /// Fallback thresholds for common drugs when profile data unavailable
   static List<double>? getFallbackThresholds(String drugName) {
     const knownThresholds = <String, List<double>>{
       'methylphenidate': [5.0, 10.0, 20.0, 40.0, 60.0],
+      'dexedrine': [5.0, 10.0, 20.0, 30.0, 50.0], // Same as amphetamine
       'amphetamine': [5.0, 10.0, 20.0, 30.0, 50.0],
       'cocaine': [10.0, 20.0, 40.0, 80.0, 120.0],
       'mdma': [50.0, 75.0, 100.0, 150.0, 200.0],

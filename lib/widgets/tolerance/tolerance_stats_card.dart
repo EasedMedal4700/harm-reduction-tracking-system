@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../models/tolerance_model.dart';
+import '../../constants/theme_constants.dart';
+import '../../constants/ui_colors.dart';
 
-/// Card displaying key tolerance metrics and statistics
 class ToleranceStatsCard extends StatelessWidget {
   final ToleranceModel toleranceModel;
   final double daysUntilBaseline;
@@ -17,53 +18,94 @@ class ToleranceStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDark ? UIColors.darkSurface : Colors.white;
+    final borderColor = isDark
+        ? UIColors.darkBorder
+        : Colors.black.withOpacity(0.05);
 
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: isDark ? Colors.white10 : Colors.black.withOpacity(0.05),
-        ),
+        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+        side: BorderSide(color: borderColor),
       ),
-      color: isDark ? const Color(0xFF1E1E2C) : Colors.white,
+      color: backgroundColor,
       margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Key metrics',
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: isDark ? Colors.white70 : Colors.black87,
+                fontSize: ThemeConstants.fontMedium,
+                fontWeight: ThemeConstants.fontBold,
+                color: isDark ? UIColors.darkText : UIColors.lightText,
               ),
             ),
-            const SizedBox(height: 16),
-            _buildMetricRow(
-              context,
-              'Half-life',
-              '${toleranceModel.halfLifeHours} h',
-            ),
-            const Divider(height: 24, thickness: 0.5),
-            _buildMetricRow(
-              context,
-              'Tolerance decay',
-              '${toleranceModel.toleranceDecayDays} days',
-            ),
-            const Divider(height: 24, thickness: 0.5),
-            _buildMetricRow(
-              context,
-              'Days until baseline',
-              daysUntilBaseline.toStringAsFixed(1),
-            ),
-            const Divider(height: 24, thickness: 0.5),
-            _buildMetricRow(
-              context,
-              'Recent uses (30 d)',
-              recentUseCount.toString(),
+            const SizedBox(height: ThemeConstants.space16),
+
+            // 2-Column Grid
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Column 1
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildMetricItem(
+                        context,
+                        'Half-life',
+                        '${toleranceModel.halfLifeHours}h',
+                        Icons.timelapse,
+                      ),
+                      const SizedBox(height: ThemeConstants.space16),
+                      _buildMetricItem(
+                        context,
+                        'Days to baseline',
+                        daysUntilBaseline <= 0
+                            ? 'Baseline'
+                            : '${daysUntilBaseline.toStringAsFixed(1)} days',
+                        Icons.calendar_today,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Vertical Divider
+                Container(
+                  width: 1,
+                  height: 80,
+                  color: isDark ? UIColors.darkDivider : UIColors.lightDivider,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: ThemeConstants.space16,
+                  ),
+                ),
+
+                // Column 2
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildMetricItem(
+                        context,
+                        'Tolerance decay',
+                        '${toleranceModel.toleranceDecayDays} days',
+                        Icons.trending_down,
+                      ),
+                      const SizedBox(height: ThemeConstants.space16),
+                      _buildMetricItem(
+                        context,
+                        'Recent uses',
+                        '$recentUseCount',
+                        Icons.history,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -71,26 +113,45 @@ class ToleranceStatsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildMetricRow(BuildContext context, String label, String value) {
+  Widget _buildMetricItem(
+    BuildContext context,
+    String label,
+    String value,
+    IconData icon,
+  ) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
+    final secondaryTextColor = isDark
+        ? UIColors.darkTextSecondary
+        : UIColors.lightTextSecondary;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: isDark ? Colors.white60 : Colors.black54,
-          ),
+        Row(
+          children: [
+            Icon(icon, size: 14, color: secondaryTextColor),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: ThemeConstants.fontSmall,
+                color: secondaryTextColor,
+                fontWeight: ThemeConstants.fontMediumWeight,
+              ),
+            ),
+          ],
         ),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: isDark ? Colors.white : Colors.black87,
+        const SizedBox(height: 4),
+        Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Text(
+            value,
+            style: TextStyle(
+              fontSize: ThemeConstants.fontMedium,
+              fontWeight: ThemeConstants.fontBold,
+              color: textColor,
+            ),
           ),
         ),
       ],

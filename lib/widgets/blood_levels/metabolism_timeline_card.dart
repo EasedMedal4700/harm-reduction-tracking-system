@@ -159,6 +159,9 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
         hoursBack: widget.hoursBack,
         hoursForward: widget.hoursForward,
         drugName: drugName,
+        drugProfile: drugLevel.formattedDose != null
+            ? {'formatted_dose': drugLevel.formattedDose}
+            : null,
         stepHours: 2.0,
       );
 

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
 import '../../constants/drug_theme.dart';
+import '../../constants/ui_colors.dart';
 
 /// Expandable card displaying drug level information
 class LevelCard extends StatefulWidget {
   final DrugLevel level;
-  
+
   const LevelCard({required this.level, super.key});
-  
+
   @override
   State<LevelCard> createState() => _LevelCardState();
 }
 
 class _LevelCardState extends State<LevelCard> {
   bool _expanded = false;
-  
+
   @override
   Widget build(BuildContext context) {
     final percentage = widget.level.percentage;
@@ -22,7 +23,7 @@ class _LevelCardState extends State<LevelCard> {
     final color = _getColorForCategory();
     final timeAgo = DateTime.now().difference(widget.level.lastUse);
     final remainingMg = widget.level.totalRemaining;
-    
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       color: color.withOpacity(0.05),
@@ -68,7 +69,10 @@ class _LevelCardState extends State<LevelCard> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: _getStatusColor(status).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(12),
@@ -93,7 +97,7 @@ class _LevelCardState extends State<LevelCard> {
                 ],
               ),
               const SizedBox(height: 12),
-              
+
               // Progress bar
               LinearProgressIndicator(
                 value: (percentage / 100).clamp(0.0, 1.0),
@@ -102,18 +106,27 @@ class _LevelCardState extends State<LevelCard> {
                 minHeight: 8,
               ),
               const SizedBox(height: 12),
-              
+
               // Summary info
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildInfoColumn('Remaining', '${remainingMg.toStringAsFixed(1)}mg'),
-                  _buildInfoColumn('Last Dose', '${widget.level.lastDose.toStringAsFixed(1)}mg'),
+                  _buildInfoColumn(
+                    'Remaining',
+                    '${remainingMg.toStringAsFixed(1)}mg',
+                  ),
+                  _buildInfoColumn(
+                    'Last Dose',
+                    '${widget.level.lastDose.toStringAsFixed(1)}mg',
+                  ),
                   _buildInfoColumn('Time', _formatTimeAgo(timeAgo)),
-                  _buildInfoColumn('Window', '${widget.level.activeWindow.toStringAsFixed(1)}h'),
+                  _buildInfoColumn(
+                    'Window',
+                    '${widget.level.activeWindow.toStringAsFixed(1)}h',
+                  ),
                 ],
               ),
-              
+
               // Expanded details
               if (_expanded) ...[
                 const Divider(height: 24),
@@ -125,7 +138,7 @@ class _LevelCardState extends State<LevelCard> {
       ),
     );
   }
-  
+
   Widget _buildExpandedContent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,45 +148,53 @@ class _LevelCardState extends State<LevelCard> {
           style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-        ...widget.level.doses.map((dose) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Row(
-            children: [
-              Container(
-                width: 4,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: _getColorForCategory(),
-                  borderRadius: BorderRadius.circular(2),
+        ...widget.level.doses.map(
+          (dose) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              children: [
+                Container(
+                  width: 4,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: _getColorForCategory(),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${dose.dose.toStringAsFixed(1)}mg → ${dose.remaining.toStringAsFixed(1)}mg remaining',
-                      style: const TextStyle(fontSize: 13),
-                    ),
-                    Text(
-                      '${_formatTimeAgo(DateTime.now().difference(dose.startTime))} (${dose.percentRemaining.toStringAsFixed(0)}%)',
-                      style: TextStyle(fontSize: 11, color: Colors.grey[600]),
-                    ),
-                  ],
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${dose.dose.toStringAsFixed(1)}mg → ${dose.remaining.toStringAsFixed(1)}mg remaining',
+                        style: const TextStyle(fontSize: 13),
+                      ),
+                      Text(
+                        '${_formatTimeAgo(DateTime.now().difference(dose.startTime))} (${dose.percentRemaining.toStringAsFixed(0)}%)',
+                        style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        )),
+        ),
         const SizedBox(height: 12),
         Row(
           children: [
             Expanded(
-              child: _buildDetailItem('Half-life', '${widget.level.halfLife.toStringAsFixed(1)}h'),
+              child: _buildDetailItem(
+                'Half-life',
+                '${widget.level.halfLife.toStringAsFixed(1)}h',
+              ),
             ),
             Expanded(
-              child: _buildDetailItem('Duration', '${widget.level.maxDuration.toStringAsFixed(1)}h'),
+              child: _buildDetailItem(
+                'Duration',
+                '${widget.level.maxDuration.toStringAsFixed(1)}h',
+              ),
             ),
           ],
         ),
@@ -181,41 +202,59 @@ class _LevelCardState extends State<LevelCard> {
         Row(
           children: [
             Expanded(
-              child: _buildDetailItem('Total Dosed', '${widget.level.totalDose.toStringAsFixed(1)}mg'),
+              child: _buildDetailItem(
+                'Total Dosed',
+                '${widget.level.totalDose.toStringAsFixed(1)}mg',
+              ),
             ),
             Expanded(
-              child: _buildDetailItem('# Doses', '${widget.level.doses.length}'),
+              child: _buildDetailItem(
+                '# Doses',
+                '${widget.level.doses.length}',
+              ),
             ),
           ],
         ),
       ],
     );
   }
-  
+
   Widget _buildDetailItem(String label, String value) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.grey[100],
+        color: isDark ? UIColors.darkSurface : Colors.grey[100],
         borderRadius: BorderRadius.circular(8),
+        border: isDark ? Border.all(color: UIColors.darkBorder) : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+            style: TextStyle(
+              fontSize: 11,
+              color: isDark ? UIColors.darkTextSecondary : Colors.grey[600],
+            ),
           ),
           Text(
             value,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: isDark ? UIColors.darkText : Colors.black87,
+            ),
           ),
         ],
       ),
     );
   }
-  
+
   Widget _buildInfoColumn(String label, String value) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -223,28 +262,29 @@ class _LevelCardState extends State<LevelCard> {
           label,
           style: TextStyle(
             fontSize: 12,
-            color: Colors.grey[600],
+            color: isDark ? UIColors.darkTextSecondary : Colors.grey[600],
           ),
         ),
         const SizedBox(height: 2),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
+            color: isDark ? UIColors.darkText : Colors.black87,
           ),
         ),
       ],
     );
   }
-  
+
   Color _getColorForCategory() {
     if (widget.level.categories.isEmpty) {
       return DrugCategoryColors.defaultColor;
     }
     return DrugCategoryColors.colorFor(widget.level.categories.first);
   }
-  
+
   Color _getStatusColor(String status) {
     switch (status) {
       case 'HIGH':
@@ -257,7 +297,7 @@ class _LevelCardState extends State<LevelCard> {
         return Colors.green;
     }
   }
-  
+
   String _formatTimeAgo(Duration duration) {
     if (duration.inHours > 24) {
       return '${duration.inDays}d ago';

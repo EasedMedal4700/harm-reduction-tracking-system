@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../constants/theme_constants.dart';
+import '../../constants/ui_colors.dart';
 
 /// Card displaying current tolerance percentage and visual indicator
 class ToleranceSummaryCard extends StatelessWidget {
@@ -12,61 +14,79 @@ class ToleranceSummaryCard extends StatelessWidget {
     final label = _toleranceLabel(currentTolerance);
     final color = _toleranceColor(currentTolerance);
 
+    final backgroundColor = isDark ? UIColors.darkSurface : Colors.white;
+    final borderColor = isDark
+        ? UIColors.darkBorder
+        : Colors.black.withOpacity(0.05);
+
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: isDark ? Colors.white10 : Colors.black.withOpacity(0.05),
-        ),
+        borderRadius: BorderRadius.circular(ThemeConstants.radiusExtraLarge),
+        side: BorderSide(color: borderColor),
       ),
-      color: isDark ? const Color(0xFF1E1E2C) : Colors.white,
+      color: backgroundColor,
       margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(ThemeConstants.cardPaddingLarge),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Current tolerance',
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: isDark ? Colors.white70 : Colors.black87,
+                fontSize: ThemeConstants.fontMedium,
+                fontWeight: ThemeConstants.fontSemiBold,
+                color: isDark
+                    ? UIColors.darkTextSecondary
+                    : UIColors.lightTextSecondary,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: ThemeConstants.space12),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
               children: [
                 Text(
                   '${currentTolerance.toStringAsFixed(1)}%',
                   style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black,
+                    fontSize: ThemeConstants.font4XLarge,
+                    fontWeight: ThemeConstants.fontExtraBold,
+                    color: isDark ? UIColors.darkText : UIColors.lightText,
                     height: 1.0,
+                    letterSpacing: -1.0,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: ThemeConstants.space24),
+
+            // Thicker, rounded progress bar
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
               child: LinearProgressIndicator(
                 value: (currentTolerance / 100).clamp(0.0, 1.0),
-                minHeight: 10,
+                minHeight: 12,
                 backgroundColor: isDark ? Colors.white10 : Colors.grey.shade100,
                 valueColor: AlwaysStoppedAnimation<Color>(color),
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: color,
+            const SizedBox(height: ThemeConstants.space12),
+
+            // Status label below bar
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+              ),
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: ThemeConstants.fontSmall,
+                  fontWeight: ThemeConstants.fontBold,
+                  color: color,
+                ),
               ),
             ),
           ],

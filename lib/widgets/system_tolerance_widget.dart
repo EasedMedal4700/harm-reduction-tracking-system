@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../models/tolerance_model.dart';
 import '../services/tolerance_engine_service.dart';
 import '../services/user_service.dart';
+import '../constants/theme_constants.dart';
+import '../constants/ui_colors.dart';
+import 'tolerance/system_tolerance_breakdown_sheet.dart';
 
 /// Simple data holder for system tolerance display
 class SystemToleranceData {
@@ -20,122 +23,245 @@ Future<SystemToleranceData> loadSystemToleranceData() async {
   return SystemToleranceData(report.tolerances, report.states);
 }
 
-/// Minimal widget to display system-wide tolerance
-Widget buildSystemToleranceSection(SystemToleranceData data) {
-  // We can't easily access context here since it's a function,
-  // but we can infer dark mode if needed or just use neutral colors.
-  // Ideally this should be a StatelessWidget to access Theme.
-  // For now, we'll use a generic card style.
+/// Widget to display system-wide tolerance with interactivity
+class SystemToleranceWidget extends StatelessWidget {
+  final SystemToleranceData data;
 
-  return Card(
-    elevation: 0,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
-      side: BorderSide(color: Colors.black.withOpacity(0.05)),
-    ),
-    color: Colors.white,
-    margin: EdgeInsets.zero,
-    child: Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'System Tolerance',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 12),
-          ...kToleranceBuckets.map((bucket) {
-            final percent = data.percents[bucket] ?? 0.0;
-            final state = data.states[bucket] ?? ToleranceSystemState.recovered;
-            return _buildBucketRow(bucket, percent, state);
-          }),
-        ],
+  const SystemToleranceWidget({required this.data, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDark ? UIColors.darkSurface : Colors.white;
+    final borderColor = isDark
+        ? UIColors.darkBorder
+        : Colors.black.withOpacity(0.05);
+
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+        side: BorderSide(color: borderColor),
       ),
-    ),
-  );
-}
-
-/// Build single bucket row
-Widget _buildBucketRow(
-  String bucket,
-  double percent,
-  ToleranceSystemState state,
-) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 6),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          _formatBucketName(bucket),
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Colors.black87,
-          ),
-        ),
-        Row(
+      color: backgroundColor,
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${percent.toStringAsFixed(1)}%',
+              'System Tolerance',
               style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: _getStateColor(state),
+                fontSize: ThemeConstants.fontMedium,
+                fontWeight: ThemeConstants.fontBold,
+                color: isDark ? UIColors.darkText : UIColors.lightText,
               ),
             ),
-            const SizedBox(width: 8),
-            Text(
-              '— ${state.displayName}',
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.black.withOpacity(0.5),
+            const SizedBox(height: ThemeConstants.space16),
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: kToleranceBuckets.length,
+              separatorBuilder: (context, index) => Divider(
+                height: 1,
+                color: isDark ? UIColors.darkDivider : UIColors.lightDivider,
               ),
+              itemBuilder: (context, index) {
+                final bucket = kToleranceBuckets[index];
+                final percent = data.percents[bucket] ?? 0.0;
+                final state =
+                    data.states[bucket] ?? ToleranceSystemState.recovered;
+                return _buildBucketRow(context, bucket, percent, state);
+              },
             ),
           ],
         ),
-      ],
-    ),
-  );
-}
-
-/// Format bucket name for display
-String _formatBucketName(String bucket) {
-  switch (bucket) {
-    case 'gaba':
-      return 'GABA';
-    case 'stimulant':
-      return 'Stimulant';
-    case 'serotonin':
-      return 'Serotonin';
-    case 'opioid':
-      return 'Opioid';
-    case 'nmda':
-      return 'NMDA';
-    case 'cannabinoid':
-      return 'Cannabinoid';
-    default:
-      return bucket.toUpperCase();
+      ),
+    );
   }
-}
 
-/// Get color for system state
-Color _getStateColor(ToleranceSystemState state) {
-  switch (state) {
-    case ToleranceSystemState.recovered:
-      return Colors.grey;
-    case ToleranceSystemState.lightStress:
-      return Colors.blue;
-    case ToleranceSystemState.moderateStrain:
-      return Colors.orange;
-    case ToleranceSystemState.highStrain:
-      return Colors.red;
-    case ToleranceSystemState.depleted:
-      return Colors.red.shade900;
+  Widget _buildBucketRow(
+    BuildContext context,
+    String bucket,
+    double percent,
+    ToleranceSystemState state,
+  ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
+    final secondaryTextColor = isDark
+        ? UIColors.darkTextSecondary
+        : UIColors.lightTextSecondary;
+
+    // Determine color based on intensity
+    Color valueColor;
+    if (percent < 10) {
+      valueColor = secondaryTextColor; // Neutral
+    } else if (percent < 40) {
+      valueColor = Colors.orange; // Warning
+    } else {
+      valueColor = Colors.red; // Critical
+    }
+
+    return InkWell(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) => SystemToleranceBreakdownSheet(
+            bucketName: bucket,
+            currentPercent: percent,
+            accentColor: _getStateColor(state),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+        child: Row(
+          children: [
+            // Icon
+            Icon(_getBucketIcon(bucket), size: 20, color: secondaryTextColor),
+            const SizedBox(width: 12),
+
+            // Name
+            Expanded(
+              child: Text(
+                _formatBucketName(bucket),
+                style: TextStyle(
+                  fontSize: ThemeConstants.fontSmall,
+                  fontWeight: ThemeConstants.fontMediumWeight,
+                  color: textColor,
+                ),
+              ),
+            ),
+
+            // Value
+            Text(
+              '${percent.toStringAsFixed(1)}%',
+              style: TextStyle(
+                fontSize: ThemeConstants.fontMedium,
+                fontWeight: ThemeConstants.fontBold,
+                color: valueColor,
+              ),
+            ),
+            const SizedBox(width: 8),
+
+            // Badge
+            _buildStateBadge(state, isDark),
+
+            const SizedBox(width: 4),
+            Icon(
+              Icons.chevron_right,
+              size: 16,
+              color: secondaryTextColor.withOpacity(0.5),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStateBadge(ToleranceSystemState state, bool isDark) {
+    if (state == ToleranceSystemState.recovered) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        decoration: BoxDecoration(
+          color: isDark
+              ? Colors.green.withOpacity(0.1)
+              : Colors.green.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isDark
+                ? Colors.green.withOpacity(0.3)
+                : Colors.green.withOpacity(0.2),
+            width: 0.5,
+          ),
+        ),
+        child: Text(
+          'Recovered',
+          style: TextStyle(
+            fontSize: 10,
+            fontWeight: ThemeConstants.fontMediumWeight,
+            color: isDark ? Colors.greenAccent : Colors.green[700],
+          ),
+        ),
+      );
+    }
+
+    // For other states, we can just show the text or a different badge
+    // But per requirements, we mainly wanted to replace "Recovered" text with a badge
+    // Let's use badges for all for consistency
+
+    Color color = _getStateColor(state);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.3), width: 0.5),
+      ),
+      child: Text(
+        state.displayName,
+        style: TextStyle(
+          fontSize: 10,
+          fontWeight: ThemeConstants.fontMediumWeight,
+          color: color,
+        ),
+      ),
+    );
+  }
+
+  IconData _getBucketIcon(String bucket) {
+    switch (bucket.toLowerCase()) {
+      case 'gaba':
+        return Icons.psychology;
+      case 'stimulant':
+        return Icons.bolt;
+      case 'serotonin':
+        return Icons.sentiment_satisfied_alt;
+      case 'opioid':
+        return Icons.medication;
+      case 'nmda':
+        return Icons.blur_on;
+      case 'cannabinoid':
+        return Icons.eco;
+      default:
+        return Icons.science;
+    }
+  }
+
+  String _formatBucketName(String bucket) {
+    switch (bucket.toLowerCase()) {
+      case 'gaba':
+        return 'GABA';
+      case 'stimulant':
+        return 'Stimulant';
+      case 'serotonin':
+        return 'Serotonin';
+      case 'opioid':
+        return 'Opioid';
+      case 'nmda':
+        return 'NMDA';
+      case 'cannabinoid':
+        return 'Cannabinoid';
+      default:
+        return bucket.toUpperCase();
+    }
+  }
+
+  Color _getStateColor(ToleranceSystemState state) {
+    switch (state) {
+      case ToleranceSystemState.recovered:
+        return Colors.green;
+      case ToleranceSystemState.lightStress:
+        return Colors.blue;
+      case ToleranceSystemState.moderateStrain:
+        return Colors.orange;
+      case ToleranceSystemState.highStrain:
+        return Colors.deepOrange;
+      case ToleranceSystemState.depleted:
+        return Colors.red;
+    }
   }
 }

@@ -87,11 +87,11 @@ class ToleranceEngineService {
       }
 
       for (final row in response as List) {
-  final name = (row['name'] as String?)?.trim();
+        final name = (row['name'] as String?)?.trim();
         final timestampString = row['start_time'] as String?;
         final rawDose = row['dose'];
 
-  if (name == null || timestampString == null) continue;
+        if (name == null || timestampString == null) continue;
 
         final timestamp = DateTime.tryParse(timestampString);
         if (timestamp == null) continue;
@@ -99,13 +99,15 @@ class ToleranceEngineService {
         final doseUnits = _parseDose(rawDose);
 
         // Attempt to map the recorded name to a slug if we have a mapping.
-  final mappedSlug = nameToSlug[name.toLowerCase()] ?? name;
+        final mappedSlug = nameToSlug[name.toLowerCase()] ?? name;
 
-        logs.add(UseLogEntry(
-          substanceSlug: mappedSlug,
-          timestamp: timestamp,
-          doseUnits: doseUnits,
-        ));
+        logs.add(
+          UseLogEntry(
+            substanceSlug: mappedSlug,
+            timestamp: timestamp,
+            doseUnits: doseUnits,
+          ),
+        );
       }
 
       ErrorHandler.logInfo(
@@ -188,9 +190,7 @@ class ToleranceEngineService {
       daysBack: daysBack,
     );
 
-    return ToleranceCalculator.computeAllBucketStates(
-      tolerances: tolerances,
-    );
+    return ToleranceCalculator.computeAllBucketStates(tolerances: tolerances);
   }
 
   /// Compute a simple tolerance percentage per substance for debug
@@ -233,12 +233,16 @@ class ToleranceEngineService {
         }
 
         // Sum of weights across neuro buckets
-        final weightSum = model.neuroBuckets.values.fold<double>(0.0, (s, b) => s + b.weight);
-  final halfLife = model.halfLifeHours;
+        final weightSum = model.neuroBuckets.values.fold<double>(
+          0.0,
+          (s, b) => s + b.weight,
+        );
+        final halfLife = model.halfLifeHours;
 
         var rawLoad = 0.0;
         for (final logEntry in logs) {
-          final hoursSince = now.difference(logEntry.timestamp).inMinutes / 60.0;
+          final hoursSince =
+              now.difference(logEntry.timestamp).inMinutes / 60.0;
           if (hoursSince < 0) continue;
           final decay = halfLife > 0 ? math.exp(-hoursSince / halfLife) : 0.0;
           rawLoad += logEntry.doseUnits * weightSum * decay;
@@ -250,13 +254,16 @@ class ToleranceEngineService {
 
       // Sort map by percent desc when returned (stable)
       final sorted = Map.fromEntries(
-        map.entries.toList()
-          ..sort((a, b) => b.value.compareTo(a.value)),
+        map.entries.toList()..sort((a, b) => b.value.compareTo(a.value)),
       );
 
       return sorted;
     } catch (e, stackTrace) {
-      ErrorHandler.logError('ToleranceEngineService.computePerSubstanceTolerances', e, stackTrace);
+      ErrorHandler.logError(
+        'ToleranceEngineService.computePerSubstanceTolerances',
+        e,
+        stackTrace,
+      );
       return {};
     }
   }
@@ -295,12 +302,115 @@ class ToleranceEngineService {
     return 0.0;
   }
 
+  /// Get breakdown of which substances are contributing to a specific bucket's load
+  /// Returns List of (Substance Name, Percent Contribution, Relative Impact Score)
+  static Future<List<ToleranceContribution>> getBucketBreakdown({
+    required int userId,
+    required String bucketName,
+    int daysBack = 30,
+  }) async {
+    try {
+      final results = await Future.wait([
+        fetchAllToleranceModels(),
+        fetchUseLogs(userId: userId, daysBack: daysBack),
+        _supabase.from('drug_profiles').select('slug, pretty_name, name'),
+      ]);
+
+      final toleranceModels = results[0] as Map<String, ToleranceModel>;
+      final useLogs = results[1] as List<UseLogEntry>;
+      final profilesData = results[2] as List<dynamic>;
+
+      // Build slug -> pretty name map
+      final slugToName = <String, String>{};
+      for (final row in profilesData) {
+        final slug = row['slug'] as String?;
+        final pretty = row['pretty_name'] as String?;
+        final name = row['name'] as String?;
+        if (slug != null) {
+          slugToName[slug] = pretty ?? name ?? slug;
+        }
+      }
+
+      if (useLogs.isEmpty) return [];
+
+      final now = DateTime.now();
+      final contributions = <String, double>{};
+      double totalRawLoad = 0.0;
+
+      // Calculate raw load per substance for this bucket
+      for (final log in useLogs) {
+        final model = toleranceModels[log.substanceSlug];
+        if (model == null) continue;
+
+        final neuroBucket = model.neuroBuckets[bucketName];
+        if (neuroBucket == null) continue;
+
+        final hoursSince = now.difference(log.timestamp).inMinutes / 60.0;
+        if (hoursSince < 0) continue;
+
+        final weight = neuroBucket.weight;
+        final halfLife = model.halfLifeHours;
+
+        if (halfLife <= 0) continue;
+
+        final decayFactor = math.exp(-hoursSince / halfLife);
+        final load = log.doseUnits * weight * decayFactor;
+
+        contributions[log.substanceSlug] =
+            (contributions[log.substanceSlug] ?? 0.0) + load;
+        totalRawLoad += load;
+      }
+
+      if (totalRawLoad <= 0) return [];
+
+      // Convert to list of contribution objects
+      final result = <ToleranceContribution>[];
+
+      for (final entry in contributions.entries) {
+        final slug = entry.key;
+        final rawLoad = entry.value;
+        final percentContribution = (rawLoad / totalRawLoad) * 100;
+
+        result.add(
+          ToleranceContribution(
+            substanceName: slugToName[slug] ?? slug,
+            percentContribution: percentContribution,
+            rawLoad: rawLoad,
+          ),
+        );
+      }
+
+      // Sort by contribution descending
+      result.sort((a, b) => b.rawLoad.compareTo(a.rawLoad));
+
+      return result;
+    } catch (e, stackTrace) {
+      ErrorHandler.logError(
+        'ToleranceEngineService.getBucketBreakdown',
+        e,
+        stackTrace,
+      );
+      return [];
+    }
+  }
+
   /// Return empty buckets map
   static Map<String, double> _emptyBuckets() {
-    return {
-      for (final bucket in kToleranceBuckets) bucket: 0.0,
-    };
+    return {for (final bucket in kToleranceBuckets) bucket: 0.0};
   }
+}
+
+/// Data class for tolerance breakdown
+class ToleranceContribution {
+  final String substanceName;
+  final double percentContribution; // 0-100% of the total load
+  final double rawLoad; // The actual load value
+
+  const ToleranceContribution({
+    required this.substanceName,
+    required this.percentContribution,
+    required this.rawLoad,
+  });
 }
 
 /// Tolerance report containing percentages and states

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../models/tolerance_model.dart';
 import '../services/tolerance_service.dart';
 import '../services/user_service.dart';
@@ -11,6 +10,8 @@ import '../widgets/tolerance/tolerance_stats_card.dart';
 import '../widgets/tolerance/tolerance_notes_card.dart';
 import '../widgets/tolerance/recent_uses_card.dart';
 import '../widgets/tolerance/debug_substance_list.dart';
+import '../constants/theme_constants.dart';
+import '../constants/ui_colors.dart';
 
 class ToleranceDashboardPage extends StatefulWidget {
   final String? initialSubstance;
@@ -168,9 +169,17 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDark
+        ? UIColors.darkBackground
+        : UIColors.lightBackground;
+
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: const Text('Tolerance dashboard'),
+        backgroundColor: isDark ? UIColors.darkSurface : Colors.white,
+        elevation: 0,
         actions: [
           // Debug toggle
           IconButton(
@@ -191,48 +200,89 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       ),
       body: _isLoadingOptions
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16),
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DropdownButtonFormField<String>(
-                    key: ValueKey(_selectedSubstance),
-                    initialValue: _selectedSubstance,
-                    decoration: const InputDecoration(
-                      labelText: 'Substance',
-                      border: OutlineInputBorder(),
-                    ),
-                    items: _substances
-                        .map(
-                          (name) =>
-                              DropdownMenuItem(value: name, child: Text(name)),
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() => _selectedSubstance = value);
-                      if (value != null) {
-                        _loadMetrics(value);
-                      }
-                    },
-                  ),
+                  _buildSubstanceDropdown(isDark),
+
                   if (_substances.isEmpty)
-                    const Padding(
-                      padding: EdgeInsets.only(top: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: ThemeConstants.space16,
+                      ),
                       child: Text(
                         'Log entries with substance names to see tolerance insights.',
+                        style: TextStyle(
+                          color: isDark
+                              ? UIColors.darkTextSecondary
+                              : UIColors.lightTextSecondary,
+                        ),
                       ),
                     ),
-                  const SizedBox(height: 16),
+
+                  const SizedBox(height: ThemeConstants.cardSpacing),
+
                   if (_isLoadingMetrics)
-                    const Expanded(
-                      child: Center(child: CircularProgressIndicator()),
-                    )
+                    const Center(child: CircularProgressIndicator())
                   else
-                    Expanded(child: _buildContent()),
+                    _buildContent(),
                 ],
               ),
             ),
+    );
+  }
+
+  Widget _buildSubstanceDropdown(bool isDark) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: ThemeConstants.space16,
+        vertical: 4,
+      ),
+      decoration: BoxDecoration(
+        color: isDark ? UIColors.darkSurface : Colors.white,
+        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+        border: Border.all(
+          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+        ),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          key: ValueKey(_selectedSubstance),
+          value: _selectedSubstance,
+          isExpanded: true,
+          icon: Icon(
+            Icons.keyboard_arrow_down_rounded,
+            color: isDark
+                ? UIColors.darkTextSecondary
+                : UIColors.lightTextSecondary,
+          ),
+          dropdownColor: isDark ? UIColors.darkSurface : Colors.white,
+          style: TextStyle(
+            fontSize: ThemeConstants.fontMedium,
+            fontWeight: ThemeConstants.fontMediumWeight,
+            color: isDark ? UIColors.darkText : UIColors.lightText,
+          ),
+          hint: Text(
+            'Select Substance',
+            style: TextStyle(
+              color: isDark
+                  ? UIColors.darkTextSecondary
+                  : UIColors.lightTextSecondary,
+            ),
+          ),
+          items: _substances
+              .map((name) => DropdownMenuItem(value: name, child: Text(name)))
+              .toList(),
+          onChanged: (value) {
+            setState(() => _selectedSubstance = value);
+            if (value != null) {
+              _loadMetrics(value);
+            }
+          },
+        ),
+      ),
     );
   }
 
@@ -243,35 +293,46 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       );
     }
 
-    return ListView(
-      padding: const EdgeInsets.only(bottom: 24),
+    return Column(
       children: [
         // 1. Current Tolerance (Top priority)
         if (_toleranceModel != null)
           ToleranceSummaryCard(currentTolerance: _currentTolerance),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: ThemeConstants.cardSpacing),
 
         // 2. System Tolerance
         if (_isLoadingSystemTolerance)
           const Card(
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
               child: Center(child: CircularProgressIndicator()),
             ),
           )
         else if (_systemToleranceData != null)
-          buildSystemToleranceSection(_systemToleranceData!),
+          SystemToleranceWidget(data: _systemToleranceData!),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: ThemeConstants.cardSpacing),
 
         // 3. Key Metrics & Notes
         if (_errorMessage != null)
           Card(
-            color: Colors.grey.shade100,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? UIColors.darkSurface
+                : Colors.grey.shade100,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+            ),
             child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(_errorMessage!),
+              padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+              child: Text(
+                _errorMessage!,
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? UIColors.darkTextSecondary
+                      : Colors.black54,
+                ),
+              ),
             ),
           ),
 
@@ -281,9 +342,9 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
             daysUntilBaseline: _daysUntilBaseline,
             recentUseCount: _useEvents.length,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: ThemeConstants.cardSpacing),
           ToleranceNotesCard(notes: _toleranceModel!.notes),
-          const SizedBox(height: 16),
+          const SizedBox(height: ThemeConstants.cardSpacing),
         ],
 
         // 4. Recent Uses
@@ -294,12 +355,14 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
 
         // Debug per-substance tolerance table
         if (_showDebugSubstances) ...[
-          const SizedBox(height: 12),
+          const SizedBox(height: ThemeConstants.space12),
           DebugSubstanceList(
             perSubstanceTolerances: _perSubstanceTolerances,
             isLoading: _isLoadingPerSubstance,
           ),
         ],
+
+        const SizedBox(height: ThemeConstants.space32),
       ],
     );
   }
