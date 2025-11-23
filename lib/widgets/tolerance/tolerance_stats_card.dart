@@ -16,38 +16,84 @@ class ToleranceStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: isDark ? Colors.white10 : Colors.black.withOpacity(0.05),
+        ),
+      ),
+      color: isDark ? const Color(0xFF1E1E2C) : Colors.white,
+      margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Key metrics', style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 12),
-            _buildMetricRow('Half-life', '${toleranceModel.halfLifeHours} h'),
-            _buildMetricRow('Tolerance decay', '${toleranceModel.toleranceDecayDays} days'),
-            _buildMetricRow('Days until baseline', daysUntilBaseline.toStringAsFixed(1)),
-            _buildMetricRow('Recent uses (30 d)', recentUseCount.toString()),
+            Text(
+              'Key metrics',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: isDark ? Colors.white70 : Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildMetricRow(
+              context,
+              'Half-life',
+              '${toleranceModel.halfLifeHours} h',
+            ),
+            const Divider(height: 24, thickness: 0.5),
+            _buildMetricRow(
+              context,
+              'Tolerance decay',
+              '${toleranceModel.toleranceDecayDays} days',
+            ),
+            const Divider(height: 24, thickness: 0.5),
+            _buildMetricRow(
+              context,
+              'Days until baseline',
+              daysUntilBaseline.toStringAsFixed(1),
+            ),
+            const Divider(height: 24, thickness: 0.5),
+            _buildMetricRow(
+              context,
+              'Recent uses (30 d)',
+              recentUseCount.toString(),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildMetricRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label),
-          Text(
-            value,
-            style: const TextStyle(fontWeight: FontWeight.w600),
+  Widget _buildMetricRow(BuildContext context, String label, String value) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: isDark ? Colors.white60 : Colors.black54,
           ),
-        ],
-      ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: isDark ? Colors.white : Colors.black87,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -21,7 +21,8 @@ class ErrorReporter {
   ErrorReporter._();
 
   static final ErrorReporter instance = ErrorReporter._();
-  static final ErrorLoggingService _loggingService = ErrorLoggingService.instance;
+  static final ErrorLoggingService _loggingService =
+      ErrorLoggingService.instance;
 
   SupabaseClient get _client => Supabase.instance.client;
 
@@ -50,13 +51,15 @@ class ErrorReporter {
     if (errorString.contains('connection') || errorString.contains('timeout')) {
       return ErrorSeverity.high;
     }
-    if (errorString.contains('unauthorized') || errorString.contains('forbidden')) {
+    if (errorString.contains('unauthorized') ||
+        errorString.contains('forbidden')) {
       return ErrorSeverity.high;
     }
     if (errorString.contains('database') || errorString.contains('postgrest')) {
       return ErrorSeverity.high;
     }
-    if (errorString.contains('authentication') || errorString.contains('auth')) {
+    if (errorString.contains('authentication') ||
+        errorString.contains('auth')) {
       return ErrorSeverity.high;
     }
     if (error is PostgrestException) {
@@ -88,6 +91,11 @@ class ErrorReporter {
       return ErrorSeverity.low;
     }
     if (errorString.contains('cache')) {
+      return ErrorSeverity.low;
+    }
+    // UI Rendering issues are low severity
+    if (errorString.contains('renderflex') ||
+        errorString.contains('overflowed')) {
       return ErrorSeverity.low;
     }
 
@@ -133,7 +141,8 @@ class ErrorReporter {
     if (errorString.contains('network')) {
       return 'NETWORK_ERROR';
     }
-    if (errorString.contains('authentication') || errorString.contains('auth')) {
+    if (errorString.contains('authentication') ||
+        errorString.contains('auth')) {
       return 'AUTH_ERROR';
     }
     if (errorString.contains('unauthorized')) {
@@ -165,6 +174,10 @@ class ErrorReporter {
     }
     if (errorString.contains('cache')) {
       return 'CACHE_ERROR';
+    }
+    if (errorString.contains('renderflex') ||
+        errorString.contains('overflowed')) {
+      return 'UI_OVERFLOW';
     }
 
     // Fallback to generic type-based code
@@ -213,13 +226,18 @@ class ErrorReporter {
 
     try {
       await _client.from('error_logs').insert(payload);
-      
+
       debugPrint('═' * 80);
-      debugPrint('ERROR REPORTED: [$errorCode] ${severity.value.toUpperCase()}');
+      debugPrint(
+        'ERROR REPORTED: [$errorCode] ${severity.value.toUpperCase()}',
+      );
       debugPrint('Screen: ${payload['screen_name']}');
       if (context != null) debugPrint('Context: $context');
       debugPrint('Error: $error');
-      if (stackTrace != null) debugPrint('Stack: ${stackTrace.toString().split('\n').take(5).join('\n')}');
+      if (stackTrace != null)
+        debugPrint(
+          'Stack: ${stackTrace.toString().split('\n').take(5).join('\n')}',
+        );
       debugPrint('═' * 80);
     } catch (insertError, insertStackTrace) {
       debugPrint('Failed to report error to Supabase: $insertError');
@@ -249,11 +267,7 @@ class ErrorReporter {
     dynamic error, [
     StackTrace? stackTrace,
   ]) async {
-    return reportError(
-      error: error,
-      stackTrace: stackTrace,
-      context: context,
-    );
+    return reportError(error: error, stackTrace: stackTrace, context: context);
   }
 
   /// Wrap a function with automatic error reporting

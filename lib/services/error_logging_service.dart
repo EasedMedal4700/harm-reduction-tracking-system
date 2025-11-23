@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../utils/error_reporter.dart';
+
 /// Centralized error logging that pushes failures into the `error_logs` table.
 class ErrorLoggingService {
   ErrorLoggingService._();
@@ -31,10 +33,7 @@ class ErrorLoggingService {
   Future<void> init() async {
     if (_initialized) return;
     _initialized = true;
-    await Future.wait([
-      _loadAppVersion(),
-      _loadDeviceMetadata(),
-    ]);
+    await Future.wait([_loadAppVersion(), _loadDeviceMetadata()]);
   }
 
   Future<void> _loadAppVersion() async {
@@ -60,7 +59,8 @@ class ErrorLoggingService {
         case TargetPlatform.android:
           final info = await _deviceInfo.androidInfo;
           _platform = 'android';
-          _osVersion = 'Android ${info.version.release} (SDK ${info.version.sdkInt})';
+          _osVersion =
+              'Android ${info.version.release} (SDK ${info.version.sdkInt})';
           _deviceModel = '${info.manufacturer} ${info.model}';
           return;
         case TargetPlatform.iOS:
@@ -83,8 +83,8 @@ class ErrorLoggingService {
           _osVersion = (displayVersion != null && displayVersion.isNotEmpty)
               ? displayVersion
               : ((productName != null && productName.isNotEmpty)
-                  ? productName
-                  : 'unknown');
+                    ? productName
+                    : 'unknown');
           _deviceModel = info.computerName;
           return;
         case TargetPlatform.linux:
@@ -96,8 +96,8 @@ class ErrorLoggingService {
           _osVersion = (prettyName != null && prettyName.isNotEmpty)
               ? prettyName
               : ((version != null && version.isNotEmpty)
-                  ? version
-                  : (id ?? 'unknown'));
+                    ? version
+                    : (id ?? 'unknown'));
           _deviceModel = info.machineId ?? 'unknown';
           return;
         case TargetPlatform.fuchsia:
@@ -125,25 +125,14 @@ class ErrorLoggingService {
     StackTrace? stackTrace,
     Map<String, dynamic>? extraData,
   }) async {
-    final payload = <String, dynamic>{
-      'user_id': _client.auth.currentUser?.id,
-      'app_version': _appVersion,
-      'platform': _platform,
-      'os_version': _osVersion,
-      'device_model': _deviceModel,
-      'screen_name': screenName ?? _currentScreen,
-      'error_message': error.toString(),
-      'stacktrace': stackTrace?.toString(),
-      'extra_data': extraData ?? <String, dynamic>{},
-    };
-
-    try {
-      await _client.from('error_logs').insert(payload);
-    } catch (insertError, insertStackTrace) {
-      debugPrint(
-        'Failed to write to error_logs: $insertError\n$insertStackTrace',
-      );
-    }
+    // Delegate to ErrorReporter to ensure consistent severity and error codes.
+    // ErrorReporter handles the actual Supabase insertion.
+    await ErrorReporter.instance.reportError(
+      error: error,
+      stackTrace: stackTrace,
+      screenName: screenName,
+      extraData: extraData,
+    );
   }
 
   /// Wraps an async operation so any caught error is automatically logged.

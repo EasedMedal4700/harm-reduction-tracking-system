@@ -70,7 +70,9 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
     if (_userId == null) return;
     setState(() => _isLoadingPerSubstance = true);
     try {
-      final values = await ToleranceEngineService.computePerSubstanceTolerances(userId: _userId!);
+      final values = await ToleranceEngineService.computePerSubstanceTolerances(
+        userId: _userId!,
+      );
       if (!mounted) return;
       setState(() {
         _perSubstanceTolerances = values;
@@ -97,7 +99,9 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       setState(() {
         _userId = userId;
         _substances = options;
-        _selectedSubstance = widget.initialSubstance ?? (options.isNotEmpty ? options.first : null);
+        _selectedSubstance =
+            widget.initialSubstance ??
+            (options.isNotEmpty ? options.first : null);
         _isLoadingOptions = false;
       });
 
@@ -170,7 +174,11 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
         actions: [
           // Debug toggle
           IconButton(
-            icon: Icon(_showDebugSubstances ? Icons.bug_report : Icons.bug_report_outlined),
+            icon: Icon(
+              _showDebugSubstances
+                  ? Icons.bug_report
+                  : Icons.bug_report_outlined,
+            ),
             onPressed: () async {
               setState(() => _showDebugSubstances = !_showDebugSubstances);
               if (_showDebugSubstances) {
@@ -197,10 +205,8 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
                     ),
                     items: _substances
                         .map(
-                          (name) => DropdownMenuItem(
-                            value: name,
-                            child: Text(name),
-                          ),
+                          (name) =>
+                              DropdownMenuItem(value: name, child: Text(name)),
                         )
                         .toList(),
                     onChanged: (value) {
@@ -219,11 +225,11 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
                     ),
                   const SizedBox(height: 16),
                   if (_isLoadingMetrics)
-                    const Expanded(child: Center(child: CircularProgressIndicator()))
+                    const Expanded(
+                      child: Center(child: CircularProgressIndicator()),
+                    )
                   else
-                    Expanded(
-                      child: _buildContent(),
-                    ),
+                    Expanded(child: _buildContent()),
                 ],
               ),
             ),
@@ -232,12 +238,21 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
 
   Widget _buildContent() {
     if (_selectedSubstance == null) {
-      return const Center(child: Text('Select a substance to view tolerance data.'));
+      return const Center(
+        child: Text('Select a substance to view tolerance data.'),
+      );
     }
 
     return ListView(
+      padding: const EdgeInsets.only(bottom: 24),
       children: [
-        // System-wide tolerance section
+        // 1. Current Tolerance (Top priority)
+        if (_toleranceModel != null)
+          ToleranceSummaryCard(currentTolerance: _currentTolerance),
+
+        const SizedBox(height: 16),
+
+        // 2. System Tolerance
         if (_isLoadingSystemTolerance)
           const Card(
             child: Padding(
@@ -247,9 +262,10 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
           )
         else if (_systemToleranceData != null)
           buildSystemToleranceSection(_systemToleranceData!),
+
         const SizedBox(height: 16),
-        
-        // Per-substance tolerance section
+
+        // 3. Key Metrics & Notes
         if (_errorMessage != null)
           Card(
             color: Colors.grey.shade100,
@@ -258,19 +274,24 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
               child: Text(_errorMessage!),
             ),
           ),
+
         if (_toleranceModel != null) ...[
-          ToleranceSummaryCard(currentTolerance: _currentTolerance),
           ToleranceStatsCard(
             toleranceModel: _toleranceModel!,
             daysUntilBaseline: _daysUntilBaseline,
             recentUseCount: _useEvents.length,
           ),
+          const SizedBox(height: 16),
           ToleranceNotesCard(notes: _toleranceModel!.notes),
+          const SizedBox(height: 16),
         ],
+
+        // 4. Recent Uses
         RecentUsesCard(
           useEvents: _useEvents,
           substanceName: _selectedSubstance,
         ),
+
         // Debug per-substance tolerance table
         if (_showDebugSubstances) ...[
           const SizedBox(height: 12),

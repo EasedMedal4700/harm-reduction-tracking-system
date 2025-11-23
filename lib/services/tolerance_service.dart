@@ -19,25 +19,35 @@ class ToleranceService {
       for (final row in response as List) {
         final name = (row['name'] as String?)?.trim();
         if (name != null && name.isNotEmpty) {
-          names.add(name);
+          // Normalize to Title Case to merge "dexedrine" and "Dexedrine"
+          final normalized = name.length > 1
+              ? name[0].toUpperCase() + name.substring(1).toLowerCase()
+              : name.toUpperCase();
+          names.add(normalized);
         }
       }
       final sorted = names.toList()..sort();
       return sorted;
     } catch (e, stackTrace) {
-      ErrorHandler.logError('ToleranceService.fetchUserSubstances', e, stackTrace);
+      ErrorHandler.logError(
+        'ToleranceService.fetchUserSubstances',
+        e,
+        stackTrace,
+      );
       return [];
     }
   }
 
   /// Fetch tolerance model for a specific substance
-  static Future<ToleranceModel?> fetchToleranceData(String substanceName) async {
+  static Future<ToleranceModel?> fetchToleranceData(
+    String substanceName,
+  ) async {
     if (substanceName.isEmpty) return null;
     try {
       final response = await _supabase
           .from('drug_profiles')
           .select('tolerance_model, properties')
-          .or('name.eq.$substanceName,pretty_name.eq.$substanceName')
+          .or('name.ilike.$substanceName,pretty_name.ilike.$substanceName')
           .maybeSingle();
 
       if (response == null) {
@@ -50,7 +60,7 @@ class ToleranceService {
 
       // First check tolerance_model column
       var toleranceJson = response['tolerance_model'] as Map<String, dynamic>?;
-      
+
       // Fallback to properties.tolerance_data for backward compatibility
       if (toleranceJson == null) {
         final properties = response['properties'] as Map<String, dynamic>?;
@@ -67,10 +77,18 @@ class ToleranceService {
 
       return ToleranceModel.fromJson(toleranceJson);
     } on PostgrestException catch (e, stackTrace) {
-      ErrorHandler.logError('ToleranceService.fetchToleranceData', e, stackTrace);
+      ErrorHandler.logError(
+        'ToleranceService.fetchToleranceData',
+        e,
+        stackTrace,
+      );
       return null;
     } catch (e, stackTrace) {
-      ErrorHandler.logError('ToleranceService.fetchToleranceData', e, stackTrace);
+      ErrorHandler.logError(
+        'ToleranceService.fetchToleranceData',
+        e,
+        stackTrace,
+      );
       return null;
     }
   }
@@ -89,14 +107,16 @@ class ToleranceService {
           .from('drug_use')
           .select('start_time, dose, name')
           .eq('user_id', userId)
-          .eq('name', substanceName)
+          .ilike('name', substanceName) // Case insensitive match
           .gte('start_time', cutoffDate.toIso8601String())
           .order('start_time', ascending: false);
 
       final events = <UseEvent>[];
       for (final row in response as List) {
         final timestampString = row['start_time'] as String?;
-        final timestamp = timestampString != null ? DateTime.tryParse(timestampString) : null;
+        final timestamp = timestampString != null
+            ? DateTime.tryParse(timestampString)
+            : null;
         if (timestamp == null) {
           continue;
         }

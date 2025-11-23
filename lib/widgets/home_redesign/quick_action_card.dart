@@ -57,11 +57,7 @@ class _QuickActionCardState extends State<QuickActionCard> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // Icon - centered
-                    Icon(
-                      widget.icon,
-                      size: 32,
-                      color: accentColor,
-                    ),
+                    Icon(widget.icon, size: 32, color: accentColor),
                     const SizedBox(height: ThemeConstants.space12),
                     // Label - centered
                     Text(
@@ -72,16 +68,14 @@ class _QuickActionCardState extends State<QuickActionCard> {
                       style: TextStyle(
                         fontSize: ThemeConstants.fontSmall,
                         fontWeight: ThemeConstants.fontSemiBold,
-                        color: isDark
-                            ? UIColors.darkText
-                            : UIColors.lightText,
+                        color: isDark ? UIColors.darkText : UIColors.lightText,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            
+
             // Badge
             if (widget.badgeCount != null && widget.badgeCount! > 0)
               Positioned(
@@ -101,9 +95,7 @@ class _QuickActionCardState extends State<QuickActionCard> {
                   child: Text(
                     widget.badgeCount! > 99 ? '99+' : '${widget.badgeCount}',
                     style: TextStyle(
-                      color: isDark
-                          ? UIColors.darkBackground
-                          : Colors.white,
+                      color: isDark ? UIColors.darkBackground : Colors.white,
                       fontSize: ThemeConstants.fontXSmall,
                       fontWeight: ThemeConstants.fontBold,
                     ),
@@ -118,19 +110,33 @@ class _QuickActionCardState extends State<QuickActionCard> {
 
   BoxDecoration _buildDecoration(bool isDark, Color accentColor) {
     if (isDark) {
-      // Dark theme: glassmorphism with subtle accent glow
+      // Dark theme: glassmorphism with subtle accent glow and gradient
       return BoxDecoration(
-        color: const Color(0x0AFFFFFF), // rgba(255,255,255,0.04)
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            UIColors.darkSurface.withValues(alpha: 0.8),
+            UIColors.darkSurface.withValues(alpha: 0.6),
+          ],
+        ),
         borderRadius: BorderRadius.circular(ThemeConstants.quickActionRadius),
         border: Border.all(
           color: _isPressed
-              ? accentColor.withValues(alpha: 0.3)
-              : const Color(0x14FFFFFF), // rgba(255,255,255,0.08)
+              ? accentColor.withValues(alpha: 0.5)
+              : UIColors.darkBorder,
           width: 1,
         ),
         boxShadow: _isPressed
-            ? UIColors.createNeonGlow(accentColor, intensity: 0.3)
-            : UIColors.createNeonGlow(accentColor, intensity: 0.15),
+            ? UIColors.createNeonGlow(accentColor, intensity: 0.4)
+            : [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.3),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+                ...UIColors.createNeonGlow(accentColor, intensity: 0.1),
+              ],
       );
     } else {
       // Light theme: white card + soft shadow

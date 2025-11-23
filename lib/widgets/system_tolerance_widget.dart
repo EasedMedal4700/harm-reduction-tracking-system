@@ -14,20 +14,33 @@ class SystemToleranceData {
 /// Load system tolerance data for current user
 Future<SystemToleranceData> loadSystemToleranceData() async {
   final userId = await UserService.getIntegerUserId();
-  final report = await ToleranceEngineService.getToleranceReport(userId: userId);
+  final report = await ToleranceEngineService.getToleranceReport(
+    userId: userId,
+  );
   return SystemToleranceData(report.tolerances, report.states);
 }
 
 /// Minimal widget to display system-wide tolerance
 Widget buildSystemToleranceSection(SystemToleranceData data) {
-  return Container(
+  // We can't easily access context here since it's a function,
+  // but we can infer dark mode if needed or just use neutral colors.
+  // Ideally this should be a StatelessWidget to access Theme.
+  // For now, we'll use a generic card style.
+
+  return Card(
+    elevation: 0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+      side: BorderSide(color: Colors.black.withOpacity(0.05)),
+    ),
     color: Colors.white,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(12),
-          child: Text(
+    margin: EdgeInsets.zero,
+    child: Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
             'System Tolerance',
             style: TextStyle(
               fontSize: 16,
@@ -35,24 +48,28 @@ Widget buildSystemToleranceSection(SystemToleranceData data) {
               color: Colors.black87,
             ),
           ),
-        ),
-        ...kToleranceBuckets.map((bucket) {
-          final percent = data.percents[bucket] ?? 0.0;
-          final state = data.states[bucket] ?? ToleranceSystemState.recovered;
-          return _buildBucketRow(bucket, percent, state);
-        }),
-        const SizedBox(height: 12),
-      ],
+          const SizedBox(height: 12),
+          ...kToleranceBuckets.map((bucket) {
+            final percent = data.percents[bucket] ?? 0.0;
+            final state = data.states[bucket] ?? ToleranceSystemState.recovered;
+            return _buildBucketRow(bucket, percent, state);
+          }),
+        ],
+      ),
     ),
   );
 }
 
 /// Build single bucket row
-Widget _buildBucketRow(String bucket, double percent, ToleranceSystemState state) {
+Widget _buildBucketRow(
+  String bucket,
+  double percent,
+  ToleranceSystemState state,
+) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    padding: const EdgeInsets.symmetric(vertical: 6),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           _formatBucketName(bucket),
@@ -62,13 +79,25 @@ Widget _buildBucketRow(String bucket, double percent, ToleranceSystemState state
             color: Colors.black87,
           ),
         ),
-        const SizedBox(height: 2),
-        Text(
-          '${percent.toStringAsFixed(1)}% — ${state.displayName}',
-          style: TextStyle(
-            fontSize: 13,
-            color: _getStateColor(state),
-          ),
+        Row(
+          children: [
+            Text(
+              '${percent.toStringAsFixed(1)}%',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: _getStateColor(state),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '— ${state.displayName}',
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.black.withOpacity(0.5),
+              ),
+            ),
+          ],
         ),
       ],
     ),
