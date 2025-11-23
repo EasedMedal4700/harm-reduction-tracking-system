@@ -7,7 +7,7 @@ class DrugDataParser {
     if (raw is List) {
       return raw.map((item) => item.toString()).toList();
     }
-    
+
     if (raw is String && raw.isNotEmpty) {
       try {
         final decoded = jsonDecode(raw);
@@ -18,10 +18,23 @@ class DrugDataParser {
         return [raw];
       }
     }
-    
+
     return const ['Unknown'];
   }
 
   /// Normalize drug name (trim and lowercase)
   static String normalizeName(String name) => name.trim().toLowerCase();
+
+  /// Convert string to Title Case
+  static String toTitleCase(String text) {
+    if (text.isEmpty) return text;
+    return text
+        .split(' ')
+        .map(
+          (word) => word.isNotEmpty
+              ? '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}'
+              : '',
+        )
+        .join(' ');
+  }
 }

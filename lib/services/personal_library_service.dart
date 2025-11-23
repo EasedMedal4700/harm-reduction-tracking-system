@@ -19,54 +19,77 @@ class PersonalLibraryService {
       for (final entry in entries) {
         final name = (entry['name'] as String?)?.trim();
         if (name == null || name.isEmpty) continue;
-        grouped.putIfAbsent(name, () => []).add(entry);
+        // Group by normalized name to handle case variations
+        grouped
+            .putIfAbsent(DrugDataParser.normalizeName(name), () => [])
+            .add(entry);
       }
 
-    final List<DrugCatalogEntry> catalog = [];
-    grouped.forEach((name, entryList) {
-      final normalized = DrugDataParser.normalizeName(name);
-      final categories = profiles[normalized] ?? const ['Unknown'];
-      final latest = DrugStatsCalculator.findLatestUsage(entryList);
-      final weekdayData = DrugStatsCalculator.calculateWeekdayUsage(entryList);
-      final weekday = WeekdayUsage(
-        counts: weekdayData['counts'],
-        mostActive: weekdayData['mostActive'],
-        leastActive: weekdayData['leastActive'],
-      );
-      final local = DrugPreferencesManager.readPreferences(prefs, name);
+      final List<DrugCatalogEntry> catalog = [];
+      grouped.forEach((normalizedName, entryList) {
+        final categories = profiles[normalizedName] ?? const ['Unknown'];
+        final latest = DrugStatsCalculator.findLatestUsage(entryList);
+        final weekdayData = DrugStatsCalculator.calculateWeekdayUsage(
+          entryList,
+        );
+        final weekday = WeekdayUsage(
+          counts: weekdayData['counts'],
+          mostActive: weekdayData['mostActive'],
+          leastActive: weekdayData['leastActive'],
+        );
 
-      catalog.add(
-        DrugCatalogEntry(
-          name: name,
-          categories: categories,
-          totalUses: entryList.length,
-          avgDose: DrugStatsCalculator.calculateAverageDose(entryList),
-          lastUsed: latest,
-          weekdayUsage: weekday,
-          favorite: local.favorite,
-          archived: local.archived,
-          notes: local.notes,
-          quantity: local.quantity,
-        ),
-      );
-    });
+        // Use Title Case for the canonical display name
+        // We use the name from the most recent entry to determine the base string, but force Title Case
+        final rawName = entryList.first['name'] as String;
+        final displayName = DrugDataParser.toTitleCase(rawName);
+
+        final local = DrugPreferencesManager.readPreferences(
+          prefs,
+          displayName,
+        );
+
+        catalog.add(
+          DrugCatalogEntry(
+            name: displayName,
+            categories: categories,
+            totalUses: entryList.length,
+            avgDose: DrugStatsCalculator.calculateAverageDose(entryList),
+            lastUsed: latest,
+            weekdayUsage: weekday,
+            favorite: local.favorite,
+            archived: local.archived,
+            notes: local.notes,
+            quantity: local.quantity,
+          ),
+        );
+      });
 
       catalog.sort(
         (a, b) => (b.lastUsed ?? DateTime.fromMillisecondsSinceEpoch(0))
             .compareTo(a.lastUsed ?? DateTime.fromMillisecondsSinceEpoch(0)),
       );
 
-      ErrorHandler.logInfo('PersonalLibraryService', 'Loaded ${catalog.length} drug entries');
+      ErrorHandler.logInfo(
+        'PersonalLibraryService',
+        'Loaded ${catalog.length} drug entries',
+      );
       return catalog;
     } catch (e, stackTrace) {
-      ErrorHandler.logError('PersonalLibraryService.fetchCatalog', e, stackTrace);
+      ErrorHandler.logError(
+        'PersonalLibraryService.fetchCatalog',
+        e,
+        stackTrace,
+      );
       rethrow;
     }
   }
 
   Future<bool> toggleFavorite(DrugCatalogEntry entry) async {
     try {
-      ErrorHandler.logDebug('PersonalLibraryService', 'Toggling favorite for ${entry.name}');
+      ErrorHandler.logDebug(
+        'PersonalLibraryService',
+        'Toggling favorite for ${entry.name}',
+      );
 
       final updatedFavorite = !entry.favorite;
       final currentPrefs = LocalPrefs(
@@ -75,22 +98,32 @@ class PersonalLibraryService {
         notes: entry.notes,
         quantity: entry.quantity,
       );
-      
+
       await DrugPreferencesManager.saveFavorite(
         entry.name,
         updatedFavorite,
         currentPrefs,
       );
 
-      ErrorHandler.logInfo('PersonalLibraryService', 'Favorite toggled for ${entry.name}: $updatedFavorite');
+      ErrorHandler.logInfo(
+        'PersonalLibraryService',
+        'Favorite toggled for ${entry.name}: $updatedFavorite',
+      );
       return updatedFavorite;
     } catch (e, stackTrace) {
-      ErrorHandler.logError('PersonalLibraryService.toggleFavorite', e, stackTrace);
+      ErrorHandler.logError(
+        'PersonalLibraryService.toggleFavorite',
+        e,
+        stackTrace,
+      );
       rethrow;
     }
   }
 
-  List<DrugCatalogEntry> applySearch(String query, List<DrugCatalogEntry> data) {
+  List<DrugCatalogEntry> applySearch(
+    String query,
+    List<DrugCatalogEntry> data,
+  ) {
     final trimmed = query.trim().toLowerCase();
     if (trimmed.isEmpty) {
       return List<DrugCatalogEntry>.from(data);
@@ -108,22 +141,26 @@ class PersonalLibraryService {
       final response = await Supabase.instance.client
           .from('drug_profiles')
           .select('name, categories');
-      
+
       for (final row in (response as List<dynamic>)) {
         final data = row as Map<String, dynamic>;
         final name = (data['name'] as String?)?.trim();
         if (name == null || name.isEmpty) continue;
-        profiles[DrugDataParser.normalizeName(name)] = 
+        profiles[DrugDataParser.normalizeName(name)] =
             DrugDataParser.parseCategories(data['categories']);
       }
-      
+
       if (profiles.isNotEmpty) {
         return profiles;
       }
     } catch (e, stackTrace) {
-      ErrorHandler.logError('PersonalLibraryService._loadDrugProfiles', e, stackTrace);
+      ErrorHandler.logError(
+        'PersonalLibraryService._loadDrugProfiles',
+        e,
+        stackTrace,
+      );
     }
-    
+
     return {
       'methylphenidate': ['Stimulant'],
       'cannabis': ['Cannabinoid'],
@@ -137,12 +174,18 @@ class PersonalLibraryService {
           .from('drug_use')
           .select('name, start_time, dose')
           .order('start_time', ascending: false);
-      
+
       return (response as List<dynamic>)
-          .map((item) => Map<String, dynamic>.from(item as Map<String, dynamic>))
+          .map(
+            (item) => Map<String, dynamic>.from(item as Map<String, dynamic>),
+          )
           .toList();
     } catch (e, stackTrace) {
-      ErrorHandler.logError('PersonalLibraryService._loadDatabaseEntries', e, stackTrace);
+      ErrorHandler.logError(
+        'PersonalLibraryService._loadDatabaseEntries',
+        e,
+        stackTrace,
+      );
       rethrow;
     }
   }

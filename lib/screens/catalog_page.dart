@@ -8,6 +8,7 @@ import '../constants/drug_theme.dart';
 import '../widgets/common/drawer_menu.dart';
 import '../widgets/catalog/add_stockpile_sheet.dart';
 import '../widgets/catalog/substance_card.dart';
+import '../widgets/catalog/substance_details_sheet.dart';
 
 class CatalogPage extends StatefulWidget {
   const CatalogPage({super.key});
@@ -55,9 +56,9 @@ class _CatalogPageState extends State<CatalogPage> {
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading catalog: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error loading catalog: $e')));
       }
     }
   }
@@ -65,17 +66,36 @@ class _CatalogPageState extends State<CatalogPage> {
   void _applyFilters() {
     setState(() {
       _filteredSubstances = _allSubstances.where((sub) {
-        final name = (sub['pretty_name'] ?? sub['name'] ?? '').toString().toLowerCase();
-        final aliases = (sub['aliases'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [];
-        final matchesSearch = name.contains(_searchQuery.toLowerCase()) ||
-            aliases.any((alias) => alias.toLowerCase().contains(_searchQuery.toLowerCase()));
+        final name = (sub['pretty_name'] ?? sub['name'] ?? '')
+            .toString()
+            .toLowerCase();
+        final aliases =
+            (sub['aliases'] as List<dynamic>?)
+                ?.map((e) => e.toString())
+                .toList() ??
+            [];
+        final matchesSearch =
+            name.contains(_searchQuery.toLowerCase()) ||
+            aliases.any(
+              (alias) =>
+                  alias.toLowerCase().contains(_searchQuery.toLowerCase()),
+            );
 
-        final categories = (sub['categories'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [];
-        final matchesCategory = _selectedCategories.isEmpty ||
-            _selectedCategories.any((selected) => categories.any(
-                (cat) => cat.toLowerCase() == selected.toLowerCase()));
+        final categories =
+            (sub['categories'] as List<dynamic>?)
+                ?.map((e) => e.toString())
+                .toList() ??
+            [];
+        final matchesCategory =
+            _selectedCategories.isEmpty ||
+            _selectedCategories.any(
+              (selected) => categories.any(
+                (cat) => cat.toLowerCase() == selected.toLowerCase(),
+              ),
+            );
 
-        final matchesCommon = !_showCommonOnly || 
+        final matchesCommon =
+            !_showCommonOnly ||
             categories.any((cat) => cat.toLowerCase() == 'common');
 
         return matchesSearch && matchesCategory && matchesCommon;
@@ -86,11 +106,15 @@ class _CatalogPageState extends State<CatalogPage> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? UIColors.darkNeonViolet : UIColors.lightAccentIndigo;
+    final accentColor = isDark
+        ? UIColors.darkNeonViolet
+        : UIColors.lightAccentIndigo;
 
     if (_isLoading) {
       return Scaffold(
-        backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
+        backgroundColor: isDark
+            ? UIColors.darkBackground
+            : UIColors.lightBackground,
         appBar: _buildAppBar(context, isDark, accentColor),
         drawer: const DrawerMenu(),
         body: Center(child: CircularProgressIndicator(color: accentColor)),
@@ -98,7 +122,9 @@ class _CatalogPageState extends State<CatalogPage> {
     }
 
     return Scaffold(
-      backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
+      backgroundColor: isDark
+          ? UIColors.darkBackground
+          : UIColors.lightBackground,
       appBar: _buildAppBar(context, isDark, accentColor),
       drawer: const DrawerMenu(),
       body: Column(
@@ -116,7 +142,11 @@ class _CatalogPageState extends State<CatalogPage> {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context, bool isDark, Color accentColor) {
+  PreferredSizeWidget _buildAppBar(
+    BuildContext context,
+    bool isDark,
+    Color accentColor,
+  ) {
     return AppBar(
       backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
       elevation: 0,
@@ -127,7 +157,9 @@ class _CatalogPageState extends State<CatalogPage> {
             margin: EdgeInsets.only(right: ThemeConstants.space8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-              boxShadow: isDark ? UIColors.createNeonGlow(accentColor, intensity: 0.2) : null,
+              boxShadow: isDark
+                  ? UIColors.createNeonGlow(accentColor, intensity: 0.2)
+                  : null,
             ),
             child: Icon(Icons.science_outlined, color: accentColor),
           ),
@@ -167,7 +199,9 @@ class _CatalogPageState extends State<CatalogPage> {
                   )
                 : BoxDecoration(
                     color: UIColors.lightSurface,
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
+                    borderRadius: BorderRadius.circular(
+                      ThemeConstants.radiusLarge,
+                    ),
                     border: Border.all(color: UIColors.lightBorder),
                     boxShadow: UIColors.createSoftShadow(),
                   ),
@@ -225,7 +259,9 @@ class _CatalogPageState extends State<CatalogPage> {
                 _buildFilterChip('All', null, isDark, accentColor),
                 ...DrugCategories.categoryPriority
                     .take(10)
-                    .map((cat) => _buildFilterChip(cat, cat, isDark, accentColor)),
+                    .map(
+                      (cat) => _buildFilterChip(cat, cat, isDark, accentColor),
+                    ),
               ],
             ),
           ),
@@ -243,7 +279,9 @@ class _CatalogPageState extends State<CatalogPage> {
                   )
                 : BoxDecoration(
                     color: UIColors.lightSurface,
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                    borderRadius: BorderRadius.circular(
+                      ThemeConstants.radiusMedium,
+                    ),
                     border: Border.all(color: UIColors.lightBorder),
                     boxShadow: UIColors.createSoftShadow(),
                   ),
@@ -253,7 +291,9 @@ class _CatalogPageState extends State<CatalogPage> {
                   Icons.filter_list_rounded,
                   color: _showCommonOnly
                       ? accentColor
-                      : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
+                      : (isDark
+                            ? UIColors.darkTextSecondary
+                            : UIColors.lightTextSecondary),
                   size: ThemeConstants.iconSmall,
                 ),
                 SizedBox(width: ThemeConstants.space12),
@@ -286,8 +326,14 @@ class _CatalogPageState extends State<CatalogPage> {
     );
   }
 
-  Widget _buildFilterChip(String label, String? category, bool isDark, Color accentColor) {
-    final isSelected = (category == null && _selectedCategories.isEmpty) ||
+  Widget _buildFilterChip(
+    String label,
+    String? category,
+    bool isDark,
+    Color accentColor,
+  ) {
+    final isSelected =
+        (category == null && _selectedCategories.isEmpty) ||
         (category != null && _selectedCategories.contains(category));
     final chipColor = category != null
         ? DrugCategoryColors.colorFor(category)
@@ -306,7 +352,9 @@ class _CatalogPageState extends State<CatalogPage> {
             color: isSelected
                 ? chipColor
                 : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
-            width: isSelected ? ThemeConstants.borderMedium : ThemeConstants.borderThin,
+            width: isSelected
+                ? ThemeConstants.borderMedium
+                : ThemeConstants.borderThin,
           ),
           boxShadow: isSelected && isDark
               ? UIColors.createNeonGlow(chipColor, intensity: 0.15)
@@ -345,8 +393,8 @@ class _CatalogPageState extends State<CatalogPage> {
                       color: isSelected
                           ? chipColor
                           : (isDark
-                              ? UIColors.darkTextSecondary
-                              : UIColors.lightTextSecondary),
+                                ? UIColors.darkTextSecondary
+                                : UIColors.lightTextSecondary),
                     ),
                     SizedBox(width: ThemeConstants.space8),
                   ],
@@ -360,8 +408,8 @@ class _CatalogPageState extends State<CatalogPage> {
                       color: isSelected
                           ? chipColor
                           : (isDark
-                              ? UIColors.darkTextSecondary
-                              : UIColors.lightTextSecondary),
+                                ? UIColors.darkTextSecondary
+                                : UIColors.lightTextSecondary),
                     ),
                   ),
                 ],
@@ -389,7 +437,9 @@ class _CatalogPageState extends State<CatalogPage> {
             child: Icon(
               Icons.search_off,
               size: 64,
-              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              color: isDark
+                  ? UIColors.darkTextSecondary
+                  : UIColors.lightTextSecondary,
             ),
           ),
           SizedBox(height: ThemeConstants.space24),
@@ -406,7 +456,9 @@ class _CatalogPageState extends State<CatalogPage> {
             'Try adjusting your search or filters',
             style: TextStyle(
               fontSize: ThemeConstants.fontMedium,
-              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              color: isDark
+                  ? UIColors.darkTextSecondary
+                  : UIColors.lightTextSecondary,
             ),
           ),
         ],
@@ -445,7 +497,11 @@ class _CatalogPageState extends State<CatalogPage> {
     );
   }
 
-  void _showAddStockpileSheet(String substanceId, String substanceName, Map<String, dynamic> substance) async {
+  void _showAddStockpileSheet(
+    String substanceId,
+    String substanceName,
+    Map<String, dynamic> substance,
+  ) async {
     final result = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
@@ -456,7 +512,7 @@ class _CatalogPageState extends State<CatalogPage> {
         substanceDetails: substance,
       ),
     );
-    
+
     // Refresh the list if stockpile was added
     if (result == true && mounted) {
       setState(() {});
@@ -469,17 +525,22 @@ class _CatalogPageState extends State<CatalogPage> {
       if (entries.isEmpty) {
         return null;
       }
-      
+
       // Filter entries for this substance
-      final substanceEntries = entries.where((e) => 
-        e.substance.toLowerCase() == substanceName.toLowerCase()
-      ).toList();
-      
+      final substanceEntries = entries
+          .where(
+            (e) => e.substance.toLowerCase() == substanceName.toLowerCase(),
+          )
+          .toList();
+
       if (substanceEntries.isEmpty) {
         return null;
       }
-      
-      final mostActive = _analyticsService.getMostActiveDay(substanceEntries, substanceName);
+
+      final mostActive = _analyticsService.getMostActiveDay(
+        substanceEntries,
+        substanceName,
+      );
       return mostActive;
     } catch (e) {
       return null;
@@ -487,9 +548,11 @@ class _CatalogPageState extends State<CatalogPage> {
   }
 
   void _showSubstanceDetails(Map<String, dynamic> substance) {
-    // TODO: Implement detailed bottom sheet
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Details for ${substance['pretty_name'] ?? substance['name']}')),
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => SubstanceDetailsSheet(substance: substance),
     );
   }
 }
