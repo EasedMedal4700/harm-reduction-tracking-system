@@ -10,7 +10,12 @@ class SubstanceCard extends StatelessWidget {
   final Map<String, dynamic> substance;
   final bool isDark;
   final VoidCallback onTap;
-  final Function(String substanceId, String name, Map<String, dynamic> substance) onAddStockpile;
+  final Function(
+    String substanceId,
+    String name,
+    Map<String, dynamic> substance,
+  )
+  onAddStockpile;
   final Future<String?> Function(String name) getMostActiveDay;
 
   const SubstanceCard({
@@ -34,18 +39,21 @@ class SubstanceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final name = substance['pretty_name'] ?? substance['name'] ?? 'Unknown';
     final substanceId = substance['name'] ?? 'unknown';
-    final categories = (substance['categories'] as List<dynamic>?)
+    final categories =
+        (substance['categories'] as List<dynamic>?)
             ?.map((e) => e.toString())
             .toList() ??
         [];
-    final aliases = (substance['aliases'] as List<dynamic>?)
+    final aliases =
+        (substance['aliases'] as List<dynamic>?)
             ?.map((e) => e.toString())
             .toList() ??
         [];
 
     final primaryCategory = _resolvePrimaryCategory(categories);
     final categoryColor = DrugCategoryColors.colorFor(primaryCategory);
-    final categoryIcon = DrugCategories.categoryIconMap[primaryCategory] ?? Icons.science;
+    final categoryIcon =
+        DrugCategories.categoryIconMap[primaryCategory] ?? Icons.science;
 
     // Get half-life or dose info
     String? additionalInfo;
@@ -92,14 +100,26 @@ class SubstanceCard extends StatelessWidget {
                       height: 56,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [categoryColor, categoryColor.withValues(alpha: 0.7)],
+                          colors: [
+                            categoryColor,
+                            categoryColor.withValues(alpha: 0.7),
+                          ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
-                        boxShadow: UIColors.createNeonGlow(categoryColor, intensity: 0.3),
+                        borderRadius: BorderRadius.circular(
+                          ThemeConstants.radiusLarge,
+                        ),
+                        boxShadow: UIColors.createNeonGlow(
+                          categoryColor,
+                          intensity: 0.3,
+                        ),
                       ),
-                      child: Icon(categoryIcon, color: Colors.white, size: ThemeConstants.iconLarge),
+                      child: Icon(
+                        categoryIcon,
+                        color: Colors.white,
+                        size: ThemeConstants.iconLarge,
+                      ),
                     ),
                     SizedBox(width: ThemeConstants.space16),
                     // Content
@@ -113,7 +133,9 @@ class SubstanceCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: ThemeConstants.fontLarge,
                               fontWeight: ThemeConstants.fontBold,
-                              color: isDark ? UIColors.darkText : UIColors.lightText,
+                              color: isDark
+                                  ? UIColors.darkText
+                                  : UIColors.lightText,
                               letterSpacing: -0.5,
                             ),
                           ),
@@ -152,10 +174,18 @@ class SubstanceCard extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [categoryColor, categoryColor.withValues(alpha: 0.8)],
+                          colors: [
+                            categoryColor,
+                            categoryColor.withValues(alpha: 0.8),
+                          ],
                         ),
-                        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                        boxShadow: UIColors.createNeonGlow(categoryColor, intensity: 0.2),
+                        borderRadius: BorderRadius.circular(
+                          ThemeConstants.radiusMedium,
+                        ),
+                        boxShadow: UIColors.createNeonGlow(
+                          categoryColor,
+                          intensity: 0.2,
+                        ),
                       ),
                       child: Text(
                         primaryCategory,
@@ -177,14 +207,16 @@ class SubstanceCard extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const SizedBox.shrink();
                 }
-                
+
                 final stockpile = snapshot.data;
                 return Container(
                   padding: EdgeInsets.all(ThemeConstants.space12),
                   decoration: BoxDecoration(
                     border: Border(
                       top: BorderSide(
-                        color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                        color: isDark
+                            ? UIColors.darkBorder
+                            : UIColors.lightBorder,
                         width: 1,
                       ),
                     ),
@@ -196,7 +228,11 @@ class SubstanceCard extends StatelessWidget {
                           // Stockpile status
                           Expanded(
                             child: stockpile != null
-                                ? _buildStockpileStatus(stockpile, isDark, categoryColor)
+                                ? _buildStockpileStatus(
+                                    stockpile,
+                                    isDark,
+                                    categoryColor,
+                                  )
                                 : Text(
                                     'No stockpile tracked',
                                     style: TextStyle(
@@ -207,42 +243,26 @@ class SubstanceCard extends StatelessWidget {
                                     ),
                                   ),
                           ),
-                          SizedBox(width: ThemeConstants.space8),
-                          // Add to Stockpile button
-                          ElevatedButton.icon(
-                            onPressed: () => onAddStockpile(substanceId, name, substance),
-                            icon: const Icon(Icons.add, size: 16),
-                            label: const Text('Add'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: categoryColor,
-                              foregroundColor: Colors.white,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: ThemeConstants.space12,
-                                vertical: ThemeConstants.space8,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                              ),
-                              elevation: 1,
-                            ),
-                          ),
                         ],
                       ),
                       // Weekly usage stats
                       FutureBuilder<String?>(
                         future: getMostActiveDay(name),
                         builder: (context, daySnapshot) {
-                          if (daySnapshot.connectionState == ConnectionState.waiting) {
+                          if (daySnapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return const SizedBox.shrink();
                           }
-                          
+
                           final mostActiveDay = daySnapshot.data;
                           if (mostActiveDay == null) {
                             return const SizedBox.shrink();
                           }
-                          
+
                           return Padding(
-                            padding: EdgeInsets.only(top: ThemeConstants.space8),
+                            padding: EdgeInsets.only(
+                              top: ThemeConstants.space8,
+                            ),
                             child: Row(
                               children: [
                                 Icon(
@@ -278,7 +298,11 @@ class SubstanceCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStockpileStatus(StockpileItem stockpile, bool isDark, Color categoryColor) {
+  Widget _buildStockpileStatus(
+    StockpileItem stockpile,
+    bool isDark,
+    Color categoryColor,
+  ) {
     final percentage = stockpile.getPercentage();
     final isLow = stockpile.isLow();
     final isEmpty = stockpile.isEmpty();

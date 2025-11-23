@@ -9,8 +9,18 @@ import 'timing_info_card.dart';
 
 class SubstanceDetailsSheet extends StatefulWidget {
   final Map<String, dynamic> substance;
+  final Function(
+    String substanceId,
+    String name,
+    Map<String, dynamic> substance,
+  )?
+  onAddStockpile;
 
-  const SubstanceDetailsSheet({super.key, required this.substance});
+  const SubstanceDetailsSheet({
+    super.key,
+    required this.substance,
+    this.onAddStockpile,
+  });
 
   @override
   State<SubstanceDetailsSheet> createState() => _SubstanceDetailsSheetState();
@@ -110,13 +120,30 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
       return {for (var m in _availableMethods) m: '$value $unit'};
     }
 
-    // Otherwise, it might be keyed by method
+    // Otherwise, it might be keyed by method (with variants like Oral_IR, Oral_ER)
     final result = <String, dynamic>{};
     final unit = raw['_unit'] ?? '';
 
     for (var method in _availableMethods) {
+      // Try exact match first
       if (raw.containsKey(method)) {
         result[method] = '${raw[method]} $unit';
+        continue;
+      }
+
+      // Try to find keys that start with the method name (e.g., "Oral_IR", "Oral_ER" for "Oral")
+      final matchingKeys = raw.keys
+          .where(
+            (key) => key.toString().toLowerCase().startsWith(
+              method.toLowerCase() + '_',
+            ),
+          )
+          .toList();
+
+      if (matchingKeys.isNotEmpty) {
+        // Combine all variants into a single string
+        final values = matchingKeys.map((key) => '${raw[key]}').toList();
+        result[method] = '${values.join(' / ')} $unit';
       }
     }
     return result;
@@ -306,6 +333,40 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               onPressed: () => Navigator.pop(context),
             ),
           ],
+        ),
+        const SizedBox(height: ThemeConstants.space16),
+        // Add to Stockpile button
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            onPressed: widget.onAddStockpile != null
+                ? () {
+                    final substanceId = widget.substance['name'] ?? 'unknown';
+                    final name =
+                        widget.substance['pretty_name'] ??
+                        widget.substance['name'] ??
+                        'Unknown';
+                    Navigator.pop(context);
+                    widget.onAddStockpile!(substanceId, name, widget.substance);
+                  }
+                : null,
+            icon: const Icon(Icons.add, size: 18),
+            label: const Text('Add to Stockpile'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: accentColor,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(
+                horizontal: ThemeConstants.space16,
+                vertical: ThemeConstants.space12,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  ThemeConstants.radiusMedium,
+                ),
+              ),
+              elevation: 2,
+            ),
+          ),
         ),
       ],
     );

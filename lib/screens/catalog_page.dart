@@ -552,7 +552,10 @@ class _CatalogPageState extends State<CatalogPage> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => SubstanceDetailsSheet(substance: substance),
+      builder: (context) => SubstanceDetailsSheet(
+        substance: substance,
+        onAddStockpile: _showAddStockpileSheet,
+      ),
     );
   }
 }
