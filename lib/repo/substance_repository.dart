@@ -49,7 +49,7 @@ class SubstanceRepository {
       final response = await _client
           .from('drug_profiles')
           .select('name, pretty_name, formatted_dose')
-          .eq('name', substanceName)
+          .ilike('name', substanceName)
           .maybeSingle();
 
       if (response == null) return null;

@@ -47,7 +47,7 @@ class LogEntryState extends ChangeNotifier {
   List<String> getAvailableROAs() {
     const baseROAs = ['oral', 'insufflated', 'inhaled', 'sublingual'];
     final dbROAs = _substanceRepo.getAvailableROAs(substanceDetails);
-    
+
     // Combine and deduplicate
     final allROAs = {...baseROAs, ...dbROAs}.toList();
     return allROAs;
@@ -76,18 +76,23 @@ class LogEntryState extends ChangeNotifier {
 
   String entryId = ''; // Add this
 
-  DateTime get selectedDateTime => DateTime(date.year, date.month, date.day, hour, minute);
+  DateTime get selectedDateTime =>
+      DateTime(date.year, date.month, date.day, hour, minute);
 
   /// Validate substance exists in DB
   Future<bool> validateSubstance(BuildContext context) async {
     if (substance.isEmpty) {
-      _showErrorDialog(context, 'Missing Substance', 'Please select a substance before saving.');
+      _showErrorDialog(
+        context,
+        'Missing Substance',
+        'Please select a substance before saving.',
+      );
       return false;
     }
 
     // Reload substance details to ensure it exists
     await _loadSubstanceDetails(substance);
-    
+
     if (substanceDetails == null) {
       _showErrorDialog(
         context,
@@ -153,7 +158,11 @@ class LogEntryState extends ChangeNotifier {
   }
 
   /// Show confirmation dialog
-  Future<bool> _showConfirmDialog(BuildContext context, String title, String message) async {
+  Future<bool> _showConfirmDialog(
+    BuildContext context,
+    String title,
+    String message,
+  ) async {
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -200,7 +209,9 @@ class LogEntryState extends ChangeNotifier {
   Future<void> save(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fix validation errors before saving.')),
+        const SnackBar(
+          content: Text('Please fix validation errors before saving.'),
+        ),
       );
       return;
     }
@@ -221,7 +232,7 @@ class LogEntryState extends ChangeNotifier {
     notifyListeners();
 
     final entry = LogEntry(
-      substance: substance,
+      substance: DrugProfileUtils.toTitleCase(substance),
       dosage: dose,
       unit: unit,
       route: route,
@@ -251,14 +262,18 @@ class LogEntryState extends ChangeNotifier {
       // Subtract from stockpile after successful log
       try {
         // Convert dose to mg
-        final doseInMg = DrugProfileUtils.convertToMg(dose, unit, substanceDetails);
-        
+        final doseInMg = DrugProfileUtils.convertToMg(
+          dose,
+          unit,
+          substanceDetails,
+        );
+
         // Subtract from stockpile
         await _stockpileRepo.subtractFromStockpile(substance, doseInMg);
-        
+
         // Get updated stockpile for confirmation message
         final updatedStockpile = await _stockpileRepo.getStockpile(substance);
-        
+
         if (updatedStockpile != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -277,7 +292,9 @@ class LogEntryState extends ChangeNotifier {
         // If stockpile update fails, still show success for the log entry
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Entry saved! (Stockpile update failed: ${stockpileError.toString()})'),
+            content: Text(
+              'Entry saved! (Stockpile update failed: ${stockpileError.toString()})',
+            ),
             duration: const Duration(seconds: 4),
           ),
         );
@@ -285,9 +302,9 @@ class LogEntryState extends ChangeNotifier {
 
       resetForm();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Save failed: ${e.toString()}')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Save failed: ${e.toString()}')));
     } finally {
       isSaving = false;
       notifyListeners();
@@ -362,7 +379,8 @@ class LogEntryState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setIntention(String? value) { // Change to nullable
+  void setIntention(String? value) {
+    // Change to nullable
     intention = value ?? '-- Select Intention--'; // Fallback
     notifyListeners();
   }
