@@ -4,6 +4,7 @@ import '../../services/craving_service.dart';
 import '../../utils/error_handler.dart';
 import '../../constants/body_and_mind_catalog.dart';
 import '../../constants/drug_use_catalog.dart';
+import '../../constants/craving_consatnts.dart';
 import '../../widgets/cravings/craving_details_section.dart';
 import '../../widgets/cravings/emotional_state_section.dart';
 import '../../widgets/cravings/body_mind_signals_section.dart';
@@ -19,7 +20,7 @@ class EditCravingPage extends StatefulWidget {
 
 class _EditCravingPageState extends State<EditCravingPage> {
   final CravingService _cravingService = CravingService();
-  
+
   // Form fields
   List<String> selectedCravings = [];
   double intensity = 5.0;
@@ -30,13 +31,15 @@ class _EditCravingPageState extends State<EditCravingPage> {
   List<String> selectedSensations = [];
   String whatDidYouDo = '';
   bool actedOnCraving = false;
-  
+
   bool _isLoading = true;
   bool _isSaving = false;
   String? _cravingId;
 
   final List<String> sensations = physicalSensations;
-  final List<String> emotions = DrugUseCatalog.primaryEmotions.map((e) => e['name']!).toList();
+  final List<String> emotions = DrugUseCatalog.primaryEmotions
+      .map((e) => e['name']!)
+      .toList();
 
   @override
   void initState() {
@@ -49,12 +52,15 @@ class _EditCravingPageState extends State<EditCravingPage> {
 
     try {
       _cravingId = widget.entry['craving_id']?.toString();
-      
+
       if (_cravingId == null || _cravingId!.isEmpty) {
         throw Exception('Missing craving ID');
       }
 
-      ErrorHandler.logDebug('EditCravingPage', 'Loading craving with ID: $_cravingId');
+      ErrorHandler.logDebug(
+        'EditCravingPage',
+        'Loading craving with ID: $_cravingId',
+      );
 
       final data = await _cravingService.fetchCravingById(_cravingId!);
 
@@ -70,59 +76,87 @@ class _EditCravingPageState extends State<EditCravingPage> {
           selectedCravings = [];
         } else {
           // Split by semicolon (DB format) and trim whitespace
-          selectedCravings = substanceStr
+          final parsedList = substanceStr
               .split(';')
               .map((s) => s.trim())
-              .where((s) => s.isNotEmpty)
-              .toList();
-          
-          ErrorHandler.logDebug('EditCravingPage', 'Parsed substances from DB: $selectedCravings');
+              .where((s) => s.isNotEmpty);
+
+          // Map DB values (singular) to UI keys (plural + emoji)
+          selectedCravings = parsedList.map((s) {
+            for (var entry in cravingCategories.entries) {
+              if (entry.value == s) return entry.key;
+            }
+            return s;
+          }).toList();
+
+          ErrorHandler.logDebug(
+            'EditCravingPage',
+            'Parsed substances from DB: $selectedCravings',
+          );
         }
 
-        intensity = double.tryParse(data['intensity']?.toString() ?? '5.0') ?? 5.0;
-        
+        intensity =
+            double.tryParse(data['intensity']?.toString() ?? '5.0') ?? 5.0;
+
         // Validate location against allowed values
         final dbLocation = data['location']?.toString() ?? 'Select a location';
         if (DrugUseCatalog.locations.contains(dbLocation)) {
           location = dbLocation;
         } else {
           // If DB has invalid/custom location, default to 'Other' or first valid option
-          ErrorHandler.logWarning('EditCravingPage', 'Invalid location in DB: $dbLocation, defaulting to "Other"');
+          ErrorHandler.logWarning(
+            'EditCravingPage',
+            'Invalid location in DB: $dbLocation, defaulting to "Other"',
+          );
           location = 'Other';
         }
-        
+
         // Validate "who were you with" against allowed values
         final dbWithWho = data['people']?.toString() ?? '';
         const validWithWhoOptions = ['Alone', 'Friends', 'Family', 'Other'];
         if (dbWithWho.isEmpty || !validWithWhoOptions.contains(dbWithWho)) {
           // If DB has invalid/custom value, default to empty or 'Other'
-          ErrorHandler.logWarning('EditCravingPage', 'Invalid withWho in DB: $dbWithWho, defaulting to empty');
+          ErrorHandler.logWarning(
+            'EditCravingPage',
+            'Invalid withWho in DB: $dbWithWho, defaulting to empty',
+          );
           withWho = ''; // Will show as placeholder in dropdown
         } else {
           withWho = dbWithWho;
         }
-        
+
         thoughts = data['thoughts']?.toString() ?? '';
         whatDidYouDo = data['activity']?.toString() ?? '';
-        
+
         // Parse body sensations
         final sensationsStr = data['body_sensations']?.toString() ?? '';
         selectedSensations = sensationsStr.isEmpty
             ? []
-            : sensationsStr.split(',').map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
+            : sensationsStr
+                  .split(',')
+                  .map((s) => s.trim())
+                  .where((s) => s.isNotEmpty)
+                  .toList();
 
         // Parse emotions
         final emotionsStr = data['primary_emotion']?.toString() ?? '';
         selectedEmotions = emotionsStr.isEmpty
             ? []
-            : emotionsStr.split(',').map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
+            : emotionsStr
+                  .split(',')
+                  .map((s) => s.trim())
+                  .where((s) => s.isNotEmpty)
+                  .toList();
 
         // Parse action
         final actionStr = data['action']?.toString() ?? '';
         actedOnCraving = actionStr.toLowerCase() == 'acted';
       });
 
-      ErrorHandler.logDebug('EditCravingPage', 'Craving loaded - substance: $selectedCravings, intensity: $intensity');
+      ErrorHandler.logDebug(
+        'EditCravingPage',
+        'Craving loaded - substance: $selectedCravings, intensity: $intensity',
+      );
     } catch (e, stackTrace) {
       ErrorHandler.logError('EditCravingPage._loadCravingData', e, stackTrace);
       if (mounted) {
@@ -147,17 +181,29 @@ class _EditCravingPageState extends State<EditCravingPage> {
     setState(() => _isSaving = true);
 
     try {
-      ErrorHandler.logDebug('EditCravingPage', 'Saving changes for craving: $_cravingId');
+      ErrorHandler.logDebug(
+        'EditCravingPage',
+        'Saving changes for craving: $_cravingId',
+      );
+
+      // Map UI keys back to DB values
+      final substancesToSave = selectedCravings.map((s) {
+        return cravingCategories[s] ?? s;
+      }).toList();
 
       final updateData = {
-        'substance': selectedCravings.isNotEmpty ? selectedCravings.join('; ') : '', // Use semicolon like DB
+        'substance': substancesToSave.isNotEmpty
+            ? substancesToSave.join('; ')
+            : '', // Use semicolon like DB
         'intensity': intensity.toInt(),
         'location': location,
         'people': withWho,
         'activity': whatDidYouDo,
         'thoughts': thoughts,
         'body_sensations': selectedSensations.join(','),
-        'primary_emotion': selectedEmotions.isNotEmpty ? selectedEmotions.join(', ') : '',
+        'primary_emotion': selectedEmotions.isNotEmpty
+            ? selectedEmotions.join(', ')
+            : '',
         'action': actedOnCraving ? 'Acted' : 'Resisted',
       };
 
@@ -191,7 +237,7 @@ class _EditCravingPageState extends State<EditCravingPage> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Craving'),
@@ -231,30 +277,39 @@ class _EditCravingPageState extends State<EditCravingPage> {
                     intensity: intensity,
                     location: location,
                     withWho: withWho,
-                    onCravingsChanged: (value) => setState(() => selectedCravings = value),
-                    onIntensityChanged: (value) => setState(() => intensity = value),
-                    onLocationChanged: (value) => setState(() => location = value ?? 'Select a location'),
-                    onWithWhoChanged: (value) => setState(() => withWho = value ?? ''),
+                    onCravingsChanged: (value) =>
+                        setState(() => selectedCravings = value),
+                    onIntensityChanged: (value) =>
+                        setState(() => intensity = value),
+                    onLocationChanged: (value) =>
+                        setState(() => location = value ?? 'Select a location'),
+                    onWithWhoChanged: (value) =>
+                        setState(() => withWho = value ?? ''),
                   ),
                   const SizedBox(height: 24),
                   EmotionalStateSection(
                     selectedEmotions: selectedEmotions,
                     thoughts: thoughts,
-                    onEmotionsChanged: (value) => setState(() => selectedEmotions = value),
-                    onThoughtsChanged: (value) => setState(() => thoughts = value),
+                    onEmotionsChanged: (value) =>
+                        setState(() => selectedEmotions = value),
+                    onThoughtsChanged: (value) =>
+                        setState(() => thoughts = value),
                   ),
                   const SizedBox(height: 24),
                   BodyMindSignalsSection(
                     sensations: sensations,
                     selectedSensations: selectedSensations,
-                    onSensationsChanged: (value) => setState(() => selectedSensations = value),
+                    onSensationsChanged: (value) =>
+                        setState(() => selectedSensations = value),
                   ),
                   const SizedBox(height: 24),
                   OutcomeSection(
                     whatDidYouDo: whatDidYouDo,
                     actedOnCraving: actedOnCraving,
-                    onWhatDidYouDoChanged: (value) => setState(() => whatDidYouDo = value),
-                    onActedOnCravingChanged: (value) => setState(() => actedOnCraving = value),
+                    onWhatDidYouDoChanged: (value) =>
+                        setState(() => whatDidYouDo = value),
+                    onActedOnCravingChanged: (value) =>
+                        setState(() => actedOnCraving = value),
                   ),
                   const SizedBox(height: 32),
                 ],
