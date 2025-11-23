@@ -37,7 +37,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
     try {
       final response = await Supabase.instance.client
           .from('drug_use')
-          .select('start_time, dose, route, is_medical_purpose')
+          .select('start_time, dose, consumption, medical')
           .eq('name', widget.substanceName)
           .order('start_time', ascending: false);
 
@@ -47,13 +47,15 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
 
       // Filter entries for the selected weekday (with 5am cutoff logic)
       final filteredEntries = entries.where((entry) {
-        final startTime = DateTime.tryParse(entry['start_time']?.toString() ?? '');
+        final startTime = DateTime.tryParse(
+          entry['start_time']?.toString() ?? '',
+        );
         if (startTime == null) return false;
 
         // Apply 5am cutoff for non-medical use
-        final isMedical = entry['is_medical_purpose'] == true || entry['is_medical_purpose'] == 1;
+        final isMedical = entry['medical'] == true || entry['medical'] == 1;
         DateTime adjustedTime = startTime;
-        
+
         if (!isMedical && startTime.hour < 5) {
           adjustedTime = startTime.subtract(const Duration(hours: 5));
         }
@@ -104,7 +106,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          
+
           // Header
           Padding(
             padding: EdgeInsets.all(ThemeConstants.space20),
@@ -116,9 +118,14 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                       padding: EdgeInsets.all(ThemeConstants.space8),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [widget.accentColor, widget.accentColor.withValues(alpha: 0.7)],
+                          colors: [
+                            widget.accentColor,
+                            widget.accentColor.withValues(alpha: 0.7),
+                          ],
                         ),
-                        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                        borderRadius: BorderRadius.circular(
+                          ThemeConstants.radiusMedium,
+                        ),
                       ),
                       child: Icon(
                         Icons.calendar_today,
@@ -136,14 +143,18 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                             style: TextStyle(
                               fontSize: ThemeConstants.fontLarge,
                               fontWeight: ThemeConstants.fontBold,
-                              color: isDark ? UIColors.darkText : UIColors.lightText,
+                              color: isDark
+                                  ? UIColors.darkText
+                                  : UIColors.lightText,
                             ),
                           ),
                           Text(
                             '${widget.dayName} Usage History',
                             style: TextStyle(
                               fontSize: ThemeConstants.fontMedium,
-                              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                              color: isDark
+                                  ? UIColors.darkTextSecondary
+                                  : UIColors.lightTextSecondary,
                             ),
                           ),
                         ],
@@ -152,7 +163,9 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                     IconButton(
                       icon: const Icon(Icons.close),
                       onPressed: () => Navigator.pop(context),
-                      color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                      color: isDark
+                          ? UIColors.darkTextSecondary
+                          : UIColors.lightTextSecondary,
                     ),
                   ],
                 ),
@@ -164,8 +177,12 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                   ),
                   decoration: BoxDecoration(
                     color: widget.accentColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                    border: Border.all(color: widget.accentColor.withValues(alpha: 0.3)),
+                    borderRadius: BorderRadius.circular(
+                      ThemeConstants.radiusMedium,
+                    ),
+                    border: Border.all(
+                      color: widget.accentColor.withValues(alpha: 0.3),
+                    ),
                   ),
                   child: Text(
                     '${_allEntries.length} ${_allEntries.length == 1 ? 'use' : 'uses'} on ${widget.dayName}s',
@@ -179,7 +196,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
               ],
             ),
           ),
-          
+
           // List of entries
           if (_loading)
             const Padding(
@@ -190,14 +207,17 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
             Flexible(
               child: ListView.builder(
                 shrinkWrap: true,
-                padding: EdgeInsets.symmetric(horizontal: ThemeConstants.space20),
+                padding: EdgeInsets.symmetric(
+                  horizontal: ThemeConstants.space20,
+                ),
                 itemCount: displayEntries.length,
                 itemBuilder: (context, index) {
                   final entry = displayEntries[index];
                   final startTime = DateTime.parse(entry['start_time']);
                   final dose = entry['dose']?.toString() ?? 'Unknown';
-                  final route = entry['route']?.toString() ?? 'Unknown';
-                  final isMedical = entry['is_medical_purpose'] == true || entry['is_medical_purpose'] == 1;
+                  final route = entry['consumption']?.toString() ?? 'Unknown';
+                  final isMedical =
+                      entry['medical'] == true || entry['medical'] == 1;
 
                   return Container(
                     margin: EdgeInsets.only(bottom: ThemeConstants.space8),
@@ -206,9 +226,13 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                       color: isDark
                           ? UIColors.darkBackground.withValues(alpha: 0.5)
                           : UIColors.lightBackground,
-                      borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                      borderRadius: BorderRadius.circular(
+                        ThemeConstants.radiusMedium,
+                      ),
                       border: Border.all(
-                        color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                        color: isDark
+                            ? UIColors.darkBorder
+                            : UIColors.lightBorder,
                       ),
                     ),
                     child: Row(
@@ -231,7 +255,9 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                                 DateFormat('MMM d').format(startTime),
                                 style: TextStyle(
                                   fontSize: ThemeConstants.fontXSmall,
-                                  color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                                  color: isDark
+                                      ? UIColors.darkTextSecondary
+                                      : UIColors.lightTextSecondary,
                                 ),
                               ),
                             ],
@@ -248,7 +274,9 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                                 style: TextStyle(
                                   fontSize: ThemeConstants.fontMedium,
                                   fontWeight: ThemeConstants.fontSemiBold,
-                                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                                  color: isDark
+                                      ? UIColors.darkText
+                                      : UIColors.lightText,
                                 ),
                               ),
                               Row(
@@ -256,14 +284,18 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                                   Icon(
                                     Icons.route,
                                     size: 12,
-                                    color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                                    color: isDark
+                                        ? UIColors.darkTextSecondary
+                                        : UIColors.lightTextSecondary,
                                   ),
                                   SizedBox(width: ThemeConstants.space4),
                                   Text(
                                     route,
                                     style: TextStyle(
                                       fontSize: ThemeConstants.fontSmall,
-                                      color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                                      color: isDark
+                                          ? UIColors.darkTextSecondary
+                                          : UIColors.lightTextSecondary,
                                     ),
                                   ),
                                   if (isMedical) ...[
@@ -285,7 +317,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                 },
               ),
             ),
-          
+
           // "Show All" button if more than 10
           if (!_showAll && _allEntries.length > 10)
             Padding(
@@ -307,7 +339,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                 child: Text('Show All ${_allEntries.length} Uses'),
               ),
             ),
-          
+
           SizedBox(height: ThemeConstants.space16),
         ],
       ),
