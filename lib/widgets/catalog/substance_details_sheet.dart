@@ -4,6 +4,8 @@ import '../../constants/ui_colors.dart';
 import '../../constants/theme_constants.dart';
 import '../../constants/drug_categories.dart';
 import '../../constants/drug_theme.dart';
+import 'dosage_guide_card.dart';
+import 'timing_info_card.dart';
 
 class SubstanceDetailsSheet extends StatefulWidget {
   final Map<String, dynamic> substance;
@@ -186,11 +188,26 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                     ],
 
                     // Dosage Guide
-                    _buildDosageGuide(isDark, accentColor),
+                    DosageGuideCard(
+                      doseData: _parsedDosage[_selectedMethod] != null
+                          ? Map<String, dynamic>.from(
+                              _parsedDosage[_selectedMethod] as Map,
+                            )
+                          : null,
+                      selectedMethod: _selectedMethod,
+                      isDark: isDark,
+                      accentColor: accentColor,
+                    ),
                     const SizedBox(height: ThemeConstants.space24),
 
                     // Timing
-                    _buildTimingSection(isDark, accentColor),
+                    TimingInfoCard(
+                      onset: _parsedOnset[_selectedMethod],
+                      duration: _parsedDuration[_selectedMethod],
+                      afterEffects: _parsedAfterEffects[_selectedMethod],
+                      isDark: isDark,
+                      accentColor: accentColor,
+                    ),
                     const SizedBox(height: ThemeConstants.space24),
 
                     // Properties / Summary
@@ -375,261 +392,6 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
             ),
           );
         }).toList(),
-      ),
-    );
-  }
-
-  Widget _buildDosageGuide(bool isDark, Color accentColor) {
-    final doseData = _parsedDosage[_selectedMethod] as Map?;
-
-    if (doseData == null) {
-      return _buildWarningCard(
-        'No dosage information available for $_selectedMethod administration.',
-        isDark,
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Icon(Icons.medication_outlined, color: accentColor),
-            const SizedBox(width: 8),
-            Text(
-              'Dosage Guide',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontLarge,
-                fontWeight: ThemeConstants.fontBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-              ),
-            ),
-            const Spacer(),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: accentColor.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                _selectedMethod,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: accentColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        _buildDoseCard('Light', doseData['Light'], Colors.green, isDark),
-        const SizedBox(height: 8),
-        _buildDoseCard('Common', doseData['Common'], Colors.orange, isDark),
-        const SizedBox(height: 8),
-        _buildDoseCard('Strong', doseData['Strong'], Colors.red, isDark),
-        if (doseData['Heavy'] != null) ...[
-          const SizedBox(height: 8),
-          _buildDoseCard('Heavy', doseData['Heavy'], Colors.purple, isDark),
-        ],
-      ],
-    );
-  }
-
-  Widget _buildDoseCard(String label, String? range, Color color, bool isDark) {
-    if (range == null) return const SizedBox.shrink();
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-        border: Border(left: BorderSide(color: color, width: 4)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(_getDoseIcon(label), color: color, size: 20),
-          ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: TextStyle(fontWeight: FontWeight.bold, color: color),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                range,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  IconData _getDoseIcon(String label) {
-    switch (label.toLowerCase()) {
-      case 'light':
-        return Icons.wb_sunny_outlined;
-      case 'common':
-        return Icons.person_outline;
-      case 'strong':
-        return Icons.local_fire_department_outlined;
-      case 'heavy':
-        return Icons.warning_amber_rounded;
-      default:
-        return Icons.circle_outlined;
-    }
-  }
-
-  Widget _buildTimingSection(bool isDark, Color accentColor) {
-    final onset = _parsedOnset[_selectedMethod];
-    final duration = _parsedDuration[_selectedMethod];
-    final afterEffects = _parsedAfterEffects[_selectedMethod];
-
-    if (onset == null && duration == null && afterEffects == null) {
-      return const SizedBox.shrink();
-    }
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-        border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.timer_outlined, color: accentColor),
-              const SizedBox(width: 8),
-              Text(
-                'Timing Information',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontLarge,
-                  fontWeight: ThemeConstants.fontBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-
-          // Timeline Visualization
-          SizedBox(
-            height: 40,
-            child: Row(
-              children: [
-                if (onset != null)
-                  Expanded(
-                    flex: 1,
-                    child: _buildTimeBar(Colors.green, true, true),
-                  ),
-                if (duration != null)
-                  Expanded(
-                    flex: 3,
-                    child: _buildTimeBar(
-                      Colors.blue,
-                      onset == null,
-                      afterEffects == null,
-                    ),
-                  ),
-                if (afterEffects != null)
-                  Expanded(
-                    flex: 2,
-                    child: _buildTimeBar(Colors.orange, duration == null, true),
-                  ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Legend
-          if (onset != null)
-            _buildTimeLegend('Onset', onset, Colors.green, isDark),
-          if (duration != null)
-            _buildTimeLegend('Duration', duration, Colors.blue, isDark),
-          if (afterEffects != null)
-            _buildTimeLegend(
-              'After Effects',
-              afterEffects,
-              Colors.orange,
-              isDark,
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTimeBar(Color color, bool isFirst, bool isLast) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.horizontal(
-          left: isFirst ? const Radius.circular(20) : Radius.zero,
-          right: isLast ? const Radius.circular(20) : Radius.zero,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTimeLegend(
-    String label,
-    String value,
-    Color color,
-    bool isDark,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        children: [
-          Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: color,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                value,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
