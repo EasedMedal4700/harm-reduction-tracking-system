@@ -4,25 +4,25 @@ import '../services/daily_checkin_service.dart';
 
 class DailyCheckinProvider extends ChangeNotifier {
   DailyCheckinProvider({DailyCheckinRepository? repository})
-      : _repository = repository ?? DailyCheckinService();
+    : _repository = repository ?? DailyCheckinService();
 
   final DailyCheckinRepository _repository;
 
   // Current check-in being edited
-  String _mood = 'Okay';
+  String _mood = 'Neutral';
   List<String> _emotions = [];
   String _timeOfDay = 'morning';
   String _notes = '';
   DateTime _selectedDate = DateTime.now();
   TimeOfDay? _selectedTime;
-  
+
   // Existing check-in (if editing)
   DailyCheckin? _existingCheckin;
-  
+
   // Loading states
   bool _isSaving = false;
   bool _isLoading = false;
-  
+
   // History
   List<DailyCheckin> _recentCheckins = [];
 
@@ -42,16 +42,12 @@ class DailyCheckinProvider extends ChangeNotifier {
   final List<String> availableMoods = [
     'Great',
     'Good',
-    'Okay',
+    'Neutral',
     'Struggling',
     'Poor',
   ];
 
-  final List<String> availableTimesOfDay = [
-    'morning',
-    'afternoon',
-    'evening',
-  ];
+  final List<String> availableTimesOfDay = ['morning', 'afternoon', 'evening'];
 
   // Available emotions (can be expanded)
   final List<String> availableEmotions = [
@@ -106,6 +102,16 @@ class DailyCheckinProvider extends ChangeNotifier {
 
   void setSelectedTime(TimeOfDay value) {
     _selectedTime = value;
+
+    // Auto-update time of day
+    if (value.hour < 12) {
+      _timeOfDay = 'morning';
+    } else if (value.hour < 17) {
+      _timeOfDay = 'afternoon';
+    } else {
+      _timeOfDay = 'evening';
+    }
+
     notifyListeners();
   }
 
@@ -141,7 +147,9 @@ class DailyCheckinProvider extends ChangeNotifier {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('A check-in already exists for this time. Please choose a different time or date.'),
+            content: Text(
+              'A check-in already exists for this time. Please choose a different time or date.',
+            ),
             backgroundColor: Colors.orange,
             duration: Duration(seconds: 4),
           ),
@@ -174,18 +182,18 @@ class DailyCheckinProvider extends ChangeNotifier {
 
       // Refresh recent check-ins
       await loadRecentCheckins();
-      
+
       // Reload to check existing again
       await checkExistingCheckin();
-      
+
       if (context.mounted) {
         Navigator.pop(context);
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error saving check-in: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error saving check-in: $e')));
       }
     } finally {
       _isSaving = false;
@@ -202,7 +210,10 @@ class DailyCheckinProvider extends ChangeNotifier {
       final endDate = DateTime.now();
       final startDate = endDate.subtract(const Duration(days: 7));
 
-      _recentCheckins = await _repository.fetchCheckinsInRange(startDate, endDate);
+      _recentCheckins = await _repository.fetchCheckinsInRange(
+        startDate,
+        endDate,
+      );
     } catch (e) {
       debugPrint('Error loading recent check-ins: $e');
     } finally {
@@ -223,7 +234,7 @@ class DailyCheckinProvider extends ChangeNotifier {
 
   /// Reset the form to default values
   void reset() {
-    _mood = 'Okay';
+    _mood = 'Neutral';
     _emotions = [];
     _timeOfDay = _getDefaultTimeOfDay();
     _notes = '';

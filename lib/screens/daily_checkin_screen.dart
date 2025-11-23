@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/daily_checkin_provider.dart';
+import '../constants/ui_colors.dart';
+import '../constants/theme_constants.dart';
 
 class DailyCheckinScreen extends StatefulWidget {
   const DailyCheckinScreen({super.key});
@@ -31,9 +33,30 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDark
+        ? UIColors.darkBackground
+        : UIColors.lightBackground;
+    final surfaceColor = isDark ? UIColors.darkSurface : UIColors.lightSurface;
+    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
+    final secondaryTextColor = isDark
+        ? UIColors.darkTextSecondary
+        : UIColors.lightTextSecondary;
+
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: const Text('Daily Check-In'),
+        title: Text(
+          'Daily Check-In',
+          style: TextStyle(
+            fontWeight: ThemeConstants.fontBold,
+            color: textColor,
+          ),
+        ),
+        backgroundColor: surfaceColor,
+        elevation: 0,
+        centerTitle: true,
+        iconTheme: IconThemeData(color: textColor),
         actions: [
           IconButton(
             icon: const Icon(Icons.history),
@@ -47,205 +70,237 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
       body: Consumer<DailyCheckinProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
+                ),
+              ),
+            );
           }
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Date selector
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.calendar_today),
-                    title: const Text('Date'),
-                    subtitle: Text(
-                      '${provider.selectedDate.year}-${provider.selectedDate.month.toString().padLeft(2, '0')}-${provider.selectedDate.day.toString().padLeft(2, '0')}',
+                // Date & Time (Read-Only)
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildReadOnlyField(
+                        context,
+                        icon: Icons.calendar_today,
+                        label: 'Date',
+                        value:
+                            '${provider.selectedDate.year}-${provider.selectedDate.month.toString().padLeft(2, '0')}-${provider.selectedDate.day.toString().padLeft(2, '0')}',
+                      ),
                     ),
-                    trailing: const Icon(Icons.edit),
-                    onTap: () async {
-                      final date = await showDatePicker(
-                        context: context,
-                        initialDate: provider.selectedDate,
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime.now(),
-                      );
-                      if (date != null) {
-                        provider.setSelectedDate(date);
-                        provider.checkExistingCheckin();
-                      }
-                    },
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Time selector
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.access_time),
-                    title: const Text('Time'),
-                    subtitle: Text(
-                      '${provider.selectedTime?.hour.toString().padLeft(2, '0')}:${provider.selectedTime?.minute.toString().padLeft(2, '0')}',
-                    ),
-                    trailing: const Icon(Icons.edit),
-                    onTap: () async {
-                      final time = await showTimePicker(
-                        context: context,
-                        initialTime: provider.selectedTime ?? TimeOfDay.now(),
-                      );
-                      if (time != null) {
-                        provider.setSelectedTime(time);
-                      }
-                    },
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Time of day selection
-                const Text(
-                  'Time of Day',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                SegmentedButton<String>(
-                  segments: const [
-                    ButtonSegment(
-                      value: 'morning',
-                      label: Text('Morning'),
-                      icon: Icon(Icons.wb_sunny),
-                    ),
-                    ButtonSegment(
-                      value: 'afternoon',
-                      label: Text('Midday'),
-                      icon: Icon(Icons.wb_cloudy),
-                    ),
-                    ButtonSegment(
-                      value: 'evening',
-                      label: Text('Evening'),
-                      icon: Icon(Icons.nightlight_round),
+                    const SizedBox(width: ThemeConstants.space16),
+                    Expanded(
+                      child: _buildReadOnlyField(
+                        context,
+                        icon: Icons.access_time,
+                        label: 'Time',
+                        value:
+                            '${provider.selectedTime?.hour.toString().padLeft(2, '0')}:${provider.selectedTime?.minute.toString().padLeft(2, '0')}',
+                      ),
                     ),
                   ],
-                  selected: {provider.timeOfDay},
-                  onSelectionChanged: (Set<String> newSelection) {
-                    provider.setTimeOfDay(newSelection.first);
-                    provider.checkExistingCheckin();
-                  },
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: ThemeConstants.space24),
+
+                // Time of Day Indicator (Full Width)
+                _buildTimeOfDayIndicator(context, provider.timeOfDay),
+                const SizedBox(height: ThemeConstants.space24),
 
                 // Existing check-in notice
                 if (provider.existingCheckin != null)
-                  Card(
-                    color: Colors.red.shade50,
-                    child: const Padding(
-                      padding: EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.block, color: Colors.red),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              'A check-in already exists for this time. Please select a different time or date.',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                              ),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(
+                        ThemeConstants.radiusMedium,
+                      ),
+                      border: Border.all(color: Colors.red.withOpacity(0.3)),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.info_outline,
+                          color: Colors.red,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'Check-in already exists for this time.',
+                            style: TextStyle(
+                              color: Colors.red[300],
+                              fontWeight: FontWeight.bold,
+                              fontSize: ThemeConstants.fontSmall,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                if (provider.existingCheckin != null) const SizedBox(height: 16),
+                if (provider.existingCheckin != null)
+                  const SizedBox(height: ThemeConstants.space24),
 
-                // Mood selection
-                const Text(
-                  'How are you feeling overall?',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                // Mood Selection
+                Text(
+                  'How are you feeling?',
+                  style: TextStyle(
+                    fontSize: ThemeConstants.fontLarge,
+                    fontWeight: ThemeConstants.fontBold,
+                    color: textColor,
+                  ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ThemeConstants.space16),
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: 12,
+                  runSpacing: 12,
                   children: provider.availableMoods.map((mood) {
                     final isSelected = provider.mood == mood;
-                    return ChoiceChip(
-                      label: Text(mood),
-                      selected: isSelected,
-                      onSelected: (_) => provider.setMood(mood),
-                      selectedColor: _getMoodColor(mood),
+                    return _buildMoodChip(
+                      context,
+                      mood,
+                      isSelected,
+                      () => provider.setMood(mood),
                     );
                   }).toList(),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: ThemeConstants.space32),
 
-                // Emotions selection
-                const Text(
-                  'Select your emotions',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                // Emotions Selection
+                Text(
+                  'Emotions',
+                  style: TextStyle(
+                    fontSize: ThemeConstants.fontLarge,
+                    fontWeight: ThemeConstants.fontBold,
+                    color: textColor,
+                  ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ThemeConstants.space16),
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: 10,
+                  runSpacing: 10,
                   children: provider.availableEmotions.map((emotion) {
                     final isSelected = provider.emotions.contains(emotion);
-                    return FilterChip(
-                      label: Text(emotion),
-                      selected: isSelected,
-                      onSelected: (_) => provider.toggleEmotion(emotion),
+                    return _buildEmotionChip(
+                      context,
+                      emotion,
+                      isSelected,
+                      () => provider.toggleEmotion(emotion),
                     );
                   }).toList(),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: ThemeConstants.space32),
 
                 // Notes
-                const Text(
-                  'Notes (optional)',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                Text(
+                  'Notes',
+                  style: TextStyle(
+                    fontSize: ThemeConstants.fontLarge,
+                    fontWeight: ThemeConstants.fontBold,
+                    color: textColor,
+                  ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ThemeConstants.space8),
                 TextField(
                   controller: _notesController,
                   maxLines: 4,
-                  decoration: const InputDecoration(
-                    hintText: 'How was your day? Any thoughts or observations?',
-                    border: OutlineInputBorder(),
+                  style: TextStyle(color: textColor),
+                  decoration: InputDecoration(
+                    hintText: 'Any thoughts or observations?',
+                    hintStyle: TextStyle(
+                      color: secondaryTextColor.withOpacity(0.5),
+                    ),
+                    filled: true,
+                    fillColor: isDark ? UIColors.darkSurface : Colors.grey[50],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        ThemeConstants.radiusMedium,
+                      ),
+                      borderSide: BorderSide(
+                        color: isDark
+                            ? UIColors.darkBorder
+                            : UIColors.lightBorder,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        ThemeConstants.radiusMedium,
+                      ),
+                      borderSide: BorderSide(
+                        color: isDark
+                            ? UIColors.darkBorder
+                            : UIColors.lightBorder,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        ThemeConstants.radiusMedium,
+                      ),
+                      borderSide: BorderSide(
+                        color: isDark
+                            ? UIColors.darkNeonCyan
+                            : UIColors.lightAccentBlue,
+                      ),
+                    ),
+                    contentPadding: const EdgeInsets.all(16),
                   ),
                   onChanged: provider.setNotes,
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: ThemeConstants.space32),
 
-                // Save button
+                // Save Button
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: provider.isSaving || provider.existingCheckin != null
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed:
+                        provider.isSaving || provider.existingCheckin != null
                         ? null
                         : () => provider.saveCheckin(context),
-                    icon: provider.isSaving
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.save),
-                    label: Text(
-                      provider.isSaving
-                          ? 'Saving...'
-                          : provider.existingCheckin != null
-                              ? 'Already Logged'
-                              : 'Save Check-In',
-                    ),
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: provider.existingCheckin != null
-                          ? Colors.grey
-                          : null,
+                      backgroundColor: isDark
+                          ? UIColors.darkNeonCyan
+                          : UIColors.lightAccentBlue,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          ThemeConstants.radiusLarge,
+                        ),
+                      ),
+                      disabledBackgroundColor: isDark
+                          ? Colors.white10
+                          : Colors.grey[300],
                     ),
+                    child: provider.isSaving
+                        ? SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
+                        : const Text(
+                            'Save Check-In',
+                            style: TextStyle(
+                              fontSize: ThemeConstants.fontMedium,
+                              fontWeight: ThemeConstants.fontBold,
+                            ),
+                          ),
                   ),
                 ),
+                const SizedBox(height: ThemeConstants.space32),
               ],
             ),
           );
@@ -254,20 +309,189 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
     );
   }
 
-  Color _getMoodColor(String mood) {
-    switch (mood) {
-      case 'Great':
-        return Colors.green.shade200;
-      case 'Good':
-        return Colors.lightGreen.shade200;
-      case 'Okay':
-        return Colors.yellow.shade200;
-      case 'Struggling':
-        return Colors.orange.shade200;
-      case 'Poor':
-        return Colors.red.shade200;
-      default:
-        return Colors.grey.shade200;
-    }
+  Widget _buildReadOnlyField(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final borderColor = isDark ? UIColors.darkBorder : UIColors.lightBorder;
+    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
+    final labelColor = isDark
+        ? UIColors.darkTextSecondary
+        : UIColors.lightTextSecondary;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: isDark ? UIColors.darkSurface : Colors.white,
+        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+        border: Border.all(color: borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 16, color: labelColor),
+              const SizedBox(width: 8),
+              Text(
+                label,
+                style: TextStyle(
+                  color: labelColor,
+                  fontSize: ThemeConstants.fontSmall,
+                  fontWeight: ThemeConstants.fontMediumWeight,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(
+              color: textColor,
+              fontSize: ThemeConstants.fontMedium,
+              fontWeight: ThemeConstants.fontBold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTimeOfDayIndicator(
+    BuildContext context,
+    String currentTimeOfDay,
+  ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final borderColor = isDark ? UIColors.darkBorder : UIColors.lightBorder;
+
+    return Container(
+      height: 48,
+      decoration: BoxDecoration(
+        color: isDark ? UIColors.darkSurface : Colors.white,
+        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+        border: Border.all(color: borderColor),
+      ),
+      child: Row(
+        children: [
+          _buildTimeSegment(context, 'Morning', currentTimeOfDay == 'morning'),
+          Container(width: 1, color: borderColor),
+          _buildTimeSegment(
+            context,
+            'Afternoon',
+            currentTimeOfDay == 'afternoon',
+          ),
+          Container(width: 1, color: borderColor),
+          _buildTimeSegment(context, 'Evening', currentTimeOfDay == 'evening'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTimeSegment(BuildContext context, String label, bool isActive) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeColor = isDark
+        ? UIColors.darkNeonCyan
+        : UIColors.lightAccentBlue;
+    final inactiveTextColor = isDark
+        ? UIColors.darkTextSecondary
+        : UIColors.lightTextSecondary;
+
+    return Expanded(
+      child: Container(
+        alignment: Alignment.center,
+        decoration: isActive
+            ? BoxDecoration(color: activeColor.withOpacity(0.15))
+            : null,
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isActive ? activeColor : inactiveTextColor,
+            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+            fontSize: ThemeConstants.fontSmall,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMoodChip(
+    BuildContext context,
+    String label,
+    bool isSelected,
+    VoidCallback onTap,
+  ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeColor = isDark
+        ? UIColors.darkNeonCyan
+        : UIColors.lightAccentBlue;
+    final inactiveBorder = isDark ? UIColors.darkBorder : UIColors.lightBorder;
+    final inactiveBg = isDark ? UIColors.darkSurface : Colors.white;
+    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: isSelected ? activeColor.withOpacity(0.2) : inactiveBg,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? activeColor : inactiveBorder,
+            width: isSelected ? 1.5 : 1,
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? activeColor : textColor,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            fontSize: ThemeConstants.fontMedium,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmotionChip(
+    BuildContext context,
+    String label,
+    bool isSelected,
+    VoidCallback onTap,
+  ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeColor = isDark
+        ? UIColors.darkNeonPurple
+        : UIColors.lightAccentPurple;
+    final inactiveBorder = isDark ? UIColors.darkBorder : UIColors.lightBorder;
+    final inactiveBg = isDark ? UIColors.darkSurface : Colors.white;
+    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? activeColor.withOpacity(0.2) : inactiveBg,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isSelected ? activeColor : inactiveBorder,
+            width: isSelected ? 1.5 : 1,
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? activeColor : textColor,
+            fontSize: ThemeConstants.fontSmall,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+          ),
+        ),
+      ),
+    );
   }
 }
