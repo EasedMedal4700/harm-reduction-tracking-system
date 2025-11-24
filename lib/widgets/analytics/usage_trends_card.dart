@@ -225,7 +225,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
         gridData: FlGridData(
           show: true,
           drawVerticalLine: false,
-          horizontalInterval: 1,
+          horizontalInterval: _calculateGridInterval(data),
           getDrawingHorizontalLine: (value) => FlLine(
             color: isDark
                 ? UIColors.darkBorder
@@ -436,5 +436,35 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
 
     if (previous == 0) return null;
     return ((current - previous) / previous) * 100;
+  }
+
+  /// Calculate adaptive grid interval based on max value
+  /// Shows 5-10 lines maximum for cleaner look
+  double _calculateGridInterval(List<Map<String, int>> data) {
+    if (data.isEmpty) return 1;
+    
+    // Find max value across all bars
+    double maxValue = 0;
+    for (final entry in data) {
+      final sum = entry.values.fold<int>(0, (s, v) => s + v).toDouble();
+      if (sum > maxValue) maxValue = sum;
+    }
+    
+    if (maxValue <= 0) return 1;
+    
+    // Calculate interval to show 5-10 lines
+    final targetLines = 10;
+    double interval = (maxValue / targetLines).ceilToDouble();
+    
+    // Round to nice numbers (1, 2, 5, 10, 20, 50, etc.)
+    if (interval <= 1) return 1;
+    if (interval <= 2) return 2;
+    if (interval <= 5) return 5;
+    if (interval <= 10) return 10;
+    if (interval <= 20) return 20;
+    if (interval <= 50) return 50;
+    
+    // For larger values, round to nearest 10
+    return (interval / 10).ceil() * 10;
   }
 }

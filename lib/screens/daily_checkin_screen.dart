@@ -427,29 +427,61 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
     final activeColor = isDark
         ? UIColors.darkNeonCyan
         : UIColors.lightAccentBlue;
-    final inactiveBorder = isDark ? UIColors.darkBorder : UIColors.lightBorder;
-    final inactiveBg = isDark ? UIColors.darkSurface : Colors.white;
+    final inactiveBorder = isDark ? UIColors.darkBorder.withValues(alpha: 0.3) : UIColors.lightBorder;
+    final inactiveBg = isDark ? UIColors.darkSurface : Colors.grey.shade50;
     final textColor = isDark ? UIColors.darkText : UIColors.lightText;
 
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? activeColor.withOpacity(0.2) : inactiveBg,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? activeColor : inactiveBorder,
-            width: isSelected ? 1.5 : 1,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(24),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          decoration: BoxDecoration(
+            gradient: isSelected
+                ? LinearGradient(
+                    colors: [
+                      activeColor.withValues(alpha: 0.25),
+                      activeColor.withValues(alpha: 0.15),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : null,
+            color: isSelected ? null : inactiveBg,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: isSelected ? activeColor : inactiveBorder,
+              width: isSelected ? 2 : 1,
+            ),
+            boxShadow: isSelected && isDark
+                ? [
+                    BoxShadow(
+                      color: activeColor.withValues(alpha: 0.3),
+                      blurRadius: 12,
+                      spreadRadius: 0,
+                    ),
+                  ]
+                : isSelected
+                    ? [
+                        BoxShadow(
+                          color: activeColor.withValues(alpha: 0.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ]
+                    : null,
           ),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? activeColor : textColor,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            fontSize: ThemeConstants.fontMedium,
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? activeColor : textColor,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+              fontSize: ThemeConstants.fontMedium,
+              letterSpacing: 0.3,
+            ),
           ),
         ),
       ),
@@ -466,29 +498,67 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
     final activeColor = isDark
         ? UIColors.darkNeonPurple
         : UIColors.lightAccentPurple;
-    final inactiveBorder = isDark ? UIColors.darkBorder : UIColors.lightBorder;
-    final inactiveBg = isDark ? UIColors.darkSurface : Colors.white;
+    final inactiveBorder = isDark ? UIColors.darkBorder.withValues(alpha: 0.3) : UIColors.lightBorder;
+    final inactiveBg = isDark ? UIColors.darkSurface : Colors.grey.shade50;
     final textColor = isDark ? UIColors.darkText : UIColors.lightText;
 
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? activeColor.withOpacity(0.2) : inactiveBg,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isSelected ? activeColor : inactiveBorder,
-            width: isSelected ? 1.5 : 1,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+          decoration: BoxDecoration(
+            gradient: isSelected
+                ? LinearGradient(
+                    colors: [
+                      activeColor.withValues(alpha: 0.25),
+                      activeColor.withValues(alpha: 0.15),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : null,
+            color: isSelected ? null : inactiveBg,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isSelected ? activeColor : inactiveBorder,
+              width: isSelected ? 2 : 1,
+            ),
+            boxShadow: isSelected && isDark
+                ? [
+                    BoxShadow(
+                      color: activeColor.withValues(alpha: 0.3),
+                      blurRadius: 8,
+                      spreadRadius: 0,
+                    ),
+                  ]
+                : null,
           ),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? activeColor : textColor,
-            fontSize: ThemeConstants.fontSmall,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (isSelected)
+                Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: Icon(
+                    Icons.check_circle,
+                    size: 16,
+                    color: activeColor,
+                  ),
+                ),
+              Text(
+                label,
+                style: TextStyle(
+                  color: isSelected ? activeColor : textColor,
+                  fontSize: ThemeConstants.fontSmall,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                  letterSpacing: 0.2,
+                ),
+              ),
+            ],
           ),
         ),
       ),

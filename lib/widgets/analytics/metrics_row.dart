@@ -166,11 +166,14 @@ class _MetricCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 6),
-          // Big number with flexible sizing
-          Flexible(
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
+          // Big number with consistent sizing and minimum size
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minHeight: 32,
+              ),
               child: Text(
                 value,
                 style: TextStyle(

@@ -364,10 +364,11 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                 child: Text(
                   e.key,
                   style: TextStyle(
-                    fontSize: ThemeConstants.fontMedium,
+                    fontSize: ThemeConstants.fontMedium.clamp(12.0, ThemeConstants.fontMedium),
                     fontWeight: ThemeConstants.fontMediumWeight,
                     color: isDark ? UIColors.darkText : UIColors.lightText,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               // Count and percentage

@@ -153,14 +153,21 @@ class _HomePageState extends State<HomePage>
               
               // Daily Check-in Card
               ChangeNotifierProvider(
-                create: (_) => DailyCheckinProvider(repository: widget.dailyCheckinRepository),
+                create: (_) {
+                  final provider = DailyCheckinProvider(repository: widget.dailyCheckinRepository);
+                  provider.initialize();
+                  provider.checkExistingCheckin();
+                  return provider;
+                },
                 child: Consumer<DailyCheckinProvider>(
                   builder: (context, provider, _) {
                     final hasCompleted = provider.existingCheckin != null;
+                    final timeSlot = provider.existingCheckin?.timeOfDay;
                     return DailyCheckinCard(
                       isCompleted: hasCompleted,
                       onTap: () => _openDailyCheckin(context),
                       completedMessage: 'Keep up the great work!',
+                      completedTimeSlot: timeSlot,
                     );
                   },
                 ),

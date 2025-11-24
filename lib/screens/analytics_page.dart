@@ -173,7 +173,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isWideScreen = constraints.maxWidth > 900;
+        // Use single column for narrow screens (< 900px)
+        // Use 2-column for wide screens (>= 900px)
+        final isWideScreen = constraints.maxWidth >= 900;
         
         return AnimatedOpacity(
           opacity: 1.0,
