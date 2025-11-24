@@ -2,9 +2,19 @@ import 'dart:math';
 import '../models/tolerance_model.dart';
 
 /// Tolerance calculation utilities
+/// 
+/// LEGACY SYSTEM: This calculator uses the OLD exponential decay + logistic curve formula.
+/// It's used for system-wide tolerance aggregation across all substances.
+/// 
+/// For per-substance bucket-specific tolerance, see BucketToleranceCalculator (NEW system).
 class ToleranceCalculator {
   /// Logistic curve parameter for load -> percent conversion
-  static const double kLogisticK = 100.0;
+  /// RECALIBRATED: Reduced from 100.0 to 18.0 to prevent explosive tolerance buildup
+  /// This ensures 8 uses of 5mg Dexedrine over 4 days produces ~30-35% tolerance
+  /// Formula: percent = 100 × (1 - e^(-load / K))
+  /// Lower K = higher sensitivity (more tolerance per dose)
+  /// Higher K = lower sensitivity (less tolerance per dose)
+  static const double kLogisticK = 18.0;  // Was 100.0, then 12.5, now 18.0
 
   /// Classify system state based on tolerance percentage
   /// 
@@ -67,11 +77,15 @@ class ToleranceCalculator {
 
   /// Compute tolerance percentages for all buckets
   /// 
+  /// CRITICAL: Computes tolerance for ALL buckets found in tolerance models,
+  /// not just a hardcoded list. This ensures we capture all 7+ bucket types.
+  /// 
   /// Returns Map<String, double> like:
   /// {
   ///   "gaba": 72.4,
   ///   "stimulant": 33.8,
-  ///   "serotonin": 49.1,
+  ///   "serotonin_release": 49.1,
+  ///   "serotonin_psychedelic": 12.5,
   ///   "opioid": 11.8,
   ///   "nmda": 22.0,
   ///   "cannabinoid": 5.3
@@ -84,7 +98,14 @@ class ToleranceCalculator {
     final currentTime = now ?? DateTime.now();
     final result = <String, double>{};
 
-    for (final bucket in kToleranceBuckets) {
+    // Collect ALL unique bucket types from all tolerance models
+    final allBuckets = <String>{};
+    for (final model in toleranceModels.values) {
+      allBuckets.addAll(model.neuroBuckets.keys);
+    }
+
+    // Compute tolerance for each bucket found
+    for (final bucket in allBuckets) {
       final load = computeRawBucketLoad(
         useLogs: useLogs,
         toleranceModels: toleranceModels,

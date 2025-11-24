@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/tolerance_model.dart';
+import '../models/bucket_definitions.dart';
 import '../services/tolerance_engine_service.dart';
 import '../services/user_service.dart';
 import '../constants/theme_constants.dart';
@@ -59,16 +60,18 @@ class SystemToleranceWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: ThemeConstants.space16),
+            // CRITICAL: Render ALL 7 canonical buckets in order
+            // Show "Recovered 0.0%" for buckets not in data
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: kToleranceBuckets.length,
+              itemCount: BucketDefinitions.orderedBuckets.length,
               separatorBuilder: (context, index) => Divider(
                 height: 1,
                 color: isDark ? UIColors.darkDivider : UIColors.lightDivider,
               ),
               itemBuilder: (context, index) {
-                final bucket = kToleranceBuckets[index];
+                final bucket = BucketDefinitions.orderedBuckets[index];
                 final percent = data.percents[bucket] ?? 0.0;
                 final state =
                     data.states[bucket] ?? ToleranceSystemState.recovered;
@@ -213,18 +216,23 @@ class SystemToleranceWidget extends StatelessWidget {
   }
 
   IconData _getBucketIcon(String bucket) {
-    switch (bucket.toLowerCase()) {
-      case 'gaba':
+    final iconName = BucketDefinitions.getIconName(bucket);
+    switch (iconName) {
+      case 'psychology':
         return Icons.psychology;
-      case 'stimulant':
+      case 'bolt':
         return Icons.bolt;
-      case 'serotonin':
+      case 'favorite':
+        return Icons.favorite;
+      case 'auto_awesome':
+        return Icons.auto_awesome;
+      case 'sentiment_satisfied_alt':
         return Icons.sentiment_satisfied_alt;
-      case 'opioid':
+      case 'medication':
         return Icons.medication;
-      case 'nmda':
+      case 'blur_on':
         return Icons.blur_on;
-      case 'cannabinoid':
+      case 'eco':
         return Icons.eco;
       default:
         return Icons.science;
@@ -232,22 +240,7 @@ class SystemToleranceWidget extends StatelessWidget {
   }
 
   String _formatBucketName(String bucket) {
-    switch (bucket.toLowerCase()) {
-      case 'gaba':
-        return 'GABA';
-      case 'stimulant':
-        return 'Stimulant';
-      case 'serotonin':
-        return 'Serotonin';
-      case 'opioid':
-        return 'Opioid';
-      case 'nmda':
-        return 'NMDA';
-      case 'cannabinoid':
-        return 'Cannabinoid';
-      default:
-        return bucket.toUpperCase();
-    }
+    return BucketDefinitions.getDisplayName(bucket);
   }
 
   Color _getStateColor(ToleranceSystemState state) {

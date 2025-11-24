@@ -394,9 +394,17 @@ class ToleranceEngineService {
     }
   }
 
-  /// Return empty buckets map
+  /// Return empty buckets map with all canonical buckets
   static Map<String, double> _emptyBuckets() {
-    return {for (final bucket in kToleranceBuckets) bucket: 0.0};
+    return {
+      'gaba': 0.0,
+      'stimulant': 0.0,
+      'serotonin_release': 0.0,
+      'serotonin_psychedelic': 0.0,
+      'opioid': 0.0,
+      'nmda': 0.0,
+      'cannabinoid': 0.0,
+    };
   }
 }
 
