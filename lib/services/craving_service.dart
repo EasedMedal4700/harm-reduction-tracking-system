@@ -20,9 +20,10 @@ class CravingService {
     }
 
     try {
+      final userId = await UserService.getIntegerUserId();
       final data = {
         'craving_id': _uuid.v4(),
-        'user_id': craving.userId,
+        'user_id': userId,
         'substance': craving.substance,
         'intensity': craving.intensity.toInt(),
         'date': craving.date.toIso8601String().split('T')[0],
@@ -87,7 +88,7 @@ class CravingService {
       }
 
       ErrorHandler.logInfo('CravingService', 'Craving fetched successfully: $cravingId');
-      return result as Map<String, dynamic>;
+      return result;
     } catch (e, stackTrace) {
       ErrorHandler.logError('CravingService.fetchCravingById', e, stackTrace);
       rethrow;

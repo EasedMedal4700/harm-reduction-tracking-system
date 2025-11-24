@@ -22,7 +22,8 @@ class _CravingsPageState extends State<CravingsPage> {
   double intensity = 0.0;
   String location = 'Select a location'; // Set default
   String? withWho;
-  List<String> selectedEmotions = [];
+  List<String> primaryEmotions = [];
+  Map<String, List<String>> secondaryEmotions = {};
   String? thoughts;
   List<String> selectedSensations = [];
   String? whatDidYouDo;
@@ -39,6 +40,12 @@ class _CravingsPageState extends State<CravingsPage> {
   Future<void> _save() async {
     setState(() => _isSaving = true);
     final now = DateTime.now();
+    
+    // Flatten secondary emotions into a single list
+    final allSecondary = secondaryEmotions.values
+        .expand((list) => list)
+        .toList();
+    
     final craving = Craving(
       userId: UserService.getCurrentUserId(),
       substance: selectedCravings.isNotEmpty
@@ -54,25 +61,30 @@ class _CravingsPageState extends State<CravingsPage> {
       thoughts: thoughts ?? '',
       triggers: [], // Add if you collect triggers
       bodySensations: selectedSensations,
-      primaryEmotion: selectedEmotions.isNotEmpty
-          ? selectedEmotions.join(', ')
+      primaryEmotion: primaryEmotions.isNotEmpty
+          ? primaryEmotions.join(', ')
           : '',
-      secondaryEmotion: null, // Add if you have secondary emotions
+      secondaryEmotion: allSecondary.isNotEmpty
+          ? allSecondary.join(', ')
+          : null,
       action: actedOnCraving ? 'Acted' : 'Resisted',
       timezone: _timezoneService.getTimezoneOffset(),
     );
 
     try {
       await _cravingService.saveCraving(craving);
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Craving saved!')));
       _resetForm();
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Save failed: $e')));
     } finally {
+      if (!mounted) return;
       setState(() => _isSaving = false);
     }
   }
@@ -83,7 +95,8 @@ class _CravingsPageState extends State<CravingsPage> {
       intensity = 5.0;
       location = 'Select a location'; // Set default on reset
       withWho = null;
-      selectedEmotions = [];
+      primaryEmotions = [];
+      secondaryEmotions = {};
       thoughts = null;
       selectedSensations = [];
       whatDidYouDo = null;
@@ -141,9 +154,12 @@ class _CravingsPageState extends State<CravingsPage> {
             ),
             const Divider(),
             EmotionalStateSection(
-              selectedEmotions: selectedEmotions,
+              selectedEmotions: primaryEmotions,
+              secondaryEmotions: secondaryEmotions,
               onEmotionsChanged: (emotions) =>
-                  setState(() => selectedEmotions = emotions),
+                  setState(() => primaryEmotions = emotions),
+              onSecondaryEmotionsChanged: (secondary) =>
+                  setState(() => secondaryEmotions = secondary),
               thoughts: thoughts,
               onThoughtsChanged: (value) => setState(() => thoughts = value),
             ),

@@ -28,6 +28,26 @@ class LogEntryService {
       ErrorHandler.logError('LogEntryService.updateLogEntry', e, stackTrace);
       rethrow;
     }
+  }
+
+  Future<void> deleteLogEntry(String id) async {
+    try {
+      final supabase = Supabase.instance.client;
+      final userId = await UserService.getIntegerUserId();
+      await supabase
+          .from('drug_use')
+          .delete()
+          .eq('user_id', userId)
+          .eq('use_id', id);
+      
+      // Invalidate cache for user's entries
+      _cache.remove(CacheKeys.recentEntries(userId));
+      _cache.remove(CacheKeys.drugEntry(id));
+      _cache.removePattern('drug_entries:user:$userId');
+    } catch (e, stackTrace) {
+      ErrorHandler.logError('LogEntryService.deleteLogEntry', e, stackTrace);
+      rethrow;
+    }
   }  
 
   Future<void> saveLogEntry(LogEntry entry) async {

@@ -6,14 +6,18 @@ import '../../constants/theme_constants.dart';
 
 class EmotionalStateSection extends StatelessWidget {
   final List<String> selectedEmotions;
+  final Map<String, List<String>> secondaryEmotions;
   final ValueChanged<List<String>> onEmotionsChanged;
+  final ValueChanged<Map<String, List<String>>> onSecondaryEmotionsChanged;
   final String? thoughts;
   final ValueChanged<String> onThoughtsChanged;
 
   const EmotionalStateSection({
     super.key,
     required this.selectedEmotions,
+    required this.secondaryEmotions,
     required this.onEmotionsChanged,
+    required this.onSecondaryEmotionsChanged,
     required this.thoughts,
     required this.onThoughtsChanged,
   });
@@ -32,8 +36,8 @@ class EmotionalStateSection extends StatelessWidget {
           FeelingSelection(
             feelings: selectedEmotions,
             onFeelingsChanged: onEmotionsChanged,
-            secondaryFeelings: <String, List<String>>{},
-            onSecondaryFeelingsChanged: (_) {},
+            secondaryFeelings: secondaryEmotions,
+            onSecondaryFeelingsChanged: onSecondaryEmotionsChanged,
           ),
           SizedBox(height: ThemeConstants.space16),
           Text(

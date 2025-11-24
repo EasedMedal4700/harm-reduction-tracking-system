@@ -26,7 +26,8 @@ class _EditCravingPageState extends State<EditCravingPage> {
   double intensity = 5.0;
   String location = 'Select a location';
   String withWho = '';
-  List<String> selectedEmotions = [];
+  List<String> primaryEmotions = [];
+  Map<String, List<String>> secondaryEmotions = {};
   String thoughts = '';
   List<String> selectedSensations = [];
   String whatDidYouDo = '';
@@ -139,14 +140,20 @@ class _EditCravingPageState extends State<EditCravingPage> {
                   .toList();
 
         // Parse emotions
-        final emotionsStr = data['primary_emotion']?.toString() ?? '';
-        selectedEmotions = emotionsStr.isEmpty
+        final primaryStr = data['primary_emotion']?.toString() ?? '';
+        primaryEmotions = primaryStr.isEmpty
             ? []
-            : emotionsStr
+            : primaryStr
                   .split(',')
                   .map((s) => s.trim())
                   .where((s) => s.isNotEmpty)
                   .toList();
+
+        // Parse secondary emotions
+        // Note: DB stores secondary emotions as flat comma-separated list,
+        // but UI expects map structure. For now, initialize empty map.
+        // Secondary emotions can be re-selected in the UI.
+        secondaryEmotions = {};
 
         // Parse action
         final actionStr = data['action']?.toString() ?? '';
@@ -191,6 +198,11 @@ class _EditCravingPageState extends State<EditCravingPage> {
         return cravingCategories[s] ?? s;
       }).toList();
 
+      // Flatten secondary emotions
+      final allSecondary = secondaryEmotions.values
+          .expand((list) => list)
+          .toList();
+
       final updateData = {
         'substance': substancesToSave.isNotEmpty
             ? substancesToSave.join('; ')
@@ -201,9 +213,12 @@ class _EditCravingPageState extends State<EditCravingPage> {
         'activity': whatDidYouDo,
         'thoughts': thoughts,
         'body_sensations': selectedSensations.join(','),
-        'primary_emotion': selectedEmotions.isNotEmpty
-            ? selectedEmotions.join(', ')
+        'primary_emotion': primaryEmotions.isNotEmpty
+            ? primaryEmotions.join(', ')
             : '',
+        'secondary_emotion': allSecondary.isNotEmpty
+            ? allSecondary.join(', ')
+            : null,
         'action': actedOnCraving ? 'Acted' : 'Resisted',
       };
 
@@ -288,10 +303,13 @@ class _EditCravingPageState extends State<EditCravingPage> {
                   ),
                   const SizedBox(height: 24),
                   EmotionalStateSection(
-                    selectedEmotions: selectedEmotions,
+                    selectedEmotions: primaryEmotions,
+                    secondaryEmotions: secondaryEmotions,
                     thoughts: thoughts,
                     onEmotionsChanged: (value) =>
-                        setState(() => selectedEmotions = value),
+                        setState(() => primaryEmotions = value),
+                    onSecondaryEmotionsChanged: (value) =>
+                        setState(() => secondaryEmotions = value),
                     onThoughtsChanged: (value) =>
                         setState(() => thoughts = value),
                   ),
