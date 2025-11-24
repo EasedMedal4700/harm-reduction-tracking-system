@@ -188,7 +188,7 @@ class _MetricCard extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              fontSize: ThemeConstants.fontXSmall,
+              fontSize: ThemeConstants.fontSmall,
               fontWeight: ThemeConstants.fontMediumWeight,
               color: isDark
                   ? UIColors.darkTextSecondary
@@ -203,7 +203,7 @@ class _MetricCard extends StatelessWidget {
             Text(
               subtitle!,
               style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
+                fontSize: ThemeConstants.fontSmall,
                 fontWeight: ThemeConstants.fontRegular,
                 color: isDark
                     ? UIColors.darkTextSecondary.withValues(alpha: 0.7)
@@ -232,7 +232,7 @@ class _MetricCard extends StatelessWidget {
               child: Text(
                 chipLabel!,
                 style: TextStyle(
-                  fontSize: ThemeConstants.fontXSmall,
+                  fontSize: ThemeConstants.fontSmall,
                   fontWeight: ThemeConstants.fontSemiBold,
                   color: iconColor,
                 ),

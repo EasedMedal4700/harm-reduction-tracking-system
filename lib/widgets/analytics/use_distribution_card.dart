@@ -60,10 +60,10 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
           Row(
             children: [
               Text(
-                'Use Distribution',
+                'Distribution',
                 style: TextStyle(
-                  fontSize: ThemeConstants.fontLarge,
-                  fontWeight: ThemeConstants.fontSemiBold,
+                  fontSize: ThemeConstants.fontXLarge,
+                  fontWeight: ThemeConstants.fontBold,
                   color: isDark ? UIColors.darkText : UIColors.lightText,
                 ),
               ),
@@ -120,15 +120,15 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                   children: [
                     Icon(
                       Icons.arrow_back_ios_new_rounded,
-                      size: ThemeConstants.iconSmall,
+                      size: ThemeConstants.iconMedium,
                       color: accentColor,
                     ),
                     SizedBox(width: ThemeConstants.space8),
                     Text(
                       'Substances in $_selectedCategory',
                       style: TextStyle(
-                        fontSize: ThemeConstants.fontSmall,
-                        fontWeight: ThemeConstants.fontMediumWeight,
+                        fontSize: ThemeConstants.fontMedium,
+                        fontWeight: ThemeConstants.fontSemiBold,
                         color: accentColor,
                       ),
                     ),
@@ -137,7 +137,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
               ),
             ),
           ],
-          SizedBox(height: ThemeConstants.space24),
+          SizedBox(height: _selectedCategory != null ? ThemeConstants.space24 : ThemeConstants.space32),
           // Donut chart
           SizedBox(
             height: 280,
@@ -188,7 +188,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
             child: Text(
               label,
               style: TextStyle(
-                fontSize: ThemeConstants.fontSmall,
+                fontSize: ThemeConstants.fontMedium,
                 fontWeight: isSelected
                     ? ThemeConstants.fontSemiBold
                     : ThemeConstants.fontMediumWeight,
@@ -233,9 +233,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
           final isTouched = _touchedIndex == index;
           final color = _viewType == DistributionViewType.category
               ? DrugCategoryColors.colorFor(e.key)
-              : DrugCategoryColors.colorFor(
-                  widget.substanceToCategory[e.key.toLowerCase()] ?? 'Placeholder',
-                );
+              : _getUniqueColorForSubstance(e.key, index, data.length);
 
           return PieChartSectionData(
             value: e.value.toDouble(),
@@ -294,6 +292,30 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
     return substances;
   }
 
+  /// Generates a unique color for each substance by creating a gradient within the category color
+  Color _getUniqueColorForSubstance(String substance, int index, int totalSubstances) {
+    final category = widget.substanceToCategory[substance.toLowerCase()] ?? 'Placeholder';
+    final baseColor = DrugCategoryColors.colorFor(category);
+    
+    if (totalSubstances == 1) {
+      return baseColor;
+    }
+    
+    // Create gradient from lighter to darker within the base color
+    // Use HSL to create smooth gradients
+    final hslColor = HSLColor.fromColor(baseColor);
+    
+    // Vary lightness and saturation to create distinct shades
+    // Range: from 20% lighter to 20% darker
+    final lightnessOffset = (index / (totalSubstances - 1) * 0.4) - 0.2;
+    final saturationOffset = (index / (totalSubstances - 1) * 0.2) - 0.1;
+    
+    final newLightness = (hslColor.lightness + lightnessOffset).clamp(0.3, 0.8);
+    final newSaturation = (hslColor.saturation + saturationOffset).clamp(0.5, 1.0);
+    
+    return hslColor.withLightness(newLightness).withSaturation(newSaturation).toColor();
+  }
+
   Widget _buildLegend(bool isDark) {
     final data = _viewType == DistributionViewType.category
         ? widget.categoryCounts
@@ -315,12 +337,12 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
       constraints: const BoxConstraints(maxHeight: 300),
       child: SingleChildScrollView(
         child: Column(
-          children: sortedEntries.map((e) {
+          children: sortedEntries.asMap().entries.map((entry) {
+        final index = entry.key;
+        final e = entry.value;
         final color = _viewType == DistributionViewType.category
             ? DrugCategoryColors.colorFor(e.key)
-            : DrugCategoryColors.colorFor(
-                widget.substanceToCategory[e.key.toLowerCase()] ?? 'Placeholder',
-              );
+            : _getUniqueColorForSubstance(e.key, index, sortedEntries.length);
         final percentage = total > 0 ? (e.value / total * 100).toStringAsFixed(1) : '0';
 
         return Padding(
@@ -342,7 +364,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                 child: Text(
                   e.key,
                   style: TextStyle(
-                    fontSize: ThemeConstants.fontSmall,
+                    fontSize: ThemeConstants.fontMedium,
                     fontWeight: ThemeConstants.fontMediumWeight,
                     color: isDark ? UIColors.darkText : UIColors.lightText,
                   ),
@@ -352,7 +374,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
               Text(
                 '$percentage% (${e.value})',
                 style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
+                  fontSize: ThemeConstants.fontMedium,
                   fontWeight: ThemeConstants.fontSemiBold,
                   color: isDark
                       ? UIColors.darkTextSecondary
