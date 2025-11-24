@@ -25,24 +25,46 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _initializeSessionState() async {
+    print('🔄 DEBUG: Initializing session state...');
     final remember = await _readRememberPreference();
     final client = _tryGetSupabaseClient();
     final session = client?.auth.currentSession;
+
+    print('🔄 DEBUG: Remember me: $remember');
+    print('🔄 DEBUG: Client available: ${client != null}');
+    print('🔄 DEBUG: Session exists: ${session != null}');
 
     if (!mounted) return;
 
     setState(() => _rememberMe = remember);
 
     if (session != null && client != null) {
-      if (remember) {
+      // Check if session is still valid (not expired)
+      final now = DateTime.now().millisecondsSinceEpoch / 1000;
+      final isSessionValid = session.expiresAt != null && session.expiresAt! > now;
+
+      print('🔄 DEBUG: Session expires at: ${session.expiresAt}');
+      print('🔄 DEBUG: Current time: $now');
+      print('🔄 DEBUG: Session valid: $isSessionValid');
+
+      if (remember && isSessionValid) {
+        print('🔄 DEBUG: Auto-login with valid session');
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             _navigateToHome();
           }
         });
       } else {
-        await authService.logout();
+        // Session is invalid or remember me is false, clear it
+        print('🔄 DEBUG: Clearing invalid session or remember me is false');
+        try {
+          await authService.logout();
+        } catch (e) {
+          print('⚠️ DEBUG: Error during logout in init: $e');
+        }
       }
+    } else {
+      print('🔄 DEBUG: No session or client, staying on login page');
     }
   }
 

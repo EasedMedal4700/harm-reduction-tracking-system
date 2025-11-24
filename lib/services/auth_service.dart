@@ -10,16 +10,17 @@ class AuthService {
     try {
       print('🔐 DEBUG: Starting login for email: $email');
       print('🔐 DEBUG: Attempting sign in with password...');
-      
+
       final response = await _client.auth.signInWithPassword(
-        email: email, 
+        email: email,
         password: password,
       );
-      
+
       print('✅ DEBUG: Login successful!');
       print('✅ DEBUG: User ID: ${response.user?.id}');
       print('✅ DEBUG: Session exists: ${response.session != null}');
-      
+      print('✅ DEBUG: Session expires at: ${response.session?.expiresAt}');
+
       return true;
     } on AuthException catch (e, stackTrace) {
       print('❌ DEBUG: AuthException during login');

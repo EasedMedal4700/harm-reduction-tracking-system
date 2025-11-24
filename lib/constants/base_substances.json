@@ -1,0 +1,112 @@
+// 1️⃣ Stimulant baseline – Dexedrine
+{
+  "notes": "Baseline reference for stimulant tolerance (dopamine/noradrenaline). Other stimulants are scaled relative to this.",
+  "neuro_buckets": {
+    "stimulant": {
+      "weight": 1.0,
+      "tolerance_type": "stimulant"
+    }
+  },
+  "potency_multiplier": 1.0,
+  "duration_multiplier": 1.0,
+  "active_threshold": 0.05,
+  "tolerance_gain_rate": 1.0,
+  "half_life_hours": 6,
+  "tolerance_decay_days": 4
+}
+// 2️⃣ Serotonin release baseline – MDMA
+{
+  "notes": "Baseline reference for long-term serotonergic tolerance (SERT depletion from MDMA-like releasers).",
+  "neuro_buckets": {
+    "serotonin_release": {
+      "weight": 1.0,
+      "tolerance_type": "serotonin_release"
+    }
+  },
+  "potency_multiplier": 1.0,
+  "duration_multiplier": 1.0,
+  "active_threshold": 0.05,
+  "tolerance_gain_rate": 1.0,
+  "half_life_hours": 9,
+  "tolerance_decay_days": 30
+}
+// 3️⃣ Serotonin psychedelic baseline – LSD
+{
+  "notes": "Baseline reference for 5-HT2A psychedelic tolerance (LSD/psilocybin/2C-x). Tolerance is short-lived and resets within days.",
+  "neuro_buckets": {
+    "serotonin_psychedelic": {
+      "weight": 1.0,
+      "tolerance_type": "serotonin_psychedelic"
+    }
+  },
+  "potency_multiplier": 1.0,
+  "duration_multiplier": 1.0,
+  "active_threshold": 0.05,
+  "tolerance_gain_rate": 1.0,
+  "half_life_hours": 4,
+  "tolerance_decay_days": 3
+}
+// 4️⃣ GABA baseline – Diazepam-style benzo
+{
+  "notes": "Baseline reference for GABA-A positive allosteric modulators (benzodiazepines).",
+  "neuro_buckets": {
+    "gaba": {
+      "weight": 1.0,
+      "tolerance_type": "gaba"
+    }
+  },
+  "potency_multiplier": 1.0,
+  "duration_multiplier": 1.0,
+  "active_threshold": 0.05,
+  "tolerance_gain_rate": 1.0,
+  "half_life_hours": 30,
+  "tolerance_decay_days": 14
+}
+5️⃣ NMDA baseline – Ketamine
+{
+  "notes": "Baseline reference for NMDA antagonist tolerance (ketamine-like dissociatives).",
+  "neuro_buckets": {
+    "nmda": {
+      "weight": 1.0,
+      "tolerance_type": "nmda"
+    }
+  },
+  "potency_multiplier": 1.0,
+  "duration_multiplier": 1.0,
+  "active_threshold": 0.05,
+  "tolerance_gain_rate": 1.0,
+  "half_life_hours": 2.5,
+  "tolerance_decay_days": 7
+}
+// 6️⃣ Opioid baseline – Morphine
+{
+  "notes": "Baseline reference for mu-opioid tolerance (morphine-equivalent load).",
+  "neuro_buckets": {
+    "opioid": {
+      "weight": 1.0,
+      "tolerance_type": "opioid"
+    }
+  },
+  "potency_multiplier": 1.0,
+  "duration_multiplier": 1.0,
+  "active_threshold": 0.05,
+  "tolerance_gain_rate": 1.0,
+  "half_life_hours": 3,
+  "tolerance_decay_days": 7
+}
+// 7️⃣ Cannabinoid baseline – THC
+{
+  "notes": "Baseline reference for cannabinoid tolerance from THC-containing cannabis products.",
+  "neuro_buckets": {
+    "cannabinoid": {
+      "weight": 1.0,
+      "tolerance_type": "cannabinoid"
+    }
+  },
+  "potency_multiplier": 1.0,
+  "duration_multiplier": 1.0,
+  "active_threshold": 0.02,
+  "tolerance_gain_rate": 1.0,
+  "half_life_hours": 30,
+  "tolerance_decay_days": 14
+}
