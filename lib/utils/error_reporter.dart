@@ -24,7 +24,14 @@ class ErrorReporter {
   static final ErrorLoggingService _loggingService =
       ErrorLoggingService.instance;
 
-  SupabaseClient get _client => Supabase.instance.client;
+  SupabaseClient? get _client {
+    try {
+      return Supabase.instance.client;
+    } catch (e) {
+      // Supabase not initialized yet
+      return null;
+    }
+  }
 
   /// Map an error to a severity level
   static ErrorSeverity mapSeverity(dynamic error, StackTrace? stackTrace) {
@@ -198,8 +205,8 @@ class ErrorReporter {
     final severity = forceSeverity ?? mapSeverity(error, stackTrace);
     final errorCode = forceErrorCode ?? generateErrorCode(error);
 
-    // Get current user
-    final userId = _client.auth.currentUser?.id;
+    // Get current user (if Supabase is initialized)
+    final userId = _client?.auth.currentUser?.id;
 
     // Get app and device info from ErrorLoggingService
     await _loggingService.init();
@@ -225,7 +232,10 @@ class ErrorReporter {
     };
 
     try {
-      await _client.from('error_logs').insert(payload);
+      // Only insert to database if Supabase is initialized
+      if (_client != null) {
+        await _client!.from('error_logs').insert(payload);
+      }
 
       debugPrint('═' * 80);
       debugPrint(

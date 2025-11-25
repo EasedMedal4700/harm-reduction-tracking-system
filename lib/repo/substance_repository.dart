@@ -74,9 +74,20 @@ class SubstanceRepository {
   List<String> getAvailableROAs(Map<String, dynamic>? substanceDetails) {
     if (substanceDetails == null) return [];
 
-    final formattedDose =
-        substanceDetails['formatted_dose'] as Map<String, dynamic>?;
-    if (formattedDose == null || formattedDose.isEmpty) return [];
+    final formattedDoseRaw = substanceDetails['formatted_dose'];
+    if (formattedDoseRaw == null) return [];
+    
+    // Handle both Map<dynamic, dynamic> and Map<String, dynamic>
+    final Map<String, dynamic> formattedDose;
+    if (formattedDoseRaw is Map<String, dynamic>) {
+      formattedDose = formattedDoseRaw;
+    } else if (formattedDoseRaw is Map) {
+      formattedDose = Map<String, dynamic>.from(formattedDoseRaw);
+    } else {
+      return [];
+    }
+    
+    if (formattedDose.isEmpty) return [];
 
     // Extract ROA keys and convert to lowercase (Oral -> oral, Insufflated -> insufflated, etc.)
     return formattedDose.keys
