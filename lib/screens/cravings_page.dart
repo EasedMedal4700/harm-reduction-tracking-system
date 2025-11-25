@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/common/drawer_menu.dart';
 import '../constants/body_and_mind_catalog.dart';
 import '../constants/drug_use_catalog.dart';
 import '../widgets/cravings/craving_details_section.dart'; // Add imports
@@ -128,7 +129,12 @@ class _CravingsPageState extends State<CravingsPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      drawer: const DrawerMenu(),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {});
+        },
+        child: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,6 +193,7 @@ class _CravingsPageState extends State<CravingsPage> {
                   : const Text('Save Entry'),
             ),
           ],
+        ),
         ),
       ),
     );

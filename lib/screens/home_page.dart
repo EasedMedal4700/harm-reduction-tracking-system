@@ -85,8 +85,18 @@ class _HomePageState extends State<HomePage>
   void _openToleranceDashboard(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildToleranceDashboardPage()));
   }
-  void _openDailyCheckin(BuildContext context) {
-    Navigator.pushNamed(context, '/daily-checkin');
+  void _openDailyCheckin(BuildContext context) async {
+    // Navigate to daily check-in and wait for result
+    await Navigator.pushNamed(context, '/daily-checkin');
+    
+    // Refresh the daily check-in status when returning
+    if (context.mounted) {
+      final provider = Provider.of<DailyCheckinProvider>(context, listen: false);
+      await provider.checkExistingCheckin();
+      
+      // Trigger rebuild to show updated status
+      setState(() {});
+    }
   }
 
   @override
@@ -138,16 +148,21 @@ class _HomePageState extends State<HomePage>
       ),
       drawer: const DrawerMenu(),
       floatingActionButton: _buildFAB(isDark),
-      body: FadeTransition(
-        opacity: _fadeAnimation,
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Header with greeting
-              const HeaderCard(),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {});
+          await Future.delayed(const Duration(milliseconds: 500));
+        },
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Header with greeting
+                const HeaderCard(),
               
               const SizedBox(height: ThemeConstants.cardSpacing),
               
@@ -295,6 +310,7 @@ class _HomePageState extends State<HomePage>
               const SizedBox(height: ThemeConstants.cardSpacing),
             ],
           ),
+        ),
         ),
       ),
     );

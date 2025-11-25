@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/common/drawer_menu.dart';
 import '../models/tolerance_model.dart';
 import '../models/tolerance_bucket.dart';
 import '../models/bucket_definitions.dart';
@@ -387,6 +388,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
           ),
         ],
       ),
+      drawer: const DrawerMenu(),
       body: _isLoadingOptions
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../widgets/common/drawer_menu.dart';
 import '../providers/daily_checkin_provider.dart';
 import '../constants/ui_colors.dart';
 import '../constants/theme_constants.dart';
@@ -67,8 +68,14 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
           ),
         ],
       ),
-      body: Consumer<DailyCheckinProvider>(
-        builder: (context, provider, child) {
+      drawer: const DrawerMenu(),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          final provider = context.read<DailyCheckinProvider>();
+          await provider.checkExistingCheckin();
+        },
+        child: Consumer<DailyCheckinProvider>(
+          builder: (context, provider, child) {
           if (provider.isLoading) {
             return Center(
               child: CircularProgressIndicator(
@@ -305,6 +312,7 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
             ),
           );
         },
+        ),
       ),
     );
   }

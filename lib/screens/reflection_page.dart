@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../widgets/common/drawer_menu.dart';
 import '../services/log_entry_service.dart';
 import '../providers/reflection_provider.dart';
 import '../widgets/reflection/reflection_form.dart';
@@ -75,10 +76,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
                     icon: Icon(Icons.arrow_back, color: textColor),
                     onPressed: () => provider.setShowForm(false),
                   )
-                : IconButton(
-                    icon: Icon(Icons.arrow_back, color: textColor),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
+                : null,
             actions: provider.showForm
                 ? [
                     Padding(
@@ -117,7 +115,10 @@ class _ReflectionPageState extends State<ReflectionPage> {
                   ]
                 : null,
           ),
-          body: _isLoading
+          drawer: const DrawerMenu(),
+          body: RefreshIndicator(
+            onRefresh: _loadEntries,
+            child: _isLoading
               ? Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
@@ -198,6 +199,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
                           onNext: () => provider.setShowForm(true),
                         ),
                 ),
+          ),
         );
       },
     );

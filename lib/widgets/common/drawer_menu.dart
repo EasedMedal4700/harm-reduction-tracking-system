@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../routes/app_routes.dart';
 
 class DrawerMenu extends StatefulWidget {
@@ -57,19 +58,18 @@ class _DrawerMenuState extends State<DrawerMenu> {
 
     // Section 3: Advanced Features (New)
     final List<Map<String, dynamic>> advancedPages = [
-      {'icon': Icons.favorite, 'title': 'Physiological', 'builder': AppRoutes.buildBloodLevelsPage}, // Placeholder
-      {'icon': Icons.compare_arrows, 'title': 'Interactions', 'builder': AppRoutes.buildBloodLevelsPage}, // Placeholder
+      {'icon': Icons.favorite, 'title': 'Physiological', 'builder': AppRoutes.buildPhysiologicalPage},
+      {'icon': Icons.compare_arrows, 'title': 'Interactions', 'builder': AppRoutes.buildInteractionsPage},
       {'icon': Icons.speed, 'title': 'Tolerance', 'builder': AppRoutes.buildToleranceDashboardPage},
-      {'icon': Icons.watch, 'title': 'WearOS', 'builder': AppRoutes.buildHomePage}, // Placeholder
+      {'icon': Icons.watch, 'title': 'WearOS', 'builder': AppRoutes.buildWearOSPage},
     ];
 
     return Drawer(
       child: Column(
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
-            child: Text('Menu', style: TextStyle(color: Colors.white, fontSize: 24)),
-          ),
+          // Modern gradient header
+          _buildModernHeader(context),
+          
           // Use Expanded so the time stays at the bottom
           Expanded(
             child: ListView(
@@ -134,13 +134,80 @@ class _DrawerMenuState extends State<DrawerMenu> {
     );
   }
 
+  Widget _buildModernHeader(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final user = Supabase.instance.client.auth.currentUser;
+    final email = user?.email ?? 'Guest';
+    final username = email.split('@')[0];
+    
+    return Container(
+      height: 180,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: isDark
+              ? [const Color(0xFF1A1A2E), const Color(0xFF2A2A3E)]
+              : [Colors.blue.shade700, Colors.blue.shade900],
+        ),
+      ),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CircleAvatar(
+                radius: 32,
+                backgroundColor: Colors.white.withOpacity(0.2),
+                child: Text(
+                  username.isNotEmpty ? username[0].toUpperCase() : '?',
+                  style: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                username,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                email,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white.withOpacity(0.8),
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildMenuItem(BuildContext context, Map<String, dynamic> page) {
     return ListTile(
       leading: Icon(page['icon']),
       title: Text(page['title']),
-      onTap: () {
+      onTap: () async {
         Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (_) => page['builder']()));
+        // Navigate and wait for result - triggers refresh on return
+        await Navigator.push(context, MaterialPageRoute(builder: (_) => page['builder']()));
+        // Trigger rebuild of current page by popping/pushing context
+        if (context.mounted) {
+          // This causes the calling page to rebuild
+          (context as Element).markNeedsBuild();
+        }
       },
     );
   }

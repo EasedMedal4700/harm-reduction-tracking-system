@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../widgets/common/drawer_menu.dart';
 import '../providers/daily_checkin_provider.dart';
 import '../models/daily_checkin_model.dart';
 
@@ -26,6 +27,7 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
       appBar: AppBar(
         title: const Text('Check-In History'),
       ),
+      drawer: const DrawerMenu(),
       body: Consumer<DailyCheckinProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {

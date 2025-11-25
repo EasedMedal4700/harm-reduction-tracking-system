@@ -17,6 +17,9 @@ import '../screens/profile_screen.dart';
 import '../screens/admin_panel_screen.dart';
 import '../screens/settings_screen.dart';
 import '../screens/tolerance_dashboard_page.dart'; // Import ToleranceDashboardPage
+import '../screens/physiological_page.dart';
+import '../screens/interactions_page.dart';
+import '../screens/wearos_page.dart';
 
 class AppRoutes {
   static Widget buildHomePage() => const HomePage();
@@ -44,4 +47,7 @@ class AppRoutes {
   // Add buildLibraryPage() if implemented
   static Widget buildSettingsPage() => const SettingsScreen();
   static Widget buildToleranceDashboardPage() => const ToleranceDashboardPage();
+  static Widget buildPhysiologicalPage() => const PhysiologicalPage();
+  static Widget buildInteractionsPage() => const InteractionsPage();
+  static Widget buildWearOSPage() => const WearOSPage();
 }

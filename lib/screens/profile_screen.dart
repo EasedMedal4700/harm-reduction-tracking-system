@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/common/drawer_menu.dart';
 import '../services/user_service.dart';
 import '../services/auth_service.dart';
 import '../services/log_entry_service.dart';
@@ -125,6 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
+      drawer: const DrawerMenu(),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : RefreshIndicator(

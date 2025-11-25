@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/analytics_service.dart';
+import '../widgets/common/drawer_menu.dart';
 import '../models/log_entry_model.dart';
 import '../widgets/analytics/analytics_app_bar.dart';
 import '../widgets/analytics/analytics_filter_card.dart';
@@ -114,6 +115,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
           );
         },
       ),
+      drawer: const DrawerMenu(),
       body: _buildBody(),
     );
   }
@@ -134,6 +136,13 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       );
     }
 
+    return RefreshIndicator(
+      onRefresh: _fetchData,
+      child: _buildAnalyticsContent(),
+    );
+  }
+
+  Widget _buildAnalyticsContent() {
     // Calculate filtered data
     final periodFilteredEntries = _service!.filterEntriesByPeriod(_entries, _selectedPeriod);
     final categoryTypeFilteredEntries = periodFilteredEntries.where((e) {

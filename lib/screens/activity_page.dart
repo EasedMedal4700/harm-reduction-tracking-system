@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../widgets/common/drawer_menu.dart';
-import '../widgets/activity/activity_card.dart';
+import '../widgets/activity/activity_drug_use_tab.dart';
+import '../widgets/activity/activity_cravings_tab.dart';
+import '../widgets/activity/activity_reflections_tab.dart';
 import '../services/activity_service.dart';
 import '../services/user_service.dart';
 import '../constants/ui_colors.dart';
@@ -101,167 +103,32 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
 
   Widget _buildDrugUseTab(bool isDark) {
     final entries = _activity['entries'] as List? ?? [];
-    
-    if (entries.isEmpty) {
-      return _buildEmptyState(
-        icon: Icons.medication_outlined,
-        title: 'No Drug Use Records',
-        subtitle: 'Your recent drug use entries will appear here',
-        isDark: isDark,
-      );
-    }
-
-    return RefreshIndicator(
+    return ActivityDrugUseTab(
+      entries: entries,
+      isDark: isDark,
+      onEntryTap: (entry) => _showDrugUseDetail(context, entry, isDark),
       onRefresh: _fetchActivity,
-      child: ListView.builder(
-        padding: EdgeInsets.all(ThemeConstants.space16),
-        itemCount: entries.length,
-        itemBuilder: (context, index) {
-          final entry = entries[index];
-          final timestamp = _parseTimestamp(entry['start_time'] ?? entry['time']);
-          
-          return ActivityCard(
-            title: entry['name'] ?? 'Unknown Substance',
-            subtitle: '${entry['dose'] ?? 'Unknown dose'} • ${entry['place'] ?? 'No location'}',
-            timestamp: timestamp,
-            icon: Icons.medication,
-            accentColor: DrugCategoryColors.stimulant,
-            badge: entry['is_medical_purpose'] == true ? 'Medical' : null,
-            onTap: () => _showDrugUseDetail(context, entry, isDark),
-          );
-        },
-      ),
     );
   }
 
   Widget _buildCravingsTab(bool isDark) {
     final cravings = _activity['cravings'] as List? ?? [];
-    
-    if (cravings.isEmpty) {
-      return _buildEmptyState(
-        icon: Icons.favorite_border,
-        title: 'No Cravings Logged',
-        subtitle: 'Your craving records will appear here',
-        isDark: isDark,
-      );
-    }
-
-    return RefreshIndicator(
+    return ActivityCravingsTab(
+      cravings: cravings,
+      isDark: isDark,
+      onCravingTap: (craving) => _showCravingDetail(context, craving, isDark),
       onRefresh: _fetchActivity,
-      child: ListView.builder(
-        padding: EdgeInsets.all(ThemeConstants.space16),
-        itemCount: cravings.length,
-        itemBuilder: (context, index) {
-          final craving = cravings[index];
-          final timestamp = _parseTimestamp(craving['time'] ?? craving['created_at']);
-          final intensity = craving['intensity'] ?? 0;
-          
-          return ActivityCard(
-            title: craving['substance'] ?? 'Unknown Substance',
-            subtitle: 'Intensity: ${_getIntensityLabel(intensity)} • ${craving['trigger'] ?? 'No trigger noted'}',
-            timestamp: timestamp,
-            icon: Icons.favorite,
-            accentColor: _getCravingColor(intensity),
-            badge: 'Level $intensity',
-            onTap: () => _showCravingDetail(context, craving, isDark),
-          );
-        },
-      ),
     );
   }
 
   Widget _buildReflectionsTab(bool isDark) {
     final reflections = _activity['reflections'] as List? ?? [];
-    
-    if (reflections.isEmpty) {
-      return _buildEmptyState(
-        icon: Icons.notes_outlined,
-        title: 'No Reflections',
-        subtitle: 'Your reflection entries will appear here',
-        isDark: isDark,
-      );
-    }
-
-    return RefreshIndicator(
+    return ActivityReflectionsTab(
+      reflections: reflections,
+      isDark: isDark,
+      onReflectionTap: (reflection) => _showReflectionDetail(context, reflection, isDark),
       onRefresh: _fetchActivity,
-      child: ListView.builder(
-        padding: EdgeInsets.all(ThemeConstants.space16),
-        itemCount: reflections.length,
-        itemBuilder: (context, index) {
-          final reflection = reflections[index];
-          final timestamp = _parseTimestamp(reflection['created_at'] ?? reflection['time']);
-          final notes = reflection['notes'] ?? '';
-          
-          return ActivityCard(
-            title: 'Reflection Entry',
-            subtitle: notes.isNotEmpty ? notes : 'No notes',
-            timestamp: timestamp,
-            icon: Icons.notes,
-            accentColor: isDark ? UIColors.darkNeonPurple : UIColors.lightAccentPurple,
-            onTap: () => _showReflectionDetail(context, reflection, isDark),
-          );
-        },
-      ),
     );
-  }
-
-  Widget _buildEmptyState({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required bool isDark,
-  }) {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.all(ThemeConstants.space32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: EdgeInsets.all(ThemeConstants.space24),
-              decoration: BoxDecoration(
-                color: isDark
-                    ? UIColors.darkBorder.withValues(alpha: 0.2)
-                    : UIColors.lightBorder.withValues(alpha: 0.2),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                icon,
-                size: 64,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-              ),
-            ),
-            SizedBox(height: ThemeConstants.space20),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: ThemeConstants.fontLarge,
-                fontWeight: ThemeConstants.fontBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-              ),
-            ),
-            SizedBox(height: ThemeConstants.space8),
-            Text(
-              subtitle,
-              style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  DateTime? _parseTimestamp(dynamic dateStr) {
-    if (dateStr == null) return null;
-    try {
-      return DateTime.parse(dateStr.toString()).toLocal();
-    } catch (e) {
-      return null;
-    }
   }
 
   String _getIntensityLabel(int intensity) {
