@@ -20,7 +20,7 @@ class BloodLevelsService {
       final profilesResponse = await Supabase.instance.client
           .from('drug_profiles')
           .select(
-            'slug, name, pretty_name, formatted_duration, formatted_aftereffects, categories, formatted_dose',
+            'slug, name, pretty_name, formatted_duration, formatted_aftereffects, categories, formatted_dose, properties',
           );
 
       final profilesData = profilesResponse as List<dynamic>;
@@ -69,7 +69,7 @@ class BloodLevelsService {
           profile?['formatted_aftereffects'],
         );
         final fullActiveWindow = maxDuration + maxAftereffects;
-        final halfLife = _getHalfLife(drugName);
+        final halfLife = _getHalfLife(drugName, profile: profile);
         final categories =
             (profile?['categories'] as List<dynamic>?)
                 ?.map((e) => e.toString())
@@ -271,7 +271,15 @@ class BloodLevelsService {
 
         final hoursSinceDose =
             referenceTime.difference(startTime).inMinutes / 60.0;
-        final halfLife = _getHalfLife(drugName);
+        
+        // Get profile for this drug to determine half-life
+        final profileResponse = await Supabase.instance.client
+            .from('drug_profiles')
+            .select('properties, formatted_duration, formatted_aftereffects, categories')
+            .ilike('slug', drugName)
+            .maybeSingle();
+        
+        final halfLife = _getHalfLife(drugName, profile: profileResponse);
 
         // Calculate remaining at reference time (may be 0 if fully decayed)
         final remaining = doseMg * pow(0.5, hoursSinceDose / halfLife);
@@ -352,27 +360,91 @@ class BloodLevelsService {
     }
   }
 
-  /// Get estimated half-life for a drug (simplified version)
-  double _getHalfLife(String drugName) {
-    const halfLives = <String, double>{
-      'methylphenidate': 3.5,
-      'amphetamine': 10.0,
-      'cocaine': 1.0,
-      'mdma': 8.0,
-      'lsd': 3.0,
-      'psilocybin': 2.5,
-      'cannabis': 24.0,
-      'thc': 24.0,
-      'caffeine': 5.0,
-      'nicotine': 2.0,
-      'alcohol': 5.0,
-      'ketamine': 2.5,
-      'dxm': 3.0,
-      'bromazolam': 14.0, // Benzodiazepine with ~14h half-life
-      '2-fdck': 3.0, // Similar to ketamine
-    };
+  /// Determine half-life for a drug using database properties or intelligent estimation
+  /// 
+  /// Priority:
+  /// 1. Read from drug_profiles.properties.half_life_hours
+  /// 2. Estimate from duration, onset, after-effects, and categories
+  /// 3. Apply category-specific adjustments
+  /// 4. Clamp to reasonable range (0.5 - 120 hours)
+  double _getHalfLife(String drugName, {Map<String, dynamic>? profile}) {
+    // Step 1: Try to get half-life from properties JSON
+    if (profile != null) {
+      final properties = profile['properties'] as Map<String, dynamic>?;
+      if (properties != null) {
+        final halfLife = properties['half_life_hours'];
+        if (halfLife != null && halfLife is num && halfLife > 0) {
+          return halfLife.toDouble().clamp(0.5, 120.0);
+        }
+      }
+    }
 
-    return halfLives[drugName.toLowerCase()] ?? 8.0; // Default 8h
+    // Step 2: Estimate from duration, onset, and after-effects
+    double estimatedHalfLife = 8.0; // Default fallback
+    
+    if (profile != null) {
+      // Parse duration to get effective duration in hours
+      final duration = _parseMaxDuration(profile['formatted_duration']);
+      final afterEffects = _parseMaxDuration(profile['formatted_aftereffects']);
+      final categories = (profile['categories'] as List<dynamic>?)
+          ?.map((e) => e.toString().toLowerCase())
+          .toList() ?? [];
+      
+      // Base estimation: half-life = (duration / 4) + (after_effects / 8)
+      if (duration > 0) {
+        estimatedHalfLife = (duration / 4) + (afterEffects / 8);
+      }
+      
+      // Step 3: Apply category-specific adjustments
+      final categoryLower = categories.join(' ').toLowerCase();
+      
+      if (categoryLower.contains('benzo')) {
+        // Benzodiazepines: classify by duration
+        if (duration < 4) {
+          estimatedHalfLife = 9.0; // Short-acting: 6-12h
+        } else if (duration < 8) {
+          estimatedHalfLife = 18.0; // Medium: 12-24h
+        } else if (duration < 16) {
+          estimatedHalfLife = 37.0; // Long: 24-50h
+        } else {
+          estimatedHalfLife = 85.0; // Ultra-long: 50-120h
+        }
+      } else if (categoryLower.contains('opioid')) {
+        // Opioids: classify by duration
+        if (duration < 5) {
+          estimatedHalfLife = 3.5; // Short-acting: 2-5h
+        } else if (duration < 12) {
+          estimatedHalfLife = 9.0; // Medium: 6-12h
+        } else {
+          estimatedHalfLife = 24.0; // Long: 12-36h
+        }
+      } else if (categoryLower.contains('stimulant')) {
+        // Stimulants: 20-30% of duration
+        estimatedHalfLife = duration * 0.25;
+      } else if (categoryLower.contains('psychedelic')) {
+        // Psychedelics: 25-40% of duration
+        estimatedHalfLife = duration * 0.33;
+      } else if (categoryLower.contains('dissociative')) {
+        // Dissociatives: 30-60% of duration
+        estimatedHalfLife = duration * 0.45;
+      } else if (categoryLower.contains('alcohol') || 
+                 categoryLower.contains('depressant') && 
+                 categoryLower.contains('gaba')) {
+        // Alcohol/GABAergic depressants: short relative to effects
+        estimatedHalfLife = duration * 0.15;
+      } else if (duration > 0) {
+        // Default category: 30% of duration
+        estimatedHalfLife = duration * 0.3;
+      }
+      
+      // Step 4: Adjust for extremely long after-effects (24h+)
+      if (afterEffects >= 24) {
+        estimatedHalfLife *= 1.15; // Add 15% for long after-effects
+      }
+    }
+    
+    // Step 5: Clamp to reasonable range
+    return estimatedHalfLife.clamp(0.5, 120.0);
   }
 }
 
