@@ -3,10 +3,12 @@ import '../widgets/common/drawer_menu.dart';
 
 import '../services/admin_service.dart';
 import '../services/cache_service.dart';
+import '../services/performance_service.dart';
 import '../utils/error_reporter.dart';
 import '../widgets/admin/admin_stats_section.dart';
 import '../widgets/admin/admin_user_list.dart';
 import 'admin/error_analytics_screen.dart';
+import 'admin/bug_report_screen.dart';
 
 /// Admin panel screen for managing users and monitoring system health
 class AdminPanelScreen extends StatefulWidget {
@@ -23,12 +25,30 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
   List<Map<String, dynamic>> _users = [];
   Map<String, dynamic> _stats = {};
   Map<String, dynamic> _cacheStats = {};
+  Map<String, dynamic> _perfStats = {};
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    _initializePerformanceTracking();
     _loadData();
+  }
+
+  Future<void> _initializePerformanceTracking() async {
+    // Initialize with some sample data if none exists
+    final stats = await PerformanceService.getStatistics();
+    if (stats['total_samples'] == 0) {
+      // Add initial samples to show functionality
+      await PerformanceService.recordResponseTime(
+        endpoint: 'initialization',
+        milliseconds: 150,
+        fromCache: false,
+      );
+      await PerformanceService.recordCacheEvent(key: 'init', hit: true);
+      await PerformanceService.recordCacheEvent(key: 'init2', hit: true);
+      await PerformanceService.recordCacheEvent(key: 'init3', hit: false);
+    }
   }
 
   Future<void> _loadData() async {
@@ -37,11 +57,13 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       final users = await _adminService.fetchAllUsers();
       final stats = await _adminService.getSystemStats();
       final cacheStats = _cacheService.getStats();
+      final perfStats = await PerformanceService.getStatistics();
       if (!mounted) return;
       setState(() {
         _users = users;
         _stats = stats;
         _cacheStats = cacheStats;
+        _perfStats = perfStats;
         _isLoading = false;
       });
     } catch (e, stackTrace) {
@@ -207,6 +229,14 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         elevation: 0,
         actions: [
           IconButton(
+            icon: const Icon(Icons.report_problem_outlined),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const BugReportScreen()),
+            ),
+            tooltip: 'Report Bug',
+          ),
+          IconButton(
             icon: const Icon(Icons.bug_report_outlined),
             onPressed: _openErrorAnalytics,
             tooltip: 'Error Analytics',
@@ -238,7 +268,11 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Stats Dashboard
-                    AdminStatsSection(stats: _stats),
+                    AdminStatsSection(
+                      stats: _stats,
+                      perfStats: _perfStats,
+                      cacheStats: _cacheStats,
+                    ),
                     const SizedBox(height: 24),
 
                     // Cache Management Section

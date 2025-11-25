@@ -107,6 +107,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   'title': 'Settings',
                   'builder': AppRoutes.buildSettingsPage
                 }),
+                
+                // Bug Report
+                _buildMenuItem(context, {
+                  'icon': Icons.report_problem,
+                  'title': 'Report a Bug',
+                  'builder': AppRoutes.buildBugReportPage
+                }),
               ],
             ),
           ),

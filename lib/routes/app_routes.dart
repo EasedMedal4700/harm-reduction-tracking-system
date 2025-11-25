@@ -20,6 +20,7 @@ import '../screens/tolerance_dashboard_page.dart'; // Import ToleranceDashboardP
 import '../screens/physiological_page.dart';
 import '../screens/interactions_page.dart';
 import '../screens/wearos_page.dart';
+import '../screens/admin/bug_report_screen.dart';
 
 class AppRoutes {
   static Widget buildHomePage() => const HomePage();
@@ -50,4 +51,5 @@ class AppRoutes {
   static Widget buildPhysiologicalPage() => const PhysiologicalPage();
   static Widget buildInteractionsPage() => const InteractionsPage();
   static Widget buildWearOSPage() => const WearOSPage();
+  static Widget buildBugReportPage() => const BugReportScreen();
 }

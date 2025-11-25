@@ -33,7 +33,7 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
   int _chartHoursBack = 24;
   int _chartHoursForward = 24;
   bool _chartAdaptiveScale = true;
-  bool _showTimeline = false;
+  bool _showTimeline = true;
 
   @override
   void initState() {

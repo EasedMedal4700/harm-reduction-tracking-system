@@ -1,11 +1,13 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
+import 'performance_service.dart';
 
 class AdminService {
   final SupabaseClient _client = Supabase.instance.client;
 
   /// Fetch all users for admin panel
   Future<List<Map<String, dynamic>>> fetchAllUsers() async {
+    final stopwatch = Stopwatch()..start();
     try {
       ErrorHandler.logDebug('AdminService', 'Fetching all users');
 
@@ -32,6 +34,14 @@ class AdminService {
       }
 
       ErrorHandler.logInfo('AdminService', 'Fetched ${enrichedUsers.length} users');
+      
+      // Record performance
+      await PerformanceService.recordResponseTime(
+        endpoint: 'fetchAllUsers',
+        milliseconds: stopwatch.elapsedMilliseconds,
+        fromCache: false,
+      );
+      
       return enrichedUsers;
     } catch (e, stackTrace) {
       ErrorHandler.logError('AdminService.fetchAllUsers', e, stackTrace);

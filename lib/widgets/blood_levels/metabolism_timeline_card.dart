@@ -128,6 +128,30 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
     final decayService = DecayService();
     final lineBarsData = <LineChartBarData>[];
     final legendItems = <Map<String, dynamic>>[];
+    
+    // Group drugs by category to assign variant colors
+    final drugsByCategory = <String, List<String>>{};
+    for (final drugName in _timelineDoses.keys) {
+      final drugLevel = widget.drugLevels.firstWhere(
+        (level) => level.drugName.toLowerCase() == drugName.toLowerCase(),
+        orElse: () => DrugLevel(
+          drugName: drugName,
+          totalDose: 0,
+          totalRemaining: 0,
+          lastDose: 0,
+          lastUse: DateTime.now(),
+          halfLife: _getDefaultHalfLife(drugName),
+          doses: [],
+          activeWindow: 24,
+          maxDuration: 12,
+          categories: [],
+        ),
+      );
+      final category = drugLevel.categories.isNotEmpty
+          ? drugLevel.categories.first
+          : 'placeholder';
+      drugsByCategory.putIfAbsent(category, () => []).add(drugName);
+    }
 
     // Loop through ALL drugs in timeline (including future doses)
     for (final drugName in _timelineDoses.keys) {
@@ -172,10 +196,17 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
           .map((p) => FlSpot(p.hours, p.remainingMg))
           .toList();
 
-      // Get drug color
-      final drugColor = drugLevel.categories.isNotEmpty
-          ? DrugCategoryColors.colorFor(drugLevel.categories.first)
-          : DrugCategoryColors.defaultColor;
+      // Get drug color with variant for substances in same category
+      final category = drugLevel.categories.isNotEmpty
+          ? drugLevel.categories.first
+          : 'placeholder';
+      final categoryDrugs = drugsByCategory[category] ?? [];
+      final indexInCategory = categoryDrugs.indexOf(drugName);
+      final drugColor = _getVariantColorForSubstance(
+        category,
+        indexInCategory,
+        categoryDrugs.length,
+      );
 
       lineBarsData.add(
         LineChartBarData(
@@ -343,6 +374,30 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
         ),
       ),
     );
+  }
+
+  /// Generates a unique color variant for substances in the same category
+  /// Similar to analytics page approach - creates gradient within base category color
+  Color _getVariantColorForSubstance(String category, int index, int totalInCategory) {
+    final baseColor = DrugCategoryColors.colorFor(category);
+    
+    if (totalInCategory == 1) {
+      return baseColor;
+    }
+    
+    // Create gradient from lighter to darker within the base color
+    // Use HSL to create smooth gradients
+    final hslColor = HSLColor.fromColor(baseColor);
+    
+    // Vary lightness and saturation to create distinct shades
+    // Range: from 20% lighter to 20% darker
+    final lightnessOffset = (index / (totalInCategory - 1) * 0.4) - 0.2;
+    final saturationOffset = (index / (totalInCategory - 1) * 0.2) - 0.1;
+    
+    final newLightness = (hslColor.lightness + lightnessOffset).clamp(0.3, 0.8);
+    final newSaturation = (hslColor.saturation + saturationOffset).clamp(0.5, 1.0);
+    
+    return hslColor.withLightness(newLightness).withSaturation(newSaturation).toColor();
   }
 
   /// Get default half-life for a drug name

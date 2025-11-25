@@ -1,3 +1,5 @@
+import 'performance_service.dart';
+
 /// Central cache service for managing app data caching
 /// Reduces database queries and improves performance
 class CacheService {
@@ -19,14 +21,21 @@ class CacheService {
     final entry = _cache[key];
     
     if (entry == null) {
+      // Cache miss - record it
+      PerformanceService.recordCacheEvent(key: key, hit: false);
       return null;
     }
 
     // Check if cache expired
     if (entry.isExpired) {
       _cache.remove(key);
+      // Cache miss (expired) - record it
+      PerformanceService.recordCacheEvent(key: key, hit: false);
       return null;
     }
+
+    // Cache hit - record it
+    PerformanceService.recordCacheEvent(key: key, hit: true);
 
     // Safe type cast - return null if type doesn't match
     try {

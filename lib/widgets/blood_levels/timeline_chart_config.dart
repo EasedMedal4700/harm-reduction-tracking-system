@@ -161,13 +161,20 @@ class TimelineChartConfig {
               ? '+${hour}h'
               : '${hour}h';
 
-      // Find which drug this spot belongs to
-      final drugIndex = lineBarsData.indexOf(
-        lineBarsData.firstWhere(
-          (line) => line.spots.any((s) => s == spot),
-          orElse: () => lineBarsData.first,
-        ),
-      );
+      // Find which drug this spot belongs to by matching the bar index
+      final drugIndex = spot.barIndex;
+
+      // Ensure index is within bounds
+      if (drugIndex < 0 || drugIndex >= legendItems.length) {
+        return LineTooltipItem(
+          'Unknown\n$timeLabel: ${intensity.toStringAsFixed(0)}%',
+          TextStyle(
+            color: isDark ? Colors.white : Colors.black,
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
+          ),
+        );
+      }
 
       final drugName = legendItems[drugIndex]['name'] as String;
       final drugColor = legendItems[drugIndex]['color'] as Color;
