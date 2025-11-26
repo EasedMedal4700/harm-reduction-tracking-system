@@ -217,10 +217,34 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       }
       print('══════════════════════════════════════════════════════════\n');
       
+      // Aggregate bucket totals from substance contributions
+      final Map<String, double> bucketTotals = {};
+      final Map<String, ToleranceSystemState> bucketStates = {};
+      
+      for (final bucket in contributions.keys) {
+        final total = contributions[bucket]!.values.fold(0.0, (sum, val) => sum + val);
+        bucketTotals[bucket] = total.clamp(0.0, 100.0);
+        
+        // Classify state based on total percentage
+        if (total < 20) {
+          bucketStates[bucket] = ToleranceSystemState.recovered;
+        } else if (total < 40) {
+          bucketStates[bucket] = ToleranceSystemState.lightStress;
+        } else if (total < 60) {
+          bucketStates[bucket] = ToleranceSystemState.moderateStrain;
+        } else if (total < 80) {
+          bucketStates[bucket] = ToleranceSystemState.highStrain;
+        } else {
+          bucketStates[bucket] = ToleranceSystemState.depleted;
+        }
+      }
+      
+      // Update system tolerance data with calculated values
       if (mounted) {
         setState(() {
           _substanceContributions = contributions;
           _substanceActiveStates = activeStates;
+          _systemToleranceData = SystemToleranceData(bucketTotals, bucketStates);
         });
       }
     } catch (e) {
