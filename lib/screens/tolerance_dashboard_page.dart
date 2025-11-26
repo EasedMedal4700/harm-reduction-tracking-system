@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import '../widgets/common/drawer_menu.dart';
 import '../models/tolerance_model.dart';
-import '../models/tolerance_bucket.dart';
 import '../models/bucket_definitions.dart';
 import '../services/tolerance_service.dart';
 import '../services/user_service.dart';
 import '../services/tolerance_engine_service.dart';
-import '../services/bucket_tolerance_service.dart';
 import '../utils/tolerance_calculator.dart';
-import '../utils/bucket_tolerance_calculator.dart' as bucket_calc;
 import '../widgets/tolerance/system_bucket_card.dart';
 import '../widgets/tolerance/bucket_detail_section.dart';
 import '../widgets/tolerance/tolerance_stats_card.dart';
@@ -17,7 +14,6 @@ import '../widgets/tolerance/recent_uses_card.dart';
 import '../widgets/tolerance/debug_substance_list.dart';
 import '../widgets/tolerance/tolerance_disclaimer.dart';
 import '../widgets/tolerance/unified_bucket_tolerance_widget.dart';
-import '../widgets/system_tolerance_widget.dart';
 import '../constants/theme_constants.dart';
 import '../constants/ui_colors.dart';
 
@@ -38,17 +34,10 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   String? _errorMessage;
 
   ToleranceModel? _toleranceModel;
-  List<UseEvent> _useEvents = [];
-  double _currentTolerance = 0;
-  double _daysUntilBaseline = 0;
-
-  // Bucket-based tolerance data
-  BucketToleranceModel? _bucketToleranceModel;
-  Map<String, bucket_calc.BucketToleranceResult>? _bucketResults;
-  List<bucket_calc.UseEvent> _bucketUseEvents = [];
-
-  // System tolerance data
-  SystemToleranceData? _systemToleranceData;
+  List<UseLogEntry> _useEvents = [];
+  // Unified tolerance results
+  ToleranceResult? _systemTolerance;
+  ToleranceResult? _substanceTolerance;
   
   // Hierarchical UI state
   String? _selectedBucket; // Currently selected bucket for detail view
@@ -61,22 +50,26 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   bool _showDebugSubstances = false;
   Map<String, double> _perSubstanceTolerances = {};
   bool _isLoadingPerSubstance = false;
+  bool _showDebugPanel = false;
 
   @override
   void initState() {
     super.initState();
     _loadSubstances();
-    _loadSystemTolerance();
   }
 
   Future<void> _loadSystemTolerance() async {
     try {
-      final data = await loadSystemToleranceData();
+      if (_userId == null) return;
+
+      final data = await ToleranceEngineService.computeSystemTolerance(
+        userId: _userId!,
+        daysBack: 30,
+      );
       if (mounted) {
         setState(() {
-          _systemToleranceData = data;
-          // Auto-select first non-zero bucket
-          _selectedBucket = _findFirstActiveBucket(data);
+          _systemTolerance = data;
+          _selectedBucket = _findFirstActiveBucket(data.bucketPercents);
         });
         // Compute substance contributions after loading system data
         await _computeSubstanceContributions();
@@ -87,9 +80,9 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
     }
   }
   
-  String? _findFirstActiveBucket(SystemToleranceData data) {
+  String? _findFirstActiveBucket(Map<String, double> percents) {
     for (final bucket in BucketDefinitions.orderedBuckets) {
-      final percent = data.percents[bucket] ?? 0.0;
+      final percent = percents[bucket] ?? 0.0;
       if (percent > 0.001) {
         return bucket;
       }
@@ -106,7 +99,6 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
     print('════════════════════════════════════════════════════════');
     
     try {
-      // Fetch all tolerance models and use events
       final allModels = await ToleranceEngineService.fetchAllToleranceModels();
       final allUseLogs = await ToleranceEngineService.fetchUseLogs(
         userId: _userId!,
@@ -140,65 +132,23 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
           print('    - ${event.timestamp}: ${event.doseUnits}mg');
         }
         
-        // Calculate bucket tolerance for this substance
-        final bucketModel = await BucketToleranceService.fetchToleranceModel(substanceName);
-        if (bucketModel == null) {
-          print('  ⚠️  No bucket model found - skipping');
-          continue;
-        }
-        
-        final standardUnitMg = await BucketToleranceService.fetchStandardUnitMg(substanceName);
-        if (standardUnitMg <= 0) {
-          print('  ⚠️  Invalid standard unit (${standardUnitMg}mg) - skipping');
-          continue;
-        }
-        print('  📏 Standard unit: ${standardUnitMg}mg');
-        
-        final useEvents = substanceEvents.map((log) => bucket_calc.UseEvent(
-          timestamp: log.timestamp,
-          doseMg: log.doseUnits,  // doseUnits field contains mg dose
-          substance: substanceName,
-        )).toList();
-        
-        final bucketResults = bucket_calc.BucketToleranceCalculator.calculateSubstanceTolerance(
-          model: bucketModel,
-          useEvents: useEvents,
-          standardUnitMg: standardUnitMg,
-          currentTime: DateTime.now(),
+        // Use unified tolerance engine for this substance's contributions
+        final perSubstanceResult = ToleranceCalculatorFull.computeToleranceFull(
+          useLogs: substanceEvents,
+          toleranceModels: {substanceName: entry.value},
         );
-        
-        // Add contributions to each bucket
-        print('  🎯 Bucket Results:');
-        for (final bucketEntry in bucketResults.entries) {
-          final bucketType = bucketEntry.key;
-          final result = bucketEntry.value;
-          final tolerancePercent = (result.tolerance * 100).clamp(0.0, 100.0);  // tolerance field, not tolerancePercent
-          
-          print('    - $bucketType: ${tolerancePercent.toStringAsFixed(1)}% (raw: ${result.tolerance.toStringAsFixed(4)}, active: ${result.isActive})');
-          
-          // ERROR DETECTION: Warn if tolerance seems unrealistic (before clamping)
-          if (result.tolerance * 100 > 100) {
-            print('\n    ╔════════════════════════════════════════════════════════╗');
-            print('    ║  ⚠️⚠️⚠️  UNREALISTIC TOLERANCE DETECTED!  ⚠️⚠️⚠️   ║');
-            print('    ╠════════════════════════════════════════════════════════╣');
-            print('    ║  Substance: $substanceName');
-            print('    ║  Bucket: $bucketType');
-            print('    ║  Tolerance: ${tolerancePercent.toStringAsFixed(1)}%');
-            print('    ║  Raw value: ${result.tolerance.toStringAsFixed(6)}');
-            print('    ║  Events: ${substanceEvents.length}');
-            print('    ║  Standard unit: ${standardUnitMg}mg');
-            print('    ║  ');
-            print('    ║  This indicates a calculation error!');
-            print('    ║  Tolerance should cap around 100% with log model.');
-            print('    ╚════════════════════════════════════════════════════════╝\n');
-          }
-          
-          if (tolerancePercent > 0.1) {  // Only show contributions > 0.1%
+
+        print('  🎯 Bucket Results (unified engine):');
+        for (final bucketType in perSubstanceResult.bucketPercents.keys) {
+          final tolerancePercent = perSubstanceResult.bucketPercents[bucketType] ?? 0.0;
+          final rawLoad = perSubstanceResult.bucketRawLoads[bucketType] ?? 0.0;
+
+          print('    - $bucketType: ${tolerancePercent.toStringAsFixed(1)}% (raw: ${rawLoad.toStringAsFixed(4)})');
+
+          if (tolerancePercent > 0.1) {
             contributions.putIfAbsent(bucketType, () => {});
             contributions[bucketType]![substanceName] = tolerancePercent;
-            
-            // Check if substance is currently active
-            if (result.isActive) {
+            if (rawLoad > 0.0) {
               activeStates[substanceName] = true;
             }
           }
@@ -217,34 +167,10 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       }
       print('══════════════════════════════════════════════════════════\n');
       
-      // Aggregate bucket totals from substance contributions
-      final Map<String, double> bucketTotals = {};
-      final Map<String, ToleranceSystemState> bucketStates = {};
-      
-      for (final bucket in contributions.keys) {
-        final total = contributions[bucket]!.values.fold(0.0, (sum, val) => sum + val);
-        bucketTotals[bucket] = total.clamp(0.0, 100.0);
-        
-        // Classify state based on total percentage
-        if (total < 20) {
-          bucketStates[bucket] = ToleranceSystemState.recovered;
-        } else if (total < 40) {
-          bucketStates[bucket] = ToleranceSystemState.lightStress;
-        } else if (total < 60) {
-          bucketStates[bucket] = ToleranceSystemState.moderateStrain;
-        } else if (total < 80) {
-          bucketStates[bucket] = ToleranceSystemState.highStrain;
-        } else {
-          bucketStates[bucket] = ToleranceSystemState.depleted;
-        }
-      }
-      
-      // Update system tolerance data with calculated values
       if (mounted) {
         setState(() {
           _substanceContributions = contributions;
           _substanceActiveStates = activeStates;
-          _systemToleranceData = SystemToleranceData(bucketTotals, bucketStates);
         });
       }
     } catch (e) {
@@ -294,6 +220,9 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       if (_selectedSubstance != null) {
         await _loadMetrics(_selectedSubstance!);
       }
+
+      // Load system tolerance once we know the user
+      await _loadSystemTolerance();
     } catch (e) {
       if (!mounted) return;
       setState(() {
@@ -307,42 +236,18 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
     if (_userId == null) return;
 
     final toleranceData = await ToleranceService.fetchToleranceData(substance);
-    final useEvents = await ToleranceService.fetchUseEvents(
+    final useEventsRaw = await ToleranceService.fetchUseEvents(
       substanceName: substance,
       userId: _userId!,
       daysBack: 30,
     );
 
-    // Also fetch bucket-based tolerance model and calculate bucket results
-    BucketToleranceModel? bucketModel;
-    Map<String, bucket_calc.BucketToleranceResult>? bucketResults;
-    List<bucket_calc.UseEvent> bucketUseEvents = [];
-    
-    try {
-      bucketModel = await BucketToleranceService.fetchToleranceModel(substance);
-      if (bucketModel != null) {
-        // Fetch standard unit for dose normalization
-        final standardUnitMg = await BucketToleranceService.fetchStandardUnitMg(substance);
-        
-        if (standardUnitMg > 0) {
-          bucketUseEvents = useEvents.map((e) => bucket_calc.UseEvent(
-            timestamp: e.timestamp,
-            doseMg: e.dose, // Old model uses 'dose' field
-            substance: substance,
-          )).toList();
-          
-          bucketResults = bucket_calc.BucketToleranceCalculator.calculateSubstanceTolerance(
-            model: bucketModel,
-            useEvents: bucketUseEvents,
-            standardUnitMg: standardUnitMg,
-            currentTime: DateTime.now(),
-          );
-        }
-      }
-    } catch (e) {
-      // Bucket system is optional - if it fails, continue with old system
-      debugPrint('Bucket tolerance calculation failed: $e');
-    }
+    // Convert UseEvent to UseLogEntry for unified engine
+    final useEvents = useEventsRaw.map((event) => UseLogEntry(
+      substanceSlug: event.substanceName,
+      timestamp: event.timestamp,
+      doseUnits: event.dose,
+    )).toList();
 
     if (!mounted) return;
 
@@ -350,34 +255,22 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       setState(() {
         _toleranceModel = null;
         _useEvents = useEvents;
-        _currentTolerance = 0;
-        _daysUntilBaseline = 0;
-        _bucketToleranceModel = bucketModel;
-        _bucketResults = bucketResults;
+        _substanceTolerance = null;
         _errorMessage = 'No tolerance data available for $substance.';
       });
       return;
     }
 
-    final now = DateTime.now();
-    final currentTolerance = ToleranceCalculator.toleranceScore(
-      useEvents: useEvents,
-      halfLifeHours: toleranceData.halfLifeHours,
-      currentTime: now,
-    );
-    final daysUntilBaseline = ToleranceCalculator.daysUntilBaseline(
-      currentTolerance: currentTolerance,
-      toleranceDecayDays: toleranceData.toleranceDecayDays,
+    // NEW ENGINE: compute tolerance
+    final full = ToleranceCalculatorFull.computeToleranceFull(
+      useLogs: useEvents,
+      toleranceModels: { substance: toleranceData },
     );
 
     setState(() {
       _toleranceModel = toleranceData;
       _useEvents = useEvents;
-      _currentTolerance = currentTolerance;
-      _daysUntilBaseline = daysUntilBaseline;
-      _bucketToleranceModel = bucketModel;
-      _bucketResults = bucketResults;
-      _bucketUseEvents = bucketUseEvents;
+      _substanceTolerance = full;
     });
   }
 
@@ -409,6 +302,17 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
               }
             },
             tooltip: 'Toggle substance tolerance debug',
+          ),
+          IconButton(
+            icon: Icon(
+              _showDebugPanel
+                  ? Icons.developer_board
+                  : Icons.developer_board_outlined,
+            ),
+            onPressed: () {
+              setState(() => _showDebugPanel = !_showDebugPanel);
+            },
+            tooltip: 'Toggle tolerance debug panel',
           ),
         ],
       ),
@@ -465,17 +369,14 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
           const SizedBox(height: ThemeConstants.cardSpacing),
 
         // 3. Substance Detail (existing unified widget - only if substance selected)
-        if (_selectedSubstance != null && _bucketToleranceModel != null && _bucketResults != null)
+        if (_selectedSubstance != null && _toleranceModel != null && _substanceTolerance != null)
           UnifiedBucketToleranceWidget(
-            bucketResults: _bucketResults!,
-            model: _bucketToleranceModel!,
+            toleranceModel: _toleranceModel!,
+            toleranceResult: _substanceTolerance!,
             substanceName: _selectedSubstance!,
-            useEvents: _bucketUseEvents,
-            systemTolerances: _systemToleranceData?.percents,
-            systemStates: _systemToleranceData?.states,
           ),
 
-        if (_selectedSubstance != null && _bucketToleranceModel != null && _bucketResults != null)
+        if (_selectedSubstance != null && _toleranceModel != null && _substanceTolerance != null)
           const SizedBox(height: ThemeConstants.cardSpacing),
 
         // 4. Key Metrics (Bottom)
@@ -498,7 +399,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
         else if (_toleranceModel != null) ...[
           ToleranceStatsCard(
             toleranceModel: _toleranceModel!,
-            daysUntilBaseline: _daysUntilBaseline,
+            daysUntilBaseline: _substanceTolerance?.overallDaysUntilBaseline ?? 0,
             recentUseCount: _useEvents.length,
           ),
           const SizedBox(height: ThemeConstants.cardSpacing),
@@ -518,6 +419,11 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
             isLoading: _isLoadingPerSubstance,
           ),
         ],
+
+        if (_showDebugPanel) ...[
+          const SizedBox(height: ThemeConstants.cardSpacing),
+          _buildDebugPanel(isDark),
+        ],
       ],
     );
   }
@@ -525,7 +431,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   Widget _buildSystemOverview(bool isDark) {
     // Render all 7 canonical buckets in order
     final orderedBuckets = BucketDefinitions.orderedBuckets;
-    final systemData = _systemToleranceData;
+    final systemData = _systemTolerance;
     
     if (systemData == null) {
       // Loading state
@@ -570,8 +476,8 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
             separatorBuilder: (context, index) => const SizedBox(width: ThemeConstants.space12),
             itemBuilder: (context, index) {
               final bucketType = orderedBuckets[index];
-              final tolerancePercent = (systemData.percents[bucketType] ?? 0.0).clamp(0.0, 100.0);
-              final state = systemData.states[bucketType] ?? ToleranceSystemState.recovered;
+              final tolerancePercent = (systemData.bucketPercents[bucketType] ?? 0.0).clamp(0.0, 100.0);
+              final state = ToleranceCalculator.classifyState(tolerancePercent);
               
               // Check if any substance is active for this bucket
               final isActive = _substanceActiveStates.entries.any((entry) {
@@ -612,14 +518,14 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   }
   
   Widget _buildBucketDetails(bool isDark) {
-    if (_selectedBucket == null || _systemToleranceData == null) {
+    if (_selectedBucket == null || _systemTolerance == null) {
       return const SizedBox.shrink();
     }
     
     final bucketType = _selectedBucket!;
-    final systemData = _systemToleranceData!;
-    final systemTolerancePercent = (systemData.percents[bucketType] ?? 0.0).clamp(0.0, 100.0);
-    final state = systemData.states[bucketType] ?? ToleranceSystemState.recovered;
+    final systemData = _systemTolerance!;
+    final systemTolerancePercent = (systemData.bucketPercents[bucketType] ?? 0.0).clamp(0.0, 100.0);
+    final state = ToleranceCalculator.classifyState(systemTolerancePercent);
     final substanceContributions = _substanceContributions[bucketType] ?? {};
     
     return Container(
@@ -635,6 +541,82 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
           setState(() => _selectedSubstance = substanceName);
           _loadMetrics(substanceName);
         },
+      ),
+    );
+  }
+
+  Widget _buildDebugPanel(bool isDark) {
+    final system = _systemTolerance;
+    final substance = _substanceTolerance;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+      decoration: BoxDecoration(
+        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+        border: Border.all(
+          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Tolerance engine debug',
+            style: TextStyle(
+              fontSize: ThemeConstants.fontSmall,
+              fontWeight: ThemeConstants.fontBold,
+              color: isDark ? UIColors.darkText : UIColors.lightText,
+            ),
+          ),
+          const SizedBox(height: ThemeConstants.space8),
+          if (system != null) ...[
+            Text(
+              'System: score=${system.toleranceScore.toStringAsFixed(1)} • daysToBaseline=${system.overallDaysUntilBaseline}',
+              style: TextStyle(
+                fontSize: ThemeConstants.fontXSmall,
+                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              ),
+            ),
+          ],
+          if (substance != null && _selectedSubstance != null) ...[
+            const SizedBox(height: ThemeConstants.space4),
+            Text(
+              'Substance $_selectedSubstance: score=${substance.toleranceScore.toStringAsFixed(1)} • daysToBaseline=${substance.overallDaysUntilBaseline}',
+              style: TextStyle(
+                fontSize: ThemeConstants.fontXSmall,
+                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              ),
+            ),
+          ],
+          const SizedBox(height: ThemeConstants.space8),
+          Text(
+            'Bucket percents:',
+            style: TextStyle(
+              fontSize: ThemeConstants.fontXSmall,
+              fontWeight: ThemeConstants.fontMediumWeight,
+              color: isDark ? UIColors.darkText : UIColors.lightText,
+            ),
+          ),
+          const SizedBox(height: 4),
+          if (system != null)
+            Wrap(
+              spacing: ThemeConstants.space8,
+              runSpacing: 4,
+              children: [
+                for (final bucket in BucketDefinitions.orderedBuckets)
+                  Text(
+                    '$bucket: ${(system.bucketPercents[bucket] ?? 0).toStringAsFixed(1)}%',
+                    style: TextStyle(
+                      fontSize: ThemeConstants.fontXSmall,
+                      color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                      fontFamily: 'monospace',
+                    ),
+                  ),
+              ],
+            ),
+        ],
       ),
     );
   }

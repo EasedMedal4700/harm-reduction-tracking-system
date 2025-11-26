@@ -9,6 +9,43 @@ import '../utils/error_handler.dart';
 class ToleranceEngineService {
   static final _supabase = Supabase.instance.client;
 
+  /// High-level API: compute full system tolerance for a user using the
+  /// unified tolerance engine. This is the preferred entry point for all
+  /// UI screens.
+  static Future<ToleranceResult> computeSystemTolerance({
+    required int userId,
+    int daysBack = 30,
+    bool debug = false,
+  }) async {
+    final results = await Future.wait([
+      fetchAllToleranceModels(),
+      fetchUseLogs(userId: userId, daysBack: daysBack),
+    ]);
+
+    final toleranceModels = results[0] as Map<String, ToleranceModel>;
+    final useLogs = results[1] as List<UseLogEntry>;
+
+    if (toleranceModels.isEmpty || useLogs.isEmpty) {
+      // Return an empty result with all buckets at 0.
+      final emptyPercents = <String, double>{
+        for (final b in kToleranceBuckets) b: 0.0,
+      };
+      return ToleranceResult(
+        bucketPercents: emptyPercents,
+        bucketRawLoads: {for (final b in kToleranceBuckets) b: 0.0},
+        toleranceScore: 0.0,
+        daysUntilBaseline: {for (final b in kToleranceBuckets) b: 0.0},
+        overallDaysUntilBaseline: 0.0,
+      );
+    }
+
+    return ToleranceCalculatorFull.computeToleranceFull(
+      useLogs: useLogs,
+      toleranceModels: toleranceModels,
+      debug: debug,
+    );
+  }
+
   /// Fetch all tolerance models from drug_profiles
   /// Returns Map<substanceSlug, ToleranceModel>
   static Future<Map<String, ToleranceModel>> fetchAllToleranceModels() async {
@@ -158,11 +195,14 @@ class ToleranceEngineService {
         return _emptyBuckets();
       }
 
-      // Compute tolerances
-      final tolerances = ToleranceCalculator.computeAllBucketTolerances(
+      // Compute full tolerance and extract bucket percents. This ensures
+      // all call sites stay consistent with the unified engine.
+      final full = ToleranceCalculatorFull.computeToleranceFull(
         useLogs: useLogs,
         toleranceModels: toleranceModels,
       );
+
+      final tolerances = full.bucketPercents;
 
       ErrorHandler.logInfo(
         'ToleranceEngineService',
@@ -193,10 +233,14 @@ class ToleranceEngineService {
     return ToleranceCalculator.computeAllBucketStates(tolerances: tolerances);
   }
 
-  /// Compute a simple tolerance percentage per substance for debug
-  /// Returns Map<substanceSlug, percent>
-  /// Algorithm: For each substance, compute raw load using sum(weights) and
-  /// apply exponential decay by hours since use. Then convert to percent via logistic.
+  /// Compute a simple tolerance percentage per substance for debug.
+  ///
+  /// Now uses the same core parameters as the main tolerance model:
+  ///   - standard_unit_mg
+  ///   - potency_multiplier
+  ///   - tolerance_gain_rate
+  ///   - duration_multiplier
+  ///   - half_life_hours / tolerance_decay_days
   static Future<Map<String, double>> computePerSubstanceTolerances({
     required int userId,
     int daysBack = 30,
@@ -227,7 +271,6 @@ class ToleranceEngineService {
 
         final model = toleranceModels[slug];
         if (model == null) {
-          // No model configured -> skip (or return 0)
           map[slug] = 0.0;
           continue;
         }
@@ -237,22 +280,64 @@ class ToleranceEngineService {
           0.0,
           (s, b) => s + b.weight,
         );
-        final halfLife = model.halfLifeHours;
 
-        var rawLoad = 0.0;
+        if (weightSum <= 0 || model.standardUnitMg <= 0) {
+          map[slug] = 0.0;
+          continue;
+        }
+
+        final halfLife = model.halfLifeHours;
+        final decayDays = model.toleranceDecayDays;
+        final activeThreshold = model.activeThreshold;
+
+        double rawLoad = 0.0;
+
         for (final logEntry in logs) {
           final hoursSince =
               now.difference(logEntry.timestamp).inMinutes / 60.0;
           if (hoursSince < 0) continue;
-          final decay = halfLife > 0 ? math.exp(-hoursSince / halfLife) : 0.0;
-          rawLoad += logEntry.doseUnits * weightSum * decay;
+
+          // Active level (PK decay)
+          final activeLevel =
+              halfLife > 0 ? math.exp(-hoursSince / halfLife) : 0.0;
+
+          // Dose normalized to standard unit
+          final doseNorm = logEntry.doseUnits / model.standardUnitMg;
+
+          // Base contribution similar to main engine:
+          // base = doseNorm * weightSum * potency * gainRate * 0.08 * durationMultiplier
+          final baseContribution = doseNorm *
+              weightSum *
+              model.potencyMultiplier *
+              model.toleranceGainRate *
+              0.08 *
+              model.durationMultiplier;
+
+          double decayFactor;
+          if (halfLife <= 0 || decayDays <= 0) {
+            decayFactor = 0.0;
+          } else {
+            // If still in "active window" (above threshold), no long-term decay yet
+            final activeWindowHours = -halfLife * math.log(activeThreshold);
+            if (activeLevel >= activeThreshold) {
+              decayFactor = 1.0;
+            } else {
+              final hoursPastActive =
+                  math.max(0.0, hoursSince - activeWindowHours);
+              final daysPastActive = hoursPastActive / 24.0;
+              decayFactor = math.exp(-daysPastActive / decayDays);
+            }
+          }
+
+          final eventLoad = baseContribution * decayFactor;
+          rawLoad += eventLoad;
         }
 
         final percent = ToleranceCalculator.loadToPercent(rawLoad);
         map[slug] = percent;
       }
 
-      // Sort map by percent desc when returned (stable)
+      // Sort map by percent desc
       final sorted = Map.fromEntries(
         map.entries.toList()..sort((a, b) => b.value.compareTo(a.value)),
       );
@@ -302,8 +387,10 @@ class ToleranceEngineService {
     return 0.0;
   }
 
-  /// Get breakdown of which substances are contributing to a specific bucket's load
-  /// Returns List of (Substance Name, Percent Contribution, Relative Impact Score)
+  /// Get breakdown of which substances are contributing to a specific bucket's load.
+  ///
+  /// Now uses the same core parameters as the main tolerance engine, so
+  /// contribution percentages line up with the bucket totals.
   static Future<List<ToleranceContribution>> getBucketBreakdown({
     required int userId,
     required String bucketName,
@@ -345,16 +432,45 @@ class ToleranceEngineService {
         final neuroBucket = model.neuroBuckets[bucketName];
         if (neuroBucket == null) continue;
 
+        final halfLife = model.halfLifeHours;
+        final decayDays = model.toleranceDecayDays;
+        final activeThreshold = model.activeThreshold;
+
+        if (halfLife <= 0 || model.standardUnitMg <= 0) continue;
+
         final hoursSince = now.difference(log.timestamp).inMinutes / 60.0;
         if (hoursSince < 0) continue;
 
-        final weight = neuroBucket.weight;
-        final halfLife = model.halfLifeHours;
+        final activeLevel =
+            math.exp(-hoursSince / halfLife); // PK active level
 
-        if (halfLife <= 0) continue;
+        // Normalize dose
+        final doseNorm = log.doseUnits / model.standardUnitMg;
 
-        final decayFactor = math.exp(-hoursSince / halfLife);
-        final load = log.doseUnits * weight * decayFactor;
+        // Base contribution as in main model
+        final baseContribution = doseNorm *
+            neuroBucket.weight *
+            model.potencyMultiplier *
+            model.toleranceGainRate *
+            0.08 *
+            model.durationMultiplier;
+
+        double decayFactor;
+        if (decayDays <= 0) {
+          decayFactor = 0.0;
+        } else {
+          final activeWindowHours = -halfLife * math.log(activeThreshold);
+          if (activeLevel >= activeThreshold) {
+            decayFactor = 1.0;
+          } else {
+            final hoursPastActive =
+                math.max(0.0, hoursSince - activeWindowHours);
+            final daysPastActive = hoursPastActive / 24.0;
+            decayFactor = math.exp(-daysPastActive / decayDays);
+          }
+        }
+
+        final load = baseContribution * decayFactor;
 
         contributions[log.substanceSlug] =
             (contributions[log.substanceSlug] ?? 0.0) + load;

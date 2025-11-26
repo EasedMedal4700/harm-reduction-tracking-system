@@ -1,30 +1,22 @@
 import 'package:flutter/material.dart';
-import '../../models/tolerance_bucket.dart';
 import '../../models/bucket_definitions.dart';
 import '../../models/tolerance_model.dart';
-import '../../utils/bucket_tolerance_calculator.dart' as bucket_calc;
+import '../../utils/tolerance_calculator.dart';
 import '../../constants/theme_constants.dart';
 import '../../constants/ui_colors.dart';
-import '../../screens/bucket_details_page.dart';
 
 /// Unified widget that combines System Tolerance and Substance-Specific Breakdown
 /// Shows both overall bucket state AND per-substance contributions in one view
 class UnifiedBucketToleranceWidget extends StatefulWidget {
-  final Map<String, bucket_calc.BucketToleranceResult> bucketResults;
-  final BucketToleranceModel model;
+  final ToleranceModel toleranceModel;
+  final ToleranceResult toleranceResult;
   final String substanceName;
-  final List<bucket_calc.UseEvent> useEvents;
-  final Map<String, double>? systemTolerances; // Overall system tolerance per bucket
-  final Map<String, ToleranceSystemState>? systemStates;
 
   const UnifiedBucketToleranceWidget({
     super.key,
-    required this.bucketResults,
-    required this.model,
+    required this.toleranceModel,
+    required this.toleranceResult,
     required this.substanceName,
-    required this.useEvents,
-    this.systemTolerances,
-    this.systemStates,
   });
 
   @override
@@ -171,29 +163,27 @@ class _UnifiedBucketToleranceWidgetState extends State<UnifiedBucketToleranceWid
 
           // Render all buckets from this substance's model
           ...BucketDefinitions.orderedBuckets.where((bucketType) {
-            return widget.model.neuroBuckets.containsKey(bucketType);
+            return widget.toleranceModel.neuroBuckets.containsKey(bucketType);
           }).map((bucketType) {
-            final bucket = widget.model.neuroBuckets[bucketType]!;
-            final result = widget.bucketResults[bucketType];
-            final systemTolerance = widget.systemTolerances?[bucketType] ?? 0.0;
-            final systemState = widget.systemStates?[bucketType] ?? ToleranceSystemState.recovered;
-            
+            final bucket = widget.toleranceModel.neuroBuckets[bucketType]!;
+            final percent = widget.toleranceResult.bucketPercents[bucketType] ?? 0.0;
+            final state = ToleranceCalculator.classifyState(percent);
+
             final isExpanded = _expandedBucket == bucketType;
 
             return _buildBucketCard(
               context,
               bucketType,
               bucket,
-              result,
-              systemTolerance,
-              systemState,
+              percent,
+              state,
               isExpanded,
               isDark,
             );
           }),
 
-          // Notes section
-          if (widget.model.notes != null) ...[
+          // Notes section (only if notes are non-empty)
+          if (widget.toleranceModel.notes.isNotEmpty) ...[
             Divider(
               height: ThemeConstants.space24,
               color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
@@ -209,7 +199,7 @@ class _UnifiedBucketToleranceWidgetState extends State<UnifiedBucketToleranceWid
                 SizedBox(width: ThemeConstants.space8),
                 Expanded(
                   child: Text(
-                    widget.model.notes!,
+                    widget.toleranceModel.notes,
                     style: TextStyle(
                       fontSize: ThemeConstants.fontXSmall,
                       color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
@@ -229,16 +219,14 @@ class _UnifiedBucketToleranceWidgetState extends State<UnifiedBucketToleranceWid
   Widget _buildBucketCard(
     BuildContext context,
     String bucketType,
-    ToleranceBucket bucket,
-    bucket_calc.BucketToleranceResult? result,
-    double systemTolerance,
-    ToleranceSystemState systemState,
+    NeuroBucket bucket,
+    double bucketPercent,
+    ToleranceSystemState state,
     bool isExpanded,
     bool isDark,
   ) {
-    final substanceTolerance = result?.tolerance ?? 0.0;
-    final activeLevel = result?.activeLevel ?? 0.0;
-    final isActive = result?.isActive ?? false;
+    final substanceTolerance = bucketPercent / 100.0;
+    final isActive = bucketPercent > 0.1;
 
     return Card(
       margin: EdgeInsets.only(bottom: ThemeConstants.space12),
@@ -252,30 +240,9 @@ class _UnifiedBucketToleranceWidgetState extends State<UnifiedBucketToleranceWid
       child: InkWell(
         onTap: () {
           if (_showDebug) {
-            // Toggle expand for debug view
             setState(() {
               _expandedBucket = isExpanded ? null : bucketType;
             });
-          } else {
-            // Navigate to details page
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BucketDetailsPage(
-                  bucketType: bucketType,
-                  result: result ?? bucket_calc.BucketToleranceResult(
-                    bucketType: bucketType,
-                    tolerance: 0.0,
-                    activeLevel: 0.0,
-                    isActive: false,
-                  ),
-                  bucket: bucket,
-                  contributingUses: widget.useEvents,
-                  daysToBaseline: _estimateDaysToBaseline(substanceTolerance, widget.model.toleranceDecayDays),
-                  substanceNotes: widget.model.notes,
-                ),
-              ),
-            );
           }
         },
         borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
@@ -356,11 +323,11 @@ class _UnifiedBucketToleranceWidgetState extends State<UnifiedBucketToleranceWid
                   Row(
                     children: [
                       Text(
-                        '${systemTolerance.toStringAsFixed(1)}%',
+                        '${bucketPercent.toStringAsFixed(1)}%',
                         style: TextStyle(
                           fontSize: ThemeConstants.fontSmall,
                           fontWeight: ThemeConstants.fontBold,
-                          color: _getColorForTolerance(systemTolerance / 100),
+                          color: _getColorForTolerance(substanceTolerance),
                         ),
                       ),
                       SizedBox(width: ThemeConstants.space8),
@@ -370,19 +337,19 @@ class _UnifiedBucketToleranceWidgetState extends State<UnifiedBucketToleranceWid
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: _getStateColor(systemState).withOpacity(0.1),
+                          color: _getStateColor(state).withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: _getStateColor(systemState).withOpacity(0.3),
+                            color: _getStateColor(state).withOpacity(0.3),
                             width: 0.5,
                           ),
                         ),
                         child: Text(
-                          systemState.displayName,
+                          state.displayName,
                           style: TextStyle(
                             fontSize: 9,
                             fontWeight: ThemeConstants.fontMediumWeight,
-                            color: _getStateColor(systemState),
+                            color: _getStateColor(state),
                           ),
                         ),
                       ),
@@ -445,7 +412,7 @@ class _UnifiedBucketToleranceWidgetState extends State<UnifiedBucketToleranceWid
                     ),
                   ),
                   Text(
-                    'Active: ${(activeLevel * 100).toStringAsFixed(1)}%',
+                    'Active: ${isActive ? 'Yes' : 'No'}',
                     style: TextStyle(
                       fontSize: ThemeConstants.fontXSmall,
                       fontWeight: ThemeConstants.fontMediumWeight,
@@ -462,7 +429,7 @@ class _UnifiedBucketToleranceWidgetState extends State<UnifiedBucketToleranceWid
                 SizedBox(height: ThemeConstants.space12),
                 Divider(color: isDark ? UIColors.darkBorder : UIColors.lightBorder),
                 SizedBox(height: ThemeConstants.space8),
-                _buildDebugSection(bucket, result, isDark),
+                _buildDebugSection(bucketType, bucket, state, bucketPercent, isDark),
               ],
             ],
           ),
@@ -471,7 +438,7 @@ class _UnifiedBucketToleranceWidgetState extends State<UnifiedBucketToleranceWid
     );
   }
 
-  Widget _buildDebugSection(ToleranceBucket bucket, bucket_calc.BucketToleranceResult? result, bool isDark) {
+  Widget _buildDebugSection(String bucketType, NeuroBucket bucket, ToleranceSystemState state, double bucketPercent, bool isDark) {
     return Container(
       padding: EdgeInsets.all(ThemeConstants.space12),
       decoration: BoxDecoration(
@@ -493,52 +460,22 @@ class _UnifiedBucketToleranceWidgetState extends State<UnifiedBucketToleranceWid
           ),
           SizedBox(height: ThemeConstants.space8),
           
-          _debugRow('Bucket Type', bucket.type, isDark),
+          _debugRow('Bucket Type', bucketType, isDark),
           _debugRow('Weight', bucket.weight.toStringAsFixed(3), isDark),
-          _debugRow('Tolerance Type', bucket.toleranceType, isDark),
-          _debugRow('Potency Multiplier', bucket.potencyMultiplier.toStringAsFixed(2), isDark),
-          _debugRow('Duration Multiplier', bucket.durationMultiplier.toStringAsFixed(2), isDark),
+          _debugRow('Tolerance Type', bucket.toleranceType ?? 'unknown', isDark),
           
           Divider(height: 16, color: Colors.grey),
           
-          _debugRow('Half-life (hours)', widget.model.halfLifeHours.toStringAsFixed(1), isDark),
-          _debugRow('Active Threshold', widget.model.activeThreshold.toStringAsFixed(3), isDark),
-          _debugRow('Tolerance Gain Rate', widget.model.toleranceGainRate.toStringAsFixed(3), isDark),
-          _debugRow('Decay Days', widget.model.toleranceDecayDays.toStringAsFixed(1), isDark),
+          _debugRow('Half-life (hours)', widget.toleranceModel.halfLifeHours.toStringAsFixed(1), isDark),
+          _debugRow('Active Threshold', widget.toleranceModel.activeThreshold.toStringAsFixed(3), isDark),
+          _debugRow('Tolerance Gain Rate', widget.toleranceModel.toleranceGainRate.toStringAsFixed(3), isDark),
+          _debugRow('Decay Days', widget.toleranceModel.toleranceDecayDays.toStringAsFixed(1), isDark),
           
           Divider(height: 16, color: Colors.grey),
           
-          _debugRow('Current Tolerance', result != null ? (result.tolerance * 100).toStringAsFixed(2) + '%' : 'N/A', isDark),
-          _debugRow('Active Level', result != null ? (result.activeLevel * 100).toStringAsFixed(2) + '%' : 'N/A', isDark),
-          _debugRow('Is Active?', result?.isActive == true ? 'YES' : 'NO', isDark),
-          _debugRow('Recent Uses', widget.useEvents.length.toString(), isDark),
-          
-          if (widget.useEvents.isNotEmpty) ...[
-            Divider(height: 16, color: Colors.grey),
-            Text(
-              'Recent Use Events:',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
-                fontWeight: ThemeConstants.fontBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-              ),
-            ),
-            SizedBox(height: 4),
-            ...widget.useEvents.take(5).map((event) {
-              final hoursAgo = DateTime.now().difference(event.timestamp).inHours;
-              return Padding(
-                padding: EdgeInsets.only(left: 8, top: 4),
-                child: Text(
-                  '• ${event.doseMg.toStringAsFixed(1)}mg - ${hoursAgo}h ago',
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontXSmall,
-                    color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                    fontFamily: 'monospace',
-                  ),
-                ),
-              );
-            }),
-          ],
+          _debugRow('Current Tolerance %', bucketPercent.toStringAsFixed(2), isDark),
+          _debugRow('Raw Load', (widget.toleranceResult.bucketRawLoads[bucketType] ?? 0).toStringAsFixed(4), isDark),
+          _debugRow('State', state.displayName, isDark),
 
           SizedBox(height: ThemeConstants.space12),
           
@@ -603,15 +540,5 @@ class _UnifiedBucketToleranceWidgetState extends State<UnifiedBucketToleranceWid
     );
   }
 
-  double _estimateDaysToBaseline(double tolerance, double decayDays) {
-    if (tolerance <= 0.01) return 0;
-    // Assuming baseline is ~5% tolerance
-    final baselineThreshold = 0.05;
-    if (tolerance <= baselineThreshold) return 0;
-    
-    // Exponential decay: tolerance = initial × e^(-days / decay_days)
-    // Solving for days: days = -decay_days × ln(baseline / current)
-    final days = -decayDays * (baselineThreshold / tolerance).abs().clamp(0.001, 1.0);
-    return days > 0 ? days : 0;
-  }
+  // Note: days-to-baseline is computed at the engine level (ToleranceResult.overallDaysUntilBaseline)
 }

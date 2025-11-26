@@ -4,7 +4,7 @@ import '../../models/tolerance_model.dart';
 
 /// Card displaying a list of recent substance use events
 class RecentUsesCard extends StatelessWidget {
-  final List<UseEvent> useEvents;
+  final List<UseLogEntry> useEvents;
   final String? substanceName;
 
   const RecentUsesCard({
@@ -44,7 +44,7 @@ class RecentUsesCard extends StatelessWidget {
               (event) => ListTile(
                 contentPadding: EdgeInsets.zero,
                 title: Text(formatter.format(event.timestamp)),
-                subtitle: Text('${event.dose.toStringAsFixed(1)} units'),
+                subtitle: Text('${event.doseUnits.toStringAsFixed(1)} units'),
               ),
             ),
           ],

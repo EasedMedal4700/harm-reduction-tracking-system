@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/bucket_definitions.dart';
-import '../models/tolerance_bucket.dart';
-import '../utils/bucket_tolerance_calculator.dart' as bucket_calc;
+import '../models/tolerance_model.dart';
 import '../constants/theme_constants.dart';
 import '../constants/ui_colors.dart';
 
@@ -9,17 +8,19 @@ import '../constants/ui_colors.dart';
 /// Displays: decay graph, contributing uses, notes, days to baseline
 class BucketDetailsPage extends StatelessWidget {
   final String bucketType;
-  final bucket_calc.BucketToleranceResult result;
-  final ToleranceBucket bucket;
-  final List<bucket_calc.UseEvent> contributingUses;
+  final NeuroBucket bucket;
+  final double tolerancePercent; // 0–100
+  final double rawLoad;
+  final List<UseLogEntry> contributingUses;
   final double daysToBaseline;
   final String? substanceNotes;
 
   const BucketDetailsPage({
     super.key,
     required this.bucketType,
-    required this.result,
     required this.bucket,
+    required this.tolerancePercent,
+    required this.rawLoad,
     required this.contributingUses,
     required this.daysToBaseline,
     this.substanceNotes,
@@ -94,12 +95,12 @@ class BucketDetailsPage extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(ThemeConstants.space12),
             decoration: BoxDecoration(
-              color: _getColorForTolerance(result.tolerance).withOpacity(0.1),
+              color: _getColorForTolerance(tolerancePercent / 100.0).withOpacity(0.1),
               borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
             ),
             child: Icon(
               _getBucketIcon(),
-              color: _getColorForTolerance(result.tolerance),
+              color: _getColorForTolerance(tolerancePercent / 100.0),
               size: 32,
             ),
           ),
@@ -118,17 +119,17 @@ class BucketDetailsPage extends StatelessWidget {
                 ),
                 SizedBox(height: ThemeConstants.space4),
                 Text(
-                  '${(result.tolerance * 100).toStringAsFixed(1)}% Tolerance',
+                  '${tolerancePercent.toStringAsFixed(1)}% Tolerance',
                   style: TextStyle(
                     fontSize: ThemeConstants.fontMedium,
                     fontWeight: ThemeConstants.fontSemiBold,
-                    color: _getColorForTolerance(result.tolerance),
+                    color: _getColorForTolerance(tolerancePercent / 100.0),
                   ),
                 ),
               ],
             ),
           ),
-          if (result.isActive)
+          if (tolerancePercent > 0.1)
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: ThemeConstants.space12,
@@ -211,12 +212,12 @@ class BucketDetailsPage extends StatelessWidget {
           SizedBox(height: ThemeConstants.space16),
           _buildStatRow(
             'Tolerance Level',
-            '${(result.tolerance * 100).toStringAsFixed(1)}%',
+            '${tolerancePercent.toStringAsFixed(1)}%',
             isDark,
           ),
           _buildStatRow(
-            'Active Level',
-            '${(result.activeLevel * 100).toStringAsFixed(1)}%',
+            'Raw Load',
+            rawLoad.toStringAsFixed(4),
             isDark,
           ),
           _buildStatRow(
@@ -226,12 +227,12 @@ class BucketDetailsPage extends StatelessWidget {
           ),
           _buildStatRow(
             'Tolerance Type',
-            bucket.toleranceType,
+            bucket.toleranceType ?? 'unknown',
             isDark,
           ),
           _buildStatRow(
             'Status',
-            result.isActive ? 'Active' : 'Inactive',
+            tolerancePercent > 0.1 ? 'Active' : 'Inactive',
             isDark,
           ),
         ],
@@ -291,7 +292,7 @@ class BucketDetailsPage extends StatelessWidget {
           _buildDecayBar(isDark),
           SizedBox(height: ThemeConstants.space12),
           Text(
-            result.isActive
+            tolerancePercent > 0.1
                 ? 'Substance is currently active in your system. Tolerance will continue to build.'
                 : 'Substance is no longer active. Tolerance is decaying naturally.',
             style: TextStyle(
@@ -311,23 +312,23 @@ class BucketDetailsPage extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              flex: (result.tolerance * 100).round(),
+              flex: tolerancePercent.round().clamp(0, 100),
               child: Container(
                 height: 12,
                 decoration: BoxDecoration(
-                  color: _getColorForTolerance(result.tolerance),
+                  color: _getColorForTolerance(tolerancePercent / 100.0),
                   borderRadius: BorderRadius.horizontal(
                     left: Radius.circular(ThemeConstants.radiusSmall),
-                    right: result.tolerance >= 1.0
+                    right: tolerancePercent >= 100.0
                         ? Radius.circular(ThemeConstants.radiusSmall)
                         : Radius.zero,
                   ),
                 ),
               ),
             ),
-            if (result.tolerance < 1.0)
+            if (tolerancePercent < 100.0)
               Expanded(
-                flex: ((1.0 - result.tolerance) * 100).round(),
+                flex: (100.0 - tolerancePercent).round().clamp(0, 100),
                 child: Container(
                   height: 12,
                   decoration: BoxDecoration(
@@ -401,7 +402,7 @@ class BucketDetailsPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${use.doseMg.toStringAsFixed(1)}mg',
+                    '${use.doseUnits.toStringAsFixed(1)} units',
                     style: TextStyle(
                       fontSize: ThemeConstants.fontSmall,
                       fontWeight: ThemeConstants.fontMediumWeight,
