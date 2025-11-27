@@ -20,9 +20,11 @@ class AdminUserCard extends StatelessWidget {
     final email = user['email'] as String? ?? 'No email';
     final isAdmin = user['is_admin'] as bool? ?? false;
     final createdAt = user['created_at'];
-    final lastActive = user['last_active'] ?? user['updated_at'];
+    final lastActive = user['last_activity'] ?? user['last_active'] ?? user['updated_at'];
     final entryCount = user['entry_count'] as int? ?? 0;
     final cravingCount = user['craving_count'] as int? ?? 0;
+    final reflectionCount = user['reflection_count'] as int? ?? 0;
+    final authUserId = user['auth_user_id'] as String? ?? 'N/A';
     
     // If userId is 0, the data is invalid
     if (userId == 0) {
@@ -77,8 +79,13 @@ class AdminUserCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildInfoRow('User ID', userId.toString()),
+                _buildInfoRow('Auth UUID', authUserId.substring(0, 8) + '...'),
+                const Divider(),
                 _buildInfoRow('Entries', entryCount.toString()),
                 _buildInfoRow('Cravings', cravingCount.toString()),
+                _buildInfoRow('Reflections', reflectionCount.toString()),
+                _buildInfoRow('Total Activity', (entryCount + cravingCount + reflectionCount).toString()),
+                const Divider(),
                 if (createdAt != null)
                   _buildInfoRow(
                     'Joined',

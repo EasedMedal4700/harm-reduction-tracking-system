@@ -13,7 +13,7 @@ class AdminService {
 
       final response = await _client
           .from('users')
-          .select('user_id, email, display_name, is_admin, created_at, updated_at')
+          .select('user_id, auth_user_id, email, display_name, is_admin, created_at, updated_at')
           .order('created_at', ascending: false);
 
       // Get entry counts for each user
@@ -22,10 +22,58 @@ class AdminService {
 
       for (var user in users) {
         final userData = Map<String, dynamic>.from(user);
+        final authUserId = userData['auth_user_id'] as String?;
         
-        // Get entry count - need to get auth user ID first
-        // Skip entry count for now as we need auth_user_id mapping
-        userData['entry_count'] = 0;
+        if (authUserId != null) {
+          // Get drug use entry count
+          try {
+            final entries = await _client
+                .from('drug_use')
+                .select('use_id')
+                .eq('uuid_user_id', authUserId);
+            userData['entry_count'] = (entries as List).length;
+            
+            // Get last activity date
+            if ((entries as List).isNotEmpty) {
+              final lastEntry = await _client
+                  .from('drug_use')
+                  .select('start_time')
+                  .eq('uuid_user_id', authUserId)
+                  .order('start_time', ascending: false)
+                  .limit(1)
+                  .maybeSingle();
+              userData['last_activity'] = lastEntry?['start_time'];
+            } else {
+              userData['last_activity'] = null;
+            }
+            
+            // Get craving count
+            final cravings = await _client
+                .from('cravings')
+                .select('craving_id')
+                .eq('uuid_user_id', authUserId);
+            userData['craving_count'] = (cravings as List).length;
+            
+            // Get reflection count
+            final reflections = await _client
+                .from('reflections')
+                .select('reflection_id')
+                .eq('uuid_user_id', authUserId);
+            userData['reflection_count'] = (reflections as List).length;
+          } catch (e) {
+            ErrorHandler.logWarning('AdminService', 'Error fetching stats for user $authUserId: $e');
+            userData['entry_count'] = 0;
+            userData['craving_count'] = 0;
+            userData['reflection_count'] = 0;
+            userData['last_activity'] = null;
+          }
+        } else {
+          userData['entry_count'] = 0;
+          userData['craving_count'] = 0;
+          userData['reflection_count'] = 0;
+          userData['last_activity'] = null;
+        }
+        
         enrichedUsers.add(userData);
       }
 
@@ -132,7 +180,7 @@ class AdminService {
       final rawLogs = await _client
           .from('error_logs')
           .select(
-            'id, user_id, app_version, platform, os_version, device_model, screen_name, error_message, error_code, severity, stacktrace, extra_data, created_at',
+            'id, uuid_user_id, app_version, platform, os_version, device_model, screen_name, error_message, error_code, severity, stacktrace, extra_data, created_at',
           )
           .order('created_at', ascending: false)
           .limit(500) as List;
