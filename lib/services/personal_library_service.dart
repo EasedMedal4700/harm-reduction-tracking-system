@@ -5,6 +5,7 @@ import '../utils/error_handler.dart';
 import '../utils/drug_stats_calculator.dart';
 import '../utils/drug_preferences_manager.dart';
 import '../utils/drug_data_parser.dart';
+import 'user_service.dart';
 
 class PersonalLibraryService {
   Future<List<DrugCatalogEntry>> fetchCatalog() async {
@@ -168,11 +169,13 @@ class PersonalLibraryService {
   }
 
   Future<List<Map<String, dynamic>>> _loadDatabaseEntries() async {
-    // RLS (Row Level Security) automatically filters by authenticated user
+    // Filter by authenticated user's ID for security
     try {
+      final userId = await UserService.getIntegerUserId();
       final response = await Supabase.instance.client
           .from('drug_use')
           .select('name, start_time, dose')
+          .eq('user_id', userId)
           .order('start_time', ascending: false);
 
       return (response as List<dynamic>)

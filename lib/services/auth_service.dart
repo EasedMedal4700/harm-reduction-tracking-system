@@ -60,6 +60,7 @@ class AuthService {
     }
 
     try {
+      // Create Supabase Auth user
       final response = await _client.auth.signUp(
         email: email,
         password: password,
@@ -75,11 +76,31 @@ class AuthService {
       final friendlyName =
           displayName?.trim().isNotEmpty == true ? displayName!.trim() : email;
 
-      await _client.from('users').insert({
-        'email': email,
-        'display_name': friendlyName,
-        'is_admin': false,
-      });
+      // Insert into users table and verify it succeeds
+      try {
+        final insertResponse = await _client.from('users').insert({
+          'email': email,
+          'display_name': friendlyName,
+          'is_admin': false,
+        }).select('user_id').single();
+
+        // Verify we got a user_id back
+        if (insertResponse['user_id'] == null) {
+          return const AuthResult.failure(
+            'Failed to create user profile. Please try again.',
+          );
+        }
+      } on PostgrestException catch (e, stackTrace) {
+        ErrorHandler.logError('AuthService.register.insertUser', e, stackTrace);
+        
+        if (e.code == '23505') {
+          // Unique constraint violation
+          return const AuthResult.failure('Email is already in use.');
+        }
+        return const AuthResult.failure(
+          'Failed to create user profile. Please try again.',
+        );
+      }
 
       return const AuthResult.success();
     } on AuthException catch (e, stackTrace) {

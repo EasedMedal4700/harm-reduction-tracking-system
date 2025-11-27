@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
+import 'user_service.dart';
 
 /// Service for calculating drug blood levels and metabolism
 class BloodLevelsService {
@@ -9,6 +10,7 @@ class BloodLevelsService {
     DateTime? referenceTime,
   }) async {
     final now = referenceTime ?? DateTime.now();
+    final userId = await UserService.getIntegerUserId();
 
     try {
       ErrorHandler.logDebug(
@@ -38,10 +40,11 @@ class BloodLevelsService {
         }
       }
 
-      // RLS handles user filtering
+      // Filter by authenticated user's ID
       final response = await Supabase.instance.client
           .from('drug_use')
           .select('name, dose, start_time')
+          .eq('user_id', userId)
           .order('start_time', ascending: false);
 
       final drugUseData = response as List<dynamic>;
@@ -239,6 +242,7 @@ class BloodLevelsService {
     required int hoursForward,
   }) async {
     try {
+      final userId = await UserService.getIntegerUserId();
       final startTime = referenceTime.subtract(Duration(hours: hoursBack));
       final endTime = referenceTime.add(Duration(hours: hoursForward));
 
@@ -251,6 +255,7 @@ class BloodLevelsService {
       final response = await Supabase.instance.client
           .from('drug_use')
           .select('name, dose, start_time')
+          .eq('user_id', userId)
           .ilike('name', drugName)
           .gte('start_time', startTime.toIso8601String())
           .lte('start_time', endTime.toIso8601String())
@@ -319,6 +324,7 @@ class BloodLevelsService {
     required int hoursForward,
   }) async {
     try {
+      final userId = await UserService.getIntegerUserId();
       final startTime = referenceTime.subtract(Duration(hours: hoursBack));
       final endTime = referenceTime.add(Duration(hours: hoursForward));
 
@@ -331,6 +337,7 @@ class BloodLevelsService {
       final response = await Supabase.instance.client
           .from('drug_use')
           .select('name')
+          .eq('user_id', userId)
           .gte('start_time', startTime.toIso8601String())
           .lte('start_time', endTime.toIso8601String());
 

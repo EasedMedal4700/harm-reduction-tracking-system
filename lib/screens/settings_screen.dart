@@ -10,6 +10,7 @@ import '../widgets/settings/data_sync_settings_section.dart';
 import '../widgets/settings/entry_preferences_section.dart';
 import '../widgets/settings/display_settings_section.dart';
 import '../widgets/settings/about_section.dart';
+import '../widgets/settings/account_management_section.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -83,6 +84,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 settingsProvider: settingsProvider,
                 onDateFormatTap: () => _showDateFormatPicker(context, settingsProvider),
               ),
+              const AccountManagementSection(),
               AboutSection(packageInfo: _packageInfo),
               const SizedBox(height: 16),
             ],
