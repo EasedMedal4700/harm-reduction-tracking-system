@@ -306,7 +306,7 @@ class AccountManagementSection extends StatelessWidget {
           children: [
             Icon(Icons.error_outline, color: Colors.red.shade700, size: 32),
             const SizedBox(width: 12),
-            const Expanded(child: Text('⚠️ PERMANENT DELETION')),
+            const Expanded(child: Text('⚠️ DELETE ACCOUNT')),
           ],
         ),
         content: Column(
@@ -321,10 +321,11 @@ class AccountManagementSection extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            _WarningItem('Your entire account', isRed: true),
             _WarningItem('All your data and logs', isRed: true),
-            _WarningItem('All your settings', isRed: true),
-            _WarningItem('Your login credentials', isRed: true),
+            _WarningItem('All your settings and profile', isRed: true),
+            _WarningItem('Your account record', isRed: true),
+            const SizedBox(height: 8),
+            _WarningItem('⚠️ Login credentials remain (contact support to delete)', isRed: false),
             const SizedBox(height: 16),
             Container(
               padding: const EdgeInsets.all(12),
@@ -348,7 +349,7 @@ class AccountManagementSection extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'This action CANNOT be reversed. Your account will be gone forever.',
+              'This action CANNOT be reversed. Your data will be gone forever.',
               style: TextStyle(
                 color: Colors.red.shade700,
                 fontWeight: FontWeight.bold,
@@ -408,7 +409,7 @@ class AccountManagementSection extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Type "DELETE MY ACCOUNT" to confirm permanent deletion:',
+                'Type "DELETE MY ACCOUNT" to confirm account deletion:',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.red.shade900,
@@ -466,6 +467,9 @@ class AccountManagementSection extends StatelessWidget {
   }
 
   Future<void> _downloadUserData(BuildContext context, String password) async {
+    final navigator = Navigator.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -487,64 +491,83 @@ class AccountManagementSection extends StatelessWidget {
     );
 
     try {
+      print('\n=== DOWNLOAD USER DATA STARTED ===');
+      print('[1/8] Initializing Supabase client...');
       final supabase = Supabase.instance.client;
       final userId = UserService.getCurrentUserId();
+      print('[1/8] ✓ Complete - User ID: $userId');
 
       // Fetch all user data
+      print('[2/8] Creating data structure...');
       final userData = <String, dynamic>{
         'export_date': DateTime.now().toIso8601String(),
         'uuid_user_id': userId,
       };
+      print('[2/8] ✓ Complete');
 
       // Fetch drug use logs
+      print('[3/8] Fetching drug use logs...');
       final drugUseLogs = await supabase
           .from('drug_use')
           .select()
           .eq('uuid_user_id', userId);
       userData['drug_use_logs'] = drugUseLogs;
+      print('[3/8] ✓ Complete - Found ${(drugUseLogs as List).length} entries');
 
       // Fetch reflections
+      print('[4/8] Fetching reflections...');
       try {
         final reflections = await supabase
             .from('reflections')
             .select()
             .eq('uuid_user_id', userId);
         userData['reflections'] = reflections;
+        print('[4/8] ✓ Complete - Found ${(reflections as List).length} entries');
       } catch (e) {
         userData['reflections'] = [];
+        print('[4/8] ⚠ Warning - Reflections table error: $e');
       }
 
       // Fetch cravings
+      print('[5/8] Fetching cravings...');
       try {
         final cravings = await supabase
             .from('cravings')
             .select()
             .eq('uuid_user_id', userId);
         userData['cravings'] = cravings;
+        print('[5/8] ✓ Complete - Found ${(cravings as List).length} entries');
       } catch (e) {
         userData['cravings'] = [];
+        print('[5/8] ⚠ Warning - Cravings table error: $e');
       }
 
       // Fetch stockpile
+      print('[6/8] Fetching stockpile...');
       try {
         final stockpile = await supabase
             .from('stockpile')
             .select()
             .eq('uuid_user_id', userId);
         userData['stockpile'] = stockpile;
+        print('[6/8] ✓ Complete - Found ${(stockpile as List).length} entries');
       } catch (e) {
         userData['stockpile'] = [];
+        print('[6/8] ⚠ Warning - Stockpile table error: $e');
       }
 
       // Convert to JSON
+      print('[7/8] Converting to JSON and saving file...');
       final jsonString = const JsonEncoder.withIndent('  ').convert(userData);
 
       // Save to file
       final directory = await getTemporaryDirectory();
       final file = File('${directory.path}/my_data_export_${DateTime.now().millisecondsSinceEpoch}.json');
       await file.writeAsString(jsonString);
+      print('[7/8] ✓ Complete - File saved at: ${file.path}');
 
-      Navigator.pop(context); // Close loading dialog
+      print('[8/8] Closing dialog and opening share...');
+      navigator.pop(); // Close loading dialog
 
       // Share the file
       await Share.shareXFiles(
@@ -553,25 +576,33 @@ class AccountManagementSection extends StatelessWidget {
         text: 'Your personal data export from the app',
       );
 
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         const SnackBar(
           content: Text('Data exported successfully!'),
           backgroundColor: Colors.green,
         ),
       );
-    } catch (e) {
-      Navigator.pop(context); // Close loading dialog
+      print('[8/8] ✓ DOWNLOAD COMPLETE\n');
+    } catch (e, stackTrace) {
+      print('\n✗✗✗ DOWNLOAD FAILED ✗✗✗');
+      print('Error: $e');
+      print('Stack trace: $stackTrace');
+      navigator.pop(); // Close loading dialog
       
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(
           content: Text('Error exporting data: ${e.toString()}'),
           backgroundColor: Colors.red,
         ),
       );
+      print('Error dialog shown\n');
     }
   }
 
   Future<void> _deleteUserData(BuildContext context, String password) async {
+    final navigator = Navigator.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -593,51 +624,71 @@ class AccountManagementSection extends StatelessWidget {
     );
 
     try {
+      print('\n=== DELETE USER DATA STARTED ===');
+      print('[1/6] Initializing Supabase client...');
       final supabase = Supabase.instance.client;
       final userId = UserService.getCurrentUserId();
+      print('[1/6] ✓ Complete - User ID: $userId');
 
       // Delete all user data
+      print('[2/6] Deleting drug_use entries...');
       await supabase.from('drug_use').delete().eq('uuid_user_id', userId);
+      print('[2/6] ✓ Complete - drug_use entries deleted');
       
+      print('[3/6] Deleting reflections...');
       try {
         await supabase.from('reflections').delete().eq('uuid_user_id', userId);
+        print('[3/6] ✓ Complete - reflections deleted');
       } catch (e) {
-        // Table might not exist
+        print('[3/6] ⚠ Warning - Reflections table error: $e');
       }
       
+      print('[4/6] Deleting cravings...');
       try {
         await supabase.from('cravings').delete().eq('uuid_user_id', userId);
+        print('[4/6] ✓ Complete - cravings deleted');
       } catch (e) {
-        // Table might not exist
+        print('[4/6] ⚠ Warning - Cravings table error: $e');
       }
       
+      print('[5/6] Deleting stockpile...');
       try {
         await supabase.from('stockpile').delete().eq('uuid_user_id', userId);
+        print('[5/6] ✓ Complete - stockpile deleted');
       } catch (e) {
-        // Table might not exist
+        print('[5/6] ⚠ Warning - Stockpile table error: $e');
       }
 
-      Navigator.pop(context); // Close loading dialog
+      print('[6/6] Closing dialog and showing success...');
+      navigator.pop(); // Close loading dialog
 
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         const SnackBar(
           content: Text('All your data has been deleted.'),
           backgroundColor: Colors.orange,
         ),
       );
-    } catch (e) {
-      Navigator.pop(context); // Close loading dialog
+      print('[6/6] ✓ DELETE DATA COMPLETE\n');
+    } catch (e, stackTrace) {
+      print('\n✗✗✗ DELETE DATA FAILED ✗✗✗');
+      print('Error: $e');
+      print('Stack trace: $stackTrace');
+      navigator.pop(); // Close loading dialog
       
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(
           content: Text('Error deleting data: ${e.toString()}'),
           backgroundColor: Colors.red,
         ),
       );
+      print('Error dialog shown\n');
     }
   }
 
   Future<void> _deleteAccount(BuildContext context, String password) async {
+    final navigator = Navigator.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -659,51 +710,164 @@ class AccountManagementSection extends StatelessWidget {
     );
 
     try {
+      print('\n=== DELETE ACCOUNT STARTED ===');
+      print('[1/9] Initializing Supabase client...');
       final supabase = Supabase.instance.client;
       final userId = UserService.getCurrentUserId();
+      print('[1/9] ✓ Complete - User ID: $userId');
 
       // Delete all user data first
+      print('[2/9] Deleting drug_use entries...');
       await supabase.from('drug_use').delete().eq('uuid_user_id', userId);
+      print('[2/9] ✓ Complete - drug_use entries deleted');
       
+      // Verify drug_use deletion
+      try {
+        final drugUseCheck = await supabase
+            .from('drug_use')
+            .select('uuid_user_id')
+            .eq('uuid_user_id', userId)
+            .limit(1);
+        if ((drugUseCheck as List).isEmpty) {
+          print('[2/9] ✓ VERIFIED - all drug_use entries removed');
+        } else {
+          print('[2/9] ⚠ WARNING - ${(drugUseCheck as List).length} drug_use entries still exist');
+        }
+      } catch (e) {
+        print('[2/9] ⚠ WARNING - Could not verify drug_use deletion: $e');
+      }
+      
+      print('[3/9] Deleting reflections...');
       try {
         await supabase.from('reflections').delete().eq('uuid_user_id', userId);
-      } catch (e) {}
+        print('[3/9] ✓ Complete - reflections deleted');
+        
+        // Verify reflections deletion
+        final reflectionsCheck = await supabase
+            .from('reflections')
+            .select('uuid_user_id')
+            .eq('uuid_user_id', userId)
+            .limit(1);
+        if ((reflectionsCheck as List).isEmpty) {
+          print('[3/9] ✓ VERIFIED - all reflections removed');
+        } else {
+          print('[3/9] ⚠ WARNING - ${(reflectionsCheck as List).length} reflections still exist');
+        }
+      } catch (e) {
+        print('[3/9] ⚠ Warning - Reflections table error: $e');
+      }
       
+      print('[4/9] Deleting cravings...');
       try {
         await supabase.from('cravings').delete().eq('uuid_user_id', userId);
-      } catch (e) {}
+        print('[4/9] ✓ Complete - cravings deleted');
+        
+        // Verify cravings deletion
+        final cravingsCheck = await supabase
+            .from('cravings')
+            .select('uuid_user_id')
+            .eq('uuid_user_id', userId)
+            .limit(1);
+        if ((cravingsCheck as List).isEmpty) {
+          print('[4/9] ✓ VERIFIED - all cravings removed');
+        } else {
+          print('[4/9] ⚠ WARNING - ${(cravingsCheck as List).length} cravings still exist');
+        }
+      } catch (e) {
+        print('[4/9] ⚠ Warning - Cravings table error: $e');
+      }
       
+      print('[5/9] Deleting stockpile...');
       try {
         await supabase.from('stockpile').delete().eq('uuid_user_id', userId);
-      } catch (e) {}
+        print('[5/9] ✓ Complete - stockpile deleted');
+        
+        // Verify stockpile deletion
+        final stockpileCheck = await supabase
+            .from('stockpile')
+            .select('uuid_user_id')
+            .eq('uuid_user_id', userId)
+            .limit(1);
+        if ((stockpileCheck as List).isEmpty) {
+          print('[5/9] ✓ VERIFIED - all stockpile entries removed');
+        } else {
+          print('[5/9] ⚠ WARNING - ${(stockpileCheck as List).length} stockpile entries still exist');
+        }
+      } catch (e) {
+        print('[5/9] ⚠ Warning - Stockpile table error: $e');
+      }
 
-      // Delete user record
-      await supabase.from('users').delete().eq('uuid_user_id', userId);
+      // Delete user record - users table uses auth_user_id to link to auth.users(id)
+      print('[6/9] Deleting user record from users table...');
+      try {
+        await supabase.from('users').delete().eq('auth_user_id', userId);
+        print('[6/9] ✓ Complete - user record deleted');
+        
+        // Verify user record was deleted
+        final userCheck = await supabase
+            .from('users')
+            .select('auth_user_id')
+            .eq('auth_user_id', userId)
+            .maybeSingle();
+        if (userCheck == null) {
+          print('[6/9] ✓ VERIFIED - user record successfully removed from users table');
+        } else {
+          print('[6/9] ⚠ WARNING - user record still exists in users table after deletion attempt');
+        }
+      } catch (e) {
+        print('[6/9] ✗ FAILED - Error deleting user record: $e');
+        // Continue with the process even if users table deletion fails
+      }
+
+      // Note: Auth deletion requires admin privileges and cannot be done client-side
+      // User will need to delete their auth account through Supabase dashboard or support
+      print('[7/9] Skipping auth deletion (requires admin privileges)...');
+
+      // Verify auth user still exists (we can't delete it client-side)
+      try {
+        final currentUser = supabase.auth.currentUser;
+        if (currentUser != null) {
+          print('[7/9] ✓ VERIFIED - auth user still exists (expected - requires admin privileges to delete)');
+        } else {
+          print('[7/9] ⚠ WARNING - auth user not found (unexpected)');
+        }
+      } catch (e) {
+        print('[7/9] ⚠ WARNING - Could not verify auth user status: $e');
+      }
 
       // Sign out
+      print('[8/9] Signing out user...');
       await AuthService().logout();
+      print('[8/9] ✓ Complete - user signed out');
 
-      Navigator.pop(context); // Close loading dialog
+      print('[9/9] Closing dialog and navigating to login...');
+      navigator.pop(); // Close loading dialog
 
+      print('[9/9] Navigating to login screen...');
       // Navigate to login screen
-      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+      navigator.pushNamedAndRemoveUntil('/login_page', (route) => false);
 
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         const SnackBar(
-          content: Text('Your account has been permanently deleted.'),
+          content: Text('Your account has been deleted. Login credentials remain - contact support for complete removal.'),
           backgroundColor: Colors.red,
-          duration: Duration(seconds: 5),
+          duration: Duration(seconds: 8),
         ),
       );
-    } catch (e) {
-      Navigator.pop(context); // Close loading dialog
+      print('[9/9] ✓ ACCOUNT DELETION COMPLETE\n');
+    } catch (e, stackTrace) {
+      print('\n✗✗✗ DELETE ACCOUNT FAILED ✗✗✗');
+      print('Error: $e');
+      print('Stack trace: $stackTrace');
+      navigator.pop(); // Close loading dialog
       
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(
           content: Text('Error deleting account: ${e.toString()}'),
           backgroundColor: Colors.red,
         ),
       );
+      print('Error dialog shown\n');
     }
   }
 }
