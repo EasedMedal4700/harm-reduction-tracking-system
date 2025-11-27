@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import '../widgets/common/drawer_menu.dart';
+import '../widgets/profile/profile_header.dart';
+import '../widgets/profile/statistics_card.dart';
+import '../widgets/profile/account_info_card.dart';
+import '../widgets/profile/logout_button.dart';
 import '../services/user_service.dart';
 import '../services/auth_service.dart';
 import '../services/log_entry_service.dart';
-import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -135,265 +138,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    const SizedBox(height: 16),
-                    // Profile Avatar
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: (_userData?['is_admin'] ?? false)
-                          ? Colors.deepPurple
-                          : Colors.blue,
-                      child: Text(
-                        _getInitials(_userData?['display_name'] ?? 'U'),
-                        style: const TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    // Display Name
-                    Text(
-                      _userData?['display_name'] ?? 'Unknown User',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    // Email
-                    Text(
-                      _userData?['email'] ?? 'No email',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    // Admin Badge
-                    if (_userData?['is_admin'] ?? false)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.deepPurple.shade100,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.admin_panel_settings,
-                              size: 16,
-                              color: Colors.deepPurple,
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              'Administrator',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.deepPurple,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    // Profile Header
+                    ProfileHeader(userData: _userData),
                     const SizedBox(height: 32),
                     // Statistics Card
                     if (_statistics != null)
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Activity Statistics',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  _buildStatItem(
-                                    Icons.medication,
-                                    'Total Entries',
-                                    _statistics!['total_entries'].toString(),
-                                    Colors.blue,
-                                  ),
-                                  _buildStatItem(
-                                    Icons.calendar_today,
-                                    'Last 7 Days',
-                                    _statistics!['last_7_days'].toString(),
-                                    Colors.green,
-                                  ),
-                                  _buildStatItem(
-                                    Icons.calendar_month,
-                                    'Last 30 Days',
-                                    _statistics!['last_30_days'].toString(),
-                                    Colors.orange,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      StatisticsCard(statistics: _statistics!),
                     const SizedBox(height: 32),
-                    // Profile Information Card
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Account Information',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            _buildInfoRow(
-                              Icons.badge,
-                              'User ID',
-                              _userData?['user_id']?.toString() ?? 'N/A',
-                            ),
-                            const Divider(),
-                            _buildInfoRow(
-                              Icons.email,
-                              'Email',
-                              _userData?['email'] ?? 'N/A',
-                            ),
-                            const Divider(),
-                            _buildInfoRow(
-                              Icons.person,
-                              'Display Name',
-                              _userData?['display_name'] ?? 'N/A',
-                            ),
-                            const Divider(),
-                            _buildInfoRow(
-                              Icons.calendar_today,
-                              'Member Since',
-                              _userData?['created_at'] != null
-                                  ? DateFormat('MMMM dd, yyyy').format(
-                                      DateTime.parse(_userData!['created_at']))
-                                  : 'N/A',
-                            ),
-                            const Divider(),
-                            _buildInfoRow(
-                              Icons.update,
-                              'Last Updated',
-                              _userData?['updated_at'] != null
-                                  ? DateFormat('MMM dd, yyyy HH:mm').format(
-                                      DateTime.parse(_userData!['updated_at']))
-                                  : 'N/A',
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // Account Information Card
+                    AccountInfoCard(userData: _userData),
                     const SizedBox(height: 32),
                     // Logout Button
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        onPressed: _logout,
-                        icon: const Icon(Icons.logout),
-                        label: const Text('Logout'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                        ),
-                      ),
-                    ),
+                    LogoutButton(onLogout: _logout),
                   ],
                 ),
               ),
             ),
     );
-  }
-
-  Widget _buildStatItem(IconData icon, String label, String value, Color color) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(icon, color: color, size: 28),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey.shade600,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildInfoRow(IconData icon, String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          Icon(icon, size: 20, color: Colors.grey),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade600,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _getInitials(String name) {
-    if (name.isEmpty) return 'U';
-    final parts = name.split(' ');
-    if (parts.length >= 2) {
-      return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
-    }
-    return name[0].toUpperCase();
   }
 }

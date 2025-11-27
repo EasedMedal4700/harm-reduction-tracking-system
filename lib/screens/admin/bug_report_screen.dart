@@ -3,6 +3,8 @@ import '../../services/user_service.dart';
 import '../../utils/error_reporter.dart';
 import '../../constants/ui_colors.dart';
 import '../../constants/theme_constants.dart';
+import '../../widgets/bug_report/bug_report_form_fields.dart';
+import '../../widgets/bug_report/bug_report_submit_button.dart';
 
 class BugReportScreen extends StatefulWidget {
   const BugReportScreen({super.key});
@@ -59,7 +61,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
           'steps_to_reproduce': _stepsController.text,
           'severity': _severity,
           'category': _category,
-          'user_id': userId,
+          'uuid_user_id': userId,
           'timestamp': DateTime.now().toIso8601String(),
         },
       );
@@ -135,151 +137,29 @@ class _BugReportScreenState extends State<BugReportScreen> {
             ),
             const SizedBox(height: 24),
 
-            // Title
-            TextFormField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                labelText: 'Bug Title *',
-                hintText: 'Brief description of the issue',
-                prefixIcon: const Icon(Icons.title),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              maxLength: 100,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter a title';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-
-            // Severity
-            DropdownButtonFormField<String>(
-              value: _severity,
-              decoration: InputDecoration(
-                labelText: 'Severity',
-                prefixIcon: const Icon(Icons.priority_high),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              items: _severityLevels.map((level) {
-                return DropdownMenuItem(
-                  value: level,
-                  child: Row(
-                    children: [
-                      _getSeverityIcon(level),
-                      const SizedBox(width: 8),
-                      Text(level),
-                    ],
-                  ),
-                );
-              }).toList(),
-              onChanged: (value) {
+            // Form Fields
+            BugReportFormFields(
+              titleController: _titleController,
+              descriptionController: _descriptionController,
+              stepsController: _stepsController,
+              severity: _severity,
+              category: _category,
+              severityLevels: _severityLevels,
+              categories: _categories,
+              onSeverityChanged: (value) {
                 setState(() => _severity = value!);
               },
-            ),
-            const SizedBox(height: 16),
-
-            // Category
-            DropdownButtonFormField<String>(
-              value: _category,
-              decoration: InputDecoration(
-                labelText: 'Category',
-                prefixIcon: const Icon(Icons.category),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              items: _categories.map((cat) {
-                return DropdownMenuItem(
-                  value: cat,
-                  child: Text(cat),
-                );
-              }).toList(),
-              onChanged: (value) {
+              onCategoryChanged: (value) {
                 setState(() => _category = value!);
               },
-            ),
-            const SizedBox(height: 16),
-
-            // Description
-            TextFormField(
-              controller: _descriptionController,
-              decoration: InputDecoration(
-                labelText: 'Description *',
-                hintText: 'What happened? What did you expect to happen?',
-                prefixIcon: const Icon(Icons.description),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                alignLabelWithHint: true,
-              ),
-              maxLines: 5,
-              maxLength: 500,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please describe the bug';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-
-            // Steps to Reproduce
-            TextFormField(
-              controller: _stepsController,
-              decoration: InputDecoration(
-                labelText: 'Steps to Reproduce (Optional)',
-                hintText: '1. Go to...\n2. Click on...\n3. See error...',
-                prefixIcon: const Icon(Icons.format_list_numbered),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                alignLabelWithHint: true,
-              ),
-              maxLines: 5,
-              maxLength: 300,
+              getSeverityIcon: _getSeverityIcon,
             ),
             const SizedBox(height: 24),
 
             // Submit Button
-            ElevatedButton(
-              onPressed: _isSubmitting ? null : _submitBugReport,
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.all(16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-              ),
-              child: _isSubmitting
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    )
-                  : const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.bug_report),
-                        SizedBox(width: 8),
-                        Text(
-                          'Submit Bug Report',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+            BugReportSubmitButton(
+              isSubmitting: _isSubmitting,
+              onSubmit: _submitBugReport,
             ),
           ],
         ),

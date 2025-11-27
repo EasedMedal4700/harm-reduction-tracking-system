@@ -128,18 +128,18 @@ class CacheKeys {
   static const String currentUserId = 'user:id';
   static const String currentUserIsAdmin = 'user:is_admin';
   
-  // Drug use entries
-  static String userDrugEntries(int userId) => 'drug_entries:user:$userId';
+  // Drug use entries - now using UUID strings
+  static String userDrugEntries(String userId) => 'drug_entries:user:$userId';
   static String drugEntry(String entryId) => 'drug_entry:$entryId';
-  static String recentEntries(int userId) => 'recent_entries:user:$userId';
+  static String recentEntries(String userId) => 'recent_entries:user:$userId';
   
-  // Daily check-ins
-  static String dailyCheckins(int userId) => 'daily_checkins:user:$userId';
-  static String dailyCheckin(int userId, String date, String timeOfDay) =>
+  // Daily check-ins - now using UUID strings
+  static String dailyCheckins(String userId) => 'daily_checkins:user:$userId';
+  static String dailyCheckin(String userId, String date, String timeOfDay) =>
       'daily_checkin:$userId:$date:$timeOfDay';
   
-  // Cravings
-  static String userCravings(int userId) => 'cravings:user:$userId';
+  // Cravings - now using UUID strings
+  static String userCravings(String userId) => 'cravings:user:$userId';
   static String craving(String cravingId) => 'craving:$cravingId';
   
   // Admin data
@@ -149,8 +149,8 @@ class CacheKeys {
   // Location and settings
   static const String locationsList = 'locations:all';
   
-  // Clear all user-specific cache
-  static void clearUserCache(int userId) {
+  // Clear all user-specific cache - now using UUID strings
+  static void clearUserCache(String userId) {
     final cache = CacheService();
     cache.removePattern('user:$userId');
     cache.removePattern(':user:$userId');

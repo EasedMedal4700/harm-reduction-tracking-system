@@ -158,23 +158,23 @@ void main() {
   group('CacheKeys Helpers', () {
     test('should generate correct cache keys', () {
       expect(CacheKeys.drugProfile('aspirin'), equals('drug_profile:aspirin'));
-      expect(CacheKeys.recentEntries(123), equals('recent_entries:user:123'));
+      expect(CacheKeys.recentEntries('user-123-uuid'), equals('recent_entries:user:user-123-uuid'));
       expect(
-        CacheKeys.dailyCheckin(123, '2025-01-01', 'morning'),
-        equals('daily_checkin:123:2025-01-01:morning'),
+        CacheKeys.dailyCheckin('user-123-uuid', '2025-01-01', 'morning'),
+        equals('daily_checkin:user-123-uuid:2025-01-01:morning'),
       );
     });
 
     test('should clear user cache by pattern', () {
-      cache.set('drug_entries:user:123', 'data1');
-      cache.set('recent_entries:user:123', 'data2');
-      cache.set('drug_entries:user:456', 'data3');
+      cache.set('drug_entries:user:user-123-uuid', 'data1');
+      cache.set('recent_entries:user:user-123-uuid', 'data2');
+      cache.set('drug_entries:user:user-456-uuid', 'data3');
       
-      CacheKeys.clearUserCache(123);
+      CacheKeys.clearUserCache('user-123-uuid');
       
-      expect(cache.get('drug_entries:user:123'), isNull);
-      expect(cache.get('recent_entries:user:123'), isNull);
-      expect(cache.get('drug_entries:user:456'), equals('data3'));
+      expect(cache.get('drug_entries:user:user-123-uuid'), isNull);
+      expect(cache.get('recent_entries:user:user-123-uuid'), isNull);
+      expect(cache.get('drug_entries:user:user-456-uuid'), equals('data3'));
     });
 
     test('should clear drug cache', () {

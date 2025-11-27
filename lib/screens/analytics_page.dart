@@ -3,18 +3,15 @@ import '../services/analytics_service.dart';
 import '../widgets/common/drawer_menu.dart';
 import '../models/log_entry_model.dart';
 import '../widgets/analytics/analytics_app_bar.dart';
-import '../widgets/analytics/analytics_filter_card.dart';
-import '../widgets/analytics/metrics_row.dart';
-import '../widgets/analytics/use_distribution_card.dart';
-import '../widgets/analytics/usage_trends_card.dart';
-import '../widgets/analytics/insight_summary_card.dart';
-import '../widgets/analytics/recent_activity_list.dart';
+import '../widgets/analytics/analytics_loading_state.dart';
+import '../widgets/analytics/analytics_error_state.dart';
+import '../widgets/analytics/analytics_layout.dart';
 import '../widgets/common/filter.dart';
 import '../constants/drug_categories.dart';
 import '../constants/time_period.dart';
-import '../constants/theme_constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
+import '../utils/time_period_utils.dart';
 
 class AnalyticsPage extends StatefulWidget {
   const AnalyticsPage({super.key});
@@ -122,17 +119,22 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 
   Widget _buildBody() {
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const AnalyticsLoadingState();
     }
 
     if (_errorMessage != null) {
-      return _buildErrorState();
+      return AnalyticsErrorState(
+        message: _errorMessage!,
+        details: _errorDetails,
+        onRetry: _fetchData,
+      );
     }
 
     if (_service == null) {
-      return _buildErrorState(
+      return AnalyticsErrorState(
         message: 'Analytics service is unavailable.',
         details: _errorDetails,
+        onRetry: _fetchData,
       );
     }
 
@@ -153,7 +155,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
           (_selectedTypeIndex == 2 && !e.isMedicalPurpose);
       return matchesCategory && matchesType;
     }).toList();
-    
+
     final filteredEntries = categoryTypeFilteredEntries.where((e) {
       final matchesSubstance = _selectedSubstances.isEmpty || _selectedSubstances.contains(e.substance);
       final matchesPlace = _selectedPlaces.isEmpty || _selectedPlaces.contains(e.location);
@@ -171,8 +173,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     final mostUsedSubstance = _service!.getMostUsedSubstance(substanceCounts);
     final totalEntries = filteredEntries.length;
     final topCategoryPercent = _service!.getTopCategoryPercent(mostUsed.value, totalEntries).toDouble();
-    final selectedPeriodText = _getSelectedPeriodText();
-    
+    final selectedPeriodText = TimePeriodUtils.getPeriodText(_selectedPeriod);
+
     // Get unique values for filters
     final uniqueSubstances = categoryTypeFilteredEntries.map((e) => e.substance).toSet().toList()..sort();
     final uniqueCategories = periodFilteredEntries.map((e) => _service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder').toSet().toList()..sort();
@@ -180,216 +182,58 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     final uniqueRoutes = periodFilteredEntries.map((e) => e.route).toSet().toList()..sort();
     final uniqueFeelings = periodFilteredEntries.expand((e) => e.feelings).toSet().toList()..sort();
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        // Use single column for narrow screens (< 900px)
-        // Use 2-column for wide screens (>= 900px)
-        final isWideScreen = constraints.maxWidth >= 900;
-        
-        return AnimatedOpacity(
-          opacity: 1.0,
-          duration: ThemeConstants.animationNormal,
-          child: SingleChildScrollView(
-            padding: EdgeInsets.all(ThemeConstants.homePagePadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Filters section
-                AnalyticsFilterCard(
-                  filterContent: FilterWidget(
-                    uniqueCategories: uniqueCategories,
-                    uniqueSubstances: uniqueSubstances,
-                    selectedCategories: _selectedCategories,
-                    onCategoryChanged: (categories) => setState(() => _selectedCategories = categories),
-                    selectedSubstances: _selectedSubstances,
-                    onSubstanceChanged: (substances) => setState(() => _selectedSubstances = substances),
-                    selectedTypeIndex: _selectedTypeIndex,
-                    onTypeChanged: (index) => setState(() => _selectedTypeIndex = index),
-                    uniquePlaces: uniquePlaces,
-                    selectedPlaces: _selectedPlaces,
-                    onPlaceChanged: (places) => setState(() => _selectedPlaces = places),
-                    uniqueRoutes: uniqueRoutes,
-                    selectedRoutes: _selectedRoutes,
-                    onRouteChanged: (routes) => setState(() => _selectedRoutes = routes),
-                    uniqueFeelings: uniqueFeelings,
-                    selectedFeelings: _selectedFeelings,
-                    onFeelingChanged: (feelings) => setState(() => _selectedFeelings = feelings),
-                    minCraving: _minCraving,
-                    maxCraving: _maxCraving,
-                    onMinCravingChanged: (value) => setState(() => _minCraving = value),
-                    onMaxCravingChanged: (value) => setState(() => _maxCraving = value),
-                    selectedPeriod: _selectedPeriod,
-                    onPeriodChanged: (period) {
-                      print('📊 DEBUG: Period changed in filter to: ${period.toString()}');
-                      setState(() => _selectedPeriod = period);
-                    },
-                  ),
-                ),
-                SizedBox(height: ThemeConstants.cardSpacing),
-                
-                // Metrics row
-                MetricsRow(
-                  totalEntries: totalEntries,
-                  mostUsedSubstance: mostUsedSubstance.key,
-                  mostUsedCount: mostUsedSubstance.value,
-                  weeklyAverage: avgPerWeek,
-                  topCategory: mostUsed.key,
-                  topCategoryPercent: topCategoryPercent,
-                ),
-                SizedBox(height: ThemeConstants.cardSpacing),
-                
-                // Two-column grid layout for wide screens
-                if (isWideScreen)
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Left column
-                      Expanded(
-                        child: Column(
-                          children: [
-                            UseDistributionCard(
-                              categoryCounts: categoryCounts,
-                              substanceCounts: substanceCounts,
-                              filteredEntries: filteredEntries,
-                              substanceToCategory: _service!.substanceToCategory,
-                              onCategoryTapped: (category) {
-                                setState(() {
-                                  // Filter substances to only show those in the tapped category
-                                  _selectedSubstances = filteredEntries
-                                      .where((e) => (_service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder') == category)
-                                      .map((e) => e.substance)
-                                      .toSet()
-                                      .toList();
-                                });
-                              },
-                            ),
-                            SizedBox(height: ThemeConstants.cardSpacing),
-                            InsightSummaryCard(
-                              totalEntries: totalEntries,
-                              mostUsedCategory: mostUsed.key,
-                              weeklyAverage: avgPerWeek,
-                              selectedPeriodText: selectedPeriodText,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: ThemeConstants.cardSpacing),
-                      // Right column
-                      Expanded(
-                        child: Column(
-                          children: [
-                            UsageTrendsCard(
-                              filteredEntries: filteredEntries,
-                              period: _selectedPeriod,
-                              substanceToCategory: _service!.substanceToCategory,
-                            ),
-                            SizedBox(height: ThemeConstants.cardSpacing),
-                            RecentActivityList(
-                              entries: filteredEntries,
-                              substanceToCategory: _service!.substanceToCategory,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  )
-                else
-                  // Single column layout for narrow screens
-                  Column(
-                    children: [
-                      UseDistributionCard(
-                        categoryCounts: categoryCounts,
-                        substanceCounts: substanceCounts,
-                        filteredEntries: filteredEntries,
-                        substanceToCategory: _service!.substanceToCategory,
-                        onCategoryTapped: (category) {
-                          setState(() {
-                            // Select the category and filter substances
-                            _selectedCategories = [category];
-                            // Get all substances in the selected category from period filtered entries
-                            _selectedSubstances = periodFilteredEntries
-                                .where((e) => (_service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder') == category)
-                                .map((e) => e.substance)
-                                .toSet()
-                                .toList();
-                          });
-                        },
-                      ),
-                      SizedBox(height: ThemeConstants.cardSpacing),
-                      UsageTrendsCard(
-                        filteredEntries: filteredEntries,
-                        period: _selectedPeriod,
-                        substanceToCategory: _service!.substanceToCategory,
-                      ),
-                      SizedBox(height: ThemeConstants.cardSpacing),
-                      InsightSummaryCard(
-                        totalEntries: totalEntries,
-                        mostUsedCategory: mostUsed.key,
-                        weeklyAverage: avgPerWeek,
-                        selectedPeriodText: selectedPeriodText,
-                      ),
-                      SizedBox(height: ThemeConstants.cardSpacing),
-                      RecentActivityList(
-                        entries: filteredEntries,
-                        substanceToCategory: _service!.substanceToCategory,
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  String _getSelectedPeriodText() {
-    switch (_selectedPeriod) {
-      case TimePeriod.all:
-        return 'All Time';
-      case TimePeriod.last7Days:
-        return 'Last 7 Days';
-      case TimePeriod.last7Weeks:
-        return 'Last 7 Weeks';
-      case TimePeriod.last7Months:
-        return 'Last 7 Months';
-    }
-  }
-
-  Widget _buildErrorState({String? message, String? details}) {
-    final resolvedMessage = message ?? _errorMessage ?? 'Something went wrong.';
-    final resolvedDetails = details ?? _errorDetails;
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.red),
-            const SizedBox(height: 16),
-            Text(
-              resolvedMessage,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            if (resolvedDetails != null) ...[
-              const SizedBox(height: 12),
-              SelectableText(
-                resolvedDetails,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey.shade600),
-              ),
-            ],
-            const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: _fetchData,
-              icon: const Icon(Icons.refresh),
-              label: const Text('Try Again'),
-            ),
-          ],
-        ),
+    return AnalyticsLayout(
+      filterContent: FilterWidget(
+        uniqueCategories: uniqueCategories,
+        uniqueSubstances: uniqueSubstances,
+        selectedCategories: _selectedCategories,
+        onCategoryChanged: (categories) => setState(() => _selectedCategories = categories),
+        selectedSubstances: _selectedSubstances,
+        onSubstanceChanged: (substances) => setState(() => _selectedSubstances = substances),
+        selectedTypeIndex: _selectedTypeIndex,
+        onTypeChanged: (index) => setState(() => _selectedTypeIndex = index),
+        uniquePlaces: uniquePlaces,
+        selectedPlaces: _selectedPlaces,
+        onPlaceChanged: (places) => setState(() => _selectedPlaces = places),
+        uniqueRoutes: uniqueRoutes,
+        selectedRoutes: _selectedRoutes,
+        onRouteChanged: (routes) => setState(() => _selectedRoutes = routes),
+        uniqueFeelings: uniqueFeelings,
+        selectedFeelings: _selectedFeelings,
+        onFeelingChanged: (feelings) => setState(() => _selectedFeelings = feelings),
+        minCraving: _minCraving,
+        maxCraving: _maxCraving,
+        onMinCravingChanged: (value) => setState(() => _minCraving = value),
+        onMaxCravingChanged: (value) => setState(() => _maxCraving = value),
+        selectedPeriod: _selectedPeriod,
+        onPeriodChanged: (period) {
+          print('📊 DEBUG: Period changed in filter to: ${period.toString()}');
+          setState(() => _selectedPeriod = period);
+        },
       ),
+      totalEntries: totalEntries,
+      mostUsedSubstance: mostUsedSubstance.key,
+      mostUsedCount: mostUsedSubstance.value,
+      weeklyAverage: avgPerWeek,
+      topCategory: mostUsed.key,
+      topCategoryPercent: topCategoryPercent,
+      categoryCounts: categoryCounts,
+      substanceCounts: substanceCounts,
+      filteredEntries: filteredEntries,
+      substanceToCategory: _service!.substanceToCategory,
+      onCategoryTapped: (category) {
+        setState(() {
+          // Filter logic differs based on context, using simpler approach
+          _selectedSubstances = filteredEntries
+              .where((e) => (_service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder') == category)
+              .map((e) => e.substance)
+              .toSet()
+              .toList();
+        });
+      },
+      period: _selectedPeriod,
+      selectedPeriodText: selectedPeriodText,
+      mostUsedCategory: mostUsed.key,
     );
   }
 }

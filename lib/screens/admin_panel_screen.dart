@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import '../widgets/common/drawer_menu.dart';
-
 import '../services/admin_service.dart';
 import '../services/cache_service.dart';
 import '../services/performance_service.dart';
 import '../utils/error_reporter.dart';
 import '../widgets/admin/admin_stats_section.dart';
 import '../widgets/admin/admin_user_list.dart';
-import 'admin/error_analytics_screen.dart';
-import 'admin/bug_report_screen.dart';
+import '../widgets/admin_panel/admin_app_bar.dart';
+import '../widgets/admin_panel/cache_management_section.dart';
 
 /// Admin panel screen for managing users and monitoring system health
 class AdminPanelScreen extends StatefulWidget {
@@ -105,7 +104,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         error: e,
         stackTrace: stackTrace,
         screenName: 'AdminPanelScreen',
-        extraData: {'context': 'toggle_admin', 'user_id': userId},
+        extraData: {'context': 'toggle_admin', 'target_user_id': userId},
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -113,12 +112,6 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         );
       }
     }
-  }
-
-  void _openErrorAnalytics() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const ErrorAnalyticsScreen()),
-    );
   }
 
   Future<void> _clearAllCache() async {
@@ -219,43 +212,10 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Panel'),
-        backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-        foregroundColor: isDark ? Colors.white : Colors.black87,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.report_problem_outlined),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const BugReportScreen()),
-            ),
-            tooltip: 'Report Bug',
-          ),
-          IconButton(
-            icon: const Icon(Icons.bug_report_outlined),
-            onPressed: _openErrorAnalytics,
-            tooltip: 'Error Analytics',
-          ),
-          IconButton(
-            icon: _isLoading
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                  )
-                : const Icon(Icons.refresh),
-            onPressed: _isLoading ? null : _loadData,
-            tooltip: 'Refresh',
-          ),
-        ],
+      appBar: AdminAppBar(
+        isLoading: _isLoading,
+        onRefresh: _loadData,
       ),
       drawer: const DrawerMenu(),
       body: _isLoading
@@ -276,7 +236,13 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
                     const SizedBox(height: 24),
 
                     // Cache Management Section
-                    _buildCacheManagementSection(isDark),
+                    CacheManagementSection(
+                      cacheStats: _cacheStats,
+                      onClearAll: _clearAllCache,
+                      onClearDrugCache: _clearDrugCache,
+                      onClearExpired: _clearExpiredCache,
+                      onRefreshFromDatabase: _refreshFromDatabase,
+                    ),
                     const SizedBox(height: 24),
 
                     // User Management
@@ -289,227 +255,6 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
                 ),
               ),
             ),
-    );
-  }
-
-  Widget _buildCacheManagementSection(bool isDark) {
-    final totalEntries = _cacheStats['total_entries'] ?? 0;
-    final activeEntries = _cacheStats['active_entries'] ?? 0;
-    final expiredEntries = _cacheStats['expired_entries'] ?? 0;
-
-    return Card(
-      elevation: isDark ? 0 : 2,
-      color: isDark ? const Color(0xFF1E1E2E) : Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: isDark
-            ? const BorderSide(color: Color(0xFF2A2A3E), width: 1)
-            : BorderSide.none,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.storage_rounded,
-                  color: isDark ? Colors.blue.shade300 : Colors.blue.shade700,
-                  size: 24,
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  'Cache Management',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-
-            // Cache Stats
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: isDark
-                    ? const Color(0xFF252538)
-                    : Colors.grey.shade50,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildCacheStat(
-                    'Total',
-                    totalEntries.toString(),
-                    Icons.data_usage,
-                    isDark ? Colors.blue.shade300 : Colors.blue,
-                    isDark,
-                  ),
-                  Container(
-                    width: 1,
-                    height: 40,
-                    color: isDark ? Colors.white12 : Colors.grey.shade300,
-                  ),
-                  _buildCacheStat(
-                    'Active',
-                    activeEntries.toString(),
-                    Icons.check_circle,
-                    isDark ? Colors.green.shade300 : Colors.green,
-                    isDark,
-                  ),
-                  Container(
-                    width: 1,
-                    height: 40,
-                    color: isDark ? Colors.white12 : Colors.grey.shade300,
-                  ),
-                  _buildCacheStat(
-                    'Expired',
-                    expiredEntries.toString(),
-                    Icons.warning_amber_rounded,
-                    isDark ? Colors.orange.shade300 : Colors.orange,
-                    isDark,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Cache Actions
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [
-                _buildCacheActionButton(
-                  label: 'Clear All Cache',
-                  icon: Icons.delete_sweep,
-                  color: Colors.red,
-                  onPressed: () => _showClearCacheDialog(
-                    'Clear All Cache',
-                    'This will remove all cached data. Users may experience slower load times temporarily.',
-                    _clearAllCache,
-                  ),
-                  isDark: isDark,
-                ),
-                _buildCacheActionButton(
-                  label: 'Clear Drug Profiles',
-                  icon: Icons.medication_outlined,
-                  color: Colors.orange,
-                  onPressed: () => _showClearCacheDialog(
-                    'Clear Drug Profiles',
-                    'This will clear cached drug profile data. It will be reloaded on next access.',
-                    _clearDrugCache,
-                  ),
-                  isDark: isDark,
-                ),
-                _buildCacheActionButton(
-                  label: 'Clear Expired',
-                  icon: Icons.cleaning_services,
-                  color: Colors.blue,
-                  onPressed: _clearExpiredCache,
-                  isDark: isDark,
-                ),
-                _buildCacheActionButton(
-                  label: 'Refresh from DB',
-                  icon: Icons.refresh,
-                  color: Colors.green,
-                  onPressed: _refreshFromDatabase,
-                  isDark: isDark,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCacheStat(
-    String label,
-    String value,
-    IconData icon,
-    Color color,
-    bool isDark,
-  ) {
-    return Column(
-      children: [
-        Icon(icon, color: color, size: 28),
-        const SizedBox(height: 8),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: isDark ? Colors.white : Colors.black87,
-          ),
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: isDark ? Colors.white60 : Colors.grey.shade600,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCacheActionButton({
-    required String label,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onPressed,
-    required bool isDark,
-  }) {
-    return ElevatedButton.icon(
-      onPressed: onPressed,
-      icon: Icon(icon, size: 18),
-      label: Text(label),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isDark ? color.withOpacity(0.2) : color.withOpacity(0.1),
-        foregroundColor: color,
-        elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: BorderSide(color: color.withOpacity(0.5), width: 1),
-        ),
-      ),
-    );
-  }
-
-  void _showClearCacheDialog(
-    String title,
-    String message,
-    VoidCallback onConfirm,
-  ) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              onConfirm();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-            ),
-            child: const Text('Clear'),
-          ),
-        ],
-      ),
     );
   }
 }

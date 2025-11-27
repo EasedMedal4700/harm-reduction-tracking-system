@@ -12,6 +12,8 @@ import '../widgets/log_entry_cards/triggers_card.dart';
 import '../widgets/log_entry_cards/body_signals_card.dart';
 import '../widgets/log_entry_cards/notes_card.dart';
 import '../widgets/log_entry_cards/medical_purpose_card.dart';
+import '../widgets/log_entry_page/log_entry_app_bar.dart';
+import '../widgets/log_entry_page/log_entry_save_button.dart';
 import '../states/log_entry_state.dart';
 import '../constants/ui_colors.dart';
 import '../constants/theme_constants.dart';
@@ -68,7 +70,10 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
         builder: (context, state, child) {
           return Scaffold(
             backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
-            appBar: _buildAppBar(context, isDark, state),
+            appBar: LogEntryAppBar(
+              isSimpleMode: state.isSimpleMode,
+              onSimpleModeChanged: state.setIsSimpleMode,
+            ),
             drawer: const DrawerMenu(),
             body: Stack(
               children: [
@@ -201,7 +206,9 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                         ),
                         
                         // Sticky bottom save button
-                        _buildSaveButton(context, isDark, state),
+                        LogEntrySaveButton(
+                          onSave: () => state.save(context),
+                        ),
                       ],
                     ),
                   ),
@@ -219,103 +226,6 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
             ),
           );
         },
-      ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(BuildContext context, bool isDark, LogEntryState state) {
-    return AppBar(
-      backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-      foregroundColor: isDark ? Colors.white : Colors.black87,
-      elevation: 0,
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Log Entry',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontXLarge,
-              fontWeight: ThemeConstants.fontSemiBold,
-            ),
-          ),
-          Text(
-            'Add a new substance record',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        // Simple/Detailed mode toggle
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: ThemeConstants.space8),
-          child: Row(
-            children: [
-              Text(
-                'Simple',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                ),
-              ),
-              Switch(
-                value: state.isSimpleMode,
-                onChanged: state.setIsSimpleMode,
-                activeColor: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSaveButton(BuildContext context, bool isDark, LogEntryState state) {
-    return Container(
-      padding: const EdgeInsets.all(ThemeConstants.space16),
-      decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        border: Border(
-          top: BorderSide(
-            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-            width: 1,
-          ),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: ElevatedButton(
-        onPressed: () => state.save(context),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: ThemeConstants.space16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          ),
-          elevation: 0,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.save),
-            const SizedBox(width: ThemeConstants.space8),
-            Text(
-              'Save Entry',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                fontWeight: ThemeConstants.fontSemiBold,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

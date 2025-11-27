@@ -7,12 +7,12 @@ import '../utils/error_handler.dart';
 class ToleranceService {
   static final _supabase = Supabase.instance.client;
 
-  static Future<List<String>> fetchUserSubstances(int userId) async {
+  static Future<List<String>> fetchUserSubstances(String userId) async {
     try {
       final response = await _supabase
           .from('drug_use')
           .select('name')
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .not('name', 'is', null);
 
       final names = <String>{};
@@ -96,7 +96,7 @@ class ToleranceService {
   /// Fetch use events for tolerance calculation
   static Future<List<UseEvent>> fetchUseEvents({
     required String substanceName,
-    required int userId,
+    required String userId,
     int daysBack = 30,
   }) async {
     if (substanceName.isEmpty) return [];
@@ -106,7 +106,7 @@ class ToleranceService {
       final response = await _supabase
           .from('drug_use')
           .select('start_time, dose, name')
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .ilike('name', substanceName) // Case insensitive match
           .gte('start_time', cutoffDate.toIso8601String())
           .order('start_time', ascending: false);
@@ -152,3 +152,4 @@ class ToleranceService {
     return 0.0;
   }
 }
+

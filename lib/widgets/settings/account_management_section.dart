@@ -488,19 +488,19 @@ class AccountManagementSection extends StatelessWidget {
 
     try {
       final supabase = Supabase.instance.client;
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
 
       // Fetch all user data
       final userData = <String, dynamic>{
         'export_date': DateTime.now().toIso8601String(),
-        'user_id': userId,
+        'uuid_user_id': userId,
       };
 
       // Fetch drug use logs
       final drugUseLogs = await supabase
           .from('drug_use')
           .select()
-          .eq('user_id', userId);
+          .eq('uuid_user_id', userId);
       userData['drug_use_logs'] = drugUseLogs;
 
       // Fetch reflections
@@ -508,7 +508,7 @@ class AccountManagementSection extends StatelessWidget {
         final reflections = await supabase
             .from('reflections')
             .select()
-            .eq('user_id', userId);
+            .eq('uuid_user_id', userId);
         userData['reflections'] = reflections;
       } catch (e) {
         userData['reflections'] = [];
@@ -519,7 +519,7 @@ class AccountManagementSection extends StatelessWidget {
         final cravings = await supabase
             .from('cravings')
             .select()
-            .eq('user_id', userId);
+            .eq('uuid_user_id', userId);
         userData['cravings'] = cravings;
       } catch (e) {
         userData['cravings'] = [];
@@ -530,7 +530,7 @@ class AccountManagementSection extends StatelessWidget {
         final stockpile = await supabase
             .from('stockpile')
             .select()
-            .eq('user_id', userId);
+            .eq('uuid_user_id', userId);
         userData['stockpile'] = stockpile;
       } catch (e) {
         userData['stockpile'] = [];
@@ -594,25 +594,25 @@ class AccountManagementSection extends StatelessWidget {
 
     try {
       final supabase = Supabase.instance.client;
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
 
       // Delete all user data
-      await supabase.from('drug_use').delete().eq('user_id', userId);
+      await supabase.from('drug_use').delete().eq('uuid_user_id', userId);
       
       try {
-        await supabase.from('reflections').delete().eq('user_id', userId);
+        await supabase.from('reflections').delete().eq('uuid_user_id', userId);
       } catch (e) {
         // Table might not exist
       }
       
       try {
-        await supabase.from('cravings').delete().eq('user_id', userId);
+        await supabase.from('cravings').delete().eq('uuid_user_id', userId);
       } catch (e) {
         // Table might not exist
       }
       
       try {
-        await supabase.from('stockpile').delete().eq('user_id', userId);
+        await supabase.from('stockpile').delete().eq('uuid_user_id', userId);
       } catch (e) {
         // Table might not exist
       }
@@ -660,25 +660,25 @@ class AccountManagementSection extends StatelessWidget {
 
     try {
       final supabase = Supabase.instance.client;
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
 
       // Delete all user data first
-      await supabase.from('drug_use').delete().eq('user_id', userId);
+      await supabase.from('drug_use').delete().eq('uuid_user_id', userId);
       
       try {
-        await supabase.from('reflections').delete().eq('user_id', userId);
+        await supabase.from('reflections').delete().eq('uuid_user_id', userId);
       } catch (e) {}
       
       try {
-        await supabase.from('cravings').delete().eq('user_id', userId);
+        await supabase.from('cravings').delete().eq('uuid_user_id', userId);
       } catch (e) {}
       
       try {
-        await supabase.from('stockpile').delete().eq('user_id', userId);
+        await supabase.from('stockpile').delete().eq('uuid_user_id', userId);
       } catch (e) {}
 
       // Delete user record
-      await supabase.from('users').delete().eq('user_id', userId);
+      await supabase.from('users').delete().eq('uuid_user_id', userId);
 
       // Sign out
       await AuthService().logout();

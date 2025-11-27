@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '../repo/substance_repository.dart';
 import '../services/analytics_service.dart';
 import '../constants/ui_colors.dart';
-import '../constants/theme_constants.dart';
-import '../constants/drug_categories.dart';
-import '../constants/drug_theme.dart';
 import '../widgets/common/drawer_menu.dart';
 import '../widgets/catalog/add_stockpile_sheet.dart';
-import '../widgets/catalog/substance_card.dart';
 import '../widgets/catalog/substance_details_sheet.dart';
+import '../widgets/catalog/catalog_app_bar.dart';
+import '../widgets/catalog/catalog_search_filters.dart';
+import '../widgets/catalog/catalog_empty_state.dart';
+import '../widgets/catalog/animated_substance_list.dart';
 
 class CatalogPage extends StatefulWidget {
   const CatalogPage({super.key});
@@ -115,7 +115,7 @@ class _CatalogPageState extends State<CatalogPage> {
         backgroundColor: isDark
             ? UIColors.darkBackground
             : UIColors.lightBackground,
-        appBar: _buildAppBar(context, isDark, accentColor),
+        appBar: CatalogAppBar(isDark: isDark, accentColor: accentColor),
         drawer: const DrawerMenu(),
         body: Center(child: CircularProgressIndicator(color: accentColor)),
       );
@@ -125,245 +125,27 @@ class _CatalogPageState extends State<CatalogPage> {
       backgroundColor: isDark
           ? UIColors.darkBackground
           : UIColors.lightBackground,
-      appBar: _buildAppBar(context, isDark, accentColor),
+      appBar: CatalogAppBar(isDark: isDark, accentColor: accentColor),
       drawer: const DrawerMenu(),
       body: Column(
         children: [
-          // Search and filter section (pinned at top)
-          _buildSearchAndFilters(isDark, accentColor),
-          // Scrollable substance list
-          Expanded(
-            child: _filteredSubstances.isEmpty
-                ? _buildEmptyState(isDark)
-                : _buildSubstanceList(isDark),
-          ),
-        ],
-      ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(
-    BuildContext context,
-    bool isDark,
-    Color accentColor,
-  ) {
-    return AppBar(
-      backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-      elevation: 0,
-      // Automatic hamburger menu icon when drawer is present
-      title: Row(
-        children: [
-          Container(
-            margin: EdgeInsets.only(right: ThemeConstants.space8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-              boxShadow: isDark
-                  ? UIColors.createNeonGlow(accentColor, intensity: 0.2)
-                  : null,
-            ),
-            child: Icon(Icons.science_outlined, color: accentColor),
-          ),
-          Text(
-            'Substance Catalog',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSearchAndFilters(bool isDark, Color accentColor) {
-    return Container(
-      padding: EdgeInsets.all(ThemeConstants.homePagePadding),
-      decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        border: Border(
-          bottom: BorderSide(
-            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-            width: ThemeConstants.borderThin,
-          ),
-        ),
-      ),
-      child: Column(
-        children: [
-          // Glass search bar
-          Container(
-            decoration: isDark
-                ? UIColors.createGlassmorphism(
-                    accentColor: accentColor,
-                    radius: ThemeConstants.radiusLarge,
-                  )
-                : BoxDecoration(
-                    color: UIColors.lightSurface,
-                    borderRadius: BorderRadius.circular(
-                      ThemeConstants.radiusLarge,
-                    ),
-                    border: Border.all(color: UIColors.lightBorder),
-                    boxShadow: UIColors.createSoftShadow(),
-                  ),
-            child: TextField(
-              controller: _searchController,
-              style: TextStyle(
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-                fontSize: ThemeConstants.fontMedium,
-              ),
-              decoration: InputDecoration(
-                hintText: 'Search substances…',
-                hintStyle: TextStyle(
-                  color: isDark
-                      ? UIColors.darkTextSecondary
-                      : UIColors.lightTextSecondary,
-                ),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: accentColor,
-                  size: ThemeConstants.iconMedium,
-                ),
-                suffixIcon: _searchQuery.isNotEmpty
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.clear,
-                          color: isDark
-                              ? UIColors.darkTextSecondary
-                              : UIColors.lightTextSecondary,
-                        ),
-                        onPressed: () {
-                          _searchController.clear();
-                          setState(() => _searchQuery = '');
-                          _applyFilters();
-                        },
-                      )
-                    : null,
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: ThemeConstants.space16,
-                  vertical: ThemeConstants.space16,
-                ),
-              ),
-              onChanged: (value) {
-                setState(() => _searchQuery = value);
-                _applyFilters();
-              },
-            ),
-          ),
-          SizedBox(height: ThemeConstants.space16),
-          // Filter chips row
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                _buildFilterChip('All', null, isDark, accentColor),
-                ...DrugCategories.categoryPriority
-                    .take(10)
-                    .map(
-                      (cat) => _buildFilterChip(cat, cat, isDark, accentColor),
-                    ),
-              ],
-            ),
-          ),
-          SizedBox(height: ThemeConstants.space16),
-          // Common Only toggle card
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: ThemeConstants.space16,
-              vertical: ThemeConstants.space12,
-            ),
-            decoration: isDark
-                ? UIColors.createGlassmorphism(
-                    accentColor: accentColor,
-                    radius: ThemeConstants.radiusMedium,
-                  )
-                : BoxDecoration(
-                    color: UIColors.lightSurface,
-                    borderRadius: BorderRadius.circular(
-                      ThemeConstants.radiusMedium,
-                    ),
-                    border: Border.all(color: UIColors.lightBorder),
-                    boxShadow: UIColors.createSoftShadow(),
-                  ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.filter_list_rounded,
-                  color: _showCommonOnly
-                      ? accentColor
-                      : (isDark
-                            ? UIColors.darkTextSecondary
-                            : UIColors.lightTextSecondary),
-                  size: ThemeConstants.iconSmall,
-                ),
-                SizedBox(width: ThemeConstants.space12),
-                Expanded(
-                  child: Text(
-                    'Common Only',
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontMedium,
-                      fontWeight: ThemeConstants.fontSemiBold,
-                      color: _showCommonOnly
-                          ? accentColor
-                          : (isDark ? UIColors.darkText : UIColors.lightText),
-                    ),
-                  ),
-                ),
-                Switch(
-                  value: _showCommonOnly,
-                  onChanged: (value) {
-                    setState(() => _showCommonOnly = value);
-                    _applyFilters();
-                  },
-                  activeThumbColor: accentColor,
-                  activeTrackColor: accentColor.withValues(alpha: 0.3),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilterChip(
-    String label,
-    String? category,
-    bool isDark,
-    Color accentColor,
-  ) {
-    final isSelected =
-        (category == null && _selectedCategories.isEmpty) ||
-        (category != null && _selectedCategories.contains(category));
-    final chipColor = category != null
-        ? DrugCategoryColors.colorFor(category)
-        : accentColor;
-
-    return Padding(
-      padding: EdgeInsets.only(right: ThemeConstants.space8),
-      child: AnimatedContainer(
-        duration: ThemeConstants.animationNormal,
-        decoration: BoxDecoration(
-          color: isSelected
-              ? chipColor.withValues(alpha: isDark ? 0.2 : 0.1)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          border: Border.all(
-            color: isSelected
-                ? chipColor
-                : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
-            width: isSelected
-                ? ThemeConstants.borderMedium
-                : ThemeConstants.borderThin,
-          ),
-          boxShadow: isSelected && isDark
-              ? UIColors.createNeonGlow(chipColor, intensity: 0.15)
-              : null,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
+          CatalogSearchFilters(
+            searchController: _searchController,
+            searchQuery: _searchQuery,
+            selectedCategories: _selectedCategories,
+            showCommonOnly: _showCommonOnly,
+            isDark: isDark,
+            accentColor: accentColor,
+            onSearchClear: () {
+              _searchController.clear();
+              setState(() => _searchQuery = '');
+              _applyFilters();
+            },
+            onSearchChanged: (value) {
+              setState(() => _searchQuery = value);
+              _applyFilters();
+            },
+            onCategoryToggled: (category) {
               setState(() {
                 if (category == null) {
                   _selectedCategories.clear();
@@ -377,125 +159,27 @@ class _CatalogPageState extends State<CatalogPage> {
               });
               _applyFilters();
             },
-            borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: ThemeConstants.space16,
-                vertical: ThemeConstants.space8,
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (category != null) ...[
-                    Icon(
-                      DrugCategories.categoryIconMap[category] ?? Icons.science,
-                      size: ThemeConstants.iconSmall,
-                      color: isSelected
-                          ? chipColor
-                          : (isDark
-                                ? UIColors.darkTextSecondary
-                                : UIColors.lightTextSecondary),
-                    ),
-                    SizedBox(width: ThemeConstants.space8),
-                  ],
-                  Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontSmall,
-                      fontWeight: isSelected
-                          ? ThemeConstants.fontSemiBold
-                          : ThemeConstants.fontMediumWeight,
-                      color: isSelected
-                          ? chipColor
-                          : (isDark
-                                ? UIColors.darkTextSecondary
-                                : UIColors.lightTextSecondary),
-                    ),
+            onCommonOnlyChanged: (value) {
+              setState(() => _showCommonOnly = value);
+              _applyFilters();
+            },
+          ),
+          Expanded(
+            child: _filteredSubstances.isEmpty
+                ? CatalogEmptyState(isDark: isDark)
+                : AnimatedSubstanceList(
+                    substances: _filteredSubstances,
+                    isDark: isDark,
+                    onSubstanceTap: _showSubstanceDetails,
+                    onAddStockpile: _showAddStockpileSheet,
+                    getMostActiveDay: _getMostActiveDay,
                   ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmptyState(bool isDark) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: EdgeInsets.all(ThemeConstants.space24),
-            decoration: BoxDecoration(
-              color: isDark
-                  ? UIColors.darkSurfaceLight.withValues(alpha: 0.5)
-                  : UIColors.lightDivider,
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
-            ),
-            child: Icon(
-              Icons.search_off,
-              size: 64,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
-            ),
-          ),
-          SizedBox(height: ThemeConstants.space24),
-          Text(
-            'No substances found',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
-          ),
-          SizedBox(height: ThemeConstants.space8),
-          Text(
-            'Try adjusting your search or filters',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
-            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSubstanceList(bool isDark) {
-    return ListView.builder(
-      padding: EdgeInsets.all(ThemeConstants.homePagePadding),
-      itemCount: _filteredSubstances.length,
-      itemBuilder: (context, index) {
-        final substance = _filteredSubstances[index];
-        return TweenAnimationBuilder<double>(
-          duration: Duration(milliseconds: 300 + (index * 30)),
-          tween: Tween(begin: 0.0, end: 1.0),
-          curve: Curves.easeOutCubic,
-          builder: (context, value, child) {
-            return Transform.translate(
-              offset: Offset(0, 20 * (1 - value)),
-              child: Opacity(
-                opacity: value,
-                child: SubstanceCard(
-                  substance: substance,
-                  isDark: isDark,
-                  onTap: () => _showSubstanceDetails(substance),
-                  onAddStockpile: (substanceId, name, substance) =>
-                      _showAddStockpileSheet(substanceId, name, substance),
-                  getMostActiveDay: (name) => _getMostActiveDay(name),
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
 
   void _showAddStockpileSheet(
     String substanceId,

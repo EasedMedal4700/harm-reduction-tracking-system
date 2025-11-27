@@ -33,7 +33,7 @@ class ErrorLog {
   factory ErrorLog.fromJson(Map<String, dynamic> json) {
     return ErrorLog(
       id: json['id'] as int? ?? 0,
-      userId: json['user_id'] as String?,
+      userId: json['uuid_user_id'] as String?,
       appVersion: json['app_version'] as String?,
       platform: json['platform'] as String?,
       osVersion: json['os_version'] as String?,
@@ -53,7 +53,7 @@ class ErrorLog {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'user_id': userId,
+      'uuid_user_id': userId,
       'app_version': appVersion,
       'platform': platform,
       'os_version': osVersion,

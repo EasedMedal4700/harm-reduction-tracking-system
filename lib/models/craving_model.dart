@@ -38,7 +38,7 @@ class Craving {
 
   Map<String, dynamic> toJson() => {
     'craving_id': cravingId,
-    'user_id': userId,
+    'uuid_user_id': userId,
     'substance': substance,
     'intensity': intensity.toString(), // Match SQL (string)
     'date': date.toIso8601String().split('T')[0], // YYYY-MM-DD

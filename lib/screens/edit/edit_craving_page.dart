@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../widgets/common/drawer_menu.dart';
+import '../../widgets/cravings/craving_details_section.dart';
+import '../../widgets/cravings/emotional_state_section.dart';
+import '../../widgets/cravings/body_mind_signals_section.dart';
+import '../../widgets/cravings/outcome_section.dart';
+import '../../widgets/edit_craving/craving_app_bar.dart';
 import '../../services/craving_service.dart';
 import '../../utils/error_handler.dart';
 import '../../constants/body_and_mind_catalog.dart';
 import '../../constants/drug_use_catalog.dart';
 import '../../constants/craving_consatnts.dart';
-import '../../widgets/cravings/craving_details_section.dart';
-import '../../widgets/cravings/emotional_state_section.dart';
-import '../../widgets/cravings/body_mind_signals_section.dart';
-import '../../widgets/cravings/outcome_section.dart';
 
 class EditCravingPage extends StatefulWidget {
   final Map<String, dynamic> entry;
@@ -251,33 +252,10 @@ class _EditCravingPageState extends State<EditCravingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Craving'),
-        backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-        foregroundColor: isDark ? Colors.white : Colors.black87,
-        elevation: 0,
-        actions: [
-          if (_isSaving)
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-              ),
-            )
-          else
-            TextButton.icon(
-              onPressed: _saveChanges,
-              icon: const Icon(Icons.check),
-              label: const Text('Save'),
-            ),
-        ],
+      appBar: CravingAppBar(
+        isSaving: _isSaving,
+        onSave: _saveChanges,
       ),
       drawer: const DrawerMenu(),
       body: _isLoading

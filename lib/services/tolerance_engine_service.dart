@@ -13,7 +13,7 @@ class ToleranceEngineService {
   /// unified tolerance engine. This is the preferred entry point for all
   /// UI screens.
   static Future<ToleranceResult> computeSystemTolerance({
-    required int userId,
+    required String userId,
     int daysBack = 30,
     bool debug = false,
   }) async {
@@ -93,7 +93,7 @@ class ToleranceEngineService {
   /// Fetch use logs for a specific user
   /// Returns list of UseLogEntry objects
   static Future<List<UseLogEntry>> fetchUseLogs({
-    required int userId,
+    required String userId,
     int daysBack = 30,
   }) async {
     try {
@@ -102,7 +102,7 @@ class ToleranceEngineService {
       final response = await _supabase
           .from('drug_use')
           .select('name, start_time, dose')
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .gte('start_time', cutoffDate.toIso8601String())
           .order('start_time', ascending: false);
 
@@ -166,7 +166,7 @@ class ToleranceEngineService {
   /// Compute all bucket tolerances for a user
   /// Returns Map<String, double> with tolerance percentages
   static Future<Map<String, double>> computeUserTolerances({
-    required int userId,
+    required String userId,
     int daysBack = 30,
   }) async {
     try {
@@ -222,7 +222,7 @@ class ToleranceEngineService {
 
   /// Compute system states for all buckets
   static Future<Map<String, ToleranceSystemState>> computeUserSystemStates({
-    required int userId,
+    required String userId,
     int daysBack = 30,
   }) async {
     final tolerances = await computeUserTolerances(
@@ -242,7 +242,7 @@ class ToleranceEngineService {
   ///   - duration_multiplier
   ///   - half_life_hours / tolerance_decay_days
   static Future<Map<String, double>> computePerSubstanceTolerances({
-    required int userId,
+    required String userId,
     int daysBack = 30,
   }) async {
     try {
@@ -355,7 +355,7 @@ class ToleranceEngineService {
 
   /// Get detailed tolerance report
   static Future<ToleranceReport> getToleranceReport({
-    required int userId,
+    required String userId,
     int daysBack = 30,
   }) async {
     final tolerances = await computeUserTolerances(
@@ -392,7 +392,7 @@ class ToleranceEngineService {
   /// Now uses the same core parameters as the main tolerance engine, so
   /// contribution percentages line up with the bucket totals.
   static Future<List<ToleranceContribution>> getBucketBreakdown({
-    required int userId,
+    required String userId,
     required String bucketName,
     int daysBack = 30,
   }) async {
@@ -593,3 +593,4 @@ class ToleranceReport {
     );
   }
 }
+

@@ -3,12 +3,12 @@ import 'package:provider/provider.dart';
 import '../widgets/common/drawer_menu.dart';
 import '../widgets/home_redesign/header_card.dart';
 import '../widgets/home_redesign/daily_checkin_card.dart';
-import '../widgets/home_redesign/quick_action_card.dart';
-import '../widgets/home_redesign/stat_card.dart';
+import '../widgets/home_page/home_quick_actions_grid.dart';
+import '../widgets/home_page/home_progress_stats.dart';
+import '../widgets/home_page/home_navigation_methods.dart';
 import '../providers/daily_checkin_provider.dart';
 import '../constants/ui_colors.dart';
 import '../constants/theme_constants.dart';
-import '../routes/app_routes.dart';
 import '../services/daily_checkin_service.dart';
 import '../services/user_service.dart';
 import '../screens/profile_screen.dart';
@@ -26,7 +26,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, HomeNavigationMethods {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
@@ -57,34 +57,6 @@ class _HomePageState extends State<HomePage>
     super.dispose();
   }
 
-  // Navigation methods
-  void _openLogEntry(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildLogEntryPage()));
-  }
-  void _openAnalytics(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildAnalyticsPage()));
-  }
-  void _openCatalog(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildCatalogPage()));
-  }
-  void _openCravings(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildCravingsPage()));
-  }
-  void _openBloodLevels(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildBloodLevelsPage()));
-  }
-  void _openReflection(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildReflectionPage()));
-  }
-  void _openActivity(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildActivityPage()));
-  }
-  void _openLibrary(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildLibraryPage()));
-  }
-  void _openToleranceDashboard(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildToleranceDashboardPage()));
-  }
   void _openDailyCheckin(BuildContext context) async {
     // Navigate to daily check-in and wait for result
     await Navigator.pushNamed(context, '/daily-checkin');
@@ -203,63 +175,15 @@ class _HomePageState extends State<HomePage>
               const SizedBox(height: ThemeConstants.space16),
               
               // Quick Actions Grid - Always 2 columns for consistency
-              GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisSpacing: ThemeConstants.quickActionSpacing,
-                mainAxisSpacing: ThemeConstants.quickActionSpacing,
-                childAspectRatio: 1.1,
-                children: [
-                  QuickActionCard(
-                    actionKey: 'log_usage',
-                    icon: Icons.note_add,
-                    label: 'Log Entry',
-                    onTap: () => _openLogEntry(context),
-                  ),
-                  QuickActionCard(
-                    actionKey: 'reflection',
-                    icon: Icons.self_improvement,
-                    label: 'Reflection',
-                    onTap: () => _openReflection(context),
-                  ),
-                  QuickActionCard(
-                    actionKey: 'analytics',
-                    icon: Icons.analytics,
-                    label: 'Analytics',
-                    onTap: () => _openAnalytics(context),
-                  ),
-                  QuickActionCard(
-                    actionKey: 'cravings',
-                    icon: Icons.local_fire_department,
-                    label: 'Cravings',
-                    onTap: () => _openCravings(context),
-                  ),
-                  QuickActionCard(
-                    actionKey: 'activity',
-                    icon: Icons.directions_run,
-                    label: 'Activity',
-                    onTap: () => _openActivity(context),
-                  ),
-                  QuickActionCard(
-                    actionKey: 'library',
-                    icon: Icons.menu_book,
-                    label: 'Library',
-                    onTap: () => _openLibrary(context),
-                  ),
-                  QuickActionCard(
-                    actionKey: 'catalog',
-                    icon: Icons.inventory,
-                    label: 'Catalog',
-                    onTap: () => _openCatalog(context),
-                  ),
-                  QuickActionCard(
-                    actionKey: 'blood_levels',
-                    icon: Icons.bloodtype,
-                    label: 'Blood Levels',
-                    onTap: () => _openBloodLevels(context),
-                  ),
-                ],
+              HomeQuickActionsGrid(
+                onLogEntry: () => openLogEntry(context),
+                onReflection: () => openReflection(context),
+                onAnalytics: () => openAnalytics(context),
+                onCravings: () => openCravings(context),
+                onActivity: () => openActivity(context),
+                onLibrary: () => openLibrary(context),
+                onCatalog: () => openCatalog(context),
+                onBloodLevels: () => openBloodLevels(context),
               ),
               
               const SizedBox(height: ThemeConstants.cardSpacing),
@@ -277,35 +201,7 @@ class _HomePageState extends State<HomePage>
               const SizedBox(height: ThemeConstants.space16),
               
               // Stats Grid
-              GridView.count(
-                crossAxisCount: 1,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisSpacing: ThemeConstants.cardSpacing,
-                mainAxisSpacing: ThemeConstants.cardSpacing,
-                childAspectRatio: 2.5,
-                children: const [
-                  StatCard(
-                    icon: Icons.calendar_today,
-                    value: '127',
-                    label: 'Days Tracked',
-                    subtitle: 'Keep up the momentum!',
-                  ),
-                  StatCard(
-                    icon: Icons.note_alt,
-                    value: '12',
-                    label: 'Entries This Week',
-                    subtitle: '+3 from last week',
-                  ),
-                  StatCard(
-                    icon: Icons.psychology,
-                    value: '8',
-                    label: 'Active Reflections',
-                    subtitle: 'Recent insights',
-                    progress: 0.65,
-                  ),
-                ],
-              ),
+              const HomeProgressStats(),
               
               const SizedBox(height: ThemeConstants.cardSpacing),
             ],
@@ -334,7 +230,7 @@ class _HomePageState extends State<HomePage>
           ],
         ),
         child: FloatingActionButton(
-          onPressed: () => _openLogEntry(context),
+          onPressed: () => openLogEntry(context),
           backgroundColor: Colors.transparent,
           elevation: 0,
           child: const Icon(Icons.add),
@@ -343,7 +239,7 @@ class _HomePageState extends State<HomePage>
     } else {
       // Light theme: blue
       return FloatingActionButton(
-        onPressed: () => _openLogEntry(context),
+        onPressed: () => openLogEntry(context),
         child: const Icon(Icons.add),
       );
     }

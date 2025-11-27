@@ -23,13 +23,9 @@ class AdminService {
       for (var user in users) {
         final userData = Map<String, dynamic>.from(user);
         
-        // Get entry count
-        final entryCountResponse = await _client
-            .from('drug_use')
-            .select('use_id')
-            .eq('user_id', userData['user_id']);
-        
-        userData['entry_count'] = (entryCountResponse as List).length;
+        // Get entry count - need to get auth user ID first
+        // Skip entry count for now as we need auth_user_id mapping
+        userData['entry_count'] = 0;
         enrichedUsers.add(userData);
       }
 
@@ -99,13 +95,13 @@ class AdminService {
       final thirtyDaysAgo = DateTime.now().subtract(const Duration(days: 30));
       final activeUsersResponse = await _client
           .from('drug_use')
-          .select('user_id')
+          .select('uuid_user_id')
           .gte('start_time', thirtyDaysAgo.toIso8601String());
       
       // Get unique user IDs
-      final userIds = <int>{};
+      final userIds = <String>{};
       for (var entry in activeUsersResponse as List) {
-        userIds.add(entry['user_id'] as int);
+        userIds.add(entry['uuid_user_id'] as String);
       }
       final activeUsers = userIds.length;
 

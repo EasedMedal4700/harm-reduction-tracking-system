@@ -3,20 +3,13 @@ import 'package:provider/provider.dart';
 import '../../widgets/common/drawer_menu.dart';
 import '../../states/log_entry_state.dart';
 import '../../models/log_entry_model.dart';
-import '../../services/log_entry_service.dart';
-import '../../widgets/log_entry_cards/substance_header_card.dart';
-import '../../widgets/log_entry_cards/dosage_card.dart';
-import '../../widgets/log_entry_cards/route_of_administration_card.dart';
-import '../../widgets/log_entry_cards/feelings_card.dart';
-import '../../widgets/log_entry_cards/time_of_use_card.dart';
-import '../../widgets/log_entry_cards/location_card.dart';
-import '../../widgets/log_entry_cards/intention_craving_card.dart';
-import '../../widgets/log_entry_cards/triggers_card.dart';
-import '../../widgets/log_entry_cards/body_signals_card.dart';
-import '../../widgets/log_entry_cards/notes_card.dart';
-import '../../widgets/log_entry_cards/medical_purpose_card.dart';
 import '../../constants/ui_colors.dart';
 import '../../constants/theme_constants.dart';
+import '../../widgets/edit_log_entry/edit_app_bar.dart';
+import '../../widgets/edit_log_entry/save_button.dart';
+import '../../widgets/edit_log_entry/delete_confirmation_dialog.dart';
+import '../../widgets/edit_log_entry/loading_overlay.dart';
+import '../../widgets/edit_log_entry/edit_form_content.dart';
 
 class EditDrugUsePage extends StatefulWidget {
   final Map<String, dynamic> entry;
@@ -88,69 +81,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     super.dispose();
   }
 
-  Future<void> _confirmDelete(BuildContext context, LogEntryState state) async {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        title: Text(
-          'Delete Entry?',
-          style: TextStyle(
-            color: isDark ? UIColors.darkText : UIColors.lightText,
-          ),
-        ),
-        content: Text(
-          'Are you sure you want to delete this drug use entry? This action cannot be undone.',
-          style: TextStyle(
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-            ),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed == true && context.mounted) {
-      try {
-        final service = LogEntryService();
-        await service.deleteLogEntry(state.entryId);
-        
-        if (context.mounted) {
-          Navigator.pop(context); // Close edit page
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Entry deleted successfully'),
-              backgroundColor: Colors.green,
-            ),
-          );
-        }
-      } catch (e) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Failed to delete entry: $e'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -163,7 +93,11 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
             backgroundColor: isDark
                 ? UIColors.darkBackground
                 : UIColors.lightBackground,
-            appBar: _buildAppBar(context, isDark, state),
+            appBar: EditLogEntryAppBar(
+              isDark: isDark,
+              state: state,
+              onDelete: () => DeleteConfirmationDialog.show(context, state),
+            ),
             drawer: const DrawerMenu(),
             body: Stack(
               children: [
@@ -176,269 +110,22 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
                       children: [
                         // Scrollable content
                         Expanded(
-                          child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(),
-                            padding: const EdgeInsets.all(
-                              ThemeConstants.homePagePadding,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                // Substance
-                                SubstanceHeaderCard(
-                                  substance: state.substance,
-                                  substanceCtrl: state.substanceCtrl,
-                                  onSubstanceChanged: state.setSubstance,
-                                ),
-
-                                const SizedBox(
-                                  height: ThemeConstants.cardSpacing,
-                                ),
-
-                                // Dosage
-                                DosageCard(
-                                  dose: state.dose,
-                                  unit: state.unit,
-                                  units: const ['μg', 'mg', 'g', 'pills', 'ml'],
-                                  doseCtrl: state.doseCtrl,
-                                  onDoseChanged: state.setDose,
-                                  onUnitChanged: state.setUnit,
-                                ),
-
-                                const SizedBox(
-                                  height: ThemeConstants.cardSpacing,
-                                ),
-
-                                // Route of Administration
-                                RouteOfAdministrationCard(
-                                  route: state.route,
-                                  onRouteChanged: state.setRoute,
-                                  availableROAs: state.getAvailableROAs(),
-                                  isROAValidated: (roa) =>
-                                      state.substanceDetails != null &&
-                                      state.isROAValidated(roa),
-                                ),
-
-                                const SizedBox(
-                                  height: ThemeConstants.cardSpacing,
-                                ),
-
-                                // Feelings
-                                FeelingsCard(
-                                  feelings: state.feelings,
-                                  secondaryFeelings: state.secondaryFeelings,
-                                  onFeelingsChanged: state.setFeelings,
-                                  onSecondaryFeelingsChanged:
-                                      state.setSecondaryFeelings,
-                                ),
-
-                                const SizedBox(
-                                  height: ThemeConstants.cardSpacing,
-                                ),
-
-                                // Medical Purpose (simple mode only)
-                                if (state.isSimpleMode) ...[
-                                  MedicalPurposeCard(
-                                    isMedicalPurpose: state.isMedicalPurpose,
-                                    onChanged: state.setIsMedicalPurpose,
-                                  ),
-                                  const SizedBox(
-                                    height: ThemeConstants.cardSpacing,
-                                  ),
-                                ],
-
-                                // Time of Use
-                                TimeOfUseCard(
-                                  date: state.date,
-                                  hour: state.hour,
-                                  minute: state.minute,
-                                  onDateChanged: state.setDate,
-                                  onHourChanged: state.setHour,
-                                  onMinuteChanged: state.setMinute,
-                                ),
-
-                                const SizedBox(
-                                  height: ThemeConstants.cardSpacing,
-                                ),
-
-                                // Location
-                                LocationCard(
-                                  location: state.location,
-                                  onLocationChanged: state.setLocation,
-                                ),
-
-                                // Complex fields (only show in detailed mode)
-                                if (!state.isSimpleMode) ...[
-                                  const SizedBox(
-                                    height: ThemeConstants.cardSpacing,
-                                  ),
-
-                                  // Intention & Craving
-                                  IntentionCravingCard(
-                                    intention: state.intention,
-                                    cravingIntensity: state.cravingIntensity,
-                                    isMedicalPurpose: state.isMedicalPurpose,
-                                    onIntentionChanged: state.setIntention,
-                                    onCravingIntensityChanged:
-                                        state.setCravingIntensity,
-                                    onMedicalPurposeChanged:
-                                        state.setIsMedicalPurpose,
-                                  ),
-
-                                  const SizedBox(
-                                    height: ThemeConstants.cardSpacing,
-                                  ),
-
-                                  // Triggers
-                                  TriggersCard(
-                                    selectedTriggers: state.triggers,
-                                    onTriggersChanged: state.setTriggers,
-                                  ),
-
-                                  const SizedBox(
-                                    height: ThemeConstants.cardSpacing,
-                                  ),
-
-                                  // Body Signals
-                                  BodySignalsCard(
-                                    selectedBodySignals: state.bodySignals,
-                                    onBodySignalsChanged: state.setBodySignals,
-                                  ),
-                                ],
-
-                                const SizedBox(
-                                  height: ThemeConstants.cardSpacing,
-                                ),
-
-                                // Notes
-                                NotesCard(notesCtrl: state.notesCtrl),
-
-                                // Extra padding for bottom button
-                                const SizedBox(height: 80),
-                              ],
-                            ),
-                          ),
+                          child: EditFormContent(state: state),
                         ),
 
                         // Sticky bottom save button
-                        _buildSaveButton(context, isDark, state),
+                        SaveButton(isDark: isDark, state: state),
                       ],
                     ),
                   ),
                 ),
 
                 // Loading overlay
-                if (state.isSaving)
-                  Container(
-                    color: Colors.black.withOpacity(0.5),
-                    child: const Center(child: CircularProgressIndicator()),
-                  ),
+                LoadingOverlay(isLoading: state.isSaving),
               ],
             ),
           );
         },
-      ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(
-    BuildContext context,
-    bool isDark,
-    LogEntryState state,
-  ) {
-    return AppBar(
-      backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-      foregroundColor: isDark ? Colors.white : Colors.black87,
-      elevation: 0,
-      title: const Text('Edit Drug Use'),
-      actions: [
-        // Delete button
-        IconButton(
-          icon: const Icon(Icons.delete_outline),
-          color: Colors.red,
-          onPressed: () => _confirmDelete(context, state),
-          tooltip: 'Delete Entry',
-        ),
-        // Simple/Detailed mode toggle
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: ThemeConstants.space8,
-          ),
-          child: Row(
-            children: [
-              Text(
-                'Simple',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  color: isDark
-                      ? UIColors.darkTextSecondary
-                      : UIColors.lightTextSecondary,
-                ),
-              ),
-              Switch(
-                value: state.isSimpleMode,
-                onChanged: state.setIsSimpleMode,
-                activeColor: isDark
-                    ? UIColors.darkNeonBlue
-                    : UIColors.lightAccentBlue,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSaveButton(
-    BuildContext context,
-    bool isDark,
-    LogEntryState state,
-  ) {
-    return Container(
-      padding: const EdgeInsets.all(ThemeConstants.space16),
-      decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        border: Border(
-          top: BorderSide(
-            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-            width: 1,
-          ),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: ElevatedButton(
-        onPressed: () => state.save(context),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isDark
-              ? UIColors.darkNeonBlue
-              : UIColors.lightAccentBlue,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: ThemeConstants.space16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          ),
-          elevation: 0,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.save),
-            const SizedBox(width: ThemeConstants.space8),
-            Text(
-              'Save Changes',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                fontWeight: ThemeConstants.fontSemiBold,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

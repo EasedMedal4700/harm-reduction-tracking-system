@@ -213,7 +213,7 @@ class ErrorReporter {
 
     // Build payload
     final payload = <String, dynamic>{
-      'user_id': userId,
+      'uuid_user_id': userId,
       'app_version': _loggingService.appVersion,
       'platform': _loggingService.platform,
       'os_version': _loggingService.osVersion,

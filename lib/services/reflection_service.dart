@@ -35,7 +35,7 @@ class ReflectionService {
 
       await Supabase.instance.client.from('reflections').insert({
         'reflection_id': nextId,
-        'user_id': userId,
+        'uuid_user_id': userId,
         ...reflection.toJson(),
         'created_at': DateTime.now().toIso8601String(),
         'related_entries': relatedEntries,
@@ -72,7 +72,7 @@ class ReflectionService {
       final response = await supabase
         .from('reflections')
         .update(data)
-        .eq('user_id', userId)
+        .eq('uuid_user_id', userId)
         .eq('reflection_id', parsedId ?? id)
         .select();
 

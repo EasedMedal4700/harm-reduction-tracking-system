@@ -26,7 +26,7 @@ void main() {
     final json = craving.toJson();
 
     expect(json['craving_id'], 'abc');
-    expect(json['user_id'], 'user-123');
+    expect(json['uuid_user_id'], 'user-123');
     expect(json['substance'], 'Cannabis');
     expect(json['intensity'], '7.4');
     expect(json['date'], '2025-11-07');

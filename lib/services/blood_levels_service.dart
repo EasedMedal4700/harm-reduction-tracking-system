@@ -10,7 +10,7 @@ class BloodLevelsService {
     DateTime? referenceTime,
   }) async {
     final now = referenceTime ?? DateTime.now();
-    final userId = await UserService.getIntegerUserId();
+    final userId = UserService.getCurrentUserId();
 
     try {
       ErrorHandler.logDebug(
@@ -44,7 +44,7 @@ class BloodLevelsService {
       final response = await Supabase.instance.client
           .from('drug_use')
           .select('name, dose, start_time')
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .order('start_time', ascending: false);
 
       final drugUseData = response as List<dynamic>;
@@ -242,7 +242,7 @@ class BloodLevelsService {
     required int hoursForward,
   }) async {
     try {
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       final startTime = referenceTime.subtract(Duration(hours: hoursBack));
       final endTime = referenceTime.add(Duration(hours: hoursForward));
 
@@ -255,7 +255,7 @@ class BloodLevelsService {
       final response = await Supabase.instance.client
           .from('drug_use')
           .select('name, dose, start_time')
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .ilike('name', drugName)
           .gte('start_time', startTime.toIso8601String())
           .lte('start_time', endTime.toIso8601String())
@@ -324,7 +324,7 @@ class BloodLevelsService {
     required int hoursForward,
   }) async {
     try {
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       final startTime = referenceTime.subtract(Duration(hours: hoursBack));
       final endTime = referenceTime.add(Duration(hours: hoursForward));
 
@@ -337,7 +337,7 @@ class BloodLevelsService {
       final response = await Supabase.instance.client
           .from('drug_use')
           .select('name')
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .gte('start_time', startTime.toIso8601String())
           .lte('start_time', endTime.toIso8601String());
 

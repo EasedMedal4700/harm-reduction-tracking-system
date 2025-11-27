@@ -23,9 +23,9 @@ class DailyCheckinService implements DailyCheckinRepository {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Saving new check-in');
 
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       final data = {
-        'user_id': userId,
+        'uuid_user_id': userId,
         'checkin_date': checkin.checkinDate.toIso8601String().split('T')[0],
         'mood': checkin.mood,
         'emotions': checkin.emotions,
@@ -53,7 +53,7 @@ class DailyCheckinService implements DailyCheckinRepository {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Updating check-in: $id');
 
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       final data = {
         'mood': checkin.mood,
         'emotions': checkin.emotions,
@@ -66,7 +66,7 @@ class DailyCheckinService implements DailyCheckinRepository {
           .from('daily_checkins')
           .update(data)
           .eq('id', id)
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .select();
 
       if (response.isEmpty) {
@@ -89,13 +89,13 @@ class DailyCheckinService implements DailyCheckinRepository {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Fetching check-ins for date: $date');
 
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       final dateStr = date.toIso8601String().split('T')[0];
 
       final response = await _client
           .from('daily_checkins')
           .select()
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .eq('checkin_date', dateStr)
           .order('created_at', ascending: true);
 
@@ -117,14 +117,14 @@ class DailyCheckinService implements DailyCheckinRepository {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Fetching check-ins from $startDate to $endDate');
 
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       final startStr = startDate.toIso8601String().split('T')[0];
       final endStr = endDate.toIso8601String().split('T')[0];
 
       final response = await _client
           .from('daily_checkins')
           .select()
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .gte('checkin_date', startStr)
           .lte('checkin_date', endStr)
           .order('checkin_date', ascending: false)
@@ -148,13 +148,13 @@ class DailyCheckinService implements DailyCheckinRepository {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Checking for existing check-in: $date, $timeOfDay');
 
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       final dateStr = date.toIso8601String().split('T')[0];
 
       final response = await _client
           .from('daily_checkins')
           .select()
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .eq('checkin_date', dateStr)
           .eq('time_of_day', timeOfDay)
           .maybeSingle();
@@ -176,13 +176,13 @@ class DailyCheckinService implements DailyCheckinRepository {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Deleting check-in: $id');
 
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
 
       await _client
           .from('daily_checkins')
           .delete()
           .eq('id', id)
-          .eq('user_id', userId);
+          .eq('uuid_user_id', userId);
 
       ErrorHandler.logInfo('DailyCheckinService', 'Check-in deleted successfully');
     } catch (e, stackTrace) {

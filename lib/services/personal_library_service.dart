@@ -171,11 +171,11 @@ class PersonalLibraryService {
   Future<List<Map<String, dynamic>>> _loadDatabaseEntries() async {
     // Filter by authenticated user's ID for security
     try {
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       final response = await Supabase.instance.client
           .from('drug_use')
           .select('name, start_time, dose')
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .order('start_time', ascending: false);
 
       return (response as List<dynamic>)

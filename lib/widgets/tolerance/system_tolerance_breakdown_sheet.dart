@@ -34,7 +34,7 @@ class _SystemToleranceBreakdownSheetState
 
   Future<void> _loadBreakdown() async {
     try {
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       final data = await ToleranceEngineService.getBucketBreakdown(
         userId: userId,
         bucketName: widget.bucketName,

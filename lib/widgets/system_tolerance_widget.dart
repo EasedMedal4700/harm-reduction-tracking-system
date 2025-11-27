@@ -17,7 +17,7 @@ class SystemToleranceData {
 
 /// Load system tolerance data for current user
 Future<SystemToleranceData> loadSystemToleranceData() async {
-  final userId = await UserService.getIntegerUserId();
+  final userId = UserService.getCurrentUserId();
   final report = await ToleranceEngineService.getToleranceReport(
     userId: userId,
   );

@@ -13,11 +13,11 @@ class LogEntryService {
   Future<void> updateLogEntry(String id, Map<String, dynamic> data) async {
     try {
       final supabase = Supabase.instance.client;
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       await supabase
           .from('drug_use')
           .update(data)
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .eq('use_id', id);
       
       // Invalidate cache for user's entries
@@ -33,11 +33,11 @@ class LogEntryService {
   Future<void> deleteLogEntry(String id) async {
     try {
       final supabase = Supabase.instance.client;
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       await supabase
           .from('drug_use')
           .delete()
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .eq('use_id', id);
       
       // Invalidate cache for user's entries
@@ -57,11 +57,11 @@ class LogEntryService {
     }
 
     try {
-      // Get the integer user ID from the users table
-      final userId = await UserService.getIntegerUserId();
+      // Get the auth user ID
+      final userId = UserService.getCurrentUserId();
       
       final data = {
-        'user_id': userId,
+        'uuid_user_id': userId,
         'name': entry.substance,
         'dose': '${entry.dosage} ${entry.unit}',
         'start_time': formatter.format(entry.datetime.toUtc()), // Format as UTC+00
@@ -115,7 +115,7 @@ class LogEntryService {
 
   Future<List<Map<String, dynamic>>> fetchRecentEntriesRaw() async {
     try {
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       
       // Check cache first
       final cacheKey = CacheKeys.recentEntries(userId);
@@ -127,7 +127,7 @@ class LogEntryService {
       final response = await Supabase.instance.client
         .from('drug_use')
         .select('use_id, name, dose, start_time, place') // Select key fields
-        .eq('user_id', userId)
+        .eq('uuid_user_id', userId)
         .order('start_time', ascending: false)
         .limit(10);
       

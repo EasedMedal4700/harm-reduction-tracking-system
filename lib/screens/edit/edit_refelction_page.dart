@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/common/drawer_menu.dart';
 import '../../widgets/reflection/edit_reflection_form.dart';
+import '../../widgets/edit_reflection/reflection_app_bar.dart';
 import '../../models/reflection_model.dart';
 import '../../services/reflection_service.dart';
 import '../../utils/error_handler.dart';
@@ -198,22 +199,9 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Reflection'),
-        actions: [
-          if (_isSaving)
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: CircularProgressIndicator(),
-              ),
-            )
-          else
-            TextButton(
-              onPressed: _saveChanges,
-              child: const Text('Save', style: TextStyle(color: Colors.white)),
-            ),
-        ],
+      appBar: ReflectionAppBar(
+        isSaving: _isSaving,
+        onSave: _saveChanges,
       ),
       drawer: const DrawerMenu(),
       body: _isLoading 

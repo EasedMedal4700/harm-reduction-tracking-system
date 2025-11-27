@@ -6,14 +6,8 @@ import '../services/tolerance_service.dart';
 import '../services/user_service.dart';
 import '../services/tolerance_engine_service.dart';
 import '../utils/tolerance_calculator.dart';
-import '../widgets/tolerance/system_bucket_card.dart';
-import '../widgets/tolerance/bucket_detail_section.dart';
-import '../widgets/tolerance/tolerance_stats_card.dart';
-import '../widgets/tolerance/tolerance_notes_card.dart';
-import '../widgets/tolerance/recent_uses_card.dart';
-import '../widgets/tolerance/debug_substance_list.dart';
-import '../widgets/tolerance/tolerance_disclaimer.dart';
-import '../widgets/tolerance/unified_bucket_tolerance_widget.dart';
+import '../widgets/tolerance_dashboard/dashboard_content_widget.dart';
+import '../widgets/tolerance_dashboard/empty_state_widget.dart';
 import '../constants/theme_constants.dart';
 import '../constants/ui_colors.dart';
 
@@ -28,7 +22,7 @@ class ToleranceDashboardPage extends StatefulWidget {
 
 class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   bool _isLoadingOptions = true;
-  int? _userId;
+  String? _userId;
   List<String> _substances = [];
   String? _selectedSubstance;
   String? _errorMessage;
@@ -203,7 +197,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
     });
 
     try {
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       final options = await ToleranceService.fetchUserSubstances(userId);
 
       if (!mounted) return;
@@ -322,27 +316,9 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
           : SingleChildScrollView(
               controller: _scrollController,
               padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (_substances.isEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: ThemeConstants.space16,
-                      ),
-                      child: Text(
-                        'Log entries with substance names to see tolerance insights.',
-                        style: TextStyle(
-                          color: isDark
-                              ? UIColors.darkTextSecondary
-                              : UIColors.lightTextSecondary,
-                        ),
-                      ),
-                    )
-                  else
-                    _buildContent(),
-                ],
-              ),
+              child: _substances.isEmpty
+                  ? EmptyStateWidget(isDark: isDark)
+                  : _buildContent(),
             ),
     );
   }
@@ -350,274 +326,40 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   Widget _buildContent() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // 0. Safety Disclaimer (TOP - CRITICAL)
-        const CompactToleranceDisclaimer(),
-        const SizedBox(height: ThemeConstants.cardSpacing),
-
-        // 1. System Tolerance Overview (ALL 7 BUCKETS)
-        _buildSystemOverview(isDark),
-        const SizedBox(height: ThemeConstants.cardSpacing),
-
-        // 2. Bucket Details (Selected bucket with contributing substances)
-        if (_selectedBucket != null)
-          _buildBucketDetails(isDark),
-        
-        if (_selectedBucket != null)
-          const SizedBox(height: ThemeConstants.cardSpacing),
-
-        // 3. Substance Detail (existing unified widget - only if substance selected)
-        if (_selectedSubstance != null && _toleranceModel != null && _substanceTolerance != null)
-          UnifiedBucketToleranceWidget(
-            toleranceModel: _toleranceModel!,
-            toleranceResult: _substanceTolerance!,
-            substanceName: _selectedSubstance!,
-          ),
-
-        if (_selectedSubstance != null && _toleranceModel != null && _substanceTolerance != null)
-          const SizedBox(height: ThemeConstants.cardSpacing),
-
-        // 4. Key Metrics (Bottom)
-        if (_errorMessage != null)
-          Card(
-            color: isDark ? UIColors.darkSurface : Colors.grey.shade100,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-              child: Text(
-                _errorMessage!,
-                style: TextStyle(
-                  color: isDark ? UIColors.darkTextSecondary : Colors.black54,
-                ),
-              ),
-            ),
-          )
-        else if (_toleranceModel != null) ...[
-          ToleranceStatsCard(
-            toleranceModel: _toleranceModel!,
-            daysUntilBaseline: _substanceTolerance?.overallDaysUntilBaseline ?? 0,
-            recentUseCount: _useEvents.length,
-          ),
-          const SizedBox(height: ThemeConstants.cardSpacing),
-          ToleranceNotesCard(notes: _toleranceModel!.notes),
-        ],
-
-        if (_useEvents.isNotEmpty) ...[
-          const SizedBox(height: ThemeConstants.cardSpacing),
-          RecentUsesCard(useEvents: _useEvents),
-        ],
-
-        // Debug: Per-substance tolerances
-        if (_showDebugSubstances) ...[
-          const SizedBox(height: ThemeConstants.cardSpacing),
-          DebugSubstanceList(
-            perSubstanceTolerances: _perSubstanceTolerances,
-            isLoading: _isLoadingPerSubstance,
-          ),
-        ],
-
-        if (_showDebugPanel) ...[
-          const SizedBox(height: ThemeConstants.cardSpacing),
-          _buildDebugPanel(isDark),
-        ],
-      ],
-    );
-  }
-
-  Widget _buildSystemOverview(bool isDark) {
-    // Render all 7 canonical buckets in order
-    final orderedBuckets = BucketDefinitions.orderedBuckets;
-    final systemData = _systemTolerance;
-    
-    if (systemData == null) {
-      // Loading state
-      return Card(
-        color: isDark ? UIColors.darkSurface : Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-          side: BorderSide(
-            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-          ),
-        ),
-        child: const Padding(
-          padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-          child: Center(child: CircularProgressIndicator()),
-        ),
-      );
-    }
-    
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Section header
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
-          child: Text(
-            'System Tolerance Overview',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
-          ),
-        ),
-        const SizedBox(height: ThemeConstants.space12),
-        
-        // Horizontal scrollable bucket cards
-        SizedBox(
-          height: 140, // Fixed height for cards
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: orderedBuckets.length,
-            separatorBuilder: (context, index) => const SizedBox(width: ThemeConstants.space12),
-            itemBuilder: (context, index) {
-              final bucketType = orderedBuckets[index];
-              final tolerancePercent = (systemData.bucketPercents[bucketType] ?? 0.0).clamp(0.0, 100.0);
-              final state = ToleranceCalculator.classifyState(tolerancePercent);
-              
-              // Check if any substance is active for this bucket
-              final isActive = _substanceActiveStates.entries.any((entry) {
-                // Would need to check if this substance contributes to this bucket
-                // For now, just check if there are contributions
-                final contributions = _substanceContributions[bucketType];
-                return contributions != null && contributions.isNotEmpty;
-              });
-              
-              return SystemBucketCard(
-                bucketType: bucketType,
-                tolerancePercent: tolerancePercent,
-                state: state,
-                isActive: isActive,
-                isSelected: _selectedBucket == bucketType,
-                onTap: () {
-                  setState(() {
-                    _selectedBucket = bucketType;
-                  });
-                  // Scroll to bucket detail section
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    final context = _bucketDetailKey.currentContext;
-                    if (context != null) {
-                      Scrollable.ensureVisible(
-                        context,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  });
-                },
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-  
-  Widget _buildBucketDetails(bool isDark) {
-    if (_selectedBucket == null || _systemTolerance == null) {
-      return const SizedBox.shrink();
-    }
-    
-    final bucketType = _selectedBucket!;
-    final systemData = _systemTolerance!;
-    final systemTolerancePercent = (systemData.bucketPercents[bucketType] ?? 0.0).clamp(0.0, 100.0);
-    final state = ToleranceCalculator.classifyState(systemTolerancePercent);
-    final substanceContributions = _substanceContributions[bucketType] ?? {};
-    
-    return Container(
-      key: _bucketDetailKey,
-      child: BucketDetailSection(
-        bucketType: bucketType,
-        systemTolerancePercent: systemTolerancePercent,
-        state: state,
-        substanceContributions: substanceContributions,
-        substanceActiveStates: _substanceActiveStates,
-        selectedSubstance: _selectedSubstance,
-        onSubstanceSelected: (substanceName) {
-          setState(() => _selectedSubstance = substanceName);
-          _loadMetrics(substanceName);
-        },
-      ),
-    );
-  }
-
-  Widget _buildDebugPanel(bool isDark) {
-    final system = _systemTolerance;
-    final substance = _substanceTolerance;
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Tolerance engine debug',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
-          ),
-          const SizedBox(height: ThemeConstants.space8),
-          if (system != null) ...[
-            Text(
-              'System: score=${system.toleranceScore.toStringAsFixed(1)} • daysToBaseline=${system.overallDaysUntilBaseline}',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-              ),
-            ),
-          ],
-          if (substance != null && _selectedSubstance != null) ...[
-            const SizedBox(height: ThemeConstants.space4),
-            Text(
-              'Substance $_selectedSubstance: score=${substance.toleranceScore.toStringAsFixed(1)} • daysToBaseline=${substance.overallDaysUntilBaseline}',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-              ),
-            ),
-          ],
-          const SizedBox(height: ThemeConstants.space8),
-          Text(
-            'Bucket percents:',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontXSmall,
-              fontWeight: ThemeConstants.fontMediumWeight,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
-          ),
-          const SizedBox(height: 4),
-          if (system != null)
-            Wrap(
-              spacing: ThemeConstants.space8,
-              runSpacing: 4,
-              children: [
-                for (final bucket in BucketDefinitions.orderedBuckets)
-                  Text(
-                    '$bucket: ${(system.bucketPercents[bucket] ?? 0).toStringAsFixed(1)}%',
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontXSmall,
-                      color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                      fontFamily: 'monospace',
-                    ),
-                  ),
-              ],
-            ),
-        ],
-      ),
+    return DashboardContentWidget(
+      toleranceModel: _toleranceModel,
+      systemTolerance: _systemTolerance,
+      substanceTolerance: _substanceTolerance,
+      useEvents: _useEvents,
+      errorMessage: _errorMessage,
+      selectedSubstance: _selectedSubstance,
+      selectedBucket: _selectedBucket,
+      substanceContributions: _substanceContributions,
+      substanceActiveStates: _substanceActiveStates,
+      showDebugSubstances: _showDebugSubstances,
+      showDebugPanel: _showDebugPanel,
+      perSubstanceTolerances: _perSubstanceTolerances,
+      isLoadingPerSubstance: _isLoadingPerSubstance,
+      onSubstanceSelected: (substanceName) {
+        setState(() => _selectedSubstance = substanceName);
+        _loadMetrics(substanceName);
+      },
+      onBucketSelected: (bucketType) {
+        setState(() => _selectedBucket = bucketType);
+        // Scroll to bucket detail section
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final context = _bucketDetailKey.currentContext;
+          if (context != null) {
+            Scrollable.ensureVisible(
+              context,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+        });
+      },
+      bucketDetailKey: _bucketDetailKey,
+      isDark: isDark,
     );
   }
 }

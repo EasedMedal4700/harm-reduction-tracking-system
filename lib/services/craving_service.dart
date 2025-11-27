@@ -20,10 +20,10 @@ class CravingService {
     }
 
     try {
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
       final data = {
         'craving_id': _uuid.v4(),
-        'user_id': userId,
+        'uuid_user_id': userId,
         'substance': craving.substance,
         'intensity': craving.intensity.toInt(),
         'date': craving.date.toIso8601String().split('T')[0],
@@ -74,13 +74,13 @@ class CravingService {
         throw Exception('Invalid craving ID: ID cannot be empty');
       }
 
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
 
       final result = await Supabase.instance.client
           .from('cravings')
           .select('*')
           .eq('craving_id', cravingId)
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .maybeSingle();
 
       ErrorHandler.logDebug('CravingService', 'Raw DB result: $result');
@@ -118,13 +118,13 @@ class CravingService {
         throw Exception('Please select a valid location');
       }
 
-      final userId = await UserService.getIntegerUserId();
+      final userId = UserService.getCurrentUserId();
 
       final response = await Supabase.instance.client
           .from('cravings')
           .update(data)
           .eq('craving_id', cravingId)
-          .eq('user_id', userId)
+          .eq('uuid_user_id', userId)
           .select();
 
       if (response.isEmpty) {

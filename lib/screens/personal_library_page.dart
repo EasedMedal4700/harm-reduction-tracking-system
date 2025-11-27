@@ -9,6 +9,8 @@ import '../widgets/catalog/add_stockpile_sheet.dart';
 import '../widgets/personal_library/substance_card.dart';
 import '../widgets/personal_library/summary_stats_banner.dart';
 import '../widgets/personal_library/day_usage_sheet.dart';
+import '../widgets/personal_library/library_search_bar.dart';
+import '../widgets/personal_library/library_app_bar.dart';
 import '../constants/ui_colors.dart';
 import '../constants/theme_constants.dart';
 import '../utils/drug_preferences_manager.dart';
@@ -188,28 +190,15 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
         controller: _scrollController,
         slivers: [
           // App bar
-          SliverAppBar(
-            title: const Text('Personal Library'),
-            backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-            pinned: true,
-            floating: false,
-            actions: [
-              IconButton(
-                icon: Icon(_showArchived ? Icons.archive : Icons.archive_outlined),
-                onPressed: () {
-                  setState(() {
-                    _showArchived = !_showArchived;
-                    _filtered = _applyFilters(_searchController.text);
-                  });
-                },
-                tooltip: _showArchived ? 'Hide Archived' : 'Show Archived',
-              ),
-              IconButton(
-                icon: const Icon(Icons.refresh),
-                onPressed: _loadCatalog,
-                tooltip: 'Refresh',
-              ),
-            ],
+          LibraryAppBar(
+            showArchived: _showArchived,
+            onToggleArchived: () {
+              setState(() {
+                _showArchived = !_showArchived;
+                _filtered = _applyFilters(_searchController.text);
+              });
+            },
+            onRefresh: _loadCatalog,
           ),
 
           // Summary stats banner - scrolls away
@@ -225,60 +214,15 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
 
           // Search bar - scrolls away
           SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.all(ThemeConstants.space12),
-              color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-              child: TextField(
-                  controller: _searchController,
-                  onChanged: _onSearchChanged,
-                  style: TextStyle(
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'Search by name or category',
-                    hintStyle: TextStyle(
-                      color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                    ),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                    ),
-                    suffixIcon: _searchController.text.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              _searchController.clear();
-                              _onSearchChanged('');
-                            },
-                          )
-                        : null,
-                    filled: true,
-                    fillColor: isDark
-                        ? UIColors.darkBackground
-                        : UIColors.lightBackground,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                      borderSide: BorderSide(
-                        color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                      borderSide: BorderSide(
-                        color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                      borderSide: BorderSide(
-                        color: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            child: LibrarySearchBar(
+              controller: _searchController,
+              onChanged: _onSearchChanged,
+              onClear: () {
+                _searchController.clear();
+                _onSearchChanged('');
+              },
             ),
+          ),
 
           // Content
           if (_loading)

@@ -26,7 +26,7 @@ class DailyCheckin {
   factory DailyCheckin.fromJson(Map<String, dynamic> json) {
     return DailyCheckin(
       id: json['id']?.toString(),
-      userId: json['user_id']?.toString() ?? '',
+      userId: json['uuid_user_id']?.toString() ?? '',
       checkinDate: json['checkin_date'] is String
           ? DateTime.parse(json['checkin_date'])
           : json['checkin_date'] as DateTime,
@@ -53,7 +53,7 @@ class DailyCheckin {
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
-      'user_id': userId,
+      'uuid_user_id': userId,
       'checkin_date': checkinDate.toIso8601String().split('T')[0], // Date only
       'mood': mood,
       'emotions': emotions,
