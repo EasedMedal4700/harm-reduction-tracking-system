@@ -4,7 +4,7 @@ import 'admin_user_card.dart';
 /// User list section for admin panel
 class AdminUserList extends StatelessWidget {
   final List<Map<String, dynamic>> users;
-  final Function(int, bool) onToggleAdmin;
+  final Function(String, bool) onToggleAdmin;
   final VoidCallback onRefresh;
 
   const AdminUserList({

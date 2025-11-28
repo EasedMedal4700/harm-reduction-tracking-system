@@ -4,7 +4,6 @@ import '../utils/error_handler.dart';
 import 'cache_service.dart';
 
 class UserService {
-  static int? _cachedUserId;
   static bool? _cachedIsAdmin;
   static Map<String, dynamic>? _cachedUserData;
   static final _cache = CacheService();
@@ -18,41 +17,11 @@ class UserService {
   }
 
   /// Get the integer user_id from the users table based on the authenticated user's email
+  /// NOTE: user_id no longer exists - use getCurrentUserId() for auth_user_id instead
+  @Deprecated('user_id column removed - use getCurrentUserId() instead')
   static Future<int> getIntegerUserId() async {
-    // Return cached value if available
-    if (_cachedUserId != null) {
-      return _cachedUserId!;
-    }
-
-    // Check cache service
-    final cachedId = _cache.get<int>(CacheKeys.currentUserId);
-    if (cachedId != null) {
-      _cachedUserId = cachedId;
-      return cachedId;
-    }
-
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user == null) {
-      throw StateError('User is not logged in.');
-    }
-
-    try {
-      final response = await Supabase.instance.client
-          .from('users')
-          .select('user_id')
-          .eq('email', user.email!)
-          .single();
-
-      _cachedUserId = response['user_id'] as int;
-      
-      // Store in cache service
-      _cache.set(CacheKeys.currentUserId, _cachedUserId!, ttl: CacheService.longTTL);
-      
-      return _cachedUserId!;
-    } catch (e, stackTrace) {
-      ErrorHandler.logError('UserService.getIntegerUserId', e, stackTrace);
-      throw StateError('Failed to fetch user ID from users table: $e');
-    }
+    // user_id column no longer exists in users table
+    throw StateError('user_id column removed from users table. Use getCurrentUserId() for auth_user_id instead.');
   }
 
   /// Check if the current user is an admin
@@ -78,7 +47,7 @@ class UserService {
       final response = await Supabase.instance.client
           .from('users')
           .select('is_admin')
-          .eq('email', user.email!)
+          .eq('auth_user_id', user.id)
           .single();
 
       _cachedIsAdmin = response['is_admin'] as bool? ?? false;
@@ -103,7 +72,6 @@ class UserService {
     final cachedData = _cache.get<Map<String, dynamic>>(CacheKeys.currentUserData);
     if (cachedData != null) {
       _cachedUserData = cachedData;
-      _cachedUserId = cachedData['user_id'] as int?;
       _cachedIsAdmin = cachedData['is_admin'] as bool? ?? false;
       return cachedData;
     }
@@ -114,14 +82,22 @@ class UserService {
     }
 
     try {
+      // Query public.users by auth_user_id
       final response = await Supabase.instance.client
           .from('users')
-          .select('user_id, email, display_name, is_admin, created_at, updated_at')
-          .eq('email', user.email!)
+          .select('display_name, is_admin')
+          .eq('auth_user_id', user.id)
           .single();
 
-      _cachedUserData = response;
-      _cachedUserId = response['user_id'] as int?;
+      // Merge with auth user data (email comes from auth.users)
+      _cachedUserData = {
+        'auth_user_id': user.id,
+        'email': user.email ?? user.userMetadata?['email'] as String?,
+        'display_name': response['display_name'],
+        'is_admin': response['is_admin'] as bool? ?? false,
+        'created_at': user.createdAt,
+        'updated_at': user.updatedAt,
+      };
       _cachedIsAdmin = response['is_admin'] as bool? ?? false;
       
       // Store in cache service
@@ -136,7 +112,6 @@ class UserService {
 
   /// Clear the cached user data (call on logout)
   static void clearCache() {
-    _cachedUserId = null;
     _cachedIsAdmin = null;
     _cachedUserData = null;
     

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 /// User card widget for admin panel
 class AdminUserCard extends StatelessWidget {
   final Map<String, dynamic> user;
-  final Function(int, bool) onToggleAdmin;
+  final Function(String, bool) onToggleAdmin;
 
   const AdminUserCard({
     required this.user,
@@ -14,8 +14,8 @@ class AdminUserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Database uses 'user_id' not 'id'
-    final userId = user['user_id'] as int? ?? user['id'] as int? ?? 0;
+    // Use auth_user_id as the primary identifier now
+    final authUserId = user['auth_user_id'] as String? ?? '';
     final username = user['username'] as String? ?? user['display_name'] as String? ?? 'Unknown';
     final email = user['email'] as String? ?? 'No email';
     final isAdmin = user['is_admin'] as bool? ?? false;
@@ -24,10 +24,9 @@ class AdminUserCard extends StatelessWidget {
     final entryCount = user['entry_count'] as int? ?? 0;
     final cravingCount = user['craving_count'] as int? ?? 0;
     final reflectionCount = user['reflection_count'] as int? ?? 0;
-    final authUserId = user['auth_user_id'] as String? ?? 'N/A';
     
-    // If userId is 0, the data is invalid
-    if (userId == 0) {
+    // If authUserId is empty, the data is invalid
+    if (authUserId.isEmpty) {
       return Card(
         margin: const EdgeInsets.symmetric(vertical: 8),
         child: ListTile(
@@ -78,8 +77,7 @@ class AdminUserCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildInfoRow('User ID', userId.toString()),
-                _buildInfoRow('Auth UUID', authUserId.substring(0, 8) + '...'),
+                _buildInfoRow('Auth User ID', authUserId.substring(0, 8) + '...'),
                 const Divider(),
                 _buildInfoRow('Entries', entryCount.toString()),
                 _buildInfoRow('Cravings', cravingCount.toString()),
@@ -102,7 +100,7 @@ class AdminUserCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ElevatedButton.icon(
-                        onPressed: () => onToggleAdmin(userId, isAdmin),
+                        onPressed: () => onToggleAdmin(authUserId, isAdmin),
                         icon: Icon(isAdmin ? Icons.remove_circle : Icons.add_circle),
                         label: Text(isAdmin ? 'Remove Admin' : 'Make Admin'),
                         style: ElevatedButton.styleFrom(

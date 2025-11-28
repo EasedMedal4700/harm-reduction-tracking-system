@@ -13,7 +13,7 @@ class AdminService {
 
       final response = await _client
           .from('users')
-          .select('user_id, auth_user_id, email, display_name, is_admin, created_at, updated_at')
+          .select('auth_user_id, display_name, is_admin, created_at, updated_at')
           .order('created_at', ascending: false);
 
       // Get entry counts for each user
@@ -25,6 +25,14 @@ class AdminService {
         final authUserId = userData['auth_user_id'] as String?;
         
         if (authUserId != null) {
+          // Get email from auth.users
+          try {
+            final authUser = await _client.auth.admin.getUserById(authUserId);
+            userData['email'] = authUser.user?.email ?? 'N/A';
+          } catch (e) {
+            userData['email'] = 'N/A';
+          }
+          
           // Get drug use entry count
           try {
             final entries = await _client
@@ -94,16 +102,16 @@ class AdminService {
   }
 
   /// Promote a user to admin
-  Future<void> promoteUser(int userId) async {
+  Future<void> promoteUser(String authUserId) async {
     try {
-      ErrorHandler.logDebug('AdminService', 'Promoting user: $userId');
+      ErrorHandler.logDebug('AdminService', 'Promoting user: $authUserId');
 
       await _client
           .from('users')
           .update({'is_admin': true, 'updated_at': DateTime.now().toIso8601String()})
-          .eq('user_id', userId);
+          .eq('auth_user_id', authUserId);
 
-      ErrorHandler.logInfo('AdminService', 'User $userId promoted to admin');
+      ErrorHandler.logInfo('AdminService', 'User $authUserId promoted to admin');
     } catch (e, stackTrace) {
       ErrorHandler.logError('AdminService.promoteUser', e, stackTrace);
       rethrow;
@@ -111,16 +119,16 @@ class AdminService {
   }
 
   /// Demote a user from admin
-  Future<void> demoteUser(int userId) async {
+  Future<void> demoteUser(String authUserId) async {
     try {
-      ErrorHandler.logDebug('AdminService', 'Demoting user: $userId');
+      ErrorHandler.logDebug('AdminService', 'Demoting user: $authUserId');
 
       await _client
           .from('users')
           .update({'is_admin': false, 'updated_at': DateTime.now().toIso8601String()})
-          .eq('user_id', userId);
+          .eq('auth_user_id', authUserId);
 
-      ErrorHandler.logInfo('AdminService', 'User $userId demoted from admin');
+      ErrorHandler.logInfo('AdminService', 'User $authUserId demoted from admin');
     } catch (e, stackTrace) {
       ErrorHandler.logError('AdminService.demoteUser', e, stackTrace);
       rethrow;
@@ -277,16 +285,16 @@ class AdminService {
   }
 
   /// Delete a user (admin only)
-  Future<void> deleteUser(int userId) async {
+  Future<void> deleteUser(String authUserId) async {
     try {
-      ErrorHandler.logDebug('AdminService', 'Deleting user: $userId');
+      ErrorHandler.logDebug('AdminService', 'Deleting user: $authUserId');
 
       await _client
           .from('users')
           .delete()
-          .eq('user_id', userId);
+          .eq('auth_user_id', authUserId);
 
-      ErrorHandler.logInfo('AdminService', 'User $userId deleted');
+      ErrorHandler.logInfo('AdminService', 'User $authUserId deleted');
     } catch (e, stackTrace) {
       ErrorHandler.logError('AdminService.deleteUser', e, stackTrace);
       rethrow;

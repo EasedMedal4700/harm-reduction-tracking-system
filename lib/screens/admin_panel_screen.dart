@@ -81,17 +81,17 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
     }
   }
 
-  Future<void> _toggleAdmin(int userId, bool currentlyAdmin) async {
+  Future<void> _toggleAdmin(String authUserId, bool currentlyAdmin) async {
     try {
       if (currentlyAdmin) {
-        await _adminService.demoteUser(userId);
+        await _adminService.demoteUser(authUserId);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('User demoted from admin')),
           );
         }
       } else {
-        await _adminService.promoteUser(userId);
+        await _adminService.promoteUser(authUserId);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('User promoted to admin')),
@@ -104,7 +104,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         error: e,
         stackTrace: stackTrace,
         screenName: 'AdminPanelScreen',
-        extraData: {'context': 'toggle_admin', 'target_user_id': userId},
+        extraData: {'context': 'toggle_admin', 'target_auth_user_id': authUserId},
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
