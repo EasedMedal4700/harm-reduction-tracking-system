@@ -605,7 +605,8 @@ void main() {
       });
 
       test('handles list with mixed types', () {
-        final result = ReflectionValidator.validateRelatedEntries([1, 'a', true, 2.5]);
+        final List<dynamic> entries = [1, 'a', true, 2.5];
+        final result = ReflectionValidator.validateRelatedEntries(entries);
         expect(result, ['1', 'a', 'true', '2.5']);
       });
 
