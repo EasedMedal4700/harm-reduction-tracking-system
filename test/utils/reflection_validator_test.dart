@@ -3,12 +3,16 @@ import 'package:mobile_drug_use_app/utils/reflection_validator.dart';
 import 'package:mobile_drug_use_app/utils/reflection_exceptions.dart';
 import 'package:mobile_drug_use_app/models/reflection_model.dart';
 
+// Test constants for deterministic test behavior
+const String kTestDateIso8601 = '2023-11-28T10:00:00Z';
+final DateTime kTestDateTime = DateTime.parse(kTestDateIso8601);
+
 void main() {
   group('ReflectionValidator', () {
     group('validateReflection', () {
       test('passes for valid reflection with defaults', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -28,7 +32,7 @@ void main() {
 
       test('passes for valid reflection with boundary values', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 0.0,
@@ -48,7 +52,7 @@ void main() {
 
       test('passes for valid reflection with max boundary values', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 10.0,
@@ -68,7 +72,7 @@ void main() {
 
       test('throws for negative effectiveness', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: -1.0,
@@ -88,7 +92,7 @@ void main() {
 
       test('throws for effectiveness over 10', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 11.0,
@@ -108,7 +112,7 @@ void main() {
 
       test('throws for negative sleep hours', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -128,7 +132,7 @@ void main() {
 
       test('throws for sleep hours over 24', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -148,7 +152,7 @@ void main() {
 
       test('throws for invalid sleep quality', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -168,7 +172,7 @@ void main() {
 
       test('passes for empty sleep quality', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -188,7 +192,7 @@ void main() {
 
       test('throws for invalid energy level', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -208,7 +212,7 @@ void main() {
 
       test('passes for empty energy level', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -228,7 +232,7 @@ void main() {
 
       test('throws for negative post use craving', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -248,7 +252,7 @@ void main() {
 
       test('throws for post use craving over 10', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -268,7 +272,7 @@ void main() {
 
       test('throws for negative coping effectiveness', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -288,7 +292,7 @@ void main() {
 
       test('throws for coping effectiveness over 10', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -308,7 +312,7 @@ void main() {
 
       test('throws for negative overall satisfaction', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -328,7 +332,7 @@ void main() {
 
       test('throws for overall satisfaction over 10', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: 5.0,
@@ -348,7 +352,7 @@ void main() {
 
       test('throws with multiple validation errors', () {
         final model = ReflectionModel(
-          date: DateTime.now(),
+          date: kTestDateTime,
           hour: 10,
           minute: 30,
           effectiveness: -1.0,
@@ -370,7 +374,7 @@ void main() {
         final validQualities = ['Poor', 'Fair', 'Good', 'Excellent'];
         for (final quality in validQualities) {
           final model = ReflectionModel(
-            date: DateTime.now(),
+            date: kTestDateTime,
             hour: 10,
             minute: 30,
             effectiveness: 5.0,
@@ -394,7 +398,7 @@ void main() {
         final validLevels = ['Low', 'Neutral', 'High'];
         for (final level in validLevels) {
           final model = ReflectionModel(
-            date: DateTime.now(),
+            date: kTestDateTime,
             hour: 10,
             minute: 30,
             effectiveness: 5.0,
@@ -419,7 +423,7 @@ void main() {
       test('passes for valid raw data with reflection_id and created_at', () {
         final json = {
           'reflection_id': 1,
-          'created_at': '2023-11-28T10:00:00Z',
+          'created_at': kTestDateIso8601,
         };
 
         expect(
@@ -431,7 +435,7 @@ void main() {
       test('passes for valid raw data with id and created_at', () {
         final json = {
           'id': 1,
-          'created_at': '2023-11-28T10:00:00Z',
+          'created_at': kTestDateIso8601,
         };
 
         expect(
@@ -442,7 +446,7 @@ void main() {
 
       test('throws for missing id fields', () {
         final json = {
-          'created_at': '2023-11-28T10:00:00Z',
+          'created_at': kTestDateIso8601,
         };
 
         expect(
@@ -570,7 +574,8 @@ void main() {
       });
 
       test('filters out empty items from list', () {
-        final result = ReflectionValidator.validateRelatedEntries(['a', '', 'b', null, 'c']);
+        final List<dynamic> entries = ['a', '', 'b', null, 'c'];
+        final result = ReflectionValidator.validateRelatedEntries(entries);
         expect(result, ['a', 'b', 'c']);
       });
 
