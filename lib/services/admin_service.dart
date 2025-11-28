@@ -9,12 +9,15 @@ class AdminService {
   Future<List<Map<String, dynamic>>> fetchAllUsers() async {
     final stopwatch = Stopwatch()..start();
     try {
-      ErrorHandler.logDebug('AdminService', 'Fetching all users');
+      ErrorHandler.logDebug('AdminService', 'Fetching all users from public.users table');
 
+      // Query public.users - only has auth_user_id, display_name, is_admin
       final response = await _client
           .from('users')
-          .select('auth_user_id, display_name, is_admin, created_at, updated_at')
-          .order('created_at', ascending: false);
+          .select('auth_user_id, display_name, is_admin')
+          .order('auth_user_id', ascending: false);
+
+      ErrorHandler.logDebug('AdminService', 'Got ${(response as List).length} users from public.users');
 
       // Get entry counts for each user
       final users = response as List<dynamic>;
@@ -24,22 +27,33 @@ class AdminService {
         final userData = Map<String, dynamic>.from(user);
         final authUserId = userData['auth_user_id'] as String?;
         
+        ErrorHandler.logDebug('AdminService', 'Processing user with auth_user_id: $authUserId');
+        
         if (authUserId != null) {
-          // Get email from auth.users
+          // Get email and timestamps from auth.users
           try {
+            ErrorHandler.logDebug('AdminService', 'Fetching auth data for user: $authUserId');
             final authUser = await _client.auth.admin.getUserById(authUserId);
             userData['email'] = authUser.user?.email ?? 'N/A';
+            userData['created_at'] = authUser.user?.createdAt;
+            userData['updated_at'] = authUser.user?.updatedAt;
+            ErrorHandler.logDebug('AdminService', 'Got email: ${userData['email']} for user: $authUserId');
           } catch (e) {
+            ErrorHandler.logWarning('AdminService', 'Failed to fetch auth data for user $authUserId: $e');
             userData['email'] = 'N/A';
+            userData['created_at'] = null;
+            userData['updated_at'] = null;
           }
           
           // Get drug use entry count
           try {
+            ErrorHandler.logDebug('AdminService', 'Fetching drug_use entries for user: $authUserId');
             final entries = await _client
                 .from('drug_use')
                 .select('use_id')
                 .eq('uuid_user_id', authUserId);
             userData['entry_count'] = (entries as List).length;
+            ErrorHandler.logDebug('AdminService', 'User $authUserId has ${userData['entry_count']} entries');
             
             // Get last activity date
             if ((entries as List).isNotEmpty) {
@@ -51,41 +65,50 @@ class AdminService {
                   .limit(1)
                   .maybeSingle();
               userData['last_activity'] = lastEntry?['start_time'];
+              ErrorHandler.logDebug('AdminService', 'User $authUserId last activity: ${userData['last_activity']}');
             } else {
               userData['last_activity'] = null;
             }
             
             // Get craving count
+            ErrorHandler.logDebug('AdminService', 'Fetching cravings for user: $authUserId');
             final cravings = await _client
                 .from('cravings')
                 .select('craving_id')
                 .eq('uuid_user_id', authUserId);
             userData['craving_count'] = (cravings as List).length;
+            ErrorHandler.logDebug('AdminService', 'User $authUserId has ${userData['craving_count']} cravings');
             
             // Get reflection count
+            ErrorHandler.logDebug('AdminService', 'Fetching reflections for user: $authUserId');
             final reflections = await _client
                 .from('reflections')
                 .select('reflection_id')
                 .eq('uuid_user_id', authUserId);
             userData['reflection_count'] = (reflections as List).length;
+            ErrorHandler.logDebug('AdminService', 'User $authUserId has ${userData['reflection_count']} reflections');
           } catch (e) {
-            ErrorHandler.logWarning('AdminService', 'Error fetching stats for user $authUserId: $e');
+            ErrorHandler.logError('AdminService', 'Error fetching stats for user $authUserId: $e', StackTrace.current);
             userData['entry_count'] = 0;
             userData['craving_count'] = 0;
             userData['reflection_count'] = 0;
             userData['last_activity'] = null;
           }
         } else {
+          ErrorHandler.logWarning('AdminService', 'User has null auth_user_id, skipping');
+          userData['email'] = 'N/A';
           userData['entry_count'] = 0;
           userData['craving_count'] = 0;
           userData['reflection_count'] = 0;
           userData['last_activity'] = null;
+          userData['created_at'] = null;
+          userData['updated_at'] = null;
         }
         
         enrichedUsers.add(userData);
       }
 
-      ErrorHandler.logInfo('AdminService', 'Fetched ${enrichedUsers.length} users');
+      ErrorHandler.logInfo('AdminService', 'Successfully fetched and enriched ${enrichedUsers.length} users');
       
       // Record performance
       await PerformanceService.recordResponseTime(

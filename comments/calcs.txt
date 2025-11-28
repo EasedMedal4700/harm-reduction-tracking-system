@@ -1,0 +1,35 @@
+⦁	k = ln(2) / t_half // elimination rate constant (used by pharmacokinetics_service.dart)
+
+⦁	remainingFraction(t) = 0.5^(t / t_half) // fraction remaining after t hours (alt: exp(-k*t))
+
+⦁	C(t) = C0 * exp(-k * t) // concentration at time t (pharmacokinetics / blood_levels_service.dart)
+
+⦁	C_total(t) = Σ_i (dose_i * potency_multiplier * remainingFraction(t − t_i)) // superposition of multiple doses (blood_levels_service.dart)
+
+⦁	initialConcentration ≈ dose_mg * potency_multiplier // simplified conversion dose→active amount (blood_levels_service.dart)
+
+⦁	half_life priority: if(properties.half_life_hours > 0) use that // (blood_levels_service.dart)
+
+⦁	estimated_half_life = (duration_hours / 4) + (after_effects_hours / 8) // fallback estimator (blood_levels_service.dart)
+
+⦁	stimulant_half_life = duration_hours * 0.25 // stimulant category adjustment
+
+⦁	psychedelic_half_life = duration_hours * 0.33 // psychedelic adjustment
+
+⦁	dissociative_half_life = duration_hours * 0.45 // dissociative adjustment
+
+⦁	alcohol_gaba_half_life = duration_hours * 0.15 // alcohol/GABAergic adjustment
+
+⦁	benzo_short ≈ 6–12, medium ≈ 12–24, long ≈ 24–50, ultra-long ≈ 50–120 // mapped by duration ranges (blood_levels_service.dart)
+
+⦁	opioid_short ≈ 2–5, medium ≈ 6–12, long ≈ 12–36 // mapped by duration ranges
+
+⦁	if(after_effects_hours ≥ 24) estimated_half_life *= 1.10..1.20 // add 10–20% for very long after-effects
+
+⦁	half_life_final = clamp(estimated_half_life, 0.5, 120.0) // enforce bounds (blood_levels_service.dart)
+
+⦁	tolerance_gain_on_use = currentTolerance + (dose_normalized * tolerance_gain_rate) // tolerance accumulation (tolerance_engine_service.dart)
+
+⦁	tolerance_decay(t_days) = tolerance * exp(-t_days / tolerance_decay_days) // exponential decay model (tolerance_engine_service.dart)
+
+⦁	active_threshold_check: active = concentration > active_threshold // active effect boolean (drug profile fields)

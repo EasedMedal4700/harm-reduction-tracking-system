@@ -1,0 +1,52 @@
+Bugs:
+analytics:
+	widgets some issue with overflow, the right widgets with more text have 	issues with overflow to the bottom maybe make it that if a name of a 	substance is to long it will use a different alias for methylphenidate it will 	use Ritalin 
+	
+	top part of page some issues with the name and description of the page being 	not displayed in the middle of the page but below the back button
+	
+
+craving:
+	some UI color issues when selecting a thing like substance are you craving it 	will eb purple but the contrast between the button and back color is hard to 	see this problem is with all button on this page
+
+blood level page:
+	fix UI color scheme
+	get rid of the graph button make that the graph is autoamticly there
+	the graph doesn't show the names corecatly of the susbatnces in he graph they 	all ahve the same name in my case Methylphenidate instead of Methylphenidate, 	dexedrin and bupropion
+
+
+
+	
+	
+
+debug page:
+	show the errors in a bitter way make it an more managble page where the admin 	can see more information all at once atm it show th information but not in a 	managble way lets fix thath
+
+admin page:
+	issues with overflow the top widget below quick state have some bottom overflow 	issues
+	show avg response rate atm it doesn't have any information make that the phone 	collects that and atm save that locally but only if a user is an admin 	otherwise this is just lost bandwidth
+	cache hit rate add the functionality for that
+
+add human bug report:
+	make that there is an area where people can do bug reporting for the app 
+
+
+
+
+	
+global 
+	add hamburger menu everywhere some pages are using the back button but replace 	that with the hamburger menu
+	make that if the suer scrolls all the way up the page gets updated
+
+hamburger menu:
+	some buttons are not there yet like they don't have a page behind them, make 	the boiler plate for these page and on these add some information coming to you 	soon or something
+	the menu has a weird blue long thing on top of it give the menu a modern sleek 	look like the rets of the app
+
+scroll up will update the page 
+
+when user goes back from one page to the other make it update the old page
+
+daily checking:
+	when input si given make that the home page gets updated 
+
+
+
