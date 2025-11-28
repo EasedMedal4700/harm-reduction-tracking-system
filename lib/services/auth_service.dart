@@ -2,9 +2,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../utils/error_handler.dart';
 import 'user_service.dart';
+import 'encryption_service.dart';
 
 class AuthService {
   SupabaseClient get _client => Supabase.instance.client;
+  final _encryption = EncryptionService();
 
   Future<bool> login(String email, String password) async {
     try {
@@ -20,6 +22,16 @@ class AuthService {
       print('✅ DEBUG: User ID: ${response.user?.id}');
       print('✅ DEBUG: Session exists: ${response.session != null}');
       print('✅ DEBUG: Session expires at: ${response.session?.expiresAt}');
+
+      // Initialize encryption for the logged-in user
+      try {
+        await _encryption.initialize();
+        print('🔐 DEBUG: Encryption initialized successfully');
+      } catch (e) {
+        print('⚠️ DEBUG: Failed to initialize encryption: $e');
+        // Don't fail login if encryption fails - log and continue
+        ErrorHandler.logError('AuthService.login.encryption', e, StackTrace.current);
+      }
 
       return true;
     } on AuthException catch (e, stackTrace) {
@@ -102,6 +114,15 @@ class AuthService {
         );
       }
 
+      // Initialize encryption for the new user
+      try {
+        await _encryption.initialize();
+        ErrorHandler.logInfo('AuthService', 'Encryption initialized for new user');
+      } catch (e, stackTrace) {
+        ErrorHandler.logError('AuthService.register.encryption', e, stackTrace);
+        // Don't fail registration if encryption fails - log and continue
+      }
+
       return const AuthResult.success();
     } on AuthException catch (e, stackTrace) {
       ErrorHandler.logError('AuthService.register.AuthException', e, stackTrace);
@@ -121,6 +142,7 @@ class AuthService {
     try {
       await _client.auth.signOut();
       UserService.clearCache(); // Clear cached user ID
+      _encryption.dispose(); // Clear encryption keys from memory
     } catch (e, stackTrace) {
       ErrorHandler.logError('AuthService.logout', e, stackTrace);
     }

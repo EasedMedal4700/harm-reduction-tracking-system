@@ -5,8 +5,10 @@ import '../services/user_service.dart';
 import '../utils/error_handler.dart';
 import '../utils/reflection_exceptions.dart';
 import '../utils/reflection_validator.dart';
+import 'encryption_service.dart';
 
 class ReflectionService {
+  final _encryption = EncryptionService();
   Future<int> getNextReflectionId() async {
     try {
       ErrorHandler.logDebug('ReflectionService', 'Fetching next reflection ID');
@@ -33,10 +35,15 @@ class ReflectionService {
       final nextId = await getNextReflectionId();
       final userId = UserService.getCurrentUserId();
 
+      // Encrypt notes field
+      final reflectionData = reflection.toJson();
+      final encryptedNotes = await _encryption.encryptText(reflectionData['notes'] as String?);
+      reflectionData['notes'] = encryptedNotes;
+
       await Supabase.instance.client.from('reflections').insert({
         'reflection_id': nextId,
         'uuid_user_id': userId,
-        ...reflection.toJson(),
+        ...reflectionData,
         'created_at': DateTime.now().toIso8601String(),
         'related_entries': relatedEntries,
         'is_simple': false,
@@ -69,9 +76,15 @@ class ReflectionService {
       final userId = UserService.getCurrentUserId();
       final parsedId = int.tryParse(id);
 
+      // Encrypt notes field if it's being updated
+      final encryptedData = await _encryption.encryptFields(
+        data,
+        ['notes'],
+      );
+
       final response = await supabase
         .from('reflections')
-        .update(data)
+        .update(encryptedData)
         .eq('uuid_user_id', userId)
         .eq('reflection_id', parsedId ?? id)
         .select();
@@ -124,7 +137,13 @@ class ReflectionService {
       // Validate raw data before parsing
       ReflectionValidator.validateRawData(result as Map<String, dynamic>);
 
-      final model = ReflectionModel.fromJson(result);
+      // Decrypt notes field
+      final decryptedResult = await _encryption.decryptFields(
+        result as Map<String, dynamic>,
+        ['notes'],
+      );
+
+      final model = ReflectionModel.fromJson(decryptedResult);
       
       ErrorHandler.logInfo('ReflectionService', 'Reflection fetched - ID: $id, notes: ${model.notes?.isNotEmpty ?? false}, selected_count: ${model.selectedReflections.length}, raw_related_entries: ${result['related_entries']}');
 

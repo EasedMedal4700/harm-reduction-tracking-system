@@ -3,9 +3,11 @@ import 'package:uuid/uuid.dart';
 import '../models/craving_model.dart';
 import '../utils/error_handler.dart';
 import '../services/user_service.dart';
+import '../services/encryption_service.dart';
 
 class CravingService {
   final _uuid = const Uuid();
+  final _encryption = EncryptionService();
 
   Future<void> saveCraving(Craving craving) async {
     // Add validation
@@ -21,6 +23,12 @@ class CravingService {
 
     try {
       final userId = UserService.getCurrentUserId();
+      
+      // Encrypt sensitive free-text fields
+      final encryptedAction = await _encryption.encryptText(craving.action);
+      final encryptedThoughts = await _encryption.encryptText(craving.thoughts);
+      // Note: cravings table doesn't have a notes field, but keeping this for future compatibility
+      
       final data = {
         'craving_id': _uuid.v4(),
         'uuid_user_id': userId,
@@ -31,12 +39,12 @@ class CravingService {
         'location': craving.location, // Remove default; use as-is
         'people': craving.people,
         'activity': craving.activity,
-        'thoughts': craving.thoughts,
+        'thoughts': encryptedThoughts,
         'triggers': craving.triggers.join(','),
         'body_sensations': craving.bodySensations.join(','),
         'primary_emotion': craving.primaryEmotion,
         'secondary_emotion': craving.secondaryEmotion,
-        'action': craving.action,
+        'action': encryptedAction,
         'timezone': craving.timezone.toString(),
       };
       await Supabase.instance.client.from('cravings').insert(data);
@@ -90,8 +98,14 @@ class CravingService {
         throw Exception('Craving not found with ID: $cravingId');
       }
 
+      // Decrypt sensitive fields
+      final decryptedResult = await _encryption.decryptFields(
+        result,
+        ['action', 'thoughts'],
+      );
+
       ErrorHandler.logInfo('CravingService', 'Craving fetched successfully: $cravingId');
-      return result;
+      return decryptedResult;
     } catch (e, stackTrace) {
       ErrorHandler.logError('CravingService.fetchCravingById', e, stackTrace);
       rethrow;
@@ -120,9 +134,15 @@ class CravingService {
 
       final userId = UserService.getCurrentUserId();
 
+      // Encrypt sensitive fields if they are being updated
+      final encryptedData = await _encryption.encryptFields(
+        data,
+        ['action', 'thoughts'],
+      );
+
       final response = await Supabase.instance.client
           .from('cravings')
-          .update(data)
+          .update(encryptedData)
           .eq('craving_id', cravingId)
           .eq('uuid_user_id', userId)
           .select();

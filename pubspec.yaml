@@ -21,6 +21,8 @@ dependencies:
   package_info_plus: ^8.0.2
   share_plus: ^10.1.2
   path_provider: ^2.1.5
+  cryptography: ^2.7.0  # For AES-256-GCM encryption
+  crypto: ^3.0.3  # For SHA-256 key derivation
 
 dev_dependencies:
   flutter_test:

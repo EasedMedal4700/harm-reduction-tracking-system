@@ -5,18 +5,27 @@ import '../models/log_entry_model.dart';
 import '../services/user_service.dart'; // For user_id
 import '../utils/error_handler.dart';
 import 'cache_service.dart';
+import 'encryption_service.dart';
 
 class LogEntryService {
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   final _cache = CacheService();
+  final _encryption = EncryptionService();
 
   Future<void> updateLogEntry(String id, Map<String, dynamic> data) async {
     try {
       final supabase = Supabase.instance.client;
       final userId = UserService.getCurrentUserId();
+      
+      // Encrypt notes field if it's being updated
+      final encryptedData = await _encryption.encryptFields(
+        data,
+        ['notes'],
+      );
+      
       await supabase
           .from('drug_use')
-          .update(data)
+          .update(encryptedData)
           .eq('uuid_user_id', userId)
           .eq('use_id', id);
       
@@ -60,6 +69,9 @@ class LogEntryService {
       // Get the auth user ID
       final userId = UserService.getCurrentUserId();
       
+      // Encrypt notes field
+      final encryptedNotes = await _encryption.encryptText(entry.notes);
+      
       final data = {
         'uuid_user_id': userId,
         'name': entry.substance,
@@ -77,7 +89,7 @@ class LogEntryService {
         'people': entry.people,
         'place': entry.location, // Remove default; use as-is
         'body_signals': entry.bodySignals,
-        'notes': entry.notes,
+        'notes': encryptedNotes,
         'linked_craving_ids': '{}',
         'timezone': entry.timezoneOffset.toString(),
       };
