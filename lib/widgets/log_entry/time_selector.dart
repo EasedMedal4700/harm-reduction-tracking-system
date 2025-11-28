@@ -30,54 +30,106 @@ class TimeSelector extends StatelessWidget {
             color: isDark ? UIColors.darkText : UIColors.lightText,
           ),
         ),
-        const SizedBox(height: ThemeConstants.space8),
-        Row(
-          children: [
-            const Text('Hour:'),
-            const SizedBox(width: ThemeConstants.space8),
-            Expanded(
-              child: Slider(
-                value: hour.toDouble(),
-                min: 0,
-                max: 23,
-                divisions: 23,
-                label: hour.toString().padLeft(2, '0'),
-                activeColor: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
-                onChanged: (v) => onHourChanged(v.toInt()),
-              ),
-            ),
-            const SizedBox(width: ThemeConstants.space8),
-            Text(hour.toString().padLeft(2, '0')),
-          ],
-        ),
-        Row(
-          children: [
-            const Text('Minute:'),
-            const SizedBox(width: ThemeConstants.space8),
-            Expanded(
-              child: Slider(
-                value: minute.toDouble(),
-                min: 0,
-                max: 59,
-                divisions: 59,
-                label: minute.toString().padLeft(2, '0'),
-                activeColor: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
-                onChanged: (v) => onMinuteChanged(v.toInt()),
-              ),
-            ),
-            const SizedBox(width: ThemeConstants.space8),
-            Text(minute.toString().padLeft(2, '0')),
-          ],
-        ),
         const SizedBox(height: ThemeConstants.space12),
+        InkWell(
+          onTap: () => _showTimePicker(context),
+          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: ThemeConstants.space24,
+              vertical: ThemeConstants.space20,
+            ),
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0x14FFFFFF) : const Color(0x0A000000),
+              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              border: Border.all(
+                color: isDark ? UIColors.darkNeonBlue.withOpacity(0.3) : UIColors.lightAccentBlue.withOpacity(0.3),
+                width: 1.5,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.access_time,
+                  color: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
+                  size: 28,
+                ),
+                const SizedBox(width: ThemeConstants.space16),
+                Text(
+                  '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? UIColors.darkText : UIColors.lightText,
+                    letterSpacing: 2,
+                  ),
+                ),
+                const SizedBox(width: ThemeConstants.space16),
+                Icon(
+                  Icons.edit_outlined,
+                  color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: ThemeConstants.space8),
         Text(
-          'Selected time: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
+          'Tap to change time',
+          textAlign: TextAlign.center,
           style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+            fontSize: ThemeConstants.fontSmall,
+            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
           ),
         ),
       ],
     );
+  }
+
+  Future<void> _showTimePicker(BuildContext context) async {
+    final TimeOfDay initialTime = TimeOfDay(hour: hour, minute: minute);
+    
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            timePickerTheme: TimePickerThemeData(
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? const Color(0xFF1A1A1A)
+                  : Colors.white,
+              hourMinuteTextColor: Theme.of(context).brightness == Brightness.dark
+                  ? UIColors.darkText
+                  : UIColors.lightText,
+              dayPeriodTextColor: Theme.of(context).brightness == Brightness.dark
+                  ? UIColors.darkText
+                  : UIColors.lightText,
+              dialHandColor: Theme.of(context).brightness == Brightness.dark
+                  ? UIColors.darkNeonBlue
+                  : UIColors.lightAccentBlue,
+              dialBackgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? const Color(0xFF2A2A2A)
+                  : const Color(0xFFF5F5F5),
+              hourMinuteColor: Theme.of(context).brightness == Brightness.dark
+                  ? const Color(0xFF2A2A2A)
+                  : const Color(0xFFF5F5F5),
+              hourMinuteTextStyle: const TextStyle(
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      onHourChanged(picked.hour);
+      onMinuteChanged(picked.minute);
+    }
   }
 }

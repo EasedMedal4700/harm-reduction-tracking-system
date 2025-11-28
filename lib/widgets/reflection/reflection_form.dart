@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/theme_constants.dart';
 import '../../constants/ui_colors.dart';
+import '../../constants/reflection_options.dart';
 
 class ReflectionForm extends StatelessWidget {
   final int selectedCount;
@@ -142,20 +143,20 @@ class ReflectionForm extends StatelessWidget {
 
           // 3. Mood & Effects
           _buildSectionCard(context, 'Mood & Effects', Icons.mood, [
-            _buildTextInput(
+            _buildMultiSelectChips(
               context,
               'Next Day Mood',
               nextDayMood,
+              ReflectionOptions.moodOptions,
               onNextDayMoodChanged,
-              hint: 'e.g., Anxious, Calm, Irritable',
             ),
             const SizedBox(height: ThemeConstants.space16),
-            _buildTextInput(
+            _buildMultiSelectChips(
               context,
               'Side Effects',
               sideEffects,
+              ReflectionOptions.sideEffectsOptions,
               onSideEffectsChanged,
-              hint: 'e.g., Headache, Nausea, None',
             ),
           ]),
           const SizedBox(height: ThemeConstants.space16),
@@ -171,12 +172,12 @@ class ReflectionForm extends StatelessWidget {
               maxLabel: 'Intense',
             ),
             const SizedBox(height: ThemeConstants.space16),
-            _buildTextInput(
+            _buildMultiSelectChips(
               context,
               'Coping Strategies Used',
               copingStrategies,
+              ReflectionOptions.copingStrategiesOptions,
               onCopingStrategiesChanged,
-              hint: 'e.g., Meditation, Exercise',
             ),
             const SizedBox(height: ThemeConstants.space16),
             _buildSlider(
@@ -517,6 +518,116 @@ class ReflectionForm extends StatelessWidget {
           ),
           icon: Icon(Icons.arrow_drop_down, color: secondaryTextColor),
         ),
+      ],
+    );
+  }
+
+  Widget _buildMultiSelectChips(
+    BuildContext context,
+    String label,
+    String value,
+    List<String> options,
+    ValueChanged<String> onChanged,
+  ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
+    final secondaryTextColor = isDark
+        ? UIColors.darkTextSecondary
+        : UIColors.lightTextSecondary;
+    final accentColor = isDark
+        ? UIColors.darkNeonPurple
+        : UIColors.lightAccentPurple;
+
+    // Parse existing selections (comma-separated)
+    final selectedItems = value.isEmpty 
+        ? <String>[] 
+        : value.split(',').map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: ThemeConstants.fontSmall,
+            fontWeight: ThemeConstants.fontMediumWeight,
+            color: secondaryTextColor,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: options.map((option) {
+            final isSelected = selectedItems.contains(option);
+            return FilterChip(
+              label: Text(option),
+              selected: isSelected,
+              onSelected: (selected) {
+                final newSelections = List<String>.from(selectedItems);
+                if (selected) {
+                  newSelections.add(option);
+                } else {
+                  newSelections.remove(option);
+                }
+                onChanged(newSelections.join(', '));
+              },
+              labelStyle: TextStyle(
+                color: isSelected ? Colors.white : textColor,
+                fontSize: ThemeConstants.fontSmall,
+              ),
+              backgroundColor: isDark ? Colors.black12 : Colors.grey[200],
+              selectedColor: accentColor,
+              checkmarkColor: Colors.white,
+              side: BorderSide(
+                color: isSelected
+                    ? accentColor
+                    : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
+              ),
+            );
+          }).toList(),
+        ),
+        if (selectedItems.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: isDark ? Colors.black12 : Colors.grey[100],
+              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+              border: Border.all(
+                color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+              ),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: accentColor,
+                  size: 16,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Selected: ${selectedItems.join(", ")}',
+                    style: TextStyle(
+                      fontSize: ThemeConstants.fontXSmall,
+                      color: secondaryTextColor,
+                    ),
+                  ),
+                ),
+                if (selectedItems.isNotEmpty)
+                  InkWell(
+                    onTap: () => onChanged(''),
+                    child: Icon(
+                      Icons.clear,
+                      size: 16,
+                      color: secondaryTextColor,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
       ],
     );
   }
