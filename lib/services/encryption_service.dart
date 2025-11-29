@@ -22,7 +22,15 @@ class EncryptionService {
   factory EncryptionService() => _instance;
   EncryptionService._internal();
 
-  final SupabaseClient _client = Supabase.instance.client;
+  SupabaseClient? get _client {
+    try {
+      return Supabase.instance.client;
+    } catch (e) {
+      // Supabase not initialized (e.g., in tests)
+      return null;
+    }
+  }
+  
   final AesGcm _algorithm = AesGcm.with256bits();
   
   SecretKey? _masterKey;
@@ -32,7 +40,11 @@ class EncryptionService {
   /// Call this after user logs in.
   Future<void> initialize() async {
     try {
-      final user = _client.auth.currentUser;
+      if (_client == null) {
+        throw Exception('Supabase not initialized');
+      }
+      
+      final user = _client!.auth.currentUser;
       if (user == null) {
         throw Exception('No authenticated user');
       }
@@ -40,7 +52,7 @@ class EncryptionService {
       _currentUserId = user.id;
       
       // Check if user already has an encrypted key stored
-      final response = await _client
+      final response = await _client!
           .from('user_keys')
           .select('encrypted_key')
           .eq('uuid_user_id', user.id)
@@ -70,7 +82,7 @@ class EncryptionService {
       _masterKey = SecretKey(masterKeyBytes);
 
       // 2. Derive encryption key from JWT
-      final session = _client.auth.currentSession;
+      final session = _client!.auth.currentSession;
       if (session == null) {
         throw Exception('No active session');
       }
@@ -91,7 +103,7 @@ class EncryptionService {
         'mac': base64Encode(secretBox.mac.bytes),
       };
 
-      await _client.from('user_keys').insert({
+      await _client!.from('user_keys').insert({
         'uuid_user_id': user.id,
         'encrypted_key': jsonEncode(encryptedData),
       });
@@ -106,13 +118,17 @@ class EncryptionService {
   /// Load and decrypt the user's master encryption key from Supabase
   Future<void> _loadUserEncryptionKey() async {
     try {
-      final user = _client.auth.currentUser;
+      if (_client == null) {
+        throw Exception('Supabase not initialized');
+      }
+      
+      final user = _client!.auth.currentUser;
       if (user == null) {
         throw Exception('No authenticated user');
       }
 
       // 1. Fetch encrypted key from database
-      final response = await _client
+      final response = await _client!
           .from('user_keys')
           .select('encrypted_key')
           .eq('uuid_user_id', user.id)
@@ -122,7 +138,7 @@ class EncryptionService {
       final encryptedData = jsonDecode(encryptedKeyJson) as Map<String, dynamic>;
 
       // 2. Derive decryption key from JWT
-      final session = _client.auth.currentSession;
+      final session = _client!.auth.currentSession;
       if (session == null) {
         throw Exception('No active session');
       }
@@ -296,13 +312,17 @@ class EncryptionService {
   /// Re-encrypt user's master key with a new JWT (call after token refresh)
   Future<void> rotateEncryption() async {
     try {
-      final user = _client.auth.currentUser;
+      if (_client == null) {
+        throw Exception('Supabase not initialized');
+      }
+      
+      final user = _client!.auth.currentUser;
       if (user == null || _masterKey == null) {
         throw Exception('No authenticated user or master key');
       }
 
       // Encrypt master key with new JWT
-      final session = _client.auth.currentSession;
+      final session = _client!.auth.currentSession;
       if (session == null) {
         throw Exception('No active session');
       }
@@ -321,7 +341,7 @@ class EncryptionService {
       };
 
       // Update stored key
-      await _client.from('user_keys').update({
+      await _client!.from('user_keys').update({
         'encrypted_key': jsonEncode(encryptedData),
       }).eq('uuid_user_id', user.id);
 

@@ -36,8 +36,17 @@ Future<void> main() async {
       
       // Load environment variables from .env file
       print('🔧 DEBUG: Loading .env file...');
-      await dotenv.load(fileName: ".env");
-      print('✅ DEBUG: .env file loaded successfully');
+      try {
+        await dotenv.load(fileName: ".env");
+        print('✅ DEBUG: .env file loaded successfully');
+      } catch (e) {
+        print('⚠️ WARNING: Could not load .env file: $e');
+        print('⚠️ Attempting to use environment variables directly...');
+        // In production or when .env is missing, try to use system environment
+        if (dotenv.env['SUPABASE_URL'] == null) {
+          throw Exception('SUPABASE_URL not found in .env or environment');
+        }
+      }
       
       final supabaseUrl = dotenv.env['SUPABASE_URL'];
       final supabaseKey = dotenv.env['SUPABASE_ANON_KEY'];

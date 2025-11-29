@@ -34,63 +34,62 @@ class DrugProfileService {
     try {
       ErrorHandler.logDebug('DrugProfileService', 'Searching for: $query');
       
-      // Search in drug_profiles (name, pretty_name, and aliases JSONB array)
+      // Get all drug profiles and filter client-side for aliases
+      // We need to fetch more rows to check aliases in the JSONB array
       final profileResponse = await Supabase.instance.client
           .from('drug_profiles')
           .select('name, pretty_name, aliases')
           .or('name.ilike.%$query%,pretty_name.ilike.%$query%')
-          .limit(10);
+          .limit(50); // Fetch more to check aliases
       
       final profileResults = profileResponse as List<dynamic>;
       final results = <DrugSearchResult>[];
+      final seenCanonical = <String>{};
       
-      // Add direct name/pretty_name matches
+      // First pass: Add direct name/pretty_name matches
       for (final item in profileResults) {
         final name = item['name'] as String?;
         final prettyName = item['pretty_name'] as String?;
-        final aliases = item['aliases'] as List<dynamic>?;
-        
         final canonicalName = prettyName ?? name ?? '';
-        if (canonicalName.isNotEmpty) {
+        
+        if (canonicalName.isNotEmpty && !seenCanonical.contains(canonicalName.toLowerCase())) {
           results.add(DrugSearchResult(
             displayName: canonicalName,
             canonicalName: canonicalName,
             isAlias: false,
           ));
-          
-          // Check if any aliases match the query
-          if (aliases != null) {
-            for (final alias in aliases) {
-              if (alias is String && alias.toLowerCase().contains(query.toLowerCase())) {
-                results.add(DrugSearchResult(
-                  displayName: '$alias (alias for $canonicalName)',
-                  canonicalName: canonicalName,
-                  isAlias: true,
-                ));
-              }
-            }
-          }
+          seenCanonical.add(canonicalName.toLowerCase());
         }
       }
       
-      // Search in drug_alias_lookup table
-      final aliasResponse = await Supabase.instance.client
-          .from('drug_alias_lookup')
-          .select('alias, canonical_name')
-          .ilike('alias', '%$query%')
-          .limit(10);
+      // Second pass: Check all profiles for matching aliases
+      // Fetch ALL profiles to search aliases (since we can't query JSONB array easily)
+      final allProfilesResponse = await Supabase.instance.client
+          .from('drug_profiles')
+          .select('name, pretty_name, aliases')
+          .limit(1000);
       
-      final aliasResults = aliasResponse as List<dynamic>;
-      for (final item in aliasResults) {
-        final alias = item['alias'] as String?;
-        final canonical = item['canonical_name'] as String?;
+      final allProfiles = allProfilesResponse as List<dynamic>;
+      for (final item in allProfiles) {
+        final name = item['name'] as String?;
+        final prettyName = item['pretty_name'] as String?;
+        final aliases = item['aliases'] as List<dynamic>?;
+        final canonicalName = prettyName ?? name ?? '';
         
-        if (alias != null && canonical != null) {
-          results.add(DrugSearchResult(
-            displayName: '$alias (alias for $canonical)',
-            canonicalName: canonical,
-            isAlias: true,
-          ));
+        if (canonicalName.isNotEmpty && aliases != null) {
+          for (final alias in aliases) {
+            if (alias is String && alias.toLowerCase().contains(query.toLowerCase())) {
+              // Don't add duplicate canonical names
+              if (!seenCanonical.contains(canonicalName.toLowerCase())) {
+                results.add(DrugSearchResult(
+                  displayName: '$alias → $canonicalName',
+                  canonicalName: canonicalName,
+                  isAlias: true,
+                ));
+                seenCanonical.add(canonicalName.toLowerCase());
+              }
+            }
+          }
         }
       }
       
@@ -99,7 +98,7 @@ class DrugProfileService {
       // Cache the results with short TTL (search results change frequently)
       _cache.set(cacheKey, results, ttl: CacheService.shortTTL);
       
-      return results;
+      return results.take(10).toList(); // Limit final results
     } catch (e, stackTrace) {
       // Silently handle AssertionError when Supabase is not initialized (e.g., in tests)
       if (e is AssertionError && e.toString().contains('_isInitialized')) {
