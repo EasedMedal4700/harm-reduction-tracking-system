@@ -137,14 +137,20 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
               ),
             ),
           ],
-          SizedBox(height: _selectedCategory != null ? ThemeConstants.space24 : ThemeConstants.space32),
-          // Donut chart
-          SizedBox(
-            height: 280,
-            child: _buildDonutChart(isDark),
+          SizedBox(height: _selectedCategory != null ? ThemeConstants.space16 : ThemeConstants.space24),
+          // Donut chart with responsive sizing
+          LayoutBuilder(
+            builder: (context, constraints) {
+              // Adjust chart size based on available width
+              final chartSize = constraints.maxWidth > 400 ? 280.0 : constraints.maxWidth * 0.7;
+              return SizedBox(
+                height: chartSize.clamp(200.0, 280.0),
+                child: _buildDonutChart(isDark),
+              );
+            },
           ),
-          SizedBox(height: ThemeConstants.space24),
-          // Legend
+          SizedBox(height: ThemeConstants.space16),
+          // Legend with responsive sizing
           _buildLegend(isDark),
         ],
       ),
@@ -226,56 +232,71 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
       );
     }
 
-    return PieChart(
-      PieChartData(
-        sections: data.entries.map((e) {
-          final index = data.keys.toList().indexOf(e.key);
-          final isTouched = _touchedIndex == index;
-          final color = _viewType == DistributionViewType.category
-              ? DrugCategoryColors.colorFor(e.key)
-              : _getUniqueColorForSubstance(e.key, index, data.length);
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      child: PieChart(
+        PieChartData(
+          sections: data.entries.map((e) {
+            final index = data.keys.toList().indexOf(e.key);
+            final isTouched = _touchedIndex == index;
+            final color = _viewType == DistributionViewType.category
+                ? DrugCategoryColors.colorFor(e.key)
+                : _getUniqueColorForSubstance(e.key, index, data.length);
 
-          return PieChartSectionData(
-            value: e.value.toDouble(),
-            title: isTouched ? '${e.value}' : '',
-            color: color,
-            radius: isTouched ? 110 : 100,
-            titleStyle: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              fontWeight: ThemeConstants.fontBold,
-              color: Colors.white,
-            ),
-          );
-        }).toList(),
-        sectionsSpace: 2,
-        centerSpaceRadius: 60,
-        pieTouchData: PieTouchData(
-          touchCallback: (event, response) {
-            if (!event.isInterestedForInteractions ||
-                response == null ||
-                response.touchedSection == null) {
+            return PieChartSectionData(
+              value: e.value.toDouble(),
+              title: '${e.value}',
+              color: color,
+              radius: isTouched ? 110 : 100,
+              titleStyle: TextStyle(
+                fontSize: isTouched ? ThemeConstants.fontLarge : ThemeConstants.fontMedium,
+                fontWeight: ThemeConstants.fontBold,
+                color: Colors.white,
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.8),
+                    offset: const Offset(0, 1),
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+          sectionsSpace: 2,
+          centerSpaceRadius: 60,
+          pieTouchData: PieTouchData(
+            enabled: true,
+            touchCallback: (event, response) {
+              if (response == null || response.touchedSection == null) {
+                if (event is FlTapUpEvent || event is FlPanEndEvent) {
+                  setState(() {
+                    _touchedIndex = -1;
+                  });
+                }
+                return;
+              }
+
+              final touchedIndex = response.touchedSection!.touchedSectionIndex;
+              
+              // Update touched index for visual feedback
               setState(() {
-                _touchedIndex = -1;
+                _touchedIndex = touchedIndex;
               });
-              return;
-            }
 
-            final touchedIndex = response.touchedSection!.touchedSectionIndex;
-            setState(() {
-              _touchedIndex = touchedIndex;
-            });
-
-            // Handle tap on category to drill down to substances
-            if (_viewType == DistributionViewType.category && 
-                event is FlTapUpEvent) {
-              final tappedCategory = data.keys.toList()[touchedIndex];
-              setState(() {
-                _selectedCategory = tappedCategory;
-                _viewType = DistributionViewType.substance;
-                _touchedIndex = -1;
-              });
-            }
-          },
+              // Handle tap/touch on category to drill down to substances
+              if (_viewType == DistributionViewType.category && event.isInterestedForInteractions) {
+                // On tap up event, drill down into the category
+                if (event is FlTapUpEvent) {
+                  final tappedCategory = data.keys.toList()[touchedIndex];
+                  setState(() {
+                    _selectedCategory = tappedCategory;
+                    _viewType = DistributionViewType.substance;
+                    _touchedIndex = -1;
+                  });
+                }
+              }
+            },
+          ),
         ),
       ),
     );
@@ -333,61 +354,68 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
     final sortedEntries = data.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
 
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 300),
-      child: SingleChildScrollView(
-        child: Column(
-          children: sortedEntries.asMap().entries.map((entry) {
-        final index = entry.key;
-        final e = entry.value;
-        final color = _viewType == DistributionViewType.category
-            ? DrugCategoryColors.colorFor(e.key)
-            : _getUniqueColorForSubstance(e.key, index, sortedEntries.length);
-        final percentage = total > 0 ? (e.value / total * 100).toStringAsFixed(1) : '0';
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Adjust max height based on available width
+        final maxHeight = constraints.maxWidth > 400 ? 300.0 : 250.0;
+        return ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: maxHeight),
+          child: SingleChildScrollView(
+            child: Column(
+              children: sortedEntries.asMap().entries.map((entry) {
+            final index = entry.key;
+            final e = entry.value;
+            final color = _viewType == DistributionViewType.category
+                ? DrugCategoryColors.colorFor(e.key)
+                : _getUniqueColorForSubstance(e.key, index, sortedEntries.length);
+            final percentage = total > 0 ? (e.value / total * 100).toStringAsFixed(1) : '0';
 
-        return Padding(
-          padding: EdgeInsets.only(bottom: ThemeConstants.space8),
-          child: Row(
-            children: [
-              // Color indicator
-              Container(
-                width: 16,
-                height: 16,
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(ThemeConstants.space4),
-                ),
-              ),
-              SizedBox(width: ThemeConstants.space12),
-              // Name
-              Expanded(
-                child: Text(
-                  e.key,
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontMedium.clamp(12.0, ThemeConstants.fontMedium),
-                    fontWeight: ThemeConstants.fontMediumWeight,
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
+            return Padding(
+              padding: EdgeInsets.only(bottom: ThemeConstants.space8),
+              child: Row(
+                children: [
+                  // Color indicator
+                  Container(
+                    width: 14,
+                    height: 14,
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.circular(ThemeConstants.space4),
+                    ),
                   ),
-                  overflow: TextOverflow.ellipsis,
-                ),
+                  SizedBox(width: ThemeConstants.space8),
+                  // Name
+                  Expanded(
+                    child: Text(
+                      e.key,
+                      style: TextStyle(
+                        fontSize: (ThemeConstants.fontMedium - 1).clamp(11.0, ThemeConstants.fontMedium),
+                        fontWeight: ThemeConstants.fontMediumWeight,
+                        color: isDark ? UIColors.darkText : UIColors.lightText,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(width: ThemeConstants.space4),
+                  // Count and percentage
+                  Text(
+                    '$percentage% (${e.value})',
+                    style: TextStyle(
+                      fontSize: (ThemeConstants.fontMedium - 1).clamp(11.0, ThemeConstants.fontMedium),
+                      fontWeight: ThemeConstants.fontSemiBold,
+                      color: isDark
+                          ? UIColors.darkTextSecondary
+                          : UIColors.lightTextSecondary,
+                    ),
+                  ),
+                ],
               ),
-              // Count and percentage
-              Text(
-                '$percentage% (${e.value})',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark
-                      ? UIColors.darkTextSecondary
-                      : UIColors.lightTextSecondary,
-                ),
-              ),
-            ],
+            );
+          }).toList(),
+            ),
           ),
         );
-      }).toList(),
-        ),
-      ),
+      },
     );
   }
 }

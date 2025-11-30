@@ -54,10 +54,14 @@ Future<void> main() async {
       print('🔧 DEBUG: Supabase URL: ${supabaseUrl?.substring(0, 30)}...');
       print('🔧 DEBUG: Supabase Key exists: ${supabaseKey != null && supabaseKey.isNotEmpty}');
       
-      // Initialize Supabase with credentials from .env
+      // Initialize Supabase with credentials from .env and session persistence
       await Supabase.initialize(
         url: supabaseUrl!,
         anonKey: supabaseKey!,
+        authOptions: FlutterAuthClientOptions(
+          authFlowType: AuthFlowType.pkce,
+          autoRefreshToken: true,
+        ),
       );
       print('✅ DEBUG: Supabase initialized successfully');
 

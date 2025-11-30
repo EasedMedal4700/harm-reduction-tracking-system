@@ -29,43 +29,51 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
       children: [
         const Text('Category Distribution', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         SizedBox(
-          height: 300, // Increased from 200 to 300 for a bigger chart
+          height: 350,
           child: PieChart(
             PieChartData(
               sections: widget.categoryCounts.entries.map((e) {
                 final index = widget.categoryCounts.keys.toList().indexOf(e.key);
+
+                final screenWidth = MediaQuery.of(context).size.width;
+
                 return PieChartSectionData(
                   value: e.value.toDouble(),
                   title: '${e.key}\n${e.value}',
                   color: DrugCategoryColors.colorFor(e.key),
-                  radius: touchedIndex == index ? 100 : 80, // Increased radii for bigger sections
+                  radius: touchedIndex == index
+                      ? screenWidth * 0.25
+                      : screenWidth * 0.20,
                   titleStyle: TextStyle(
-                    fontSize: touchedIndex == index ? 18 : 14, // Slightly larger font
-                    fontWeight: touchedIndex == index ? FontWeight.bold : FontWeight.normal,
+                    fontSize: touchedIndex == index ? 16 : 12,
+                    fontWeight: FontWeight.bold,
                   ),
                 );
               }).toList(),
               sectionsSpace: 2,
-              centerSpaceRadius: 0,
+              centerSpaceRadius: 50,
               pieTouchData: PieTouchData(
+                enabled: true,
                 touchCallback: (FlTouchEvent event, pieTouchResponse) {
                   setState(() {
-                    if (!event.isInterestedForInteractions ||
-                        pieTouchResponse == null ||
-                        pieTouchResponse.touchedSection == null) {
+                    final section = pieTouchResponse?.touchedSection;
+
+                    if (section == null) {
                       touchedIndex = -1;
+                      selectedCategory = null;
                       return;
                     }
-                    touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
-                    if (touchedIndex >= 0 && touchedIndex < widget.categoryCounts.keys.length) {
-                      selectedCategory = widget.categoryCounts.keys.elementAt(touchedIndex);
-                    }
+
+                    touchedIndex = section.touchedSectionIndex;
+                    selectedCategory =
+                        widget.categoryCounts.keys.elementAt(touchedIndex);
                   });
                 },
               ),
             ),
           ),
         ),
+
         const SizedBox(height: 16),
         Wrap(
           spacing: 16.0,

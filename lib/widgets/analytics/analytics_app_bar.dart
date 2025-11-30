@@ -45,27 +45,43 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Top row: Navigation + Export
+            // Top row with hamburger menu
             Row(
               children: [
-                // Navigation icon with neon glow
+                // Hamburger menu icon
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                    boxShadow: isDark ? UIColors.createNeonGlow(accentColor) : null,
+                    boxShadow: isDark ? UIColors.createNeonGlow(accentColor, intensity: 0.15) : null,
                   ),
                   child: IconButton(
                     icon: Icon(
-                      Icons.arrow_back_ios_new_rounded,
+                      Icons.menu,
                       color: accentColor,
-                      size: 20,
+                      size: 24,
                     ),
                     padding: EdgeInsets.all(ThemeConstants.space8),
                     constraints: const BoxConstraints(),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
                   ),
                 ),
-                const Spacer(),
+                SizedBox(width: ThemeConstants.space12),
+                // Title
+                Expanded(
+                  child: Text(
+                    'DRUG USE ANALYTICS',
+                    style: TextStyle(
+                      fontSize: ThemeConstants.fontLarge,
+                      fontWeight: ThemeConstants.fontBold,
+                      color: isDark ? UIColors.darkText : UIColors.lightText,
+                      letterSpacing: 1.2,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
                 // Export button
                 Container(
                   decoration: BoxDecoration(
@@ -85,20 +101,8 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
             ),
-            SizedBox(height: ThemeConstants.space4),
-            // Title and subtitle
-            Text(
-              'DRUG USE ANALYTICS',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontLarge,
-                fontWeight: ThemeConstants.fontBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-                letterSpacing: 1.2,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(height: ThemeConstants.space4),
+            SizedBox(height: ThemeConstants.space8),
+            // Subtitle
             Text(
               'Analyze your pharmacological activity',
               style: TextStyle(
