@@ -63,7 +63,21 @@ class EncryptionService {
         await _generateAndStoreNewKey(user);
       } else {
         // Load existing master key
-        await _loadUserEncryptionKey();
+        try {
+          await _loadUserEncryptionKey();
+        } catch (e) {
+          // If decryption fails (MAC error), regenerate the key
+          // This can happen if JWT was refreshed and old encrypted key is invalid
+          if (e.toString().contains('MAC') || e.toString().contains('authentication')) {
+            ErrorHandler.logWarning(
+              'EncryptionService', 
+              'Encryption key invalid (likely due to token refresh). Regenerating...',
+            );
+            await _generateAndStoreNewKey(user);
+          } else {
+            rethrow;
+          }
+        }
       }
 
       ErrorHandler.logInfo('EncryptionService', 'Initialized for user: ${user.id.substring(0, 8)}...');
@@ -181,7 +195,18 @@ class EncryptionService {
 
     if (_masterKey == null) {
       ErrorHandler.logWarning('EncryptionService', 'Master key not loaded, initializing...');
-      await initialize();
+      try {
+        await initialize();
+      } catch (e) {
+        if (e.toString().contains('MAC') || e.toString().contains('authentication')) {
+          ErrorHandler.logWarning('EncryptionService', 'Recovering from MAC error during initialization');
+          // Clear the key and retry initialization to regenerate
+          _masterKey = null;
+          await initialize();
+        } else {
+          rethrow;
+        }
+      }
       if (_masterKey == null) {
         throw Exception('Failed to initialize encryption');
       }
@@ -223,7 +248,18 @@ class EncryptionService {
 
     if (_masterKey == null) {
       ErrorHandler.logWarning('EncryptionService', 'Master key not loaded, initializing...');
-      await initialize();
+      try {
+        await initialize();
+      } catch (e) {
+        if (e.toString().contains('MAC') || e.toString().contains('authentication')) {
+          ErrorHandler.logWarning('EncryptionService', 'Recovering from MAC error during initialization');
+          // Clear the key and retry initialization to regenerate
+          _masterKey = null;
+          await initialize();
+        } else {
+          rethrow;
+        }
+      }
       if (_masterKey == null) {
         throw Exception('Failed to initialize encryption');
       }

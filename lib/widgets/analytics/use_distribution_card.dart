@@ -142,10 +142,12 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
           LayoutBuilder(
             builder: (context, constraints) {
               // Adjust chart size based on available width
-              final chartSize = constraints.maxWidth > 400 ? 280.0 : constraints.maxWidth * 0.7;
+              final chartSize = constraints.maxWidth > 400 ? 330.0 : constraints.maxWidth * 0.85;
               return SizedBox(
-                height: chartSize.clamp(200.0, 280.0),
-                child: _buildDonutChart(isDark),
+                height: chartSize.clamp(260.0, 330.0),
+                child: Center(
+                  child: _buildDonutChart(isDark, constraints.maxWidth),
+                ),
               );
             },
           ),
@@ -211,7 +213,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
     );
   }
 
-  Widget _buildDonutChart(bool isDark) {
+  Widget _buildDonutChart(bool isDark, double screenWidth) {
     final data = _viewType == DistributionViewType.category
         ? widget.categoryCounts
         : (_selectedCategory != null
@@ -232,71 +234,73 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
       );
     }
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      child: PieChart(
-        PieChartData(
-          sections: data.entries.map((e) {
-            final index = data.keys.toList().indexOf(e.key);
-            final isTouched = _touchedIndex == index;
-            final color = _viewType == DistributionViewType.category
-                ? DrugCategoryColors.colorFor(e.key)
-                : _getUniqueColorForSubstance(e.key, index, data.length);
+    // Calculate responsive radius based on screen width
+    final touchedRadius = (screenWidth * 0.20).clamp(65.0, 100.0);
+    final normalRadius = (screenWidth * 0.17).clamp(55.0, 85.0);
 
-            return PieChartSectionData(
-              value: e.value.toDouble(),
-              title: '${e.value}',
-              color: color,
-              radius: isTouched ? 110 : 100,
-              titleStyle: TextStyle(
-                fontSize: isTouched ? ThemeConstants.fontLarge : ThemeConstants.fontMedium,
-                fontWeight: ThemeConstants.fontBold,
-                color: Colors.white,
+    return PieChart(
+      PieChartData(
+        sections: data.entries.map((e) {
+          final index = data.keys.toList().indexOf(e.key);
+          final isTouched = _touchedIndex == index;
+          final color = _viewType == DistributionViewType.category
+              ? DrugCategoryColors.colorFor(e.key)
+              : _getUniqueColorForSubstance(e.key, index, data.length);
+
+          return PieChartSectionData(
+            value: e.value.toDouble(),
+            title: '',
+            color: color,
+            radius: isTouched ? touchedRadius : normalRadius,
+            titleStyle: const TextStyle(fontSize: 0),
+            badgeWidget: Text(
+              '${e.value}',
+              style: TextStyle(
+                fontSize: isTouched ? 14 : 13,
+                fontWeight: FontWeight.bold,
+                color: color,
                 shadows: [
                   Shadow(
-                    color: Colors.black.withValues(alpha: 0.8),
+                    color: isDark ? Colors.black.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.8),
                     offset: const Offset(0, 1),
-                    blurRadius: 2,
+                    blurRadius: 3,
                   ),
                 ],
               ),
-            );
-          }).toList(),
-          sectionsSpace: 2,
-          centerSpaceRadius: 60,
-          pieTouchData: PieTouchData(
-            enabled: true,
-            touchCallback: (event, response) {
-              if (response == null || response.touchedSection == null) {
-                if (event is FlTapUpEvent || event is FlPanEndEvent) {
-                  setState(() {
-                    _touchedIndex = -1;
-                  });
-                }
-                return;
-              }
-
-              final touchedIndex = response.touchedSection!.touchedSectionIndex;
-              
-              // Update touched index for visual feedback
+            ),
+            badgePositionPercentageOffset: 1.3,
+          );
+        }).toList(),
+        sectionsSpace: 2,
+        centerSpaceRadius: 50,
+        pieTouchData: PieTouchData(
+          enabled: true,
+          touchCallback: (event, response) {
+            final section = response?.touchedSection;
+            
+            if (section == null) {
               setState(() {
-                _touchedIndex = touchedIndex;
+                _touchedIndex = -1;
               });
+              return;
+            }
 
-              // Handle tap/touch on category to drill down to substances
-              if (_viewType == DistributionViewType.category && event.isInterestedForInteractions) {
-                // On tap up event, drill down into the category
-                if (event is FlTapUpEvent) {
-                  final tappedCategory = data.keys.toList()[touchedIndex];
-                  setState(() {
-                    _selectedCategory = tappedCategory;
-                    _viewType = DistributionViewType.substance;
-                    _touchedIndex = -1;
-                  });
-                }
-              }
-            },
-          ),
+            final touchedIndex = section.touchedSectionIndex;
+            
+            setState(() {
+              _touchedIndex = touchedIndex;
+            });
+
+            // Handle touch on category to drill down to substances
+            if (_viewType == DistributionViewType.category) {
+              final tappedCategory = data.keys.toList()[touchedIndex];
+              setState(() {
+                _selectedCategory = tappedCategory;
+                _viewType = DistributionViewType.substance;
+                _touchedIndex = -1;
+              });
+            }
+          },
         ),
       ),
     );
@@ -371,16 +375,16 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
             final percentage = total > 0 ? (e.value / total * 100).toStringAsFixed(1) : '0';
 
             return Padding(
-              padding: EdgeInsets.only(bottom: ThemeConstants.space8),
+              padding: EdgeInsets.only(bottom: 4),
               child: Row(
                 children: [
                   // Color indicator
                   Container(
-                    width: 14,
-                    height: 14,
+                    width: 12,
+                    height: 12,
                     decoration: BoxDecoration(
                       color: color,
-                      borderRadius: BorderRadius.circular(ThemeConstants.space4),
+                      borderRadius: BorderRadius.circular(3),
                     ),
                   ),
                   SizedBox(width: ThemeConstants.space8),
@@ -389,7 +393,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                     child: Text(
                       e.key,
                       style: TextStyle(
-                        fontSize: (ThemeConstants.fontMedium - 1).clamp(11.0, ThemeConstants.fontMedium),
+                        fontSize: 12,
                         fontWeight: ThemeConstants.fontMediumWeight,
                         color: isDark ? UIColors.darkText : UIColors.lightText,
                       ),
@@ -401,7 +405,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                   Text(
                     '$percentage% (${e.value})',
                     style: TextStyle(
-                      fontSize: (ThemeConstants.fontMedium - 1).clamp(11.0, ThemeConstants.fontMedium),
+                      fontSize: 12,
                       fontWeight: ThemeConstants.fontSemiBold,
                       color: isDark
                           ? UIColors.darkTextSecondary

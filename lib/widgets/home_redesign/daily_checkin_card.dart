@@ -92,7 +92,6 @@ class DailyCheckinCard extends StatelessWidget {
           // Action button with status indicator
           SizedBox(
             width: double.infinity,
-            height: 48,
             child: ElevatedButton.icon(
               onPressed: isCompleted ? null : onTap,
               icon: Icon(
@@ -104,6 +103,7 @@ class DailyCheckinCard extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: ThemeConstants.fontMedium,
                   fontWeight: ThemeConstants.fontSemiBold,
+                  height: 1.2,
                 ),
               ),
               style: ElevatedButton.styleFrom(
@@ -114,6 +114,7 @@ class DailyCheckinCard extends StatelessWidget {
                     ? (isDark ? UIColors.darkTextSecondary : Colors.grey.shade600)
                     : Colors.white,
                 elevation: isCompleted ? 0 : 2,
+                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
                 ),
