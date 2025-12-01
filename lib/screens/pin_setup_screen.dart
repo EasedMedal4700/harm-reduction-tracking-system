@@ -130,14 +130,17 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
       );
     }
 
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
-        title: const Text('Setup Encryption'),
-        backgroundColor: surfaceColor,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
+    return PopScope(
+      canPop: false, // Prevent back navigation - user must complete PIN setup
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        appBar: AppBar(
+          title: const Text('Setup Encryption'),
+          backgroundColor: surfaceColor,
+          elevation: 0,
+          automaticallyImplyLeading: false, // Remove back button
+        ),
+        body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -335,7 +338,8 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
           ],
         ),
       ),
-    );
+    ),
+    ); // Close PopScope
   }
 
   Widget _buildRecoveryKeyView(
@@ -345,15 +349,17 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
     Color textColor,
     Color accentColor,
   ) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
-        title: const Text('Recovery Key'),
-        backgroundColor: surfaceColor,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-      ),
-      body: SingleChildScrollView(
+    return PopScope(
+      canPop: false, // Prevent back navigation - user must save recovery key
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        appBar: AppBar(
+          title: const Text('Recovery Key'),
+          backgroundColor: surfaceColor,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+        ),
+        body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -494,6 +500,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
           ],
         ),
       ),
-    );
+    ),
+    ); // Close PopScope
   }
 }

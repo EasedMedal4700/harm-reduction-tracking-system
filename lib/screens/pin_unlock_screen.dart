@@ -124,14 +124,17 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
     final textColor = isDark ? UIColors.darkText : UIColors.lightText;
     final accentColor = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
 
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
-        title: const Text('Unlock'),
-        backgroundColor: surfaceColor,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
+    return PopScope(
+      canPop: false, // Prevent back navigation - user must enter PIN
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        appBar: AppBar(
+          title: const Text('Unlock'),
+          backgroundColor: surfaceColor,
+          elevation: 0,
+          automaticallyImplyLeading: false, // Remove back button
+        ),
+        body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -327,6 +330,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
           ],
         ),
       ),
-    );
+    ),
+    ); // Close PopScope
   }
 }
