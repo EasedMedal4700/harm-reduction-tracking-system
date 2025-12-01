@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_service_v2.dart';
+import '../services/debug_config.dart';
 import '../constants/ui_colors.dart';
 
 /// Screen for unlocking with PIN or biometrics
@@ -25,12 +26,58 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
   void initState() {
     super.initState();
     _checkBiometrics();
+    _tryDebugAutoUnlock();
   }
 
   @override
   void dispose() {
     _pinController.dispose();
     super.dispose();
+  }
+
+  /// Try to auto-unlock if debug mode is enabled
+  Future<void> _tryDebugAutoUnlock() async {
+    if (!DebugConfig.instance.isAutoLoginEnabled) return;
+    
+    final pin = DebugConfig.instance.debugPin;
+    if (pin == null || pin.isEmpty) return;
+    
+    print('🔧 DEBUG: Attempting auto-unlock with debug PIN');
+    
+    // Small delay to ensure widget is mounted
+    await Future.delayed(const Duration(milliseconds: 100));
+    
+    if (!mounted) return;
+    
+    setState(() => _isLoading = true);
+    
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) {
+        print('❌ DEBUG: No user for auto-unlock');
+        setState(() => _isLoading = false);
+        return;
+      }
+      
+      final success = await _encryptionService.unlockWithPin(user.id, pin);
+      
+      if (success) {
+        print('✅ DEBUG: Auto-unlock successful');
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed('/home_page');
+        }
+      } else {
+        print('❌ DEBUG: Auto-unlock failed, showing PIN screen');
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
+    } catch (e) {
+      print('❌ DEBUG: Auto-unlock error: $e');
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   Future<void> _checkBiometrics() async {

@@ -238,6 +238,103 @@ class EncryptionServiceV2 {
     }
   }
 
+  /// Reset PIN using recovery key
+  /// 
+  /// This validates the recovery key, decrypts the dataKey, then re-encrypts
+  /// it with the new PIN. The recovery key remains unchanged.
+  /// 
+  /// Returns: true if successful, false if recovery key is invalid
+  Future<bool> resetPinWithRecoveryKey(
+    String uuidUserId,
+    String recoveryKey,
+    String newPin,
+  ) async {
+    try {
+      // Validate new PIN
+      if (newPin.length != 6 || !_isNumeric(newPin)) {
+        throw Exception('PIN must be exactly 6 digits');
+      }
+
+      // Fetch user_keys from Supabase
+      final response = await _client
+          .from('user_keys')
+          .select()
+          .eq('uuid_user_id', uuidUserId)
+          .maybeSingle();
+
+      if (response == null) {
+        ErrorHandler.logWarning(
+          'EncryptionServiceV2',
+          'No encryption keys found for user',
+        );
+        return false;
+      }
+
+      final encryptedKeyRecovery =
+          response['encrypted_key_recovery'] as String;
+      final saltRecovery =
+          base64Decode(response['salt_recovery'] as String);
+      final iterationsRecovery =
+          response['kdf_iterations_recovery'] as int;
+
+      // Derive key from recovery key
+      final kRec = await _deriveKey(
+        recoveryKey,
+        saltRecovery,
+        iterationsRecovery,
+      );
+
+      // Try to decrypt dataKey with recovery key
+      final dataKeyBytes = await _decryptDataKey(kRec, encryptedKeyRecovery);
+      
+      if (dataKeyBytes == null) {
+        // Wrong recovery key (MAC error)
+        ErrorHandler.logWarning(
+          'EncryptionServiceV2',
+          'Invalid recovery key provided for PIN reset',
+        );
+        return false;
+      }
+
+      // Recovery key is valid! Now create new PIN encryption
+      
+      // Generate new salt for PIN
+      final newSalt = _randomBytes(16);
+      const iterations = 100000;
+      
+      // Derive key from new PIN
+      final kPin = await _deriveKey(newPin, newSalt, iterations);
+      
+      // Encrypt dataKey with new PIN
+      final newEncryptedKey = await _encryptDataKey(kPin, dataKeyBytes);
+      
+      // Update database with new PIN encryption (keep recovery unchanged)
+      await _client.from('user_keys').update({
+        'encrypted_key': newEncryptedKey,
+        'salt': base64Encode(newSalt),
+        'kdf_iterations': iterations,
+        'updated_at': DateTime.now().toIso8601String(),
+      }).eq('uuid_user_id', uuidUserId);
+
+      // Set the dataKey in memory (user is now unlocked)
+      _dataKey = SecretKey(dataKeyBytes);
+
+      ErrorHandler.logInfo(
+        'EncryptionServiceV2',
+        'PIN reset successful for user ${uuidUserId.substring(0, 8)}...',
+      );
+
+      return true;
+    } catch (e, stack) {
+      ErrorHandler.logError(
+        'EncryptionServiceV2',
+        'PIN reset with recovery key failed: $e',
+        stack,
+      );
+      return false;
+    }
+  }
+
   // ============================================================================
   // BIOMETRICS: Fingerprint unlock
   // ============================================================================
@@ -596,5 +693,75 @@ class EncryptionServiceV2 {
         .eq('uuid_user_id', uuidUserId)
         .maybeSingle();
     return response != null;
+  }
+
+  // ============================================================================
+  // BATCH ENCRYPTION HELPERS
+  // ============================================================================
+
+  /// Encrypt a nullable text field
+  /// Returns null if input is null or empty
+  Future<String?> encryptTextNullable(String? plaintext) async {
+    if (plaintext == null || plaintext.isEmpty) {
+      return null;
+    }
+    return encryptText(plaintext);
+  }
+
+  /// Decrypt a nullable text field
+  /// Returns null if input is null or empty
+  Future<String?> decryptTextNullable(String? encryptedJson) async {
+    if (encryptedJson == null || encryptedJson.isEmpty) {
+      return null;
+    }
+    return decryptText(encryptedJson);
+  }
+
+  /// Encrypt multiple text fields in a map
+  /// Useful for batch encryption before database insert/update
+  Future<Map<String, dynamic>> encryptFields(
+    Map<String, dynamic> data,
+    List<String> fieldsToEncrypt,
+  ) async {
+    if (!isReady) {
+      throw Exception('Encryption not ready. Call unlock first.');
+    }
+
+    final result = Map<String, dynamic>.from(data);
+
+    for (final field in fieldsToEncrypt) {
+      if (result.containsKey(field) && result[field] is String) {
+        final value = result[field] as String;
+        if (value.isNotEmpty) {
+          result[field] = await encryptText(value);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /// Decrypt multiple text fields in a map
+  /// Useful for batch decryption after database fetch
+  Future<Map<String, dynamic>> decryptFields(
+    Map<String, dynamic> data,
+    List<String> fieldsToDecrypt,
+  ) async {
+    if (!isReady) {
+      throw Exception('Encryption not ready. Call unlock first.');
+    }
+
+    final result = Map<String, dynamic>.from(data);
+
+    for (final field in fieldsToDecrypt) {
+      if (result.containsKey(field) && result[field] is String) {
+        final value = result[field] as String;
+        if (value.isNotEmpty) {
+          result[field] = await decryptText(value);
+        }
+      }
+    }
+
+    return result;
   }
 }

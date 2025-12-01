@@ -26,9 +26,9 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 # Initialize Supabase client
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# Configuration - SET THESE BEFORE RUNNING
-USER_ID = os.getenv('TEST_USER_ID', 'YOUR_USER_ID_HERE')
-NEW_PIN = os.getenv('NEW_PIN', 'YOUR_6_DIGIT_PIN_HERE')
+# Configuration - hardcoded for debugging
+USER_ID = '96a2a84f-35d3-4f86-b127-5d57d5ffe14d'
+NEW_PIN = '920894'
 
 print("🔄 Resetting encryption and setting up new PIN...")
 print(f"   User ID: {USER_ID}")

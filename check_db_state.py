@@ -15,7 +15,8 @@ SUPABASE_KEY = os.getenv('SUPABASE_ANON_KEY')
 # Initialize Supabase client
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-USER_ID = os.getenv('TEST_USER_ID', 'YOUR_USER_ID_HERE')
+# User ID - hardcoded for debugging
+USER_ID = '96a2a84f-35d3-4f86-b127-5d57d5ffe14d'
 
 print("🔍 Checking database state for encryption keys...")
 print()

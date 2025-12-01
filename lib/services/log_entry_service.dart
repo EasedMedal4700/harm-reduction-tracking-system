@@ -5,12 +5,12 @@ import '../models/log_entry_model.dart';
 import '../services/user_service.dart'; // For user_id
 import '../utils/error_handler.dart';
 import 'cache_service.dart';
-import 'encryption_service.dart';
+import 'encryption_service_v2.dart';
 
 class LogEntryService {
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   final _cache = CacheService();
-  final _encryption = EncryptionService();
+  final _encryption = EncryptionServiceV2();
 
   Future<void> updateLogEntry(String id, Map<String, dynamic> data) async {
     try {
@@ -70,7 +70,7 @@ class LogEntryService {
       final userId = UserService.getCurrentUserId();
       
       // Encrypt notes field
-      final encryptedNotes = await _encryption.encryptText(entry.notes);
+      final encryptedNotes = await _encryption.encryptTextNullable(entry.notes);
       
       final data = {
         'uuid_user_id': userId,

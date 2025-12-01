@@ -2,10 +2,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../utils/error_handler.dart';
 import 'user_service.dart';
-import 'encryption_service.dart';
+import 'encryption_service_v2.dart';
 
 class ActivityService {
-  final _encryption = EncryptionService();
+  final _encryption = EncryptionServiceV2();
 
   Future<Map<String, dynamic>> fetchRecentActivity() async {
     try {

@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/auth_service.dart';
 import '../services/encryption_service_v2.dart';
 import '../services/encryption_migration_service.dart';
+import '../services/debug_config.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,6 +29,10 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _initializeSessionState() async {
     print('🔄 DEBUG: Initializing session state...');
+    
+    // Log debug config status
+    DebugConfig.instance.logStatus();
+    
     final remember = await _readRememberPreference();
     final client = _tryGetSupabaseClient();
     final session = client?.auth.currentSession;
@@ -39,6 +44,14 @@ class _LoginPageState extends State<LoginPage> {
     if (!mounted) return;
 
     setState(() => _rememberMe = remember);
+
+    // Check for debug auto-login
+    if (DebugConfig.instance.isAutoLoginEnabled && 
+        DebugConfig.instance.hasValidCredentials) {
+      print('🔧 DEBUG: Auto-login enabled, attempting automatic login...');
+      await _performDebugAutoLogin();
+      return;
+    }
 
     if (session != null && client != null) {
       // Check if session is still valid (not expired)
@@ -125,6 +138,103 @@ class _LoginPageState extends State<LoginPage> {
   void _navigateToHome() {
     print('🏠 DEBUG: _navigateToHome called');
     _checkEncryptionAndNavigate();
+  }
+
+  /// Performs automatic login using debug credentials from .env
+  Future<void> _performDebugAutoLogin() async {
+    if (!mounted) return;
+    
+    setState(() => _isLoading = true);
+    
+    try {
+      final email = DebugConfig.instance.debugEmail!;
+      final password = DebugConfig.instance.debugPassword!;
+      
+      print('🔧 DEBUG: Auto-logging in as $email');
+      
+      final success = await authService.login(email, password);
+      
+      if (!mounted) return;
+      
+      if (success) {
+        print('✅ DEBUG: Auto-login successful');
+        await _persistRememberPreference(true);
+        
+        // For debug mode, go directly to home with auto-unlock
+        await _checkEncryptionAndNavigateDebug();
+      } else {
+        print('❌ DEBUG: Auto-login failed, falling back to manual login');
+        setState(() => _isLoading = false);
+      }
+    } catch (e) {
+      print('❌ DEBUG: Auto-login error: $e');
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  /// Debug version that auto-unlocks PIN
+  Future<void> _checkEncryptionAndNavigateDebug() async {
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) {
+        Navigator.pushReplacementNamed(context, '/home_page');
+        return;
+      }
+
+      // Check if user needs migration
+      final migrationService = EncryptionMigrationService();
+      final needsMigration = await migrationService.needsMigration(user.id);
+      
+      if (needsMigration) {
+        print('🔐 DEBUG: User needs encryption migration (cannot auto-skip)');
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, '/encryption-migration');
+        }
+        return;
+      }
+
+      // Check if user has PIN setup
+      final encryptionService = EncryptionServiceV2();
+      final hasEncryption = await encryptionService.hasEncryptionSetup(user.id);
+      
+      if (!hasEncryption) {
+        print('🔐 DEBUG: User needs PIN setup (cannot auto-skip)');
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, '/pin-setup');
+        }
+        return;
+      }
+
+      // User has PIN setup - auto-unlock in debug mode
+      final pin = DebugConfig.instance.debugPin;
+      if (pin != null && pin.isNotEmpty) {
+        print('🔧 DEBUG: Auto-unlocking with debug PIN');
+        final unlocked = await encryptionService.unlockWithPin(user.id, pin);
+        
+        if (unlocked) {
+          print('✅ DEBUG: Auto-unlock successful, going to home');
+          if (mounted) {
+            Navigator.pushReplacementNamed(context, '/home_page');
+          }
+          return;
+        } else {
+          print('❌ DEBUG: Auto-unlock failed, PIN might be wrong');
+        }
+      }
+      
+      // Fall back to PIN unlock screen if auto-unlock fails
+      print('🔐 DEBUG: Falling back to PIN unlock screen');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/pin-unlock');
+      }
+    } catch (e) {
+      print('⚠️ DEBUG: Error in debug navigation: $e');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/home_page');
+      }
+    }
   }
 
   Future<void> _checkEncryptionAndNavigate() async {

@@ -2,11 +2,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../utils/error_handler.dart';
 import 'user_service.dart';
-import 'encryption_service.dart';
+import 'encryption_service_v2.dart';
 
 class AuthService {
   SupabaseClient get _client => Supabase.instance.client;
-  final _encryption = EncryptionService();
+  final _encryption = EncryptionServiceV2();
 
   Future<bool> login(String email, String password) async {
     try {
@@ -108,13 +108,9 @@ class AuthService {
       }
 
       // Initialize encryption for the new user
-      try {
-        await _encryption.initialize();
-        ErrorHandler.logInfo('AuthService', 'Encryption initialized for new user');
-      } catch (e, stackTrace) {
-        ErrorHandler.logError('AuthService.register.encryption', e, stackTrace);
-        // Don't fail registration if encryption fails - log and continue
-      }
+      // Note: PIN-based encryption is set up in PIN setup screen after registration
+      // The user will be prompted to create a PIN which will initialize encryption
+      ErrorHandler.logInfo('AuthService', 'User registered, PIN setup will initialize encryption');
 
       return const AuthResult.success();
     } on AuthException catch (e, stackTrace) {
@@ -135,7 +131,7 @@ class AuthService {
     try {
       await _client.auth.signOut();
       UserService.clearCache(); // Clear cached user ID
-      _encryption.dispose(); // Clear encryption keys from memory
+      _encryption.lock(); // Clear encryption keys from memory
     } catch (e, stackTrace) {
       ErrorHandler.logError('AuthService.logout', e, stackTrace);
     }

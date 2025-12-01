@@ -5,10 +5,10 @@ import '../services/user_service.dart';
 import '../utils/error_handler.dart';
 import '../utils/reflection_exceptions.dart';
 import '../utils/reflection_validator.dart';
-import 'encryption_service.dart';
+import 'encryption_service_v2.dart';
 
 class ReflectionService {
-  final _encryption = EncryptionService();
+  final _encryption = EncryptionServiceV2();
   Future<int> getNextReflectionId() async {
     try {
       ErrorHandler.logDebug('ReflectionService', 'Fetching next reflection ID');
@@ -37,7 +37,7 @@ class ReflectionService {
 
       // Encrypt notes field
       final reflectionData = reflection.toJson();
-      final encryptedNotes = await _encryption.encryptText(reflectionData['notes'] as String?);
+      final encryptedNotes = await _encryption.encryptTextNullable(reflectionData['notes'] as String?);
       reflectionData['notes'] = encryptedNotes;
 
       await Supabase.instance.client.from('reflections').insert({
