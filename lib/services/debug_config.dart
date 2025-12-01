@@ -14,9 +14,19 @@ class DebugConfig {
   
   DebugConfig._();
   
+  /// Helper to safely get env value, returns null if dotenv not initialized
+  String? _getEnv(String key) {
+    try {
+      return dotenv.env[key];
+    } catch (e) {
+      // dotenv not initialized (e.g., in tests)
+      return null;
+    }
+  }
+  
   /// Whether auto-login is enabled (from .env DEBUG_AUTO_LOGIN)
   bool get isAutoLoginEnabled {
-    final value = dotenv.env['DEBUG_AUTO_LOGIN']?.toLowerCase();
+    final value = _getEnv('DEBUG_AUTO_LOGIN')?.toLowerCase();
     final enabled = value == 'true' || value == '1';
     if (enabled) {
       developer.log('⚠️ DEBUG AUTO-LOGIN IS ENABLED - DO NOT USE IN PRODUCTION!', 
@@ -26,13 +36,13 @@ class DebugConfig {
   }
   
   /// Debug email for auto-login
-  String? get debugEmail => dotenv.env['DEBUG_EMAIL'];
+  String? get debugEmail => _getEnv('DEBUG_EMAIL');
   
   /// Debug password for auto-login
-  String? get debugPassword => dotenv.env['DEBUG_PASSWORD'];
+  String? get debugPassword => _getEnv('DEBUG_PASSWORD');
   
   /// Debug PIN for auto-unlock
-  String? get debugPin => dotenv.env['DEBUG_PIN'];
+  String? get debugPin => _getEnv('DEBUG_PIN');
   
   /// Check if all debug credentials are configured
   bool get hasValidCredentials {

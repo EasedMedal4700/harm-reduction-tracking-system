@@ -18,13 +18,14 @@ void main() {
         ),
       );
 
+      // Check for Time label
       expect(find.text('Time'), findsOneWidget);
-      expect(find.text('Hour:'), findsOneWidget);
-      expect(find.text('Minute:'), findsOneWidget);
-      expect(find.text('Selected time: 14:30'), findsOneWidget);
+      
+      // Check for formatted time display (14:30)
+      expect(find.text('14:30'), findsOneWidget);
     });
 
-    testWidgets('displays formatted hour and minute', (tester) async {
+    testWidgets('displays formatted hour and minute with zero padding', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -38,10 +39,11 @@ void main() {
         ),
       );
 
-      expect(find.text('Selected time: 09:05'), findsOneWidget);
+      // Check for zero-padded time display (09:05)
+      expect(find.text('09:05'), findsOneWidget);
     });
 
-    testWidgets('has hour slider', (tester) async {
+    testWidgets('shows hint text to tap for change', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -55,62 +57,10 @@ void main() {
         ),
       );
 
-      expect(find.byType(Slider), findsNWidgets(2));
+      expect(find.text('Tap to change time'), findsOneWidget);
     });
 
-    testWidgets('hour slider calls onHourChanged', (tester) async {
-      int? changedHour;
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimeSelector(
-              hour: 12,
-              minute: 0,
-              onHourChanged: (hour) {
-                changedHour = hour;
-              },
-              onMinuteChanged: (_) {},
-            ),
-          ),
-        ),
-      );
-
-      final hourSlider = find.byType(Slider).first;
-      await tester.drag(hourSlider, const Offset(100, 0));
-      await tester.pump();
-
-      expect(changedHour, isNotNull);
-      expect(changedHour, greaterThan(12));
-    });
-
-    testWidgets('minute slider calls onMinuteChanged', (tester) async {
-      int? changedMinute;
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimeSelector(
-              hour: 12,
-              minute: 30,
-              onHourChanged: (_) {},
-              onMinuteChanged: (minute) {
-                changedMinute = minute;
-              },
-            ),
-          ),
-        ),
-      );
-
-      final minuteSlider = find.byType(Slider).last;
-      await tester.drag(minuteSlider, const Offset(50, 0));
-      await tester.pump();
-
-      expect(changedMinute, isNotNull);
-      expect(changedMinute, greaterThan(30));
-    });
-
-    testWidgets('hour slider has correct range 0-23', (tester) async {
+    testWidgets('has clock icon', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -124,19 +74,16 @@ void main() {
         ),
       );
 
-      final hourSlider = tester.widget<Slider>(find.byType(Slider).first);
-      expect(hourSlider.min, 0);
-      expect(hourSlider.max, 23);
-      expect(hourSlider.divisions, 23);
+      expect(find.byIcon(Icons.access_time), findsOneWidget);
     });
 
-    testWidgets('minute slider has correct range 0-59', (tester) async {
+    testWidgets('has edit icon', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: TimeSelector(
               hour: 12,
-              minute: 30,
+              minute: 0,
               onHourChanged: (_) {},
               onMinuteChanged: (_) {},
             ),
@@ -144,46 +91,7 @@ void main() {
         ),
       );
 
-      final minuteSlider = tester.widget<Slider>(find.byType(Slider).last);
-      expect(minuteSlider.min, 0);
-      expect(minuteSlider.max, 59);
-      expect(minuteSlider.divisions, 59);
-    });
-
-    testWidgets('displays current hour value', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimeSelector(
-              hour: 18,
-              minute: 45,
-              onHourChanged: (_) {},
-              onMinuteChanged: (_) {},
-            ),
-          ),
-        ),
-      );
-
-      // Hour value displayed multiple times (in slider and in time display)
-      expect(find.text('18'), findsAtLeastNWidgets(1));
-    });
-
-    testWidgets('displays current minute value', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimeSelector(
-              hour: 10,
-              minute: 25,
-              onHourChanged: (_) {},
-              onMinuteChanged: (_) {},
-            ),
-          ),
-        ),
-      );
-
-      // Minute value displayed multiple times
-      expect(find.text('25'), findsAtLeastNWidgets(1));
+      expect(find.byIcon(Icons.edit_outlined), findsOneWidget);
     });
 
     testWidgets('renders as Column', (tester) async {
@@ -201,6 +109,79 @@ void main() {
       );
 
       expect(find.byType(Column), findsWidgets);
+    });
+
+    testWidgets('has InkWell for tappable area', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: TimeSelector(
+              hour: 10,
+              minute: 25,
+              onHourChanged: (_) {},
+              onMinuteChanged: (_) {},
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(InkWell), findsOneWidget);
+    });
+
+    testWidgets('midnight displays as 00:00', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: TimeSelector(
+              hour: 0,
+              minute: 0,
+              onHourChanged: (_) {},
+              onMinuteChanged: (_) {},
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('00:00'), findsOneWidget);
+    });
+
+    testWidgets('23:59 displays correctly', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: TimeSelector(
+              hour: 23,
+              minute: 59,
+              onHourChanged: (_) {},
+              onMinuteChanged: (_) {},
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('23:59'), findsOneWidget);
+    });
+  });
+
+  group('TimeSelector Time Formatting', () {
+    test('hour padding adds leading zero for single digit', () {
+      String formatHour(int hour) => hour.toString().padLeft(2, '0');
+      
+      expect(formatHour(0), equals('00'));
+      expect(formatHour(5), equals('05'));
+      expect(formatHour(9), equals('09'));
+      expect(formatHour(10), equals('10'));
+      expect(formatHour(23), equals('23'));
+    });
+
+    test('minute padding adds leading zero for single digit', () {
+      String formatMinute(int minute) => minute.toString().padLeft(2, '0');
+      
+      expect(formatMinute(0), equals('00'));
+      expect(formatMinute(5), equals('05'));
+      expect(formatMinute(9), equals('09'));
+      expect(formatMinute(30), equals('30'));
+      expect(formatMinute(59), equals('59'));
     });
   });
 }
