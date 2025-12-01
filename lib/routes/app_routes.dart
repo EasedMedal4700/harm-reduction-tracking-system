@@ -21,6 +21,10 @@ import '../screens/physiological_page.dart';
 import '../screens/interactions_page.dart';
 import '../screens/wearos_page.dart';
 import '../screens/admin/bug_report_screen.dart';
+import '../screens/pin_setup_screen.dart';
+import '../screens/pin_unlock_screen.dart';
+import '../screens/recovery_key_screen.dart';
+import '../screens/encryption_migration_screen.dart';
 
 class AppRoutes {
   static Widget buildHomePage() => const HomePage();
@@ -52,4 +56,8 @@ class AppRoutes {
   static Widget buildInteractionsPage() => const InteractionsPage();
   static Widget buildWearOSPage() => const WearOSPage();
   static Widget buildBugReportPage() => const BugReportScreen();
+  static Widget buildPinSetupPage() => const PinSetupScreen();
+  static Widget buildPinUnlockPage() => const PinUnlockScreen();
+  static Widget buildRecoveryKeyPage() => const RecoveryKeyScreen();
+  static Widget buildEncryptionMigrationPage() => const EncryptionMigrationScreen();
 }

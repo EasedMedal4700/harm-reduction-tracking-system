@@ -73,7 +73,7 @@ class EncryptionService {
               'EncryptionService', 
               'Encryption key invalid (likely due to token refresh). Regenerating...',
             );
-            await _generateAndStoreNewKey(user);
+            await _generateAndStoreNewKey(user, isRegeneration: true);
           } else {
             rethrow;
           }
@@ -88,7 +88,7 @@ class EncryptionService {
   }
 
   /// Generate a new master key, encrypt it with JWT-derived key, and store in Supabase
-  Future<void> _generateAndStoreNewKey(User user) async {
+  Future<void> _generateAndStoreNewKey(User user, {bool isRegeneration = false}) async {
     try {
       // 1. Generate random 32-byte master key
       final random = Random.secure();
@@ -117,10 +117,25 @@ class EncryptionService {
         'mac': base64Encode(secretBox.mac.bytes),
       };
 
-      await _client!.from('user_keys').insert({
+      // Generate a dummy salt for schema compatibility (JWT-based system doesn't use salt)
+      final saltBytes = List<int>.generate(16, (_) => random.nextInt(256));
+      final salt = base64Encode(saltBytes);
+
+      final keyData = {
         'uuid_user_id': user.id,
         'encrypted_key': jsonEncode(encryptedData),
-      });
+        'salt': salt, // Dummy salt for schema compatibility
+        'kdf_iterations': 200000,
+      };
+
+      // Use upsert to handle both insert and update cases
+      if (isRegeneration) {
+        // Update existing row
+        await _client!.from('user_keys').update(keyData).eq('uuid_user_id', user.id);
+      } else {
+        // Insert new row (use upsert to avoid conflicts)
+        await _client!.from('user_keys').upsert(keyData);
+      }
 
       ErrorHandler.logInfo('EncryptionService', 'Generated and stored new master key');
     } catch (e, stack) {

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/auth_service.dart';
+import '../services/encryption_service_v2.dart';
+import '../services/encryption_migration_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -122,7 +124,55 @@ class _LoginPageState extends State<LoginPage> {
 
   void _navigateToHome() {
     print('🏠 DEBUG: _navigateToHome called');
-    Navigator.pushReplacementNamed(context, '/home_page');
+    _checkEncryptionAndNavigate();
+  }
+
+  Future<void> _checkEncryptionAndNavigate() async {
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) {
+        Navigator.pushReplacementNamed(context, '/home_page');
+        return;
+      }
+
+      // Check if user needs migration
+      final migrationService = EncryptionMigrationService();
+      final needsMigration = await migrationService.needsMigration(user.id);
+      
+      if (needsMigration) {
+        // User has old encryption, needs to migrate
+        print('🔐 DEBUG: User needs encryption migration');
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, '/encryption-migration');
+        }
+        return;
+      }
+
+      // Check if user has PIN setup
+      final encryptionService = EncryptionServiceV2();
+      final hasEncryption = await encryptionService.hasEncryptionSetup(user.id);
+      
+      if (!hasEncryption) {
+        // New user, needs to setup PIN
+        print('🔐 DEBUG: User needs PIN setup');
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, '/pin-setup');
+        }
+        return;
+      }
+
+      // User has PIN setup, needs to unlock
+      print('🔐 DEBUG: User needs to unlock with PIN');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/pin-unlock');
+      }
+    } catch (e) {
+      print('⚠️ DEBUG: Error checking encryption: $e');
+      // On error, just go to home (old behavior)
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/home_page');
+      }
+    }
   }
 
   SupabaseClient? _tryGetSupabaseClient() {

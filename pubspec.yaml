@@ -23,6 +23,8 @@ dependencies:
   path_provider: ^2.1.5
   cryptography: ^2.7.0  # For AES-256-GCM encryption
   crypto: ^3.0.3  # For SHA-256 key derivation
+  flutter_secure_storage: ^9.2.2  # For secure PIN storage (biometrics)
+  local_auth: ^2.3.0  # For biometric authentication
 
 dev_dependencies:
   flutter_test:

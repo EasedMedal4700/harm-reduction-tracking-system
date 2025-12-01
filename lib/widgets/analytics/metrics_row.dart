@@ -151,6 +151,7 @@ class _MetricCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           // Icon with colored background
           Container(
@@ -167,13 +168,10 @@ class _MetricCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           // Big number with consistent sizing and minimum size
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.centerLeft,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                minHeight: 32,
-              ),
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
               child: Text(
                 value,
                 style: TextStyle(
@@ -188,32 +186,36 @@ class _MetricCard extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           // Label
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              fontWeight: ThemeConstants.fontMediumWeight,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
+          Flexible(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: ThemeConstants.fontSmall,
+                fontWeight: ThemeConstants.fontMediumWeight,
+                color: isDark
+                    ? UIColors.darkTextSecondary
+                    : UIColors.lightTextSecondary,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
           ),
           // Optional subtitle
           if (subtitle != null) ...[
             SizedBox(height: ThemeConstants.space4),
-            Text(
-              subtitle!,
-              style: TextStyle(
-                fontSize: ThemeConstants.fontSmall,
-                fontWeight: ThemeConstants.fontRegular,
-                color: isDark
-                    ? UIColors.darkTextSecondary.withValues(alpha: 0.7)
-                    : UIColors.lightTextSecondary.withValues(alpha: 0.7),
+            Flexible(
+              child: Text(
+                subtitle!,
+                style: TextStyle(
+                  fontSize: ThemeConstants.fontSmall,
+                  fontWeight: ThemeConstants.fontRegular,
+                  color: isDark
+                      ? UIColors.darkTextSecondary.withValues(alpha: 0.7)
+                      : UIColors.lightTextSecondary.withValues(alpha: 0.7),
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
           ],
           // Optional category chip

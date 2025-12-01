@@ -21,6 +21,16 @@ class PrivacySettingsSection extends StatelessWidget {
       title: 'Privacy & Security',
       icon: Icons.lock,
       children: [
+        ListTile(
+          title: const Text('Setup PIN Encryption'),
+          subtitle: const Text('Create a PIN for enhanced security'),
+          leading: const Icon(Icons.security),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () {
+            Navigator.of(context).pushNamed('/pin-setup');
+          },
+        ),
+        const Divider(),
         SwitchListTile(
           title: const Text('Biometric Lock'),
           subtitle: const Text('Use fingerprint/face to unlock'),

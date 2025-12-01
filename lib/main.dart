@@ -17,10 +17,14 @@ import 'screens/catalog_page.dart';
 import 'screens/checkin_history_screen.dart';
 import 'screens/cravings_page.dart';
 import 'screens/daily_checkin_screen.dart';
+import 'screens/encryption_migration_screen.dart';
 import 'screens/home_page.dart';
 import 'screens/log_entry_page.dart';
 import 'screens/login_page.dart';
+import 'screens/pin_setup_screen.dart';
+import 'screens/pin_unlock_screen.dart';
 import 'screens/profile_screen.dart';
+import 'screens/recovery_key_screen.dart';
 import 'screens/reflection_page.dart';
 import 'screens/register_page.dart';
 import 'screens/settings_screen.dart';
@@ -140,6 +144,10 @@ class MyApp extends StatelessWidget {
               '/admin-panel': (context) => const AdminPanelScreen(),
               '/settings': (context) => const SettingsScreen(),
               '/register': (context) => const RegisterPage(),
+              '/pin-setup': (context) => const PinSetupScreen(),
+              '/pin-unlock': (context) => const PinUnlockScreen(),
+              '/recovery-key': (context) => const RecoveryKeyScreen(),
+              '/encryption-migration': (context) => const EncryptionMigrationScreen(),
               '/tolerance-dashboard': (context) {
                 final args =
                     ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;

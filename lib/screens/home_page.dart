@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../widgets/common/drawer_menu.dart';
 import '../widgets/home_redesign/header_card.dart';
 import '../widgets/home_redesign/daily_checkin_card.dart';
@@ -11,6 +12,7 @@ import '../constants/ui_colors.dart';
 import '../constants/theme_constants.dart';
 import '../services/daily_checkin_service.dart';
 import '../services/user_service.dart';
+import '../services/encryption_service_v2.dart';
 import '../screens/profile_screen.dart';
 import '../screens/admin_panel_screen.dart';
 
@@ -26,13 +28,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin, HomeNavigationMethods {
+    with SingleTickerProviderStateMixin, HomeNavigationMethods, WidgetsBindingObserver {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
+  final _encryptionService = EncryptionServiceV2();
+  bool _isLocked = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _checkEncryptionStatus();
     
     // Setup animations
     _animationController = AnimationController(
@@ -53,8 +59,45 @@ class _HomePageState extends State<HomePage>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _animationController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
+      // App going to background, lock encryption
+      _encryptionService.lock();
+      setState(() => _isLocked = true);
+    } else if (state == AppLifecycleState.resumed) {
+      // App coming back to foreground, require unlock
+      if (_isLocked) {
+        _requireUnlock();
+      }
+    }
+  }
+
+  Future<void> _checkEncryptionStatus() async {
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) return;
+
+      final hasEncryption = await _encryptionService.hasEncryptionSetup(user.id);
+      if (hasEncryption && !_encryptionService.isReady) {
+        _requireUnlock();
+      }
+    } catch (e) {
+      print('⚠️ Error checking encryption status: $e');
+    }
+  }
+
+  void _requireUnlock() {
+    if (mounted) {
+      Navigator.of(context).pushReplacementNamed('/pin-unlock');
+    }
   }
 
   void _openDailyCheckin(BuildContext context) async {

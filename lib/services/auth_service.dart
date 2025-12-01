@@ -23,15 +23,8 @@ class AuthService {
       print('✅ DEBUG: Session exists: ${response.session != null}');
       print('✅ DEBUG: Session expires at: ${response.session?.expiresAt}');
 
-      // Initialize encryption for the logged-in user
-      try {
-        await _encryption.initialize();
-        print('🔐 DEBUG: Encryption initialized successfully');
-      } catch (e) {
-        print('⚠️ DEBUG: Failed to initialize encryption: $e');
-        // Don't fail login if encryption fails - log and continue
-        ErrorHandler.logError('AuthService.login.encryption', e, StackTrace.current);
-      }
+      // Note: Encryption initialization is handled by login_page.dart
+      // which checks for migration/PIN setup and routes appropriately
 
       return true;
     } on AuthException catch (e, stackTrace) {
