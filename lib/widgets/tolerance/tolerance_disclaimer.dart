@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/theme_constants.dart';
 import '../../constants/ui_colors.dart';
+import '../../services/onboarding_service.dart';
 
 /// Disclaimer widget shown on tolerance-related pages.
 /// 
@@ -124,42 +125,117 @@ class ToleranceDisclaimerWidget extends StatelessWidget {
   }
 }
 
-/// Compact version of the disclaimer for headers.
-class CompactToleranceDisclaimer extends StatelessWidget {
+/// Compact version of the disclaimer for headers with dismissible functionality.
+class CompactToleranceDisclaimer extends StatefulWidget {
   const CompactToleranceDisclaimer({super.key});
 
   @override
+  State<CompactToleranceDisclaimer> createState() => _CompactToleranceDisclaimerState();
+}
+
+class _CompactToleranceDisclaimerState extends State<CompactToleranceDisclaimer> {
+  bool _isDismissed = false;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDismissedState();
+  }
+
+  Future<void> _loadDismissedState() async {
+    final onboardingService = OnboardingService();
+    final isDismissed = await onboardingService.isHarmNoticeDismissed(
+      OnboardingService.toleranceHarmNoticeDismissedKey,
+    );
+    if (mounted) {
+      setState(() {
+        _isDismissed = isDismissed;
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _handleDismiss() async {
+    final onboardingService = OnboardingService();
+    await onboardingService.dismissHarmNotice(
+      OnboardingService.toleranceHarmNoticeDismissedKey,
+    );
+    if (mounted) {
+      setState(() {
+        _isDismissed = true;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Don't show while loading or if dismissed
+    if (_isLoading || _isDismissed) {
+      return const SizedBox.shrink();
+    }
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: ThemeConstants.space12,
-        vertical: ThemeConstants.space8,
-      ),
+      padding: EdgeInsets.all(ThemeConstants.space12),
       decoration: BoxDecoration(
-        color: Colors.orange.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+        color: isDark 
+            ? Colors.amber.withOpacity(0.15) 
+            : Colors.amber.shade50,
+        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
         border: Border.all(
-          color: Colors.orange.withOpacity(0.3),
-          width: 1,
+          color: isDark 
+              ? Colors.amber.shade700 
+              : Colors.amber.shade300,
+          width: 1.5,
         ),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
             Icons.warning_amber_rounded,
-            color: Colors.orange,
-            size: 16,
+            color: isDark ? Colors.amber.shade400 : Colors.amber.shade800,
+            size: 24,
           ),
-          SizedBox(width: ThemeConstants.space8),
-          Flexible(
-            child: Text(
-              'Approximations only - NOT medical advice',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          SizedBox(width: ThemeConstants.space12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Harm Reduction Notice',
+                  style: TextStyle(
+                    fontWeight: ThemeConstants.fontBold,
+                    fontSize: ThemeConstants.fontMedium,
+                    color: isDark ? Colors.amber.shade300 : Colors.amber.shade900,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Tolerance calculations are mathematical estimates only. '
+                  'Individual responses vary based on genetics, health, substance purity, '
+                  'and many other factors. Never use these numbers to make dosing decisions '
+                  'or assume safety. Tolerance does NOT equal safety.',
+                  style: TextStyle(
+                    fontSize: ThemeConstants.fontXSmall,
+                    color: isDark ? Colors.grey.shade300 : Colors.grey.shade800,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Dismiss button
+          GestureDetector(
+            onTap: _handleDismiss,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Icon(
+                Icons.close,
+                size: 20,
+                color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
               ),
             ),
           ),

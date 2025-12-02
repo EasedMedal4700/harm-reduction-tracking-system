@@ -24,6 +24,13 @@ class DebugConfig {
     }
   }
   
+  /// Whether debug mode is enabled (from .env DEBUG_MODE)
+  /// This controls visibility of debug features in the UI
+  bool get isDebugMode {
+    final value = _getEnv('DEBUG_MODE')?.toLowerCase();
+    return value == 'true' || value == '1';
+  }
+  
   /// Whether auto-login is enabled (from .env DEBUG_AUTO_LOGIN)
   bool get isAutoLoginEnabled {
     final value = _getEnv('DEBUG_AUTO_LOGIN')?.toLowerCase();

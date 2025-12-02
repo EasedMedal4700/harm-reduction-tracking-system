@@ -5,6 +5,7 @@ import '../models/bucket_definitions.dart';
 import '../services/tolerance_service.dart';
 import '../services/user_service.dart';
 import '../services/tolerance_engine_service.dart';
+import '../services/debug_config.dart';
 import '../utils/tolerance_calculator.dart';
 import '../widgets/tolerance_dashboard/dashboard_content_widget.dart';
 import '../widgets/tolerance_dashboard/empty_state_widget.dart';
@@ -282,32 +283,34 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
         backgroundColor: isDark ? UIColors.darkSurface : Colors.white,
         elevation: 0,
         actions: [
-          // Debug toggle
-          IconButton(
-            icon: Icon(
-              _showDebugSubstances
-                  ? Icons.bug_report
-                  : Icons.bug_report_outlined,
+          // Debug toggle - only show when DEBUG_MODE=true in .env
+          if (DebugConfig.instance.isDebugMode) ...[
+            IconButton(
+              icon: Icon(
+                _showDebugSubstances
+                    ? Icons.bug_report
+                    : Icons.bug_report_outlined,
+              ),
+              onPressed: () async {
+                setState(() => _showDebugSubstances = !_showDebugSubstances);
+                if (_showDebugSubstances) {
+                  await _loadPerSubstanceTolerances();
+                }
+              },
+              tooltip: 'Toggle substance tolerance debug',
             ),
-            onPressed: () async {
-              setState(() => _showDebugSubstances = !_showDebugSubstances);
-              if (_showDebugSubstances) {
-                await _loadPerSubstanceTolerances();
-              }
-            },
-            tooltip: 'Toggle substance tolerance debug',
-          ),
-          IconButton(
-            icon: Icon(
-              _showDebugPanel
-                  ? Icons.developer_board
-                  : Icons.developer_board_outlined,
+            IconButton(
+              icon: Icon(
+                _showDebugPanel
+                    ? Icons.developer_board
+                    : Icons.developer_board_outlined,
+              ),
+              onPressed: () {
+                setState(() => _showDebugPanel = !_showDebugPanel);
+              },
+              tooltip: 'Toggle tolerance debug panel',
             ),
-            onPressed: () {
-              setState(() => _showDebugPanel = !_showDebugPanel);
-            },
-            tooltip: 'Toggle tolerance debug panel',
-          ),
+          ],
         ],
       ),
       drawer: const DrawerMenu(),

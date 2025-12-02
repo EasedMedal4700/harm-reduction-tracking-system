@@ -229,7 +229,14 @@ class UserService {
   // ============================================
 
   /// Check if the current user is an admin
+  /// Returns false if user is not logged in (no error logged)
   static Future<bool> isAdmin() async {
+    // First check if user is even logged in
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) {
+      return false; // Not logged in, silently return false
+    }
+
     // Return cached value if available
     if (_cachedIsAdmin != null) {
       return _cachedIsAdmin!;
@@ -247,7 +254,10 @@ class UserService {
       final profile = await userService.loadUserProfile();
       return profile.isAdmin;
     } catch (e, stackTrace) {
-      ErrorHandler.logError('UserService.isAdmin', e, stackTrace);
+      // Only log if it's not an authentication error
+      if (e is! UserProfileException || e.code != 'NOT_AUTHENTICATED') {
+        ErrorHandler.logError('UserService.isAdmin', e, stackTrace);
+      }
       return false;
     }
   }

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/settings_provider.dart';
 import '../../services/pin_timeout_service.dart';
+import '../../services/encryption_service_v2.dart';
+import '../../services/onboarding_service.dart';
 import 'settings_section.dart';
 
 /// Privacy & Security section widget
@@ -19,15 +23,31 @@ class PrivacySettingsSection extends StatefulWidget {
 }
 
 class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
+  static const String _privacyPolicyUrl = 
+      'https://resume-drab-five.vercel.app/privacy/substance-check';
+  
+  final _encryptionService = EncryptionServiceV2();
   int _foregroundTimeout = PinTimeoutService.defaultForegroundTimeout;
   int _backgroundTimeout = PinTimeoutService.defaultBackgroundTimeout;
   int _maxSessionDuration = PinTimeoutService.defaultMaxSessionDuration;
   bool _isLoading = true;
+  bool _hasEncryption = false;
 
   @override
   void initState() {
     super.initState();
     _loadTimeoutSettings();
+    _checkEncryptionStatus();
+  }
+
+  Future<void> _checkEncryptionStatus() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null) {
+      final hasEncryption = await _encryptionService.hasEncryptionSetup(user.id);
+      if (mounted) {
+        setState(() => _hasEncryption = hasEncryption);
+      }
+    }
   }
 
   Future<void> _loadTimeoutSettings() async {
@@ -86,15 +106,36 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
       title: 'Privacy & Security',
       icon: Icons.lock,
       children: [
-        ListTile(
-          title: const Text('Setup PIN Encryption'),
-          subtitle: const Text('Create a PIN for enhanced security'),
-          leading: const Icon(Icons.security),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () {
-            Navigator.of(context).pushNamed('/pin-setup');
-          },
-        ),
+        // Show "Change PIN" if encryption is set up, otherwise show "Setup PIN"
+        if (_hasEncryption) ...[
+          ListTile(
+            title: const Text('Change PIN'),
+            subtitle: const Text('Update your encryption PIN'),
+            leading: const Icon(Icons.lock_reset),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () async {
+              final result = await Navigator.of(context).pushNamed('/change-pin');
+              if (result == true && mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('PIN changed successfully'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              }
+            },
+          ),
+        ] else ...[
+          ListTile(
+            title: const Text('Setup PIN Encryption'),
+            subtitle: const Text('Create a PIN for enhanced security'),
+            leading: const Icon(Icons.security),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.of(context).pushNamed('/pin-setup');
+            },
+          ),
+        ],
         const Divider(),
         SwitchListTile(
           title: const Text('Biometric Lock'),
@@ -204,8 +245,80 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           value: settings.analyticsEnabled,
           onChanged: widget.settingsProvider.setAnalyticsEnabled,
         ),
+        const Divider(),
+        // Reset harm reduction notices option
+        ListTile(
+          title: const Text('Reset Harm Reduction Notices'),
+          subtitle: const Text('Show dismissed warning banners again'),
+          leading: const Icon(Icons.restore),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () async {
+            final confirm = await showDialog<bool>(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Reset Notices'),
+                content: const Text(
+                  'This will show all harm reduction warning banners again. '
+                  'These banners provide important safety information.',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    child: const Text('Cancel'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    child: const Text('Reset'),
+                  ),
+                ],
+              ),
+            );
+            
+            if (confirm == true && mounted) {
+              final onboardingSvc = OnboardingService();
+              await onboardingSvc.resetHarmNotices();
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Harm reduction notices will appear again'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              }
+            }
+          },
+        ),
+        const Divider(),
+        ListTile(
+          title: const Text('Privacy Policy'),
+          subtitle: const Text('View our privacy policy'),
+          leading: const Icon(Icons.policy),
+          trailing: const Icon(Icons.open_in_new),
+          onTap: () => _openPrivacyPolicy(),
+        ),
       ],
     );
+  }
+
+  Future<void> _openPrivacyPolicy() async {
+    final uri = Uri.parse(_privacyPolicyUrl);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not open privacy policy')),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error opening privacy policy: $e')),
+        );
+      }
+    }
   }
 }
 

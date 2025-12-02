@@ -25,6 +25,7 @@ import '../screens/pin_setup_screen.dart';
 import '../screens/pin_unlock_screen.dart';
 import '../screens/recovery_key_screen.dart';
 import '../screens/encryption_migration_screen.dart';
+import '../screens/change_pin_screen.dart';
 
 class AppRoutes {
   static Widget buildHomePage() => const HomePage();
@@ -60,4 +61,5 @@ class AppRoutes {
   static Widget buildPinUnlockPage() => const PinUnlockScreen();
   static Widget buildRecoveryKeyPage() => const RecoveryKeyScreen();
   static Widget buildEncryptionMigrationPage() => const EncryptionMigrationScreen();
+  static Widget buildChangePinPage() => const ChangePinScreen();
 }

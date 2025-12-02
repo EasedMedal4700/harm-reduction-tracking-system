@@ -6,6 +6,7 @@ import '../services/encryption_service_v2.dart';
 import '../services/encryption_migration_service.dart';
 import '../services/debug_config.dart';
 import '../services/pin_timeout_service.dart';
+import '../services/onboarding_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,6 +31,14 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _initializeSessionState() async {
     print('🔄 DEBUG: Initializing session state...');
+    
+    // Check if onboarding is complete first (for new users)
+    final isOnboardingComplete = await onboardingService.isOnboardingComplete();
+    if (!isOnboardingComplete && mounted) {
+      print('🔄 DEBUG: Onboarding not complete, redirecting...');
+      Navigator.of(context).pushReplacementNamed('/onboarding');
+      return;
+    }
     
     // Log debug config status
     DebugConfig.instance.logStatus();

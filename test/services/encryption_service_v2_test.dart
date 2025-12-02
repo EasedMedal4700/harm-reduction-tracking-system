@@ -805,6 +805,138 @@ void main() {
       
       expect(shouldFail, isNull);
     });
+
+    test('simulates PIN change with old PIN (changePin flow)', () async {
+      // This tests the critical changePin() flow that re-wraps dataKey
+      // WITHOUT regenerating the dataKey itself
+      
+      const originalPin = '920894';
+      const newPin = '111222';
+      final originalSalt = service.randomBytes(16);
+      final newSalt = service.randomBytes(16);
+      final dataKeyBytes = service.randomBytes(32);
+      const iterations = 1000;
+      
+      // Step 1: Initial PIN setup (simulates setupNewSecrets)
+      final kOriginalPin = await service.deriveKey(originalPin, originalSalt, iterations);
+      final encryptedKeyWithOriginal = await service.encryptDataKey(kOriginalPin, dataKeyBytes);
+      
+      // Set up encryption with the dataKey
+      service.setDataKey(SecretKey(dataKeyBytes));
+      
+      // Encrypt some test data with the original dataKey
+      const testMessage = 'My secret drug use note';
+      final encryptedTestData = await service.encryptText(testMessage);
+      
+      // Step 2: Change PIN (simulates changePin method)
+      // 2a. Verify old PIN by decrypting dataKey
+      final kOldPinForChange = await service.deriveKey(originalPin, originalSalt, iterations);
+      final recoveredDataKey = await service.decryptDataKey(kOldPinForChange, encryptedKeyWithOriginal);
+      
+      expect(recoveredDataKey, isNotNull, reason: 'Old PIN should decrypt dataKey');
+      expect(recoveredDataKey, equals(dataKeyBytes), reason: 'DataKey should match original');
+      
+      // 2b. Re-encrypt the SAME dataKey with new PIN (this is the critical part)
+      final kNewPin = await service.deriveKey(newPin, newSalt, iterations);
+      final encryptedKeyWithNew = await service.encryptDataKey(kNewPin, recoveredDataKey!);
+      
+      // Step 3: Verify the change worked correctly
+      // 3a. New PIN should unlock
+      final kNewPin2 = await service.deriveKey(newPin, newSalt, iterations);
+      final decryptedWithNewPin = await service.decryptDataKey(kNewPin2, encryptedKeyWithNew);
+      
+      expect(decryptedWithNewPin, equals(dataKeyBytes), 
+          reason: 'New PIN should decrypt to same dataKey');
+      
+      // 3b. Old PIN should NOT work with new encrypted key
+      final kOldPinFail = await service.deriveKey(originalPin, newSalt, iterations);
+      final shouldFail = await service.decryptDataKey(kOldPinFail, encryptedKeyWithNew);
+      
+      expect(shouldFail, isNull, 
+          reason: 'Old PIN should not work with new encryption');
+      
+      // Step 4: CRITICAL - Verify existing encrypted data is still readable
+      // The dataKey never changed, so old data should still decrypt
+      service.setDataKey(SecretKey(decryptedWithNewPin!));
+      
+      final decryptedTestData = await service.decryptText(encryptedTestData);
+      
+      expect(decryptedTestData, equals(testMessage),
+          reason: 'Changing PIN should NOT break existing encrypted data');
+    });
+
+    test('verifies data key consistency during PIN change', () async {
+      // This test explicitly verifies that the dataKey remains unchanged
+      // during a PIN change operation
+      
+      const pin1 = '111111';
+      const pin2 = '222222';
+      const pin3 = '333333';
+      final salt1 = service.randomBytes(16);
+      final salt2 = service.randomBytes(16);
+      final salt3 = service.randomBytes(16);
+      final originalDataKey = service.randomBytes(32);
+      const iterations = 1000;
+      
+      // Multiple encryption operations with same dataKey
+      service.setDataKey(SecretKey(originalDataKey));
+      
+      const message1 = 'First message';
+      const message2 = 'Second message';
+      const message3 = 'Third message';
+      
+      final encrypted1 = await service.encryptText(message1);
+      final encrypted2 = await service.encryptText(message2);
+      
+      // Now simulate multiple PIN changes
+      // PIN 1 -> PIN 2
+      final k1 = await service.deriveKey(pin1, salt1, iterations);
+      final encryptedKey1 = await service.encryptDataKey(k1, originalDataKey);
+      
+      // Recover and re-wrap for PIN 2
+      final recoveredKey1 = await service.decryptDataKey(k1, encryptedKey1);
+      final k2 = await service.deriveKey(pin2, salt2, iterations);
+      await service.encryptDataKey(k2, recoveredKey1!);
+      
+      // Encrypt more data (simulating use after first PIN change)
+      final encrypted3 = await service.encryptText(message3);
+      
+      // PIN 2 -> PIN 3
+      final recoveredKey2 = await service.decryptDataKey(k2, 
+          await service.encryptDataKey(k2, originalDataKey));
+      final k3 = await service.deriveKey(pin3, salt3, iterations);
+      await service.encryptDataKey(k3, recoveredKey2!);
+      
+      // Verify ALL encrypted data is still readable
+      final decrypted1 = await service.decryptText(encrypted1);
+      final decrypted2 = await service.decryptText(encrypted2);
+      final decrypted3 = await service.decryptText(encrypted3);
+      
+      expect(decrypted1, equals(message1), reason: 'Message 1 should still decrypt');
+      expect(decrypted2, equals(message2), reason: 'Message 2 should still decrypt');
+      expect(decrypted3, equals(message3), reason: 'Message 3 should still decrypt');
+    });
+
+    test('wrong old PIN fails changePin', () async {
+      const correctPin = '920894';
+      const wrongPin = '000000';
+      // const newPin = '111222'; // Would be used if old PIN validation passed
+      final salt = service.randomBytes(16);
+      final dataKeyBytes = service.randomBytes(32);
+      const iterations = 1000;
+      
+      // Setup with correct PIN
+      final kCorrect = await service.deriveKey(correctPin, salt, iterations);
+      final encryptedKey = await service.encryptDataKey(kCorrect, dataKeyBytes);
+      
+      // Try to change with wrong old PIN
+      final kWrong = await service.deriveKey(wrongPin, salt, iterations);
+      final recoveredKey = await service.decryptDataKey(kWrong, encryptedKey);
+      
+      // Should fail - can't proceed with PIN change
+      expect(recoveredKey, isNull, 
+          reason: 'Wrong old PIN should fail to decrypt dataKey');
+    });
   });
 
   group('Edge Cases', () {

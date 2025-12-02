@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';
+import '../services/onboarding_service.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -16,8 +17,12 @@ class _RegisterPageState extends State<RegisterPage> {
   final _confirmPasswordController = TextEditingController();
   final _displayNameController = TextEditingController();
   final _authService = AuthService();
+  final _onboardingService = OnboardingService();
 
   bool _isSubmitting = false;
+  bool _privacyAccepted = false;
+  bool _isCheckingOnboarding = true;
+  bool _onboardingComplete = false;
 
   @override
   void dispose() {
@@ -26,6 +31,25 @@ class _RegisterPageState extends State<RegisterPage> {
     _confirmPasswordController.dispose();
     _displayNameController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkOnboardingStatus();
+  }
+
+  Future<void> _checkOnboardingStatus() async {
+    final isOnboardingComplete = await _onboardingService.isOnboardingComplete();
+    final isPrivacyAccepted = await _onboardingService.isPrivacyPolicyAccepted();
+    
+    if (mounted) {
+      setState(() {
+        _onboardingComplete = isOnboardingComplete;
+        _privacyAccepted = isPrivacyAccepted;
+        _isCheckingOnboarding = false;
+      });
+    }
   }
 
   Future<void> _handleRegister() async {
@@ -57,6 +81,113 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isCheckingOnboarding) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Create Account')),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    // Redirect to onboarding if not complete
+    if (!_onboardingComplete) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Create Account')),
+        body: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.info_outline,
+                size: 64,
+                color: Colors.amber,
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'Complete Onboarding First',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Please complete the onboarding process before creating an account. '
+                'This helps us personalize your experience.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 32),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/onboarding');
+                },
+                icon: const Icon(Icons.arrow_forward),
+                label: const Text('Go to Onboarding'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Check privacy policy accepted
+    if (!_privacyAccepted) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Create Account')),
+        body: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.policy,
+                size: 64,
+                color: Colors.blue,
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'Accept Privacy Policy',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'You need to accept the privacy policy before creating an account. '
+                'Please complete the onboarding process.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 32),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/onboarding');
+                },
+                icon: const Icon(Icons.arrow_forward),
+                label: const Text('Go to Onboarding'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Account'),

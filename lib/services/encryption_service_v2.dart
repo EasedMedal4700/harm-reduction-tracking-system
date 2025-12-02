@@ -335,6 +335,113 @@ class EncryptionServiceV2 {
     }
   }
 
+  /// Change PIN using old PIN (NOT for first-time setup)
+  /// 
+  /// This validates the old PIN, decrypts the dataKey, then re-encrypts
+  /// it with the new PIN. The recovery key remains unchanged.
+  /// 
+  /// IMPORTANT: This does NOT regenerate the dataKey or recovery key.
+  /// All existing encrypted data remains accessible.
+  /// 
+  /// Returns: true if successful, false if old PIN is invalid
+  Future<bool> changePin(
+    String uuidUserId,
+    String oldPin,
+    String newPin,
+  ) async {
+    try {
+      // Validate PINs
+      if (oldPin.length != 6 || !_isNumeric(oldPin)) {
+        throw Exception('Old PIN must be exactly 6 digits');
+      }
+      if (newPin.length != 6 || !_isNumeric(newPin)) {
+        throw Exception('New PIN must be exactly 6 digits');
+      }
+      if (oldPin == newPin) {
+        throw Exception('New PIN must be different from old PIN');
+      }
+
+      // Fetch user_keys from Supabase
+      final response = await _client
+          .from('user_keys')
+          .select()
+          .eq('uuid_user_id', uuidUserId)
+          .maybeSingle();
+
+      if (response == null) {
+        ErrorHandler.logWarning(
+          'EncryptionServiceV2',
+          'No encryption keys found for user',
+        );
+        return false;
+      }
+
+      final encryptedKey = response['encrypted_key'] as String;
+      final salt = base64Decode(response['salt'] as String);
+      final iterations = response['kdf_iterations'] as int;
+
+      // Derive key from old PIN
+      final kOldPin = await _deriveKey(oldPin, salt, iterations);
+
+      // Try to decrypt dataKey with old PIN
+      final dataKeyBytes = await _decryptDataKey(kOldPin, encryptedKey);
+      
+      if (dataKeyBytes == null) {
+        // Wrong old PIN (MAC error)
+        ErrorHandler.logWarning(
+          'EncryptionServiceV2',
+          'Invalid old PIN provided for PIN change',
+        );
+        return false;
+      }
+
+      // Old PIN is valid! Now create new PIN encryption
+      
+      // Generate new salt for new PIN
+      final newSalt = _randomBytes(16);
+      const newIterations = 100000;
+      
+      // Derive key from new PIN
+      final kNewPin = await _deriveKey(newPin, newSalt, newIterations);
+      
+      // Re-encrypt the SAME dataKey with new PIN
+      final newEncryptedKey = await _encryptDataKey(kNewPin, dataKeyBytes);
+      
+      // Update database with new PIN encryption
+      // Recovery key and encrypted_key_recovery remain unchanged!
+      await _client.from('user_keys').update({
+        'encrypted_key': newEncryptedKey,
+        'salt': base64Encode(newSalt),
+        'kdf_iterations': newIterations,
+        'updated_at': DateTime.now().toIso8601String(),
+      }).eq('uuid_user_id', uuidUserId);
+
+      // Set the dataKey in memory (user remains unlocked)
+      _dataKey = SecretKey(dataKeyBytes);
+
+      // If biometrics is enabled, update the stored PIN
+      if (await isBiometricsEnabled()) {
+        // Disable and re-enable with new PIN
+        await disableBiometrics();
+        await enableBiometrics(newPin);
+      }
+
+      ErrorHandler.logInfo(
+        'EncryptionServiceV2',
+        'PIN changed successfully for user ${uuidUserId.substring(0, 8)}...',
+      );
+
+      return true;
+    } catch (e, stack) {
+      ErrorHandler.logError(
+        'EncryptionServiceV2',
+        'PIN change failed: $e',
+        stack,
+      );
+      return false;
+    }
+  }
+
   // ============================================================================
   // BIOMETRICS: Fingerprint unlock
   // ============================================================================

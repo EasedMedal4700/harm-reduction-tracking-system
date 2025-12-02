@@ -14,6 +14,7 @@ import 'screens/admin_panel_screen.dart';
 import 'screens/analytics_page.dart';
 import 'screens/blood_levels_page.dart';
 import 'screens/catalog_page.dart';
+import 'screens/change_pin_screen.dart';
 import 'screens/checkin_history_screen.dart';
 import 'screens/cravings_page.dart';
 import 'screens/daily_checkin_screen.dart';
@@ -28,9 +29,12 @@ import 'screens/recovery_key_screen.dart';
 import 'screens/reflection_page.dart';
 import 'screens/register_page.dart';
 import 'screens/settings_screen.dart';
+import 'services/encryption_service_v2.dart';
 import 'services/error_logging_service.dart';
 import 'services/pin_timeout_service.dart';
 import 'screens/tolerance_dashboard_page.dart';
+import 'screens/onboarding_screen.dart';
+import 'services/onboarding_service.dart';
 
 Future<void> main() async {
   final errorLoggingService = ErrorLoggingService.instance;
@@ -153,7 +157,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // Only check if user is authenticated
     try {
       final user = Supabase.instance.client.auth.currentUser;
-      if (user == null) return;
+      if (user == null) {
+        // User not logged in, no need to check PIN timeout
+        return;
+      }
+
+      // Check if user has encryption setup before requiring PIN
+      final encryptionService = EncryptionServiceV2();
+      final hasEncryption = await encryptionService.hasEncryptionSetup(user.id);
+      if (!hasEncryption) {
+        // User hasn't set up PIN yet, don't require it
+        return;
+      }
 
       final isPinRequired = await pinTimeoutService.isPinRequired();
       if (isPinRequired) {
@@ -194,6 +209,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             initialRoute: '/login_page',
             routes: {
               '/login_page': (context) => const LoginPage(),
+              '/onboarding': (context) => const OnboardingScreen(),
               '/home_page': (context) => const HomePage(),
               '/log_entry': (context) => const QuickLogEntryPage(),
               '/analytics': (context) => const AnalyticsPage(),
@@ -217,6 +233,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               '/pin-unlock': (context) => const PinUnlockScreen(),
               '/recovery-key': (context) => const RecoveryKeyScreen(),
               '/encryption-migration': (context) => const EncryptionMigrationScreen(),
+              '/change-pin': (context) => const ChangePinScreen(),
               '/tolerance-dashboard': (context) {
                 final args =
                     ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;

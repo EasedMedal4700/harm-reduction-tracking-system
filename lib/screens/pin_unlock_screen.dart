@@ -20,20 +20,50 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
   
   bool _isLoading = false;
   bool _isBiometricsAvailable = false;
+  bool _isCheckingAuth = true;
   String? _errorMessage;
   bool _pinObscure = true;
 
   @override
   void initState() {
     super.initState();
-    _checkBiometrics();
-    _tryDebugAutoUnlock();
+    _checkAuthAndInitialize();
   }
 
   @override
   void dispose() {
     _pinController.dispose();
     super.dispose();
+  }
+
+  /// Check if user is authenticated before showing PIN screen
+  Future<void> _checkAuthAndInitialize() async {
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      
+      if (user == null) {
+        // User not logged in, redirect to login
+        print('🔐 PIN screen: No authenticated user, redirecting to login');
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed('/login_page');
+        }
+        return;
+      }
+
+      // User is authenticated, proceed with normal initialization
+      if (mounted) {
+        setState(() => _isCheckingAuth = false);
+      }
+      
+      await _checkBiometrics();
+      await _tryDebugAutoUnlock();
+    } catch (e) {
+      print('❌ PIN screen auth check error: $e');
+      // On error, redirect to login for safety
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed('/login_page');
+      }
+    }
   }
 
   /// Try to auto-unlock if debug mode is enabled
@@ -106,7 +136,11 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
 
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) {
-        throw Exception('No authenticated user');
+        // User logged out, redirect to login
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed('/login_page');
+        }
+        return;
       }
 
       final success = await _encryptionService.unlockWithPin(user.id, pin);
@@ -126,8 +160,21 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
         });
       }
     } catch (e) {
+      final errorMsg = e.toString().replaceAll('Exception: ', '');
+      
+      // Check for specific error types
+      if (errorMsg.contains('NOT_AUTHENTICATED') || 
+          errorMsg.contains('not logged in') ||
+          errorMsg.contains('No authenticated user')) {
+        // User session expired, redirect to login
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed('/login_page');
+        }
+        return;
+      }
+      
       setState(() {
-        _errorMessage = e.toString().replaceAll('Exception: ', '');
+        _errorMessage = errorMsg;
         _isLoading = false;
       });
     }
@@ -142,7 +189,11 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
     try {
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) {
-        throw Exception('No authenticated user');
+        // User logged out, redirect to login
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed('/login_page');
+        }
+        return;
       }
 
       final success = await _encryptionService.unlockWithBiometrics(user.id);
@@ -180,6 +231,26 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
     final surfaceColor = isDark ? UIColors.darkSurface : UIColors.lightSurface;
     final textColor = isDark ? UIColors.darkText : UIColors.lightText;
     final accentColor = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
+
+    // Show loading while checking authentication
+    if (_isCheckingAuth) {
+      return Scaffold(
+        backgroundColor: backgroundColor,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(color: accentColor),
+              const SizedBox(height: 16),
+              Text(
+                'Verifying session...',
+                style: TextStyle(color: textColor),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return PopScope(
       canPop: false, // Prevent back navigation - user must enter PIN

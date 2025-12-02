@@ -74,10 +74,10 @@ void main() {
         reason: 'Should have integer user_id',
       );
 
-      // Verify we can get integer user ID
-      final userId = await UserService.getIntegerUserId();
-      expect(userId, isA<int>(), reason: 'User ID should be an integer');
-      expect(userId, greaterThan(0), reason: 'User ID should be positive');
+      // Verify we can get the user ID
+      final userId = UserService.getCurrentUserId();
+      expect(userId, isA<String>(), reason: 'User ID should be a string (UUID)');
+      expect(userId.isNotEmpty, true, reason: 'User ID should not be empty');
     });
 
     test('Registration with duplicate email fails', () async {
@@ -209,10 +209,10 @@ void main() {
       expect(userData1['email'], testEmail);
       expect(userData1['display_name'], testDisplayName);
 
-      // Test getIntegerUserId
-      final userId1 = await UserService.getIntegerUserId();
-      final userId2 = await UserService.getIntegerUserId();
-      expect(userId1, userId2, reason: 'Cached user ID should match');
+      // Test getCurrentUserId consistency
+      final userId1 = UserService.getCurrentUserId();
+      final userId2 = UserService.getCurrentUserId();
+      expect(userId1, userId2, reason: 'User ID should be consistent');
 
       // Test isAdmin
       final isAdmin = await UserService.isAdmin();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/blood_levels_service.dart';
+import '../services/onboarding_service.dart';
 import '../widgets/blood_levels/filter_panel.dart';
 import '../widgets/blood_levels/blood_levels_app_bar.dart';
 import '../widgets/blood_levels/blood_levels_loading_state.dart';
@@ -7,6 +8,7 @@ import '../widgets/blood_levels/blood_levels_error_state.dart';
 import '../widgets/blood_levels/blood_levels_empty_state.dart';
 import '../widgets/blood_levels/blood_levels_content.dart';
 import '../widgets/common/drawer_menu.dart';
+import '../widgets/common/harm_reduction_banner.dart';
 
 class BloodLevelsPage extends StatefulWidget {
   const BloodLevelsPage({super.key});
@@ -140,6 +142,15 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
   Widget _buildBody() {
     return Column(
       children: [
+        // Harm reduction warning banner (dismissible with persistence)
+        HarmReductionBanner(
+          dismissKey: OnboardingService.bloodLevelsHarmNoticeDismissedKey,
+          message: 'Blood level calculations are mathematical estimates based on '
+              'pharmacokinetic models. Actual blood concentrations vary significantly '
+              'based on individual metabolism, substance purity, route of administration, '
+              'and many other factors. Never use these numbers to make dosing decisions.',
+        ),
+        
         // Filter panel (collapsible)
         if (_showFilters) _buildFilterPanel(),
         
