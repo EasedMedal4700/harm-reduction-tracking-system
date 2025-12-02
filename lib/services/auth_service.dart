@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
 import 'user_service.dart';
 import 'encryption_service_v2.dart';
+import 'pin_timeout_service.dart';
 
 class AuthService {
   SupabaseClient get _client => Supabase.instance.client;
@@ -47,28 +48,24 @@ class AuthService {
     required String password,
     String? displayName,
   }) async {
+    // Note: User profile is created automatically by a database trigger
+    // when the auth user is created. We pass display_name via user metadata.
+    
     try {
-      final existingUser = await _client
-          .from('users')
-          .select('user_id')
-          .eq('email', email)
-          .maybeSingle();
+      final friendlyName =
+          displayName?.trim().isNotEmpty == true ? displayName!.trim() : email;
 
-      if (existingUser != null) {
-        return const AuthResult.failure('Email is already in use.');
-      }
-    } on PostgrestException catch (e, stackTrace) {
-      ErrorHandler.logError('AuthService.register.checkEmail', e, stackTrace);
-      return const AuthResult.failure(
-        'Unable to verify email. Please try again later.',
-      );
-    }
+      print('📝 DEBUG: Starting registration for email: $email');
+      print('📝 DEBUG: Display name: $friendlyName');
 
-    try {
-      // Create Supabase Auth user
+      // Create Supabase Auth user with display_name in metadata
+      // The database trigger will read this and create the user profile
       final response = await _client.auth.signUp(
         email: email,
         password: password,
+        data: {
+          'display_name': friendlyName,
+        },
       );
 
       final user = response.user;
@@ -78,34 +75,13 @@ class AuthService {
         );
       }
 
-      final friendlyName =
-          displayName?.trim().isNotEmpty == true ? displayName!.trim() : email;
+      print('✅ DEBUG: Auth user created: ${user.id}');
+      print('✅ DEBUG: User metadata: ${user.userMetadata}');
+      print('ℹ️ DEBUG: User profile will be created by database trigger');
 
-      // Insert into users table and verify it succeeds
-      try {
-        final insertResponse = await _client.from('users').insert({
-          'email': email,
-          'display_name': friendlyName,
-          'is_admin': false,
-        }).select('user_id').single();
-
-        // Verify we got a user_id back
-        if (insertResponse['user_id'] == null) {
-          return const AuthResult.failure(
-            'Failed to create user profile. Please try again.',
-          );
-        }
-      } on PostgrestException catch (e, stackTrace) {
-        ErrorHandler.logError('AuthService.register.insertUser', e, stackTrace);
-        
-        if (e.code == '23505') {
-          // Unique constraint violation
-          return const AuthResult.failure('Email is already in use.');
-        }
-        return const AuthResult.failure(
-          'Failed to create user profile. Please try again.',
-        );
-      }
+      // Note: The database trigger (handle_new_user) will automatically
+      // create a row in public.users with the display_name from metadata.
+      // We no longer INSERT into users table directly.
 
       // Initialize encryption for the new user
       // Note: PIN-based encryption is set up in PIN setup screen after registration
@@ -115,12 +91,14 @@ class AuthService {
       return const AuthResult.success();
     } on AuthException catch (e, stackTrace) {
       ErrorHandler.logError('AuthService.register.AuthException', e, stackTrace);
+      print('❌ DEBUG: AuthException: ${e.message}');
       final message = e.message.contains('already registered')
           ? 'Email is already in use.'
           : e.message;
       return AuthResult.failure(message);
     } catch (e, stackTrace) {
       ErrorHandler.logError('AuthService.register', e, stackTrace);
+      print('❌ DEBUG: Unexpected error: $e');
       return const AuthResult.failure(
         'Unexpected error occurred while creating the account.',
       );
@@ -132,6 +110,7 @@ class AuthService {
       await _client.auth.signOut();
       UserService.clearCache(); // Clear cached user ID
       _encryption.lock(); // Clear encryption keys from memory
+      await pinTimeoutService.clearState(); // Clear PIN timeout state
     } catch (e, stackTrace) {
       ErrorHandler.logError('AuthService.logout', e, stackTrace);
     }

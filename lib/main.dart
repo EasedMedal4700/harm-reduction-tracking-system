@@ -29,6 +29,7 @@ import 'screens/reflection_page.dart';
 import 'screens/register_page.dart';
 import 'screens/settings_screen.dart';
 import 'services/error_logging_service.dart';
+import 'services/pin_timeout_service.dart';
 import 'screens/tolerance_dashboard_page.dart';
 
 Future<void> main() async {
@@ -104,10 +105,77 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({required this.navigatorObserver, super.key});
 
   final NavigatorObserver navigatorObserver;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    pinTimeoutService.init();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    
+    switch (state) {
+      case AppLifecycleState.paused:
+      case AppLifecycleState.inactive:
+        // App going to background
+        pinTimeoutService.recordBackgroundStart();
+        break;
+      case AppLifecycleState.resumed:
+        // App coming to foreground - check if PIN is needed
+        _checkPinTimeout();
+        break;
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+        // App is being closed or hidden
+        break;
+    }
+  }
+
+  Future<void> _checkPinTimeout() async {
+    // Only check if user is authenticated
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) return;
+
+      final isPinRequired = await pinTimeoutService.isPinRequired();
+      if (isPinRequired) {
+        // Navigate to PIN unlock screen
+        final context = navigatorKey.currentContext;
+        if (context != null && context.mounted) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            '/pin-unlock',
+            (route) => route.settings.name == '/login_page',
+          );
+        }
+      } else {
+        // Update activity timestamp
+        await pinTimeoutService.recordForegroundResume();
+      }
+    } catch (e) {
+      print('⚠️ Error checking PIN timeout: $e');
+    }
+  }
+
+  // Global navigator key to access navigation from lifecycle handler
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +184,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<SettingsProvider>(
         builder: (context, settingsProvider, _) {
           return MaterialApp(
+            navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
@@ -155,7 +224,7 @@ class MyApp extends StatelessWidget {
                 return ToleranceDashboardPage(initialSubstance: substance);
               },
             },
-            navigatorObservers: [navigatorObserver],
+            navigatorObservers: [widget.navigatorObserver],
           );
         },
       ),

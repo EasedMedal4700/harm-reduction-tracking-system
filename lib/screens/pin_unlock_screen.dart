@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_service_v2.dart';
 import '../services/debug_config.dart';
+import '../services/pin_timeout_service.dart';
 import '../constants/ui_colors.dart';
 
 /// Screen for unlocking with PIN or biometrics
@@ -62,6 +63,9 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
       final success = await _encryptionService.unlockWithPin(user.id, pin);
       
       if (success) {
+        // Record successful unlock for timeout tracking
+        await pinTimeoutService.recordUnlock();
+        
         print('✅ DEBUG: Auto-unlock successful');
         if (mounted) {
           Navigator.of(context).pushReplacementNamed('/home_page');
@@ -108,6 +112,9 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
       final success = await _encryptionService.unlockWithPin(user.id, pin);
 
       if (success) {
+        // Record successful unlock for timeout tracking
+        await pinTimeoutService.recordUnlock();
+        
         // Navigate to home
         if (mounted) {
           Navigator.of(context).pushReplacementNamed('/home_page');
@@ -141,6 +148,9 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
       final success = await _encryptionService.unlockWithBiometrics(user.id);
 
       if (success) {
+        // Record successful unlock for timeout tracking
+        await pinTimeoutService.recordUnlock();
+        
         // Navigate to home
         if (mounted) {
           Navigator.of(context).pushReplacementNamed('/home_page');

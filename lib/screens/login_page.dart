@@ -5,6 +5,7 @@ import '../services/auth_service.dart';
 import '../services/encryption_service_v2.dart';
 import '../services/encryption_migration_service.dart';
 import '../services/debug_config.dart';
+import '../services/pin_timeout_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -214,6 +215,9 @@ class _LoginPageState extends State<LoginPage> {
         final unlocked = await encryptionService.unlockWithPin(user.id, pin);
         
         if (unlocked) {
+          // Record the unlock for timeout tracking
+          await pinTimeoutService.recordUnlock();
+          
           print('✅ DEBUG: Auto-unlock successful, going to home');
           if (mounted) {
             Navigator.pushReplacementNamed(context, '/home_page');
@@ -271,10 +275,23 @@ class _LoginPageState extends State<LoginPage> {
         return;
       }
 
-      // User has PIN setup, needs to unlock
-      print('🔐 DEBUG: User needs to unlock with PIN');
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, '/pin-unlock');
+      // User has PIN setup - check if PIN is required based on timeout
+      final isPinRequired = await pinTimeoutService.isPinRequired();
+      
+      if (isPinRequired) {
+        // PIN timeout expired, need to unlock
+        print('🔐 DEBUG: User needs to unlock with PIN (timeout expired)');
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, '/pin-unlock');
+        }
+      } else {
+        // PIN still valid, go directly to home
+        print('✅ DEBUG: PIN still valid, skipping unlock screen');
+        // Update activity to extend session
+        await pinTimeoutService.recordForegroundResume();
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, '/home_page');
+        }
       }
     } catch (e) {
       print('⚠️ DEBUG: Error checking encryption: $e');

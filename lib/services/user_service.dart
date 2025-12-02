@@ -1,13 +1,32 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../models/user_profile.dart';
 import '../utils/error_handler.dart';
 import 'cache_service.dart';
 
+/// Service for managing user profiles.
+/// 
+/// User profiles are automatically created by a database trigger when a new
+/// auth user signs up. This service only handles READ and UPDATE operations.
+/// 
+/// Usage:
+/// ```dart
+/// final userService = UserService();
+/// final profile = await userService.loadUserProfile();
+/// await userService.updateDisplayName('New Name');
+/// ```
 class UserService {
   static bool? _cachedIsAdmin;
   static Map<String, dynamic>? _cachedUserData;
+  static UserProfile? _cachedProfile;
   static final _cache = CacheService();
   
+  final SupabaseClient _client;
+  
+  UserService([SupabaseClient? client]) 
+      : _client = client ?? Supabase.instance.client;
+  
+  /// Get the current authenticated user's UUID
   static String getCurrentUserId() {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) {
@@ -16,13 +35,198 @@ class UserService {
     return user.id;
   }
 
-  /// Get the integer user_id from the users table based on the authenticated user's email
-  /// NOTE: user_id no longer exists - use getCurrentUserId() for auth_user_id instead
-  @Deprecated('user_id column removed - use getCurrentUserId() instead')
-  static Future<int> getIntegerUserId() async {
-    // user_id column no longer exists in users table
-    throw StateError('user_id column removed from users table. Use getCurrentUserId() for auth_user_id instead.');
+  /// Load the current user's profile from the database.
+  /// 
+  /// This fetches the profile row created by the database trigger.
+  /// Throws [UserProfileException] if the profile doesn't exist or on error.
+  Future<UserProfile> loadUserProfile() async {
+    // Return cached profile if available
+    if (_cachedProfile != null) {
+      return _cachedProfile!;
+    }
+    
+    final user = _client.auth.currentUser;
+    if (user == null) {
+      throw const UserProfileException(
+        'User is not logged in.',
+        code: 'NOT_AUTHENTICATED',
+      );
+    }
+
+    try {
+      print('👤 DEBUG: Loading user profile for ${user.id}');
+      
+      final response = await _client
+          .from('users')
+          .select('auth_user_id, display_name, is_admin')
+          .eq('auth_user_id', user.id)
+          .maybeSingle();
+
+      if (response == null) {
+        print('❌ DEBUG: User profile not found in database');
+        throw const UserProfileException(
+          'User profile not found. The account may not have been set up correctly. '
+          'Please contact support.',
+          code: 'PROFILE_NOT_FOUND',
+        );
+      }
+
+      print('✅ DEBUG: User profile loaded: ${response['display_name']}');
+      
+      final profile = UserProfile.fromJson(response, email: user.email);
+      
+      // Cache the profile
+      _cachedProfile = profile;
+      _cachedIsAdmin = profile.isAdmin;
+      _cachedUserData = {
+        'auth_user_id': profile.authUserId,
+        'email': profile.email,
+        'display_name': profile.displayName,
+        'is_admin': profile.isAdmin,
+      };
+      
+      // Store in cache service
+      _cache.set(CacheKeys.currentUserData, _cachedUserData!, ttl: CacheService.longTTL);
+      _cache.set(CacheKeys.currentUserIsAdmin, profile.isAdmin, ttl: CacheService.longTTL);
+      
+      return profile;
+    } on PostgrestException catch (e, stackTrace) {
+      ErrorHandler.logError('UserService.loadUserProfile', e, stackTrace);
+      throw UserProfileException(
+        'Failed to load user profile: ${e.message}',
+        code: e.code,
+        originalError: e,
+      );
+    } catch (e, stackTrace) {
+      if (e is UserProfileException) rethrow;
+      ErrorHandler.logError('UserService.loadUserProfile', e, stackTrace);
+      throw UserProfileException(
+        'Unexpected error loading profile: $e',
+        originalError: e,
+      );
+    }
   }
+
+  /// Update the user's profile with the given values.
+  /// 
+  /// Only updates the provided fields. Pass null to keep current values.
+  /// Note: is_admin cannot be updated by the user themselves.
+  Future<UserProfile> updateUserProfile({
+    String? displayName,
+  }) async {
+    final user = _client.auth.currentUser;
+    if (user == null) {
+      throw const UserProfileException(
+        'User is not logged in.',
+        code: 'NOT_AUTHENTICATED',
+      );
+    }
+
+    final updates = <String, dynamic>{};
+    if (displayName != null) {
+      updates['display_name'] = displayName;
+    }
+
+    if (updates.isEmpty) {
+      // Nothing to update, just return current profile
+      return await loadUserProfile();
+    }
+
+    try {
+      print('👤 DEBUG: Updating user profile: $updates');
+      
+      final response = await _client
+          .from('users')
+          .update(updates)
+          .eq('auth_user_id', user.id)
+          .select('auth_user_id, display_name, is_admin')
+          .single();
+
+      print('✅ DEBUG: User profile updated successfully');
+      
+      final profile = UserProfile.fromJson(response, email: user.email);
+      
+      // Update cache
+      _cachedProfile = profile;
+      _cachedUserData = {
+        'auth_user_id': profile.authUserId,
+        'email': profile.email,
+        'display_name': profile.displayName,
+        'is_admin': profile.isAdmin,
+      };
+      _cache.set(CacheKeys.currentUserData, _cachedUserData!, ttl: CacheService.longTTL);
+      
+      return profile;
+    } on PostgrestException catch (e, stackTrace) {
+      ErrorHandler.logError('UserService.updateUserProfile', e, stackTrace);
+      
+      if (e.code == '42501') {
+        throw const UserProfileException(
+          'You do not have permission to update this profile.',
+          code: 'UNAUTHORIZED',
+        );
+      }
+      
+      throw UserProfileException(
+        'Failed to update profile: ${e.message}',
+        code: e.code,
+        originalError: e,
+      );
+    }
+  }
+
+  /// Convenience method to update just the display name
+  Future<UserProfile> updateDisplayName(String newDisplayName) async {
+    return updateUserProfile(displayName: newDisplayName);
+  }
+
+  /// Check if the profile exists for the current user.
+  /// Returns true if profile exists, false otherwise.
+  Future<bool> hasProfile() async {
+    final user = _client.auth.currentUser;
+    if (user == null) return false;
+
+    try {
+      final response = await _client
+          .from('users')
+          .select('auth_user_id')
+          .eq('auth_user_id', user.id)
+          .maybeSingle();
+      
+      return response != null;
+    } catch (e) {
+      print('⚠️ DEBUG: Error checking profile existence: $e');
+      return false;
+    }
+  }
+
+  /// Wait for profile to be created by the trigger (with retries).
+  /// 
+  /// After signup, there may be a brief delay before the trigger creates
+  /// the profile. This method retries a few times with a delay.
+  Future<UserProfile?> waitForProfile({
+    int maxRetries = 5,
+    Duration delay = const Duration(milliseconds: 500),
+  }) async {
+    for (int i = 0; i < maxRetries; i++) {
+      try {
+        final profile = await loadUserProfile();
+        return profile;
+      } on UserProfileException catch (e) {
+        if (e.isProfileMissing && i < maxRetries - 1) {
+          print('👤 DEBUG: Profile not ready, retry ${i + 1}/$maxRetries...');
+          await Future.delayed(delay);
+          continue;
+        }
+        rethrow;
+      }
+    }
+    return null;
+  }
+
+  // ============================================
+  // Static methods for backward compatibility
+  // ============================================
 
   /// Check if the current user is an admin
   static Future<bool> isAdmin() async {
@@ -38,24 +242,10 @@ class UserService {
       return cachedAdmin;
     }
 
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user == null) {
-      return false;
-    }
-
     try {
-      final response = await Supabase.instance.client
-          .from('users')
-          .select('is_admin')
-          .eq('auth_user_id', user.id)
-          .single();
-
-      _cachedIsAdmin = response['is_admin'] as bool? ?? false;
-      
-      // Store in cache service
-      _cache.set(CacheKeys.currentUserIsAdmin, _cachedIsAdmin!, ttl: CacheService.longTTL);
-      
-      return _cachedIsAdmin!;
+      final userService = UserService();
+      final profile = await userService.loadUserProfile();
+      return profile.isAdmin;
     } catch (e, stackTrace) {
       ErrorHandler.logError('UserService.isAdmin', e, stackTrace);
       return false;
@@ -63,6 +253,7 @@ class UserService {
   }
 
   /// Get current user data including display name, email, etc.
+  /// @deprecated Use loadUserProfile() instead
   static Future<Map<String, dynamic>> getUserData() async {
     if (_cachedUserData != null) {
       return _cachedUserData!;
@@ -76,34 +267,15 @@ class UserService {
       return cachedData;
     }
 
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user == null) {
-      throw StateError('User is not logged in.');
-    }
-
     try {
-      // Query public.users by auth_user_id
-      final response = await Supabase.instance.client
-          .from('users')
-          .select('display_name, is_admin')
-          .eq('auth_user_id', user.id)
-          .single();
-
-      // Merge with auth user data (email comes from auth.users)
-      _cachedUserData = {
-        'auth_user_id': user.id,
-        'email': user.email ?? user.userMetadata?['email'] as String?,
-        'display_name': response['display_name'],
-        'is_admin': response['is_admin'] as bool? ?? false,
-        'created_at': user.createdAt,
-        'updated_at': user.updatedAt,
+      final userService = UserService();
+      final profile = await userService.loadUserProfile();
+      return {
+        'auth_user_id': profile.authUserId,
+        'email': profile.email,
+        'display_name': profile.displayName,
+        'is_admin': profile.isAdmin,
       };
-      _cachedIsAdmin = response['is_admin'] as bool? ?? false;
-      
-      // Store in cache service
-      _cache.set(CacheKeys.currentUserData, _cachedUserData!, ttl: CacheService.longTTL);
-      
-      return _cachedUserData!;
     } catch (e, stackTrace) {
       ErrorHandler.logError('UserService.getUserData', e, stackTrace);
       throw StateError('Failed to fetch user data: $e');
@@ -114,6 +286,7 @@ class UserService {
   static void clearCache() {
     _cachedIsAdmin = null;
     _cachedUserData = null;
+    _cachedProfile = null;
     
     // Clear from cache service
     _cache.remove(CacheKeys.currentUserId);
