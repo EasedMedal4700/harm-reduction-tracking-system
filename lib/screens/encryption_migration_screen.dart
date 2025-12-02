@@ -10,6 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_migration_service.dart';
 import '../constants/ui_colors.dart';
 import '../utils/error_handler.dart';
+import '../states/migration_step_controller.dart';
 
 class EncryptionMigrationScreen extends StatefulWidget {
   const EncryptionMigrationScreen({super.key});
@@ -22,13 +23,14 @@ class EncryptionMigrationScreen extends StatefulWidget {
 class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
   final EncryptionMigrationService _migrationService =
       EncryptionMigrationService();
+  final MigrationStepController _stepController = MigrationStepController();
 
   // Step 1: Explanation
   // Step 2: Create PIN
   // Step 3: Confirm PIN
   // Step 4: Migrating (progress)
   // Step 5: Show recovery key
-  int _currentStep = 1;
+  // int _currentStep = 1;
 
   String _pin = '';
   String _confirmPin = '';
@@ -43,7 +45,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
 
     return Scaffold(
       backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
-      appBar: _currentStep < 4
+      appBar: _stepController.currentStep < 4
           ? AppBar(
               title: const Text('Security Upgrade'),
               backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
@@ -59,7 +61,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
   }
 
   Widget _buildStepContent(bool isDark) {
-    switch (_currentStep) {
+    switch (_stepController.currentStep) {
       case 1:
         return _buildExplanationStep(isDark);
       case 2:
@@ -165,7 +167,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
           child: ElevatedButton(
             onPressed: () {
               setState(() {
-                _currentStep = 2;
+                _stepController.goTo(2);
               });
             },
             style: ElevatedButton.styleFrom(
@@ -255,6 +257,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
         const SizedBox(height: 32),
         TextField(
           obscureText: !_pinVisible,
+          enableInteractiveSelection: false,
           keyboardType: TextInputType.number,
           maxLength: 6,
           textAlign: TextAlign.center,
@@ -285,7 +288,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
             onPressed: _pin.length == 6
                 ? () {
                     setState(() {
-                      _currentStep = 3;
+                      _stepController.goTo(3);
                     });
                   }
                 : null,
@@ -328,6 +331,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
         const SizedBox(height: 32),
         TextField(
           obscureText: !_confirmPinVisible,
+          enableInteractiveSelection: false,
           keyboardType: TextInputType.number,
           maxLength: 6,
           textAlign: TextAlign.center,
@@ -362,7 +366,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
               child: OutlinedButton(
                 onPressed: () {
                   setState(() {
-                    _currentStep = 2;
+                    _stepController.goTo(2);
                     _confirmPin = '';
                   });
                 },
@@ -566,7 +570,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
   Future<void> _startMigration() async {
     setState(() {
       _isMigrating = true;
-      _currentStep = 4;
+      _stepController.goTo(4);
     });
 
     try {
@@ -581,7 +585,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
 
       setState(() {
         _recoveryKey = recoveryKey;
-        _currentStep = 5;
+        _stepController.goTo(5);
         _isMigrating = false;
       });
     } catch (e, stack) {
@@ -593,7 +597,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
 
       setState(() {
         _isMigrating = false;
-        _currentStep = 2; // Back to create PIN step
+        _stepController.goTo(2); // Back to create PIN step
       });
 
       if (mounted) {
