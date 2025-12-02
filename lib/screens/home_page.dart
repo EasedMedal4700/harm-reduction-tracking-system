@@ -13,6 +13,7 @@ import '../constants/theme_constants.dart';
 import '../services/daily_checkin_service.dart';
 import '../services/user_service.dart';
 import '../services/encryption_service_v2.dart';
+import '../services/pin_timeout_service.dart';
 import '../screens/profile_screen.dart';
 import '../screens/admin_panel_screen.dart';
 
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   final _encryptionService = EncryptionServiceV2();
+  final _pinTimeoutService = PinTimeoutService();
   bool _isLocked = false;
 
   @override
@@ -73,10 +75,38 @@ class _HomePageState extends State<HomePage>
       _encryptionService.lock();
       setState(() => _isLocked = true);
     } else if (state == AppLifecycleState.resumed) {
-      // App coming back to foreground, require unlock
+      // App coming back to foreground, check if PIN is required based on timeout
       if (_isLocked) {
-        _requireUnlock();
+        _checkPinRequirement();
       }
+    }
+  }
+
+  /// Check if PIN is required using the timeout service
+  Future<void> _checkPinRequirement() async {
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) return;
+
+      final hasEncryption = await _encryptionService.hasEncryptionSetup(user.id);
+      if (!hasEncryption) {
+        // No encryption set up, unlock directly
+        setState(() => _isLocked = false);
+        return;
+      }
+
+      final isPinRequired = await _pinTimeoutService.isPinRequired();
+      if (isPinRequired) {
+        _requireUnlock();
+      } else {
+        // Timeout not exceeded, update activity and stay unlocked
+        await _pinTimeoutService.recordForegroundResume();
+        setState(() => _isLocked = false);
+      }
+    } catch (e) {
+      print('⚠️ Error checking PIN requirement: $e');
+      // On error, require unlock for safety
+      _requireUnlock();
     }
   }
 
