@@ -33,7 +33,7 @@ class DosageGuideCard extends StatelessWidget {
             Icon(Icons.medication_outlined, color: accentColor),
             const SizedBox(width: 8),
             Text(
-              'Dosage Guide',
+              'Dose Ranges (Informational)',
               style: TextStyle(
                 fontSize: ThemeConstants.fontLarge,
                 fontWeight: ThemeConstants.fontBold,

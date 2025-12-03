@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_service_v2.dart';
 import '../services/debug_config.dart';
 import '../services/pin_timeout_service.dart';
+import '../services/security_manager.dart';
 import '../constants/ui_colors.dart';
 
 /// Screen for unlocking with PIN or biometrics
@@ -93,8 +94,9 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
       final success = await _encryptionService.unlockWithPin(user.id, pin);
       
       if (success) {
-        // Record successful unlock for timeout tracking
+        // Record successful unlock for timeout tracking (both services)
         await pinTimeoutService.recordUnlock();
+        await securityManager.recordUnlock();
         
         print('✅ DEBUG: Auto-unlock successful');
         if (mounted) {
@@ -146,8 +148,9 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
       final success = await _encryptionService.unlockWithPin(user.id, pin);
 
       if (success) {
-        // Record successful unlock for timeout tracking
+        // Record successful unlock for timeout tracking (both services)
         await pinTimeoutService.recordUnlock();
+        await securityManager.recordUnlock();
         
         // Navigate to home
         if (mounted) {
@@ -199,8 +202,9 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
       final success = await _encryptionService.unlockWithBiometrics(user.id);
 
       if (success) {
-        // Record successful unlock for timeout tracking
+        // Record successful unlock for timeout tracking (both services)
         await pinTimeoutService.recordUnlock();
+        await securityManager.recordUnlock();
         
         // Navigate to home
         if (mounted) {

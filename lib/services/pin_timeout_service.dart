@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'security_manager.dart';
 
 /// Service to manage PIN timeout settings and state.
 /// 
@@ -6,6 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// - Time since last unlock (foreground timeout)
 /// - Time app has been in background (background timeout)
 /// - Maximum session duration (auto-lock after X minutes of use)
+/// 
+/// NOTE: This service delegates to SecurityManager for core logic.
+/// Use SecurityManager directly for lifecycle handling.
 class PinTimeoutService {
   static const String _keyLastUnlockTime = 'pin_last_unlock_time';
   static const String _keyBackgroundTime = 'pin_background_time';
@@ -30,6 +34,8 @@ class PinTimeoutService {
   /// Initialize the service
   Future<void> init() async {
     _prefs ??= await SharedPreferences.getInstance();
+    // Also initialize the SecurityManager
+    await securityManager.init();
   }
   
   /// Ensure prefs are loaded

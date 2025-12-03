@@ -13,12 +13,16 @@ import '../constants/theme_constants.dart';
 import '../services/daily_checkin_service.dart';
 import '../services/user_service.dart';
 import '../services/encryption_service_v2.dart';
-import '../services/pin_timeout_service.dart';
+import '../services/security_manager.dart';
 import '../screens/profile_screen.dart';
 import '../screens/admin_panel_screen.dart';
 
 /// Redesigned Home Page with modular architecture
 /// Supports Light (wellness) and Dark (futuristic) themes
+/// 
+/// NOTE: Lifecycle handling (background/foreground) is managed centrally
+/// by SecurityManager in main.dart. This page does NOT have its own
+/// lifecycle observer to prevent fighting/duplicate lock/unlock cycles.
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.dailyCheckinRepository});
 
@@ -29,18 +33,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin, HomeNavigationMethods, WidgetsBindingObserver {
+    with SingleTickerProviderStateMixin, HomeNavigationMethods {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   final _encryptionService = EncryptionServiceV2();
-  final _pinTimeoutService = PinTimeoutService();
-  bool _isLocked = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _checkEncryptionStatus();
+    
+    // Record interaction when home page is opened
+    securityManager.recordInteraction();
     
     // Setup animations
     _animationController = AnimationController(
@@ -61,53 +65,8 @@ class _HomePageState extends State<HomePage>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     _animationController.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    
-    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
-      // App going to background, lock encryption
-      _encryptionService.lock();
-      setState(() => _isLocked = true);
-    } else if (state == AppLifecycleState.resumed) {
-      // App coming back to foreground, check if PIN is required based on timeout
-      if (_isLocked) {
-        _checkPinRequirement();
-      }
-    }
-  }
-
-  /// Check if PIN is required using the timeout service
-  Future<void> _checkPinRequirement() async {
-    try {
-      final user = Supabase.instance.client.auth.currentUser;
-      if (user == null) return;
-
-      final hasEncryption = await _encryptionService.hasEncryptionSetup(user.id);
-      if (!hasEncryption) {
-        // No encryption set up, unlock directly
-        setState(() => _isLocked = false);
-        return;
-      }
-
-      final isPinRequired = await _pinTimeoutService.isPinRequired();
-      if (isPinRequired) {
-        _requireUnlock();
-      } else {
-        // Timeout not exceeded, update activity and stay unlocked
-        await _pinTimeoutService.recordForegroundResume();
-        setState(() => _isLocked = false);
-      }
-    } catch (e) {
-      print('⚠️ Error checking PIN requirement: $e');
-      // On error, require unlock for safety
-      _requireUnlock();
-    }
   }
 
   Future<void> _checkEncryptionStatus() async {
@@ -131,6 +90,9 @@ class _HomePageState extends State<HomePage>
   }
 
   void _openDailyCheckin(BuildContext context) async {
+    // Record interaction
+    securityManager.recordInteraction();
+    
     // Navigate to daily check-in and wait for result
     await Navigator.pushNamed(context, '/daily-checkin');
     

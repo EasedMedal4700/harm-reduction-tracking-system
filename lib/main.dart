@@ -29,12 +29,11 @@ import 'screens/recovery_key_screen.dart';
 import 'screens/reflection_page.dart';
 import 'screens/register_page.dart';
 import 'screens/settings_screen.dart';
-import 'services/encryption_service_v2.dart';
 import 'services/error_logging_service.dart';
 import 'services/pin_timeout_service.dart';
+import 'services/security_manager.dart';
 import 'screens/tolerance_dashboard_page.dart';
 import 'screens/onboarding_screen.dart';
-import 'services/onboarding_service.dart';
 
 Future<void> main() async {
   final errorLoggingService = ErrorLoggingService.instance;
@@ -123,7 +122,23 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    pinTimeoutService.init();
+    _initServices();
+  }
+
+  Future<void> _initServices() async {
+    await pinTimeoutService.init();
+    await securityManager.init();
+    
+    // Set up SecurityManager callbacks for navigation
+    securityManager.onPinRequired = () {
+      final context = navigatorKey.currentContext;
+      if (context != null && context.mounted) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/pin-unlock',
+          (route) => route.settings.name == '/login_page',
+        );
+      }
+    };
   }
 
   @override
@@ -139,53 +154,17 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
-        // App going to background
-        pinTimeoutService.recordBackgroundStart();
+        // App going to background - delegate to SecurityManager
+        securityManager.handleBackgroundStart();
         break;
       case AppLifecycleState.resumed:
-        // App coming to foreground - check if PIN is needed
-        _checkPinTimeout();
+        // App coming to foreground - delegate to SecurityManager
+        securityManager.handleForegroundResume();
         break;
       case AppLifecycleState.detached:
       case AppLifecycleState.hidden:
         // App is being closed or hidden
         break;
-    }
-  }
-
-  Future<void> _checkPinTimeout() async {
-    // Only check if user is authenticated
-    try {
-      final user = Supabase.instance.client.auth.currentUser;
-      if (user == null) {
-        // User not logged in, no need to check PIN timeout
-        return;
-      }
-
-      // Check if user has encryption setup before requiring PIN
-      final encryptionService = EncryptionServiceV2();
-      final hasEncryption = await encryptionService.hasEncryptionSetup(user.id);
-      if (!hasEncryption) {
-        // User hasn't set up PIN yet, don't require it
-        return;
-      }
-
-      final isPinRequired = await pinTimeoutService.isPinRequired();
-      if (isPinRequired) {
-        // Navigate to PIN unlock screen
-        final context = navigatorKey.currentContext;
-        if (context != null && context.mounted) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            '/pin-unlock',
-            (route) => route.settings.name == '/login_page',
-          );
-        }
-      } else {
-        // Update activity timestamp
-        await pinTimeoutService.recordForegroundResume();
-      }
-    } catch (e) {
-      print('⚠️ Error checking PIN timeout: $e');
     }
   }
 

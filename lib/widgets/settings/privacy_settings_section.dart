@@ -296,23 +296,53 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           trailing: const Icon(Icons.open_in_new),
           onTap: () => _openPrivacyPolicy(),
         ),
+        // ListTile(
+        //   title: const Text('Privacy Policy'),
+        //   subtitle: const Text('View our privacy policy'),
+        //   leading: const Icon(Icons.policy),
+        //   trailing: const Icon(Icons.open_in_new),
+        //   onTap: () {
+        //     debugPrint("🔥 TAPPED PRIVACY POLICY LIST TILE");
+        //     ScaffoldMessenger.of(context).showSnackBar(
+        //       const SnackBar(content: Text("Tapped!")),
+        //     );
+        //   },
+        // ),
       ],
     );
   }
 
   Future<void> _openPrivacyPolicy() async {
     final uri = Uri.parse(_privacyPolicyUrl);
+
+    debugPrint("🔍 Trying to open privacy policy: $uri");
+
     try {
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Could not open privacy policy')),
-          );
-        }
+      final bool isLaunchable = await canLaunchUrl(uri);
+      debugPrint("📡 canLaunchUrl = $isLaunchable");
+
+      if (!isLaunchable) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Cannot open URL (canLaunch returned false)')),
+        );
+        return;
+      }
+
+      final success = await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+
+      debugPrint("🚀 launchUrl success = $success");
+
+      if (!success && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to launch URL')),
+        );
       }
     } catch (e) {
+      debugPrint("❌ Error opening URL: $e");
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error opening privacy policy: $e')),

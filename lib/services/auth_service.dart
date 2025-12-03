@@ -4,6 +4,7 @@ import '../utils/error_handler.dart';
 import 'user_service.dart';
 import 'encryption_service_v2.dart';
 import 'pin_timeout_service.dart';
+import 'security_manager.dart';
 
 class AuthService {
   SupabaseClient get _client => Supabase.instance.client;
@@ -111,6 +112,7 @@ class AuthService {
       UserService.clearCache(); // Clear cached user ID
       _encryption.lock(); // Clear encryption keys from memory
       await pinTimeoutService.clearState(); // Clear PIN timeout state
+      await securityManager.clearState(); // Clear security manager state
     } catch (e, stackTrace) {
       ErrorHandler.logError('AuthService.logout', e, stackTrace);
     }
