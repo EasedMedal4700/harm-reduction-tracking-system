@@ -602,7 +602,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           
           // Privacy policy link
           GestureDetector(
-            onTap: _openPrivacyPolicy,
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              debugPrint("🔥 PRIVACY LINK TAPPED");
+              Navigator.of(context).pushNamed('/privacy-policy');
+            },
             child: Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(

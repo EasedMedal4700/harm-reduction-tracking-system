@@ -34,6 +34,7 @@ import 'services/pin_timeout_service.dart';
 import 'services/security_manager.dart';
 import 'screens/tolerance_dashboard_page.dart';
 import 'screens/onboarding_screen.dart';
+import 'screens/privacy_policy_screen.dart';
 
 Future<void> main() async {
   final errorLoggingService = ErrorLoggingService.instance;
@@ -188,6 +189,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             initialRoute: '/login_page',
             routes: {
               '/login_page': (context) => const LoginPage(),
+              '/privacy-policy': (_) => const PrivacyPolicyScreen(),
               '/onboarding': (context) => const OnboardingScreen(),
               '/home_page': (context) => const HomePage(),
               '/log_entry': (context) => const QuickLogEntryPage(),

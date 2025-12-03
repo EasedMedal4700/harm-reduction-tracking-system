@@ -264,6 +264,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       : const Text('Create account'),
                 ),
               ),
+              const SizedBox(height: 16),
+              TextButton.icon(
+                icon: const Icon(Icons.login),
+                label: const Text('Already have an account? Log in'),
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/login');
+                },
+              ),
             ],
           ),
         ),

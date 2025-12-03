@@ -296,7 +296,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           child: InkWell(
             onTap: () {
               debugPrint('🔔 Privacy Policy tile tapped - calling _openPrivacyPolicy()');
-              _openPrivacyPolicy();
+              // _openPrivacyPolicy();
+              Navigator.of(context).pushNamed('/privacy-policy');
             },
             child: ListTile(
               title: const Text('Privacy Policy'),
