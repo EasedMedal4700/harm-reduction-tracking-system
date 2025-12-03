@@ -289,12 +289,22 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           },
         ),
         const Divider(),
-        ListTile(
-          title: const Text('Privacy Policy'),
-          subtitle: const Text('View our privacy policy'),
-          leading: const Icon(Icons.policy),
-          trailing: const Icon(Icons.open_in_new),
-          onTap: () => _openPrivacyPolicy(),
+        Listener(
+          behavior: HitTestBehavior.translucent,
+          onPointerDown: (event) => debugPrint('🖱 PointerDown on Privacy Policy tile: $event'),
+          onPointerUp: (event) => debugPrint('🖱 PointerUp on Privacy Policy tile: $event'),
+          child: InkWell(
+            onTap: () {
+              debugPrint('🔔 Privacy Policy tile tapped - calling _openPrivacyPolicy()');
+              _openPrivacyPolicy();
+            },
+            child: ListTile(
+              title: const Text('Privacy Policy'),
+              subtitle: const Text('View our privacy policy'),
+              leading: const Icon(Icons.policy),
+              trailing: const Icon(Icons.open_in_new),
+            ),
+          ),
         ),
         // ListTile(
         //   title: const Text('Privacy Policy'),

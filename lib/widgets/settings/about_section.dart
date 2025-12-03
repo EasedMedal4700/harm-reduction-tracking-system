@@ -26,13 +26,6 @@ class AboutSection extends StatelessWidget {
           subtitle: Text(packageInfo?.buildNumber ?? 'Loading...'),
         ),
         ListTile(
-          title: const Text('Privacy Policy'),
-          trailing: const Icon(Icons.open_in_new),
-          onTap: () {
-            // TODO: Open privacy policy
-          },
-        ),
-        ListTile(
           title: const Text('Terms of Service'),
           trailing: const Icon(Icons.open_in_new),
           onTap: () {
