@@ -269,7 +269,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 icon: const Icon(Icons.login),
                 label: const Text('Already have an account? Log in'),
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/login');
+                  Navigator.of(context).pushReplacementNamed('/login_page');
                 },
               ),
             ],
