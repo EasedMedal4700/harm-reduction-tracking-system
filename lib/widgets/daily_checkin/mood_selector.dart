@@ -81,6 +81,7 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
       for (int i = 0; i < widget.availableMoods.length; i++)
         widget.availableMoods[i]: (widget.availableMoods.length - i).toDouble()
     };
+
     final valueToMood = {
       for (int i = 0; i < widget.availableMoods.length; i++)
         (widget.availableMoods.length - i).toDouble(): widget.availableMoods[i]
@@ -104,7 +105,7 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
-        // Emojis above slider
+        // Emojis above slider (Poor to Great)
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(5, (index) {
@@ -159,13 +160,14 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
           ),
         ),
         const SizedBox(height: 8),
-        // Text labels below
+        // Text labels below (Poor to Great)
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: ['Poor', 'Struggling', 'Neutral', 'Good', 'Great']
               .map((label) => Text(
                     label,
                     style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
                   ))
               .toList(),
         ),
