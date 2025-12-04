@@ -32,6 +32,20 @@ class MoodSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Reverse mapping: first mood ('Poor') -> 1.0 (left), last mood ('Great') -> max (right)
+    final moodToValue = {
+      for (int i = 0; i < availableMoods.length; i++)
+        availableMoods[i]: (availableMoods.length - i).toDouble()
+    };
+    final valueToMood = {
+      for (int i = 0; i < availableMoods.length; i++)
+        (availableMoods.length - i).toDouble(): availableMoods[i]
+    };
+
+    // Get current slider value (default to first mood if none selected)
+    final currentValue =
+        selectedMood != null ? moodToValue[selectedMood]! : 1.0;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -43,18 +57,25 @@ class MoodSelector extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: availableMoods.map((mood) {
-            final isSelected = selectedMood == mood;
-            return ChoiceChip(
-              label: Text(mood),
-              selected: isSelected,
-              onSelected: (_) => onMoodSelected(mood),
-              selectedColor: _getMoodColor(mood),
-            );
-          }).toList(),
+        Slider(
+          value: currentValue,
+          min: 1.0,
+          max: availableMoods.length.toDouble(),
+          divisions: availableMoods.length - 1,
+          label: selectedMood ?? availableMoods.last, // Default to last mood ('Great')
+          onChanged: (value) {
+            final mood = valueToMood[value]!;
+            onMoodSelected(mood);
+          },
+          activeColor: _getMoodColor(selectedMood ?? availableMoods.last),
+        ),
+        // Reversed labels: poor on left, great on right
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: availableMoods
+              .reversed
+              .map((mood) => Text(mood, style: TextStyle(fontSize: 12)))
+              .toList(),
         ),
       ],
     );
