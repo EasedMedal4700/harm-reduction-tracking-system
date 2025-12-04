@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../constants/app_mood.dart';  // Import the new constants file
 
 /// Widget for selecting mood from available options
 class MoodSelector extends StatelessWidget {
@@ -62,7 +63,9 @@ class MoodSelector extends StatelessWidget {
           min: 1.0,
           max: availableMoods.length.toDouble(),
           divisions: availableMoods.length - 1,
-          label: selectedMood ?? availableMoods.last, // Default to last mood ('Great')
+          label: selectedMood != null
+              ? '${moodEmojis[selectedMood]} ${selectedMood}'  // Use imported emojis
+              : '${moodEmojis[availableMoods.last]} ${availableMoods.last}',
           onChanged: (value) {
             final mood = valueToMood[value]!;
             onMoodSelected(mood);
@@ -74,7 +77,10 @@ class MoodSelector extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: availableMoods
               .reversed
-              .map((mood) => Text(mood, style: TextStyle(fontSize: 12)))
+              .map((mood) => Text(
+                    '${moodEmojis[mood]} $mood',  // Use imported emojis
+                    style: const TextStyle(fontSize: 12),
+                  ))
               .toList(),
         ),
       ],
