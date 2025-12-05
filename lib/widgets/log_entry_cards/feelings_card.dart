@@ -135,15 +135,16 @@ class FeelingsCard extends StatelessWidget {
       },
       child: AnimatedContainer(
         duration: ThemeConstants.animationFast,
+        width: double.infinity,  // Fill the grid cell width (50%)
         padding: const EdgeInsets.symmetric(
-          horizontal: ThemeConstants.space16,
-          vertical: ThemeConstants.space12,
+          horizontal: ButtonConstants.buttonPaddingHorizontal,
+          vertical: ButtonConstants.buttonPaddingVertical,
         ),
         decoration: BoxDecoration(
           color: isSelected
               ? (isDark ? accentColor.withOpacity(0.15) : accentColor.withOpacity(0.1))
               : (isDark ? const Color(0x08FFFFFF) : UIColors.lightSurface),
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
+          borderRadius: BorderRadius.circular(ButtonConstants.buttonBorderRadius),
           border: Border.all(
             color: isSelected
                 ? accentColor
@@ -165,10 +166,8 @@ class FeelingsCard extends StatelessWidget {
             Text(
               emotionName.toUpperCase(),
               style: TextStyle(
-                fontSize: ThemeConstants.fontSmall,
-                fontWeight: isSelected 
-                    ? ThemeConstants.fontSemiBold
-                    : ThemeConstants.fontRegular,
+                fontSize: ButtonConstants.buttonFontSize,
+                fontWeight: ButtonConstants.buttonFontWeight,
                 color: isSelected
                     ? (isDark ? UIColors.darkText : UIColors.lightText)
                     : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),

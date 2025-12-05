@@ -141,10 +141,10 @@ class ThemeConstants {
 
 // Button constants
 class ButtonConstants {
-  static const double buttonPaddingHorizontal = 16.0;
-  static const double buttonPaddingVertical = 12.0;
-  static const double buttonBorderRadius = 12.0;
-  static const double buttonFontSize = 16.0;
+  static const double buttonPaddingHorizontal = 8.0;
+  static const double buttonPaddingVertical = 4.0;    // Reduced from 6.0
+  static const double buttonBorderRadius = 24.0;
+  static const double buttonFontSize = 14.0;          // Reduced from 12.0
   static const FontWeight buttonFontWeight = FontWeight.w600;
   
   // Colors (use from ui_colors.dart)
