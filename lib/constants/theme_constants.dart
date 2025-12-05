@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'ui_colors.dart';
 
 /// Reusable theme constants for spacing, radii, shadows, and animations
 class ThemeConstants {
@@ -136,4 +137,17 @@ class ThemeConstants {
   static const double cardPaddingSmall = 16.0;
   static const double cardPaddingMedium = 20.0;
   static const double cardPaddingLarge = 24.0;
+}
+
+// Button constants
+class ButtonConstants {
+  static const double buttonPaddingHorizontal = 16.0;
+  static const double buttonPaddingVertical = 12.0;
+  static const double buttonBorderRadius = 12.0;
+  static const double buttonFontSize = 16.0;
+  static const FontWeight buttonFontWeight = FontWeight.w600;
+  
+  // Colors (use from ui_colors.dart)
+  static Color getPrimaryColor(bool isDark) => isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
+  static Color getSecondaryColor(bool isDark) => isDark ? UIColors.darkSurface : UIColors.lightSurface;
 }

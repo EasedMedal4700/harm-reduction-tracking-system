@@ -40,9 +40,13 @@ class FeelingsCard extends StatelessWidget {
           const SizedBox(height: ThemeConstants.space12),
           
           // Primary feelings
-          Wrap(
-            spacing: ThemeConstants.space8,
-            runSpacing: ThemeConstants.space8,
+          GridView.count(
+            crossAxisCount: 2,  // 2 buttons per row
+            shrinkWrap: true,    // Fits content height
+            physics: const NeverScrollableScrollPhysics(),  // No scrolling
+            childAspectRatio: 3.0,  // Adjust for button height (taller for wider buttons)
+            mainAxisSpacing: ThemeConstants.space8,  // Vertical spacing between rows
+            crossAxisSpacing: ThemeConstants.space8, // Horizontal spacing between buttons
             children: DrugUseCatalog.primaryEmotions.map((emotion) {
               final emotionName = emotion['name']!;
               final emoji = emotion['emoji']!;
