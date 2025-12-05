@@ -26,6 +26,7 @@ dependencies:
   flutter_secure_storage: ^9.2.2  # For secure PIN storage (biometrics)
   local_auth: ^2.3.0  # For biometric authentication
   url_launcher: ^6.1.10  # Add other dependencies as needed
+  app_links: ^6.3.3  # For deep link handling (email confirmation, password reset)
 
 dev_dependencies:
   flutter_test:

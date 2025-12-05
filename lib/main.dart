@@ -39,6 +39,10 @@ import 'screens/tolerance_dashboard_page.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/privacy_policy_screen.dart';
 import 'screens/admin/feature_flags_screen.dart';
+import 'screens/forgot_password_page.dart';
+import 'screens/set_new_password_page.dart';
+import 'screens/email_confirmed_page.dart';
+import 'services/auth_link_handler.dart';
 
 Future<void> main() async {
   final errorLoggingService = ErrorLoggingService.instance;
@@ -137,6 +141,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // Load feature flags from database
     await featureFlagService.load();
     
+    // Initialize deep link handler for auth flows
+    authLinkHandler.init(navigatorKey);
+    
     // Set up SecurityManager callbacks for navigation
     securityManager.onPinRequired = () {
       final context = navigatorKey.currentContext;
@@ -152,6 +159,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    authLinkHandler.dispose();
     super.dispose();
   }
 
@@ -208,6 +216,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               '/recovery-key': (context) => const RecoveryKeyScreen(),
               '/encryption-migration': (context) => const EncryptionMigrationScreen(),
               '/change-pin': (context) => const ChangePinScreen(),
+              '/forgot-password': (context) => const ForgotPasswordPage(),
+              '/set-new-password': (context) => const SetNewPasswordPage(),
+              '/email-confirmed': (context) => const EmailConfirmedPage(),
               
               // Feature-gated routes
               '/home_page': (context) => FeatureGate(
