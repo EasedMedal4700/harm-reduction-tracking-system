@@ -30,11 +30,15 @@ import 'screens/reflection_page.dart';
 import 'screens/register_page.dart';
 import 'screens/settings_screen.dart';
 import 'services/error_logging_service.dart';
+import 'services/feature_flag_service.dart';
 import 'services/pin_timeout_service.dart';
 import 'services/security_manager.dart';
+import 'constants/feature_flags.dart';
+import 'widgets/feature_flags/feature_gate.dart';
 import 'screens/tolerance_dashboard_page.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/privacy_policy_screen.dart';
+import 'screens/admin/feature_flags_screen.dart';
 
 Future<void> main() async {
   final errorLoggingService = ErrorLoggingService.instance;
@@ -130,6 +134,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     await pinTimeoutService.init();
     await securityManager.init();
     
+    // Load feature flags from database
+    await featureFlagService.load();
+    
     // Set up SecurityManager callbacks for navigation
     securityManager.onPinRequired = () {
       final context = navigatorKey.currentContext;
@@ -174,8 +181,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => SettingsProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SettingsProvider()),
+        ChangeNotifierProvider.value(value: featureFlagService),
+      ],
       child: Consumer<SettingsProvider>(
         builder: (context, settingsProvider, _) {
           return MaterialApp(
@@ -188,38 +198,75 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 : ThemeMode.light,
             initialRoute: '/login_page',
             routes: {
+              // Auth routes - no feature gate (critical paths)
               '/login_page': (context) => const LoginPage(),
+              '/register': (context) => const RegisterPage(),
               '/privacy-policy': (_) => const PrivacyPolicyScreen(),
               '/onboarding': (context) => const OnboardingScreen(),
-              '/home_page': (context) => const HomePage(),
-              '/log_entry': (context) => const QuickLogEntryPage(),
-              '/analytics': (context) => const AnalyticsPage(),
-              '/catalog': (context) => const CatalogPage(),
-              '/cravings': (context) => const CravingsPage(),
-              '/blood_levels': (context) => const BloodLevelsPage(),
-              '/reflection': (context) => const ReflectionPage(),
-              '/daily-checkin': (context) => ChangeNotifierProvider(
-                create: (_) => DailyCheckinProvider(),
-                child: const DailyCheckinScreen(),
-              ),
-              '/checkin-history': (context) => ChangeNotifierProvider(
-                create: (_) => DailyCheckinProvider(),
-                child: const CheckinHistoryScreen(),
-              ),
-              '/profile': (context) => const ProfileScreen(),
-              '/admin-panel': (context) => const AdminPanelScreen(),
-              '/settings': (context) => const SettingsScreen(),
-              '/register': (context) => const RegisterPage(),
               '/pin-setup': (context) => const PinSetupScreen(),
               '/pin-unlock': (context) => const PinUnlockScreen(),
               '/recovery-key': (context) => const RecoveryKeyScreen(),
               '/encryption-migration': (context) => const EncryptionMigrationScreen(),
               '/change-pin': (context) => const ChangePinScreen(),
+              
+              // Feature-gated routes
+              '/home_page': (context) => FeatureGate(
+                featureName: FeatureFlags.homePage,
+                child: const HomePage(),
+              ),
+              '/log_entry': (context) => FeatureGate(
+                featureName: FeatureFlags.logEntryPage,
+                child: const QuickLogEntryPage(),
+              ),
+              '/analytics': (context) => FeatureGate(
+                featureName: FeatureFlags.analyticsPage,
+                child: const AnalyticsPage(),
+              ),
+              '/catalog': (context) => FeatureGate(
+                featureName: FeatureFlags.catalogPage,
+                child: const CatalogPage(),
+              ),
+              '/cravings': (context) => FeatureGate(
+                featureName: FeatureFlags.cravingsPage,
+                child: const CravingsPage(),
+              ),
+              '/blood_levels': (context) => FeatureGate(
+                featureName: FeatureFlags.bloodLevelsPage,
+                child: const BloodLevelsPage(),
+              ),
+              '/reflection': (context) => FeatureGate(
+                featureName: FeatureFlags.reflectionPage,
+                child: const ReflectionPage(),
+              ),
+              '/daily-checkin': (context) => FeatureGate(
+                featureName: FeatureFlags.dailyCheckin,
+                child: ChangeNotifierProvider(
+                  create: (_) => DailyCheckinProvider(),
+                  child: const DailyCheckinScreen(),
+                ),
+              ),
+              '/checkin-history': (context) => FeatureGate(
+                featureName: FeatureFlags.checkinHistoryPage,
+                child: ChangeNotifierProvider(
+                  create: (_) => DailyCheckinProvider(),
+                  child: const CheckinHistoryScreen(),
+                ),
+              ),
+              '/profile': (context) => const ProfileScreen(),
+              '/admin-panel': (context) => FeatureGate(
+                featureName: FeatureFlags.adminPanel,
+                child: const AdminPanelScreen(),
+              ),
+              '/admin/feature-flags': (context) => const FeatureFlagsScreen(),
+              '/settings': (context) => const SettingsScreen(),
               '/tolerance-dashboard': (context) {
                 final args =
                     ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
                 final substance = args?['substance'] as String?;
-                return ToleranceDashboardPage(initialSubstance: substance);
+                return FeatureGate(
+                  featureName: FeatureFlags.toleranceDashboardPage,
+                  child: ToleranceDashboardPage(initialSubstance: substance),
+                );
               },
             },
             navigatorObservers: [widget.navigatorObserver],

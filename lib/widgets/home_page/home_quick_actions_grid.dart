@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../constants/feature_flags.dart';
 import '../../constants/theme_constants.dart';
+import '../../services/feature_flag_service.dart';
+import '../../services/user_service.dart';
 import '../home_redesign/quick_action_card.dart';
 
-class HomeQuickActionsGrid extends StatelessWidget {
+class HomeQuickActionsGrid extends StatefulWidget {
   final VoidCallback onLogEntry;
   final VoidCallback onReflection;
   final VoidCallback onAnalytics;
@@ -25,64 +29,83 @@ class HomeQuickActionsGrid extends StatelessWidget {
   });
 
   @override
+  State<HomeQuickActionsGrid> createState() => _HomeQuickActionsGridState();
+}
+
+class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
+  bool _isAdmin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAdminStatus();
+  }
+
+  Future<void> _loadAdminStatus() async {
+    final isAdmin = await UserService.isAdmin();
+    if (mounted) {
+      setState(() => _isAdmin = isAdmin);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: ThemeConstants.quickActionSpacing,
-      mainAxisSpacing: ThemeConstants.quickActionSpacing,
-      childAspectRatio: 1.1,
-      children: [
-        QuickActionCard(
-          actionKey: 'log_usage',
-          icon: Icons.note_add,
-          label: 'Log Entry',
-          onTap: onLogEntry,
-        ),
-        QuickActionCard(
-          actionKey: 'reflection',
-          icon: Icons.self_improvement,
-          label: 'Reflection',
-          onTap: onReflection,
-        ),
-        QuickActionCard(
-          actionKey: 'analytics',
-          icon: Icons.analytics,
-          label: 'Analytics',
-          onTap: onAnalytics,
-        ),
-        QuickActionCard(
-          actionKey: 'cravings',
-          icon: Icons.local_fire_department,
-          label: 'Cravings',
-          onTap: onCravings,
-        ),
-        QuickActionCard(
-          actionKey: 'activity',
-          icon: Icons.directions_run,
-          label: 'Activity',
-          onTap: onActivity,
-        ),
-        QuickActionCard(
-          actionKey: 'library',
-          icon: Icons.menu_book,
-          label: 'Library',
-          onTap: onLibrary,
-        ),
-        QuickActionCard(
-          actionKey: 'catalog',
-          icon: Icons.inventory,
-          label: 'Catalog',
-          onTap: onCatalog,
-        ),
-        QuickActionCard(
-          actionKey: 'blood_levels',
-          icon: Icons.bloodtype,
-          label: 'Blood Levels',
-          onTap: onBloodLevels,
-        ),
-      ],
+    // Define all quick actions with their feature flags
+    final allActions = [
+      _QuickAction('log_usage', Icons.note_add, 'Log Entry', 
+          widget.onLogEntry, FeatureFlags.logEntryPage),
+      _QuickAction('reflection', Icons.self_improvement, 'Reflection', 
+          widget.onReflection, FeatureFlags.reflectionPage),
+      _QuickAction('analytics', Icons.analytics, 'Analytics', 
+          widget.onAnalytics, FeatureFlags.analyticsPage),
+      _QuickAction('cravings', Icons.local_fire_department, 'Cravings', 
+          widget.onCravings, FeatureFlags.cravingsPage),
+      _QuickAction('activity', Icons.directions_run, 'Activity', 
+          widget.onActivity, FeatureFlags.activityPage),
+      _QuickAction('library', Icons.menu_book, 'Library', 
+          widget.onLibrary, FeatureFlags.personalLibraryPage),
+      _QuickAction('catalog', Icons.inventory, 'Catalog', 
+          widget.onCatalog, FeatureFlags.catalogPage),
+      _QuickAction('blood_levels', Icons.bloodtype, 'Blood Levels', 
+          widget.onBloodLevels, FeatureFlags.bloodLevelsPage),
+    ];
+
+    return Consumer<FeatureFlagService>(
+      builder: (context, flags, _) {
+        // Filter actions based on feature flags
+        final enabledActions = allActions.where((action) =>
+          flags.isEnabled(action.flagName, isAdmin: _isAdmin)).toList();
+
+        if (enabledActions.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisSpacing: ThemeConstants.quickActionSpacing,
+          mainAxisSpacing: ThemeConstants.quickActionSpacing,
+          childAspectRatio: 1.1,
+          children: enabledActions.map((action) => QuickActionCard(
+            actionKey: action.key,
+            icon: action.icon,
+            label: action.label,
+            onTap: action.onTap,
+          )).toList(),
+        );
+      },
     );
   }
+}
+
+/// Helper class to hold quick action data.
+class _QuickAction {
+  final String key;
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  final String flagName;
+
+  const _QuickAction(this.key, this.icon, this.label, this.onTap, this.flagName);
 }
