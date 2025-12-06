@@ -73,6 +73,7 @@ class DrugPipeline:
             "start_time": time.time()
         }
         self.raw_data = []
+        self.normalized_data = []
 
     def log_step(self, step_name):
         print(f"\n{'='*60}")
@@ -102,20 +103,20 @@ class DrugPipeline:
         log.info("Fetching TripSit baseline...")
         ts_result = scrape_tripsit_file()
         if ts_result["ok"]:
-            # TripSit file returns a dict of drugs, we need to convert to our raw record format
-            # But scrape_tripsit_file returns the whole file content as "raw".
-            # We'll treat the whole file as one record or split it? 
-            # The processors expect a list of records.
-            # Let's look at run_scrapers.py: output.append(base) where base is the result of scrape_tripsit_file()
-            # So we append the whole result.
-            self.raw_data.append({
-                "drug": "ALL_TRIPSIT", # Special marker or we iterate?
-                "source": "tripsit_file",
-                "raw": ts_result["raw"],
-                "timestamp": datetime.now().isoformat()
-            })
-            self.stats["sources_scraped"]["tripsit"] += len(ts_result["raw"])
-            print(f"✅ TripSit baseline loaded ({len(ts_result['raw'])} drugs)")
+            # TripSit file returns a dict of drugs. We split them into individual records
+            # so normalize_data.py can process them correctly.
+            ts_drugs = ts_result["raw"]
+            print(f"✅ TripSit baseline loaded ({len(ts_drugs)} drugs)")
+            
+            for drug_name, drug_data in ts_drugs.items():
+                self.raw_data.append({
+                    "drug": drug_name,
+                    "source": "tripsit_file",
+                    "raw": drug_data,
+                    "timestamp": datetime.now().isoformat()
+                })
+            
+            self.stats["sources_scraped"]["tripsit"] += len(ts_drugs)
         else:
             log.error(f"TripSit baseline failed: {ts_result.get('error')}")
 
@@ -136,7 +137,11 @@ class DrugPipeline:
                     drugs_to_scrape.add(sub["name"])
                 
                 # 3. Scrape PsychonautWiki Pages
+                print(f"🔄 Scraping PsychonautWiki pages (max: {self.args.max_pw or 'all'})...")
                 count = 0
+                pw_success = 0
+                pw_start = time.time()
+                last_report = pw_start
                 for sub in pw_substances:
                     if self.args.max_pw and count >= self.args.max_pw:
                         break
@@ -144,7 +149,6 @@ class DrugPipeline:
                     drug_name = sub["name"]
                     url = sub["url"]
                     
-                    print(f"   Scraping PW: {drug_name}...")
                     try:
                         # We use scrape_psychonautwiki_page for raw HTML
                         page_res = scrape_psychonautwiki_page(url, drug_name)
@@ -156,27 +160,44 @@ class DrugPipeline:
                                 "timestamp": datetime.now().isoformat()
                             })
                             self.save_raw_html("psychonautwiki", drug_name, page_res["raw"].get("html"))
-                            self.stats["sources_scraped"]["psychonautwiki"] += 1
+                            pw_success += 1
                         else:
                             log.warning(f"PW scrape failed for {drug_name}: {page_res.get('error')}")
                     except Exception as e:
                         log.error(f"PW scrape exception for {drug_name}: {e}")
                     
                     count += 1
+                    
+                    # Progress report every 60 seconds
+                    now = time.time()
+                    if now - last_report >= 60:
+                        elapsed = now - pw_start
+                        print(f"⏱️  PW Scraping Progress: {count}/{len(pw_substances)} visited, {pw_success} successful, {elapsed:.1f}s elapsed")
+                        last_report = now
+                    
                     time.sleep(self.args.delay)
+                
+                print(f"✅ PW Scraping Complete: {pw_success}/{count} successful")
+                self.stats["sources_scraped"]["psychonautwiki"] += pw_success
             else:
                 log.error("Failed to fetch PW index")
 
         # 4. Scrape Wikipedia & PubChem
         # We iterate over the combined list of drugs
         sorted_drugs = sorted(list(drugs_to_scrape))
-        print(f"ℹ️  Processing {len(sorted_drugs)} unique drugs for secondary sources...")
+        print(f"🔄 Processing {len(sorted_drugs)} drugs for secondary sources...")
+        
+        wiki_success = 0
+        pc_success = 0
+        secondary_start = time.time()
+        last_report = secondary_start
+        total_secondary = len(sorted_drugs) * (2 if not self.args.skip_wikipedia and not self.args.skip_pubchem else 1)
+        processed = 0
         
         for drug_name in sorted_drugs:
             # Wikipedia
             if not self.args.skip_wikipedia:
                 try:
-                    # print(f"   Scraping Wiki: {drug_name}...") # Too verbose?
                     wiki_res = scrape_wikipedia(drug_name)
                     if wiki_res["ok"]:
                         self.raw_data.append({
@@ -185,15 +206,15 @@ class DrugPipeline:
                             "raw": wiki_res["raw"],
                             "timestamp": datetime.now().isoformat()
                         })
-                        self.stats["sources_scraped"]["wikipedia"] += 1
+                        wiki_success += 1
                 except Exception as e:
                     log.error(f"Wiki scrape error {drug_name}: {e}")
+                processed += 1
                 time.sleep(self.args.delay / 2)
 
             # PubChem
             if not self.args.skip_pubchem:
                 try:
-                    # print(f"   Scraping PubChem: {drug_name}...")
                     pc_res = scrape_pubchem(drug_name)
                     if pc_res["ok"]:
                         self.raw_data.append({
@@ -202,10 +223,22 @@ class DrugPipeline:
                             "raw": pc_res["raw"],
                             "timestamp": datetime.now().isoformat()
                         })
-                        self.stats["sources_scraped"]["pubchem"] += 1
+                        pc_success += 1
                 except Exception as e:
                     log.error(f"PubChem scrape error {drug_name}: {e}")
+                processed += 1
                 time.sleep(self.args.delay / 2)
+
+            # Progress report every 60 seconds
+            now = time.time()
+            if now - last_report >= 60:
+                elapsed = now - secondary_start
+                print(f"⏱️  Secondary Scraping Progress: {processed}/{total_secondary} requests, Wiki: {wiki_success}, PubChem: {pc_success}, {elapsed:.1f}s elapsed")
+                last_report = now
+        
+        print(f"✅ Secondary Scraping Complete: Wikipedia {wiki_success}, PubChem {pc_success}")
+        self.stats["sources_scraped"]["wikipedia"] += wiki_success
+        self.stats["sources_scraped"]["pubchem"] += pc_success
 
         # Save all raw data
         raw_filename = f"raw_{timestamp()}.json"
@@ -242,7 +275,7 @@ class DrugPipeline:
         except Exception as e:
             log.error(f"Normalization failed: {e}")
             traceback.print_exc()
-            return
+            return False
 
         # 2. Merge (using processor if available, or skip)
         # The prompt asks to call merge_scraped_data.merge()
@@ -286,12 +319,18 @@ class DrugPipeline:
             # It writes to DIFF_DIR
         except Exception as e:
             log.error(f"Diff generation failed: {e}")
+            
+        return True
 
     # =========================================================================
     # STAGE C: FINAL MERGE & REPORTING
     # =========================================================================
     def stage_c_reporting(self):
         self.log_step("STAGE C — FINAL MERGE & REPORT GENERATION")
+
+        if not self.normalized_data:
+            log.error("No normalized data available for reporting.")
+            return
 
         # The normalized data IS our merged data based on normalize_data.py logic.
         # We will save it as final_merged.json
@@ -300,6 +339,9 @@ class DrugPipeline:
             json.dump(self.normalized_data, f, indent=2)
         self.stats["files_written"].append(final_path)
         print(f"✅ Final merged data saved to {final_path}")
+
+        # Verify Data Integrity (Methylphenidate Check)
+        self.verify_data_integrity()
 
         # Generate Quality Report
         report = {
@@ -352,6 +394,35 @@ class DrugPipeline:
         self.stats["files_written"].append(effects_path)
         print(f"✅ All effects list saved to {effects_path}")
 
+    def verify_data_integrity(self):
+        print(f"\n{'='*60}")
+        print("🔍 VERIFYING DATA INTEGRITY")
+        print(f"{'='*60}")
+        
+        # Check Methylphenidate
+        mph = next((d for d in self.normalized_data if d["drug"] == "methylphenidate"), None)
+        if mph:
+            print("Checking Methylphenidate (MPH)...")
+            # Check source flags
+            print(f"  Sources: {mph.get('sources')}")
+            
+            # Check Dosage (Oral Common)
+            # PW: 20-40mg
+            # TripSit: 40-60mg
+            # We want PW.
+            dosage = mph.get("dosage", {})
+            common = dosage.get("common")
+            print(f"  Dosage Common: {common}")
+            
+            if common and "20" in common and "40" in common:
+                 print("  ✅ Dosage matches PsychonautWiki (Correct)")
+            else:
+                 print(f"  ❌ Dosage mismatch! Expected 20-40mg (PW), got {common}")
+                 print("     (Note: If PW scrape failed, this might be empty or from another source)")
+                 
+        else:
+            print("❌ Methylphenidate not found in dataset!")
+
     def print_summary(self):
         elapsed = time.time() - self.stats["start_time"]
         print(f"\n{'='*60}")
@@ -369,8 +440,11 @@ class DrugPipeline:
         try:
             if self.args.run_all:
                 self.stage_a_scraping()
-                self.stage_b_processing()
-                self.stage_c_reporting()
+                success = self.stage_b_processing()
+                if success:
+                    self.stage_c_reporting()
+                else:
+                    print("❌ Processing stage failed. Skipping reporting.")
                 self.print_summary()
             else:
                 print("⚠️  Please use --run-all to execute the full pipeline.")

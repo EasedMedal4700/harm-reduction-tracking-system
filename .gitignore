@@ -103,3 +103,9 @@ helper/
 
 # Raw scraped HTML data
 data/scraped/raw_html/
+
+# Raw scraped data files
+data/scraped/raw*.json
+# data/scraped/*.json
+# data/**
+# /scraped/*.json

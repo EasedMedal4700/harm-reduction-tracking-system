@@ -103,12 +103,20 @@ def extract_psychonautwiki(raw):
 # ----------------------------------------------------
 def extract_tripsit(raw):
     try:
-        if "data" not in raw:
-            return {}
-
-        props = raw["data"][0]["properties"]
-
+        props = {}
+        # Handle API format
+        if "data" in raw and isinstance(raw["data"], list) and len(raw["data"]) > 0:
+            props = raw["data"][0].get("properties", {})
+        # Handle File format (direct dict)
+        elif isinstance(raw, dict):
+            # If 'properties' exists, use it, otherwise assume raw IS the properties
+            props = raw.get("properties", raw)
+        
         duration = props.get("duration", {})
+        # Fallback for file format which might have formatted_duration
+        if not duration and "formatted_duration" in raw:
+             duration = raw["formatted_duration"]
+
         interaction = props.get("interactions", {})
 
         return {
@@ -159,13 +167,39 @@ def merge_sources(grouped):
         "tolerance": None,
         "effects": [],
         "interactions": {},
-        "sources": set()
+        "sources": [],
+        # Explicit source flags
+        "source_tripsit": False,
+        "source_psychonautwiki": False,
+        "source_wikipedia": False,
+        "source_pubchem": False
     })
+
+    # Define priority: Low -> High (Last one wins/overwrites)
+    # TripSit < Wikipedia < PubChem < PsychonautWiki
+    priority_map = {
+        "tripsit": 1,
+        "tripsit_file": 1,
+        "wikipedia": 2,
+        "pubchem": 3,
+        "psychonautwiki": 4
+    }
+
+    # Sort records by priority
+    grouped.sort(key=lambda x: priority_map.get(x["source"], 0))
 
     for record in grouped:
         src = record["source"]
         raw = record["raw"]
-        final["sources"].add(src)
+        
+        # Normalize source name for flags
+        if src == "tripsit_file":
+            src_key = "tripsit"
+        else:
+            src_key = src
+            
+        final["sources"].append(src_key)
+        final[f"source_{src_key}"] = True
 
         if src == "pubchem":
             d = extract_pubchem(raw)
@@ -175,17 +209,22 @@ def merge_sources(grouped):
             d = extract_psychonautwiki(raw)
             # combine nested fields
             if "effects" in d:
-                final["effects"].extend(d["effects"])
-            if "duration" in d:
-                final["duration"].update(d["duration"])
-            if "dosage" in d:
-                final["dosage"].update(d["dosage"])
+                # PW effects are high quality, maybe we want to prefer them or extend?
+                # If we want PW to be the authority, we might want to overwrite if it exists
+                if d["effects"]:
+                    final["effects"] = d["effects"] # Overwrite instead of extend to avoid duplicates/noise
+            if "duration" in d and d["duration"]:
+                final["duration"] = d["duration"] # Overwrite
+            if "dosage" in d and d["dosage"]:
+                final["dosage"] = d["dosage"] # Overwrite
             if d.get("tolerance"):
                 final["tolerance"] = d["tolerance"]
 
-        elif src == "tripsit":
+        elif src in ["tripsit", "tripsit_file"]:
             d = extract_tripsit(raw)
             if "duration_tripsit" in d:
+                # Only set if empty (PW takes precedence) or if we are iterating in order
+                # Since we sort Low->High, PW comes later and will overwrite this if PW has data.
                 final["duration"].update(d["duration_tripsit"])
             if "interactions" in d:
                 final["interactions"].update(d["interactions"])
@@ -198,8 +237,8 @@ def merge_sources(grouped):
                 if not final["summary"]:
                     final["summary"] = d["summary_wiki"]
 
-    # Convert sources set → list
-    final["sources"] = list(final["sources"])
+    # Dedupe sources list
+    final["sources"] = list(set(final["sources"]))
 
     return final
 
@@ -211,7 +250,8 @@ def normalize_file():
     latest = sorted(os.listdir(SCRAPED_DIR))[-1]
     path = os.path.join(SCRAPED_DIR, latest)
 
-    with open(path, "r") as f:
+    log.info(f"Normalizing file: {path}")
+    with open(path, "r", encoding="utf-8") as f:
         raw_records = json.load(f)
 
     # Group raw records by drug
@@ -226,7 +266,7 @@ def normalize_file():
         normalized.append(merged)
 
     filename = os.path.join(CLEANED_DIR, f"normalized_{timestamp()}.json")
-    with open(filename, "w") as f:
+    with open(filename, "w", encoding="utf-8") as f:
         json.dump(normalized, f, indent=4)
 
     print(f"Normalized → {filename}")
