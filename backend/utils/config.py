@@ -4,6 +4,7 @@ from datetime import datetime
 DATA_DIR = "data"
 SCRAPED_DIR = os.path.join(DATA_DIR, "scraped")
 CLEANED_DIR = os.path.join(DATA_DIR, "cleaned")
+PROCESSED_DIR = os.path.join(DATA_DIR, "processed")
 DIFF_DIR = os.path.join(DATA_DIR, "diff")
 LOG_DIR = os.path.join(DATA_DIR, "logs")
 

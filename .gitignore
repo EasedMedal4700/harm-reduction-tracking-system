@@ -100,3 +100,6 @@ login_data.json
 old/
 
 helper/
+
+# Raw scraped HTML data
+data/scraped/raw_html/

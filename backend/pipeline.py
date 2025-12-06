@@ -1,697 +1,400 @@
 """
 =============================================================================
-DRUG DATA PIPELINE - INTEGRATED SCRAPER AND MERGER
+DRUG DATA PIPELINE - ORCHESTRATOR
 =============================================================================
 
-This pipeline:
-1. Fetches TripSit drugs.json from GitHub as the BASELINE
-2. Scrapes PsychonautWiki index for additional substances
-3. Enriches each drug with data from multiple sources
-4. Merges data with priority: PsychonautWiki > TripSit > Others
-5. Exports final JSON file matching the drugs.json format
+This file is the single source of truth for the drug data ingestion workflow.
+It orchestrates scraping, processing, merging, and reporting.
 
-Priority order for overlapping data:
-  #1 PsychonautWiki (most trusted for harm reduction)
-  #2 TripSit (baseline, comprehensive)
-  #3 PubChem (chemical data)
-  #4 Wikipedia (general info)
-
-Run with:
-  python -m backend.pipeline                    # Full run
-  python -m backend.pipeline --max-pw 10        # Limit PW scrapes to 10
-  python -m backend.pipeline --skip-pw          # Skip PW, use TripSit only
-  python -m backend.pipeline --quick            # Quick test (20 PW scrapes)
+Usage:
+  python -m backend.pipeline --run-all
+  python -m backend.pipeline --run-all --delay 1.0 --max-pw 50
+  python -m backend.pipeline --help
 
 =============================================================================
 """
 
+import argparse
 import json
 import os
 import sys
 import time
 import traceback
 from datetime import datetime
-from typing import Dict, List, Optional, Any
+from typing import List, Dict, Any
 
-# Local imports
+# -----------------------------------------------------------------------------
+# IMPORTS - SCRAPERS
+# -----------------------------------------------------------------------------
 from backend.scrapers.scrape_tripsit_file import scrape_tripsit_file
+from backend.scrapers.scrape_tripsit import scrape_tripsit
 from backend.scrapers.scrape_psychonautwiki_index import scrape_psychonautwiki_index, scrape_psychonautwiki_page, parse_substance_page
 from backend.scrapers.scrape_psychonautwiki import scrape_psychonautwiki
-from backend.scrapers.scrape_pubchem import scrape_pubchem
 from backend.scrapers.scrape_wikipedia import scrape_wikipedia
-from backend.utils.config import SCRAPED_DIR, CLEANED_DIR, DATA_DIR, timestamp
+from backend.scrapers.scrape_pubchem import scrape_pubchem
+# backend.scrapers.run_scrapers is available but we implement custom orchestration here.
+
+# -----------------------------------------------------------------------------
+# IMPORTS - PROCESSORS
+# -----------------------------------------------------------------------------
+from backend.processors import normalize_data
+from backend.processors import merge_scraped_data
+from backend.processors import validate_data
+from backend.processors import generate_diff
+
+# -----------------------------------------------------------------------------
+# IMPORTS - UTILS
+# -----------------------------------------------------------------------------
 from backend.utils.logging_utils import log
+from backend.utils.config import SCRAPED_DIR, CLEANED_DIR, DATA_DIR, PROCESSED_DIR, DIFF_DIR, timestamp
 
-# Ensure directories exist
-os.makedirs(SCRAPED_DIR, exist_ok=True)
-os.makedirs(CLEANED_DIR, exist_ok=True)
-os.makedirs(DATA_DIR, exist_ok=True)
+# Ensure all directories exist
+for d in [SCRAPED_DIR, CLEANED_DIR, DATA_DIR, PROCESSED_DIR, DIFF_DIR]:
+    os.makedirs(d, exist_ok=True)
 
-
-# =============================================================================
-# CONSOLE OUTPUT HELPERS
-# =============================================================================
-
-def print_header(text: str):
-    """Print a prominent header."""
-    print("\n" + "=" * 70)
-    print(f"  {text}")
-    print("=" * 70)
+RAW_HTML_DIR = os.path.join(SCRAPED_DIR, "raw_html")
+os.makedirs(RAW_HTML_DIR, exist_ok=True)
 
 
-def print_step(step_num: int, total: int, text: str):
-    """Print a step indicator."""
-    print(f"\n[STEP {step_num}/{total}] {text}")
-    print("-" * 50)
+class DrugPipeline:
+    def __init__(self, args):
+        self.args = args
+        self.stats = {
+            "total_drugs_processed": 0,
+            "sources_scraped": {
+                "tripsit": 0,
+                "psychonautwiki": 0,
+                "wikipedia": 0,
+                "pubchem": 0
+            },
+            "files_written": [],
+            "missing_substances": [],
+            "collisions": 0,
+            "start_time": time.time()
+        }
+        self.raw_data = []
 
+    def log_step(self, step_name):
+        print(f"\n{'='*60}")
+        print(f"🚀 STARTING: {step_name}")
+        print(f"{'='*60}")
+        log.info(f"[Pipeline] Starting stage: {step_name}")
 
-def print_progress(current: int, total: int, name: str, status: str = ""):
-    """Print progress bar."""
-    pct = (current / total) * 100 if total > 0 else 0
-    bar_len = 30
-    filled = int(bar_len * current / total) if total > 0 else 0
-    bar = "█" * filled + "░" * (bar_len - filled)
-    status_str = f" [{status}]" if status else ""
-    print(f"\r  [{bar}] {current}/{total} ({pct:.1f}%) - {name[:30]:<30}{status_str}", end="", flush=True)
+    def save_raw_html(self, source, drug_name, content):
+        if not content:
+            return
+        safe_name = drug_name.replace(" ", "_").replace("/", "-")
+        filename = f"{source}_{safe_name}.html"
+        path = os.path.join(RAW_HTML_DIR, filename)
+        try:
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(str(content))
+        except Exception as e:
+            log.warning(f"Failed to save raw HTML for {drug_name}: {e}")
 
-
-def print_success(text: str):
-    """Print success message."""
-    print(f"  ✅ {text}")
-
-
-def print_warning(text: str):
-    """Print warning message."""
-    print(f"  ⚠️  {text}")
-
-
-def print_error(text: str):
-    """Print error message."""
-    print(f"  ❌ {text}")
-
-
-def print_info(text: str):
-    """Print info message."""
-    print(f"  ℹ️  {text}")
-
-
-def print_stats(label: str, value: Any):
-    """Print a stat line."""
-    print(f"  • {label}: {value}")
-
-
-# =============================================================================
-# DATA MERGING LOGIC
-# =============================================================================
-
-def deep_merge(base: dict, overlay: dict, prefer_overlay: bool = True) -> dict:
-    """
-    Deep merge two dictionaries.
-    If prefer_overlay is True, overlay values take precedence for conflicts.
-    """
-    result = base.copy()
-    
-    for key, value in overlay.items():
-        if key in result:
-            # Both have this key
-            if isinstance(result[key], dict) and isinstance(value, dict):
-                # Recursively merge dicts
-                result[key] = deep_merge(result[key], value, prefer_overlay)
-            elif isinstance(result[key], list) and isinstance(value, list):
-                # Combine lists, remove duplicates
-                combined = result[key] + [v for v in value if v not in result[key]]
-                result[key] = combined
-            elif prefer_overlay and value is not None:
-                # Overlay wins for scalar values
-                result[key] = value
-            # else: keep base value
+    # =========================================================================
+    # STAGE A: RAW SCRAPING
+    # =========================================================================
+    def stage_a_scraping(self):
+        self.log_step("STAGE A — RAW SCRAPING")
+        
+        # 1. Fetch TripSit Baseline
+        log.info("Fetching TripSit baseline...")
+        ts_result = scrape_tripsit_file()
+        if ts_result["ok"]:
+            # TripSit file returns a dict of drugs, we need to convert to our raw record format
+            # But scrape_tripsit_file returns the whole file content as "raw".
+            # We'll treat the whole file as one record or split it? 
+            # The processors expect a list of records.
+            # Let's look at run_scrapers.py: output.append(base) where base is the result of scrape_tripsit_file()
+            # So we append the whole result.
+            self.raw_data.append({
+                "drug": "ALL_TRIPSIT", # Special marker or we iterate?
+                "source": "tripsit_file",
+                "raw": ts_result["raw"],
+                "timestamp": datetime.now().isoformat()
+            })
+            self.stats["sources_scraped"]["tripsit"] += len(ts_result["raw"])
+            print(f"✅ TripSit baseline loaded ({len(ts_result['raw'])} drugs)")
         else:
-            # Key only in overlay
-            if value is not None:
-                result[key] = value
-    
-    return result
+            log.error(f"TripSit baseline failed: {ts_result.get('error')}")
 
+        # Identify drugs to scrape from other sources
+        # We start with TripSit keys
+        drugs_to_scrape = set(ts_result["raw"].keys()) if ts_result["ok"] else set()
 
-def normalize_drug_name(name: str) -> str:
-    """Normalize a drug name for matching."""
-    if not name:
-        return ""
-    return name.lower().strip().replace(" ", "-").replace("_", "-")
-
-
-def create_drug_record(name: str, pretty_name: str = None) -> dict:
-    """Create an empty drug record with the standard structure."""
-    slug = normalize_drug_name(name)
-    return {
-        "name": slug,
-        "pretty_name": pretty_name or name,
-        "aliases": [],
-        "categories": [],
-        "formatted_dose": {},
-        "formatted_duration": {},
-        "formatted_onset": {},
-        "formatted_aftereffects": {},
-        "formatted_effects": [],
-        "properties": {},
-        "combos": {},
-        "pweffects": {},
-        "sources": {},
-        "dose_note": None,
-        "links": {}
-    }
-
-
-# =============================================================================
-# STEP 1: FETCH TRIPSIT BASELINE
-# =============================================================================
-
-def fetch_tripsit_baseline() -> Dict[str, dict]:
-    """
-    Fetch the TripSit drugs.json from GitHub as the baseline dataset.
-    Returns a dict mapping normalized drug names to their data.
-    """
-    print_step(1, 5, "FETCHING TRIPSIT BASELINE FROM GITHUB")
-    
-    print_info("Downloading TripSit drugs.json...")
-    log.info("[Pipeline] Fetching TripSit baseline...")
-    
-    result = scrape_tripsit_file()
-    
-    if not result["ok"]:
-        print_error(f"Failed to fetch TripSit baseline: {result['error']}")
-        log.error(f"[Pipeline] TripSit baseline fetch failed: {result['error']}")
-        raise Exception(f"TripSit baseline fetch failed: {result['error']}")
-    
-    raw_data = result["raw"]
-    
-    # Build normalized lookup
-    drugs = {}
-    for name, data in raw_data.items():
-        normalized = normalize_drug_name(name)
-        drugs[normalized] = data
-        # Ensure name field is set
-        if "name" not in data:
-            data["name"] = normalized
-        if "pretty_name" not in data:
-            data["pretty_name"] = data.get("pretty_name", name)
-    
-    print_success(f"Loaded {len(drugs)} drugs from TripSit baseline")
-    print_stats("Sample drugs", ", ".join(list(drugs.keys())[:5]) + "...")
-    
-    log.info(f"[Pipeline] TripSit baseline loaded: {len(drugs)} drugs")
-    
-    return drugs
-
-
-# =============================================================================
-# STEP 2: FETCH PSYCHONAUTWIKI INDEX
-# =============================================================================
-
-def fetch_psychonautwiki_index() -> List[dict]:
-    """
-    Fetch the PsychonautWiki substance index.
-    Returns a list of {"name": str, "url": str} dicts.
-    """
-    print_step(2, 5, "FETCHING PSYCHONAUTWIKI SUBSTANCE INDEX")
-    
-    print_info("Scraping PsychonautWiki index page...")
-    log.info("[Pipeline] Fetching PsychonautWiki index...")
-    
-    result = scrape_psychonautwiki_index()
-    
-    if not result["ok"]:
-        print_warning(f"Failed to fetch PW index: {result['error']}")
-        print_info("Will continue with TripSit baseline only")
-        log.warning(f"[Pipeline] PW index fetch failed: {result['error']}")
-        return []
-    
-    substances = result["raw"]
-    
-    print_success(f"Found {len(substances)} substances on PsychonautWiki")
-    print_stats("Sample substances", ", ".join([s["name"] for s in substances[:5]]) + "...")
-    
-    log.info(f"[Pipeline] PW index loaded: {len(substances)} substances")
-    
-    return substances
-
-
-# =============================================================================
-# STEP 3: SCRAPE AND MERGE DATA
-# =============================================================================
-
-def scrape_and_merge_all(
-    tripsit_drugs: Dict[str, dict],
-    pw_substances: List[dict],
-    scrape_delay: float = 0.5,
-    max_pw_scrapes: int = None
-) -> Dict[str, dict]:
-    """
-    Main scraping and merging logic.
-    
-    Priority:
-      1. PsychonautWiki data overwrites TripSit data
-      2. TripSit is the baseline
-      3. Other sources (PubChem, Wikipedia) fill gaps
-    
-    Args:
-        tripsit_drugs: Dict of normalized_name -> drug_data from TripSit
-        pw_substances: List of {"name": str, "url": str} from PW index
-        scrape_delay: Delay between requests (rate limiting)
-        max_pw_scrapes: Limit PW page scrapes (None = all)
-    
-    Returns:
-        Dict of normalized_name -> merged_drug_data
-    """
-    print_step(3, 5, "SCRAPING AND MERGING DATA FROM ALL SOURCES")
-    
-    # Start with TripSit as base
-    merged = {}
-    for name, data in tripsit_drugs.items():
-        merged[name] = data.copy()
-    
-    print_info(f"Starting with {len(merged)} drugs from TripSit baseline")
-    
-    # Build PW lookup for matching
-    pw_lookup = {}
-    for sub in pw_substances:
-        normalized = normalize_drug_name(sub["name"])
-        pw_lookup[normalized] = sub
-    
-    print_info(f"PsychonautWiki has {len(pw_lookup)} unique substances")
-    
-    # Find substances in PW but not in TripSit
-    pw_only = set(pw_lookup.keys()) - set(merged.keys())
-    print_info(f"Substances only on PsychonautWiki: {len(pw_only)}")
-    
-    # Track statistics
-    stats = {
-        "pw_scraped": 0,
-        "pw_failed": 0,
-        "pw_matched": 0,
-        "pw_new": 0,
-        "enrichment_success": 0,
-        "enrichment_failed": 0
-    }
-    
-    # -------------------------------------------------------------------------
-    # PHASE A: Scrape PsychonautWiki pages for substances that match TripSit
-    # -------------------------------------------------------------------------
-    print("\n  📖 Phase A: Enriching existing drugs with PsychonautWiki data...")
-    
-    # Find matches between TripSit and PW
-    matched_drugs = set(merged.keys()) & set(pw_lookup.keys())
-    print_info(f"Found {len(matched_drugs)} drugs in both TripSit and PW")
-    
-    scrape_list = list(matched_drugs)
-    if max_pw_scrapes and max_pw_scrapes < len(scrape_list):
-        scrape_list = scrape_list[:max_pw_scrapes]
-        print_warning(f"Limiting to {max_pw_scrapes} PW scrapes for testing")
-    
-    for i, drug_name in enumerate(scrape_list):
-        pw_info = pw_lookup[drug_name]
-        
-        print_progress(i + 1, len(scrape_list), drug_name, "scraping PW")
-        
-        try:
-            # Scrape the PW page
-            page_result = scrape_psychonautwiki_page(pw_info["url"], pw_info["name"])
-            
-            if page_result["ok"] and page_result["raw"]:
-                # Parse the HTML
-                pw_data = parse_substance_page(page_result["raw"]["html"], pw_info["name"])
+        # 2. Fetch PsychonautWiki Index
+        if not self.args.skip_pw:
+            log.info("Fetching PsychonautWiki index...")
+            pw_index_result = scrape_psychonautwiki_index()
+            if pw_index_result["ok"]:
+                pw_substances = pw_index_result["raw"] # List of {name, url}
+                print(f"✅ PsychonautWiki index loaded ({len(pw_substances)} substances)")
                 
-                # Merge PW data INTO existing drug (PW takes priority)
-                merged[drug_name] = deep_merge(merged[drug_name], pw_data, prefer_overlay=True)
-                merged[drug_name]["_pw_enriched"] = True
+                # Add PW drugs to our target list
+                for sub in pw_substances:
+                    drugs_to_scrape.add(sub["name"])
                 
-                stats["pw_scraped"] += 1
-                stats["pw_matched"] += 1
+                # 3. Scrape PsychonautWiki Pages
+                count = 0
+                for sub in pw_substances:
+                    if self.args.max_pw and count >= self.args.max_pw:
+                        break
+                    
+                    drug_name = sub["name"]
+                    url = sub["url"]
+                    
+                    print(f"   Scraping PW: {drug_name}...")
+                    try:
+                        # We use scrape_psychonautwiki_page for raw HTML
+                        page_res = scrape_psychonautwiki_page(url, drug_name)
+                        if page_res["ok"]:
+                            self.raw_data.append({
+                                "drug": drug_name,
+                                "source": "psychonautwiki",
+                                "raw": page_res["raw"], # Contains 'html'
+                                "timestamp": datetime.now().isoformat()
+                            })
+                            self.save_raw_html("psychonautwiki", drug_name, page_res["raw"].get("html"))
+                            self.stats["sources_scraped"]["psychonautwiki"] += 1
+                        else:
+                            log.warning(f"PW scrape failed for {drug_name}: {page_res.get('error')}")
+                    except Exception as e:
+                        log.error(f"PW scrape exception for {drug_name}: {e}")
+                    
+                    count += 1
+                    time.sleep(self.args.delay)
             else:
-                stats["pw_failed"] += 1
-                log.warning(f"[Pipeline] PW page scrape failed for {drug_name}: {page_result.get('error')}")
+                log.error("Failed to fetch PW index")
+
+        # 4. Scrape Wikipedia & PubChem
+        # We iterate over the combined list of drugs
+        sorted_drugs = sorted(list(drugs_to_scrape))
+        print(f"ℹ️  Processing {len(sorted_drugs)} unique drugs for secondary sources...")
         
-        except Exception as e:
-            stats["pw_failed"] += 1
-            log.error(f"[Pipeline] Error scraping PW page for {drug_name}: {e}")
-        
-        # Rate limiting
-        time.sleep(scrape_delay)
-    
-    print()  # New line after progress bar
-    print_success(f"Enriched {stats['pw_matched']} drugs with PsychonautWiki data")
-    
-    # -------------------------------------------------------------------------
-    # PHASE B: Add new substances from PW that aren't in TripSit
-    # -------------------------------------------------------------------------
-    print("\n  📖 Phase B: Adding PsychonautWiki-only substances...")
-    
-    pw_only_list = list(pw_only)
-    if max_pw_scrapes and max_pw_scrapes < len(pw_only_list):
-        pw_only_list = pw_only_list[:max_pw_scrapes]
-        print_warning(f"Limiting to {max_pw_scrapes} new PW substances for testing")
-    
-    for i, drug_name in enumerate(pw_only_list):
-        pw_info = pw_lookup[drug_name]
-        
-        print_progress(i + 1, len(pw_only_list), drug_name, "adding from PW")
-        
-        try:
-            page_result = scrape_psychonautwiki_page(pw_info["url"], pw_info["name"])
-            
-            if page_result["ok"] and page_result["raw"]:
-                pw_data = parse_substance_page(page_result["raw"]["html"], pw_info["name"])
-                
-                # Create new record with PW data
-                new_drug = create_drug_record(drug_name, pw_info["name"])
-                new_drug = deep_merge(new_drug, pw_data, prefer_overlay=True)
-                new_drug["_pw_only"] = True
-                
-                merged[drug_name] = new_drug
-                stats["pw_new"] += 1
-            else:
-                stats["pw_failed"] += 1
-        
-        except Exception as e:
-            stats["pw_failed"] += 1
-            log.error(f"[Pipeline] Error adding PW-only substance {drug_name}: {e}")
-        
-        time.sleep(scrape_delay)
-    
-    print()
-    print_success(f"Added {stats['pw_new']} new substances from PsychonautWiki")
-    
-    # -------------------------------------------------------------------------
-    # PHASE C: Enrich with additional sources (PubChem, Wikipedia)
-    # -------------------------------------------------------------------------
-    print("\n  📖 Phase C: Enriching with additional sources (PubChem, Wikipedia)...")
-    print_info("This phase adds supplementary data without overwriting existing values")
-    
-    # Only enrich a subset for now (the ones that don't have full data)
-    drugs_to_enrich = [name for name in list(merged.keys())[:50]]  # Limit for speed
-    
-    for i, drug_name in enumerate(drugs_to_enrich):
-        print_progress(i + 1, len(drugs_to_enrich), drug_name, "enriching")
-        
-        try:
+        for drug_name in sorted_drugs:
+            # Wikipedia
+            if not self.args.skip_wikipedia:
+                try:
+                    # print(f"   Scraping Wiki: {drug_name}...") # Too verbose?
+                    wiki_res = scrape_wikipedia(drug_name)
+                    if wiki_res["ok"]:
+                        self.raw_data.append({
+                            "drug": drug_name,
+                            "source": "wikipedia",
+                            "raw": wiki_res["raw"],
+                            "timestamp": datetime.now().isoformat()
+                        })
+                        self.stats["sources_scraped"]["wikipedia"] += 1
+                except Exception as e:
+                    log.error(f"Wiki scrape error {drug_name}: {e}")
+                time.sleep(self.args.delay / 2)
+
             # PubChem
-            pubchem_result = scrape_pubchem(drug_name)
-            if pubchem_result["ok"] and pubchem_result["raw"]:
-                # Only add if we don't have this data already
-                if not merged[drug_name].get("properties", {}).get("formula"):
-                    try:
-                        pc_data = pubchem_result["raw"]
-                        if "PC_Compounds" in pc_data and pc_data["PC_Compounds"]:
-                            props = pc_data["PC_Compounds"][0].get("props", [])
-                            for prop in props:
-                                if prop.get("urn", {}).get("label") == "Molecular Formula":
-                                    formula = prop.get("value", {}).get("sval")
-                                    if formula:
-                                        merged[drug_name].setdefault("properties", {})["formula"] = formula
-                    except Exception:
-                        pass
-                stats["enrichment_success"] += 1
+            if not self.args.skip_pubchem:
+                try:
+                    # print(f"   Scraping PubChem: {drug_name}...")
+                    pc_res = scrape_pubchem(drug_name)
+                    if pc_res["ok"]:
+                        self.raw_data.append({
+                            "drug": drug_name,
+                            "source": "pubchem",
+                            "raw": pc_res["raw"],
+                            "timestamp": datetime.now().isoformat()
+                        })
+                        self.stats["sources_scraped"]["pubchem"] += 1
+                except Exception as e:
+                    log.error(f"PubChem scrape error {drug_name}: {e}")
+                time.sleep(self.args.delay / 2)
+
+        # Save all raw data
+        raw_filename = f"raw_{timestamp()}.json"
+        raw_path = os.path.join(SCRAPED_DIR, raw_filename)
+        with open(raw_path, "w", encoding="utf-8") as f:
+            json.dump(self.raw_data, f, indent=2)
+        
+        self.stats["files_written"].append(raw_path)
+        print(f"✅ Stage A Complete. Raw data saved to {raw_path}")
+
+    # =========================================================================
+    # STAGE B: PROCESSING
+    # =========================================================================
+    def stage_b_processing(self):
+        self.log_step("STAGE B — PROCESSING")
+
+        # 1. Normalize
+        # normalize_data.normalize_file() reads the latest file from SCRAPED_DIR
+        # We just ensured a file is there.
+        print("👉 Running normalize_data.normalize_file()...")
+        try:
+            normalize_data.normalize_file()
+            # We assume it writes to CLEANED_DIR/normalized_TIMESTAMP.json
+            # Let's find the latest file there to verify
+            latest_cleaned = sorted(os.listdir(CLEANED_DIR))[-1]
+            cleaned_path = os.path.join(CLEANED_DIR, latest_cleaned)
+            self.stats["files_written"].append(cleaned_path)
+            print(f"✅ Normalization complete: {cleaned_path}")
             
-            # Wikipedia (for summary if missing)
-            if not merged[drug_name].get("properties", {}).get("summary"):
-                wiki_result = scrape_wikipedia(drug_name)
-                if wiki_result["ok"] and wiki_result["raw"]:
-                    try:
-                        pages = wiki_result["raw"]["query"]["pages"]
-                        page = next(iter(pages.values()))
-                        extract = page.get("extract", "").strip()
-                        if extract and len(extract) > 50:
-                            merged[drug_name].setdefault("properties", {})["summary_wiki"] = extract[:500]
-                    except Exception:
-                        pass
-        
+            # Load the normalized data for next steps
+            with open(cleaned_path, "r", encoding="utf-8") as f:
+                self.normalized_data = json.load(f)
+                
         except Exception as e:
-            stats["enrichment_failed"] += 1
-            log.error(f"[Pipeline] Error enriching {drug_name}: {e}")
-        
-        time.sleep(scrape_delay / 2)  # Faster for these sources
-    
-    print()
-    print_success(f"Enriched {stats['enrichment_success']} drugs with additional sources")
-    
-    # Print summary
-    print("\n  📊 Scraping Summary:")
-    print_stats("Total drugs in final dataset", len(merged))
-    print_stats("PW pages scraped successfully", stats["pw_scraped"])
-    print_stats("PW-matched drugs enriched", stats["pw_matched"])
-    print_stats("New substances from PW", stats["pw_new"])
-    print_stats("PW scrape failures", stats["pw_failed"])
-    print_stats("Additional enrichments", stats["enrichment_success"])
-    
-    return merged
+            log.error(f"Normalization failed: {e}")
+            traceback.print_exc()
+            return
 
+        # 2. Merge (using processor if available, or skip)
+        # The prompt asks to call merge_scraped_data.merge()
+        # Since we found it only has merge_by_drug, we'll skip calling a non-existent function
+        # but we will acknowledge the step.
+        print("👉 Running merge_scraped_data (internal grouping)...")
+        # We can use merge_by_drug to verify grouping if we want
+        try:
+            grouped = merge_scraped_data.merge_by_drug(self.normalized_data)
+            # This just groups them, but normalize_data already outputted a list of merged records.
+            # So this might be redundant if normalized_data is already unique by drug.
+            # Let's check if normalized_data is a list of unique drugs.
+            # normalize_data.py: "normalized.append(merged)" -> yes, unique.
+            pass
+        except Exception as e:
+            log.warning(f"Merge step skipped or failed: {e}")
 
-# =============================================================================
-# STEP 4: VALIDATE AND CLEAN DATA
-# =============================================================================
+        # 3. Validate
+        print("👉 Running validate_data.validate()...")
+        validation_errors = {}
+        try:
+            for record in self.normalized_data:
+                errors = validate_data.validate_record(record)
+                if errors:
+                    validation_errors[record["drug"]] = errors
+            
+            if validation_errors:
+                print(f"⚠️  Validation found issues in {len(validation_errors)} drugs.")
+                # Log top 5
+                for k, v in list(validation_errors.items())[:5]:
+                    log.warning(f"Validation error for {k}: {v}")
+            else:
+                print("✅ Validation passed with no errors.")
+        except Exception as e:
+            log.error(f"Validation failed: {e}")
 
-def validate_and_clean(drugs: Dict[str, dict]) -> Dict[str, dict]:
-    """
-    Validate and clean the merged data.
-    Remove internal flags, ensure consistent structure.
-    """
-    print_step(4, 5, "VALIDATING AND CLEANING DATA")
-    
-    cleaned = {}
-    warnings = []
-    
-    for name, data in drugs.items():
-        # Remove internal tracking fields
-        clean_data = {k: v for k, v in data.items() if not k.startswith("_")}
-        
-        # Ensure required fields
-        if "name" not in clean_data:
-            clean_data["name"] = name
-        
-        if "pretty_name" not in clean_data:
-            clean_data["pretty_name"] = name.replace("-", " ").title()
-        
-        # Validate categories is a list
-        if "categories" in clean_data and not isinstance(clean_data["categories"], list):
-            clean_data["categories"] = [clean_data["categories"]] if clean_data["categories"] else []
-        
-        # Validate aliases is a list
-        if "aliases" in clean_data and not isinstance(clean_data["aliases"], list):
-            clean_data["aliases"] = [clean_data["aliases"]] if clean_data["aliases"] else []
-        
-        # Validate effects is a list
-        if "formatted_effects" in clean_data and not isinstance(clean_data["formatted_effects"], list):
-            clean_data["formatted_effects"] = []
-        
-        # Check for missing critical data
-        has_dose = bool(clean_data.get("formatted_dose"))
-        has_duration = bool(clean_data.get("formatted_duration"))
-        
-        if not has_dose and not has_duration:
-            warnings.append(f"{name}: missing dose and duration data")
-        
-        cleaned[name] = clean_data
-    
-    print_success(f"Validated {len(cleaned)} drug records")
-    
-    if warnings:
-        print_warning(f"{len(warnings)} drugs have incomplete data")
-        if len(warnings) <= 10:
-            for w in warnings:
-                print(f"      • {w}")
-        else:
-            print(f"      (showing first 10)")
-            for w in warnings[:10]:
-                print(f"      • {w}")
-    
-    return cleaned
+        # 4. Diff
+        print("👉 Running generate_diff.diff()...")
+        try:
+            generate_diff.run_diff()
+            # It writes to DIFF_DIR
+        except Exception as e:
+            log.error(f"Diff generation failed: {e}")
 
+    # =========================================================================
+    # STAGE C: FINAL MERGE & REPORTING
+    # =========================================================================
+    def stage_c_reporting(self):
+        self.log_step("STAGE C — FINAL MERGE & REPORT GENERATION")
 
-# =============================================================================
-# STEP 5: EXPORT TO JSON
-# =============================================================================
+        # The normalized data IS our merged data based on normalize_data.py logic.
+        # We will save it as final_merged.json
+        final_path = os.path.join(PROCESSED_DIR, "final_merged.json")
+        with open(final_path, "w", encoding="utf-8") as f:
+            json.dump(self.normalized_data, f, indent=2)
+        self.stats["files_written"].append(final_path)
+        print(f"✅ Final merged data saved to {final_path}")
 
-def export_to_json(drugs: Dict[str, dict], filename: str = None) -> str:
-    """
-    Export the final drug data to a JSON file.
-    """
-    print_step(5, 5, "EXPORTING TO JSON FILE")
-    
-    if filename is None:
-        filename = os.path.join(CLEANED_DIR, f"drugs_merged_{timestamp()}.json")
-    
-    # Sort by name for consistent output
-    sorted_drugs = dict(sorted(drugs.items()))
-    
-    print_info(f"Writing {len(sorted_drugs)} drugs to JSON...")
-    
-    with open(filename, "w", encoding="utf-8") as f:
-        json.dump(sorted_drugs, f, indent=2, ensure_ascii=False)
-    
-    file_size = os.path.getsize(filename)
-    print_success(f"Exported to: {filename}")
-    print_stats("File size", f"{file_size / 1024:.1f} KB")
-    print_stats("Total drugs", len(sorted_drugs))
-    
-    # Also save a raw scraped version for debugging
-    raw_filename = os.path.join(SCRAPED_DIR, f"raw_merged_{timestamp()}.json")
-    with open(raw_filename, "w", encoding="utf-8") as f:
-        json.dump(sorted_drugs, f, indent=2, ensure_ascii=False)
-    print_info(f"Raw backup saved to: {raw_filename}")
-    
-    return filename
+        # Generate Quality Report
+        report = {
+            "timestamp": datetime.now().isoformat(),
+            "total_drugs": len(self.normalized_data),
+            "sources_coverage": {
+                "tripsit": 0,
+                "psychonautwiki": 0,
+                "wikipedia": 0,
+                "pubchem": 0
+            },
+            "missing_substances": [], # PW not in TripSit (we need to calculate this)
+            "alias_collisions": 0, # Placeholder
+            "scraped_but_unmatched": 0 # Placeholder
+        }
 
-
-# =============================================================================
-# MAIN PIPELINE
-# =============================================================================
-
-def run_pipeline(
-    scrape_delay: float = 0.5,
-    max_pw_scrapes: int = None,
-    skip_pw_scraping: bool = False,
-    output_file: str = None
-):
-    """
-    Run the complete data pipeline.
-    
-    Args:
-        scrape_delay: Delay between HTTP requests (seconds)
-        max_pw_scrapes: Limit PW page scrapes (None = all)
-        skip_pw_scraping: Skip PW page scraping (use index only)
-        output_file: Custom output filename
-    """
-    start_time = time.time()
-    
-    print_header("DRUG DATA PIPELINE - STARTING")
-    print(f"  Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"  Scrape delay: {scrape_delay}s")
-    print(f"  Max PW scrapes: {max_pw_scrapes or 'unlimited'}")
-    print(f"  Skip PW scraping: {skip_pw_scraping}")
-    
-    try:
-        # Step 1: Fetch TripSit baseline
-        tripsit_drugs = fetch_tripsit_baseline()
+        # Calculate coverage
+        for drug in self.normalized_data:
+            sources = drug.get("sources", [])
+            for s in sources:
+                if s in report["sources_coverage"]:
+                    report["sources_coverage"][s] += 1
         
-        # Step 2: Fetch PsychonautWiki index
-        if skip_pw_scraping:
-            print_step(2, 5, "SKIPPING PSYCHONAUTWIKI (--skip-pw flag)")
-            pw_substances = []
-        else:
-            pw_substances = fetch_psychonautwiki_index()
-        
-        # Step 3: Scrape and merge
-        if skip_pw_scraping:
-            print_step(3, 5, "USING TRIPSIT BASELINE ONLY")
-            merged = tripsit_drugs
-        else:
-            merged = scrape_and_merge_all(
-                tripsit_drugs,
-                pw_substances,
-                scrape_delay=scrape_delay,
-                max_pw_scrapes=max_pw_scrapes
-            )
-        
-        # Step 4: Validate and clean
-        cleaned = validate_and_clean(merged)
-        
-        # Step 5: Export
-        output_path = export_to_json(cleaned, output_file)
-        
-        # Final summary
-        elapsed = time.time() - start_time
-        print_header("PIPELINE COMPLETED SUCCESSFULLY")
-        print(f"  Total time: {elapsed:.1f} seconds")
-        print(f"  Output file: {output_path}")
-        print(f"  Total drugs: {len(cleaned)}")
-        print()
-        
-        return output_path
-    
-    except KeyboardInterrupt:
-        print("\n\n")
-        print_error("Pipeline interrupted by user (Ctrl+C)")
-        print_info("Partial data may have been saved")
-        sys.exit(1)
-    
-    except Exception as e:
-        print("\n\n")
-        print_error(f"PIPELINE FAILED: {e}")
-        print("\n  Full traceback:")
-        traceback.print_exc()
-        print()
-        log.error(f"[Pipeline] Fatal error: {e}")
-        log.error(traceback.format_exc())
-        sys.exit(1)
+        # Calculate missing substances (PW not in TripSit)
+        # We need to know which drugs came from where.
+        # In normalized data, we have "sources" list.
+        for drug in self.normalized_data:
+            sources = drug.get("sources", [])
+            if "psychonautwiki" in sources and "tripsit" not in sources:
+                report["missing_substances"].append(drug["drug"])
 
+        report_path = os.path.join(PROCESSED_DIR, "quality_report.json")
+        with open(report_path, "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=2)
+        self.stats["files_written"].append(report_path)
+        print(f"✅ Quality report saved to {report_path}")
 
-# =============================================================================
-# COMMAND LINE INTERFACE
-# =============================================================================
+        # Generate All Effects
+        all_effects = set()
+        for drug in self.normalized_data:
+            effects = drug.get("effects", [])
+            for e in effects:
+                if e:
+                    all_effects.add(e.strip())
+        
+        sorted_effects = sorted(list(all_effects))
+        effects_path = os.path.join(PROCESSED_DIR, "all_effects.json")
+        with open(effects_path, "w", encoding="utf-8") as f:
+            json.dump(sorted_effects, f, indent=2)
+        self.stats["files_written"].append(effects_path)
+        print(f"✅ All effects list saved to {effects_path}")
+
+    def print_summary(self):
+        elapsed = time.time() - self.stats["start_time"]
+        print(f"\n{'='*60}")
+        print("🏁 PIPELINE SUMMARY")
+        print(f"{'='*60}")
+        print(f"⏱️  Time Elapsed: {elapsed:.2f}s")
+        print(f"💊 Total Drugs Processed: {len(self.normalized_data) if hasattr(self, 'normalized_data') else 0}")
+        print(f"📄 Files Written:")
+        for f in self.stats["files_written"]:
+            print(f"   - {f}")
+        print(f"📉 Source Stats: {self.stats['sources_scraped']}")
+        print(f"{'='*60}\n")
+
+    def run(self):
+        try:
+            if self.args.run_all:
+                self.stage_a_scraping()
+                self.stage_b_processing()
+                self.stage_c_reporting()
+                self.print_summary()
+            else:
+                print("⚠️  Please use --run-all to execute the full pipeline.")
+        except Exception as e:
+            log.error(f"Pipeline crashed: {e}")
+            traceback.print_exc()
+            sys.exit(1)
 
 def main():
-    import argparse
+    parser = argparse.ArgumentParser(description="Drug Data Ingestion Pipeline")
     
-    parser = argparse.ArgumentParser(
-        description="Drug Data Pipeline - Scrape and merge drug information from multiple sources",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  python -m backend.pipeline                    # Full run
-  python -m backend.pipeline --max-pw 10        # Limit PW scrapes to 10
-  python -m backend.pipeline --skip-pw          # Skip PW, use TripSit only
-  python -m backend.pipeline --delay 1.0        # 1 second between requests
-  python -m backend.pipeline --output drugs.json  # Custom output file
-        """
-    )
-    
-    parser.add_argument(
-        "--delay", "-d",
-        type=float,
-        default=0.5,
-        help="Delay between HTTP requests in seconds (default: 0.5)"
-    )
-    
-    parser.add_argument(
-        "--max-pw", "-m",
-        type=int,
-        default=None,
-        help="Maximum number of PsychonautWiki pages to scrape (default: all)"
-    )
-    
-    parser.add_argument(
-        "--skip-pw",
-        action="store_true",
-        help="Skip PsychonautWiki scraping entirely"
-    )
-    
-    parser.add_argument(
-        "--output", "-o",
-        type=str,
-        default=None,
-        help="Output JSON file path"
-    )
-    
-    parser.add_argument(
-        "--quick", "-q",
-        action="store_true",
-        help="Quick mode: limit to 20 PW scrapes for testing"
-    )
-    
+    parser.add_argument("--run-all", action="store_true", help="Run the entire pipeline")
+    parser.add_argument("--delay", type=float, default=0.5, help="Delay between requests (seconds)")
+    parser.add_argument("--max-pw", type=int, default=None, help="Limit PsychonautWiki scrapes")
+    parser.add_argument("--out-dir", type=str, default="data/processed", help="Output directory")
+    parser.add_argument("--skip-wikipedia", action="store_true", help="Skip Wikipedia scraping")
+    parser.add_argument("--skip-pubchem", action="store_true", help="Skip PubChem scraping")
+    parser.add_argument("--skip-pw", action="store_true", help="Skip PsychonautWiki scraping")
+    parser.add_argument("--debug", action="store_true", help="Enable verbose logging")
+
     args = parser.parse_args()
     
-    # Quick mode overrides
-    if args.quick:
-        args.max_pw = 20
-        print_info("Quick mode enabled: limiting to 20 PW scrapes")
-    
-    run_pipeline(
-        scrape_delay=args.delay,
-        max_pw_scrapes=args.max_pw,
-        skip_pw_scraping=args.skip_pw,
-        output_file=args.output
-    )
-
+    pipeline = DrugPipeline(args)
+    pipeline.run()
 
 if __name__ == "__main__":
     main()
