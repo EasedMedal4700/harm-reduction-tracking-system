@@ -403,13 +403,9 @@ class DrugPipeline:
         mph = next((d for d in self.normalized_data if d["drug"] == "methylphenidate"), None)
         if mph:
             print("Checking Methylphenidate (MPH)...")
-            # Check source flags
             print(f"  Sources: {mph.get('sources')}")
             
             # Check Dosage (Oral Common)
-            # PW: 20-40mg
-            # TripSit: 40-60mg
-            # We want PW.
             dosage = mph.get("dosage", {})
             common = dosage.get("common")
             print(f"  Dosage Common: {common}")
@@ -418,10 +414,55 @@ class DrugPipeline:
                  print("  ✅ Dosage matches PsychonautWiki (Correct)")
             else:
                  print(f"  ❌ Dosage mismatch! Expected 20-40mg (PW), got {common}")
-                 print("     (Note: If PW scrape failed, this might be empty or from another source)")
+
+            # Check ROAs
+            roas = mph.get("roas", {})
+            if "oral" in roas and "insufflated" in roas:
+                print("  ✅ ROAs 'oral' and 'insufflated' found")
+            else:
+                print(f"  ❌ ROAs missing or incomplete: {list(roas.keys())}")
+
+            # Check Aliases
+            aliases = mph.get("aliases", [])
+            print(f"  Aliases: {aliases}")
                  
         else:
             print("❌ Methylphenidate not found in dataset!")
+
+        # Check Dexedrine (Dextroamphetamine merge)
+        dex = next((d for d in self.normalized_data if d["drug"] == "dexedrine"), None)
+        if dex:
+            print("\nChecking Dexedrine (Merged with Dextroamphetamine)...")
+            print(f"  Sources: {dex.get('sources')}")
+            
+            # Check if PsychonautWiki is present
+            if "psychonautwiki" in dex.get("sources", []):
+                print("  ✅ PsychonautWiki source present (Merge Successful)")
+            else:
+                print("  ❌ PsychonautWiki source MISSING (Merge Failed)")
+                
+            # Check ROAs (should come from PW)
+            roas = dex.get("roas", {})
+            if "oral" in roas:
+                print("  ✅ ROA 'oral' found")
+                print(f"  Oral Dosage: {roas['oral'].get('dosage')}")
+                # Verify specific value from prompt
+                # Prompt: Common 10 - 16 mg
+                oral_common = roas['oral'].get('dosage', {}).get('common', '')
+                if "10" in oral_common and "16" in oral_common:
+                    print("  ✅ Oral Common Dosage matches Prompt (10-16 mg)")
+                else:
+                    print(f"  ⚠️ Oral Common Dosage mismatch: {oral_common}")
+            else:
+                print("  ❌ ROA 'oral' MISSING")
+                
+            # Check Aliases
+            aliases = dex.get("aliases", [])
+            print(f"  Aliases: {aliases}")
+            if "dextroamphetamine" in [a.lower() for a in aliases]:
+                 print("  ✅ Alias 'dextroamphetamine' found")
+        else:
+            print("❌ Dexedrine not found in dataset!")
 
     def print_summary(self):
         elapsed = time.time() - self.stats["start_time"]
@@ -439,7 +480,11 @@ class DrugPipeline:
     def run(self):
         try:
             if self.args.run_all:
-                self.stage_a_scraping()
+                if not self.args.skip_scraping:
+                    self.stage_a_scraping()
+                else:
+                    print("⏩ Skipping Stage A (Scraping) as requested.")
+                
                 success = self.stage_b_processing()
                 if success:
                     self.stage_c_reporting()
@@ -457,6 +502,7 @@ def main():
     parser = argparse.ArgumentParser(description="Drug Data Ingestion Pipeline")
     
     parser.add_argument("--run-all", action="store_true", help="Run the entire pipeline")
+    parser.add_argument("--skip-scraping", action="store_true", help="Skip Stage A (Scraping) and use existing raw data")
     parser.add_argument("--delay", type=float, default=0.5, help="Delay between requests (seconds)")
     parser.add_argument("--max-pw", type=int, default=None, help="Limit PsychonautWiki scrapes")
     parser.add_argument("--out-dir", type=str, default="data/processed", help="Output directory")
