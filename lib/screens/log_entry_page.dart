@@ -10,13 +10,16 @@ import '../widgets/log_entry_cards/location_card.dart';
 import '../widgets/log_entry_cards/intention_craving_card.dart';
 import '../widgets/log_entry_cards/triggers_card.dart';
 import '../widgets/log_entry_cards/body_signals_card.dart';
-import '../widgets/log_entry_cards/notes_card.dart';
 import '../widgets/log_entry_cards/medical_purpose_card.dart';
 import '../widgets/log_entry_page/log_entry_app_bar.dart';
-import '../widgets/log_entry_page/log_entry_save_button.dart';
 import '../states/log_entry_state.dart';
 import '../constants/deprecated/ui_colors.dart';
 import '../constants/deprecated/theme_constants.dart';
+import '../common/cards/common_card.dart';
+import '../common/text/common_section_header.dart';
+import '../common/inputs/common_textarea.dart';
+import '../common/buttons/common_primary_button.dart';
+import '../common/layout/common_spacer.dart';
 
 class QuickLogEntryPage extends StatefulWidget {
   const QuickLogEntryPage({super.key});
@@ -191,11 +194,26 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                   ),
                                 ],
                                 
-                                const SizedBox(height: ThemeConstants.cardSpacing),
+                                CommonSpacer.vertical(ThemeConstants.cardSpacing),
                                 
                                 // Notes
-                                NotesCard(
-                                  notesCtrl: state.notesCtrl,
+                                CommonCard(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const CommonSectionHeader(
+                                        title: 'Additional Notes',
+                                        subtitle: 'Any other details worth recording',
+                                      ),
+                                      CommonSpacer.vertical(ThemeConstants.space12),
+                                      CommonTextarea(
+                                        controller: state.notesCtrl,
+                                        hintText: 'Enter any additional notes...',
+                                        maxLines: 5,
+                                        minLines: 3,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 
                                 // Extra padding for bottom button
@@ -206,8 +224,29 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                         ),
                         
                         // Sticky bottom save button
-                        LogEntrySaveButton(
-                          onSave: () => state.save(context),
+                        Container(
+                          padding: const EdgeInsets.all(ThemeConstants.space16),
+                          decoration: BoxDecoration(
+                            color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+                            border: Border(
+                              top: BorderSide(
+                                color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                                width: 1,
+                              ),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 10,
+                                offset: const Offset(0, -2),
+                              ),
+                            ],
+                          ),
+                          child: CommonPrimaryButton(
+                            onPressed: () => state.save(context),
+                            label: 'Save Entry',
+                            icon: Icons.save,
+                          ),
                         ),
                       ],
                     ),
