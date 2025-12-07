@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
 import '../../constants/deprecated/theme_constants.dart';
+import '../../common/cards/common_card.dart';
+import '../../common/text/common_section_header.dart';
+import '../../common/inputs/common_input_field.dart';
+import '../../common/inputs/common_dropdown.dart';
+import '../../common/layout/common_spacer.dart';
 
 /// Dosage input card
 class DosageCard extends StatelessWidget {
@@ -23,24 +27,16 @@ class DosageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Container(
-      padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: _buildDecoration(isDark),
+    return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Section title
-          Text(
-            'Dosage',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontXLarge,
-              fontWeight: ThemeConstants.fontSemiBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
+          const CommonSectionHeader(
+            title: 'Dosage',
           ),
-          const SizedBox(height: ThemeConstants.space12),
+          
+          CommonSpacer.vertical(ThemeConstants.space12),
           
           // Dose and unit row
           Row(
@@ -48,24 +44,10 @@ class DosageCard extends StatelessWidget {
               // Dose input
               Expanded(
                 flex: 2,
-                child: TextFormField(
+                child: CommonInputField(
                   controller: doseCtrl,
+                  hintText: '0.0',
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(
-                    hintText: '0.0',
-                    hintStyle: TextStyle(
-                      color: isDark 
-                          ? UIColors.darkTextSecondary.withOpacity(0.5)
-                          : UIColors.lightTextSecondary.withOpacity(0.5),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
-                    fontSize: ThemeConstants.fontLarge,
-                  ),
                   onChanged: (value) {
                     final parsed = double.tryParse(value);
                     if (parsed != null) {
@@ -83,29 +65,15 @@ class DosageCard extends StatelessWidget {
                   },
                 ),
               ),
-              const SizedBox(width: ThemeConstants.space12),
+              
+              CommonSpacer.horizontal(ThemeConstants.space12),
               
               // Unit dropdown
               Expanded(
                 flex: 1,
-                child: DropdownButtonFormField<String>(
+                child: CommonDropdown<String>(
                   value: unit,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
-                    fontSize: ThemeConstants.fontMedium,
-                  ),
-                  dropdownColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-                  items: units.map((u) {
-                    return DropdownMenuItem(
-                      value: u,
-                      child: Text(u),
-                    );
-                  }).toList(),
+                  items: units,
                   onChanged: (value) {
                     if (value != null) {
                       onUnitChanged(value);
@@ -118,24 +86,5 @@ class DosageCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  BoxDecoration _buildDecoration(bool isDark) {
-    if (isDark) {
-      return BoxDecoration(
-        color: const Color(0x0AFFFFFF),
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(
-          color: const Color(0x14FFFFFF),
-          width: 1,
-        ),
-      );
-    } else {
-      return BoxDecoration(
-        color: UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        boxShadow: UIColors.createSoftShadow(),
-      );
-    }
   }
 }
