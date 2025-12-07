@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constants/app_theme.dart';
-import '../../constants/app_theme_constants.dart';
+import '../../constants/theme/app_theme.dart';
+import '../../constants/theme/app_theme_constants.dart';
 
 /// Quick action tile for the home grid
 class QuickActionTile extends StatefulWidget {

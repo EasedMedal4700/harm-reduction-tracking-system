@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../../constants/drug_theme.dart';
+import '../../constants/deprecated/drug_theme.dart';
 import '../../models/log_entry_model.dart';
 
 class CategoryPieChart extends StatefulWidget {

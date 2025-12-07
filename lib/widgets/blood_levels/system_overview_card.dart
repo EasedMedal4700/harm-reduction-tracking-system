@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
 
 /// System overview card showing key metrics
 class SystemOverviewCard extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constants/app_theme.dart';
-import '../../constants/app_theme_constants.dart';
+import '../../constants/theme/app_theme.dart';
+import '../../constants/theme/app_theme_constants.dart';
 
 /// Example widget demonstrating theme usage patterns
 /// Use this as a reference when building new themed widgets

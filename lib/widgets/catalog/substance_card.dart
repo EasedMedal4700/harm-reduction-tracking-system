@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/drug_categories.dart';
-import '../../constants/drug_theme.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/data/drug_categories.dart';
+import '../../constants/deprecated/drug_theme.dart';
 import '../../models/stockpile_item.dart';
 import '../../repo/stockpile_repository.dart';
 

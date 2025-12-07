@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/reflection_options.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/data/reflection_options.dart';
 
 class ReflectionForm extends StatelessWidget {
   final int selectedCount;

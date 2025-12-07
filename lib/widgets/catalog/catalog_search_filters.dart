@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
 import 'catalog_search_bar.dart';
 import 'category_filter_chips.dart';
 import 'common_filter_toggle.dart';

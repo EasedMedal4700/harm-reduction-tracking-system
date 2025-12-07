@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/services/feature_flag_service.dart';
-import 'package:mobile_drug_use_app/constants/feature_flags.dart';
+import 'package:mobile_drug_use_app/constants/config/feature_flags.dart';
 
 void main() {
   group('FeatureFlagService', () {

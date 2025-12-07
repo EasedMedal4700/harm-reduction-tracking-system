@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../states/log_entry_state.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/theme_constants.dart';
 import '../../widgets/log_entry_cards/substance_header_card.dart';
 import '../../widgets/log_entry_cards/dosage_card.dart';
 import '../../widgets/log_entry_cards/route_of_administration_card.dart';

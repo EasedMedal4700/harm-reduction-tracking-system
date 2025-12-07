@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../constants/feature_flags.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/config/feature_flags.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';
 import '../../widgets/common/drawer_menu.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/theme_constants.dart';
 import '../home_redesign/stat_card.dart';
 
 class HomeProgressStats extends StatelessWidget {

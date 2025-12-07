@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants/drug_categories.dart';
+import '../../constants/data/drug_categories.dart';
 
 class CategoryFilter extends StatelessWidget {
   final List<String> selectedCategories; // Changed to List for multiple selection

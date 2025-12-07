@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../common/feeling_selection.dart';
 import '../common/modern_form_card.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
 
 class EmotionalStateSection extends StatelessWidget {
   final List<String> selectedEmotions;

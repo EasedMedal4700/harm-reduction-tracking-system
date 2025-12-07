@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/body_and_mind_catalog.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/data/body_and_mind_catalog.dart';
 
 /// Intention and craving intensity card
 class IntentionCravingCard extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/theme_constants.dart';
 import 'analytics_filter_card.dart';
 import 'metrics_row.dart';
 import 'use_distribution_card.dart';
@@ -7,7 +7,7 @@ import 'insight_summary_card.dart';
 import 'usage_trends_card.dart';
 import 'recent_activity_list.dart';
 import '../../models/log_entry_model.dart';
-import '../../constants/time_period.dart';
+import '../../constants/emus/time_period.dart';
 
 /// Main layout widget for analytics content
 /// Handles responsive layout switching between single and two-column layouts

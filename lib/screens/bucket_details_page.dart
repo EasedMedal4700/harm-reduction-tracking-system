@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/bucket_definitions.dart';
 import '../models/tolerance_model.dart';
-import '../constants/theme_constants.dart';
-import '../constants/ui_colors.dart';
+import '../constants/deprecated/theme_constants.dart';
+import '../constants/deprecated/ui_colors.dart';
 import '../widgets/bucket_details/bucket_header_card.dart';
 import '../widgets/bucket_details/bucket_description_card.dart';
 import '../widgets/bucket_details/bucket_status_card.dart';

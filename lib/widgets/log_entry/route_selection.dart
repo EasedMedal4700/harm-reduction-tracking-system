@@ -1,6 +1,6 @@
 // filepath: c:\Users\user\Desktop\Power BI\mobile_drug_use_app\lib\widgets\log_entry\route_selection.dart
 import 'package:flutter/material.dart';
-import '../../constants/drug_use_catalog.dart';
+import '../../constants/data/drug_use_catalog.dart';
 
 class RouteSelection extends StatelessWidget {
   final String route;

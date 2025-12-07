@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/common/drawer_menu.dart';
-import '../constants/body_and_mind_catalog.dart';
-import '../constants/drug_use_catalog.dart';
+import '../constants/data/body_and_mind_catalog.dart';
+import '../constants/data/drug_use_catalog.dart';
 import '../widgets/cravings/craving_details_section.dart'; // Add imports
 import '../widgets/cravings/emotional_state_section.dart';
 import '../widgets/cravings/body_mind_signals_section.dart';

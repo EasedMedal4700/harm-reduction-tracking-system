@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../services/user_service.dart';
 import '../../utils/error_reporter.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
 import '../../widgets/bug_report/bug_report_form_fields.dart';
 import '../../widgets/bug_report/bug_report_submit_button.dart';
 

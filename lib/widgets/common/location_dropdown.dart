@@ -1,6 +1,6 @@
 // filepath: c:\Users\user\Desktop\Power BI\mobile_drug_use_app\lib\widgets\log_entry\location_dropdown.dart
 import 'package:flutter/material.dart';
-import '../../constants/drug_use_catalog.dart';
+import '../../constants/data/drug_use_catalog.dart';
 
 class LocationDropdown extends StatelessWidget {
   final String location;

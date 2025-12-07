@@ -11,8 +11,8 @@ import '../widgets/personal_library/summary_stats_banner.dart';
 import '../widgets/personal_library/day_usage_sheet.dart';
 import '../widgets/personal_library/library_search_bar.dart';
 import '../widgets/personal_library/library_app_bar.dart';
-import '../constants/ui_colors.dart';
-import '../constants/theme_constants.dart';
+import '../constants/deprecated/ui_colors.dart';
+import '../constants/deprecated/theme_constants.dart';
 import '../utils/drug_preferences_manager.dart';
 
 class PersonalLibraryPage extends StatefulWidget {

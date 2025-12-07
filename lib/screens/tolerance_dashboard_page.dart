@@ -9,8 +9,8 @@ import '../services/debug_config.dart';
 import '../utils/tolerance_calculator.dart';
 import '../widgets/tolerance_dashboard/dashboard_content_widget.dart';
 import '../widgets/tolerance_dashboard/empty_state_widget.dart';
-import '../constants/theme_constants.dart';
-import '../constants/ui_colors.dart';
+import '../constants/deprecated/theme_constants.dart';
+import '../constants/deprecated/ui_colors.dart';
 
 class ToleranceDashboardPage extends StatefulWidget {
   final String? initialSubstance;

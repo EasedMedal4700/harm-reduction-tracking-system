@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/theme_constants.dart';
 
 class ExistingCheckinNotice extends StatelessWidget {
   const ExistingCheckinNotice({super.key});

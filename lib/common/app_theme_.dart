@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'ui_colors.dart';
-import 'theme_constants.dart';
-import 'app_theme_constants.dart';
-import 'app_colors_light.dart';
-import 'app_colors_dark.dart';
-import 'app_typography.dart';
+import '../constants/deprecated/ui_colors.dart';
+import '../constants/deprecated/theme_constants.dart';
+import '../constants/theme/app_theme_constants.dart';
+import '../constants/colors/app_colors_light.dart';
+import '../constants/colors/app_colors_dark.dart';
+import '../constants/theme/app_typography.dart';
 import '../models/app_settings_model.dart';
 
 /// Main theme data class that provides all styling based on user settings

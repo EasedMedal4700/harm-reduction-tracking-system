@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
 import 'bucket_utils.dart';
 
 /// Card showing the decay timeline with a visual progress bar

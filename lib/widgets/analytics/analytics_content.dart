@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/log_entry_model.dart';
 import '../../services/analytics_service.dart';
-import '../../constants/time_period.dart';
+import '../../constants/emus/time_period.dart';
 import 'time_period_selector.dart';
 import 'analytics_summary.dart';
 import 'category_pie_chart.dart';

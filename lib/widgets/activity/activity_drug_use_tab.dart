@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/drug_theme.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/deprecated/drug_theme.dart';
 import 'activity_card.dart';
 import 'activity_empty_state.dart';
 

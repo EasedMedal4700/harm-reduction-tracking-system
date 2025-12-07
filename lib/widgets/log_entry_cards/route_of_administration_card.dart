@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/drug_use_catalog.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/data/drug_use_catalog.dart';
 
 /// Route of administration card with pill-shaped buttons
 class RouteOfAdministrationCard extends StatelessWidget {

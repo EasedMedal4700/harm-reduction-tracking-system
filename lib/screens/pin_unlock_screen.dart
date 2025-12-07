@@ -5,7 +5,7 @@ import '../services/encryption_service_v2.dart';
 import '../services/debug_config.dart';
 import '../services/pin_timeout_service.dart';
 import '../services/security_manager.dart';
-import '../constants/ui_colors.dart';
+import '../constants/deprecated/ui_colors.dart';
 
 /// Screen for unlocking with PIN or biometrics
 class PinUnlockScreen extends StatefulWidget {

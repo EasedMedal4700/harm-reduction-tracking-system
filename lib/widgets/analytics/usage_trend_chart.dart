@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../../constants/time_period.dart';
+import '../../constants/emus/time_period.dart';
 import '../../models/log_entry_model.dart'; // Add this import for LogEntry
-import '../../constants/drug_categories.dart';
-import '../../constants/drug_theme.dart';
+import '../../constants/data/drug_categories.dart';
+import '../../constants/deprecated/drug_theme.dart';
 
 class UsageTrendChart extends StatelessWidget {
   final List<LogEntry> filteredEntries;

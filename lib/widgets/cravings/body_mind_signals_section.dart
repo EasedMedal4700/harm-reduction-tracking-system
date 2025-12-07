@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../common/modern_form_card.dart';
-import '../../constants/ui_colors.dart';
+import '../../constants/deprecated/ui_colors.dart';
 
 class BodyMindSignalsSection extends StatelessWidget {
   final List<String> sensations;

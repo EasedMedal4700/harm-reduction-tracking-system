@@ -9,8 +9,8 @@ import '../widgets/daily_checkin/emotion_selector.dart';
 import '../widgets/daily_checkin/notes_input.dart';
 import '../widgets/daily_checkin/save_button.dart';
 import '../providers/daily_checkin_provider.dart';
-import '../constants/ui_colors.dart';
-import '../constants/theme_constants.dart';
+import '../constants/deprecated/ui_colors.dart';
+import '../constants/deprecated/theme_constants.dart';
 
 class DailyCheckinScreen extends StatefulWidget {
   const DailyCheckinScreen({super.key});

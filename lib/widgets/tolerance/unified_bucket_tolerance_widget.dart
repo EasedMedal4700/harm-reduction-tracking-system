@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../models/bucket_definitions.dart';
 import '../../models/tolerance_model.dart';
 import '../../utils/tolerance_calculator.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
 
 /// Unified widget that combines System Tolerance and Substance-Specific Breakdown
 /// Shows both overall bucket state AND per-substance contributions in one view

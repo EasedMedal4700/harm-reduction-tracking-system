@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
 
 /// Card showing days until tolerance returns to baseline
 class BucketBaselineCard extends StatelessWidget {

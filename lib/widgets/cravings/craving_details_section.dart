@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../constants/craving_consatnts.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/data/craving_consatnts.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
 import '../common/modern_form_card.dart';
 import '../common/craving_slider.dart';
 import '../common/location_dropdown.dart';

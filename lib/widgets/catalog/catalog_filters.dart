@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../constants/drug_categories.dart';
+import '../../constants/data/drug_categories.dart';
 
 class CatalogFilters extends StatefulWidget {
   final List<String> selectedCategories;

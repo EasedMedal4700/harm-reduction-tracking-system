@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
 
 /// Simple medical purpose toggle card for simple mode
 class MedicalPurposeCard extends StatelessWidget {

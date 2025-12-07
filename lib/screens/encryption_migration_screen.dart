@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_migration_service.dart';
-import '../constants/ui_colors.dart';
+import '../constants/deprecated/ui_colors.dart';
 import '../utils/error_handler.dart';
 import '../states/migration_step_controller.dart';
 

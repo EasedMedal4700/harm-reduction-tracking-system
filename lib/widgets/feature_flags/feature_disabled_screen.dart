@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
 
 /// A screen displayed when a feature is currently disabled.
 /// Shows a friendly message and provides navigation options.

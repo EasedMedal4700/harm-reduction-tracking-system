@@ -9,7 +9,7 @@ import '../widgets/activity/activity_detail_helpers.dart';
 import '../widgets/activity/activity_helpers.dart';
 import '../services/activity_service.dart';
 import '../services/user_service.dart';
-import '../constants/ui_colors.dart';
+import '../constants/deprecated/ui_colors.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});

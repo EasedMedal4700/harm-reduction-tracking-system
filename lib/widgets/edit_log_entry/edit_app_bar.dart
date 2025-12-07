@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../states/log_entry_state.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
 
 class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isDark;

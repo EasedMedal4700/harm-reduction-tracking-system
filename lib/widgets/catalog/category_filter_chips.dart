@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/drug_categories.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/data/drug_categories.dart';
 
 class CategoryFilterChips extends StatelessWidget {
   final String? selectedCategory;

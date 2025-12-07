@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../constants/feature_flags.dart';
+import '../../constants/config/feature_flags.dart';
 import '../../routes/app_routes.dart';
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';

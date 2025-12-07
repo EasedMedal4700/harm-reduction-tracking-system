@@ -7,9 +7,9 @@ import '../../widgets/cravings/outcome_section.dart';
 import '../../widgets/edit_craving/craving_app_bar.dart';
 import '../../services/craving_service.dart';
 import '../../utils/error_handler.dart';
-import '../../constants/body_and_mind_catalog.dart';
-import '../../constants/drug_use_catalog.dart';
-import '../../constants/craving_consatnts.dart';
+import '../../constants/data/body_and_mind_catalog.dart';
+import '../../constants/data/drug_use_catalog.dart';
+import '../../constants/data/craving_consatnts.dart';
 
 class EditCravingPage extends StatefulWidget {
   final Map<String, dynamic> entry;

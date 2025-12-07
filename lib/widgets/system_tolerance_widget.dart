@@ -3,8 +3,8 @@ import '../models/tolerance_model.dart';
 import '../models/bucket_definitions.dart';
 import '../services/tolerance_engine_service.dart';
 import '../services/user_service.dart';
-import '../constants/theme_constants.dart';
-import '../constants/ui_colors.dart';
+import '../constants/deprecated/theme_constants.dart';
+import '../constants/deprecated/ui_colors.dart';
 import 'tolerance/system_tolerance_breakdown_sheet.dart';
 
 /// Simple data holder for system tolerance display

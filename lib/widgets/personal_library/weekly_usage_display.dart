@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/drug_catalog_entry.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
 
 class WeeklyUsageDisplay extends StatelessWidget {
   final DrugCatalogEntry entry;

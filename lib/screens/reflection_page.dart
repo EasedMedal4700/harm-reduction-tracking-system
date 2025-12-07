@@ -5,8 +5,8 @@ import '../services/log_entry_service.dart';
 import '../providers/reflection_provider.dart';
 import '../widgets/reflection/reflection_form.dart';
 import '../widgets/reflection/reflection_selection.dart';
-import '../constants/theme_constants.dart';
-import '../constants/ui_colors.dart';
+import '../constants/deprecated/theme_constants.dart';
+import '../constants/deprecated/ui_colors.dart';
 
 class ReflectionPage extends StatefulWidget {
   const ReflectionPage({super.key});

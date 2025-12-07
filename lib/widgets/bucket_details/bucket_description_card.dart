@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/bucket_definitions.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
 
 /// Card displaying information about the bucket system
 class BucketDescriptionCard extends StatelessWidget {

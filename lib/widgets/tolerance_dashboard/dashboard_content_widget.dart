@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../models/tolerance_model.dart';
 import '../../utils/tolerance_calculator.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
 import '../tolerance/tolerance_stats_card.dart';
 import '../tolerance/tolerance_notes_card.dart';
 import '../tolerance/recent_uses_card.dart';

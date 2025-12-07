@@ -1,4 +1,4 @@
-import '../constants/drug_use_catalog.dart';
+import '../constants/data/drug_use_catalog.dart';
 
 class ValidationUtils {
   // Public constants for error messages (can be reused)

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../models/tolerance_bucket.dart';
 import '../../models/bucket_definitions.dart';
 import '../../utils/bucket_tolerance_calculator.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/deprecated/ui_colors.dart';
 
 /// Widget to display bucket-specific tolerance breakdown from NEW tolerance system.
 /// CRITICAL: Only displays neuro_buckets defined in the substance's tolerance_model.

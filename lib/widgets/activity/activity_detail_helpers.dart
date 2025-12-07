@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'activity_detail_sheet.dart';
 import 'activity_helpers.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/drug_theme.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/drug_theme.dart';
 import '../../screens/edit/edit_log_entry_page.dart';
 import '../../screens/edit/edit_craving_page.dart';
 import '../../screens/edit/edit_refelction_page.dart';

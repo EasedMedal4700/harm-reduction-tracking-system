@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
+import '../../constants/deprecated/ui_colors.dart';
 
 /// Horizontal legend showing drug names, colors, and half-lives
 class TimelineLegend extends StatelessWidget {

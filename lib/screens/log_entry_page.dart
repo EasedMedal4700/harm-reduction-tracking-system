@@ -15,8 +15,8 @@ import '../widgets/log_entry_cards/medical_purpose_card.dart';
 import '../widgets/log_entry_page/log_entry_app_bar.dart';
 import '../widgets/log_entry_page/log_entry_save_button.dart';
 import '../states/log_entry_state.dart';
-import '../constants/ui_colors.dart';
-import '../constants/theme_constants.dart';
+import '../constants/deprecated/ui_colors.dart';
+import '../constants/deprecated/theme_constants.dart';
 
 class QuickLogEntryPage extends StatefulWidget {
   const QuickLogEntryPage({super.key});

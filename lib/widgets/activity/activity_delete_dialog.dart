@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
+import '../../constants/deprecated/ui_colors.dart';
 
 /// A confirmation dialog for deleting activity entries.
 class ActivityDeleteDialog extends StatelessWidget {

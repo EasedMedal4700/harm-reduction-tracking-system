@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
-import '../../constants/theme_constants.dart';
-import '../../constants/time_period.dart';
+import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/emus/time_period.dart';
 
 class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final TimePeriod selectedPeriod;

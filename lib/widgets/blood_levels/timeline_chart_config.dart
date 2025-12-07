@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../../constants/ui_colors.dart';
+import '../../constants/deprecated/ui_colors.dart';
 
 /// Configuration and builders for the metabolism timeline chart
 class TimelineChartConfig {

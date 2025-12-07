@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_service_v2.dart';
-import '../constants/ui_colors.dart';
+import '../constants/deprecated/ui_colors.dart';
 
 /// Screen for unlocking with recovery key and optionally resetting PIN
 class RecoveryKeyScreen extends StatefulWidget {
