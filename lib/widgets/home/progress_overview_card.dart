@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../styles/app_theme.dart';
+import '../../constants/app_theme.dart';
 import '../../constants/app_theme_constants.dart';
 
 /// Stats card showing key metrics

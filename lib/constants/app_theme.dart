@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import '../constants/app_theme_constants.dart';
-import '../constants/app_colors_light.dart';
-import '../constants/app_colors_dark.dart';
-import '../constants/app_typography.dart';
+import 'ui_colors.dart';
+import 'theme_constants.dart';
+import 'app_theme_constants.dart';
+import 'app_colors_light.dart';
+import 'app_colors_dark.dart';
+import 'app_typography.dart';
 import '../models/app_settings_model.dart';
 
 /// Main theme data class that provides all styling based on user settings
-/// Simplified to use only light and dark themes with built-in accent colors
+/// Combines the simplicity of direct ThemeData with advanced theming capabilities
 class AppTheme {
   final bool isDark;
   final double fontSize;
   final bool compactMode;
-  
+
   late final AccentColors accent;
   late final TextStyles typography;
   late final ColorPalette colors;
@@ -29,7 +31,7 @@ class AppTheme {
     typography = AppTypography.getTextStyles(fontSize, isDark);
     colors = isDark ? _buildDarkColors() : _buildLightColors();
     spacing = compactMode ? _buildCompactSpacing() : _buildNormalSpacing();
-    
+
     if (isDark) {
       cardShadow = DarkShadows.cardShadow;
       cardShadowHovered = DarkShadows.cardShadowHovered;
@@ -79,7 +81,6 @@ class AppTheme {
       );
     }
   }
-
 
   AccentColors _buildLightAccent() {
     return const AccentColors(
@@ -248,6 +249,299 @@ class AppTheme {
       boxShadow: cardShadow,
     );
   }
+
+  // ============================================================================
+  // LEGACY THEME DATA METHODS (for backward compatibility)
+  // ============================================================================
+
+  /// Get the complete ThemeData for MaterialApp
+  ThemeData get themeData {
+    return isDark ? _buildDarkThemeData() : _buildLightThemeData();
+  }
+
+  ThemeData _buildLightThemeData() {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+
+      // Color scheme
+      colorScheme: ColorScheme.light(
+        primary: accent.primary,
+        secondary: accent.secondary,
+        surface: colors.surface,
+        background: colors.background,
+        error: colors.error,
+        onPrimary: colors.textInverse,
+        onSecondary: colors.textInverse,
+        onSurface: colors.textPrimary,
+        onBackground: colors.textPrimary,
+        onError: colors.textInverse,
+      ),
+
+      // Scaffold
+      scaffoldBackgroundColor: colors.background,
+
+      // Text theme
+      textTheme: _buildTextTheme(colors.textPrimary, colors.textSecondary),
+
+      // AppBar theme
+      appBarTheme: AppBarTheme(
+        backgroundColor: colors.surface,
+        foregroundColor: colors.textPrimary,
+        elevation: 0,
+        centerTitle: false,
+        titleTextStyle: TextStyle(
+          color: colors.textPrimary,
+          fontSize: ThemeConstants.fontXLarge,
+          fontWeight: ThemeConstants.fontSemiBold,
+        ),
+      ),
+
+      // Card theme
+      cardTheme: CardThemeData(
+        color: colors.surface,
+        elevation: 0,
+        shadowColor: UIColors.lightShadowColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+        ),
+      ),
+
+      // Floating Action Button theme
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: accent.primary,
+        foregroundColor: colors.textInverse,
+        elevation: ThemeConstants.elevationMedium,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+        ),
+      ),
+
+      // Elevated Button theme
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: accent.primary,
+          foregroundColor: colors.textInverse,
+          elevation: ThemeConstants.elevationLow,
+          padding: EdgeInsets.symmetric(
+            horizontal: spacing.xl,
+            vertical: spacing.md,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(ThemeConstants.buttonRadius),
+          ),
+        ),
+      ),
+
+      // Divider theme
+      dividerTheme: DividerThemeData(
+        color: colors.divider,
+        thickness: 1,
+        space: spacing.md,
+      ),
+    );
+  }
+
+  ThemeData _buildDarkThemeData() {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+
+      // Color scheme
+      colorScheme: ColorScheme.dark(
+        primary: accent.primary,
+        secondary: accent.secondary,
+        surface: colors.surface,
+        background: colors.background,
+        error: colors.error,
+        onPrimary: colors.textInverse,
+        onSecondary: colors.textInverse,
+        onSurface: colors.textPrimary,
+        onBackground: colors.textPrimary,
+        onError: colors.textInverse,
+      ),
+
+      // Scaffold
+      scaffoldBackgroundColor: colors.background,
+
+      // Text theme
+      textTheme: _buildTextTheme(colors.textPrimary, colors.textSecondary),
+
+      // AppBar theme
+      appBarTheme: AppBarTheme(
+        backgroundColor: colors.surface,
+        foregroundColor: colors.textPrimary,
+        elevation: 0,
+        centerTitle: false,
+        titleTextStyle: TextStyle(
+          color: colors.textPrimary,
+          fontSize: ThemeConstants.fontXLarge,
+          fontWeight: ThemeConstants.fontSemiBold,
+        ),
+      ),
+
+      // Card theme
+      cardTheme: CardThemeData(
+        color: colors.surface,
+        elevation: 0,
+        shadowColor: UIColors.darkShadowColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ThemeConstants.darkCardRadius),
+          side: BorderSide(
+            color: colors.border.withOpacity(0.3),
+            width: ThemeConstants.borderThin,
+          ),
+        ),
+      ),
+
+      // Floating Action Button theme
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: accent.primary,
+        foregroundColor: colors.textInverse,
+        elevation: ThemeConstants.elevationHigh,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+        ),
+      ),
+
+      // Elevated Button theme
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: accent.primary,
+          foregroundColor: colors.textInverse,
+          elevation: ThemeConstants.elevationMedium,
+          padding: EdgeInsets.symmetric(
+            horizontal: spacing.xl,
+            vertical: spacing.md,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(ThemeConstants.buttonRadius),
+          ),
+        ),
+      ),
+
+      // Divider theme
+      dividerTheme: DividerThemeData(
+        color: colors.divider,
+        thickness: 1,
+        space: spacing.md,
+      ),
+    );
+  }
+
+  TextTheme _buildTextTheme(Color textColor, Color secondaryTextColor) {
+    return TextTheme(
+      // Display styles
+      displayLarge: TextStyle(
+        fontSize: ThemeConstants.font4XLarge,
+        fontWeight: ThemeConstants.fontBold,
+        color: textColor,
+        height: 1.2,
+      ),
+      displayMedium: TextStyle(
+        fontSize: ThemeConstants.font3XLarge,
+        fontWeight: ThemeConstants.fontBold,
+        color: textColor,
+        height: 1.2,
+      ),
+      displaySmall: TextStyle(
+        fontSize: ThemeConstants.font2XLarge,
+        fontWeight: ThemeConstants.fontSemiBold,
+        color: textColor,
+        height: 1.3,
+      ),
+
+      // Headline styles
+      headlineLarge: TextStyle(
+        fontSize: ThemeConstants.fontXLarge,
+        fontWeight: ThemeConstants.fontSemiBold,
+        color: textColor,
+        height: 1.3,
+      ),
+      headlineMedium: TextStyle(
+        fontSize: ThemeConstants.fontLarge,
+        fontWeight: ThemeConstants.fontSemiBold,
+        color: textColor,
+        height: 1.3,
+      ),
+      headlineSmall: TextStyle(
+        fontSize: ThemeConstants.fontMedium,
+        fontWeight: ThemeConstants.fontMediumWeight,
+        color: textColor,
+        height: 1.4,
+      ),
+
+      // Title styles
+      titleLarge: TextStyle(
+        fontSize: ThemeConstants.fontLarge,
+        fontWeight: ThemeConstants.fontMediumWeight,
+        color: textColor,
+        height: 1.4,
+      ),
+      titleMedium: TextStyle(
+        fontSize: ThemeConstants.fontMedium,
+        fontWeight: ThemeConstants.fontMediumWeight,
+        color: textColor,
+        height: 1.4,
+      ),
+      titleSmall: TextStyle(
+        fontSize: ThemeConstants.fontSmall,
+        fontWeight: ThemeConstants.fontMediumWeight,
+        color: textColor,
+        height: 1.4,
+      ),
+
+      // Body styles
+      bodyLarge: TextStyle(
+        fontSize: ThemeConstants.fontMedium,
+        fontWeight: ThemeConstants.fontRegular,
+        color: textColor,
+        height: 1.5,
+      ),
+      bodyMedium: TextStyle(
+        fontSize: ThemeConstants.fontSmall,
+        fontWeight: ThemeConstants.fontRegular,
+        color: textColor,
+        height: 1.5,
+      ),
+      bodySmall: TextStyle(
+        fontSize: ThemeConstants.fontXSmall,
+        fontWeight: ThemeConstants.fontRegular,
+        color: secondaryTextColor,
+        height: 1.5,
+      ),
+
+      // Label styles
+      labelLarge: TextStyle(
+        fontSize: ThemeConstants.fontMedium,
+        fontWeight: ThemeConstants.fontMediumWeight,
+        color: textColor,
+        height: 1.4,
+      ),
+      labelMedium: TextStyle(
+        fontSize: ThemeConstants.fontSmall,
+        fontWeight: ThemeConstants.fontMediumWeight,
+        color: secondaryTextColor,
+        height: 1.4,
+      ),
+      labelSmall: TextStyle(
+        fontSize: ThemeConstants.fontXSmall,
+        fontWeight: ThemeConstants.fontMediumWeight,
+        color: secondaryTextColor,
+        height: 1.4,
+      ),
+    );
+  }
+
+  // ============================================================================
+  // STATIC METHODS (for backward compatibility)
+  // ============================================================================
+
+  /// Get light theme (legacy method)
+  static ThemeData get lightTheme => AppTheme.light().themeData;
+
+  /// Get dark theme (legacy method)
+  static ThemeData get darkTheme => AppTheme.dark().themeData;
 }
 
 /// Color palette for a theme

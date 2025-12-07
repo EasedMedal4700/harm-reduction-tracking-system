@@ -9,7 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'providers/daily_checkin_provider.dart';
 import 'providers/settings_provider.dart';
 import 'routes/screen_tracking_observer.dart';
-import 'theme/app_theme.dart';
+import 'constants/app_theme.dart';
 import 'screens/admin_panel_screen.dart';
 import 'screens/analytics_page.dart';
 import 'screens/blood_levels_page.dart';
