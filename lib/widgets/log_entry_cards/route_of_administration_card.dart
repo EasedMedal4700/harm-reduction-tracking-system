@@ -1,70 +1,61 @@
 import 'package:flutter/material.dart';
+import '../../common/cards/common_card.dart';
+import '../../common/text/common_section_header.dart';
+import '../../common/layout/common_spacer.dart';
+import '../../common/buttons/common_chip.dart';
 import '../../constants/deprecated/ui_colors.dart';
 import '../../constants/deprecated/theme_constants.dart';
 import '../../constants/data/drug_use_catalog.dart';
 
-/// Route of administration card with pill-shaped buttons
 class RouteOfAdministrationCard extends StatelessWidget {
   final String route;
   final ValueChanged<String> onRouteChanged;
-  final List<String> availableROAs; // Dynamic ROA list
-  final bool Function(String)? isROAValidated; // Optional validation callback
+  final List<String> availableROAs;
+  final bool Function(String)? isROAValidated;
 
   const RouteOfAdministrationCard({
+    super.key,
     required this.route,
     required this.onRouteChanged,
     required this.availableROAs,
     this.isROAValidated,
-    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Container(
-      padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: _buildDecoration(isDark),
+    return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section title
-          Text(
-            'Route of Administration',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontXLarge,
-              fontWeight: ThemeConstants.fontSemiBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
+          const CommonSectionHeader(
+            title: "Route of Administration",
+            subtitle: "How the substance was taken",
           ),
-          const SizedBox(height: ThemeConstants.space12),
-          
-          // ROA buttons - use dynamic availableROAs instead of static list
+
+          const CommonSpacer.vertical(ThemeConstants.space12),
+
           Wrap(
             spacing: ThemeConstants.space8,
             runSpacing: ThemeConstants.space8,
-            children: availableROAs.map((methodName) {
-              final isSelected = route.toLowerCase() == methodName.toLowerCase();
-              final isValidated = isROAValidated?.call(methodName) ?? true;
-              final accentColor = isDark 
-                  ? UIColors.darkNeonBlue
-                  : UIColors.lightAccentBlue;
-              
-              // Find emoji from catalog, fallback to generic emoji
-              final catalogEntry = DrugUseCatalog.consumptionMethods.firstWhere(
-                (m) => m['name']!.toLowerCase() == methodName.toLowerCase(),
-                orElse: () => {'name': methodName, 'emoji': '💊'},
-              );
-              final emoji = catalogEntry['emoji']!;
-              
-              return _buildROAButton(
-                context,
-                isDark,
-                methodName,
-                emoji,
-                isSelected,
-                isValidated,
-                accentColor,
+            children: availableROAs.map((method) {
+              final selected =
+                  route.toLowerCase() == method.toLowerCase();
+              final validated = isROAValidated?.call(method) ?? true;
+
+              final emoji = _emojiForROA(method);
+              final accent = _accentColorForROA(method, isDark, validated);
+
+              return CommonChip(
+                label: _capitalize(method),
+                emoji: emoji,
+                isSelected: selected,
+                showGlow: selected,
+                selectedColor: accent,
+                selectedBorderColor: accent,
+                onTap: () => onRouteChanged(method),
+                icon: validated ? null : Icons.warning_amber_rounded,
               );
             }).toList(),
           ),
@@ -73,99 +64,27 @@ class RouteOfAdministrationCard extends StatelessWidget {
     );
   }
 
-  Widget _buildROAButton(
-    BuildContext context,
-    bool isDark,
-    String methodName,
-    String emoji,
-    bool isSelected,
-    bool isValidated,
-    Color accentColor,
-  ) {
-    // Use warning color if not validated
-    final buttonColor = !isValidated
-        ? (isDark ? UIColors.darkNeonOrange : Colors.orange)
-        : accentColor;
+  // ------------------------------------------------------------
+  // Helpers
+  // ------------------------------------------------------------
 
-    return GestureDetector(
-      onTap: () => onRouteChanged(methodName),
-      child: AnimatedContainer(
-        duration: ThemeConstants.animationFast,
-        padding: const EdgeInsets.symmetric(
-          horizontal: ThemeConstants.space16,
-          vertical: ThemeConstants.space12,
-        ),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? (isDark ? buttonColor.withOpacity(0.15) : buttonColor.withOpacity(0.1))
-              : (isDark ? const Color(0x08FFFFFF) : UIColors.lightSurface),
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
-          border: Border.all(
-            color: isSelected
-                ? buttonColor
-                : (isDark ? const Color(0x14FFFFFF) : UIColors.lightBorder),
-            width: isSelected ? 2 : 1,
-          ),
-          boxShadow: isSelected
-              ? UIColors.createNeonGlow(buttonColor, intensity: 0.2)
-              : null,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              emoji,
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(width: ThemeConstants.space8),
-            Text(
-              _capitalizeFirst(methodName),
-              style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                fontWeight: isSelected 
-                    ? ThemeConstants.fontSemiBold
-                    : ThemeConstants.fontRegular,
-                color: isSelected
-                    ? (isDark ? UIColors.darkText : UIColors.lightText)
-                    : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
-              ),
-            ),
-            // Show warning icon if not validated
-            if (!isValidated) ...[
-              const SizedBox(width: ThemeConstants.space4),
-              Icon(
-                Icons.warning_amber_rounded,
-                size: 16,
-                color: buttonColor,
-              ),
-            ],
-          ],
-        ),
-      ),
+  String _emojiForROA(String name) {
+    final entry = DrugUseCatalog.consumptionMethods.firstWhere(
+      (m) => m['name']!.toLowerCase() == name.toLowerCase(),
+      orElse: () => {'emoji': '💊', 'name': name},
     );
+    return entry['emoji']!;
   }
 
-  String _capitalizeFirst(String text) {
-    if (text.isEmpty) return text;
-    return text[0].toUpperCase() + text.substring(1);
-  }
-
-  BoxDecoration _buildDecoration(bool isDark) {
-    if (isDark) {
-      return BoxDecoration(
-        color: const Color(0x0AFFFFFF),
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(
-          color: const Color(0x14FFFFFF),
-          width: 1,
-        ),
-      );
-    } else {
-      return BoxDecoration(
-        color: UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        boxShadow: UIColors.createSoftShadow(),
-      );
+  Color _accentColorForROA(String name, bool isDark, bool validated) {
+    if (!validated) {
+      // warning color
+      return isDark ? UIColors.darkNeonOrange : Colors.orange;
     }
+    // default accent
+    return isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
   }
+
+  String _capitalize(String text) =>
+      text.isEmpty ? text : text[0].toUpperCase() + text.substring(1);
 }

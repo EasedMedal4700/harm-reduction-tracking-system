@@ -30,9 +30,9 @@ class CommonChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = selectedColor ?? 
+    final accentColor = selectedColor ??
         (isDark ? UIColors.darkNeonViolet : UIColors.lightAccentPurple);
-    
+
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -44,7 +44,8 @@ class CommonChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected
               ? (isDark ? accentColor.withOpacity(0.15) : accentColor.withOpacity(0.1))
-              : (unselectedColor ?? (isDark ? const Color(0x08FFFFFF) : Colors.grey.shade100)),
+              : (unselectedColor ??
+                  (isDark ? const Color(0x08FFFFFF) : Colors.grey.shade100)),
           borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
           border: Border.all(
             color: isSelected
@@ -60,10 +61,7 @@ class CommonChip extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (emoji != null) ...[
-              Text(
-                emoji!,
-                style: const TextStyle(fontSize: 16),
-              ),
+              Text(emoji!, style: const TextStyle(fontSize: 16)),
               const SizedBox(width: ThemeConstants.space8),
             ],
             if (icon != null) ...[
@@ -80,9 +78,8 @@ class CommonChip extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: ThemeConstants.fontSmall,
-                fontWeight: isSelected 
-                    ? ThemeConstants.fontMediumWeight
-                    : ThemeConstants.fontRegular,
+                fontWeight:
+                    isSelected ? ThemeConstants.fontMediumWeight : ThemeConstants.fontRegular,
                 color: isSelected
                     ? (isDark ? UIColors.darkText : UIColors.lightText)
                     : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),

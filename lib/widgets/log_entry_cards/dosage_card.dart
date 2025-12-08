@@ -6,7 +6,6 @@ import '../../common/inputs/common_input_field.dart';
 import '../../common/inputs/common_dropdown.dart';
 import '../../common/layout/common_spacer.dart';
 
-/// Dosage input card
 class DosageCard extends StatelessWidget {
   final double dose;
   final String unit;
@@ -16,13 +15,13 @@ class DosageCard extends StatelessWidget {
   final TextEditingController? doseCtrl;
 
   const DosageCard({
+    super.key,
     required this.dose,
     required this.unit,
     required this.units,
     required this.onDoseChanged,
     required this.onUnitChanged,
     this.doseCtrl,
-    super.key,
   });
 
   @override
@@ -31,17 +30,16 @@ class DosageCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section title
           const CommonSectionHeader(
             title: 'Dosage',
+            subtitle: 'How much did you take?',
           ),
-          
-          CommonSpacer.vertical(ThemeConstants.space12),
-          
-          // Dose and unit row
+
+          const CommonSpacer.vertical(ThemeConstants.space12),
+
           Row(
             children: [
-              // Dose input
+              /// Dose input
               Expanded(
                 flex: 2,
                 child: CommonInputField(
@@ -49,26 +47,28 @@ class DosageCard extends StatelessWidget {
                   hintText: '0.0',
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   onChanged: (value) {
-                    final parsed = double.tryParse(value);
+                    final sanitized = value.replaceAll(',', '.').trim();
+                    final parsed = double.tryParse(sanitized);
                     if (parsed != null) {
                       onDoseChanged(parsed);
                     }
                   },
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
+                    if (value == null || value.trim().isEmpty) {
                       return 'Required';
                     }
-                    if (double.tryParse(value) == null) {
+                    final sanitized = value.replaceAll(',', '.').trim();
+                    if (double.tryParse(sanitized) == null) {
                       return 'Invalid number';
                     }
                     return null;
                   },
                 ),
               ),
-              
-              CommonSpacer.horizontal(ThemeConstants.space12),
-              
-              // Unit dropdown
+
+              const CommonSpacer.horizontal(ThemeConstants.space12),
+
+              /// Unit dropdown
               Expanded(
                 flex: 1,
                 child: CommonDropdown<String>(
@@ -83,6 +83,8 @@ class DosageCard extends StatelessWidget {
               ),
             ],
           ),
+
+          const CommonSpacer.vertical(ThemeConstants.space4),
         ],
       ),
     );

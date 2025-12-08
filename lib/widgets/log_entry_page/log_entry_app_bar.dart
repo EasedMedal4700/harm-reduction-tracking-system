@@ -15,49 +15,78 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
+    final bgColor = isDark ? const Color(0xFF14141A) : Colors.white;
+    final iconColor = isDark ? Colors.white : Colors.black87;
+    final accent = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
+
     return AppBar(
-      backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-      foregroundColor: isDark ? Colors.white : Colors.black87,
       elevation: 0,
+      backgroundColor: bgColor,
+      foregroundColor: iconColor,
+      centerTitle: false,
+
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Log Entry',
+            "Log Entry",
             style: TextStyle(
-              fontSize: ThemeConstants.fontXLarge,
+              fontSize: ThemeConstants.fontLarge,
               fontWeight: ThemeConstants.fontSemiBold,
+              color: iconColor,
             ),
           ),
           Text(
-            'Add a new substance record',
+            "Add a new substance record",
             style: TextStyle(
               fontSize: ThemeConstants.fontSmall,
-              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              color: isDark
+                  ? UIColors.darkTextSecondary
+                  : UIColors.lightTextSecondary,
             ),
           ),
         ],
       ),
+
       actions: [
-        // Simple/Detailed mode toggle
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: ThemeConstants.space8),
-          child: Row(
-            children: [
-              Text(
-                'Simple',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          padding: const EdgeInsets.only(
+            right: ThemeConstants.space16,
+          ),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: ThemeConstants.space12,
+              vertical: ThemeConstants.space4,
+            ),
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0x11FFFFFF) : Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              border: Border.all(
+                color: isDark
+                    ? const Color(0x22FFFFFF)
+                    : UIColors.lightBorder,
+              ),
+            ),
+            child: Row(
+              children: [
+                Text(
+                  "Simple",
+                  style: TextStyle(
+                    fontSize: ThemeConstants.fontSmall,
+                    color: isDark
+                        ? UIColors.darkTextSecondary
+                        : UIColors.lightTextSecondary,
+                  ),
                 ),
-              ),
-              Switch(
-                value: isSimpleMode,
-                onChanged: onSimpleModeChanged,
-                activeColor: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
-              ),
-            ],
+                const SizedBox(width: ThemeConstants.space8),
+                Switch(
+                  value: isSimpleMode,
+                  onChanged: onSimpleModeChanged,
+                  activeColor: accent,
+                ),
+              ],
+            ),
           ),
         ),
       ],
