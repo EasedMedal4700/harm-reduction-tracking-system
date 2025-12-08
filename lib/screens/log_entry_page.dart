@@ -82,174 +82,279 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
             drawer: const DrawerMenu(),
             body: Stack(
               children: [
-                // Main form content
-                Form(
-                  key: state.formKey,
-                  child: FadeTransition(
-                    opacity: _fadeAnimation,
+                _FadeInWrapper(
+                  animation: _fadeAnimation,
+                  child: Form(
+                    key: state.formKey,
                     child: Column(
                       children: [
-                        // Scrollable content
-                        Expanded(
-                          child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(),
-                            padding: const EdgeInsets.all(AppThemeConstants.cardPadding),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                // Substance
-                                SubstanceHeaderCard(
-                                  substance: state.substance,
-                                  substanceCtrl: state.substanceCtrl,
-                                  onSubstanceChanged: state.setSubstance,
-                                ),
-                                
-                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
-                                
-                                // Dosage
-                                DosageCard(
-                                  dose: state.dose,
-                                  unit: state.unit,
-                                  units: const ['μg', 'mg', 'g', 'pills', 'ml'],
-                                  doseCtrl: state.doseCtrl,
-                                  onDoseChanged: state.setDose,
-                                  onUnitChanged: state.setUnit,
-                                ),
-                                
-                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
-                                
-                                // Route of Administration
-                                RouteOfAdministrationCard(
-                                  route: state.route,
-                                  onRouteChanged: state.setRoute,
-                                  availableROAs: state.getAvailableROAs(),
-                                  isROAValidated: (roa) => state.substanceDetails != null && state.isROAValidated(roa),
-                                ),
-                                
-                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
-                                
-                                // Feelings
-                                FeelingsCard(
-                                  feelings: state.feelings,
-                                  secondaryFeelings: state.secondaryFeelings,
-                                  onFeelingsChanged: state.setFeelings,
-                                  onSecondaryFeelingsChanged: state.setSecondaryFeelings,
-                                ),
-                                
-                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
-                                
-                                // Medical Purpose (simple mode only)
-                                if (state.isSimpleMode) ...[
-                                  MedicalPurposeCard(
-                                    isMedicalPurpose: state.isMedicalPurpose,
-                                    onChanged: state.setIsMedicalPurpose,
-                                  ),
-                                  CommonSpacer.vertical(AppThemeConstants.spaceXl),
-                                ],
-                                
-                                // Time of Use
-                                TimeOfUseCard(
-                                  date: state.date,
-                                  hour: state.hour,
-                                  minute: state.minute,
-                                  onDateChanged: state.setDate,
-                                  onHourChanged: state.setHour,
-                                  onMinuteChanged: state.setMinute,
-                                ),
-                                
-                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
-                                
-                                // Location
-                                LocationCard(
-                                  location: state.location,
-                                  onLocationChanged: state.setLocation,
-                                ),
-                                
-                                // Complex fields (only show in detailed mode)
-                                if (!state.isSimpleMode) ...[
-                                  CommonSpacer.vertical(AppThemeConstants.spaceXl),
-                                  
-                                  // Intention & Craving
-                                  IntentionCravingCard(
-                                    intention: state.intention,
-                                    cravingIntensity: state.cravingIntensity,
-                                    isMedicalPurpose: state.isMedicalPurpose,
-                                    onIntentionChanged: state.setIntention,
-                                    onCravingIntensityChanged: state.setCravingIntensity,
-                                    onMedicalPurposeChanged: state.setIsMedicalPurpose,
-                                  ),
-                                  
-                                  CommonSpacer.vertical(AppThemeConstants.spaceXl),
-                                  
-                                  // Triggers
-                                  TriggersCard(
-                                    selectedTriggers: state.triggers,
-                                    onTriggersChanged: state.setTriggers,
-                                  ),
-                                  
-                                  CommonSpacer.vertical(AppThemeConstants.spaceXl),
-                                  
-                                  // Body Signals
-                                  BodySignalsCard(
-                                    selectedBodySignals: state.bodySignals,
-                                    onBodySignalsChanged: state.setBodySignals,
-                                  ),
-                                ],
-                                
-                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
-                                
-                                // Notes
-                                CommonCard(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const CommonSectionHeader(
-                                        title: 'Additional Notes',
-                                        subtitle: 'Any other details worth recording',
-                                      ),
-                                      CommonSpacer.vertical(AppThemeConstants.spaceMd),
-                                      CommonTextarea(
-                                        controller: state.notesCtrl,
-                                        hintText: 'Enter any additional notes...',
-                                        maxLines: 5,
-                                        minLines: 3,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                
-                                // Extra padding for bottom button
-                                const SizedBox(height: 80),
-                              ],
-                            ),
-                          ),
-                        ),
-                        
-                        // Sticky bottom save button
-                        CommonBottomBar(
-                          child: CommonPrimaryButton(
-                            onPressed: () => state.save(context),
-                            label: 'Save Entry',
-                            icon: Icons.save,
-                          ),
-                        ),
+                        _LogEntryScrollView(state: state),
+                        _SaveButton(state: state),
                       ],
                     ),
                   ),
                 ),
-                
-                // Loading overlay
-                if (state.isSaving)
-                  Container(
-                    color: Colors.black.withOpacity(0.5),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
+                if (state.isSaving) const _SavingOverlay(),
               ],
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+// ============================================================================
+// PRIVATE WIDGETS - UI Structure Extraction
+// ============================================================================
+
+/// Wrapper for fade-in animation on page load
+class _FadeInWrapper extends StatelessWidget {
+  final Animation<double> animation;
+  final Widget child;
+
+  const _FadeInWrapper({
+    required this.animation,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: animation,
+      child: child,
+    );
+  }
+}
+
+/// Main scrollable content area with all form sections
+class _LogEntryScrollView extends StatelessWidget {
+  final LogEntryState state;
+
+  const _LogEntryScrollView({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.all(AppThemeConstants.cardPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _CoreSection(state: state),
+            if (state.isSimpleMode) 
+              _SimpleModeSection(state: state)
+            else 
+              _DetailedModeSection(state: state),
+            _NotesSection(state: state),
+            const SizedBox(height: 80), // Extra padding for bottom button
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Core fields shown in both simple and detailed modes
+class _CoreSection extends StatelessWidget {
+  final LogEntryState state;
+
+  const _CoreSection({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Substance
+        SubstanceHeaderCard(
+          substance: state.substance,
+          substanceCtrl: state.substanceCtrl,
+          onSubstanceChanged: state.setSubstance,
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+        
+        // Dosage
+        DosageCard(
+          dose: state.dose,
+          unit: state.unit,
+          units: const ['μg', 'mg', 'g', 'pills', 'ml'],
+          doseCtrl: state.doseCtrl,
+          onDoseChanged: state.setDose,
+          onUnitChanged: state.setUnit,
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+        
+        // Route of Administration
+        RouteOfAdministrationCard(
+          route: state.route,
+          onRouteChanged: state.setRoute,
+          availableROAs: state.getAvailableROAs(),
+          isROAValidated: (roa) => state.substanceDetails != null && state.isROAValidated(roa),
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+        
+        // Feelings
+        FeelingsCard(
+          feelings: state.feelings,
+          secondaryFeelings: state.secondaryFeelings,
+          onFeelingsChanged: state.setFeelings,
+          onSecondaryFeelingsChanged: state.setSecondaryFeelings,
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+      ],
+    );
+  }
+}
+
+/// Simple mode section with medical purpose and basic fields
+class _SimpleModeSection extends StatelessWidget {
+  final LogEntryState state;
+
+  const _SimpleModeSection({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        MedicalPurposeCard(
+          isMedicalPurpose: state.isMedicalPurpose,
+          onChanged: state.setIsMedicalPurpose,
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+        
+        TimeOfUseCard(
+          date: state.date,
+          hour: state.hour,
+          minute: state.minute,
+          onDateChanged: state.setDate,
+          onHourChanged: state.setHour,
+          onMinuteChanged: state.setMinute,
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+        
+        LocationCard(
+          location: state.location,
+          onLocationChanged: state.setLocation,
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+      ],
+    );
+  }
+}
+
+/// Detailed mode section with all advanced fields
+class _DetailedModeSection extends StatelessWidget {
+  final LogEntryState state;
+
+  const _DetailedModeSection({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        TimeOfUseCard(
+          date: state.date,
+          hour: state.hour,
+          minute: state.minute,
+          onDateChanged: state.setDate,
+          onHourChanged: state.setHour,
+          onMinuteChanged: state.setMinute,
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+        
+        LocationCard(
+          location: state.location,
+          onLocationChanged: state.setLocation,
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+        
+        IntentionCravingCard(
+          intention: state.intention,
+          cravingIntensity: state.cravingIntensity,
+          isMedicalPurpose: state.isMedicalPurpose,
+          onIntentionChanged: state.setIntention,
+          onCravingIntensityChanged: state.setCravingIntensity,
+          onMedicalPurposeChanged: state.setIsMedicalPurpose,
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+        
+        TriggersCard(
+          selectedTriggers: state.triggers,
+          onTriggersChanged: state.setTriggers,
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+        
+        BodySignalsCard(
+          selectedBodySignals: state.bodySignals,
+          onBodySignalsChanged: state.setBodySignals,
+        ),
+        CommonSpacer.vertical(AppThemeConstants.spaceXl),
+      ],
+    );
+  }
+}
+
+/// Notes section with text area
+class _NotesSection extends StatelessWidget {
+  final LogEntryState state;
+
+  const _NotesSection({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return CommonCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const CommonSectionHeader(
+            title: 'Additional Notes',
+            subtitle: 'Any other details worth recording',
+          ),
+          CommonSpacer.vertical(AppThemeConstants.spaceMd),
+          CommonTextarea(
+            controller: state.notesCtrl,
+            hintText: 'Enter any additional notes...',
+            maxLines: 5,
+            minLines: 3,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Save button at bottom of screen
+class _SaveButton extends StatelessWidget {
+  final LogEntryState state;
+
+  const _SaveButton({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return CommonBottomBar(
+      child: CommonPrimaryButton(
+        onPressed: () => state.save(context),
+        label: 'Save Entry',
+        icon: Icons.save,
+      ),
+    );
+  }
+}
+
+/// Loading overlay shown during save operation
+class _SavingOverlay extends StatelessWidget {
+  const _SavingOverlay();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black.withOpacity(0.5),
+      child: const Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
