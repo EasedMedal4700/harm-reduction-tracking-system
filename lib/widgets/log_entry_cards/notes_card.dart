@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../common/cards/common_card.dart';
 import '../../common/text/common_section_header.dart';
 import '../../common/layout/common_spacer.dart';
-import '../../common/inputs/common_textarea.dart';
+import '../../common/inputs/textarea.dart';
 import '../../constants/deprecated/theme_constants.dart';
 
 class NotesCard extends StatelessWidget {

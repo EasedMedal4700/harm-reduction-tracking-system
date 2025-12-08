@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../constants/deprecated/theme_constants.dart';
 import '../../common/cards/common_card.dart';
 import '../../common/text/common_section_header.dart';
-import '../../common/inputs/common_input_field.dart';
-import '../../common/inputs/common_dropdown.dart';
+import '../../common/inputs/input_field.dart';
+import '../../common/inputs/dropdown.dart';
 import '../../common/layout/common_spacer.dart';
 
 class DosageCard extends StatelessWidget {

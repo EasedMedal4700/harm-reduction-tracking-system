@@ -19,7 +19,7 @@ import '../constants/colors/app_colors_dark.dart';
 import '../constants/colors/app_colors_light.dart';
 import '../common/cards/common_card.dart';
 import '../common/text/common_section_header.dart';
-import '../common/inputs/common_textarea.dart';
+import '../common/inputs/textarea.dart';
 import '../common/buttons/common_primary_button.dart';
 import '../common/layout/common_spacer.dart';
 import '../common/layout/common_bottom_bar.dart';

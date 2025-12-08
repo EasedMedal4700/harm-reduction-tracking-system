@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
-import 'simple_fields.dart';
-import 'complex_fields.dart';
+import '../log_entry_cards/substance_header_card.dart';
+import '../log_entry_cards/dosage_card.dart';
+import '../log_entry_cards/route_of_administration_card.dart';
+import '../log_entry_cards/feelings_card.dart';
+import '../log_entry_cards/location_card.dart';
+import '../log_entry_cards/time_of_use_card.dart';
+import '../log_entry_cards/intention_craving_card.dart';
+import '../log_entry_cards/triggers_card.dart';
+import '../log_entry_cards/body_signals_card.dart';
+import '../log_entry_cards/notes_card.dart';
+// import '../log_entry_save_button.dart';
 
-class LogEntryForm extends StatefulWidget {
+class LogEntryForm extends StatelessWidget {
   final bool isSimpleMode;
+
   final double dose;
   final String unit;
   final String substance;
@@ -14,13 +24,17 @@ class LogEntryForm extends StatefulWidget {
   final DateTime date;
   final int hour;
   final int minute;
-  final TextEditingController notesCtrl;
-  final GlobalKey<FormState> formKey;
+
   final bool isMedicalPurpose;
   final double cravingIntensity;
-  final String? intention; // Change to nullable
+  final String? intention;
   final List<String> selectedTriggers;
   final List<String> selectedBodySignals;
+
+  final TextEditingController notesCtrl;
+  final TextEditingController? doseCtrl;
+  final TextEditingController? substanceCtrl;
+
   final ValueChanged<double> onDoseChanged;
   final ValueChanged<String> onUnitChanged;
   final ValueChanged<String> onSubstanceChanged;
@@ -36,9 +50,9 @@ class LogEntryForm extends StatefulWidget {
   final ValueChanged<String?> onIntentionChanged;
   final ValueChanged<List<String>> onTriggersChanged;
   final ValueChanged<List<String>> onBodySignalsChanged;
+
   final VoidCallback onSave;
-  final TextEditingController? doseCtrl;
-  final TextEditingController? substanceCtrl;
+  final GlobalKey<FormState> formKey;
 
   const LogEntryForm({
     super.key,
@@ -53,13 +67,13 @@ class LogEntryForm extends StatefulWidget {
     required this.date,
     required this.hour,
     required this.minute,
-    required this.notesCtrl,
-    required this.formKey,
     required this.isMedicalPurpose,
     required this.cravingIntensity,
-    this.intention, // Make optional or nullable
+    required this.intention,
     required this.selectedTriggers,
     required this.selectedBodySignals,
+    required this.notesCtrl,
+    required this.formKey,
     required this.onDoseChanged,
     required this.onUnitChanged,
     required this.onSubstanceChanged,
@@ -76,73 +90,82 @@ class LogEntryForm extends StatefulWidget {
     required this.onTriggersChanged,
     required this.onBodySignalsChanged,
     required this.onSave,
-    this.doseCtrl,
     this.substanceCtrl,
+    this.doseCtrl,
   });
 
   @override
-  State<LogEntryForm> createState() => _LogEntryFormState();
-}
-
-class _LogEntryFormState extends State<LogEntryForm> {
-  @override
   Widget build(BuildContext context) {
     return Form(
-      key: widget.formKey,
-      child: Align(
-        alignment: Alignment.topLeft,
+      key: formKey,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 100),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(right: 16, top: 16, bottom: 16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SimpleFields(
-                dose: widget.dose,
-                unit: widget.unit,
-                substance: widget.substance,
-                substanceCtrl: widget.substanceCtrl,
-                doseCtrl: widget.doseCtrl,
-                route: widget.route,
-                feelings: widget.feelings,
-                secondaryFeelings: widget.secondaryFeelings,
-                location: widget.location,
-                date: widget.date,
-                hour: widget.hour,
-                minute: widget.minute,
-                onDoseChanged: widget.onDoseChanged,
-                onUnitChanged: widget.onUnitChanged,
-                onSubstanceChanged: widget.onSubstanceChanged,
-                onRouteChanged: widget.onRouteChanged,
-                onFeelingsChanged: widget.onFeelingsChanged,
-                onSecondaryFeelingsChanged: widget.onSecondaryFeelingsChanged,
-                onLocationChanged: widget.onLocationChanged,
-                onDateChanged: widget.onDateChanged,
-                onHourChanged: widget.onHourChanged,
-                onMinuteChanged: widget.onMinuteChanged,
-                onMedicalPurposeChanged: widget.onMedicalPurposeChanged,
-                isMedicalPurpose: widget.isMedicalPurpose,
+              SubstanceHeaderCard(
+                substance: substance,
+                onSubstanceChanged: onSubstanceChanged,
+                substanceCtrl: substanceCtrl,
               ),
-              if (!widget.isSimpleMode)
-                ComplexFields(
-                  cravingIntensity: widget.cravingIntensity,
-                  intention: widget.intention,
-                  selectedTriggers: widget.selectedTriggers,
-                  selectedBodySignals: widget.selectedBodySignals,
-                  onCravingIntensityChanged: widget.onCravingIntensityChanged,
-                  onIntentionChanged: widget.onIntentionChanged,
-                  onTriggersChanged: widget.onTriggersChanged,
-                  onBodySignalsChanged: widget.onBodySignalsChanged,
+
+              DosageCard(
+                dose: dose,
+                unit: unit,
+                units: const ["mg", "g", "ml", "µg"],
+                onDoseChanged: onDoseChanged,
+                onUnitChanged: onUnitChanged,
+                doseCtrl: doseCtrl,
+              ),
+
+              RouteOfAdministrationCard(
+                route: route,
+                onRouteChanged: onRouteChanged,
+                availableROAs: const ["oral", "insufflated", "inhaled", "sublingual"],
+              ),
+
+              FeelingsCard(
+                feelings: feelings,
+                secondaryFeelings: secondaryFeelings,
+                onFeelingsChanged: onFeelingsChanged,
+                onSecondaryFeelingsChanged: onSecondaryFeelingsChanged,
+              ),
+
+              LocationCard(
+                location: location,
+                onLocationChanged: onLocationChanged,
+              ),
+
+              TimeOfUseCard(
+                date: date,
+                hour: hour,
+                minute: minute,
+                onDateChanged: onDateChanged,
+                onHourChanged: onHourChanged,
+                onMinuteChanged: onMinuteChanged,
+              ),
+
+              if (!isSimpleMode)
+                IntentionCravingCard(
+                  intention: intention,
+                  cravingIntensity: cravingIntensity,
+                  isMedicalPurpose: isMedicalPurpose,
+                  onCravingIntensityChanged: onCravingIntensityChanged,
+                  onIntentionChanged: onIntentionChanged,
+                  onMedicalPurposeChanged: onMedicalPurposeChanged,
                 ),
-              TextFormField(
-                controller: widget.notesCtrl,
-                maxLines: 3,
-                decoration: const InputDecoration(labelText: 'Notes'),
+
+              TriggersCard(
+                selectedTriggers: selectedTriggers,
+                onTriggersChanged: onTriggersChanged,
               ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: widget.onSave,
-                child: const Text('Save Entry'),
+
+              BodySignalsCard(
+                selectedBodySignals: selectedBodySignals,
+                onBodySignalsChanged: onBodySignalsChanged,
               ),
+
+              NotesCard(notesCtrl: notesCtrl),
             ],
           ),
         ),

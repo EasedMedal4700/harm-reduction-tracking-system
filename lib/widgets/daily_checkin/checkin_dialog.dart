@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/daily_checkin_provider.dart';
-import 'mood_selector.dart';
-import 'emotion_selector.dart';
-import 'notes_input.dart';
 
-/// Dialog for daily check-in with mood, emotions, and notes
+import '../../providers/daily_checkin_provider.dart';
+import '../../common/inputs/mood_selector.dart';
+import '../../common/inputs/emotion_selector.dart';
+import '../../common/inputs/input_field.dart';
+
+import '../../constants/theme/app_radius.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
 class DailyCheckinDialog extends StatefulWidget {
   const DailyCheckinDialog({super.key});
 
@@ -22,27 +25,27 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
     super.dispose();
   }
 
-  String _getTimeOfDayLabel(String timeOfDay) {
-    switch (timeOfDay) {
-      case 'morning':
-        return 'Morning Check-In';
-      case 'afternoon':
-        return 'Afternoon Check-In';
-      case 'evening':
-        return 'Evening Check-In';
+  String _getTimeLabel(String time) {
+    switch (time) {
+      case "morning":
+        return "Morning Check-In";
+      case "afternoon":
+        return "Afternoon Check-In";
+      case "evening":
+        return "Evening Check-In";
       default:
-        return 'Check-In';
+        return "Daily Check-In";
     }
   }
 
-  IconData _getTimeIcon(String timeOfDay) {
-    switch (timeOfDay) {
-      case 'morning':
-        return Icons.wb_sunny;
-      case 'afternoon':
-        return Icons.wb_cloudy;
-      case 'evening':
-        return Icons.nightlight_round;
+  IconData _getTimeIcon(String time) {
+    switch (time) {
+      case "morning":
+        return Icons.wb_sunny_rounded;
+      case "afternoon":
+        return Icons.wb_cloudy_rounded;
+      case "evening":
+        return Icons.nightlight_round_rounded;
       default:
         return Icons.mood;
     }
@@ -50,104 +53,135 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final spacing = t.spacing;
+
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      backgroundColor: t.colors.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+      ),
+      elevation: 0,
       child: Consumer<DailyCheckinProvider>(
         builder: (context, provider, child) {
           return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header
-                  Row(
-                    children: [
-                      Icon(
-                        _getTimeIcon(provider.timeOfDay),
-                        size: 28,
-                        color: Colors.blue.shade700,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Daily Check-In',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+            padding: EdgeInsets.all(spacing.xl),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                // ---------------------------------------------------------------------
+                // HEADER
+                // ---------------------------------------------------------------------
+                Row(
+                  children: [
+                    Icon(
+                      _getTimeIcon(provider.timeOfDay),
+                      size: 32,
+                      color:  t.accent.primary,
+                    ),
+
+                    SizedBox(width: spacing.md),
+
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Daily Check-In",
+                            style: t.typography.heading3.copyWith(
+                              color: t.colors.textPrimary,
                             ),
-                            Text(
-                              _getTimeOfDayLabel(provider.timeOfDay),
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey.shade600,
-                              ),
+                          ),
+                          Text(
+                            _getTimeLabel(provider.timeOfDay),
+                            style: t.typography.bodySmall.copyWith(
+                              color: t.colors.textSecondary,
                             ),
-                          ],
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Mood selection
-                  MoodSelector(
-                    selectedMood: provider.mood,
-                    availableMoods: provider.availableMoods,
-                    onMoodSelected: provider.setMood,
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Emotions selection
-                  EmotionSelector(
-                    selectedEmotions: provider.emotions,
-                    availableEmotions: provider.availableEmotions,
-                    onEmotionToggled: provider.toggleEmotion,
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Notes
-                  NotesInput(
-                    controller: _notesController,
-                    onChanged: provider.setNotes,
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Save button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: provider.isSaving
-                          ? null
-                          : () async {
-                              await provider.saveCheckin(context);
-                            },
-                      icon: provider.isSaving
-                          ? const SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.check),
-                      label: Text(provider.isSaving ? 'Saving...' : 'Save Check-In'),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        backgroundColor: Colors.blue.shade700,
-                        foregroundColor: Colors.white,
+                          ),
+                        ],
                       ),
                     ),
+
+                    IconButton(
+                      icon: Icon(Icons.close, color: t.colors.textSecondary),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: spacing.xl),
+
+                // ---------------------------------------------------------------------
+                // MOOD SELECTOR
+                // ---------------------------------------------------------------------
+                MoodSelector(
+                  selectedMood: provider.mood,
+                  availableMoods: provider.availableMoods,
+                  onMoodSelected: provider.setMood,
+                ),
+
+                SizedBox(height: spacing.xl),
+
+                // ---------------------------------------------------------------------
+                // EMOTION SELECTOR
+                // ---------------------------------------------------------------------
+                EmotionSelector(
+                  selectedEmotions: provider.emotions,
+                  availableEmotions: provider.availableEmotions,
+                  onEmotionToggled: provider.toggleEmotion,
+                ),
+
+                SizedBox(height: spacing.xl),
+
+                // ---------------------------------------------------------------------
+                // NOTES INPUT
+                // ---------------------------------------------------------------------
+                CommonInputField(
+                  controller: _notesController,
+                  hintText: "Add notes...",
+                  maxLines: 4,
+                  onChanged: provider.setNotes,
+                ),
+
+                SizedBox(height: spacing.xl),
+
+                // ---------------------------------------------------------------------
+                // SAVE BUTTON
+                // ---------------------------------------------------------------------
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: provider.isSaving
+                        ? null
+                        : () async => provider.saveCheckin(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: t.accent.primary,
+                      foregroundColor: t.colors.textInverse,
+                      padding: EdgeInsets.symmetric(vertical: spacing.md),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.md),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: provider.isSaving
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Text(
+                            "Save Check-In",
+                            style: t.typography.button.copyWith(
+                              color: t.colors.textInverse,
+                            ),
+                          ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },

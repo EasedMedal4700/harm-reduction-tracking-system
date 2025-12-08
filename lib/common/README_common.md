@@ -2,26 +2,46 @@
 
 A unified, reusable design system based on the Log Entry screen's UI patterns. This library provides consistent, theme-aware components for building beautiful, maintainable Flutter interfaces.
 
-## 📁 Directory Structure
+# Common UI Component Library
+
+A unified, reusable design system based on the Log Entry screen's UI patterns. This library provides consistent, theme-aware components for building beautiful, maintainable Flutter interfaces.
 
 ```
 common/
-├── cards/
-│   └── common_card.dart              # Reusable card container
-├── text/
-│   └── common_section_header.dart    # Section headers with title/subtitle
-├── inputs/
-│   ├── common_input_field.dart       # Single-line text input
-│   ├── common_textarea.dart          # Multi-line text input
-│   ├── common_dropdown.dart          # Dropdown selector
-│   ├── common_slider.dart            # Numeric slider input
-│   └── common_search_field.dart      # Autocomplete search field
+├── app_theme_.dart                 # Main theme data class
+├── animations/                     # Animation utilities (empty)
 ├── buttons/
-│   ├── common_primary_button.dart    # Primary action button
-│   ├── common_chip.dart              # Selectable chip/tag
-│   └── common_icon_button.dart       # Icon-only button
-└── layout/
-    └── common_spacer.dart            # Consistent spacing
+│   ├── common_chip.dart            # Selectable chip/tag
+│   ├── common_chip_group.dart      # Group of selectable chips
+│   ├── common_icon_button.dart     # Icon-only button
+│   └── common_primary_button.dart  # Primary action button
+├── cards/
+│   └── common_card.dart            # Reusable card container
+├── inputs/
+│   ├── common_dropdown.dart        # Dropdown selector
+│   ├── common_input_field.dart     # Single-line text input
+│   ├── common_search_field.dart    # Autocomplete search field
+│   ├── common_slider.dart          # Numeric slider input
+│   ├── common_switch_tile.dart     # Switch with title and subtitle
+│   └── common_textarea.dart        # Multi-line text input
+├── layout/
+│   ├── common_bottom_bar.dart      # Sticky bottom action bar
+│   └── common_spacer.dart          # Consistent spacing
+├── modals/                         # Modal dialogs (empty)
+├── old_common/                     # Legacy components (deprecated)
+│   ├── category_filter.dart
+│   ├── craving_slider.dart
+│   ├── drawer_menu.dart
+│   ├── feeling_selection.dart
+│   ├── filter.dart
+│   ├── harm_reduction_banner.dart
+│   ├── location_dropdown.dart
+│   ├── modern_form_card.dart
+│   ├── standard_button.dart
+│   └── ...
+├── text/
+│   └── common_section_header.dart  # Section headers with title/subtitle
+└── wrappers/                       # Layout wrappers (empty)
 ```
 
 ## 🎨 Design Principles
@@ -154,24 +174,24 @@ CommonSlider(
 - `divisions` (int?): Number of discrete divisions
 - `showValueLabel` (bool): Show value indicator (default: true)
 
-#### CommonSearchField
-Autocomplete search field with custom options.
+#### CommonSwitchTile
+Switch control with title, subtitle, and consistent styling.
 
 ```dart
-CommonSearchField<Drug>(
-  hintText: 'Search substances...',
-  optionsBuilder: (text) async => await searchDrugs(text),
-  displayStringForOption: (drug) => drug.name,
-  itemBuilder: (context, drug) => Text(drug.name),
-  onSelected: (drug) => selectDrug(drug),
+CommonSwitchTile(
+  title: 'Medical Purpose',
+  subtitle: 'Was this use for medical reasons?',
+  value: isMedicalPurpose,
+  onChanged: (value) => setState(() => isMedicalPurpose = value),
 )
 ```
 
 **Properties:**
-- `optionsBuilder` (Future<Iterable<T>> Function(String)): Fetch options
-- `displayStringForOption` (String Function(T)): Convert to display string
-- `itemBuilder` (Widget Function(BuildContext, T)): Build option widget
-- `onSelected` (ValueChanged<T>): Selection callback
+- `title` (String): Main title
+- `subtitle` (String?): Optional description
+- `value` (bool): Switch state
+- `onChanged` (ValueChanged<bool>?): State change callback
+- `enabled` (bool): Enable/disable switch (default: true)
 
 ### Buttons
 
@@ -215,6 +235,27 @@ CommonChip(
 - `icon` (IconData?): Optional icon prefix
 - `showGlow` (bool): Show neon glow when selected (default: false)
 
+#### CommonChipGroup
+Group of selectable chips with consistent layout and selection management.
+
+```dart
+CommonChipGroup(
+  title: 'Select Emotions',
+  options: ['Happy', 'Sad', 'Anxious', 'Calm'],
+  selectedOptions: selectedEmotions,
+  onSelectionChanged: (selected) => setState(() => selectedEmotions = selected),
+  emojis: const ['😊', '😢', '😰', '😌'],
+)
+```
+
+**Properties:**
+- `title` (String?): Optional group title
+- `options` (List<String>): Available options
+- `selectedOptions` (List<String>): Currently selected options
+- `onSelectionChanged` (ValueChanged<List<String>>): Selection callback
+- `emojis` (List<String>?): Optional emoji for each option
+- `maxSelection` (int?): Maximum selectable items
+
 #### CommonIconButton
 Icon-only button for actions like edit, delete.
 
@@ -247,6 +288,25 @@ const CommonSpacer.horizontal(16)
 // Custom
 CommonSpacer(height: 20, width: 10)
 ```
+
+#### CommonBottomBar
+Sticky bottom bar for action buttons with consistent styling.
+
+```dart
+CommonBottomBar(
+  child: CommonPrimaryButton(
+    label: 'Save Entry',
+    onPressed: () => saveEntry(),
+    icon: Icons.check,
+  ),
+)
+```
+
+**Properties:**
+- `child` (Widget): Content to display in the bar
+- `padding` (EdgeInsetsGeometry?): Custom padding
+- `backgroundColor` (Color?): Override background color
+- `showShadow` (bool): Show/hide shadow (default: true)
 
 ## 📖 Usage Examples
 
@@ -316,6 +376,44 @@ CommonCard(
 )
 ```
 
+### Chip Group Selection
+
+```dart
+CommonCard(
+  child: CommonChipGroup(
+    title: 'Select Triggers',
+    options: ['Stress', 'Social', 'Boredom', 'Curiosity'],
+    selectedOptions: selectedTriggers,
+    onSelectionChanged: (selected) => setState(() => selectedTriggers = selected),
+    maxSelection: 3,
+  ),
+)
+```
+
+### Switch Tile Configuration
+
+```dart
+CommonCard(
+  child: Column(
+    children: [
+      CommonSwitchTile(
+        title: 'Simple Mode',
+        subtitle: 'Show basic fields only',
+        value: isSimpleMode,
+        onChanged: (value) => setState(() => isSimpleMode = value),
+      ),
+      const CommonSpacer.vertical(12),
+      CommonSwitchTile(
+        title: 'Medical Purpose',
+        subtitle: 'Was this use for medical reasons?',
+        value: isMedicalPurpose,
+        onChanged: (value) => setState(() => isMedicalPurpose = value),
+      ),
+    ],
+  ),
+)
+```
+
 ### Form with Save Button
 
 ```dart
@@ -331,12 +429,13 @@ Column(
         ),
       ),
     ),
-    CommonPrimaryButton(
-      label: 'Save Entry',
-      onPressed: () => saveEntry(),
-      icon: Icons.check,
-      isLoading: isSaving,
-      width: double.infinity,
+    CommonBottomBar(
+      child: CommonPrimaryButton(
+        label: 'Save Entry',
+        onPressed: () => saveEntry(),
+        icon: Icons.check,
+        isLoading: isSaving,
+      ),
     ),
   ],
 )
@@ -380,6 +479,22 @@ All components must match the Log Entry design:
 
 ## 🔧 Maintenance
 
+### Legacy Components (old_common/)
+
+The `old_common/` directory contains legacy components that are being phased out:
+
+- `category_filter.dart` → Use `CommonChipGroup` or `CommonDropdown`
+- `craving_slider.dart` → Use `CommonSlider`
+- `drawer_menu.dart` → Use app-level drawer implementation
+- `feeling_selection.dart` → Use `CommonChipGroup`
+- `filter.dart` → Use `CommonChipGroup` or `CommonDropdown`
+- `harm_reduction_banner.dart` → Use `CommonCard` with custom content
+- `location_dropdown.dart` → Use `CommonDropdown`
+- `modern_form_card.dart` → Use `CommonCard`
+- `standard_button.dart` → Use `CommonPrimaryButton`
+
+**Migration Priority**: High - Replace usage of old_common components with current common components.
+
 ### Updating Styles
 
 When updating component styles:
@@ -416,6 +531,6 @@ For questions or issues with components:
 
 ---
 
-**Version**: 1.0.0  
+**Version**: 1.1.0  
 **Last Updated**: December 8, 2025  
 **Based On**: Log Entry Screen UI (v2.0)

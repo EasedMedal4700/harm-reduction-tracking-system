@@ -5,8 +5,8 @@ import '../../constants/data/body_and_mind_catalog.dart';
 
 import '../../common/cards/common_card.dart';
 import '../../common/text/common_section_header.dart';
-import '../../common/inputs/common_dropdown.dart';
-import '../../common/inputs/common_slider.dart';
+import '../../common/inputs/dropdown.dart';
+import '../../common/inputs/slider.dart';
 import '../../common/layout/common_spacer.dart';
 
 class IntentionCravingCard extends StatelessWidget {
