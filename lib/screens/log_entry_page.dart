@@ -13,13 +13,15 @@ import '../widgets/log_entry_cards/body_signals_card.dart';
 import '../widgets/log_entry_cards/medical_purpose_card.dart';
 import '../widgets/log_entry_page/log_entry_app_bar.dart';
 import '../states/log_entry_state.dart';
-import '../constants/deprecated/ui_colors.dart';
-import '../constants/deprecated/theme_constants.dart';
+import '../constants/theme/app_theme_constants.dart';
+import '../constants/colors/app_colors_dark.dart';
+import '../constants/colors/app_colors_light.dart';
 import '../common/cards/common_card.dart';
 import '../common/text/common_section_header.dart';
 import '../common/inputs/common_textarea.dart';
 import '../common/buttons/common_primary_button.dart';
 import '../common/layout/common_spacer.dart';
+import '../common/layout/common_bottom_bar.dart';
 
 class QuickLogEntryPage extends StatefulWidget {
   const QuickLogEntryPage({super.key});
@@ -41,7 +43,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
     
     // Setup fade-in animation
     _animationController = AnimationController(
-      duration: ThemeConstants.animationNormal,
+      duration: AppThemeConstants.animationNormal,
       vsync: this,
     );
     
@@ -72,7 +74,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       child: Consumer<LogEntryState>(
         builder: (context, state, child) {
           return Scaffold(
-            backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
+            backgroundColor: isDark ? AppColorsDark.background : AppColorsLight.background,
             appBar: LogEntryAppBar(
               isSimpleMode: state.isSimpleMode,
               onSimpleModeChanged: state.setIsSimpleMode,
@@ -91,7 +93,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                         Expanded(
                           child: SingleChildScrollView(
                             physics: const BouncingScrollPhysics(),
-                            padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
+                            padding: const EdgeInsets.all(AppThemeConstants.cardPadding),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
@@ -102,7 +104,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                   onSubstanceChanged: state.setSubstance,
                                 ),
                                 
-                                const SizedBox(height: ThemeConstants.cardSpacing),
+                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
                                 
                                 // Dosage
                                 DosageCard(
@@ -114,7 +116,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                   onUnitChanged: state.setUnit,
                                 ),
                                 
-                                const SizedBox(height: ThemeConstants.cardSpacing),
+                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
                                 
                                 // Route of Administration
                                 RouteOfAdministrationCard(
@@ -124,7 +126,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                   isROAValidated: (roa) => state.substanceDetails != null && state.isROAValidated(roa),
                                 ),
                                 
-                                const SizedBox(height: ThemeConstants.cardSpacing),
+                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
                                 
                                 // Feelings
                                 FeelingsCard(
@@ -134,7 +136,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                   onSecondaryFeelingsChanged: state.setSecondaryFeelings,
                                 ),
                                 
-                                const SizedBox(height: ThemeConstants.cardSpacing),
+                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
                                 
                                 // Medical Purpose (simple mode only)
                                 if (state.isSimpleMode) ...[
@@ -142,7 +144,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                     isMedicalPurpose: state.isMedicalPurpose,
                                     onChanged: state.setIsMedicalPurpose,
                                   ),
-                                  const SizedBox(height: ThemeConstants.cardSpacing),
+                                  CommonSpacer.vertical(AppThemeConstants.spaceXl),
                                 ],
                                 
                                 // Time of Use
@@ -155,7 +157,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                   onMinuteChanged: state.setMinute,
                                 ),
                                 
-                                const SizedBox(height: ThemeConstants.cardSpacing),
+                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
                                 
                                 // Location
                                 LocationCard(
@@ -165,7 +167,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                 
                                 // Complex fields (only show in detailed mode)
                                 if (!state.isSimpleMode) ...[
-                                  const SizedBox(height: ThemeConstants.cardSpacing),
+                                  CommonSpacer.vertical(AppThemeConstants.spaceXl),
                                   
                                   // Intention & Craving
                                   IntentionCravingCard(
@@ -177,7 +179,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                     onMedicalPurposeChanged: state.setIsMedicalPurpose,
                                   ),
                                   
-                                  const SizedBox(height: ThemeConstants.cardSpacing),
+                                  CommonSpacer.vertical(AppThemeConstants.spaceXl),
                                   
                                   // Triggers
                                   TriggersCard(
@@ -185,7 +187,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                     onTriggersChanged: state.setTriggers,
                                   ),
                                   
-                                  const SizedBox(height: ThemeConstants.cardSpacing),
+                                  CommonSpacer.vertical(AppThemeConstants.spaceXl),
                                   
                                   // Body Signals
                                   BodySignalsCard(
@@ -194,7 +196,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                   ),
                                 ],
                                 
-                                CommonSpacer.vertical(ThemeConstants.cardSpacing),
+                                CommonSpacer.vertical(AppThemeConstants.spaceXl),
                                 
                                 // Notes
                                 CommonCard(
@@ -205,7 +207,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                                         title: 'Additional Notes',
                                         subtitle: 'Any other details worth recording',
                                       ),
-                                      CommonSpacer.vertical(ThemeConstants.space12),
+                                      CommonSpacer.vertical(AppThemeConstants.spaceMd),
                                       CommonTextarea(
                                         controller: state.notesCtrl,
                                         hintText: 'Enter any additional notes...',
@@ -224,24 +226,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                         ),
                         
                         // Sticky bottom save button
-                        Container(
-                          padding: const EdgeInsets.all(ThemeConstants.space16),
-                          decoration: BoxDecoration(
-                            color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-                            border: Border(
-                              top: BorderSide(
-                                color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-                                width: 1,
-                              ),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 10,
-                                offset: const Offset(0, -2),
-                              ),
-                            ],
-                          ),
+                        CommonBottomBar(
                           child: CommonPrimaryButton(
                             onPressed: () => state.save(context),
                             label: 'Save Entry',
