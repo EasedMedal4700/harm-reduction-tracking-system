@@ -1,4 +1,8 @@
+// MIGRATION: Migrated to AppTheme. Removed deprecated Material colors.
+
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_radius.dart';
 
 class ProfileHeader extends StatelessWidget {
   final Map<String, dynamic>? userData;
@@ -10,68 +14,76 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final spacing = t.spacing;
+
+    final isAdmin = userData?['is_admin'] ?? false;
+    final displayName = userData?['display_name'] ?? 'Unknown User';
+    final email = userData?['email'] ?? 'No email';
+
     return Column(
       children: [
-        const SizedBox(height: 16),
-        // Profile Avatar
+        SizedBox(height: spacing.lg),
+
+        // Avatar
         CircleAvatar(
           radius: 50,
-          backgroundColor: (userData?['is_admin'] ?? false)
-              ? Colors.deepPurple
-              : Colors.blue,
+          backgroundColor:
+              isAdmin ? t.accent.secondary : t.accent.primary, // neon admin vs primary
           child: Text(
-            _getInitials(userData?['display_name'] ?? 'U'),
-            style: const TextStyle(
+            _getInitials(displayName),
+            style: t.typography.heading3.copyWith(
+              color: t.colors.textInverse,
               fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
             ),
           ),
         ),
-        const SizedBox(height: 16),
-        // Display Name
+
+        SizedBox(height: spacing.lg),
+
+        // Name
         Text(
-          userData?['display_name'] ?? 'Unknown User',
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          displayName,
+          style: t.typography.heading3,
         ),
-        const SizedBox(height: 8),
+
+        SizedBox(height: spacing.sm),
+
         // Email
         Text(
-          userData?['email'] ?? 'No email',
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.grey.shade600,
-          ),
+          email,
+          style: t.typography.bodySmall,
         ),
-        const SizedBox(height: 8),
+
+        SizedBox(height: spacing.md),
+
         // Admin Badge
-        if (userData?['is_admin'] ?? false)
+        if (isAdmin)
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
+            padding: EdgeInsets.symmetric(
+              horizontal: spacing.lg,
+              vertical: spacing.sm,
             ),
             decoration: BoxDecoration(
-              color: Colors.deepPurple.shade100,
-              borderRadius: BorderRadius.circular(20),
+              color: t.accent.secondary.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(AppRadius.lg),
+              border: Border.all(
+                color: t.accent.secondary.withOpacity(0.4),
+              ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   Icons.admin_panel_settings,
                   size: 16,
-                  color: Colors.deepPurple,
+                  color: t.colors.textSecondary,
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: spacing.sm),
                 Text(
                   'Administrator',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.deepPurple,
+                  style: t.typography.bodyBold.copyWith(
+                    color: t.accent.secondary,
                   ),
                 ),
               ],
@@ -83,7 +95,7 @@ class ProfileHeader extends StatelessWidget {
 
   String _getInitials(String name) {
     if (name.isEmpty) return 'U';
-    final parts = name.split(' ');
+    final parts = name.trim().split(' ');
     if (parts.length >= 2) {
       return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
     }

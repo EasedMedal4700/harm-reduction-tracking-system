@@ -1,4 +1,8 @@
+// MIGRATION: Migrated to AppTheme. Removed deprecated color usage.
+
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_radius.dart';
 
 class LogoutButton extends StatelessWidget {
   final VoidCallback onLogout;
@@ -10,16 +14,26 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final spacing = t.spacing;
+
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: onLogout,
         icon: const Icon(Icons.logout),
-        label: const Text('Logout'),
+        label: Text(
+          'Logout',
+          style: t.typography.button,
+        ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          backgroundColor: t.colors.error,
+          foregroundColor: t.colors.textInverse,
+          padding: EdgeInsets.symmetric(vertical: spacing.md),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.md),
+          ),
+          elevation: 0,
         ),
       ),
     );

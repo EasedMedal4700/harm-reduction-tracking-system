@@ -1,4 +1,6 @@
+// MIGRATION
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import 'stat_item.dart';
 
 class StatisticsCard extends StatelessWidget {
@@ -11,45 +13,44 @@ class StatisticsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Activity Statistics',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+    final t = context.theme;
+
+    return Container(
+      decoration: t.cardDecoration(),
+      padding: EdgeInsets.all(t.spacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Activity Statistics',
+            style: t.typography.heading3,
+          ),
+          SizedBox(height: t.spacing.lg),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              StatItem(
+                icon: Icons.medication,
+                label: 'Total Entries',
+                value: statistics['total_entries'].toString(),
+                accent: t.accent.primary, // Accent from theme
               ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                StatItem(
-                  icon: Icons.medication,
-                  label: 'Total Entries',
-                  value: statistics['total_entries'].toString(),
-                  color: Colors.blue,
-                ),
-                StatItem(
-                  icon: Icons.calendar_today,
-                  label: 'Last 7 Days',
-                  value: statistics['last_7_days'].toString(),
-                  color: Colors.green,
-                ),
-                StatItem(
-                  icon: Icons.calendar_month,
-                  label: 'Last 30 Days',
-                  value: statistics['last_30_days'].toString(),
-                  color: Colors.orange,
-                ),
-              ],
-            ),
-          ],
-        ),
+              StatItem(
+                icon: Icons.calendar_today,
+                label: 'Last 7 Days',
+                value: statistics['last_7_days'].toString(),
+                accent: t.colors.success, // Green from palette
+              ),
+              StatItem(
+                icon: Icons.calendar_month,
+                label: 'Last 30 Days',
+                value: statistics['last_30_days'].toString(),
+                accent: t.colors.warning, // Orange from palette
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

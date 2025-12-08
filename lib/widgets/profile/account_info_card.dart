@@ -1,5 +1,12 @@
+// MIGRATION: Fully migrated to AppTheme system. No deprecated constants remain.
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../../common/cards/common_card.dart';
+import '../../common/text/common_section_header.dart';
+import '../../common/layout/common_spacer.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import 'info_row.dart';
 
 class AccountInfoCard extends StatelessWidget {
@@ -12,58 +19,68 @@ class AccountInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Account Information',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-            InfoRow(
-              icon: Icons.badge,
-              label: 'User ID',
-              value: userData?['user_id']?.toString() ?? 'N/A',
-            ),
-            const Divider(),
-            InfoRow(
-              icon: Icons.email,
-              label: 'Email',
-              value: userData?['email'] ?? 'N/A',
-            ),
-            const Divider(),
-            InfoRow(
-              icon: Icons.person,
-              label: 'Display Name',
-              value: userData?['display_name'] ?? 'N/A',
-            ),
-            const Divider(),
-            InfoRow(
-              icon: Icons.calendar_today,
-              label: 'Member Since',
-              value: userData?['created_at'] != null
-                  ? DateFormat('MMMM dd, yyyy').format(
-                      DateTime.parse(userData!['created_at']))
-                  : 'N/A',
-            ),
-            const Divider(),
-            InfoRow(
-              icon: Icons.update,
-              label: 'Last Updated',
-              value: userData?['updated_at'] != null
-                  ? DateFormat('MMM dd, yyyy HH:mm').format(
-                      DateTime.parse(userData!['updated_at']))
-                  : 'N/A',
-            ),
-          ],
-        ),
+    final t = context.theme;
+    final spacing = t.spacing;
+
+    return CommonCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const CommonSectionHeader(
+            title: "Account Information",
+          ),
+
+          CommonSpacer.vertical(spacing.lg),
+
+          InfoRow(
+            icon: Icons.badge,
+            label: "User ID",
+            value: userData?['user_id']?.toString() ?? "N/A",
+          ),
+          Divider(color: t.colors.divider),
+
+          InfoRow(
+            icon: Icons.email,
+            label: "Email",
+            value: userData?['email'] ?? "N/A",
+          ),
+          Divider(color: t.colors.divider),
+
+          InfoRow(
+            icon: Icons.person,
+            label: "Display Name",
+            value: userData?['display_name'] ?? "N/A",
+          ),
+          Divider(color: t.colors.divider),
+
+          InfoRow(
+            icon: Icons.calendar_today,
+            label: "Member Since",
+            value: _formatDate(userData?['created_at']),
+          ),
+          Divider(color: t.colors.divider),
+
+          InfoRow(
+            icon: Icons.update,
+            label: "Last Updated",
+            value: _formatDateTime(userData?['updated_at']),
+          ),
+        ],
       ),
     );
+  }
+
+  String _formatDate(dynamic isoString) {
+    if (isoString == null) return "N/A";
+    final dt = DateTime.tryParse(isoString.toString());
+    if (dt == null) return "N/A";
+    return DateFormat("MMMM dd, yyyy").format(dt);
+  }
+
+  String _formatDateTime(dynamic isoString) {
+    if (isoString == null) return "N/A";
+    final dt = DateTime.tryParse(isoString.toString());
+    if (dt == null) return "N/A";
+    return DateFormat("MMM dd, yyyy HH:mm").format(dt);
   }
 }
