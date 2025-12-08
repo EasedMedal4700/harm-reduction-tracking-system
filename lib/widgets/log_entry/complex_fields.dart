@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import '../common/craving_slider.dart';
+import '../../common/old_common/craving_slider.dart';
 import '../../constants/data/body_and_mind_catalog.dart';
+import '../../constants/theme/app_theme_constants.dart';
+import '../../common/text/common_section_header.dart';
 
 class ComplexFields extends StatelessWidget {
   final double cravingIntensity;
@@ -38,17 +40,17 @@ class ComplexFields extends StatelessWidget {
           items: intentions.map((i) => DropdownMenuItem(value: i, child: Text(i))).toList(),
           onChanged: onIntentionChanged, // Single, matches
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: AppThemeConstants.spaceMd),
 
         CravingSlider(
           value: cravingIntensity,
           onChanged: onCravingIntensityChanged,
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppThemeConstants.spaceLg),
 
-        const Text('Triggers'),
+        const CommonSectionHeader(title: 'Triggers'),
         Wrap(
-          spacing: 8.0,
+          spacing: AppThemeConstants.spaceSm,
           children: triggers.map((trigger) => FilterChip(
             label: Text(trigger),
             selected: selectedTriggers.contains(trigger),
@@ -63,11 +65,11 @@ class ComplexFields extends StatelessWidget {
             },
           )).toList(),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppThemeConstants.spaceLg),
 
         const Text('Body Signals'),
         Wrap(
-          spacing: 8.0,
+          spacing: AppThemeConstants.spaceSm,
           children: physicalSensations.map((signal) => FilterChip(
             label: Text(signal),
             selected: selectedBodySignals.contains(signal),
@@ -82,7 +84,7 @@ class ComplexFields extends StatelessWidget {
             },
           )).toList(),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppThemeConstants.spaceLg),
       ],
     );
   }

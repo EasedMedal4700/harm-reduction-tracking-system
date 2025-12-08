@@ -7,8 +7,8 @@ import '../widgets/blood_levels/blood_levels_loading_state.dart';
 import '../widgets/blood_levels/blood_levels_error_state.dart';
 import '../widgets/blood_levels/blood_levels_empty_state.dart';
 import '../widgets/blood_levels/blood_levels_content.dart';
-import '../widgets/common/drawer_menu.dart';
-import '../widgets/common/harm_reduction_banner.dart';
+import '../common/old_common/drawer_menu.dart';
+import '../common/old_common/harm_reduction_banner.dart';
 
 class BloodLevelsPage extends StatefulWidget {
   const BloodLevelsPage({super.key});

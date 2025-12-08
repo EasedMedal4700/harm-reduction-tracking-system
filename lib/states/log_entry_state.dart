@@ -1,397 +1,161 @@
 import 'package:flutter/material.dart';
-import '../models/log_entry_model.dart';
-import '../services/timezone_service.dart';
-import '../services/log_entry_service.dart';
-import '../repo/substance_repository.dart';
-import '../repo/stockpile_repository.dart';
-import '../utils/drug_profile_utils.dart';
+import '../models/log_entry_form_data.dart';
+import '../controllers/log_entry_controller.dart';
 
+/// Riverpod-ready state adapter for Provider
+/// This wraps the pure LogEntryFormData with ChangeNotifier for Provider compatibility
+/// When migrating to Riverpod, this entire file will be replaced with a StateNotifier/Notifier
+/// 
+/// MIGRATION NOTE: Replace this with:
+/// ```
+/// final logEntryProvider = StateNotifierProvider<LogEntryNotifier, LogEntryFormData>((ref) {
+///   return LogEntryNotifier(ref.read(logEntryControllerProvider));
+/// });
+/// ```
 class LogEntryState extends ChangeNotifier {
-  bool isSimpleMode = true;
-  double dose = 0;
-  String unit = 'mg';
-  String substance = '';
-  String route = 'oral';
-  List<String> feelings = [];
-  Map<String, List<String>> secondaryFeelings = {};
-  String location = ''; // Empty string by default, will show hint text
-  DateTime date = DateTime.now();
-  int hour = TimeOfDay.now().hour;
-  int minute = TimeOfDay.now().minute;
-  final notesCtrl = TextEditingController();
-  final TextEditingController doseCtrl = TextEditingController();
-  final TextEditingController substanceCtrl = TextEditingController();
+  LogEntryFormData _data = LogEntryFormData.initial();
+  final LogEntryController _controller = LogEntryController();
 
-  // Substance details for ROA validation
-  Map<String, dynamic>? substanceDetails;
-  final SubstanceRepository _substanceRepo = SubstanceRepository();
-  final StockpileRepository _stockpileRepo = StockpileRepository();
+  // Expose pure data (Riverpod will use this directly)
+  LogEntryFormData get data => _data;
+
+  // Individual getters for backward compatibility with Provider
+  bool get isSimpleMode => _data.isSimpleMode;
+  double get dose => _data.dose;
+  String get unit => _data.unit;
+  String get substance => _data.substance;
+  String get route => _data.route;
+  List<String> get feelings => _data.feelings;
+  Map<String, List<String>> get secondaryFeelings => _data.secondaryFeelings;
+  String get location => _data.location;
+  DateTime get date => _data.date;
+  int get hour => _data.hour;
+  int get minute => _data.minute;
+  String get notes => _data.notes;
+  bool get isMedicalPurpose => _data.isMedicalPurpose;
+  double get cravingIntensity => _data.cravingIntensity;
+  String? get intention => _data.intention;
+  List<String> get triggers => _data.triggers;
+  List<String> get bodySignals => _data.bodySignals;
+  String get entryId => _data.entryId;
+  Map<String, dynamic>? get substanceDetails => _data.substanceDetails;
+  DateTime get selectedDateTime => _data.selectedDateTime;
+
+  // Pure business logic methods (delegated to controller)
+  List<String> getAvailableROAs() {
+    return _controller.getAvailableROAs(_data.substanceDetails);
+  }
+
+  bool isROAValidated(String roa) {
+    return _controller.isROAValidated(roa, _data.substanceDetails);
+  }
+
+  // State mutation methods (Riverpod will replace these with copyWith)
+  void setIsSimpleMode(bool value) {
+    _data = _data.copyWith(isSimpleMode: value);
+    notifyListeners();
+  }
+
+  void setDose(double value) {
+    _data = _data.copyWith(dose: value);
+    notifyListeners();
+  }
+
+  void setUnit(String value) {
+    _data = _data.copyWith(unit: value);
+    notifyListeners();
+  }
 
   void setSubstance(String value) {
-    // don't call substanceCtrl.text = value here — it resets selection/cursor
-    substance = value;
-    // Load substance details for ROA validation
+    _data = _data.copyWith(substance: value);
     _loadSubstanceDetails(value);
     notifyListeners();
   }
 
   Future<void> _loadSubstanceDetails(String substanceName) async {
-    if (substanceName.isEmpty) {
-      substanceDetails = null;
-      return;
-    }
-    substanceDetails = await _substanceRepo.getSubstanceDetails(substanceName);
-  }
-
-  /// Get available ROAs for current substance (base 4 + substance-specific)
-  List<String> getAvailableROAs() {
-    const baseROAs = ['oral', 'insufflated', 'inhaled', 'sublingual'];
-    final dbROAs = _substanceRepo.getAvailableROAs(substanceDetails);
-
-    // Combine and deduplicate
-    final allROAs = {...baseROAs, ...dbROAs}.toList();
-    return allROAs;
-  }
-
-  /// Check if a specific ROA is validated in DB for this substance
-  bool isROAValidated(String roa) {
-    return _substanceRepo.isROAValid(roa, substanceDetails);
-  }
-
-  void prefillSubstance(String value) {
-    substance = value;
-    substanceCtrl.text = value; // only set controller once when pre-filling
-    // don't notify here if called before provider is attached, otherwise call notifyListeners()
-  }
-
-  final formKey = GlobalKey<FormState>();
-  final TimezoneService timezoneService = TimezoneService();
-  bool isMedicalPurpose = false;
-  double cravingIntensity = 0; // default to 0 now
-  String? intention = '-- Select Intention--';
-  List<String> triggers = [];
-  List<String> bodySignals = [];
-  final LogEntryService logEntryService = LogEntryService();
-  bool isSaving = false;
-
-  String entryId = ''; // Add this
-
-  DateTime get selectedDateTime =>
-      DateTime(date.year, date.month, date.day, hour, minute);
-
-  /// Validate substance exists in DB
-  Future<bool> validateSubstance(BuildContext context) async {
-    if (substance.isEmpty) {
-      _showErrorDialog(
-        context,
-        'Missing Substance',
-        'Please select a substance before saving.',
-      );
-      return false;
-    }
-
-    // Reload substance details to ensure it exists
-    await _loadSubstanceDetails(substance);
-
-    if (substanceDetails == null) {
-      _showErrorDialog(
-        context,
-        'Substance Not Found',
-        'The substance "$substance" was not found in the database. Please select a valid substance.',
-      );
-      return false;
-    }
-    return true;
-  }
-
-  /// Validate ROA with user confirmation for unvalidated routes
-  Future<bool> validateROA(BuildContext context) async {
-    if (!isROAValidated(route)) {
-      return await _showConfirmDialog(
-        context,
-        'Unvalidated Route',
-        'The route "$route" is not validated for ${substanceDetails?['pretty_name'] ?? substance}. Are you sure you want to continue?',
-      );
-    }
-    return true;
-  }
-
-  /// Validate emotions required for non-medical use
-  Future<bool> validateEmotions(BuildContext context) async {
-    if (!isMedicalPurpose && feelings.isEmpty) {
-      return await _showConfirmDialog(
-        context,
-        'No Emotions Selected',
-        'Are you sure? No emotions selected for non-medical use.',
-      );
-    }
-    return true;
-  }
-
-  /// Validate craving required for non-medical detailed mode
-  Future<bool> validateCraving(BuildContext context) async {
-    if (!isMedicalPurpose && !isSimpleMode && cravingIntensity < 1) {
-      return await _showConfirmDialog(
-        context,
-        'No Craving Intensity',
-        'Are you sure? Craving intensity is 0 for non-medical use.',
-      );
-    }
-    return true;
-  }
-
-  /// Show error dialog
-  void _showErrorDialog(BuildContext context, String title, String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Show confirmation dialog
-  Future<bool> _showConfirmDialog(
-    BuildContext context,
-    String title,
-    String message,
-  ) async {
-    final result = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Continue'),
-          ),
-        ],
-      ),
-    );
-    return result ?? false;
-  }
-
-  void dispose() {
-    doseCtrl.dispose();
-    substanceCtrl.dispose();
-    notesCtrl.dispose();
-    super.dispose();
-  }
-
-  void resetForm() {
-    dose = 0;
-    substance = '';
-    feelings = [];
-    secondaryFeelings = {};
-    location = 'Select a location'; // Set default on reset
-    isMedicalPurpose = false;
-    cravingIntensity = 0;
-    intention = '-- Select Intention--'; // Use valid default value
-    triggers = [];
-    bodySignals = [];
-    notesCtrl.clear();
-    entryId = ''; // Add this
-    notifyListeners();
-  }
-
-  Future<void> save(BuildContext context) async {
-    if (!formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please fix validation errors before saving.'),
-        ),
-      );
-      return;
-    }
-
-    // Validate substance exists in DB
-    if (!await validateSubstance(context)) return;
-
-    // Validate ROA with user confirmation
-    if (!await validateROA(context)) return;
-
-    // Validate emotions for non-medical use
-    if (!await validateEmotions(context)) return;
-
-    // Validate craving for non-medical detailed mode
-    if (!await validateCraving(context)) return;
-
-    isSaving = true;
-    notifyListeners();
-
-    final entry = LogEntry(
-      substance: DrugProfileUtils.toTitleCase(substance),
-      dosage: dose,
-      unit: unit,
-      route: route,
-      feelings: feelings,
-      secondaryFeelings: secondaryFeelings,
-      datetime: selectedDateTime,
-      location: location,
-      notes: notesCtrl.text.trim(),
-      timezoneOffset: timezoneService.getTimezoneOffset(),
-      isMedicalPurpose: isMedicalPurpose,
-      cravingIntensity: cravingIntensity,
-      intention: intention ?? '-- Select Intention--',
-      triggers: triggers,
-      bodySignals: bodySignals,
-      people: [],
-    );
-
-    try {
-      if (entryId.isNotEmpty) {
-        // Update existing entry
-        await logEntryService.updateLogEntry(entryId, entry.toJson());
-      } else {
-        // Create new entry
-        await logEntryService.saveLogEntry(entry);
-      }
-
-      // Subtract from stockpile after successful log
-      try {
-        // Convert dose to mg
-        final doseInMg = DrugProfileUtils.convertToMg(
-          dose,
-          unit,
-          substanceDetails,
-        );
-
-        // Subtract from stockpile
-        await _stockpileRepo.subtractFromStockpile(substance, doseInMg);
-
-        // Get updated stockpile for confirmation message
-        final updatedStockpile = await _stockpileRepo.getStockpile(substance);
-
-        if (updatedStockpile != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Entry saved! Stockpile updated: -${doseInMg.toStringAsFixed(1)}mg (${updatedStockpile.currentAmountMg.toStringAsFixed(1)}mg remaining)',
-              ),
-              duration: const Duration(seconds: 4),
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Entry saved successfully!')),
-          );
-        }
-      } catch (stockpileError) {
-        // If stockpile update fails, still show success for the log entry
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Entry saved! (Stockpile update failed: ${stockpileError.toString()})',
-            ),
-            duration: const Duration(seconds: 4),
-          ),
-        );
-      }
-
-      resetForm();
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Save failed: ${e.toString()}')));
-    } finally {
-      isSaving = false;
-      notifyListeners();
-    }
-  }
-
-  // Add setters for each variable to call notifyListeners()
-  void setIsSimpleMode(bool value) {
-    isSimpleMode = value;
-    notifyListeners();
-  }
-
-  void setDose(double value) {
-    dose = value; // Fix: assign the double value
-    // DON'T update doseCtrl.text here — it resets cursor
-    notifyListeners();
-  }
-
-  void prefillDose(double value) {
-    dose = value;
-    doseCtrl.text = (value == 0) ? '' : value.toString();
-    notifyListeners();
-  }
-
-  void setUnit(String value) {
-    unit = value;
+    final details = await _controller.loadSubstanceDetails(substanceName);
+    _data = _data.copyWith(substanceDetails: details);
     notifyListeners();
   }
 
   void setRoute(String value) {
-    route = value;
+    _data = _data.copyWith(route: value);
     notifyListeners();
   }
 
   void setFeelings(List<String> value) {
-    feelings = value;
+    _data = _data.copyWith(feelings: value);
     notifyListeners();
   }
 
   void setSecondaryFeelings(Map<String, List<String>> value) {
-    secondaryFeelings = value;
+    _data = _data.copyWith(secondaryFeelings: value);
     notifyListeners();
   }
 
   void setLocation(String value) {
-    location = value;
+    _data = _data.copyWith(location: value);
     notifyListeners();
   }
 
   void setDate(DateTime value) {
-    date = value;
+    _data = _data.copyWith(date: value);
     notifyListeners();
   }
 
   void setHour(int value) {
-    hour = value;
+    _data = _data.copyWith(hour: value);
     notifyListeners();
   }
 
   void setMinute(int value) {
-    minute = value;
+    _data = _data.copyWith(minute: value);
     notifyListeners();
   }
 
   void setIsMedicalPurpose(bool value) {
-    isMedicalPurpose = value;
+    _data = _data.copyWith(isMedicalPurpose: value);
     notifyListeners();
   }
 
   void setCravingIntensity(double value) {
-    cravingIntensity = value;
+    _data = _data.copyWith(cravingIntensity: value);
     notifyListeners();
   }
 
   void setIntention(String? value) {
-    // Change to nullable
-    intention = value ?? '-- Select Intention--'; // Fallback
+    _data = _data.copyWith(intention: value ?? '-- Select Intention--');
     notifyListeners();
   }
 
   void setTriggers(List<String> value) {
-    triggers = value;
+    _data = _data.copyWith(triggers: value);
     notifyListeners();
   }
 
   void setBodySignals(List<String> value) {
-    bodySignals = value;
+    _data = _data.copyWith(bodySignals: value);
+    notifyListeners();
+  }
+
+  void setNotes(String value) {
+    _data = _data.copyWith(notes: value);
+    notifyListeners();
+  }
+
+  void resetForm() {
+    _data = LogEntryFormData.empty();
+    notifyListeners();
+  }
+
+  // Prefill methods for external usage (e.g., editing existing entry)
+  void prefillSubstance(String value) {
+    _data = _data.copyWith(substance: value);
+    // Don't notify if called before provider is attached
+  }
+
+  void prefillDose(double value) {
+    _data = _data.copyWith(dose: value);
     notifyListeners();
   }
 }

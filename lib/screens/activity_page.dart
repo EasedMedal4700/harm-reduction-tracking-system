@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../widgets/common/drawer_menu.dart';
+import '../common/old_common/drawer_menu.dart';
 import '../widgets/activity/activity_drug_use_tab.dart';
 import '../widgets/activity/activity_cravings_tab.dart';
 import '../widgets/activity/activity_reflections_tab.dart';

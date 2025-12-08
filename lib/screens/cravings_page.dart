@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/common/drawer_menu.dart';
+import '../common/old_common/drawer_menu.dart';
 import '../constants/data/body_and_mind_catalog.dart';
 import '../constants/data/drug_use_catalog.dart';
 import '../widgets/cravings/craving_details_section.dart'; // Add imports

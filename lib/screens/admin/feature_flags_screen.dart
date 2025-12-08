@@ -5,7 +5,7 @@ import '../../constants/deprecated/ui_colors.dart';
 import '../../constants/deprecated/theme_constants.dart';
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';
-import '../../widgets/common/drawer_menu.dart';
+import '../../common/old_common/drawer_menu.dart';
 
 /// Admin screen for managing feature flags.
 /// 

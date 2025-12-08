@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/widgets/common/location_dropdown.dart';
+import 'package:mobile_drug_use_app/common/old_common/location_dropdown.dart';
 
 void main() {
   group('LocationDropdown Widget', () {

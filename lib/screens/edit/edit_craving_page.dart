@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/common/drawer_menu.dart';
+import '../../common/old_common/drawer_menu.dart';
 import '../../widgets/cravings/craving_details_section.dart';
 import '../../widgets/cravings/emotional_state_section.dart';
 import '../../widgets/cravings/body_mind_signals_section.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../repo/substance_repository.dart';
 import '../services/analytics_service.dart';
 import '../constants/deprecated/ui_colors.dart';
-import '../widgets/common/drawer_menu.dart';
+import '../common/old_common/drawer_menu.dart';
 import '../widgets/catalog/add_stockpile_sheet.dart';
 import '../widgets/catalog/substance_details_sheet.dart';
 import '../widgets/catalog/catalog_app_bar.dart';

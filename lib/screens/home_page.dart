@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../widgets/common/drawer_menu.dart';
+import '../common/old_common/drawer_menu.dart';
 import '../widgets/home_redesign/header_card.dart';
 import '../widgets/home_redesign/daily_checkin_card.dart';
 import '../widgets/home_page/home_quick_actions_grid.dart';

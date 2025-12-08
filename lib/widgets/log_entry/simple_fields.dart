@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dosage_input.dart';
 import 'route_selection.dart';
-import '../common/feeling_selection.dart';
+import '../../common/old_common/feeling_selection.dart';
 import 'date_selector.dart';
 import 'time_selector.dart';
-import '../common/location_dropdown.dart';
+import '../../common/old_common/location_dropdown.dart';
 import 'substance_autocomplete.dart';
 
 class SimpleFields extends StatelessWidget {

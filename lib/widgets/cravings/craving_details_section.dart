@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../../constants/data/craving_consatnts.dart';
 import '../../constants/deprecated/ui_colors.dart';
 import '../../constants/deprecated/theme_constants.dart';
-import '../common/modern_form_card.dart';
-import '../common/craving_slider.dart';
-import '../common/location_dropdown.dart';
+import '../../common/old_common/modern_form_card.dart';
+import '../../common/old_common/craving_slider.dart';
+import '../../common/old_common/location_dropdown.dart';
 
 class CravingDetailsSection extends StatelessWidget {
   final List<String> selectedCravings;

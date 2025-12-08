@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/common/drawer_menu.dart';
+import '../common/old_common/drawer_menu.dart';
 import '../services/activity_service.dart';
 import 'edit/edit_log_entry_page.dart';
 import 'edit/edit_refelction_page.dart';

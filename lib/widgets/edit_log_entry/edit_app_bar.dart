@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
-import '../../states/log_entry_state.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../models/log_entry_form_data.dart';
+import '../../constants/colors/app_colors_dark.dart';
+import '../../constants/colors/app_colors_light.dart';
 
+/// Riverpod-ready Edit Log Entry AppBar
+/// Accepts data and callback instead of state
 class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isDark;
-  final LogEntryState state;
+  final LogEntryFormData formData;
   final VoidCallback onDelete;
+  final ValueChanged<bool>? onSimpleModeChanged;
 
   const EditLogEntryAppBar({
     super.key,
     required this.isDark,
-    required this.state,
+    required this.formData,
     required this.onDelete,
+    this.onSimpleModeChanged,
   });
 
   @override
@@ -32,26 +36,24 @@ class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget 
         ),
         // Simple/Detailed mode toggle
         Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: ThemeConstants.space8,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
             children: [
               Text(
                 'Simple',
                 style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
+                  fontSize: 14.0,
                   color: isDark
-                      ? UIColors.darkTextSecondary
-                      : UIColors.lightTextSecondary,
+                      ? AppColorsDark.textSecondary
+                      : AppColorsLight.textSecondary,
                 ),
               ),
               Switch(
-                value: state.isSimpleMode,
-                onChanged: state.setIsSimpleMode,
+                value: formData.isSimpleMode,
+                onChanged: onSimpleModeChanged,
                 activeColor: isDark
-                    ? UIColors.darkNeonBlue
-                    : UIColors.lightAccentBlue,
+                    ? AppColorsDark.accentBlue
+                    : AppColorsLight.accentPrimary,
               ),
             ],
           ),
@@ -63,3 +65,4 @@ class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
+

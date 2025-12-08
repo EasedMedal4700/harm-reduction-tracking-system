@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
-import '../../states/log_entry_state.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/colors/app_colors_dark.dart';
+import '../../constants/colors/app_colors_light.dart';
 
+/// Riverpod-ready Save Button
+/// Accepts callback instead of state
 class SaveButton extends StatelessWidget {
   final bool isDark;
-  final LogEntryState state;
+  final VoidCallback onSave;
 
   const SaveButton({
     super.key,
     required this.isDark,
-    required this.state,
+    required this.onSave,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(ThemeConstants.space16),
+      padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+        color: isDark ? AppColorsDark.surface : AppColorsLight.surface,
         border: Border(
           top: BorderSide(
-            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+            color: isDark ? AppColorsDark.border : AppColorsLight.border,
             width: 1,
           ),
         ),
@@ -34,28 +35,28 @@ class SaveButton extends StatelessWidget {
         ],
       ),
       child: ElevatedButton(
-        onPressed: () => state.save(context),
+        onPressed: onSave,
         style: ElevatedButton.styleFrom(
           backgroundColor: isDark
-              ? UIColors.darkNeonBlue
-              : UIColors.lightAccentBlue,
+              ? AppColorsDark.accentBlue
+              : AppColorsLight.accentPrimary,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: ThemeConstants.space16),
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+            borderRadius: BorderRadius.circular(12.0),
           ),
           elevation: 0,
         ),
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.save),
-            const SizedBox(width: ThemeConstants.space8),
+            Icon(Icons.save),
+            SizedBox(width: 8.0),
             Text(
               'Save Changes',
               style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                fontWeight: ThemeConstants.fontSemiBold,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ],
@@ -64,3 +65,4 @@ class SaveButton extends StatelessWidget {
     );
   }
 }
+

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/common/drawer_menu.dart';
+import '../common/old_common/drawer_menu.dart';
 
 /// Placeholder page for drug interaction checking
 class InteractionsPage extends StatelessWidget {

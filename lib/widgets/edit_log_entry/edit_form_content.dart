@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../states/log_entry_state.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../models/log_entry_form_data.dart';
 import '../../widgets/log_entry_cards/substance_header_card.dart';
 import '../../widgets/log_entry_cards/dosage_card.dart';
 import '../../widgets/log_entry_cards/route_of_administration_card.dart';
@@ -13,131 +12,190 @@ import '../../widgets/log_entry_cards/body_signals_card.dart';
 import '../../widgets/log_entry_cards/notes_card.dart';
 import '../../widgets/log_entry_cards/medical_purpose_card.dart';
 
+/// Riverpod-ready Edit Form Content
+/// Accepts pure data and callbacks, no state management
 class EditFormContent extends StatelessWidget {
-  final LogEntryState state;
+  final LogEntryFormData formData;
+  final TextEditingController substanceCtrl;
+  final TextEditingController doseCtrl;
+  final TextEditingController notesCtrl;
+  final ValueChanged<LogEntryFormData> onFormDataChanged;
 
   const EditFormContent({
     super.key,
-    required this.state,
+    required this.formData,
+    required this.substanceCtrl,
+    required this.doseCtrl,
+    required this.notesCtrl,
+    required this.onFormDataChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Substance
           SubstanceHeaderCard(
-            substance: state.substance,
-            substanceCtrl: state.substanceCtrl,
-            onSubstanceChanged: state.setSubstance,
+            substance: formData.substance,
+            substanceCtrl: substanceCtrl,
+            onSubstanceChanged: (value) {
+              onFormDataChanged(formData.copyWith(substance: value));
+            },
           ),
 
-          const SizedBox(height: ThemeConstants.cardSpacing),
+          const SizedBox(height: 24.0),
 
           // Dosage
           DosageCard(
-            dose: state.dose,
-            unit: state.unit,
+            dose: formData.dose,
+            unit: formData.unit,
             units: const ['μg', 'mg', 'g', 'pills', 'ml'],
-            doseCtrl: state.doseCtrl,
-            onDoseChanged: state.setDose,
-            onUnitChanged: state.setUnit,
+            doseCtrl: doseCtrl,
+            onDoseChanged: (value) {
+              onFormDataChanged(formData.copyWith(dose: value));
+            },
+            onUnitChanged: (value) {
+              onFormDataChanged(formData.copyWith(unit: value));
+            },
           ),
 
-          const SizedBox(height: ThemeConstants.cardSpacing),
+          const SizedBox(height: 24.0),
 
           // Route of Administration
           RouteOfAdministrationCard(
-            route: state.route,
-            onRouteChanged: state.setRoute,
-            availableROAs: state.getAvailableROAs(),
-            isROAValidated: (roa) =>
-                state.substanceDetails != null && state.isROAValidated(roa),
+            route: formData.route,
+            onRouteChanged: (value) {
+              onFormDataChanged(formData.copyWith(route: value));
+            },
+            availableROAs: _getAvailableROAs(),
+            isROAValidated: (roa) => _isROAValidated(roa),
           ),
 
-          const SizedBox(height: ThemeConstants.cardSpacing),
+          const SizedBox(height: 24.0),
 
           // Feelings
           FeelingsCard(
-            feelings: state.feelings,
-            secondaryFeelings: state.secondaryFeelings,
-            onFeelingsChanged: state.setFeelings,
-            onSecondaryFeelingsChanged: state.setSecondaryFeelings,
+            feelings: formData.feelings,
+            secondaryFeelings: formData.secondaryFeelings,
+            onFeelingsChanged: (value) {
+              onFormDataChanged(formData.copyWith(feelings: value));
+            },
+            onSecondaryFeelingsChanged: (value) {
+              onFormDataChanged(formData.copyWith(secondaryFeelings: value));
+            },
           ),
 
-          const SizedBox(height: ThemeConstants.cardSpacing),
+          const SizedBox(height: 24.0),
 
           // Medical Purpose (simple mode only)
-          if (state.isSimpleMode) ...[
+          if (formData.isSimpleMode) ...[
             MedicalPurposeCard(
-              isMedicalPurpose: state.isMedicalPurpose,
-              onChanged: state.setIsMedicalPurpose,
+              isMedicalPurpose: formData.isMedicalPurpose,
+              onChanged: (value) {
+                onFormDataChanged(formData.copyWith(isMedicalPurpose: value));
+              },
             ),
-            const SizedBox(height: ThemeConstants.cardSpacing),
+            const SizedBox(height: 24.0),
           ],
 
           // Time of Use
           TimeOfUseCard(
-            date: state.date,
-            hour: state.hour,
-            minute: state.minute,
-            onDateChanged: state.setDate,
-            onHourChanged: state.setHour,
-            onMinuteChanged: state.setMinute,
+            date: formData.date,
+            hour: formData.hour,
+            minute: formData.minute,
+            onDateChanged: (value) {
+              onFormDataChanged(formData.copyWith(date: value));
+            },
+            onHourChanged: (value) {
+              onFormDataChanged(formData.copyWith(hour: value));
+            },
+            onMinuteChanged: (value) {
+              onFormDataChanged(formData.copyWith(minute: value));
+            },
           ),
 
-          const SizedBox(height: ThemeConstants.cardSpacing),
+          const SizedBox(height: 24.0),
 
           // Location
           LocationCard(
-            location: state.location,
-            onLocationChanged: state.setLocation,
+            location: formData.location,
+            onLocationChanged: (value) {
+              onFormDataChanged(formData.copyWith(location: value));
+            },
           ),
 
           // Complex fields (only show in detailed mode)
-          if (!state.isSimpleMode) ...[
-            const SizedBox(height: ThemeConstants.cardSpacing),
+          if (!formData.isSimpleMode) ...[
+            const SizedBox(height: 24.0),
 
             // Intention & Craving
             IntentionCravingCard(
-              intention: state.intention,
-              cravingIntensity: state.cravingIntensity,
-              isMedicalPurpose: state.isMedicalPurpose,
-              onIntentionChanged: state.setIntention,
-              onCravingIntensityChanged: state.setCravingIntensity,
-              onMedicalPurposeChanged: state.setIsMedicalPurpose,
+              intention: formData.intention,
+              cravingIntensity: formData.cravingIntensity,
+              isMedicalPurpose: formData.isMedicalPurpose,
+              onIntentionChanged: (value) {
+                onFormDataChanged(formData.copyWith(intention: value));
+              },
+              onCravingIntensityChanged: (value) {
+                onFormDataChanged(formData.copyWith(cravingIntensity: value));
+              },
+              onMedicalPurposeChanged: (value) {
+                onFormDataChanged(formData.copyWith(isMedicalPurpose: value));
+              },
             ),
 
-            const SizedBox(height: ThemeConstants.cardSpacing),
+            const SizedBox(height: 24.0),
 
             // Triggers
             TriggersCard(
-              selectedTriggers: state.triggers,
-              onTriggersChanged: state.setTriggers,
+              selectedTriggers: formData.triggers,
+              onTriggersChanged: (value) {
+                onFormDataChanged(formData.copyWith(triggers: value));
+              },
             ),
 
-            const SizedBox(height: ThemeConstants.cardSpacing),
+            const SizedBox(height: 24.0),
 
             // Body Signals
             BodySignalsCard(
-              selectedBodySignals: state.bodySignals,
-              onBodySignalsChanged: state.setBodySignals,
+              selectedBodySignals: formData.bodySignals,
+              onBodySignalsChanged: (value) {
+                onFormDataChanged(formData.copyWith(bodySignals: value));
+              },
             ),
           ],
 
-          const SizedBox(height: ThemeConstants.cardSpacing),
+          const SizedBox(height: 24.0),
 
           // Notes
-          NotesCard(notesCtrl: state.notesCtrl),
+          NotesCard(notesCtrl: notesCtrl),
 
           // Extra padding for bottom button
           const SizedBox(height: 80),
         ],
       ),
     );
+  }
+
+  List<String> _getAvailableROAs() {
+    const baseROAs = ['oral', 'insufflated', 'inhaled', 'sublingual'];
+    if (formData.substanceDetails == null) return baseROAs;
+    
+    // Get substance-specific ROAs from database
+    final roas = formData.substanceDetails!['roas'] as Map<String, dynamic>?;
+    if (roas == null) return baseROAs;
+    
+    return {...baseROAs, ...roas.keys}.toList();
+  }
+
+  bool _isROAValidated(String roa) {
+    if (formData.substanceDetails == null) return false;
+    
+    final roas = formData.substanceDetails!['roas'] as Map<String, dynamic>?;
+    return roas?.containsKey(roa) ?? false;
   }
 }

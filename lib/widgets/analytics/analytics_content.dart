@@ -6,7 +6,7 @@ import 'time_period_selector.dart';
 import 'analytics_summary.dart';
 import 'category_pie_chart.dart';
 import 'usage_trend_chart.dart';
-import '../common/filter.dart';
+import '../../common/old_common/filter.dart';
 
 class AnalyticsContent extends StatelessWidget {
   final List<LogEntry> entries;

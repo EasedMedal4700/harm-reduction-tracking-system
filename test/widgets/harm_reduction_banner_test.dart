@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/widgets/common/harm_reduction_banner.dart';
+import 'package:mobile_drug_use_app/common/old_common/harm_reduction_banner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
