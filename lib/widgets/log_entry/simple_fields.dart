@@ -6,6 +6,9 @@ import 'date_selector.dart';
 import 'time_selector.dart';
 import '../../common/old_common/location_dropdown.dart';
 import 'substance_autocomplete.dart';
+import '../../common/cards/common_card.dart';
+import '../../common/text/common_section_header.dart';
+import '../../constants/theme/app_theme_constants.dart';
 
 class SimpleFields extends StatelessWidget {
   final double dose;
@@ -18,6 +21,7 @@ class SimpleFields extends StatelessWidget {
   final DateTime date;
   final int hour;
   final int minute;
+
   final ValueChanged<double> onDoseChanged;
   final ValueChanged<String> onUnitChanged;
   final ValueChanged<String> onSubstanceChanged;
@@ -28,8 +32,10 @@ class SimpleFields extends StatelessWidget {
   final ValueChanged<DateTime> onDateChanged;
   final ValueChanged<int> onHourChanged;
   final ValueChanged<int> onMinuteChanged;
+
   final bool isMedicalPurpose;
   final ValueChanged<bool> onMedicalPurposeChanged;
+
   final TextEditingController? substanceCtrl;
   final TextEditingController? doseCtrl;
 
@@ -66,69 +72,138 @@ class SimpleFields extends StatelessWidget {
     final units = ['μg', 'mg', 'g', 'pills', 'ml'];
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-
-        SubstanceAutocomplete(
-          substance: substance,
-          controller: substanceCtrl,
-          onSubstanceChanged: onSubstanceChanged,
+        // -------------------------------
+        // SUBSTANCE
+        // -------------------------------
+        CommonCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CommonSectionHeader(title: "Substance"),
+              SizedBox(height: AppThemeConstants.spaceMd),
+              SubstanceAutocomplete(
+                controller: substanceCtrl,
+                onSubstanceChanged: onSubstanceChanged,
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: AppThemeConstants.spaceLg),
 
-        DosageInput(
-          dose: dose,
-          unit: unit,
-          units: units,
-          onDoseChanged: onDoseChanged,
-          onUnitChanged: onUnitChanged,
+        // -------------------------------
+        // DOSAGE
+        // -------------------------------
+        CommonCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CommonSectionHeader(title: "Dosage"),
+              SizedBox(height: AppThemeConstants.spaceMd),
+              DosageInput(
+                dose: dose,
+                unit: unit,
+                units: units,
+                onDoseChanged: onDoseChanged,
+                onUnitChanged: onUnitChanged,
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: AppThemeConstants.spaceLg),
 
-        const Text('Route of Administration'),
-        RouteSelection(
-          route: route,
-          onRouteChanged: onRouteChanged,
+        // -------------------------------
+        // ROUTE
+        // -------------------------------
+        CommonCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CommonSectionHeader(title: "Route of Administration"),
+              SizedBox(height: AppThemeConstants.spaceMd),
+              RouteSelection(
+                route: route,
+                onRouteChanged: onRouteChanged,
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: AppThemeConstants.spaceLg),
 
-        SwitchListTile(
-          title: const Text('Medical Purpose'),
-          value: isMedicalPurpose,
-          onChanged: onMedicalPurposeChanged,
+        // -------------------------------
+        // MEDICAL PURPOSE
+        // -------------------------------
+        CommonCard(
+          child: SwitchListTile(
+            title: const Text("Medical Purpose"),
+            value: isMedicalPurpose,
+            onChanged: onMedicalPurposeChanged,
+          ),
         ),
+        SizedBox(height: AppThemeConstants.spaceLg),
 
-        FeelingSelection(
-          feelings: feelings,
-          secondaryFeelings: secondaryFeelings,
-          onFeelingsChanged: onFeelingsChanged,
-          onSecondaryFeelingsChanged: onSecondaryFeelingsChanged,
+        // -------------------------------
+        // FEELINGS
+        // -------------------------------
+        CommonCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CommonSectionHeader(title: "Feelings"),
+              SizedBox(height: AppThemeConstants.spaceMd),
+              FeelingSelection(
+                feelings: feelings,
+                secondaryFeelings: secondaryFeelings,
+                onFeelingsChanged: onFeelingsChanged,
+                onSecondaryFeelingsChanged: onSecondaryFeelingsChanged,
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: AppThemeConstants.spaceLg),
 
-        DateSelector(
-          date: date,
-          onDateChanged: onDateChanged,
+        // -------------------------------
+        // DATE + TIME
+        // -------------------------------
+        CommonCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CommonSectionHeader(title: "Date & Time"),
+              SizedBox(height: AppThemeConstants.spaceMd),
+              DateSelector(
+                date: date,
+                onDateChanged: onDateChanged,
+              ),
+              SizedBox(height: AppThemeConstants.spaceMd),
+              TimeSelector(
+                hour: hour,
+                minute: minute,
+                onHourChanged: onHourChanged,
+                onMinuteChanged: onMinuteChanged,
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: AppThemeConstants.spaceLg),
 
-        TimeSelector(
-          hour: hour,
-          minute: minute,
-          onHourChanged: onHourChanged,
-          onMinuteChanged: onMinuteChanged,
+        // -------------------------------
+        // LOCATION
+        // -------------------------------
+        CommonCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CommonSectionHeader(title: "Location"),
+              SizedBox(height: AppThemeConstants.spaceMd),
+              LocationDropdown(
+                location: location,
+                onLocationChanged: onLocationChanged,
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 16),
-
-        const Text('Location'),
-        LocationDropdown(
-          location: location,
-          onLocationChanged: onLocationChanged, // Removed locations: locations
-        ),
-        const SizedBox(height: 16),
-
-
       ],
     );
   }

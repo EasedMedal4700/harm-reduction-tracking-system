@@ -1,6 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
 import 'cache_service.dart';
+import 'dart:math';
 
 /// Result of a drug name search with normalization info
 class DrugSearchResult {
@@ -15,149 +16,194 @@ class DrugSearchResult {
   });
 }
 
-/// Service for searching and fetching drug profiles
+/// Central service for drug profile lookup and alias normalization.
+/// Fully Riverpod-independent. UI-independent.
 class DrugProfileService {
   final _cache = CacheService();
-  
-  /// Search drug profiles by name and aliases
+  final _client = Supabase.instance.client;
+
+  // ---------------------------------------------------------------------------
+  // ⭐ HIGH-ACCURACY FUZZY SEARCH (RECOMMENDED)
+  // ---------------------------------------------------------------------------
   Future<List<DrugSearchResult>> searchDrugNamesWithAliases(String query) async {
-    if (query.isEmpty) return [];
-    
-    // Check cache first (short TTL for search results)
-    final cacheKey = 'drug_search:$query';
+    final q = query.trim().toLowerCase();
+    if (q.isEmpty) return [];
+
+    final cacheKey = 'drug_search_fuzzy:$q';
     final cached = _cache.get<List<DrugSearchResult>>(cacheKey);
-    if (cached != null) {
-      ErrorHandler.logDebug('DrugProfileService', 'Cache hit for: $query');
-      return cached;
-    }
-    
+    if (cached != null) return cached;
+
     try {
-      ErrorHandler.logDebug('DrugProfileService', 'Searching for: $query');
-      
-      // Get all drug profiles and filter client-side for aliases
-      // We need to fetch more rows to check aliases in the JSONB array
-      final profileResponse = await Supabase.instance.client
+      final client = Supabase.instance.client;
+
+      // 1) Load all profiles
+      final allRows = await client
           .from('drug_profiles')
           .select('name, pretty_name, aliases')
-          .or('name.ilike.%$query%,pretty_name.ilike.%$query%')
-          .limit(50); // Fetch more to check aliases
-      
-      final profileResults = profileResponse as List<dynamic>;
-      final results = <DrugSearchResult>[];
-      final seenCanonical = <String>{};
-      
-      // First pass: Add direct name/pretty_name matches
-      for (final item in profileResults) {
-        final name = item['name'] as String?;
-        final prettyName = item['pretty_name'] as String?;
-        final canonicalName = prettyName ?? name ?? '';
-        
-        if (canonicalName.isNotEmpty && !seenCanonical.contains(canonicalName.toLowerCase())) {
-          results.add(DrugSearchResult(
-            displayName: canonicalName,
-            canonicalName: canonicalName,
-            isAlias: false,
+          .limit(2000);
+
+      final rows = allRows as List<dynamic>;
+      final List<_ScoredResult> scored = [];
+
+      // 2) Score canonical & aliases
+      for (final row in rows) {
+        final name = row['name'] as String?;
+        final pretty = row['pretty_name'] as String?;
+        final aliases = (row['aliases'] ?? []) as List<dynamic>;
+
+        final canonical = (pretty ?? name ?? '').trim();
+        if (canonical.isEmpty) continue;
+
+        // canonical scoring
+        final canonicalScore = _scoreFuzzyMatch(q, canonical.toLowerCase());
+        if (canonicalScore > 0) {
+          scored.add(_ScoredResult(
+            DrugSearchResult(
+              displayName: canonical,
+              canonicalName: canonical,
+              isAlias: false,
+            ),
+            canonicalScore,
           ));
-          seenCanonical.add(canonicalName.toLowerCase());
         }
-      }
-      
-      // Second pass: Check all profiles for matching aliases
-      // Fetch ALL profiles to search aliases (since we can't query JSONB array easily)
-      final allProfilesResponse = await Supabase.instance.client
-          .from('drug_profiles')
-          .select('name, pretty_name, aliases')
-          .limit(1000);
-      
-      final allProfiles = allProfilesResponse as List<dynamic>;
-      for (final item in allProfiles) {
-        final name = item['name'] as String?;
-        final prettyName = item['pretty_name'] as String?;
-        final aliases = item['aliases'] as List<dynamic>?;
-        final canonicalName = prettyName ?? name ?? '';
-        
-        if (canonicalName.isNotEmpty && aliases != null) {
-          for (final alias in aliases) {
-            if (alias is String && alias.toLowerCase().contains(query.toLowerCase())) {
-              // Don't add duplicate canonical names
-              if (!seenCanonical.contains(canonicalName.toLowerCase())) {
-                results.add(DrugSearchResult(
-                  displayName: '$alias → $canonicalName',
-                  canonicalName: canonicalName,
-                  isAlias: true,
-                ));
-                seenCanonical.add(canonicalName.toLowerCase());
-              }
-            }
+
+        // alias scoring
+        for (final alias in aliases) {
+          if (alias is! String) continue;
+          final aliasLower = alias.toLowerCase();
+
+          final aliasScore = _scoreFuzzyMatch(q, aliasLower);
+          if (aliasScore > 0) {
+            scored.add(_ScoredResult(
+              DrugSearchResult(
+                displayName: '$alias → $canonical',
+                canonicalName: canonical,
+                isAlias: true,
+              ),
+              aliasScore + 0.5, // alias boost
+            ));
           }
         }
       }
-      
-      ErrorHandler.logInfo('DrugProfileService', 'Found ${results.length} results');
-      
-      // Cache the results with short TTL (search results change frequently)
-      _cache.set(cacheKey, results, ttl: CacheService.shortTTL);
-      
-      return results.take(10).toList(); // Limit final results
-    } catch (e, stackTrace) {
-      // Silently handle AssertionError when Supabase is not initialized (e.g., in tests)
-      if (e is AssertionError && e.toString().contains('_isInitialized')) {
-        return [];
+
+      // 3) Sort by score
+      scored.sort((a, b) => b.score.compareTo(a.score));
+
+      // 4) Deduplicate by canonical name
+      final seen = <String>{};
+      final List<DrugSearchResult> finalResults = [];
+
+      for (final item in scored) {
+        final key = item.result.canonicalName.toLowerCase();
+        if (!seen.contains(key)) {
+          seen.add(key);
+          finalResults.add(item.result);
+        }
       }
-      ErrorHandler.logError('DrugProfileService.searchDrugNamesWithAliases', e, stackTrace);
+
+      final limited = finalResults.take(25).toList();
+      _cache.set(cacheKey, limited, ttl: CacheService.shortTTL);
+      return limited;
+    } catch (e, stack) {
+      ErrorHandler.logError('DrugProfileService.fuzzySearch', e, stack);
       return [];
     }
   }
-  
-  /// Search drug profiles by name (legacy method for simple string results)
+
+  // ---------------------------------------------------------------------------
+  // LEGACY SEARCH (still useful occasionally)
+  // ---------------------------------------------------------------------------
   Future<List<String>> searchDrugNames(String query) async {
     final results = await searchDrugNamesWithAliases(query);
     return results.map((r) => r.displayName).toList();
   }
-  
-  /// Get all drug names (for initial suggestions)
+
+  // ---------------------------------------------------------------------------
+  // LOAD ALL DRUG NAMES FOR AUTOCOMPLETE
+  // ---------------------------------------------------------------------------
   Future<List<String>> getAllDrugNames() async {
-    // Check cache first (long TTL since drug names don't change often)
     final cached = _cache.get<List<String>>(CacheKeys.allDrugNames);
-    if (cached != null) {
-      ErrorHandler.logDebug('DrugProfileService', 'Cache hit for all drug names');
-      return cached;
-    }
-    
+    if (cached != null) return cached;
+
     try {
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('drug_profiles')
           .select('name, pretty_name')
           .order('pretty_name')
-          .limit(100);
-      
-      final results = response as List<dynamic>;
+          .limit(500);
+
+      final rows = response as List<dynamic>;
+
       final names = <String>{};
-      
-      for (final item in results) {
-        final name = item['name'] as String?;
-        final prettyName = item['pretty_name'] as String?;
-        
-        if (prettyName != null && prettyName.isNotEmpty) {
-          names.add(prettyName);
-        } else if (name != null && name.isNotEmpty) {
-          names.add(name);
+
+      for (final row in rows) {
+        final pretty = row['pretty_name'] as String?;
+        final name = row['name'] as String?;
+
+        final chosen = pretty ?? name;
+        if (chosen != null && chosen.trim().isNotEmpty) {
+          names.add(chosen.trim());
         }
       }
-      
-      final sortedNames = names.toList()..sort();
-      
-      // Cache with long TTL (drug names don't change often)
-      _cache.set(CacheKeys.allDrugNames, sortedNames, ttl: CacheService.longTTL);
-      
-      return sortedNames;
-    } catch (e, stackTrace) {
-      // Silently handle AssertionError when Supabase is not initialized (e.g., in tests)
-      if (e is AssertionError && e.toString().contains('_isInitialized')) {
-        return [];
-      }
-      ErrorHandler.logError('DrugProfileService.getAllDrugNames', e, stackTrace);
+
+      final sorted = names.toList()..sort();
+      _cache.set(CacheKeys.allDrugNames, sorted, ttl: CacheService.longTTL);
+      return sorted;
+    } catch (e, stack) {
+      ErrorHandler.logError('DrugProfileService.getAllDrugNames', e, stack);
       return [];
     }
   }
+}
+
+// ---------------------------------------------------------------------------
+// ⭐ INTERNAL FUZZY MATCHING UTILITIES
+// ---------------------------------------------------------------------------
+class _ScoredResult {
+  final DrugSearchResult result;
+  final double score;
+  _ScoredResult(this.result, this.score);
+}
+
+double _scoreFuzzyMatch(String query, String text) {
+  if (text.startsWith(query)) return 5.0;
+  if (text.contains(query)) return 3.5;
+
+  final dist = _damerauLevenshtein(query, text);
+  final maxLen = max(query.length, text.length);
+
+  final similarity = 1 - (dist / maxLen);
+  if (similarity < 0.45) return 0;
+
+  return similarity * 3.0;
+}
+
+int _damerauLevenshtein(String a, String b) {
+  final m = a.length;
+  final n = b.length;
+  if (m == 0) return n;
+  if (n == 0) return m;
+
+  final matrix = List.generate(m + 1, (_) => List<int>.filled(n + 1, 0));
+  for (var i = 0; i <= m; i++) matrix[i][0] = i;
+  for (var j = 0; j <= n; j++) matrix[0][j] = j;
+
+  for (var i = 1; i <= m; i++) {
+    for (var j = 1; j <= n; j++) {
+      final cost = a[i - 1] == b[j - 1] ? 0 : 1;
+
+      matrix[i][j] = min(
+        min(matrix[i - 1][j] + 1, matrix[i][j - 1] + 1),
+        matrix[i - 1][j - 1] + cost,
+      );
+
+      if (i > 1 &&
+          j > 1 &&
+          a[i - 1] == b[j - 2] &&
+          a[i - 2] == b[j - 1]) {
+        matrix[i][j] = min(matrix[i][j], matrix[i - 2][j - 2] + cost);
+      }
+    }
+  }
+  return matrix[m][n];
 }

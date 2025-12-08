@@ -3,14 +3,15 @@ import '../../common/old_common/craving_slider.dart';
 import '../../constants/data/body_and_mind_catalog.dart';
 import '../../constants/theme/app_theme_constants.dart';
 import '../../common/text/common_section_header.dart';
+import '../../common/cards/common_card.dart';
 
 class ComplexFields extends StatelessWidget {
   final double cravingIntensity;
   final String? intention;
-  final List<String> selectedTriggers; 
+  final List<String> selectedTriggers;
   final List<String> selectedBodySignals;
   final ValueChanged<double> onCravingIntensityChanged;
-  final ValueChanged<String?> onIntentionChanged; // Change to nullable
+  final ValueChanged<String?> onIntentionChanged;
   final ValueChanged<List<String>> onTriggersChanged;
   final ValueChanged<List<String>> onBodySignalsChanged;
 
@@ -28,64 +29,98 @@ class ComplexFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Ensure the current intention value exists in the list, or use null
     final validIntention = intentions.contains(intention) ? intention : null;
-    
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        DropdownButtonFormField<String>(
-          decoration: const InputDecoration(labelText: 'Intention'),
-          value: validIntention,
-          items: intentions.map((i) => DropdownMenuItem(value: i, child: Text(i))).toList(),
-          onChanged: onIntentionChanged, // Single, matches
-        ),
-        SizedBox(height: AppThemeConstants.spaceMd),
 
-        CravingSlider(
-          value: cravingIntensity,
-          onChanged: onCravingIntensityChanged,
-        ),
-        const SizedBox(height: AppThemeConstants.spaceLg),
+    return CommonCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
 
-        const CommonSectionHeader(title: 'Triggers'),
-        Wrap(
-          spacing: AppThemeConstants.spaceSm,
-          children: triggers.map((trigger) => FilterChip(
-            label: Text(trigger),
-            selected: selectedTriggers.contains(trigger),
-            onSelected: (selected) {
-              final newTriggers = List<String>.from(selectedTriggers);
-              if (selected) {
-                newTriggers.add(trigger);
-              } else {
-                newTriggers.remove(trigger);
-              }
-              onTriggersChanged(newTriggers);
-            },
-          )).toList(),
-        ),
-        const SizedBox(height: AppThemeConstants.spaceLg),
+          // -------------------------------
+          // INTENTION
+          // -------------------------------
+          const CommonSectionHeader(title: "Intention"),
+          SizedBox(height: AppThemeConstants.spaceMd),
 
-        const Text('Body Signals'),
-        Wrap(
-          spacing: AppThemeConstants.spaceSm,
-          children: physicalSensations.map((signal) => FilterChip(
-            label: Text(signal),
-            selected: selectedBodySignals.contains(signal),
-            onSelected: (selected) {
-              final newBodySignals = List<String>.from(selectedBodySignals);
-              if (selected) {
-                newBodySignals.add(signal);
-              } else {
-                newBodySignals.remove(signal);
-              }
-              onBodySignalsChanged(newBodySignals);
-            },
-          )).toList(),
-        ),
-        const SizedBox(height: AppThemeConstants.spaceLg),
-      ],
+          DropdownButtonFormField<String>(
+            decoration: const InputDecoration(
+              labelText: "Why are you using?",
+            ),
+            value: validIntention,
+            items: intentions
+                .map((i) => DropdownMenuItem(value: i, child: Text(i)))
+                .toList(),
+            onChanged: onIntentionChanged,
+          ),
+
+          SizedBox(height: AppThemeConstants.spaceLg),
+
+          // -------------------------------
+          // CRAVING SLIDER
+          // -------------------------------
+          const CommonSectionHeader(title: "Craving Intensity"),
+          SizedBox(height: AppThemeConstants.spaceMd),
+
+          CravingSlider(
+            value: cravingIntensity,
+            onChanged: onCravingIntensityChanged,
+          ),
+
+          SizedBox(height: AppThemeConstants.spaceLg),
+
+          // -------------------------------
+          // TRIGGERS
+          // -------------------------------
+          const CommonSectionHeader(title: "Triggers"),
+          SizedBox(height: AppThemeConstants.spaceSm),
+
+          Wrap(
+            spacing: AppThemeConstants.spaceSm,
+            runSpacing: AppThemeConstants.spaceSm,
+            children: triggers.map((trigger) {
+              final selected = selectedTriggers.contains(trigger);
+
+              return FilterChip(
+                label: Text(trigger),
+                selected: selected,
+                onSelected: (isSelected) {
+                  final updated = List<String>.from(selectedTriggers);
+                  isSelected ? updated.add(trigger) : updated.remove(trigger);
+                  onTriggersChanged(updated);
+                },
+              );
+            }).toList(),
+          ),
+
+          SizedBox(height: AppThemeConstants.spaceLg),
+
+          // -------------------------------
+          // BODY SIGNALS
+          // -------------------------------
+          const CommonSectionHeader(title: "Body Signals"),
+          SizedBox(height: AppThemeConstants.spaceSm),
+
+          Wrap(
+            spacing: AppThemeConstants.spaceSm,
+            runSpacing: AppThemeConstants.spaceSm,
+            children: physicalSensations.map((signal) {
+              final selected = selectedBodySignals.contains(signal);
+
+              return FilterChip(
+                label: Text(signal),
+                selected: selected,
+                onSelected: (isSelected) {
+                  final updated = List<String>.from(selectedBodySignals);
+                  isSelected ? updated.add(signal) : updated.remove(signal);
+                  onBodySignalsChanged(updated);
+                },
+              );
+            }).toList(),
+          ),
+
+          SizedBox(height: AppThemeConstants.spaceLg),
+        ],
+      ),
     );
   }
 }
