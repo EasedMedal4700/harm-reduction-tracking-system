@@ -1,11 +1,11 @@
+// MIGRATION
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_typography.dart';
 
-/// A modal bottom sheet that displays detailed information about an activity entry
-/// (drug use, craving, or reflection).
+/// A modal bottom sheet that displays detailed information about an activity entry.
+/// Fully migrated to AppTheme (no deprecated UI colors).
 class ActivityDetailSheet extends StatelessWidget {
-  final bool isDark;
   final String title;
   final IconData icon;
   final Color accentColor;
@@ -15,7 +15,6 @@ class ActivityDetailSheet extends StatelessWidget {
 
   const ActivityDetailSheet({
     super.key,
-    required this.isDark,
     required this.title,
     required this.icon,
     required this.accentColor,
@@ -26,63 +25,74 @@ class ActivityDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(ThemeConstants.radiusLarge)),
+        color: t.colors.surface,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(t.spacing.lg),
+        ),
+        border: Border.all(color: t.colors.border),
+        boxShadow: t.cardShadow,
       ),
       child: SafeArea(
+        top: false,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildHandleBar(),
-            SizedBox(height: ThemeConstants.space20),
-            _buildHeader(),
-            SizedBox(height: ThemeConstants.space24),
-            _buildDetailsList(),
-            SizedBox(height: ThemeConstants.space24),
-            _buildActionButtons(),
+            _buildHandleBar(context),
+            SizedBox(height: t.spacing.lg),
+            _buildHeader(context),
+            SizedBox(height: t.spacing.xl),
+            _buildDetailsList(context),
+            SizedBox(height: t.spacing.xl),
+            _buildActionButtons(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHandleBar() {
+  Widget _buildHandleBar(BuildContext context) {
+    final t = context.theme;
     return Container(
-      margin: EdgeInsets.only(top: ThemeConstants.space12),
-      width: 40,
-      height: 4,
+      margin: EdgeInsets.only(top: t.spacing.sm),
+      width: 44,
+      height: 5,
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-        borderRadius: BorderRadius.circular(2),
+        color: t.colors.border,
+        borderRadius: BorderRadius.circular(3),
       ),
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: ThemeConstants.space20),
+  Widget _buildHeader(BuildContext context) {
+    final t = context.theme;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: t.spacing.lg),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(ThemeConstants.space12),
+            padding: EdgeInsets.all(t.spacing.md),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [accentColor, accentColor.withValues(alpha: 0.7)],
+                colors: [
+                  accentColor,
+                  accentColor.withOpacity(0.7),
+                ],
               ),
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+              borderRadius: BorderRadius.circular(t.spacing.sm),
             ),
             child: Icon(icon, color: Colors.white, size: 28),
           ),
-          SizedBox(width: ThemeConstants.space16),
+          SizedBox(width: t.spacing.lg),
           Expanded(
             child: Text(
               title,
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXLarge,
-                fontWeight: ThemeConstants.fontBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
+              style: t.typography.heading3.copyWith(
+                color: t.colors.textPrimary,
               ),
             ),
           ),
@@ -91,42 +101,54 @@ class ActivityDetailSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailsList() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: ThemeConstants.space20),
+  Widget _buildDetailsList(BuildContext context) {
+    final t = context.theme;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: t.spacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: details.map((detail) {
+          final highlight = detail.highlight;
+
           return Padding(
-            padding: EdgeInsets.only(bottom: ThemeConstants.space16),
+            padding: EdgeInsets.only(bottom: t.spacing.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   detail.label,
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontSmall,
-                    fontWeight: ThemeConstants.fontSemiBold,
-                    color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                  style: t.typography.heading3.copyWith(
+                    color: t.colors.textSecondary,
                   ),
                 ),
-                SizedBox(height: ThemeConstants.space4),
+                SizedBox(height: t.spacing.xs),
                 Container(
-                  padding: detail.highlight ? EdgeInsets.symmetric(
-                    horizontal: ThemeConstants.space8,
-                    vertical: ThemeConstants.space4,
-                  ) : null,
-                  decoration: detail.highlight ? BoxDecoration(
-                    color: accentColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                    border: Border.all(color: accentColor.withValues(alpha: 0.3)),
-                  ) : null,
+                  padding: highlight
+                      ? EdgeInsets.symmetric(
+                          horizontal: t.spacing.sm,
+                          vertical: t.spacing.xs,
+                        )
+                      : null,
+                  decoration: highlight
+                      ? BoxDecoration(
+                          color: accentColor.withOpacity(0.1),
+                          borderRadius:
+                              BorderRadius.circular(t.spacing.sm),
+                          border: Border.all(
+                            color: accentColor.withOpacity(0.3),
+                          ),
+                        )
+                      : null,
                   child: Text(
                     detail.value,
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontMedium,
-                      fontWeight: detail.highlight ? ThemeConstants.fontSemiBold : FontWeight.normal,
-                      color: detail.highlight ? accentColor : (isDark ? UIColors.darkText : UIColors.lightText),
+                    style: t.typography.bodyLarge.copyWith(
+                      color: highlight
+                          ? accentColor
+                          : t.colors.textPrimary,
+                      fontWeight: highlight
+                          ? FontWeight.w600
+                          : FontWeight.normal,
                     ),
                   ),
                 ),
@@ -138,27 +160,32 @@ class ActivityDetailSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons() {
-    return Container(
-      padding: EdgeInsets.all(ThemeConstants.space20),
+  Widget _buildActionButtons(BuildContext context) {
+    final t = context.theme;
+
+    return Padding(
+      padding: EdgeInsets.all(t.spacing.lg),
       child: Row(
         children: [
+          /// Delete button
           Expanded(
             child: OutlinedButton.icon(
               onPressed: onDelete,
               icon: const Icon(Icons.delete_outline),
               label: const Text('Delete'),
               style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.red,
-                side: const BorderSide(color: Colors.red),
-                padding: EdgeInsets.symmetric(vertical: ThemeConstants.space16),
+                foregroundColor: t.colors.error,
+                side: BorderSide(color: t.colors.error),
+                padding: EdgeInsets.symmetric(vertical: t.spacing.md),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                  borderRadius: BorderRadius.circular(t.spacing.md),
                 ),
               ),
             ),
           ),
-          SizedBox(width: ThemeConstants.space12),
+          SizedBox(width: t.spacing.md),
+
+          /// Edit button
           Expanded(
             flex: 2,
             child: ElevatedButton.icon(
@@ -168,9 +195,10 @@ class ActivityDetailSheet extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: accentColor,
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: ThemeConstants.space16),
+                shadowColor: t.colors.overlayHeavy,
+                padding: EdgeInsets.symmetric(vertical: t.spacing.md),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                  borderRadius: BorderRadius.circular(t.spacing.md),
                 ),
               ),
             ),
@@ -181,7 +209,8 @@ class ActivityDetailSheet extends StatelessWidget {
   }
 }
 
-/// A data class representing a single detail item in the activity detail sheet.
+/// A detail item used inside ActivityDetailSheet.
+/// Also migrated (no deprecated values).
 class DetailItem {
   final String label;
   final String value;

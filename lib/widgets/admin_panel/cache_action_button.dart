@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Action button for cache management operations
 class CacheActionButton extends StatelessWidget {
@@ -17,20 +18,27 @@ class CacheActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+    final t = context.theme;
+
     return ElevatedButton.icon(
       onPressed: onPressed,
-      icon: Icon(icon, size: 18),
-      label: Text(label),
+      icon: Icon(icon, size: 18, color: color),
+      label: Text(
+        label,
+        style: t.typography.button.copyWith(color: color),
+      ),
       style: ElevatedButton.styleFrom(
-        backgroundColor: isDark ? color.withOpacity(0.2) : color.withOpacity(0.1),
+        backgroundColor: color.withOpacity(0.12),
         foregroundColor: color,
+        shadowColor: t.colors.overlayHeavy,
         elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: EdgeInsets.symmetric(
+          horizontal: t.spacing.lg,
+          vertical: t.spacing.md,
+        ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: BorderSide(color: color.withOpacity(0.5), width: 1),
+          borderRadius: BorderRadius.circular(t.spacing.sm),
+          side: BorderSide(color: color.withOpacity(0.4), width: 1),
         ),
       ),
     );

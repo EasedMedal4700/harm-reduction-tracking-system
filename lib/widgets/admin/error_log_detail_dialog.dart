@@ -1,8 +1,8 @@
+// MIGRATION COMPLETE — Fully theme-based.
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import '../../constants/theme/app_theme_extension.dart';
 import 'severity_badge.dart';
 
 /// Bottom sheet dialog showing detailed error log information
@@ -28,9 +28,12 @@ class ErrorLogDetailDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+
     final createdAtString = log['created_at']?.toString();
     final createdAt =
         createdAtString != null ? DateTime.tryParse(createdAtString) : null;
+
     final extra = _parseExtraData(log['extra_data']);
     final severity = log['severity'] as String? ?? 'medium';
     final errorCode = log['error_code'] as String? ?? '';
@@ -38,110 +41,154 @@ class ErrorLogDetailDialog extends StatelessWidget {
     return DraggableScrollableSheet(
       expand: false,
       builder: (context, controller) {
-        return Padding(
-          padding: const EdgeInsets.all(16),
-          child: ListView(
-            controller: controller,
-            children: [
-              Row(
-                children: [
-                  const Icon(Icons.bug_report, color: Colors.deepOrange),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      log['error_message'] ?? 'Unknown error',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  SeverityBadge(severity: severity, compact: false),
-                  if (errorCode.isNotEmpty) ...[
-                    const SizedBox(width: 8),
-                    Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
+        return Container(
+          decoration: BoxDecoration(
+            color: t.colors.surface,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(t.spacing.lg),
+            ),
+            border: Border.all(color: t.colors.border),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(t.spacing.lg),
+            child: ListView(
+              controller: controller,
+              children: [
+                /// Header
+                Row(
+                  children: [
+                    Icon(Icons.bug_report, color: t.colors.error),
+                    SizedBox(width: t.spacing.sm),
+                    Expanded(
                       child: Text(
-                        errorCode,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'monospace',
-                          fontWeight: FontWeight.bold,
+                        log['error_message'] ?? 'Unknown error',
+                        style: t.typography.heading4.copyWith(
+                          color: t.colors.textPrimary,
                         ),
                       ),
                     ),
                   ],
-                ],
-              ),
-              const SizedBox(height: 12),
-              _buildKeyValue(
+                ),
+
+                SizedBox(height: t.spacing.md),
+
+                /// Severity + Error Code
+                Row(
+                  children: [
+                    SeverityBadge(severity: severity, compact: false),
+                    if (errorCode.isNotEmpty) ...[
+                      SizedBox(width: t.spacing.sm),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: t.spacing.sm,
+                          vertical: t.spacing.xs,
+                        ),
+                        decoration: BoxDecoration(
+                          color: t.colors.surfaceVariant,
+                          borderRadius: BorderRadius.circular(t.spacing.xs),
+                        ),
+                        child: Text(
+                          errorCode,
+                          style: t.typography.caption.copyWith(
+                            fontFamily: 'monospace',
+                            fontWeight: FontWeight.bold,
+                            color: t.colors.textPrimary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+
+                SizedBox(height: t.spacing.md),
+
+                /// Metadata
+                _buildKeyValue(
+                  context,
                   'Created',
                   createdAt != null
                       ? DateFormat('MMM dd, yyyy HH:mm:ss')
                           .format(createdAt.toLocal())
-                      : 'Unknown'),
-              _buildKeyValue('Platform', log['platform'] ?? 'Unknown'),
-              _buildKeyValue('OS Version', log['os_version'] ?? 'Unknown'),
-              _buildKeyValue('Device', log['device_model'] ?? 'Unknown'),
-              _buildKeyValue('App Version', log['app_version'] ?? 'Unknown'),
-              _buildKeyValue('Screen', log['screen_name'] ?? 'Unknown'),
-              const SizedBox(height: 12),
-              Text(
-                'Stacktrace',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              const SizedBox(height: 4),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(8),
+                      : 'Unknown',
                 ),
-                child: SelectableText(
-                  log['stacktrace'] ?? 'Unavailable',
-                  style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
-                ),
-              ),
-              if (extra != null) ...[
-                const SizedBox(height: 12),
+                _buildKeyValue(context, 'Platform', log['platform'] ?? 'Unknown'),
+                _buildKeyValue(context, 'OS Version', log['os_version'] ?? 'Unknown'),
+                _buildKeyValue(context, 'Device', log['device_model'] ?? 'Unknown'),
+                _buildKeyValue(context, 'App Version', log['app_version'] ?? 'Unknown'),
+                _buildKeyValue(context, 'Screen', log['screen_name'] ?? 'Unknown'),
+
+                SizedBox(height: t.spacing.md),
+
+                /// Stacktrace Section
                 Text(
-                  'Extra Data',
-                  style: Theme.of(context).textTheme.titleSmall,
+                  'Stacktrace',
+                  style: t.typography.bodyBold.copyWith(
+                    color: t.colors.textPrimary,
+                  ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: t.spacing.xs),
+
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(t.spacing.md),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    borderRadius: BorderRadius.circular(8),
+                    color: t.colors.surfaceVariant,
+                    borderRadius: BorderRadius.circular(t.spacing.md),
+                    border: Border.all(color: t.colors.border),
                   ),
                   child: SelectableText(
-                    const JsonEncoder.withIndent('  ').convert(extra),
-                    style:
-                        const TextStyle(fontSize: 12, fontFamily: 'monospace'),
+                    log['stacktrace'] ?? 'Unavailable',
+                    style: t.typography.caption.copyWith(
+                      fontFamily: 'monospace',
+                      fontSize: 12,
+                      color: t.colors.textPrimary,
+                    ),
                   ),
                 ),
+
+                /// Extra Data Section
+                if (extra != null) ...[
+                  SizedBox(height: t.spacing.lg),
+                  Text(
+                    'Extra Data',
+                    style: t.typography.bodyBold.copyWith(
+                      color: t.colors.textPrimary,
+                    ),
+                  ),
+                  SizedBox(height: t.spacing.xs),
+                  Container(
+                    padding: EdgeInsets.all(t.spacing.md),
+                    decoration: BoxDecoration(
+                      color: t.colors.surfaceVariant,
+                      borderRadius: BorderRadius.circular(t.spacing.md),
+                      border: Border.all(color: t.colors.border),
+                    ),
+                    child: SelectableText(
+                      const JsonEncoder.withIndent('  ').convert(extra),
+                      style: t.typography.caption.copyWith(
+                        fontFamily: 'monospace',
+                        fontSize: 12,
+                        color: t.colors.textPrimary,
+                      ),
+                    ),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _buildKeyValue(String label, String value) {
+  Widget _buildKeyValue(
+    BuildContext context,
+    String label,
+    String value,
+  ) {
+    final t = context.theme;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      padding: EdgeInsets.symmetric(vertical: t.spacing.xs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -149,11 +196,18 @@ class ErrorLogDetailDialog extends StatelessWidget {
             width: 110,
             child: Text(
               '$label:',
-              style: const TextStyle(fontWeight: FontWeight.w600),
+              style: t.typography.bodyBold.copyWith(
+                color: t.colors.textSecondary,
+              ),
             ),
           ),
           Expanded(
-            child: Text(value),
+            child: Text(
+              value,
+              style: t.typography.body.copyWith(
+                color: t.colors.textPrimary,
+              ),
+            ),
           ),
         ],
       ),

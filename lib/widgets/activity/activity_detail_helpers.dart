@@ -1,8 +1,8 @@
+// MIGRATION COMPLETE — fully theme-based, no deprecated imports.
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import 'activity_detail_sheet.dart';
 import 'activity_helpers.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/drug_theme.dart';
 import '../../screens/edit/edit_log_entry_page.dart';
 import '../../screens/edit/edit_craving_page.dart';
 import '../../screens/edit/edit_refelction_page.dart';
@@ -13,19 +13,19 @@ class ActivityDetailHelpers {
   static void showDrugUseDetail({
     required BuildContext context,
     required Map<String, dynamic> entry,
-    required bool isDark,
     required Function(String, String, String) onDelete,
     required VoidCallback onUpdate,
   }) {
+    final t = context.theme;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => ActivityDetailSheet(
-        isDark: isDark,
         title: entry['name'] ?? 'Unknown Substance',
         icon: Icons.medication,
-        accentColor: DrugCategoryColors.stimulant,
+        accentColor: t.accent.primary,
         details: [
           DetailItem(label: 'Dose', value: entry['dose'] ?? 'Unknown'),
           DetailItem(label: 'Route', value: entry['consumption'] ?? 'Not specified'),
@@ -63,53 +63,56 @@ class ActivityDetailHelpers {
   static void showCravingDetail({
     required BuildContext context,
     required Map<String, dynamic> craving,
-    required bool isDark,
     required Function(String, String, String) onDelete,
     required VoidCallback onUpdate,
   }) {
     final intensity = craving['intensity'] ?? 0;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => ActivityDetailSheet(
-        isDark: isDark,
-        title: craving['substance'] ?? 'Unknown Substance',
-        icon: Icons.favorite,
-        accentColor: ActivityHelpers.getCravingColor(intensity),
-        details: [
-          DetailItem(
-            label: 'Intensity',
-            value: '${ActivityHelpers.getIntensityLabel(intensity)} (Level $intensity)',
-          ),
-          DetailItem(
-            label: 'Trigger',
-            value: craving['trigger'] ?? 'No trigger noted',
-          ),
-          DetailItem(
-            label: 'Time',
-            value: ActivityHelpers.formatDetailTimestamp(
-              craving['time'] ?? craving['created_at'],
+      builder: (context) {
+        final t = context.theme;
+
+        return ActivityDetailSheet(
+          title: craving['substance'] ?? 'Unknown Substance',
+          icon: Icons.favorite,
+          accentColor: ActivityHelpers.getCravingColor(intensity, context),
+          details: [
+            DetailItem(
+              label: 'Intensity',
+              value: '${ActivityHelpers.getIntensityLabel(intensity)} (Level $intensity)',
             ),
-          ),
-          if (craving['notes'] != null && craving['notes'].toString().isNotEmpty)
-            DetailItem(label: 'Notes', value: craving['notes']),
-        ],
-        onEdit: () {
-          Navigator.pop(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => EditCravingPage(entry: craving),
+            DetailItem(
+              label: 'Trigger',
+              value: craving['trigger'] ?? 'No trigger noted',
             ),
-          ).then((_) => onUpdate());
-        },
-        onDelete: () => onDelete(
-          craving['craving_id']?.toString() ?? craving['id']?.toString() ?? '',
-          'craving',
-          'cravings',
-        ),
-      ),
+            DetailItem(
+              label: 'Time',
+              value: ActivityHelpers.formatDetailTimestamp(
+                craving['time'] ?? craving['created_at'],
+              ),
+            ),
+            if (craving['notes'] != null && craving['notes'].toString().isNotEmpty)
+              DetailItem(label: 'Notes', value: craving['notes']),
+          ],
+          onEdit: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => EditCravingPage(entry: craving),
+              ),
+            ).then((_) => onUpdate());
+          },
+          onDelete: () => onDelete(
+            craving['craving_id']?.toString() ?? craving['id']?.toString() ?? '',
+            'craving',
+            'cravings',
+          ),
+        );
+      },
     );
   }
 
@@ -117,19 +120,19 @@ class ActivityDetailHelpers {
   static void showReflectionDetail({
     required BuildContext context,
     required Map<String, dynamic> reflection,
-    required bool isDark,
     required Function(String, String, String) onDelete,
     required VoidCallback onUpdate,
   }) {
+    final t = context.theme;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => ActivityDetailSheet(
-        isDark: isDark,
         title: 'Reflection Entry',
         icon: Icons.notes,
-        accentColor: isDark ? UIColors.darkNeonPurple : UIColors.lightAccentPurple,
+        accentColor: t.accent.secondary,
         details: [
           DetailItem(
             label: 'Time',

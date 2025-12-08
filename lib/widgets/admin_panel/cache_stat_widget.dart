@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Individual cache statistic display widget
 class CacheStatWidget extends StatelessWidget {
@@ -17,25 +18,25 @@ class CacheStatWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+    final t = context.theme;
+
     return Column(
       children: [
         Icon(icon, color: color, size: 28),
-        const SizedBox(height: 8),
+
+        SizedBox(height: t.spacing.sm),
+
         Text(
           value,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: isDark ? Colors.white : Colors.black87,
+          style: t.typography.heading3.copyWith(
+            color: t.colors.textPrimary,
           ),
         ),
+
         Text(
           label,
-          style: TextStyle(
-            fontSize: 12,
-            color: isDark ? Colors.white60 : Colors.grey.shade600,
+          style: t.typography.caption.copyWith(
+            color: t.colors.textSecondary,
           ),
         ),
       ],

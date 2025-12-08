@@ -1,7 +1,10 @@
+// MIGRATION
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_radius.dart';
+import '../../constants/theme/app_spacing.dart';
 
 class ActivityCard extends StatelessWidget {
   final String title;
@@ -25,111 +28,122 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
+    final spacing = t.spacing;
+
+    final decoration = BoxDecoration(
+      color: t.colors.surface,
+      borderRadius: BorderRadius.circular(AppRadius.md),
+      border: Border.all(color: t.colors.border),
+      boxShadow: t.cardShadow,
+    );
+
+    final darkGlass = t.isDark
+        ? t.glassmorphicDecoration()
+        : decoration;
 
     return Container(
-      margin: EdgeInsets.only(bottom: ThemeConstants.space12),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: accentColor,
-              radius: ThemeConstants.radiusMedium,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-              border: Border.all(color: UIColors.lightBorder),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      margin: EdgeInsets.only(bottom: spacing.md),
+      decoration: darkGlass,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           child: Padding(
-            padding: EdgeInsets.all(ThemeConstants.space12),
+            padding: EdgeInsets.all(spacing.md),
             child: Row(
               children: [
-                // Icon container
+                /// ICON CONTAINER
                 Container(
-                  padding: EdgeInsets.all(ThemeConstants.space12),
+                  padding: EdgeInsets.all(spacing.md),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [accentColor, accentColor.withValues(alpha: 0.7)],
+                      colors: [
+                        accentColor,
+                        accentColor.withOpacity(0.7),
+                      ],
                     ),
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                    borderRadius: BorderRadius.circular(AppRadius.sm),
                   ),
                   child: Icon(
                     icon,
                     color: Colors.white,
-                    size: ThemeConstants.iconMedium,
+                    size: 22,
                   ),
                 ),
-                SizedBox(width: ThemeConstants.space12),
-                
-                // Content
+
+                SizedBox(width: spacing.md),
+
+                /// CONTENT
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      /// Title + badge
                       Row(
                         children: [
                           Expanded(
                             child: Text(
                               title,
-                              style: TextStyle(
-                                fontSize: ThemeConstants.fontMedium,
-                                fontWeight: ThemeConstants.fontSemiBold,
-                                color: isDark ? UIColors.darkText : UIColors.lightText,
+                              style: t.typography.bodyLarge.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: t.colors.textPrimary,
                               ),
                             ),
                           ),
+
                           if (badge != null)
                             Container(
                               padding: EdgeInsets.symmetric(
-                                horizontal: ThemeConstants.space8,
-                                vertical: ThemeConstants.space4,
+                                horizontal: spacing.sm,
+                                vertical: spacing.xs,
                               ),
                               decoration: BoxDecoration(
-                                color: accentColor.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                                border: Border.all(color: accentColor.withValues(alpha: 0.4)),
+                                color: accentColor.withOpacity(0.15),
+                                borderRadius:
+                                    BorderRadius.circular(AppRadius.sm),
+                                border: Border.all(
+                                  color: accentColor.withOpacity(0.3),
+                                ),
                               ),
                               child: Text(
                                 badge!,
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontXSmall,
-                                  fontWeight: ThemeConstants.fontSemiBold,
+                                style: t.typography.bodySmall.copyWith(
                                   color: accentColor,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
                         ],
                       ),
-                      SizedBox(height: ThemeConstants.space4),
+
+                      SizedBox(height: spacing.xs),
+
+                      /// Subtitle
                       Text(
                         subtitle,
-                        style: TextStyle(
-                          fontSize: ThemeConstants.fontSmall,
-                          color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                        style: t.typography.bodySmall.copyWith(
+                          color: t.colors.textSecondary,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
+
                       if (timestamp != null) ...[
-                        SizedBox(height: ThemeConstants.space4),
+                        SizedBox(height: spacing.xs),
                         Row(
                           children: [
                             Icon(
                               Icons.access_time,
                               size: 14,
-                              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                              color: t.colors.textTertiary,
                             ),
-                            SizedBox(width: ThemeConstants.space4),
+                            SizedBox(width: spacing.xs),
                             Text(
                               _formatTimestamp(timestamp!),
-                              style: TextStyle(
-                                fontSize: ThemeConstants.fontXSmall,
-                                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                              style: t.typography.bodySmall.copyWith(
+                                color: t.colors.textTertiary,
                               ),
                             ),
                           ],
@@ -138,14 +152,15 @@ class ActivityCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                
-                // Arrow icon
-                if (onTap != null)
+
+                if (onTap != null) ...[
+                  SizedBox(width: spacing.sm),
                   Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-                    color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                    color: t.colors.textSecondary,
                   ),
+                ],
               ],
             ),
           ),
@@ -156,18 +171,13 @@ class ActivityCard extends StatelessWidget {
 
   String _formatTimestamp(DateTime dt) {
     final now = DateTime.now();
-    final difference = now.difference(dt);
+    final diff = now.difference(dt);
 
-    if (difference.inMinutes < 1) {
-      return 'Just now';
-    } else if (difference.inHours < 1) {
-      return '${difference.inMinutes}m ago';
-    } else if (difference.inHours < 24) {
-      return '${difference.inHours}h ago';
-    } else if (difference.inDays < 7) {
-      return '${difference.inDays}d ago';
-    } else {
-      return DateFormat('MMM d, y').format(dt);
-    }
+    if (diff.inMinutes < 1) return 'Just now';
+    if (diff.inHours < 1) return '${diff.inMinutes}m ago';
+    if (diff.inHours < 24) return '${diff.inHours}h ago';
+    if (diff.inDays < 7) return '${diff.inDays}d ago';
+
+    return DateFormat('MMM d, y').format(dt);
   }
 }

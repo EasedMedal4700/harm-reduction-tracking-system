@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Widget displaying error state for the analytics page
 class AnalyticsErrorState extends StatelessWidget {
@@ -15,32 +16,59 @@ class AnalyticsErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(t.spacing.xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.red),
-            const SizedBox(height: 16),
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: t.colors.error,
+            ),
+
+            SizedBox(height: t.spacing.lg),
+
             Text(
               message,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: t.typography.heading3.copyWith(
+                color: t.colors.textPrimary,
+              ),
               textAlign: TextAlign.center,
             ),
+
             if (details != null) ...[
-              const SizedBox(height: 12),
+              SizedBox(height: t.spacing.md),
               SelectableText(
                 details!,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey.shade600),
+                style: t.typography.bodySmall.copyWith(
+                  color: t.colors.textSecondary,
+                ),
               ),
             ],
-            const SizedBox(height: 24),
+
+            SizedBox(height: t.spacing.xl),
+
             ElevatedButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh),
               label: const Text('Try Again'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: t.accent.primary,
+                foregroundColor: t.colors.textInverse,
+                padding: EdgeInsets.symmetric(
+                  horizontal: t.spacing.lg,
+                  vertical: t.spacing.md,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(t.spacing.md),
+                ),
+                shadowColor: t.colors.overlayHeavy,
+              ),
             ),
           ],
         ),

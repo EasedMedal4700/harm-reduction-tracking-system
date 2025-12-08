@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class AnalyticsFilterCard extends StatefulWidget {
   final Widget filterContent;
@@ -24,7 +23,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: ThemeConstants.animationNormal,
+      duration: const Duration(milliseconds: 220),
       vsync: this,
     );
     _rotationAnimation = Tween<double>(begin: 0, end: 0.5).animate(
@@ -41,174 +40,146 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
   void _toggleExpanded() {
     setState(() {
       _isExpanded = !_isExpanded;
-      if (_isExpanded) {
-        _animationController.forward();
-      } else {
-        _animationController.reverse();
-      }
+      _isExpanded ? _animationController.forward() : _animationController.reverse();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
+    final t = context.theme;
+    final accent = t.accent.primary;
 
     return AnimatedContainer(
-      duration: ThemeConstants.animationNormal,
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: accentColor,
-              radius: ThemeConstants.cardRadius,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              border: Border.all(
-                color: _isExpanded ? accentColor.withValues(alpha: 0.3) : UIColors.lightBorder,
-                width: _isExpanded ? ThemeConstants.borderMedium : ThemeConstants.borderThin,
-              ),
-              boxShadow: _isExpanded 
-                  ? [
-                      BoxShadow(
-                        color: accentColor.withValues(alpha: 0.1),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                    ]
-                  : UIColors.createSoftShadow(),
-            ),
+      duration: const Duration(milliseconds: 220),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.spacing.md),
+        border: Border.all(
+          color: _isExpanded ? accent.withOpacity(0.4) : t.colors.border,
+          width: _isExpanded ? 1.4 : 1,
+        ),
+        boxShadow: _isExpanded ? t.cardShadow : [],
+      ),
       child: Column(
         children: [
-          // Filter header
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: _toggleExpanded,
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(ThemeConstants.cardRadius),
-                bottom: _isExpanded ? Radius.zero : Radius.circular(ThemeConstants.cardRadius),
-              ),
-              child: Container(
-                padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-                decoration: _isExpanded
-                    ? BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-                            width: ThemeConstants.borderThin,
-                          ),
+          // Header
+          InkWell(
+            onTap: _toggleExpanded,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(t.spacing.md),
+              bottom: Radius.circular(_isExpanded ? 0 : t.spacing.md),
+            ),
+            child: Container(
+              padding: EdgeInsets.all(t.spacing.lg),
+              decoration: _isExpanded
+                  ? BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: t.colors.border,
+                          width: 1,
                         ),
-                      )
-                    : null,
-                child: Row(
-                  children: [
-                    // Filter icon with animation
-                    AnimatedContainer(
-                      duration: ThemeConstants.animationNormal,
-                      padding: EdgeInsets.all(ThemeConstants.space12),
-                      decoration: BoxDecoration(
-                        color: accentColor.withValues(alpha: _isExpanded ? (isDark ? 0.25 : 0.15) : (isDark ? 0.15 : 0.08)),
-                        borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                        boxShadow: _isExpanded && isDark
-                            ? UIColors.createNeonGlow(accentColor, intensity: 0.2)
-                            : null,
                       ),
-                      child: Icon(
-                        Icons.tune_rounded,
-                        color: accentColor,
-                        size: ThemeConstants.iconMedium,
-                      ),
+                    )
+                  : null,
+              child: Row(
+                children: [
+                  // Icon container
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 220),
+                    padding: EdgeInsets.all(t.spacing.md),
+                    decoration: BoxDecoration(
+                      color: accent.withOpacity(_isExpanded ? 0.18 : 0.1),
+                      borderRadius: BorderRadius.circular(t.spacing.sm),
                     ),
-                    SizedBox(width: ThemeConstants.space16),
-                    // Title and subtitle
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Advanced Filters',
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontMedium,
-                                  fontWeight: ThemeConstants.fontSemiBold,
-                                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                    child: Icon(
+                      Icons.tune_rounded,
+                      color: accent,
+                      size: 22,
+                    ),
+                  ),
+
+                  SizedBox(width: t.spacing.lg),
+
+                  // Titles
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Advanced Filters',
+                              style: t.typography.bodyBold.copyWith(
+                                color: t.colors.textPrimary,
+                              ),
+                            ),
+                            if (_isExpanded) ...[
+                              SizedBox(width: t.spacing.sm),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: t.spacing.sm,
+                                  vertical: t.spacing.xs,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: accent.withOpacity(0.15),
+                                  borderRadius: BorderRadius.circular(t.spacing.sm),
+                                ),
+                                child: Text(
+                                  'ACTIVE',
+                                  style: t.typography.overline.copyWith(
+                                    color: accent,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                              if (_isExpanded) ...[
-                                SizedBox(width: ThemeConstants.space8),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: ThemeConstants.space8,
-                                    vertical: ThemeConstants.space4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: UIColors.darkNeonEmerald.withValues(alpha: isDark ? 0.2 : 0.1),
-                                    borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                                  ),
-                                  child: Text(
-                                    'ACTIVE',
-                                    style: TextStyle(
-                                      fontSize: ThemeConstants.fontXSmall,
-                                      fontWeight: ThemeConstants.fontBold,
-                                      color: UIColors.darkNeonEmerald,
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ],
+                            ]
+                          ],
+                        ),
+
+                        SizedBox(height: t.spacing.xs),
+
+                        Text(
+                          _isExpanded
+                              ? 'Refine your analytics data'
+                              : 'Tap to customize data visibility',
+                          style: t.typography.caption.copyWith(
+                            color: t.colors.textSecondary,
                           ),
-                          SizedBox(height: ThemeConstants.space4),
-                          Text(
-                            _isExpanded 
-                                ? 'Refine your analytics data'
-                                : 'Tap to customize data visibility',
-                            style: TextStyle(
-                              fontSize: ThemeConstants.fontXSmall,
-                              fontWeight: ThemeConstants.fontRegular,
-                              color: isDark
-                                  ? UIColors.darkTextSecondary
-                                  : UIColors.lightTextSecondary,
-                            ),
-                          ),
-                        ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(width: t.spacing.md),
+
+                  // Chevron
+                  RotationTransition(
+                    turns: _rotationAnimation,
+                    child: Container(
+                      padding: EdgeInsets.all(t.spacing.xs),
+                      decoration: BoxDecoration(
+                        color: t.colors.border.withOpacity(0.6),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.expand_more_rounded,
+                        color: t.colors.textSecondary,
+                        size: 20,
                       ),
                     ),
-                    SizedBox(width: ThemeConstants.space8),
-                    // Chevron icon with rotation animation
-                    RotationTransition(
-                      turns: _rotationAnimation,
-                      child: Container(
-                        padding: EdgeInsets.all(ThemeConstants.space4),
-                        decoration: BoxDecoration(
-                          color: isDark 
-                              ? UIColors.darkBorder.withValues(alpha: 0.5)
-                              : UIColors.lightBorder,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.expand_more_rounded,
-                          color: isDark
-                              ? UIColors.darkTextSecondary
-                              : UIColors.lightTextSecondary,
-                          size: ThemeConstants.iconMedium,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-          // Expandable content
+
+          // Content
           AnimatedSize(
-            duration: ThemeConstants.animationNormal,
+            duration: const Duration(milliseconds: 220),
             curve: Curves.easeInOut,
             child: _isExpanded
                 ? Container(
-                    padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+                    padding: EdgeInsets.all(t.spacing.lg),
                     child: widget.filterContent,
                   )
                 : const SizedBox.shrink(),

@@ -1,248 +1,259 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../constants/emus/time_period.dart';
-import '../../models/log_entry_model.dart'; // Add this import for LogEntry
+import '../../models/log_entry_model.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme.dart';
 import '../../constants/data/drug_categories.dart';
-import '../../constants/deprecated/drug_theme.dart';
 
+
+/// Themed usage trend chart (stacked bar chart)
 class UsageTrendChart extends StatelessWidget {
   final List<LogEntry> filteredEntries;
   final TimePeriod period;
   final Map<String, String> substanceToCategory;
 
   const UsageTrendChart({
-    super.key, 
-    required this.filteredEntries, 
-    required this.period, 
-    required this.substanceToCategory
+    super.key,
+    required this.filteredEntries,
+    required this.period,
+    required this.substanceToCategory,
   });
 
   @override
   Widget build(BuildContext context) {
-    final data = _generateTrendData();
-    final title = _getTitle();
-    final sortedKeys = _getSortedKeys();
+    final t = context.theme;
+    final data = _buildTrendData();
+    final timeKeys = data.keys.toList()..sort();
+    final mapped = timeKeys.map((k) => data[k]!).toList();
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          _title(period),
+          style: t.typography.heading4.copyWith(
+            color: t.colors.textPrimary,
+          ),
+        ),
+        SizedBox(height: t.spacing.md),
+
         SizedBox(
-          height: 200,
+          height: 220,
           child: BarChart(
             BarChartData(
-              barGroups: _buildBarGroups(data),
+              gridData: FlGridData(
+                show: true,
+                horizontalInterval: 1,
+                getDrawingHorizontalLine: (_) => FlLine(
+                  color: t.colors.border.withOpacity(0.3),
+                  strokeWidth: 1,
+                ),
+                drawVerticalLine: false,
+              ),
+              borderData: FlBorderData(show: false),
+              barGroups: _buildBars(mapped, t),
               titlesData: FlTitlesData(
+                rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 32,
+                    getTitlesWidget: (value, _) => Text(
+                      value.toInt().toString(),
+                      style: t.typography.captionBold.copyWith(color: t.colors.textSecondary),
+                    ),
+                  ),
+                ),
+
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    getTitlesWidget: (value, meta) => Text(_getXLabel(value.toInt(), sortedKeys)),
-                    interval: period == TimePeriod.all ? 3 : 1,
+                    interval: _interval(period).toDouble(),
+                    getTitlesWidget: (value, _) => Padding(
+                      padding: EdgeInsets.only(top: t.spacing.xs),
+                      child: Text(
+                        _labelForIndex(value.toInt(), timeKeys),
+                        style: t.typography.captionBold.copyWith(color: t.colors.textSecondary),
+                      ),
+                    ),
                   ),
-                ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(showTitles: true, interval: 1, reservedSize: 40),
-                ),
-                topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              ),
-              borderData: FlBorderData(show: false),
-              gridData: FlGridData(
-                show: true,
-                drawVerticalLine: false,
-                horizontalInterval: 1,
-                getDrawingHorizontalLine: (value) => FlLine(
-                  color: Colors.grey.withOpacity(0.3),
-                  strokeWidth: 0.5,
                 ),
               ),
             ),
           ),
         ),
-        const SizedBox(height: 16),
+
+        SizedBox(height: t.spacing.lg),
+
         // Legend
         Wrap(
-          spacing: 16.0,
-          runSpacing: 8.0,
-          children: DrugCategories.categoryPriority
-              .where((cat) => data.any((map) => map.containsKey(cat)))
-              .map((cat) => Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 16,
-                    height: 16,
+          spacing: 16,
+          runSpacing: 8,
+          children: _uniqueCategories(mapped).map((cat) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 14,
+                  height: 14,
+                  decoration: BoxDecoration(
                     color: DrugCategoryColors.colorFor(cat),
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  const SizedBox(width: 8),
-                  Text(cat),
-                ],
-              )).toList(),
+                ),
+                SizedBox(width: 6),
+                Text(cat, style: t.typography.captionBold),
+              ],
+            );
+          }).toList(),
         ),
       ],
     );
   }
 
-  List<BarChartGroupData> _buildBarGroups(List<Map<String, int>> data) {
-    return data.asMap().entries.map((e) => BarChartGroupData(
-      x: e.key,
-      barRods: [_buildBarRod(e.value)],
-    )).toList();
+  //---------------------------------------------------------------------------
+  // DATA TRANSFORM
+  //---------------------------------------------------------------------------
+
+  /// Returns map: timeBucket → {category → count}
+  Map<DateTime, Map<String, int>> _buildTrendData() {
+    final now = DateTime.now();
+    final buckets = <DateTime, Map<String, int>>{};
+
+    List<DateTime> timeUnits = switch (period) {
+      TimePeriod.all => _monthsRange(),
+      TimePeriod.last7Days => List.generate(7, (i) {
+          final d = now.subtract(Duration(days: 6 - i));
+          return DateTime(d.year, d.month, d.day);
+        }),
+      TimePeriod.last7Weeks => List.generate(7, (i) {
+          final d = now.subtract(Duration(days: (6 - i) * 7));
+          return DateTime(d.year, d.month, d.day - d.weekday + 1);
+        }),
+      TimePeriod.last7Months => List.generate(7, (i) {
+          final d = DateTime(now.year, now.month - (6 - i), 1);
+          return d;
+        }),
+    };
+
+    for (final t in timeUnits) {
+      buckets[t] = {};
+    }
+
+    for (final entry in filteredEntries) {
+      final key = switch (period) {
+        TimePeriod.all || TimePeriod.last7Months =>
+          DateTime(entry.datetime.year, entry.datetime.month, 1),
+        TimePeriod.last7Weeks =>
+          DateTime(entry.datetime.year, entry.datetime.month,
+              entry.datetime.day - entry.datetime.weekday + 1),
+        TimePeriod.last7Days =>
+          DateTime(entry.datetime.year, entry.datetime.month, entry.datetime.day),
+      };
+
+      if (buckets.containsKey(key)) {
+        final cat = substanceToCategory[entry.substance.toLowerCase()] ?? 'Other';
+        buckets[key]![cat] = (buckets[key]![cat] ?? 0) + 1;
+      }
+    }
+
+    return buckets;
   }
 
-  BarChartRodData _buildBarRod(Map<String, int> categoryCounts) {
-    final sortedCategories = categoryCounts.keys.toList()
-      ..sort((a, b) => DrugCategories.categoryPriority.indexOf(a)
-          .compareTo(DrugCategories.categoryPriority.indexOf(b)));
-    
-    double cumulative = 0;
-    final stackItems = <BarChartRodStackItem>[];
-    
-    for (final category in sortedCategories) {
-      final count = categoryCounts[category]!;
-      if (count > 0) {
-        stackItems.add(
+  //---------------------------------------------------------------------------
+  // CHART HELPERS
+  //---------------------------------------------------------------------------
+
+  List<BarChartGroupData> _buildBars(
+      List<Map<String, int>> data, AppTheme theme) {
+    return data.asMap().entries.map((entry) {
+      final x = entry.key;
+      final categoryCounts = entry.value;
+
+      double cumulative = 0;
+      final stacks = <BarChartRodStackItem>[];
+
+      final sortedCats = categoryCounts.keys.toList()..sort();
+
+      for (final cat in sortedCats) {
+        final count = categoryCounts[cat]!;
+        final next = cumulative + count;
+
+        stacks.add(
           BarChartRodStackItem(
             cumulative,
-            cumulative + count,
-            DrugCategoryColors.colorFor(category),
+            next,
+            DrugCategoryColors.colorFor(cat),
           ),
         );
-        cumulative += count;
+
+        cumulative = next;
       }
-    }
-    
-    return BarChartRodData(
-      toY: cumulative,
-      rodStackItems: stackItems,
-      width: 16,
-      borderRadius: BorderRadius.zero,
-    );
+
+      return BarChartGroupData(
+        x: x,
+        barRods: [
+          BarChartRodData(
+            toY: cumulative,
+            rodStackItems: stacks,
+            width: 18,
+            borderRadius: BorderRadius.zero,
+          ),
+        ],
+      );
+    }).toList();
   }
 
-  List<Map<String, int>> _generateTrendData() {
+  //---------------------------------------------------------------------------
+  // HELPERS
+  //---------------------------------------------------------------------------
+
+  List<String> _uniqueCategories(List<Map<String, int>> list) {
+    final set = <String>{};
+    for (final m in list) {
+      set.addAll(m.keys);
+    }
+    return set.toList()..sort();
+  }
+
+  int _interval(TimePeriod p) => p == TimePeriod.all ? 2 : 1;
+
+  List<DateTime> _monthsRange() {
+    if (filteredEntries.isEmpty) return [];
+    final minDate = filteredEntries
+        .map((e) => e.datetime)
+        .reduce((a, b) => a.isBefore(b) ? a : b);
+
     final now = DateTime.now();
-    Map<DateTime, Map<String, int>> grouped = {};
+    final start = DateTime(minDate.year, minDate.month, 1);
+    final end = DateTime(now.year, now.month, 1);
 
-    // Initialize time units
-    List<DateTime> timeUnits = [];
-    switch (period) {
-      case TimePeriod.all:
-        if (filteredEntries.isEmpty) return [];
-        final minDate = filteredEntries.map((e) => e.datetime).reduce((a, b) => a.isBefore(b) ? a : b);
-        for (DateTime date = DateTime(minDate.year, minDate.month, 1); date.isBefore(now) || date.isAtSameMomentAs(DateTime(now.year, now.month, 1)); date = DateTime(date.year, date.month + 1, 1)) {
-          timeUnits.add(date);
-          grouped[date] = {};
-        }
-        break;
-      case TimePeriod.last7Days:
-        for (int i = 6; i >= 0; i--) {
-          final date = now.subtract(Duration(days: i));
-          final key = DateTime(date.year, date.month, date.day);
-          timeUnits.add(key);
-          grouped[key] = {};
-        }
-        break;
-      case TimePeriod.last7Weeks:
-        for (int i = 6; i >= 0; i--) {
-          final date = now.subtract(Duration(days: i * 7));
-          final key = DateTime(date.year, date.month, date.day - date.weekday + 1);
-          timeUnits.add(key);
-          grouped[key] = {};
-        }
-        break;
-      case TimePeriod.last7Months:
-        for (int i = 6; i >= 0; i--) {
-          final date = DateTime(now.year, now.month - i, 1);
-          timeUnits.add(date);
-          grouped[date] = {};
-        }
-        break;
+    final list = <DateTime>[];
+    for (var d = start; !d.isAfter(end); d = DateTime(d.year, d.month + 1, 1)) {
+      list.add(d);
     }
-
-    // Group entries by time and category
-    for (final entry in filteredEntries) {
-      DateTime key;
-      switch (period) {
-        case TimePeriod.all:
-        case TimePeriod.last7Months:
-          key = DateTime(entry.datetime.year, entry.datetime.month, 1);
-          break;
-        case TimePeriod.last7Weeks:
-          key = DateTime(entry.datetime.year, entry.datetime.month, entry.datetime.day - entry.datetime.weekday + 1);
-          break;
-        case TimePeriod.last7Days:
-          key = DateTime(entry.datetime.year, entry.datetime.month, entry.datetime.day);
-          break;
-      }
-      if (grouped.containsKey(key)) {
-        final category = substanceToCategory[entry.substance.toLowerCase()] ?? 'Placeholder';
-        grouped[key]![category] = (grouped[key]![category] ?? 0) + 1;
-      }
-    }
-
-    return timeUnits.map((time) => grouped[time]!).toList();
+    return list;
   }
 
-  List<DateTime> _getSortedKeys() {
-    final now = DateTime.now();
-    List<DateTime> timeUnits = [];
-    switch (period) {
-      case TimePeriod.all:
-        if (filteredEntries.isEmpty) return [];
-        final minDate = filteredEntries.map((e) => e.datetime).reduce((a, b) => a.isBefore(b) ? a : b);
-        for (DateTime date = DateTime(minDate.year, minDate.month, 1); date.isBefore(now) || date.isAtSameMomentAs(DateTime(now.year, now.month, 1)); date = DateTime(date.year, date.month + 1, 1)) {
-          timeUnits.add(date);
-        }
-        break;
-      case TimePeriod.last7Days:
-        for (int i = 6; i >= 0; i--) {
-          final date = now.subtract(Duration(days: i));
-          timeUnits.add(DateTime(date.year, date.month, date.day));
-        }
-        break;
-      case TimePeriod.last7Weeks:
-        for (int i = 6; i >= 0; i--) {
-          final date = now.subtract(Duration(days: i * 7));
-          timeUnits.add(DateTime(date.year, date.month, date.day - date.weekday + 1));
-        }
-        break;
-      case TimePeriod.last7Months:
-        for (int i = 6; i >= 0; i--) {
-          final date = DateTime(now.year, now.month - i, 1);
-          timeUnits.add(date);
-        }
-        break;
-    }
-    return timeUnits;
+  String _labelForIndex(int index, List<DateTime> keys) {
+    if (index < 0 || index >= keys.length) return '';
+    final d = keys[index];
+
+    return switch (period) {
+      TimePeriod.all => '${d.month}/${d.year % 100}',
+      TimePeriod.last7Days => '${d.day}',
+      TimePeriod.last7Weeks => 'W${index + 1}',
+      TimePeriod.last7Months => '${d.month}',
+    };
   }
 
-  String _getTitle() {
-    switch (period) {
-      case TimePeriod.all:
-        return 'Usage Trend (All Time)';
-      case TimePeriod.last7Days:
-        return 'Usage Trend (Last 7 Days)';
-      case TimePeriod.last7Weeks:
-        return 'Usage Trend (Last 7 Weeks)';
-      case TimePeriod.last7Months:
-        return 'Usage Trend (Last 7 Months)';
-    }
-  }
-
-  String _getXLabel(int index, List<DateTime> sortedKeys) {
-    switch (period) {
-      case TimePeriod.all:
-        if (index < sortedKeys.length) {
-          final date = sortedKeys[index];
-          return '${date.month}/${date.year % 100}';
-        }
-        return '';
-      case TimePeriod.last7Days:
-        return '${index + 1}';
-      case TimePeriod.last7Weeks:
-        return 'W${index + 1}';
-      case TimePeriod.last7Months:
-        return 'M${index + 1}';
-    }
-  }
+  String _title(TimePeriod p) => switch (p) {
+        TimePeriod.all => 'Usage Trend (All Time)',
+        TimePeriod.last7Days => 'Usage Trend (Last 7 Days)',
+        TimePeriod.last7Weeks => 'Usage Trend (Last 7 Weeks)',
+        TimePeriod.last7Months => 'Usage Trend (Last 7 Months)',
+      };
 }

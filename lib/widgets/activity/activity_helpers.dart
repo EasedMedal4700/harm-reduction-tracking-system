@@ -1,5 +1,8 @@
+// MIGRATION
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import 'package:intl/intl.dart';
+
 
 /// Helper functions for activity-related UI components.
 class ActivityHelpers {
@@ -11,12 +14,14 @@ class ActivityHelpers {
     return 'Severe';
   }
 
-  /// Returns a color representing the craving intensity level.
-  static Color getCravingColor(int intensity) {
-    if (intensity <= 2) return Colors.green;
-    if (intensity <= 4) return Colors.yellow.shade700;
-    if (intensity <= 7) return Colors.orange;
-    return Colors.red;
+  /// Returns a color representing the craving intensity level (theme-aware).
+  static Color getCravingColor(int intensity, BuildContext context) {
+    final t = context.theme;
+
+    if (intensity <= 2) return t.colors.success;        // Green → theme success
+    if (intensity <= 4) return t.colors.warning;        // Yellow → theme warning
+    if (intensity <= 7) return t.colors.warning;        // Orange → same category
+    return t.colors.error;                              // Red → theme error
   }
 
   /// Formats a timestamp into a detailed, user-friendly string with relative time.
@@ -42,9 +47,9 @@ class ActivityHelpers {
 
       final timeStr = DateFormat('h:mm a').format(dt);
       final formattedDate = DateFormat('EEEE, MMMM d, y').format(dt);
-      
+
       return '$relativeTime\n$formattedDate at $timeStr';
-    } catch (e) {
+    } catch (_) {
       return 'Unknown';
     }
   }

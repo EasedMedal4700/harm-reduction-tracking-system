@@ -1,6 +1,6 @@
+// MIGRATION — Replaces all legacy colors & spacing with AppTheme system.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import '../../constants/emus/time_period.dart';
 
 class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -20,22 +20,21 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
+    final t = context.theme;
 
     return Container(
       padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + ThemeConstants.space8,
-        left: ThemeConstants.space16,
-        right: ThemeConstants.space16,
-        bottom: ThemeConstants.space8,
+        top: MediaQuery.of(context).padding.top + t.spacing.md,
+        left: t.spacing.lg,
+        right: t.spacing.lg,
+        bottom: t.spacing.md,
       ),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+        color: t.colors.surface,
         border: Border(
           bottom: BorderSide(
-            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-            width: ThemeConstants.borderThin,
+            color: t.colors.border,
+            width: 1,
           ),
         ),
       ),
@@ -45,70 +44,62 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Top row with hamburger menu
+            /// TOP ROW
             Row(
               children: [
-                // Hamburger menu icon
+                /// Hamburger (drawer)
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                    boxShadow: isDark ? UIColors.createNeonGlow(accentColor, intensity: 0.15) : null,
+                    borderRadius: BorderRadius.circular(t.spacing.sm),
+                    boxShadow: t.cardShadow,
                   ),
                   child: IconButton(
-                    icon: Icon(
-                      Icons.menu,
-                      color: accentColor,
-                      size: 24,
-                    ),
-                    padding: EdgeInsets.all(ThemeConstants.space8),
+                    icon: Icon(Icons.menu, color: t.accent.primary, size: 24),
+                    padding: EdgeInsets.all(t.spacing.sm),
                     constraints: const BoxConstraints(),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
+                    onPressed: () => Scaffold.of(context).openDrawer(),
                   ),
                 ),
-                SizedBox(width: ThemeConstants.space12),
-                // Title
+
+                SizedBox(width: t.spacing.md),
+
+                /// Title
                 Expanded(
                   child: Text(
                     'DRUG USE ANALYTICS',
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontLarge,
-                      fontWeight: ThemeConstants.fontBold,
-                      color: isDark ? UIColors.darkText : UIColors.lightText,
+                    style: t.typography.heading3.copyWith(
+                      color: t.colors.textPrimary,
                       letterSpacing: 1.2,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                // Export button
+
+                /// Export button
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                    boxShadow: isDark ? UIColors.createNeonGlow(accentColor, intensity: 0.1) : null,
+                    borderRadius: BorderRadius.circular(t.spacing.sm),
+                    boxShadow: t.cardShadow,
                   ),
                   child: IconButton(
-                    icon: Icon(
-                      Icons.file_download_outlined,
-                      color: accentColor,
-                      size: 20,
-                    ),
-                    padding: EdgeInsets.all(ThemeConstants.space8),
+                    icon: Icon(Icons.file_download_outlined,
+                        color: t.accent.primary, size: 20),
+                    padding: EdgeInsets.all(t.spacing.sm),
                     constraints: const BoxConstraints(),
                     onPressed: onExport,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: ThemeConstants.space8),
-            // Subtitle
+
+            SizedBox(height: t.spacing.sm),
+
+            /// Subtitle
             Text(
               'Analyze your pharmacological activity',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
-                fontWeight: ThemeConstants.fontRegular,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              style: t.typography.caption.copyWith(
+                color: t.colors.textSecondary,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

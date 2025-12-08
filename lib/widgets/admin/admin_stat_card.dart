@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Stat card widget for admin dashboard
 class AdminStatCard extends StatelessWidget {
@@ -19,36 +20,40 @@ class AdminStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
+    final t = context.theme;
+
+    return Container(
+      decoration: t.cardDecoration(),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(t.spacing.md),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 32, color: color),
-            const SizedBox(height: 8),
+            SizedBox(height: t.spacing.sm),
             Text(
               value,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+              style: t.typography.heading3.copyWith(
                 color: color,
               ),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: t.spacing.xs),
             Text(
               title,
-              style: const TextStyle(fontSize: 13, color: Colors.grey),
+              style: t.typography.caption.copyWith(
+                color: t.colors.textSecondary,
+              ),
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
             if (subtitle != null) ...[
-              const SizedBox(height: 2),
+              SizedBox(height: t.spacing.xs),
               Text(
                 subtitle!,
-                style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+                style: t.typography.caption.copyWith(
+                  color: t.colors.textTertiary,
+                ),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -57,4 +62,5 @@ class AdminStatCard extends StatelessWidget {
       ),
     );
   }
+
 }

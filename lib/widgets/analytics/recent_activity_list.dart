@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import '../../constants/data/drug_categories.dart';
-import '../../constants/deprecated/drug_theme.dart';
 import '../../models/log_entry_model.dart';
 
 class RecentActivityList extends StatelessWidget {
@@ -17,238 +15,210 @@ class RecentActivityList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? UIColors.darkNeonTeal : UIColors.lightAccentTeal;
+    final t = context.theme;
 
-    // Sort entries by date (most recent first) and take top 10
     final recentEntries = entries.toList()
       ..sort((a, b) => b.datetime.compareTo(a.datetime));
+
     final displayEntries = recentEntries.take(10).toList();
 
     return Container(
-      padding: EdgeInsets.all(ThemeConstants.cardPaddingLarge),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: accentColor,
-              radius: ThemeConstants.cardRadius,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              border: Border.all(
-                color: UIColors.lightBorder,
-                width: ThemeConstants.borderThin,
-              ),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      padding: EdgeInsets.all(t.spacing.xl),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.spacing.md),
+        border: Border.all(color: t.colors.border),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
+          /// Header
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(ThemeConstants.space8),
+                padding: EdgeInsets.all(t.spacing.sm),
                 decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: isDark ? 0.2 : 0.1),
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                  color: t.accent.primary.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(t.spacing.sm),
                 ),
                 child: Icon(
                   Icons.history_rounded,
-                  color: accentColor,
-                  size: ThemeConstants.iconMedium,
+                  color: t.accent.primary,
+                  size: 22,
                 ),
               ),
-              SizedBox(width: ThemeConstants.space12),
+              SizedBox(width: t.spacing.md),
               Text(
                 'Recent Activity',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontLarge,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                style: t.typography.heading3.copyWith(
+                  color: t.colors.textPrimary,
                 ),
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space16),
-          // Activity list
+
+          SizedBox(height: t.spacing.lg),
+
           if (displayEntries.isEmpty)
             Center(
               child: Padding(
-                padding: EdgeInsets.all(ThemeConstants.space24),
+                padding: EdgeInsets.all(t.spacing.xl),
                 child: Text(
                   'No recent activity',
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontMedium,
-                    color: isDark
-                        ? UIColors.darkTextSecondary
-                        : UIColors.lightTextSecondary,
+                  style: t.typography.body.copyWith(
+                    color: t.colors.textSecondary,
                   ),
                 ),
               ),
             )
           else
-            ...displayEntries.map((entry) => _buildActivityItem(
-                  context,
-                  entry,
-                  isDark,
-                )),
+            ...displayEntries.map((entry) =>
+                _buildActivityItem(context, entry)),
         ],
       ),
     );
   }
 
-  Widget _buildActivityItem(
-    BuildContext context,
-    LogEntry entry,
-    bool isDark,
-  ) {
-    final category = substanceToCategory[entry.substance.toLowerCase()] ?? 'Placeholder';
-    final categoryColor = DrugCategoryColors.colorFor(category);
-    final categoryIcon = DrugCategories.categoryIconMap[category] ?? Icons.help_outline;
+  Widget _buildActivityItem(BuildContext context, LogEntry entry) {
+    final t = context.theme;
+
+    final category =
+        substanceToCategory[entry.substance.toLowerCase()] ?? 'Unknown';
+
+    /// Simulate category color using accent variations  
+    final categoryColor = t.accent.primary
+        .withOpacity(0.4 + (category.hashCode % 30) / 100);
+
+    final categoryIcon =
+        DrugCategories.categoryIconMap[category] ?? Icons.help_outline;
+
     final timeAgo = _formatTimeAgo(entry.datetime);
 
-    // Calculate simulated "remaining" percentage (for demo purposes)
     final hoursSince = DateTime.now().difference(entry.datetime).inHours;
-    final remainingPercent = (100 - (hoursSince * 10)).clamp(0, 100).toDouble();
+    final remainingPercent =
+        (100 - (hoursSince * 10)).clamp(0, 100).toDouble();
 
     return Padding(
-      padding: EdgeInsets.only(bottom: ThemeConstants.space12),
+      padding: EdgeInsets.only(bottom: t.spacing.md),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
-            // Navigate to entry detail or edit page
-          },
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+          borderRadius: BorderRadius.circular(t.spacing.sm),
+          onTap: () {},
+
           child: Container(
-            padding: EdgeInsets.all(ThemeConstants.space12),
+            padding: EdgeInsets.all(t.spacing.md),
             decoration: BoxDecoration(
-              color: isDark
-                  ? UIColors.darkSurfaceLight.withValues(alpha: 0.5)
-                  : UIColors.lightDivider,
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-              border: Border.all(
-                color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-                width: ThemeConstants.borderThin,
-              ),
+              color: t.colors.surfaceVariant,
+              borderRadius: BorderRadius.circular(t.spacing.sm),
+              border: Border.all(color: t.colors.border),
             ),
             child: Row(
               children: [
-                // Category icon with colored background
+                /// Category icon
                 Container(
-                  padding: EdgeInsets.all(ThemeConstants.space8),
+                  padding: EdgeInsets.all(t.spacing.sm),
                   decoration: BoxDecoration(
-                    color: categoryColor.withValues(alpha: isDark ? 0.2 : 0.1),
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                    color: categoryColor.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(t.spacing.sm),
                   ),
                   child: Icon(
                     categoryIcon,
                     color: categoryColor,
-                    size: ThemeConstants.iconMedium,
+                    size: 22,
                   ),
                 ),
-                SizedBox(width: ThemeConstants.space12),
-                // Substance name, category, dosage, time
+
+                SizedBox(width: t.spacing.md),
+
+                /// Substance information
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Substance name + category chip
+                      /// Substance + category chip
                       Row(
                         children: [
                           Expanded(
                             child: Text(
                               entry.substance,
-                              style: TextStyle(
-                                fontSize: ThemeConstants.fontMedium,
-                                fontWeight: ThemeConstants.fontSemiBold,
-                                color: isDark ? UIColors.darkText : UIColors.lightText,
+                              style: t.typography.bodyBold.copyWith(
+                                color: t.colors.textPrimary,
                               ),
-                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
                           ),
-                          SizedBox(width: ThemeConstants.space8),
-                          Flexible(
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: ThemeConstants.space8,
-                                vertical: ThemeConstants.space4,
+                          SizedBox(width: t.spacing.sm),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: t.spacing.sm,
+                              vertical: t.spacing.xs,
+                            ),
+                            decoration: BoxDecoration(
+                              color: categoryColor.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(t.spacing.sm),
+                              border: Border.all(
+                                color: categoryColor.withOpacity(0.3),
                               ),
-                              decoration: BoxDecoration(
-                                color: categoryColor.withValues(alpha: isDark ? 0.2 : 0.1),
-                                borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                                border: Border.all(
-                                  color: categoryColor.withValues(alpha: 0.3),
-                                  width: ThemeConstants.borderThin,
-                                ),
+                            ),
+                            child: Text(
+                              category,
+                              style: t.typography.captionBold.copyWith(
+                                color: categoryColor,
                               ),
-                              child: Text(
-                                category,
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontXSmall,
-                                  fontWeight: ThemeConstants.fontSemiBold,
-                                  color: categoryColor,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: ThemeConstants.space4),
-                      // Dosage and time ago
+
+                      SizedBox(height: t.spacing.xs),
+
+                      /// dosage + time ago
                       Text(
                         '${entry.dosage} ${entry.unit} • $timeAgo',
-                        style: TextStyle(
-                          fontSize: ThemeConstants.fontSmall,
-                          fontWeight: ThemeConstants.fontRegular,
-                          color: isDark
-                              ? UIColors.darkTextSecondary
-                              : UIColors.lightTextSecondary,
+                        style: t.typography.bodySmall.copyWith(
+                          color: t.colors.textSecondary,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: ThemeConstants.space8),
-                      // Progress bar for "remaining"
+
+                      SizedBox(height: t.spacing.sm),
+
+                      /// "Active" progress bar
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'Active',
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontXSmall,
-                                  fontWeight: ThemeConstants.fontMediumWeight,
-                                  color: isDark
-                                      ? UIColors.darkTextSecondary
-                                      : UIColors.lightTextSecondary,
+                                style: t.typography.caption.copyWith(
+                                  color: t.colors.textSecondary,
                                 ),
                               ),
                               Text(
                                 '${remainingPercent.toInt()}%',
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontXSmall,
-                                  fontWeight: ThemeConstants.fontSemiBold,
+                                style: t.typography.captionBold.copyWith(
                                   color: categoryColor,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: ThemeConstants.space4),
+                          SizedBox(height: t.spacing.xs),
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(ThemeConstants.space4),
+                            borderRadius:
+                                BorderRadius.circular(t.spacing.xs),
                             child: LinearProgressIndicator(
                               value: remainingPercent / 100,
-                              backgroundColor: isDark
-                                  ? UIColors.darkBorder
-                                  : UIColors.lightBorder,
-                              valueColor: AlwaysStoppedAnimation<Color>(categoryColor),
+                              backgroundColor: t.colors.border,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(categoryColor),
                               minHeight: 6,
                             ),
                           ),
@@ -267,7 +237,7 @@ class RecentActivityList extends StatelessWidget {
 
   String _formatTimeAgo(DateTime dateTime) {
     final difference = DateTime.now().difference(dateTime);
-    
+
     if (difference.inDays > 365) {
       final years = (difference.inDays / 365).floor();
       return '${years}y ago';

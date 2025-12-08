@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
 import 'analytics_filter_card.dart';
 import 'metrics_row.dart';
 import 'use_distribution_card.dart';
@@ -49,27 +50,25 @@ class AnalyticsLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Use single column for narrow screens (< 900px)
-        // Use 2-column for wide screens (>= 900px)
         final isWideScreen = constraints.maxWidth >= 900;
 
         return AnimatedOpacity(
           opacity: 1.0,
-          duration: ThemeConstants.animationNormal,
+          duration: const Duration(milliseconds: 200),
           child: SingleChildScrollView(
-            padding: EdgeInsets.all(ThemeConstants.homePagePadding),
+            padding: EdgeInsets.all(t.spacing.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Filters section
-                AnalyticsFilterCard(
-                  filterContent: filterContent,
-                ),
-                SizedBox(height: ThemeConstants.cardSpacing),
+                /// Filters section
+                AnalyticsFilterCard(filterContent: filterContent),
+                SizedBox(height: t.spacing.lg),
 
-                // Metrics row
+                /// Metrics row
                 MetricsRow(
                   totalEntries: totalEntries,
                   mostUsedSubstance: mostUsedSubstance,
@@ -78,14 +77,10 @@ class AnalyticsLayout extends StatelessWidget {
                   topCategory: topCategory,
                   topCategoryPercent: topCategoryPercent,
                 ),
-                SizedBox(height: ThemeConstants.cardSpacing),
+                SizedBox(height: t.spacing.lg),
 
-                // Two-column grid layout for wide screens
-                if (isWideScreen)
-                  _buildWideLayout()
-                else
-                  // Single column layout for narrow screens
-                  _buildNarrowLayout(),
+                /// Wide vs Narrow
+                isWideScreen ? _buildWideLayout(context) : _buildNarrowLayout(context),
               ],
             ),
           ),
@@ -94,11 +89,16 @@ class AnalyticsLayout extends StatelessWidget {
     );
   }
 
-  Widget _buildWideLayout() {
+  // ---------------------------
+  // Wide layout (desktop/tablet)
+  // ---------------------------
+  Widget _buildWideLayout(BuildContext context) {
+    final t = context.theme;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Left column
+        /// LEFT COLUMN
         Expanded(
           child: Column(
             children: [
@@ -109,7 +109,7 @@ class AnalyticsLayout extends StatelessWidget {
                 substanceToCategory: substanceToCategory,
                 onCategoryTapped: onCategoryTapped,
               ),
-              SizedBox(height: ThemeConstants.cardSpacing),
+              SizedBox(height: t.spacing.lg),
               InsightSummaryCard(
                 totalEntries: totalEntries,
                 mostUsedCategory: mostUsedCategory,
@@ -119,8 +119,10 @@ class AnalyticsLayout extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(width: ThemeConstants.cardSpacing),
-        // Right column
+
+        SizedBox(width: t.spacing.lg),
+
+        /// RIGHT COLUMN
         Expanded(
           child: Column(
             children: [
@@ -129,7 +131,7 @@ class AnalyticsLayout extends StatelessWidget {
                 period: period,
                 substanceToCategory: substanceToCategory,
               ),
-              SizedBox(height: ThemeConstants.cardSpacing),
+              SizedBox(height: t.spacing.lg),
               RecentActivityList(
                 entries: filteredEntries,
                 substanceToCategory: substanceToCategory,
@@ -141,7 +143,12 @@ class AnalyticsLayout extends StatelessWidget {
     );
   }
 
-  Widget _buildNarrowLayout() {
+  // ---------------------------
+  // Narrow layout (mobile)
+  // ---------------------------
+  Widget _buildNarrowLayout(BuildContext context) {
+    final t = context.theme;
+
     return Column(
       children: [
         UseDistributionCard(
@@ -151,20 +158,23 @@ class AnalyticsLayout extends StatelessWidget {
           substanceToCategory: substanceToCategory,
           onCategoryTapped: onCategoryTapped,
         ),
-        SizedBox(height: ThemeConstants.cardSpacing),
+        SizedBox(height: t.spacing.lg),
+
         UsageTrendsCard(
           filteredEntries: filteredEntries,
           period: period,
           substanceToCategory: substanceToCategory,
         ),
-        SizedBox(height: ThemeConstants.cardSpacing),
+        SizedBox(height: t.spacing.lg),
+
         InsightSummaryCard(
           totalEntries: totalEntries,
           mostUsedCategory: mostUsedCategory,
           weeklyAverage: weeklyAverage,
           selectedPeriodText: selectedPeriodText,
         ),
-        SizedBox(height: ThemeConstants.cardSpacing),
+        SizedBox(height: t.spacing.lg),
+
         RecentActivityList(
           entries: filteredEntries,
           substanceToCategory: substanceToCategory,

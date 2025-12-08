@@ -1,3 +1,4 @@
+// MIGRATION COMPLETE — no deprecated UI colors, no isDark logic.
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../common/old_common/drawer_menu.dart';
@@ -9,7 +10,7 @@ import '../widgets/activity/activity_detail_helpers.dart';
 import '../widgets/activity/activity_helpers.dart';
 import '../services/activity_service.dart';
 import '../services/user_service.dart';
-import '../constants/deprecated/ui_colors.dart';
+import '../constants/theme/app_theme_extension.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});
@@ -58,25 +59,30 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+    final t = context.theme;
+
     return Scaffold(
-      backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
+      backgroundColor: t.colors.background,
       appBar: AppBar(
-        title: const Text('Recent Activity'),
-        backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+        title: Text(
+          'Recent Activity',
+          style: t.typography.heading3.copyWith(color: t.colors.textPrimary),
+        ),
+        backgroundColor: t.colors.surface,
+        elevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _fetchActivity,
             tooltip: 'Refresh',
+            color: t.colors.textPrimary,
           ),
         ],
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
-          labelColor: isDark ? UIColors.darkText : UIColors.lightText,
-          unselectedLabelColor: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          indicatorColor: t.accent.primary,
+          labelColor: t.colors.textPrimary,
+          unselectedLabelColor: t.colors.textSecondary,
           tabs: const [
             Tab(icon: Icon(Icons.medication), text: 'Drug Use'),
             Tab(icon: Icon(Icons.favorite), text: 'Cravings'),
@@ -90,23 +96,21 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
           : TabBarView(
               controller: _tabController,
               children: [
-                _buildDrugUseTab(isDark),
-                _buildCravingsTab(isDark),
-                _buildReflectionsTab(isDark),
+                _buildDrugUseTab(),
+                _buildCravingsTab(),
+                _buildReflectionsTab(),
               ],
             ),
     );
   }
 
-  Widget _buildDrugUseTab(bool isDark) {
+  Widget _buildDrugUseTab() {
     final entries = _activity['entries'] as List? ?? [];
     return ActivityDrugUseTab(
       entries: entries,
-      isDark: isDark,
       onEntryTap: (entry) => ActivityDetailHelpers.showDrugUseDetail(
         context: context,
         entry: entry,
-        isDark: isDark,
         onDelete: _handleDelete,
         onUpdate: _fetchActivity,
       ),
@@ -114,15 +118,13 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
     );
   }
 
-  Widget _buildCravingsTab(bool isDark) {
+  Widget _buildCravingsTab() {
     final cravings = _activity['cravings'] as List? ?? [];
     return ActivityCravingsTab(
       cravings: cravings,
-      isDark: isDark,
       onCravingTap: (craving) => ActivityDetailHelpers.showCravingDetail(
         context: context,
         craving: craving,
-        isDark: isDark,
         onDelete: _handleDelete,
         onUpdate: _fetchActivity,
       ),
@@ -130,15 +132,13 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
     );
   }
 
-  Widget _buildReflectionsTab(bool isDark) {
+  Widget _buildReflectionsTab() {
     final reflections = _activity['reflections'] as List? ?? [];
     return ActivityReflectionsTab(
       reflections: reflections,
-      isDark: isDark,
       onReflectionTap: (reflection) => ActivityDetailHelpers.showReflectionDetail(
         context: context,
         reflection: reflection,
-        isDark: isDark,
         onDelete: _handleDelete,
         onUpdate: _fetchActivity,
       ),
@@ -155,9 +155,8 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
     );
   }
 
-
-
-  Future<void> _confirmDelete(BuildContext context, {
+  Future<void> _confirmDelete(
+    BuildContext context, {
     required String entryId,
     required String entryType,
     required String serviceName,
@@ -170,12 +169,13 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
     }
   }
 
-  Future<void> _deleteEntry(BuildContext context, String entryId, String serviceName) async {
+  Future<void> _deleteEntry(
+      BuildContext context, String entryId, String serviceName) async {
     try {
       final supabase = Supabase.instance.client;
       final userId = UserService.getCurrentUserId();
       final idColumn = ActivityHelpers.getIdColumn(serviceName);
-      
+
       await supabase
           .from(serviceName)
           .delete()
@@ -184,9 +184,9 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Entry deleted successfully'),
-            backgroundColor: Colors.green,
+          SnackBar(
+            content: const Text('Entry deleted successfully'),
+            backgroundColor: context.theme.colors.success,
           ),
         );
         _fetchActivity();
@@ -196,7 +196,7 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to delete entry: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: context.theme.colors.error,
           ),
         );
       }

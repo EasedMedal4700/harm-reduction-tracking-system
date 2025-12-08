@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class MetricsRow extends StatelessWidget {
   final int totalEntries;
@@ -22,87 +21,90 @@ class MetricsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final screenWidth = MediaQuery.of(context).size.width;
     final isNarrow = screenWidth < 600;
-    
-    // Use grid layout for narrow screens, evenly spaced row for wide
+
     if (isNarrow) {
       return GridView.count(
         crossAxisCount: 2,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        mainAxisSpacing: ThemeConstants.space12,
-        crossAxisSpacing: ThemeConstants.space12,
+        mainAxisSpacing: t.spacing.md,
+        crossAxisSpacing: t.spacing.md,
         childAspectRatio: 1.3,
         children: [
           _MetricCard(
             icon: Icons.analytics_outlined,
-            iconColor: UIColors.darkNeonBlue,
+            accent: t.accent.primary,
             value: totalEntries.toString(),
             label: 'Total Entries',
           ),
           _MetricCard(
             icon: Icons.medication_outlined,
-            iconColor: UIColors.darkNeonPurple,
+            accent: t.accent.secondary,
             value: mostUsedSubstance.isEmpty ? '-' : mostUsedSubstance,
             label: 'Most Used',
             subtitle: mostUsedCount > 0 ? '$mostUsedCount uses' : null,
           ),
           _MetricCard(
             icon: Icons.calendar_today_outlined,
-            iconColor: UIColors.darkNeonTeal,
+            accent: t.accent.primaryVariant,
             value: weeklyAverage.toStringAsFixed(1),
             label: 'Weekly Average',
           ),
           _MetricCard(
             icon: Icons.category_outlined,
-            iconColor: UIColors.darkNeonEmerald,
+            accent: t.accent.primary,
             value: topCategory.isEmpty ? '-' : topCategory,
             label: 'Top Category',
-            chipLabel: topCategoryPercent > 0 ? '${topCategoryPercent.toStringAsFixed(0)}%' : null,
+            chipLabel: topCategoryPercent > 0
+                ? '${topCategoryPercent.toStringAsFixed(0)}%'
+                : null,
           ),
         ],
       );
     }
-    
-    // Wide screens: evenly spaced row with equal width cards
+
     return Row(
       children: [
         Expanded(
           child: _MetricCard(
             icon: Icons.analytics_outlined,
-            iconColor: UIColors.darkNeonBlue,
+            accent: t.accent.primary,
             value: totalEntries.toString(),
             label: 'Total Entries',
           ),
         ),
-        SizedBox(width: ThemeConstants.space12),
+        SizedBox(width: t.spacing.md),
         Expanded(
           child: _MetricCard(
             icon: Icons.medication_outlined,
-            iconColor: UIColors.darkNeonPurple,
+            accent: t.accent.secondary,
             value: mostUsedSubstance.isEmpty ? '-' : mostUsedSubstance,
             label: 'Most Used',
             subtitle: mostUsedCount > 0 ? '$mostUsedCount uses' : null,
           ),
         ),
-        SizedBox(width: ThemeConstants.space12),
+        SizedBox(width: t.spacing.md),
         Expanded(
           child: _MetricCard(
             icon: Icons.calendar_today_outlined,
-            iconColor: UIColors.darkNeonTeal,
+            accent: t.accent.primaryVariant,
             value: weeklyAverage.toStringAsFixed(1),
             label: 'Weekly Average',
           ),
         ),
-        SizedBox(width: ThemeConstants.space12),
+        SizedBox(width: t.spacing.md),
         Expanded(
           child: _MetricCard(
             icon: Icons.category_outlined,
-            iconColor: UIColors.darkNeonEmerald,
+            accent: t.accent.primary,
             value: topCategory.isEmpty ? '-' : topCategory,
             label: 'Top Category',
-            chipLabel: topCategoryPercent > 0 ? '${topCategoryPercent.toStringAsFixed(0)}%' : null,
+            chipLabel: topCategoryPercent > 0
+                ? '${topCategoryPercent.toStringAsFixed(0)}%'
+                : null,
           ),
         ),
       ],
@@ -112,7 +114,7 @@ class MetricsRow extends StatelessWidget {
 
 class _MetricCard extends StatelessWidget {
   final IconData icon;
-  final Color iconColor;
+  final Color accent;
   final String value;
   final String label;
   final String? subtitle;
@@ -120,7 +122,7 @@ class _MetricCard extends StatelessWidget {
 
   const _MetricCard({
     required this.icon,
-    required this.iconColor,
+    required this.accent,
     required this.value,
     required this.label,
     this.subtitle,
@@ -129,120 +131,97 @@ class _MetricCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
 
     return Container(
       constraints: const BoxConstraints(minHeight: 130),
-      padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: iconColor,
-              radius: ThemeConstants.cardRadius,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              border: Border.all(
-                color: UIColors.lightBorder,
-                width: ThemeConstants.borderThin,
-              ),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      padding: EdgeInsets.all(t.spacing.lg),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.spacing.md),
+        border: Border.all(color: t.colors.border),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          // Icon with colored background
+          /// ICON
           Container(
-            padding: const EdgeInsets.all(6),
+            padding: EdgeInsets.all(t.spacing.sm),
             decoration: BoxDecoration(
-              color: iconColor.withValues(alpha: isDark ? 0.2 : 0.1),
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+              color: accent.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(t.spacing.sm),
             ),
             child: Icon(
               icon,
-              color: iconColor,
+              color: accent,
               size: 20,
             ),
           ),
-          const SizedBox(height: 6),
-          // Big number with consistent sizing and minimum size
+
+          SizedBox(height: t.spacing.sm),
+
+          /// VALUE
           Flexible(
             child: FittedBox(
               fit: BoxFit.scaleDown,
               alignment: Alignment.centerLeft,
               child: Text(
                 value,
-                style: TextStyle(
-                  fontSize: ThemeConstants.font2XLarge,
-                  fontWeight: ThemeConstants.fontBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                style: t.typography.heading2.copyWith(
+                  color: t.colors.textPrimary,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
-          const SizedBox(height: 2),
-          // Label
-          Flexible(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: ThemeConstants.fontSmall,
-                fontWeight: ThemeConstants.fontMediumWeight,
-                color: isDark
-                    ? UIColors.darkTextSecondary
-                    : UIColors.lightTextSecondary,
+
+          SizedBox(height: t.spacing.xs),
+
+          /// LABEL
+          Text(
+            label,
+            style: t.typography.bodySmall.copyWith(
+              color: t.colors.textSecondary,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+
+          /// SUBTITLE
+          if (subtitle != null) ...[
+            SizedBox(height: t.spacing.xs),
+            Text(
+              subtitle!,
+              style: t.typography.caption.copyWith(
+                color: t.colors.textSecondary,
               ),
-              maxLines: 2,
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-          ),
-          // Optional subtitle
-          if (subtitle != null) ...[
-            SizedBox(height: ThemeConstants.space4),
-            Flexible(
-              child: Text(
-                subtitle!,
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  fontWeight: ThemeConstants.fontRegular,
-                  color: isDark
-                      ? UIColors.darkTextSecondary.withValues(alpha: 0.7)
-                      : UIColors.lightTextSecondary.withValues(alpha: 0.7),
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
           ],
-          // Optional category chip
+
+          /// CHIP
           if (chipLabel != null) ...[
-            SizedBox(height: ThemeConstants.space8),
+            SizedBox(height: t.spacing.sm),
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: ThemeConstants.space8,
-                vertical: ThemeConstants.space4,
+                horizontal: t.spacing.sm,
+                vertical: t.spacing.xs,
               ),
               decoration: BoxDecoration(
-                color: iconColor.withValues(alpha: isDark ? 0.2 : 0.1),
-                borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                color: accent.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(t.spacing.sm),
                 border: Border.all(
-                  color: iconColor.withValues(alpha: 0.3),
-                  width: ThemeConstants.borderThin,
+                  color: accent.withOpacity(0.3),
                 ),
               ),
               child: Text(
                 chipLabel!,
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: iconColor,
+                style: t.typography.captionBold.copyWith(
+                  color: accent,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],

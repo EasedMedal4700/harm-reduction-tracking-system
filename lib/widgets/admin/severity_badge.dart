@@ -1,4 +1,6 @@
+// MIGRATION COMPLETE – Severity badge uses theme colors.
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Severity badge for error logs
 class SeverityBadge extends StatelessWidget {
@@ -13,92 +15,88 @@ class SeverityBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = _getSeverityColors(severity);
+    final t = context.theme;
+    final colors = _getSeverityColors(context, severity);
     final icon = _getSeverityIcon(severity);
-    
-    if (compact) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-        decoration: BoxDecoration(
-          color: colors.background,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: colors.border),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 12, color: colors.text),
-            const SizedBox(width: 4),
-            Text(
-              severity.toUpperCase(),
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.bold,
-                color: colors.text,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+
+    final padding = compact
+        ? EdgeInsets.symmetric(
+            horizontal: t.spacing.xs,
+            vertical: t.spacing.xs * 0.7,
+          )
+        : EdgeInsets.symmetric(
+            horizontal: t.spacing.md,
+            vertical: t.spacing.sm,
+          );
+
+    final borderRadius =
+        BorderRadius.circular(compact ? t.spacing.sm : t.spacing.md);
+
+    final textStyle = (compact ? t.typography.caption : t.typography.bodySmall)
+        .copyWith(
+          color: colors.text,
+          fontWeight: FontWeight.bold,
+          letterSpacing: compact ? 0 : 0.5,
+        );
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: padding,
       decoration: BoxDecoration(
         color: colors.background,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: colors.border, width: 1.5),
+        borderRadius: borderRadius,
+        border: Border.all(
+          color: colors.border,
+          width: compact ? 1 : 1.5,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: colors.text),
-          const SizedBox(width: 8),
-          Text(
-            severity.toUpperCase(),
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: colors.text,
-              letterSpacing: 0.5,
-            ),
+          Icon(
+            icon,
+            size: compact ? 12 : 16,
+            color: colors.text,
           ),
+          SizedBox(width: compact ? t.spacing.xs : t.spacing.sm),
+          Text(severity.toUpperCase(), style: textStyle),
         ],
       ),
     );
   }
 
-  _SeverityColors _getSeverityColors(String severity) {
+  // THEME-DRIVEN severity colors
+  _SeverityColors _getSeverityColors(BuildContext context, String severity) {
+    final t = context.theme;
     switch (severity.toLowerCase()) {
       case 'critical':
         return _SeverityColors(
-          background: const Color(0xFFFFEBEE),
-          border: const Color(0xFFD32F2F),
-          text: const Color(0xFFB71C1C),
+          background: t.colors.error.withOpacity(0.12),
+          border: t.colors.error.withOpacity(0.6),
+          text: t.colors.error,
         );
       case 'high':
         return _SeverityColors(
-          background: const Color(0xFFFFF3E0),
-          border: const Color(0xFFF57C00),
-          text: const Color(0xFFE65100),
+          background: t.colors.warning.withOpacity(0.12),
+          border: t.colors.warning.withOpacity(0.6),
+          text: t.colors.warning,
         );
       case 'medium':
         return _SeverityColors(
-          background: const Color(0xFFFFFDE7),
-          border: const Color(0xFFFBC02D),
-          text: const Color(0xFFF57F17),
+          background: t.colors.info.withOpacity(0.12),
+          border: t.colors.info.withOpacity(0.6),
+          text: t.colors.info,
         );
       case 'low':
         return _SeverityColors(
-          background: const Color(0xFFE3F2FD),
-          border: const Color(0xFF1976D2),
-          text: const Color(0xFF0D47A1),
+          background: t.colors.success.withOpacity(0.12),
+          border: t.colors.success.withOpacity(0.6),
+          text: t.colors.success,
         );
       default:
         return _SeverityColors(
-          background: const Color(0xFFF5F5F5),
-          border: const Color(0xFF9E9E9E),
-          text: const Color(0xFF616161),
+          background: t.colors.surfaceVariant,
+          border: t.colors.border,
+          text: t.colors.textSecondary,
         );
     }
   }

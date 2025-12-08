@@ -1,6 +1,7 @@
+// MIGRATION COMPLETE — All theme-based.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import '../../constants/theme/app_theme_extension.dart';
 import 'severity_badge.dart';
 
 /// Error analytics dashboard widget for admin panel
@@ -31,6 +32,8 @@ class ErrorAnalyticsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+
     final totalErrors = errorAnalytics['total_errors'] ?? 0;
     final last24h = errorAnalytics['last_24h'] ?? 0;
     final platformBreakdown = _getBreakdown('platform_breakdown');
@@ -40,55 +43,72 @@ class ErrorAnalyticsSection extends StatelessWidget {
     final errorCodeBreakdown = _getBreakdown('error_code_breakdown');
     final recentLogs = _getBreakdown('recent_logs');
 
-    return Card(
-      elevation: 2,
+    return Container(
+      decoration: t.cardDecoration(),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(t.spacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /// Header
             Row(
               children: [
-                const Icon(Icons.error_outline, color: Colors.deepOrange),
-                const SizedBox(width: 8),
-                const Text(
+                Icon(Icons.error_outline, color: t.colors.error),
+                SizedBox(width: t.spacing.sm),
+                Text(
                   'Error Monitoring',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: t.typography.heading3.copyWith(
+                    color: t.colors.textPrimary,
+                  ),
                 ),
                 const Spacer(),
                 TextButton.icon(
                   onPressed: isClearingErrors ? null : onCleanLogs,
                   icon: const Icon(Icons.cleaning_services_outlined),
-                  label: const Text('Clean Logs'),
+                  label: Text(
+                    'Clean Logs',
+                    style: t.typography.button.copyWith(
+                      color: t.colors.textPrimary,
+                    ),
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+
+            SizedBox(height: t.spacing.md),
+
+            /// Top Stats Chips
             Wrap(
-              spacing: 12,
-              runSpacing: 12,
+              spacing: t.spacing.md,
+              runSpacing: t.spacing.md,
               children: [
                 _buildErrorStatChip(
+                  context,
                   label: 'Total Errors',
                   value: totalErrors.toString(),
                   icon: Icons.warning_amber_outlined,
-                  color: Colors.red.shade600,
+                  color: t.colors.error,
                 ),
                 _buildErrorStatChip(
+                  context,
                   label: 'Last 24h',
                   value: last24h.toString(),
                   icon: Icons.timer_outlined,
-                  color: Colors.orange.shade600,
+                  color: t.colors.warning,
                 ),
                 _buildErrorStatChip(
+                  context,
                   label: 'Tracked Screens',
                   value: screenBreakdown.length.toString(),
                   icon: Icons.devices_other,
-                  color: Colors.blueGrey.shade600,
+                  color: t.colors.info,
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+
+            SizedBox(height: t.spacing.lg),
+
+            /// Breakdown sections
             if (platformBreakdown.isNotEmpty)
               _buildBreakdownSection(
                 context: context,
@@ -130,16 +150,24 @@ class ErrorAnalyticsSection extends StatelessWidget {
                 labelKey: 'error_code',
                 countKey: 'count',
               ),
-            const SizedBox(height: 16),
+
+            SizedBox(height: t.spacing.lg),
+
+            /// Recent Logs
             Text(
               'Recent Events',
-              style: Theme.of(context).textTheme.titleMedium,
+              style: t.typography.heading4.copyWith(
+                color: t.colors.textPrimary,
+              ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: t.spacing.sm),
+
             if (recentLogs.isEmpty)
-              const Text(
+              Text(
                 'No recent error logs available.',
-                style: TextStyle(color: Colors.grey),
+                style: t.typography.bodySmall.copyWith(
+                  color: t.colors.textSecondary,
+                ),
               )
             else
               Column(
@@ -150,9 +178,11 @@ class ErrorAnalyticsSection extends StatelessWidget {
                       : createdRaw is DateTime
                           ? createdRaw
                           : null;
+
                   final timestamp = createdAt != null
                       ? DateFormat('MMM dd, HH:mm').format(createdAt)
                       : 'Unknown time';
+
                   final severity = log['severity'] as String? ?? 'medium';
                   final errorCode = log['error_code'] as String? ?? '';
 
@@ -163,42 +193,52 @@ class ErrorAnalyticsSection extends StatelessWidget {
                       children: [
                         if (errorCode.isNotEmpty) ...[
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 2),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: t.spacing.xs,
+                              vertical: t.spacing.xs,
+                            ),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(4),
+                              color: t.colors.surfaceVariant,
+                              borderRadius:
+                                  BorderRadius.circular(t.spacing.xs),
                             ),
                             child: Text(
                               errorCode,
-                              style: const TextStyle(
-                                fontSize: 10,
-                                fontFamily: 'monospace',
+                              style: t.typography.overline.copyWith(
                                 fontWeight: FontWeight.bold,
+                                color: t.colors.textPrimary,
                               ),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: t.spacing.sm),
                         ],
                         Expanded(
                           child: Text(
                             log['error_message'] ?? 'Unknown error',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
+                            style: t.typography.body.copyWith(
+                              color: t.colors.textPrimary,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     subtitle: Text(
                       '${log['platform'] ?? 'unknown'} • ${log['screen_name'] ?? 'Unknown screen'}\n$timestamp',
+                      style: t.typography.caption.copyWith(
+                        color: t.colors.textSecondary,
+                      ),
                     ),
                     trailing: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.devices),
+                        Icon(Icons.devices, color: t.colors.textSecondary),
                         Text(
                           log['device_model'] ?? 'unavailable',
-                          style: const TextStyle(fontSize: 10),
+                          style: t.typography.caption.copyWith(
+                            color: t.colors.textSecondary,
+                          ),
                         ),
                       ],
                     ),
@@ -212,32 +252,39 @@ class ErrorAnalyticsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildErrorStatChip({
+  Widget _buildErrorStatChip(
+    BuildContext context, {
     required String label,
     required String value,
     required IconData icon,
     required Color color,
   }) {
+    final t = context.theme;
+
     return Container(
       width: 160,
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(t.spacing.md),
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(t.spacing.md),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: color),
-          const SizedBox(height: 8),
+          SizedBox(height: t.spacing.sm),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+            style: t.typography.heading3.copyWith(
+              color: t.colors.textPrimary,
             ),
           ),
-          Text(label),
+          Text(
+            label,
+            style: t.typography.bodySmall.copyWith(
+              color: t.colors.textSecondary,
+            ),
+          ),
         ],
       ),
     );
@@ -251,17 +298,21 @@ class ErrorAnalyticsSection extends StatelessWidget {
     required String countKey,
     bool useSeverityBadge = false,
   }) {
+    final t = context.theme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.w600),
+          style: t.typography.bodyBold.copyWith(
+            color: t.colors.textPrimary,
+          ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: t.spacing.sm),
         ...data.take(5).map(
           (item) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            padding: EdgeInsets.symmetric(vertical: t.spacing.xs),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -274,17 +325,22 @@ class ErrorAnalyticsSection extends StatelessWidget {
                       : Text(
                           item[labelKey]?.toString() ?? 'Unknown',
                           overflow: TextOverflow.ellipsis,
+                          style: t.typography.body.copyWith(
+                            color: t.colors.textPrimary,
+                          ),
                         ),
                 ),
                 Text(
                   '${item[countKey] ?? 0} hits',
-                  style: const TextStyle(fontWeight: FontWeight.w500),
+                  style: t.typography.bodyBold.copyWith(
+                    color: t.colors.textSecondary,
+                  ),
                 ),
               ],
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: t.spacing.lg),
       ],
     );
   }

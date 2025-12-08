@@ -2,32 +2,32 @@
   "lib/screens/edit/edit_log_entry_page.dart": {
     "status": "updated",
     "theme": "AppTheme",
-    "notes": "Uses AppThemeConstants for theming",
+    "notes": "Uses AppThemeConstants for theming. Migration comment added.",
     "widgets": [
       {
         "path": "lib/widgets/edit_log_entry/edit_app_bar.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Uses AppColorsDark/AppColorsLight"
+        "notes": "Uses AppColorsDark/AppColorsLight. Migration comment added."
       },
       {
         "path": "lib/widgets/edit_log_entry/loading_overlay.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Uses AppColorsDark/AppColorsLight directly. Migration comment added."
       },
       {
         "path": "lib/widgets/edit_log_entry/edit_form_content.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Uses AppThemeConstants for spacing"
+        "notes": "Uses AppThemeConstants for spacing. Migration comment added."
       }
     ]
   },
   "lib/screens/log_entry_page.dart": {
     "status": "updated",
     "theme": "AppTheme",
-    "notes": "Uses AppThemeConstants for theming",
+    "notes": "Uses AppThemeConstants for theming. Migration comment added.",
     "widgets": [
       {
         "path": "lib/widgets/log_entry_cards/substance_header_card.dart",
@@ -598,31 +598,31 @@
   "lib/screens/profile_screen.dart": {
     "status": "updated",
     "theme": "AppTheme",
-    "notes": "Uses AppColorsDark/AppColorsLight directly",
+    "notes": "Uses AppColorsDark/AppColorsLight directly. Migration comment added.",
     "widgets": [
       {
         "path": "lib/widgets/profile/profile_header.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Uses AppColorsDark/AppColorsLight directly"
+        "notes": "Uses AppColorsDark/AppColorsLight directly. Migration comment added."
       },
       {
         "path": "lib/widgets/profile/statistics_card.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Uses AppColorsDark/AppColorsLight directly"
+        "notes": "Uses AppColorsDark/AppColorsLight directly. Migration comment added."
       },
       {
         "path": "lib/widgets/profile/account_info_card.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Uses AppColorsDark/AppColorsLight directly"
+        "notes": "Uses AppColorsDark/AppColorsLight directly. Migration comment added."
       },
       {
         "path": "lib/widgets/profile/logout_button.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Uses AppColorsDark/AppColorsLight directly"
+        "notes": "Uses AppColorsDark/AppColorsLight directly. Migration comment added."
       }
     ]
   },

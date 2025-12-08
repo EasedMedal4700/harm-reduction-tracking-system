@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class AnalyticsSummary extends StatelessWidget {
   final int totalEntries;
@@ -24,24 +25,52 @@ class AnalyticsSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Analytics Summary ($selectedPeriodText)',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    final t = context.theme;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.spacing.md),
+        border: Border.all(color: t.colors.border),
+        boxShadow: t.cardShadow,
+      ),
+      padding: EdgeInsets.all(t.spacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Analytics Summary ($selectedPeriodText)',
+            style: t.typography.heading3.copyWith(
+              color: t.colors.textPrimary,
             ),
-            const SizedBox(height: 8),
-            Text('Total Entries: $totalEntries'),
-            Text('Average per Week: ${avgPerWeek.toStringAsFixed(1)}'),
-            Text('Most Used Substance: $mostUsedSubstance ($mostUsedSubstanceCount)'),
-            Text('Main Category: $mostUsedCategory ($topCategoryPercent%)'),
-          ],
-        ),
+          ),
+          SizedBox(height: t.spacing.md),
+
+          Text(
+            'Total Entries: $totalEntries',
+            style: t.typography.body.copyWith(
+              color: t.colors.textSecondary,
+            ),
+          ),
+          Text(
+            'Average per Week: ${avgPerWeek.toStringAsFixed(1)}',
+            style: t.typography.body.copyWith(
+              color: t.colors.textSecondary,
+            ),
+          ),
+          Text(
+            'Most Used Substance: $mostUsedSubstance ($mostUsedSubstanceCount)',
+            style: t.typography.body.copyWith(
+              color: t.colors.textSecondary,
+            ),
+          ),
+          Text(
+            'Main Category: $mostUsedCategory ($topCategoryPercent%)',
+            style: t.typography.body.copyWith(
+              color: t.colors.textSecondary,
+            ),
+          ),
+        ],
       ),
     );
   }

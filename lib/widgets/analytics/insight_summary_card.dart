@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class InsightSummaryCard extends StatelessWidget {
   final int totalEntries;
@@ -18,64 +17,51 @@ class InsightSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? UIColors.darkNeonEmerald : UIColors.lightAccentGreen;
+    final t = context.theme;
 
     return Container(
-      padding: EdgeInsets.all(ThemeConstants.cardPaddingLarge),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: accentColor,
-              radius: ThemeConstants.cardRadius,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              border: Border.all(
-                color: UIColors.lightBorder,
-                width: ThemeConstants.borderThin,
-              ),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      padding: EdgeInsets.all(t.spacing.xl),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.spacing.md),
+        border: Border.all(color: t.colors.border),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header with icon
+          /// Header
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(ThemeConstants.space8),
+                padding: EdgeInsets.all(t.spacing.sm),
                 decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: isDark ? 0.2 : 0.1),
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                  color: t.accent.primary.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(t.spacing.sm),
                 ),
                 child: Icon(
                   Icons.lightbulb_outline_rounded,
-                  color: accentColor,
-                  size: ThemeConstants.iconMedium,
+                  color: t.accent.primary,
+                  size: 22,
                 ),
               ),
-              SizedBox(width: ThemeConstants.space12),
+              SizedBox(width: t.spacing.md),
               Text(
                 'Insight Summary',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontLarge,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                style: t.typography.heading3.copyWith(
+                  color: t.colors.textPrimary,
                 ),
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space16),
-          // Insight paragraph
+
+          SizedBox(height: t.spacing.lg),
+
+          /// Insight text
           Text(
             _generateInsightText(),
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              fontWeight: ThemeConstants.fontRegular,
-              color: isDark
-                  ? UIColors.darkText.withValues(alpha: 0.7)
-                  : UIColors.lightText.withValues(alpha: 0.7),
+            style: t.typography.body.copyWith(
+              color: t.colors.textSecondary,
               height: 1.6,
             ),
           ),
@@ -90,12 +76,13 @@ class InsightSummaryCard extends StatelessWidget {
     }
 
     final avgPerWeekText = weeklyAverage.toStringAsFixed(1);
-    final categoryText = mostUsedCategory.isNotEmpty ? mostUsedCategory : 'various categories';
+    final categoryText =
+        mostUsedCategory.isNotEmpty ? mostUsedCategory : 'various categories';
 
     if (totalEntries == 1) {
       return 'You have logged 1 entry in $selectedPeriodText. Continue tracking to build a comprehensive history and identify patterns in your usage.';
     }
 
-    return 'During $selectedPeriodText, you logged $totalEntries entries with an average of $avgPerWeekText uses per week. Your most frequently used category is $categoryText. This data helps identify patterns and can support informed decisions about your substance use habits.';
+    return 'During $selectedPeriodText, you logged $totalEntries entries with an average of $avgPerWeekText uses per week. Your most frequently used category is $categoryText. This helps identify patterns and supports informed decisions about your substance use habits.';
   }
 }

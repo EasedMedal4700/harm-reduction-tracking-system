@@ -1,4 +1,6 @@
+// MIGRATION — Replaced all isDark checks & hardcoded colors with theme system.
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import 'cache_stat_widget.dart';
 import 'cache_action_button.dart';
 
@@ -21,53 +23,41 @@ class CacheManagementSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
+
     final totalEntries = cacheStats['total_entries'] ?? 0;
     final activeEntries = cacheStats['active_entries'] ?? 0;
     final expiredEntries = cacheStats['expired_entries'] ?? 0;
 
-    return Card(
-      elevation: isDark ? 0 : 2,
-      color: isDark ? const Color(0xFF1E1E2E) : Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: isDark
-            ? const BorderSide(color: Color(0xFF2A2A3E), width: 1)
-            : BorderSide.none,
-      ),
+    return Container(
+      decoration: t.cardDecoration(),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(t.spacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /// Header
             Row(
               children: [
-                Icon(
-                  Icons.storage_rounded,
-                  color: isDark ? Colors.blue.shade300 : Colors.blue.shade700,
-                  size: 24,
-                ),
-                const SizedBox(width: 12),
+                Icon(Icons.storage_rounded, color: t.colors.info, size: 24),
+                SizedBox(width: t.spacing.md),
                 Text(
                   'Cache Management',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black87,
+                  style: t.typography.heading3.copyWith(
+                    color: t.colors.textPrimary,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
 
-            // Cache Stats
+            SizedBox(height: t.spacing.lg),
+
+            /// Cache Stats
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(t.spacing.md),
               decoration: BoxDecoration(
-                color: isDark
-                    ? const Color(0xFF252538)
-                    : Colors.grey.shade50,
-                borderRadius: BorderRadius.circular(8),
+                color: t.colors.surfaceVariant,
+                borderRadius: BorderRadius.circular(t.spacing.sm),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -76,44 +66,45 @@ class CacheManagementSection extends StatelessWidget {
                     label: 'Total',
                     value: totalEntries.toString(),
                     icon: Icons.data_usage,
-                    color: isDark ? Colors.blue.shade300 : Colors.blue,
+                    color: t.colors.info,
                   ),
                   Container(
                     width: 1,
                     height: 40,
-                    color: isDark ? Colors.white12 : Colors.grey.shade300,
+                    color: t.colors.divider,
                   ),
                   CacheStatWidget(
                     label: 'Active',
                     value: activeEntries.toString(),
                     icon: Icons.check_circle,
-                    color: isDark ? Colors.green.shade300 : Colors.green,
+                    color: t.colors.success,
                   ),
                   Container(
                     width: 1,
                     height: 40,
-                    color: isDark ? Colors.white12 : Colors.grey.shade300,
+                    color: t.colors.divider,
                   ),
                   CacheStatWidget(
                     label: 'Expired',
                     value: expiredEntries.toString(),
                     icon: Icons.warning_amber_rounded,
-                    color: isDark ? Colors.orange.shade300 : Colors.orange,
+                    color: t.colors.warning,
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
 
-            // Cache Actions
+            SizedBox(height: t.spacing.lg),
+
+            /// Cache Actions
             Wrap(
-              spacing: 12,
-              runSpacing: 12,
+              spacing: t.spacing.md,
+              runSpacing: t.spacing.md,
               children: [
                 CacheActionButton(
                   label: 'Clear All Cache',
                   icon: Icons.delete_sweep,
-                  color: Colors.red,
+                  color: t.colors.error,
                   onPressed: () => _showClearCacheDialog(
                     context,
                     'Clear All Cache',
@@ -124,7 +115,7 @@ class CacheManagementSection extends StatelessWidget {
                 CacheActionButton(
                   label: 'Clear Drug Profiles',
                   icon: Icons.medication_outlined,
-                  color: Colors.orange,
+                  color: t.colors.warning,
                   onPressed: () => _showClearCacheDialog(
                     context,
                     'Clear Drug Profiles',
@@ -135,13 +126,13 @@ class CacheManagementSection extends StatelessWidget {
                 CacheActionButton(
                   label: 'Clear Expired',
                   icon: Icons.cleaning_services,
-                  color: Colors.blue,
+                  color: t.colors.info,
                   onPressed: onClearExpired,
                 ),
                 CacheActionButton(
                   label: 'Refresh from DB',
                   icon: Icons.refresh,
-                  color: Colors.green,
+                  color: t.colors.success,
                   onPressed: onRefreshFromDatabase,
                 ),
               ],
@@ -158,15 +149,31 @@ class CacheManagementSection extends StatelessWidget {
     String message,
     VoidCallback onConfirm,
   ) {
+    final t = context.theme;
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
+        backgroundColor: t.colors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(t.spacing.md),
+          side: BorderSide(color: t.colors.border),
+        ),
+        title: Text(
+          title,
+          style: t.typography.heading4.copyWith(color: t.colors.textPrimary),
+        ),
+        content: Text(
+          message,
+          style: t.typography.body.copyWith(color: t.colors.textSecondary),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: t.typography.button.copyWith(color: t.colors.textSecondary),
+            ),
           ),
           ElevatedButton(
             onPressed: () {
@@ -174,10 +181,20 @@ class CacheManagementSection extends StatelessWidget {
               onConfirm();
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
+              backgroundColor: t.colors.error,
+              foregroundColor: t.colors.textInverse,
+              padding: EdgeInsets.symmetric(
+                horizontal: t.spacing.lg,
+                vertical: t.spacing.sm,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(t.spacing.sm),
+              ),
             ),
-            child: const Text('Clear'),
+            child: Text(
+              'Clear',
+              style: t.typography.button.copyWith(color: t.colors.textInverse),
+            ),
           ),
         ],
       ),

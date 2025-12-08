@@ -1,51 +1,52 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class ActivityEmptyState extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
-  final bool isDark;
 
   const ActivityEmptyState({
     super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
-    required this.isDark,
   });
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final colors = t.colors;
+    final spacing = t.spacing;
+
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: EdgeInsets.all(spacing.xl2),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               icon,
               size: 80,
-              color: isDark 
-                  ? UIColors.darkTextSecondary.withOpacity(0.5)
-                  : UIColors.lightTextSecondary.withOpacity(0.5),
+              color: colors.textSecondary.withOpacity(0.5),
             ),
-            const SizedBox(height: 24),
+
+            SizedBox(height: spacing.xl),
+
             Text(
               title,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
+              style: t.typography.heading3.copyWith(
+                color: colors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+
+            SizedBox(height: spacing.sm),
+
             Text(
               subtitle,
-              style: TextStyle(
-                fontSize: 14,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              style: t.typography.bodySmall.copyWith(
+                color: colors.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
