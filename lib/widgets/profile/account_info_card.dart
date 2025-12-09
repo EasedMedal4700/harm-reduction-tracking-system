@@ -1,4 +1,8 @@
-// MIGRATION: Fully migrated to AppTheme system. No deprecated constants remain.
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Fully migrated to AppTheme system. No deprecated constants remain.
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

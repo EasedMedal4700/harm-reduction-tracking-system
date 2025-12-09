@@ -1,3 +1,9 @@
+
+// MIGRATION
+// Theme: TODO
+// Common: TODO
+// Riverpod: TODO
+// Notes: Review for theme/context migration if needed.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/daily_checkin_provider.dart';

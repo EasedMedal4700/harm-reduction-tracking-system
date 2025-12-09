@@ -1,8 +1,13 @@
+
+// MIGRATION
+// Theme: TODO
+// Common: TODO
+// Riverpod: TODO
+// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
 import '../../constants/deprecated/theme_constants.dart';
 import '../../constants/deprecated/ui_colors.dart';
 import '../../constants/data/body_and_mind_catalog.dart';
-
 import '../../common/cards/common_card.dart';
 import '../../common/text/common_section_header.dart';
 import '../../common/inputs/dropdown.dart';

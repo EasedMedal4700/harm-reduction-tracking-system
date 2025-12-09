@@ -1,3 +1,8 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Fully migrated to AppTheme/context extensions. No Riverpod.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 

@@ -1,3 +1,8 @@
+// MIGRATION
+// Theme: PARTIAL
+// Common: TODO
+// Riverpod: TODO
+// Notes: Uses context.theme and legacy patterns; needs review for full migration to AppTheme/context extensions.
 import 'package:flutter/material.dart';
 import '../../utils/tolerance_calculator.dart';
 import '../tolerance/bucket_detail_section.dart';

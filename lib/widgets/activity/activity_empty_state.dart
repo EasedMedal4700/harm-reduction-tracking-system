@@ -1,4 +1,9 @@
-// MIGRATION — Final theme-compliant version
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';

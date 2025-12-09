@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-/// Widget for entering optional notes during check-in
 class NotesInput extends StatelessWidget {
   final TextEditingController controller;
   final Function(String) onChanged;
@@ -37,3 +35,9 @@ class NotesInput extends StatelessWidget {
     );
   }
 }
+
+// MIGRATION
+// Theme: TODO
+// Common: TODO
+// Riverpod: TODO
+// Notes: Review for theme/context migration if needed.

@@ -1,4 +1,9 @@
-// MIGRATION — Modernized summary card using CommonCard & unified typography
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Modernized summary card using CommonCard & unified typography. No Riverpod.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 

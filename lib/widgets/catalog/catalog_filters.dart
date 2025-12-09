@@ -1,3 +1,8 @@
+// MIGRATION
+// Theme: TODO
+// Common: TODO
+// Riverpod: TODO
+// Notes: Initial migration header added. Not migrated yet.
 import 'package:flutter/material.dart';
 import '../../constants/data/drug_categories.dart';
 

@@ -1,4 +1,9 @@
-// MIGRATION — Updated to CommonCard + new theme system
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Updated to CommonCard and new theme system. No Riverpod.
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';

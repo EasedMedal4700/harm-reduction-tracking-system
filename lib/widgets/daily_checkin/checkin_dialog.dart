@@ -1,11 +1,15 @@
+
+// MIGRATION
+// Theme: PARTIAL
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Uses some new theme/common, but not fully migrated.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../providers/daily_checkin_provider.dart';
 import '../../common/inputs/mood_selector.dart';
 import '../../common/inputs/emotion_selector.dart';
 import '../../common/inputs/input_field.dart';
-
 import '../../constants/theme/app_radius.dart';
 import '../../constants/theme/app_theme_extension.dart';
 

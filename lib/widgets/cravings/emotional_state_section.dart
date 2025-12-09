@@ -1,3 +1,9 @@
+
+// MIGRATION
+// Theme: TODO
+// Common: TODO
+// Riverpod: TODO
+// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
 import '../../common/old_common/feeling_selection.dart';
 import '../../common/old_common/modern_form_card.dart';

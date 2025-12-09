@@ -1,4 +1,8 @@
 // MIGRATION
+// Theme: PARTIAL
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
 import 'level_card.dart';

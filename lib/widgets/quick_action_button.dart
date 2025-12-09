@@ -1,3 +1,10 @@
+
+// MIGRATION
+// Theme: PARTIAL
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Initial migration header added. No theme extension or common component usage yet.
+
 import 'package:flutter/material.dart';
 
 class QuickActionButton extends StatelessWidget {

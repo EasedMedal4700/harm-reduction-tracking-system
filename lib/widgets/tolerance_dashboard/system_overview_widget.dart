@@ -1,3 +1,8 @@
+// MIGRATION
+// Theme: PARTIAL
+// Common: TODO
+// Riverpod: TODO
+// Notes: Uses context.theme and AppTheme, but some legacy patterns may remain; review for full migration.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../models/bucket_definitions.dart';

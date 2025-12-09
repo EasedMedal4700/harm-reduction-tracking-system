@@ -1,3 +1,9 @@
+
+// MIGRATION
+// Theme: TODO
+// Common: TODO
+// Riverpod: TODO
+// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants/config/feature_flags.dart';

@@ -1,3 +1,9 @@
+
+// MIGRATION
+// Theme: TODO
+// Common: TODO
+// Riverpod: TODO
+// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
 import '../../models/drug_catalog_entry.dart';
 import '../../constants/deprecated/ui_colors.dart';
