@@ -21,6 +21,18 @@
         "status": "updated",
         "theme": "AppTheme",
         "notes": "Uses AppThemeConstants for spacing. Migration comment added."
+      },
+      {
+        "path": "lib/widgets/edit_log_entry/save_button.dart",
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Uses AppTheme system. Migration comment added."
+      },
+      {
+        "path": "lib/common/layout/common_bottom_bar.dart",
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Uses AppTheme system. Migration comment added."
       }
     ]
   },
@@ -94,6 +106,12 @@
         "status": "needs_migration",
         "theme": "deprecated",
         "notes": "Check for deprecated constants"
+      },
+      {
+        "path": "lib/common/layout/common_bottom_bar.dart",
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Uses AppTheme system. Migration comment added."
       }
     ]
   },
@@ -113,6 +131,24 @@
         "status": "needs_migration",
         "theme": "deprecated",
         "notes": "Uses UIColors constants"
+      },
+      {
+        "path": "lib/widgets/tolerance/system_bucket_card.dart",
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Uses AppTheme system. Migration comment added."
+      },
+      {
+        "path": "lib/widgets/tolerance/system_tolerance_breakdown_sheet.dart",
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Uses AppTheme system. Migration comment added."
+      },
+      {
+        "path": "lib/widgets/tolerance/tolerance_disclaimer.dart",
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Uses AppTheme system. Migration comment added."
       }
     ]
   },
@@ -221,6 +257,12 @@
     "widgets": [
       {
         "path": "lib/widgets/analytics/analytics_app_bar.dart",
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Uses AppTheme system. Migration comment added."
+      },
+      {
+        "path": "lib/widgets/analytics/use_distribution_card.dart",
         "status": "updated",
         "theme": "AppTheme",
         "notes": "Uses AppTheme system. Migration comment added."
@@ -853,5 +895,77 @@
         "notes": "Check for deprecated constants"
       }
     ]
+  },
+  "lib/common/inputs/switch_tile.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
+  },
+  "lib/common/layout/common_bottom_bar.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
+  },
+  "lib/widgets/home/greeting_banner.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
+  },
+  "lib/widgets/home/progress_overview_card.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
+  },
+  "lib/widgets/home/quick_actions_grid.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
+  },
+  "lib/widgets/home/theme_example_widget.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
+  },
+  "lib/widgets/log_entry/complex_fields.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
+  },
+  "lib/widgets/log_entry/date_selector.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
+  },
+  "lib/widgets/log_entry/dosage_input.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
+  },
+  "lib/widgets/log_entry/route_selection.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
+  },
+  "lib/widgets/log_entry/simple_fields.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
+  },
+  "lib/widgets/log_entry/time_selector.dart": {
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Uses AppTheme system. Migration comment added.",
+    "widgets": []
   }
 }

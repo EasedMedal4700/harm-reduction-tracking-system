@@ -1,3 +1,4 @@
+// MIGRATION
 import 'package:flutter/material.dart';
 import '../../common/old_common/craving_slider.dart';
 import '../../constants/data/body_and_mind_catalog.dart';

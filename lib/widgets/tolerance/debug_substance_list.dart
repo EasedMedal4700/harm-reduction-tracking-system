@@ -1,4 +1,4 @@
-//MIGRTAED FILE
+// MIGRATION
 
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
