@@ -1,3 +1,10 @@
+
+// MIGRATION
+// Theme: PARTIAL
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Initial migration header added. Uses some theme extensions, but not fully migrated or Riverpod integrated.
+
 import 'package:flutter/material.dart';
 
 import '../models/tolerance_model.dart';

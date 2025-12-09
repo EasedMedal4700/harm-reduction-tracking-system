@@ -1,4 +1,9 @@
-// MIGRATION COMPLETE — Fully theme-based.
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import 'cache_stat_widget.dart';

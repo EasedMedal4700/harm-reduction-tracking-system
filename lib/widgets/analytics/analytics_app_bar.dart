@@ -1,4 +1,9 @@
-// MIGRATION — Replaces all legacy colors & spacing with AppTheme system.
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../constants/emus/time_period.dart';

@@ -1,4 +1,8 @@
 // MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Fully migrated to AppTheme system. No deprecated constants remain.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 

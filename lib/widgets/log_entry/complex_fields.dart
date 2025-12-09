@@ -1,4 +1,8 @@
 // MIGRATION
+// Theme: PARTIAL
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Initial migration header added. Some theme/common usage, not fully migrated.
 import 'package:flutter/material.dart';
 import '../../common/old_common/craving_slider.dart';
 import '../../constants/data/body_and_mind_catalog.dart';

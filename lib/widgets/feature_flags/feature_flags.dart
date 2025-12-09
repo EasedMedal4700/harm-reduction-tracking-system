@@ -1,3 +1,10 @@
+
+// MIGRATION
+// Theme: TODO
+// Common: TODO
+// Riverpod: TODO
+// Notes: Review for theme/context migration if needed.
+
 // Feature flag widgets for controlling access to app features.
 //
 // Usage:

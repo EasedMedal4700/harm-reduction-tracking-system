@@ -1,4 +1,9 @@
-// MIGRATION: Migrated to AppTheme. Removed deprecated Material colors.
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to AppTheme. Removed deprecated Material colors.
 
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';

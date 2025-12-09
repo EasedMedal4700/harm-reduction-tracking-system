@@ -1,4 +1,8 @@
 // MIGRATION
+// Theme: PARTIAL
+// Common: PARTIAL
+// Riverpod: COMPLETE
+// Notes: Initial migration header added. Some theme/common usage, Riverpod ready.
 import 'package:flutter/material.dart';
 import '../../models/log_entry_form_data.dart';
 import '../../widgets/log_entry_cards/substance_header_card.dart';

@@ -1,3 +1,9 @@
+
+// MIGRATION
+// Theme: PARTIAL
+// Common: TODO
+// Riverpod: TODO
+// Notes: Uses new mood constants, but not fully migrated to AppTheme/context extensions.
 import 'package:flutter/material.dart';
 import '../../constants/emus/app_mood.dart';  // Import the new constants file
 

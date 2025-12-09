@@ -1,4 +1,9 @@
-//MIGRTAED FILE
+
+// MIGRATION
+// Theme: PARTIAL
+// Common: TODO
+// Riverpod: TODO
+// Notes: Uses context.theme and context.colors, but may have legacy patterns; review for full migration.
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

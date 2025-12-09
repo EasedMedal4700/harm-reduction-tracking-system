@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+// MIGRATION
+// Theme: TODO
+// Common: TODO
+// Riverpod: TODO
+// Notes: Review for theme/context migration if needed.
+
 class SubstanceList extends StatelessWidget {
   final List<Map<String, dynamic>> substances;
   final Function(String) onSubstanceSelected;
@@ -38,6 +44,8 @@ class SubstanceList extends StatelessWidget {
                     return Chip(
                       label: Text(category.toString()),
                       labelStyle: const TextStyle(fontSize: 12.0),
+
+
                     );
                   }).toList(),
                 ),

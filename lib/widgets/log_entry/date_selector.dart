@@ -1,5 +1,8 @@
 // MIGRATION
-// filepath: lib/widgets/log_entry/date_selector.dart
+// Theme: PARTIAL
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Initial migration header added. Some theme/common usage, not fully migrated.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../constants/theme/app_theme_constants.dart';

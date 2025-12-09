@@ -1,4 +1,9 @@
-// MIGRATION — Converted to CommonCard layout + cleaned architecture
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Converted to CommonCard layout + cleaned architecture. No Riverpod.
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
