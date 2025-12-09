@@ -14,6 +14,7 @@ extension AppThemeX on BuildContext {
   Spacing get spacing => theme.spacing;
   AccentColors get accent => theme.accent;
   AppShapes get shapes => theme.shapes;
+  
 
   /// Shadows (light/dark auto-handled by AppTheme)
   List<BoxShadow> get cardShadow => theme.cardShadow;

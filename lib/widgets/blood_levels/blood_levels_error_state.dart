@@ -1,8 +1,9 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: N/A
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Fully migrated to new theme system. Uses spacing, colors, typography.
+
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
@@ -19,27 +20,53 @@ class BloodLevelsErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-    
+
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.error_outline, size: 64, color: c.error),
-          SizedBox(height: sp.lg),
-          Text(error, style: text.body),
-          SizedBox(height: sp.lg),
-          ElevatedButton(
-            onPressed: onRetry,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: c.error,
-              foregroundColor: c.textInverse,
+      child: Padding(
+        padding: EdgeInsets.all(sp.lg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: c.error,
             ),
-            child: const Text('Retry'),
-          ),
-        ],
+
+            SizedBox(height: sp.lg),
+
+            Text(
+              error,
+              style: t.typography.body.copyWith(color: c.textPrimary),
+              textAlign: TextAlign.center,
+            ),
+
+            SizedBox(height: sp.lg),
+
+            ElevatedButton(
+              onPressed: onRetry,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: c.error,
+                foregroundColor: c.textInverse,
+                padding: EdgeInsets.symmetric(
+                  horizontal: sp.lg,
+                  vertical: sp.md,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+                ),
+                shadowColor: c.overlayHeavy,
+              ),
+              child: Text(
+                'Retry',
+                style: t.typography.button.copyWith(color: c.textInverse),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

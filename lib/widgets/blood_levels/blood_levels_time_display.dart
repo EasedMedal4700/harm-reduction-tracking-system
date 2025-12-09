@@ -1,9 +1,11 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: N/A
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Fully migrated to theme system. Removed hardcoded text styles.
+
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Displays the time context in the app bar
 class BloodLevelsTimeDisplay extends StatelessWidget {
@@ -16,24 +18,36 @@ class BloodLevelsTimeDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isNow = selectedTime.difference(DateTime.now()).abs().inMinutes < 5;
-    
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+
+    final now = DateTime.now();
+    final diff = selectedTime.difference(now);
+    final isNow = diff.abs().inMinutes < 5;
+
     if (isNow) {
-      return const Text('Blood Levels');
+      return Text(
+        'Blood Levels',
+        style: t.typography.heading4.copyWith(color: c.textPrimary),
+      );
     }
-    
-    final diff = selectedTime.difference(DateTime.now());
-    final hoursAgo = (diff.inMinutes / 60.0).abs().round();
-    final label = diff.isNegative ? '$hoursAgo hours ago' : '$hoursAgo hours future';
-    
+
+    final hours = (diff.inMinutes / 60.0).abs().round();
+    final label = diff.isNegative ? '$hours hours ago' : '$hours hours future';
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Blood Levels', style: TextStyle(fontSize: 16)),
+        Text(
+          'Blood Levels',
+          style: t.typography.heading4.copyWith(color: c.textPrimary),
+        ),
+        SizedBox(height: sp.xs),
         Text(
           label,
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+          style: t.typography.caption.copyWith(color: c.textSecondary),
         ),
       ],
     );

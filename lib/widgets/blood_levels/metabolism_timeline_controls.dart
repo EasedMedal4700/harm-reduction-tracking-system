@@ -1,11 +1,12 @@
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
+// Notes: Fully migrated to new AppTheme system. All deprecated UIColors/ThemeConstants removed.
+// Uses context.theme, context.colors, context.text, context.spacing, context.shapes.
+
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Controls for adjusting metabolism timeline view parameters
 class MetabolismTimelineControls extends StatelessWidget {
@@ -16,8 +17,9 @@ class MetabolismTimelineControls extends StatelessWidget {
   final Function(int) onHoursForwardChanged;
   final Function(bool) onAdaptiveScaleChanged;
   final Function(int, int)? onPresetSelected;
-  
+
   const MetabolismTimelineControls({
+    super.key,
     required this.hoursBack,
     required this.hoursForward,
     required this.adaptiveScale,
@@ -25,170 +27,128 @@ class MetabolismTimelineControls extends StatelessWidget {
     required this.onHoursForwardChanged,
     required this.onAdaptiveScaleChanged,
     this.onPresetSelected,
-    super.key,
   });
-  
+
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? UIColors.darkNeonTeal : UIColors.lightAccentRed;
-    
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+
     return Container(
-      padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: accentColor,
-              radius: ThemeConstants.cardRadius,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              border: Border.all(
-                color: UIColors.lightBorder,
-                width: ThemeConstants.borderThin,
-              ),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      padding: EdgeInsets.all(sp.lg),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusLg),
+        border: Border.all(color: c.border),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header row
           Row(
             children: [
-              Icon(
-                Icons.tune,
-                size: 18,
-                color: accentColor,
-              ),
-              SizedBox(width: ThemeConstants.space8),
+              Icon(Icons.tune, size: 18, color: t.accent.primary),
+              SizedBox(height: sp.sm, width: sp.sm),
               Text(
                 'Timeline Controls',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  fontWeight: ThemeConstants.fontBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
+                style: text.heading4.copyWith(color: c.textPrimary),
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space16),
-          
-          // Hours back and forward inputs
+
+          SizedBox(height: sp.lg),
+
+          // Hours back / forward
           Row(
             children: [
               Expanded(
                 child: _buildTimeInput(
+                  context,
                   label: 'Hours Back',
                   value: hoursBack,
-                  onChanged: (val) => onHoursBackChanged(val ?? hoursBack),
-                  isDark: isDark,
+                  onChanged: onHoursBackChanged,
                 ),
               ),
-              SizedBox(width: ThemeConstants.space16),
+              SizedBox(width: sp.lg),
               Expanded(
                 child: _buildTimeInput(
+                  context,
                   label: 'Hours Forward',
                   value: hoursForward,
-                  onChanged: (val) => onHoursForwardChanged(val ?? hoursForward),
-                  isDark: isDark,
+                  onChanged: onHoursForwardChanged,
                 ),
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space16),
-          
-          // Scale toggle
-          Row(
-            children: [
-              Icon(
-                Icons.vertical_align_top,
-                size: 16,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-              ),
-              SizedBox(width: ThemeConstants.space8),
-              Text(
-                'Y-Axis Scale:',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontXSmall,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
-              ),
-              const Spacer(),
-              _buildScaleButton('Fixed 100%', !adaptiveScale, () => onAdaptiveScaleChanged(false), isDark, accentColor),
-              SizedBox(width: ThemeConstants.space8),
-              _buildScaleButton('Adaptive', adaptiveScale, () => onAdaptiveScaleChanged(true), isDark, accentColor),
-            ],
-          ),
-          SizedBox(height: ThemeConstants.space12),
-          
-          // Preset buttons
+
+          SizedBox(height: sp.lg),
+
+          _buildScaleSelector(context),
+
+          SizedBox(height: sp.lg),
+
           Text(
             'Quick Presets:',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
+            style: text.bodyBold.copyWith(color: c.textPrimary),
           ),
-          SizedBox(height: ThemeConstants.space8),
+          SizedBox(height: sp.sm),
+
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: sp.sm,
+            runSpacing: sp.sm,
             children: [
-              _buildPresetButton('24h', 12, 12, context, isDark, accentColor),
-              _buildPresetButton('48h', 24, 24, context, isDark, accentColor),
-              _buildPresetButton('72h', 24, 48, context, isDark, accentColor),
-              _buildPresetButton('1 Week', 72, 96, context, isDark, accentColor),
+              _buildPresetButton(context, '24h', 12, 12),
+              _buildPresetButton(context, '48h', 24, 24),
+              _buildPresetButton(context, '72h', 24, 48),
+              _buildPresetButton(context, '1 Week', 72, 96),
             ],
           ),
         ],
       ),
     );
   }
-  
-  Widget _buildTimeInput({
+
+  // -------------------------
+  // TIME INPUT FIELD
+  // -------------------------
+  Widget _buildTimeInput(
+    BuildContext context, {
     required String label,
     required int value,
-    required Function(int?) onChanged,
-    required bool isDark,
+    required Function(int) onChanged,
   }) {
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontSmall,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
-          ),
-        ),
-        SizedBox(height: ThemeConstants.space4),
+        Text(label, style: text.bodySmall.copyWith(color: c.textSecondary)),
+        SizedBox(height: sp.xs),
         TextFormField(
           initialValue: value.toString(),
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
-              horizontal: ThemeConstants.space12,
-              vertical: ThemeConstants.space8,
+              horizontal: sp.md,
+              vertical: sp.sm,
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-              borderSide: BorderSide(
-                color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-              ),
-            ),
-            suffixText: 'h',
-            suffixStyle: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              borderRadius: BorderRadius.circular(sh.radiusSm),
+              borderSide: BorderSide(color: c.border),
             ),
             filled: true,
-            fillColor: isDark 
-                ? UIColors.darkSurface.withValues(alpha: 0.5)
-                : UIColors.lightSurface,
+            fillColor: c.surfaceVariant,
+            suffixText: 'h',
+            suffixStyle: text.caption.copyWith(color: c.textSecondary),
           ),
-          style: TextStyle(
-            fontSize: ThemeConstants.fontXSmall,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
-          ),
+          style: text.body,
           onFieldSubmitted: (val) {
             final parsed = int.tryParse(val);
             if (parsed != null && parsed > 0 && parsed <= 168) {
@@ -199,77 +159,113 @@ class MetabolismTimelineControls extends StatelessWidget {
       ],
     );
   }
-  
-  Widget _buildScaleButton(String label, bool selected, VoidCallback onTap, bool isDark, Color accentColor) {
+
+  // -------------------------
+  // SCALE TOGGLE ROW
+  // -------------------------
+  Widget _buildScaleSelector(BuildContext context) {
+    final text = context.text;
+    final sp = context.spacing;
+    final c = context.colors;
+
+    return Row(
+      children: [
+        Icon(Icons.vertical_align_top, size: 16, color: c.textSecondary),
+        SizedBox(width: sp.sm),
+        Text(
+          'Y-Axis Scale:',
+          style: text.caption.copyWith(color: c.textSecondary),
+        ),
+        const Spacer(),
+        _buildScaleButton(context, 'Fixed 100%', !adaptiveScale, () {
+          onAdaptiveScaleChanged(false);
+        }),
+        SizedBox(width: sp.sm),
+        _buildScaleButton(context, 'Adaptive', adaptiveScale, () {
+          onAdaptiveScaleChanged(true);
+        }),
+      ],
+    );
+  }
+
+  Widget _buildScaleButton(
+    BuildContext context,
+    String label,
+    bool selected,
+    VoidCallback onTap,
+  ) {
+    final t = context.theme;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final c = context.colors;
+    final text = context.text;
+
     return InkWell(
+      borderRadius: BorderRadius.circular(sh.radiusSm),
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: ThemeConstants.space12,
-          vertical: ThemeConstants.space8,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
         decoration: BoxDecoration(
           color: selected
-              ? accentColor.withValues(alpha: isDark ? 0.2 : 0.15)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+              ? t.accent.primary.withOpacity(0.2)
+              : c.surfaceVariant,
+          borderRadius: BorderRadius.circular(sh.radiusSm),
           border: Border.all(
-            color: selected
-                ? accentColor
-                : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
+            color: selected ? t.accent.primary : c.border,
             width: selected ? 2 : 1,
           ),
         ),
         child: Text(
           label,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontXSmall,
-            fontWeight: selected ? ThemeConstants.fontBold : ThemeConstants.fontMediumWeight,
-            color: selected
-                ? accentColor
-                : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
+          style: text.captionBold.copyWith(
+            color: selected ? t.accent.primary : c.textSecondary,
           ),
         ),
       ),
     );
   }
-  
-  Widget _buildPresetButton(String label, int back, int forward, BuildContext context, bool isDark, Color accentColor) {
-    final isSelected = hoursBack == back && hoursForward == forward;
-    
+
+  // -------------------------
+  // PRESET BUTTON
+  // -------------------------
+  Widget _buildPresetButton(
+    BuildContext context,
+    String label,
+    int back,
+    int forward,
+  ) {
+    final t = context.theme;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+    final c = context.colors;
+
+    final bool isSelected =
+        (hoursBack == back && hoursForward == forward);
+
     return InkWell(
       onTap: () {
         if (onPresetSelected != null) {
           onPresetSelected!(back, forward);
         }
       },
+      borderRadius: BorderRadius.circular(sh.radiusSm),
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: ThemeConstants.space12,
-          vertical: ThemeConstants.space8,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
         decoration: BoxDecoration(
           color: isSelected
-              ? accentColor.withValues(alpha: isDark ? 0.2 : 0.15)
-              : (isDark
-                  ? UIColors.darkSurface.withValues(alpha: 0.5)
-                  : UIColors.lightSurface),
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+              ? t.accent.primary.withOpacity(0.2)
+              : c.surfaceVariant,
+          borderRadius: BorderRadius.circular(sh.radiusSm),
           border: Border.all(
-            color: isSelected
-                ? accentColor
-                : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
+            color: isSelected ? t.accent.primary : c.border,
             width: isSelected ? 2 : 1,
           ),
         ),
         child: Text(
           label,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontXSmall,
-            fontWeight: isSelected ? ThemeConstants.fontSemiBold : ThemeConstants.fontMediumWeight,
-            color: isSelected
-                ? accentColor
-                : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
+          style: text.captionBold.copyWith(
+            color: isSelected ? t.accent.primary : c.textSecondary,
           ),
         ),
       ),

@@ -1,8 +1,10 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Fully migrated to AppTheme system. No deprecated imports. 
+// Uses context.theme, context.colors, context.text, context.spacing, context.shapes.
+
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
@@ -11,19 +13,28 @@ import '../../constants/theme/app_theme_extension.dart';
 class RiskAssessmentCard extends StatelessWidget {
   final Map<String, DrugLevel> levels;
 
-  const RiskAssessmentCard({required this.levels, super.key});
+  const RiskAssessmentCard({
+    super.key,
+    required this.levels,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final c = context.colors;
+    final text = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.theme;
-    final text = context.text;
-    
+
+    // ----------------------------
+    // RISK EVALUATION LOGIC
+    // ----------------------------
     final highRisk = levels.values.where((l) => l.percentage > 20).length;
-    final moderateRisk = levels.values.where((l) => l.percentage > 10 && l.percentage <= 20).length;
-    final totalDose = levels.values.fold<double>(0.0, (sum, l) => sum + l.totalRemaining);
+    final moderateRisk =
+        levels.values.where((l) => l.percentage > 10 && l.percentage <= 20).length;
+
+    final totalDose =
+        levels.values.fold<double>(0.0, (sum, l) => sum + l.totalRemaining);
 
     String riskLevel;
     Color riskColor;
@@ -33,12 +44,13 @@ class RiskAssessmentCard extends StatelessWidget {
     if (highRisk > 0) {
       riskLevel = 'HIGH';
       riskColor = c.error;
-      warningMessage = 'Elevated risk detected. Avoid redosing and monitor for adverse interactions.';
+      warningMessage = 'Elevated risk detected. Avoid redosing and monitor carefully.';
       riskPosition = 0.8;
     } else if (moderateRisk > 0 || totalDose > 5.0) {
       riskLevel = 'MODERATE';
       riskColor = c.warning;
-      warningMessage = 'Moderate risk detected. Monitor for interactions and avoid redosing.';
+      warningMessage =
+          'Moderate risk detected. Monitor interactions and avoid redosing.';
       riskPosition = 0.5;
     } else if (levels.isNotEmpty) {
       riskLevel = 'LOW';
@@ -48,87 +60,96 @@ class RiskAssessmentCard extends StatelessWidget {
     } else {
       riskLevel = 'CLEAR';
       riskColor = c.success;
-      warningMessage = 'System clear. No active pharmacological substances detected.';
+      warningMessage = 'System clear. No active substances detected.';
       riskPosition = 0.0;
     }
 
+    // ----------------------------
+    // UI
+    // ----------------------------
     return Container(
       margin: EdgeInsets.symmetric(horizontal: sp.lg),
-      padding: EdgeInsets.all(sp.md),
+      padding: EdgeInsets.all(sp.lg),
       decoration: BoxDecoration(
         color: c.surface,
         borderRadius: BorderRadius.circular(sh.radiusMd),
         border: Border.all(
-          color: riskColor.withValues(alpha: 0.3),
+          color: riskColor.withOpacity(0.3),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: riskColor.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: riskColor.withOpacity(0.08),
+            blurRadius: 12,
+            offset: const Offset(0, 3),
           ),
+          if (t.isDark) ...t.getNeonGlow(intensity: 0.15),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // HEADER
           Row(
             children: [
-              Text(
-                'Risk Assessment',
-                style: text.heading4,
-              ),
+              Text('Risk Assessment', style: text.heading4),
               const Spacer(),
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: sp.md,
-                  vertical: sp.sm,
+                  vertical: sp.sm - 2,
                 ),
                 decoration: BoxDecoration(
-                  color: riskColor.withValues(alpha: 0.15),
+                  color: riskColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
-                  border: Border.all(color: riskColor.withValues(alpha: 0.5)),
+                  border: Border.all(
+                    color: riskColor.withOpacity(0.5),
+                  ),
                 ),
                 child: Text(
                   riskLevel,
                   style: text.bodyBold.copyWith(
                     color: riskColor,
-                    letterSpacing: 1,
+                    letterSpacing: 1.0,
                   ),
                 ),
               ),
             ],
           ),
+
           SizedBox(height: sp.lg),
+
+          // RISK GRADIENT BAR
           Container(
-            height: 12,
+            height: 14,
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Colors.green, Colors.orange, Colors.red],
-                stops: [0.0, 0.5, 1.0],
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              gradient: LinearGradient(
+                colors: [
+                  c.success,
+                  c.warning,
+                  c.error,
+                ],
+                stops: const [0.0, 0.5, 1.0],
               ),
-              borderRadius: BorderRadius.circular(6),
             ),
             child: Stack(
               children: [
                 Positioned(
-                  left: MediaQuery.of(context).size.width * 0.85 * riskPosition - 8,
-                  top: -4,
+                  left:
+                      (MediaQuery.of(context).size.width * 0.80 * riskPosition),
+                  top: -3,
                   child: Container(
                     width: 20,
                     height: 20,
                     decoration: BoxDecoration(
                       color: riskColor,
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: c.surface,
-                        width: 2,
-                      ),
+                      border: Border.all(width: 2, color: c.surface),
                       boxShadow: [
                         BoxShadow(
-                          color: riskColor.withValues(alpha: 0.6),
-                          blurRadius: 8,
+                          color: riskColor.withOpacity(0.6),
+                          blurRadius: 10,
                           spreadRadius: 2,
                         ),
                       ],
@@ -138,18 +159,28 @@ class RiskAssessmentCard extends StatelessWidget {
               ],
             ),
           ),
+
           SizedBox(height: sp.sm),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('LOW', style: text.caption.copyWith(color: c.success, fontWeight: FontWeight.bold)),
-              Text('HIGH', style: text.caption.copyWith(color: c.error, fontWeight: FontWeight.bold)),
+              Text('LOW',
+                  style: text.captionBold.copyWith(color: c.success)),
+              Text('HIGH',
+                  style: text.captionBold.copyWith(color: c.error)),
             ],
           ),
+
           SizedBox(height: sp.md),
+
+          // WARNING MESSAGE
           Text(
             warningMessage,
-            style: text.bodySmall,
+            style: text.bodySmall.copyWith(
+              color: c.textSecondary,
+              height: 1.35,
+            ),
           ),
         ],
       ),

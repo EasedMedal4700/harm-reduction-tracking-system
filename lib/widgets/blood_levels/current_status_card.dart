@@ -1,8 +1,9 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: N/A
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Widget is fully migrated to theme system. Ready for Riverpod.
+
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../services/pharmacokinetics_service.dart';
@@ -41,17 +42,16 @@ class CurrentStatusCard extends StatelessWidget {
     final sh = context.shapes;
     final t = context.theme;
     final acc = context.accent;
-    final tierColor = Color(PharmacokineticsService.getTierColorValue(currentTier));
+
+    final tierColor =
+        Color(PharmacokineticsService.getTierColorValue(currentTier));
 
     return Container(
       padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
         color: c.surface,
         borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(
-          color: c.border,
-          width: 1,
-        ),
+        border: Border.all(color: c.border, width: 1),
         boxShadow: t.cardShadow,
       ),
       child: Column(
@@ -76,20 +76,16 @@ class CurrentStatusCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      substanceName,
-                      style: context.text.heading4,
-                    ),
-                    Text(
-                      'Current Status',
-                      style: context.text.caption,
-                    ),
+                    Text(substanceName, style: context.text.heading4),
+                    Text('Current Status', style: context.text.caption),
                   ],
                 ),
               ),
             ],
           ),
+
           SizedBox(height: sp.lg),
+
           Row(
             children: [
               Expanded(
@@ -111,6 +107,7 @@ class CurrentStatusCard extends StatelessWidget {
               ),
             ],
           ),
+
           if (timeToNextTier != null) ...[
             SizedBox(height: sp.md),
             _buildInfoBox(
@@ -131,28 +128,21 @@ class CurrentStatusCard extends StatelessWidget {
     String value,
     Color color,
   ) {
-    final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
     final text = context.text;
-    
+
     return Container(
       padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(sh.radiusSm),
-        border: Border.all(
-          color: color.withValues(alpha: 0.3),
-          width: 1,
-        ),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: text.caption,
-          ),
+          Text(label, style: text.caption),
           SizedBox(height: sp.xs),
           Text(
             value,

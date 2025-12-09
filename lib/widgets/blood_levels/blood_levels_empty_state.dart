@@ -1,12 +1,14 @@
-// MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Fully migrated to new theme system. No deprecated constants remain.
+
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
-/// Empty state when no substances are active or visible after filtering
+/// Empty state shown when no substances have active blood levels,
+/// or when filters hide all visible data.
 class BloodLevelsEmptyState extends StatelessWidget {
   final bool hasActiveFilters;
 
@@ -17,25 +19,36 @@ class BloodLevelsEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final sp = context.spacing;
-    final text = context.text;
-    
+    final t = context.theme;     // full theme object
+    final c = context.colors;    // color palette
+    final sp = context.spacing;  // spacing
+    final text = context.text;   // typography
+
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.science_outlined, size: 64, color: c.textTertiary),
+          Icon(
+            Icons.science_outlined,
+            size: 64,
+            color: c.textTertiary,
+          ),
           SizedBox(height: sp.lg),
+
           Text(
             'No active substances',
-            style: text.heading4.copyWith(color: c.textSecondary),
+            style: text.heading4.copyWith(
+              color: c.textSecondary,
+            ),
           ),
+
           if (hasActiveFilters) ...[
             SizedBox(height: sp.sm),
             Text(
               'Try adjusting filters',
-              style: text.bodySmall,
+              style: text.bodySmall.copyWith(
+                color: c.textSecondary,
+              ),
             ),
           ],
         ],

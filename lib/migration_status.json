@@ -122,33 +122,99 @@
     "widgets": [
       {
         "path": "lib/widgets/tolerance_dashboard/dashboard_content_widget.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Uses UIColors constants"
+        "status": "header_added",
+        "theme": "PARTIAL",
+        "notes": "Uses context.theme and AppTheme, but some legacy patterns may remain; review for full migration."
       },
       {
         "path": "lib/widgets/tolerance_dashboard/empty_state_widget.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Uses UIColors constants"
+        "status": "header_added",
+        "theme": "COMPLETE",
+        "notes": "Fully migrated to AppTheme/context extensions. No Riverpod."
       },
       {
         "path": "lib/widgets/tolerance/system_bucket_card.dart",
-        "status": "updated",
-        "theme": "AppTheme",
-        "notes": "Uses AppTheme system. Migration comment added."
+        "status": "header_added",
+        "theme": "TODO",
+        "notes": "Migration header missing"
       },
       {
         "path": "lib/widgets/tolerance/system_tolerance_breakdown_sheet.dart",
-        "status": "updated",
-        "theme": "AppTheme",
-        "notes": "Uses AppTheme system. Migration comment added."
+        "status": "header_added",
+        "theme": "TODO",
+        "notes": "Migration header missing"
       },
       {
         "path": "lib/widgets/tolerance/tolerance_disclaimer.dart",
-        "status": "updated",
-        "theme": "AppTheme",
-        "notes": "Uses AppTheme system. Migration comment added."
+        "status": "header_added",
+        "theme": "TODO",
+        "notes": "Migration header missing"
+      },
+      {
+        "path": "lib/widgets/tolerance_dashboard/bucket_details_widget.dart",
+        "status": "header_added",
+        "theme": "PARTIAL",
+        "notes": "Uses context.theme and legacy patterns; needs review for full migration to AppTheme/context extensions."
+      },
+      {
+        "path": "lib/widgets/tolerance_dashboard/system_overview_widget.dart",
+        "status": "header_added",
+        "theme": "PARTIAL",
+        "notes": "Uses context.theme and AppTheme, but some legacy patterns may remain; review for full migration."
+      },
+      {
+        "path": "lib/widgets/tolerance_dashboard/debug_panel_widget.dart",
+        "status": "header_added",
+        "theme": "PARTIAL",
+        "notes": "Uses context.theme and AppTheme, but some legacy patterns may remain; review for full migration."
+      },
+      {
+        "path": "lib/widgets/tolerance/tolerance_summary_card.dart",
+        "status": "needs_migration",
+        "theme": "deprecated",
+        "notes": "Migration header missing"
+      },
+      {
+        "path": "lib/widgets/tolerance/tolerance_stats_card.dart",
+        "status": "needs_migration",
+        "theme": "deprecated",
+        "notes": "Migration header missing"
+      },
+      {
+        "path": "lib/widgets/tolerance/tolerance_notes_card.dart",
+        "status": "needs_migration",
+        "theme": "deprecated",
+        "notes": "Migration header missing"
+      },
+      {
+        "path": "lib/widgets/tolerance/unified_bucket_tolerance_widget.dart",
+        "status": "needs_migration",
+        "theme": "deprecated",
+        "notes": "Migration header missing"
+      },
+      {
+        "path": "lib/widgets/tolerance/recent_uses_card.dart",
+        "status": "header_added",
+        "theme": "PARTIAL",
+        "notes": "Uses context.theme and context.colors, but may have legacy patterns; review for full migration."
+      },
+      {
+        "path": "lib/widgets/tolerance/debug_substance_list.dart",
+        "status": "header_added",
+        "theme": "PARTIAL",
+        "notes": "Uses Theme.of(context) and Colors directly; needs migration to AppTheme/context extensions."
+      },
+      {
+        "path": "lib/widgets/tolerance/bucket_tolerance_breakdown.dart",
+        "status": "header_added",
+        "theme": "PARTIAL",
+        "notes": "Uses Theme.of(context) and Colors directly; needs migration to AppTheme/context extensions."
+      },
+      {
+        "path": "lib/widgets/tolerance/bucket_detail_section.dart",
+        "status": "header_added",
+        "theme": "PARTIAL",
+        "notes": "Uses Theme.of(context) and Colors directly; needs migration to AppTheme/context extensions."
       }
     ]
   },

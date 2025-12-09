@@ -1,10 +1,12 @@
-// MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: All deprecated colors removed. Now uses full AppTheme system with neon/wellness UI.
+
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import 'metabolism_timeline_card.dart';
 import 'metabolism_timeline_controls.dart';
 
@@ -35,37 +37,46 @@ class BloodLevelsTimelineSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final t = context.theme;
+    final sp = context.spacing;
+    final text = context.text;
+
+    // Empty state
     if (levels.isEmpty) {
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.all(32),
+        margin: EdgeInsets.symmetric(horizontal: sp.lg),
+        padding: EdgeInsets.all(sp.xl),
         decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(12),
+          color: c.surface,
+          borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+          border: Border.all(color: c.border),
+          boxShadow: t.cardShadow,
         ),
         child: Center(
           child: Column(
             children: [
-              Icon(Icons.timeline_outlined, size: 48, color: Colors.grey[400]),
-              const SizedBox(height: 12),
+              Icon(Icons.timeline_outlined,
+                  size: 48, color: c.textSecondary),
+              SizedBox(height: sp.md),
               Text(
                 'Select a substance to view metabolism timeline',
-                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                style: text.body.copyWith(color: c.textSecondary),
               ),
             ],
           ),
         ),
       );
     }
-    
-    // Pass ALL filtered drugs to show multiple lines on the graph
+
+    // Show ALL drugs to draw multiple PK curves
     final allDrugs = levels.values.toList();
-    
+
     return Column(
       children: [
         // Timeline controls
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: sp.lg),
           child: MetabolismTimelineControls(
             hoursBack: hoursBack,
             hoursForward: hoursForward,
@@ -76,9 +87,9 @@ class BloodLevelsTimelineSection extends StatelessWidget {
             onPresetSelected: onPresetSelected,
           ),
         ),
-        const SizedBox(height: 16),
-        
-        // Timeline graph - now showing ALL drugs
+        SizedBox(height: sp.lg),
+
+        // Timeline graph
         MetabolismTimelineCard(
           drugLevels: allDrugs,
           hoursBack: hoursBack,

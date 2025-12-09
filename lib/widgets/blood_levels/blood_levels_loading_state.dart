@@ -1,9 +1,11 @@
-// MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Fully migrated. Uses new theme colors for loader indicator.
+
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Loading state for blood levels
 class BloodLevelsLoadingState extends StatelessWidget {
@@ -11,6 +13,14 @@ class BloodLevelsLoadingState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    final acc = context.accent;   // <-- FIX
+
+    return Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(
+          acc.primary,             // <-- FIXED
+        ),
+      ),
+    );
   }
 }

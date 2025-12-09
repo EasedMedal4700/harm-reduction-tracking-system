@@ -1,8 +1,9 @@
-// MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Fully migrated to new AppTheme system. All deprecated constants removed.
+
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../services/pharmacokinetics_service.dart';
@@ -24,60 +25,63 @@ class DoseTierLegend extends StatelessWidget {
     final sh = context.shapes;
     final t = context.theme;
     final text = context.text;
+    final acc = context.accent;        // <-- NEW
 
     return Container(
       padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
         color: c.surface,
         borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(
-          color: c.border,
-          width: 1,
-        ),
+        border: Border.all(color: c.border),
         boxShadow: t.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Dose Ranges',
-            style: text.heading4,
-          ),
+          Text('Dose Ranges', style: text.heading4),
           SizedBox(height: sp.md),
+
           ...substanceTiers.entries.map((entry) {
             final substance = entry.key;
             final tiers = entry.value;
-            final color = substanceColors[substance] ?? Colors.blue;
+
+            // Substance color fallback uses accent.primary
+            final substanceColor =
+                substanceColors[substance] ?? acc.primary;
 
             return Padding(
               padding: EdgeInsets.only(bottom: sp.md),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Substance name + colored square
                   Row(
                     children: [
                       Container(
                         width: 16,
                         height: 16,
                         decoration: BoxDecoration(
-                          color: color,
-                          borderRadius: BorderRadius.circular(4),
+                          color: substanceColor,
+                          borderRadius: BorderRadius.circular(sh.radiusSm),
                         ),
                       ),
                       SizedBox(width: sp.sm),
-                      Text(
-                        substance,
-                        style: text.bodyBold,
-                      ),
+                      Text(substance, style: text.bodyBold),
                     ],
                   ),
                   SizedBox(height: sp.sm),
+
+                  // Tier badges
                   Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
+                    spacing: sp.sm,
+                    runSpacing: sp.sm,
                     children: DoseTier.values.map((tier) {
                       final range = tiers[tier];
                       if (range == null) return const SizedBox.shrink();
+
+                      final tierColor = Color(
+                        PharmacokineticsService.getTierColorValue(tier),
+                      );
 
                       return Container(
                         padding: EdgeInsets.symmetric(
@@ -85,20 +89,17 @@ class DoseTierLegend extends StatelessWidget {
                           vertical: sp.xs,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(PharmacokineticsService.getTierColorValue(tier))
-                              .withValues(alpha: 0.15),
+                          color: tierColor.withOpacity(0.15),
                           borderRadius: BorderRadius.circular(sh.radiusSm),
                           border: Border.all(
-                            color: Color(PharmacokineticsService.getTierColorValue(tier))
-                                .withValues(alpha: 0.4),
+                            color: tierColor.withOpacity(0.4),
                             width: 1,
                           ),
                         ),
                         child: Text(
-                          '${PharmacokineticsService.getTierName(tier)}: ${range.min.toStringAsFixed(0)}-${range.max.toStringAsFixed(0)}mg',
-                          style: text.caption.copyWith(
-                            color: Color(PharmacokineticsService.getTierColorValue(tier)),
-                          ),
+                          '${PharmacokineticsService.getTierName(tier)}: '
+                          '${range.min.toStringAsFixed(0)}–${range.max.toStringAsFixed(0)} mg',
+                          style: text.caption.copyWith(color: tierColor),
                         ),
                       );
                     }).toList(),

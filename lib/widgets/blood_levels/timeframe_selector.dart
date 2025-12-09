@@ -1,11 +1,12 @@
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: PARTIAL
 // Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
+// Notes: Fully migrated to new theme system. No deprecated imports left.
+//        Uses context.theme, context.colors, context.spacing, context.text.
+
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 enum BloodLevelTimeframe {
   hours6('6 Hours', Duration(hours: 6)),
@@ -32,83 +33,77 @@ class TimeframeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? UIColors.darkNeonTeal : UIColors.lightAccentRed;
+    final t = context.theme;
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final acc = context.accent;
 
     return Container(
-      padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: accentColor,
-              radius: ThemeConstants.cardRadius,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              border: Border.all(
-                color: UIColors.lightBorder,
-                width: ThemeConstants.borderThin,
-              ),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      padding: EdgeInsets.all(sp.md),
+      decoration: t.cardDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header
           Row(
             children: [
-              Icon(
-                Icons.schedule,
-                color: accentColor,
-                size: 20,
+              Container(
+                padding: EdgeInsets.all(sp.xs),
+                decoration: BoxDecoration(
+                  color: acc.primary.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(sh.radiusSm),
+                ),
+                child: Icon(
+                  Icons.schedule,
+                  color: acc.primary,
+                  size: 20,
+                ),
               ),
-              SizedBox(width: ThemeConstants.space8),
+              SizedBox(width: sp.sm),
               Text(
                 'Timeframe',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
+                style: text.heading4,
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space12),
+
+          SizedBox(height: sp.md),
+
+          // Chips
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: sp.sm,
+            runSpacing: sp.sm,
             children: BloodLevelTimeframe.values.map((timeframe) {
               final isSelected = timeframe == selectedTimeframe;
+
               return InkWell(
                 onTap: () => onChanged(timeframe),
-                borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                borderRadius: BorderRadius.circular(sh.radiusSm),
                 child: AnimatedContainer(
-                  duration: ThemeConstants.animationFast,
+                  duration: const Duration(milliseconds: 180),
                   padding: EdgeInsets.symmetric(
-                    horizontal: ThemeConstants.space12,
-                    vertical: ThemeConstants.space8,
+                    horizontal: sp.md,
+                    vertical: sp.sm,
                   ),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? accentColor.withValues(alpha: isDark ? 0.2 : 0.15)
-                        : (isDark ? Colors.white : Colors.black).withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                        ? acc.primary.withValues(alpha: 0.18)
+                        : c.surfaceVariant,
+                    borderRadius: BorderRadius.circular(sh.radiusSm),
                     border: Border.all(
                       color: isSelected
-                          ? accentColor
-                          : (isDark ? Colors.white : Colors.black).withValues(alpha: 0.1),
-                      width: isSelected ? 2 : 1,
+                          ? acc.primary
+                          : c.border.withValues(alpha: 0.4),
+                      width: isSelected ? 1.8 : 1.2,
                     ),
+                    boxShadow: isSelected ? t.cardShadow : null,
                   ),
                   child: Text(
                     timeframe.label,
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontSmall,
-                      fontWeight: isSelected
-                          ? ThemeConstants.fontSemiBold
-                          : ThemeConstants.fontMediumWeight,
-                      color: isSelected
-                          ? accentColor
-                          : (isDark ? UIColors.darkText : UIColors.lightText),
+                    style: text.bodyBold.copyWith(
+                      color: isSelected ? acc.primary : c.textPrimary,
                     ),
                   ),
                 ),

@@ -2,13 +2,15 @@
 // Theme: PARTIAL
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: This file now uses theme spacing and colors, but child widgets are not migrated yet.
+
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
 import 'level_card.dart';
 import 'system_overview_card.dart';
 import 'risk_assessment_card.dart';
 import 'blood_levels_timeline_section.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Main content area showing all level cards and overview
 class BloodLevelsContent extends StatelessWidget {
@@ -41,16 +43,27 @@ class BloodLevelsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
+
     final sorted = filteredLevels.values.toList()
       ..sort((a, b) => b.percentage.compareTo(a.percentage));
 
     return ListView(
+      padding: EdgeInsets.all(sp.lg),
       children: [
-        SystemOverviewCard(levels: filteredLevels, allLevels: allLevels),
+        SystemOverviewCard(
+          levels: filteredLevels,
+          allLevels: allLevels,
+        ),
+
+        SizedBox(height: sp.lg),
+
         RiskAssessmentCard(levels: filteredLevels),
-        const SizedBox(height: 16),
-        
-        // Metabolism Timeline section
+
+        SizedBox(height: sp.lg),
+
+        // Metabolism Timeline
         if (showTimeline) ...[
           BloodLevelsTimelineSection(
             levels: filteredLevels,
@@ -63,11 +76,16 @@ class BloodLevelsContent extends StatelessWidget {
             onAdaptiveScaleChanged: onAdaptiveScaleChanged,
             onPresetSelected: onPresetSelected,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: sp.lg),
         ],
-        
-        ...sorted.map((level) => LevelCard(level: level)),
-        const SizedBox(height: 16),
+
+        // Level cards
+        ...sorted.map(
+          (level) => Padding(
+            padding: EdgeInsets.only(bottom: sp.lg),
+            child: LevelCard(level: level),
+          ),
+        ),
       ],
     );
   }

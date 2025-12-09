@@ -1,11 +1,11 @@
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
+// Notes: Fully migrated to new AppTheme system. No deprecated theme usage.
+
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class SubstanceListCard extends StatelessWidget {
   final List<SubstanceInfo> substances;
@@ -19,41 +19,39 @@ class SubstanceListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? UIColors.darkNeonTeal : UIColors.lightAccentRed;
+    final t = context.theme;
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final acc = context.accent;
 
+    final accentColor = acc.primary;
+
+    // --------------------------
+    // EMPTY STATE
+    // --------------------------
     if (substances.isEmpty) {
       return Container(
-        padding: EdgeInsets.all(ThemeConstants.cardPaddingLarge),
-        decoration: isDark
-            ? UIColors.createGlassmorphism(
-                accentColor: accentColor,
-                radius: ThemeConstants.cardRadius,
-              )
-            : BoxDecoration(
-                color: UIColors.lightSurface,
-                borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-                border: Border.all(
-                  color: UIColors.lightBorder,
-                  width: ThemeConstants.borderThin,
-                ),
-                boxShadow: UIColors.createSoftShadow(),
-              ),
+        padding: EdgeInsets.all(sp.xl),
+        decoration: BoxDecoration(
+          color: c.surface,
+          borderRadius: BorderRadius.circular(sh.radiusLg),
+          border: Border.all(color: c.border, width: 1),
+          boxShadow: t.cardShadow,
+        ),
         child: Center(
           child: Column(
             children: [
               Icon(
                 Icons.medical_information_outlined,
                 size: 48,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                color: c.textTertiary,
               ),
-              SizedBox(height: ThemeConstants.space12),
+              SizedBox(height: sp.md),
               Text(
                 'No substances in timeframe',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                ),
+                style: text.body.copyWith(color: c.textSecondary),
               ),
             ],
           ),
@@ -61,67 +59,62 @@ class SubstanceListCard extends StatelessWidget {
       );
     }
 
+    // --------------------------
+    // SUBSTANCE LIST CARD
+    // --------------------------
     return Container(
-      padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: accentColor,
-              radius: ThemeConstants.cardRadius,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              border: Border.all(
-                color: UIColors.lightBorder,
-                width: ThemeConstants.borderThin,
-              ),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      padding: EdgeInsets.all(sp.lg),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusLg),
+        border: Border.all(color: c.border, width: 1),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // HEADER
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(ThemeConstants.space8),
+                padding: EdgeInsets.all(sp.sm),
                 decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: isDark ? 0.2 : 0.15),
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                  color: accentColor.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(sh.radiusSm),
                 ),
                 child: Icon(
                   Icons.medication,
-                  color: accentColor,
                   size: 20,
+                  color: accentColor,
                 ),
               ),
-              SizedBox(width: ThemeConstants.space12),
+              SizedBox(width: sp.md),
               Text(
                 'Active Substances (${substances.length})',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
+                style: text.heading4.copyWith(color: c.textPrimary),
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space16),
+
+          SizedBox(height: sp.lg),
+
+          // SUBSTANCE ITEMS
           ...substances.map((substance) {
-            final color = substanceColors[substance.name] ?? Colors.blue;
+            final color =
+                substanceColors[substance.name] ?? acc.primary;
+
             return Padding(
-              padding: EdgeInsets.only(bottom: ThemeConstants.space12),
+              padding: EdgeInsets.only(bottom: sp.md),
               child: Container(
-                padding: EdgeInsets.all(ThemeConstants.space12),
+                padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: color.withValues(alpha: isDark ? 0.1 : 0.08),
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                  border: Border.all(
-                    color: color.withValues(alpha: 0.3),
-                    width: 1,
-                  ),
+                  color: color.withOpacity(0.10),
+                  borderRadius: BorderRadius.circular(sh.radiusSm),
+                  border: Border.all(color: color.withOpacity(0.45)),
                 ),
                 child: Row(
                   children: [
+                    // LEFT BAR
                     Container(
                       width: 4,
                       height: 40,
@@ -130,55 +123,50 @@ class SubstanceListCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
-                    SizedBox(width: ThemeConstants.space12),
+                    SizedBox(width: sp.md),
+
+                    // MAIN CONTENT
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             substance.name,
-                            style: TextStyle(
-                              fontSize: ThemeConstants.fontSmall,
-                              fontWeight: ThemeConstants.fontSemiBold,
-                              color: isDark ? UIColors.darkText : UIColors.lightText,
+                            style: text.bodyBold.copyWith(
+                              color: c.textPrimary,
                             ),
                           ),
-                          SizedBox(height: ThemeConstants.space4),
+                          SizedBox(height: sp.xs),
                           Row(
                             children: [
                               _buildChip(
+                                context,
                                 substance.roa,
                                 color,
-                                isDark,
                               ),
-                              SizedBox(width: ThemeConstants.space8),
+                              SizedBox(width: sp.sm),
                               _buildChip(
+                                context,
                                 '${substance.dose.toStringAsFixed(1)}mg',
                                 color,
-                                isDark,
                               ),
                             ],
                           ),
                         ],
                       ),
                     ),
+
+                    // TIME AGO
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
                           _formatTimeDiff(substance.timeSinceUse),
-                          style: TextStyle(
-                            fontSize: ThemeConstants.fontXSmall,
-                            fontWeight: ThemeConstants.fontSemiBold,
-                            color: color,
-                          ),
+                          style: text.captionBold.copyWith(color: color),
                         ),
                         Text(
                           'ago',
-                          style: TextStyle(
-                            fontSize: ThemeConstants.fontXSmall,
-                            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                          ),
+                          style: text.caption.copyWith(color: c.textTertiary),
                         ),
                       ],
                     ),
@@ -192,21 +180,23 @@ class SubstanceListCard extends StatelessWidget {
     );
   }
 
-  Widget _buildChip(String label, Color color, bool isDark) {
+  Widget _buildChip(BuildContext context, String label, Color color) {
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: ThemeConstants.space8,
-        vertical: ThemeConstants.space4,
+        horizontal: sp.sm,
+        vertical: sp.xs,
       ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: isDark ? 0.15 : 0.12),
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+        color: color.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(sh.radiusSm),
       ),
       child: Text(
         label,
-        style: TextStyle(
-          fontSize: ThemeConstants.fontXSmall,
-          fontWeight: ThemeConstants.fontMediumWeight,
+        style: text.captionBold.copyWith(
           color: color,
         ),
       ),

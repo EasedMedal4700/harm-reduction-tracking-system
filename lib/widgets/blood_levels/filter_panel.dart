@@ -1,8 +1,9 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: PARTIAL      // Chip pattern could be extracted later
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Fully theme-migrated. Chip groups not yet extracted.
+
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
@@ -32,8 +33,7 @@ class FilterPanel extends StatelessWidget {
     final sh = context.shapes;
     final text = context.text;
     final acc = context.accent;
-    final t = context.theme;
-    
+
     return Container(
       decoration: BoxDecoration(
         color: c.surface,
@@ -51,10 +51,7 @@ class FilterPanel extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                'Filters',
-                style: text.heading4,
-              ),
+              Text('Filters', style: text.heading4),
               const Spacer(),
               if (includedDrugs.isNotEmpty || excludedDrugs.isNotEmpty)
                 TextButton(
@@ -66,12 +63,12 @@ class FilterPanel extends StatelessWidget {
                 ),
             ],
           ),
+
           SizedBox(height: sp.sm),
-          Text(
-            'Include Only:',
-            style: text.bodyBold,
-          ),
+
+          Text('Include Only:', style: text.bodyBold),
           SizedBox(height: sp.xs),
+
           Wrap(
             spacing: 8,
             runSpacing: 4,
@@ -90,12 +87,12 @@ class FilterPanel extends StatelessWidget {
               );
             }).toList(),
           ),
+
           SizedBox(height: sp.md),
-          Text(
-            'Exclude:',
-            style: text.bodyBold,
-          ),
+
+          Text('Exclude:', style: text.bodyBold),
           SizedBox(height: sp.xs),
+
           Wrap(
             spacing: 8,
             runSpacing: 4,
@@ -105,13 +102,13 @@ class FilterPanel extends StatelessWidget {
               return FilterChip(
                 label: Text(drug.toUpperCase()),
                 selected: isSelected,
-                selectedColor: excludeColor.withValues(alpha: 0.2),
+                onSelected: (selected) => onExcludeChanged(drug, selected),
                 backgroundColor: c.surfaceVariant,
+                selectedColor: excludeColor.withValues(alpha: 0.2),
                 checkmarkColor: excludeColor,
                 labelStyle: TextStyle(
                   color: isSelected ? excludeColor : c.textPrimary,
                 ),
-                onSelected: (selected) => onExcludeChanged(drug, selected),
               );
             }).toList(),
           ),

@@ -1,8 +1,9 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
-// Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Theme: COMPLETE
+// Common: TODO (extract shared chart UI patterns? axis labels? empty state?)
+// Riverpod: TODO (convert to ConsumerWidget + provider-driven data)
+// Notes: Fully migrated to theme system. Still state-less but should use providers instead of passing maps.
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../constants/theme/app_theme_extension.dart';
@@ -47,7 +48,6 @@ class BloodLevelGraph extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
           Row(
             children: [
               Container(
@@ -70,7 +70,7 @@ class BloodLevelGraph extends StatelessWidget {
             ],
           ),
           SizedBox(height: sp.xl),
-          // Graph
+
           SizedBox(
             height: 300,
             child: substanceCurves.isEmpty
@@ -86,7 +86,7 @@ class BloodLevelGraph extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final text = context.text;
-    
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -109,7 +109,7 @@ class BloodLevelGraph extends StatelessWidget {
 
   Widget _buildChart(BuildContext context) {
     final c = context.colors;
-    
+
     final lines = substanceCurves.entries.map((entry) {
       final substance = entry.key;
       final points = entry.value;
@@ -142,14 +142,16 @@ class BloodLevelGraph extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 45,
-              getTitlesWidget: (value, meta) => _buildLeftTitle(value, meta, context),
+              getTitlesWidget: (value, meta) =>
+                  _buildLeftTitle(value, meta, context),
             ),
           ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 32,
-              getTitlesWidget: (value, meta) => _buildBottomTitle(value, meta, context),
+              getTitlesWidget: (value, meta) =>
+                  _buildBottomTitle(value, meta, context),
             ),
           ),
           rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -176,7 +178,7 @@ class BloodLevelGraph extends StatelessWidget {
           ),
         ),
         minY: 0,
-        maxY: 120, // Allow slight overflow above 100%
+        maxY: 120,
         minX: startTime.millisecondsSinceEpoch.toDouble(),
         maxX: endTime.millisecondsSinceEpoch.toDouble(),
         lineTouchData: LineTouchData(
@@ -184,7 +186,8 @@ class BloodLevelGraph extends StatelessWidget {
             tooltipBgColor: c.surface,
             getTooltipItems: (touchedSpots) {
               return touchedSpots.map((spot) {
-                final substance = substanceCurves.keys.elementAt(spot.barIndex);
+                final substance =
+                    substanceCurves.keys.elementAt(spot.barIndex);
                 return LineTooltipItem(
                   '$substance\n${spot.y.toStringAsFixed(1)}%',
                   TextStyle(
@@ -203,7 +206,7 @@ class BloodLevelGraph extends StatelessWidget {
 
   Widget _buildLeftTitle(double value, TitleMeta meta, BuildContext context) {
     final c = context.colors;
-    
+
     if (value == 0 || value == 100) {
       return Padding(
         padding: const EdgeInsets.only(right: 8),
@@ -225,7 +228,7 @@ class BloodLevelGraph extends StatelessWidget {
     final date = DateTime.fromMillisecondsSinceEpoch(value.toInt());
     final hoursDiff = date.difference(startTime).inHours;
 
-    if (hoursDiff % 6 == 0) { // Show label every 6 hours
+    if (hoursDiff % 6 == 0) {
       return Padding(
         padding: const EdgeInsets.only(top: 8),
         child: Text(

@@ -1,18 +1,23 @@
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
+// Notes: Fully migrated to new AppTheme (colors, typography, spacing, shapes). All deprecated theme
+// usage removed. Logic untouched.
+
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import '../../services/blood_levels_service.dart';
-import '../../constants/deprecated/ui_colors.dart';
 import '../../constants/data/drug_categories.dart';
 
 /// Expandable card displaying drug level information
 class LevelCard extends StatefulWidget {
   final DrugLevel level;
 
-  const LevelCard({required this.level, super.key});
+  const LevelCard({
+    required this.level,
+    super.key,
+  });
 
   @override
   State<LevelCard> createState() => _LevelCardState();
@@ -23,119 +28,68 @@ class _LevelCardState extends State<LevelCard> {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+    final t = context.theme;
+
     final percentage = widget.level.percentage;
     final status = widget.level.status;
-    final color = _getColorForCategory();
+
+    final categoryColor = _getColorForCategory();
     final timeAgo = DateTime.now().difference(widget.level.lastUse);
     final remainingMg = widget.level.totalRemaining;
 
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      color: color.withOpacity(0.05),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: color.withOpacity(0.3)),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
+      decoration: BoxDecoration(
+        color: categoryColor.withOpacity(0.07),
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(color: categoryColor.withOpacity(0.3)),
+        boxShadow: t.cardShadow,
       ),
       child: InkWell(
         onTap: () => setState(() => _expanded = !_expanded),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(sh.radiusMd),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(sp.md),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.level.drugName.toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: color,
-                          ),
-                        ),
-                        if (widget.level.categories.isNotEmpty)
-                          Text(
-                            widget.level.categories.first,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getStatusColor(status).withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: _getStatusColor(status)),
-                        ),
-                        child: Text(
-                          status,
-                          style: TextStyle(
-                            color: _getStatusColor(status),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Icon(
-                        _expanded ? Icons.expand_less : Icons.expand_more,
-                        color: color,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
+              _buildHeaderRow(context, categoryColor, status),
+
+              SizedBox(height: sp.md),
 
               // Progress bar
-              LinearProgressIndicator(
-                value: (percentage / 100).clamp(0.0, 1.0),
-                backgroundColor: Colors.grey[300],
-                color: color,
-                minHeight: 8,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(sh.radiusSm),
+                child: LinearProgressIndicator(
+                  value: (percentage / 100).clamp(0.0, 1.0),
+                  backgroundColor: c.surfaceVariant,
+                  valueColor: AlwaysStoppedAnimation<Color>(categoryColor),
+                  minHeight: 8,
+                ),
               ),
-              const SizedBox(height: 12),
 
-              // Summary info
+              SizedBox(height: sp.md),
+
+              // Summary row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildInfoColumn(
-                    'Remaining',
-                    '${remainingMg.toStringAsFixed(1)}mg',
-                  ),
-                  _buildInfoColumn(
-                    'Last Dose',
-                    '${widget.level.lastDose.toStringAsFixed(1)}mg',
-                  ),
-                  _buildInfoColumn('Time', _formatTimeAgo(timeAgo)),
-                  _buildInfoColumn(
-                    'Window',
-                    '${widget.level.activeWindow.toStringAsFixed(1)}h',
-                  ),
+                  _buildInfoColumn(context, 'Remaining', '${remainingMg.toStringAsFixed(1)}mg'),
+                  _buildInfoColumn(context, 'Last Dose', '${widget.level.lastDose.toStringAsFixed(1)}mg'),
+                  _buildInfoColumn(context, 'Time', _formatTimeAgo(timeAgo)),
+                  _buildInfoColumn(context, 'Window', '${widget.level.activeWindow.toStringAsFixed(1)}h'),
                 ],
               ),
 
-              // Expanded details
               if (_expanded) ...[
-                const Divider(height: 24),
-                _buildExpandedContent(),
+                SizedBox(height: sp.lg),
+                Divider(color: c.divider),
+                SizedBox(height: sp.md),
+                _buildExpandedContent(context),
               ],
             ],
           ),
@@ -144,18 +98,81 @@ class _LevelCardState extends State<LevelCard> {
     );
   }
 
-  Widget _buildExpandedContent() {
+  // HEADER ROW
+  Widget _buildHeaderRow(BuildContext context, Color categoryColor, String status) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // Left section: name + category
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.level.drugName.toUpperCase(),
+                style: text.heading4.copyWith(color: categoryColor),
+              ),
+              if (widget.level.categories.isNotEmpty)
+                Text(
+                  widget.level.categories.first,
+                  style: text.caption.copyWith(color: c.textSecondary),
+                ),
+            ],
+          ),
+        ),
+
+        Row(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: sp.sm,
+                vertical: sp.xs,
+              ),
+              decoration: BoxDecoration(
+                color: _getStatusColor(status).withOpacity(0.2),
+                borderRadius: BorderRadius.circular(sh.radiusSm),
+                border: Border.all(color: _getStatusColor(status)),
+              ),
+              child: Text(
+                status,
+                style: text.captionBold.copyWith(color: _getStatusColor(status)),
+              ),
+            ),
+            SizedBox(width: sp.sm),
+            Icon(
+              _expanded ? Icons.expand_less : Icons.expand_more,
+              color: categoryColor,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  // EXPANDED CONTENT
+  Widget _buildExpandedContent(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Individual Doses',
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          style: text.bodyBold,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: sp.sm),
+
         ...widget.level.doses.map(
           (dose) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
+            padding: EdgeInsets.symmetric(vertical: sp.xs),
             child: Row(
               children: [
                 Container(
@@ -163,21 +180,23 @@ class _LevelCardState extends State<LevelCard> {
                   height: 24,
                   decoration: BoxDecoration(
                     color: _getColorForCategory(),
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: BorderRadius.circular(sh.radiusXs),
                   ),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: sp.sm),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${dose.dose.toStringAsFixed(1)}mg → ${dose.remaining.toStringAsFixed(1)}mg remaining',
-                        style: const TextStyle(fontSize: 13),
+                        '${dose.dose.toStringAsFixed(1)}mg → '
+                        '${dose.remaining.toStringAsFixed(1)}mg remaining',
+                        style: text.body,
                       ),
                       Text(
-                        '${_formatTimeAgo(DateTime.now().difference(dose.startTime))} (${dose.percentRemaining.toStringAsFixed(0)}%)',
-                        style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+                        '${_formatTimeAgo(DateTime.now().difference(dose.startTime))} '
+                        '(${dose.percentRemaining.toStringAsFixed(0)}%)',
+                        style: text.caption.copyWith(color: c.textSecondary),
                       ),
                     ],
                   ),
@@ -186,37 +205,31 @@ class _LevelCardState extends State<LevelCard> {
             ),
           ),
         ),
-        const SizedBox(height: 12),
+
+        SizedBox(height: sp.md),
+
         Row(
           children: [
             Expanded(
-              child: _buildDetailItem(
-                'Half-life',
-                '${widget.level.halfLife.toStringAsFixed(1)}h',
-              ),
+              child: _buildDetailItem(context, 'Half-life', '${widget.level.halfLife.toStringAsFixed(1)}h'),
             ),
+            SizedBox(width: sp.sm),
             Expanded(
-              child: _buildDetailItem(
-                'Duration',
-                '${widget.level.maxDuration.toStringAsFixed(1)}h',
-              ),
+              child: _buildDetailItem(context, 'Duration', '${widget.level.maxDuration.toStringAsFixed(1)}h'),
             ),
           ],
         ),
-        const SizedBox(height: 8),
+
+        SizedBox(height: sp.sm),
+
         Row(
           children: [
             Expanded(
-              child: _buildDetailItem(
-                'Total Dosed',
-                '${widget.level.totalDose.toStringAsFixed(1)}mg',
-              ),
+              child: _buildDetailItem(context, 'Total Dosed', '${widget.level.totalDose.toStringAsFixed(1)}mg'),
             ),
+            SizedBox(width: sp.sm),
             Expanded(
-              child: _buildDetailItem(
-                '# Doses',
-                '${widget.level.doses.length}',
-              ),
+              child: _buildDetailItem(context, '# Doses', '${widget.level.doses.length}'),
             ),
           ],
         ),
@@ -224,65 +237,48 @@ class _LevelCardState extends State<LevelCard> {
     );
   }
 
-  Widget _buildDetailItem(String label, String value) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+  // DETAIL BOX
+  Widget _buildDetailItem(BuildContext context, String label, String value) {
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(sp.sm),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : Colors.grey[100],
-        borderRadius: BorderRadius.circular(8),
-        border: isDark ? Border.all(color: UIColors.darkBorder) : null,
+        color: c.surfaceVariant,
+        borderRadius: BorderRadius.circular(sh.radiusSm),
+        border: Border.all(color: c.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              color: isDark ? UIColors.darkTextSecondary : Colors.grey[600],
-            ),
-          ),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: isDark ? UIColors.darkText : Colors.black87,
-            ),
-          ),
+          Text(label, style: text.caption.copyWith(color: c.textSecondary)),
+          SizedBox(height: sp.xs),
+          Text(value, style: text.bodyBold),
         ],
       ),
     );
   }
 
-  Widget _buildInfoColumn(String label, String value) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+  // SUMMARY LABELS
+  Widget _buildInfoColumn(BuildContext context, String label, String value) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: isDark ? UIColors.darkTextSecondary : Colors.grey[600],
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: isDark ? UIColors.darkText : Colors.black87,
-          ),
-        ),
+        Text(label, style: text.caption.copyWith(color: c.textSecondary)),
+        SizedBox(height: sp.xs),
+        Text(value, style: text.bodyBold),
       ],
     );
   }
 
+  // CATEGORY COLOR
   Color _getColorForCategory() {
     if (widget.level.categories.isEmpty) {
       return DrugCategoryColors.defaultColor;
@@ -290,6 +286,7 @@ class _LevelCardState extends State<LevelCard> {
     return DrugCategoryColors.colorFor(widget.level.categories.first);
   }
 
+  // STATUS COLOR
   Color _getStatusColor(String status) {
     switch (status) {
       case 'HIGH':
@@ -304,12 +301,8 @@ class _LevelCardState extends State<LevelCard> {
   }
 
   String _formatTimeAgo(Duration duration) {
-    if (duration.inHours > 24) {
-      return '${duration.inDays}d ago';
-    } else if (duration.inHours > 0) {
-      return '${duration.inHours}h ago';
-    } else {
-      return '${duration.inMinutes}m ago';
-    }
+    if (duration.inHours > 24) return '${duration.inDays}d ago';
+    if (duration.inHours > 0) return '${duration.inHours}h ago';
+    return '${duration.inMinutes}m ago';
   }
 }
