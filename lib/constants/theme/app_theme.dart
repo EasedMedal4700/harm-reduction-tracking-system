@@ -511,6 +511,16 @@ class ColorPalette {
     required this.overlay,
     required this.overlayHeavy,
   });
+
+  // Convenience getters for common aliases
+  Color get text => textPrimary;
+  Color get onPrimary => textInverse;
+  Color get onAccent => textInverse;
+  Color get onError => textInverse;
+  Color get secondary => textSecondary;
+  Color get surfaceBright => surfaceVariant;
+  Color get warningDark => warning;
+  Color get danger => error;
 }
 
 /// Spacing values
@@ -536,6 +546,10 @@ class Spacing {
     required this.cardPadding,
     required this.cardMargin,
   });
+
+  // Convenience getters for radius values (commonly accessed from spacing)
+  double get radiusSm => 8.0;
+  double get radiusMd => 12.0;
 }
 
 /// Accent color set for a theme
@@ -551,4 +565,7 @@ class AccentColors {
     required this.secondary,
     required this.gradient,
   });
+
+  // Convenience getter
+  Color get success => const Color(0xFF10B981);
 }

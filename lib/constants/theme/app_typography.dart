@@ -64,6 +64,13 @@ class AppTypography {
         letterSpacing: 0,
         height: 1.4,
       ),
+      titleSmall: TextStyle(
+        fontSize: _scale(_baseBodySmall, userFontSize),
+        fontWeight: FontWeight.w600,
+        color: textColor,
+        letterSpacing: 0.1,
+        height: 1.4,
+      ),
       
       // Body text
       bodyLarge: TextStyle(
@@ -125,6 +132,14 @@ class AppTypography {
         letterSpacing: 0.5,
         height: 1.2,
       ),
+      
+      // Label text (same as caption but with primary text color)
+      label: TextStyle(
+        fontSize: _scale(_baseCaption, userFontSize),
+        fontWeight: FontWeight.w500,
+        color: textColorSecondary,
+        height: 1.3,
+      ),
     );
   }
 }
@@ -136,6 +151,7 @@ class TextStyles {
   final TextStyle heading2;
   final TextStyle heading3;
   final TextStyle heading4;
+  final TextStyle titleSmall;
   
   // Body
   final TextStyle bodyLarge;
@@ -147,6 +163,7 @@ class TextStyles {
   final TextStyle caption;
   final TextStyle captionBold;
   final TextStyle overline;
+  final TextStyle label;
   
   // Buttons
   final TextStyle button;
@@ -157,6 +174,7 @@ class TextStyles {
     required this.heading2,
     required this.heading3,
     required this.heading4,
+    required this.titleSmall,
     required this.bodyLarge,
     required this.body,
     required this.bodyBold,
@@ -166,5 +184,6 @@ class TextStyles {
     required this.overline,
     required this.button,
     required this.buttonSmall,
+    required this.label,
   });
 }

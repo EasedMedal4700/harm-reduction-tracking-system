@@ -26,7 +26,7 @@ class BucketDescriptionCard extends StatelessWidget {
         children: [
           Text(
             'About This System',
-            style: text.bodyMedium.copyWith(
+            style: text.body.copyWith(
               fontWeight: FontWeight.w600,
               color: c.text,
             ),
@@ -46,3 +46,4 @@ class BucketDescriptionCard extends StatelessWidget {
     );
   }
 }
+

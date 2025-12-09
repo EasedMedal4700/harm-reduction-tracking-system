@@ -41,7 +41,7 @@ class BucketBaselineCard extends StatelessWidget {
                   daysToBaseline < 0.1
                       ? 'At baseline'
                       : '${daysToBaseline.toStringAsFixed(1)} days',
-                  style: text.bodyMedium.copyWith(
+                  style: text.body.copyWith(
                     fontWeight: FontWeight.w600,
                     color: c.text,
                   ),
@@ -54,3 +54,4 @@ class BucketBaselineCard extends StatelessWidget {
     );
   }
 }
+

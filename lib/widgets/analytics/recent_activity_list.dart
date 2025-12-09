@@ -35,7 +35,6 @@ class RecentActivityList extends StatelessWidget {
         children: [
           const CommonSectionHeader(
             title: 'Recent Activity',
-            icon: Icons.history_rounded,
           ),
 
           const CommonSpacer.vertical(16),
@@ -137,7 +136,8 @@ class _RecentActivityItem extends StatelessWidget {
                           isSelected: false,
                           showGlow: false,
                           icon: icon,
-                          customColor: categoryColor,
+                          selectedColor: categoryColor,
+                          onTap: () {}, // Read-only chip
                         ),
                       ],
                     ),

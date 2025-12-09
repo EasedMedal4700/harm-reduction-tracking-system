@@ -37,7 +37,6 @@ class UsageTrendChart extends StatelessWidget {
         children: [
           CommonSectionHeader(
             title: _title(period),
-            icon: Icons.bar_chart_rounded,
           ),
 
           const CommonSpacer.vertical(16),

@@ -36,7 +36,7 @@ class BucketNotesCard extends StatelessWidget {
 
               Text(
                 'Notes',
-                style: text.bodyMedium.copyWith(
+                style: text.body.copyWith(
                   fontWeight: FontWeight.w600,
                   color: c.text,
                 ),
@@ -59,3 +59,4 @@ class BucketNotesCard extends StatelessWidget {
     );
   }
 }
+

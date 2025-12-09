@@ -54,12 +54,12 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
         color: c.surface,
         borderRadius: BorderRadius.circular(sp.lg),
         border: Border.all(
-          color: acc.success.withOpacity(0.35),
+          color: t.colors.success.withOpacity(0.35),
           width: 1.2,
         ),
         boxShadow: [
           BoxShadow(
-            color: acc.success.withOpacity(0.18),
+            color: t.colors.success.withOpacity(0.18),
             blurRadius: 22,
             spreadRadius: 0,
             offset: const Offset(0, 10),
@@ -530,3 +530,4 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
     return (step / 10).ceil() * 10;
   }
 }
+

@@ -32,7 +32,6 @@ class InsightSummaryCard extends StatelessWidget {
           CommonSectionHeader(
             title: 'Insight Summary',
             subtitle: selectedPeriodText,
-            icon: Icons.lightbulb_outline_rounded,
           ),
 
           const CommonSpacer.vertical(16),

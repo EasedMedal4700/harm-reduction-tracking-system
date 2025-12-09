@@ -26,7 +26,7 @@ class BucketDecayTimelineCard extends StatelessWidget {
         children: [
           Text(
             'Decay Timeline',
-            style: text.bodyMedium.copyWith(
+            style: text.body.copyWith(
               fontWeight: FontWeight.w600,
               color: c.text,
             ),
@@ -72,7 +72,7 @@ class BucketDecayTimelineCard extends StatelessWidget {
               child: Container(
                 height: 12,
                 decoration: BoxDecoration(
-                  color: BucketUtils.getColorForTolerance(tolerancePercent / 100),
+                  color: BucketUtils.getColorForTolerance(context, tolerancePercent / 100),
                   borderRadius: BorderRadius.horizontal(
                     left: Radius.circular(sp.radiusSm),
                     right: tolerancePercent >= 100
@@ -126,3 +126,4 @@ class BucketDecayTimelineCard extends StatelessWidget {
     );
   }
 }
+

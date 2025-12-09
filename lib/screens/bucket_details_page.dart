@@ -55,14 +55,12 @@ class BucketDetailsPage extends StatelessWidget {
             BucketHeaderCard(
               bucketType: bucketType,
               tolerancePercent: tolerancePercent,
-              isDark: isDark,
             ),
             SizedBox(height: ThemeConstants.space16),
 
             // Description
             BucketDescriptionCard(
               bucketType: bucketType,
-              isDark: isDark,
             ),
             SizedBox(height: ThemeConstants.space16),
 
@@ -71,14 +69,12 @@ class BucketDetailsPage extends StatelessWidget {
               bucket: bucket,
               tolerancePercent: tolerancePercent,
               rawLoad: rawLoad,
-              isDark: isDark,
             ),
             SizedBox(height: ThemeConstants.space16),
 
             // Decay timeline (visual representation)
             BucketDecayTimelineCard(
               tolerancePercent: tolerancePercent,
-              isDark: isDark,
             ),
             SizedBox(height: ThemeConstants.space16),
 
@@ -86,7 +82,6 @@ class BucketDetailsPage extends StatelessWidget {
             if (contributingUses.isNotEmpty) ...[
               BucketContributingUsesCard(
                 contributingUses: contributingUses,
-                isDark: isDark,
               ),
               SizedBox(height: ThemeConstants.space16),
             ],
@@ -95,7 +90,6 @@ class BucketDetailsPage extends StatelessWidget {
             if (substanceNotes != null && substanceNotes!.isNotEmpty) ...[
               BucketNotesCard(
                 substanceNotes: substanceNotes!,
-                isDark: isDark,
               ),
               SizedBox(height: ThemeConstants.space16),
             ],
@@ -103,7 +97,6 @@ class BucketDetailsPage extends StatelessWidget {
             // Days to baseline
             BucketBaselineCard(
               daysToBaseline: daysToBaseline,
-              isDark: isDark,
             ),
           ],
         ),

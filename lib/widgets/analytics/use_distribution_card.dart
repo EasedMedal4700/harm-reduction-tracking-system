@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import '../../constants/theme/app_theme.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../constants/theme/app_theme_constants.dart';
 import '../../constants/data/drug_categories.dart';

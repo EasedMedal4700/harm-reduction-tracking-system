@@ -23,7 +23,7 @@ class BucketHeaderCard extends StatelessWidget {
     final text = context.text;
     final sp = context.spacing;
 
-    final bucketColor = BucketUtils.getColorForTolerance(tolerancePercent / 100);
+    final bucketColor = BucketUtils.getColorForTolerance(context, tolerancePercent / 100);
     final isActive = tolerancePercent > 0.1;
 
     return CommonCard(
@@ -62,7 +62,7 @@ class BucketHeaderCard extends StatelessWidget {
 
                 Text(
                   '${tolerancePercent.toStringAsFixed(1)}% Tolerance',
-                  style: text.bodyMedium.copyWith(
+                  style: text.body.copyWith(
                     fontWeight: FontWeight.w600,
                     color: bucketColor,
                   ),
@@ -95,3 +95,4 @@ class BucketHeaderCard extends StatelessWidget {
     );
   }
 }
+
