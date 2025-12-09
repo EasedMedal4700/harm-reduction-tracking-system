@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import '../../models/tolerance_model.dart';
 import '../../models/bucket_definitions.dart';
 import '../../utils/tolerance_calculator.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
 import '../tolerance/system_bucket_card.dart';
 
 class SystemOverviewWidget extends StatelessWidget {
@@ -12,7 +11,6 @@ class SystemOverviewWidget extends StatelessWidget {
   final Map<String, Map<String, double>> substanceContributions;
   final String? selectedBucket;
   final Function(String) onBucketSelected;
-  final bool isDark;
 
   const SystemOverviewWidget({
     super.key,
@@ -21,71 +19,72 @@ class SystemOverviewWidget extends StatelessWidget {
     required this.substanceContributions,
     required this.selectedBucket,
     required this.onBucketSelected,
-    required this.isDark,
   });
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final orderedBuckets = BucketDefinitions.orderedBuckets;
-    final systemData = systemTolerance;
-    
-    if (systemData == null) {
-      // Loading state
-      return Card(
-        color: isDark ? UIColors.darkSurface : Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-          side: BorderSide(
-            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-          ),
+
+    // LOADING STATE
+    if (systemTolerance == null) {
+      return Container(
+        decoration: BoxDecoration(
+          color: t.colors.surface,
+          borderRadius: BorderRadius.circular(t.spacing.md),
+          border: Border.all(color: t.colors.border),
         ),
-        child: const Padding(
-          padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-          child: Center(child: CircularProgressIndicator()),
-        ),
+        padding: EdgeInsets.all(t.spacing.lg),
+        child: const Center(child: CircularProgressIndicator()),
       );
     }
-    
+
+    final data = systemTolerance!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section header
+        // HEADER
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
+          padding: EdgeInsets.symmetric(
+            horizontal: t.spacing.xs,
+            vertical: t.spacing.sm,
+          ),
           child: Text(
             'System Tolerance Overview',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+            style: t.typography.heading3.copyWith(
+              color: t.colors.textPrimary,
             ),
           ),
         ),
-        const SizedBox(height: ThemeConstants.space12),
-        
-        // Horizontal scrollable bucket cards
+
+        SizedBox(height: t.spacing.sm),
+
+        // BUCKET CARDS — horizontal
         SizedBox(
-          height: 140, // Fixed height for cards
+          height: 140,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.symmetric(horizontal: t.spacing.sm),
             itemCount: orderedBuckets.length,
-            separatorBuilder: (context, index) => const SizedBox(width: ThemeConstants.space12),
+            separatorBuilder: (_, __) => SizedBox(width: t.spacing.sm),
             itemBuilder: (context, index) {
-              final bucketType = orderedBuckets[index];
-              final tolerancePercent = (systemData.bucketPercents[bucketType] ?? 0.0).clamp(0.0, 100.0);
-              final state = ToleranceCalculator.classifyState(tolerancePercent);
-              
-              // Check if any substance is active for this bucket
-              final contributions = substanceContributions[bucketType];
+              final bucket = orderedBuckets[index];
+              final percent =
+                  (data.bucketPercents[bucket] ?? 0.0).clamp(0.0, 100.0);
+
+              final state = ToleranceCalculator.classifyState(percent);
+
+              final contributions = substanceContributions[bucket];
               final isActive = contributions != null && contributions.isNotEmpty;
-              
+
               return SystemBucketCard(
-                bucketType: bucketType,
-                tolerancePercent: tolerancePercent,
+                bucketType: bucket,
+                tolerancePercent: percent,
                 state: state,
                 isActive: isActive,
-                isSelected: selectedBucket == bucketType,
-                onTap: () => onBucketSelected(bucketType),
+                isSelected: selectedBucket == bucket,
+                onTap: () => onBucketSelected(bucket),
               );
             },
           ),

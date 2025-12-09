@@ -6,6 +6,43 @@ class AppThemeConstants {
   AppThemeConstants._();
 
   // ============================================================================
+  // SHADOW COLORS
+  // ============================================================================
+  static const Color shadowLight = Color(0x1A000000);  // 10% opacity
+  static const Color shadowDark = Color(0x66000000);   // 40% opacity
+
+
+  // ============================================================================
+  // LEGACY COMPATIBILITY (for old widgets)
+  // ============================================================================
+  static const double borderThin = 1.0;
+  static const double borderMedium = 2.0;
+  static const double borderThick = 3.0;
+
+  static const double space4 = 4.0;
+  static const double space8 = 8.0;
+  static const double space12 = 12.0;
+  static const double space16 = 16.0;
+  static const double space20 = 20.0;
+  static const double space24 = 24.0;
+
+  static const double radiusSmall = 8.0;
+  static const double radiusMedium = 12.0;
+  static const double radiusLarge = 16.0;
+  static const double cardRadius = 16.0;
+
+  static const double fontXSmall = 12.0;
+  static const double fontSmall = 14.0;
+  static const double fontMedium = 16.0;
+  static const double fontLarge = 18.0;
+  static const double fontXLarge = 20.0;
+  static const double fontBold = 700;
+  static const double fontSemiBold = 600;
+
+  static const double cardPaddingMedium = 16.0;
+
+
+  // ============================================================================
   // SPACING
   // ============================================================================
   static const double spaceXs = 4.0;

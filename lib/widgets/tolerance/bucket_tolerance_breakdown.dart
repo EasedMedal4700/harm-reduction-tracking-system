@@ -1,13 +1,17 @@
+//MIGRTAED FILE
+
 import 'package:flutter/material.dart';
+
 import '../../models/tolerance_bucket.dart';
 import '../../models/bucket_definitions.dart';
 import '../../utils/bucket_tolerance_calculator.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
 
-/// Widget to display bucket-specific tolerance breakdown from NEW tolerance system.
-/// CRITICAL: Only displays neuro_buckets defined in the substance's tolerance_model.
-/// Does NOT merge or show hardcoded default buckets.
+// NEW THEME SYSTEM
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme_constants.dart';
+import '../../constants/theme/app_theme.dart';
+
+/// Modern bucket tolerance breakdown widget using the NEW theme system
 class BucketToleranceBreakdown extends StatelessWidget {
   final Map<String, BucketToleranceResult> bucketResults;
   final BucketToleranceModel model;
@@ -18,220 +22,208 @@ class BucketToleranceBreakdown extends StatelessWidget {
     required this.model,
   });
 
-  Color _getColorForTolerance(double tolerance) {
-    if (tolerance < 0.25) return Colors.green;
-    if (tolerance < 0.5) return Colors.yellow.shade700;
-    if (tolerance < 0.75) return Colors.orange;
-    return Colors.red;
+  Color _getColorForTolerance(double value, AppTheme t) {
+    if (value < 0.25) return t.colors.success;
+    if (value < 0.50) return t.colors.warning;
+    if (value < 0.75) return Colors.orangeAccent;
+    return t.colors.error;
   }
 
-  String _getBucketDisplayName(String bucketType) {
-    return BucketDefinitions.getDisplayName(bucketType);
+  String _getBucketDisplayName(String type) {
+    return BucketDefinitions.getDisplayName(type);
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
 
     if (bucketResults.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return Container(
-      margin: EdgeInsets.all(ThemeConstants.space16),
-      padding: EdgeInsets.all(ThemeConstants.space16),
+      margin: EdgeInsets.all(t.spacing.lg),
+      padding: EdgeInsets.all(t.spacing.lg),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(AppThemeConstants.radiusLg),
         border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-          width: ThemeConstants.borderThin,
+          color: t.colors.border.withOpacity(0.6),
+          width: 1,
         ),
+        boxShadow: t.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header
           Row(
             children: [
-              Icon(
-                Icons.analytics_outlined,
-                color: isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
-                size: 20,
-              ),
-              SizedBox(width: ThemeConstants.space8),
+              Icon(Icons.analytics_outlined,
+                  color: t.accent.primary, size: 20),
+              SizedBox(width: t.spacing.sm),
               Text(
                 'Neurochemical Tolerance Breakdown',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
+                style: t.typography.heading3,
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space16),
-          // CRITICAL: Only render buckets from model.neuroBuckets
-          // Ordered by BucketDefinitions.orderedBuckets for consistency
+
+          SizedBox(height: t.spacing.lg),
+
+          // Buckets — only the ones *defined in the model*
           ...BucketDefinitions.orderedBuckets.where((bucketType) {
             return model.neuroBuckets.containsKey(bucketType) &&
-                   bucketResults.containsKey(bucketType);
+                bucketResults.containsKey(bucketType);
           }).map((bucketType) {
             final bucket = model.neuroBuckets[bucketType]!;
             final result = bucketResults[bucketType]!;
+            final toleranceColor = _getColorForTolerance(result.tolerance, t);
 
-            return InkWell(
-              onTap: () {
-                // TODO: Navigate to BucketDetailsPage when available
-                // This requires passing use events and calculating days to baseline
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Bucket details page - Coming soon!'),
-                    duration: Duration(seconds: 2),
+            return Padding(
+              padding: EdgeInsets.only(bottom: t.spacing.lg),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Bucket details page coming soon'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(t.spacing.md),
+                  decoration: BoxDecoration(
+                    color: t.colors.surfaceVariant,
+                    borderRadius:
+                        BorderRadius.circular(AppThemeConstants.radiusMd),
+                    border: Border.all(
+                      color: t.colors.border,
+                      width: 1,
+                    ),
                   ),
-                );
-              },
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-              child: Padding(
-                padding: EdgeInsets.only(bottom: ThemeConstants.space12),
-                child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _getBucketDisplayName(bucketType),
-                              style: TextStyle(
-                                fontSize: ThemeConstants.fontSmall,
-                                fontWeight: ThemeConstants.fontMediumWeight,
-                                color: isDark ? UIColors.darkText : UIColors.lightText,
-                              ),
-                            ),
-                            SizedBox(height: ThemeConstants.space4),
-                            Text(
-                              BucketDefinitions.getDescription(bucketType),
-                              style: TextStyle(
-                                fontSize: ThemeConstants.fontXSmall,
-                                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                                height: 1.3,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Header row
                       Row(
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          if (result.isActive)
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: ThemeConstants.space8,
-                                vertical: ThemeConstants.space4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.blue.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                              ),
-                              child: Text(
-                                'ACTIVE',
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontXSmall,
-                                  fontWeight: ThemeConstants.fontBold,
-                                  color: Colors.blue,
+                          // Name + description
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _getBucketDisplayName(bucketType),
+                                  style: t.typography.bodyBold,
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  BucketDefinitions.getDescription(bucketType),
+                                  style: t.typography.caption,
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          Row(
+                            children: [
+                              if (result.isActive)
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: t.spacing.sm,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: t.accent.primary.withOpacity(0.15),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    'ACTIVE',
+                                    style: t.typography.captionBold.copyWith(
+                                      color: t.accent.primary,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ),
+                              SizedBox(width: t.spacing.sm),
+
+                              // Percentage
+                              Text(
+                                '${(result.tolerance * 100).toStringAsFixed(1)}%',
+                                style: t.typography.bodyBold.copyWith(
+                                  color: toleranceColor,
                                 ),
                               ),
-                            ),
-                          SizedBox(width: ThemeConstants.space8),
-                          // CRITICAL FIX: Display actual tolerance value without clamping
-                          // If tolerance is 0.575, show "57.5%" not "100%"
+                            ],
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: t.spacing.sm),
+
+                      // Progress bar
+                      ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(AppThemeConstants.radiusSm),
+                        child: LinearProgressIndicator(
+                          value:
+                              result.tolerance > 1 ? 1 : result.tolerance,
+                          minHeight: 8,
+                          backgroundColor: t.colors.border.withOpacity(0.4),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(toleranceColor),
+                        ),
+                      ),
+
+                      SizedBox(height: t.spacing.xs),
+
+                      // Extra metadata
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                           Text(
-                            '${(result.tolerance * 100).toStringAsFixed(1)}%',
-                            style: TextStyle(
-                              fontSize: ThemeConstants.fontSmall,
-                              fontWeight: ThemeConstants.fontBold,
-                              color: _getColorForTolerance(result.tolerance),
+                            'Weight: ${bucket.weight.toStringAsFixed(2)} • Type: ${bucket.toleranceType}',
+                            style: t.typography.caption,
+                          ),
+                          Text(
+                            'Active: ${(result.activeLevel * 100).toStringAsFixed(1)}%',
+                            style: t.typography.captionBold.copyWith(
+                              color: result.isActive
+                                  ? t.accent.primary
+                                  : t.colors.textSecondary,
                             ),
                           ),
                         ],
                       ),
                     ],
                   ),
-                  SizedBox(height: ThemeConstants.space8),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                    child: LinearProgressIndicator(
-                      // CRITICAL FIX: Don't clamp to 1.0 artificially
-                      // Display actual value even if > 100%
-                      value: result.tolerance > 1.0 ? 1.0 : result.tolerance,
-                      backgroundColor: isDark
-                          ? UIColors.darkBorder
-                          : UIColors.lightBorder,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        _getColorForTolerance(result.tolerance),
-                      ),
-                      minHeight: 8,
-                    ),
-                  ),
-                  SizedBox(height: ThemeConstants.space4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Weight: ${bucket.weight.toStringAsFixed(2)} • Type: ${bucket.toleranceType}',
-                        style: TextStyle(
-                          fontSize: ThemeConstants.fontXSmall,
-                          color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                        ),
-                      ),
-                      // CRITICAL FIX: Show actual active level percentage
-                      Text(
-                        'Active: ${(result.activeLevel * 100).toStringAsFixed(1)}%',
-                        style: TextStyle(
-                          fontSize: ThemeConstants.fontXSmall,
-                          fontWeight: ThemeConstants.fontMediumWeight,
-                          color: result.isActive 
-                              ? Colors.blue 
-                              : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
-            ),
-            ); // Close InkWell
+            );
           }),
+
+          // Notes
           if (model.notes != null) ...[
-            Divider(
-              height: ThemeConstants.space24,
-              color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-            ),
+            Divider(color: t.colors.border, height: t.spacing.xl),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.info_outline,
-                  size: 16,
-                  color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                ),
-                SizedBox(width: ThemeConstants.space8),
+                Icon(Icons.info_outline,
+                    size: 16, color: t.colors.textSecondary),
+                SizedBox(width: t.spacing.sm),
                 Expanded(
                   child: Text(
                     model.notes!,
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontXSmall,
-                      color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                    style: t.typography.caption.copyWith(
                       fontStyle: FontStyle.italic,
-                      height: 1.4,
                     ),
                   ),
                 ),
               ],
-            ),
+            )
           ],
         ],
       ),

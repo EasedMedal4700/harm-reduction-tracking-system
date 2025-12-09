@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+
 import '../../models/tolerance_model.dart';
 import '../../utils/tolerance_calculator.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme_constants.dart';
+
 import '../tolerance/tolerance_stats_card.dart';
 import '../tolerance/tolerance_notes_card.dart';
 import '../tolerance/recent_uses_card.dart';
@@ -30,7 +33,7 @@ class DashboardContentWidget extends StatelessWidget {
   final Function(String) onSubstanceSelected;
   final Function(String) onBucketSelected;
   final GlobalKey bucketDetailKey;
-  final bool isDark;
+  final bool isDark; // still passed through to children that use legacy styling
 
   const DashboardContentWidget({
     super.key,
@@ -55,12 +58,14 @@ class DashboardContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // 0. Safety Disclaimer (TOP - CRITICAL)
         const CompactToleranceDisclaimer(),
-        const SizedBox(height: ThemeConstants.cardSpacing),
+        SizedBox(height: t.spacing.lg),
 
         // 1. System Tolerance Overview (ALL 7 BUCKETS)
         SystemOverviewWidget(
@@ -69,9 +74,8 @@ class DashboardContentWidget extends StatelessWidget {
           substanceContributions: substanceContributions,
           selectedBucket: selectedBucket,
           onBucketSelected: onBucketSelected,
-          isDark: isDark,
         ),
-        const SizedBox(height: ThemeConstants.cardSpacing),
+        SizedBox(height: t.spacing.lg),
 
         // 2. Bucket Details (Selected bucket with contributing substances)
         if (selectedBucket != null)
@@ -84,34 +88,38 @@ class DashboardContentWidget extends StatelessWidget {
             onSubstanceSelected: onSubstanceSelected,
             bucketDetailKey: bucketDetailKey,
           ),
-        
+
         if (selectedBucket != null)
-          const SizedBox(height: ThemeConstants.cardSpacing),
+          SizedBox(height: t.spacing.lg),
 
         // 3. Substance Detail (existing unified widget - only if substance selected)
-        if (selectedSubstance != null && toleranceModel != null && substanceTolerance != null)
+        if (selectedSubstance != null &&
+            toleranceModel != null &&
+            substanceTolerance != null)
           UnifiedBucketToleranceWidget(
             toleranceModel: toleranceModel!,
             toleranceResult: substanceTolerance!,
             substanceName: selectedSubstance!,
           ),
 
-        if (selectedSubstance != null && toleranceModel != null && substanceTolerance != null)
-          const SizedBox(height: ThemeConstants.cardSpacing),
+        if (selectedSubstance != null &&
+            toleranceModel != null &&
+            substanceTolerance != null)
+          SizedBox(height: t.spacing.lg),
 
         // 4. Key Metrics (Bottom)
         if (errorMessage != null)
           Card(
-            color: isDark ? UIColors.darkSurface : Colors.grey.shade100,
+            color: t.colors.surface,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+              borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+              padding: EdgeInsets.all(t.spacing.cardPadding),
               child: Text(
                 errorMessage!,
-                style: TextStyle(
-                  color: isDark ? UIColors.darkTextSecondary : Colors.black54,
+                style: t.typography.bodySmall.copyWith(
+                  color: t.colors.textSecondary,
                 ),
               ),
             ),
@@ -122,18 +130,18 @@ class DashboardContentWidget extends StatelessWidget {
             daysUntilBaseline: substanceTolerance?.overallDaysUntilBaseline ?? 0,
             recentUseCount: useEvents.length,
           ),
-          const SizedBox(height: ThemeConstants.cardSpacing),
+          SizedBox(height: t.spacing.lg),
           ToleranceNotesCard(notes: toleranceModel!.notes),
         ],
 
         if (useEvents.isNotEmpty) ...[
-          const SizedBox(height: ThemeConstants.cardSpacing),
+          SizedBox(height: t.spacing.lg),
           RecentUsesCard(useEvents: useEvents),
         ],
 
         // Debug: Per-substance tolerances
         if (showDebugSubstances) ...[
-          const SizedBox(height: ThemeConstants.cardSpacing),
+          SizedBox(height: t.spacing.lg),
           DebugSubstanceList(
             perSubstanceTolerances: perSubstanceTolerances,
             isLoading: isLoadingPerSubstance,
@@ -141,7 +149,7 @@ class DashboardContentWidget extends StatelessWidget {
         ],
 
         if (showDebugPanel) ...[
-          const SizedBox(height: ThemeConstants.cardSpacing),
+          SizedBox(height: t.spacing.lg),
           DebugPanelWidget(
             systemTolerance: systemTolerance,
             substanceTolerance: substanceTolerance,

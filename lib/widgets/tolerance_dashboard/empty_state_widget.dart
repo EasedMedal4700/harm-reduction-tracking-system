@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class EmptyStateWidget extends StatelessWidget {
-  final bool isDark;
-
-  const EmptyStateWidget({
-    super.key,
-    required this.isDark,
-  });
+  const EmptyStateWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+
     return Padding(
-      padding: const EdgeInsets.only(
-        top: ThemeConstants.space16,
-      ),
+      padding: EdgeInsets.only(top: t.spacing.lg),
       child: Text(
         'Log entries with substance names to see tolerance insights.',
-        style: TextStyle(
-          color: isDark
-              ? UIColors.darkTextSecondary
-              : UIColors.lightTextSecondary,
+        textAlign: TextAlign.center,
+        style: t.typography.bodySmall.copyWith(
+          color: t.colors.textSecondary,
         ),
       ),
     );

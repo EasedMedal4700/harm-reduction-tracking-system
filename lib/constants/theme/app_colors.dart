@@ -1,38 +1,40 @@
 import 'package:flutter/material.dart';
-import 'app_theme.dart';  // where AppTheme is defined
-import 'app_theme_provider.dart';  // <-- THIS IS REQUIRED
+import 'app_theme.dart';
+import 'app_theme_provider.dart';
 
+/// Extension ONLY for color access.
+/// DO NOT expose `.theme` here — that belongs to AppThemeX.
 extension AppColorsExt on BuildContext {
-  /// Shorthand access to the active theme
-  AppTheme get theme => AppThemeProvider.of(this);
+  /// Color palette (renamed to avoid conflict)
+  AppTheme get palette => AppThemeProvider.of(this);
 
-  /// Basic colors
-  Color get bg => theme.colors.background;
-  Color get surface => theme.colors.surface;
-  Color get surfaceVariant => theme.colors.surfaceVariant;
+  // BASIC COLORS
+  Color get bg => palette.colors.background;
+  Color get surface => palette.colors.surface;
+  Color get surfaceVariant => palette.colors.surfaceVariant;
 
-  Color get border => theme.colors.border;
-  Color get divider => theme.colors.divider;
+  Color get border => palette.colors.border;
+  Color get divider => palette.colors.divider;
 
-  /// Text colors
-  Color get textPrimary => theme.colors.textPrimary;
-  Color get textSecondary => theme.colors.textSecondary;
-  Color get textTertiary => theme.colors.textTertiary;
-  Color get textInverse => theme.colors.textInverse;
+  // TEXT COLORS
+  Color get textPrimary => palette.colors.textPrimary;
+  Color get textSecondary => palette.colors.textSecondary;
+  Color get textTertiary => palette.colors.textTertiary;
+  Color get textInverse => palette.colors.textInverse;
 
-  /// Accent colors
-  Color get accent => theme.accent.primary;
-  Color get accentVariant => theme.accent.primaryVariant;
-  Color get accentSecondary => theme.accent.secondary;
-  LinearGradient get accentGradient => theme.accent.gradient;
+  // ACCENT COLORS
+  Color get accent => palette.accent.primary;
+  Color get accentVariant => palette.accent.primaryVariant;
+  Color get accentSecondary => palette.accent.secondary;
+  LinearGradient get accentGradient => palette.accent.gradient;
 
-  /// Status colors
-  Color get success => theme.colors.success;
-  Color get warning => theme.colors.warning;
-  Color get error => theme.colors.error;
-  Color get info => theme.colors.info;
+  // STATUS COLORS
+  Color get success => palette.colors.success;
+  Color get warning => palette.colors.warning;
+  Color get error => palette.colors.error;
+  Color get info => palette.colors.info;
 
-  /// Overlays
-  Color get overlay => theme.colors.overlay;
-  Color get overlayHeavy => theme.colors.overlayHeavy;
+  // OVERLAYS
+  Color get overlay => palette.colors.overlay;
+  Color get overlayHeavy => palette.colors.overlayHeavy;
 }

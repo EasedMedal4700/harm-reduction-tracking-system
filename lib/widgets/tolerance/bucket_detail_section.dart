@@ -1,22 +1,20 @@
+//MIGRTAED FILE
+
 import 'package:flutter/material.dart';
 import '../../models/bucket_definitions.dart';
 import '../../models/tolerance_model.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme_constants.dart';
+import '../../constants/theme/app_theme.dart';
 
 /// Detailed view for a selected neurochemical bucket
-/// 
-/// Shows:
-/// - Bucket name and description
-/// - System-wide tolerance for this bucket
-/// - List of substances contributing to this bucket with their individual contributions
-/// - Allows selecting a substance for detailed view
 class BucketDetailSection extends StatelessWidget {
   final String bucketType;
   final double systemTolerancePercent;
   final ToleranceSystemState state;
-  final Map<String, double> substanceContributions; // substance name -> tolerance %
-  final Map<String, bool> substanceActiveStates; // substance name -> is active
+  final Map<String, double> substanceContributions;
+  final Map<String, bool> substanceActiveStates;
   final String? selectedSubstance;
   final Function(String) onSubstanceSelected;
 
@@ -31,70 +29,62 @@ class BucketDetailSection extends StatelessWidget {
     required this.onSubstanceSelected,
   });
 
-  Color _getStateColor(ToleranceSystemState state) {
+  Color _getStateColor(ToleranceSystemState state, ColorPalette c) {
     switch (state) {
       case ToleranceSystemState.recovered:
-        return Colors.green;
+        return c.success;
       case ToleranceSystemState.lightStress:
-        return Colors.blue;
+        return c.info;
       case ToleranceSystemState.moderateStrain:
-        return Colors.orange;
+        return c.warning;
       case ToleranceSystemState.highStrain:
-        return Colors.deepOrange;
+        return Colors.deepOrangeAccent;
       case ToleranceSystemState.depleted:
-        return Colors.red;
+        return c.error;
     }
   }
 
-  Color _getToleranceColor(double percent) {
-    if (percent < 25) return Colors.green;
-    if (percent < 50) return Colors.yellow.shade700;
+  Color _getToleranceColor(double percent, ColorPalette c) {
+    if (percent < 25) return c.success;
+    if (percent < 50) return c.warning;
     if (percent < 75) return Colors.orange;
-    return Colors.red;
+    return c.error;
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final stateColor = _getStateColor(state);
+    final t = context.theme;
+    final c = t.colors;
+    final s = t.spacing;
+    final stateColor = _getStateColor(state, c);
 
     return Container(
-      margin: EdgeInsets.all(ThemeConstants.space16),
-      padding: EdgeInsets.all(ThemeConstants.space16),
+      margin: EdgeInsets.all(s.md),
+      padding: EdgeInsets.all(s.md),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-          width: ThemeConstants.borderThin,
-        ),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
+        border: Border.all(color: c.border, width: AppThemeConstants.borderThin),
+        boxShadow: t.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
+          // HEADER
           Row(
             children: [
-              Icon(
-                Icons.analytics_outlined,
-                color: stateColor,
-                size: 24,
-              ),
-              SizedBox(width: ThemeConstants.space12),
+              Icon(Icons.analytics_outlined, color: stateColor, size: 24),
+              SizedBox(width: s.sm),
               Expanded(
                 child: Text(
                   '${BucketDefinitions.getDisplayName(bucketType)} Tolerance',
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontLarge,
-                    fontWeight: ThemeConstants.fontBold,
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
-                  ),
+                  style: t.typography.heading3,
                 ),
               ),
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: ThemeConstants.space12,
-                  vertical: ThemeConstants.space8,
+                  horizontal: s.sm,
+                  vertical: s.xs,
                 ),
                 decoration: BoxDecoration(
                   color: stateColor.withOpacity(0.1),
@@ -106,157 +96,127 @@ class BucketDetailSection extends StatelessWidget {
                 ),
                 child: Text(
                   '${systemTolerancePercent.toStringAsFixed(1)}%',
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontMedium,
-                    fontWeight: ThemeConstants.fontBold,
-                    color: stateColor,
-                  ),
+                  style: t.typography.bodyBold.copyWith(color: stateColor),
                 ),
               ),
             ],
           ),
-          
-          SizedBox(height: ThemeConstants.space12),
 
-          // Description
+          SizedBox(height: s.md),
+
+          // DESCRIPTION
           Text(
             BucketDefinitions.getDescription(bucketType),
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-              height: 1.4,
-            ),
+            style: t.typography.bodySmall,
           ),
 
-          SizedBox(height: ThemeConstants.space16),
-          Divider(color: isDark ? UIColors.darkBorder : UIColors.lightBorder),
-          SizedBox(height: ThemeConstants.space16),
+          SizedBox(height: s.md),
+          Divider(color: c.divider),
+          SizedBox(height: s.md),
 
-          // Substances contributing header
+          // SUBSTANCES HEADER
           Text(
             'Contributing Substances',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              fontWeight: ThemeConstants.fontSemiBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
+            style: t.typography.heading4,
           ),
-          SizedBox(height: ThemeConstants.space12),
+          SizedBox(height: s.sm),
 
-          // List of substances
+          // EMPTY STATE
           if (substanceContributions.isEmpty)
             Padding(
-              padding: EdgeInsets.symmetric(vertical: ThemeConstants.space16),
+              padding: EdgeInsets.symmetric(vertical: s.md),
               child: Text(
                 'No active substances for this bucket',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                style: t.typography.bodySmall.copyWith(
                   fontStyle: FontStyle.italic,
                 ),
               ),
             )
+
+          // LIST OF SUBSTANCES
           else
             ...substanceContributions.entries.map((entry) {
               final substanceName = entry.key;
               final contribution = entry.value;
               final isActive = substanceActiveStates[substanceName] ?? false;
-              final isSelected = substanceName == selectedSubstance;
+              final isSelected = selectedSubstance == substanceName;
 
-              return Card(
-                margin: EdgeInsets.only(bottom: ThemeConstants.space8),
-                elevation: isSelected ? 2 : 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                  side: BorderSide(
-                    color: isSelected
-                        ? (isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue)
-                        : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
+              final tolColor = _getToleranceColor(contribution, c);
+
+              return Container(
+                margin: EdgeInsets.only(bottom: s.sm),
+                decoration: BoxDecoration(
+                  color: c.surface,
+                  borderRadius: BorderRadius.circular(AppThemeConstants.radiusSm),
+                  border: Border.all(
+                    color: isSelected ? t.accent.primary : c.border,
                     width: isSelected ? 2 : 1,
                   ),
                 ),
                 child: InkWell(
+                  borderRadius: BorderRadius.circular(AppThemeConstants.radiusSm),
                   onTap: () => onSubstanceSelected(substanceName),
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
                   child: Padding(
-                    padding: EdgeInsets.all(ThemeConstants.space12),
+                    padding: EdgeInsets.all(s.sm),
                     child: Row(
                       children: [
-                        // Substance name
+                        // SUBSTANCE NAME + TEXT
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                substanceName,
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontSmall,
-                                  fontWeight: ThemeConstants.fontSemiBold,
-                                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                                ),
-                              ),
+                              Text(substanceName, style: t.typography.bodyBold),
                               SizedBox(height: 2),
                               Text(
                                 'Contribution: ${contribution.toStringAsFixed(1)}%',
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontXSmall,
-                                  color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                                ),
+                                style: t.typography.caption,
                               ),
                             ],
                           ),
                         ),
 
-                        // Percentage badge
+                        // % BADGE
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: ThemeConstants.space8,
-                            vertical: ThemeConstants.space4,
+                            horizontal: s.xs,
+                            vertical: s.xs / 2,
                           ),
                           decoration: BoxDecoration(
-                            color: _getToleranceColor(contribution).withOpacity(0.1),
+                            color: tolColor.withOpacity(0.15),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
                             '${contribution.toStringAsFixed(1)}%',
-                            style: TextStyle(
-                              fontSize: ThemeConstants.fontXSmall,
-                              fontWeight: ThemeConstants.fontBold,
-                              color: _getToleranceColor(contribution),
+                            style: t.typography.captionBold.copyWith(
+                              color: tolColor,
                             ),
                           ),
                         ),
 
-                        // Active badge
+                        // ACTIVE BADGE
                         if (isActive) ...[
-                          SizedBox(width: ThemeConstants.space8),
+                          SizedBox(width: s.sm),
                           Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: ThemeConstants.space8,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: s.xs,
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.2),
+                              color: t.accent.secondary.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
                               'ACTIVE',
-                              style: TextStyle(
-                                fontSize: 9,
-                                fontWeight: ThemeConstants.fontBold,
-                                color: Colors.blue,
+                              style: t.typography.captionBold.copyWith(
+                                color: t.accent.secondary,
+                                fontSize: 10,
                               ),
                             ),
                           ),
                         ],
 
-                        // Selection arrow
-                        SizedBox(width: ThemeConstants.space8),
-                        Icon(
-                          Icons.chevron_right,
-                          size: 20,
-                          color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                        ),
+                        SizedBox(width: s.sm),
+                        Icon(Icons.chevron_right, color: c.textSecondary, size: 20),
                       ],
                     ),
                   ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import '../../models/tolerance_model.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
 
 class ToleranceStatsCard extends StatelessWidget {
   final ToleranceModel toleranceModel;
@@ -17,140 +16,125 @@ class ToleranceStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark ? UIColors.darkSurface : Colors.white;
-    final borderColor = isDark
-        ? UIColors.darkBorder
-        : Colors.black.withOpacity(0.05);
+    final t = context.theme;
 
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        side: BorderSide(color: borderColor),
+    return Container(
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        border: Border.all(color: t.colors.border),
+        boxShadow: t.cardShadow,
       ),
-      color: backgroundColor,
+      padding: EdgeInsets.all(t.spacing.cardPadding),
       margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Key metrics',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                fontWeight: ThemeConstants.fontBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Key metrics',
+            style: t.typography.heading4.copyWith(
+              color: t.colors.textPrimary,
+            ),
+          ),
+          SizedBox(height: t.spacing.lg),
+
+          // TWO COLUMN GRID
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // LEFT COLUMN
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _metricItem(
+                      context,
+                      label: 'Half-life',
+                      value: '${toleranceModel.halfLifeHours}h',
+                      icon: Icons.timelapse,
+                    ),
+                    SizedBox(height: t.spacing.lg),
+                    _metricItem(
+                      context,
+                      label: 'Days to baseline',
+                      value: daysUntilBaseline <= 0
+                          ? 'Baseline'
+                          : '${daysUntilBaseline.toStringAsFixed(1)} days',
+                      icon: Icons.calendar_today,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: ThemeConstants.space16),
 
-            // 2-Column Grid
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Column 1
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildMetricItem(
-                        context,
-                        'Half-life',
-                        '${toleranceModel.halfLifeHours}h',
-                        Icons.timelapse,
-                      ),
-                      const SizedBox(height: ThemeConstants.space16),
-                      _buildMetricItem(
-                        context,
-                        'Days to baseline',
-                        daysUntilBaseline <= 0
-                            ? 'Baseline'
-                            : '${daysUntilBaseline.toStringAsFixed(1)} days',
-                        Icons.calendar_today,
-                      ),
-                    ],
-                  ),
-                ),
+              // DIVIDER
+              Container(
+                width: 1,
+                height: 80,
+                margin: EdgeInsets.symmetric(horizontal: t.spacing.lg),
+                color: t.colors.divider,
+              ),
 
-                // Vertical Divider
-                Container(
-                  width: 1,
-                  height: 80,
-                  color: isDark ? UIColors.darkDivider : UIColors.lightDivider,
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: ThemeConstants.space16,
-                  ),
+              // RIGHT COLUMN
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _metricItem(
+                      context,
+                      label: 'Tolerance decay',
+                      value: '${toleranceModel.toleranceDecayDays} days',
+                      icon: Icons.trending_down,
+                    ),
+                    SizedBox(height: t.spacing.lg),
+                    _metricItem(
+                      context,
+                      label: 'Recent uses',
+                      value: '$recentUseCount',
+                      icon: Icons.history,
+                    ),
+                  ],
                 ),
-
-                // Column 2
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildMetricItem(
-                        context,
-                        'Tolerance decay',
-                        '${toleranceModel.toleranceDecayDays} days',
-                        Icons.trending_down,
-                      ),
-                      const SizedBox(height: ThemeConstants.space16),
-                      _buildMetricItem(
-                        context,
-                        'Recent uses',
-                        '$recentUseCount',
-                        Icons.history,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildMetricItem(
-    BuildContext context,
-    String label,
-    String value,
-    IconData icon,
-  ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final secondaryTextColor = isDark
-        ? UIColors.darkTextSecondary
-        : UIColors.lightTextSecondary;
+  // ---------------------------------------------------------------------------
+  // METRIC ROW BUILDER
+  // ---------------------------------------------------------------------------
+  Widget _metricItem(
+    BuildContext context, {
+    required String label,
+    required String value,
+    required IconData icon,
+  }) {
+    final t = context.theme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Icon(icon, size: 14, color: secondaryTextColor),
-            const SizedBox(width: 6),
+            Icon(icon, size: 16, color: t.colors.textSecondary),
+            SizedBox(width: t.spacing.xs),
             Text(
               label,
-              style: TextStyle(
-                fontSize: ThemeConstants.fontSmall,
-                color: secondaryTextColor,
-                fontWeight: ThemeConstants.fontMediumWeight,
+              style: t.typography.bodySmall.copyWith(
+                color: t.colors.textSecondary,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4),
         Padding(
-          padding: const EdgeInsets.only(left: 20),
+          padding: EdgeInsets.only(left: 22),
           child: Text(
             value,
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              fontWeight: ThemeConstants.fontBold,
-              color: textColor,
+            style: t.typography.bodyBold.copyWith(
+              color: t.colors.textPrimary,
             ),
           ),
         ),

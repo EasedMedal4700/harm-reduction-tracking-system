@@ -1,16 +1,11 @@
+// MIGRATION
 import 'package:flutter/material.dart';
 import '../../models/bucket_definitions.dart';
 import '../../models/tolerance_model.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme.dart';
 
 /// Card widget displaying a single neurochemical bucket's system-wide tolerance
-/// 
-/// Shows:
-/// - Bucket icon and name (e.g., "Stimulant", "GABA")
-/// - Current tolerance percentage (system-wide across all substances)
-/// - Status badge (Recovered, Light Stress, Moderate, High, Depleted)
-/// - Active indicator if any substance is currently active in this bucket
 class SystemBucketCard extends StatelessWidget {
   final String bucketType;
   final double tolerancePercent;
@@ -29,24 +24,24 @@ class SystemBucketCard extends StatelessWidget {
     required this.onTap,
   });
 
-  Color _getStateColor(ToleranceSystemState state) {
+  // NEW: State → color
+  Color _getStateColor(ToleranceSystemState state, ColorPalette c) {
     switch (state) {
       case ToleranceSystemState.recovered:
-        return Colors.green;
+        return c.success;
       case ToleranceSystemState.lightStress:
-        return Colors.blue;
+        return c.info;
       case ToleranceSystemState.moderateStrain:
-        return Colors.orange;
+        return c.warning;
       case ToleranceSystemState.highStrain:
-        return Colors.deepOrange;
+        return Colors.deepOrangeAccent;
       case ToleranceSystemState.depleted:
-        return Colors.red;
+        return c.error;
     }
   }
 
   IconData _getBucketIcon() {
-    final iconName = BucketDefinitions.getIconName(bucketType);
-    switch (iconName) {
+    switch (BucketDefinitions.getIconName(bucketType)) {
       case 'psychology':
         return Icons.psychology;
       case 'bolt':
@@ -70,108 +65,94 @@ class SystemBucketCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final stateColor = _getStateColor(state);
+    final t = context.theme;
+    final c = context.colors;
 
-    return Card(
-      elevation: isSelected ? 4 : 1,
-      margin: EdgeInsets.symmetric(
-        horizontal: ThemeConstants.space8,
-        vertical: ThemeConstants.space4,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        side: BorderSide(
-          color: isSelected
-              ? stateColor
-              : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
+    final stateColor = _getStateColor(state, c);
+
+    return Container(
+      width: 145,
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        border: Border.all(
+          color: isSelected ? stateColor : c.border,
           width: isSelected ? 2 : 1,
         ),
+        boxShadow: isSelected ? t.cardShadowHovered : t.cardShadow,
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        child: Container(
-          padding: EdgeInsets.all(ThemeConstants.space12),
-          width: 140,
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        child: Padding(
+          padding: EdgeInsets.all(t.spacing.md),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Icon
-              Icon(
-                _getBucketIcon(),
-                size: 32,
-                color: stateColor,
-              ),
-              SizedBox(height: ThemeConstants.space8),
+              Icon(_getBucketIcon(), size: 32, color: stateColor),
+              SizedBox(height: t.spacing.sm),
 
               // Bucket name
               Text(
                 BucketDefinitions.getDisplayName(bucketType),
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                style: t.typography.bodyBold.copyWith(
+                  color: c.textPrimary,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(height: ThemeConstants.space8),
+
+              SizedBox(height: t.spacing.sm),
 
               // Tolerance percentage
               Text(
                 '${tolerancePercent.toStringAsFixed(1)}%',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontLarge,
-                  fontWeight: ThemeConstants.fontBold,
+                style: t.typography.heading3.copyWith(
                   color: stateColor,
                 ),
               ),
-              SizedBox(height: ThemeConstants.space8),
+
+              SizedBox(height: t.spacing.sm),
 
               // Status badge
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: ThemeConstants.space8,
-                  vertical: ThemeConstants.space4,
+                  horizontal: t.spacing.sm,
+                  vertical: t.spacing.xs,
                 ),
                 decoration: BoxDecoration(
-                  color: stateColor.withOpacity(0.1),
+                  color: stateColor.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: stateColor.withOpacity(0.3),
-                    width: 0.5,
+                    color: stateColor.withOpacity(0.35),
+                    width: 1,
                   ),
                 ),
                 child: Text(
                   state.displayName,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: ThemeConstants.fontMediumWeight,
+                  style: t.typography.captionBold.copyWith(
                     color: stateColor,
                   ),
                 ),
               ),
 
-              // Active indicator
               if (isActive) ...[
-                SizedBox(height: ThemeConstants.space4),
+                SizedBox(height: t.spacing.xs),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: ThemeConstants.space8,
+                    horizontal: t.spacing.sm,
                     vertical: 2,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.2),
+                    color: c.info.withOpacity(0.18),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     'ACTIVE',
-                    style: TextStyle(
-                      fontSize: 9,
-                      fontWeight: ThemeConstants.fontBold,
-                      color: Colors.blue,
+                    style: t.typography.captionBold.copyWith(
+                      color: c.info,
+                      fontSize: 10,
                     ),
                   ),
                 ),

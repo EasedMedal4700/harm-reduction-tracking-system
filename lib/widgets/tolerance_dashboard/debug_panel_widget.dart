@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../models/bucket_definitions.dart';
 import '../../utils/tolerance_calculator.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme_constants.dart';
 
 class DebugPanelWidget extends StatelessWidget {
   final ToleranceResult? systemTolerance;
@@ -21,71 +21,78 @@ class DebugPanelWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final system = systemTolerance;
     final substance = substanceTolerance;
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+      padding: EdgeInsets.all(t.spacing.lg),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
         border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+          color: t.colors.border,
+          width: 1,
         ),
+        boxShadow: t.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Title
           Text(
             'Tolerance engine debug',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+            style: t.typography.heading4.copyWith(
+              color: t.colors.textPrimary,
             ),
           ),
-          const SizedBox(height: ThemeConstants.space8),
-          if (system != null) ...[
+
+          SizedBox(height: t.spacing.sm),
+
+          // System line
+          if (system != null)
             Text(
-              'System: score=${system.toleranceScore.toStringAsFixed(1)} • daysToBaseline=${system.overallDaysUntilBaseline}',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              'System → score: ${system.toleranceScore.toStringAsFixed(1)} • baseline: ${system.overallDaysUntilBaseline} days',
+              style: t.typography.caption.copyWith(
+                color: t.colors.textSecondary,
               ),
             ),
-          ],
+
+          // Substance line
           if (substance != null && selectedSubstance != null) ...[
-            const SizedBox(height: ThemeConstants.space4),
+            SizedBox(height: t.spacing.xs),
             Text(
-              'Substance $selectedSubstance: score=${substance.toleranceScore.toStringAsFixed(1)} • daysToBaseline=${substance.overallDaysUntilBaseline}',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              'Substance "$selectedSubstance" → score: ${substance.toleranceScore.toStringAsFixed(1)} • baseline: ${substance.overallDaysUntilBaseline} days',
+              style: t.typography.caption.copyWith(
+                color: t.colors.textSecondary,
               ),
             ),
           ],
-          const SizedBox(height: ThemeConstants.space8),
+
+          SizedBox(height: t.spacing.md),
+
+          // Bucket title
           Text(
             'Bucket percents:',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontXSmall,
-              fontWeight: ThemeConstants.fontMediumWeight,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+            style: t.typography.bodyBold.copyWith(
+              color: t.colors.textPrimary,
             ),
           ),
-          const SizedBox(height: 4),
+
+          SizedBox(height: t.spacing.xs),
+
+          // Bucket list
           if (system != null)
             Wrap(
-              spacing: ThemeConstants.space8,
+              spacing: t.spacing.sm,
               runSpacing: 4,
               children: [
                 for (final bucket in BucketDefinitions.orderedBuckets)
                   Text(
                     '$bucket: ${(system.bucketPercents[bucket] ?? 0).toStringAsFixed(1)}%',
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontXSmall,
-                      color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                    style: t.typography.caption.copyWith(
+                      color: t.colors.textSecondary,
                       fontFamily: 'monospace',
                     ),
                   ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
-import '../../constants/deprecated/drug_theme.dart';
 import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/data/drug_categories.dart';
 
 /// Expandable card displaying drug level information
 class LevelCard extends StatefulWidget {

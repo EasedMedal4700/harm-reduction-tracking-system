@@ -320,7 +320,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
               controller: _scrollController,
               padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
               child: _substances.isEmpty
-                  ? EmptyStateWidget(isDark: isDark)
+                    ? const EmptyStateWidget()
                   : _buildContent(),
             ),
     );

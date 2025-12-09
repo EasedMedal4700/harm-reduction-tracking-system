@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import '../deprecated/ui_colors.dart';
-import '../deprecated/theme_constants.dart';
 import 'app_theme_constants.dart';
 import '../colors/app_colors_light.dart';
 import '../colors/app_colors_dark.dart';
 import 'app_typography.dart';
 import '../../models/app_settings_model.dart';
+import 'app_typography.dart';
+import 'app_shapes.dart';
+
+
 
 /// Main theme data class that provides all styling based on user settings
 /// Combines the simplicity of direct ThemeData with advanced theming capabilities
@@ -21,6 +23,8 @@ class AppTheme {
   late final List<BoxShadow> cardShadow;
   late final List<BoxShadow> cardShadowHovered;
   late final List<BoxShadow> buttonShadow;
+  late final AppShapes shapes;
+
 
   AppTheme._({
     required this.isDark,
@@ -31,6 +35,9 @@ class AppTheme {
     typography = AppTypography.getTextStyles(fontSize, isDark);
     colors = isDark ? _buildDarkColors() : _buildLightColors();
     spacing = compactMode ? _buildCompactSpacing() : _buildNormalSpacing();
+
+    shapes = AppShapes.defaults();
+
 
     if (isDark) {
       cardShadow = DarkShadows.cardShadow;
@@ -282,7 +289,8 @@ class AppTheme {
       scaffoldBackgroundColor: colors.background,
 
       // Text theme
-      textTheme: _buildTextTheme(colors.textPrimary, colors.textSecondary),
+      textTheme: _buildTextTheme(),
+
 
       // AppBar theme
       appBarTheme: AppBarTheme(
@@ -290,10 +298,8 @@ class AppTheme {
         foregroundColor: colors.textPrimary,
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: TextStyle(
+        titleTextStyle: typography.heading2.copyWith(
           color: colors.textPrimary,
-          fontSize: ThemeConstants.fontXLarge,
-          fontWeight: ThemeConstants.fontSemiBold,
         ),
       ),
 
@@ -301,9 +307,9 @@ class AppTheme {
       cardTheme: CardThemeData(
         color: colors.surface,
         elevation: 0,
-        shadowColor: UIColors.lightShadowColor,
+        shadowColor: AppThemeConstants.shadowDark,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+          borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
         ),
       ),
 
@@ -311,9 +317,9 @@ class AppTheme {
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: accent.primary,
         foregroundColor: colors.textInverse,
-        elevation: ThemeConstants.elevationMedium,
+        elevation: AppThemeConstants.cardElevation,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
         ),
       ),
 
@@ -322,13 +328,13 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: accent.primary,
           foregroundColor: colors.textInverse,
-          elevation: ThemeConstants.elevationLow,
+          elevation: AppThemeConstants.cardElevation,
           padding: EdgeInsets.symmetric(
             horizontal: spacing.xl,
             vertical: spacing.md,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(ThemeConstants.buttonRadius),
+            borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
           ),
         ),
       ),
@@ -365,7 +371,7 @@ class AppTheme {
       scaffoldBackgroundColor: colors.background,
 
       // Text theme
-      textTheme: _buildTextTheme(colors.textPrimary, colors.textSecondary),
+      textTheme: _buildTextTheme(),
 
       // AppBar theme
       appBarTheme: AppBarTheme(
@@ -375,8 +381,8 @@ class AppTheme {
         centerTitle: false,
         titleTextStyle: TextStyle(
           color: colors.textPrimary,
-          fontSize: ThemeConstants.fontXLarge,
-          fontWeight: ThemeConstants.fontSemiBold,
+          fontSize: typography.heading2.fontSize,
+          fontWeight: FontWeight.w600,
         ),
       ),
 
@@ -384,12 +390,12 @@ class AppTheme {
       cardTheme: CardThemeData(
         color: colors.surface,
         elevation: 0,
-        shadowColor: UIColors.darkShadowColor,
+        shadowColor: AppThemeConstants.shadowLight,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.darkCardRadius),
+          borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
           side: BorderSide(
             color: colors.border.withOpacity(0.3),
-            width: ThemeConstants.borderThin,
+            width: 1.0,
           ),
         ),
       ),
@@ -398,9 +404,9 @@ class AppTheme {
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: accent.primary,
         foregroundColor: colors.textInverse,
-        elevation: ThemeConstants.elevationHigh,
+        elevation: AppThemeConstants.cardElevation,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd ),
         ),
       ),
 
@@ -409,13 +415,13 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: accent.primary,
           foregroundColor: colors.textInverse,
-          elevation: ThemeConstants.elevationMedium,
+          elevation: AppThemeConstants.cardElevation,
           padding: EdgeInsets.symmetric(
             horizontal: spacing.xl,
             vertical: spacing.md,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(ThemeConstants.buttonRadius),
+            borderRadius: BorderRadius.circular(AppThemeConstants.radiusLg),
           ),
         ),
       ),
@@ -429,109 +435,35 @@ class AppTheme {
     );
   }
 
-  TextTheme _buildTextTheme(Color textColor, Color secondaryTextColor) {
+  TextTheme _buildTextTheme() {
     return TextTheme(
-      // Display styles
-      displayLarge: TextStyle(
-        fontSize: ThemeConstants.font4XLarge,
-        fontWeight: ThemeConstants.fontBold,
-        color: textColor,
-        height: 1.2,
-      ),
-      displayMedium: TextStyle(
-        fontSize: ThemeConstants.font3XLarge,
-        fontWeight: ThemeConstants.fontBold,
-        color: textColor,
-        height: 1.2,
-      ),
-      displaySmall: TextStyle(
-        fontSize: ThemeConstants.font2XLarge,
-        fontWeight: ThemeConstants.fontSemiBold,
-        color: textColor,
-        height: 1.3,
-      ),
+      // Big “hero” text
+      displayLarge: typography.heading1,
+      displayMedium: typography.heading2,
+      displaySmall: typography.heading3,
 
-      // Headline styles
-      headlineLarge: TextStyle(
-        fontSize: ThemeConstants.fontXLarge,
-        fontWeight: ThemeConstants.fontSemiBold,
-        color: textColor,
-        height: 1.3,
-      ),
-      headlineMedium: TextStyle(
-        fontSize: ThemeConstants.fontLarge,
-        fontWeight: ThemeConstants.fontSemiBold,
-        color: textColor,
-        height: 1.3,
-      ),
-      headlineSmall: TextStyle(
-        fontSize: ThemeConstants.fontMedium,
-        fontWeight: ThemeConstants.fontMediumWeight,
-        color: textColor,
-        height: 1.4,
-      ),
+      // Section headings
+      headlineLarge: typography.heading2,
+      headlineMedium: typography.heading3,
+      headlineSmall: typography.heading4,
 
-      // Title styles
-      titleLarge: TextStyle(
-        fontSize: ThemeConstants.fontLarge,
-        fontWeight: ThemeConstants.fontMediumWeight,
-        color: textColor,
-        height: 1.4,
-      ),
-      titleMedium: TextStyle(
-        fontSize: ThemeConstants.fontMedium,
-        fontWeight: ThemeConstants.fontMediumWeight,
-        color: textColor,
-        height: 1.4,
-      ),
-      titleSmall: TextStyle(
-        fontSize: ThemeConstants.fontSmall,
-        fontWeight: ThemeConstants.fontMediumWeight,
-        color: textColor,
-        height: 1.4,
-      ),
+      // Titles (e.g. ListTile, dialogs)
+      titleLarge: typography.heading4,
+      titleMedium: typography.bodyBold,
+      titleSmall: typography.bodySmall,
 
-      // Body styles
-      bodyLarge: TextStyle(
-        fontSize: ThemeConstants.fontMedium,
-        fontWeight: ThemeConstants.fontRegular,
-        color: textColor,
-        height: 1.5,
-      ),
-      bodyMedium: TextStyle(
-        fontSize: ThemeConstants.fontSmall,
-        fontWeight: ThemeConstants.fontRegular,
-        color: textColor,
-        height: 1.5,
-      ),
-      bodySmall: TextStyle(
-        fontSize: ThemeConstants.fontXSmall,
-        fontWeight: ThemeConstants.fontRegular,
-        color: secondaryTextColor,
-        height: 1.5,
-      ),
+      // Body text
+      bodyLarge: typography.bodyLarge,
+      bodyMedium: typography.body,
+      bodySmall: typography.bodySmall,
 
-      // Label styles
-      labelLarge: TextStyle(
-        fontSize: ThemeConstants.fontMedium,
-        fontWeight: ThemeConstants.fontMediumWeight,
-        color: textColor,
-        height: 1.4,
-      ),
-      labelMedium: TextStyle(
-        fontSize: ThemeConstants.fontSmall,
-        fontWeight: ThemeConstants.fontMediumWeight,
-        color: secondaryTextColor,
-        height: 1.4,
-      ),
-      labelSmall: TextStyle(
-        fontSize: ThemeConstants.fontXSmall,
-        fontWeight: ThemeConstants.fontMediumWeight,
-        color: secondaryTextColor,
-        height: 1.4,
-      ),
+      // Labels / helper text
+      labelLarge: typography.bodyBold,
+      labelMedium: typography.captionBold,
+      labelSmall: typography.caption,
     );
   }
+
 
   // ============================================================================
   // STATIC METHODS (for backward compatibility)

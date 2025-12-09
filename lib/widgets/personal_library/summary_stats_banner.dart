@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../constants/deprecated/ui_colors.dart';
 import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/drug_theme.dart';
+import '../../constants/data/drug_categories.dart';
+
 
 class SummaryStatsBanner extends StatelessWidget {
   final int totalUses;

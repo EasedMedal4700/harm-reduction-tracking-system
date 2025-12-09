@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+
 import '../models/tolerance_model.dart';
 import '../models/bucket_definitions.dart';
 import '../services/tolerance_engine_service.dart';
 import '../services/user_service.dart';
-import '../constants/deprecated/theme_constants.dart';
-import '../constants/deprecated/ui_colors.dart';
+
+import '../constants/theme/app_theme_extension.dart';
 import 'tolerance/system_tolerance_breakdown_sheet.dart';
 
-/// Simple data holder for system tolerance display
+
+/// Model for system tolerance
 class SystemToleranceData {
   final Map<String, double> percents;
   final Map<String, ToleranceSystemState> states;
@@ -15,7 +17,7 @@ class SystemToleranceData {
   SystemToleranceData(this.percents, this.states);
 }
 
-/// Load system tolerance data for current user
+/// Load system tolerance data for the current user
 Future<SystemToleranceData> loadSystemToleranceData() async {
   final userId = UserService.getCurrentUserId();
   final report = await ToleranceEngineService.getToleranceReport(
@@ -24,65 +26,69 @@ Future<SystemToleranceData> loadSystemToleranceData() async {
   return SystemToleranceData(report.tolerances, report.states);
 }
 
-/// Widget to display system-wide tolerance with interactivity
+/// Main widget
 class SystemToleranceWidget extends StatelessWidget {
   final SystemToleranceData data;
 
-  const SystemToleranceWidget({required this.data, super.key});
+  const SystemToleranceWidget({
+    required this.data,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark ? UIColors.darkSurface : Colors.white;
-    final borderColor = isDark
-        ? UIColors.darkBorder
-        : Colors.black.withOpacity(0.05);
+    final t = context.theme;
 
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        side: BorderSide(color: borderColor),
-      ),
-      color: backgroundColor,
-      margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'System Tolerance',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                fontWeight: ThemeConstants.fontBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-              ),
-            ),
-            const SizedBox(height: ThemeConstants.space16),
-            // CRITICAL: Render ALL 7 canonical buckets in order
-            // Show "Recovered 0.0%" for buckets not in data
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: BucketDefinitions.orderedBuckets.length,
-              separatorBuilder: (context, index) => Divider(
-                height: 1,
-                color: isDark ? UIColors.darkDivider : UIColors.lightDivider,
-              ),
-              itemBuilder: (context, index) {
-                final bucket = BucketDefinitions.orderedBuckets[index];
-                final percent = data.percents[bucket] ?? 0.0;
-                final state =
-                    data.states[bucket] ?? ToleranceSystemState.recovered;
-                return _buildBucketRow(context, bucket, percent, state);
-              },
-            ),
-          ],
+    return Container(
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.spacing.lg),
+        border: Border.all(
+          color: t.colors.border,
+          width: 1,
         ),
+        boxShadow: t.cardShadow,
+      ),
+      padding: EdgeInsets.all(t.spacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // TITLE
+          Text(
+            'System Tolerance',
+            style: t.typography.heading4.copyWith(
+              color: t.colors.textPrimary,
+            ),
+          ),
+
+          SizedBox(height: t.spacing.lg),
+
+          // ALL 7 BUCKETS
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: BucketDefinitions.orderedBuckets.length,
+            separatorBuilder: (_, __) => Divider(
+              height: 1,
+              color: t.colors.divider,
+            ),
+            itemBuilder: (context, index) {
+              final bucket = BucketDefinitions.orderedBuckets[index];
+              final percent = data.percents[bucket] ?? 0.0;
+              final state =
+                  data.states[bucket] ?? ToleranceSystemState.recovered;
+
+              return _buildBucketRow(context, bucket, percent, state);
+            },
+          ),
+        ],
       ),
     );
   }
+
+  // ---------------------------------------------------------------------------
+  // ROW BUILDER
+  // ---------------------------------------------------------------------------
 
   Widget _buildBucketRow(
     BuildContext context,
@@ -90,29 +96,26 @@ class SystemToleranceWidget extends StatelessWidget {
     double percent,
     ToleranceSystemState state,
   ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final secondaryTextColor = isDark
-        ? UIColors.darkTextSecondary
-        : UIColors.lightTextSecondary;
+    final t = context.theme;
 
-    // Determine color based on intensity
+    // Value color logic
     Color valueColor;
     if (percent < 10) {
-      valueColor = secondaryTextColor; // Neutral
+      valueColor = t.colors.textSecondary;
     } else if (percent < 40) {
-      valueColor = Colors.orange; // Warning
+      valueColor = Colors.orangeAccent;
     } else {
-      valueColor = Colors.red; // Critical
+      valueColor = Colors.redAccent;
     }
 
     return InkWell(
+      borderRadius: BorderRadius.circular(t.spacing.sm),
       onTap: () {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
-          builder: (context) => SystemToleranceBreakdownSheet(
+          builder: (_) => SystemToleranceBreakdownSheet(
             bucketName: bucket,
             currentPercent: percent,
             accentColor: _getStateColor(state),
@@ -120,44 +123,47 @@ class SystemToleranceWidget extends StatelessWidget {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+        padding: EdgeInsets.symmetric(
+          vertical: t.spacing.md,
+          horizontal: t.spacing.xs,
+        ),
         child: Row(
           children: [
-            // Icon
-            Icon(_getBucketIcon(bucket), size: 20, color: secondaryTextColor),
-            const SizedBox(width: 12),
+            Icon(
+              _getBucketIcon(bucket),
+              size: 20,
+              color: t.colors.textSecondary,
+            ),
+            SizedBox(width: t.spacing.sm),
 
-            // Name
+            // Bucket Name
             Expanded(
               child: Text(
-                _formatBucketName(bucket),
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  fontWeight: ThemeConstants.fontMediumWeight,
-                  color: textColor,
+                BucketDefinitions.getDisplayName(bucket),
+                style: t.typography.body.copyWith(
+                  color: t.colors.textPrimary,
                 ),
               ),
             ),
 
-            // Value
+            // Percent text
             Text(
               '${percent.toStringAsFixed(1)}%',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                fontWeight: ThemeConstants.fontBold,
-                color: valueColor,
-              ),
+              style: t.typography.bodyBold.copyWith(color: valueColor),
             ),
-            const SizedBox(width: 8),
+
+            SizedBox(width: t.spacing.sm),
 
             // Badge
-            _buildStateBadge(state, isDark),
+            _buildStateBadge(context, state),
 
-            const SizedBox(width: 4),
+            SizedBox(width: t.spacing.xs),
+
+            // Arrow
             Icon(
-              Icons.chevron_right,
-              size: 16,
-              color: secondaryTextColor.withOpacity(0.5),
+              Icons.chevron_right_rounded,
+              size: 18,
+              color: t.colors.textSecondary.withOpacity(0.4),
             ),
           ],
         ),
@@ -165,59 +171,41 @@ class SystemToleranceWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildStateBadge(ToleranceSystemState state, bool isDark) {
-    if (state == ToleranceSystemState.recovered) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-        decoration: BoxDecoration(
-          color: isDark
-              ? Colors.green.withOpacity(0.1)
-              : Colors.green.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isDark
-                ? Colors.green.withOpacity(0.3)
-                : Colors.green.withOpacity(0.2),
-            width: 0.5,
-          ),
-        ),
-        child: Text(
-          'Recovered',
-          style: TextStyle(
-            fontSize: 10,
-            fontWeight: ThemeConstants.fontMediumWeight,
-            color: isDark ? Colors.greenAccent : Colors.green[700],
-          ),
-        ),
-      );
-    }
+  // ---------------------------------------------------------------------------
+  // BADGE BUILDER
+  // ---------------------------------------------------------------------------
 
-    // For other states, we can just show the text or a different badge
-    // But per requirements, we mainly wanted to replace "Recovered" text with a badge
-    // Let's use badges for all for consistency
+  Widget _buildStateBadge(BuildContext context, ToleranceSystemState state) {
+    final t = context.theme;
+    final color = _getStateColor(state);
 
-    Color color = _getStateColor(state);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      padding: EdgeInsets.symmetric(
+        horizontal: t.spacing.sm,
+        vertical: 2,
+      ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withOpacity(0.12),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3), width: 0.5),
+        border: Border.all(
+          color: color.withOpacity(0.3),
+          width: 0.5,
+        ),
       ),
       child: Text(
         state.displayName,
-        style: TextStyle(
-          fontSize: 10,
-          fontWeight: ThemeConstants.fontMediumWeight,
-          color: color,
-        ),
+        style: t.typography.captionBold.copyWith(color: color),
       ),
     );
   }
 
+  // ---------------------------------------------------------------------------
+  // HELPERS
+  // ---------------------------------------------------------------------------
+
   IconData _getBucketIcon(String bucket) {
-    final iconName = BucketDefinitions.getIconName(bucket);
-    switch (iconName) {
+    final icon = BucketDefinitions.getIconName(bucket);
+    switch (icon) {
       case 'psychology':
         return Icons.psychology;
       case 'bolt':
@@ -239,22 +227,18 @@ class SystemToleranceWidget extends StatelessWidget {
     }
   }
 
-  String _formatBucketName(String bucket) {
-    return BucketDefinitions.getDisplayName(bucket);
-  }
-
   Color _getStateColor(ToleranceSystemState state) {
     switch (state) {
       case ToleranceSystemState.recovered:
-        return Colors.green;
+        return Colors.greenAccent;
       case ToleranceSystemState.lightStress:
-        return Colors.blue;
+        return Colors.lightBlueAccent;
       case ToleranceSystemState.moderateStrain:
-        return Colors.orange;
+        return Colors.orangeAccent;
       case ToleranceSystemState.highStrain:
-        return Colors.deepOrange;
+        return Colors.deepOrangeAccent;
       case ToleranceSystemState.depleted:
-        return Colors.red;
+        return Colors.redAccent;
     }
   }
 }

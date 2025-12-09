@@ -1,99 +1,95 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme.dart';
 
-/// Card displaying current tolerance percentage and visual indicator
+/// Card displaying current tolerance percentage & color indicator
 class ToleranceSummaryCard extends StatelessWidget {
   final double currentTolerance;
 
-  const ToleranceSummaryCard({required this.currentTolerance, super.key});
+  const ToleranceSummaryCard({
+    required this.currentTolerance,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
+
     final label = _toleranceLabel(currentTolerance);
-    final color = _toleranceColor(currentTolerance);
+    final color = _toleranceColor(currentTolerance, t);
 
-    final backgroundColor = isDark ? UIColors.darkSurface : Colors.white;
-    final borderColor = isDark
-        ? UIColors.darkBorder
-        : Colors.black.withOpacity(0.05);
-
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusExtraLarge),
-        side: BorderSide(color: borderColor),
+    return Container(
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        border: Border.all(color: t.colors.border),
+        boxShadow: t.cardShadow,
       ),
-      color: backgroundColor,
+      padding: EdgeInsets.all(t.spacing.xl),
       margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.all(ThemeConstants.cardPaddingLarge),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Current tolerance',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                fontWeight: ThemeConstants.fontSemiBold,
-                color: isDark
-                    ? UIColors.darkTextSecondary
-                    : UIColors.lightTextSecondary,
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Current tolerance',
+            style: t.typography.bodySmall.copyWith(
+              color: t.colors.textSecondary,
             ),
-            const SizedBox(height: ThemeConstants.space12),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Text(
-                  '${currentTolerance.toStringAsFixed(1)}%',
-                  style: TextStyle(
-                    fontSize: ThemeConstants.font4XLarge,
-                    fontWeight: ThemeConstants.fontExtraBold,
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
-                    height: 1.0,
-                    letterSpacing: -1.0,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: ThemeConstants.space24),
+          ),
 
-            // Thicker, rounded progress bar
-            ClipRRect(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-              child: LinearProgressIndicator(
-                value: (currentTolerance / 100).clamp(0.0, 1.0),
-                minHeight: 12,
-                backgroundColor: isDark ? Colors.white10 : Colors.grey.shade100,
-                valueColor: AlwaysStoppedAnimation<Color>(color),
-              ),
-            ),
-            const SizedBox(height: ThemeConstants.space12),
+          SizedBox(height: t.spacing.md),
 
-            // Status label below bar
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-              ),
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  fontWeight: ThemeConstants.fontBold,
-                  color: color,
-                ),
+          // Big % number
+          Text(
+            '${currentTolerance.toStringAsFixed(1)}%',
+            style: t.typography.heading1.copyWith(
+              color: t.colors.textPrimary,
+              height: 1.0,
+              letterSpacing: -1.0,
+            ),
+          ),
+
+          SizedBox(height: t.spacing.xl),
+
+          // Thick rounded progress bar
+          ClipRRect(
+            borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+            child: LinearProgressIndicator(
+              value: (currentTolerance / 100).clamp(0.0, 1.0),
+              minHeight: 10,
+              backgroundColor: t.colors.surfaceVariant,
+              valueColor: AlwaysStoppedAnimation(color),
+            ),
+          ),
+
+          SizedBox(height: t.spacing.md),
+
+          // Status label chip
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: t.spacing.sm,
+              vertical: t.spacing.xs,
+            ),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.12),
+              borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+            ),
+            child: Text(
+              label,
+              style: t.typography.bodySmall.copyWith(
+                color: color,
+                fontWeight: FontWeight.w600,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
+
+  // ---------------------------------------------------------------------------
+  // LABEL LOGIC
+  // ---------------------------------------------------------------------------
 
   String _toleranceLabel(double tolerance) {
     if (tolerance < 10) return 'Baseline';
@@ -103,11 +99,15 @@ class ToleranceSummaryCard extends StatelessWidget {
     return 'Very high';
   }
 
-  Color _toleranceColor(double tolerance) {
-    if (tolerance < 10) return Colors.green;
-    if (tolerance < 30) return Colors.blue;
-    if (tolerance < 50) return Colors.orange;
+  // ---------------------------------------------------------------------------
+  // THEMED COLOR LOGIC
+  // ---------------------------------------------------------------------------
+
+  Color _toleranceColor(double tolerance, AppTheme t) {
+    if (tolerance < 10) return t.colors.success;
+    if (tolerance < 30) return t.colors.info;
+    if (tolerance < 50) return t.colors.warning;
     if (tolerance < 70) return Colors.deepOrange;
-    return Colors.red;
+    return t.colors.error;
   }
 }
