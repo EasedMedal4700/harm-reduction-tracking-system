@@ -40,22 +40,27 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
   void _toggleExpanded() {
     setState(() {
       _isExpanded = !_isExpanded;
-      _isExpanded ? _animationController.forward() : _animationController.reverse();
+      _isExpanded
+          ? _animationController.forward()
+          : _animationController.reverse();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    final accent = t.accent.primary;
+    final text = context.text;
+    final sp = context.spacing;
+    final c = context.colors;
+    final acc = context.accent;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 220),
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.spacing.md),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sp.md),
         border: Border.all(
-          color: _isExpanded ? accent.withOpacity(0.4) : t.colors.border,
+          color: _isExpanded ? acc.primary.withOpacity(0.4) : c.border,
           width: _isExpanded ? 1.4 : 1,
         ),
         boxShadow: _isExpanded ? t.cardShadow : [],
@@ -66,16 +71,16 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
           InkWell(
             onTap: _toggleExpanded,
             borderRadius: BorderRadius.vertical(
-              top: Radius.circular(t.spacing.md),
-              bottom: Radius.circular(_isExpanded ? 0 : t.spacing.md),
+              top: Radius.circular(sp.md),
+              bottom: Radius.circular(_isExpanded ? 0 : sp.md),
             ),
             child: Container(
-              padding: EdgeInsets.all(t.spacing.lg),
+              padding: EdgeInsets.all(sp.lg),
               decoration: _isExpanded
                   ? BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: t.colors.border,
+                          color: c.border,
                           width: 1,
                         ),
                       ),
@@ -86,19 +91,20 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                   // Icon container
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 220),
-                    padding: EdgeInsets.all(t.spacing.md),
+                    padding: EdgeInsets.all(sp.md),
                     decoration: BoxDecoration(
-                      color: accent.withOpacity(_isExpanded ? 0.18 : 0.1),
-                      borderRadius: BorderRadius.circular(t.spacing.sm),
+                      color: acc.primary.withOpacity(
+                          _isExpanded ? 0.18 : 0.1),
+                      borderRadius: BorderRadius.circular(sp.sm),
                     ),
                     child: Icon(
                       Icons.tune_rounded,
-                      color: accent,
+                      color: acc.primary,
                       size: 22,
                     ),
                   ),
 
-                  SizedBox(width: t.spacing.lg),
+                  SizedBox(width: sp.lg),
 
                   // Titles
                   Expanded(
@@ -109,25 +115,26 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                           children: [
                             Text(
                               'Advanced Filters',
-                              style: t.typography.bodyBold.copyWith(
-                                color: t.colors.textPrimary,
+                              style: text.bodyBold.copyWith(
+                                color: c.textPrimary,
                               ),
                             ),
                             if (_isExpanded) ...[
-                              SizedBox(width: t.spacing.sm),
+                              SizedBox(width: sp.sm),
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: t.spacing.sm,
-                                  vertical: t.spacing.xs,
+                                  horizontal: sp.sm,
+                                  vertical: sp.xs,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: accent.withOpacity(0.15),
-                                  borderRadius: BorderRadius.circular(t.spacing.sm),
+                                  color: acc.primary.withOpacity(0.15),
+                                  borderRadius:
+                                      BorderRadius.circular(sp.sm),
                                 ),
                                 child: Text(
                                   'ACTIVE',
-                                  style: t.typography.overline.copyWith(
-                                    color: accent,
+                                  style: text.overline.copyWith(
+                                    color: acc.primary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -136,34 +143,34 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                           ],
                         ),
 
-                        SizedBox(height: t.spacing.xs),
+                        SizedBox(height: sp.xs),
 
                         Text(
                           _isExpanded
                               ? 'Refine your analytics data'
                               : 'Tap to customize data visibility',
-                          style: t.typography.caption.copyWith(
-                            color: t.colors.textSecondary,
+                          style: text.caption.copyWith(
+                            color: c.textSecondary,
                           ),
                         ),
                       ],
                     ),
                   ),
 
-                  SizedBox(width: t.spacing.md),
+                  SizedBox(width: sp.md),
 
                   // Chevron
                   RotationTransition(
                     turns: _rotationAnimation,
                     child: Container(
-                      padding: EdgeInsets.all(t.spacing.xs),
+                      padding: EdgeInsets.all(sp.xs),
                       decoration: BoxDecoration(
-                        color: t.colors.border.withOpacity(0.6),
+                        color: c.border.withOpacity(0.6),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.expand_more_rounded,
-                        color: t.colors.textSecondary,
+                        color: c.textSecondary,
                         size: 20,
                       ),
                     ),
@@ -179,7 +186,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
             curve: Curves.easeInOut,
             child: _isExpanded
                 ? Container(
-                    padding: EdgeInsets.all(t.spacing.lg),
+                    padding: EdgeInsets.all(sp.lg),
                     child: widget.filterContent,
                   )
                 : const SizedBox.shrink(),

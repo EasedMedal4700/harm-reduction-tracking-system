@@ -1,4 +1,4 @@
-// MIGRATION COMPLETE – Severity badge uses theme colors.
+// MIGRATION COMPLETE — Fully theme-compliant Severity Badge.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
@@ -15,29 +15,32 @@ class SeverityBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     final colors = _getSeverityColors(context, severity);
     final icon = _getSeverityIcon(severity);
 
     final padding = compact
         ? EdgeInsets.symmetric(
-            horizontal: t.spacing.xs,
-            vertical: t.spacing.xs * 0.7,
+            horizontal: sp.xs,
+            vertical: sp.xs * 0.7,
           )
         : EdgeInsets.symmetric(
-            horizontal: t.spacing.md,
-            vertical: t.spacing.sm,
+            horizontal: sp.md,
+            vertical: sp.sm,
           );
 
     final borderRadius =
-        BorderRadius.circular(compact ? t.spacing.sm : t.spacing.md);
+        BorderRadius.circular(compact ? sh.radiusSm : sh.radiusMd);
 
-    final textStyle = (compact ? t.typography.caption : t.typography.bodySmall)
-        .copyWith(
-          color: colors.text,
-          fontWeight: FontWeight.bold,
-          letterSpacing: compact ? 0 : 0.5,
-        );
+    final textStyle = (compact ? text.caption : text.bodySmall).copyWith(
+      color: colors.text,
+      fontWeight: FontWeight.bold,
+      letterSpacing: compact ? 0 : 0.5,
+    );
 
     return Container(
       padding: padding,
@@ -57,46 +60,47 @@ class SeverityBadge extends StatelessWidget {
             size: compact ? 12 : 16,
             color: colors.text,
           ),
-          SizedBox(width: compact ? t.spacing.xs : t.spacing.sm),
+          SizedBox(width: compact ? sp.xs : sp.sm),
           Text(severity.toUpperCase(), style: textStyle),
         ],
       ),
     );
   }
 
-  // THEME-DRIVEN severity colors
+  /// THEME-DRIVEN severity colors
   _SeverityColors _getSeverityColors(BuildContext context, String severity) {
-    final t = context.theme;
+    final c = context.colors;
+
     switch (severity.toLowerCase()) {
       case 'critical':
         return _SeverityColors(
-          background: t.colors.error.withOpacity(0.12),
-          border: t.colors.error.withOpacity(0.6),
-          text: t.colors.error,
+          background: c.error.withValues(alpha: 0.12),
+          border: c.error.withValues(alpha: 0.6),
+          text: c.error,
         );
       case 'high':
         return _SeverityColors(
-          background: t.colors.warning.withOpacity(0.12),
-          border: t.colors.warning.withOpacity(0.6),
-          text: t.colors.warning,
+          background: c.warning.withValues(alpha: 0.12),
+          border: c.warning.withValues(alpha: 0.6),
+          text: c.warning,
         );
       case 'medium':
         return _SeverityColors(
-          background: t.colors.info.withOpacity(0.12),
-          border: t.colors.info.withOpacity(0.6),
-          text: t.colors.info,
+          background: c.info.withValues(alpha: 0.12),
+          border: c.info.withValues(alpha: 0.6),
+          text: c.info,
         );
       case 'low':
         return _SeverityColors(
-          background: t.colors.success.withOpacity(0.12),
-          border: t.colors.success.withOpacity(0.6),
-          text: t.colors.success,
+          background: c.success.withValues(alpha: 0.12),
+          border: c.success.withValues(alpha: 0.6),
+          text: c.success,
         );
       default:
         return _SeverityColors(
-          background: t.colors.surfaceVariant,
-          border: t.colors.border,
-          text: t.colors.textSecondary,
+          background: c.surfaceBright,
+          border: c.border,
+          text: c.textSecondary,
         );
     }
   }

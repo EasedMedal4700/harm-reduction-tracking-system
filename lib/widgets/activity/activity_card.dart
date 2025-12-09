@@ -1,10 +1,8 @@
-// MIGRATION
+// MIGRATION — Clean, theme-compliant version
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_radius.dart';
-import '../../constants/theme/app_spacing.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class ActivityCard extends StatelessWidget {
   final String title;
@@ -29,66 +27,70 @@ class ActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    final spacing = t.spacing;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
 
-    final decoration = BoxDecoration(
-      color: t.colors.surface,
-      borderRadius: BorderRadius.circular(AppRadius.md),
-      border: Border.all(color: t.colors.border),
+    final baseDecoration = BoxDecoration(
+      color: c.surface,
+      borderRadius: BorderRadius.circular(sh.radiusMd),
+      border: Border.all(color: c.border),
       boxShadow: t.cardShadow,
     );
 
-    final darkGlass = t.isDark
-        ? t.glassmorphicDecoration()
-        : decoration;
+    final effectiveDecoration =
+        t.isDark ? t.glassmorphicDecoration() : baseDecoration;
 
     return Container(
-      margin: EdgeInsets.only(bottom: spacing.md),
-      decoration: darkGlass,
+      margin: EdgeInsets.only(bottom: sp.md),
+      decoration: effectiveDecoration,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(AppRadius.md),
+          splashColor: c.text.withValues(alpha: 0.05),
+          highlightColor: c.text.withValues(alpha: 0.03),
+          borderRadius: BorderRadius.circular(sh.radiusMd),
           child: Padding(
-            padding: EdgeInsets.all(spacing.md),
+            padding: EdgeInsets.all(sp.md),
             child: Row(
               children: [
-                /// ICON CONTAINER
+                // ICON CONTAINER
                 Container(
-                  padding: EdgeInsets.all(spacing.md),
+                  padding: EdgeInsets.all(sp.md),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
                         accentColor,
-                        accentColor.withOpacity(0.7),
+                        accentColor.withValues(alpha: 0.7),
                       ],
                     ),
-                    borderRadius: BorderRadius.circular(AppRadius.sm),
+                    borderRadius: BorderRadius.circular(sh.radiusSm),
                   ),
                   child: Icon(
                     icon,
-                    color: Colors.white,
+                    color: c.onAccent,
                     size: 22,
                   ),
                 ),
 
-                SizedBox(width: spacing.md),
+                SizedBox(width: sp.md),
 
-                /// CONTENT
+                // CONTENT
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      /// Title + badge
+                      // Title + Badge
                       Row(
                         children: [
                           Expanded(
                             child: Text(
                               title,
-                              style: t.typography.bodyLarge.copyWith(
+                              style: text.bodyLarge.copyWith(
                                 fontWeight: FontWeight.w600,
-                                color: t.colors.textPrimary,
+                                color: c.text,
                               ),
                             ),
                           ),
@@ -96,20 +98,20 @@ class ActivityCard extends StatelessWidget {
                           if (badge != null)
                             Container(
                               padding: EdgeInsets.symmetric(
-                                horizontal: spacing.sm,
-                                vertical: spacing.xs,
+                                horizontal: sp.sm,
+                                vertical: sp.xs,
                               ),
                               decoration: BoxDecoration(
-                                color: accentColor.withOpacity(0.15),
+                                color: accentColor.withValues(alpha: 0.15),
                                 borderRadius:
-                                    BorderRadius.circular(AppRadius.sm),
+                                    BorderRadius.circular(sh.radiusSm),
                                 border: Border.all(
-                                  color: accentColor.withOpacity(0.3),
+                                  color: accentColor.withValues(alpha: 0.3),
                                 ),
                               ),
                               child: Text(
                                 badge!,
-                                style: t.typography.bodySmall.copyWith(
+                                style: text.bodySmall.copyWith(
                                   color: accentColor,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -118,32 +120,32 @@ class ActivityCard extends StatelessWidget {
                         ],
                       ),
 
-                      SizedBox(height: spacing.xs),
+                      SizedBox(height: sp.xs),
 
-                      /// Subtitle
+                      // SUBTITLE
                       Text(
                         subtitle,
-                        style: t.typography.bodySmall.copyWith(
-                          color: t.colors.textSecondary,
+                        style: text.bodySmall.copyWith(
+                          color: c.textSecondary,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
 
                       if (timestamp != null) ...[
-                        SizedBox(height: spacing.xs),
+                        SizedBox(height: sp.xs),
                         Row(
                           children: [
                             Icon(
                               Icons.access_time,
                               size: 14,
-                              color: t.colors.textTertiary,
+                              color: c.textTertiary,
                             ),
-                            SizedBox(width: spacing.xs),
+                            SizedBox(width: sp.xs),
                             Text(
                               _formatTimestamp(timestamp!),
-                              style: t.typography.bodySmall.copyWith(
-                                color: t.colors.textTertiary,
+                              style: text.bodySmall.copyWith(
+                                color: c.textTertiary,
                               ),
                             ),
                           ],
@@ -154,11 +156,11 @@ class ActivityCard extends StatelessWidget {
                 ),
 
                 if (onTap != null) ...[
-                  SizedBox(width: spacing.sm),
+                  SizedBox(width: sp.sm),
                   Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-                    color: t.colors.textSecondary,
+                    color: c.textSecondary,
                   ),
                 ],
               ],

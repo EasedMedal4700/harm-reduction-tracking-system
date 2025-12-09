@@ -1,6 +1,7 @@
 // MIGRATION COMPLETE — fully theme-based, no deprecated imports.
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
 import 'activity_detail_sheet.dart';
 import 'activity_helpers.dart';
 import '../../screens/edit/edit_log_entry_page.dart';
@@ -153,7 +154,9 @@ class ActivityDetailHelpers {
           ).then((_) => onUpdate());
         },
         onDelete: () => onDelete(
-          reflection['reflection_id']?.toString() ?? reflection['id']?.toString() ?? '',
+          reflection['reflection_id']?.toString() ??
+              reflection['id']?.toString() ??
+              '',
           'reflection',
           'reflections',
         ),

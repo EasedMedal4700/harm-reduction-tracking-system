@@ -1,4 +1,4 @@
-// MIGRATION COMPLETE – Theme-based dialog.
+// MIGRATION COMPLETE — Fully theme-compliant, no deprecated API
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
@@ -32,161 +32,147 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
+    final sh = context.shapes;
 
     return AlertDialog(
-      backgroundColor: t.colors.surface,
+      backgroundColor: c.surface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(t.spacing.md),
-        side: BorderSide(color: t.colors.border),
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        side: BorderSide(color: c.border),
       ),
+
+      /// TITLE
       title: Text(
         'Clean Error Logs',
-        style: t.typography.heading3.copyWith(
-          color: t.colors.textPrimary,
-        ),
+        style: text.heading3.copyWith(color: c.text),
       ),
+
+      /// CONTENT
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            /// DELETE ALL SWITCH
             SwitchListTile(
               value: _deleteAll,
+              activeColor: t.accent.primary,
+              onChanged: (value) => setState(() => _deleteAll = value),
+
               title: Text(
                 'Delete entire table',
-                style: t.typography.body.copyWith(
-                  color: t.colors.textPrimary,
-                ),
+                style: text.body.copyWith(color: c.text),
               ),
               subtitle: Text(
                 'This action cannot be undone',
-                style: t.typography.bodySmall.copyWith(
-                  color: t.colors.textSecondary,
-                ),
+                style: text.bodySmall.copyWith(color: c.textSecondary),
               ),
-              activeColor: t.accent.primary,
-              onChanged: (value) {
-                setState(() => _deleteAll = value);
-              },
             ),
 
             if (!_deleteAll) ...[
+              /// DAYS FIELD
               TextField(
                 controller: _daysController,
                 keyboardType: TextInputType.number,
-                style: t.typography.body.copyWith(
-                  color: t.colors.textPrimary,
-                ),
+                style: text.body.copyWith(color: c.text),
                 decoration: InputDecoration(
                   labelText: 'Older than (days)',
                   hintText: 'e.g., 30',
-                  labelStyle: t.typography.bodySmall.copyWith(
-                    color: t.colors.textSecondary,
-                  ),
+                  labelStyle: text.bodySmall.copyWith(color: c.textSecondary),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(t.spacing.sm),
+                    borderRadius: BorderRadius.circular(sh.radiusSm),
                   ),
                 ),
               ),
 
-              SizedBox(height: t.spacing.md),
+              SizedBox(height: sp.md),
 
+              /// PLATFORM DROPDOWN
               DropdownButtonFormField<String>(
                 value: _platform,
                 decoration: InputDecoration(
                   labelText: 'Platform (optional)',
-                  labelStyle: t.typography.bodySmall.copyWith(
-                    color: t.colors.textSecondary,
-                  ),
+                  labelStyle: text.bodySmall.copyWith(color: c.textSecondary),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(t.spacing.sm),
+                    borderRadius: BorderRadius.circular(sh.radiusSm),
                   ),
                 ),
                 items: widget.platformOptions
                     .map(
-                      (value) => DropdownMenuItem(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: t.typography.body.copyWith(
-                            color: t.colors.textPrimary,
-                          ),
-                        ),
+                      (v) => DropdownMenuItem(
+                        value: v,
+                        child: Text(v, style: text.body.copyWith(color: c.text)),
                       ),
                     )
                     .toList(),
-                onChanged: (value) => setState(() => _platform = value),
+                onChanged: (val) => setState(() => _platform = val),
               ),
 
-              SizedBox(height: t.spacing.md),
+              SizedBox(height: sp.md),
 
+              /// SCREEN DROPDOWN
               DropdownButtonFormField<String>(
                 value: _screen,
                 decoration: InputDecoration(
                   labelText: 'Screen (optional)',
-                  labelStyle: t.typography.bodySmall.copyWith(
-                    color: t.colors.textSecondary,
-                  ),
+                  labelStyle: text.bodySmall.copyWith(color: c.textSecondary),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(t.spacing.sm),
+                    borderRadius: BorderRadius.circular(sh.radiusSm),
                   ),
                 ),
                 items: widget.screenOptions
                     .map(
-                      (value) => DropdownMenuItem(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: t.typography.body.copyWith(
-                            color: t.colors.textPrimary,
-                          ),
-                        ),
+                      (v) => DropdownMenuItem(
+                        value: v,
+                        child: Text(v, style: text.body.copyWith(color: c.text)),
                       ),
                     )
                     .toList(),
-                onChanged: (value) => setState(() => _screen = value),
+                onChanged: (val) => setState(() => _screen = val),
               ),
             ],
           ],
         ),
       ),
 
+      /// ACTION BUTTONS
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(null),
           child: Text(
             'Cancel',
-            style: t.typography.button.copyWith(
-              color: t.colors.textSecondary,
-            ),
+            style: text.button.copyWith(color: c.textSecondary),
           ),
         ),
+
         ElevatedButton(
           onPressed: () {
-            final olderThanDays = int.tryParse(_daysController.text);
+            final days = int.tryParse(_daysController.text);
+
             Navigator.of(context).pop({
               'deleteAll': _deleteAll,
-              'olderThanDays': olderThanDays,
+              'olderThanDays': days,
               'platform': _platform,
               'screen': _screen,
             });
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: t.accent.primary,
-            foregroundColor: t.colors.textInverse,
+            foregroundColor: c.textInverse,
             padding: EdgeInsets.symmetric(
-              horizontal: t.spacing.lg,
-              vertical: t.spacing.sm,
+              horizontal: sp.lg,
+              vertical: sp.sm,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(t.spacing.sm),
+              borderRadius: BorderRadius.circular(sh.radiusSm),
             ),
-            shadowColor: t.colors.overlayHeavy,
+            shadowColor: c.overlayHeavy,
           ),
           child: Text(
             'Confirm',
-            style: t.typography.button.copyWith(
-              color: t.colors.textInverse,
-            ),
+            style: text.button.copyWith(color: c.textInverse),
           ),
         ),
       ],

@@ -17,57 +17,61 @@ class AnalyticsErrorState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final acc = context.accent;
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(t.spacing.xl),
+        padding: EdgeInsets.all(sp.xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               Icons.error_outline,
               size: 64,
-              color: t.colors.error,
+              color: c.error,
             ),
 
-            SizedBox(height: t.spacing.lg),
+            SizedBox(height: sp.lg),
 
             Text(
               message,
-              style: t.typography.heading3.copyWith(
-                color: t.colors.textPrimary,
+              style: text.heading3.copyWith(
+                color: c.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
 
             if (details != null) ...[
-              SizedBox(height: t.spacing.md),
+              SizedBox(height: sp.md),
               SelectableText(
                 details!,
                 textAlign: TextAlign.center,
-                style: t.typography.bodySmall.copyWith(
-                  color: t.colors.textSecondary,
+                style: text.bodySmall.copyWith(
+                  color: c.textSecondary,
                 ),
               ),
             ],
 
-            SizedBox(height: t.spacing.xl),
+            SizedBox(height: sp.xl),
 
             ElevatedButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh),
               label: const Text('Try Again'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: t.accent.primary,
-                foregroundColor: t.colors.textInverse,
+                backgroundColor: acc.primary,
+                foregroundColor: c.textInverse,
                 padding: EdgeInsets.symmetric(
-                  horizontal: t.spacing.lg,
-                  vertical: t.spacing.md,
+                  horizontal: sp.lg,
+                  vertical: sp.md,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(t.spacing.md),
+                  borderRadius: BorderRadius.circular(sp.md),
                 ),
-                shadowColor: t.colors.overlayHeavy,
+                shadowColor: c.overlayHeavy,
               ),
             ),
           ],

@@ -1,5 +1,8 @@
+// MIGRATION — Fully theme-compliant version
+
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
 import 'activity_card.dart';
 import 'activity_empty_state.dart';
 
@@ -18,6 +21,7 @@ class ActivityReflectionsTab extends StatelessWidget {
   DateTime _parseTimestamp(dynamic timestamp) {
     if (timestamp == null) return DateTime.now();
     if (timestamp is DateTime) return timestamp;
+
     try {
       return DateTime.parse(timestamp.toString());
     } catch (_) {
@@ -28,9 +32,10 @@ class ActivityReflectionsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
+    final sp = context.spacing;
 
     if (reflections.isEmpty) {
-      return ActivityEmptyState(
+      return const ActivityEmptyState(
         icon: Icons.notes_outlined,
         title: 'No Reflections',
         subtitle: 'Your reflection entries will appear here',
@@ -38,9 +43,11 @@ class ActivityReflectionsTab extends StatelessWidget {
     }
 
     return RefreshIndicator(
+      color: t.accent.secondary,
+      backgroundColor: t.colors.surface,
       onRefresh: onRefresh,
       child: ListView.builder(
-        padding: EdgeInsets.all(t.spacing.lg),
+        padding: EdgeInsets.all(sp.lg),
         itemCount: reflections.length,
         itemBuilder: (context, index) {
           final reflection = reflections[index];
@@ -53,8 +60,7 @@ class ActivityReflectionsTab extends StatelessWidget {
                 'Effectiveness: $effectiveness/10 • ${reflection['sleep_hours'] ?? 'N/A'} hrs sleep',
             timestamp: timestamp,
             icon: Icons.self_improvement,
-            accentColor: t.accent.secondary, // replaces fixed purple
-            badge: null,
+            accentColor: t.accent.secondary,
             onTap: () => onReflectionTap(reflection),
           );
         },

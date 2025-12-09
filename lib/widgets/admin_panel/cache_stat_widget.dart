@@ -18,25 +18,27 @@ class CacheStatWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
 
     return Column(
       children: [
         Icon(icon, color: color, size: 28),
 
-        SizedBox(height: t.spacing.sm),
+        SizedBox(height: sp.sm),
 
         Text(
           value,
-          style: t.typography.heading3.copyWith(
-            color: t.colors.textPrimary,
+          style: text.heading3.copyWith(
+            color: c.textPrimary,
           ),
         ),
 
         Text(
           label,
-          style: t.typography.caption.copyWith(
-            color: t.colors.textSecondary,
+          style: text.caption.copyWith(
+            color: c.textSecondary,
           ),
         ),
       ],

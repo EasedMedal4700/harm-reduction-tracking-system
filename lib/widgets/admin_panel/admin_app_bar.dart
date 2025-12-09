@@ -1,3 +1,4 @@
+// MIGRATION COMPLETE – Fully theme-based Admin AppBar.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../screens/admin/error_analytics_screen.dart';
@@ -17,36 +18,45 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
 
     return AppBar(
       title: Text(
         'Admin Panel',
-        style: t.typography.heading3.copyWith(
-          color: t.colors.textPrimary,
-        ),
+        style: text.heading3.copyWith(color: c.textPrimary),
       ),
-      backgroundColor: t.colors.surface,
-      foregroundColor: t.colors.textPrimary,
+      backgroundColor: c.surface,
+      foregroundColor: c.textPrimary,
       elevation: 0,
+      scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
+
       actions: [
-        IconButton(
-          icon: const Icon(Icons.report_problem_outlined),
-          color: t.colors.textPrimary,
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const BugReportScreen()),
+        Padding(
+          padding: EdgeInsets.only(right: sp.sm),
+          child: IconButton(
+            icon: const Icon(Icons.report_problem_outlined),
+            color: c.textPrimary,
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const BugReportScreen()),
+            ),
+            tooltip: 'Report Bug',
           ),
-          tooltip: 'Report Bug',
         ),
+
         IconButton(
           icon: const Icon(Icons.bug_report_outlined),
-          color: t.colors.textPrimary,
+          color: c.textPrimary,
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => const ErrorAnalyticsScreen()),
           ),
           tooltip: 'Error Analytics',
         ),
+
         IconButton(
           icon: isLoading
               ? SizedBox(
@@ -55,13 +65,15 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor:
-                        AlwaysStoppedAnimation<Color>(t.colors.textPrimary),
+                        AlwaysStoppedAnimation<Color>(c.textPrimary),
                   ),
                 )
-              : Icon(Icons.refresh, color: t.colors.textPrimary),
+              : Icon(Icons.refresh, color: c.textPrimary),
           onPressed: isLoading ? null : onRefresh,
           tooltip: 'Refresh',
         ),
+
+        SizedBox(width: sp.xs),
       ],
     );
   }

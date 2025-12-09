@@ -1,60 +1,56 @@
+// MIGRATION — Updated to CommonCard + new theme system
+
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// Card displaying substance-specific notes or information
 class BucketNotesCard extends StatelessWidget {
   final String substanceNotes;
-  final bool isDark;
 
   const BucketNotesCard({
     super.key,
     required this.substanceNotes,
-    required this.isDark,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(ThemeConstants.space16),
-      decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : Colors.white,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-        ),
-      ),
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+
+    return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header row
           Row(
             children: [
               Icon(
                 Icons.info_outline,
                 size: 20,
-                color: isDark
-                    ? UIColors.darkTextSecondary
-                    : UIColors.lightTextSecondary,
+                color: c.textSecondary,
               ),
-              SizedBox(width: ThemeConstants.space8),
+
+              SizedBox(width: sp.sm),
+
               Text(
                 'Notes',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  fontWeight: ThemeConstants.fontBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                style: text.bodyMedium.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: c.text,
                 ),
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space12),
+
+          SizedBox(height: sp.sm),
+
+          // Notes text
           Text(
             substanceNotes,
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
+            style: text.bodySmall.copyWith(
+              color: c.textSecondary,
               height: 1.5,
             ),
           ),

@@ -15,10 +15,14 @@ class TimePeriodSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final acc = context.accent;
+    final text = context.text;
 
     return Wrap(
-      spacing: t.spacing.md,
-      runSpacing: t.spacing.sm,
+      spacing: sp.md,
+      runSpacing: sp.sm,
       alignment: WrapAlignment.center,
       children: TimePeriod.values.map((period) {
         final bool isSelected = period == selectedPeriod;
@@ -28,28 +32,24 @@ class TimePeriodSelector extends StatelessWidget {
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 180),
             padding: EdgeInsets.symmetric(
-              horizontal: t.spacing.lg,
-              vertical: t.spacing.sm,
+              horizontal: sp.lg,
+              vertical: sp.sm,
             ),
             decoration: BoxDecoration(
               color: isSelected
-                  ? t.accent.primary.withOpacity(0.15)
-                  : t.colors.surfaceVariant,
-              borderRadius: BorderRadius.circular(t.spacing.sm),
+                  ? acc.primary.withOpacity(0.15)
+                  : c.surfaceVariant,
+              borderRadius: BorderRadius.circular(sp.sm),
               border: Border.all(
-                color: isSelected
-                    ? t.accent.primary
-                    : t.colors.border,
+                color: isSelected ? acc.primary : c.border,
                 width: isSelected ? 1.8 : 1.2,
               ),
               boxShadow: isSelected ? t.cardShadow : null,
             ),
             child: Text(
               _label(period),
-              style: t.typography.bodyBold.copyWith(
-                color: isSelected
-                    ? t.accent.primary
-                    : t.colors.textPrimary,
+              style: text.bodyBold.copyWith(
+                color: isSelected ? acc.primary : c.textPrimary,
               ),
             ),
           ),

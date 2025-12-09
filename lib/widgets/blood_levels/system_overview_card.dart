@@ -1,7 +1,7 @@
+// MIGRATION
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// System overview card showing key metrics
 class SystemOverviewCard extends StatelessWidget {
@@ -16,8 +16,11 @@ class SystemOverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? UIColors.darkNeonTeal : UIColors.lightAccentRed;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final t = context.theme;
+    final acc = context.accent;
     
     final activeCount = levels.length;
     final strongEffects = levels.values.where((l) => l.percentage > 20).length;
@@ -32,22 +35,17 @@ class SystemOverviewCard extends StatelessWidget {
     });
 
     return Container(
-      margin: EdgeInsets.all(ThemeConstants.space16),
-      padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: accentColor,
-              radius: ThemeConstants.cardRadius,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              border: Border.all(
-                color: UIColors.lightBorder,
-                width: ThemeConstants.borderThin,
-              ),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      margin: EdgeInsets.all(sp.lg),
+      padding: EdgeInsets.all(sp.md),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(
+          color: c.border,
+          width: 1,
+        ),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -56,27 +54,23 @@ class SystemOverviewCard extends StatelessWidget {
               Icon(
                 Icons.analytics,
                 size: 20,
-                color: accentColor,
+                color: acc.primary,
               ),
-              SizedBox(width: ThemeConstants.space8),
+              SizedBox(width: sp.sm),
               Text(
                 'System Overview',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  fontWeight: ThemeConstants.fontBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
+                style: context.text.heading4,
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space16),
+          SizedBox(height: sp.lg),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildStatCard('Active\nSubstances', '$activeCount', Colors.cyan, Icons.science, isDark),
-              _buildStatCard('Strong\nEffects', '$strongEffects', Colors.amber, Icons.warning_amber, isDark),
-              _buildStatCard('Recent\nDoses', '$recentCount', Colors.purple, Icons.schedule, isDark),
-              _buildStatCard('Total\nDose', '${totalDose.toStringAsFixed(1)}u', Colors.red, Icons.scale, isDark),
+              _buildStatCard('Active\nSubstances', '$activeCount', c.info, Icons.science, context),
+              _buildStatCard('Strong\nEffects', '$strongEffects', c.warning, Icons.warning_amber, context),
+              _buildStatCard('Recent\nDoses', '$recentCount', acc.secondary, Icons.schedule, context),
+              _buildStatCard('Total\nDose', '${totalDose.toStringAsFixed(1)}u', c.error, Icons.scale, context),
             ],
           ),
         ],
@@ -84,32 +78,30 @@ class SystemOverviewCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(String label, String value, Color color, IconData icon, bool isDark) {
+  Widget _buildStatCard(String label, String value, Color color, IconData icon, BuildContext context) {
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+    
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(ThemeConstants.space8),
+          padding: EdgeInsets.all(sp.sm),
           decoration: BoxDecoration(
-            color: color.withValues(alpha: isDark ? 0.2 : 0.15),
-            borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+            color: color.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(sh.radiusSm),
           ),
           child: Icon(icon, color: color, size: 20),
         ),
-        SizedBox(height: ThemeConstants.space8),
+        SizedBox(height: sp.sm),
         Text(
           value,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontLarge,
-            fontWeight: ThemeConstants.fontBold,
-            color: color,
-          ),
+          style: text.heading3.copyWith(color: color),
         ),
+        SizedBox(height: sp.xs),
         Text(
           label,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontXSmall,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-          ),
+          style: text.caption,
           textAlign: TextAlign.center,
         ),
       ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../models/tolerance_model.dart';
 import '../../utils/tolerance_calculator.dart';
 import '../tolerance/bucket_detail_section.dart';
 

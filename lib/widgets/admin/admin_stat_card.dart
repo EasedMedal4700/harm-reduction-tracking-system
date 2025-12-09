@@ -1,5 +1,7 @@
+// MIGRATION — Final theme-compliant version
+
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// Stat card widget for admin dashboard
 class AdminStatCard extends StatelessWidget {
@@ -20,39 +22,52 @@ class AdminStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
     final t = context.theme;
 
     return Container(
       decoration: t.cardDecoration(),
       child: Padding(
-        padding: EdgeInsets.all(t.spacing.md),
+        padding: EdgeInsets.all(sp.md),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // ICON
             Icon(icon, size: 32, color: color),
-            SizedBox(height: t.spacing.sm),
+
+            SizedBox(height: sp.sm),
+
+            // VALUE
             Text(
               value,
-              style: t.typography.heading3.copyWith(
+              style: text.heading3.copyWith(
                 color: color,
+                fontWeight: FontWeight.w700,
               ),
             ),
-            SizedBox(height: t.spacing.xs),
+
+            SizedBox(height: sp.xs),
+
+            // TITLE
             Text(
               title,
-              style: t.typography.caption.copyWith(
-                color: t.colors.textSecondary,
+              style: text.caption.copyWith(
+                color: c.textSecondary,
               ),
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
+
             if (subtitle != null) ...[
-              SizedBox(height: t.spacing.xs),
+              SizedBox(height: sp.xs),
+
               Text(
                 subtitle!,
-                style: t.typography.caption.copyWith(
-                  color: t.colors.textTertiary,
+                style: text.caption.copyWith(
+                  color: c.textTertiary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -62,5 +77,4 @@ class AdminStatCard extends StatelessWidget {
       ),
     );
   }
-
 }

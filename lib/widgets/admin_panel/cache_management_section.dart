@@ -1,4 +1,4 @@
-// MIGRATION — Replaced all isDark checks & hardcoded colors with theme system.
+// MIGRATION COMPLETE — Fully theme-based.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import 'cache_stat_widget.dart';
@@ -23,7 +23,10 @@ class CacheManagementSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
     final t = context.theme;
+    final sp = context.spacing;
+    final text = context.text;
 
     final totalEntries = cacheStats['total_entries'] ?? 0;
     final activeEntries = cacheStats['active_entries'] ?? 0;
@@ -32,32 +35,30 @@ class CacheManagementSection extends StatelessWidget {
     return Container(
       decoration: t.cardDecoration(),
       child: Padding(
-        padding: EdgeInsets.all(t.spacing.lg),
+        padding: EdgeInsets.all(sp.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// Header
             Row(
               children: [
-                Icon(Icons.storage_rounded, color: t.colors.info, size: 24),
-                SizedBox(width: t.spacing.md),
+                Icon(Icons.storage_rounded, color: c.info, size: 24),
+                SizedBox(width: sp.md),
                 Text(
                   'Cache Management',
-                  style: t.typography.heading3.copyWith(
-                    color: t.colors.textPrimary,
-                  ),
+                  style: text.heading3.copyWith(color: c.textPrimary),
                 ),
               ],
             ),
 
-            SizedBox(height: t.spacing.lg),
+            SizedBox(height: sp.lg),
 
             /// Cache Stats
             Container(
-              padding: EdgeInsets.all(t.spacing.md),
+              padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
-                color: t.colors.surfaceVariant,
-                borderRadius: BorderRadius.circular(t.spacing.sm),
+                color: c.surfaceVariant,
+                borderRadius: BorderRadius.circular(sp.sm),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -66,45 +67,45 @@ class CacheManagementSection extends StatelessWidget {
                     label: 'Total',
                     value: totalEntries.toString(),
                     icon: Icons.data_usage,
-                    color: t.colors.info,
+                    color: c.info,
                   ),
                   Container(
                     width: 1,
                     height: 40,
-                    color: t.colors.divider,
+                    color: c.divider,
                   ),
                   CacheStatWidget(
                     label: 'Active',
                     value: activeEntries.toString(),
                     icon: Icons.check_circle,
-                    color: t.colors.success,
+                    color: c.success,
                   ),
                   Container(
                     width: 1,
                     height: 40,
-                    color: t.colors.divider,
+                    color: c.divider,
                   ),
                   CacheStatWidget(
                     label: 'Expired',
                     value: expiredEntries.toString(),
                     icon: Icons.warning_amber_rounded,
-                    color: t.colors.warning,
+                    color: c.warning,
                   ),
                 ],
               ),
             ),
 
-            SizedBox(height: t.spacing.lg),
+            SizedBox(height: sp.lg),
 
             /// Cache Actions
             Wrap(
-              spacing: t.spacing.md,
-              runSpacing: t.spacing.md,
+              spacing: sp.md,
+              runSpacing: sp.md,
               children: [
                 CacheActionButton(
                   label: 'Clear All Cache',
                   icon: Icons.delete_sweep,
-                  color: t.colors.error,
+                  color: c.error,
                   onPressed: () => _showClearCacheDialog(
                     context,
                     'Clear All Cache',
@@ -115,7 +116,7 @@ class CacheManagementSection extends StatelessWidget {
                 CacheActionButton(
                   label: 'Clear Drug Profiles',
                   icon: Icons.medication_outlined,
-                  color: t.colors.warning,
+                  color: c.warning,
                   onPressed: () => _showClearCacheDialog(
                     context,
                     'Clear Drug Profiles',
@@ -126,13 +127,13 @@ class CacheManagementSection extends StatelessWidget {
                 CacheActionButton(
                   label: 'Clear Expired',
                   icon: Icons.cleaning_services,
-                  color: t.colors.info,
+                  color: c.info,
                   onPressed: onClearExpired,
                 ),
                 CacheActionButton(
                   label: 'Refresh from DB',
                   icon: Icons.refresh,
-                  color: t.colors.success,
+                  color: c.success,
                   onPressed: onRefreshFromDatabase,
                 ),
               ],
@@ -149,30 +150,32 @@ class CacheManagementSection extends StatelessWidget {
     String message,
     VoidCallback onConfirm,
   ) {
-    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: t.colors.surface,
+        backgroundColor: c.surface,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(t.spacing.md),
-          side: BorderSide(color: t.colors.border),
+          borderRadius: BorderRadius.circular(sp.md),
+          side: BorderSide(color: c.border),
         ),
         title: Text(
           title,
-          style: t.typography.heading4.copyWith(color: t.colors.textPrimary),
+          style: text.heading4.copyWith(color: c.textPrimary),
         ),
         content: Text(
           message,
-          style: t.typography.body.copyWith(color: t.colors.textSecondary),
+          style: text.body.copyWith(color: c.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
               'Cancel',
-              style: t.typography.button.copyWith(color: t.colors.textSecondary),
+              style: text.button.copyWith(color: c.textSecondary),
             ),
           ),
           ElevatedButton(
@@ -181,19 +184,19 @@ class CacheManagementSection extends StatelessWidget {
               onConfirm();
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: t.colors.error,
-              foregroundColor: t.colors.textInverse,
+              backgroundColor: c.error,
+              foregroundColor: c.textInverse,
               padding: EdgeInsets.symmetric(
-                horizontal: t.spacing.lg,
-                vertical: t.spacing.sm,
+                horizontal: sp.lg,
+                vertical: sp.sm,
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(t.spacing.sm),
+                borderRadius: BorderRadius.circular(sp.sm),
               ),
             ),
             child: Text(
               'Clear',
-              style: t.typography.button.copyWith(color: t.colors.textInverse),
+              style: text.button.copyWith(color: c.textInverse),
             ),
           ),
         ],

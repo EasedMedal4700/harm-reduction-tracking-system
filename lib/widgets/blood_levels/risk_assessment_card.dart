@@ -1,7 +1,7 @@
+// MIGRATION
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Risk assessment card with gradient indicator
 class RiskAssessmentCard extends StatelessWidget {
@@ -11,7 +11,11 @@ class RiskAssessmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final t = context.theme;
+    final text = context.text;
     
     final highRisk = levels.values.where((l) => l.percentage > 20).length;
     final moderateRisk = levels.values.where((l) => l.percentage > 10 && l.percentage <= 20).length;
@@ -24,49 +28,44 @@ class RiskAssessmentCard extends StatelessWidget {
 
     if (highRisk > 0) {
       riskLevel = 'HIGH';
-      riskColor = Colors.red;
+      riskColor = c.error;
       warningMessage = 'Elevated risk detected. Avoid redosing and monitor for adverse interactions.';
       riskPosition = 0.8;
     } else if (moderateRisk > 0 || totalDose > 5.0) {
       riskLevel = 'MODERATE';
-      riskColor = Colors.orange;
+      riskColor = c.warning;
       warningMessage = 'Moderate risk detected. Monitor for interactions and avoid redosing.';
       riskPosition = 0.5;
     } else if (levels.isNotEmpty) {
       riskLevel = 'LOW';
-      riskColor = Colors.green;
+      riskColor = c.success;
       warningMessage = 'Low risk level. Minimal residual effects expected.';
       riskPosition = 0.2;
     } else {
       riskLevel = 'CLEAR';
-      riskColor = Colors.green;
+      riskColor = c.success;
       warningMessage = 'System clear. No active pharmacological substances detected.';
       riskPosition = 0.0;
     }
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: ThemeConstants.space16),
-      padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: riskColor,
-              radius: ThemeConstants.cardRadius,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              border: Border.all(
-                color: riskColor.withValues(alpha: 0.3),
-                width: ThemeConstants.borderThin,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: riskColor.withValues(alpha: 0.1),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
+      margin: EdgeInsets.symmetric(horizontal: sp.lg),
+      padding: EdgeInsets.all(sp.md),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(
+          color: riskColor.withValues(alpha: 0.3),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: riskColor.withValues(alpha: 0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -74,28 +73,22 @@ class RiskAssessmentCard extends StatelessWidget {
             children: [
               Text(
                 'Risk Assessment',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  fontWeight: ThemeConstants.fontBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
+                style: text.heading4,
               ),
               const Spacer(),
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: ThemeConstants.space12,
-                  vertical: ThemeConstants.space8,
+                  horizontal: sp.md,
+                  vertical: sp.sm,
                 ),
                 decoration: BoxDecoration(
-                  color: riskColor.withValues(alpha: isDark ? 0.2 : 0.15),
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                  color: riskColor.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(color: riskColor.withValues(alpha: 0.5)),
                 ),
                 child: Text(
                   riskLevel,
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontSmall,
-                    fontWeight: ThemeConstants.fontBold,
+                  style: text.bodyBold.copyWith(
                     color: riskColor,
                     letterSpacing: 1,
                   ),
@@ -103,7 +96,7 @@ class RiskAssessmentCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space16),
+          SizedBox(height: sp.lg),
           Container(
             height: 12,
             decoration: BoxDecoration(
@@ -125,7 +118,7 @@ class RiskAssessmentCard extends StatelessWidget {
                       color: riskColor,
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: isDark ? UIColors.darkBackground : UIColors.lightSurface,
+                        color: c.surface,
                         width: 2,
                       ),
                       boxShadow: [
@@ -141,21 +134,18 @@ class RiskAssessmentCard extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: ThemeConstants.space8),
-          const Row(
+          SizedBox(height: sp.sm),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('LOW', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.green)),
-              Text('HIGH', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red)),
+              Text('LOW', style: text.caption.copyWith(color: c.success, fontWeight: FontWeight.bold)),
+              Text('HIGH', style: text.caption.copyWith(color: c.error, fontWeight: FontWeight.bold)),
             ],
           ),
-          SizedBox(height: ThemeConstants.space12),
+          SizedBox(height: sp.md),
           Text(
             warningMessage,
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-            ),
+            style: text.bodySmall,
           ),
         ],
       ),

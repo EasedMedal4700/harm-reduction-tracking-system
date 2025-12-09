@@ -1,11 +1,10 @@
-// MIGRATION
+// MIGRATION — Clean, theme-compliant version
 
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
 import 'activity_card.dart';
 import 'activity_empty_state.dart';
-import '../../constants/theme/app_theme.dart';
-
 
 class ActivityCravingsTab extends StatelessWidget {
   final List cravings;
@@ -33,9 +32,10 @@ class ActivityCravingsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
+    final sp = context.spacing;
 
     if (cravings.isEmpty) {
-      return ActivityEmptyState(
+      return const ActivityEmptyState(
         icon: Icons.favorite_border,
         title: 'No Cravings Logged',
         subtitle: 'Your craving records will appear here',
@@ -47,11 +47,14 @@ class ActivityCravingsTab extends StatelessWidget {
       backgroundColor: t.colors.surface,
       onRefresh: onRefresh,
       child: ListView.builder(
-        padding: EdgeInsets.all(t.spacing.lg),
+        padding: EdgeInsets.all(sp.lg),
         itemCount: cravings.length,
         itemBuilder: (context, index) {
           final craving = cravings[index];
-          final timestamp = _parseTimestamp(craving['time'] ?? craving['date']);
+
+          final timestamp =
+              _parseTimestamp(craving['time'] ?? craving['date']);
+
           final intensity = (craving['intensity'] ?? 5).toDouble();
 
           return ActivityCard(
@@ -60,7 +63,7 @@ class ActivityCravingsTab extends StatelessWidget {
                 'Intensity: ${intensity.toStringAsFixed(1)}/10 • ${craving['location'] ?? 'No location'}',
             timestamp: timestamp,
             icon: Icons.favorite,
-            accentColor: _getIntensityColor(intensity, t),
+            accentColor: _getIntensityColor(context, intensity),
             badge: craving['action'] == 'Resisted' ? 'Resisted' : null,
             onTap: () => onCravingTap(craving),
           );
@@ -70,9 +73,11 @@ class ActivityCravingsTab extends StatelessWidget {
   }
 
   /// Intensity → theme-aware accent colors
-  Color _getIntensityColor(double intensity, AppTheme t) {
-    if (intensity >= 8) return t.colors.error;
-    if (intensity >= 5) return t.colors.warning;
-    return t.colors.info;
+  Color _getIntensityColor(BuildContext context, double intensity) {
+    final c = context.colors;
+
+    if (intensity >= 8) return c.error;
+    if (intensity >= 5) return c.warning;
+    return c.info;
   }
 }

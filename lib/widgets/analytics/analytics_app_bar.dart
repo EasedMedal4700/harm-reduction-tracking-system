@@ -20,20 +20,24 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final acc = context.accent;
+    final theme = context.theme;
 
     return Container(
       padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + t.spacing.md,
-        left: t.spacing.lg,
-        right: t.spacing.lg,
-        bottom: t.spacing.md,
+        top: MediaQuery.of(context).padding.top + sp.md,
+        left: sp.lg,
+        right: sp.lg,
+        bottom: sp.md,
       ),
       decoration: BoxDecoration(
-        color: t.colors.surface,
+        color: c.surface,
         border: Border(
           bottom: BorderSide(
-            color: t.colors.border,
+            color: c.border,
             width: 1,
           ),
         ),
@@ -50,25 +54,25 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 /// Hamburger (drawer)
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(t.spacing.sm),
-                    boxShadow: t.cardShadow,
+                    borderRadius: BorderRadius.circular(sp.sm),
+                    boxShadow: theme.cardShadow,
                   ),
                   child: IconButton(
-                    icon: Icon(Icons.menu, color: t.accent.primary, size: 24),
-                    padding: EdgeInsets.all(t.spacing.sm),
+                    icon: Icon(Icons.menu, color: acc.primary, size: 24),
+                    padding: EdgeInsets.all(sp.sm),
                     constraints: const BoxConstraints(),
                     onPressed: () => Scaffold.of(context).openDrawer(),
                   ),
                 ),
 
-                SizedBox(width: t.spacing.md),
+                SizedBox(width: sp.md),
 
                 /// Title
                 Expanded(
                   child: Text(
                     'DRUG USE ANALYTICS',
-                    style: t.typography.heading3.copyWith(
-                      color: t.colors.textPrimary,
+                    style: text.heading3.copyWith(
+                      color: c.textPrimary,
                       letterSpacing: 1.2,
                     ),
                     maxLines: 1,
@@ -79,13 +83,16 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 /// Export button
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(t.spacing.sm),
-                    boxShadow: t.cardShadow,
+                    borderRadius: BorderRadius.circular(sp.sm),
+                    boxShadow: theme.cardShadow,
                   ),
                   child: IconButton(
-                    icon: Icon(Icons.file_download_outlined,
-                        color: t.accent.primary, size: 20),
-                    padding: EdgeInsets.all(t.spacing.sm),
+                    icon: Icon(
+                      Icons.file_download_outlined,
+                      color: acc.primary,
+                      size: 20,
+                    ),
+                    padding: EdgeInsets.all(sp.sm),
                     constraints: const BoxConstraints(),
                     onPressed: onExport,
                   ),
@@ -93,13 +100,13 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
               ],
             ),
 
-            SizedBox(height: t.spacing.sm),
+            SizedBox(height: sp.sm),
 
             /// Subtitle
             Text(
               'Analyze your pharmacological activity',
-              style: t.typography.caption.copyWith(
-                color: t.colors.textSecondary,
+              style: text.caption.copyWith(
+                color: c.textSecondary,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

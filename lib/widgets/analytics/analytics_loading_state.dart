@@ -8,13 +8,19 @@ class AnalyticsLoadingState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
+    final sp = context.spacing;
+    final acc = context.accent;
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(t.spacing.xl),
-        child: CircularProgressIndicator(
-          color: t.accent.primary,
-          strokeWidth: 3,
+        padding: EdgeInsets.all(sp.xl),
+        child: SizedBox(
+          width: 42,
+          height: 42,
+          child: CircularProgressIndicator(
+            strokeWidth: 3,
+            valueColor: AlwaysStoppedAnimation(acc.primary),
+          ),
         ),
       ),
     );

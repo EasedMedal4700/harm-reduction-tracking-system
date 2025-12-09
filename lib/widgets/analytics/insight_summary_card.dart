@@ -1,5 +1,10 @@
+// MIGRATION — Modern Insight Summary using CommonCard & SectionHeader
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
+
+import '../../common/cards/common_card.dart';
+import '../../common/text/common_section_header.dart';
+import '../../common/layout/common_spacer.dart';
 
 class InsightSummaryCard extends StatelessWidget {
   final int totalEntries;
@@ -19,50 +24,24 @@ class InsightSummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.theme;
 
-    return Container(
-      padding: EdgeInsets.all(t.spacing.xl),
-      decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.spacing.md),
-        border: Border.all(color: t.colors.border),
-        boxShadow: t.cardShadow,
-      ),
+    return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// Header
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(t.spacing.sm),
-                decoration: BoxDecoration(
-                  color: t.accent.primary.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(t.spacing.sm),
-                ),
-                child: Icon(
-                  Icons.lightbulb_outline_rounded,
-                  color: t.accent.primary,
-                  size: 22,
-                ),
-              ),
-              SizedBox(width: t.spacing.md),
-              Text(
-                'Insight Summary',
-                style: t.typography.heading3.copyWith(
-                  color: t.colors.textPrimary,
-                ),
-              ),
-            ],
+          /// Standardized header with icon
+          CommonSectionHeader(
+            title: 'Insight Summary',
+            subtitle: selectedPeriodText,
+            icon: Icons.lightbulb_outline_rounded,
           ),
 
-          SizedBox(height: t.spacing.lg),
+          const CommonSpacer.vertical(16),
 
-          /// Insight text
           Text(
             _generateInsightText(),
             style: t.typography.body.copyWith(
               color: t.colors.textSecondary,
-              height: 1.6,
+              height: 1.55,
             ),
           ),
         ],
@@ -70,19 +49,19 @@ class InsightSummaryCard extends StatelessWidget {
     );
   }
 
+  // Keep for now; move to AnalyticsService later
   String _generateInsightText() {
     if (totalEntries == 0) {
-      return 'No usage data recorded for $selectedPeriodText. Start logging your substance usage to see personalized insights and trends.';
+      return 'No usage records found for $selectedPeriodText. Start logging to receive personalized insights and healthier pattern tracking.';
     }
-
-    final avgPerWeekText = weeklyAverage.toStringAsFixed(1);
-    final categoryText =
-        mostUsedCategory.isNotEmpty ? mostUsedCategory : 'various categories';
 
     if (totalEntries == 1) {
-      return 'You have logged 1 entry in $selectedPeriodText. Continue tracking to build a comprehensive history and identify patterns in your usage.';
+      return 'You logged 1 entry in $selectedPeriodText. Keep tracking to build a meaningful overview of your habits and long-term trends.';
     }
 
-    return 'During $selectedPeriodText, you logged $totalEntries entries with an average of $avgPerWeekText uses per week. Your most frequently used category is $categoryText. This helps identify patterns and supports informed decisions about your substance use habits.';
+    final avg = weeklyAverage.toStringAsFixed(1);
+    final cat = mostUsedCategory.isEmpty ? 'multiple categories' : mostUsedCategory;
+
+    return 'During $selectedPeriodText, you logged $totalEntries entries with an average of $avg uses per week. Your most frequent category was $cat. Identifying these trends helps support safer and more informed decisions.';
   }
 }

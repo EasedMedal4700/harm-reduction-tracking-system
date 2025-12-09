@@ -1,3 +1,4 @@
+// MIGRATION COMPLETE — Fully theme-based CacheActionButton.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
@@ -19,26 +20,39 @@ class CacheActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
 
     return ElevatedButton.icon(
       onPressed: onPressed,
-      icon: Icon(icon, size: 18, color: color),
+
+      icon: Icon(
+        icon,
+        size: 18,
+        color: color, // stays as user accent color
+      ),
+
       label: Text(
         label,
-        style: t.typography.button.copyWith(color: color),
+        style: text.button.copyWith(color: color),
       ),
+
       style: ElevatedButton.styleFrom(
         backgroundColor: color.withOpacity(0.12),
         foregroundColor: color,
-        shadowColor: t.colors.overlayHeavy,
+        shadowColor: c.overlayHeavy,
         elevation: 0,
         padding: EdgeInsets.symmetric(
-          horizontal: t.spacing.lg,
-          vertical: t.spacing.md,
+          horizontal: sp.lg,
+          vertical: sp.md,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(t.spacing.sm),
-          side: BorderSide(color: color.withOpacity(0.4), width: 1),
+          borderRadius: BorderRadius.circular(sp.sm),
+          side: BorderSide(
+            color: color.withOpacity(0.4),
+            width: 1,
+          ),
         ),
       ),
     );

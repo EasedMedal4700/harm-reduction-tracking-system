@@ -1,49 +1,43 @@
+// MIGRATION — Updated to CommonCard + new theme system
+
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../models/bucket_definitions.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
 
 /// Card displaying information about the bucket system
 class BucketDescriptionCard extends StatelessWidget {
   final String bucketType;
-  final bool isDark;
 
   const BucketDescriptionCard({
     super.key,
     required this.bucketType,
-    required this.isDark,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(ThemeConstants.space16),
-      decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : Colors.white,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-        ),
-      ),
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+
+    return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'About This System',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+            style: text.bodyMedium.copyWith(
+              fontWeight: FontWeight.w600,
+              color: c.text,
             ),
           ),
-          SizedBox(height: ThemeConstants.space12),
+
+          SizedBox(height: sp.sm),
+
           Text(
             BucketDefinitions.getDescription(bucketType),
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
+            style: text.bodySmall.copyWith(
+              color: c.textSecondary,
               height: 1.5,
             ),
           ),

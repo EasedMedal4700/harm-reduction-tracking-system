@@ -1,8 +1,8 @@
-// MIGRATION
-import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
-import 'package:intl/intl.dart';
+// MIGRATION — Fully theme-compliant, helper-safe
 
+import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:intl/intl.dart';
 
 /// Helper functions for activity-related UI components.
 class ActivityHelpers {
@@ -14,47 +14,49 @@ class ActivityHelpers {
     return 'Severe';
   }
 
-  /// Returns a color representing the craving intensity level (theme-aware).
+  /// Returns a theme-aware color based on craving intensity.
+  /// (Helper must NOT access typography/spacing/shapes — only colors.)
   static Color getCravingColor(int intensity, BuildContext context) {
-    final t = context.theme;
+    final c = context.colors;
 
-    if (intensity <= 2) return t.colors.success;        // Green → theme success
-    if (intensity <= 4) return t.colors.warning;        // Yellow → theme warning
-    if (intensity <= 7) return t.colors.warning;        // Orange → same category
-    return t.colors.error;                              // Red → theme error
+    if (intensity <= 2) return c.success;               // green
+    if (intensity <= 4) return c.warning;               // yellow
+    if (intensity <= 7) return c.warningDark;           // orange (preferred)
+    return c.error;                                     // red
   }
 
-  /// Formats a timestamp into a detailed, user-friendly string with relative time.
+  /// Formats a timestamp into a friendly, detailed string.
   static String formatDetailTimestamp(dynamic timestamp) {
     if (timestamp == null) return 'Unknown';
+
     try {
       final dt = DateTime.parse(timestamp.toString()).toLocal();
       final now = DateTime.now();
-      final difference = now.difference(dt);
+      final diff = now.difference(dt);
 
-      String relativeTime;
-      if (difference.inMinutes < 1) {
-        relativeTime = 'Just now';
-      } else if (difference.inHours < 1) {
-        relativeTime = '${difference.inMinutes}m ago';
-      } else if (difference.inHours < 24) {
-        relativeTime = '${difference.inHours}h ago';
-      } else if (difference.inDays < 7) {
-        relativeTime = '${difference.inDays}d ago';
+      String relative;
+      if (diff.inMinutes < 1) {
+        relative = 'Just now';
+      } else if (diff.inHours < 1) {
+        relative = '${diff.inMinutes}m ago';
+      } else if (diff.inHours < 24) {
+        relative = '${diff.inHours}h ago';
+      } else if (diff.inDays < 7) {
+        relative = '${diff.inDays}d ago';
       } else {
-        relativeTime = DateFormat('MMM d, y').format(dt);
+        relative = DateFormat('MMM d, y').format(dt);
       }
 
       final timeStr = DateFormat('h:mm a').format(dt);
-      final formattedDate = DateFormat('EEEE, MMMM d, y').format(dt);
+      final fullDate = DateFormat('EEEE, MMMM d, y').format(dt);
 
-      return '$relativeTime\n$formattedDate at $timeStr';
+      return '$relative\n$fullDate at $timeStr';
     } catch (_) {
       return 'Unknown';
     }
   }
 
-  /// Returns the correct ID column name for a given service/table.
+  /// Returns the ID column name used in each service table.
   static String getIdColumn(String serviceName) {
     switch (serviceName) {
       case 'drug_use':

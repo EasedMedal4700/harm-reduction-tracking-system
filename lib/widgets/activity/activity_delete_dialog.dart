@@ -1,9 +1,8 @@
-// MIGRATION
-import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
+// MIGRATION — Clean, theme-compliant version
 
-/// A confirmation dialog for deleting activity entries.
-/// Fully migrated to AppTheme.
+import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
 class ActivityDeleteDialog extends StatelessWidget {
   final String entryType;
 
@@ -12,7 +11,6 @@ class ActivityDeleteDialog extends StatelessWidget {
     required this.entryType,
   });
 
-  /// Shows the delete confirmation dialog and returns true if confirmed.
   static Future<bool> show(BuildContext context, String entryType) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -24,50 +22,63 @@ class ActivityDeleteDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final t = context.theme;
 
     return AlertDialog(
-      backgroundColor: t.colors.surface,
+      backgroundColor: c.surface,
       elevation: 12,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(t.spacing.md),
-        side: BorderSide(color: t.colors.border),
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        side: BorderSide(color: c.border),
       ),
+
       title: Text(
         'Delete Entry?',
-        style: t.typography.heading3.copyWith(
-          color: t.colors.textPrimary,
-        ),
+        style: text.heading3.copyWith(color: c.text),
       ),
+
       content: Text(
         'Are you sure you want to delete this $entryType entry? This action cannot be undone.',
-        style: t.typography.body.copyWith(
-          color: t.colors.textSecondary,
-        ),
+        style: text.body.copyWith(color: c.textSecondary),
       ),
+
       actions: [
+        // Cancel Button
         TextButton(
           onPressed: () => Navigator.pop(context, false),
-          style: TextButton.styleFrom(
-            foregroundColor: t.colors.textPrimary,
+          child: Text(
+            'Cancel',
+            style: text.body.copyWith(color: c.text),
           ),
-          child: const Text('Cancel'),
         ),
+
+        // Delete Button
         ElevatedButton(
           onPressed: () => Navigator.pop(context, true),
           style: ElevatedButton.styleFrom(
-            backgroundColor: t.colors.error,
-            foregroundColor: t.colors.textInverse,
+            backgroundColor: c.error,
+            foregroundColor: c.onError,
             padding: EdgeInsets.symmetric(
-              horizontal: t.spacing.lg,
-              vertical: t.spacing.sm,
+              horizontal: sp.lg,
+              vertical: sp.sm,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(t.spacing.sm),
+              borderRadius: BorderRadius.circular(sh.radiusSm),
             ),
-            shadowColor: t.colors.overlayHeavy,
+            shadowColor: c.overlayHeavy,
+            elevation: 4,
           ),
-          child: const Text('Delete'),
+          child: Text(
+            'Delete',
+            style: text.body.copyWith(
+              fontWeight: FontWeight.w600,
+              color: c.onError,
+            ),
+          ),
         ),
       ],
     );

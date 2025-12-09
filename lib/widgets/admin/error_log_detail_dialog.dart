@@ -1,4 +1,4 @@
-// MIGRATION COMPLETE — Fully theme-based.
+// MIGRATION COMPLETE — Fully theme-based, correct typography & colors.
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +29,10 @@ class ErrorLogDetailDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
+    final sh = context.shapes;
 
     final createdAtString = log['created_at']?.toString();
     final createdAt =
@@ -43,56 +47,54 @@ class ErrorLogDetailDialog extends StatelessWidget {
       builder: (context, controller) {
         return Container(
           decoration: BoxDecoration(
-            color: t.colors.surface,
+            color: c.surface,
             borderRadius: BorderRadius.vertical(
-              top: Radius.circular(t.spacing.lg),
+              top: Radius.circular(sh.radiusLg),
             ),
-            border: Border.all(color: t.colors.border),
+            border: Border.all(color: c.border),
           ),
           child: Padding(
-            padding: EdgeInsets.all(t.spacing.lg),
+            padding: EdgeInsets.all(sp.lg),
             child: ListView(
               controller: controller,
               children: [
-                /// Header
+                /// HEADER
                 Row(
                   children: [
-                    Icon(Icons.bug_report, color: t.colors.error),
-                    SizedBox(width: t.spacing.sm),
+                    Icon(Icons.bug_report, color: c.error),
+                    SizedBox(width: sp.sm),
                     Expanded(
                       child: Text(
                         log['error_message'] ?? 'Unknown error',
-                        style: t.typography.heading4.copyWith(
-                          color: t.colors.textPrimary,
-                        ),
+                        style: text.heading4.copyWith(color: c.text),
                       ),
                     ),
                   ],
                 ),
 
-                SizedBox(height: t.spacing.md),
+                SizedBox(height: sp.md),
 
-                /// Severity + Error Code
+                /// SEVERITY + ERROR CODE
                 Row(
                   children: [
                     SeverityBadge(severity: severity, compact: false),
                     if (errorCode.isNotEmpty) ...[
-                      SizedBox(width: t.spacing.sm),
+                      SizedBox(width: sp.sm),
                       Container(
                         padding: EdgeInsets.symmetric(
-                          horizontal: t.spacing.sm,
-                          vertical: t.spacing.xs,
+                          horizontal: sp.sm,
+                          vertical: sp.xs,
                         ),
                         decoration: BoxDecoration(
-                          color: t.colors.surfaceVariant,
-                          borderRadius: BorderRadius.circular(t.spacing.xs),
+                          color: c.surfaceBright,
+                          borderRadius: BorderRadius.circular(sh.radiusSm),
                         ),
                         child: Text(
                           errorCode,
-                          style: t.typography.caption.copyWith(
+                          style: text.caption.copyWith(
                             fontFamily: 'monospace',
                             fontWeight: FontWeight.bold,
-                            color: t.colors.textPrimary,
+                            color: c.text,
                           ),
                         ),
                       ),
@@ -100,9 +102,9 @@ class ErrorLogDetailDialog extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: t.spacing.md),
+                SizedBox(height: sp.md),
 
-                /// Metadata
+                /// METADATA
                 _buildKeyValue(
                   context,
                   'Created',
@@ -112,62 +114,62 @@ class ErrorLogDetailDialog extends StatelessWidget {
                       : 'Unknown',
                 ),
                 _buildKeyValue(context, 'Platform', log['platform'] ?? 'Unknown'),
-                _buildKeyValue(context, 'OS Version', log['os_version'] ?? 'Unknown'),
-                _buildKeyValue(context, 'Device', log['device_model'] ?? 'Unknown'),
-                _buildKeyValue(context, 'App Version', log['app_version'] ?? 'Unknown'),
-                _buildKeyValue(context, 'Screen', log['screen_name'] ?? 'Unknown'),
+                _buildKeyValue(
+                    context, 'OS Version', log['os_version'] ?? 'Unknown'),
+                _buildKeyValue(
+                    context, 'Device', log['device_model'] ?? 'Unknown'),
+                _buildKeyValue(
+                    context, 'App Version', log['app_version'] ?? 'Unknown'),
+                _buildKeyValue(
+                    context, 'Screen', log['screen_name'] ?? 'Unknown'),
 
-                SizedBox(height: t.spacing.md),
+                SizedBox(height: sp.md),
 
-                /// Stacktrace Section
+                /// STACKTRACE
                 Text(
                   'Stacktrace',
-                  style: t.typography.bodyBold.copyWith(
-                    color: t.colors.textPrimary,
-                  ),
+                  style: text.bodyBold.copyWith(color: c.text),
                 ),
-                SizedBox(height: t.spacing.xs),
+                SizedBox(height: sp.xs),
 
                 Container(
-                  padding: EdgeInsets.all(t.spacing.md),
+                  padding: EdgeInsets.all(sp.md),
                   decoration: BoxDecoration(
-                    color: t.colors.surfaceVariant,
-                    borderRadius: BorderRadius.circular(t.spacing.md),
-                    border: Border.all(color: t.colors.border),
+                    color: c.surfaceBright,
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
+                    border: Border.all(color: c.border),
                   ),
                   child: SelectableText(
                     log['stacktrace'] ?? 'Unavailable',
-                    style: t.typography.caption.copyWith(
+                    style: text.caption.copyWith(
                       fontFamily: 'monospace',
                       fontSize: 12,
-                      color: t.colors.textPrimary,
+                      color: c.text,
                     ),
                   ),
                 ),
 
-                /// Extra Data Section
+                /// EXTRA DATA
                 if (extra != null) ...[
-                  SizedBox(height: t.spacing.lg),
+                  SizedBox(height: sp.lg),
                   Text(
                     'Extra Data',
-                    style: t.typography.bodyBold.copyWith(
-                      color: t.colors.textPrimary,
-                    ),
+                    style: text.bodyBold.copyWith(color: c.text),
                   ),
-                  SizedBox(height: t.spacing.xs),
+                  SizedBox(height: sp.xs),
                   Container(
-                    padding: EdgeInsets.all(t.spacing.md),
+                    padding: EdgeInsets.all(sp.md),
                     decoration: BoxDecoration(
-                      color: t.colors.surfaceVariant,
-                      borderRadius: BorderRadius.circular(t.spacing.md),
-                      border: Border.all(color: t.colors.border),
+                      color: c.surfaceBright,
+                      borderRadius: BorderRadius.circular(sh.radiusMd),
+                      border: Border.all(color: c.border),
                     ),
                     child: SelectableText(
                       const JsonEncoder.withIndent('  ').convert(extra),
-                      style: t.typography.caption.copyWith(
+                      style: text.caption.copyWith(
                         fontFamily: 'monospace',
                         fontSize: 12,
-                        color: t.colors.textPrimary,
+                        color: c.text,
                       ),
                     ),
                   ),
@@ -185,10 +187,12 @@ class ErrorLogDetailDialog extends StatelessWidget {
     String label,
     String value,
   ) {
-    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: t.spacing.xs),
+      padding: EdgeInsets.symmetric(vertical: sp.xs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -196,17 +200,13 @@ class ErrorLogDetailDialog extends StatelessWidget {
             width: 110,
             child: Text(
               '$label:',
-              style: t.typography.bodyBold.copyWith(
-                color: t.colors.textSecondary,
-              ),
+              style: text.bodyBold.copyWith(color: c.textSecondary),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: t.typography.body.copyWith(
-                color: t.colors.textPrimary,
-              ),
+              style: text.body.copyWith(color: c.text),
             ),
           ),
         ],

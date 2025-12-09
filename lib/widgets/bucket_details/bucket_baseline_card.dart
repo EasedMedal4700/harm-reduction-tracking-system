@@ -1,61 +1,49 @@
+// MIGRATION — Updated to CommonCard
+
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Card showing days until tolerance returns to baseline
 class BucketBaselineCard extends StatelessWidget {
   final double daysToBaseline;
-  final bool isDark;
 
   const BucketBaselineCard({
     super.key,
     required this.daysToBaseline,
-    required this.isDark,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(ThemeConstants.space16),
-      decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : Colors.white,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-        ),
-      ),
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+
+    return CommonCard(
       child: Row(
         children: [
-          Icon(
-            Icons.schedule,
-            color: isDark
-                ? UIColors.darkTextSecondary
-                : UIColors.lightTextSecondary,
-            size: 24,
-          ),
-          SizedBox(width: ThemeConstants.space12),
+          Icon(Icons.schedule, color: c.textSecondary, size: 24),
+
+          SizedBox(width: sp.sm),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Days to Baseline',
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontSmall,
-                    color: isDark
-                        ? UIColors.darkTextSecondary
-                        : UIColors.lightTextSecondary,
-                  ),
+                  style: text.bodySmall.copyWith(color: c.textSecondary),
                 ),
-                SizedBox(height: ThemeConstants.space4),
+
+                SizedBox(height: sp.xs),
+
                 Text(
                   daysToBaseline < 0.1
                       ? 'At baseline'
                       : '${daysToBaseline.toStringAsFixed(1)} days',
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontMedium,
-                    fontWeight: ThemeConstants.fontBold,
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
+                  style: text.bodyMedium.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: c.text,
                   ),
                 ),
               ],

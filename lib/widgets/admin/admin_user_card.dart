@@ -1,6 +1,8 @@
+// MIGRATION — Final theme-compliant version
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// User card widget for admin panel
 class AdminUserCard extends StatelessWidget {
@@ -15,36 +17,42 @@ class AdminUserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
     final t = context.theme;
 
-    // Use auth_user_id as the primary identifier now
     final authUserId = user['auth_user_id'] as String? ?? '';
     final username = user['username'] as String? ??
         user['display_name'] as String? ??
         'Unknown';
     final email = user['email'] as String? ?? 'No email';
+
     final isAdmin = user['is_admin'] as bool? ?? false;
+
     final createdAt = user['created_at'];
     final lastActive =
         user['last_activity'] ?? user['last_active'] ?? user['updated_at'];
+
     final entryCount = user['entry_count'] as int? ?? 0;
     final cravingCount = user['craving_count'] as int? ?? 0;
     final reflectionCount = user['reflection_count'] as int? ?? 0;
 
-    // If authUserId is empty, the data is invalid
+    // INVALID DATA FALLBACK
     if (authUserId.isEmpty) {
       return Container(
         decoration: t.cardDecoration(),
-        margin: EdgeInsets.symmetric(vertical: t.spacing.sm),
+        margin: EdgeInsets.symmetric(vertical: sp.sm),
         child: ListTile(
-          leading: Icon(Icons.error_outline, color: t.colors.error),
+          leading: Icon(Icons.error_outline, color: c.error),
           title: Text(
             'Invalid user data',
-            style: t.typography.bodyBold.copyWith(color: t.colors.error),
+            style: text.bodyBold.copyWith(color: c.error),
           ),
           subtitle: Text(
             'Email: $email',
-            style: t.typography.bodySmall.copyWith(color: t.colors.textSecondary),
+            style: text.bodySmall.copyWith(color: c.textSecondary),
           ),
         ),
       );
@@ -52,45 +60,47 @@ class AdminUserCard extends StatelessWidget {
 
     return Container(
       decoration: t.cardDecoration(),
-      margin: EdgeInsets.symmetric(vertical: t.spacing.sm),
+      margin: EdgeInsets.symmetric(vertical: sp.sm),
       child: ExpansionTile(
         tilePadding: EdgeInsets.symmetric(
-          horizontal: t.spacing.md,
-          vertical: t.spacing.sm,
+          horizontal: sp.md,
+          vertical: sp.sm,
         ),
-        childrenPadding: EdgeInsets.only(bottom: t.spacing.md),
+        childrenPadding: EdgeInsets.only(bottom: sp.md),
+
+        // USER AVATAR
         leading: CircleAvatar(
-          backgroundColor:
-              isAdmin ? t.accent.primary : t.accent.secondary.withOpacity(0.8),
+          backgroundColor: isAdmin
+              ? t.accent.primary
+              : t.accent.secondary.withValues(alpha: 0.8),
           child: Text(
             username[0].toUpperCase(),
-            style: t.typography.bodyBold.copyWith(
-              color: t.colors.textInverse,
-            ),
+            style: text.bodyBold.copyWith(color: c.onPrimary),
           ),
         ),
+
+        // TITLE LINE
         title: Row(
           children: [
             Text(
               username,
-              style: t.typography.bodyBold.copyWith(
-                color: t.colors.textPrimary,
-              ),
+              style: text.bodyBold.copyWith(color: c.text),
             ),
+
             if (isAdmin) ...[
-              SizedBox(width: t.spacing.sm),
+              SizedBox(width: sp.sm),
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: t.spacing.sm,
-                  vertical: t.spacing.xs,
+                  horizontal: sp.sm,
+                  vertical: sp.xs,
                 ),
                 decoration: BoxDecoration(
-                  color: t.accent.primary.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(t.spacing.sm),
+                  color: t.accent.primary.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(sh.radiusSm),
                 ),
                 child: Text(
                   'ADMIN',
-                  style: t.typography.overline.copyWith(
+                  style: text.overline.copyWith(
                     color: t.accent.primary,
                     fontWeight: FontWeight.bold,
                   ),
@@ -99,31 +109,36 @@ class AdminUserCard extends StatelessWidget {
             ],
           ],
         ),
+
+        // SUBTITLE (email)
         subtitle: Text(
           email,
-          style: t.typography.bodySmall.copyWith(
-            color: t.colors.textSecondary,
-          ),
+          style: text.bodySmall.copyWith(color: c.textSecondary),
         ),
+
+        // EXPANDED DETAILS
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: t.spacing.md),
+            padding: EdgeInsets.symmetric(horizontal: sp.md),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildInfoRow(context, 'Auth User ID',
                     '${authUserId.substring(0, 8)}...'),
-                Divider(color: t.colors.divider),
+
+                Divider(color: c.divider),
+
                 _buildInfoRow(context, 'Entries', entryCount.toString()),
                 _buildInfoRow(context, 'Cravings', cravingCount.toString()),
-                _buildInfoRow(
-                    context, 'Reflections', reflectionCount.toString()),
+                _buildInfoRow(context, 'Reflections', reflectionCount.toString()),
                 _buildInfoRow(
                   context,
                   'Total Activity',
                   (entryCount + cravingCount + reflectionCount).toString(),
                 ),
-                Divider(color: t.colors.divider),
+
+                Divider(color: c.divider),
+
                 if (createdAt != null)
                   _buildInfoRow(
                     context,
@@ -131,6 +146,7 @@ class AdminUserCard extends StatelessWidget {
                     DateFormat('MMM d, yyyy')
                         .format(DateTime.parse(createdAt)),
                   ),
+
                 if (lastActive != null)
                   _buildInfoRow(
                     context,
@@ -138,37 +154,33 @@ class AdminUserCard extends StatelessWidget {
                     DateFormat('MMM d, yyyy HH:mm')
                         .format(DateTime.parse(lastActive)),
                   ),
-                SizedBox(height: t.spacing.lg),
+
+                SizedBox(height: sp.lg),
+
+                /// ADMIN TOGGLE BUTTON
                 Row(
                   children: [
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () =>
                             onToggleAdmin(authUserId, isAdmin),
-                        icon: Icon(
-                          isAdmin
-                              ? Icons.remove_circle
-                              : Icons.add_circle,
-                        ),
+                        icon: Icon(isAdmin
+                            ? Icons.remove_circle
+                            : Icons.add_circle),
                         label: Text(
                           isAdmin ? 'Remove Admin' : 'Make Admin',
-                          style: t.typography.button.copyWith(
-                            color: t.colors.textInverse,
-                          ),
+                          style: text.button.copyWith(color: c.onPrimary),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isAdmin
-                              ? t.colors.error
-                              : t.colors.success,
-                          foregroundColor: t.colors.textInverse,
-                          padding: EdgeInsets.symmetric(
-                            vertical: t.spacing.sm,
-                          ),
+                          backgroundColor:
+                              isAdmin ? c.error : c.success,
+                          foregroundColor: c.onPrimary,
+                          padding: EdgeInsets.symmetric(vertical: sp.sm),
                           shape: RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.circular(t.spacing.sm),
+                                BorderRadius.circular(sh.radiusSm),
                           ),
-                          shadowColor: t.colors.overlayHeavy,
+                          shadowColor: c.overlayHeavy,
                         ),
                       ),
                     ),
@@ -183,24 +195,22 @@ class AdminUserCard extends StatelessWidget {
   }
 
   Widget _buildInfoRow(BuildContext context, String label, String value) {
-    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: t.spacing.xs),
+      padding: EdgeInsets.symmetric(vertical: sp.xs),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label,
-            style: t.typography.caption.copyWith(
-              color: t.colors.textSecondary,
-            ),
+            style: text.caption.copyWith(color: c.textSecondary),
           ),
           Text(
             value,
-            style: t.typography.bodyBold.copyWith(
-              color: t.colors.textPrimary,
-            ),
+            style: text.bodyBold.copyWith(color: c.text),
           ),
         ],
       ),

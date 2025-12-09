@@ -1,53 +1,49 @@
+// MIGRATION — Updated to CommonCard + new theme system
+
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'bucket_utils.dart';
 
 /// Card showing the decay timeline with a visual progress bar
 class BucketDecayTimelineCard extends StatelessWidget {
-  final double tolerancePercent;
-  final bool isDark;
+  final double tolerancePercent; // 0–100
 
   const BucketDecayTimelineCard({
     super.key,
     required this.tolerancePercent,
-    required this.isDark,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(ThemeConstants.space16),
-      decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : Colors.white,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-        ),
-      ),
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+
+    return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Decay Timeline',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+            style: text.bodyMedium.copyWith(
+              fontWeight: FontWeight.w600,
+              color: c.text,
             ),
           ),
-          SizedBox(height: ThemeConstants.space16),
-          _buildDecayBar(),
-          SizedBox(height: ThemeConstants.space12),
+
+          SizedBox(height: sp.md),
+
+          _buildDecayBar(context),
+
+          SizedBox(height: sp.sm),
+
           Text(
             tolerancePercent > 0.1
                 ? 'Substance is currently active in your system. Tolerance will continue to build.'
                 : 'Substance is no longer active. Tolerance is decaying naturally.',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
+            style: text.bodySmall.copyWith(
+              color: c.textSecondary,
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -56,62 +52,72 @@ class BucketDecayTimelineCard extends StatelessWidget {
     );
   }
 
-  Widget _buildDecayBar() {
+  /// Progress bar + labels
+  Widget _buildDecayBar(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
+
+    final activeFlex = tolerancePercent.round().clamp(0, 100);
+    final remainingFlex = (100 - tolerancePercent).round().clamp(0, 100);
+
     return Column(
       children: [
+        // Progress bar
         Row(
           children: [
+            // ACTIVE PART
             Expanded(
-              flex: tolerancePercent.round().clamp(0, 100),
+              flex: activeFlex,
               child: Container(
                 height: 12,
                 decoration: BoxDecoration(
-                  color:
-                      BucketUtils.getColorForTolerance(tolerancePercent / 100.0),
+                  color: BucketUtils.getColorForTolerance(tolerancePercent / 100),
                   borderRadius: BorderRadius.horizontal(
-                    left: Radius.circular(ThemeConstants.radiusSmall),
-                    right: tolerancePercent >= 100.0
-                        ? Radius.circular(ThemeConstants.radiusSmall)
+                    left: Radius.circular(sp.radiusSm),
+                    right: tolerancePercent >= 100
+                        ? Radius.circular(sp.radiusSm)
                         : Radius.zero,
                   ),
                 ),
               ),
             ),
-            if (tolerancePercent < 100.0)
+
+            // REMAINING PART
+            if (remainingFlex > 0)
               Expanded(
-                flex: (100.0 - tolerancePercent).round().clamp(0, 100),
+                flex: remainingFlex,
                 child: Container(
                   height: 12,
                   decoration: BoxDecoration(
-                    color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                    color: c.border, // matches theme border color
                     borderRadius: BorderRadius.horizontal(
-                      right: Radius.circular(ThemeConstants.radiusSmall),
+                      right: Radius.circular(sp.radiusSm),
                     ),
                   ),
                 ),
               ),
           ],
         ),
-        SizedBox(height: ThemeConstants.space8),
+
+        SizedBox(height: sp.xs),
+
+        // Percentage labels
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               '0%',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
-                color: isDark
-                    ? UIColors.darkTextSecondary
-                    : UIColors.lightTextSecondary,
+              style: text.bodySmall.copyWith(
+                color: c.textSecondary,
+                fontSize: text.bodySmall.fontSize! - 2,
               ),
             ),
             Text(
               '100%',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
-                color: isDark
-                    ? UIColors.darkTextSecondary
-                    : UIColors.lightTextSecondary,
+              style: text.bodySmall.copyWith(
+                color: c.textSecondary,
+                fontSize: text.bodySmall.fontSize! - 2,
               ),
             ),
           ],

@@ -1,90 +1,92 @@
+// MIGRATION — Updated to CommonCard + new theme system
+
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../models/bucket_definitions.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
 import 'bucket_utils.dart';
 
 /// Header card showing bucket icon, name, and current tolerance level
 class BucketHeaderCard extends StatelessWidget {
   final String bucketType;
   final double tolerancePercent;
-  final bool isDark;
 
   const BucketHeaderCard({
     super.key,
     required this.bucketType,
     required this.tolerancePercent,
-    required this.isDark,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(ThemeConstants.space16),
-      decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : Colors.white,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-        ),
-      ),
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+
+    final bucketColor = BucketUtils.getColorForTolerance(tolerancePercent / 100);
+    final isActive = tolerancePercent > 0.1;
+
+    return CommonCard(
       child: Row(
         children: [
+          // Icon container
           Container(
-            padding: EdgeInsets.all(ThemeConstants.space12),
+            padding: EdgeInsets.all(sp.sm),
             decoration: BoxDecoration(
-              color: BucketUtils.getColorForTolerance(tolerancePercent / 100.0)
-                  .withOpacity(0.1),
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              color: bucketColor.withOpacity(0.12),
+              borderRadius: BorderRadius.circular(sp.radiusMd),
             ),
             child: Icon(
               BucketUtils.getBucketIcon(bucketType),
-              color: BucketUtils.getColorForTolerance(tolerancePercent / 100.0),
+              color: bucketColor,
               size: 32,
             ),
           ),
-          SizedBox(width: ThemeConstants.space16),
+
+          SizedBox(width: sp.md),
+
+          // Title + tolerance display
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   BucketDefinitions.getDisplayName(bucketType),
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontLarge,
-                    fontWeight: ThemeConstants.fontBold,
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
+                  style: text.titleSmall.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: c.text,
                   ),
                 ),
-                SizedBox(height: ThemeConstants.space4),
+
+                SizedBox(height: sp.xs),
+
                 Text(
                   '${tolerancePercent.toStringAsFixed(1)}% Tolerance',
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontMedium,
-                    fontWeight: ThemeConstants.fontSemiBold,
-                    color: BucketUtils.getColorForTolerance(
-                        tolerancePercent / 100.0),
+                  style: text.bodyMedium.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: bucketColor,
                   ),
                 ),
               ],
             ),
           ),
-          if (tolerancePercent > 0.1)
+
+          // ACTIVE badge (theme-aware)
+          if (isActive)
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: ThemeConstants.space12,
-                vertical: ThemeConstants.space8,
+                horizontal: sp.sm,
+                vertical: sp.xs,
               ),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                color: c.warning.withOpacity(0.18),
+                borderRadius: BorderRadius.circular(sp.radiusSm),
               ),
               child: Text(
                 'ACTIVE',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  fontWeight: ThemeConstants.fontBold,
-                  color: Colors.blue,
+                style: text.bodySmall.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: c.warning,
                 ),
               ),
             ),

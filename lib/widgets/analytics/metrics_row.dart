@@ -25,47 +25,54 @@ class MetricsRow extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isNarrow = screenWidth < 600;
 
+    // ===== MOBILE LAYOUT (Grid) =====
     if (isNarrow) {
-      return GridView.count(
-        crossAxisCount: 2,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        mainAxisSpacing: t.spacing.md,
-        crossAxisSpacing: t.spacing.md,
-        childAspectRatio: 1.3,
-        children: [
-          _MetricCard(
-            icon: Icons.analytics_outlined,
-            accent: t.accent.primary,
-            value: totalEntries.toString(),
-            label: 'Total Entries',
-          ),
-          _MetricCard(
-            icon: Icons.medication_outlined,
-            accent: t.accent.secondary,
-            value: mostUsedSubstance.isEmpty ? '-' : mostUsedSubstance,
-            label: 'Most Used',
-            subtitle: mostUsedCount > 0 ? '$mostUsedCount uses' : null,
-          ),
-          _MetricCard(
-            icon: Icons.calendar_today_outlined,
-            accent: t.accent.primaryVariant,
-            value: weeklyAverage.toStringAsFixed(1),
-            label: 'Weekly Average',
-          ),
-          _MetricCard(
-            icon: Icons.category_outlined,
-            accent: t.accent.primary,
-            value: topCategory.isEmpty ? '-' : topCategory,
-            label: 'Top Category',
-            chipLabel: topCategoryPercent > 0
-                ? '${topCategoryPercent.toStringAsFixed(0)}%'
-                : null,
-          ),
-        ],
+      final aspect = screenWidth < 380 ? 1.1 : 1.25;
+
+      return SizedBox(
+        height: 330,     // ensures proper rendering in ListViews
+        child: GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          mainAxisSpacing: t.spacing.md,
+          crossAxisSpacing: t.spacing.md,
+          childAspectRatio: aspect,
+          children: [
+            _MetricCard(
+              icon: Icons.analytics_outlined,
+              accent: t.accent.primary,
+              value: totalEntries.toString(),
+              label: 'Total Entries',
+            ),
+            _MetricCard(
+              icon: Icons.medication_outlined,
+              accent: t.accent.secondary,
+              value: mostUsedSubstance.isEmpty ? '-' : mostUsedSubstance,
+              label: 'Most Used',
+              subtitle: mostUsedCount > 0 ? '$mostUsedCount uses' : null,
+            ),
+            _MetricCard(
+              icon: Icons.calendar_today_outlined,
+              accent: t.accent.secondary,          // replaced invalid primaryVariant
+              value: weeklyAverage.toStringAsFixed(1),
+              label: 'Weekly Average',
+            ),
+            _MetricCard(
+              icon: Icons.category_outlined,
+              accent: t.accent.primary,
+              value: topCategory.isEmpty ? '-' : topCategory,
+              label: 'Top Category',
+              chipLabel: topCategoryPercent > 0
+                  ? '${topCategoryPercent.toStringAsFixed(0)}%'
+                  : null,
+            ),
+          ],
+        ),
       );
     }
 
+    // ===== TABLET/DESKTOP LAYOUT (Row) =====
     return Row(
       children: [
         Expanded(
@@ -90,7 +97,7 @@ class MetricsRow extends StatelessWidget {
         Expanded(
           child: _MetricCard(
             icon: Icons.calendar_today_outlined,
-            accent: t.accent.primaryVariant,
+            accent: t.accent.secondary,
             value: weeklyAverage.toStringAsFixed(1),
             label: 'Weekly Average',
           ),
@@ -145,23 +152,19 @@ class _MetricCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// ICON
+          // ----- ICON -----
           Container(
             padding: EdgeInsets.all(t.spacing.sm),
             decoration: BoxDecoration(
               color: accent.withOpacity(0.15),
               borderRadius: BorderRadius.circular(t.spacing.sm),
             ),
-            child: Icon(
-              icon,
-              color: accent,
-              size: 20,
-            ),
+            child: Icon(icon, color: accent, size: 20),
           ),
 
           SizedBox(height: t.spacing.sm),
 
-          /// VALUE
+          // ----- VALUE -----
           Flexible(
             child: FittedBox(
               fit: BoxFit.scaleDown,
@@ -179,7 +182,7 @@ class _MetricCard extends StatelessWidget {
 
           SizedBox(height: t.spacing.xs),
 
-          /// LABEL
+          // ----- LABEL -----
           Text(
             label,
             style: t.typography.bodySmall.copyWith(
@@ -189,7 +192,7 @@ class _MetricCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
 
-          /// SUBTITLE
+          // ----- SUBTITLE -----
           if (subtitle != null) ...[
             SizedBox(height: t.spacing.xs),
             Text(
@@ -202,7 +205,7 @@ class _MetricCard extends StatelessWidget {
             ),
           ],
 
-          /// CHIP
+          // ----- CHIP -----
           if (chipLabel != null) ...[
             SizedBox(height: t.spacing.sm),
             Container(
@@ -213,15 +216,11 @@ class _MetricCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: accent.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(t.spacing.sm),
-                border: Border.all(
-                  color: accent.withOpacity(0.3),
-                ),
+                border: Border.all(color: accent.withOpacity(0.3)),
               ),
               child: Text(
                 chipLabel!,
-                style: t.typography.captionBold.copyWith(
-                  color: accent,
-                ),
+                style: t.typography.captionBold.copyWith(color: accent),
               ),
             ),
           ],

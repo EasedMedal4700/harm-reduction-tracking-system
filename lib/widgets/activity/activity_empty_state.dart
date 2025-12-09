@@ -1,5 +1,7 @@
+// MIGRATION — Final theme-compliant version
+
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class ActivityEmptyState extends StatelessWidget {
   final IconData icon;
@@ -15,39 +17,35 @@ class ActivityEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final colors = t.colors;
-    final spacing = t.spacing;
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(spacing.xl2),
+        padding: EdgeInsets.all(sp.xl2),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               icon,
               size: 80,
-              color: colors.textSecondary.withOpacity(0.5),
+              color: c.textSecondary.withValues(alpha: 0.5),
             ),
 
-            SizedBox(height: spacing.xl),
+            SizedBox(height: sp.xl),
 
             Text(
               title,
-              style: t.typography.heading3.copyWith(
-                color: colors.textPrimary,
-              ),
+              style: text.heading3.copyWith(color: c.text),
               textAlign: TextAlign.center,
             ),
 
-            SizedBox(height: spacing.sm),
+            SizedBox(height: sp.sm),
 
             Text(
               subtitle,
-              style: t.typography.bodySmall.copyWith(
-                color: colors.textSecondary,
-              ),
+              style: text.bodySmall.copyWith(color: c.textSecondary),
               textAlign: TextAlign.center,
             ),
           ],
