@@ -1,4 +1,6 @@
+// MIGRATION
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Empty state when no substances are active or visible after filtering
 class BloodLevelsEmptyState extends StatelessWidget {
@@ -11,21 +13,25 @@ class BloodLevelsEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
+    
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.science_outlined, size: 64, color: Colors.grey[400]),
-          const SizedBox(height: 16),
+          Icon(Icons.science_outlined, size: 64, color: c.textTertiary),
+          SizedBox(height: sp.lg),
           Text(
             'No active substances',
-            style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+            style: text.heading4.copyWith(color: c.textSecondary),
           ),
           if (hasActiveFilters) ...[
-            const SizedBox(height: 8),
+            SizedBox(height: sp.sm),
             Text(
               'Try adjusting filters',
-              style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+              style: text.bodySmall,
             ),
           ],
         ],

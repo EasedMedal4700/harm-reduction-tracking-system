@@ -1,7 +1,8 @@
+// MIGRATION
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme_constants.dart';
 import '../../services/pharmacokinetics_service.dart';
 
 class BloodLevelGraph extends StatelessWidget {
@@ -22,25 +23,23 @@ class BloodLevelGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? UIColors.darkNeonTeal : UIColors.lightAccentRed;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final acc = context.accent;
 
     return Container(
-      padding: EdgeInsets.all(ThemeConstants.cardPaddingLarge),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: accentColor,
-              radius: ThemeConstants.cardRadius,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              border: Border.all(
-                color: UIColors.lightBorder,
-                width: ThemeConstants.borderThin,
-              ),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      padding: EdgeInsets.all(sp.lg),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(
+          color: c.border,
+          width: 1,
+        ),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -48,42 +47,42 @@ class BloodLevelGraph extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(ThemeConstants.space8),
+                padding: EdgeInsets.all(sp.sm),
                 decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: isDark ? 0.2 : 0.1),
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                  color: acc.primary.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(sh.radiusSm),
                 ),
                 child: Icon(
                   Icons.show_chart_rounded,
-                  color: accentColor,
-                  size: ThemeConstants.iconMedium,
+                  color: acc.primary,
+                  size: AppThemeConstants.iconMd,
                 ),
               ),
-              SizedBox(width: ThemeConstants.space12),
+              SizedBox(width: sp.md),
               Text(
                 'Blood Level Curves',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontLarge,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
+                style: context.text.heading3,
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space24),
+          SizedBox(height: sp.xl),
           // Graph
           SizedBox(
             height: 300,
             child: substanceCurves.isEmpty
-                ? _buildEmptyState(isDark)
-                : _buildChart(isDark),
+                ? _buildEmptyState(context)
+                : _buildChart(context),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildEmptyState(bool isDark) {
+  Widget _buildEmptyState(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
+    
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -91,19 +90,12 @@ class BloodLevelGraph extends StatelessWidget {
           Icon(
             Icons.water_drop_outlined,
             size: 64,
-            color: isDark
-                ? UIColors.darkTextSecondary.withValues(alpha: 0.3)
-                : UIColors.lightTextSecondary.withValues(alpha: 0.3),
+            color: c.textSecondary.withValues(alpha: 0.3),
           ),
-          SizedBox(height: ThemeConstants.space16),
+          SizedBox(height: sp.lg),
           Text(
             'No active substances in selected timeframe',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
-            ),
+            style: text.body.copyWith(color: c.textSecondary),
             textAlign: TextAlign.center,
           ),
         ],
@@ -111,7 +103,9 @@ class BloodLevelGraph extends StatelessWidget {
     );
   }
 
-  Widget _buildChart(bool isDark) {
+  Widget _buildChart(BuildContext context) {
+    final c = context.colors;
+    
     final lines = substanceCurves.entries.map((entry) {
       final substance = entry.key;
       final points = entry.value;
@@ -131,7 +125,7 @@ class BloodLevelGraph extends StatelessWidget {
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(
           show: true,
-          color: color.withValues(alpha: isDark ? 0.15 : 0.1),
+          color: color.withValues(alpha: 0.12),
         ),
       );
     }).toList();
@@ -144,14 +138,14 @@ class BloodLevelGraph extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 45,
-              getTitlesWidget: (value, meta) => _buildLeftTitle(value, meta, isDark),
+              getTitlesWidget: (value, meta) => _buildLeftTitle(value, meta, context),
             ),
           ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 32,
-              getTitlesWidget: (value, meta) => _buildBottomTitle(value, meta, isDark),
+              getTitlesWidget: (value, meta) => _buildBottomTitle(value, meta, context),
             ),
           ),
           rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -162,22 +156,18 @@ class BloodLevelGraph extends StatelessWidget {
           drawVerticalLine: true,
           horizontalInterval: 20,
           getDrawingHorizontalLine: (value) => FlLine(
-            color: isDark
-                ? UIColors.darkBorder
-                : UIColors.lightBorder.withValues(alpha: 0.5),
+            color: c.border.withValues(alpha: 0.5),
             strokeWidth: 1,
           ),
           getDrawingVerticalLine: (value) => FlLine(
-            color: isDark
-                ? UIColors.darkBorder
-                : UIColors.lightBorder.withValues(alpha: 0.5),
+            color: c.border.withValues(alpha: 0.5),
             strokeWidth: 1,
           ),
         ),
         borderData: FlBorderData(
           show: true,
           border: Border.all(
-            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+            color: c.border,
             width: 1,
           ),
         ),
@@ -187,16 +177,14 @@ class BloodLevelGraph extends StatelessWidget {
         maxX: endTime.millisecondsSinceEpoch.toDouble(),
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
-            tooltipBgColor: isDark
-                ? UIColors.darkSurfaceLight
-                : UIColors.lightSurface,
+            tooltipBgColor: c.surface,
             getTooltipItems: (touchedSpots) {
               return touchedSpots.map((spot) {
                 final substance = substanceCurves.keys.elementAt(spot.barIndex);
                 return LineTooltipItem(
                   '$substance\n${spot.y.toStringAsFixed(1)}%',
                   TextStyle(
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
+                    color: c.textPrimary,
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
                   ),
@@ -209,7 +197,9 @@ class BloodLevelGraph extends StatelessWidget {
     );
   }
 
-  Widget _buildLeftTitle(double value, TitleMeta meta, bool isDark) {
+  Widget _buildLeftTitle(double value, TitleMeta meta, BuildContext context) {
+    final c = context.colors;
+    
     if (value == 0 || value == 100) {
       return Padding(
         padding: const EdgeInsets.only(right: 8),
@@ -217,7 +207,7 @@ class BloodLevelGraph extends StatelessWidget {
           '${value.toInt()}%',
           style: TextStyle(
             fontSize: 11,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+            color: c.textSecondary,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -226,7 +216,8 @@ class BloodLevelGraph extends StatelessWidget {
     return const SizedBox.shrink();
   }
 
-  Widget _buildBottomTitle(double value, TitleMeta meta, bool isDark) {
+  Widget _buildBottomTitle(double value, TitleMeta meta, BuildContext context) {
+    final c = context.colors;
     final date = DateTime.fromMillisecondsSinceEpoch(value.toInt());
     final hoursDiff = date.difference(startTime).inHours;
 
@@ -237,7 +228,7 @@ class BloodLevelGraph extends StatelessWidget {
           '${hoursDiff}h',
           style: TextStyle(
             fontSize: 11,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+            color: c.textSecondary,
             fontWeight: FontWeight.w500,
           ),
         ),

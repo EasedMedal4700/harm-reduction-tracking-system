@@ -1,6 +1,6 @@
+// MIGRATION
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import '../../services/pharmacokinetics_service.dart';
 
 class CurrentStatusCard extends StatelessWidget {
@@ -32,36 +32,34 @@ class CurrentStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? UIColors.darkNeonTeal : UIColors.lightAccentRed;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final t = context.theme;
+    final acc = context.accent;
     final tierColor = Color(PharmacokineticsService.getTierColorValue(currentTier));
 
     return Container(
-      padding: EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: accentColor,
-              radius: ThemeConstants.cardRadius,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-              border: Border.all(
-                color: UIColors.lightBorder,
-                width: ThemeConstants.borderThin,
-              ),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      padding: EdgeInsets.all(sp.md),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(
+          color: c.border,
+          width: 1,
+        ),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(ThemeConstants.space8),
+                padding: EdgeInsets.all(sp.sm),
                 decoration: BoxDecoration(
-                  color: substanceColor.withValues(alpha: isDark ? 0.2 : 0.15),
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                  color: substanceColor.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(sh.radiusSm),
                 ),
                 child: Icon(
                   Icons.monitor_heart,
@@ -69,32 +67,25 @@ class CurrentStatusCard extends StatelessWidget {
                   size: 20,
                 ),
               ),
-              SizedBox(width: ThemeConstants.space12),
+              SizedBox(width: sp.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       substanceName,
-                      style: TextStyle(
-                        fontSize: ThemeConstants.fontMedium,
-                        fontWeight: ThemeConstants.fontSemiBold,
-                        color: isDark ? UIColors.darkText : UIColors.lightText,
-                      ),
+                      style: context.text.heading4,
                     ),
                     Text(
                       'Current Status',
-                      style: TextStyle(
-                        fontSize: ThemeConstants.fontXSmall,
-                        color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-                      ),
+                      style: context.text.caption,
                     ),
                   ],
                 ),
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space16),
+          SizedBox(height: sp.lg),
           Row(
             children: [
               Expanded(
@@ -103,29 +94,26 @@ class CurrentStatusCard extends StatelessWidget {
                   'Current Level',
                   '${currentPercentage.toStringAsFixed(1)}%',
                   tierColor,
-                  isDark,
                 ),
               ),
-              SizedBox(width: ThemeConstants.space12),
+              SizedBox(width: sp.md),
               Expanded(
                 child: _buildInfoBox(
                   context,
                   'Dose Tier',
                   PharmacokineticsService.getTierName(currentTier),
                   tierColor,
-                  isDark,
                 ),
               ),
             ],
           ),
           if (timeToNextTier != null) ...[
-            SizedBox(height: ThemeConstants.space12),
+            SizedBox(height: sp.md),
             _buildInfoBox(
               context,
               'Time to Next Tier',
               _formatTime(timeToNextTier!),
-              accentColor,
-              isDark,
+              acc.primary,
             ),
           ],
         ],
@@ -138,13 +126,17 @@ class CurrentStatusCard extends StatelessWidget {
     String label,
     String value,
     Color color,
-    bool isDark,
   ) {
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+    
     return Container(
-      padding: EdgeInsets.all(ThemeConstants.space12),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: isDark ? 0.15 : 0.1),
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(sh.radiusSm),
         border: Border.all(
           color: color.withValues(alpha: 0.3),
           width: 1,
@@ -155,19 +147,12 @@ class CurrentStatusCard extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
-              fontSize: ThemeConstants.fontXSmall,
-              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-            ),
+            style: text.caption,
           ),
-          SizedBox(height: ThemeConstants.space4),
+          SizedBox(height: sp.xs),
           Text(
             value,
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: color,
-            ),
+            style: text.heading3.copyWith(color: color),
           ),
         ],
       ),
