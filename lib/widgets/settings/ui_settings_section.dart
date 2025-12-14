@@ -1,8 +1,7 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: TODO
-// Riverpod: TODO
-// Notes: Uses Theme.of(context) and Colors directly; needs migration to AppTheme/context extensions.
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: N/A
 import 'package:flutter/material.dart';
 import '../../providers/settings_provider.dart';
 import 'settings_section.dart';

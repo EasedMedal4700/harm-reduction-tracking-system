@@ -1,9 +1,8 @@
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Review for theme/context migration if needed.
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: N/A
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'settings_section.dart';
