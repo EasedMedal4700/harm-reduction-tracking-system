@@ -1,13 +1,43 @@
+/**
+ * Tolerance Disclaimer Widget
+ * 
+ * Created: 2024-03-15
+ * Last Modified: 2025-01-23
+ * 
+ * Purpose:
+ * Displays safety disclaimers and harm reduction warnings for the tolerance
+ * feature. Provides both full-page expandable and compact dismissible versions
+ * to inform users about the limitations and risks of tolerance estimates.
+ * 
+ * Features:
+ * - Full-page disclaimer with expandable details section
+ * - Compact dismissible notice for quick viewing
+ * - Orange warning theme with high visibility
+ * - Red warning box for critical safety information
+ * - Persistent dismissal state (saved via OnboardingService)
+ * - Key disclaimers about medical validation, safety risks, dosing decisions
+ * - Dark/light theme adaptive colors
+ */
+
 // MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: COMPLETE
+// Notes: Fully modernized with granular theme API and ConsumerWidget.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../services/onboarding_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
 
 
-/// Full-page tolerance disclaimer widget
-class ToleranceDisclaimerWidget extends StatelessWidget {
+/// Full-page tolerance disclaimer widget.
+/// 
+/// Displays a prominent safety warning with expandable details about the
+/// limitations of tolerance estimates. Used on tolerance-related pages to
+/// ensure users understand risks before viewing tolerance data.
+class ToleranceDisclaimerWidget extends ConsumerWidget {
   final bool isExpanded;
   final VoidCallback? onToggle;
 
@@ -18,37 +48,41 @@ class ToleranceDisclaimerWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final t = context.theme;
-    final c = context.colors;
+  Widget build(BuildContext context, WidgetRef ref) {
+    // THEME ACCESS
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
+    final radii = context.shapes;
 
+    // MAIN CONTAINER - Orange warning theme
     return Container(
-      margin: EdgeInsets.all(t.spacing.lg),
-      padding: EdgeInsets.all(t.spacing.lg),
+      margin: EdgeInsets.all(spacing.lg),
+      padding: EdgeInsets.all(spacing.lg),
       decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(radii.radiusMd),
         border: Border.all(
-          color: Colors.orange.withOpacity(0.5),
+          color: Colors.orange.withValues(alpha: 0.5),
           width: 2,
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// Header
+          // HEADER - Warning icon and title with optional expand button
           Row(
             children: [
               Icon(
                 Icons.warning_amber_rounded,
                 color: Colors.orange,
-                size: t.spacing.xl,
+                size: spacing.xl,
               ),
-              SizedBox(width: t.spacing.md),
+              SizedBox(width: spacing.md),
               Expanded(
                 child: Text(
                   'SAFETY DISCLAIMER',
-                  style: t.typography.heading3.copyWith(
+                  style: typography.heading3.copyWith(
                     color: Colors.orange,
                     fontWeight: FontWeight.w700,
                   ),
@@ -58,25 +92,26 @@ class ToleranceDisclaimerWidget extends StatelessWidget {
                 IconButton(
                   icon: Icon(
                     isExpanded ? Icons.expand_less : Icons.expand_more,
-                    color: c.textSecondary,
+                    color: colors.textSecondary,
                   ),
                   onPressed: onToggle,
                 ),
             ],
           ),
 
-          SizedBox(height: t.spacing.md),
+          SizedBox(height: spacing.md),
 
-          /// Short mandatory line
+          // MANDATORY LINE - Always visible short warning
           Text(
             'Tolerance estimates are approximations based on general pharmacological principles.',
-            style: t.typography.bodyBold.copyWith(color: c.textPrimary),
+            style: typography.bodyBold.copyWith(color: colors.textPrimary),
           ),
 
+          // EXPANDABLE DETAILS - Full disclaimer text
           if (isExpanded) ...[
-            SizedBox(height: t.spacing.md),
+            SizedBox(height: spacing.md),
 
-            /// Long explanation
+            // Detailed bullet points about limitations and risks
             Text(
               '• These calculations are NOT medically validated\n'
               '• They CANNOT predict safety, overdose risk, or health outcomes\n'
@@ -88,22 +123,22 @@ class ToleranceDisclaimerWidget extends StatelessWidget {
               '• TOLERANCE DOES NOT EQUAL SAFETY\n'
               '• High tolerance can increase harm risk\n'
               '• NEVER use these numbers for dosing decisions',
-              style: t.typography.bodySmall.copyWith(
+              style: typography.bodySmall.copyWith(
                 height: 1.5,
-                color: c.textSecondary,
+                color: colors.textSecondary,
               ),
             ),
 
-            SizedBox(height: t.spacing.md),
+            SizedBox(height: spacing.md),
 
-            /// Red warning box
+            // RED WARNING BOX - Critical liability and risk disclaimer
             Container(
-              padding: EdgeInsets.all(t.spacing.md),
+              padding: EdgeInsets.all(spacing.md),
               decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.08),
-                borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+                color: Colors.red.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(radii.radiusSm),
                 border: Border.all(
-                  color: Colors.red.withOpacity(0.35),
+                  color: Colors.red.withValues(alpha: 0.35),
                   width: 1,
                 ),
               ),
@@ -111,7 +146,7 @@ class ToleranceDisclaimerWidget extends StatelessWidget {
                 'USE AT YOUR OWN RISK\n\n'
                 'This feature is informational only. The developers assume no liability for harm. '
                 'Always consult medical professionals and follow harm reduction practices.',
-                style: t.typography.bodySmall.copyWith(
+                style: typography.bodySmall.copyWith(
                   color: Colors.red.shade300,
                   fontWeight: FontWeight.w600,
                   height: 1.4,
@@ -169,15 +204,19 @@ class _CompactToleranceDisclaimerState
 
   @override
   Widget build(BuildContext context) {
-    // Don't show while loading or if dismissed
+    // EARLY RETURN - Hide while loading or if dismissed
     if (_isLoading || _isDismissed) return const SizedBox.shrink();
 
-    final t = context.theme;
-    final c = context.colors;
-    final isDark = t.isDark; // <-- use AppTheme's isDark flag
+    // THEME ACCESS
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
+    final radii = context.shapes;
+    final isDark = context.theme.isDark;
 
+    // ADAPTIVE COLORS - Different colors for dark/light mode
     final bg = isDark
-        ? Colors.amber.withOpacity(0.18)
+        ? Colors.amber.withValues(alpha: 0.18)
         : Colors.amber.shade50;
 
     final borderColor = isDark
@@ -192,11 +231,12 @@ class _CompactToleranceDisclaimerState
         ? Colors.grey.shade300
         : Colors.grey.shade800;
 
+    // COMPACT NOTICE CONTAINER
     return Container(
-      padding: EdgeInsets.all(t.spacing.md),
+      padding: EdgeInsets.all(spacing.md),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        borderRadius: BorderRadius.circular(radii.radiusMd),
         border: Border.all(color: borderColor, width: 1.5),
       ),
       child: Row(
@@ -205,25 +245,25 @@ class _CompactToleranceDisclaimerState
           Icon(
             Icons.warning_amber_rounded,
             color: titleColor,
-            size: t.spacing.xl,
+            size: spacing.xl,
           ),
-          SizedBox(width: t.spacing.md),
+          SizedBox(width: spacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Harm Reduction Notice',
-                  style: t.typography.bodyBold.copyWith(
+                  style: typography.bodyBold.copyWith(
                     color: titleColor,
                   ),
                 ),
-                SizedBox(height: t.spacing.xs),
+                SizedBox(height: spacing.xs),
                 Text(
                   'Tolerance values are mathematical estimates. They do NOT indicate safety. '
                   'Individual responses vary based on genetics, health, substance purity, '
                   'and many more factors.',
-                  style: t.typography.bodySmall.copyWith(
+                  style: typography.bodySmall.copyWith(
                     height: 1.4,
                     color: bodyColor,
                   ),
@@ -231,14 +271,15 @@ class _CompactToleranceDisclaimerState
               ],
             ),
           ),
+          // DISMISS BUTTON
           GestureDetector(
             onTap: _handleDismiss,
             child: Padding(
-              padding: EdgeInsets.only(left: t.spacing.sm),
+              padding: EdgeInsets.only(left: spacing.sm),
               child: Icon(
                 Icons.close,
-                size: t.spacing.md + 4,
-                color: c.textSecondary,
+                size: spacing.md + 4,
+                color: colors.textSecondary,
               ),
             ),
           ),

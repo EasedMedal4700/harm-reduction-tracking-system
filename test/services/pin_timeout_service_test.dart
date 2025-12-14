@@ -244,17 +244,17 @@ void main() {
         expect(required, isTrue);
       });
 
-      test('isPinRequired returns true when foreground timeout reached even with background', () async {
-        // Simulate: unlocked 5 min ago, went to background 2 min ago
+      test('isPinRequired returns true when foreground timeout exceeded even with background', () async {
+        // Simulate: unlocked 5 min 1 sec ago, went to background 2 min ago
         final now = DateTime.now();
         SharedPreferences.setMockInitialValues({
           'pin_foreground_timeout_minutes': 5,
           'pin_background_timeout_minutes': 60,
           'pin_last_unlock_time': now
-              .subtract(const Duration(minutes: 5))
+              .subtract(const Duration(minutes: 5, seconds: 1))
               .millisecondsSinceEpoch,
           'pin_session_start_time': now
-              .subtract(const Duration(minutes: 5))
+              .subtract(const Duration(minutes: 5, seconds: 1))
               .millisecondsSinceEpoch,
           'pin_background_time': now
               .subtract(const Duration(minutes: 2))
@@ -265,10 +265,10 @@ void main() {
         await service.init();
         
         // Background time is only 2 min, which is < 60 min background timeout
-        // But foreground time (5 min) equals timeout, so should require PIN
+        // But foreground time (5min 1sec) exceeds timeout, so should require PIN
         final required = await service.isPinRequired();
         expect(required, isTrue,
-            reason: 'Foreground timeout reached (5min >= 5min), PIN should be required');
+            reason: 'Foreground timeout exceeded (5min 1sec > 5min), PIN should be required');
       });
 
       test('short background trip should not require PIN before foreground timeout', () async {

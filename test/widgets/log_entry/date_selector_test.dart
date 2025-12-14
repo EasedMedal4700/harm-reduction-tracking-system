@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/widgets/log_entry/date_selector.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 
 void main() {
   group('DateSelector Widget', () {
@@ -18,7 +19,7 @@ void main() {
         ),
       );
 
-      expect(find.text('Select Date'), findsOneWidget);
+      expect(find.text('Date'), findsOneWidget);
       expect(find.text('2024-01-15'), findsOneWidget);
       expect(find.byIcon(Icons.calendar_today), findsOneWidget);
       expect(find.text('Change'), findsOneWidget);
@@ -75,7 +76,7 @@ void main() {
       expect(find.byIcon(Icons.calendar_today), findsOneWidget);
     });
 
-    testWidgets('renders as ListTile', (tester) async {
+    testWidgets('renders with CommonCard', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -87,7 +88,7 @@ void main() {
         ),
       );
 
-      expect(find.byType(ListTile), findsOneWidget);
+      expect(find.byType(CommonCard), findsOneWidget);
     });
   });
 }

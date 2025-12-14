@@ -1,8 +1,38 @@
+/**
+ * Tolerance Stats Card Widget
+ * 
+ * Created: 2024-11-10
+ * Last Modified: 2025-12-14
+ * 
+ * Purpose:
+ * Displays key tolerance metrics in a two-column grid layout including half-life,
+ * days to baseline, tolerance decay period, and recent use count. Provides at-a-glance
+ * understanding of substance tolerance characteristics.
+ * 
+ * Features:
+ * - Two-column grid layout for efficient space usage
+ * - Icons for each metric type
+ * - Divider between columns for visual separation
+ * - Calculates and displays days until tolerance returns to baseline
+ * - Shows tolerance model parameters (half-life, decay days)
+ */
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: COMPLETE
+// Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../models/tolerance_model.dart';
 
-class ToleranceStatsCard extends StatelessWidget {
+/// Card displaying key tolerance metrics in a grid layout
+/// 
+/// Shows important tolerance information including pharmacological parameters
+/// and usage statistics in an easy-to-scan format.
+class ToleranceStatsCard extends ConsumerWidget {
   final ToleranceModel toleranceModel;
   final double daysUntilBaseline;
   final int recentUseCount;
@@ -15,28 +45,33 @@ class ToleranceStatsCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final t = context.theme;
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Access theme components through context extensions
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
+    final radii = context.shapes;
 
     return Container(
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-        border: Border.all(color: t.colors.border),
-        boxShadow: t.cardShadow,
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(radii.radiusMd),
+        border: Border.all(color: colors.border),
+        boxShadow: context.cardShadow,
       ),
-      padding: EdgeInsets.all(t.spacing.cardPadding),
+      padding: EdgeInsets.all(spacing.cardPadding),
       margin: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Section header
           Text(
             'Key metrics',
-            style: t.typography.heading4.copyWith(
-              color: t.colors.textPrimary,
+            style: typography.heading4.copyWith(
+              color: colors.textPrimary,
             ),
           ),
-          SizedBox(height: t.spacing.lg),
+          SizedBox(height: spacing.lg),
 
           // TWO COLUMN GRID
           Row(
@@ -53,7 +88,7 @@ class ToleranceStatsCard extends StatelessWidget {
                       value: '${toleranceModel.halfLifeHours}h',
                       icon: Icons.timelapse,
                     ),
-                    SizedBox(height: t.spacing.lg),
+                    SizedBox(height: spacing.lg),
                     _metricItem(
                       context,
                       label: 'Days to baseline',
@@ -66,12 +101,12 @@ class ToleranceStatsCard extends StatelessWidget {
                 ),
               ),
 
-              // DIVIDER
+              // Vertical divider between columns
               Container(
                 width: 1,
                 height: 80,
-                margin: EdgeInsets.symmetric(horizontal: t.spacing.lg),
-                color: t.colors.divider,
+                margin: EdgeInsets.symmetric(horizontal: spacing.lg),
+                color: colors.divider,
               ),
 
               // RIGHT COLUMN
@@ -85,7 +120,7 @@ class ToleranceStatsCard extends StatelessWidget {
                       value: '${toleranceModel.toleranceDecayDays} days',
                       icon: Icons.trending_down,
                     ),
-                    SizedBox(height: t.spacing.lg),
+                    SizedBox(height: spacing.lg),
                     _metricItem(
                       context,
                       label: 'Recent uses',
@@ -103,38 +138,46 @@ class ToleranceStatsCard extends StatelessWidget {
   }
 
   // ---------------------------------------------------------------------------
-  // METRIC ROW BUILDER
+  // HELPER METHODS
   // ---------------------------------------------------------------------------
+
+  /// Builds a single metric item with icon, label, and value
+  /// 
+  /// Used to display individual statistics in a consistent format.
   Widget _metricItem(
     BuildContext context, {
     required String label,
     required String value,
     required IconData icon,
   }) {
-    final t = context.theme;
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Icon and label row
         Row(
           children: [
-            Icon(icon, size: 16, color: t.colors.textSecondary),
-            SizedBox(width: t.spacing.xs),
+            Icon(icon, size: 16, color: colors.textSecondary),
+            SizedBox(width: spacing.xs),
             Text(
               label,
-              style: t.typography.bodySmall.copyWith(
-                color: t.colors.textSecondary,
+              style: typography.bodySmall.copyWith(
+                color: colors.textSecondary,
               ),
             ),
           ],
         ),
         SizedBox(height: 4),
+        // Value text (indented to align with label)
         Padding(
-          padding: EdgeInsets.only(left: 22),
+          padding: const EdgeInsets.only(left: 22),
           child: Text(
             value,
-            style: t.typography.bodyBold.copyWith(
-              color: t.colors.textPrimary,
+            style: typography.bodyBold.copyWith(
+              color: colors.textPrimary,
             ),
           ),
         ),

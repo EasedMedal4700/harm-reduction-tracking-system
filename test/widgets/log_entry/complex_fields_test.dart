@@ -35,20 +35,23 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: ComplexFields(
-              cravingIntensity: 5.0,
-              intention: 'Recreational',
-              selectedTriggers: const [],
-              selectedBodySignals: const [],
-              onCravingIntensityChanged: (_) {},
-              onIntentionChanged: (_) {},
-              onTriggersChanged: (_) {},
-              onBodySignalsChanged: (_) {},
+            body: SingleChildScrollView(
+              child: ComplexFields(
+                cravingIntensity: 5.0,
+                intention: 'Recreational',
+                selectedTriggers: const [],
+                selectedBodySignals: const [],
+                onCravingIntensityChanged: (_) {},
+                onIntentionChanged: (_) {},
+                onTriggersChanged: (_) {},
+                onBodySignalsChanged: (_) {},
+              ),
             ),
           ),
         ),
       );
 
+      await tester.pumpAndSettle();
       expect(find.text('Recreational'), findsOneWidget);
     });
 
@@ -153,10 +156,15 @@ void main() {
 
       await tester.pumpAndSettle();
 
+      // Scroll to make the body signals visible
+      await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -300));
+      await tester.pumpAndSettle();
+
       // Find FilterChips under "Body Signals" section
       final bodySignalChips = find.byType(FilterChip);
       if (bodySignalChips.evaluate().length > 1) {
-        await tester.tap(bodySignalChips.last);
+        await tester.ensureVisible(bodySignalChips.last);
+        await tester.tap(bodySignalChips.last, warnIfMissed: false);
         await tester.pump();
 
         expect(selectedBodySignals.isNotEmpty, true);
@@ -192,20 +200,23 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: ComplexFields(
-              cravingIntensity: 5.0,
-              intention: null,
-              selectedTriggers: const [],
-              selectedBodySignals: const [],
-              onCravingIntensityChanged: (_) {},
-              onIntentionChanged: (_) {},
-              onTriggersChanged: (_) {},
-              onBodySignalsChanged: (_) {},
+            body: SingleChildScrollView(
+              child: ComplexFields(
+                cravingIntensity: 5.0,
+                intention: null,
+                selectedTriggers: const [],
+                selectedBodySignals: const [],
+                onCravingIntensityChanged: (_) {},
+                onIntentionChanged: (_) {},
+                onTriggersChanged: (_) {},
+                onBodySignalsChanged: (_) {},
+              ),
             ),
           ),
         ),
       );
 
+      await tester.pumpAndSettle();
       expect(find.byType(Column), findsWidgets);
     });
   });

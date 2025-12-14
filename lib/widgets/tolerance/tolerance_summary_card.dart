@@ -1,9 +1,37 @@
+/**
+ * Tolerance Summary Card Widget
+ * 
+ * Created: 2024-11-10
+ * Last Modified: 2025-12-14
+ * 
+ * Purpose:
+ * Displays the current tolerance percentage as a large visual indicator with a progress bar
+ * and color-coded status label. Primary summary card for tolerance information.
+ * 
+ * Features:
+ * - Large tolerance percentage display
+ * - Color-coded progress bar (green to red based on tolerance level)
+ * - Status label with background color matching tolerance level
+ * - Responsive to theme changes (light/dark mode)
+ * - Clean, card-based design with proper spacing
+ */
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: COMPLETE
+// Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../constants/theme/app_theme.dart';
 
-/// Card displaying current tolerance percentage & color indicator
-class ToleranceSummaryCard extends StatelessWidget {
+/// Card displaying current tolerance percentage with color indicator and progress bar
+/// 
+/// Shows a prominent percentage value, visual progress bar, and text label
+/// indicating the tolerance level (Baseline, Low, Moderate, High, Very High).
+class ToleranceSummaryCard extends ConsumerWidget {
   final double currentTolerance;
 
   const ToleranceSummaryCard({
@@ -12,71 +40,77 @@ class ToleranceSummaryCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final t = context.theme;
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Access theme components through context extensions
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
+    final radii = context.shapes;
 
+    // Calculate tolerance label and color based on percentage
     final label = _toleranceLabel(currentTolerance);
-    final color = _toleranceColor(currentTolerance, t);
+    final color = _toleranceColor(currentTolerance, colors);
 
     return Container(
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-        border: Border.all(color: t.colors.border),
-        boxShadow: t.cardShadow,
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(radii.radiusLg),
+        border: Border.all(color: colors.border),
+        boxShadow: context.cardShadow,
       ),
-      padding: EdgeInsets.all(t.spacing.xl),
+      padding: EdgeInsets.all(spacing.xl),
       margin: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Label text
           Text(
             'Current tolerance',
-            style: t.typography.bodySmall.copyWith(
-              color: t.colors.textSecondary,
+            style: typography.bodySmall.copyWith(
+              color: colors.textSecondary,
             ),
           ),
 
-          SizedBox(height: t.spacing.md),
+          SizedBox(height: spacing.md),
 
-          // Big % number
+          // Large tolerance percentage display
           Text(
             '${currentTolerance.toStringAsFixed(1)}%',
-            style: t.typography.heading1.copyWith(
-              color: t.colors.textPrimary,
+            style: typography.heading1.copyWith(
+              color: colors.textPrimary,
               height: 1.0,
               letterSpacing: -1.0,
             ),
           ),
 
-          SizedBox(height: t.spacing.xl),
+          SizedBox(height: spacing.xl),
 
-          // Thick rounded progress bar
+          // Visual progress bar showing tolerance level
           ClipRRect(
-            borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+            borderRadius: BorderRadius.circular(radii.radiusSm),
             child: LinearProgressIndicator(
               value: (currentTolerance / 100).clamp(0.0, 1.0),
               minHeight: 10,
-              backgroundColor: t.colors.surfaceVariant,
+              backgroundColor: colors.surfaceVariant,
               valueColor: AlwaysStoppedAnimation(color),
             ),
           ),
 
-          SizedBox(height: t.spacing.md),
+          SizedBox(height: spacing.md),
 
-          // Status label chip
+          // Status label chip with color-coded background
           Container(
             padding: EdgeInsets.symmetric(
-              horizontal: t.spacing.sm,
-              vertical: t.spacing.xs,
+              horizontal: spacing.sm,
+              vertical: spacing.xs,
             ),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+              color: color.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(radii.radiusSm),
             ),
             child: Text(
               label,
-              style: t.typography.bodySmall.copyWith(
+              style: typography.bodySmall.copyWith(
                 color: color,
                 fontWeight: FontWeight.w600,
               ),
@@ -100,14 +134,20 @@ class ToleranceSummaryCard extends StatelessWidget {
   }
 
   // ---------------------------------------------------------------------------
-  // THEMED COLOR LOGIC
+  // HELPER METHODS
   // ---------------------------------------------------------------------------
 
-  Color _toleranceColor(double tolerance, AppTheme t) {
-    if (tolerance < 10) return t.colors.success;
-    if (tolerance < 30) return t.colors.info;
-    if (tolerance < 50) return t.colors.warning;
+  /// Returns color based on tolerance percentage
+  /// - < 10%: Success (green)
+  /// - < 30%: Info (blue)
+  /// - < 50%: Warning (yellow)
+  /// - < 70%: Deep orange
+  /// - >= 70%: Error (red)
+  Color _toleranceColor(double tolerance, ColorPalette colors) {
+    if (tolerance < 10) return colors.success;
+    if (tolerance < 30) return colors.info;
+    if (tolerance < 50) return colors.warning;
     if (tolerance < 70) return Colors.deepOrange;
-    return t.colors.error;
+    return colors.error;
   }
 }

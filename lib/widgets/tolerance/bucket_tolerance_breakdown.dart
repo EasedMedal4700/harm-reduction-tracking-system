@@ -1,11 +1,32 @@
+/**
+ * Bucket Tolerance Breakdown Widget
+ * 
+ * Created: 2024-03-15
+ * Last Modified: 2025-01-23
+ * 
+ * Purpose:
+ * Displays a comprehensive breakdown of tolerance levels across all neurochemical
+ * buckets (systems). Shows active status, percentage, progress bars, and metadata
+ * for each bucket defined in the tolerance model.
+ * 
+ * Features:
+ * - Displays all neurochemical buckets with tolerance percentages
+ * - Color-coded progress bars based on tolerance level (green/yellow/orange/red)
+ * - Active bucket indicators with badge
+ * - Bucket descriptions and metadata (weight, type, active level)
+ * - Tap interaction for detailed bucket view (coming soon)
+ * - Conditional notes display
+ * - Empty state handling (auto-hides when no buckets)
+ */
 
 // MIGRATION
-// Theme: PARTIAL
-// Common: TODO
-// Riverpod: TODO
-// Notes: Uses Theme.of(context) and Colors directly; needs migration to AppTheme/context extensions.
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: COMPLETE
+// Notes: Fully modernized with granular theme API and ConsumerWidget.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/tolerance_bucket.dart';
 import '../../models/bucket_definitions.dart';
@@ -13,11 +34,13 @@ import '../../utils/bucket_tolerance_calculator.dart';
 
 // NEW THEME SYSTEM
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_theme_constants.dart';
-import '../../constants/theme/app_theme.dart';
 
-/// Modern bucket tolerance breakdown widget using the NEW theme system
-class BucketToleranceBreakdown extends StatelessWidget {
+/// Modern bucket tolerance breakdown widget using the NEW theme system.
+/// 
+/// Displays all neurochemical buckets with their current tolerance levels,
+/// active states, and metadata. Uses color-coded progress bars for quick
+/// visual assessment of tolerance states across systems.
+class BucketToleranceBreakdown extends ConsumerWidget {
   final Map<String, BucketToleranceResult> bucketResults;
   final BucketToleranceModel model;
 
@@ -27,11 +50,14 @@ class BucketToleranceBreakdown extends StatelessWidget {
     required this.model,
   });
 
-  Color _getColorForTolerance(double value, AppTheme t) {
-    if (value < 0.25) return t.colors.success;
-    if (value < 0.50) return t.colors.warning;
+  /// Returns color based on tolerance level (0-1 scale).
+  /// <0.25: success, <0.50: warning, <0.75: orange, >=0.75: error
+  Color _getColorForTolerance(double value, BuildContext context) {
+    final colors = context.colors;
+    if (value < 0.25) return colors.success;
+    if (value < 0.50) return colors.warning;
     if (value < 0.75) return Colors.orangeAccent;
-    return t.colors.error;
+    return colors.error;
   }
 
   String _getBucketDisplayName(String type) {
@@ -39,56 +65,64 @@ class BucketToleranceBreakdown extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final t = context.theme;
+  Widget build(BuildContext context, WidgetRef ref) {
+    // THEME ACCESS
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
+    final radii = context.shapes;
+    final accent = context.accent;
 
+    // EMPTY STATE - Auto-hide when no bucket data
     if (bucketResults.isEmpty) {
       return const SizedBox.shrink();
     }
 
+    // MAIN CONTAINER
     return Container(
-      margin: EdgeInsets.all(t.spacing.lg),
-      padding: EdgeInsets.all(t.spacing.lg),
+      margin: EdgeInsets.all(spacing.lg),
+      padding: EdgeInsets.all(spacing.lg),
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(AppThemeConstants.radiusLg),
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(radii.radiusLg),
         border: Border.all(
-          color: t.colors.border.withOpacity(0.6),
+          color: colors.border.withValues(alpha: 0.6),
           width: 1,
         ),
-        boxShadow: t.cardShadow,
+        boxShadow: context.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
+          // HEADER - Section title with analytics icon
           Row(
             children: [
               Icon(Icons.analytics_outlined,
-                  color: t.accent.primary, size: 20),
-              SizedBox(width: t.spacing.sm),
+                  color: accent.primary, size: 20),
+              SizedBox(width: spacing.sm),
               Text(
                 'Neurochemical Tolerance Breakdown',
-                style: t.typography.heading3,
+                style: typography.heading3,
               ),
             ],
           ),
 
-          SizedBox(height: t.spacing.lg),
+          SizedBox(height: spacing.lg),
 
-          // Buckets — only the ones *defined in the model*
+          // BUCKET CARDS - Display each bucket defined in the model
+          // Only show buckets that exist in both neuroBuckets and bucketResults
           ...BucketDefinitions.orderedBuckets.where((bucketType) {
             return model.neuroBuckets.containsKey(bucketType) &&
                 bucketResults.containsKey(bucketType);
           }).map((bucketType) {
             final bucket = model.neuroBuckets[bucketType]!;
             final result = bucketResults[bucketType]!;
-            final toleranceColor = _getColorForTolerance(result.tolerance, t);
+            final toleranceColor = _getColorForTolerance(result.tolerance, context);
 
             return Padding(
-              padding: EdgeInsets.only(bottom: t.spacing.lg),
+              padding: EdgeInsets.only(bottom: spacing.lg),
               child: InkWell(
-                borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
+                borderRadius: BorderRadius.circular(radii.radiusMd),
                 onTap: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -98,67 +132,67 @@ class BucketToleranceBreakdown extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  padding: EdgeInsets.all(t.spacing.md),
+                  padding: EdgeInsets.all(spacing.md),
                   decoration: BoxDecoration(
-                    color: t.colors.surfaceVariant,
-                    borderRadius:
-                        BorderRadius.circular(AppThemeConstants.radiusMd),
+                    color: colors.surfaceVariant,
+                    borderRadius: BorderRadius.circular(radii.radiusMd),
                     border: Border.all(
-                      color: t.colors.border,
+                      color: colors.border,
                       width: 1,
                     ),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Header row
+                      // BUCKET HEADER - Name, description, and status
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Name + description
+                          // Bucket name and description
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   _getBucketDisplayName(bucketType),
-                                  style: t.typography.bodyBold,
+                                  style: typography.bodyBold,
                                 ),
                                 SizedBox(height: 4),
                                 Text(
                                   BucketDefinitions.getDescription(bucketType),
-                                  style: t.typography.caption,
+                                  style: typography.caption,
                                 ),
                               ],
                             ),
                           ),
 
+                          // Active badge and tolerance percentage
                           Row(
                             children: [
                               if (result.isActive)
                                 Container(
                                   padding: EdgeInsets.symmetric(
-                                    horizontal: t.spacing.sm,
+                                    horizontal: spacing.sm,
                                     vertical: 2,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: t.accent.primary.withOpacity(0.15),
+                                    color: accent.primary.withValues(alpha: 0.15),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Text(
                                     'ACTIVE',
-                                    style: t.typography.captionBold.copyWith(
-                                      color: t.accent.primary,
+                                    style: typography.captionBold.copyWith(
+                                      color: accent.primary,
                                       fontSize: 10,
                                     ),
                                   ),
                                 ),
-                              SizedBox(width: t.spacing.sm),
+                              SizedBox(width: spacing.sm),
 
-                              // Percentage
+                              // Tolerance percentage with color coding
                               Text(
                                 '${(result.tolerance * 100).toStringAsFixed(1)}%',
-                                style: t.typography.bodyBold.copyWith(
+                                style: typography.bodyBold.copyWith(
                                   color: toleranceColor,
                                 ),
                               ),
@@ -167,38 +201,36 @@ class BucketToleranceBreakdown extends StatelessWidget {
                         ],
                       ),
 
-                      SizedBox(height: t.spacing.sm),
+                      SizedBox(height: spacing.sm),
 
-                      // Progress bar
+                      // PROGRESS BAR - Visual tolerance indicator
                       ClipRRect(
-                        borderRadius:
-                            BorderRadius.circular(AppThemeConstants.radiusSm),
+                        borderRadius: BorderRadius.circular(radii.radiusSm),
                         child: LinearProgressIndicator(
-                          value:
-                              result.tolerance > 1 ? 1 : result.tolerance,
+                          value: result.tolerance > 1 ? 1 : result.tolerance,
                           minHeight: 8,
-                          backgroundColor: t.colors.border.withOpacity(0.4),
+                          backgroundColor: colors.border.withValues(alpha: 0.4),
                           valueColor:
                               AlwaysStoppedAnimation<Color>(toleranceColor),
                         ),
                       ),
 
-                      SizedBox(height: t.spacing.xs),
+                      SizedBox(height: spacing.xs),
 
-                      // Extra metadata
+                      // METADATA - Bucket weight, type, and active level
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             'Weight: ${bucket.weight.toStringAsFixed(2)} • Type: ${bucket.toleranceType}',
-                            style: t.typography.caption,
+                            style: typography.caption,
                           ),
                           Text(
                             'Active: ${(result.activeLevel * 100).toStringAsFixed(1)}%',
-                            style: t.typography.captionBold.copyWith(
+                            style: typography.captionBold.copyWith(
                               color: result.isActive
-                                  ? t.accent.primary
-                                  : t.colors.textSecondary,
+                                  ? accent.primary
+                                  : colors.textSecondary,
                             ),
                           ),
                         ],
@@ -210,19 +242,19 @@ class BucketToleranceBreakdown extends StatelessWidget {
             );
           }),
 
-          // Notes
+          // NOTES - Additional tolerance model notes if present
           if (model.notes != null) ...[
-            Divider(color: t.colors.border, height: t.spacing.xl),
+            Divider(color: colors.border, height: spacing.xl),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(Icons.info_outline,
-                    size: 16, color: t.colors.textSecondary),
-                SizedBox(width: t.spacing.sm),
+                    size: 16, color: colors.textSecondary),
+                SizedBox(width: spacing.sm),
                 Expanded(
                   child: Text(
                     model.notes!,
-                    style: t.typography.caption.copyWith(
+                    style: typography.caption.copyWith(
                       fontStyle: FontStyle.italic,
                     ),
                   ),

@@ -1,18 +1,41 @@
+/**
+ * Debug Substance List Widget
+ * 
+ * Created: 2024-11-15
+ * Last Modified: 2025-12-14
+ * 
+ * Purpose:
+ * Development/debug widget that displays per-substance tolerance percentages in a simple
+ * list format. Useful for verifying tolerance calculations and debugging tolerance engine
+ * behavior. Should be hidden in production unless debug mode is enabled.
+ * 
+ * Features:
+ * - Lists all substances with their tolerance percentages
+ * - Loading state indicator
+ * - Empty state handling
+ * - Highlighted tolerance values with accent color
+ * - Debug label to indicate this is for development
+ */
 
 // MIGRATION
-// Theme: PARTIAL
-// Common: TODO
-// Riverpod: TODO
-// Notes: Uses Theme.of(context) and Colors directly; needs migration to AppTheme/context extensions.
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: COMPLETE
+// Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_colors.dart';
-import '../../constants/theme/app_theme_constants.dart';
 
 /// Debug widget showing per-substance tolerance percentages
-class DebugSubstanceList extends StatelessWidget {
+/// 
+/// Development tool for displaying and verifying tolerance calculations.
+/// Intended for debug builds or when explicitly enabled by user.
+class DebugSubstanceList extends ConsumerWidget {
+  /// Map of substance names to their tolerance percentages
   final Map<String, double> perSubstanceTolerances;
+  
+  /// Whether data is currently loading
   final bool isLoading;
 
   const DebugSubstanceList({
@@ -22,54 +45,63 @@ class DebugSubstanceList extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final t = context.theme;     // typography, spacing, radius, etc.
-    final c = context.palette;   // colors
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Access theme components through context extensions
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
+    final radii = context.shapes;
 
     return Container(
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
-        border: Border.all(color: t.colors.border),
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(radii.radiusMd),
+        border: Border.all(color: colors.border),
       ),
-      padding: EdgeInsets.all(t.spacing.md),
+      padding: EdgeInsets.all(spacing.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Debug header with distinctive styling
           Text(
             'DEBUG: Per-substance tolerance',
-            style: t.typography.heading4.copyWith(
-              fontSize: t.typography.body.fontSize! + 1,
+            style: typography.heading4.copyWith(
+              fontSize: typography.body.fontSize! + 1,
             ),
           ),
-          SizedBox(height: t.spacing.sm),
+          SizedBox(height: spacing.sm),
 
+          // LOADING STATE
           if (isLoading)
             const Center(child: CircularProgressIndicator())
 
+          // EMPTY STATE
           else if (perSubstanceTolerances.isEmpty)
             Text(
               'No data',
-              style: t.typography.bodySmall.copyWith(
-                color: t.colors.textSecondary,
+              style: typography.bodySmall.copyWith(
+                color: colors.textSecondary,
               ),
             )
 
+          // LIST OF SUBSTANCES WITH TOLERANCE PERCENTAGES
           else
             ...perSubstanceTolerances.entries.map(
               (entry) => Padding(
-                padding: EdgeInsets.symmetric(vertical: t.spacing.xs),
+                padding: EdgeInsets.symmetric(vertical: spacing.xs),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // Substance name
                     Text(
                       entry.key,
-                      style: t.typography.body,
+                      style: typography.body,
                     ),
+                    // Tolerance percentage (highlighted with accent color)
                     Text(
                       '${entry.value.toStringAsFixed(1)}%',
-                      style: t.typography.bodyBold.copyWith(
-                        color: t.accent.primary,
+                      style: typography.bodyBold.copyWith(
+                        color: context.accent.primary,
                       ),
                     ),
                   ],
@@ -81,3 +113,4 @@ class DebugSubstanceList extends StatelessWidget {
     );
   }
 }
+

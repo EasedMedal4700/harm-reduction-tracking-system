@@ -1,12 +1,44 @@
+/**
+ * System Bucket Card Widget
+ * 
+ * Created: 2024-11-10
+ * Last Modified: 2025-12-14
+ * 
+ * Purpose:
+ * Displays a single neurochemical bucket's tolerance state in a compact card format.
+ * Shows tolerance percentage, system state, active status, and provides tap interaction.
+ * Used in horizontal scrolling lists to show all bucket states at once.
+ * 
+ * Features:
+ * - Visual state indicators with color-coding
+ * - Tolerance percentage display
+ * - Active substance indicator
+ * - Selection highlighting
+ * - Icon representation for each bucket type
+ * - Tap-to-select interaction
+ */
+
 // MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: COMPLETE
+// Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/bucket_definitions.dart';
 import '../../models/tolerance_model.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../constants/theme/app_theme.dart';
 
 /// Card widget displaying a single neurochemical bucket's system-wide tolerance
-class SystemBucketCard extends StatelessWidget {
+/// 
+/// Visual compact representation of a bucket's current state including:
+/// - Tolerance percentage
+/// - Color-coded system state
+/// - Active/inactive status
+/// - Selection state
+class SystemBucketCard extends ConsumerWidget {
   final String bucketType;
   final double tolerancePercent;
   final ToleranceSystemState state;
@@ -64,94 +96,99 @@ class SystemBucketCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final t = context.theme;
-    final c = context.colors;
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Access theme components through context extensions
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
+    final radii = context.shapes;
 
-    final stateColor = _getStateColor(state, c);
+    final stateColor = _getStateColor(state, colors);
 
     return Container(
       width: 145,
       decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(radii.radiusMd),
         border: Border.all(
-          color: isSelected ? stateColor : c.border,
+          color: isSelected ? stateColor : colors.border,
           width: isSelected ? 2 : 1,
         ),
-        boxShadow: isSelected ? t.cardShadowHovered : t.cardShadow,
+        boxShadow: isSelected ? context.cardShadowHovered : context.cardShadow,
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        borderRadius: BorderRadius.circular(radii.radiusMd),
         child: Padding(
-          padding: EdgeInsets.all(t.spacing.md),
+          padding: EdgeInsets.all(spacing.md),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // Bucket icon with state color
               Icon(_getBucketIcon(), size: 32, color: stateColor),
-              SizedBox(height: t.spacing.sm),
+              SizedBox(height: spacing.sm),
 
               // Bucket name
               Text(
                 BucketDefinitions.getDisplayName(bucketType),
-                style: t.typography.bodyBold.copyWith(
-                  color: c.textPrimary,
+                style: typography.bodyBold.copyWith(
+                  color: colors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
 
-              SizedBox(height: t.spacing.sm),
+              SizedBox(height: spacing.sm),
 
-              // Tolerance percentage
+              // Tolerance percentage with state color
               Text(
                 '${tolerancePercent.toStringAsFixed(1)}%',
-                style: t.typography.heading3.copyWith(
+                style: typography.heading3.copyWith(
                   color: stateColor,
                 ),
               ),
 
-              SizedBox(height: t.spacing.sm),
+              SizedBox(height: spacing.sm),
 
-              // Status badge
+              // Status badge showing current system state
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: t.spacing.sm,
-                  vertical: t.spacing.xs,
+                  horizontal: spacing.sm,
+                  vertical: spacing.xs,
                 ),
                 decoration: BoxDecoration(
-                  color: stateColor.withOpacity(0.12),
+                  color: stateColor.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: stateColor.withOpacity(0.35),
+                    color: stateColor.withValues(alpha: 0.35),
                     width: 1,
                   ),
                 ),
                 child: Text(
                   state.displayName,
-                  style: t.typography.captionBold.copyWith(
+                  style: typography.captionBold.copyWith(
                     color: stateColor,
                   ),
                 ),
               ),
 
+              // Active indicator badge (shown when substances are actively affecting this bucket)
               if (isActive) ...[
-                SizedBox(height: t.spacing.xs),
+                SizedBox(height: spacing.xs),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: t.spacing.sm,
+                    horizontal: spacing.sm,
                     vertical: 2,
                   ),
                   decoration: BoxDecoration(
-                    color: c.info.withOpacity(0.18),
+                    color: colors.info.withValues(alpha: 0.18),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     'ACTIVE',
-                    style: t.typography.captionBold.copyWith(
-                      color: c.info,
+                    style: typography.captionBold.copyWith(
+                      color: colors.info,
                       fontSize: 10,
                     ),
                   ),
