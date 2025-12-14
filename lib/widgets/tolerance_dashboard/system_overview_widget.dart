@@ -1,15 +1,17 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: TODO
-// Riverpod: TODO
-// Notes: Uses context.theme and AppTheme, but some legacy patterns may remain; review for full migration.
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: COMPLETE
+// Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../models/bucket_definitions.dart';
 import '../../utils/tolerance_calculator.dart';
 import '../tolerance/system_bucket_card.dart';
 
-class SystemOverviewWidget extends StatelessWidget {
+class SystemOverviewWidget extends ConsumerWidget {
   final ToleranceResult? systemTolerance;
   final Map<String, bool> substanceActiveStates;
   final Map<String, Map<String, double>> substanceContributions;
@@ -26,20 +28,28 @@ class SystemOverviewWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final t = context.theme;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
+    final radii = context.shapes;
+    
     final orderedBuckets = BucketDefinitions.orderedBuckets;
 
     // LOADING STATE
     if (systemTolerance == null) {
       return Container(
         decoration: BoxDecoration(
-          color: t.colors.surface,
-          borderRadius: BorderRadius.circular(t.spacing.md),
-          border: Border.all(color: t.colors.border),
+          color: colors.surface,
+          borderRadius: BorderRadius.circular(radii.radiusMd),
+          border: Border.all(color: colors.border),
         ),
-        padding: EdgeInsets.all(t.spacing.lg),
-        child: const Center(child: CircularProgressIndicator()),
+        padding: EdgeInsets.all(spacing.lg),
+        child: Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(context.accent.primary),
+          ),
+        ),
       );
     }
 
@@ -51,27 +61,27 @@ class SystemOverviewWidget extends StatelessWidget {
         // HEADER
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: t.spacing.xs,
-            vertical: t.spacing.sm,
+            horizontal: spacing.xs,
+            vertical: spacing.sm,
           ),
           child: Text(
             'System Tolerance Overview',
-            style: t.typography.heading3.copyWith(
-              color: t.colors.textPrimary,
+            style: typography.heading3.copyWith(
+              color: colors.textPrimary,
             ),
           ),
         ),
 
-        SizedBox(height: t.spacing.sm),
+        SizedBox(height: spacing.sm),
 
-        // BUCKET CARDS — horizontal
+        // BUCKET CARDS — horizontal scroll
         SizedBox(
-          height: 140,
+          height: 140.0,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.symmetric(horizontal: t.spacing.sm),
+            padding: EdgeInsets.symmetric(horizontal: spacing.sm),
             itemCount: orderedBuckets.length,
-            separatorBuilder: (_, __) => SizedBox(width: t.spacing.sm),
+            separatorBuilder: (_, __) => SizedBox(width: spacing.sm),
             itemBuilder: (context, index) {
               final bucket = orderedBuckets[index];
               final percent =

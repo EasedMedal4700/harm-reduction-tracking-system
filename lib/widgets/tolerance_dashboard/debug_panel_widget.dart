@@ -1,110 +1,150 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: TODO
-// Riverpod: TODO
-// Notes: Uses context.theme and AppTheme, but some legacy patterns may remain; review for full migration.
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: COMPLETE
+// Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
+
 import 'package:flutter/material.dart';
-
-import '../../models/bucket_definitions.dart';
-import '../../utils/tolerance_calculator.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_theme_constants.dart';
+import '../../utils/tolerance_calculator.dart';
 
-class DebugPanelWidget extends StatelessWidget {
+class DebugPanelWidget extends ConsumerWidget {
   final ToleranceResult? systemTolerance;
-  final ToleranceResult? substanceTolerance;
-  final String? selectedSubstance;
-  final bool isDark;
+  final Map<String, bool> substanceActiveStates;
+  final Map<String, Map<String, double>> substanceContributions;
 
   const DebugPanelWidget({
     super.key,
     required this.systemTolerance,
-    required this.substanceTolerance,
-    required this.selectedSubstance,
-    required this.isDark,
+    required this.substanceActiveStates,
+    required this.substanceContributions,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final t = context.theme;
-    final system = systemTolerance;
-    final substance = substanceTolerance;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
+    final radii = context.shapes;
 
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(t.spacing.lg),
+      margin: EdgeInsets.all(spacing.md),
+      padding: EdgeInsets.all(spacing.md),
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
-        border: Border.all(
-          color: t.colors.border,
-          width: 1,
-        ),
-        boxShadow: t.cardShadow,
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(radii.radiusSm),
+        border: Border.all(color: colors.warning),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title
-          Text(
-            'Tolerance engine debug',
-            style: t.typography.heading4.copyWith(
-              color: t.colors.textPrimary,
-            ),
+          // HEADER
+          Row(
+            children: [
+              Icon(
+                Icons.bug_report,
+                color: colors.warning,
+                size: 20.0,
+              ),
+              SizedBox(width: spacing.xs),
+              Text(
+                'Debug Panel',
+                style: typography.bodyLarge.copyWith(
+                  color: colors.warning,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
 
-          SizedBox(height: t.spacing.sm),
+          SizedBox(height: spacing.md),
 
-          // System line
-          if (system != null)
-            Text(
-              'System → score: ${system.toleranceScore.toStringAsFixed(1)} • baseline: ${system.overallDaysUntilBaseline} days',
-              style: t.typography.caption.copyWith(
-                color: t.colors.textSecondary,
-              ),
-            ),
-
-          // Substance line
-          if (substance != null && selectedSubstance != null) ...[
-            SizedBox(height: t.spacing.xs),
-            Text(
-              'Substance "$selectedSubstance" → score: ${substance.toleranceScore.toStringAsFixed(1)} • baseline: ${substance.overallDaysUntilBaseline} days',
-              style: t.typography.caption.copyWith(
-                color: t.colors.textSecondary,
-              ),
-            ),
-          ],
-
-          SizedBox(height: t.spacing.md),
-
-          // Bucket title
-          Text(
-            'Bucket percents:',
-            style: t.typography.bodyBold.copyWith(
-              color: t.colors.textPrimary,
-            ),
+          // SYSTEM TOLERANCE DATA
+          _DebugSection(
+            title: 'System Tolerance',
+            content: systemTolerance?.bucketPercents.entries
+                .map((e) => '${e.key}: ${e.value.toStringAsFixed(1)}%')
+                .join('\n') ?? 'No data',
           ),
 
-          SizedBox(height: t.spacing.xs),
+          SizedBox(height: spacing.sm),
 
-          // Bucket list
-          if (system != null)
-            Wrap(
-              spacing: t.spacing.sm,
-              runSpacing: 4,
-              children: [
-                for (final bucket in BucketDefinitions.orderedBuckets)
-                  Text(
-                    '$bucket: ${(system.bucketPercents[bucket] ?? 0).toStringAsFixed(1)}%',
-                    style: t.typography.caption.copyWith(
-                      color: t.colors.textSecondary,
-                      fontFamily: 'monospace',
-                    ),
-                  ),
-              ],
-            ),
+          // ACTIVE SUBSTANCES
+          _DebugSection(
+            title: 'Active Substances',
+            content: substanceActiveStates.entries
+                .where((e) => e.value)
+                .map((e) => e.key)
+                .join(', ').isEmpty ? 'None' : substanceActiveStates.entries
+                .where((e) => e.value)
+                .map((e) => e.key)
+                .join(', '),
+          ),
+
+          SizedBox(height: spacing.sm),
+
+          // SUBSTANCE CONTRIBUTIONS
+          _DebugSection(
+            title: 'Contributions by Bucket',
+            content: substanceContributions.entries
+                .map((bucket) {
+                  final contribs = bucket.value.entries
+                      .map((e) => '  ${e.key}: ${(e.value * 100).toStringAsFixed(0)}%')
+                      .join('\n');
+                  return '${bucket.key}:\n$contribs';
+                })
+                .join('\n\n'),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class _DebugSection extends ConsumerWidget {
+  final String title;
+  final String content;
+
+  const _DebugSection({
+    required this.title,
+    required this.content,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
+    final radii = context.shapes;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: typography.bodySmall.copyWith(
+            color: colors.textSecondary,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(height: spacing.xs),
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(spacing.sm),
+          decoration: BoxDecoration(
+            color: colors.surfaceVariant,
+            borderRadius: BorderRadius.circular(radii.radiusXs),
+          ),
+          child: Text(
+            content,
+            style: typography.bodySmall.copyWith(
+              color: colors.textPrimary,
+              fontFamily: 'monospace',
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

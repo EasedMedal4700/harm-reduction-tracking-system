@@ -1,8 +1,9 @@
-// MIGRATION
+// MIGRATION COMPLETE
 // Theme: COMPLETE
-// Common: PARTIAL
-// Riverpod: TODO
-// Notes: Uses AppTheme extensions (colors, spacing, shapes, typography, cardDecoration).
+// Common: COMPLETE
+// Riverpod: READY
+// Notes: Uses AppTheme extensions (colors, spacing, shapes, typography).
+//        Uses CommonCard for container. Ready for Riverpod integration.
 //        Fully updated for new TimelineChartConfig signatures.
 
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import '../../constants/theme/app_theme_extension.dart';
 import '../../services/blood_levels_service.dart';
 import '../../services/decay_service.dart';
 import '../../constants/data/drug_categories.dart';
+import '../../common/cards/common_card.dart';
 import 'timeline_chart_config.dart' as chart_config;
 import 'timeline_legend.dart';
 
@@ -33,8 +35,7 @@ class MetabolismTimelineCard extends StatefulWidget {
   });
 
   @override
-  State<MetabolismTimelineCard> createState() =>
-      _MetabolismTimelineCardState();
+  State<MetabolismTimelineCard> createState() => _MetabolismTimelineCardState();
 }
 
 class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
@@ -65,8 +66,9 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
       final service = BloodLevelsService();
       final Map<String, List<DoseEntry>> allDoses = {};
 
-      final filteredDrugNames =
-          widget.drugLevels.map((level) => level.drugName).toList();
+      final filteredDrugNames = widget.drugLevels
+          .map((level) => level.drugName)
+          .toList();
 
       for (final drugName in filteredDrugNames) {
         final doses = await service.getDosesForTimeline(
@@ -99,19 +101,14 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final accentColor = context.accent.primary;
 
     if (_loading) {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.md),
+      return CommonCard(
         padding: EdgeInsets.all(sp.lg),
-        decoration: t.cardDecoration(),
-        child: Center(
-          child: CircularProgressIndicator(color: accentColor),
-        ),
+        child: Center(child: CircularProgressIndicator(color: accentColor)),
       );
     }
 
@@ -142,8 +139,9 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
         ),
       );
 
-      final category =
-          drugLevel.categories.isNotEmpty ? drugLevel.categories.first : 'placeholder';
+      final category = drugLevel.categories.isNotEmpty
+          ? drugLevel.categories.first
+          : 'placeholder';
 
       drugsByCategory.putIfAbsent(category, () => []).add(drugName);
     }
@@ -183,11 +181,13 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
 
       if (curvePoints.isEmpty) continue;
 
-      final spots =
-          curvePoints.map((p) => FlSpot(p.hours, p.remainingMg)).toList();
+      final spots = curvePoints
+          .map((p) => FlSpot(p.hours, p.remainingMg))
+          .toList();
 
-      final category =
-          drugLevel.categories.isNotEmpty ? drugLevel.categories.first : 'placeholder';
+      final category = drugLevel.categories.isNotEmpty
+          ? drugLevel.categories.first
+          : 'placeholder';
       final group = drugsByCategory[category] ?? [];
       final indexInCategory = group.indexOf(drugName);
 
@@ -233,13 +233,13 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
       return _buildEmptyState(context);
     }
 
-    final maxY =
-        chart_config.TimelineChartConfig.calculateMaxY(lineBarsData, widget.adaptiveScale);
+    final maxY = chart_config.TimelineChartConfig.calculateMaxY(
+      lineBarsData,
+      widget.adaptiveScale,
+    );
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.md),
+    return CommonCard(
       padding: EdgeInsets.all(sp.md),
-      decoration: t.cardDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -270,8 +270,8 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
             child: LineChart(
               LineChartData(
                 gridData: chart_config.TimelineChartConfig.buildGridData(
-                  maxY: maxY,
-                  context: context,
+                  context,
+                  maxY,
                 ),
                 titlesData: chart_config.TimelineChartConfig.buildTitlesData(
                   context: context,
@@ -283,19 +283,18 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
                 minY: 0,
                 maxY: maxY,
                 lineBarsData: lineBarsData,
-                extraLinesData:
-                    chart_config.TimelineChartConfig.buildNowLine(context),
+                extraLinesData: chart_config.TimelineChartConfig.buildNowLine(
+                  context,
+                ),
                 lineTouchData: LineTouchData(
                   touchTooltipData: LineTouchTooltipData(
                     tooltipBgColor: c.surface.withOpacity(0.96),
                     getTooltipItems: (spots) =>
-                      chart_config.TimelineChartConfig.buildTooltipItems(
-                        context: context,
-                        spots: spots,
-                        data: lineBarsData,
-                        legend: legendItems,
-                      ),
-                    ),
+                        chart_config.TimelineChartConfig.buildTooltipItems(
+                          context,
+                          spots,
+                          legendItems,
+                        ),
                   ),
                 ),
               ),
@@ -307,14 +306,11 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
   }
 
   Widget _buildEmptyState(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.md),
+    return CommonCard(
       padding: EdgeInsets.all(sp.lg),
-      decoration: t.cardDecoration(),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -343,10 +339,14 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
     final hsl = HSLColor.fromColor(baseColor);
     final ratio = index / (totalInCategory - 1);
 
-    final newLightness =
-        (hsl.lightness + ((ratio * 0.4) - 0.2)).clamp(0.3, 0.8);
-    final newSaturation =
-        (hsl.saturation + ((ratio * 0.2) - 0.1)).clamp(0.5, 1.0);
+    final newLightness = (hsl.lightness + ((ratio * 0.4) - 0.2)).clamp(
+      0.3,
+      0.8,
+    );
+    final newSaturation = (hsl.saturation + ((ratio * 0.2) - 0.1)).clamp(
+      0.5,
+      1.0,
+    );
 
     return hsl
         .withLightness(newLightness)

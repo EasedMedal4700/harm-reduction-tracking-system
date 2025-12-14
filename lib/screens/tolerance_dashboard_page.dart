@@ -327,42 +327,31 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   }
 
   Widget _buildContent() {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
     return DashboardContentWidget(
-      toleranceModel: _toleranceModel,
       systemTolerance: _systemTolerance,
-      substanceTolerance: _substanceTolerance,
-      useEvents: _useEvents,
-      errorMessage: _errorMessage,
-      selectedSubstance: _selectedSubstance,
-      selectedBucket: _selectedBucket,
-      substanceContributions: _substanceContributions,
       substanceActiveStates: _substanceActiveStates,
-      showDebugSubstances: _showDebugSubstances,
-      showDebugPanel: _showDebugPanel,
-      perSubstanceTolerances: _perSubstanceTolerances,
-      isLoadingPerSubstance: _isLoadingPerSubstance,
-      onSubstanceSelected: (substanceName) {
-        setState(() => _selectedSubstance = substanceName);
-        _loadMetrics(substanceName);
-      },
+      substanceContributions: _substanceContributions,
+      selectedBucket: _selectedBucket,
       onBucketSelected: (bucketType) {
         setState(() => _selectedBucket = bucketType);
-        // Scroll to bucket detail section
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          final context = _bucketDetailKey.currentContext;
-          if (context != null) {
-            Scrollable.ensureVisible(
-              context,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            );
-          }
-        });
+        // Scroll to bucket detail section if provided
+        if (bucketType != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final context = _bucketDetailKey.currentContext;
+            if (context != null) {
+              Scrollable.ensureVisible(
+                context,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              );
+            }
+          });
+        }
       },
-      bucketDetailKey: _bucketDetailKey,
-      isDark: isDark,
+      onAddEntry: () {
+        // Navigate to log entry page
+        Navigator.pushNamed(context, '/log-entry');
+      },
     );
   }
 }

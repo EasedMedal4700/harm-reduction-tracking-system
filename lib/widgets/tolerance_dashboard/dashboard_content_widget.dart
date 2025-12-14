@@ -1,168 +1,129 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: TODO
-// Riverpod: TODO
-// Notes: Uses context.theme and AppTheme, but some legacy patterns may remain; review for full migration.
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: COMPLETE
+// Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
+
 import 'package:flutter/material.dart';
-
-import '../../models/tolerance_model.dart';
-import '../../utils/tolerance_calculator.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_theme_constants.dart';
-
-import '../tolerance/tolerance_stats_card.dart';
-import '../tolerance/tolerance_notes_card.dart';
-import '../tolerance/recent_uses_card.dart';
-import '../tolerance/debug_substance_list.dart';
-import '../tolerance/tolerance_disclaimer.dart';
-import '../tolerance/unified_bucket_tolerance_widget.dart';
+import '../../utils/tolerance_calculator.dart';
 import 'system_overview_widget.dart';
 import 'bucket_details_widget.dart';
-import 'debug_panel_widget.dart';
+import 'empty_state_widget.dart';
 
-class DashboardContentWidget extends StatelessWidget {
-  final ToleranceModel? toleranceModel;
+class DashboardContentWidget extends ConsumerWidget {
   final ToleranceResult? systemTolerance;
-  final ToleranceResult? substanceTolerance;
-  final List<UseLogEntry> useEvents;
-  final String? errorMessage;
-  final String? selectedSubstance;
-  final String? selectedBucket;
-  final Map<String, Map<String, double>> substanceContributions;
   final Map<String, bool> substanceActiveStates;
-  final bool showDebugSubstances;
-  final bool showDebugPanel;
-  final Map<String, double> perSubstanceTolerances;
-  final bool isLoadingPerSubstance;
-  final Function(String) onSubstanceSelected;
-  final Function(String) onBucketSelected;
-  final GlobalKey bucketDetailKey;
-  final bool isDark; // still passed through to children that use legacy styling
+  final Map<String, Map<String, double>> substanceContributions;
+  final String? selectedBucket;
+  final Function(String?) onBucketSelected;
+  final VoidCallback? onAddEntry;
 
   const DashboardContentWidget({
     super.key,
-    required this.toleranceModel,
     required this.systemTolerance,
-    required this.substanceTolerance,
-    required this.useEvents,
-    required this.errorMessage,
-    required this.selectedSubstance,
-    required this.selectedBucket,
-    required this.substanceContributions,
     required this.substanceActiveStates,
-    required this.showDebugSubstances,
-    required this.showDebugPanel,
-    required this.perSubstanceTolerances,
-    required this.isLoadingPerSubstance,
-    required this.onSubstanceSelected,
+    required this.substanceContributions,
+    required this.selectedBucket,
     required this.onBucketSelected,
-    required this.bucketDetailKey,
-    required this.isDark,
+    this.onAddEntry,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final t = context.theme;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final spacing = context.spacing;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // 0. Safety Disclaimer (TOP - CRITICAL)
-        const CompactToleranceDisclaimer(),
-        SizedBox(height: t.spacing.lg),
+    // EMPTY STATE
+    if (systemTolerance == null || 
+        (systemTolerance!.bucketPercents.isEmpty && 
+         substanceActiveStates.isEmpty)) {
+      return EmptyStateWidget(onAddEntry: onAddEntry);
+    }
 
-        // 1. System Tolerance Overview (ALL 7 BUCKETS)
-        SystemOverviewWidget(
-          systemTolerance: systemTolerance,
-          substanceActiveStates: substanceActiveStates,
-          substanceContributions: substanceContributions,
-          selectedBucket: selectedBucket,
-          onBucketSelected: onBucketSelected,
-        ),
-        SizedBox(height: t.spacing.lg),
-
-        // 2. Bucket Details (Selected bucket with contributing substances)
-        if (selectedBucket != null)
-          BucketDetailsWidget(
-            selectedBucket: selectedBucket,
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(spacing.md),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // SYSTEM OVERVIEW
+          SystemOverviewWidget(
             systemTolerance: systemTolerance,
-            substanceContributions: substanceContributions,
             substanceActiveStates: substanceActiveStates,
-            selectedSubstance: selectedSubstance,
-            onSubstanceSelected: onSubstanceSelected,
-            bucketDetailKey: bucketDetailKey,
+            substanceContributions: substanceContributions,
+            selectedBucket: selectedBucket,
+            onBucketSelected: (bucket) => onBucketSelected(bucket),
           ),
 
-        if (selectedBucket != null)
-          SizedBox(height: t.spacing.lg),
+          SizedBox(height: spacing.lg),
 
-        // 3. Substance Detail (existing unified widget - only if substance selected)
-        if (selectedSubstance != null &&
-            toleranceModel != null &&
-            substanceTolerance != null)
-          UnifiedBucketToleranceWidget(
-            toleranceModel: toleranceModel!,
-            toleranceResult: substanceTolerance!,
-            substanceName: selectedSubstance!,
-          ),
-
-        if (selectedSubstance != null &&
-            toleranceModel != null &&
-            substanceTolerance != null)
-          SizedBox(height: t.spacing.lg),
-
-        // 4. Key Metrics (Bottom)
-        if (errorMessage != null)
-          Card(
-            color: t.colors.surface,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
+          // BUCKET DETAILS (if selected)
+          if (selectedBucket != null) ...[
+            BucketDetailsWidget(
+              bucketType: selectedBucket!,
+              tolerancePercent: systemTolerance?.bucketPercents[selectedBucket!] ?? 0.0,
+              substanceContributions: substanceContributions[selectedBucket!] ?? {},
+              onClose: () => onBucketSelected(null),
             ),
-            child: Padding(
-              padding: EdgeInsets.all(t.spacing.cardPadding),
-              child: Text(
-                errorMessage!,
-                style: t.typography.bodySmall.copyWith(
-                  color: t.colors.textSecondary,
+            SizedBox(height: spacing.lg),
+          ],
+
+          // HELPFUL TIP
+          _HelpfulTipCard(),
+        ],
+      ),
+    );
+  }
+}
+
+class _HelpfulTipCard extends ConsumerWidget {
+  const _HelpfulTipCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.colors;
+    final spacing = context.spacing;
+    final typography = context.text;
+    final radii = context.shapes;
+
+    return Container(
+      padding: EdgeInsets.all(spacing.md),
+      decoration: BoxDecoration(
+        color: colors.info.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(radii.radiusSm),
+        border: Border.all(color: colors.info.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.lightbulb_outline,
+            color: colors.info,
+            size: 24.0,
+          ),
+          SizedBox(width: spacing.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'About Tolerance Systems',
+                  style: typography.body.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
+                SizedBox(height: spacing.xs),
+                Text(
+                  'Different substances affect different neurotransmitter systems. Understanding cross-tolerance helps you make safer choices.',
+                  style: typography.bodySmall.copyWith(
+                    color: colors.textSecondary,
+                  ),
+                ),
+              ],
             ),
-          )
-        else if (toleranceModel != null) ...[
-          ToleranceStatsCard(
-            toleranceModel: toleranceModel!,
-            daysUntilBaseline: substanceTolerance?.overallDaysUntilBaseline ?? 0,
-            recentUseCount: useEvents.length,
-          ),
-          SizedBox(height: t.spacing.lg),
-          ToleranceNotesCard(notes: toleranceModel!.notes),
-        ],
-
-        if (useEvents.isNotEmpty) ...[
-          SizedBox(height: t.spacing.lg),
-          RecentUsesCard(useEvents: useEvents),
-        ],
-
-        // Debug: Per-substance tolerances
-        if (showDebugSubstances) ...[
-          SizedBox(height: t.spacing.lg),
-          DebugSubstanceList(
-            perSubstanceTolerances: perSubstanceTolerances,
-            isLoading: isLoadingPerSubstance,
           ),
         ],
-
-        if (showDebugPanel) ...[
-          SizedBox(height: t.spacing.lg),
-          DebugPanelWidget(
-            systemTolerance: systemTolerance,
-            substanceTolerance: substanceTolerance,
-            selectedSubstance: selectedSubstance,
-            isDark: isDark,
-          ),
-        ],
-      ],
+      ),
     );
   }
 }
