@@ -1,9 +1,12 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: COMPLETE
-// Riverpod: N/A
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Dialog for password verification before sensitive operations
 class PasswordVerificationDialog extends StatefulWidget {
@@ -86,6 +89,9 @@ class _PasswordVerificationDialogState
 
   @override
   Widget build(BuildContext context) {
+    final spacing = context.spacing;
+    final colors = context.colors;
+
     return AlertDialog(
       title: Text(widget.title),
       content: Column(
@@ -93,7 +99,7 @@ class _PasswordVerificationDialogState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(widget.description),
-          const SizedBox(height: 16),
+          SizedBox(height: spacing.lg),
           TextField(
             controller: _passwordController,
             obscureText: _obscurePassword,
@@ -124,15 +130,15 @@ class _PasswordVerificationDialogState
           onPressed: _isVerifying ? null : _verify,
           style: ElevatedButton.styleFrom(
             backgroundColor: widget.actionButtonColor,
-            foregroundColor: Colors.white,
+            foregroundColor: colors.surface,
           ),
           child: _isVerifying
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
+              ? SizedBox(
+                  width: spacing.lg,
+                  height: spacing.lg,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    valueColor: AlwaysStoppedAnimation<Color>(colors.surface),
                   ),
                 )
               : Text(widget.actionButtonText),
@@ -146,36 +152,33 @@ class _PasswordVerificationDialogState
 class WarningItem extends StatelessWidget {
   final String text;
   final bool isRed;
-  final bool isDark;
 
   const WarningItem(
     this.text, {
     this.isRed = false,
-    this.isDark = false,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    final spacing = context.spacing;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: EdgeInsets.symmetric(vertical: spacing.xs),
       child: Row(
         children: [
           Icon(
             Icons.close,
-            color: isRed
-                ? (isDark ? Colors.red.shade400 : Colors.red.shade700)
-                : (isDark ? Colors.orange.shade400 : Colors.orange.shade700),
-            size: 20,
+            color: isRed ? colors.error : colors.warning,
+            size: spacing.lg + spacing.xs,
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: spacing.sm),
           Expanded(
             child: Text(
               text,
               style: TextStyle(
-                color: isRed
-                    ? (isDark ? Colors.red.shade300 : Colors.red.shade900)
-                    : (isDark ? Colors.orange.shade300 : Colors.orange.shade900),
+                color: isRed ? colors.error : colors.warning,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -194,15 +197,17 @@ class LoadingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final spacing = context.spacing;
+
     return Center(
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(spacing.xl),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(),
-              const SizedBox(height: 16),
+              SizedBox(height: spacing.lg),
               Text(message),
             ],
           ),
@@ -239,6 +244,9 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final spacing = context.spacing;
+    final colors = context.colors;
+
     return AlertDialog(
       title: Text(widget.title),
       content: Column(
@@ -248,7 +256,7 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
             widget.description,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: spacing.md),
           TextField(
             decoration: InputDecoration(
               hintText: widget.confirmText,
@@ -270,8 +278,8 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
         ElevatedButton(
           onPressed: _userConfirmed ? widget.onConfirmed : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor: widget.buttonColor ?? Colors.red,
-            foregroundColor: Colors.white,
+            backgroundColor: widget.buttonColor ?? colors.error,
+            foregroundColor: colors.surface,
           ),
           child: const Text('Confirm'),
         ),

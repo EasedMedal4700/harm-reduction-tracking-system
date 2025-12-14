@@ -1,7 +1,9 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: COMPLETE
-// Riverpod: N/A
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
+
 import 'package:flutter/material.dart';
 
 /// Reusable section widget for settings page
