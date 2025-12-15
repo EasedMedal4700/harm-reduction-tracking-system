@@ -1,18 +1,12 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+
 import '../../constants/data/body_and_mind_catalog.dart';
 import '../../common/cards/common_card.dart';
 import '../../common/text/common_section_header.dart';
 import '../../common/inputs/dropdown.dart';
 import '../../common/inputs/slider.dart';
 import '../../common/layout/common_spacer.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class IntentionCravingCard extends StatelessWidget {
   final String? intention;
@@ -35,7 +29,7 @@ class IntentionCravingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     final validIntention =
         intentions.contains(intention) ? intention : null;
 
@@ -48,14 +42,14 @@ class IntentionCravingCard extends StatelessWidget {
             subtitle: "Why did you use this substance?",
           ),
 
-          const CommonSpacer.vertical(ThemeConstants.space16),
+          CommonSpacer.vertical(t.spacing.md),
 
-          /// ⭐ MEDICAL PURPOSE SWITCH
-          _buildMedicalToggle(isDark),
+          ///  MEDICAL PURPOSE SWITCH
+          _buildMedicalToggle(context),
 
-          const CommonSpacer.vertical(ThemeConstants.space20),
+          CommonSpacer.vertical(t.spacing.lg),
 
-          /// ⭐ INTENTION DROPDOWN
+          ///  INTENTION DROPDOWN
           CommonDropdown<String>(
             value: validIntention ?? intentions.first,
             items: intentions,
@@ -63,11 +57,10 @@ class IntentionCravingCard extends StatelessWidget {
             itemLabel: (v) => v,
           ),
 
+          CommonSpacer.vertical(t.spacing.lg),
 
-          const CommonSpacer.vertical(ThemeConstants.space20),
-
-          /// ⭐ CRAVING SLIDER
-          _buildCravingSection(context, isDark),
+          ///  CRAVING SLIDER
+          _buildCravingSection(context),
         ],
       ),
     );
@@ -77,42 +70,36 @@ class IntentionCravingCard extends StatelessWidget {
   // MEDICAL PURPOSE SWITCH
   // ----------------------------------------------------------
 
-  Widget _buildMedicalToggle(bool isDark) {
-    final accent =
-        isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen;
+  Widget _buildMedicalToggle(BuildContext context) {
+    final t = context.theme;
+    final accent = t.colors.success;
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? const Color(0x08FFFFFF) : Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+        color: t.colors.surfaceVariant,
+        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
         border: Border.all(
-          color: isMedicalPurpose ? accent : (isDark
-              ? const Color(0x14FFFFFF)
-              : UIColors.lightBorder),
+          color: isMedicalPurpose ? accent : t.colors.border,
           width: isMedicalPurpose ? 2 : 1,
         ),
       ),
       child: SwitchListTile(
         value: isMedicalPurpose,
         onChanged: onMedicalPurposeChanged,
-        activeColor: accent,
+        activeThumbColor: accent,
         title: Text(
           "Medical Purpose",
-          style: TextStyle(
-            fontSize: ThemeConstants.fontMedium,
+          style: t.typography.body.copyWith(
             fontWeight: isMedicalPurpose
-                ? ThemeConstants.fontSemiBold
-                : ThemeConstants.fontRegular,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+                ? FontWeight.w600
+                : FontWeight.normal,
+            color: t.colors.textPrimary,
           ),
         ),
         subtitle: Text(
           "Prescribed or therapeutic use",
-          style: TextStyle(
-            fontSize: ThemeConstants.fontSmall,
-            color: isDark
-                ? UIColors.darkTextSecondary
-                : UIColors.lightTextSecondary,
+          style: t.typography.bodySmall.copyWith(
+            color: t.colors.textSecondary,
           ),
         ),
       ),
@@ -123,22 +110,21 @@ class IntentionCravingCard extends StatelessWidget {
   // CRAVING SLIDER
   // ----------------------------------------------------------
 
-  Widget _buildCravingSection(BuildContext context, bool isDark) {
-    final accent =
-        isDark ? UIColors.darkNeonOrange : UIColors.lightAccentOrange;
+  Widget _buildCravingSection(BuildContext context) {
+    final t = context.theme;
+    final accent = t.colors.warning;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Craving Intensity",
-          style: TextStyle(
-            fontSize: ThemeConstants.fontMedium,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+          style: t.typography.body.copyWith(
+            color: t.colors.textPrimary,
           ),
         ),
 
-        const CommonSpacer.vertical(ThemeConstants.space8),
+        CommonSpacer.vertical(t.spacing.sm),
 
         Row(
           children: [
@@ -153,26 +139,24 @@ class IntentionCravingCard extends StatelessWidget {
               ),
             ),
 
-            const CommonSpacer.horizontal(ThemeConstants.space12),
+            CommonSpacer.horizontal(t.spacing.md),
 
             /// Value indicator box
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: ThemeConstants.space12,
-                vertical: ThemeConstants.space8,
+              padding: EdgeInsets.symmetric(
+                horizontal: t.spacing.md,
+                vertical: t.spacing.sm,
               ),
               decoration: BoxDecoration(
-                color: accent.withOpacity(0.12),
-                borderRadius:
-                    BorderRadius.circular(ThemeConstants.radiusMedium),
+                color: accent.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(t.spacing.radiusMd),
                 border: Border.all(color: accent),
               ),
               child: Text(
                 cravingIntensity.toStringAsFixed(0),
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                style: t.typography.body.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: t.colors.textPrimary,
                 ),
               ),
             ),

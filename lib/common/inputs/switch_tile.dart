@@ -1,8 +1,11 @@
-// MIGRATION
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_constants.dart';
-import '../../constants/colors/app_colors_dark.dart';
-import '../../constants/colors/app_colors_light.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// Switch tile with consistent styling for toggles
 /// Used for medical purpose, notifications, settings, etc.
@@ -26,35 +29,33 @@ class CommonSwitchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? AppColorsDark.accentPrimary : AppColorsLight.accentPrimary;
+    final t = context.theme;
+    final accentColor = t.accent.primary;
     
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? const Color(0x08FFFFFF) : const Color(0xFFF3F4F8),
-        borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
+        color: t.colors.surfaceVariant.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
         border: Border.all(
           color: highlighted
               ? accentColor
-              : (isDark ? const Color(0x14FFFFFF) : AppColorsLight.border),
+              : t.colors.border,
           width: highlighted ? 2 : 1,
         ),
       ),
       child: SwitchListTile(
         title: Text(
           title,
-          style: TextStyle(
-            fontSize: 16,
+          style: t.text.body.copyWith(
             fontWeight: value ? FontWeight.w600 : FontWeight.w400,
-            color: isDark ? AppColorsDark.textPrimary : AppColorsLight.textPrimary,
+            color: t.colors.textPrimary,
           ),
         ),
         subtitle: subtitle != null
             ? Text(
                 subtitle!,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: isDark ? AppColorsDark.textSecondary : AppColorsLight.textSecondary,
+                style: t.text.bodySmall.copyWith(
+                  color: t.colors.textSecondary,
                 ),
               )
             : null,

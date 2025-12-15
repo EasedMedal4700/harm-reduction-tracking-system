@@ -1,15 +1,8 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
 import '../../common/cards/common_card.dart';
 import '../../common/text/common_section_header.dart';
 import '../../common/layout/common_spacer.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import '../../services/drug_profile_service.dart';
 
 class SubstanceHeaderCard extends StatefulWidget {
@@ -50,7 +43,7 @@ class _SubstanceHeaderCardState extends State<SubstanceHeaderCard> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
 
     return CommonCard(
       child: Column(
@@ -61,9 +54,9 @@ class _SubstanceHeaderCardState extends State<SubstanceHeaderCard> {
             subtitle: "Search by name or alias",
           ),
 
-          const CommonSpacer.vertical(ThemeConstants.space16),
+          CommonSpacer.vertical(t.spacing.md),
 
-          _buildAutocompleteField(context, isDark),
+          _buildAutocompleteField(context),
         ],
       ),
     );
@@ -73,7 +66,9 @@ class _SubstanceHeaderCardState extends State<SubstanceHeaderCard> {
   // AUTOCOMPLETE
   // ----------------------------------------------------------
 
-  Widget _buildAutocompleteField(BuildContext context, bool isDark) {
+  Widget _buildAutocompleteField(BuildContext context) {
+    final t = context.theme;
+    
     return Autocomplete<DrugSearchResult>(
       displayStringForOption: (opt) => opt.canonicalName,
       optionsBuilder: (TextEditingValue value) async {
@@ -132,50 +127,36 @@ class _SubstanceHeaderCardState extends State<SubstanceHeaderCard> {
         return TextFormField(
           controller: textEditingController,
           focusNode: focusNode,
-          style: TextStyle(
-            color: isDark ? UIColors.darkText : UIColors.lightText,
-            fontSize: ThemeConstants.fontLarge,
-            fontWeight: ThemeConstants.fontMediumWeight,
+          style: t.typography.bodyLarge.copyWith(
+            fontWeight: FontWeight.w500,
           ),
           decoration: InputDecoration(
             hintText: "Search substance name...",
             suffixIcon: Icon(
               Icons.search,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
+              color: t.colors.textSecondary,
             ),
-            hintStyle: TextStyle(
-              color: isDark
-                  ? UIColors.darkTextSecondary.withOpacity(0.5)
-                  : UIColors.lightTextSecondary.withOpacity(0.5),
+            hintStyle: t.typography.body.copyWith(
+              color: t.colors.textSecondary.withValues(alpha: 0.5),
             ),
             border: OutlineInputBorder(
-              borderRadius:
-                  BorderRadius.circular(ThemeConstants.radiusMedium),
+              borderRadius: BorderRadius.circular(t.spacing.radiusMd),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius:
-                  BorderRadius.circular(ThemeConstants.radiusMedium),
+              borderRadius: BorderRadius.circular(t.spacing.radiusMd),
               borderSide: BorderSide(
-                color: isDark
-                    ? UIColors.darkBorder
-                    : UIColors.lightBorder,
+                color: t.colors.border,
               ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius:
-                  BorderRadius.circular(ThemeConstants.radiusMedium),
+              borderRadius: BorderRadius.circular(t.spacing.radiusMd),
               borderSide: BorderSide(
-                color: isDark
-                    ? UIColors.darkNeonBlue
-                    : UIColors.lightAccentBlue,
+                color: t.accent.primary,
                 width: 2,
               ),
             ),
             filled: true,
-            fillColor:
-                isDark ? const Color(0x08FFFFFF) : Colors.grey.shade50,
+            fillColor: t.colors.surfaceVariant,
           ),
           validator: (v) =>
               (v == null || v.isEmpty) ? "Please enter a substance" : null,
@@ -192,15 +173,14 @@ class _SubstanceHeaderCardState extends State<SubstanceHeaderCard> {
       },
       optionsViewBuilder: (context, onSelected, options) {
         return Material(
-          color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+          color: t.colors.surface,
           elevation: 8,
-          borderRadius:
-              BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(t.spacing.radiusMd),
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxHeight: 200),
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(
-                vertical: ThemeConstants.space8,
+              padding: EdgeInsets.symmetric(
+                vertical: t.spacing.sm,
               ),
               itemCount: options.length,
               itemBuilder: (context, index) {
@@ -210,22 +190,13 @@ class _SubstanceHeaderCardState extends State<SubstanceHeaderCard> {
                   leading: Icon(
                     opt.isAlias ? Icons.label : Icons.medication,
                     color: opt.isAlias
-                        ? (isDark
-                            ? UIColors.darkNeonPurple
-                            : UIColors.lightAccentPurple)
-                        : (isDark
-                            ? UIColors.darkNeonBlue
-                            : UIColors.lightAccentBlue),
+                        ? t.accent.secondary
+                        : t.accent.primary,
                     size: 20,
                   ),
                   title: Text(
                     opt.displayName,
-                    style: TextStyle(
-                      color: isDark
-                          ? UIColors.darkText
-                          : UIColors.lightText,
-                      fontSize: ThemeConstants.fontMedium,
-                    ),
+                    style: t.typography.body,
                   ),
                   onTap: () => onSelected(opt),
                 );

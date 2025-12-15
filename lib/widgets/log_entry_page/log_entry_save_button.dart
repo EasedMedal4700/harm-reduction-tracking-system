@@ -1,13 +1,12 @@
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: PARTIAL
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+// Notes: Migrated to AppThemeExtension and existing common components. No logic or state changes.
 import 'package:flutter/material.dart';
 import '../../common/buttons/common_primary_button.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class LogEntrySaveButton extends StatelessWidget {
   final VoidCallback onSave;
@@ -19,20 +18,20 @@ class LogEntrySaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
 
     return Container(
-      padding: const EdgeInsets.all(ThemeConstants.space16),
+      padding: EdgeInsets.all(t.spacing.lg),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+        color: t.colors.surface,
         border: Border(
           top: BorderSide(
-            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+            color: t.colors.border,
           ),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: t.colors.text.withValues(alpha: 0.08),
             blurRadius: 12,
             offset: const Offset(0, -2),
           ),

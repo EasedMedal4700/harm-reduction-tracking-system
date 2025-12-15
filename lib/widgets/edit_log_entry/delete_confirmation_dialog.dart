@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 import '../../states/log_entry_state.dart';
 import '../../services/log_entry_service.dart';
-import '../../constants/deprecated/ui_colors.dart';
+
 
 class DeleteConfirmationDialog {
   static Future<void> show(

@@ -1,10 +1,6 @@
-// MIGRATION
-// filepath: lib/widgets/log_entry/dosage_input.dart
 import 'package:flutter/material.dart';
+import '../../common/app_theme.dart';
 import '../../utils/entry_validation.dart';
-import '../../constants/theme/app_theme_constants.dart';
-import '../../common/cards/common_card.dart';
-import '../../common/text/common_section_header.dart';
 
 class DosageInput extends StatefulWidget {
   final double dose;
@@ -81,29 +77,54 @@ class _DosageInputState extends State<DosageInput> {
 
   @override
   Widget build(BuildContext context) {
-    return CommonCard(
+    final t = AppTheme.of(context);
+
+    return Container(
+      padding: EdgeInsets.all(t.spacing.m),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        border: Border.all(color: t.colors.outlineVariant),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CommonSectionHeader(title: "Dosage"),
+          Text(
+            "Dosage",
+            style: t.typography.titleMedium.copyWith(
+              color: t.colors.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
 
-          const SizedBox(height: AppThemeConstants.spaceMd),
+          SizedBox(height: t.spacing.m),
 
           Row(
             children: [
               IconButton(
-                iconSize: AppThemeConstants.iconMd,
-                padding: EdgeInsets.all(AppThemeConstants.spaceSm),
-                icon: const Icon(Icons.remove),
+                iconSize: 24,
+                padding: EdgeInsets.all(t.spacing.xs),
+                icon: Icon(Icons.remove, color: t.colors.primary),
                 onPressed: _decrement,
+                style: IconButton.styleFrom(
+                  backgroundColor: t.colors.surfaceContainer,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(t.shapes.radiusM)),
+                ),
               ),
+
+              SizedBox(width: t.spacing.s),
 
               Expanded(
                 child: TextFormField(
                   controller: _controller,
                   textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
+                  style: t.typography.headlineSmall.copyWith(fontWeight: FontWeight.bold),
+                  decoration: InputDecoration(
                     labelText: "Amount",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(t.shapes.radiusM),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(vertical: t.spacing.s, horizontal: t.spacing.s),
                   ),
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   validator: ValidationUtils.validateDosage,
@@ -119,32 +140,41 @@ class _DosageInputState extends State<DosageInput> {
                 ),
               ),
 
+              SizedBox(width: t.spacing.s),
+
               IconButton(
-                iconSize: AppThemeConstants.iconMd,
-                padding: EdgeInsets.all(AppThemeConstants.spaceSm),
-                icon: const Icon(Icons.add),
+                iconSize: 24,
+                padding: EdgeInsets.all(t.spacing.xs),
+                icon: Icon(Icons.add, color: t.colors.primary),
                 onPressed: _increment,
+                style: IconButton.styleFrom(
+                  backgroundColor: t.colors.surfaceContainer,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(t.shapes.radiusM)),
+                ),
               ),
 
-              SizedBox(width: AppThemeConstants.spaceMd),
+              SizedBox(width: t.spacing.m),
 
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: AppThemeConstants.spaceSm,
+                  horizontal: t.spacing.s,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
+                  borderRadius: BorderRadius.circular(t.shapes.radiusM),
                   border: Border.all(
-                    color: Theme.of(context).colorScheme.outline,
+                    color: t.colors.outline,
                   ),
+                  color: t.colors.surfaceContainerLow,
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     value: widget.unit,
                     items: widget.units
-                        .map((u) => DropdownMenuItem(value: u, child: Text(u)))
+                        .map((u) => DropdownMenuItem(value: u, child: Text(u, style: t.typography.bodyLarge)))
                         .toList(),
                     onChanged: (v) => widget.onUnitChanged(v!),
+                    icon: Icon(Icons.arrow_drop_down, color: t.colors.onSurfaceVariant),
+                    dropdownColor: t.colors.surfaceContainer,
                   ),
                 ),
               ),

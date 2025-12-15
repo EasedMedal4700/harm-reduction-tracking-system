@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// Slider for numeric input (e.g., craving intensity)
 class CommonSlider extends StatelessWidget {
@@ -29,13 +34,9 @@ class CommonSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final defaultActiveColor = isDark 
-        ? UIColors.darkNeonCyan
-        : UIColors.lightAccentBlue;
-    final defaultInactiveColor = isDark 
-        ? const Color(0x1AFFFFFF)
-        : Colors.grey.shade300;
+    final t = context.theme;
+    final defaultActiveColor = t.accent.primary;
+    final defaultInactiveColor = t.colors.surfaceVariant.withOpacity(0.5);
     
     return SliderTheme(
       data: SliderThemeData(
@@ -44,10 +45,9 @@ class CommonSlider extends StatelessWidget {
         thumbColor: activeColor ?? defaultActiveColor,
         overlayColor: (activeColor ?? defaultActiveColor).withOpacity(0.2),
         valueIndicatorColor: activeColor ?? defaultActiveColor,
-        valueIndicatorTextStyle: TextStyle(
-          color: isDark ? UIColors.darkBackground : Colors.white,
-          fontSize: ThemeConstants.fontSmall,
-          fontWeight: ThemeConstants.fontMediumWeight,
+        valueIndicatorTextStyle: t.text.bodySmall.copyWith(
+          color: t.colors.textInverse,
+          fontWeight: FontWeight.w500,
         ),
         thumbShape: const RoundSliderThumbShape(
           enabledThumbRadius: 10.0,

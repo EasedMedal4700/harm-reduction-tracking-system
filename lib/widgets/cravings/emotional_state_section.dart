@@ -1,14 +1,6 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
-import '../../common/old_common/feeling_selection.dart';
-import '../../common/old_common/modern_form_card.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../common/app_theme.dart';
+import '../log_entry/feeling_selection.dart';
 
 class EmotionalStateSection extends StatelessWidget {
   final List<String> selectedEmotions;
@@ -30,62 +22,66 @@ class EmotionalStateSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = AppTheme.of(context);
     
-    return ModernFormCard(
-      title: 'Emotional State',
-      icon: Icons.favorite,
-      accentColor: isDark ? UIColors.darkNeonPink : UIColors.lightAccentPurple,
+    return Container(
+      padding: EdgeInsets.all(t.spacing.m),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        border: Border.all(color: t.colors.outlineVariant),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            children: [
+              Icon(Icons.favorite, color: t.colors.primary),
+              SizedBox(width: t.spacing.s),
+              Text(
+                'Emotional State',
+                style: t.typography.titleMedium.copyWith(
+                  color: t.colors.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: t.spacing.m),
+          
           FeelingSelection(
             feelings: selectedEmotions,
             onFeelingsChanged: onEmotionsChanged,
             secondaryFeelings: secondaryEmotions,
             onSecondaryFeelingsChanged: onSecondaryEmotionsChanged,
           ),
-          SizedBox(height: ThemeConstants.space16),
+          
+          SizedBox(height: t.spacing.l),
+          
           Text(
             'Thoughts',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              fontWeight: ThemeConstants.fontMediumWeight,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
+            style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
           ),
-          SizedBox(height: ThemeConstants.space8),
+          SizedBox(height: t.spacing.s),
           TextFormField(
             initialValue: thoughts,
             onChanged: onThoughtsChanged,
             maxLines: 3,
-            style: TextStyle(
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-              fontSize: ThemeConstants.fontMedium,
-            ),
+            style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
             decoration: InputDecoration(
               filled: true,
-              fillColor: isDark
-                  ? UIColors.darkSurface.withValues(alpha: 0.3)
-                  : UIColors.lightSurface,
+              fillColor: t.colors.surfaceContainerLow,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                borderSide: BorderSide(
-                  color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-                ),
+                borderRadius: BorderRadius.circular(t.shapes.radiusM),
+                borderSide: BorderSide(color: t.colors.outline),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                borderSide: BorderSide(
-                  color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-                ),
+                borderRadius: BorderRadius.circular(t.shapes.radiusM),
+                borderSide: BorderSide(color: t.colors.outline),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-                borderSide: BorderSide(
-                  color: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
-                  width: 2,
-                ),
+                borderRadius: BorderRadius.circular(t.shapes.radiusM),
+                borderSide: BorderSide(color: t.colors.primary, width: 2),
               ),
             ),
           ),

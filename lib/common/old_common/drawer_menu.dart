@@ -7,6 +7,12 @@ import '../../routes/app_routes.dart';
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';
 
+// MIGRATION
+// Theme: PARTIAL (Hardcoded colors, but no deprecated constants)
+// Common: CHECKED
+// Riverpod: TODO
+// Notes: Uses hardcoded colors for gradient header. Safe to keep for now.
+
 class DrawerMenu extends StatefulWidget {
   const DrawerMenu({super.key});
 

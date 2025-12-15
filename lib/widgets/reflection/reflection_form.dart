@@ -1,13 +1,5 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/data/reflection_options.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class ReflectionForm extends StatelessWidget {
   final int selectedCount;
@@ -63,34 +55,25 @@ class ReflectionForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final secondaryTextColor = isDark
-        ? UIColors.darkTextSecondary
-        : UIColors.lightTextSecondary;
+    final t = context.theme;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
+      padding: EdgeInsets.all(t.spacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Reflecting on $selectedCount entries',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: textColor,
-            ),
+            'Reflecting on  entries',
+            style: t.typography.heading2,
           ),
-          const SizedBox(height: ThemeConstants.space8),
+          SizedBox(height: t.spacing.sm),
           Text(
             'Take a moment to analyze how these experiences affected you.',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              color: secondaryTextColor,
+            style: t.typography.body.copyWith(
+              color: t.colors.textSecondary,
             ),
           ),
-          const SizedBox(height: ThemeConstants.space24),
+          SizedBox(height: t.spacing.xl),
 
           // 1. Core Experience
           _buildSectionCard(context, 'Core Experience', Icons.stars, [
@@ -102,17 +85,17 @@ class ReflectionForm extends StatelessWidget {
               minLabel: 'Ineffective',
               maxLabel: 'Highly Effective',
             ),
-            const SizedBox(height: ThemeConstants.space16),
+            SizedBox(height: t.spacing.md),
             _buildSlider(
               context,
               'Overall Satisfaction',
               overallSatisfaction,
               onOverallSatisfactionChanged,
-              minLabel: 'Regret',
-              maxLabel: 'Satisfied',
+              minLabel: 'Dissatisfied',
+              maxLabel: 'Very Satisfied',
             ),
           ]),
-          const SizedBox(height: ThemeConstants.space16),
+          SizedBox(height: t.spacing.lg),
 
           // 2. Sleep & Recovery
           _buildSectionCard(context, 'Sleep & Recovery', Icons.bedtime, [
@@ -123,10 +106,10 @@ class ReflectionForm extends StatelessWidget {
                     context,
                     'Sleep Hours',
                     sleepHours,
-                    (val) => onSleepHoursChanged(val),
+                    onSleepHoursChanged,
                   ),
                 ),
-                const SizedBox(width: ThemeConstants.space16),
+                SizedBox(width: t.spacing.md),
                 Expanded(
                   child: _buildDropdown(
                     context,
@@ -138,37 +121,43 @@ class ReflectionForm extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: ThemeConstants.space16),
-            _buildDropdown(context, 'Energy Level (Next Day)', energyLevel, [
-              'Low',
-              'Neutral',
-              'High',
-            ], onEnergyLevelChanged),
-          ]),
-          const SizedBox(height: ThemeConstants.space16),
-
-          // 3. Mood & Effects
-          _buildSectionCard(context, 'Mood & Effects', Icons.mood, [
-            _buildMultiSelectChips(
-              context,
-              'Next Day Mood',
-              nextDayMood,
-              ReflectionOptions.moodOptions,
-              onNextDayMoodChanged,
+            SizedBox(height: t.spacing.md),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildDropdown(
+                    context,
+                    'Next Day Mood',
+                    nextDayMood,
+                    ['Depressed', 'Anxious', 'Neutral', 'Good', 'Great'],
+                    onNextDayMoodChanged,
+                  ),
+                ),
+                SizedBox(width: t.spacing.md),
+                Expanded(
+                  child: _buildDropdown(
+                    context,
+                    'Energy Level',
+                    energyLevel,
+                    ['Low', 'Medium', 'High'],
+                    onEnergyLevelChanged,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: ThemeConstants.space16),
-            _buildMultiSelectChips(
+          ]),
+          SizedBox(height: t.spacing.lg),
+
+          // 3. Side Effects & Cravings
+          _buildSectionCard(context, 'Side Effects & Cravings', Icons.warning_amber, [
+            _buildTextInput(
               context,
               'Side Effects',
               sideEffects,
-              ReflectionOptions.sideEffectsOptions,
               onSideEffectsChanged,
+              hint: 'Headache, nausea, anxiety...',
             ),
-          ]),
-          const SizedBox(height: ThemeConstants.space16),
-
-          // 4. Cravings & Coping
-          _buildSectionCard(context, 'Cravings & Coping', Icons.psychology, [
+            SizedBox(height: t.spacing.md),
             _buildSlider(
               context,
               'Post-Use Craving',
@@ -177,38 +166,38 @@ class ReflectionForm extends StatelessWidget {
               minLabel: 'None',
               maxLabel: 'Intense',
             ),
-            const SizedBox(height: ThemeConstants.space16),
-            _buildMultiSelectChips(
+          ]),
+          SizedBox(height: t.spacing.lg),
+
+          // 4. Coping & Notes
+          _buildSectionCard(context, 'Coping & Notes', Icons.psychology, [
+            _buildTextInput(
               context,
-              'Coping Strategies Used',
+              'Coping Strategies',
               copingStrategies,
-              ReflectionOptions.copingStrategiesOptions,
               onCopingStrategiesChanged,
+              hint: 'Meditation, exercise, talking to a friend...',
             ),
-            const SizedBox(height: ThemeConstants.space16),
+            SizedBox(height: t.spacing.md),
             _buildSlider(
               context,
               'Coping Effectiveness',
               copingEffectiveness,
               onCopingEffectivenessChanged,
-              minLabel: 'Useless',
-              maxLabel: 'Helpful',
+              minLabel: 'Not Helpful',
+              maxLabel: 'Very Helpful',
             ),
-          ]),
-          const SizedBox(height: ThemeConstants.space16),
-
-          // 5. Notes
-          _buildSectionCard(context, 'Additional Notes', Icons.note, [
+            SizedBox(height: t.spacing.md),
             _buildTextInput(
               context,
-              'Journal',
+              'Additional Notes',
               notes,
               onNotesChanged,
-              maxLines: 4,
+              maxLines: 3,
               hint: 'Any other thoughts or observations...',
             ),
           ]),
-          const SizedBox(height: ThemeConstants.space32),
+          SizedBox(height: t.spacing.xl3),
         ],
       ),
     );
@@ -220,39 +209,30 @@ class ReflectionForm extends StatelessWidget {
     IconData icon,
     List<Widget> children,
   ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark ? UIColors.darkSurface : Colors.white;
-    final borderColor = isDark ? UIColors.darkBorder : UIColors.lightBorder;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final accentColor = isDark
-        ? UIColors.darkNeonPurple
-        : UIColors.lightAccentPurple;
+    final t = context.theme;
 
     return Container(
-      padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+      padding: EdgeInsets.all(t.spacing.lg),
       decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(color: borderColor),
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        boxShadow: t.cardShadow,
+        border: Border.all(color: t.colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, color: accentColor, size: 20),
-              const SizedBox(width: 8),
+              Icon(icon, color: t.accent.primary, size: 20),
+              SizedBox(width: t.spacing.sm),
               Text(
                 title,
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  fontWeight: ThemeConstants.fontBold,
-                  color: textColor,
-                ),
+                style: t.typography.heading3,
               ),
             ],
           ),
-          const SizedBox(height: ThemeConstants.space16),
+          SizedBox(height: t.spacing.lg),
           ...children,
         ],
       ),
@@ -267,14 +247,7 @@ class ReflectionForm extends StatelessWidget {
     String? minLabel,
     String? maxLabel,
   }) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final secondaryTextColor = isDark
-        ? UIColors.darkTextSecondary
-        : UIColors.lightTextSecondary;
-    final accentColor = isDark
-        ? UIColors.darkNeonPurple
-        : UIColors.lightAccentPurple;
+    final t = context.theme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -284,28 +257,22 @@ class ReflectionForm extends StatelessWidget {
           children: [
             Text(
               label,
-              style: TextStyle(
-                fontSize: ThemeConstants.fontSmall,
-                fontWeight: ThemeConstants.fontMediumWeight,
-                color: textColor,
-              ),
+              style: t.typography.bodySmall.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
               value.round().toString(),
-              style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                fontWeight: ThemeConstants.fontBold,
-                color: accentColor,
+              style: t.typography.heading3.copyWith(
+                color: t.accent.primary,
               ),
             ),
           ],
         ),
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
-            activeTrackColor: accentColor,
-            inactiveTrackColor: accentColor.withOpacity(0.2),
-            thumbColor: accentColor,
-            overlayColor: accentColor.withOpacity(0.1),
+            activeTrackColor: t.accent.primary,
+            inactiveTrackColor: t.accent.primary.withValues(alpha: 0.2),
+            thumbColor: t.accent.primary,
+            overlayColor: t.accent.primary.withValues(alpha: 0.1),
             trackHeight: 4,
           ),
           child: Slider(
@@ -318,23 +285,17 @@ class ReflectionForm extends StatelessWidget {
         ),
         if (minLabel != null && maxLabel != null)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: EdgeInsets.symmetric(horizontal: t.spacing.sm),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   minLabel,
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontXSmall,
-                    color: secondaryTextColor,
-                  ),
+                  style: t.typography.caption,
                 ),
                 Text(
                   maxLabel,
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontXSmall,
-                    color: secondaryTextColor,
-                  ),
+                  style: t.typography.caption,
                 ),
               ],
             ),
@@ -351,52 +312,46 @@ class ReflectionForm extends StatelessWidget {
     int maxLines = 1,
     String? hint,
   }) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final secondaryTextColor = isDark
-        ? UIColors.darkTextSecondary
-        : UIColors.lightTextSecondary;
-    final borderColor = isDark ? UIColors.darkBorder : UIColors.lightBorder;
+    final t = context.theme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontSmall,
-            fontWeight: ThemeConstants.fontMediumWeight,
-            color: secondaryTextColor,
+          style: t.typography.bodySmall.copyWith(
+            fontWeight: FontWeight.bold,
+            color: t.colors.textSecondary,
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: t.spacing.sm),
         TextFormField(
           initialValue: value,
           onChanged: onChanged,
           maxLines: maxLines,
-          style: TextStyle(color: textColor),
+          style: t.typography.body,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(color: secondaryTextColor.withOpacity(0.5)),
-            contentPadding: const EdgeInsets.all(12),
+            hintStyle: t.typography.body.copyWith(
+              color: t.colors.textSecondary.withValues(alpha: 0.5),
+            ),
+            contentPadding: EdgeInsets.all(t.spacing.md),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-              borderSide: BorderSide(color: borderColor),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+              borderSide: BorderSide(color: t.colors.border),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-              borderSide: BorderSide(color: borderColor),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+              borderSide: BorderSide(color: t.colors.border),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
               borderSide: BorderSide(
-                color: isDark
-                    ? UIColors.darkNeonPurple
-                    : UIColors.lightAccentPurple,
+                color: t.accent.primary,
               ),
             ),
             filled: true,
-            fillColor: isDark ? Colors.black12 : Colors.grey[50],
+            fillColor: t.colors.surfaceVariant,
           ),
         ),
       ],
@@ -409,50 +364,42 @@ class ReflectionForm extends StatelessWidget {
     double value,
     ValueChanged<double> onChanged,
   ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final secondaryTextColor = isDark
-        ? UIColors.darkTextSecondary
-        : UIColors.lightTextSecondary;
-    final borderColor = isDark ? UIColors.darkBorder : UIColors.lightBorder;
+    final t = context.theme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontSmall,
-            fontWeight: ThemeConstants.fontMediumWeight,
-            color: secondaryTextColor,
+          style: t.typography.bodySmall.copyWith(
+            fontWeight: FontWeight.bold,
+            color: t.colors.textSecondary,
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: t.spacing.sm),
         TextFormField(
           initialValue: value.toString(),
           keyboardType: TextInputType.number,
           onChanged: (val) => onChanged(double.tryParse(val) ?? 0),
-          style: TextStyle(color: textColor),
+          style: t.typography.body,
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(12),
+            contentPadding: EdgeInsets.all(t.spacing.md),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-              borderSide: BorderSide(color: borderColor),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+              borderSide: BorderSide(color: t.colors.border),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-              borderSide: BorderSide(color: borderColor),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+              borderSide: BorderSide(color: t.colors.border),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
               borderSide: BorderSide(
-                color: isDark
-                    ? UIColors.darkNeonPurple
-                    : UIColors.lightAccentPurple,
+                color: t.accent.primary,
               ),
             ),
             filled: true,
-            fillColor: isDark ? Colors.black12 : Colors.grey[50],
+            fillColor: t.colors.surfaceVariant,
           ),
         ),
       ],
@@ -466,26 +413,19 @@ class ReflectionForm extends StatelessWidget {
     List<String> items,
     ValueChanged<String> onChanged,
   ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final secondaryTextColor = isDark
-        ? UIColors.darkTextSecondary
-        : UIColors.lightTextSecondary;
-    final borderColor = isDark ? UIColors.darkBorder : UIColors.lightBorder;
-    final dropdownColor = isDark ? UIColors.darkSurface : Colors.white;
+    final t = context.theme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontSmall,
-            fontWeight: ThemeConstants.fontMediumWeight,
-            color: secondaryTextColor,
+          style: t.typography.bodySmall.copyWith(
+            fontWeight: FontWeight.bold,
+            color: t.colors.textSecondary,
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: t.spacing.sm),
         DropdownButtonFormField<String>(
           value: items.contains(value) ? value : items.first,
           onChanged: (val) => onChanged(val!),
@@ -493,147 +433,35 @@ class ReflectionForm extends StatelessWidget {
               .map(
                 (item) => DropdownMenuItem(
                   value: item,
-                  child: Text(item, style: TextStyle(color: textColor)),
+                  child: Text(item, style: t.typography.body),
                 ),
               )
               .toList(),
-          dropdownColor: dropdownColor,
+          dropdownColor: t.colors.surface,
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: t.spacing.md,
+              vertical: t.spacing.md,
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-              borderSide: BorderSide(color: borderColor),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+              borderSide: BorderSide(color: t.colors.border),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-              borderSide: BorderSide(color: borderColor),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+              borderSide: BorderSide(color: t.colors.border),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
               borderSide: BorderSide(
-                color: isDark
-                    ? UIColors.darkNeonPurple
-                    : UIColors.lightAccentPurple,
+                color: t.accent.primary,
               ),
             ),
             filled: true,
-            fillColor: isDark ? Colors.black12 : Colors.grey[50],
+            fillColor: t.colors.surfaceVariant,
           ),
-          icon: Icon(Icons.arrow_drop_down, color: secondaryTextColor),
+          icon: Icon(Icons.arrow_drop_down, color: t.colors.textSecondary),
         ),
-      ],
-    );
-  }
-
-  Widget _buildMultiSelectChips(
-    BuildContext context,
-    String label,
-    String value,
-    List<String> options,
-    ValueChanged<String> onChanged,
-  ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final secondaryTextColor = isDark
-        ? UIColors.darkTextSecondary
-        : UIColors.lightTextSecondary;
-    final accentColor = isDark
-        ? UIColors.darkNeonPurple
-        : UIColors.lightAccentPurple;
-
-    // Parse existing selections (comma-separated)
-    final selectedItems = value.isEmpty 
-        ? <String>[] 
-        : value.split(',').map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontSmall,
-            fontWeight: ThemeConstants.fontMediumWeight,
-            color: secondaryTextColor,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: options.map((option) {
-            final isSelected = selectedItems.contains(option);
-            return FilterChip(
-              label: Text(option),
-              selected: isSelected,
-              onSelected: (selected) {
-                final newSelections = List<String>.from(selectedItems);
-                if (selected) {
-                  newSelections.add(option);
-                } else {
-                  newSelections.remove(option);
-                }
-                onChanged(newSelections.join(', '));
-              },
-              labelStyle: TextStyle(
-                color: isSelected ? Colors.white : textColor,
-                fontSize: ThemeConstants.fontSmall,
-              ),
-              backgroundColor: isDark ? Colors.black12 : Colors.grey[200],
-              selectedColor: accentColor,
-              checkmarkColor: Colors.white,
-              side: BorderSide(
-                color: isSelected
-                    ? accentColor
-                    : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
-              ),
-            );
-          }).toList(),
-        ),
-        if (selectedItems.isNotEmpty) ...[
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: isDark ? Colors.black12 : Colors.grey[100],
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-              border: Border.all(
-                color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.check_circle,
-                  color: accentColor,
-                  size: 16,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Selected: ${selectedItems.join(", ")}',
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontXSmall,
-                      color: secondaryTextColor,
-                    ),
-                  ),
-                ),
-                if (selectedItems.isNotEmpty)
-                  InkWell(
-                    onTap: () => onChanged(''),
-                    child: Icon(
-                      Icons.clear,
-                      size: 16,
-                      color: secondaryTextColor,
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ],
       ],
     );
   }

@@ -1,12 +1,12 @@
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: PARTIAL
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme.dart';
 import '../../constants/data/drug_categories.dart';
 
 
@@ -26,22 +26,23 @@ class SummaryStatsBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(ThemeConstants.space16),
+      padding: EdgeInsets.all(t.spacing.md),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: isDark
-              ? [UIColors.darkSurface, UIColors.darkSurface.withValues(alpha: 0.8)]
-              : [UIColors.lightSurface, UIColors.lightSurface.withValues(alpha: 0.9)],
+          colors: [
+            t.colors.surface,
+            t.colors.surface.withValues(alpha: t.isDark ? 0.8 : 0.9),
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         border: Border(
           bottom: BorderSide(
-            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+            color: t.colors.border,
           ),
         ),
       ),
@@ -54,33 +55,31 @@ class SummaryStatsBanner extends StatelessWidget {
                 'Total Uses',
                 '$totalUses',
                 Icons.bar_chart,
-                isDark,
+                t,
               ),
               _buildSummaryItem(
                 'Active Substances',
                 '$activeSubstances',
                 Icons.science,
-                isDark,
+                t,
               ),
               _buildSummaryItem(
                 'Avg Uses',
                 avgUses.toStringAsFixed(1),
                 Icons.trending_up,
-                isDark,
+                t,
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space12),
+          SizedBox(height: t.spacing.sm),
           Container(
             padding: EdgeInsets.symmetric(
-              horizontal: ThemeConstants.space12,
-              vertical: ThemeConstants.space8,
+              horizontal: t.spacing.sm,
+              vertical: t.spacing.xs,
             ),
             decoration: BoxDecoration(
-              color: isDark
-                  ? UIColors.darkBorder.withValues(alpha: 0.3)
-                  : UIColors.lightBorder.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              color: t.colors.border.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -90,13 +89,11 @@ class SummaryStatsBanner extends StatelessWidget {
                   size: 16,
                   color: DrugCategoryColors.colorFor(mostUsedCategory),
                 ),
-                SizedBox(width: ThemeConstants.space8),
+                SizedBox(width: t.spacing.xs),
                 Text(
                   'Most Used Category: $mostUsedCategory',
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontSmall,
-                    fontWeight: ThemeConstants.fontSemiBold,
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
+                  style: t.typography.bodySmall.copyWith(
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
@@ -107,28 +104,25 @@ class SummaryStatsBanner extends StatelessWidget {
     );
   }
 
-  Widget _buildSummaryItem(String label, String value, IconData icon, bool isDark) {
+  Widget _buildSummaryItem(String label, String value, IconData icon, AppTheme t) {
     return Column(
       children: [
         Icon(
           icon,
-          size: ThemeConstants.iconMedium,
-          color: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
+          size: 20,
+          color: t.accent.primary,
         ),
-        SizedBox(height: ThemeConstants.space4),
+        SizedBox(height: t.spacing.xs / 2),
         Text(
           value,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontLarge,
-            fontWeight: ThemeConstants.fontBold,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+          style: t.typography.heading3.copyWith(
+            fontWeight: FontWeight.bold,
           ),
         ),
         Text(
           label,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontXSmall,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          style: t.typography.caption.copyWith(
+            color: t.colors.textSecondary,
           ),
         ),
       ],

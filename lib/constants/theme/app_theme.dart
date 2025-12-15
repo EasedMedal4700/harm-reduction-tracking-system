@@ -25,6 +25,9 @@ class AppTheme {
   late final List<BoxShadow> buttonShadow;
   late final AppShapes shapes;
 
+  // Convenience getter for typography
+  TextStyles get text => typography;
+
 
   AppTheme._({
     required this.isDark,

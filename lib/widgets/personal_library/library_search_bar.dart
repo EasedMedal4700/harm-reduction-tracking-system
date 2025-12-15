@@ -1,11 +1,10 @@
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: PARTIAL
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+// Notes: Migrated to AppThemeExtension and existing common components. No logic or state changes.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class LibrarySearchBar extends StatelessWidget {
   final TextEditingController controller;
@@ -21,25 +20,23 @@ class LibrarySearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     
     return Container(
-      padding: EdgeInsets.all(ThemeConstants.space12),
-      color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+      padding: EdgeInsets.all(t.spacing.md),
+      color: t.colors.surface,
       child: TextField(
         controller: controller,
         onChanged: onChanged,
-        style: TextStyle(
-          color: isDark ? UIColors.darkText : UIColors.lightText,
-        ),
+        style: t.typography.body,
         decoration: InputDecoration(
           hintText: 'Search by name or category',
-          hintStyle: TextStyle(
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          hintStyle: t.typography.body.copyWith(
+            color: t.colors.textSecondary,
           ),
           prefixIcon: Icon(
             Icons.search,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+            color: t.colors.textSecondary,
           ),
           suffixIcon: controller.text.isNotEmpty
               ? IconButton(
@@ -48,25 +45,23 @@ class LibrarySearchBar extends StatelessWidget {
                 )
               : null,
           filled: true,
-          fillColor: isDark
-              ? UIColors.darkBackground
-              : UIColors.lightBackground,
+          fillColor: t.colors.background,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+            borderRadius: BorderRadius.circular(t.shapes.radiusMd),
             borderSide: BorderSide(
-              color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+              color: t.colors.border,
             ),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+            borderRadius: BorderRadius.circular(t.shapes.radiusMd),
             borderSide: BorderSide(
-              color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+              color: t.colors.border,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+            borderRadius: BorderRadius.circular(t.shapes.radiusMd),
             borderSide: BorderSide(
-              color: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
+              color: t.colors.success,
               width: 2,
             ),
           ),

@@ -1,8 +1,11 @@
-// MIGRATION
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_constants.dart';
-import '../../constants/colors/app_colors_dark.dart';
-import '../../constants/colors/app_colors_light.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// Sticky bottom bar for action buttons
 /// Provides consistent styling across the app for bottom-placed CTAs
@@ -18,15 +21,15 @@ class CommonBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     
     return Container(
-      padding: padding ?? const EdgeInsets.all(AppThemeConstants.spaceLg),
+      padding: padding ?? EdgeInsets.all(t.spacing.lg),
       decoration: BoxDecoration(
-        color: isDark ? AppColorsDark.surface : AppColorsLight.surface,
+        color: t.colors.surface,
         border: Border(
           top: BorderSide(
-            color: isDark ? AppColorsDark.border : AppColorsLight.border,
+            color: t.colors.border,
             width: 1,
           ),
         ),

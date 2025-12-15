@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../common/app_theme.dart';
 import '../../providers/drug/drug_names_provider.dart';
 import '../../providers/drug/substance_controller.dart';
 import '../../providers/drug/substance_normalization_provider.dart';
 import '../../providers/drug/substance_validation_provider.dart';
 
-class SubstanceAutocomplete extends ConsumerWidget {
+class SubstanceAutocomplete extends ConsumerStatefulWidget {
   final TextEditingController? controller;
   final ValueChanged<String> onSubstanceChanged;
 
@@ -17,23 +18,27 @@ class SubstanceAutocomplete extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-  final currentValue = ref.watch(substanceControllerProvider);
+  ConsumerState<SubstanceAutocomplete> createState() => _SubstanceAutocompleteState();
+}
 
-  // Get validator function using the current value
-  final validatorFn = ref.watch(substanceValidationProvider(currentValue));
+class _SubstanceAutocompleteState extends ConsumerState<SubstanceAutocomplete> {
+  @override
+  Widget build(BuildContext context) {
+    final t = AppTheme.of(context);
+    final currentValue = ref.watch(substanceControllerProvider);
 
-  // Execute validator function
-  final validationError = validatorFn(currentValue);
+    // Get validator function using the current value
+    final validatorFn = ref.watch(substanceValidationProvider(currentValue));
 
-
+    // Execute validator function
+    final validationError = validatorFn(currentValue);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Autocomplete<String>(
-          initialValue: controller != null
-              ? TextEditingValue(text: controller!.text)
+          initialValue: widget.controller != null
+              ? TextEditingValue(text: widget.controller!.text)
               : TextEditingValue(text: currentValue),
 
           optionsBuilder: (TextEditingValue query) {
@@ -52,62 +57,68 @@ class SubstanceAutocomplete extends ConsumerWidget {
                 .toList();
           },
 
-          onSelected: (selection) {
-            // Normalize alias → canonical
-            ref
-                .read(substanceSearchProvider(selection).future)
-                .then((results) {
-              if (results.isNotEmpty) {
-                final normalized = results.first.canonicalName;
+          onSelected: (selection) async {
+            // Normalize alias  canonical
+            final results = await ref.read(substanceSearchProvider(selection).future);
+            
+            if (!mounted) return;
 
-                ref
-                    .read(substanceControllerProvider.notifier)
-                    .setSubstance(normalized);
+            if (results.isNotEmpty) {
+              final normalized = results.first.canonicalName;
 
-                onSubstanceChanged(normalized);
+              ref
+                  .read(substanceControllerProvider.notifier)
+                  .setSubstance(normalized);
 
-                if (controller != null) {
-                  controller!.text = normalized;
-                }
+              widget.onSubstanceChanged(normalized);
 
-                // Show alias normalization message
-                final isAlias = results.first.isAlias;
-                if (isAlias) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Normalized "$selection" to "$normalized"',
-                      ),
-                    ),
-                  );
-                }
+              if (widget.controller != null) {
+                widget.controller!.text = normalized;
               }
-            });
+
+              // Show alias normalization message
+              final isAlias = results.first.isAlias;
+              if (isAlias) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Normalized "\" to "\"',
+                      style: t.typography.bodyMedium.copyWith(color: t.colors.onInverseSurface),
+                    ),
+                    backgroundColor: t.colors.inverseSurface,
+                  ),
+                );
+              }
+            }
           },
 
           displayStringForOption: (option) => option,
 
           fieldViewBuilder: (context, textCtrl, focusNode, onSubmit) {
             // Sync external controller (if passed)
-            if (controller != null) {
+            if (widget.controller != null) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (controller!.text != textCtrl.text) {
-                  textCtrl.text = controller!.text;
+                if (mounted && widget.controller!.text != textCtrl.text) {
+                  textCtrl.text = widget.controller!.text;
                 }
               });
             }
 
             return TextFormField(
-              controller: controller ?? textCtrl,
+              controller: widget.controller ?? textCtrl,
               focusNode: focusNode,
+              style: t.typography.bodyLarge,
               decoration: InputDecoration(
                 labelText: 'Substance',
-                suffixIcon: const Icon(Icons.search),
+                suffixIcon: Icon(Icons.search, color: t.colors.onSurfaceVariant),
                 errorText: validationError,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(t.shapes.radiusM),
+                ),
               ),
               onChanged: (value) {
                 ref.read(substanceControllerProvider.notifier).setSubstance(value);
-                onSubstanceChanged(value);
+                widget.onSubstanceChanged(value);
               },
             );
           },
@@ -116,17 +127,26 @@ class SubstanceAutocomplete extends ConsumerWidget {
             return Align(
               alignment: Alignment.topLeft,
               child: Material(
-                elevation: 6,
+                elevation: 4,
+                color: t.colors.surfaceContainer,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(t.shapes.radiusM),
+                ),
                 child: SizedBox(
+                  width: MediaQuery.of(context).size.width - (t.spacing.m * 2),
                   height: 250,
                   child: ListView(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(t.spacing.xs),
                     children: options
                         .map(
                           (opt) => ListTile(
-                            title: Text(opt),
-                            leading: const Icon(Icons.medication),
+                            title: Text(opt, style: t.typography.bodyMedium),
+                            leading: Icon(Icons.medication, color: t.colors.primary),
                             onTap: () => onSelected(opt),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(t.shapes.radiusS),
+                            ),
+                            hoverColor: t.colors.surfaceContainerHighest,
                           ),
                         )
                         .toList(),
@@ -136,15 +156,6 @@ class SubstanceAutocomplete extends ConsumerWidget {
             );
           },
         ),
-
-        if (validationError != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text(
-              validationError,
-              style: const TextStyle(color: Colors.red),
-            ),
-          ),
       ],
     );
   }

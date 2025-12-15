@@ -1,9 +1,5 @@
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
 import 'package:flutter/material.dart';
+import '../../common/app_theme.dart';
 
 class BugReportSubmitButton extends StatelessWidget {
   final bool isSubmitting;
@@ -17,39 +13,43 @@ class BugReportSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: isSubmitting ? null : onSubmit,
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+    final t = AppTheme.of(context);
+    
+    return SizedBox(
+      width: double.infinity,
+      child: FilledButton(
+        onPressed: isSubmitting ? null : onSubmit,
+        style: FilledButton.styleFrom(
+          padding: EdgeInsets.all(t.spacing.m),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(t.shapes.radiusM),
+          ),
+          backgroundColor: t.colors.primary,
+          foregroundColor: t.colors.onPrimary,
         ),
-        backgroundColor: Colors.red,
-        foregroundColor: Colors.white,
-      ),
-      child: isSubmitting
-          ? const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            )
-          : const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.bug_report),
-                SizedBox(width: 8),
-                Text(
-                  'Submit Bug Report',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+        child: isSubmitting
+            ? SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(t.colors.onPrimary),
                 ),
-              ],
-            ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.bug_report),
+                  SizedBox(width: t.spacing.s),
+                  Text(
+                    'Submit Bug Report',
+                    style: t.typography.labelLarge.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }

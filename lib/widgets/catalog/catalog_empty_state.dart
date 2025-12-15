@@ -1,59 +1,41 @@
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class CatalogEmptyState extends StatelessWidget {
-  final bool isDark;
-
-  const CatalogEmptyState({
-    super.key,
-    required this.isDark,
-  });
+  const CatalogEmptyState({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(ThemeConstants.space24),
+            padding: EdgeInsets.all(t.spacing.xl),
             decoration: BoxDecoration(
-              color: isDark
-                  ? UIColors.darkSurfaceLight.withValues(alpha: 0.5)
-                  : UIColors.lightDivider,
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
+              color: t.colors.surfaceVariant.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(t.shapes.radiusLg),
             ),
             child: Icon(
               Icons.search_off,
               size: 64,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
+              color: t.colors.textSecondary,
             ),
           ),
-          SizedBox(height: ThemeConstants.space24),
+          SizedBox(height: t.spacing.xl),
           Text(
             'No substances found',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+            style: t.typography.heading3.copyWith(
+              color: t.colors.textPrimary,
             ),
           ),
-          SizedBox(height: ThemeConstants.space8),
+          SizedBox(height: t.spacing.sm),
           Text(
             'Try adjusting your search or filters',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
+            style: t.typography.body.copyWith(
+              color: t.colors.textSecondary,
             ),
           ),
         ],

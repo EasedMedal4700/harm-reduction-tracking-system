@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// Primary action button (e.g., Save Entry)
 class CommonPrimaryButton extends StatelessWidget {
@@ -29,13 +34,9 @@ class CommonPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final defaultBgColor = isDark 
-        ? UIColors.darkNeonCyan
-        : UIColors.lightAccentBlue;
-    final defaultTextColor = isDark 
-        ? UIColors.darkBackground
-        : Colors.white;
+    final t = context.theme;
+    final defaultBgColor = t.accent.primary;
+    final defaultTextColor = t.colors.textInverse;
     
     return SizedBox(
       width: width,
@@ -46,12 +47,12 @@ class CommonPrimaryButton extends StatelessWidget {
           backgroundColor: backgroundColor ?? defaultBgColor,
           foregroundColor: textColor ?? defaultTextColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+            borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           ),
           elevation: 2,
-          padding: const EdgeInsets.symmetric(
-            horizontal: ThemeConstants.space24,
-            vertical: ThemeConstants.space16,
+          padding: EdgeInsets.symmetric(
+            horizontal: t.spacing.xl,
+            vertical: t.spacing.lg,
           ),
         ),
         child: isLoading
@@ -71,13 +72,13 @@ class CommonPrimaryButton extends StatelessWidget {
                 children: [
                   if (icon != null) ...[
                     Icon(icon, size: 20),
-                    const SizedBox(width: ThemeConstants.space8),
+                    SizedBox(width: t.spacing.sm),
                   ],
                   Text(
                     label,
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontLarge,
-                      fontWeight: ThemeConstants.fontSemiBold,
+                    style: t.text.bodyLarge.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18.0,
                     ),
                   ),
                 ],

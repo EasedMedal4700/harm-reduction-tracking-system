@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// Icon button with consistent styling
 class CommonIconButton extends StatelessWidget {
@@ -22,10 +28,8 @@ class CommonIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final defaultColor = isDark 
-        ? UIColors.darkText 
-        : UIColors.lightText;
+    final t = context.theme;
+    final defaultColor = t.colors.textPrimary;
     
     return IconButton(
       icon: Icon(icon),

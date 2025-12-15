@@ -6,8 +6,8 @@
 // Notes: Review for theme/context migration if needed.
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+
+
 import '../../services/auth_link_handler.dart';
 
 /// Debug utility widget for testing deep link flows.

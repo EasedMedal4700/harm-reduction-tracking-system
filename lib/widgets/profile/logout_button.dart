@@ -7,7 +7,6 @@
 
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_radius.dart';
 
 class LogoutButton extends StatelessWidget {
   final VoidCallback onLogout;
@@ -36,7 +35,7 @@ class LogoutButton extends StatelessWidget {
           foregroundColor: t.colors.textInverse,
           padding: EdgeInsets.symmetric(vertical: spacing.md),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppRadius.md),
+            borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           ),
           elevation: 0,
         ),

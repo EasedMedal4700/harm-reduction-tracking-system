@@ -1,10 +1,10 @@
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: PARTIAL
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+// Notes: Migrated to AppThemeExtension and existing common components. No logic or state changes.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class LibraryAppBar extends StatelessWidget {
   final bool showArchived;
@@ -20,11 +20,11 @@ class LibraryAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     
     return SliverAppBar(
       title: const Text('Personal Library'),
-      backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+      backgroundColor: t.colors.surface,
       pinned: true,
       floating: false,
       actions: [

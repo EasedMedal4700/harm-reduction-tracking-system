@@ -1,15 +1,9 @@
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import 'substance_card.dart';
 
 class AnimatedSubstanceList extends StatelessWidget {
   final List<Map<String, dynamic>> substances;
-  final bool isDark;
   final Function(Map<String, dynamic>) onSubstanceTap;
   final Function(String, String, Map<String, dynamic>) onAddStockpile;
   final Future<String?> Function(String) getMostActiveDay;
@@ -17,7 +11,6 @@ class AnimatedSubstanceList extends StatelessWidget {
   const AnimatedSubstanceList({
     super.key,
     required this.substances,
-    required this.isDark,
     required this.onSubstanceTap,
     required this.onAddStockpile,
     required this.getMostActiveDay,
@@ -25,8 +18,10 @@ class AnimatedSubstanceList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+
     return ListView.builder(
-      padding: EdgeInsets.all(ThemeConstants.homePagePadding),
+      padding: EdgeInsets.all(t.spacing.md),
       itemCount: substances.length,
       itemBuilder: (context, index) {
         final substance = substances[index];
@@ -41,7 +36,6 @@ class AnimatedSubstanceList extends StatelessWidget {
                 opacity: value,
                 child: SubstanceCard(
                   substance: substance,
-                  isDark: isDark,
                   onTap: () => onSubstanceTap(substance),
                   onAddStockpile: (substanceId, name, substance) =>
                       onAddStockpile(substanceId, name, substance),

@@ -1,13 +1,7 @@
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
 import '../../repo/stockpile_repository.dart';
 import '../../utils/drug_profile_utils.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class AddStockpileSheet extends StatefulWidget {
   final String substanceId;
@@ -33,7 +27,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
 
   final _stockpileRepo = StockpileRepository();
 
-  final List<String> _units = ['mg', 'g', 'μg', 'pill', 'ml'];
+  final List<String> _units = ['mg', 'g', 'g', 'pill', 'ml'];
 
   @override
   void dispose() {
@@ -45,6 +39,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isSaving = true);
+    final t = context.theme;
 
     try {
       final amount = double.parse(_amountController.text);
@@ -70,7 +65,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
             content: Text(
               'Added ${amount.toStringAsFixed(1)}$_selectedUnit (${amountInMg.toStringAsFixed(1)}mg) to ${widget.substanceName} stockpile',
             ),
-            backgroundColor: UIColors.lightAccentGreen,
+            backgroundColor: t.colors.success,
             duration: const Duration(seconds: 3),
           ),
         );
@@ -80,7 +75,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to add stockpile: ${e.toString()}'),
-            backgroundColor: UIColors.lightAccentRed,
+            backgroundColor: t.colors.error,
           ),
         );
       }
@@ -93,20 +88,20 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkBackground : UIColors.lightBackground,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(ThemeConstants.radiusExtraLarge),
+        color: t.colors.surface,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(t.shapes.radiusXl),
         ),
       ),
       padding: EdgeInsets.only(
-        left: ThemeConstants.space20,
-        right: ThemeConstants.space20,
-        top: ThemeConstants.space20,
-        bottom: MediaQuery.of(context).viewInsets.bottom + ThemeConstants.space20,
+        left: t.spacing.lg,
+        right: t.spacing.lg,
+        top: t.spacing.lg,
+        bottom: MediaQuery.of(context).viewInsets.bottom + t.spacing.lg,
       ),
       child: Form(
         key: _formKey,
@@ -123,20 +118,15 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                     children: [
                       Text(
                         'Add to Stockpile',
-                        style: TextStyle(
-                          fontSize: ThemeConstants.fontXLarge,
-                          fontWeight: ThemeConstants.fontBold,
-                          color: isDark ? UIColors.darkText : UIColors.lightText,
+                        style: t.typography.heading3.copyWith(
+                          color: t.colors.textPrimary,
                         ),
                       ),
-                      SizedBox(height: ThemeConstants.space4),
+                      SizedBox(height: t.spacing.xs),
                       Text(
                         widget.substanceName,
-                        style: TextStyle(
-                          fontSize: ThemeConstants.fontMedium,
-                          color: isDark
-                              ? UIColors.darkTextSecondary
-                              : UIColors.lightTextSecondary,
+                        style: t.typography.body.copyWith(
+                          color: t.colors.textSecondary,
                         ),
                       ),
                     ],
@@ -145,44 +135,43 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                 IconButton(
                   icon: const Icon(Icons.close),
                   onPressed: () => Navigator.pop(context),
-                  color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                  color: t.colors.textSecondary,
                 ),
               ],
             ),
-            SizedBox(height: ThemeConstants.space24),
+            SizedBox(height: t.spacing.xl),
 
             // Amount input
             TextFormField(
               controller: _amountController,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               autofocus: true,
-              style: TextStyle(
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-                fontSize: ThemeConstants.fontMedium,
+              style: t.typography.body.copyWith(
+                color: t.colors.textPrimary,
               ),
               decoration: InputDecoration(
                 labelText: 'Amount',
                 hintText: 'Enter amount',
                 prefixIcon: Icon(
                   Icons.inventory_2,
-                  color: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
+                  color: t.accent.primary,
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
                   borderSide: BorderSide(
-                    color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                    color: t.colors.border,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
                   borderSide: BorderSide(
-                    color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                    color: t.colors.border,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
                   borderSide: BorderSide(
-                    color: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
+                    color: t.accent.primary,
                     width: 2,
                   ),
                 ),
@@ -198,7 +187,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                 return null;
               },
             ),
-            SizedBox(height: ThemeConstants.space16),
+            SizedBox(height: t.spacing.md),
 
             // Unit dropdown
             DropdownButtonFormField<String>(
@@ -207,26 +196,25 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                 labelText: 'Unit',
                 prefixIcon: Icon(
                   Icons.straighten,
-                  color: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
+                  color: t.accent.primary,
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
                   borderSide: BorderSide(
-                    color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                    color: t.colors.border,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
                   borderSide: BorderSide(
-                    color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                    color: t.colors.border,
                   ),
                 ),
               ),
-              style: TextStyle(
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-                fontSize: ThemeConstants.fontMedium,
+              style: t.typography.body.copyWith(
+                color: t.colors.textPrimary,
               ),
-              dropdownColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+              dropdownColor: t.colors.surface,
               items: _units.map((unit) {
                 return DropdownMenuItem(
                   value: unit,
@@ -239,39 +227,39 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                 }
               },
             ),
-            SizedBox(height: ThemeConstants.space24),
+            SizedBox(height: t.spacing.xl),
 
             // Save button
             ElevatedButton(
               onPressed: _isSaving ? null : _saveStockpile,
               style: ElevatedButton.styleFrom(
-                backgroundColor: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: ThemeConstants.space16),
+                backgroundColor: t.accent.primary,
+                foregroundColor: t.colors.textInverse,
+                padding: EdgeInsets.symmetric(vertical: t.spacing.md),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
                 ),
                 elevation: 2,
               ),
               child: _isSaving
-                  ? const SizedBox(
+                  ? SizedBox(
                       height: 20,
                       width: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        valueColor: AlwaysStoppedAnimation<Color>(t.colors.textInverse),
                       ),
                     )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Icon(Icons.add),
-                        SizedBox(width: ThemeConstants.space8),
+                        SizedBox(width: t.spacing.sm),
                         Text(
                           'Add to Stockpile',
-                          style: TextStyle(
-                            fontSize: ThemeConstants.fontMedium,
-                            fontWeight: ThemeConstants.fontSemiBold,
+                          style: t.typography.body.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: t.colors.textInverse,
                           ),
                         ),
                       ],

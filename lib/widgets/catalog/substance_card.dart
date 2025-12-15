@@ -1,19 +1,11 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
 import '../../constants/data/drug_categories.dart';
 import '../../models/stockpile_item.dart';
 import '../../repo/stockpile_repository.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class SubstanceCard extends StatelessWidget {
   final Map<String, dynamic> substance;
-  final bool isDark;
   final VoidCallback onTap;
   final Function(
     String substanceId,
@@ -26,7 +18,6 @@ class SubstanceCard extends StatelessWidget {
   const SubstanceCard({
     super.key,
     required this.substance,
-    required this.isDark,
     required this.onTap,
     required this.onAddStockpile,
     required this.getMostActiveDay,
@@ -42,15 +33,11 @@ class SubstanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final name = substance['pretty_name'] ?? substance['name'] ?? 'Unknown';
     final substanceId = substance['name'] ?? 'unknown';
     final categories =
         (substance['categories'] as List<dynamic>?)
-            ?.map((e) => e.toString())
-            .toList() ??
-        [];
-    final aliases =
-        (substance['aliases'] as List<dynamic>?)
             ?.map((e) => e.toString())
             .toList() ??
         [];
@@ -72,18 +59,17 @@ class SubstanceCard extends StatelessWidget {
     }
 
     return Container(
-      margin: EdgeInsets.only(bottom: ThemeConstants.space16),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: categoryColor,
-              radius: ThemeConstants.radiusLarge,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
-              border: Border.all(color: UIColors.lightBorder),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      margin: EdgeInsets.only(bottom: t.spacing.md),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        border: Border.all(
+          color: t.isDark
+              ? categoryColor.withValues(alpha: 0.3)
+              : t.colors.border,
+        ),
+        boxShadow: t.cardShadow,
+      ),
       child: Material(
         color: Colors.transparent,
         child: Column(
@@ -91,12 +77,12 @@ class SubstanceCard extends StatelessWidget {
             // Main card content
             InkWell(
               onTap: onTap,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(ThemeConstants.radiusLarge),
-                topRight: Radius.circular(ThemeConstants.radiusLarge),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(t.shapes.radiusLg),
+                topRight: Radius.circular(t.shapes.radiusLg),
               ),
               child: Padding(
-                padding: EdgeInsets.all(ThemeConstants.space16),
+                padding: EdgeInsets.all(t.spacing.md),
                 child: Row(
                   children: [
                     // Left circular icon
@@ -106,262 +92,172 @@ class SubstanceCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            categoryColor,
-                            categoryColor.withValues(alpha: 0.7),
+                            categoryColor.withValues(alpha: 0.2),
+                            categoryColor.withValues(alpha: 0.05),
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(
-                          ThemeConstants.radiusLarge,
-                        ),
-                        boxShadow: UIColors.createNeonGlow(
-                          categoryColor,
-                          intensity: 0.3,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: categoryColor.withValues(alpha: 0.3),
+                          width: 1.5,
                         ),
                       ),
-                      child: Icon(
-                        categoryIcon,
-                        color: Colors.white,
-                        size: ThemeConstants.iconLarge,
-                      ),
+                      child: Icon(categoryIcon, color: categoryColor, size: 28),
                     ),
-                    SizedBox(width: ThemeConstants.space16),
-                    // Content
+                    SizedBox(width: t.spacing.md),
+
+                    // Text content
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Name
                           Text(
                             name,
-                            style: TextStyle(
-                              fontSize: ThemeConstants.fontLarge,
-                              fontWeight: ThemeConstants.fontBold,
-                              color: isDark
-                                  ? UIColors.darkText
-                                  : UIColors.lightText,
-                              letterSpacing: -0.5,
+                            style: t.typography.heading3.copyWith(
+                              color: t.colors.textPrimary,
+                              fontSize: 18,
                             ),
                           ),
-                          if (aliases.isNotEmpty) ...[
-                            SizedBox(height: ThemeConstants.space4),
-                            Text(
-                              'Also known as: ${aliases.take(2).join(', ')}${aliases.length > 2 ? '...' : ''}',
-                              style: TextStyle(
-                                fontSize: ThemeConstants.fontSmall,
-                                color: isDark
-                                    ? UIColors.darkTextSecondary
-                                    : UIColors.lightTextSecondary,
-                              ),
-                            ),
-                          ],
+                          SizedBox(height: t.spacing.xs),
+                          Wrap(
+                            spacing: 6,
+                            runSpacing: 4,
+                            children: categories.take(3).map((cat) {
+                              return Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: categoryColor.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  cat,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: categoryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
                           if (additionalInfo != null) ...[
-                            SizedBox(height: ThemeConstants.space4),
+                            SizedBox(height: t.spacing.xs),
                             Text(
                               additionalInfo,
-                              style: TextStyle(
-                                fontSize: ThemeConstants.fontSmall,
-                                fontWeight: ThemeConstants.fontMediumWeight,
-                                color: categoryColor,
+                              style: t.typography.bodySmall.copyWith(
+                                color: t.colors.textSecondary,
                               ),
                             ),
                           ],
                         ],
                       ),
                     ),
-                    SizedBox(width: ThemeConstants.space12),
-                    // Category chip
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: ThemeConstants.space12,
-                        vertical: ThemeConstants.space8,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            categoryColor,
-                            categoryColor.withValues(alpha: 0.8),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          ThemeConstants.radiusMedium,
-                        ),
-                        boxShadow: UIColors.createNeonGlow(
-                          categoryColor,
-                          intensity: 0.2,
-                        ),
-                      ),
-                      child: Text(
-                        primaryCategory,
-                        style: TextStyle(
-                          fontSize: ThemeConstants.fontXSmall,
-                          fontWeight: ThemeConstants.fontSemiBold,
-                          color: Colors.white,
-                        ),
-                      ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: t.colors.textSecondary.withValues(alpha: 0.5),
                     ),
                   ],
                 ),
               ),
             ),
-            // Stockpile section with FutureBuilder
-            FutureBuilder<StockpileItem?>(
-              future: StockpileRepository().getStockpile(substanceId),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox.shrink();
-                }
 
-                final stockpile = snapshot.data;
-                return Container(
-                  padding: EdgeInsets.all(ThemeConstants.space12),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                        color: isDark
-                            ? UIColors.darkBorder
-                            : UIColors.lightBorder,
-                        width: 1,
+            // Divider
+            Divider(height: 1, color: t.colors.divider),
+
+            // Action bar
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: t.spacing.md,
+                vertical: t.spacing.sm,
+              ),
+              child: Row(
+                children: [
+                  // Stockpile status
+                  FutureBuilder<StockpileItem?>(
+                    future: StockpileRepository().getStockpile(substanceId),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data != null) {
+                        final item = snapshot.data!;
+                        final amount = item.unitMg != null && item.unitMg! > 1.0
+                            ? (item.currentAmountMg / item.unitMg!)
+                            : item.currentAmountMg;
+                        final unit = item.unitMg != null && item.unitMg! > 1.0
+                            ? 'units'
+                            : 'mg';
+                        
+                        return Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: t.spacing.sm,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: t.colors.success.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(
+                              t.shapes.radiusSm,
+                            ),
+                            border: Border.all(
+                              color: t.colors.success.withValues(alpha: 0.3),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.inventory_2_outlined,
+                                size: 12,
+                                color: t.colors.success,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                '${amount.toStringAsFixed(1)} $unit',
+                                style: t.typography.label.copyWith(
+                                  color: t.colors.success,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                  const Spacer(),
+
+                  // Add to stockpile button
+                  TextButton.icon(
+                    onPressed: () => onAddStockpile(
+                      substanceId,
+                      name,
+                      substance,
+                    ),
+                    icon: Icon(Icons.add, size: 16, color: t.accent.primary),
+                    label: Text(
+                      'Add Stockpile',
+                      style: t.typography.label.copyWith(
+                        color: t.accent.primary,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          // Stockpile status
-                          Expanded(
-                            child: stockpile != null
-                                ? _buildStockpileStatus(
-                                    stockpile,
-                                    isDark,
-                                    categoryColor,
-                                  )
-                                : Text(
-                                    'No stockpile tracked',
-                                    style: TextStyle(
-                                      fontSize: ThemeConstants.fontSmall,
-                                      color: isDark
-                                          ? UIColors.darkTextSecondary
-                                          : UIColors.lightTextSecondary,
-                                    ),
-                                  ),
-                          ),
-                        ],
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: t.spacing.sm,
+                        vertical: 4,
                       ),
-                      // Weekly usage stats
-                      FutureBuilder<String?>(
-                        future: getMostActiveDay(name),
-                        builder: (context, daySnapshot) {
-                          if (daySnapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const SizedBox.shrink();
-                          }
-
-                          final mostActiveDay = daySnapshot.data;
-                          if (mostActiveDay == null) {
-                            return const SizedBox.shrink();
-                          }
-
-                          return Padding(
-                            padding: EdgeInsets.only(
-                              top: ThemeConstants.space8,
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.calendar_today,
-                                  size: 14,
-                                  color: isDark
-                                      ? UIColors.darkTextSecondary
-                                      : UIColors.lightTextSecondary,
-                                ),
-                                SizedBox(width: ThemeConstants.space4),
-                                Text(
-                                  'Most active: $mostActiveDay',
-                                  style: TextStyle(
-                                    fontSize: ThemeConstants.fontXSmall,
-                                    color: isDark
-                                        ? UIColors.darkTextSecondary
-                                        : UIColors.lightTextSecondary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
                   ),
-                );
-              },
+                ],
+              ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildStockpileStatus(
-    StockpileItem stockpile,
-    bool isDark,
-    Color categoryColor,
-  ) {
-    final percentage = stockpile.getPercentage();
-    final isLow = stockpile.isLow();
-    final isEmpty = stockpile.isEmpty();
-
-    Color statusColor;
-    IconData statusIcon;
-    String statusText;
-
-    if (isEmpty) {
-      statusColor = Colors.red;
-      statusIcon = Icons.warning;
-      statusText = 'Empty';
-    } else if (isLow) {
-      statusColor = Colors.orange;
-      statusIcon = Icons.warning_amber;
-      statusText = 'Low';
-    } else {
-      statusColor = Colors.green;
-      statusIcon = Icons.check_circle;
-      statusText = 'Stocked';
-    }
-
-    return Row(
-      children: [
-        Icon(statusIcon, color: statusColor, size: 16),
-        SizedBox(width: ThemeConstants.space4),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '$statusText: ${stockpile.currentAmountMg.toStringAsFixed(1)} mg',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  fontWeight: ThemeConstants.fontMediumWeight,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
-                ),
-              ),
-              SizedBox(height: ThemeConstants.space4),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-                child: LinearProgressIndicator(
-                  value: percentage / 100,
-                  backgroundColor: isDark
-                      ? UIColors.darkBorder
-                      : UIColors.lightBorder,
-                  valueColor: AlwaysStoppedAnimation<Color>(statusColor),
-                  minHeight: 4,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

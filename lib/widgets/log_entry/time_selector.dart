@@ -1,9 +1,5 @@
-// MIGRATION
-// filepath: lib/widgets/log_entry/time_selector.dart
 import 'package:flutter/material.dart';
-import '../../common/cards/common_card.dart';
-import '../../common/text/common_section_header.dart';
-import '../../constants/theme/app_theme_constants.dart';
+import '../../common/app_theme.dart';
 
 class TimeSelector extends StatelessWidget {
   final int hour;
@@ -35,68 +31,79 @@ class TimeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = AppTheme.of(context);
     final timeStr = '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
 
-    return CommonCard(
+    return Container(
+      padding: EdgeInsets.all(t.spacing.m),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        border: Border.all(color: t.colors.outlineVariant),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CommonSectionHeader(title: "Time"),
+          Text(
+            "Time",
+            style: t.typography.titleMedium.copyWith(
+              color: t.colors.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
 
-          const SizedBox(height: AppThemeConstants.spaceMd),
+          SizedBox(height: t.spacing.m),
 
           InkWell(
-            borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
+            borderRadius: BorderRadius.circular(t.shapes.radiusM),
             onTap: () => _pickTime(context),
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppThemeConstants.spaceLg,
-                vertical: AppThemeConstants.spaceMd,
+              padding: EdgeInsets.symmetric(
+                horizontal: t.spacing.l,
+                vertical: t.spacing.m,
               ),
               decoration: BoxDecoration(
-                color: isDark
-                    ? Colors.white.withOpacity(0.05)
-                    : Colors.black.withOpacity(0.04),
-                borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
+                color: t.colors.surfaceContainer,
+                borderRadius: BorderRadius.circular(t.shapes.radiusM),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.access_time,
-                    size: AppThemeConstants.iconLg,
-                    color: Theme.of(context).colorScheme.primary,
+                    size: 24,
+                    color: t.colors.primary,
                   ),
 
-                  const SizedBox(width: AppThemeConstants.spaceMd),
+                  SizedBox(width: t.spacing.m),
 
                   Expanded(
                     child: Text(
                       timeStr,
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      style: t.typography.headlineMedium.copyWith(
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.5,
+                            color: t.colors.onSurface,
                           ),
                     ),
                   ),
 
                   Icon(
                     Icons.edit_outlined,
-                    size: AppThemeConstants.iconSm,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    size: 20,
+                    color: t.colors.onSurfaceVariant,
                   ),
                 ],
               ),
             ),
           ),
 
-          const SizedBox(height: AppThemeConstants.spaceSm),
+          SizedBox(height: t.spacing.s),
 
           Center(
             child: Text(
               "Tap to change time",
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+              style: t.typography.bodySmall.copyWith(
+                    color: t.colors.onSurfaceVariant,
                   ),
             ),
           ),

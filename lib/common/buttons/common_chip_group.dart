@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import '../cards/common_card.dart';
 import '../text/common_section_header.dart';
 import '../layout/common_spacer.dart';
 import 'common_chip.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// A reusable chip group for multi- or single-select lists.
 /// Optional header (title + subtitle).
@@ -50,8 +55,9 @@ class CommonChipGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     return CommonCard(
-      padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+      padding: EdgeInsets.all(t.spacing.cardPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -61,12 +67,12 @@ class CommonChipGroup extends StatelessWidget {
               title: title,
               subtitle: subtitle,
             ),
-            const CommonSpacer.vertical(ThemeConstants.space12),
+            CommonSpacer.vertical(t.spacing.md),
           ],
 
           Wrap(
-            spacing: ThemeConstants.space8,
-            runSpacing: ThemeConstants.space8,
+            spacing: t.spacing.sm,
+            runSpacing: t.spacing.sm,
             children: options.map((value) {
               final isSelected = selected.contains(value);
 

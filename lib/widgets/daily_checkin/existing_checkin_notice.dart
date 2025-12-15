@@ -5,7 +5,7 @@
 // Riverpod: TODO
 // Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
+
 
 class ExistingCheckinNotice extends StatelessWidget {
   const ExistingCheckinNotice({super.key});

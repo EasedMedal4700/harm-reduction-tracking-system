@@ -1,14 +1,7 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
 import '../../constants/data/drug_categories.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import 'dosage_guide_card.dart';
 import 'timing_info_card.dart';
 
@@ -46,19 +39,14 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
   }
 
   void _parseData() {
-    print('DEBUG: Parsing data for ${widget.substance['name']}');
-
     var rawDose = widget.substance['formatted_dose'];
-    print('DEBUG: rawDose type: ${rawDose.runtimeType}');
-    print('DEBUG: rawDose value: $rawDose');
 
     // Handle String JSON
     if (rawDose is String) {
       try {
         rawDose = jsonDecode(rawDose);
-        print('DEBUG: Decoded rawDose: $rawDose');
       } catch (e) {
-        print('DEBUG: Error decoding rawDose: $e');
+        // Ignore
       }
     }
 
@@ -79,9 +67,6 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
       }
     }
 
-    print('DEBUG: _availableMethods: $_availableMethods');
-    print('DEBUG: _parsedDosage keys: ${_parsedDosage.keys}');
-
     // Ensure Oral is first if present
     if (_availableMethods.contains('Oral')) {
       _availableMethods.remove('Oral');
@@ -99,8 +84,6 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
     _parsedAfterEffects = _normalizeTiming(
       widget.substance['formatted_aftereffects'],
     );
-
-    print('DEBUG: _parsedDuration: $_parsedDuration');
   }
 
   Map<String, dynamic> _normalizeTiming(dynamic raw) {
@@ -111,7 +94,6 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
       try {
         raw = jsonDecode(raw);
       } catch (e) {
-        print('DEBUG: Error decoding timing: $e');
         return {};
       }
     }
@@ -140,7 +122,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
       final matchingKeys = raw.keys
           .where(
             (key) => key.toString().toLowerCase().startsWith(
-              method.toLowerCase() + '_',
+              '${method.toLowerCase()}_',
             ),
           )
           .toList();
@@ -156,7 +138,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     final name = widget.substance['pretty_name'] ?? widget.substance['name'];
     final categories =
         (widget.substance['categories'] as List?)
@@ -175,9 +157,9 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
-            color: isDark ? UIColors.darkBackground : UIColors.lightBackground,
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(ThemeConstants.radiusLarge),
+            color: t.colors.background,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(t.shapes.radiusLg),
             ),
           ),
           child: Column(
@@ -185,15 +167,13 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               // Handle
               Center(
                 child: Container(
-                  margin: const EdgeInsets.symmetric(
-                    vertical: ThemeConstants.space12,
+                  margin: EdgeInsets.symmetric(
+                    vertical: t.spacing.sm,
                   ),
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: isDark
-                        ? UIColors.darkDivider
-                        : UIColors.lightDivider,
+                    color: t.colors.divider,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -203,20 +183,20 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               Expanded(
                 child: ListView(
                   controller: scrollController,
-                  padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
+                  padding: EdgeInsets.all(t.spacing.md),
                   children: [
                     // Header
-                    _buildHeader(name, categories, isDark, accentColor),
-                    const SizedBox(height: ThemeConstants.space24),
+                    _buildHeader(context, name, categories, accentColor),
+                    SizedBox(height: t.spacing.xl),
 
                     // Aliases
-                    _buildAliases(isDark),
-                    const SizedBox(height: ThemeConstants.space24),
+                    _buildAliases(context),
+                    SizedBox(height: t.spacing.xl),
 
                     // Method Selector
                     if (_availableMethods.length > 1) ...[
-                      _buildMethodSelector(isDark, accentColor),
-                      const SizedBox(height: ThemeConstants.space16),
+                      _buildMethodSelector(context, accentColor),
+                      SizedBox(height: t.spacing.md),
                     ],
 
                     // Dosage Guide
@@ -227,23 +207,21 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                             )
                           : null,
                       selectedMethod: _selectedMethod,
-                      isDark: isDark,
                       accentColor: accentColor,
                     ),
-                    const SizedBox(height: ThemeConstants.space24),
+                    SizedBox(height: t.spacing.xl),
 
                     // Timing
                     TimingInfoCard(
                       onset: _parsedOnset[_selectedMethod],
                       duration: _parsedDuration[_selectedMethod],
                       afterEffects: _parsedAfterEffects[_selectedMethod],
-                      isDark: isDark,
                       accentColor: accentColor,
                     ),
-                    const SizedBox(height: ThemeConstants.space24),
+                    SizedBox(height: t.spacing.xl),
 
                     // Properties / Summary
-                    _buildProperties(isDark),
+                    _buildProperties(context),
                   ],
                 ),
               ),
@@ -255,22 +233,23 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
   }
 
   Widget _buildHeader(
+    BuildContext context,
     String name,
     List<String> categories,
-    bool isDark,
     Color accentColor,
   ) {
+    final t = context.theme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(ThemeConstants.space12),
+              padding: EdgeInsets.all(t.spacing.sm),
               decoration: BoxDecoration(
                 color: accentColor.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(
-                  ThemeConstants.radiusMedium,
+                  t.spacing.radiusMd,
                 ),
               ),
               child: Icon(
@@ -280,17 +259,15 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                 size: 32,
               ),
             ),
-            const SizedBox(width: ThemeConstants.space16),
+            SizedBox(width: t.spacing.md),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     name,
-                    style: TextStyle(
-                      fontSize: ThemeConstants.font2XLarge,
-                      fontWeight: ThemeConstants.fontBold,
-                      color: isDark ? UIColors.darkText : UIColors.lightText,
+                    style: t.typography.heading2.copyWith(
+                      color: t.colors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -309,13 +286,12 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                                 color: accentColor.withValues(alpha: 0.5),
                               ),
                               borderRadius: BorderRadius.circular(
-                                ThemeConstants.radiusSmall,
+                                t.spacing.radiusSm,
                               ),
                             ),
                             child: Text(
                               cat,
-                              style: TextStyle(
-                                fontSize: ThemeConstants.fontXSmall,
+                              style: t.typography.label.copyWith(
                                 color: accentColor,
                               ),
                             ),
@@ -330,7 +306,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               icon: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+                  color: t.colors.surface,
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(Icons.close),
@@ -339,7 +315,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
             ),
           ],
         ),
-        const SizedBox(height: ThemeConstants.space16),
+        SizedBox(height: t.spacing.md),
         // Add to Stockpile button
         SizedBox(
           width: double.infinity,
@@ -360,13 +336,13 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
             style: ElevatedButton.styleFrom(
               backgroundColor: accentColor,
               foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(
-                horizontal: ThemeConstants.space16,
-                vertical: ThemeConstants.space12,
+              padding: EdgeInsets.symmetric(
+                horizontal: t.spacing.md,
+                vertical: t.spacing.sm,
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
-                  ThemeConstants.radiusMedium,
+                  t.spacing.radiusMd,
                 ),
               ),
               elevation: 2,
@@ -377,17 +353,18 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
     );
   }
 
-  Widget _buildAliases(bool isDark) {
+  Widget _buildAliases(BuildContext context) {
+    final t = context.theme;
     final aliases = (widget.substance['aliases'] as List?)
         ?.map((e) => e.toString())
         .toList();
     if (aliases == null || aliases.isEmpty) return const SizedBox.shrink();
 
     return Container(
-      padding: const EdgeInsets.all(ThemeConstants.space16),
+      padding: EdgeInsets.all(t.spacing.md),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -397,16 +374,14 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               Icon(
                 Icons.alternate_email,
                 size: 16,
-                color: isDark
-                    ? UIColors.darkTextSecondary
-                    : UIColors.lightTextSecondary,
+                color: t.colors.textSecondary,
               ),
               const SizedBox(width: 8),
               Text(
                 'Also Known As',
-                style: TextStyle(
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                style: t.typography.body.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: t.colors.textPrimary,
                 ),
               ),
             ],
@@ -414,10 +389,8 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
           const SizedBox(height: 8),
           Text(
             aliases.join(', '),
-            style: TextStyle(
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
+            style: t.typography.body.copyWith(
+              color: t.colors.textSecondary,
               height: 1.5,
             ),
           ),
@@ -426,7 +399,8 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
     );
   }
 
-  Widget _buildMethodSelector(bool isDark, Color accentColor) {
+  Widget _buildMethodSelector(BuildContext context, Color accentColor) {
+    final t = context.theme;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -441,15 +415,11 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                 if (selected) setState(() => _selectedMethod = method);
               },
               selectedColor: accentColor.withValues(alpha: 0.2),
-              backgroundColor: isDark
-                  ? UIColors.darkSurface
-                  : UIColors.lightSurface,
-              labelStyle: TextStyle(
+              backgroundColor: t.colors.surface,
+              labelStyle: t.typography.body.copyWith(
                 color: isSelected
                     ? accentColor
-                    : (isDark
-                          ? UIColors.darkTextSecondary
-                          : UIColors.lightTextSecondary),
+                    : t.colors.textSecondary,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
               side: BorderSide(
@@ -462,7 +432,8 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
     );
   }
 
-  Widget _buildProperties(bool isDark) {
+  Widget _buildProperties(BuildContext context) {
+    final t = context.theme;
     final summary = widget.substance['properties']?['summary'];
     final warning = widget.substance['properties']?['warning'];
     final testKits = widget.substance['properties']?['test-kits'];
@@ -471,26 +442,22 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (warning != null) ...[
-          _buildWarningCard(warning.toString(), isDark),
+          _buildWarningCard(context, warning.toString()),
           const SizedBox(height: 16),
         ],
         if (summary != null) ...[
           Text(
             'Summary',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+            style: t.typography.heading3.copyWith(
+              color: t.colors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             summary.toString(),
-            style: TextStyle(
+            style: t.typography.body.copyWith(
               height: 1.6,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
+              color: t.colors.textSecondary,
             ),
           ),
           const SizedBox(height: 24),
@@ -498,10 +465,8 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
         if (testKits != null) ...[
           Text(
             'Reagent Testing',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+            style: t.typography.heading3.copyWith(
+              color: t.colors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
@@ -509,17 +474,17 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              color: t.colors.surface,
+              borderRadius: BorderRadius.circular(t.spacing.radiusMd),
               border: Border.all(
-                color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                color: t.colors.border,
               ),
             ),
             child: Text(
               testKits.toString(),
-              style: TextStyle(
+              style: t.typography.body.copyWith(
                 fontFamily: 'Monospace',
-                color: isDark ? UIColors.darkText : UIColors.lightText,
+                color: t.colors.textPrimary,
               ),
             ),
           ),
@@ -528,24 +493,25 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
     );
   }
 
-  Widget _buildWarningCard(String message, bool isDark) {
+  Widget _buildWarningCard(BuildContext context, String message) {
+    final t = context.theme;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.amber.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-        border: Border.all(color: Colors.amber.withValues(alpha: 0.5)),
+        color: t.colors.warning.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+        border: Border.all(color: t.colors.warning.withValues(alpha: 0.5)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.warning_amber_rounded, color: Colors.amber),
+          Icon(Icons.warning_amber_rounded, color: t.colors.warning),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               message,
-              style: TextStyle(
-                color: isDark ? Colors.amber[200] : Colors.amber[900],
+              style: t.typography.body.copyWith(
+                color: t.colors.warning,
                 height: 1.4,
               ),
             ),

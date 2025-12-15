@@ -1,24 +1,14 @@
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
 import '../../constants/data/drug_categories.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class CategoryFilterChips extends StatelessWidget {
   final String? selectedCategory;
-  final bool isDark;
-  final Color accentColor;
   final Function(String?) onCategorySelected;
 
   const CategoryFilterChips({
     super.key,
     required this.selectedCategory,
-    required this.isDark,
-    required this.accentColor,
     required this.onCategorySelected,
   });
 
@@ -35,19 +25,21 @@ class CategoryFilterChips extends StatelessWidget {
         children: categories.map((category) {
           return Padding(
             padding: const EdgeInsets.only(right: 8),
-            child: _buildFilterChip(category),
+            child: _buildFilterChip(context, category),
           );
         }).toList(),
       ),
     );
   }
 
-  Widget _buildFilterChip(String? category) {
+  Widget _buildFilterChip(BuildContext context, String? category) {
+    final t = context.theme;
     final isSelected = selectedCategory == category;
     final label = category ?? 'All';
     final icon = category != null
         ? DrugCategories.categoryIconMap[category]
         : Icons.apps;
+    final accentColor = t.accent.primary;
 
     return FilterChip(
       selected: isSelected,
@@ -60,9 +52,7 @@ class CategoryFilterChips extends StatelessWidget {
               size: 16,
               color: isSelected
                   ? accentColor
-                  : (isDark
-                        ? UIColors.darkTextSecondary
-                        : UIColors.lightTextSecondary),
+                  : t.colors.textSecondary,
             ),
             const SizedBox(width: 6),
           ],
@@ -71,21 +61,19 @@ class CategoryFilterChips extends StatelessWidget {
       ),
       onSelected: (_) => onCategorySelected(category),
       selectedColor: accentColor.withValues(alpha: 0.2),
-      backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-      labelStyle: TextStyle(
+      backgroundColor: t.colors.surface,
+      labelStyle: t.typography.body.copyWith(
         color: isSelected
             ? accentColor
-            : (isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary),
+            : t.colors.textSecondary,
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
       ),
       side: BorderSide(
         color: isSelected
             ? accentColor
-            : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
+            : t.colors.border,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: t.spacing.md, vertical: t.spacing.sm),
     );
   }
 }

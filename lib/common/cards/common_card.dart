@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// Reusable card container with consistent styling
 /// Used across all form sections: Substance, Dosage, ROA, Feelings, etc.
@@ -24,49 +30,28 @@ class CommonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     
     return Container(
-      padding: padding ?? const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: _buildDecoration(isDark),
+      padding: padding ?? EdgeInsets.all(t.spacing.cardPadding),
+      decoration: _buildDecoration(t),
       child: child,
     );
   }
 
-  BoxDecoration _buildDecoration(bool isDark) {
-    final defaultBorderColor = isDark 
-        ? const Color(0x14FFFFFF) 
-        : UIColors.lightBorder;
+  BoxDecoration _buildDecoration(AppTheme t) {
+    final defaultBorderColor = t.colors.border;
     
-    if (isDark) {
-      return BoxDecoration(
-        color: backgroundColor ?? const Color(0x0AFFFFFF),
-        borderRadius: BorderRadius.circular(borderRadius ?? ThemeConstants.cardRadius),
-        border: showBorder
-            ? Border.all(
-                color: borderColor ?? defaultBorderColor,
-                width: 1,
-              )
-            : null,
-      );
-    } else {
-      return BoxDecoration(
-        color: backgroundColor ?? Colors.white,
-        borderRadius: BorderRadius.circular(borderRadius ?? ThemeConstants.cardRadius),
-        border: showBorder
-            ? Border.all(
-                color: borderColor ?? defaultBorderColor,
-                width: 1,
-              )
-            : null,
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x0F000000),
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          ),
-        ],
-      );
-    }
+    return BoxDecoration(
+      color: backgroundColor ?? t.colors.surface,
+      borderRadius: BorderRadius.circular(borderRadius ?? t.shapes.radiusLg),
+      border: showBorder
+          ? Border.all(
+              color: borderColor ?? defaultBorderColor,
+              width: 1,
+            )
+          : null,
+      boxShadow: t.cardShadow,
+    );
   }
 }

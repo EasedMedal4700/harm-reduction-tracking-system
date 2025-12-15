@@ -7,7 +7,6 @@
 
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_radius.dart';
 
 class ProfileHeader extends StatelessWidget {
   final Map<String, dynamic>? userData;
@@ -37,9 +36,8 @@ class ProfileHeader extends StatelessWidget {
               isAdmin ? t.accent.secondary : t.accent.primary, // neon admin vs primary
           child: Text(
             _getInitials(displayName),
-            style: t.typography.heading3.copyWith(
+            style: t.typography.heading1.copyWith(
               color: t.colors.textInverse,
-              fontSize: 32,
             ),
           ),
         ),
@@ -70,10 +68,10 @@ class ProfileHeader extends StatelessWidget {
               vertical: spacing.sm,
             ),
             decoration: BoxDecoration(
-              color: t.accent.secondary.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(AppRadius.lg),
+              color: t.accent.secondary.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(t.shapes.radiusLg),
               border: Border.all(
-                color: t.accent.secondary.withOpacity(0.4),
+                color: t.accent.secondary.withValues(alpha: 0.4),
               ),
             ),
             child: Row(

@@ -1,9 +1,5 @@
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
 import 'package:flutter/material.dart';
+import '../../common/app_theme.dart';
 
 class BugReportFormFields extends StatelessWidget {
   final TextEditingController titleController;
@@ -33,17 +29,28 @@ class BugReportFormFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppTheme.of(context);
+    
     return Column(
       children: [
         // Title
         TextFormField(
           controller: titleController,
+          style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
           decoration: InputDecoration(
             labelText: 'Bug Title *',
             hintText: 'Brief description of the issue',
-            prefixIcon: const Icon(Icons.title),
+            prefixIcon: Icon(Icons.title, color: t.colors.onSurfaceVariant),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderSide: BorderSide(color: t.colors.outline),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderSide: BorderSide(color: t.colors.primary, width: 2),
             ),
           ),
           maxLength: 100,
@@ -54,16 +61,25 @@ class BugReportFormFields extends StatelessWidget {
             return null;
           },
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: t.spacing.m),
 
         // Severity
         DropdownButtonFormField<String>(
           value: severity,
+          style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
           decoration: InputDecoration(
             labelText: 'Severity',
-            prefixIcon: const Icon(Icons.priority_high),
+            prefixIcon: Icon(Icons.priority_high, color: t.colors.onSurfaceVariant),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderSide: BorderSide(color: t.colors.outline),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderSide: BorderSide(color: t.colors.primary, width: 2),
             ),
           ),
           items: severityLevels.map((level) {
@@ -72,73 +88,98 @@ class BugReportFormFields extends StatelessWidget {
               child: Row(
                 children: [
                   getSeverityIcon(level),
-                  const SizedBox(width: 8),
-                  Text(level),
+                  SizedBox(width: t.spacing.s),
+                  Text(level, style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface)),
                 ],
               ),
             );
           }).toList(),
           onChanged: onSeverityChanged,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: t.spacing.m),
 
         // Category
         DropdownButtonFormField<String>(
           value: category,
+          style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
           decoration: InputDecoration(
             labelText: 'Category',
-            prefixIcon: const Icon(Icons.category),
+            prefixIcon: Icon(Icons.category, color: t.colors.onSurfaceVariant),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderSide: BorderSide(color: t.colors.outline),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderSide: BorderSide(color: t.colors.primary, width: 2),
             ),
           ),
           items: categories.map((cat) {
             return DropdownMenuItem(
               value: cat,
-              child: Text(cat),
+              child: Text(cat, style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface)),
             );
           }).toList(),
           onChanged: onCategoryChanged,
         ),
-        const SizedBox(height: 16),
-
+        SizedBox(height: t.spacing.m),
+        
         // Description
         TextFormField(
           controller: descriptionController,
+          style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+          maxLines: 3,
           decoration: InputDecoration(
-            labelText: 'Description *',
-            hintText: 'What happened? What did you expect to happen?',
-            prefixIcon: const Icon(Icons.description),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            labelText: 'Description',
+            hintText: 'Detailed explanation of what happened',
             alignLabelWithHint: true,
+            prefixIcon: Padding(
+              padding: EdgeInsets.only(bottom: 48), // Align icon to top
+              child: Icon(Icons.description, color: t.colors.onSurfaceVariant),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderSide: BorderSide(color: t.colors.outline),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderSide: BorderSide(color: t.colors.primary, width: 2),
+            ),
           ),
-          maxLines: 5,
-          maxLength: 500,
-          validator: (value) {
-            if (value == null || value.trim().isEmpty) {
-              return 'Please describe the bug';
-            }
-            return null;
-          },
         ),
-        const SizedBox(height: 16),
-
+        SizedBox(height: t.spacing.m),
+        
         // Steps to Reproduce
         TextFormField(
           controller: stepsController,
+          style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+          maxLines: 3,
           decoration: InputDecoration(
-            labelText: 'Steps to Reproduce (Optional)',
-            hintText: '1. Go to...\n2. Click on...\n3. See error...',
-            prefixIcon: const Icon(Icons.format_list_numbered),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            labelText: 'Steps to Reproduce',
+            hintText: '1. Go to screen X\n2. Click button Y',
             alignLabelWithHint: true,
+            prefixIcon: Padding(
+              padding: EdgeInsets.only(bottom: 48), // Align icon to top
+              child: Icon(Icons.format_list_numbered, color: t.colors.onSurfaceVariant),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderSide: BorderSide(color: t.colors.outline),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderSide: BorderSide(color: t.colors.primary, width: 2),
+            ),
           ),
-          maxLines: 5,
-          maxLength: 300,
         ),
       ],
     );

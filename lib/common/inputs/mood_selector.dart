@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../common/buttons/common_chip_group.dart';
 
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
+
 class MoodSelector extends StatelessWidget {
   final String? selectedMood;
   final List<String> availableMoods;

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../common/app_theme.dart';
 import '../../constants/config/feature_flags.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';
-import '../../common/old_common/drawer_menu.dart';
+// import '../../common/old_common/drawer_menu.dart'; // Removed legacy drawer
 
 /// Admin screen for managing feature flags.
 /// 
@@ -37,9 +36,9 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
       if (mounted) {
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Admin access required'),
-            backgroundColor: Colors.red,
+          SnackBar(
+            content: const Text('Admin access required'),
+            backgroundColor: AppTheme.of(context).colors.error,
           ),
         );
       }
@@ -63,8 +62,8 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
       if (!success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to update "$featureName"'),
-            backgroundColor: Colors.red,
+            content: Text('Failed to update ""'),
+            backgroundColor: AppTheme.of(context).colors.error,
           ),
         );
       }
@@ -85,24 +84,22 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = AppTheme.of(context);
 
     if (!_isAdmin && !_isLoading) {
       return const SizedBox.shrink();
     }
 
     return Scaffold(
-      backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
+      backgroundColor: t.colors.surface,
       appBar: AppBar(
         title: Text(
           'Feature Flags',
-          style: TextStyle(
-            fontWeight: ThemeConstants.fontSemiBold,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
-          ),
+          style: t.typography.titleLarge,
         ),
-        backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+        backgroundColor: t.colors.surface,
         elevation: 0,
+        iconTheme: IconThemeData(color: t.colors.onSurface),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -111,18 +108,18 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
           ),
         ],
       ),
-      drawer: const DrawerMenu(),
-      body: _buildBody(isDark),
+      // drawer: const DrawerMenu(), // Removed legacy drawer
+      body: _buildBody(context),
     );
   }
 
-  Widget _buildBody(bool isDark) {
+  Widget _buildBody(BuildContext context) {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
     if (_errorMessage != null) {
-      return _buildErrorState(isDark);
+      return _buildErrorState(context);
     }
 
     return Consumer<FeatureFlagService>(
@@ -133,45 +130,40 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
 
         final allFlags = flags.allFlags;
         if (allFlags.isEmpty) {
-          return _buildEmptyState(isDark);
+          return _buildEmptyState(context);
         }
 
-        return _buildFlagsList(isDark, allFlags);
+        return _buildFlagsList(context, allFlags);
       },
     );
   }
 
-  Widget _buildErrorState(bool isDark) {
+  Widget _buildErrorState(BuildContext context) {
+    final t = AppTheme.of(context);
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
+        padding: EdgeInsets.all(t.spacing.l),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.error_outline,
               size: 64,
-              color: isDark ? UIColors.darkNeonOrange : UIColors.lightAccentAmber,
+              color: t.colors.error,
             ),
-            const SizedBox(height: ThemeConstants.space16),
+            SizedBox(height: t.spacing.m),
             Text(
               'Error Loading Flags',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXLarge,
-                fontWeight: ThemeConstants.fontSemiBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-              ),
+              style: t.typography.headlineMedium,
             ),
-            const SizedBox(height: ThemeConstants.space8),
+            SizedBox(height: t.spacing.s),
             Text(
               _errorMessage ?? 'Unknown error',
-              style: TextStyle(
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-              ),
+              style: t.typography.bodyMedium.copyWith(color: t.colors.onSurfaceVariant),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: ThemeConstants.space24),
-            ElevatedButton.icon(
+            SizedBox(height: t.spacing.l),
+            FilledButton.icon(
               onPressed: _refreshFlags,
               icon: const Icon(Icons.refresh),
               label: const Text('Retry'),
@@ -182,33 +174,28 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     );
   }
 
-  Widget _buildEmptyState(bool isDark) {
+  Widget _buildEmptyState(BuildContext context) {
+    final t = AppTheme.of(context);
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
+        padding: EdgeInsets.all(t.spacing.l),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.flag_outlined,
               size: 64,
-              color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              color: t.colors.onSurfaceVariant,
             ),
-            const SizedBox(height: ThemeConstants.space16),
+            SizedBox(height: t.spacing.m),
             Text(
               'No Feature Flags',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXLarge,
-                fontWeight: ThemeConstants.fontSemiBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
-              ),
+              style: t.typography.headlineMedium,
             ),
-            const SizedBox(height: ThemeConstants.space8),
+            SizedBox(height: t.spacing.s),
             Text(
               'No feature flags found in the database.',
-              style: TextStyle(
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-              ),
+              style: t.typography.bodyMedium.copyWith(color: t.colors.onSurfaceVariant),
             ),
           ],
         ),
@@ -216,23 +203,24 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     );
   }
 
-  Widget _buildFlagsList(bool isDark, List<FeatureFlag> flags) {
+  Widget _buildFlagsList(BuildContext context, List<FeatureFlag> flags) {
+    final t = AppTheme.of(context);
     // Group flags by category
     final categories = _categorizeFlags(flags);
 
     return ListView(
-      padding: const EdgeInsets.all(ThemeConstants.space16),
+      padding: EdgeInsets.all(t.spacing.m),
       children: [
         // Info banner
-        _buildInfoBanner(isDark),
-        const SizedBox(height: ThemeConstants.space16),
+        _buildInfoBanner(context),
+        SizedBox(height: t.spacing.m),
         
         // Flag categories
         for (final entry in categories.entries) ...[
-          _buildCategoryHeader(isDark, entry.key),
-          const SizedBox(height: ThemeConstants.space8),
-          ...entry.value.map((flag) => _buildFlagTile(isDark, flag)),
-          const SizedBox(height: ThemeConstants.space16),
+          _buildCategoryHeader(context, entry.key),
+          SizedBox(height: t.spacing.s),
+          ...entry.value.map((flag) => _buildFlagTile(context, flag)),
+          SizedBox(height: t.spacing.m),
         ],
       ],
     );
@@ -278,34 +266,30 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     return categories;
   }
 
-  Widget _buildInfoBanner(bool isDark) {
+  Widget _buildInfoBanner(BuildContext context) {
+    final t = AppTheme.of(context);
     return Container(
-      padding: const EdgeInsets.all(ThemeConstants.space16),
+      padding: EdgeInsets.all(t.spacing.m),
       decoration: BoxDecoration(
-        color: isDark 
-            ? UIColors.darkNeonBlue.withValues(alpha: 0.1) 
-            : UIColors.lightAccentBlue.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+        color: t.colors.primaryContainer.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(t.shapes.radiusM),
         border: Border.all(
-          color: isDark 
-              ? UIColors.darkNeonBlue.withValues(alpha: 0.3) 
-              : UIColors.lightAccentBlue.withValues(alpha: 0.3),
+          color: t.colors.primary.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
         children: [
           Icon(
             Icons.info_outline,
-            color: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
+            color: t.colors.primary,
           ),
-          const SizedBox(width: ThemeConstants.space12),
+          SizedBox(width: t.spacing.m),
           Expanded(
             child: Text(
               'Disabled features will be hidden from regular users. '
               'Admins can always access all features.',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontSmall,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
+              style: t.typography.bodySmall.copyWith(
+                color: t.colors.onSurface,
               ),
             ),
           ),
@@ -314,43 +298,43 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     );
   }
 
-  Widget _buildCategoryHeader(bool isDark, String category) {
+  Widget _buildCategoryHeader(BuildContext context, String category) {
+    final t = AppTheme.of(context);
     return Text(
       category,
-      style: TextStyle(
-        fontSize: ThemeConstants.fontLarge,
-        fontWeight: ThemeConstants.fontSemiBold,
-        color: isDark ? UIColors.darkText : UIColors.lightText,
+      style: t.typography.titleMedium.copyWith(
+        fontWeight: FontWeight.bold,
+        color: t.colors.onSurface,
       ),
     );
   }
 
-  Widget _buildFlagTile(bool isDark, FeatureFlag flag) {
+  Widget _buildFlagTile(BuildContext context, FeatureFlag flag) {
+    final t = AppTheme.of(context);
     final isPending = _pendingUpdates.containsKey(flag.featureName);
     final displayName = FeatureFlags.getDisplayName(flag.featureName);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: ThemeConstants.space8),
+      margin: EdgeInsets.only(bottom: t.spacing.s),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+        color: t.colors.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(t.shapes.radiusM),
         border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+          color: t.colors.outlineVariant,
         ),
       ),
       child: SwitchListTile(
         title: Text(
           displayName,
-          style: TextStyle(
-            fontWeight: ThemeConstants.fontMediumWeight,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+          style: t.typography.bodyMedium.copyWith(
+            fontWeight: FontWeight.bold,
+            color: t.colors.onSurface,
           ),
         ),
         subtitle: Text(
           flag.featureName,
-          style: TextStyle(
-            fontSize: ThemeConstants.fontXSmall,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          style: t.typography.bodySmall.copyWith(
+            color: t.colors.onSurfaceVariant,
           ),
         ),
         value: flag.enabled,
@@ -358,7 +342,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
             ? null 
             : (value) => _toggleFlag(flag.featureName, value),
         secondary: isPending
-            ? const SizedBox(
+            ? SizedBox(
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(strokeWidth: 2),
@@ -366,16 +350,16 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
             : Icon(
                 flag.enabled ? Icons.check_circle : Icons.cancel,
                 color: flag.enabled
-                    ? (isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen)
-                    : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
+                    ? t.colors.success
+                    : t.colors.onSurfaceVariant,
               ),
-        activeThumbColor: isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: ThemeConstants.space16,
-          vertical: ThemeConstants.space4,
+        activeColor: t.colors.primary,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: t.spacing.m,
+          vertical: t.spacing.xs,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+          borderRadius: BorderRadius.circular(t.shapes.radiusM),
         ),
       ),
     );

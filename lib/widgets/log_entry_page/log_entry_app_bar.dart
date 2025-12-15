@@ -1,12 +1,11 @@
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: PARTIAL
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+// Notes: Migrated to AppThemeExtension and existing common components. No logic or state changes.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isSimpleMode;
@@ -20,16 +19,12 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    final bgColor = isDark ? const Color(0xFF14141A) : Colors.white;
-    final iconColor = isDark ? Colors.white : Colors.black87;
-    final accent = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
+    final t = context.theme;
 
     return AppBar(
       elevation: 0,
-      backgroundColor: bgColor,
-      foregroundColor: iconColor,
+      backgroundColor: t.colors.surface,
+      foregroundColor: t.colors.text,
       centerTitle: false,
 
       title: Column(
@@ -37,19 +32,12 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Text(
             "Log Entry",
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontSemiBold,
-              color: iconColor,
-            ),
+            style: t.typography.heading2,
           ),
           Text(
             "Add a new substance record",
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
+            style: t.typography.bodySmall.copyWith(
+              color: t.colors.textSecondary,
             ),
           ),
         ],
@@ -57,39 +45,34 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       actions: [
         Padding(
-          padding: const EdgeInsets.only(
-            right: ThemeConstants.space16,
+          padding: EdgeInsets.only(
+            right: t.spacing.lg,
           ),
           child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: ThemeConstants.space12,
-              vertical: ThemeConstants.space4,
+            padding: EdgeInsets.symmetric(
+              horizontal: t.spacing.md,
+              vertical: t.spacing.xs,
             ),
             decoration: BoxDecoration(
-              color: isDark ? const Color(0x11FFFFFF) : Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              color: t.colors.surfaceVariant,
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
               border: Border.all(
-                color: isDark
-                    ? const Color(0x22FFFFFF)
-                    : UIColors.lightBorder,
+                color: t.colors.border,
               ),
             ),
             child: Row(
               children: [
                 Text(
                   "Simple",
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontSmall,
-                    color: isDark
-                        ? UIColors.darkTextSecondary
-                        : UIColors.lightTextSecondary,
+                  style: t.typography.bodySmall.copyWith(
+                    color: t.colors.textSecondary,
                   ),
                 ),
-                const SizedBox(width: ThemeConstants.space8),
+                SizedBox(width: t.spacing.sm),
                 Switch(
                   value: isSimpleMode,
                   onChanged: onSimpleModeChanged,
-                  activeColor: accent,
+                  activeColor: t.colors.info,
                 ),
               ],
             ),

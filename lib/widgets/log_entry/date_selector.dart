@@ -1,13 +1,6 @@
-// MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
-// Riverpod: TODO
-// Notes: Initial migration header added. Some theme/common usage, not fully migrated.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../constants/theme/app_theme_constants.dart';
-import '../../common/cards/common_card.dart';
-import '../../common/text/common_section_header.dart';
+import '../../common/app_theme.dart';
 
 class DateSelector extends StatelessWidget {
   final DateTime date;
@@ -31,38 +24,69 @@ class DateSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppTheme.of(context);
     final formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
-    return CommonCard(
+    return Container(
+      padding: EdgeInsets.all(t.spacing.m),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        border: Border.all(color: t.colors.outlineVariant),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CommonSectionHeader(title: "Date"),
+          Text(
+            "Date",
+            style: t.typography.titleMedium.copyWith(
+              color: t.colors.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
 
-          const SizedBox(height: AppThemeConstants.spaceMd),
+          SizedBox(height: t.spacing.m),
 
-          Row(
-            children: [
-              Icon(
-                Icons.calendar_today,
-                size: AppThemeConstants.iconMd,
-                color: Theme.of(context).colorScheme.primary,
+          InkWell(
+            onTap: () => _pickDate(context),
+            borderRadius: BorderRadius.circular(t.shapes.radiusM),
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: t.spacing.m,
+                vertical: t.spacing.m,
               ),
-
-              const SizedBox(width: AppThemeConstants.spaceMd),
-
-              Expanded(
-                child: Text(
-                  formattedDate,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
+              decoration: BoxDecoration(
+                color: t.colors.surfaceContainer,
+                borderRadius: BorderRadius.circular(t.shapes.radiusM),
               ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.calendar_today,
+                    size: 24,
+                    color: t.colors.primary,
+                  ),
 
-              TextButton(
-                onPressed: () => _pickDate(context),
-                child: const Text("Change"),
+                  SizedBox(width: t.spacing.m),
+
+                  Expanded(
+                    child: Text(
+                      formattedDate,
+                      style: t.typography.bodyLarge.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: t.colors.onSurface,
+                      ),
+                    ),
+                  ),
+
+                  Icon(
+                    Icons.edit_outlined,
+                    size: 20,
+                    color: t.colors.onSurfaceVariant,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),

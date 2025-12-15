@@ -1,49 +1,37 @@
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class CatalogAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool isDark;
-  final Color accentColor;
-
-  const CatalogAppBar({
-    super.key,
-    required this.isDark,
-    required this.accentColor,
-  });
+  const CatalogAppBar({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final accentColor = t.accent.primary;
+
     return AppBar(
-      backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+      backgroundColor: t.colors.surface,
       elevation: 0,
       // Automatic hamburger menu icon when drawer is present
       title: Row(
         children: [
           Container(
-            margin: EdgeInsets.only(right: ThemeConstants.space8),
+            padding: EdgeInsets.all(t.spacing.xs),
+            margin: EdgeInsets.only(right: t.spacing.sm),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-              boxShadow: isDark
-                  ? UIColors.createNeonGlow(accentColor, intensity: 0.2)
-                  : null,
+              color: t.colors.surfaceVariant.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+              border: Border.all(color: accentColor.withValues(alpha: 0.5)),
             ),
             child: Icon(Icons.science_outlined, color: accentColor),
           ),
           Text(
             'Substance Catalog',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+            style: t.typography.heading3.copyWith(
+              color: t.colors.textPrimary,
             ),
           ),
         ],

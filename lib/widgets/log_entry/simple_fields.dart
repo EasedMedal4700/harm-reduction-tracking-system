@@ -1,15 +1,12 @@
-// MIGRATION
 import 'package:flutter/material.dart';
+import '../../common/app_theme.dart';
+import '../../constants/data/drug_use_catalog.dart';
 import 'dosage_input.dart';
 import 'route_selection.dart';
-import '../../common/old_common/feeling_selection.dart';
+import 'feeling_selection.dart';
 import 'date_selector.dart';
 import 'time_selector.dart';
-import '../../common/old_common/location_dropdown.dart';
 import 'substance_autocomplete.dart';
-import '../../common/cards/common_card.dart';
-import '../../common/text/common_section_header.dart';
-import '../../constants/theme/app_theme_constants.dart';
 
 class SimpleFields extends StatelessWidget {
   final double dose;
@@ -70,7 +67,33 @@ class SimpleFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final units = ['Î¼g', 'mg', 'g', 'pills', 'ml'];
+    final t = AppTheme.of(context);
+    final units = ['µg', 'mg', 'g', 'pills', 'ml'];
+
+    Widget _buildCard({required String title, required Widget child}) {
+      return Container(
+        padding: EdgeInsets.all(t.spacing.m),
+        decoration: BoxDecoration(
+          color: t.colors.surface,
+          borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+          border: Border.all(color: t.colors.outlineVariant),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: t.typography.titleMedium.copyWith(
+                color: t.colors.onSurface,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: t.spacing.m),
+            child,
+          ],
+        ),
+      );
+    }
 
     return Column(
       children: [
@@ -78,131 +101,101 @@ class SimpleFields extends StatelessWidget {
         // -------------------------------
         // SUBSTANCE
         // -------------------------------
-        CommonCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CommonSectionHeader(title: "Substance"),
-              SizedBox(height: AppThemeConstants.spaceMd),
-              SubstanceAutocomplete(
-                controller: substanceCtrl,
-                onSubstanceChanged: onSubstanceChanged,
-              ),
-            ],
+        _buildCard(
+          title: "Substance",
+          child: SubstanceAutocomplete(
+            controller: substanceCtrl,
+            onSubstanceChanged: onSubstanceChanged,
           ),
         ),
-        SizedBox(height: AppThemeConstants.spaceLg),
+        SizedBox(height: t.spacing.l),
 
         // -------------------------------
         // DOSAGE
         // -------------------------------
-        CommonCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CommonSectionHeader(title: "Dosage"),
-              SizedBox(height: AppThemeConstants.spaceMd),
-              DosageInput(
-                dose: dose,
-                unit: unit,
-                units: units,
-                onDoseChanged: onDoseChanged,
-                onUnitChanged: onUnitChanged,
-              ),
-            ],
-          ),
+        DosageInput(
+          dose: dose,
+          unit: unit,
+          units: units,
+          onDoseChanged: onDoseChanged,
+          onUnitChanged: onUnitChanged,
         ),
-        SizedBox(height: AppThemeConstants.spaceLg),
+        SizedBox(height: t.spacing.l),
 
         // -------------------------------
         // ROUTE
         // -------------------------------
-        CommonCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CommonSectionHeader(title: "Route of Administration"),
-              SizedBox(height: AppThemeConstants.spaceMd),
-              RouteSelection(
-                route: route,
-                onRouteChanged: onRouteChanged,
-              ),
-            ],
+        _buildCard(
+          title: "Route of Administration",
+          child: RouteSelection(
+            route: route,
+            onRouteChanged: onRouteChanged,
           ),
         ),
-        SizedBox(height: AppThemeConstants.spaceLg),
+        SizedBox(height: t.spacing.l),
 
         // -------------------------------
         // MEDICAL PURPOSE
         // -------------------------------
-        CommonCard(
+        Container(
+          decoration: BoxDecoration(
+            color: t.colors.surface,
+            borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+            border: Border.all(color: t.colors.outlineVariant),
+          ),
           child: SwitchListTile(
-            title: const Text("Medical Purpose"),
+            title: Text("Medical Purpose", style: t.typography.bodyLarge),
             value: isMedicalPurpose,
             onChanged: onMedicalPurposeChanged,
+            activeColor: t.colors.primary,
           ),
         ),
-        SizedBox(height: AppThemeConstants.spaceLg),
+        SizedBox(height: t.spacing.l),
 
         // -------------------------------
         // FEELINGS
         // -------------------------------
-        CommonCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CommonSectionHeader(title: "Feelings"),
-              SizedBox(height: AppThemeConstants.spaceMd),
-              FeelingSelection(
-                feelings: feelings,
-                secondaryFeelings: secondaryFeelings,
-                onFeelingsChanged: onFeelingsChanged,
-                onSecondaryFeelingsChanged: onSecondaryFeelingsChanged,
-              ),
-            ],
+        _buildCard(
+          title: "Feelings",
+          child: FeelingSelection(
+            feelings: feelings,
+            secondaryFeelings: secondaryFeelings,
+            onFeelingsChanged: onFeelingsChanged,
+            onSecondaryFeelingsChanged: onSecondaryFeelingsChanged,
           ),
         ),
-        SizedBox(height: AppThemeConstants.spaceLg),
+        SizedBox(height: t.spacing.l),
 
         // -------------------------------
         // DATE + TIME
         // -------------------------------
-        CommonCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CommonSectionHeader(title: "Date & Time"),
-              SizedBox(height: AppThemeConstants.spaceMd),
-              DateSelector(
-                date: date,
-                onDateChanged: onDateChanged,
-              ),
-              SizedBox(height: AppThemeConstants.spaceMd),
-              TimeSelector(
-                hour: hour,
-                minute: minute,
-                onHourChanged: onHourChanged,
-                onMinuteChanged: onMinuteChanged,
-              ),
-            ],
-          ),
+        DateSelector(
+          date: date,
+          onDateChanged: onDateChanged,
         ),
-        SizedBox(height: AppThemeConstants.spaceLg),
+        SizedBox(height: t.spacing.m),
+        TimeSelector(
+          hour: hour,
+          minute: minute,
+          onHourChanged: onHourChanged,
+          onMinuteChanged: onMinuteChanged,
+        ),
+        SizedBox(height: t.spacing.l),
 
         // -------------------------------
         // LOCATION
         // -------------------------------
-        CommonCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CommonSectionHeader(title: "Location"),
-              SizedBox(height: AppThemeConstants.spaceMd),
-              LocationDropdown(
-                location: location,
-                onLocationChanged: onLocationChanged,
-              ),
-            ],
+        _buildCard(
+          title: "Location",
+          child: DropdownButtonFormField<String>(
+            value: location,
+            items: DrugUseCatalog.locations.map((loc) => DropdownMenuItem(value: loc, child: Text(loc, style: t.typography.bodyLarge))).toList(),
+            onChanged: (v) => onLocationChanged(v!),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(t.shapes.radiusM)),
+              contentPadding: EdgeInsets.symmetric(horizontal: t.spacing.m, vertical: t.spacing.s),
+            ),
+            dropdownColor: t.colors.surfaceContainer,
           ),
         ),
       ],

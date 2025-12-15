@@ -1,13 +1,12 @@
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: PARTIAL
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import '../../models/drug_catalog_entry.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
 
 class WeeklyUsageDisplay extends StatelessWidget {
   final DrugCatalogEntry entry;
@@ -23,7 +22,7 @@ class WeeklyUsageDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     final counts = entry.weekdayUsage.counts;
     final maxUses = counts.isEmpty
@@ -38,23 +37,20 @@ class WeeklyUsageDisplay extends StatelessWidget {
           children: [
             Text(
               'Weekly Pattern',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontSmall,
-                fontWeight: ThemeConstants.fontSemiBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
+              style: t.typography.bodySmall.copyWith(
+                fontWeight: FontWeight.w600,
               ),
             ),
             Text(
               '(Tap to see times)',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              style: t.typography.caption.copyWith(
+                color: t.colors.textSecondary,
                 fontStyle: FontStyle.italic,
               ),
             ),
           ],
         ),
-        SizedBox(height: ThemeConstants.space8),
+        SizedBox(height: t.spacing.xs),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(7, (index) {
@@ -66,25 +62,23 @@ class WeeklyUsageDisplay extends StatelessWidget {
 
             return Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: ThemeConstants.space4 / 2),
+                padding: EdgeInsets.symmetric(horizontal: t.spacing.xs / 4),
                 child: InkWell(
                   onTap: count > 0
-                      ? () => onDayTap(entry.name, index, days[index], isDark, accentColor)
+                      ? () => onDayTap(entry.name, index, days[index], t.isDark, accentColor)
                       : null,
-                  borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                  borderRadius: BorderRadius.circular(t.shapes.radiusSm),
                   child: Container(
                     height: 60,
                     decoration: BoxDecoration(
                       color: count > 0
                           ? accentColor.withValues(alpha: 0.2 + (intensity * 0.6))
-                          : (isDark
-                              ? UIColors.darkBackground.withValues(alpha: 0.3)
-                              : UIColors.lightBackground),
-                      borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                          : t.colors.background.withValues(alpha: t.isDark ? 0.3 : 1.0),
+                      borderRadius: BorderRadius.circular(t.shapes.radiusSm),
                       border: Border.all(
                         color: count > 0
                             ? accentColor.withValues(alpha: 0.5 + (intensity * 0.5))
-                            : (isDark ? UIColors.darkBorder : UIColors.lightBorder),
+                            : t.colors.border,
                         width: count > 0 ? 2 : 1,
                       ),
                     ),
@@ -93,34 +87,30 @@ class WeeklyUsageDisplay extends StatelessWidget {
                       children: [
                         Text(
                           days[index],
-                          style: TextStyle(
-                            fontSize: ThemeConstants.fontXSmall,
+                          style: t.typography.caption.copyWith(
                             fontWeight: count > 0
-                                ? ThemeConstants.fontBold
+                                ? FontWeight.bold
                                 : FontWeight.normal,
                             color: count > 0
                                 ? accentColor
-                                : (isDark
-                                    ? UIColors.darkTextSecondary
-                                    : UIColors.lightTextSecondary),
+                                : t.colors.textSecondary,
                           ),
                         ),
                         if (count > 0) ...[
-                          SizedBox(height: ThemeConstants.space4),
+                          SizedBox(height: t.spacing.xs / 2),
                           Container(
                             padding: EdgeInsets.symmetric(
-                              horizontal: ThemeConstants.space4,
-                              vertical: ThemeConstants.space4 / 2,
+                              horizontal: t.spacing.xs / 2,
+                              vertical: t.spacing.xs / 4,
                             ),
                             decoration: BoxDecoration(
                               color: accentColor,
-                              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                              borderRadius: BorderRadius.circular(t.shapes.radiusSm),
                             ),
                             child: Text(
                               '$count',
-                              style: TextStyle(
-                                fontSize: ThemeConstants.fontXSmall,
-                                fontWeight: ThemeConstants.fontBold,
+                              style: t.typography.caption.copyWith(
+                                fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
                             ),

@@ -1,32 +1,25 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Widget for displaying dosage information for a specific ROA
 class DosageGuideCard extends StatelessWidget {
   final Map<String, dynamic>? doseData;
   final String selectedMethod;
-  final bool isDark;
   final Color accentColor;
 
   const DosageGuideCard({
     super.key,
     required this.doseData,
     required this.selectedMethod,
-    required this.isDark,
     required this.accentColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     if (doseData == null) {
       return _buildWarningCard(
+        context,
         'No dosage information available for $selectedMethod administration.',
       );
     }
@@ -37,26 +30,26 @@ class DosageGuideCard extends StatelessWidget {
         Row(
           children: [
             Icon(Icons.medication_outlined, color: accentColor),
-            const SizedBox(width: 8),
+            SizedBox(width: t.spacing.xs),
             Text(
               'Dose Ranges (Informational)',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontLarge,
-                fontWeight: ThemeConstants.fontBold,
-                color: isDark ? UIColors.darkText : UIColors.lightText,
+              style: t.typography.heading3.copyWith(
+                color: t.colors.textPrimary,
               ),
             ),
             const Spacer(),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: EdgeInsets.symmetric(
+                horizontal: t.spacing.sm,
+                vertical: t.spacing.xs,
+              ),
               decoration: BoxDecoration(
                 color: accentColor.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(t.spacing.radiusMd),
               ),
               child: Text(
                 selectedMethod,
-                style: TextStyle(
-                  fontSize: 12,
+                style: t.typography.label.copyWith(
                   color: accentColor,
                   fontWeight: FontWeight.bold,
                 ),
@@ -64,55 +57,63 @@ class DosageGuideCard extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16),
-        _buildDoseCard('Light', doseData!['Light'], Colors.green),
-        const SizedBox(height: 8),
-        _buildDoseCard('Common', doseData!['Common'], Colors.orange),
-        const SizedBox(height: 8),
-        _buildDoseCard('Strong', doseData!['Strong'], Colors.red),
+        SizedBox(height: t.spacing.md),
+        _buildDoseCard(context, 'Light', doseData!['Light'], Colors.green),
+        SizedBox(height: t.spacing.xs),
+        _buildDoseCard(context, 'Common', doseData!['Common'], Colors.orange),
+        SizedBox(height: t.spacing.xs),
+        _buildDoseCard(context, 'Strong', doseData!['Strong'], Colors.red),
         if (doseData!['Heavy'] != null) ...[
-          const SizedBox(height: 8),
-          _buildDoseCard('Heavy', doseData!['Heavy'], Colors.purple),
+          SizedBox(height: t.spacing.xs),
+          _buildDoseCard(context, 'Heavy', doseData!['Heavy'], Colors.purple),
         ],
       ],
     );
   }
 
-  Widget _buildDoseCard(String label, String? range, Color color) {
+  Widget _buildDoseCard(
+    BuildContext context,
+    String label,
+    String? range,
+    Color color,
+  ) {
+    final t = context.theme;
     if (range == null) return const SizedBox.shrink();
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(t.spacing.md),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
         border: Border(left: BorderSide(color: color, width: 4)),
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(t.spacing.xs),
             decoration: BoxDecoration(
               color: color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(_getDoseIcon(label), color: color, size: 20),
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: t.spacing.md),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 label,
-                style: TextStyle(fontWeight: FontWeight.bold, color: color),
+                style: t.typography.captionBold.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
                 range,
-                style: TextStyle(
-                  fontSize: 16,
+                style: t.typography.body.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                  color: t.colors.textPrimary,
                 ),
               ),
             ],
@@ -137,24 +138,25 @@ class DosageGuideCard extends StatelessWidget {
     }
   }
 
-  Widget _buildWarningCard(String message) {
+  Widget _buildWarningCard(BuildContext context, String message) {
+    final t = context.theme;
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(t.spacing.md),
       decoration: BoxDecoration(
-        color: Colors.amber.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-        border: Border.all(color: Colors.amber.withValues(alpha: 0.5)),
+        color: t.colors.warning.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+        border: Border.all(color: t.colors.warning.withValues(alpha: 0.5)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.warning_amber_rounded, color: Colors.amber),
-          const SizedBox(width: 12),
+          Icon(Icons.warning_amber_rounded, color: t.colors.warning),
+          SizedBox(width: t.spacing.sm),
           Expanded(
             child: Text(
               message,
-              style: TextStyle(
-                color: isDark ? Colors.amber[200] : Colors.amber[900],
+              style: t.typography.body.copyWith(
+                color: t.colors.warning,
                 height: 1.4,
               ),
             ),

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// Selectable chip component for emotions, triggers, body signals
 class CommonChip extends StatelessWidget {
@@ -29,32 +34,36 @@ class CommonChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = selectedColor ??
-        (isDark ? UIColors.darkNeonViolet : UIColors.lightAccentPurple);
+    final t = context.theme;
+    final accentColor = selectedColor ?? t.accent.primary;
 
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: ThemeConstants.animationFast,
-        padding: const EdgeInsets.symmetric(
-          horizontal: ThemeConstants.space12,
-          vertical: ThemeConstants.space8,
+        duration: const Duration(milliseconds: 200),
+        padding: EdgeInsets.symmetric(
+          horizontal: t.spacing.md,
+          vertical: t.spacing.sm,
         ),
         decoration: BoxDecoration(
           color: isSelected
-              ? (isDark ? accentColor.withOpacity(0.15) : accentColor.withOpacity(0.1))
-              : (unselectedColor ??
-                  (isDark ? const Color(0x08FFFFFF) : Colors.grey.shade100)),
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              ? accentColor.withOpacity(t.isDark ? 0.15 : 0.1)
+              : (unselectedColor ?? t.colors.surfaceVariant.withOpacity(0.5)),
+          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           border: Border.all(
             color: isSelected
                 ? (selectedBorderColor ?? accentColor)
-                : (isDark ? const Color(0x14FFFFFF) : UIColors.lightBorder),
+                : t.colors.border,
             width: isSelected ? 2 : 1,
           ),
           boxShadow: isSelected && showGlow
-              ? UIColors.createNeonGlow(accentColor, intensity: 0.15)
+              ? [
+                  BoxShadow(
+                    color: accentColor.withOpacity(0.4),
+                    blurRadius: 8,
+                    spreadRadius: 1,
+                  )
+                ]
               : null,
         ),
         child: Row(
@@ -62,27 +71,25 @@ class CommonChip extends StatelessWidget {
           children: [
             if (emoji != null) ...[
               Text(emoji!, style: const TextStyle(fontSize: 16)),
-              const SizedBox(width: ThemeConstants.space8),
+              SizedBox(width: t.spacing.sm),
             ],
             if (icon != null) ...[
               Icon(
                 icon,
                 size: 16,
                 color: isSelected
-                    ? (isDark ? UIColors.darkText : UIColors.lightText)
-                    : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
+                    ? t.colors.textPrimary
+                    : t.colors.textSecondary,
               ),
-              const SizedBox(width: ThemeConstants.space8),
+              SizedBox(width: t.spacing.sm),
             ],
             Text(
               label,
-              style: TextStyle(
-                fontSize: ThemeConstants.fontSmall,
-                fontWeight:
-                    isSelected ? ThemeConstants.fontMediumWeight : ThemeConstants.fontRegular,
+              style: t.text.bodySmall.copyWith(
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 color: isSelected
-                    ? (isDark ? UIColors.darkText : UIColors.lightText)
-                    : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
+                    ? t.colors.textPrimary
+                    : t.colors.textSecondary,
               ),
             ),
           ],

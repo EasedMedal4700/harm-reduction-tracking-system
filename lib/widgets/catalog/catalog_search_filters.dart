@@ -1,11 +1,5 @@
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Initial migration header added. Not migrated yet.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import 'catalog_search_bar.dart';
 import 'category_filter_chips.dart';
 import 'common_filter_toggle.dart';
@@ -15,8 +9,6 @@ class CatalogSearchFilters extends StatelessWidget {
   final String searchQuery;
   final List<String> selectedCategories;
   final bool showCommonOnly;
-  final bool isDark;
-  final Color accentColor;
   final VoidCallback onSearchClear;
   final ValueChanged<String> onSearchChanged;
   final Function(String?) onCategoryToggled;
@@ -28,8 +20,6 @@ class CatalogSearchFilters extends StatelessWidget {
     required this.searchQuery,
     required this.selectedCategories,
     required this.showCommonOnly,
-    required this.isDark,
-    required this.accentColor,
     required this.onSearchClear,
     required this.onSearchChanged,
     required this.onCategoryToggled,
@@ -38,14 +28,16 @@ class CatalogSearchFilters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+
     return Container(
-      padding: EdgeInsets.all(ThemeConstants.homePagePadding),
+      padding: EdgeInsets.all(t.spacing.md),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+        color: t.colors.surface,
         border: Border(
           bottom: BorderSide(
-            color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-            width: ThemeConstants.borderThin,
+            color: t.colors.border,
+            width: 1,
           ),
         ),
       ),
@@ -53,28 +45,22 @@ class CatalogSearchFilters extends StatelessWidget {
         children: [
           CatalogSearchBar(
             controller: searchController,
-            isDark: isDark,
-            accentColor: accentColor,
             onChanged: () {
               onSearchChanged(searchController.text);
             },
           ),
-          SizedBox(height: ThemeConstants.space16),
+          SizedBox(height: t.spacing.md),
           CategoryFilterChips(
             selectedCategory: selectedCategories.isNotEmpty ? selectedCategories.first : null,
-            isDark: isDark,
-            accentColor: accentColor,
             onCategorySelected: (category) {
               if (category != null) {
                 onCategoryToggled(category);
               }
             },
           ),
-          SizedBox(height: ThemeConstants.space16),
+          SizedBox(height: t.spacing.md),
           CommonFilterToggle(
             showCommonOnly: showCommonOnly,
-            isDark: isDark,
-            accentColor: accentColor,
             onChanged: onCommonOnlyChanged,
           ),
         ],

@@ -1,68 +1,50 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class CommonFilterToggle extends StatelessWidget {
   final bool showCommonOnly;
-  final bool isDark;
-  final Color accentColor;
   final ValueChanged<bool> onChanged;
 
   const CommonFilterToggle({
     super.key,
     required this.showCommonOnly,
-    required this.isDark,
-    required this.accentColor,
     required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final accentColor = t.accent.primary;
+
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: ThemeConstants.space16,
-        vertical: ThemeConstants.space12,
+        horizontal: t.spacing.md,
+        vertical: t.spacing.sm,
       ),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: accentColor,
-              radius: ThemeConstants.radiusMedium,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(
-                ThemeConstants.radiusMedium,
-              ),
-              border: Border.all(color: UIColors.lightBorder),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+        border: Border.all(
+          color: showCommonOnly ? accentColor : t.colors.border,
+        ),
+        boxShadow: t.cardShadow,
+      ),
       child: Row(
         children: [
           Icon(
             Icons.filter_list_rounded,
             color: showCommonOnly
                 ? accentColor
-                : (isDark
-                      ? UIColors.darkTextSecondary
-                      : UIColors.lightTextSecondary),
-            size: ThemeConstants.iconSmall,
+                : t.colors.textSecondary,
+            size: 20,
           ),
-          SizedBox(width: ThemeConstants.space12),
+          SizedBox(width: t.spacing.md),
           Expanded(
             child: Text(
               'Common Only',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                fontWeight: ThemeConstants.fontSemiBold,
-                color: showCommonOnly
-                    ? accentColor
-                    : (isDark ? UIColors.darkText : UIColors.lightText),
+              style: t.typography.body.copyWith(
+                color: t.colors.textPrimary,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -70,7 +52,7 @@ class CommonFilterToggle extends StatelessWidget {
             value: showCommonOnly,
             onChanged: onChanged,
             activeThumbColor: accentColor,
-            activeTrackColor: accentColor.withValues(alpha: 0.3),
+            activeTrackColor: accentColor.withValues(alpha: 0.5),
           ),
         ],
       ),

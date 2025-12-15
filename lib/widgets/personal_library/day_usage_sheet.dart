@@ -1,13 +1,12 @@
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: PARTIAL
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class DayUsageSheet extends StatefulWidget {
   final String substanceName;
@@ -86,16 +85,16 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     final displayEntries = _showAll || _allEntries.length <= 10
         ? _allEntries
         : _allEntries.take(10).toList();
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(ThemeConstants.radiusExtraLarge),
+        color: t.colors.surface,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(t.shapes.radiusXl),
         ),
       ),
       child: Column(
@@ -103,24 +102,24 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
         children: [
           // Handle bar
           Container(
-            margin: EdgeInsets.only(top: ThemeConstants.space12),
+            margin: EdgeInsets.only(top: t.spacing.sm),
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+              color: t.colors.border,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
 
           // Header
           Padding(
-            padding: EdgeInsets.all(ThemeConstants.space20),
+            padding: EdgeInsets.all(t.spacing.lg),
             child: Column(
               children: [
                 Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(ThemeConstants.space8),
+                      padding: EdgeInsets.all(t.spacing.xs),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
@@ -129,37 +128,30 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                           ],
                         ),
                         borderRadius: BorderRadius.circular(
-                          ThemeConstants.radiusMedium,
+                          t.shapes.radiusMd,
                         ),
                       ),
                       child: Icon(
                         Icons.calendar_today,
                         color: Colors.white,
-                        size: ThemeConstants.iconMedium,
+                        size: 20,
                       ),
                     ),
-                    SizedBox(width: ThemeConstants.space12),
+                    SizedBox(width: t.spacing.sm),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             widget.substanceName,
-                            style: TextStyle(
-                              fontSize: ThemeConstants.fontLarge,
-                              fontWeight: ThemeConstants.fontBold,
-                              color: isDark
-                                  ? UIColors.darkText
-                                  : UIColors.lightText,
+                            style: t.typography.heading3.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
                             '${widget.dayName} Usage History',
-                            style: TextStyle(
-                              fontSize: ThemeConstants.fontMedium,
-                              color: isDark
-                                  ? UIColors.darkTextSecondary
-                                  : UIColors.lightTextSecondary,
+                            style: t.typography.body.copyWith(
+                              color: t.colors.textSecondary,
                             ),
                           ),
                         ],
@@ -168,22 +160,20 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                     IconButton(
                       icon: const Icon(Icons.close),
                       onPressed: () => Navigator.pop(context),
-                      color: isDark
-                          ? UIColors.darkTextSecondary
-                          : UIColors.lightTextSecondary,
+                      color: t.colors.textSecondary,
                     ),
                   ],
                 ),
-                SizedBox(height: ThemeConstants.space8),
+                SizedBox(height: t.spacing.xs),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: ThemeConstants.space12,
-                    vertical: ThemeConstants.space8,
+                    horizontal: t.spacing.sm,
+                    vertical: t.spacing.xs,
                   ),
                   decoration: BoxDecoration(
                     color: widget.accentColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(
-                      ThemeConstants.radiusMedium,
+                      t.shapes.radiusMd,
                     ),
                     border: Border.all(
                       color: widget.accentColor.withValues(alpha: 0.3),
@@ -191,9 +181,8 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                   ),
                   child: Text(
                     '${_allEntries.length} ${_allEntries.length == 1 ? 'use' : 'uses'} on ${widget.dayName}s',
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontSmall,
-                      fontWeight: ThemeConstants.fontSemiBold,
+                    style: t.typography.bodySmall.copyWith(
+                      fontWeight: FontWeight.w600,
                       color: widget.accentColor,
                     ),
                   ),
@@ -213,7 +202,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
               child: ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.symmetric(
-                  horizontal: ThemeConstants.space20,
+                  horizontal: t.spacing.lg,
                 ),
                 itemCount: displayEntries.length,
                 itemBuilder: (context, index) {
@@ -225,19 +214,15 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                       entry['medical'] == true || entry['medical'] == 1;
 
                   return Container(
-                    margin: EdgeInsets.only(bottom: ThemeConstants.space8),
-                    padding: EdgeInsets.all(ThemeConstants.space12),
+                    margin: EdgeInsets.only(bottom: t.spacing.xs),
+                    padding: EdgeInsets.all(t.spacing.sm),
                     decoration: BoxDecoration(
-                      color: isDark
-                          ? UIColors.darkBackground.withValues(alpha: 0.5)
-                          : UIColors.lightBackground,
+                      color: t.colors.background.withValues(alpha: t.isDark ? 0.5 : 1.0),
                       borderRadius: BorderRadius.circular(
-                        ThemeConstants.radiusMedium,
+                        t.shapes.radiusMd,
                       ),
                       border: Border.all(
-                        color: isDark
-                            ? UIColors.darkBorder
-                            : UIColors.lightBorder,
+                        color: t.colors.border,
                       ),
                     ),
                     child: Row(
@@ -250,25 +235,21 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                             children: [
                               Text(
                                 DateFormat('HH:mm').format(startTime),
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontMedium,
-                                  fontWeight: ThemeConstants.fontBold,
+                                style: t.typography.body.copyWith(
+                                  fontWeight: FontWeight.bold,
                                   color: widget.accentColor,
                                 ),
                               ),
                               Text(
                                 DateFormat('MMM d').format(startTime),
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontXSmall,
-                                  color: isDark
-                                      ? UIColors.darkTextSecondary
-                                      : UIColors.lightTextSecondary,
+                                style: t.typography.caption.copyWith(
+                                  color: t.colors.textSecondary,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(width: ThemeConstants.space12),
+                        SizedBox(width: t.spacing.sm),
                         // Details
                         Expanded(
                           child: Column(
@@ -276,12 +257,8 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                             children: [
                               Text(
                                 dose,
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontMedium,
-                                  fontWeight: ThemeConstants.fontSemiBold,
-                                  color: isDark
-                                      ? UIColors.darkText
-                                      : UIColors.lightText,
+                                style: t.typography.body.copyWith(
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Row(
@@ -289,26 +266,21 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                                   Icon(
                                     Icons.route,
                                     size: 12,
-                                    color: isDark
-                                        ? UIColors.darkTextSecondary
-                                        : UIColors.lightTextSecondary,
+                                    color: t.colors.textSecondary,
                                   ),
-                                  SizedBox(width: ThemeConstants.space4),
+                                  SizedBox(width: t.spacing.xs / 2),
                                   Text(
                                     route,
-                                    style: TextStyle(
-                                      fontSize: ThemeConstants.fontSmall,
-                                      color: isDark
-                                          ? UIColors.darkTextSecondary
-                                          : UIColors.lightTextSecondary,
+                                    style: t.typography.bodySmall.copyWith(
+                                      color: t.colors.textSecondary,
                                     ),
                                   ),
                                   if (isMedical) ...[
-                                    SizedBox(width: ThemeConstants.space8),
+                                    SizedBox(width: t.spacing.xs),
                                     Icon(
                                       Icons.medical_services,
                                       size: 12,
-                                      color: UIColors.lightAccentGreen,
+                                      color: t.colors.success,
                                     ),
                                   ],
                                 ],
@@ -326,7 +298,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
           // "Show All" button if more than 10
           if (!_showAll && _allEntries.length > 10)
             Padding(
-              padding: EdgeInsets.all(ThemeConstants.space16),
+              padding: EdgeInsets.all(t.spacing.md),
               child: ElevatedButton(
                 onPressed: () {
                   setState(() {
@@ -337,15 +309,15 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                   backgroundColor: widget.accentColor,
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(
-                    horizontal: ThemeConstants.space20,
-                    vertical: ThemeConstants.space12,
+                    horizontal: t.spacing.lg,
+                    vertical: t.spacing.sm,
                   ),
                 ),
                 child: Text('Show All ${_allEntries.length} Uses'),
               ),
             ),
 
-          SizedBox(height: ThemeConstants.space16),
+          SizedBox(height: t.spacing.md),
         ],
       ),
     );

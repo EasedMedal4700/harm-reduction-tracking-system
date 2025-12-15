@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
-import '../log_entry_cards/substance_header_card.dart';
-import '../log_entry_cards/dosage_card.dart';
-import '../log_entry_cards/route_of_administration_card.dart';
-import '../log_entry_cards/feelings_card.dart';
-import '../log_entry_cards/location_card.dart';
-import '../log_entry_cards/time_of_use_card.dart';
-import '../log_entry_cards/intention_craving_card.dart';
-import '../log_entry_cards/triggers_card.dart';
-import '../log_entry_cards/body_signals_card.dart';
-import '../log_entry_cards/notes_card.dart';
-// import '../log_entry_save_button.dart';
+import '../../common/app_theme.dart';
+import 'simple_fields.dart';
+import 'complex_fields.dart';
 
 class LogEntryForm extends StatelessWidget {
   final bool isSimpleMode;
@@ -53,6 +45,7 @@ class LogEntryForm extends StatelessWidget {
 
   final VoidCallback onSave;
   final GlobalKey<FormState> formKey;
+  final bool showSaveButton;
 
   const LogEntryForm({
     super.key,
@@ -90,85 +83,123 @@ class LogEntryForm extends StatelessWidget {
     required this.onTriggersChanged,
     required this.onBodySignalsChanged,
     required this.onSave,
+    this.showSaveButton = true,
     this.substanceCtrl,
     this.doseCtrl,
   });
 
   @override
   Widget build(BuildContext context) {
+    final t = AppTheme.of(context);
+
     return Form(
       key: formKey,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 100),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SubstanceHeaderCard(
-                substance: substance,
-                onSubstanceChanged: onSubstanceChanged,
-                substanceCtrl: substanceCtrl,
-              ),
-
-              DosageCard(
-                dose: dose,
-                unit: unit,
-                units: const ["mg", "g", "ml", "µg"],
-                onDoseChanged: onDoseChanged,
-                onUnitChanged: onUnitChanged,
-                doseCtrl: doseCtrl,
-              ),
-
-              RouteOfAdministrationCard(
-                route: route,
-                onRouteChanged: onRouteChanged,
-                availableROAs: const ["oral", "insufflated", "inhaled", "sublingual"],
-              ),
-
-              FeelingsCard(
-                feelings: feelings,
-                secondaryFeelings: secondaryFeelings,
-                onFeelingsChanged: onFeelingsChanged,
-                onSecondaryFeelingsChanged: onSecondaryFeelingsChanged,
-              ),
-
-              LocationCard(
-                location: location,
-                onLocationChanged: onLocationChanged,
-              ),
-
-              TimeOfUseCard(
-                date: date,
-                hour: hour,
-                minute: minute,
-                onDateChanged: onDateChanged,
-                onHourChanged: onHourChanged,
-                onMinuteChanged: onMinuteChanged,
-              ),
-
-              if (!isSimpleMode)
-                IntentionCravingCard(
-                  intention: intention,
-                  cravingIntensity: cravingIntensity,
-                  isMedicalPurpose: isMedicalPurpose,
-                  onCravingIntensityChanged: onCravingIntensityChanged,
-                  onIntentionChanged: onIntentionChanged,
-                  onMedicalPurposeChanged: onMedicalPurposeChanged,
-                ),
-
-              TriggersCard(
-                selectedTriggers: selectedTriggers,
-                onTriggersChanged: onTriggersChanged,
-              ),
-
-              BodySignalsCard(
-                selectedBodySignals: selectedBodySignals,
-                onBodySignalsChanged: onBodySignalsChanged,
-              ),
-
-              NotesCard(notesCtrl: notesCtrl),
-            ],
+      child: Column(
+        children: [
+          SimpleFields(
+            dose: dose,
+            unit: unit,
+            substance: substance,
+            route: route,
+            feelings: feelings,
+            secondaryFeelings: secondaryFeelings,
+            location: location,
+            date: date,
+            hour: hour,
+            minute: minute,
+            onDoseChanged: onDoseChanged,
+            onUnitChanged: onUnitChanged,
+            onSubstanceChanged: onSubstanceChanged,
+            onRouteChanged: onRouteChanged,
+            onFeelingsChanged: onFeelingsChanged,
+            onSecondaryFeelingsChanged: onSecondaryFeelingsChanged,
+            onLocationChanged: onLocationChanged,
+            onDateChanged: onDateChanged,
+            onHourChanged: onHourChanged,
+            onMinuteChanged: onMinuteChanged,
+            isMedicalPurpose: isMedicalPurpose,
+            onMedicalPurposeChanged: onMedicalPurposeChanged,
+            substanceCtrl: substanceCtrl,
+            doseCtrl: doseCtrl,
           ),
-        ),
+          
+          if (!isSimpleMode) ...[
+            SizedBox(height: t.spacing.l),
+            ComplexFields(
+              cravingIntensity: cravingIntensity,
+              intention: intention,
+              selectedTriggers: selectedTriggers,
+              selectedBodySignals: selectedBodySignals,
+              onCravingIntensityChanged: onCravingIntensityChanged,
+              onIntentionChanged: onIntentionChanged,
+              onTriggersChanged: onTriggersChanged,
+              onBodySignalsChanged: onBodySignalsChanged,
+            ),
+          ],
+
+          SizedBox(height: t.spacing.l),
+
+          // Notes
+          Container(
+            padding: EdgeInsets.all(t.spacing.m),
+            decoration: BoxDecoration(
+              color: t.colors.surface,
+              borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+              border: Border.all(color: t.colors.outlineVariant),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Notes",
+                  style: t.typography.titleMedium.copyWith(
+                    color: t.colors.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: t.spacing.m),
+                TextFormField(
+                  controller: notesCtrl,
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    hintText: "Add any additional notes here...",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(t.shapes.radiusM),
+                    ),
+                  ),
+                  style: t.typography.bodyLarge,
+                ),
+              ],
+            ),
+          ),
+
+          if (showSaveButton) ...[
+            SizedBox(height: t.spacing.xl),
+
+            // Save Button
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: onSave,
+                style: FilledButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: t.spacing.m),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(t.shapes.radiusM),
+                  ),
+                ),
+                child: Text(
+                  "Save Entry",
+                  style: t.typography.titleMedium.copyWith(
+                    color: t.colors.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+          
+          SizedBox(height: t.spacing.xxl),
+        ],
       ),
     );
   }

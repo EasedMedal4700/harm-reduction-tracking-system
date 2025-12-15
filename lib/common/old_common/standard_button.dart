@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 class StandardButton extends StatelessWidget {
   final String text;
@@ -16,20 +21,28 @@ class StandardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
+    
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: isPrimary ? ButtonConstants.getPrimaryColor(isDark) : ButtonConstants.getSecondaryColor(isDark),
-        padding: const EdgeInsets.symmetric(
-          horizontal: ButtonConstants.buttonPaddingHorizontal,
-          vertical: ButtonConstants.buttonPaddingVertical,
+        backgroundColor: isPrimary 
+            ? t.accent.primary 
+            : t.colors.surfaceVariant,
+        padding: EdgeInsets.symmetric(
+          horizontal: t.spacing.xl,
+          vertical: t.spacing.md,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ButtonConstants.buttonBorderRadius),
+          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
         ),
       ),
-      child: Text(text, style: TextStyle(fontSize: ButtonConstants.buttonFontSize, fontWeight: ButtonConstants.buttonFontWeight)),
+      child: Text(
+        text,
+        style: t.text.body.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 }

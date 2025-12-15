@@ -1,15 +1,8 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
 import '../../common/cards/common_card.dart';
 import '../../common/text/common_section_header.dart';
 import '../../common/layout/common_spacer.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class MedicalPurposeCard extends StatelessWidget {
   final bool isMedicalPurpose;
@@ -23,8 +16,8 @@ class MedicalPurposeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accent = isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen;
+    final t = context.theme;
+    final accent = t.colors.success;
 
     return CommonCard(
       child: Column(
@@ -35,40 +28,34 @@ class MedicalPurposeCard extends StatelessWidget {
             subtitle: "Prescribed or therapeutic use",
           ),
 
-          const CommonSpacer.vertical(ThemeConstants.space12),
+          CommonSpacer.vertical(t.spacing.md),
 
           Container(
             decoration: BoxDecoration(
-              color: isDark ? const Color(0x08FFFFFF) : Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              color: t.colors.surfaceVariant,
+              borderRadius: BorderRadius.circular(t.spacing.radiusMd),
               border: Border.all(
-                color: isMedicalPurpose ? accent : (isDark
-                    ? const Color(0x14FFFFFF)
-                    : UIColors.lightBorder),
+                color: isMedicalPurpose ? accent : t.colors.border,
                 width: isMedicalPurpose ? 2 : 1,
               ),
             ),
             child: SwitchListTile(
               value: isMedicalPurpose,
               onChanged: onChanged,
-              activeColor: accent,
+              activeThumbColor: accent,
               title: Text(
                 "Medical Purpose",
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
+                style: t.typography.body.copyWith(
                   fontWeight: isMedicalPurpose
-                      ? ThemeConstants.fontSemiBold
-                      : ThemeConstants.fontRegular,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                      ? FontWeight.w600
+                      : FontWeight.normal,
+                  color: t.colors.textPrimary,
                 ),
               ),
               subtitle: Text(
                 "Prescribed or therapeutic use",
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontSmall,
-                  color: isDark
-                      ? UIColors.darkTextSecondary
-                      : UIColors.lightTextSecondary,
+                style: t.typography.bodySmall.copyWith(
+                  color: t.colors.textSecondary,
                 ),
               ),
             ),

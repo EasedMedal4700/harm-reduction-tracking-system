@@ -1,16 +1,7 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
+import '../../common/app_theme.dart';
 import '../../constants/data/craving_consatnts.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../common/old_common/modern_form_card.dart';
-import '../../common/old_common/craving_slider.dart';
-import '../../common/old_common/location_dropdown.dart';
+import '../../constants/data/drug_use_catalog.dart';
 
 class CravingDetailsSection extends StatelessWidget {
   final List<String> selectedCravings;
@@ -36,27 +27,41 @@ class CravingDetailsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = AppTheme.of(context);
     
-    return ModernFormCard(
-      title: 'Craving Details',
-      icon: Icons.psychology,
-      accentColor: isDark ? UIColors.darkNeonPurple : UIColors.lightAccentPurple,
+    return Container(
+      padding: EdgeInsets.all(t.spacing.m),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        border: Border.all(color: t.colors.outlineVariant),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            children: [
+              Icon(Icons.psychology, color: t.colors.primary),
+              SizedBox(width: t.spacing.s),
+              Text(
+                'Craving Details',
+                style: t.typography.titleMedium.copyWith(
+                  color: t.colors.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: t.spacing.m),
+          
           Text(
             'What were you craving?',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              fontWeight: ThemeConstants.fontMediumWeight,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
+            style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
           ),
-          SizedBox(height: ThemeConstants.space12),
+          SizedBox(height: t.spacing.s),
           Wrap(
-            spacing: 8.0,
-            runSpacing: 8.0,
+            spacing: t.spacing.xs,
+            runSpacing: t.spacing.xs,
             children: cravingCategories.entries.map((entry) {
               final isSelected = selectedCravings.contains(entry.key);
               return FilterChip(
@@ -67,31 +72,66 @@ class CravingDetailsSection extends StatelessWidget {
                       ? [...selectedCravings, entry.key]
                       : selectedCravings.where((c) => c != entry.key).toList(),
                 ),
-                selectedColor: (isDark ? UIColors.darkNeonPurple : UIColors.lightAccentPurple).withValues(alpha: 0.3),
-                checkmarkColor: isDark ? UIColors.darkNeonPurple : UIColors.lightAccentPurple,
+                selectedColor: t.colors.primaryContainer,
+                checkmarkColor: t.colors.onPrimaryContainer,
+                labelStyle: t.typography.bodyMedium.copyWith(
+                  color: isSelected ? t.colors.onPrimaryContainer : t.colors.onSurface,
+                ),
+                backgroundColor: t.colors.surfaceContainerLow,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(t.shapes.radiusS),
+                  side: BorderSide(
+                    color: isSelected ? Colors.transparent : t.colors.outline,
+                  ),
+                ),
               );
             }).toList(),
           ),
-          if (selectedCravings.isNotEmpty) ...[
-            SizedBox(height: ThemeConstants.space12),
-            Text(
-              'Selected: ${selectedCravings.join('; ')}',
-              style: TextStyle(
-                fontSize: ThemeConstants.fontSmall,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-              ),
+          
+          SizedBox(height: t.spacing.l),
+          
+          Text(
+            'Intensity: /10',
+            style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+          ),
+          Slider(
+            value: intensity,
+            min: 0,
+            max: 10,
+            divisions: 10,
+            label: intensity.round().toString(),
+            onChanged: onIntensityChanged,
+            activeColor: t.colors.primary,
+            inactiveColor: t.colors.surfaceContainerHighest,
+          ),
+          
+          SizedBox(height: t.spacing.m),
+          
+          DropdownButtonFormField<String>(
+            value: location.isEmpty ? null : location,
+            decoration: InputDecoration(
+              labelText: 'Location',
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(t.shapes.radiusM)),
+              contentPadding: EdgeInsets.symmetric(horizontal: t.spacing.m, vertical: t.spacing.s),
             ),
-          ],
-          SizedBox(height: ThemeConstants.space16),
-          CravingSlider(value: intensity, onChanged: onIntensityChanged),
-          SizedBox(height: ThemeConstants.space16),
-          LocationDropdown(location: location, onLocationChanged: onLocationChanged),
-          SizedBox(height: ThemeConstants.space16),
-          ModernDropdownField<String>(
-            label: 'Who were you with?',
+            items: DrugUseCatalog.locations.map((loc) => DropdownMenuItem(value: loc, child: Text(loc))).toList(),
+            onChanged: (v) {
+              if (v != null) onLocationChanged(v);
+            },
+          ),
+          
+          SizedBox(height: t.spacing.m),
+          
+          DropdownButtonFormField<String>(
             value: withWho?.isEmpty == true ? null : withWho,
-            items: const ['Alone', 'Friends', 'Family', 'Other'],
-            itemLabel: (item) => item,
+            decoration: InputDecoration(
+              labelText: 'Who were you with?',
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(t.shapes.radiusM)),
+              contentPadding: EdgeInsets.symmetric(horizontal: t.spacing.m, vertical: t.spacing.s),
+            ),
+            items: const ['Alone', 'Friends', 'Family', 'Other']
+                .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+                .toList(),
             onChanged: onWithWhoChanged,
           ),
         ],

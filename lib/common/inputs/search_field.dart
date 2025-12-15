@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// Search field with autocomplete support
 class CommonSearchField<T extends Object> extends StatelessWidget {
@@ -25,7 +30,7 @@ class CommonSearchField<T extends Object> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     
     return Autocomplete<T>(
       optionsBuilder: (TextEditingValue textEditingValue) async {
@@ -42,24 +47,18 @@ class CommonSearchField<T extends Object> extends StatelessWidget {
           focusNode: focusNode,
           decoration: InputDecoration(
             hintText: hintText ?? 'Search...',
-            hintStyle: TextStyle(
-              color: isDark 
-                  ? UIColors.darkTextSecondary.withOpacity(0.5)
-                  : UIColors.lightTextSecondary.withOpacity(0.5),
+            hintStyle: t.text.body.copyWith(
+              color: t.colors.textSecondary.withOpacity(0.5),
             ),
             prefixIcon: Icon(
               Icons.search,
-              color: isDark 
-                  ? UIColors.darkTextSecondary 
-                  : UIColors.lightTextSecondary,
+              color: t.colors.textSecondary,
             ),
             suffixIcon: controller.text.isNotEmpty
                 ? IconButton(
                     icon: Icon(
                       Icons.clear,
-                      color: isDark 
-                          ? UIColors.darkTextSecondary 
-                          : UIColors.lightTextSecondary,
+                      color: t.colors.textSecondary,
                     ),
                     onPressed: () {
                       controller.clear();
@@ -68,40 +67,33 @@ class CommonSearchField<T extends Object> extends StatelessWidget {
                   )
                 : null,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
               borderSide: BorderSide(
-                color: isDark 
-                    ? const Color(0x14FFFFFF)
-                    : UIColors.lightBorder,
+                color: t.colors.border,
               ),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
               borderSide: BorderSide(
-                color: isDark 
-                    ? const Color(0x14FFFFFF)
-                    : UIColors.lightBorder,
+                color: t.colors.border,
               ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
               borderSide: BorderSide(
-                color: isDark 
-                    ? UIColors.darkNeonCyan
-                    : UIColors.lightAccentBlue,
+                color: t.accent.primary,
                 width: 2,
               ),
             ),
             filled: true,
-            fillColor: isDark 
-                ? const Color(0x08FFFFFF)
-                : Colors.grey.shade50,
+            fillColor: t.colors.surfaceVariant.withOpacity(0.3),
           ),
-          style: TextStyle(
-            color: isDark ? UIColors.darkText : UIColors.lightText,
-            fontSize: ThemeConstants.fontLarge,
+          style: t.text.bodyLarge.copyWith(
+            color: t.colors.textPrimary,
+            fontSize: 18.0,
           ),
           onFieldSubmitted: (_) => onFieldSubmitted(),
+          cursorColor: t.accent.primary,
         );
       },
       optionsViewBuilder: (context, onSelected, options) {
@@ -109,8 +101,8 @@ class CommonSearchField<T extends Object> extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Material(
             elevation: 4,
-            borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-            color: isDark ? UIColors.darkSurface : Colors.white,
+            borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+            color: t.colors.surface,
             child: ConstrainedBox(
               constraints: const BoxConstraints(
                 maxHeight: 200,

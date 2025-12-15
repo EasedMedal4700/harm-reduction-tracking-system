@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'providers/daily_checkin_provider.dart';
@@ -92,7 +93,7 @@ Future<void> main() async {
       };
 
       final navigatorObserver = ScreenTrackingNavigatorObserver();
-      runApp(MyApp(navigatorObserver: navigatorObserver));
+      runApp(riverpod.ProviderScope(child: MyApp(navigatorObserver: navigatorObserver)));
     },
     (error, stack) {
       errorLoggingService.logError(error: error, stackTrace: stack);

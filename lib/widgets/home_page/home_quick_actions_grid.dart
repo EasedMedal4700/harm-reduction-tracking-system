@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants/config/feature_flags.dart';
-import '../../constants/deprecated/theme_constants.dart';
+
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';
 import '../home_redesign/quick_action_card.dart';

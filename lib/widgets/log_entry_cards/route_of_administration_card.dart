@@ -1,17 +1,10 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
 import '../../common/cards/common_card.dart';
 import '../../common/text/common_section_header.dart';
 import '../../common/layout/common_spacer.dart';
 import '../../common/buttons/common_chip.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
 import '../../constants/data/drug_use_catalog.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class RouteOfAdministrationCard extends StatelessWidget {
   final String route;
@@ -29,7 +22,7 @@ class RouteOfAdministrationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
 
     return CommonCard(
       child: Column(
@@ -40,18 +33,18 @@ class RouteOfAdministrationCard extends StatelessWidget {
             subtitle: "How the substance was taken",
           ),
 
-          const CommonSpacer.vertical(ThemeConstants.space12),
+          CommonSpacer.vertical(t.spacing.md),
 
           Wrap(
-            spacing: ThemeConstants.space8,
-            runSpacing: ThemeConstants.space8,
+            spacing: t.spacing.sm,
+            runSpacing: t.spacing.sm,
             children: availableROAs.map((method) {
               final selected =
                   route.toLowerCase() == method.toLowerCase();
               final validated = isROAValidated?.call(method) ?? true;
 
               final emoji = _emojiForROA(method);
-              final accent = _accentColorForROA(method, isDark, validated);
+              final accent = _accentColorForROA(context, validated);
 
               return CommonChip(
                 label: _capitalize(method),
@@ -77,18 +70,17 @@ class RouteOfAdministrationCard extends StatelessWidget {
   String _emojiForROA(String name) {
     final entry = DrugUseCatalog.consumptionMethods.firstWhere(
       (m) => m['name']!.toLowerCase() == name.toLowerCase(),
-      orElse: () => {'emoji': '💊', 'name': name},
+      orElse: () => {'emoji': '', 'name': name},
     );
     return entry['emoji']!;
   }
 
-  Color _accentColorForROA(String name, bool isDark, bool validated) {
+  Color _accentColorForROA(BuildContext context, bool validated) {
+    final t = context.theme;
     if (!validated) {
-      // warning color
-      return isDark ? UIColors.darkNeonOrange : Colors.orange;
+      return t.colors.warning;
     }
-    // default accent
-    return isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
+    return t.accent.primary;
   }
 
   String _capitalize(String text) =>

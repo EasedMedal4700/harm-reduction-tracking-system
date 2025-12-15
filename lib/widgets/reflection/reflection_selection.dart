@@ -1,12 +1,11 @@
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: PARTIAL
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+// Notes: Fully migrated to AppTheme system. No deprecated constants remain.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class ReflectionSelection extends StatelessWidget {
   final List<Map<String, dynamic>> entries;
@@ -24,41 +23,34 @@ class ReflectionSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final secondaryTextColor = isDark
-        ? UIColors.darkTextSecondary
-        : UIColors.lightTextSecondary;
+    final t = context.theme;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
+      padding: EdgeInsets.all(t.spacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Select entries to reflect on',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontLarge,
-              fontWeight: ThemeConstants.fontBold,
-              color: textColor,
-            ),
+            style: t.typography.heading2,
           ),
-          const SizedBox(height: ThemeConstants.space8),
+          SizedBox(height: t.spacing.sm),
           Text(
             'Choose one or more recent logs to associate with this reflection.',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              color: secondaryTextColor,
+            style: t.typography.body.copyWith(
+              color: t.colors.textSecondary,
             ),
           ),
-          const SizedBox(height: ThemeConstants.space24),
+          SizedBox(height: t.spacing.xl),
           if (entries.isEmpty)
             Center(
               child: Padding(
-                padding: const EdgeInsets.all(32.0),
+                padding: EdgeInsets.all(t.spacing.xl3),
                 child: Text(
                   'No recent entries found.',
-                  style: TextStyle(color: secondaryTextColor),
+                  style: t.typography.body.copyWith(
+                    color: t.colors.textSecondary,
+                  ),
                 ),
               ),
             )
@@ -68,7 +60,7 @@ class ReflectionSelection extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: entries.length,
               separatorBuilder: (context, index) =>
-                  const SizedBox(height: ThemeConstants.space12),
+                  SizedBox(height: t.spacing.md),
               itemBuilder: (context, index) {
                 final entry = entries[index];
                 final id = entry['use_id']?.toString() ?? '';
@@ -89,37 +81,28 @@ class ReflectionSelection extends StatelessWidget {
                 );
               },
             ),
-          const SizedBox(height: ThemeConstants.space32),
+          SizedBox(height: t.spacing.xl3),
           SizedBox(
             width: double.infinity,
             height: 50,
             child: ElevatedButton(
               onPressed: selectedIds.isNotEmpty ? onNext : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: isDark
-                    ? UIColors.darkNeonPurple
-                    : UIColors.lightAccentPurple,
-                foregroundColor: Colors.white,
+                backgroundColor: t.accent.primary,
+                foregroundColor: t.colors.textInverse,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    ThemeConstants.radiusLarge,
-                  ),
+                  borderRadius: BorderRadius.circular(t.shapes.radiusLg),
                 ),
                 elevation: 0,
-                disabledBackgroundColor: isDark
-                    ? Colors.white10
-                    : Colors.grey[300],
+                disabledBackgroundColor: t.colors.surface,
               ),
-              child: const Text(
+              child: Text(
                 'Next Step',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  fontWeight: ThemeConstants.fontBold,
-                ),
+                style: t.typography.button,
               ),
             ),
           ),
-          const SizedBox(height: ThemeConstants.space32),
+          SizedBox(height: t.spacing.xl3),
         ],
       ),
     );
@@ -134,25 +117,22 @@ class ReflectionSelection extends StatelessWidget {
     String place,
     VoidCallback onTap,
   ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark ? UIColors.darkSurface : Colors.white;
-    final borderColor = isSelected
-        ? (isDark ? UIColors.darkNeonPurple : UIColors.lightAccentPurple)
-        : (isDark ? UIColors.darkBorder : UIColors.lightBorder);
+    final t = context.theme;
+    final borderColor = isSelected ? t.accent.primary : t.colors.border;
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+      borderRadius: BorderRadius.circular(t.shapes.radiusMd),
       child: Container(
-        padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
+        padding: EdgeInsets.all(t.spacing.lg),
         decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+          color: t.colors.surface,
+          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           border: Border.all(color: borderColor, width: isSelected ? 2 : 1),
-          boxShadow: isSelected && isDark
+          boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: UIColors.darkNeonPurple.withOpacity(0.2),
+                    color: t.accent.primary.withValues(alpha: 0.2),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -166,47 +146,30 @@ class ReflectionSelection extends StatelessWidget {
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected
-                    ? (isDark
-                          ? UIColors.darkNeonPurple
-                          : UIColors.lightAccentPurple)
-                    : Colors.transparent,
+                color: isSelected ? t.accent.primary : Colors.transparent,
                 border: Border.all(
-                  color: isSelected
-                      ? (isDark
-                            ? UIColors.darkNeonPurple
-                            : UIColors.lightAccentPurple)
-                      : (isDark
-                            ? UIColors.darkTextSecondary
-                            : UIColors.lightTextSecondary),
+                  color: isSelected ? t.accent.primary : t.colors.textSecondary,
                   width: 2,
                 ),
               ),
               child: isSelected
-                  ? const Icon(Icons.check, size: 16, color: Colors.white)
+                  ? Icon(Icons.check, size: 16, color: t.colors.textInverse)
                   : null,
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: t.spacing.lg),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     '$substance • $dose',
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontMedium,
-                      fontWeight: ThemeConstants.fontSemiBold,
-                      color: isDark ? UIColors.darkText : UIColors.lightText,
-                    ),
+                    style: t.typography.bodyBold,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: t.spacing.xs),
                   Text(
                     '${_formatTime(time)} • $place',
-                    style: TextStyle(
-                      fontSize: ThemeConstants.fontSmall,
-                      color: isDark
-                          ? UIColors.darkTextSecondary
-                          : UIColors.lightTextSecondary,
+                    style: t.typography.bodySmall.copyWith(
+                      color: t.colors.textSecondary,
                     ),
                   ),
                 ],

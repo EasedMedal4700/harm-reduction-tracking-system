@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: No theme dependencies.
+
 /// Consistent spacing component
 class CommonSpacer extends StatelessWidget {
   final double height;

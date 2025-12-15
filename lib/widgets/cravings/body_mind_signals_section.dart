@@ -1,12 +1,5 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
-import '../../common/old_common/modern_form_card.dart';
-import '../../constants/deprecated/ui_colors.dart';
+import '../../common/app_theme.dart';
 
 class BodyMindSignalsSection extends StatelessWidget {
   final List<String> sensations;
@@ -22,29 +15,61 @@ class BodyMindSignalsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = AppTheme.of(context);
     
-    return ModernFormCard(
-      title: 'Body & Mind Signals',
-      icon: Icons.self_improvement,
-      accentColor: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
-      child: Wrap(
-        spacing: 8.0,
-        runSpacing: 8.0,
-        children: sensations.map((sensation) {
-          final isSelected = selectedSensations.contains(sensation);
-          return FilterChip(
-            label: Text(sensation),
-            selected: isSelected,
-            onSelected: (selected) => onSensationsChanged(
-              selected
-                ? [...selectedSensations, sensation]
-                : selectedSensations.where((s) => s != sensation).toList(),
-            ),
-            selectedColor: (isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen).withValues(alpha: 0.3),
-            checkmarkColor: isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen,
-          );
-        }).toList(),
+    return Container(
+      padding: EdgeInsets.all(t.spacing.m),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        border: Border.all(color: t.colors.outlineVariant),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.self_improvement, color: t.colors.primary),
+              SizedBox(width: t.spacing.s),
+              Text(
+                'Body & Mind Signals',
+                style: t.typography.titleMedium.copyWith(
+                  color: t.colors.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: t.spacing.m),
+          Wrap(
+            spacing: t.spacing.s,
+            runSpacing: t.spacing.s,
+            children: sensations.map((sensation) {
+              final isSelected = selectedSensations.contains(sensation);
+              return FilterChip(
+                label: Text(sensation),
+                selected: isSelected,
+                onSelected: (selected) => onSensationsChanged(
+                  selected
+                    ? [...selectedSensations, sensation]
+                    : selectedSensations.where((s) => s != sensation).toList(),
+                ),
+                selectedColor: t.colors.primaryContainer,
+                checkmarkColor: t.colors.onPrimaryContainer,
+                labelStyle: t.typography.bodyMedium.copyWith(
+                  color: isSelected ? t.colors.onPrimaryContainer : t.colors.onSurface,
+                ),
+                backgroundColor: t.colors.surfaceContainerLow,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(t.shapes.radiusS),
+                  side: BorderSide(
+                    color: isSelected ? Colors.transparent : t.colors.outline,
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
       ),
     );
   }

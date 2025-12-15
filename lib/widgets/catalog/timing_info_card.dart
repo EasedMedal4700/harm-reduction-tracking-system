@@ -1,19 +1,11 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Widget for displaying timing information (onset, duration, after-effects)
 class TimingInfoCard extends StatelessWidget {
   final String? onset;
   final String? duration;
   final String? afterEffects;
-  final bool isDark;
   final Color accentColor;
 
   const TimingInfoCard({
@@ -21,23 +13,23 @@ class TimingInfoCard extends StatelessWidget {
     required this.onset,
     required this.duration,
     required this.afterEffects,
-    required this.isDark,
     required this.accentColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     if (onset == null && duration == null && afterEffects == null) {
       return const SizedBox.shrink();
     }
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(t.spacing.md),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
         border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+          color: t.colors.border,
         ),
       ),
       child: Column(
@@ -46,18 +38,16 @@ class TimingInfoCard extends StatelessWidget {
           Row(
             children: [
               Icon(Icons.timer_outlined, color: accentColor),
-              const SizedBox(width: 8),
+              SizedBox(width: t.spacing.xs),
               Text(
                 'Timing Information',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontLarge,
-                  fontWeight: ThemeConstants.fontBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                style: t.typography.heading3.copyWith(
+                  color: t.colors.textPrimary,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: t.spacing.lg),
 
           // Timeline Visualization
           SizedBox(
@@ -94,14 +84,14 @@ class TimingInfoCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: t.spacing.lg),
 
           // Legend
-          if (onset != null) _buildTimeLegend('Onset', onset!, Colors.green),
+          if (onset != null) _buildTimeLegend(context, 'Onset', onset!, Colors.green),
           if (duration != null)
-            _buildTimeLegend('Duration', duration!, Colors.blue),
+            _buildTimeLegend(context, 'Duration', duration!, Colors.blue),
           if (afterEffects != null)
-            _buildTimeLegend('After Effects', afterEffects!, Colors.orange),
+            _buildTimeLegend(context, 'After Effects', afterEffects!, Colors.orange),
         ],
       ),
     );
@@ -119,7 +109,13 @@ class TimingInfoCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTimeLegend(String label, String value, Color color) {
+  Widget _buildTimeLegend(
+    BuildContext context,
+    String label,
+    String value,
+    Color color,
+  ) {
+    final t = context.theme;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
@@ -132,23 +128,22 @@ class TimingInfoCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: t.spacing.sm),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 label,
-                style: TextStyle(
-                  fontSize: 12,
+                style: t.typography.label.copyWith(
                   color: color,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 value,
-                style: TextStyle(
+                style: t.typography.body.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                  color: t.colors.textPrimary,
                 ),
               ),
             ],

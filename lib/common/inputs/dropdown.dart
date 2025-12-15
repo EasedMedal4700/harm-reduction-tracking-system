@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// Dropdown selector with consistent styling
 class CommonDropdown<T> extends StatelessWidget {
@@ -25,7 +30,7 @@ class CommonDropdown<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     
     return DropdownButtonFormField<T>(
       value: value,
@@ -34,8 +39,8 @@ class CommonDropdown<T> extends StatelessWidget {
           value: item,
           child: Text(
             itemLabel != null ? itemLabel!(item) : item.toString(),
-            style: TextStyle(
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+            style: t.text.body.copyWith(
+              color: t.colors.textPrimary,
             ),
           ),
         );
@@ -44,53 +49,42 @@ class CommonDropdown<T> extends StatelessWidget {
       validator: validator,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(
-          color: isDark 
-              ? UIColors.darkTextSecondary.withOpacity(0.5)
-              : UIColors.lightTextSecondary.withOpacity(0.5),
+        hintStyle: t.text.body.copyWith(
+          color: t.colors.textSecondary.withOpacity(0.5),
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           borderSide: BorderSide(
-            color: isDark 
-                ? const Color(0x14FFFFFF)
-                : UIColors.lightBorder,
+            color: t.colors.border,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           borderSide: BorderSide(
-            color: isDark 
-                ? const Color(0x14FFFFFF)
-                : UIColors.lightBorder,
+            color: t.colors.border,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           borderSide: BorderSide(
-            color: isDark 
-                ? UIColors.darkNeonCyan
-                : UIColors.lightAccentBlue,
+            color: t.accent.primary,
             width: 2,
           ),
         ),
         filled: true,
-        fillColor: isDark 
-            ? const Color(0x08FFFFFF)
-            : Colors.grey.shade50,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: ThemeConstants.space12,
-          vertical: ThemeConstants.space12,
+        fillColor: t.colors.surfaceVariant.withOpacity(0.3),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: t.spacing.md,
+          vertical: t.spacing.md,
         ),
       ),
-      style: TextStyle(
-        color: isDark ? UIColors.darkText : UIColors.lightText,
-        fontSize: ThemeConstants.fontMedium,
+      style: t.text.body.copyWith(
+        color: t.colors.textPrimary,
       ),
-      dropdownColor: isDark ? UIColors.darkSurface : Colors.white,
+      dropdownColor: t.colors.surface,
       icon: Icon(
         Icons.arrow_drop_down,
-        color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+        color: t.colors.textSecondary,
       ),
     );
   }

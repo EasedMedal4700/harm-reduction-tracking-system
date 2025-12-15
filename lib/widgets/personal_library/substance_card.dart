@@ -1,15 +1,15 @@
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: PARTIAL
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme.dart';
+import '../../constants/data/drug_categories.dart';
 import '../../models/drug_catalog_entry.dart';
 import '../../models/stockpile_item.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
-import '../../constants/data/drug_categories.dart';
-import 'package:intl/intl.dart';
 import 'weekly_usage_display.dart';
 
 class SubstanceCard extends StatelessWidget {
@@ -55,24 +55,29 @@ class SubstanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     final primaryCategory = _selectPrimaryCategory(entry.categories);
     final categoryColor = DrugCategoryColors.colorFor(primaryCategory);
     final categoryIcon = DrugCategories.categoryIconMap[primaryCategory] ?? Icons.science;
 
     return Container(
-      margin: EdgeInsets.only(bottom: ThemeConstants.space16),
-      decoration: isDark
-          ? UIColors.createGlassmorphism(
-              accentColor: categoryColor,
-              radius: ThemeConstants.radiusLarge,
-            )
-          : BoxDecoration(
-              color: UIColors.lightSurface,
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusLarge),
-              border: Border.all(color: UIColors.lightBorder),
-              boxShadow: UIColors.createSoftShadow(),
-            ),
+      margin: EdgeInsets.only(bottom: t.spacing.md),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        border: Border.all(
+          color: categoryColor.withValues(alpha: t.isDark ? 0.3 : 0.2),
+        ),
+        boxShadow: t.isDark
+            ? null
+            : [
+                BoxShadow(
+                  color: t.colors.text.withValues(alpha: 0.05),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -80,10 +85,10 @@ class SubstanceCard extends StatelessWidget {
           InkWell(
             onTap: onTap,
             borderRadius: BorderRadius.vertical(
-              top: Radius.circular(ThemeConstants.radiusLarge),
+              top: Radius.circular(t.shapes.radiusLg),
             ),
             child: Container(
-              padding: EdgeInsets.all(ThemeConstants.space16),
+              padding: EdgeInsets.all(t.spacing.md),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -94,44 +99,41 @@ class SubstanceCard extends StatelessWidget {
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(ThemeConstants.radiusLarge),
+                  top: Radius.circular(t.shapes.radiusLg),
                 ),
               ),
               child: Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(ThemeConstants.space12),
+                    padding: EdgeInsets.all(t.spacing.sm),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [categoryColor, categoryColor.withValues(alpha: 0.7)],
                       ),
-                      borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                      borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                     ),
                     child: Icon(
                       categoryIcon,
                       color: Colors.white,
-                      size: ThemeConstants.iconMedium,
+                      size: 20,
                     ),
                   ),
-                  SizedBox(width: ThemeConstants.space12),
+                  SizedBox(width: t.spacing.sm),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           entry.name,
-                          style: TextStyle(
-                            fontSize: ThemeConstants.fontLarge,
-                            fontWeight: ThemeConstants.fontBold,
-                            color: isDark ? UIColors.darkText : UIColors.lightText,
+                          style: t.typography.heading3.copyWith(
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           primaryCategory,
-                          style: TextStyle(
-                            fontSize: ThemeConstants.fontSmall,
+                          style: t.typography.bodySmall.copyWith(
                             color: categoryColor,
-                            fontWeight: ThemeConstants.fontSemiBold,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -140,14 +142,14 @@ class SubstanceCard extends StatelessWidget {
                   IconButton(
                     icon: Icon(
                       entry.favorite ? Icons.favorite : Icons.favorite_border,
-                      color: entry.favorite ? Colors.red : (isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary),
+                      color: entry.favorite ? Colors.red : t.colors.textSecondary,
                     ),
                     onPressed: onFavorite,
                   ),
                   PopupMenuButton<String>(
                     icon: Icon(
                       Icons.more_vert,
-                      color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                      color: t.colors.textSecondary,
                     ),
                     onSelected: (value) {
                       if (value == 'archive') {
@@ -161,9 +163,9 @@ class SubstanceCard extends StatelessWidget {
                           children: [
                             Icon(
                               entry.archived ? Icons.unarchive : Icons.archive,
-                              size: ThemeConstants.iconSmall,
+                              size: 16,
                             ),
-                            SizedBox(width: ThemeConstants.space8),
+                            SizedBox(width: t.spacing.xs),
                             Text(entry.archived ? 'Unarchive' : 'Archive'),
                           ],
                         ),
@@ -176,7 +178,7 @@ class SubstanceCard extends StatelessWidget {
           ),
 
           Padding(
-            padding: EdgeInsets.all(ThemeConstants.space16),
+            padding: EdgeInsets.all(t.spacing.md),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -187,33 +189,31 @@ class SubstanceCard extends StatelessWidget {
                         'Total Uses',
                         '${entry.totalUses}',
                         Icons.bar_chart,
-                        isDark,
+                        t,
                       ),
-                      SizedBox(width: ThemeConstants.space20),
+                      SizedBox(width: t.spacing.lg),
                       _buildStatItem(
                         'Last Used',
                         entry.lastUsed != null 
                             ? DateFormat('MMM d').format(entry.lastUsed!)
                             : 'Never',
                         Icons.access_time,
-                        isDark,
+                        t,
                       ),
                     ],
                   ),                // Stockpile info
                 if (stockpile != null) ...[
-                  SizedBox(height: ThemeConstants.space16),
+                  SizedBox(height: t.spacing.md),
                   InkWell(
                     onTap: onManageStockpile,
-                    borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                    borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                     child: Container(
-                      padding: EdgeInsets.all(ThemeConstants.space12),
+                      padding: EdgeInsets.all(t.spacing.sm),
                       decoration: BoxDecoration(
-                        color: isDark
-                            ? UIColors.darkBackground.withValues(alpha: 0.5)
-                            : UIColors.lightBackground,
-                        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+                        color: t.colors.background.withValues(alpha: t.isDark ? 0.5 : 1.0),
+                        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                         border: Border.all(
-                          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                          color: t.colors.border,
                         ),
                       ),
                       child: Column(
@@ -224,32 +224,27 @@ class SubstanceCard extends StatelessWidget {
                             children: [
                               Text(
                                 'Stockpile',
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontSmall,
-                                  fontWeight: ThemeConstants.fontSemiBold,
-                                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                                style: t.typography.bodySmall.copyWith(
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Text(
                                 '${stockpile!.currentAmountMg.toStringAsFixed(1)} mg',
-                                style: TextStyle(
-                                  fontSize: ThemeConstants.fontMedium,
-                                  fontWeight: ThemeConstants.fontBold,
+                                style: t.typography.body.copyWith(
+                                  fontWeight: FontWeight.bold,
                                   color: categoryColor,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: ThemeConstants.space8),
+                          SizedBox(height: t.spacing.xs),
                           // Progress bar
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
+                            borderRadius: BorderRadius.circular(t.shapes.radiusSm),
                             child: LinearProgressIndicator(
                               value: stockpile!.getPercentage() / 100,
                               minHeight: 8,
-                              backgroundColor: isDark
-                                  ? UIColors.darkBorder
-                                  : UIColors.lightBorder,
+                              backgroundColor: t.colors.border,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 stockpile!.isLow()
                                     ? Colors.red
@@ -262,7 +257,7 @@ class SubstanceCard extends StatelessWidget {
                     ),
                   ),
                 ] else ...[
-                  SizedBox(height: ThemeConstants.space12),
+                  SizedBox(height: t.spacing.sm),
                   OutlinedButton.icon(
                     onPressed: onManageStockpile,
                     icon: const Icon(Icons.add, size: 18),
@@ -275,7 +270,7 @@ class SubstanceCard extends StatelessWidget {
                 ],
 
                 // Weekly usage display
-                SizedBox(height: ThemeConstants.space16),
+                SizedBox(height: t.spacing.md),
                 WeeklyUsageDisplay(
                   entry: entry,
                   categoryColor: categoryColor,
@@ -289,33 +284,30 @@ class SubstanceCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatItem(String label, String value, IconData icon, bool isDark) {
+  Widget _buildStatItem(String label, String value, IconData icon, AppTheme t) {
     return Expanded(
       child: Row(
         children: [
           Icon(
             icon,
-            size: ThemeConstants.iconSmall,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+            size: 16,
+            color: t.colors.textSecondary,
           ),
-          SizedBox(width: ThemeConstants.space8),
+          SizedBox(width: t.spacing.xs),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   label,
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontXSmall,
-                    color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                  style: t.typography.caption.copyWith(
+                    color: t.colors.textSecondary,
                   ),
                 ),
                 Text(
                   value,
-                  style: TextStyle(
-                    fontSize: ThemeConstants.fontMedium,
-                    fontWeight: ThemeConstants.fontSemiBold,
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
+                  style: t.typography.body.copyWith(
+                    fontWeight: FontWeight.w600,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),

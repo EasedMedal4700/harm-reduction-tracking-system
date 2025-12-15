@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// Multi-line text area for notes and longer text input
 class CommonTextarea extends StatelessWidget {
@@ -29,7 +34,7 @@ class CommonTextarea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     
     return TextFormField(
       controller: controller,
@@ -44,64 +49,50 @@ class CommonTextarea extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,
-        hintStyle: TextStyle(
-          color: isDark 
-              ? UIColors.darkTextSecondary.withOpacity(0.5)
-              : UIColors.lightTextSecondary.withOpacity(0.5),
+        hintStyle: t.text.body.copyWith(
+          color: t.colors.textSecondary.withOpacity(0.5),
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           borderSide: BorderSide(
-            color: isDark 
-                ? const Color(0x14FFFFFF)
-                : UIColors.lightBorder,
+            color: t.colors.border,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           borderSide: BorderSide(
-            color: isDark 
-                ? const Color(0x14FFFFFF)
-                : UIColors.lightBorder,
+            color: t.colors.border,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           borderSide: BorderSide(
-            color: isDark 
-                ? UIColors.darkNeonCyan
-                : UIColors.lightAccentBlue,
+            color: t.accent.primary,
             width: 2,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           borderSide: BorderSide(
-            color: isDark 
-                ? UIColors.darkNeonOrange
-                : UIColors.lightAccentRed,
+            color: t.colors.error,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
+          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           borderSide: BorderSide(
-            color: isDark 
-                ? UIColors.darkNeonOrange
-                : UIColors.lightAccentRed,
+            color: t.colors.error,
             width: 2,
           ),
         ),
         filled: true,
-        fillColor: isDark 
-            ? const Color(0x08FFFFFF)
-            : Colors.grey.shade50,
+        fillColor: t.colors.surfaceVariant.withOpacity(0.3),
         alignLabelWithHint: true,
       ),
-      style: TextStyle(
-        color: isDark ? UIColors.darkText : UIColors.lightText,
-        fontSize: ThemeConstants.fontMedium,
+      style: t.text.body.copyWith(
+        color: t.colors.textPrimary,
         height: 1.5,
       ),
+      cursorColor: t.accent.primary,
     );
   }
 }

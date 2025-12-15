@@ -5,7 +5,7 @@
 // Riverpod: TODO
 // Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/theme_constants.dart';
+
 import '../home_redesign/stat_card.dart';
 
 class HomeProgressStats extends StatelessWidget {

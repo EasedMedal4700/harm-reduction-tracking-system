@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
 
 /// Section header with title and optional subtitle
 /// Used for card titles like "Substance", "Dosage", "How are you feeling?"
@@ -24,7 +29,7 @@ class CommonSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     
     return Padding(
       padding: padding ?? EdgeInsets.zero,
@@ -33,21 +38,19 @@ class CommonSectionHeader extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontSize: titleFontSize ?? ThemeConstants.fontXLarge,
-              fontWeight: titleFontWeight ?? ThemeConstants.fontSemiBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
+            style: t.text.heading3.copyWith(
+              fontSize: titleFontSize,
+              fontWeight: titleFontWeight,
+              color: t.colors.textPrimary,
             ),
           ),
           if (subtitle != null) ...[
-            const SizedBox(height: ThemeConstants.space8),
+            SizedBox(height: t.spacing.sm),
             Text(
               subtitle!,
-              style: TextStyle(
-                fontSize: subtitleFontSize ?? ThemeConstants.fontSmall,
-                color: isDark 
-                    ? UIColors.darkTextSecondary 
-                    : UIColors.lightTextSecondary,
+              style: t.text.bodySmall.copyWith(
+                fontSize: subtitleFontSize,
+                color: t.colors.textSecondary,
               ),
             ),
           ],
