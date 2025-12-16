@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../constants/deprecated/ui_colors.dart';
-import '../constants/deprecated/theme_constants.dart';
+import '../constants/colors/ui_colors.dart';
+import '../constants/theme/app_theme_constants.dart';
 
 /// Page for setting a new password after clicking a reset link.
 ///
@@ -477,3 +478,5 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
     );
   }
 }
+
+

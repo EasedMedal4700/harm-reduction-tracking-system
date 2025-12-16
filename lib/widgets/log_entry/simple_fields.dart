@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../common/app_theme.dart';
+import '../../constants/theme/app_theme.dart';
 import '../../constants/data/drug_use_catalog.dart';
 import 'dosage_input.dart';
 import 'route_selection.dart';
@@ -8,6 +8,7 @@ import 'date_selector.dart';
 import 'time_selector.dart';
 import 'substance_autocomplete.dart';
 
+// Refresh
 class SimpleFields extends StatelessWidget {
   final double dose;
   final String unit;
@@ -68,7 +69,7 @@ class SimpleFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppTheme.of(context);
-    final units = ['µg', 'mg', 'g', 'pills', 'ml'];
+    final units = ['ï¿½g', 'mg', 'g', 'pills', 'ml'];
 
     Widget _buildCard({required String title, required Widget child}) {
       return Container(
@@ -188,7 +189,9 @@ class SimpleFields extends StatelessWidget {
         _buildCard(
           title: "Location",
           child: DropdownButtonFormField<String>(
-            value: location,
+            value: location.isEmpty || !DrugUseCatalog.locations.contains(location) 
+                ? DrugUseCatalog.locations.first 
+                : location,
             items: DrugUseCatalog.locations.map((loc) => DropdownMenuItem(value: loc, child: Text(loc, style: t.typography.bodyLarge))).toList(),
             onChanged: (v) => onLocationChanged(v!),
             decoration: InputDecoration(

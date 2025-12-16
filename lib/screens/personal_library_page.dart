@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import '../models/drug_catalog_entry.dart';
 import '../services/personal_library_service.dart';
 import '../repo/stockpile_repository.dart';
@@ -11,8 +12,8 @@ import '../widgets/personal_library/summary_stats_banner.dart';
 import '../widgets/personal_library/day_usage_sheet.dart';
 import '../widgets/personal_library/library_search_bar.dart';
 import '../widgets/personal_library/library_app_bar.dart';
-import '../constants/deprecated/ui_colors.dart';
-import '../constants/deprecated/theme_constants.dart';
+import '../constants/colors/ui_colors.dart';
+import '../constants/theme/app_theme_constants.dart';
 import '../utils/drug_preferences_manager.dart';
 
 class PersonalLibraryPage extends StatefulWidget {
@@ -286,3 +287,5 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
     );
   }
 }
+
+

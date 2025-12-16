@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import '../../common/old_common/drawer_menu.dart';
 import '../../models/log_entry_model.dart';
 import '../../models/log_entry_form_data.dart';
@@ -83,21 +84,21 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     return LogEntryFormData(
       isSimpleMode: true,
       substance: model.substance,
-      dose: model.dose,
+      dose: model.dosage,
       unit: model.unit,
       route: model.route,
       feelings: model.feelings,
       secondaryFeelings: model.secondaryFeelings,
       location: model.location,
-      date: model.date,
-      hour: model.date.hour,
-      minute: model.date.minute,
+      date: model.datetime,
+      hour: model.datetime.hour,
+      minute: model.datetime.minute,
       isMedicalPurpose: model.isMedicalPurpose,
       cravingIntensity: model.cravingIntensity,
       intention: model.intention,
       triggers: model.triggers,
       bodySignals: model.bodySignals,
-      notes: model.notes,
+      notes: model.notes ?? '',
       substanceDetails: null,
       entryId: widget.entry['use_id']?.toString() ?? widget.entry['id']?.toString() ?? '',
     );
@@ -338,3 +339,4 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     );
   }
 }
+

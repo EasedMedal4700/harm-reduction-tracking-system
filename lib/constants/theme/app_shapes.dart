@@ -28,4 +28,9 @@ class AppShapes {
       radiusFull: AppThemeConstants.radiusFull,
     );
   }
+
+  // Aliases
+  double get radiusS => radiusSm;
+  double get radiusM => radiusMd;
 }
+

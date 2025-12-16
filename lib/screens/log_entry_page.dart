@@ -5,7 +5,7 @@ import '../widgets/log_entry/log_entry_form.dart';
 import '../widgets/log_entry_page/log_entry_app_bar.dart';
 import '../states/log_entry_state.dart';
 import '../controllers/log_entry_controller.dart';
-import '../common/app_theme.dart';
+import '../constants/theme/app_theme.dart';
 
 class QuickLogEntryPage extends StatefulWidget {
   const QuickLogEntryPage({super.key});

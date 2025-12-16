@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../common/app_theme.dart';
+import '../../constants/theme/app_theme.dart';
 import 'simple_fields.dart';
-import 'complex_fields.dart';
+import 'package:mobile_drug_use_app/widgets/log_entry/complex_fields.dart';
 
 class LogEntryForm extends StatelessWidget {
   final bool isSimpleMode;

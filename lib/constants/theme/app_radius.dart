@@ -15,3 +15,4 @@ class AppRadius {
   static const double xl2 = AppThemeConstants.radius2xl;
   static const double full = AppThemeConstants.radiusFull;
 }
+

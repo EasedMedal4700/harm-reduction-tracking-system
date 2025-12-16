@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/widgets/log_entry/date_selector.dart';
-import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 
 void main() {
   group('DateSelector Widget', () {
@@ -22,7 +21,7 @@ void main() {
       expect(find.text('Date'), findsOneWidget);
       expect(find.text('2024-01-15'), findsOneWidget);
       expect(find.byIcon(Icons.calendar_today), findsOneWidget);
-      expect(find.text('Change'), findsOneWidget);
+      expect(find.byIcon(Icons.edit_outlined), findsOneWidget);
     });
 
     testWidgets('displays formatted date', (tester) async {
@@ -42,7 +41,7 @@ void main() {
       expect(find.text('2023-12-25'), findsOneWidget);
     });
 
-    testWidgets('shows date picker when Change button is tapped', (tester) async {
+    testWidgets('shows date picker when edit icon is tapped', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -54,7 +53,7 @@ void main() {
         ),
       );
 
-      await tester.tap(find.text('Change'));
+      await tester.tap(find.byIcon(Icons.edit_outlined));
       await tester.pumpAndSettle();
 
       // Date picker dialog should be displayed
@@ -74,21 +73,6 @@ void main() {
       );
 
       expect(find.byIcon(Icons.calendar_today), findsOneWidget);
-    });
-
-    testWidgets('renders with CommonCard', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: DateSelector(
-              date: DateTime.now(),
-              onDateChanged: (_) {},
-            ),
-          ),
-        ),
-      );
-
-      expect(find.byType(CommonCard), findsOneWidget);
     });
   });
 }

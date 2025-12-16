@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../common/app_theme.dart';
+import '../../constants/theme/app_theme.dart';
 
 class OutcomeSection extends StatelessWidget {
   final String? whatDidYouDo;

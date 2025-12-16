@@ -6,6 +6,7 @@
 // Notes: Review for theme/context migration if needed.
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 
 
 import '../../services/auth_link_handler.dart';
@@ -301,3 +302,4 @@ class DeepLinkSimulator {
     }
   }
 }
+

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import '../models/bucket_definitions.dart';
 import '../models/tolerance_model.dart';
-import '../constants/deprecated/theme_constants.dart';
-import '../constants/deprecated/ui_colors.dart';
+import '../constants/theme/app_theme_constants.dart';
+import '../constants/colors/ui_colors.dart';
 import '../widgets/bucket_details/bucket_header_card.dart';
 import '../widgets/bucket_details/bucket_description_card.dart';
 import '../widgets/bucket_details/bucket_status_card.dart';
@@ -104,3 +105,5 @@ class BucketDetailsPage extends StatelessWidget {
     );
   }
 }
+
+

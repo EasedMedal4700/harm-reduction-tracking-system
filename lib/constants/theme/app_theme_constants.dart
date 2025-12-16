@@ -36,8 +36,11 @@ class AppThemeConstants {
   static const double fontMedium = 16.0;
   static const double fontLarge = 18.0;
   static const double fontXLarge = 20.0;
-  static const double fontBold = 700;
-  static const double fontSemiBold = 600;
+  static const FontWeight fontBold = FontWeight.w700;
+  static const FontWeight fontSemiBold = FontWeight.w600;
+  static const double font2XLarge = 24.0;
+  static const double font3XLarge = 32.0;
+  static const FontWeight fontMediumWeight = FontWeight.w500;
 
   static const double cardPaddingMedium = 16.0;
 
@@ -52,6 +55,12 @@ class AppThemeConstants {
   static const double spaceXl = 24.0;
   static const double space2xl = 32.0;
   static const double space3xl = 48.0;
+  static const double space32 = 32.0;
+  static const double space48 = 48.0;
+  static const double cardSpacing = 16.0;
+  static const double homePagePadding = 16.0;
+  static const double quickActionSpacing = 16.0;
+  static const double cardPaddingSmall = 12.0;
 
   // Compact mode spacing (reduced by 25%)
   static const double spaceXsCompact = 3.0;
@@ -72,6 +81,8 @@ class AppThemeConstants {
   static const double radiusXl = 20.0;
   static const double radius2xl = 24.0;
   static const double radiusFull = 999.0;
+  static const double buttonRadius = 12.0;
+  static const double quickActionRadius = 16.0;
 
   // ============================================================================
   // CARD DIMENSIONS
@@ -88,6 +99,7 @@ class AppThemeConstants {
   // ============================================================================
   static const double iconSm = 20.0;
   static const double iconMd = 24.0;
+  static const double iconMedium = 24.0;
   static const double iconLg = 32.0;
   static const double iconXl = 48.0;
   static const double icon2xl = 64.0;
@@ -229,3 +241,6 @@ class DarkShadows {
     ];
   }
 }
+
+typedef ThemeConstants = AppThemeConstants;
+

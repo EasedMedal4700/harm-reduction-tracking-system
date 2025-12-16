@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import '../../states/log_entry_state.dart';
 import '../../services/log_entry_service.dart';
 
@@ -78,3 +79,4 @@ class DeleteConfirmationDialog {
     }
   }
 }
+

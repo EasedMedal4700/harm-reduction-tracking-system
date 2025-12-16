@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../common/app_theme.dart';
+import '../../constants/theme/app_theme.dart';
 import '../../providers/drug/drug_names_provider.dart';
 import '../../providers/drug/substance_controller.dart';
 import '../../providers/drug/substance_normalization_provider.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../common/old_common/drawer_menu.dart';
@@ -8,8 +9,8 @@ import '../widgets/home_page/home_quick_actions_grid.dart';
 import '../widgets/home_page/home_progress_stats.dart';
 import '../widgets/home_page/home_navigation_methods.dart';
 import '../providers/daily_checkin_provider.dart';
-import '../constants/deprecated/ui_colors.dart';
-import '../constants/deprecated/theme_constants.dart';
+import '../constants/colors/ui_colors.dart';
+import '../constants/theme/app_theme_constants.dart';
 import '../services/daily_checkin_service.dart';
 import '../services/user_service.dart';
 import '../services/encryption_service_v2.dart';
@@ -280,3 +281,5 @@ class _HomePageState extends State<HomePage>
     }
   }
 }
+
+

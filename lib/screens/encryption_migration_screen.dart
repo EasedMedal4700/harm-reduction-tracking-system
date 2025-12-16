@@ -5,10 +5,11 @@
 /// guides them through creating a PIN and re-encrypting their data.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_migration_service.dart';
-import '../constants/deprecated/ui_colors.dart';
+import '../constants/colors/ui_colors.dart';
 import '../utils/error_handler.dart';
 import '../states/migration_step_controller.dart';
 
@@ -612,4 +613,6 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
     }
   }
 }
+
+
 

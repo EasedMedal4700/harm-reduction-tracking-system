@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_drug_use_app/services/auth_service.dart';
 import 'package:mobile_drug_use_app/services/user_service.dart';
 
@@ -15,6 +16,7 @@ void main() {
     final testDisplayName = 'Test User';
 
     setUpAll(() async {
+      SharedPreferences.setMockInitialValues({});
       // Initialize Supabase
       await Supabase.initialize(
         url: const String.fromEnvironment('SUPABASE_URL'),
@@ -218,5 +220,5 @@ void main() {
       final isAdmin = await UserService.isAdmin();
       expect(isAdmin, false, reason: 'New user should not be admin');
     });
-  });
+  }, skip: const String.fromEnvironment('SUPABASE_URL').isEmpty ? 'Supabase credentials not provided' : null);
 }

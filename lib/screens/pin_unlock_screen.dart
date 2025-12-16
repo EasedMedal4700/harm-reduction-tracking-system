@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_service_v2.dart';
 import '../services/debug_config.dart';
 import '../services/pin_timeout_service.dart';
 import '../services/security_manager.dart';
-import '../constants/deprecated/ui_colors.dart';
+import '../constants/colors/ui_colors.dart';
 
 /// Screen for unlocking with PIN or biometrics
 class PinUnlockScreen extends StatefulWidget {
@@ -466,3 +467,5 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
     ); // Close PopScope
   }
 }
+
+

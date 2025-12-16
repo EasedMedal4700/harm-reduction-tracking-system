@@ -186,4 +186,21 @@ class TextStyles {
     required this.buttonSmall,
     required this.label,
   });
+
+  // Material 3 Aliases
+  TextStyle get displayLarge => heading1;
+  TextStyle get displayMedium => heading2;
+  TextStyle get displaySmall => heading3;
+  TextStyle get headlineLarge => heading2;
+  TextStyle get headlineMedium => heading3;
+  TextStyle get headlineSmall => heading4;
+  TextStyle get titleLarge => heading4;
+  TextStyle get titleMedium => bodyBold;
+  // titleSmall is already defined
+  TextStyle get bodyMedium => body;
+  // bodyLarge is already defined
+  // bodySmall is already defined
+  TextStyle get labelLarge => button;
+  TextStyle get labelMedium => captionBold;
+  TextStyle get labelSmall => caption;
 }

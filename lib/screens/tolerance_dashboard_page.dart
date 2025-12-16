@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import '../common/old_common/drawer_menu.dart';
 import '../models/tolerance_model.dart';
 import '../models/bucket_definitions.dart';
@@ -9,8 +10,8 @@ import '../services/debug_config.dart';
 import '../utils/tolerance_calculator.dart';
 import '../widgets/tolerance_dashboard/dashboard_content_widget.dart';
 import '../widgets/tolerance_dashboard/empty_state_widget.dart';
-import '../constants/deprecated/theme_constants.dart';
-import '../constants/deprecated/ui_colors.dart';
+import '../constants/theme/app_theme_constants.dart';
+import '../constants/colors/ui_colors.dart';
 
 class ToleranceDashboardPage extends StatefulWidget {
   final String? initialSubstance;
@@ -355,4 +356,6 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
     );
   }
 }
+
+
 
