@@ -12,8 +12,6 @@ import '../widgets/daily_checkin/notes_input.dart';
 import '../widgets/daily_checkin/save_button.dart';
 import '../providers/daily_checkin_provider.dart';
 
-
-
 class DailyCheckinScreen extends StatefulWidget {
   const DailyCheckinScreen({super.key});
 
@@ -43,27 +41,24 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark
-        ? UIColors.darkBackground
-        : UIColors.lightBackground;
-    final surfaceColor = isDark ? UIColors.darkSurface : UIColors.lightSurface;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: c.background,
       appBar: AppBar(
         title: Text(
           'Daily Check-In',
-          style: TextStyle(
-            fontWeight: ThemeConstants.fontBold,
-            color: textColor,
+          style: t.typography.heading3.copyWith(
+            color: c.textPrimary,
           ),
         ),
-        backgroundColor: surfaceColor,
+        backgroundColor: c.surface,
         elevation: 0,
         centerTitle: true,
-        iconTheme: IconThemeData(color: textColor),
+        iconTheme: IconThemeData(color: c.textPrimary),
         actions: [
           IconButton(
             icon: const Icon(Icons.history),
@@ -76,95 +71,95 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
       ),
       drawer: const DrawerMenu(),
       body: RefreshIndicator(
+        color: a.primary,
+        backgroundColor: c.surface,
         onRefresh: () async {
           final provider = context.read<DailyCheckinProvider>();
           await provider.checkExistingCheckin();
         },
         child: Consumer<DailyCheckinProvider>(
           builder: (context, provider, child) {
-          if (provider.isLoading) {
-            return Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
+            if (provider.isLoading) {
+              return Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(a.primary),
                 ),
+              );
+            }
+
+            return SingleChildScrollView(
+              padding: EdgeInsets.all(sp.lg),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Date & Time (Read-Only)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ReadOnlyField(
+                          icon: Icons.calendar_today,
+                          label: 'Date',
+                          value:
+                              '${provider.selectedDate.year}-${provider.selectedDate.month.toString().padLeft(2, '0')}-${provider.selectedDate.day.toString().padLeft(2, '0')}',
+                        ),
+                      ),
+                      SizedBox(width: sp.lg),
+                      Expanded(
+                        child: ReadOnlyField(
+                          icon: Icons.access_time,
+                          label: 'Time',
+                          value:
+                              '${provider.selectedTime?.hour.toString().padLeft(2, '0')}:${provider.selectedTime?.minute.toString().padLeft(2, '0')}',
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: sp.xl),
+
+                  // Time of Day Indicator (Full Width)
+                  TimeOfDayIndicator(currentTimeOfDay: provider.timeOfDay),
+                  SizedBox(height: sp.xl),
+
+                  // Existing check-in notice
+                  if (provider.existingCheckin != null) ...[
+                    const ExistingCheckinNotice(),
+                    SizedBox(height: sp.xl),
+                  ],
+
+                  // Mood Selection
+                  MoodSelector(
+                    selectedMood: provider.mood,
+                    availableMoods: provider.availableMoods,
+                    onMoodSelected: provider.setMood,
+                  ),
+                  SizedBox(height: sp.xl2),
+
+                  // Emotions Selection
+                  EmotionSelector(
+                    selectedEmotions: provider.emotions,
+                    availableEmotions: provider.availableEmotions,
+                    onEmotionToggled: provider.toggleEmotion,
+                  ),
+                  SizedBox(height: sp.xl2),
+
+                  // Notes
+                  NotesInput(
+                    controller: _notesController,
+                    onChanged: provider.setNotes,
+                  ),
+                  SizedBox(height: sp.xl2),
+
+                  // Save Button
+                  SaveButton(
+                    isSaving: provider.isSaving,
+                    isDisabled: provider.existingCheckin != null,
+                    onPressed: () => provider.saveCheckin(context),
+                  ),
+                  SizedBox(height: sp.xl2),
+                ],
               ),
             );
-          }
-
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Date & Time (Read-Only)
-                Row(
-                  children: [
-                    Expanded(
-                      child: ReadOnlyField(
-                        icon: Icons.calendar_today,
-                        label: 'Date',
-                        value:
-                            '${provider.selectedDate.year}-${provider.selectedDate.month.toString().padLeft(2, '0')}-${provider.selectedDate.day.toString().padLeft(2, '0')}',
-                      ),
-                    ),
-                    const SizedBox(width: ThemeConstants.space16),
-                    Expanded(
-                      child: ReadOnlyField(
-                        icon: Icons.access_time,
-                        label: 'Time',
-                        value:
-                            '${provider.selectedTime?.hour.toString().padLeft(2, '0')}:${provider.selectedTime?.minute.toString().padLeft(2, '0')}',
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: ThemeConstants.space24),
-
-                // Time of Day Indicator (Full Width)
-                TimeOfDayIndicator(currentTimeOfDay: provider.timeOfDay),
-                const SizedBox(height: ThemeConstants.space24),
-
-                // Existing check-in notice
-                if (provider.existingCheckin != null) ...[
-                  const ExistingCheckinNotice(),
-                  const SizedBox(height: ThemeConstants.space24),
-                ],
-
-                // Mood Selection
-                MoodSelector(
-                  selectedMood: provider.mood,
-                  availableMoods: provider.availableMoods,
-                  onMoodSelected: provider.setMood,
-                ),
-                const SizedBox(height: ThemeConstants.space32),
-
-                // Emotions Selection
-                EmotionSelector(
-                  selectedEmotions: provider.emotions,
-                  availableEmotions: provider.availableEmotions,
-                  onEmotionToggled: provider.toggleEmotion,
-                ),
-                const SizedBox(height: ThemeConstants.space32),
-
-                // Notes
-                NotesInput(
-                  controller: _notesController,
-                  onChanged: provider.setNotes,
-                ),
-                const SizedBox(height: ThemeConstants.space32),
-
-                // Save Button
-                SaveButton(
-                  isSaving: provider.isSaving,
-                  isDisabled: provider.existingCheckin != null,
-                  onPressed: () => provider.saveCheckin(context),
-                ),
-                const SizedBox(height: ThemeConstants.space32),
-              ],
-            ),
-          );
-        },
+          },
         ),
       ),
     );

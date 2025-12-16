@@ -1,13 +1,11 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:track_your_drugs/common/app_theme_extension.dart';
 
 import '../../common/old_common/drawer_menu.dart';
 import '../../models/log_entry_model.dart';
 import '../../models/log_entry_form_data.dart';
 import '../../controllers/log_entry_controller.dart';
 
-import '../../constants/colors/app_colors_dark.dart';
-import '../../constants/colors/app_colors_light.dart';
 import '../../widgets/edit_log_entry/edit_app_bar.dart';
 import '../../widgets/edit_log_entry/loading_overlay.dart';
 import '../../widgets/log_entry/log_entry_form.dart';
@@ -48,7 +46,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     _substanceCtrl = TextEditingController(text: _formData.substance);
     
     _animationController = AnimationController(
-      duration: AppThemeConstants.animationNormal,
+      duration: const Duration(milliseconds: 300), // AppThemeConstants.animationNormal
       vsync: this,
     );
     
@@ -186,6 +184,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
   }
 
   Future<void> _handleDelete() async {
+    final c = context.colors;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -198,7 +197,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            style: TextButton.styleFrom(foregroundColor: c.error),
             child: const Text('Delete'),
           ),
         ],
@@ -257,12 +256,12 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final c = context.colors;
+    final sp = context.spacing;
+    final isDark = t.brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark
-          ? AppColorsDark.background
-          : AppColorsLight.background,
+      backgroundColor: c.background,
       appBar: EditLogEntryAppBar(
         isDark: isDark,
         formData: _formData,
@@ -280,7 +279,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
               children: [
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(sp.lg),
                     child: LogEntryForm(
                       formKey: _formKey,
                       isSimpleMode: _formData.isSimpleMode,

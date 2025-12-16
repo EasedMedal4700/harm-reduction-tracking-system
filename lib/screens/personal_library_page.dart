@@ -183,10 +183,12 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
     
     return Scaffold(
-      backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
+      backgroundColor: c.background,
       drawer: const DrawerMenu(),
       body: CustomScrollView(
         controller: _scrollController,
@@ -237,8 +239,8 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(_error!),
-                    const SizedBox(height: 12),
+                    Text(_error!, style: t.typography.body.copyWith(color: c.error)),
+                    SizedBox(height: sp.md),
                     TextButton(onPressed: _loadCatalog, child: const Text('Retry')),
                   ],
                 ),
@@ -249,15 +251,15 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
               child: Center(
                 child: Text(
                   _showArchived ? 'No substances found' : 'No active substances in your library',
-                  style: TextStyle(
-                    color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                  style: t.typography.body.copyWith(
+                    color: c.textSecondary,
                   ),
                 ),
               ),
             )
           else
             SliverPadding(
-              padding: EdgeInsets.all(ThemeConstants.space16),
+              padding: EdgeInsets.all(sp.md),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {

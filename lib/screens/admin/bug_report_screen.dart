@@ -1,5 +1,5 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import '../../services/user_service.dart';
 import '../../utils/error_reporter.dart';
@@ -83,7 +83,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
       setState(() => _isSubmitting = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to submit bug report: '),
+          content: Text('Failed to submit bug report: $e'),
           backgroundColor: context.colors.error,
         ),
       );
@@ -92,49 +92,50 @@ class _BugReportScreenState extends State<BugReportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    final sp = context.spacing;
 
     return Scaffold(
-      backgroundColor: t.colors.surface,
+      backgroundColor: c.surface,
       appBar: AppBar(
-        title: Text('Report a Bug', style: t.typography.titleLarge),
-        backgroundColor: t.colors.surface,
+        title: Text('Report a Bug', style: context.text.titleLarge),
+        backgroundColor: c.surface,
         elevation: 0,
-        iconTheme: IconThemeData(color: t.colors.onSurface),
+        iconTheme: IconThemeData(color: c.textPrimary),
       ),
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.all(t.spacing.m),
+          padding: EdgeInsets.all(sp.md),
           children: [
             // Info Card
             Container(
-              padding: EdgeInsets.all(t.spacing.m),
+              padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
-                color: t.colors.surfaceContainerLow,
-                borderRadius: BorderRadius.circular(t.shapes.radiusM),
-                border: Border.all(color: t.colors.outlineVariant),
+                color: c.surfaceVariant,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: c.border),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.info_outline,
-                    color: t.colors.primary,
+                    color: c.info,
                     size: 24,
                   ),
-                  SizedBox(width: t.spacing.m),
+                  SizedBox(width: sp.md),
                   Expanded(
                     child: Text(
                       'Help us improve by reporting bugs or issues you encounter',
-                      style: t.typography.bodyMedium.copyWith(
-                        color: t.colors.onSurfaceVariant,
+                      style: context.text.bodyMedium.copyWith(
+                        color: c.textSecondary,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: t.spacing.l),
+            SizedBox(height: sp.lg),
 
             // Form Fields
             BugReportFormFields(
@@ -153,7 +154,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
               },
               getSeverityIcon: _getSeverityIcon,
             ),
-            SizedBox(height: t.spacing.l),
+            SizedBox(height: sp.lg),
 
             // Submit Button
             BugReportSubmitButton(
@@ -167,18 +168,18 @@ class _BugReportScreenState extends State<BugReportScreen> {
   }
 
   Widget _getSeverityIcon(String severity) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
     switch (severity) {
       case 'Critical':
-        return Icon(Icons.error, color: t.colors.error, size: 20);
+        return Icon(Icons.error, color: c.error, size: 20);
       case 'High':
-        return Icon(Icons.warning, color: t.colors.warning, size: 20);
+        return Icon(Icons.warning, color: c.warning, size: 20);
       case 'Medium':
-        return Icon(Icons.info, color: t.colors.primary, size: 20);
+        return Icon(Icons.info, color: c.info, size: 20);
       case 'Low':
-        return Icon(Icons.check_circle, color: t.colors.success, size: 20);
+        return Icon(Icons.check_circle, color: c.success, size: 20);
       default:
-        return Icon(Icons.info, color: t.colors.onSurfaceVariant, size: 20);
+        return Icon(Icons.info, color: c.textSecondary, size: 20);
     }
   }
 }

@@ -1,16 +1,8 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-/// Encryption Migration Screen
-/// 
-/// This screen is shown to existing users who have data encrypted with the old
-/// JWT-based system. It explains the migration to the new PIN-based system and
-/// guides them through creating a PIN and re-encrypting their data.
-
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_migration_service.dart';
-
 import '../utils/error_handler.dart';
 import '../states/migration_step_controller.dart';
 
@@ -27,60 +19,62 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
       EncryptionMigrationService();
   final MigrationStepController _stepController = MigrationStepController();
 
-  // Step 1: Explanation
-  // Step 2: Create PIN
-  // Step 3: Confirm PIN
-  // Step 4: Migrating (progress)
-  // Step 5: Show recovery key
-  // int _currentStep = 1;
-
   String _pin = '';
   String _confirmPin = '';
   bool _pinVisible = false;
   bool _confirmPinVisible = false;
-  bool _isMigrating = false;
   String _recoveryKey = '';
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
 
     return Scaffold(
-      backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
+      backgroundColor: c.background,
       appBar: _stepController.currentStep < 4
           ? AppBar(
-              title: const Text('Security Upgrade'),
-              backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+              title: Text('Security Upgrade', style: text.headlineSmall),
+              backgroundColor: c.surface,
+              foregroundColor: c.textPrimary,
+              elevation: 0,
             )
           : null,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: _buildStepContent(isDark),
+          padding: EdgeInsets.all(sp.xl),
+          child: _buildStepContent(context),
         ),
       ),
     );
   }
 
-  Widget _buildStepContent(bool isDark) {
+  Widget _buildStepContent(BuildContext context) {
     switch (_stepController.currentStep) {
       case 1:
-        return _buildExplanationStep(isDark);
+        return _buildExplanationStep(context);
       case 2:
-        return _buildCreatePinStep(isDark);
+        return _buildCreatePinStep(context);
       case 3:
-        return _buildConfirmPinStep(isDark);
+        return _buildConfirmPinStep(context);
       case 4:
-        return _buildMigratingStep(isDark);
+        return _buildMigratingStep(context);
       case 5:
-        return _buildRecoveryKeyStep(isDark);
+        return _buildRecoveryKeyStep(context);
       default:
         return const SizedBox.shrink();
     }
   }
 
   // Step 1: Explain the migration
-  Widget _buildExplanationStep(bool isDark) {
+  Widget _buildExplanationStep(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,75 +82,69 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
         Icon(
           Icons.security,
           size: 64,
-          color: isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
+          color: a.primary,
         ),
-        const SizedBox(height: 32),
+        SizedBox(height: sp.xl2),
         Text(
           'Security Upgrade Required',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+          style: text.headlineMedium.copyWith(
+            color: c.textPrimary,
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: sp.lg),
         Text(
           'We\'ve upgraded our encryption system to be more secure and reliable.',
-          style: TextStyle(
-            fontSize: 16,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          style: text.bodyMedium.copyWith(
+            color: c.textSecondary,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: sp.xl),
         _buildFeatureItem(
-          isDark,
+          context,
           Icons.pin,
           'PIN Protection',
           'Unlock your data with a 6-digit PIN',
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: sp.lg),
         _buildFeatureItem(
-          isDark,
+          context,
           Icons.fingerprint,
           'Biometric Unlock',
           'Use your fingerprint or face (optional)',
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: sp.lg),
         _buildFeatureItem(
-          isDark,
+          context,
           Icons.key,
           'Recovery Key',
           'Never lose access to your data',
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: sp.lg),
         _buildFeatureItem(
-          isDark,
+          context,
           Icons.cloud_off,
           'Zero-Knowledge',
           'Your data stays private, even from us',
         ),
-        const SizedBox(height: 32),
+        SizedBox(height: sp.xl2),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
-            color: isDark
-                ? UIColors.darkNeonCyan.withOpacity(0.1)
-                : UIColors.lightAccentBlue.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            color: a.primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
           child: Row(
             children: [
               Icon(
                 Icons.info_outline,
-                color: isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
+                color: a.primary,
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: sp.md),
               Expanded(
                 child: Text(
                   'This will take a moment to re-encrypt your data. Don\'t close the app during migration.',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
+                  style: text.bodySmall.copyWith(
+                    color: c.textPrimary,
                   ),
                 ),
               ),
@@ -173,15 +161,18 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
               });
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              backgroundColor: a.primary,
+              foregroundColor: c.textInverse,
+              padding: EdgeInsets.symmetric(vertical: sp.lg),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+              ),
             ),
-            child: const Text(
+            child: Text(
               'Continue',
-              style: TextStyle(
-                fontSize: 16,
+              style: text.labelLarge.copyWith(
                 fontWeight: FontWeight.bold,
+                color: c.textInverse,
               ),
             ),
           ),
@@ -191,41 +182,43 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
   }
 
   Widget _buildFeatureItem(
-      bool isDark, IconData icon, String title, String subtitle) {
+      BuildContext context, IconData icon, String title, String subtitle) {
+    final text = context.text;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Row(
       children: [
         Container(
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: isDark
-                ? UIColors.darkNeonCyan.withOpacity(0.2)
-                : UIColors.lightAccentBlue.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(8),
+            color: a.primary.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
           child: Icon(
             icon,
-            color: isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
+            color: a.primary,
           ),
         ),
-        const SizedBox(width: 16),
+        SizedBox(width: sp.lg),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: TextStyle(
-                  fontSize: 16,
+                style: text.labelLarge.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                  color: c.textPrimary,
                 ),
               ),
               Text(
                 subtitle,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                style: text.bodySmall.copyWith(
+                  color: c.textSecondary,
                 ),
               ),
             ],
@@ -236,46 +229,51 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
   }
 
   // Step 2: Create PIN
-  Widget _buildCreatePinStep(bool isDark) {
+  Widget _buildCreatePinStep(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           'Create Your PIN',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+          style: text.headlineMedium.copyWith(
+            color: c.textPrimary,
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: sp.lg),
         Text(
           'Enter a 6-digit PIN to protect your data',
-          style: TextStyle(
-            fontSize: 16,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          style: text.bodyMedium.copyWith(
+            color: c.textSecondary,
           ),
         ),
-        const SizedBox(height: 32),
+        SizedBox(height: sp.xl2),
         TextField(
           obscureText: !_pinVisible,
           enableInteractiveSelection: false,
           keyboardType: TextInputType.number,
           maxLength: 6,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 24, letterSpacing: 8),
+          style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: InputDecoration(
             hintText: '••••••',
             counterText: '',
             suffixIcon: IconButton(
-              icon: Icon(_pinVisible ? Icons.visibility_off : Icons.visibility),
+              icon: Icon(_pinVisible ? Icons.visibility_off : Icons.visibility, color: c.textSecondary),
               onPressed: () {
                 setState(() {
                   _pinVisible = !_pinVisible;
                 });
               },
             ),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: c.border)),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: a.primary)),
           ),
           onChanged: (value) {
             setState(() {
@@ -283,7 +281,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
             });
           },
         ),
-        const SizedBox(height: 32),
+        SizedBox(height: sp.xl2),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -295,13 +293,16 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
                   }
                 : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              backgroundColor: a.primary,
+              foregroundColor: c.textInverse,
+              padding: EdgeInsets.symmetric(vertical: sp.lg),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+              ),
             ),
-            child: const Text(
+            child: Text(
               'Next',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: text.labelLarge.copyWith(fontWeight: FontWeight.bold, color: c.textInverse),
             ),
           ),
         ),
@@ -310,41 +311,44 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
   }
 
   // Step 3: Confirm PIN
-  Widget _buildConfirmPinStep(bool isDark) {
+  Widget _buildConfirmPinStep(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           'Confirm Your PIN',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+          style: text.headlineMedium.copyWith(
+            color: c.textPrimary,
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: sp.lg),
         Text(
           'Enter your PIN again to confirm',
-          style: TextStyle(
-            fontSize: 16,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          style: text.bodyMedium.copyWith(
+            color: c.textSecondary,
           ),
         ),
-        const SizedBox(height: 32),
+        SizedBox(height: sp.xl2),
         TextField(
           obscureText: !_confirmPinVisible,
           enableInteractiveSelection: false,
           keyboardType: TextInputType.number,
           maxLength: 6,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 24, letterSpacing: 8),
+          style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: InputDecoration(
             hintText: '••••••',
             counterText: '',
             suffixIcon: IconButton(
               icon: Icon(
-                  _confirmPinVisible ? Icons.visibility_off : Icons.visibility),
+                  _confirmPinVisible ? Icons.visibility_off : Icons.visibility, color: c.textSecondary),
               onPressed: () {
                 setState(() {
                   _confirmPinVisible = !_confirmPinVisible;
@@ -354,6 +358,10 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
             errorText: _confirmPin.length == 6 && _confirmPin != _pin
                 ? 'PINs do not match'
                 : null,
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: c.border)),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: a.primary)),
+            errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: c.error)),
+            focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: c.error)),
           ),
           onChanged: (value) {
             setState(() {
@@ -361,7 +369,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
             });
           },
         ),
-        const SizedBox(height: 32),
+        SizedBox(height: sp.xl2),
         Row(
           children: [
             Expanded(
@@ -373,26 +381,32 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
                   });
                 },
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: sp.lg),
+                  side: BorderSide(color: c.border),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
+                  ),
                 ),
-                child: const Text('Back'),
+                child: Text('Back', style: TextStyle(color: c.textPrimary)),
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: sp.lg),
             Expanded(
               child: ElevatedButton(
                 onPressed: _confirmPin.length == 6 && _confirmPin == _pin
                     ? _startMigration
                     : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: a.primary,
+                  foregroundColor: c.textInverse,
+                  padding: EdgeInsets.symmetric(vertical: sp.lg),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
+                  ),
                 ),
-                child: const Text(
+                child: Text(
                   'Start Migration',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: text.labelLarge.copyWith(fontWeight: FontWeight.bold, color: c.textInverse),
                 ),
               ),
             ),
@@ -403,31 +417,31 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
   }
 
   // Step 4: Migrating (progress indicator)
-  Widget _buildMigratingStep(bool isDark) {
+  Widget _buildMigratingStep(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(
-            isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
-          ),
+          valueColor: AlwaysStoppedAnimation<Color>(a.primary),
         ),
-        const SizedBox(height: 32),
+        SizedBox(height: sp.xl2),
         Text(
           'Upgrading Security...',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+          style: text.headlineMedium.copyWith(
+            color: c.textPrimary,
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: sp.lg),
         Text(
           'Re-encrypting your data with the new system.\nThis may take a minute.',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          style: text.bodyMedium.copyWith(
+            color: c.textSecondary,
           ),
         ),
       ],
@@ -435,7 +449,13 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
   }
 
   // Step 5: Show recovery key
-  Widget _buildRecoveryKeyStep(bool isDark) {
+  Widget _buildRecoveryKeyStep(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -443,102 +463,104 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
         Icon(
           Icons.check_circle,
           size: 64,
-          color: Colors.green,
+          color: c.success,
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: sp.xl),
         Text(
           'Migration Complete!',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+          style: text.headlineMedium.copyWith(
+            color: c.textPrimary,
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: sp.lg),
         Text(
           'Your data has been successfully upgraded to the new encryption system.',
-          style: TextStyle(
-            fontSize: 16,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          style: text.bodyMedium.copyWith(
+            color: c.textSecondary,
           ),
         ),
-        const SizedBox(height: 32),
+        SizedBox(height: sp.xl2),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
-            color: Colors.red.withOpacity(0.1),
-            border: Border.all(color: Colors.red.withOpacity(0.3)),
-            borderRadius: BorderRadius.circular(8),
+            color: c.error.withValues(alpha: 0.1),
+            border: Border.all(color: c.error.withValues(alpha: 0.3)),
+            borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                children: const [
-                  Icon(Icons.warning, color: Colors.red),
-                  SizedBox(width: 8),
+                children: [
+                  Icon(Icons.warning, color: c.error),
+                  SizedBox(width: sp.sm),
                   Text(
                     'IMPORTANT: Save Your Recovery Key',
-                    style: TextStyle(
-                      fontSize: 16,
+                    style: text.labelLarge.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.red,
+                      color: c.error,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: sp.md),
               Text(
                 'If you forget your PIN, you\'ll need this recovery key to access your data. Store it somewhere safe.',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                style: text.bodyMedium.copyWith(
+                  color: c.textPrimary,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: sp.lg),
         Text(
           'Recovery Key:',
-          style: TextStyle(
-            fontSize: 14,
+          style: text.labelMedium.copyWith(
             fontWeight: FontWeight.bold,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+            color: c.textSecondary,
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: sp.sm),
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
-            color: isDark ? UIColors.darkSurface : UIColors.lightSurface,
-            borderRadius: BorderRadius.circular(8),
+            color: c.surface,
+            borderRadius: BorderRadius.circular(sh.radiusMd),
+            border: Border.all(color: c.border),
           ),
           child: SelectableText(
             _recoveryKey,
             style: TextStyle(
               fontSize: 18,
               fontFamily: 'monospace',
-              color: isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
+              color: a.primary,
               letterSpacing: 2,
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: sp.lg),
         SizedBox(
           width: double.infinity,
           child: OutlinedButton.icon(
             onPressed: () {
               Clipboard.setData(ClipboardData(text: _recoveryKey));
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Recovery key copied to clipboard')),
+                SnackBar(
+                  content: const Text('Recovery key copied to clipboard'),
+                  backgroundColor: c.success,
+                ),
               );
             },
-            icon: const Icon(Icons.copy),
-            label: const Text('Copy Recovery Key'),
+            icon: Icon(Icons.copy, color: a.primary),
+            label: Text('Copy Recovery Key', style: TextStyle(color: a.primary)),
             style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: EdgeInsets.symmetric(vertical: sp.lg),
+              side: BorderSide(color: a.primary),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+              ),
             ),
           ),
         ),
@@ -551,15 +573,18 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
               Navigator.of(context).pushReplacementNamed('/home_page');
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: isDark ? UIColors.darkNeonCyan : UIColors.lightAccentBlue,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              backgroundColor: a.primary,
+              foregroundColor: c.textInverse,
+              padding: EdgeInsets.symmetric(vertical: sp.lg),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+              ),
             ),
-            child: const Text(
+            child: Text(
               'Continue to App',
-              style: TextStyle(
-                fontSize: 16,
+              style: text.labelLarge.copyWith(
                 fontWeight: FontWeight.bold,
+                color: c.textInverse,
               ),
             ),
           ),
@@ -571,7 +596,6 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
   /// Start the migration process
   Future<void> _startMigration() async {
     setState(() {
-      _isMigrating = true;
       _stepController.goTo(4);
     });
 
@@ -588,7 +612,6 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
       setState(() {
         _recoveryKey = recoveryKey;
         _stepController.goTo(5);
-        _isMigrating = false;
       });
     } catch (e, stack) {
       ErrorHandler.logError(
@@ -598,7 +621,6 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
       );
 
       setState(() {
-        _isMigrating = false;
         _stepController.goTo(2); // Back to create PIN step
       });
 
@@ -606,7 +628,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Migration failed: ${e.toString()}'),
-            backgroundColor: Colors.red,
+            backgroundColor: context.theme.colors.error,
             duration: const Duration(seconds: 5),
           ),
         );

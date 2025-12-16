@@ -116,34 +116,31 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark ? UIColors.darkBackground : UIColors.lightBackground;
-    final surfaceColor = isDark ? UIColors.darkSurface : UIColors.lightSurface;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final accentColor = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final t = context.text;
 
     if (_showRecoveryKey) {
-      return _buildRecoveryKeyView(
-        isDark,
-        backgroundColor,
-        surfaceColor,
-        textColor,
-        accentColor,
-      );
+      return _buildRecoveryKeyView(context);
     }
 
     return PopScope(
       canPop: false, // Prevent back navigation - user must complete PIN setup
       child: Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: c.background,
         appBar: AppBar(
-          title: const Text('Setup Encryption'),
-          backgroundColor: surfaceColor,
+          title: Text(
+            'Setup Encryption',
+            style: t.heading3.copyWith(color: c.textPrimary),
+          ),
+          backgroundColor: c.surface,
           elevation: 0,
           automaticallyImplyLeading: false, // Remove back button
         ),
         body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(sp.xl),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -151,41 +148,39 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
             Icon(
               Icons.lock_outline,
               size: 80,
-              color: accentColor,
+              color: a.primary,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: sp.xl),
 
             // Title
             Text(
               'Create Your PIN',
-              style: TextStyle(
-                fontSize: 28,
+              style: t.heading2.copyWith(
                 fontWeight: FontWeight.bold,
-                color: textColor,
+                color: c.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: sp.sm),
 
             // Description
             Text(
               'Your PIN encrypts all sensitive data. Choose a 6-digit PIN you can remember.',
-              style: TextStyle(
-                fontSize: 16,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              style: t.body.copyWith(
+                color: c.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: sp.xl2),
 
             // PIN 1
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(sp.lg),
               decoration: BoxDecoration(
-                color: surfaceColor,
-                borderRadius: BorderRadius.circular(16),
+                color: c.surface,
+                borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(
-                  color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                  color: c.border,
                 ),
               ),
               child: Column(
@@ -193,22 +188,19 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                 children: [
                   Text(
                     'Enter PIN',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: textColor,
+                    style: t.labelLarge.copyWith(
+                      color: c.textPrimary,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: sp.sm),
                   TextField(
                     controller: _pin1Controller,
                     obscureText: _pin1Obscure,
                     keyboardType: TextInputType.number,
                     maxLength: 6,
-                    style: TextStyle(
-                      fontSize: 24,
+                    style: t.heading3.copyWith(
                       letterSpacing: 8,
-                      color: textColor,
+                      color: c.textPrimary,
                     ),
                     decoration: InputDecoration(
                       hintText: '● ● ● ● ● ●',
@@ -217,7 +209,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                       suffixIcon: IconButton(
                         icon: Icon(
                           _pin1Obscure ? Icons.visibility : Icons.visibility_off,
-                          color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                          color: c.textSecondary,
                         ),
                         onPressed: () => setState(() => _pin1Obscure = !_pin1Obscure),
                       ),
@@ -227,16 +219,16 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: sp.lg),
 
             // PIN 2
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(sp.lg),
               decoration: BoxDecoration(
-                color: surfaceColor,
-                borderRadius: BorderRadius.circular(16),
+                color: c.surface,
+                borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(
-                  color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                  color: c.border,
                 ),
               ),
               child: Column(
@@ -244,22 +236,19 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                 children: [
                   Text(
                     'Confirm PIN',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: textColor,
+                    style: t.labelLarge.copyWith(
+                      color: c.textPrimary,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: sp.sm),
                   TextField(
                     controller: _pin2Controller,
                     obscureText: _pin2Obscure,
                     keyboardType: TextInputType.number,
                     maxLength: 6,
-                    style: TextStyle(
-                      fontSize: 24,
+                    style: t.heading3.copyWith(
                       letterSpacing: 8,
-                      color: textColor,
+                      color: c.textPrimary,
                     ),
                     decoration: InputDecoration(
                       hintText: '● ● ● ● ● ●',
@@ -268,7 +257,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                       suffixIcon: IconButton(
                         icon: Icon(
                           _pin2Obscure ? Icons.visibility : Icons.visibility_off,
-                          color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                          color: c.textSecondary,
                         ),
                         onPressed: () => setState(() => _pin2Obscure = !_pin2Obscure),
                       ),
@@ -281,22 +270,22 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
 
             // Error message
             if (_errorMessage != null) ...[
-              const SizedBox(height: 16),
+              SizedBox(height: sp.md),
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(sp.sm),
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.red.withOpacity(0.3)),
+                  color: c.error.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(sh.radiusSm),
+                  border: Border.all(color: c.error.withValues(alpha: 0.3)),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.error_outline, color: Colors.red, size: 20),
-                    const SizedBox(width: 12),
+                    Icon(Icons.error_outline, color: c.error, size: 20),
+                    SizedBox(width: sp.sm),
                     Expanded(
                       child: Text(
                         _errorMessage!,
-                        style: const TextStyle(color: Colors.red),
+                        style: t.body.copyWith(color: c.error),
                       ),
                     ),
                   ],
@@ -304,7 +293,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
               ),
             ],
 
-            const SizedBox(height: 32),
+            SizedBox(height: sp.xl2),
 
             // Setup button
             SizedBox(
@@ -312,10 +301,10 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _setupEncryption,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: accentColor,
+                  backgroundColor: a.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
                   ),
                   elevation: 2,
                 ),
@@ -328,11 +317,11 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                           valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
                       )
-                    : const Text(
+                    : Text(
                         'Create PIN',
-                        style: TextStyle(
+                        style: t.labelLarge.copyWith(
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
               ),
@@ -344,25 +333,28 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
     ); // Close PopScope
   }
 
-  Widget _buildRecoveryKeyView(
-    bool isDark,
-    Color backgroundColor,
-    Color surfaceColor,
-    Color textColor,
-    Color accentColor,
-  ) {
+  Widget _buildRecoveryKeyView(BuildContext context) {
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final t = context.text;
+
     return PopScope(
       canPop: false, // Prevent back navigation - user must save recovery key
       child: Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: c.background,
         appBar: AppBar(
-          title: const Text('Recovery Key'),
-          backgroundColor: surfaceColor,
+          title: Text(
+            'Recovery Key',
+            style: t.heading3.copyWith(color: c.textPrimary),
+          ),
+          backgroundColor: c.surface,
           elevation: 0,
           automaticallyImplyLeading: false,
         ),
         body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(sp.xl),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -370,69 +362,66 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
             Icon(
               Icons.key,
               size: 80,
-              color: Colors.amber,
+              color: c.warning,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: sp.xl),
 
             // Title
             Text(
               'Save Your Recovery Key',
-              style: TextStyle(
-                fontSize: 28,
+              style: t.heading2.copyWith(
                 fontWeight: FontWeight.bold,
-                color: textColor,
+                color: c.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: sp.sm),
 
             // Warning
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
-                color: Colors.amber.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.amber.withOpacity(0.3)),
+                color: c.warning.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+                border: Border.all(color: c.warning.withValues(alpha: 0.3)),
               ),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.warning_amber, color: Colors.amber),
-                      const SizedBox(width: 12),
+                      Icon(Icons.warning_amber, color: c.warning),
+                      SizedBox(width: sp.sm),
                       Expanded(
                         child: Text(
                           'IMPORTANT: Save this key securely',
-                          style: TextStyle(
-                            fontSize: 16,
+                          style: t.heading4.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: textColor,
+                            color: c.textPrimary,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: sp.xs),
                   Text(
                     'If you forget your PIN, this recovery key is the ONLY way to access your encrypted data. Write it down and store it somewhere safe.',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                    style: t.body.copyWith(
+                      color: c.textSecondary,
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: sp.xl),
 
             // Recovery key
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(sp.lg),
               decoration: BoxDecoration(
-                color: surfaceColor,
-                borderRadius: BorderRadius.circular(16),
+                color: c.surface,
+                borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(
-                  color: accentColor,
+                  color: a.primary,
                   width: 2,
                 ),
               ),
@@ -440,29 +429,28 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                 children: [
                   SelectableText(
                     _recoveryKey ?? '',
-                    style: TextStyle(
-                      fontSize: 20,
+                    style: t.heading3.copyWith(
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2,
-                      color: accentColor,
+                      color: a.primary,
                       fontFamily: 'monospace',
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: sp.md),
                   OutlinedButton.icon(
                     onPressed: _copyRecoveryKey,
                     icon: const Icon(Icons.copy),
                     label: const Text('Copy to Clipboard'),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: accentColor,
-                      side: BorderSide(color: accentColor),
+                      foregroundColor: a.primary,
+                      side: BorderSide(color: a.primary),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: sp.xl2),
 
             // Enable biometrics option
             OutlinedButton.icon(
@@ -470,12 +458,12 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
               icon: const Icon(Icons.fingerprint),
               label: const Text('Enable Fingerprint Unlock (Optional)'),
               style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                foregroundColor: accentColor,
-                side: BorderSide(color: accentColor),
+                padding: EdgeInsets.symmetric(vertical: sp.md),
+                foregroundColor: a.primary,
+                side: BorderSide(color: a.primary),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: sp.md),
 
             // Finish button
             SizedBox(
@@ -483,18 +471,18 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
               child: ElevatedButton(
                 onPressed: _finishSetup,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: c.success,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
                   ),
                   elevation: 2,
                 ),
-                child: const Text(
+                child: Text(
                   'I\'ve Saved My Recovery Key',
-                  style: TextStyle(
+                  style: t.labelLarge.copyWith(
                     fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),

@@ -1,90 +1,90 @@
+import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
 // MIGRATION
-// Theme: PARTIAL
+// Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme/common usage, not fully migrated.
-import 'package:flutter/material.dart';
-
-
+// Notes: Fully migrated. Uses context-based AppTheme access only.
 
 /// Example widget demonstrating theme usage patterns
 /// Use this as a reference when building new themed widgets
 class ThemeExampleWidget extends StatelessWidget {
-  final AppTheme theme;
-
-  const ThemeExampleWidget({required this.theme, super.key});
+  const ThemeExampleWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
+
     return SingleChildScrollView(
-      padding: EdgeInsets.all(theme.spacing.lg),
+      padding: EdgeInsets.all(sp.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // EXAMPLE 1: Basic Card
-          _buildBasicCard(),
-          SizedBox(height: theme.spacing.xl),
+          _buildBasicCard(context),
+          SizedBox(height: sp.xl),
 
-          // EXAMPLE 2: Gradient Card
-          _buildGradientCard(),
-          SizedBox(height: theme.spacing.xl),
+          _buildGradientCard(context),
+          SizedBox(height: sp.xl),
 
-          // EXAMPLE 3: Neon Border Card (dark theme)
-          _buildNeonCard(),
-          SizedBox(height: theme.spacing.xl),
+          _buildNeonCard(context),
+          SizedBox(height: sp.xl),
 
-          // EXAMPLE 4: Icon with Background
-          _buildIconExample(),
-          SizedBox(height: theme.spacing.xl),
+          _buildIconExample(context),
+          SizedBox(height: sp.xl),
 
-          // EXAMPLE 5: Typography Showcase
-          _buildTypographyExample(),
-          SizedBox(height: theme.spacing.xl),
+          _buildTypographyExample(context),
+          SizedBox(height: sp.xl),
 
-          // EXAMPLE 6: Button Styles
-          _buildButtonExample(),
+          _buildButtonExample(context),
         ],
       ),
     );
   }
 
-  Widget _buildBasicCard() {
+  Widget _buildBasicCard(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
+
     return Container(
-      padding: EdgeInsets.all(theme.spacing.lg),
-      decoration: theme.cardDecoration(),
+      padding: EdgeInsets.all(sp.lg),
+      decoration: t.cardDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Basic Card', style: theme.typography.heading3),
-          SizedBox(height: theme.spacing.sm),
+          Text('Basic Card', style: t.typography.heading3),
+          SizedBox(height: sp.sm),
           Text(
             'Uses standard card decoration with theme-aware shadows and borders.',
-            style: theme.typography.body,
+            style: t.typography.body,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildGradientCard() {
+  Widget _buildGradientCard(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
+
     return Container(
-      padding: EdgeInsets.all(theme.spacing.lg),
-      decoration: theme.gradientCardDecoration(useAccentGradient: true),
+      padding: EdgeInsets.all(sp.lg),
+      decoration: t.gradientCardDecoration(useAccentGradient: true),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Gradient Card',
-            style: theme.typography.heading3.copyWith(
-              color: theme.colors.textInverse,
+            style: t.typography.heading3.copyWith(
+              color: t.colors.textInverse,
             ),
           ),
-          SizedBox(height: theme.spacing.sm),
+          SizedBox(height: sp.sm),
           Text(
             'Uses accent gradient for hero sections.',
-            style: theme.typography.body.copyWith(
-              color: theme.colors.textInverse.withOpacity(0.9),
+            style: t.typography.body.copyWith(
+              color: t.colors.textInverse.withValues(alpha: 0.9),
             ),
           ),
         ],
@@ -92,51 +92,59 @@ class ThemeExampleWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildNeonCard() {
+  Widget _buildNeonCard(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
+
     return Container(
-      padding: EdgeInsets.all(theme.spacing.lg),
-      decoration: theme.cardDecoration(neonBorder: true),
+      padding: EdgeInsets.all(sp.lg),
+      decoration: t.cardDecoration(neonBorder: true),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Neon Border Card', style: theme.typography.heading3),
-          SizedBox(height: theme.spacing.sm),
+          Text('Neon Border Card', style: t.typography.heading3),
+          SizedBox(height: sp.sm),
           Text(
             'In dark mode, this card has a glowing neon border.',
-            style: theme.typography.body,
+            style: t.typography.body,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildIconExample() {
+  Widget _buildIconExample(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Row(
       children: [
-        // Icon with accent background
         Container(
-          padding: EdgeInsets.all(theme.spacing.md),
+          padding: EdgeInsets.all(sp.md),
           decoration: BoxDecoration(
-            color: theme.accent.primary.withOpacity(theme.isDark ? 0.2 : 0.1),
-            borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
-            boxShadow: theme.isDark ? theme.getNeonGlow(intensity: 0.3) : null,
+            color: t.accent.primary.withValues(
+              alpha: t.isDark ? 0.2 : 0.1,
+            ),
+            borderRadius: BorderRadius.circular(sh.radiusMd),
+            boxShadow: t.isDark ? t.getNeonGlow(intensity: 0.3) : null,
           ),
           child: Icon(
             Icons.star,
-            size: AppThemeConstants.iconLg,
-            color: theme.accent.primary,
+            size: sp.iconLg,
+            color: t.accent.primary,
           ),
         ),
-        SizedBox(width: theme.spacing.lg),
+        SizedBox(width: sp.lg),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Icon with Background', style: theme.typography.heading4),
-              SizedBox(height: theme.spacing.xs),
+              Text('Icon with Background', style: t.typography.heading4),
+              SizedBox(height: sp.xs),
               Text(
                 'Colored background with optional glow effect.',
-                style: theme.typography.bodySmall,
+                style: t.typography.bodySmall,
               ),
             ],
           ),
@@ -145,88 +153,90 @@ class ThemeExampleWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildTypographyExample() {
+  Widget _buildTypographyExample(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
+
     return Container(
-      padding: EdgeInsets.all(theme.spacing.lg),
-      decoration: theme.cardDecoration(),
+      padding: EdgeInsets.all(sp.lg),
+      decoration: t.cardDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Heading 1', style: theme.typography.heading1),
-          SizedBox(height: theme.spacing.sm),
-          Text('Heading 2', style: theme.typography.heading2),
-          SizedBox(height: theme.spacing.sm),
-          Text('Heading 3', style: theme.typography.heading3),
-          SizedBox(height: theme.spacing.sm),
-          Text('Heading 4', style: theme.typography.heading4),
-          SizedBox(height: theme.spacing.md),
-          Text('Body Large', style: theme.typography.bodyLarge),
-          Text('Body', style: theme.typography.body),
-          Text('Body Bold', style: theme.typography.bodyBold),
-          Text('Body Small', style: theme.typography.bodySmall),
-          SizedBox(height: theme.spacing.md),
-          Text('Caption', style: theme.typography.caption),
-          Text('Caption Bold', style: theme.typography.captionBold),
-          Text('OVERLINE', style: theme.typography.overline),
+          Text('Heading 1', style: t.typography.heading1),
+          SizedBox(height: sp.sm),
+          Text('Heading 2', style: t.typography.heading2),
+          SizedBox(height: sp.sm),
+          Text('Heading 3', style: t.typography.heading3),
+          SizedBox(height: sp.sm),
+          Text('Heading 4', style: t.typography.heading4),
+          SizedBox(height: sp.md),
+          Text('Body Large', style: t.typography.bodyLarge),
+          Text('Body', style: t.typography.body),
+          Text('Body Bold', style: t.typography.bodyBold),
+          Text('Body Small', style: t.typography.bodySmall),
+          SizedBox(height: sp.md),
+          Text('Caption', style: t.typography.caption),
+          Text('Caption Bold', style: t.typography.captionBold),
+          Text('OVERLINE', style: t.typography.overline),
         ],
       ),
     );
   }
 
-  Widget _buildButtonExample() {
+  Widget _buildButtonExample(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Column(
       children: [
-        // Primary button
         ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
-            backgroundColor: theme.accent.primary,
-            foregroundColor: theme.colors.textInverse,
+            backgroundColor: t.accent.primary,
+            foregroundColor: t.colors.textInverse,
             padding: EdgeInsets.symmetric(
-              horizontal: AppThemeConstants.buttonPaddingHorizontal,
-              vertical: theme.spacing.md,
+              horizontal: sp.lg,
+              vertical: sp.md,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
           ),
-          child: Text('Primary Button', style: theme.typography.button),
+          child: Text('Primary Button', style: t.typography.button),
         ),
-        SizedBox(height: theme.spacing.md),
+        SizedBox(height: sp.md),
 
-        // Outlined button
         OutlinedButton(
           onPressed: () {},
           style: OutlinedButton.styleFrom(
-            foregroundColor: theme.accent.primary,
-            side: BorderSide(color: theme.accent.primary),
+            foregroundColor: t.accent.primary,
+            side: BorderSide(color: t.accent.primary),
             padding: EdgeInsets.symmetric(
-              horizontal: AppThemeConstants.buttonPaddingHorizontal,
-              vertical: theme.spacing.md,
+              horizontal: sp.lg,
+              vertical: sp.md,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
           ),
-          child: Text('Outlined Button', style: theme.typography.button),
+          child: Text('Outlined Button', style: t.typography.button),
         ),
-        SizedBox(height: theme.spacing.md),
+        SizedBox(height: sp.md),
 
-        // Text button
         TextButton(
           onPressed: () {},
           style: TextButton.styleFrom(
-            foregroundColor: theme.accent.primary,
+            foregroundColor: t.accent.primary,
             padding: EdgeInsets.symmetric(
-              horizontal: AppThemeConstants.buttonPaddingHorizontal,
-              vertical: theme.spacing.md,
+              horizontal: sp.lg,
+              vertical: sp.md,
             ),
           ),
-          child: Text('Text Button', style: theme.typography.button),
+          child: Text('Text Button', style: t.typography.button),
         ),
       ],
     );
   }
 }
-
-

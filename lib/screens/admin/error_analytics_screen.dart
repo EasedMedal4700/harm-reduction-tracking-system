@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../services/admin_service.dart';
 import '../../utils/error_reporter.dart';
 import '../../widgets/admin/error_analytics_section.dart';
@@ -151,23 +152,26 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
 
     return Scaffold(
+      backgroundColor: c.background,
       appBar: AppBar(
         title: const Text('Error Analytics'),
-        backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-        foregroundColor: isDark ? Colors.white : Colors.black87,
+        backgroundColor: c.surface,
+        foregroundColor: c.textPrimary,
         elevation: 0,
         actions: [
           IconButton(
             icon: _isLoading
-                ? const SizedBox(
+                ? SizedBox(
                     width: 20,
                     height: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      valueColor: AlwaysStoppedAnimation<Color>(c.textPrimary),
                     ),
                   )
                 : const Icon(Icons.refresh),
@@ -177,11 +181,12 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
         ],
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator(color: a.primary))
           : RefreshIndicator(
               onRefresh: _loadData,
+              color: a.primary,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(sp.md),
                 child: ErrorAnalyticsSection(
                   errorAnalytics: _errorAnalytics,
                   isClearingErrors: _isClearingErrors,

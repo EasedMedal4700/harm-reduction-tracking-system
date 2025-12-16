@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/old_common/drawer_menu.dart';
 import '../../widgets/cravings/craving_details_section.dart';
 import '../../widgets/cravings/emotional_state_section.dart';
@@ -252,16 +253,21 @@ class _EditCravingPageState extends State<EditCravingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+
     return Scaffold(
+      backgroundColor: c.background,
       appBar: CravingAppBar(
         isSaving: _isSaving,
         onSave: _saveChanges,
       ),
       drawer: const DrawerMenu(),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator(color: a.primary))
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(sp.md),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -279,7 +285,7 @@ class _EditCravingPageState extends State<EditCravingPage> {
                     onWithWhoChanged: (value) =>
                         setState(() => withWho = value ?? ''),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: sp.lg),
                   EmotionalStateSection(
                     selectedEmotions: primaryEmotions,
                     secondaryEmotions: secondaryEmotions,
@@ -291,14 +297,14 @@ class _EditCravingPageState extends State<EditCravingPage> {
                     onThoughtsChanged: (value) =>
                         setState(() => thoughts = value),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: sp.lg),
                   BodyMindSignalsSection(
                     sensations: sensations,
                     selectedSensations: selectedSensations,
                     onSensationsChanged: (value) =>
                         setState(() => selectedSensations = value),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: sp.lg),
                   OutcomeSection(
                     whatDidYouDo: whatDidYouDo,
                     actedOnCraving: actedOnCraving,
@@ -307,7 +313,7 @@ class _EditCravingPageState extends State<EditCravingPage> {
                     onActedOnCravingChanged: (value) =>
                         setState(() => actedOnCraving = value),
                   ),
-                  const SizedBox(height: 32),
+                  SizedBox(height: sp.xl),
                 ],
               ),
             ),

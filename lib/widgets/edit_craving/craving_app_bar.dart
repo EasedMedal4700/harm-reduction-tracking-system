@@ -1,9 +1,5 @@
 
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Review for theme/context migration if needed.
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class CravingAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -18,30 +14,35 @@ class CravingAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final c = context.colors;
+    final a = context.accent;
+    final t = context.text;
     
     return AppBar(
-      title: const Text('Edit Craving'),
-      backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-      foregroundColor: isDark ? Colors.white : Colors.black87,
+      title: Text('Edit Craving', style: t.titleLarge.copyWith(color: c.textPrimary)),
+      backgroundColor: c.surface,
+      foregroundColor: c.textPrimary,
       elevation: 0,
       actions: [
         if (isSaving)
-          const Center(
+          Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SizedBox(
                 width: 20,
                 height: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(a.primary),
+                ),
               ),
             ),
           )
         else
           TextButton.icon(
             onPressed: onSave,
-            icon: const Icon(Icons.check),
-            label: const Text('Save'),
+            icon: Icon(Icons.check, color: a.primary),
+            label: Text('Save', style: TextStyle(color: a.primary)),
           ),
       ],
     );

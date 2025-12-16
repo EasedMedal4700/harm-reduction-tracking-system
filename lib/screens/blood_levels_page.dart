@@ -9,6 +9,7 @@ import '../widgets/blood_levels/blood_levels_empty_state.dart';
 import '../widgets/blood_levels/blood_levels_content.dart';
 import '../common/old_common/drawer_menu.dart';
 import '../common/old_common/harm_reduction_banner.dart';
+import '../constants/theme/app_theme_extension.dart';
 
 class BloodLevelsPage extends StatefulWidget {
   const BloodLevelsPage({super.key});
@@ -92,7 +93,10 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+
     return Scaffold(
+      backgroundColor: c.background,
       appBar: BloodLevelsAppBar(
         selectedTime: _selectedTime,
         onTimeMachinePressed: _showTimeMachine,

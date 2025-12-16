@@ -16,35 +16,39 @@ class BodyMindSignalsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
     
     return Container(
-      padding: EdgeInsets.all(t.spacing.m),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-        border: Border.all(color: t.colors.outlineVariant),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusLg),
+        border: Border.all(color: c.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.self_improvement, color: t.colors.primary),
-              SizedBox(width: t.spacing.s),
+              Icon(Icons.self_improvement, color: a.primary),
+              SizedBox(width: sp.sm),
               Text(
                 'Body & Mind Signals',
-                style: t.typography.titleMedium.copyWith(
-                  color: t.colors.onSurface,
+                style: t.typography.heading4.copyWith(
+                  color: c.textPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          SizedBox(height: t.spacing.m),
+          SizedBox(height: sp.md),
           Wrap(
-            spacing: t.spacing.s,
-            runSpacing: t.spacing.s,
+            spacing: sp.sm,
+            runSpacing: sp.sm,
             children: sensations.map((sensation) {
               final isSelected = selectedSensations.contains(sensation);
               return FilterChip(
@@ -55,16 +59,16 @@ class BodyMindSignalsSection extends StatelessWidget {
                     ? [...selectedSensations, sensation]
                     : selectedSensations.where((s) => s != sensation).toList(),
                 ),
-                selectedColor: t.colors.primaryContainer,
-                checkmarkColor: t.colors.onPrimaryContainer,
-                labelStyle: t.typography.bodyMedium.copyWith(
-                  color: isSelected ? t.colors.onPrimaryContainer : t.colors.onSurface,
+                selectedColor: a.primary.withValues(alpha: 0.2),
+                checkmarkColor: a.primary,
+                labelStyle: t.typography.body.copyWith(
+                  color: isSelected ? a.primary : c.textPrimary,
                 ),
-                backgroundColor: t.colors.surfaceContainerLow,
+                backgroundColor: c.surface,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusS),
+                  borderRadius: BorderRadius.circular(sh.radiusSm),
                   side: BorderSide(
-                    color: isSelected ? Colors.transparent : t.colors.outline,
+                    color: isSelected ? Colors.transparent : c.border,
                   ),
                 ),
               );

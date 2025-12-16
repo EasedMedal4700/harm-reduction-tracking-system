@@ -174,14 +174,15 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    final sp = context.spacing;
     
     return ChangeNotifierProvider<LogEntryState>.value(
       value: _state,
       child: Consumer<LogEntryState>(
         builder: (context, state, child) {
           return Scaffold(
-            backgroundColor: t.colors.surface,
+            backgroundColor: c.background,
             appBar: LogEntryAppBar(
               isSimpleMode: state.isSimpleMode,
               onSimpleModeChanged: state.setIsSimpleMode,
@@ -192,7 +193,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                 FadeTransition(
                   opacity: _fadeAnimation,
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.all(t.spacing.m),
+                    padding: EdgeInsets.all(sp.md),
                     child: LogEntryForm(
                       isSimpleMode: state.isSimpleMode,
                       dose: state.dose,
@@ -235,7 +236,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                 ),
                 if (_isSaving)
                   Container(
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black.withValues(alpha: 0.5),
                     child: const Center(
                       child: CircularProgressIndicator(),
                     ),

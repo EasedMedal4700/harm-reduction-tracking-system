@@ -1,16 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
 // MIGRATION
-// Theme: PARTIAL
+// Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme/common usage, not fully migrated.
-import 'package:flutter/material.dart';
-
-
+// Notes: Fully migrated to AppThemeExtension. AppTheme parameters removed.
 
 /// Stats card showing key metrics
 class StatsCard extends StatelessWidget {
-  final AppTheme theme;
   final String title;
   final String value;
   final String? subtitle;
@@ -19,43 +17,51 @@ class StatsCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   const StatsCard({
-    required this.theme,
+    super.key,
     required this.title,
     required this.value,
     required this.icon,
     this.subtitle,
     this.iconColor,
     this.onTap,
-    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final color = iconColor ?? theme.accent.primary;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
 
-    return GestureDetector(
+    final effectiveIconColor = iconColor ?? t.accent.primary;
+
+    return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(sh.radiusMd),
       child: Container(
-        padding: EdgeInsets.all(theme.spacing.lg),
-        decoration: theme.cardDecoration(),
+        padding: EdgeInsets.all(sp.lg),
+        decoration: t.cardDecoration(),
         child: Row(
           children: [
             // Icon
             Container(
-              padding: EdgeInsets.all(theme.spacing.sm),
+              padding: EdgeInsets.all(sp.sm),
               decoration: BoxDecoration(
-                color: color.withOpacity(theme.isDark ? 0.2 : 0.1),
-                borderRadius: BorderRadius.circular(AppThemeConstants.radiusSm),
+                color: effectiveIconColor.withValues(
+                  alpha: t.isDark ? 0.2 : 0.1,
+                ),
+                borderRadius: BorderRadius.circular(sh.radiusSm),
               ),
               child: Icon(
                 icon,
-                size: AppThemeConstants.iconMd,
-                color: color,
+                size: sp.iconMd,
+                color: effectiveIconColor,
               ),
             ),
-            
-            SizedBox(width: theme.spacing.md),
-            
+
+            SizedBox(width: sp.md),
+
             // Content
             Expanded(
               child: Column(
@@ -63,30 +69,36 @@ class StatsCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: theme.typography.bodySmall,
+                    style: text.bodySmall.copyWith(
+                      color: c.textSecondary,
+                    ),
                   ),
-                  SizedBox(height: theme.spacing.xs),
+                  SizedBox(height: sp.xs),
                   Text(
                     value,
-                    style: theme.typography.heading3,
+                    style: text.heading3.copyWith(
+                      color: c.textPrimary,
+                    ),
                   ),
                   if (subtitle != null) ...[
-                    SizedBox(height: theme.spacing.xs),
+                    SizedBox(height: sp.xs),
                     Text(
                       subtitle!,
-                      style: theme.typography.caption,
+                      style: text.caption.copyWith(
+                        color: c.textTertiary,
+                      ),
                     ),
                   ],
                 ],
               ),
             ),
-            
+
             // Arrow if tappable
             if (onTap != null)
               Icon(
                 Icons.chevron_right,
-                color: theme.colors.textTertiary,
-                size: AppThemeConstants.iconMd,
+                color: c.textTertiary,
+                size: sp.iconMd,
               ),
           ],
         ),
@@ -97,41 +109,42 @@ class StatsCard extends StatelessWidget {
 
 /// Progress overview card
 class ProgressOverviewCard extends StatelessWidget {
-  final AppTheme theme;
   final List<StatsData> stats;
 
   const ProgressOverviewCard({
-    required this.theme,
-    required this.stats,
     super.key,
+    required this.stats,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: theme.spacing.lg),
+    final t = context.theme;
+    final sp = context.spacing;
+    final text = context.text;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: sp.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Section header
           Padding(
-            padding: EdgeInsets.only(bottom: theme.spacing.md),
+            padding: EdgeInsets.only(bottom: sp.md),
             child: Text(
               'Your Progress',
-              style: theme.typography.heading3,
+              style: text.heading3,
             ),
           ),
-          
+
           // Stats cards
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: stats.length,
-            separatorBuilder: (context, index) => SizedBox(height: theme.spacing.md),
+            separatorBuilder: (_, __) => SizedBox(height: sp.md),
             itemBuilder: (context, index) {
               final stat = stats[index];
               return StatsCard(
-                theme: theme,
                 title: stat.title,
                 value: stat.value,
                 subtitle: stat.subtitle,
@@ -165,5 +178,3 @@ class StatsData {
     this.onTap,
   });
 }
-
-

@@ -1,14 +1,11 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../common/old_common/drawer_menu.dart';
 import '../services/log_entry_service.dart';
 import '../providers/reflection_provider.dart';
 import '../widgets/reflection/reflection_form.dart';
 import '../widgets/reflection/reflection_selection.dart';
-
-
 
 class ReflectionPage extends StatefulWidget {
   const ReflectionPage({super.key});
@@ -38,10 +35,11 @@ class _ReflectionPageState extends State<ReflectionPage> {
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {
+        final c = context.colors;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to load entries: $e'),
-            backgroundColor: Colors.redAccent,
+            backgroundColor: c.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -51,31 +49,28 @@ class _ReflectionPageState extends State<ReflectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark
-        ? UIColors.darkBackground
-        : UIColors.lightBackground;
-    final surfaceColor = isDark ? UIColors.darkSurface : UIColors.lightSurface;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
+    final c = context.colors;
+    final a = context.accent;
+    final t = context.text;
 
     return Consumer<ReflectionProvider>(
       builder: (context, provider, child) {
         return Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: c.background,
           appBar: AppBar(
             title: Text(
               'Reflect on Recent Entries',
-              style: TextStyle(
-                fontWeight: ThemeConstants.fontBold,
-                color: textColor,
+              style: t.titleLarge.copyWith(
+                fontWeight: FontWeight.bold,
+                color: c.textPrimary,
               ),
             ),
-            backgroundColor: surfaceColor,
+            backgroundColor: c.surface,
             elevation: 0,
             centerTitle: true,
             leading: provider.showForm
                 ? IconButton(
-                    icon: Icon(Icons.arrow_back, color: textColor),
+                    icon: Icon(Icons.arrow_back, color: c.textPrimary),
                     onPressed: () => provider.setShowForm(false),
                   )
                 : null,
@@ -88,9 +83,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
                             ? null
                             : () => provider.save(context),
                         style: TextButton.styleFrom(
-                          foregroundColor: isDark
-                              ? UIColors.darkNeonPurple
-                              : UIColors.lightAccentPurple,
+                          foregroundColor: a.primary,
                         ),
                         child: provider.isSaving
                             ? SizedBox(
@@ -99,9 +92,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                    isDark
-                                        ? UIColors.darkNeonPurple
-                                        : UIColors.lightAccentPurple,
+                                    a.primary,
                                   ),
                                 ),
                               )
@@ -124,9 +115,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
               ? Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      isDark
-                          ? UIColors.darkNeonPurple
-                          : UIColors.lightAccentPurple,
+                      a.primary,
                     ),
                   ),
                 )

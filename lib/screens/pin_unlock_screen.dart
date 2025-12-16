@@ -232,25 +232,25 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark ? UIColors.darkBackground : UIColors.lightBackground;
-    final surfaceColor = isDark ? UIColors.darkSurface : UIColors.lightSurface;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final accentColor = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final t = context.text;
+    final sh = context.shapes;
 
     // Show loading while checking authentication
     if (_isCheckingAuth) {
       return Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: c.background,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(color: accentColor),
-              const SizedBox(height: 16),
+              CircularProgressIndicator(color: a.primary),
+              SizedBox(height: sp.md),
               Text(
                 'Verifying session...',
-                style: TextStyle(color: textColor),
+                style: t.bodyMedium.copyWith(color: c.textPrimary),
               ),
             ],
           ),
@@ -261,70 +261,69 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
     return PopScope(
       canPop: false, // Prevent back navigation - user must enter PIN
       child: Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: c.background,
         appBar: AppBar(
-          title: const Text('Unlock'),
-          backgroundColor: surfaceColor,
+          title: Text(
+            'Unlock',
+            style: t.heading3.copyWith(color: c.textPrimary),
+          ),
+          backgroundColor: c.surface,
           elevation: 0,
           automaticallyImplyLeading: false, // Remove back button
         ),
         body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(sp.xl),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 40),
+            SizedBox(height: sp.xl2),
 
             // Lock Icon
             Icon(
               Icons.lock_outline,
               size: 100,
-              color: accentColor,
+              color: a.primary,
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: sp.xl),
 
             // Title
             Text(
               'Enter Your PIN',
-              style: TextStyle(
-                fontSize: 32,
+              style: t.heading1.copyWith(
                 fontWeight: FontWeight.bold,
-                color: textColor,
+                color: c.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: sp.sm),
 
             // Description
             Text(
               'Unlock to access your encrypted data',
-              style: TextStyle(
-                fontSize: 16,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              style: t.bodyMedium.copyWith(
+                color: c.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: sp.xl2),
 
             // PIN Input
             Container(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(sp.xl),
               decoration: BoxDecoration(
-                color: surfaceColor,
-                borderRadius: BorderRadius.circular(20),
+                color: c.surface,
+                borderRadius: BorderRadius.circular(sh.radiusLg),
                 border: Border.all(
-                  color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+                  color: c.border,
                   width: 2,
                 ),
-                boxShadow: isDark
-                    ? null
-                    : [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: TextField(
                 controller: _pinController,
@@ -332,28 +331,25 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
                 keyboardType: TextInputType.number,
                 maxLength: 6,
                 autofocus: true,
-                style: TextStyle(
-                  fontSize: 32,
+                style: t.heading1.copyWith(
                   letterSpacing: 12,
                   fontWeight: FontWeight.bold,
-                  color: textColor,
+                  color: c.textPrimary,
                 ),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   hintText: '● ● ● ● ● ●',
-                  hintStyle: TextStyle(
-                    color: isDark
-                        ? UIColors.darkTextSecondary
-                        : UIColors.lightTextSecondary,
+                  hintStyle: t.heading1.copyWith(
+                    letterSpacing: 12,
+                    fontWeight: FontWeight.bold,
+                    color: c.textSecondary,
                   ),
                   counterText: '',
                   border: InputBorder.none,
                   suffixIcon: IconButton(
                     icon: Icon(
                       _pinObscure ? Icons.visibility : Icons.visibility_off,
-                      color: isDark
-                          ? UIColors.darkTextSecondary
-                          : UIColors.lightTextSecondary,
+                      color: c.textSecondary,
                     ),
                     onPressed: () => setState(() => _pinObscure = !_pinObscure),
                   ),
@@ -365,24 +361,23 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
 
             // Error message
             if (_errorMessage != null) ...[
-              const SizedBox(height: 20),
+              SizedBox(height: sp.md),
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.red.withOpacity(0.3)),
+                  color: c.error.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
+                  border: Border.all(color: c.error.withValues(alpha: 0.3)),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.error_outline, color: Colors.red, size: 24),
-                    const SizedBox(width: 12),
+                    Icon(Icons.error_outline, color: c.error, size: 24),
+                    SizedBox(width: sp.md),
                     Expanded(
                       child: Text(
                         _errorMessage!,
-                        style: const TextStyle(
-                          color: Colors.red,
-                          fontSize: 14,
+                        style: t.bodyMedium.copyWith(
+                          color: c.error,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -392,7 +387,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
               ),
             ],
 
-            const SizedBox(height: 32),
+            SizedBox(height: sp.xl),
 
             // Unlock button
             SizedBox(
@@ -400,10 +395,10 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _unlockWithPin,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: accentColor,
+                  backgroundColor: a.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
                   ),
                   elevation: 4,
                 ),
@@ -416,11 +411,11 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
                           valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
                       )
-                    : const Text(
+                    : Text(
                         'Unlock',
-                        style: TextStyle(
-                          fontSize: 20,
+                        style: t.heading3.copyWith(
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
               ),
@@ -428,35 +423,34 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
 
             // Biometrics button
             if (_isBiometricsAvailable) ...[
-              const SizedBox(height: 20),
+              SizedBox(height: sp.md),
               OutlinedButton.icon(
                 onPressed: _isLoading ? null : _unlockWithBiometrics,
                 icon: const Icon(Icons.fingerprint, size: 28),
-                label: const Text(
+                label: Text(
                   'Unlock with Fingerprint',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  style: t.labelLarge.copyWith(fontWeight: FontWeight.w600),
                 ),
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  foregroundColor: accentColor,
-                  side: BorderSide(color: accentColor, width: 2),
+                  padding: EdgeInsets.symmetric(vertical: sp.md),
+                  foregroundColor: a.primary,
+                  side: BorderSide(color: a.primary, width: 2),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
                   ),
                 ),
               ),
             ],
 
-            const SizedBox(height: 32),
+            SizedBox(height: sp.xl),
 
             // Forgot PIN link
             TextButton(
               onPressed: _openRecoveryKey,
               child: Text(
                 'Forgot PIN? Use Recovery Key',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: accentColor,
+                style: t.bodyMedium.copyWith(
+                  color: a.primary,
                   decoration: TextDecoration.underline,
                 ),
               ),

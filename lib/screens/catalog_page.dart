@@ -55,7 +55,10 @@ class _CatalogPageState extends State<CatalogPage> {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading substances: $e')),
+          SnackBar(
+            content: Text('Error loading substances: $e'),
+            backgroundColor: context.theme.colors.error,
+          ),
         );
       }
     }
@@ -93,7 +96,6 @@ class _CatalogPageState extends State<CatalogPage> {
         // The original code snippet I read didn't show the `_applyFilters` implementation fully.
         // But `CatalogSearchFilters` has `showCommonOnly`.
         // I'll assume for now it's just a placeholder or I should check `drug_profiles.txt` or similar.
-        // Actually, `drug_profiles.txt` might have popularity or something.
         // For now, I will just ignore `matchesCommon` logic or set it to true to avoid filtering out everything.
         final matchesCommon = true; 
 

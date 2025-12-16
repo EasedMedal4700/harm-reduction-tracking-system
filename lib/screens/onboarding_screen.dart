@@ -1,6 +1,6 @@
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../services/onboarding_service.dart';
 import '../providers/settings_provider.dart';
 
@@ -21,9 +21,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   String? _selectedFrequency;
   bool _privacyAccepted = false;
   bool _isDarkTheme = false;
-
-  static const String _privacyPolicyUrl = 
-      'https://resume-drab-five.vercel.app/privacy/substance-check';
 
   @override
   void initState() {
@@ -86,17 +83,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
   }
 
-  Future<void> _openPrivacyPolicy() async {
-    final uri = Uri.parse(_privacyPolicyUrl);
-    try {
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      }
-    } catch (e) {
-      // Ignore errors
-    }
-  }
-
   bool get _canProceedFromCurrentPage {
     switch (_currentPage) {
       case 0:
@@ -114,28 +100,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
     
     return Scaffold(
+      backgroundColor: c.background,
       body: SafeArea(
         child: Column(
           children: [
             // Progress indicator
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(sp.md),
               child: Row(
                 children: List.generate(4, (index) {
                   return Expanded(
                     child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      margin: EdgeInsets.symmetric(horizontal: sp.xs),
                       height: 4,
                       decoration: BoxDecoration(
                         color: index <= _currentPage
-                            ? Theme.of(context).colorScheme.primary
-                            : isDark 
-                                ? Colors.grey.shade700 
-                                : Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(2),
+                            ? a.primary
+                            : c.border.withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(sh.radiusSm),
                       ),
                     ),
                   );
@@ -152,36 +141,42 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   setState(() => _currentPage = page);
                 },
                 children: [
-                  _buildWelcomePage(isDark),
-                  _buildPrivacyInfoPage(isDark),
-                  _buildPrivacyAcceptancePage(isDark),
-                  _buildUsageFrequencyPage(isDark),
+                  _buildWelcomePage(context),
+                  _buildPrivacyInfoPage(context),
+                  _buildPrivacyAcceptancePage(context),
+                  _buildUsageFrequencyPage(context),
                 ],
               ),
             ),
             
             // Navigation buttons
             Padding(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(sp.xl),
               child: Row(
                 children: [
                   if (_currentPage > 0)
                     TextButton.icon(
                       onPressed: _previousPage,
-                      icon: const Icon(Icons.arrow_back),
-                      label: const Text('Back'),
+                      icon: Icon(Icons.arrow_back, color: c.textSecondary),
+                      label: Text('Back', style: t.typography.labelLarge.copyWith(color: c.textSecondary)),
                     ),
                   const Spacer(),
                   ElevatedButton(
                     onPressed: _canProceedFromCurrentPage ? _nextPage : null,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
+                      backgroundColor: a.primary,
+                      foregroundColor: c.textInverse,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: sp.xl,
+                        vertical: sp.md,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(sh.radiusMd),
                       ),
                     ),
                     child: Text(
                       _currentPage == 3 ? 'Get Started' : 'Continue',
+                      style: t.typography.labelLarge.copyWith(color: c.textInverse),
                     ),
                   ),
                 ],
@@ -193,13 +188,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _buildWelcomePage(bool isDark) {
+  Widget _buildWelcomePage(BuildContext context) {
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(sp.xl),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 40),
+          SizedBox(height: sp.xl2),
           // App Icon
           Container(
             width: 120,
@@ -207,77 +208,78 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Theme.of(context).colorScheme.primary,
-                  Theme.of(context).colorScheme.secondary,
+                  a.primary,
+                  a.secondary,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(sh.radiusLg),
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                  color: a.primary.withValues(alpha: 0.3),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
               ],
             ),
-            child: const Icon(
+            child: Icon(
               Icons.science_outlined,
               size: 60,
-              color: Colors.white,
+              color: c.textInverse,
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: sp.xl),
           
           // App Name
           Text(
             'SubstanceCheck',
-            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+            style: t.typography.heading1.copyWith(
               fontWeight: FontWeight.bold,
               letterSpacing: -1,
+              color: c.textPrimary,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: sp.sm),
           
           // Tagline
           Text(
             'Realtime pharmacokinetic tracking\nfor informed substance use',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+            style: t.typography.heading4.copyWith(
+              color: c.textSecondary,
               height: 1.4,
             ),
           ),
-          const SizedBox(height: 48),
+          SizedBox(height: sp.xl2),
           
           // Features
           _buildFeatureItem(
+            context: context,
             icon: Icons.timeline,
             title: 'Track Metabolism & Blood Levels',
             description: 'Real-time estimates of substance metabolism and clearance',
-            isDark: isDark,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: sp.md),
           _buildFeatureItem(
+            context: context,
             icon: Icons.trending_up,
             title: 'Monitor Tolerance',
             description: 'Understand how your body adapts over time',
-            isDark: isDark,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: sp.md),
           _buildFeatureItem(
+            context: context,
             icon: Icons.psychology,
             title: 'Track Cravings',
             description: 'Log and analyze your craving patterns',
-            isDark: isDark,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: sp.md),
           _buildFeatureItem(
+            context: context,
             icon: Icons.health_and_safety,
             title: 'Harm Reduction Insights',
             description: 'Make more informed decisions about your use',
-            isDark: isDark,
           ),
         ],
       ),
@@ -285,45 +287,49 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildFeatureItem({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required String description,
-    required bool isDark,
   }) {
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(sp.sm),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
+            color: a.primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
           child: Icon(
             icon,
-            color: Theme.of(context).colorScheme.primary,
+            color: a.primary,
             size: 24,
           ),
         ),
-        const SizedBox(width: 16),
+        SizedBox(width: sp.md),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: t.typography.heading4.copyWith(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: isDark ? Colors.white : Colors.black87,
+                  color: c.textPrimary,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: sp.xs),
               Text(
                 description,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                style: t.typography.body.copyWith(
+                  color: c.textSecondary,
                 ),
               ),
             ],
@@ -333,43 +339,49 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _buildPrivacyInfoPage(bool isDark) {
+  Widget _buildPrivacyInfoPage(BuildContext context) {
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(sp.xl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: sp.md),
           // Header
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(sp.sm),
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(16),
+                  color: c.success.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.lock_outline,
-                  color: Colors.green,
+                  color: c.success,
                   size: 32,
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: sp.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Privacy & Safety',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      style: t.typography.heading3.copyWith(
                         fontWeight: FontWeight.bold,
+                        color: c.textPrimary,
                       ),
                     ),
                     Text(
                       'Your data is protected',
-                      style: TextStyle(
-                        color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                      style: t.typography.body.copyWith(
+                        color: c.textSecondary,
                       ),
                     ),
                   ],
@@ -377,57 +389,57 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: sp.xl),
           
           // Encryption section
           _buildPrivacySection(
+            context: context,
             icon: Icons.enhanced_encryption,
             title: 'End-to-End Encryption',
             content: 'Your sensitive data is encrypted with a PIN that only you know. '
                 'Even we cannot access your encrypted information. Your PIN never leaves your device.',
-            isDark: isDark,
             color: Colors.blue,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: sp.md),
           
           _buildPrivacySection(
+            context: context,
             icon: Icons.cloud_off,
             title: 'Local-First Storage',
             content: 'Your encryption keys are stored locally on your device. '
                 'If you lose your PIN and recovery key, your data cannot be recovered by anyone.',
-            isDark: isDark,
             color: Colors.purple,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: sp.md),
           
           _buildPrivacySection(
+            context: context,
             icon: Icons.visibility_off,
             title: 'No Tracking or Ads',
             content: 'We don\'t track your behavior, sell your data, or show ads. '
                 'This app exists solely to help you make informed decisions.',
-            isDark: isDark,
             color: Colors.orange,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: sp.md),
           
           _buildPrivacySection(
+            context: context,
             icon: Icons.delete_forever,
             title: 'Delete Anytime',
             content: 'You can download all your data and permanently delete your account '
                 'at any time from the Settings menu.',
-            isDark: isDark,
-            color: Colors.red,
+            color: c.error,
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: sp.xl),
           
           // Theme selector
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(sp.md),
             decoration: BoxDecoration(
-              color: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(16),
+              color: c.surface,
+              borderRadius: BorderRadius.circular(sh.radiusMd),
               border: Border.all(
-                color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+                color: c.border,
               ),
             ),
             child: Column(
@@ -435,17 +447,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 Text(
                   'Choose Your Theme',
-                  style: TextStyle(
+                  style: t.typography.heading4.copyWith(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: isDark ? Colors.white : Colors.black87,
+                    color: c.textPrimary,
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: sp.md),
                 Row(
                   children: [
                     Expanded(
                       child: _buildThemeOption(
+                        context: context,
                         title: 'Light',
                         icon: Icons.light_mode,
                         isSelected: !_isDarkTheme,
@@ -453,12 +465,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           setState(() => _isDarkTheme = false);
                           context.read<SettingsProvider>().setDarkMode(false);
                         },
-                        isDark: isDark,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: sp.sm),
                     Expanded(
                       child: _buildThemeOption(
+                        context: context,
                         title: 'Dark',
                         icon: Icons.dark_mode,
                         isSelected: _isDarkTheme,
@@ -466,7 +478,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           setState(() => _isDarkTheme = true);
                           context.read<SettingsProvider>().setDarkMode(true);
                         },
-                        isDark: isDark,
                       ),
                     ),
                   ],
@@ -480,45 +491,48 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildPrivacySection({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required String content,
-    required bool isDark,
     required Color color,
   }) {
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: color.withOpacity(isDark ? 0.1 : 0.05),
-        borderRadius: BorderRadius.circular(12),
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(sh.radiusMd),
         border: Border.all(
-          color: color.withOpacity(0.2),
+          color: color.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: color, size: 24),
-          const SizedBox(width: 16),
+          SizedBox(width: sp.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: t.typography.heading4.copyWith(
                     fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: isDark ? Colors.white : Colors.black87,
+                    color: c.textPrimary,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: sp.xs),
                 Text(
                   content,
-                  style: TextStyle(
-                    fontSize: 13,
+                  style: t.typography.body.copyWith(
                     height: 1.4,
-                    color: isDark ? Colors.grey.shade400 : Colors.grey.shade700,
+                    color: c.textSecondary,
                   ),
                 ),
               ],
@@ -530,25 +544,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildThemeOption({
+    required BuildContext context,
     required String title,
     required IconData icon,
     required bool isSelected,
     required VoidCallback onTap,
-    required bool isDark,
   }) {
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(sp.md),
         decoration: BoxDecoration(
           color: isSelected
-              ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+              ? a.primary.withValues(alpha: 0.1)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(sh.radiusMd),
           border: Border.all(
             color: isSelected
-                ? Theme.of(context).colorScheme.primary
-                : isDark ? Colors.grey.shade700 : Colors.grey.shade300,
+                ? a.primary
+                : c.border,
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -558,17 +578,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               icon,
               size: 32,
               color: isSelected
-                  ? Theme.of(context).colorScheme.primary
-                  : isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                  ? a.primary
+                  : c.textSecondary,
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: sp.xs),
             Text(
               title,
-              style: TextStyle(
+              style: t.typography.body.copyWith(
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 color: isSelected
-                    ? Theme.of(context).colorScheme.primary
-                    : isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                    ? a.primary
+                    : c.textSecondary,
               ),
             ),
           ],
@@ -577,28 +597,35 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _buildPrivacyAcceptancePage(bool isDark) {
+  Widget _buildPrivacyAcceptancePage(BuildContext context) {
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(sp.xl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: sp.md),
           // Header
           Text(
             'Privacy Policy',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+            style: t.typography.heading3.copyWith(
               fontWeight: FontWeight.bold,
+              color: c.textPrimary,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: sp.xs),
           Text(
             'Please review and accept our privacy policy to continue.',
-            style: TextStyle(
-              color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+            style: t.typography.body.copyWith(
+              color: c.textSecondary,
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: sp.xl),
           
           // Privacy policy link
           GestureDetector(
@@ -608,40 +635,38 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Navigator.of(context).pushNamed('/privacy-policy');
             },
             child: Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(sp.lg),
               decoration: BoxDecoration(
-                color: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(16),
+                color: c.surface,
+                borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                  color: a.primary.withValues(alpha: 0.3),
                 ),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.policy,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: a.primary,
                     size: 40,
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: sp.md),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Read Privacy Policy',
-                          style: TextStyle(
+                          style: t.typography.heading4.copyWith(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: isDark ? Colors.white : Colors.black87,
+                            color: c.textPrimary,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: sp.xs),
                         Text(
                           'Opens in your browser',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                          style: t.typography.body.copyWith(
+                            color: c.textSecondary,
                           ),
                         ),
                       ],
@@ -649,28 +674,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                   Icon(
                     Icons.open_in_new,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: a.primary,
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: sp.xl),
           
           // Accept checkbox
           GestureDetector(
             onTap: () => setState(() => _privacyAccepted = !_privacyAccepted),
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
                 color: _privacyAccepted
-                    ? Colors.green.withOpacity(isDark ? 0.15 : 0.1)
+                    ? c.success.withValues(alpha: 0.15)
                     : Colors.transparent,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(
                   color: _privacyAccepted
-                      ? Colors.green
-                      : isDark ? Colors.grey.shade700 : Colors.grey.shade300,
+                      ? c.success
+                      : c.border,
                   width: _privacyAccepted ? 2 : 1,
                 ),
               ),
@@ -681,30 +706,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     height: 28,
                     decoration: BoxDecoration(
                       color: _privacyAccepted
-                          ? Colors.green
+                          ? c.success
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(
                         color: _privacyAccepted
-                            ? Colors.green
-                            : isDark ? Colors.grey.shade500 : Colors.grey.shade400,
+                            ? c.success
+                            : c.border,
                         width: 2,
                       ),
                     ),
                     child: _privacyAccepted
-                        ? const Icon(Icons.check, color: Colors.white, size: 20)
+                        ? Icon(Icons.check, color: c.textInverse, size: 20)
                         : null,
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: sp.md),
                   Expanded(
                     child: Text(
                       'I have read and accept the Privacy Policy',
-                      style: TextStyle(
-                        fontSize: 15,
+                      style: t.typography.body.copyWith(
                         fontWeight: _privacyAccepted ? FontWeight.w600 : FontWeight.normal,
                         color: _privacyAccepted
-                            ? (isDark ? Colors.green.shade300 : Colors.green.shade700)
-                            : (isDark ? Colors.grey.shade300 : Colors.grey.shade700),
+                            ? c.success
+                            : c.textSecondary,
                       ),
                     ),
                   ),
@@ -714,27 +738,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           
           if (!_privacyAccepted) ...[
-            const SizedBox(height: 16),
+            SizedBox(height: sp.md),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(sp.sm),
               decoration: BoxDecoration(
-                color: Colors.amber.withOpacity(isDark ? 0.15 : 0.1),
-                borderRadius: BorderRadius.circular(8),
+                color: c.warning.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(sh.radiusSm),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.info_outline,
-                    color: isDark ? Colors.amber.shade400 : Colors.amber.shade800,
+                    color: c.warning,
                     size: 20,
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: sp.sm),
                   Expanded(
                     child: Text(
                       'You must accept the privacy policy to continue',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: isDark ? Colors.amber.shade300 : Colors.amber.shade900,
+                      style: t.typography.body.copyWith(
+                        color: c.warning,
                       ),
                     ),
                   ),
@@ -747,47 +770,54 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _buildUsageFrequencyPage(bool isDark) {
+  Widget _buildUsageFrequencyPage(BuildContext context) {
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(sp.xl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: sp.md),
           // Header
           Text(
             'How often do you use?',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+            style: t.typography.heading3.copyWith(
               fontWeight: FontWeight.bold,
+              color: c.textPrimary,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: sp.xs),
           Text(
             'This helps us personalize your experience. You can change this later in Settings.',
-            style: TextStyle(
-              color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+            style: t.typography.body.copyWith(
+              color: c.textSecondary,
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: sp.xl),
           
           // Frequency options
           ...OnboardingService.usageFrequencies.map((frequency) {
             final isSelected = _selectedFrequency == frequency.id;
             return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
+              padding: EdgeInsets.only(bottom: sp.sm),
               child: GestureDetector(
                 onTap: () => setState(() => _selectedFrequency = frequency.id),
                 child: Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(sp.lg),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
-                        : isDark ? Colors.grey.shade900 : Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(16),
+                        ? a.primary.withValues(alpha: 0.1)
+                        : c.surface,
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
                     border: Border.all(
                       color: isSelected
-                          ? Theme.of(context).colorScheme.primary
-                          : isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+                          ? a.primary
+                          : c.border,
                       width: isSelected ? 2 : 1,
                     ),
                   ),
@@ -797,27 +827,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         frequency.icon,
                         style: const TextStyle(fontSize: 28),
                       ),
-                      const SizedBox(width: 16),
+                      SizedBox(width: sp.md),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               frequency.label,
-                              style: TextStyle(
+                              style: t.typography.heading4.copyWith(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 17,
                                 color: isSelected
-                                    ? Theme.of(context).colorScheme.primary
-                                    : isDark ? Colors.white : Colors.black87,
+                                    ? a.primary
+                                    : c.textPrimary,
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            SizedBox(height: sp.xs),
                             Text(
                               frequency.description,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                              style: t.typography.body.copyWith(
+                                color: c.textSecondary,
                               ),
                             ),
                           ],
@@ -825,14 +853,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                       if (isSelected)
                         Container(
-                          padding: const EdgeInsets.all(4),
+                          padding: EdgeInsets.all(sp.xs),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
+                            color: a.primary,
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.check,
-                            color: Colors.white,
+                            color: c.textInverse,
                             size: 16,
                           ),
                         ),
@@ -844,27 +872,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           }),
           
           if (_selectedFrequency == null) ...[
-            const SizedBox(height: 16),
+            SizedBox(height: sp.md),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(sp.sm),
               decoration: BoxDecoration(
-                color: Colors.amber.withOpacity(isDark ? 0.15 : 0.1),
-                borderRadius: BorderRadius.circular(8),
+                color: c.warning.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(sh.radiusSm),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.info_outline,
-                    color: isDark ? Colors.amber.shade400 : Colors.amber.shade800,
+                    color: c.warning,
                     size: 20,
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: sp.sm),
                   Expanded(
                     child: Text(
                       'Please select an option to continue',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: isDark ? Colors.amber.shade300 : Colors.amber.shade900,
+                      style: t.typography.body.copyWith(
+                        color: c.warning,
                       ),
                     ),
                   ),

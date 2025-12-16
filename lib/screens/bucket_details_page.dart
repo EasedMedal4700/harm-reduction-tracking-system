@@ -37,19 +37,18 @@ class BucketDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor =
-        isDark ? UIColors.darkBackground : UIColors.lightBackground;
+    final c = context.colors;
+    final sp = context.spacing;
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: c.background,
       appBar: AppBar(
         title: Text(BucketDefinitions.getDisplayName(bucketType)),
-        backgroundColor: isDark ? UIColors.darkSurface : Colors.white,
+        backgroundColor: c.surface,
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(ThemeConstants.space16),
+        padding: EdgeInsets.all(sp.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -58,13 +57,13 @@ class BucketDetailsPage extends StatelessWidget {
               bucketType: bucketType,
               tolerancePercent: tolerancePercent,
             ),
-            SizedBox(height: ThemeConstants.space16),
+            SizedBox(height: sp.lg),
 
             // Description
             BucketDescriptionCard(
               bucketType: bucketType,
             ),
-            SizedBox(height: ThemeConstants.space16),
+            SizedBox(height: sp.lg),
 
             // Current status
             BucketStatusCard(
@@ -72,20 +71,20 @@ class BucketDetailsPage extends StatelessWidget {
               tolerancePercent: tolerancePercent,
               rawLoad: rawLoad,
             ),
-            SizedBox(height: ThemeConstants.space16),
+            SizedBox(height: sp.lg),
 
             // Decay timeline (visual representation)
             BucketDecayTimelineCard(
               tolerancePercent: tolerancePercent,
             ),
-            SizedBox(height: ThemeConstants.space16),
+            SizedBox(height: sp.lg),
 
             // Contributing uses
             if (contributingUses.isNotEmpty) ...[
               BucketContributingUsesCard(
                 contributingUses: contributingUses,
               ),
-              SizedBox(height: ThemeConstants.space16),
+              SizedBox(height: sp.lg),
             ],
 
             // Substance-specific notes
@@ -93,7 +92,7 @@ class BucketDetailsPage extends StatelessWidget {
               BucketNotesCard(
                 substanceNotes: substanceNotes!,
               ),
-              SizedBox(height: ThemeConstants.space16),
+              SizedBox(height: sp.lg),
             ],
 
             // Days to baseline

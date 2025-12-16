@@ -1,6 +1,6 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import '../../constants/config/feature_flags.dart';
 import '../../services/feature_flag_service.dart';
@@ -63,7 +63,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
       if (!success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to update ""'),
+            content: Text('Failed to update "$featureName"'),
             backgroundColor: context.colors.error,
           ),
         );
@@ -85,22 +85,23 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    final text = context.text;
 
     if (!_isAdmin && !_isLoading) {
       return const SizedBox.shrink();
     }
 
     return Scaffold(
-      backgroundColor: t.colors.surface,
+      backgroundColor: c.surface,
       appBar: AppBar(
         title: Text(
           'Feature Flags',
-          style: t.typography.titleLarge,
+          style: text.titleLarge,
         ),
-        backgroundColor: t.colors.surface,
+        backgroundColor: c.surface,
         elevation: 0,
-        iconTheme: IconThemeData(color: t.colors.onSurface),
+        iconTheme: IconThemeData(color: c.textPrimary),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -140,30 +141,33 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
   }
 
   Widget _buildErrorState(BuildContext context) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+    
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(t.spacing.l),
+        padding: EdgeInsets.all(sp.lg),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.error_outline,
               size: 64,
-              color: t.colors.error,
+              color: c.error,
             ),
-            SizedBox(height: t.spacing.m),
+            SizedBox(height: sp.md),
             Text(
               'Error Loading Flags',
-              style: t.typography.headlineMedium,
+              style: text.headlineMedium,
             ),
-            SizedBox(height: t.spacing.s),
+            SizedBox(height: sp.sm),
             Text(
               _errorMessage ?? 'Unknown error',
-              style: t.typography.bodyMedium.copyWith(color: t.colors.onSurfaceVariant),
+              style: text.bodyMedium.copyWith(color: c.textSecondary),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: t.spacing.l),
+            SizedBox(height: sp.lg),
             FilledButton.icon(
               onPressed: _refreshFlags,
               icon: const Icon(Icons.refresh),
@@ -176,27 +180,30 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
   }
 
   Widget _buildEmptyState(BuildContext context) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(t.spacing.l),
+        padding: EdgeInsets.all(sp.lg),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.flag_outlined,
               size: 64,
-              color: t.colors.onSurfaceVariant,
+              color: c.textSecondary,
             ),
-            SizedBox(height: t.spacing.m),
+            SizedBox(height: sp.md),
             Text(
               'No Feature Flags',
-              style: t.typography.headlineMedium,
+              style: text.headlineMedium,
             ),
-            SizedBox(height: t.spacing.s),
+            SizedBox(height: sp.sm),
             Text(
               'No feature flags found in the database.',
-              style: t.typography.bodyMedium.copyWith(color: t.colors.onSurfaceVariant),
+              style: text.bodyMedium.copyWith(color: c.textSecondary),
             ),
           ],
         ),
@@ -205,23 +212,23 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
   }
 
   Widget _buildFlagsList(BuildContext context, List<FeatureFlag> flags) {
-    final t = AppTheme.of(context);
+    final sp = context.spacing;
     // Group flags by category
     final categories = _categorizeFlags(flags);
 
     return ListView(
-      padding: EdgeInsets.all(t.spacing.m),
+      padding: EdgeInsets.all(sp.md),
       children: [
         // Info banner
         _buildInfoBanner(context),
-        SizedBox(height: t.spacing.m),
+        SizedBox(height: sp.md),
         
         // Flag categories
         for (final entry in categories.entries) ...[
           _buildCategoryHeader(context, entry.key),
-          SizedBox(height: t.spacing.s),
+          SizedBox(height: sp.sm),
           ...entry.value.map((flag) => _buildFlagTile(context, flag)),
-          SizedBox(height: t.spacing.m),
+          SizedBox(height: sp.md),
         ],
       ],
     );
@@ -268,29 +275,33 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
   }
 
   Widget _buildInfoBanner(BuildContext context) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    final a = context.accent;
+    final text = context.text;
+    final sp = context.spacing;
+
     return Container(
-      padding: EdgeInsets.all(t.spacing.m),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: t.colors.primaryContainer.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(t.shapes.radiusM),
+        color: a.primary.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: t.colors.primary.withValues(alpha: 0.3),
+          color: a.primary.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
         children: [
           Icon(
             Icons.info_outline,
-            color: t.colors.primary,
+            color: a.primary,
           ),
-          SizedBox(width: t.spacing.m),
+          SizedBox(width: sp.md),
           Expanded(
             child: Text(
               'Disabled features will be hidden from regular users. '
               'Admins can always access all features.',
-              style: t.typography.bodySmall.copyWith(
-                color: t.colors.onSurface,
+              style: text.bodySmall.copyWith(
+                color: c.textPrimary,
               ),
             ),
           ),
@@ -300,42 +311,47 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
   }
 
   Widget _buildCategoryHeader(BuildContext context, String category) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    final text = context.text;
     return Text(
       category,
-      style: t.typography.titleMedium.copyWith(
+      style: text.titleMedium.copyWith(
         fontWeight: FontWeight.bold,
-        color: t.colors.onSurface,
+        color: c.textPrimary,
       ),
     );
   }
 
   Widget _buildFlagTile(BuildContext context, FeatureFlag flag) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    final a = context.accent;
+    final text = context.text;
+    final sp = context.spacing;
+
     final isPending = _pendingUpdates.containsKey(flag.featureName);
     final displayName = FeatureFlags.getDisplayName(flag.featureName);
 
     return Container(
-      margin: EdgeInsets.only(bottom: t.spacing.s),
+      margin: EdgeInsets.only(bottom: sp.sm),
       decoration: BoxDecoration(
-        color: t.colors.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(t.shapes.radiusM),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: t.colors.outlineVariant,
+          color: c.border,
         ),
       ),
       child: SwitchListTile(
         title: Text(
           displayName,
-          style: t.typography.bodyMedium.copyWith(
+          style: text.bodyMedium.copyWith(
             fontWeight: FontWeight.bold,
-            color: t.colors.onSurface,
+            color: c.textPrimary,
           ),
         ),
         subtitle: Text(
           flag.featureName,
-          style: t.typography.bodySmall.copyWith(
-            color: t.colors.onSurfaceVariant,
+          style: text.bodySmall.copyWith(
+            color: c.textSecondary,
           ),
         ),
         value: flag.enabled,
@@ -343,7 +359,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
             ? null 
             : (value) => _toggleFlag(flag.featureName, value),
         secondary: isPending
-            ? SizedBox(
+            ? const SizedBox(
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(strokeWidth: 2),
@@ -351,16 +367,16 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
             : Icon(
                 flag.enabled ? Icons.check_circle : Icons.cancel,
                 color: flag.enabled
-                    ? t.colors.success
-                    : t.colors.onSurfaceVariant,
+                    ? c.success
+                    : c.textSecondary,
               ),
-        activeColor: t.colors.primary,
+        activeTrackColor: a.primary,
         contentPadding: EdgeInsets.symmetric(
-          horizontal: t.spacing.m,
-          vertical: t.spacing.xs,
+          horizontal: sp.md,
+          vertical: sp.xs,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(t.shapes.radiusM),
+          borderRadius: BorderRadius.circular(12),
         ),
       ),
     );

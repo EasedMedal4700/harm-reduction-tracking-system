@@ -1,5 +1,5 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import '../common/old_common/drawer_menu.dart';
 import '../models/tolerance_model.dart';
@@ -11,8 +11,6 @@ import '../services/debug_config.dart';
 import '../utils/tolerance_calculator.dart';
 import '../widgets/tolerance_dashboard/dashboard_content_widget.dart';
 import '../widgets/tolerance_dashboard/empty_state_widget.dart';
-
-
 
 class ToleranceDashboardPage extends StatefulWidget {
   final String? initialSubstance;
@@ -273,16 +271,15 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark
-        ? UIColors.darkBackground
-        : UIColors.lightBackground;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: c.background,
       appBar: AppBar(
         title: const Text('Tolerance dashboard'),
-        backgroundColor: isDark ? UIColors.darkSurface : Colors.white,
+        backgroundColor: c.surface,
         elevation: 0,
         actions: [
           // Debug toggle - only show when DEBUG_MODE=true in .env
@@ -317,10 +314,10 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       ),
       drawer: const DrawerMenu(),
       body: _isLoadingOptions
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator(color: a.primary))
           : SingleChildScrollView(
               controller: _scrollController,
-              padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
+              padding: EdgeInsets.all(sp.md),
               child: _substances.isEmpty
                     ? const EmptyStateWidget()
                   : _buildContent(),

@@ -1,9 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
-
-
-
 /// Success page shown after email confirmation via deep link.
 ///
 /// Displays a success message and provides a button to navigate to login.
@@ -12,21 +9,17 @@ class EmailConfirmedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor =
-        isDark ? UIColors.darkBackground : UIColors.lightBackground;
-    final primaryColor =
-        isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final textSecondaryColor =
-        isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary;
-    final successColor = isDark ? UIColors.darkNeonGreen : UIColors.lightAccentGreen;
+    final text = context.text;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: c.background,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(ThemeConstants.space24),
+          padding: EdgeInsets.all(sp.xl),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -36,55 +29,52 @@ class EmailConfirmedPage extends StatelessWidget {
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: successColor.withValues(alpha: 0.1),
+                  color: c.success.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.verified_rounded,
                   size: 60,
-                  color: successColor,
+                  color: c.success,
                 ),
               ),
-              SizedBox(height: ThemeConstants.space32),
+              SizedBox(height: sp.xl2),
               // Title
               Text(
                 'Email Verified!',
-                style: TextStyle(
-                  fontSize: ThemeConstants.font3XLarge,
-                  fontWeight: ThemeConstants.fontBold,
-                  color: textColor,
+                style: text.headlineMedium.copyWith(
+                  color: c.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: ThemeConstants.space16),
+              SizedBox(height: sp.lg),
               // Description
               Text(
                 'Your email has been successfully verified. You can now log in to your account.',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  color: textSecondaryColor,
+                style: text.bodyMedium.copyWith(
+                  color: c.textSecondary,
                   height: 1.5,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: ThemeConstants.space16),
+              SizedBox(height: sp.lg),
               // Checkmark list
               Container(
-                padding: EdgeInsets.all(ThemeConstants.space16),
+                padding: EdgeInsets.all(sp.lg),
                 decoration: BoxDecoration(
-                  color: successColor.withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+                  color: c.success.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(
-                    color: successColor.withValues(alpha: 0.2),
+                    color: c.success.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Column(
                   children: [
-                    _buildCheckItem('Email address confirmed', successColor, textColor),
-                    SizedBox(height: ThemeConstants.space12),
-                    _buildCheckItem('Account activated', successColor, textColor),
-                    SizedBox(height: ThemeConstants.space12),
-                    _buildCheckItem('Ready to log in', successColor, textColor),
+                    _buildCheckItem(context, 'Email address confirmed'),
+                    SizedBox(height: sp.md),
+                    _buildCheckItem(context, 'Account activated'),
+                    SizedBox(height: sp.md),
+                    _buildCheckItem(context, 'Ready to log in'),
                   ],
                 ),
               ),
@@ -101,23 +91,23 @@ class EmailConfirmedPage extends StatelessWidget {
                     );
                   },
                   icon: const Icon(Icons.login_rounded),
-                  label: const Text(
+                  label: Text(
                     'Go to Login',
-                    style: TextStyle(
-                      fontSize: 16,
+                    style: text.labelLarge.copyWith(
                       fontWeight: FontWeight.w600,
+                      color: c.textInverse,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    foregroundColor: Colors.white,
+                    backgroundColor: a.primary,
+                    foregroundColor: c.textInverse,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(ThemeConstants.buttonRadius),
+                      borderRadius: BorderRadius.circular(sh.radiusMd),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: ThemeConstants.space32),
+              SizedBox(height: sp.xl2),
             ],
           ),
         ),
@@ -125,30 +115,33 @@ class EmailConfirmedPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCheckItem(String text, Color checkColor, Color textColor) {
+  Widget _buildCheckItem(BuildContext context, String text) {
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+
     return Row(
       children: [
         Container(
           width: 24,
           height: 24,
           decoration: BoxDecoration(
-            color: checkColor,
+            color: c.success,
             shape: BoxShape.circle,
           ),
-          child: const Icon(
+          child: Icon(
             Icons.check,
             size: 16,
-            color: Colors.white,
+            color: c.textInverse,
           ),
         ),
-        SizedBox(width: ThemeConstants.space12),
+        SizedBox(width: sp.md),
         Expanded(
           child: Text(
             text,
-            style: TextStyle(
-              fontSize: ThemeConstants.fontMedium,
-              color: textColor,
-              fontWeight: ThemeConstants.fontMediumWeight,
+            style: t.typography.body.copyWith(
+              color: c.textPrimary,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),

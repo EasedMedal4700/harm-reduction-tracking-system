@@ -1,5 +1,6 @@
 // MIGRATION
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../common/old_common/drawer_menu.dart';
 import '../widgets/profile/profile_header.dart';
 import '../widgets/profile/statistics_card.dart';
@@ -87,21 +88,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _logout() async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Logout'),
-        content: const Text('Are you sure you want to logout?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Logout'),
-          ),
-        ],
-      ),
+      builder: (context) {
+        final c = context.colors;
+        final t = context.text;
+        return AlertDialog(
+          title: const Text('Logout'),
+          content: const Text('Are you sure you want to logout?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              style: ElevatedButton.styleFrom(backgroundColor: c.error),
+              child: Text('Logout', style: t.labelLarge.copyWith(color: Colors.white)),
+            ),
+          ],
+        );
+      },
     );
 
     if (confirmed == true) {
@@ -114,13 +119,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final sp = context.spacing;
     
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
-        backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-        foregroundColor: isDark ? Colors.white : Colors.black87,
         elevation: 0,
         actions: [
           IconButton(
@@ -136,19 +139,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           : RefreshIndicator(
               onRefresh: _loadUserData,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(sp.md),
                 child: Column(
                   children: [
                     // Profile Header
                     ProfileHeader(userData: _userData),
-                    const SizedBox(height: 32),
+                    SizedBox(height: sp.xl),
                     // Statistics Card
                     if (_statistics != null)
                       StatisticsCard(statistics: _statistics!),
-                    const SizedBox(height: 32),
+                    SizedBox(height: sp.xl),
                     // Account Information Card
                     AccountInfoCard(userData: _userData),
-                    const SizedBox(height: 32),
+                    SizedBox(height: sp.xl),
                     // Logout Button
                     LogoutButton(onLogout: _logout),
                   ],

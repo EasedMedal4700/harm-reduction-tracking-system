@@ -1,49 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final a = context.accent;
+    final sp = context.spacing;
+    final t = context.text;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Privacy Policy"),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(sp.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Text(
               "SubstanceCheck Privacy Policy",
-              style: theme.textTheme.headlineSmall?.copyWith(
+              style: t.heading3.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
-
-            const SizedBox(height: 8),
+            SizedBox(height: sp.xs),
             Text(
               "Last updated: 28 November 2025",
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.primary,
+              style: t.body.copyWith(
+                color: a.primary,
               ),
             ),
-
-            const SizedBox(height: 24),
-
+            SizedBox(height: sp.lg),
             _section(
-              theme,
+              context,
               title: "1. Data We Collect",
               body: '''
 We only collect the data required for the app to function.
 ''',
             ),
-
             _subsection(
-              theme,
+              context,
               title: "1.1 Account Information",
               bulletPoints: [
                 "Email address",
@@ -52,9 +50,8 @@ We only collect the data required for the app to function.
               note:
                   "These are provided when you create an account using Supabase Authentication.",
             ),
-
             _subsection(
-              theme,
+              context,
               title: "1.2 User-Entered Data (Sensitive)",
               description:
                   "You may choose to enter any of the following sensitive data:",
@@ -66,9 +63,8 @@ We only collect the data required for the app to function.
                 "Notes, metadata, and optional personal reflections",
               ],
             ),
-
             _subsection(
-              theme,
+              context,
               title: "1.3 App Diagnostics & Error Logs",
               description: "To improve app stability, we collect:",
               bulletPoints: [
@@ -81,10 +77,9 @@ We only collect the data required for the app to function.
               note:
                   "These logs may be linked to your account UUID to help diagnose issues affecting your device.",
             ),
-
-            _divider(),
+            _divider(context),
             _section(
-              theme,
+              context,
               title: "We Do NOT Collect",
               bulletPoints: [
                 "IP addresses",
@@ -93,10 +88,9 @@ We only collect the data required for the app to function.
                 "Background tracking",
               ],
             ),
-
-            _divider(),
+            _divider(context),
             _section(
-              theme,
+              context,
               title: "2. How Your Data Is Used",
               bulletPoints: [
                 "Providing core app functionality (blood levels, tolerance models, charts)",
@@ -107,10 +101,9 @@ We only collect the data required for the app to function.
               note:
                   "We never sell your data, share it with advertisers, or use it for profiling.",
             ),
-
-            _divider(),
+            _divider(context),
             _section(
-              theme,
+              context,
               title: "3. Legal Basis Under GDPR",
               body: '''
 Your data is processed under:
@@ -121,10 +114,9 @@ Your data is processed under:
 You can withdraw consent at any time by deleting your account.
 ''',
             ),
-
-            _divider(),
+            _divider(context),
             _section(
-              theme,
+              context,
               title: "4. Who Can Access Your Data",
               body: '''
 Only:
@@ -140,10 +132,9 @@ All data is protected through:
 ✓ Isolated UUID-based keys  
 ''',
             ),
-
-            _divider(),
+            _divider(context),
             _section(
-              theme,
+              context,
               title: "5. Data Retention",
               body: '''
 Your data is kept as long as your account remains active.
@@ -156,10 +147,9 @@ When you delete your account:
 are permanently deleted.
 ''',
             ),
-
-            _divider(),
+            _divider(context),
             _section(
-              theme,
+              context,
               title: "6. Your Rights Under GDPR",
               bulletPoints: [
                 "Access your data",
@@ -172,18 +162,16 @@ are permanently deleted.
                 "File a complaint with a Data Protection Authority",
               ],
             ),
-
-            _divider(),
+            _divider(context),
             _section(
-              theme,
+              context,
               title: "7. Children's Privacy",
               body:
                   "This app is not intended for individuals under 18. We do not knowingly collect data from minors.",
             ),
-
-            _divider(),
+            _divider(context),
             _section(
-              theme,
+              context,
               title: "8. Data Security",
               bulletPoints: [
                 "Supabase Postgres with RLS",
@@ -193,26 +181,23 @@ are permanently deleted.
                 "Secure password hashing via Supabase Auth",
               ],
             ),
-
-            _divider(),
+            _divider(context),
             _section(
-              theme,
+              context,
               title: "9. International Data Transfers",
               body:
                   "Your data may be stored in the EU or GDPR-compliant regions. Supabase provides GDPR-compliant DPAs.",
             ),
-
-            _divider(),
+            _divider(context),
             _section(
-              theme,
+              context,
               title: "10. Changes to This Policy",
               body:
                   "We may update this policy occasionally. Major changes will be announced in the app.",
             ),
-
-            _divider(),
+            _divider(context),
             _section(
-              theme,
+              context,
               title: "11. Contact",
               body: '''
 Email: fquaaden@gmail.com  
@@ -220,8 +205,7 @@ App Owner: Falco Quaaden
 Location: Netherlands / EU
 ''',
             ),
-
-            const SizedBox(height: 48),
+            SizedBox(height: sp.xl2),
           ],
         ),
       ),
@@ -229,57 +213,62 @@ Location: Netherlands / EU
   }
 
   Widget _section(
-    ThemeData theme, {
+    BuildContext context, {
     required String title,
     String? body,
     List<String>? bulletPoints,
     String? note,
   }) {
+    final a = context.accent;
+    final sp = context.spacing;
+    final t = context.text;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: theme.textTheme.titleMedium?.copyWith(
+          style: t.heading4.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         if (body != null) ...[
-          const SizedBox(height: 8),
-          Text(body, style: theme.textTheme.bodyMedium),
+          SizedBox(height: sp.xs),
+          Text(body, style: t.body),
         ],
         if (bulletPoints != null) ...[
-          const SizedBox(height: 12),
+          SizedBox(height: sp.sm),
           ...bulletPoints.map((b) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Text("• $b", style: theme.textTheme.bodyMedium),
+                padding: EdgeInsets.only(bottom: sp.xs),
+                child: Text("• $b", style: t.body),
               )),
         ],
         if (note != null) ...[
-          const SizedBox(height: 12),
+          SizedBox(height: sp.sm),
           Text(
             note,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.primary,
+            style: t.caption.copyWith(
+              color: a.primary,
             ),
           ),
         ],
-        const SizedBox(height: 24),
+        SizedBox(height: sp.lg),
       ],
     );
   }
 
   Widget _subsection(
-    ThemeData theme, {
+    BuildContext context, {
     required String title,
     String? description,
     List<String>? bulletPoints,
     String? note,
   }) {
+    final sp = context.spacing;
     return Padding(
-      padding: const EdgeInsets.only(left: 12),
+      padding: EdgeInsets.only(left: sp.sm),
       child: _section(
-        theme,
+        context,
         title: title,
         body: description,
         bulletPoints: bulletPoints,
@@ -288,5 +277,13 @@ Location: Netherlands / EU
     );
   }
 
-  Widget _divider() => const Divider(height: 32, thickness: 1);
+  Widget _divider(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
+    return Divider(
+      height: sp.xl,
+      thickness: 1,
+      color: c.border,
+    );
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import '../services/auth_service.dart';
 import '../services/onboarding_service.dart';
@@ -81,6 +82,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final a = context.accent;
+    final t = context.text;
+    final sp = context.spacing;
+
     if (_isCheckingOnboarding) {
       return Scaffold(
         appBar: AppBar(title: const Text('Create Account')),
@@ -93,32 +99,31 @@ class _RegisterPageState extends State<RegisterPage> {
       return Scaffold(
         appBar: AppBar(title: const Text('Create Account')),
         body: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(sp.lg),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.info_outline,
                 size: 64,
-                color: Colors.amber,
+                color: c.textTertiary,
               ),
-              const SizedBox(height: 24),
-              const Text(
+              SizedBox(height: sp.lg),
+              Text(
                 'Complete Onboarding First',
-                style: TextStyle(
-                  fontSize: 24,
+                style: t.headlineSmall.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
-              const Text(
+              SizedBox(height: sp.md),
+              Text(
                 'Please complete the onboarding process before creating an account. '
                 'This helps us personalize your experience.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
+                style: t.bodyLarge,
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: sp.xl),
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context).pushReplacementNamed('/onboarding');
@@ -126,9 +131,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 icon: const Icon(Icons.arrow_forward),
                 label: const Text('Go to Onboarding'),
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: sp.lg,
+                    vertical: sp.sm,
                   ),
                 ),
               ),
@@ -143,32 +148,31 @@ class _RegisterPageState extends State<RegisterPage> {
       return Scaffold(
         appBar: AppBar(title: const Text('Create Account')),
         body: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(sp.lg),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.policy,
                 size: 64,
-                color: Colors.blue,
+                color: a.primary,
               ),
-              const SizedBox(height: 24),
-              const Text(
+              SizedBox(height: sp.lg),
+              Text(
                 'Accept Privacy Policy',
-                style: TextStyle(
-                  fontSize: 24,
+                style: t.headlineSmall.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
-              const Text(
+              SizedBox(height: sp.md),
+              Text(
                 'You need to accept the privacy policy before creating an account. '
                 'Please complete the onboarding process.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
+                style: t.bodyLarge,
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: sp.xl),
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context).pushReplacementNamed('/onboarding');
@@ -176,9 +180,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 icon: const Icon(Icons.arrow_forward),
                 label: const Text('Go to Onboarding'),
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: sp.lg,
+                    vertical: sp.sm,
                   ),
                 ),
               ),
@@ -193,7 +197,7 @@ class _RegisterPageState extends State<RegisterPage> {
         title: const Text('Create Account'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(sp.md),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -213,14 +217,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: sp.sm),
               TextFormField(
                 controller: _displayNameController,
                 decoration: const InputDecoration(
                   labelText: 'Display name (optional)',
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: sp.sm),
               TextFormField(
                 controller: _passwordController,
                 decoration: const InputDecoration(labelText: 'Password'),
@@ -235,7 +239,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: sp.sm),
               TextFormField(
                 controller: _confirmPasswordController,
                 decoration: const InputDecoration(labelText: 'Confirm password'),
@@ -250,7 +254,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: sp.lg),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -264,7 +268,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       : const Text('Create account'),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: sp.md),
               TextButton.icon(
                 icon: const Icon(Icons.login),
                 label: const Text('Already have an account? Log in'),

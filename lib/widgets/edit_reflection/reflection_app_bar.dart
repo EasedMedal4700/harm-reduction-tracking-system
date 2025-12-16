@@ -1,9 +1,5 @@
 
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Review for theme/context migration if needed.
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class ReflectionAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -18,20 +14,34 @@ class ReflectionAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final a = context.accent;
+    final t = context.text;
+
     return AppBar(
-      title: const Text('Edit Reflection'),
+      title: Text('Edit Reflection', style: t.titleLarge.copyWith(color: c.textPrimary)),
+      backgroundColor: c.surface,
+      foregroundColor: c.textPrimary,
+      elevation: 0,
       actions: [
         if (isSaving)
-          const Center(
+          Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: CircularProgressIndicator(),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(a.primary),
+                ),
+              ),
             ),
           )
         else
           TextButton(
             onPressed: onSave,
-            child: const Text('Save', style: TextStyle(color: Colors.white)),
+            child: Text('Save', style: TextStyle(color: a.primary)),
           ),
       ],
     );

@@ -8,6 +8,7 @@ import '../widgets/admin/admin_stats_section.dart';
 import '../widgets/admin/admin_user_list.dart';
 import '../widgets/admin_panel/admin_app_bar.dart';
 import '../widgets/admin_panel/cache_management_section.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// Admin panel screen for managing users and monitoring system health
 class AdminPanelScreen extends StatefulWidget {
@@ -75,7 +76,10 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Error loading admin data')),
+          SnackBar(
+            content: const Text('Error loading admin data'),
+            backgroundColor: context.colors.error,
+          ),
         );
       }
     }
@@ -108,7 +112,10 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to toggle admin status')),
+          SnackBar(
+            content: const Text('Failed to toggle admin status'),
+            backgroundColor: context.theme.colors.error,
+          ),
         );
       }
     }
@@ -122,16 +129,19 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
           _cacheStats = _cacheService.getStats();
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('✓ All cache cleared successfully'),
-            backgroundColor: Colors.green,
+          SnackBar(
+            content: const Text('✓ All cache cleared successfully'),
+            backgroundColor: context.theme.colors.success,
           ),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to clear cache')),
+          SnackBar(
+            content: const Text('Failed to clear cache'),
+            backgroundColor: context.theme.colors.error,
+          ),
         );
       }
     }
@@ -145,16 +155,19 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
           _cacheStats = _cacheService.getStats();
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('✓ Drug profiles cache cleared'),
-            backgroundColor: Colors.green,
+          SnackBar(
+            content: const Text('✓ Drug profiles cache cleared'),
+            backgroundColor: context.theme.colors.success,
           ),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to clear drug cache')),
+          SnackBar(
+            content: const Text('Failed to clear drug cache'),
+            backgroundColor: context.theme.colors.error,
+          ),
         );
       }
     }
@@ -168,16 +181,19 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
           _cacheStats = _cacheService.getStats();
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('✓ Expired cache entries cleared'),
-            backgroundColor: Colors.green,
+          SnackBar(
+            content: const Text('✓ Expired cache entries cleared'),
+            backgroundColor: context.theme.colors.success,
           ),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to clear expired cache')),
+          SnackBar(
+            content: const Text('Failed to clear expired cache'),
+            backgroundColor: context.theme.colors.error,
+          ),
         );
       }
     }
@@ -194,17 +210,20 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
           _cacheStats = _cacheService.getStats();
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('✓ Cache refreshed - data will reload from database'),
-            backgroundColor: Colors.green,
-            duration: Duration(seconds: 3),
+          SnackBar(
+            content: const Text('✓ Cache refreshed - data will reload from database'),
+            backgroundColor: context.theme.colors.success,
+            duration: const Duration(seconds: 3),
           ),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to refresh from database')),
+          SnackBar(
+            content: const Text('Failed to refresh from database'),
+            backgroundColor: context.theme.colors.error,
+          ),
         );
       }
     }
@@ -212,18 +231,24 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
+    final c = context.colors;
+
     return Scaffold(
+      backgroundColor: c.background,
       appBar: AdminAppBar(
         isLoading: _isLoading,
         onRefresh: _loadData,
       ),
       drawer: const DrawerMenu(),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator(color: t.accent.primary))
           : RefreshIndicator(
+              color: t.accent.primary,
               onRefresh: _loadData,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(sp.lg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -233,7 +258,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
                       perfStats: _perfStats,
                       cacheStats: _cacheStats,
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: sp.xl),
 
                     // Cache Management Section
                     CacheManagementSection(
@@ -243,7 +268,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
                       onClearExpired: _clearExpiredCache,
                       onRefreshFromDatabase: _refreshFromDatabase,
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: sp.xl),
 
                     // User Management
                     AdminUserList(

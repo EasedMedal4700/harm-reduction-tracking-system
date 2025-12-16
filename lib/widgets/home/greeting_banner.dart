@@ -1,22 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
 // MIGRATION
-// Theme: PARTIAL
+// Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme/common usage, not fully migrated.
-import 'package:flutter/material.dart';
-
-
+// Notes: Fully migrated to AppThemeExtension. AppTheme parameter removed.
 
 /// Animated greeting banner with time-based message
 class GreetingBanner extends StatelessWidget {
-  final AppTheme theme;
   final String? userName;
 
   const GreetingBanner({
-    required this.theme,
-    this.userName,
     super.key,
+    this.userName,
   });
 
   String _getGreeting() {
@@ -37,34 +34,42 @@ class GreetingBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+
     final greeting = _getGreeting();
     final displayName = userName ?? 'there';
 
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: theme.spacing.lg,
-        vertical: theme.spacing.md,
+        horizontal: sp.lg,
+        vertical: sp.md,
       ),
-      padding: EdgeInsets.all(theme.spacing.xl),
-      decoration: theme.gradientCardDecoration(useAccentGradient: true),
+      padding: EdgeInsets.all(sp.xl),
+      decoration: t.gradientCardDecoration(useAccentGradient: true),
       child: Row(
         children: [
           // Greeting icon
           Container(
-            padding: EdgeInsets.all(theme.spacing.md),
+            padding: EdgeInsets.all(sp.md),
             decoration: BoxDecoration(
-              color: theme.colors.surface.withOpacity(theme.isDark ? 0.3 : 0.5),
-              borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
+              color: c.surface.withValues(
+                alpha: t.isDark ? 0.3 : 0.5,
+              ),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
             child: Icon(
               _getGreetingIcon(),
-              size: AppThemeConstants.iconLg,
-              color: theme.colors.textInverse,
+              size: sp.iconLg,
+              color: c.textInverse,
             ),
           ),
-          
-          SizedBox(width: theme.spacing.lg),
-          
+
+          SizedBox(width: sp.lg),
+
           // Greeting text
           Expanded(
             child: Column(
@@ -72,15 +77,15 @@ class GreetingBanner extends StatelessWidget {
               children: [
                 Text(
                   greeting,
-                  style: theme.typography.heading3.copyWith(
-                    color: theme.colors.textInverse,
+                  style: text.heading3.copyWith(
+                    color: c.textInverse,
                   ),
                 ),
-                SizedBox(height: theme.spacing.xs),
+                SizedBox(height: sp.xs),
                 Text(
                   displayName,
-                  style: theme.typography.bodyLarge.copyWith(
-                    color: theme.colors.textInverse.withOpacity(0.9),
+                  style: text.bodyLarge.copyWith(
+                    color: c.textInverse.withValues(alpha: 0.9),
                   ),
                 ),
               ],
@@ -91,5 +96,3 @@ class GreetingBanner extends StatelessWidget {
     );
   }
 }
-
-

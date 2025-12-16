@@ -29,7 +29,7 @@ class IntentionCravingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final s = context.spacing;
     final validIntention =
         intentions.contains(intention) ? intention : null;
 
@@ -42,12 +42,12 @@ class IntentionCravingCard extends StatelessWidget {
             subtitle: "Why did you use this substance?",
           ),
 
-          CommonSpacer.vertical(t.spacing.md),
+          CommonSpacer.vertical(s.md),
 
           ///  MEDICAL PURPOSE SWITCH
           _buildMedicalToggle(context),
 
-          CommonSpacer.vertical(t.spacing.lg),
+          CommonSpacer.vertical(s.lg),
 
           ///  INTENTION DROPDOWN
           CommonDropdown<String>(
@@ -57,7 +57,7 @@ class IntentionCravingCard extends StatelessWidget {
             itemLabel: (v) => v,
           ),
 
-          CommonSpacer.vertical(t.spacing.lg),
+          CommonSpacer.vertical(s.lg),
 
           ///  CRAVING SLIDER
           _buildCravingSection(context),
@@ -71,35 +71,37 @@ class IntentionCravingCard extends StatelessWidget {
   // ----------------------------------------------------------
 
   Widget _buildMedicalToggle(BuildContext context) {
-    final t = context.theme;
-    final accent = t.colors.success;
+    final c = context.colors;
+    final s = context.spacing;
+    final text = context.text;
+    final accent = c.success;
 
     return Container(
       decoration: BoxDecoration(
-        color: t.colors.surfaceVariant,
-        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+        color: c.surfaceVariant,
+        borderRadius: BorderRadius.circular(s.radiusMd),
         border: Border.all(
-          color: isMedicalPurpose ? accent : t.colors.border,
+          color: isMedicalPurpose ? accent : c.border,
           width: isMedicalPurpose ? 2 : 1,
         ),
       ),
       child: SwitchListTile(
         value: isMedicalPurpose,
         onChanged: onMedicalPurposeChanged,
-        activeThumbColor: accent,
+        activeColor: accent,
         title: Text(
           "Medical Purpose",
-          style: t.typography.body.copyWith(
+          style: text.body.copyWith(
             fontWeight: isMedicalPurpose
                 ? FontWeight.w600
                 : FontWeight.normal,
-            color: t.colors.textPrimary,
+            color: c.textPrimary,
           ),
         ),
         subtitle: Text(
           "Prescribed or therapeutic use",
-          style: t.typography.bodySmall.copyWith(
-            color: t.colors.textSecondary,
+          style: text.bodySmall.copyWith(
+            color: c.textSecondary,
           ),
         ),
       ),
@@ -111,20 +113,22 @@ class IntentionCravingCard extends StatelessWidget {
   // ----------------------------------------------------------
 
   Widget _buildCravingSection(BuildContext context) {
-    final t = context.theme;
-    final accent = t.colors.warning;
+    final c = context.colors;
+    final s = context.spacing;
+    final text = context.text;
+    final accent = c.warning;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Craving Intensity",
-          style: t.typography.body.copyWith(
-            color: t.colors.textPrimary,
+          style: text.body.copyWith(
+            color: c.textPrimary,
           ),
         ),
 
-        CommonSpacer.vertical(t.spacing.sm),
+        CommonSpacer.vertical(s.sm),
 
         Row(
           children: [
@@ -139,24 +143,24 @@ class IntentionCravingCard extends StatelessWidget {
               ),
             ),
 
-            CommonSpacer.horizontal(t.spacing.md),
+            CommonSpacer.horizontal(s.md),
 
             /// Value indicator box
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: t.spacing.md,
-                vertical: t.spacing.sm,
+                horizontal: s.md,
+                vertical: s.sm,
               ),
               decoration: BoxDecoration(
                 color: accent.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+                borderRadius: BorderRadius.circular(s.radiusMd),
                 border: Border.all(color: accent),
               ),
               child: Text(
                 cravingIntensity.toStringAsFixed(0),
-                style: t.typography.body.copyWith(
+                style: text.body.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: t.colors.textPrimary,
+                  color: c.textPrimary,
                 ),
               ),
             ),

@@ -1,10 +1,8 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../services/encryption_service_v2.dart';
-
 
 /// Screen for unlocking with recovery key and optionally resetting PIN
 class RecoveryKeyScreen extends StatefulWidget {
@@ -156,17 +154,14 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark ? UIColors.darkBackground : UIColors.lightBackground;
-    final surfaceColor = isDark ? UIColors.darkSurface : UIColors.lightSurface;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final accentColor = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
+    final c = context.colors;
+    final sp = context.spacing;
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: c.background,
       appBar: AppBar(
         title: Text(_recoveryKeyValidated ? 'Create New PIN' : 'Recovery Key'),
-        backgroundColor: surfaceColor,
+        backgroundColor: c.surface,
         elevation: 0,
         leading: _recoveryKeyValidated 
           ? IconButton(
@@ -183,86 +178,88 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           : null,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(sp.lg),
         child: _recoveryKeyValidated 
-          ? _buildPinCreationView(isDark, surfaceColor, textColor, accentColor)
-          : _buildRecoveryKeyView(isDark, surfaceColor, textColor, accentColor),
+          ? _buildPinCreationView(context)
+          : _buildRecoveryKeyView(context),
       ),
     );
   }
 
   /// Build the recovery key input view (Step 1)
-  Widget _buildRecoveryKeyView(bool isDark, Color surfaceColor, Color textColor, Color accentColor) {
+  Widget _buildRecoveryKeyView(BuildContext context) {
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final t = context.text;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SizedBox(height: 20),
+        SizedBox(height: sp.lg),
 
         // Key Icon
-        const Icon(
+        Icon(
           Icons.vpn_key,
           size: 100,
-          color: Colors.amber,
+          color: a.primary,
         ),
-        const SizedBox(height: 32),
+        SizedBox(height: sp.xl),
 
         // Title
         Text(
           'Enter Recovery Key',
-          style: TextStyle(
-            fontSize: 32,
+          style: t.heading2.copyWith(
             fontWeight: FontWeight.bold,
-            color: textColor,
+            color: c.textPrimary,
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: sp.sm),
 
         // Description
         Text(
           'Enter your recovery key to reset your PIN',
-          style: TextStyle(
-            fontSize: 16,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+          style: t.bodyLarge.copyWith(
+            color: c.textSecondary,
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 40),
+        SizedBox(height: sp.xl2),
 
         // Info box
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(sp.md),
           decoration: BoxDecoration(
-            color: Colors.amber.withOpacity(0.1),
+            color: a.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.amber.withOpacity(0.3)),
+            border: Border.all(color: a.primary.withValues(alpha: 0.5)),
           ),
           child: Row(
             children: [
-              const Icon(Icons.info_outline, color: Colors.amber, size: 24),
-              const SizedBox(width: 12),
+              Icon(Icons.info_outline, color: a.primary, size: 24),
+              SizedBox(width: sp.sm),
               Expanded(
                 child: Text(
                   'Your recovery key is a 24-character hexadecimal code',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: textColor,
+                  style: t.body.copyWith(
+                    color: c.textPrimary,
                   ),
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: sp.lg),
 
         // Recovery Key Input
         Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
-            color: surfaceColor,
+            color: c.surface,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+              color: c.border,
               width: 2,
             ),
           ),
@@ -271,39 +268,33 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             children: [
               Text(
                 'Recovery Key',
-                style: TextStyle(
-                  fontSize: 14,
+                style: t.labelLarge.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: textColor,
+                  color: c.textPrimary,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: sp.sm),
               TextField(
                 controller: _recoveryKeyController,
                 obscureText: _keyObscure,
                 autocorrect: false,
                 enableSuggestions: false,
-                style: TextStyle(
-                  fontSize: 16,
+                style: t.bodyLarge.copyWith(
                   fontFamily: 'monospace',
                   letterSpacing: 1,
-                  color: textColor,
+                  color: c.textPrimary,
                 ),
                 maxLines: 1,
                 decoration: InputDecoration(
                   hintText: 'Enter your 24-character recovery key',
                   hintStyle: TextStyle(
-                    color: isDark
-                        ? UIColors.darkTextSecondary
-                        : UIColors.lightTextSecondary,
+                    color: c.textSecondary,
                   ),
                   border: InputBorder.none,
                   suffixIcon: IconButton(
                     icon: Icon(
                       _keyObscure ? Icons.visibility : Icons.visibility_off,
-                      color: isDark
-                          ? UIColors.darkTextSecondary
-                          : UIColors.lightTextSecondary,
+                      color: c.textSecondary,
                     ),
                     onPressed: () => setState(() => _keyObscure = !_keyObscure),
                   ),
@@ -315,11 +306,11 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
         // Error message
         if (_errorMessage != null) ...[
-          const SizedBox(height: 20),
-          _buildErrorMessage(),
+          SizedBox(height: sp.lg),
+          _buildErrorMessage(context),
         ],
 
-        const SizedBox(height: 32),
+        SizedBox(height: sp.xl),
 
         // Validate button
         SizedBox(
@@ -327,251 +318,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           child: ElevatedButton(
             onPressed: _isLoading ? null : _validateRecoveryKey,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.amber,
-              foregroundColor: Colors.black87,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              elevation: 4,
-            ),
-            child: _isLoading
-                ? const SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black87),
-                    ),
-                  )
-                : const Text(
-                    'Continue',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-          ),
-        ),
-
-        const SizedBox(height: 24),
-
-        // Back button
-        TextButton.icon(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.arrow_back),
-          label: const Text('Back to PIN Unlock'),
-          style: TextButton.styleFrom(
-            foregroundColor: accentColor,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-          ),
-        ),
-      ],
-    );
-  }
-
-  /// Build the PIN creation view (Step 2)
-  Widget _buildPinCreationView(bool isDark, Color surfaceColor, Color textColor, Color accentColor) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const SizedBox(height: 20),
-
-        // Lock Icon
-        Icon(
-          Icons.lock_reset,
-          size: 100,
-          color: accentColor,
-        ),
-        const SizedBox(height: 32),
-
-        // Title
-        Text(
-          'Create New PIN',
-          style: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: textColor,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 12),
-
-        // Description
-        Text(
-          'Recovery key validated! Now create a new 6-digit PIN',
-          style: TextStyle(
-            fontSize: 16,
-            color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 40),
-
-        // Success indicator
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.green.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.green.withOpacity(0.3)),
-          ),
-          child: Row(
-            children: [
-              const Icon(Icons.check_circle, color: Colors.green, size: 24),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  'Recovery key verified successfully',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: textColor,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 24),
-
-        // New PIN Input
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: surfaceColor,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-              width: 2,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'New PIN',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: textColor,
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: _newPinController,
-                obscureText: _pinObscure,
-                keyboardType: TextInputType.number,
-                maxLength: 6,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 8,
-                  color: textColor,
-                ),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  hintText: '• • • • • •',
-                  hintStyle: TextStyle(
-                    color: isDark
-                        ? UIColors.darkTextSecondary
-                        : UIColors.lightTextSecondary,
-                    letterSpacing: 8,
-                  ),
-                  border: InputBorder.none,
-                  counterText: '',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _pinObscure ? Icons.visibility : Icons.visibility_off,
-                      color: isDark
-                          ? UIColors.darkTextSecondary
-                          : UIColors.lightTextSecondary,
-                    ),
-                    onPressed: () => setState(() => _pinObscure = !_pinObscure),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-
-        // Confirm PIN Input
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: surfaceColor,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
-              width: 2,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Confirm PIN',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: textColor,
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: _confirmPinController,
-                obscureText: _confirmPinObscure,
-                keyboardType: TextInputType.number,
-                maxLength: 6,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 8,
-                  color: textColor,
-                ),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  hintText: '• • • • • •',
-                  hintStyle: TextStyle(
-                    color: isDark
-                        ? UIColors.darkTextSecondary
-                        : UIColors.lightTextSecondary,
-                    letterSpacing: 8,
-                  ),
-                  border: InputBorder.none,
-                  counterText: '',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _confirmPinObscure ? Icons.visibility : Icons.visibility_off,
-                      color: isDark
-                          ? UIColors.darkTextSecondary
-                          : UIColors.lightTextSecondary,
-                    ),
-                    onPressed: () => setState(() => _confirmPinObscure = !_confirmPinObscure),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        // Error message
-        if (_errorMessage != null) ...[
-          const SizedBox(height: 20),
-          _buildErrorMessage(),
-        ],
-
-        const SizedBox(height: 32),
-
-        // Create PIN button
-        SizedBox(
-          height: 60,
-          child: ElevatedButton(
-            onPressed: _isLoading ? null : _createNewPin,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: accentColor,
+              backgroundColor: a.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -587,11 +334,245 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
                   )
-                : const Text(
-                    'Reset PIN',
-                    style: TextStyle(
-                      fontSize: 18,
+                : Text(
+                    'Continue',
+                    style: t.heading4.copyWith(
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+          ),
+        ),
+
+        SizedBox(height: sp.lg),
+
+        // Back button
+        TextButton.icon(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back),
+          label: const Text('Back to PIN Unlock'),
+          style: TextButton.styleFrom(
+            foregroundColor: a.primary,
+            padding: EdgeInsets.symmetric(vertical: sp.md),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Build the PIN creation view (Step 2)
+  Widget _buildPinCreationView(BuildContext context) {
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final t = context.text;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(height: sp.lg),
+
+        // Lock Icon
+        Icon(
+          Icons.lock_reset,
+          size: 100,
+          color: a.primary,
+        ),
+        SizedBox(height: sp.xl),
+
+        // Title
+        Text(
+          'Create New PIN',
+          style: t.heading2.copyWith(
+            fontWeight: FontWeight.bold,
+            color: c.textPrimary,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: sp.sm),
+
+        // Description
+        Text(
+          'Recovery key validated! Now create a new 6-digit PIN',
+          style: t.bodyLarge.copyWith(
+            color: c.textSecondary,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: sp.xl2),
+
+        // Success indicator
+        Container(
+          padding: EdgeInsets.all(sp.md),
+          decoration: BoxDecoration(
+            color: Colors.green.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.check_circle, color: Colors.green, size: 24),
+              SizedBox(width: sp.sm),
+              Expanded(
+                child: Text(
+                  'Recovery key verified successfully',
+                  style: t.body.copyWith(
+                    color: c.textPrimary,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: sp.lg),
+
+        // New PIN Input
+        Container(
+          padding: EdgeInsets.all(sp.lg),
+          decoration: BoxDecoration(
+            color: c.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: c.border,
+              width: 2,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'New PIN',
+                style: t.labelLarge.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: c.textPrimary,
+                ),
+              ),
+              SizedBox(height: sp.sm),
+              TextField(
+                controller: _newPinController,
+                obscureText: _pinObscure,
+                keyboardType: TextInputType.number,
+                maxLength: 6,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                style: t.heading3.copyWith(
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 8,
+                  color: c.textPrimary,
+                ),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  hintText: '• • • • • •',
+                  hintStyle: TextStyle(
+                    color: c.textSecondary,
+                    letterSpacing: 8,
+                  ),
+                  border: InputBorder.none,
+                  counterText: '',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _pinObscure ? Icons.visibility : Icons.visibility_off,
+                      color: c.textSecondary,
+                    ),
+                    onPressed: () => setState(() => _pinObscure = !_pinObscure),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: sp.md),
+
+        // Confirm PIN Input
+        Container(
+          padding: EdgeInsets.all(sp.lg),
+          decoration: BoxDecoration(
+            color: c.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: c.border,
+              width: 2,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Confirm PIN',
+                style: t.labelLarge.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: c.textPrimary,
+                ),
+              ),
+              SizedBox(height: sp.sm),
+              TextField(
+                controller: _confirmPinController,
+                obscureText: _confirmPinObscure,
+                keyboardType: TextInputType.number,
+                maxLength: 6,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                style: t.heading3.copyWith(
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 8,
+                  color: c.textPrimary,
+                ),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  hintText: '• • • • • •',
+                  hintStyle: TextStyle(
+                    color: c.textSecondary,
+                    letterSpacing: 8,
+                  ),
+                  border: InputBorder.none,
+                  counterText: '',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _confirmPinObscure ? Icons.visibility : Icons.visibility_off,
+                      color: c.textSecondary,
+                    ),
+                    onPressed: () => setState(() => _confirmPinObscure = !_confirmPinObscure),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // Error message
+        if (_errorMessage != null) ...[
+          SizedBox(height: sp.lg),
+          _buildErrorMessage(context),
+        ],
+
+        SizedBox(height: sp.xl),
+
+        // Create PIN button
+        SizedBox(
+          height: 60,
+          child: ElevatedButton(
+            onPressed: _isLoading ? null : _createNewPin,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: a.primary,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 4,
+            ),
+            child: _isLoading
+                ? const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  )
+                : Text(
+                    'Reset PIN',
+                    style: t.heading4.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
           ),
@@ -601,24 +582,27 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
   }
 
   /// Build error message widget
-  Widget _buildErrorMessage() {
+  Widget _buildErrorMessage(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
+    final t = context.text;
+    
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: Colors.red.withOpacity(0.1),
+        color: c.error.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.red.withOpacity(0.3)),
+        border: Border.all(color: c.error),
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: Colors.red, size: 24),
-          const SizedBox(width: 12),
+          Icon(Icons.error_outline, color: c.error, size: 24),
+          SizedBox(width: sp.sm),
           Expanded(
             child: Text(
               _errorMessage!,
-              style: const TextStyle(
-                color: Colors.red,
-                fontSize: 14,
+              style: t.body.copyWith(
+                color: c.error,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -628,6 +612,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
     );
   }
 }
+
 
 
 

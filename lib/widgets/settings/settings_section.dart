@@ -1,9 +1,4 @@
-// MIGRATION
-// Theme: COMPLETE
-// Common: PARTIAL
-// Riverpod: TODO
-// Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
-
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 /// Reusable section widget for settings page
@@ -21,25 +16,39 @@ class SettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
+      color: c.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        side: BorderSide(color: c.border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(sp.md),
             child: Row(
               children: [
-                Icon(icon, color: Theme.of(context).primaryColor),
-                const SizedBox(width: 12),
+                Icon(icon, color: a.primary),
+                SizedBox(width: sp.sm),
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: t.typography.heading4.copyWith(
+                    color: c.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: c.border),
           ...children,
         ],
       ),

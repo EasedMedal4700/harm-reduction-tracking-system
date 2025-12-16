@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -107,6 +108,9 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
   @override
   Widget build(BuildContext context) {
     final settings = widget.settingsProvider.settings;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
 
     return SettingsSection(
       title: 'Privacy & Security',
@@ -123,9 +127,9 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
               final result = await Navigator.of(context).pushNamed('/change-pin');
               if (result == true && mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('PIN changed successfully'),
-                    backgroundColor: Colors.green,
+                  SnackBar(
+                    content: const Text('PIN changed successfully'),
+                    backgroundColor: c.success,
                   ),
                 );
               }
@@ -142,7 +146,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
             },
           ),
         ],
-        const Divider(),
+        Divider(color: c.border),
         SwitchListTile(
           title: const Text('Biometric Lock'),
           subtitle: const Text('Use fingerprint/face to unlock'),
@@ -151,14 +155,13 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
         ),
         
         // PIN Timeout Settings Header
-        const Padding(
-          padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+        Padding(
+          padding: EdgeInsets.fromLTRB(sp.md, sp.md, sp.md, sp.sm),
           child: Text(
             'PIN Timeout Settings',
-            style: TextStyle(
-              fontSize: 14,
+            style: t.typography.labelLarge.copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.grey,
+              color: c.textSecondary,
             ),
           ),
         ),
@@ -238,7 +241,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           ),
         ),
         
-        const Divider(),
+        Divider(color: c.border),
         SwitchListTile(
           title: const Text('Hide in Recent Apps'),
           subtitle: const Text('Blur content in app switcher'),
@@ -251,7 +254,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           value: settings.analyticsEnabled,
           onChanged: widget.settingsProvider.setAnalyticsEnabled,
         ),
-        const Divider(),
+        Divider(color: c.border),
         // Reset harm reduction notices option
         ListTile(
           title: const Text('Reset Harm Reduction Notices'),
@@ -285,16 +288,16 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
               await onboardingSvc.resetHarmNotices();
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Harm reduction notices will appear again'),
-                    backgroundColor: Colors.green,
+                  SnackBar(
+                    content: const Text('Harm reduction notices will appear again'),
+                    backgroundColor: c.success,
                   ),
                 );
               }
             }
           },
         ),
-        const Divider(),
+        Divider(color: c.border),
         Listener(
           behavior: HitTestBehavior.translucent,
           onPointerDown: (event) => debugPrint('🖱 PointerDown on Privacy Policy tile: $event'),

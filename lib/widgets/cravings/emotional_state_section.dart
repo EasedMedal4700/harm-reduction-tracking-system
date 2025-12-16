@@ -23,32 +23,36 @@ class EmotionalStateSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
     
     return Container(
-      padding: EdgeInsets.all(t.spacing.m),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-        border: Border.all(color: t.colors.outlineVariant),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusLg),
+        border: Border.all(color: c.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.favorite, color: t.colors.primary),
-              SizedBox(width: t.spacing.s),
+              Icon(Icons.favorite, color: a.primary),
+              SizedBox(width: sp.sm),
               Text(
                 'Emotional State',
-                style: t.typography.titleMedium.copyWith(
-                  color: t.colors.onSurface,
+                style: t.typography.heading4.copyWith(
+                  color: c.textPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          SizedBox(height: t.spacing.m),
+          SizedBox(height: sp.md),
           
           FeelingSelection(
             feelings: selectedEmotions,
@@ -57,32 +61,32 @@ class EmotionalStateSection extends StatelessWidget {
             onSecondaryFeelingsChanged: onSecondaryEmotionsChanged,
           ),
           
-          SizedBox(height: t.spacing.l),
+          SizedBox(height: sp.lg),
           
           Text(
             'Thoughts',
-            style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+            style: t.typography.body.copyWith(color: c.textPrimary),
           ),
-          SizedBox(height: t.spacing.s),
+          SizedBox(height: sp.sm),
           TextFormField(
             initialValue: thoughts,
             onChanged: onThoughtsChanged,
             maxLines: 3,
-            style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+            style: t.typography.body.copyWith(color: c.textPrimary),
             decoration: InputDecoration(
               filled: true,
-              fillColor: t.colors.surfaceContainerLow,
+              fillColor: c.surface,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(t.shapes.radiusM),
-                borderSide: BorderSide(color: t.colors.outline),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+                borderSide: BorderSide(color: c.border),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(t.shapes.radiusM),
-                borderSide: BorderSide(color: t.colors.outline),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+                borderSide: BorderSide(color: c.border),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(t.shapes.radiusM),
-                borderSide: BorderSide(color: t.colors.primary, width: 2),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+                borderSide: BorderSide(color: a.primary, width: 2),
               ),
             ),
           ),

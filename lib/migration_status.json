@@ -12,9 +12,9 @@
       },
       {
         "path": "lib/widgets/edit_log_entry/loading_overlay.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/edit_log_entry/edit_form_content.dart",
@@ -43,69 +43,69 @@
     "widgets": [
       {
         "path": "lib/widgets/log_entry_cards/substance_header_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Uses UIColors constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/log_entry_cards/dosage_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Uses UIColors constants"
+        "status": "deleted",
+        "theme": "N/A",
+        "notes": "File not found"
       },
       {
         "path": "lib/widgets/log_entry_cards/route_of_administration_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Uses UIColors constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/log_entry_cards/feelings_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "deleted",
+        "theme": "N/A",
+        "notes": "File not found"
       },
       {
         "path": "lib/widgets/log_entry_cards/time_of_use_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "deleted",
+        "theme": "N/A",
+        "notes": "File not found"
       },
       {
         "path": "lib/widgets/log_entry_cards/location_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "deleted",
+        "theme": "N/A",
+        "notes": "File not found"
       },
       {
         "path": "lib/widgets/log_entry_cards/intention_craving_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/log_entry_cards/triggers_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "deleted",
+        "theme": "N/A",
+        "notes": "File not found"
       },
       {
         "path": "lib/widgets/log_entry_cards/body_signals_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "deleted",
+        "theme": "N/A",
+        "notes": "File not found"
       },
       {
         "path": "lib/widgets/log_entry_cards/medical_purpose_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/log_entry_page/log_entry_app_bar.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/common/layout/common_bottom_bar.dart",
@@ -122,9 +122,9 @@
     "widgets": [
       {
         "path": "lib/widgets/tolerance_dashboard/dashboard_content_widget.dart",
-        "status": "header_added",
-        "theme": "PARTIAL",
-        "notes": "Uses context.theme and AppTheme, but some legacy patterns may remain; review for full migration."
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance_dashboard/empty_state_widget.dart",
@@ -134,100 +134,100 @@
       },
       {
         "path": "lib/widgets/tolerance/system_bucket_card.dart",
-        "status": "header_added",
-        "theme": "TODO",
-        "notes": "Migration header missing"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance/system_tolerance_breakdown_sheet.dart",
-        "status": "header_added",
-        "theme": "TODO",
-        "notes": "Migration header missing"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance/tolerance_disclaimer.dart",
-        "status": "header_added",
-        "theme": "TODO",
-        "notes": "Migration header missing"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance_dashboard/bucket_details_widget.dart",
-        "status": "header_added",
-        "theme": "PARTIAL",
-        "notes": "Uses context.theme and legacy patterns; needs review for full migration to AppTheme/context extensions."
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance_dashboard/system_overview_widget.dart",
-        "status": "header_added",
-        "theme": "PARTIAL",
-        "notes": "Uses context.theme and AppTheme, but some legacy patterns may remain; review for full migration."
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance_dashboard/debug_panel_widget.dart",
-        "status": "header_added",
-        "theme": "PARTIAL",
-        "notes": "Uses context.theme and AppTheme, but some legacy patterns may remain; review for full migration."
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance/tolerance_summary_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Migration header missing"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance/tolerance_stats_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Migration header missing"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance/tolerance_notes_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Migration header missing"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance/unified_bucket_tolerance_widget.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Migration header missing"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance/recent_uses_card.dart",
-        "status": "header_added",
-        "theme": "PARTIAL",
-        "notes": "Uses context.theme and context.colors, but may have legacy patterns; review for full migration."
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance/debug_substance_list.dart",
-        "status": "header_added",
-        "theme": "PARTIAL",
-        "notes": "Uses Theme.of(context) and Colors directly; needs migration to AppTheme/context extensions."
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance/bucket_tolerance_breakdown.dart",
-        "status": "header_added",
-        "theme": "PARTIAL",
-        "notes": "Uses Theme.of(context) and Colors directly; needs migration to AppTheme/context extensions."
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/tolerance/bucket_detail_section.dart",
-        "status": "header_added",
-        "theme": "PARTIAL",
-        "notes": "Uses Theme.of(context) and Colors directly; needs migration to AppTheme/context extensions."
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       }
     ]
   },
   "lib/screens/set_new_password_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Uses UIColors and ThemeConstants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/admin/feature_flags_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Uses UIColors and ThemeConstants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/activity_page.dart": {
@@ -249,9 +249,9 @@
       },
       {
         "path": "lib/widgets/activity/activity_reflections_tab.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/activity/activity_delete_dialog.dart",
@@ -286,21 +286,21 @@
     ]
   },
   "lib/screens/admin_panel_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": [
       {
         "path": "lib/widgets/admin/admin_stats_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/admin/admin_user_list.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/admin_panel/admin_app_bar.dart",
@@ -489,9 +489,9 @@
     ]
   },
   "lib/screens/change_pin_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/checkin_history_screen.dart": {
@@ -588,27 +588,27 @@
     ]
   },
   "lib/screens/email_confirmed_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/encryption_migration_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/forgot_password_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/home_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": [
       {
         "path": "lib/widgets/home_redesign/header_card.dart",
@@ -643,76 +643,76 @@
     ]
   },
   "lib/screens/interactions_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/login_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/onboarding_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension",
     "widgets": []
   },
   "lib/screens/personal_library_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension",
     "widgets": [
       {
         "path": "lib/widgets/catalog/add_stockpile_sheet.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/personal_library/substance_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/personal_library/summary_stats_banner.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/personal_library/day_usage_sheet.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       }
     ]
   },
   "lib/screens/physiological_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension",
     "widgets": []
   },
   "lib/screens/pin_setup_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/pin_unlock_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/privacy_policy_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/profile_screen.dart": {
@@ -759,107 +759,107 @@
     ]
   },
   "lib/screens/recovery_key_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/reflection_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": [
       {
         "path": "lib/widgets/reflection/reflection_form.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/reflection/reflection_selection.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       }
     ]
   },
   "lib/screens/register_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/settings_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": [
       {
         "path": "lib/widgets/settings/ui_settings_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/settings/notification_settings_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/settings/privacy_settings_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/settings/data_sync_settings_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/settings/entry_preferences_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/settings/display_settings_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/settings/about_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/settings/account_management_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/settings/settings_dialogs.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       }
     ]
   },
   "lib/screens/wearos_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": []
   },
   "lib/screens/admin/bug_report_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": [
       {
         "path": "lib/widgets/bug_report/bug_report_form_fields.dart",
@@ -876,9 +876,9 @@
     ]
   },
   "lib/screens/admin/error_analytics_screen.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": [
       {
         "path": "lib/widgets/admin/error_analytics_section.dart",
@@ -907,58 +907,58 @@
     ]
   },
   "lib/screens/edit/edit_craving_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": [
       {
         "path": "lib/widgets/cravings/craving_details_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/cravings/emotional_state_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/cravings/body_mind_signals_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/cravings/outcome_section.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/edit_craving/craving_app_bar.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       }
     ]
   },
   "lib/screens/edit/edit_refelction_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Check for deprecated constants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension (context.colors, context.text, etc.)",
     "widgets": [
       {
         "path": "lib/widgets/reflection/edit_reflection_form.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/edit_reflection/reflection_app_bar.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       }
     ]
   },

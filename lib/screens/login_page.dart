@@ -1,3 +1,4 @@
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -346,10 +347,25 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      backgroundColor: c.background,
+      appBar: AppBar(
+        title: Text(
+          'Login',
+          style: text.headlineSmall.copyWith(color: c.textPrimary),
+        ),
+        backgroundColor: c.surface,
+        foregroundColor: c.textPrimary,
+        elevation: 0,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(sp.lg),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -357,47 +373,98 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               controller: emailController,
               enabled: !_isLoading,
-              decoration: const InputDecoration(labelText: 'Email'),
+              style: text.bodyMedium.copyWith(color: c.textPrimary),
+              decoration: InputDecoration(
+                labelText: 'Email',
+                labelStyle: text.bodyMedium.copyWith(color: c.textSecondary),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
+                  borderSide: BorderSide(color: c.border),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
+                  borderSide: BorderSide(color: a.primary),
+                ),
+              ),
               keyboardType: TextInputType.emailAddress,
             ),
+            SizedBox(height: sp.md),
             TextField(
               controller: passwordController,
               enabled: !_isLoading,
-              decoration: const InputDecoration(labelText: 'Password'),
+              style: text.bodyMedium.copyWith(color: c.textPrimary),
+              decoration: InputDecoration(
+                labelText: 'Password',
+                labelStyle: text.bodyMedium.copyWith(color: c.textSecondary),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
+                  borderSide: BorderSide(color: c.border),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
+                  borderSide: BorderSide(color: a.primary),
+                ),
+              ),
               obscureText: true,
             ),
             CheckboxListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Keep me logged in'),
+              title: Text(
+                'Keep me logged in',
+                style: text.bodyMedium.copyWith(color: c.textPrimary),
+              ),
               value: _rememberMe,
+              activeColor: a.primary,
+              checkColor: c.textInverse,
               onChanged: _isLoading
                   ? null
                   : (value) => setState(() => _rememberMe = value ?? false),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: sp.xl),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _handleLogin,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: a.primary,
+                  foregroundColor: c.textInverse,
+                  padding: EdgeInsets.symmetric(vertical: sp.md),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
+                  ),
+                ),
                 child: _isLoading
-                    ? const SizedBox(
+                    ? SizedBox(
                         height: 20,
                         width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(c.textInverse),
+                        ),
                       )
-                    : const Text('Login'),
+                    : Text(
+                        'Login',
+                        style: text.labelLarge.copyWith(color: c.textInverse),
+                      ),
               ),
             ),
+            SizedBox(height: sp.md),
             TextButton(
               onPressed: _isLoading
                   ? null
                   : () => Navigator.pushNamed(context, '/register'),
+              style: TextButton.styleFrom(
+                foregroundColor: a.primary,
+              ),
               child: const Text('Create an account'),
             ),
             TextButton(
               onPressed: _isLoading
                   ? null
                   : () => Navigator.pushNamed(context, '/forgot-password'),
+              style: TextButton.styleFrom(
+                foregroundColor: c.textSecondary,
+              ),
               child: const Text('Forgot Password?'),
             ),
           ],

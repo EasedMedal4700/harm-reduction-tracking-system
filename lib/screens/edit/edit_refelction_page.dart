@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/old_common/drawer_menu.dart';
 import '../../widgets/reflection/edit_reflection_form.dart';
 import '../../widgets/edit_reflection/reflection_app_bar.dart';
@@ -198,14 +199,18 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final a = context.accent;
+    
     return Scaffold(
+      backgroundColor: c.background,
       appBar: ReflectionAppBar(
         isSaving: _isSaving,
         onSave: _saveChanges,
       ),
       drawer: const DrawerMenu(),
       body: _isLoading 
-          ? const Center(child: CircularProgressIndicator()) 
+          ? Center(child: CircularProgressIndicator(color: a.primary)) 
           : EditReflectionForm(
               selectedCount: _model.selectedReflections.length,
               effectiveness: _model.effectiveness,

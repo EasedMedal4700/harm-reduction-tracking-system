@@ -1,28 +1,25 @@
+import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
 // MIGRATION
-// Theme: PARTIAL
+// Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme/common usage, not fully migrated.
-import 'package:flutter/material.dart';
-
-
+// Notes: Fully migrated to AppThemeExtension. AppTheme parameters removed.
 
 /// Quick action tile for the home grid
 class QuickActionTile extends StatefulWidget {
-  final AppTheme theme;
   final IconData icon;
   final String label;
   final VoidCallback onTap;
   final Color? customColor;
 
   const QuickActionTile({
-    required this.theme,
+    super.key,
     required this.icon,
     required this.label,
     required this.onTap,
     this.customColor,
-    super.key,
   });
 
   @override
@@ -34,50 +31,59 @@ class _QuickActionTileState extends State<QuickActionTile> {
 
   @override
   Widget build(BuildContext context) {
-    final color = widget.customColor ?? widget.theme.accent.primary;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+
+    final effectiveColor = widget.customColor ?? t.accent.primary;
 
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
-      child: GestureDetector(
+      child: InkWell(
         onTap: widget.onTap,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
         child: AnimatedContainer(
-          duration: AppThemeConstants.animationFast,
-          curve: AppThemeConstants.animationCurve,
-          padding: EdgeInsets.all(widget.theme.spacing.lg),
-          decoration: widget.theme.cardDecoration(
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.easeOut,
+          padding: EdgeInsets.all(sp.lg),
+          decoration: t.cardDecoration(
             hovered: _hovered,
-            neonBorder: widget.theme.isDark && _hovered,
+            neonBorder: t.isDark && _hovered,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Icon with background
               AnimatedContainer(
-                duration: AppThemeConstants.animationFast,
-                padding: EdgeInsets.all(widget.theme.spacing.md),
+                duration: const Duration(milliseconds: 150),
+                padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(widget.theme.isDark ? 0.2 : 0.1),
-                  borderRadius: BorderRadius.circular(AppThemeConstants.radiusMd),
-                  boxShadow: _hovered && widget.theme.isDark
-                      ? widget.theme.getNeonGlow(intensity: 0.3)
+                  color: effectiveColor.withValues(
+                    alpha: t.isDark ? 0.2 : 0.1,
+                  ),
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
+                  boxShadow: _hovered && t.isDark
+                      ? t.getNeonGlow(intensity: 0.3)
                       : null,
                 ),
                 child: Icon(
                   widget.icon,
-                  size: AppThemeConstants.iconLg,
-                  color: color,
+                  size: sp.iconLg,
+                  color: effectiveColor,
                 ),
               ),
-              
-              SizedBox(height: widget.theme.spacing.sm),
-              
+
+              SizedBox(height: sp.sm),
+
               // Label
               Text(
                 widget.label,
-                style: widget.theme.typography.bodySmall.copyWith(
+                style: text.bodySmall.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: widget.theme.colors.textPrimary,
+                  color: c.textPrimary,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
@@ -93,46 +99,47 @@ class _QuickActionTileState extends State<QuickActionTile> {
 
 /// Grid of quick action tiles
 class QuickActionsGrid extends StatelessWidget {
-  final AppTheme theme;
   final List<QuickActionData> actions;
 
   const QuickActionsGrid({
-    required this.theme,
-    required this.actions,
     super.key,
+    required this.actions,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: theme.spacing.lg),
+    final t = context.theme;
+    final sp = context.spacing;
+    final text = context.text;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: sp.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Section header
           Padding(
-            padding: EdgeInsets.only(bottom: theme.spacing.md),
+            padding: EdgeInsets.only(bottom: sp.md),
             child: Text(
               'Quick Actions',
-              style: theme.typography.heading3,
+              style: text.heading3,
             ),
           ),
-          
+
           // Grid
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              crossAxisSpacing: theme.spacing.md,
-              mainAxisSpacing: theme.spacing.md,
+              crossAxisSpacing: sp.md,
+              mainAxisSpacing: sp.md,
               childAspectRatio: 1.0,
             ),
             itemCount: actions.length,
             itemBuilder: (context, index) {
               final action = actions[index];
               return QuickActionTile(
-                theme: theme,
                 icon: action.icon,
                 label: action.label,
                 onTap: action.onTap,
@@ -160,5 +167,3 @@ class QuickActionData {
     this.color,
   });
 }
-
-

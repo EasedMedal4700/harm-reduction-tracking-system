@@ -1,9 +1,5 @@
 
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Review for theme/context migration if needed.
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class LoadingOverlay extends StatelessWidget {
@@ -18,9 +14,15 @@ class LoadingOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!isLoading) return const SizedBox.shrink();
 
+    final a = context.accent;
+
     return Container(
-      color: Colors.black.withOpacity(0.5),
-      child: const Center(child: CircularProgressIndicator()),
+      color: Colors.black.withValues(alpha: 0.5),
+      child: Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(a.primary),
+        ),
+      ),
     );
   }
 }

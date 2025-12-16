@@ -28,41 +28,45 @@ class CravingDetailsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
     
     return Container(
-      padding: EdgeInsets.all(t.spacing.m),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-        border: Border.all(color: t.colors.outlineVariant),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusLg),
+        border: Border.all(color: c.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.psychology, color: t.colors.primary),
-              SizedBox(width: t.spacing.s),
+              Icon(Icons.psychology, color: a.primary),
+              SizedBox(width: sp.sm),
               Text(
                 'Craving Details',
-                style: t.typography.titleMedium.copyWith(
-                  color: t.colors.onSurface,
+                style: t.typography.heading4.copyWith(
+                  color: c.textPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          SizedBox(height: t.spacing.m),
+          SizedBox(height: sp.md),
           
           Text(
             'What were you craving?',
-            style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+            style: t.typography.body.copyWith(color: c.textPrimary),
           ),
-          SizedBox(height: t.spacing.s),
+          SizedBox(height: sp.sm),
           Wrap(
-            spacing: t.spacing.xs,
-            runSpacing: t.spacing.xs,
+            spacing: sp.xs,
+            runSpacing: sp.xs,
             children: cravingCategories.entries.map((entry) {
               final isSelected = selectedCravings.contains(entry.key);
               return FilterChip(
@@ -73,27 +77,27 @@ class CravingDetailsSection extends StatelessWidget {
                       ? [...selectedCravings, entry.key]
                       : selectedCravings.where((c) => c != entry.key).toList(),
                 ),
-                selectedColor: t.colors.primaryContainer,
-                checkmarkColor: t.colors.onPrimaryContainer,
-                labelStyle: t.typography.bodyMedium.copyWith(
-                  color: isSelected ? t.colors.onPrimaryContainer : t.colors.onSurface,
+                selectedColor: a.primary.withValues(alpha: 0.2),
+                checkmarkColor: a.primary,
+                labelStyle: t.typography.body.copyWith(
+                  color: isSelected ? a.primary : c.textPrimary,
                 ),
-                backgroundColor: t.colors.surfaceContainerLow,
+                backgroundColor: c.surface,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusS),
+                  borderRadius: BorderRadius.circular(sh.radiusSm),
                   side: BorderSide(
-                    color: isSelected ? Colors.transparent : t.colors.outline,
+                    color: isSelected ? Colors.transparent : c.border,
                   ),
                 ),
               );
             }).toList(),
           ),
           
-          SizedBox(height: t.spacing.l),
+          SizedBox(height: sp.lg),
           
           Text(
-            'Intensity: /10',
-            style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+            'Intensity: ${intensity.round()}/10',
+            style: t.typography.body.copyWith(color: c.textPrimary),
           ),
           Slider(
             value: intensity,
@@ -102,18 +106,18 @@ class CravingDetailsSection extends StatelessWidget {
             divisions: 10,
             label: intensity.round().toString(),
             onChanged: onIntensityChanged,
-            activeColor: t.colors.primary,
-            inactiveColor: t.colors.surfaceContainerHighest,
+            activeColor: a.primary,
+            inactiveColor: c.border,
           ),
           
-          SizedBox(height: t.spacing.m),
+          SizedBox(height: sp.md),
           
           DropdownButtonFormField<String>(
             value: location.isEmpty ? null : location,
             decoration: InputDecoration(
               labelText: 'Location',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(t.shapes.radiusM)),
-              contentPadding: EdgeInsets.symmetric(horizontal: t.spacing.m, vertical: t.spacing.s),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(sh.radiusMd)),
+              contentPadding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
             ),
             items: DrugUseCatalog.locations.map((loc) => DropdownMenuItem(value: loc, child: Text(loc))).toList(),
             onChanged: (v) {
@@ -121,14 +125,14 @@ class CravingDetailsSection extends StatelessWidget {
             },
           ),
           
-          SizedBox(height: t.spacing.m),
+          SizedBox(height: sp.md),
           
           DropdownButtonFormField<String>(
             value: withWho?.isEmpty == true ? null : withWho,
             decoration: InputDecoration(
               labelText: 'Who were you with?',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(t.shapes.radiusM)),
-              contentPadding: EdgeInsets.symmetric(horizontal: t.spacing.m, vertical: t.spacing.s),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(sh.radiusMd)),
+              contentPadding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
             ),
             items: const ['Alone', 'Friends', 'Family', 'Other']
                 .map((item) => DropdownMenuItem(value: item, child: Text(item)))

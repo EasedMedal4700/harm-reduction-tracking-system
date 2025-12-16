@@ -99,25 +99,25 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark ? UIColors.darkBackground : UIColors.lightBackground;
-    final surfaceColor = isDark ? UIColors.darkSurface : UIColors.lightSurface;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final accentColor = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
+    final text = context.text;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     if (_success) {
-      return _buildSuccessView(isDark, backgroundColor, surfaceColor, textColor, accentColor);
+      return _buildSuccessView(context);
     }
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: c.background,
       appBar: AppBar(
         title: const Text('Change PIN'),
-        backgroundColor: surfaceColor,
+        backgroundColor: c.surface,
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(sp.xl),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -125,112 +125,102 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
             Icon(
               Icons.lock_reset,
               size: 64,
-              color: accentColor,
+              color: a.primary,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: sp.xl),
 
             // Title
             Text(
               'Change Your PIN',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: textColor,
+              style: text.headlineMedium.copyWith(
+                color: c.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: sp.md),
 
             // Description
             Text(
               'Your encrypted data will remain accessible. Only the PIN used to unlock it will change.',
-              style: TextStyle(
-                fontSize: 14,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              style: text.bodyMedium.copyWith(
+                color: c.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: sp.xl),
 
             // Info box about recovery key
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.blue.withOpacity(0.3)),
+                color: a.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+                border: Border.all(color: a.primary.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.info_outline, color: Colors.blue, size: 20),
-                  const SizedBox(width: 12),
+                  Icon(Icons.info_outline, color: a.primary, size: 20),
+                  SizedBox(width: sp.md),
                   Expanded(
                     child: Text(
                       'Your recovery key will not change. Keep using the same one you saved during initial setup.',
-                      style: TextStyle(
-                        color: isDark ? Colors.blue.shade200 : Colors.blue.shade800,
-                        fontSize: 13,
+                      style: text.bodySmall.copyWith(
+                        color: a.primary,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: sp.xl),
 
             // Current PIN
             _buildPinField(
+              context: context,
               controller: _oldPinController,
               label: 'Current PIN',
               obscure: _oldPinObscure,
               onToggleObscure: () => setState(() => _oldPinObscure = !_oldPinObscure),
-              isDark: isDark,
-              surfaceColor: surfaceColor,
-              textColor: textColor,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: sp.lg),
 
             // New PIN
             _buildPinField(
+              context: context,
               controller: _newPinController,
               label: 'New PIN',
               obscure: _newPinObscure,
               onToggleObscure: () => setState(() => _newPinObscure = !_newPinObscure),
-              isDark: isDark,
-              surfaceColor: surfaceColor,
-              textColor: textColor,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: sp.lg),
 
             // Confirm New PIN
             _buildPinField(
+              context: context,
               controller: _confirmPinController,
               label: 'Confirm New PIN',
               obscure: _confirmPinObscure,
               onToggleObscure: () => setState(() => _confirmPinObscure = !_confirmPinObscure),
-              isDark: isDark,
-              surfaceColor: surfaceColor,
-              textColor: textColor,
             ),
 
             // Error message
             if (_errorMessage != null) ...[
-              const SizedBox(height: 16),
+              SizedBox(height: sp.lg),
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.red.withOpacity(0.3)),
+                  color: c.error.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
+                  border: Border.all(color: c.error.withValues(alpha: 0.3)),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.error_outline, color: Colors.red, size: 20),
-                    const SizedBox(width: 12),
+                    Icon(Icons.error_outline, color: c.error, size: 20),
+                    SizedBox(width: sp.md),
                     Expanded(
                       child: Text(
                         _errorMessage!,
-                        style: const TextStyle(color: Colors.red),
+                        style: text.bodyMedium.copyWith(color: c.error),
                       ),
                     ),
                   ],
@@ -238,7 +228,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               ),
             ],
 
-            const SizedBox(height: 32),
+            SizedBox(height: sp.xl2),
 
             // Change PIN button
             SizedBox(
@@ -246,27 +236,27 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _changePIN,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: accentColor,
-                  foregroundColor: Colors.white,
+                  backgroundColor: a.primary,
+                  foregroundColor: c.textInverse,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
                   ),
                   elevation: 2,
                 ),
                 child: _isLoading
-                    ? const SizedBox(
+                    ? SizedBox(
                         width: 24,
                         height: 24,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(c.textInverse),
                         ),
                       )
-                    : const Text(
+                    : Text(
                         'Change PIN',
-                        style: TextStyle(
-                          fontSize: 18,
+                        style: text.labelLarge.copyWith(
                           fontWeight: FontWeight.bold,
+                          color: c.textInverse,
                         ),
                       ),
               ),
@@ -278,21 +268,24 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
   }
 
   Widget _buildPinField({
+    required BuildContext context,
     required TextEditingController controller,
     required String label,
     required bool obscure,
     required VoidCallback onToggleObscure,
-    required bool isDark,
-    required Color surfaceColor,
-    required Color textColor,
   }) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(sp.lg),
       decoration: BoxDecoration(
-        color: surfaceColor,
-        borderRadius: BorderRadius.circular(12),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
         border: Border.all(
-          color: isDark ? UIColors.darkBorder : UIColors.lightBorder,
+          color: c.border,
         ),
       ),
       child: Column(
@@ -300,22 +293,20 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
         children: [
           Text(
             label,
-            style: TextStyle(
-              fontSize: 14,
+            style: text.labelMedium.copyWith(
               fontWeight: FontWeight.w600,
-              color: textColor,
+              color: c.textPrimary,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: sp.sm),
           TextField(
             controller: controller,
             obscureText: obscure,
             keyboardType: TextInputType.number,
             maxLength: 6,
-            style: TextStyle(
-              fontSize: 24,
+            style: text.headlineSmall.copyWith(
               letterSpacing: 8,
-              color: textColor,
+              color: c.textPrimary,
             ),
             decoration: InputDecoration(
               hintText: '● ● ● ● ● ●',
@@ -324,7 +315,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               suffixIcon: IconButton(
                 icon: Icon(
                   obscure ? Icons.visibility : Icons.visibility_off,
-                  color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+                  color: c.textSecondary,
                 ),
                 onPressed: onToggleObscure,
               ),
@@ -336,68 +327,64 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
     );
   }
 
-  Widget _buildSuccessView(
-    bool isDark,
-    Color backgroundColor,
-    Color surfaceColor,
-    Color textColor,
-    Color accentColor,
-  ) {
+  Widget _buildSuccessView(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: c.background,
       appBar: AppBar(
         title: const Text('PIN Changed'),
-        backgroundColor: surfaceColor,
+        backgroundColor: c.surface,
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(sp.xl),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Icon(
+            Icon(
               Icons.check_circle,
               size: 100,
-              color: Colors.green,
+              color: c.success,
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: sp.xl2),
             Text(
               'PIN Changed Successfully!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: textColor,
+              style: text.headlineMedium.copyWith(
+                color: c.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: sp.lg),
             Text(
               'Your new PIN is now active. Use it the next time you need to unlock your data.',
-              style: TextStyle(
-                fontSize: 16,
-                color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
+              style: text.bodyMedium.copyWith(
+                color: c.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: sp.lg),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
-                color: Colors.amber.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.amber.withOpacity(0.3)),
+                color: c.warning.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+                border: Border.all(color: c.warning.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.key, color: Colors.amber, size: 20),
-                  const SizedBox(width: 12),
+                  Icon(Icons.key, color: c.warning, size: 20),
+                  SizedBox(width: sp.md),
                   Expanded(
                     child: Text(
                       'Remember: Your recovery key has not changed.',
-                      style: TextStyle(
-                        color: Colors.amber.shade700,
+                      style: text.bodySmall.copyWith(
+                        color: c.warning,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -411,18 +398,18 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               child: ElevatedButton(
                 onPressed: _goBack,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
+                  backgroundColor: c.success,
+                  foregroundColor: c.textInverse,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
                   ),
                   elevation: 2,
                 ),
-                child: const Text(
+                child: Text(
                   'Done',
-                  style: TextStyle(
-                    fontSize: 18,
+                  style: text.labelLarge.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: c.textInverse,
                   ),
                 ),
               ),

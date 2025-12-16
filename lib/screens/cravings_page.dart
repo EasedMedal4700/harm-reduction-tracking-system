@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import '../common/old_common/drawer_menu.dart';
 import '../constants/data/body_and_mind_catalog.dart';
 import '../constants/data/drug_use_catalog.dart';
-import '../widgets/cravings/craving_details_section.dart'; // Add imports
+import '../widgets/cravings/craving_details_section.dart';
 import '../widgets/cravings/emotional_state_section.dart';
 import '../widgets/cravings/body_mind_signals_section.dart';
 import '../widgets/cravings/outcome_section.dart';
-import '../models/craving_model.dart'; // Add
-import '../services/craving_service.dart'; // Add
-import '../services/timezone_service.dart'; // Add
-import '../services/user_service.dart'; // Add
+import '../models/craving_model.dart';
+import '../services/craving_service.dart';
+import '../services/timezone_service.dart';
+import '../services/user_service.dart';
+import '../constants/theme/app_theme_extension.dart';
 
 class CravingsPage extends StatefulWidget {
   const CravingsPage({super.key});
@@ -21,7 +22,7 @@ class CravingsPage extends StatefulWidget {
 class _CravingsPageState extends State<CravingsPage> {
   List<String> selectedCravings = [];
   double intensity = 0.0;
-  String location = 'Select a location'; // Set default
+  String location = 'Select a location';
   String? withWho;
   List<String> primaryEmotions = [];
   Map<String, List<String>> secondaryEmotions = {};
@@ -29,9 +30,9 @@ class _CravingsPageState extends State<CravingsPage> {
   List<String> selectedSensations = [];
   String? whatDidYouDo;
   bool actedOnCraving = false;
-  final CravingService _cravingService = CravingService(); // Add
-  final TimezoneService _timezoneService = TimezoneService(); // Add
-  bool _isSaving = false; // Add loading state
+  final CravingService _cravingService = CravingService();
+  final TimezoneService _timezoneService = TimezoneService();
+  bool _isSaving = false;
 
   final List<String> sensations = physicalSensations;
   final List<String> emotions = DrugUseCatalog.primaryEmotions
@@ -42,7 +43,6 @@ class _CravingsPageState extends State<CravingsPage> {
     setState(() => _isSaving = true);
     final now = DateTime.now();
     
-    // Flatten secondary emotions into a single list
     final allSecondary = secondaryEmotions.values
         .expand((list) => list)
         .toList();
@@ -51,16 +51,16 @@ class _CravingsPageState extends State<CravingsPage> {
       userId: UserService.getCurrentUserId(),
       substance: selectedCravings.isNotEmpty
           ? selectedCravings.join('; ')
-          : '', // Use semicolon separator
+          : '',
       intensity: intensity,
       date: now,
       time:
-          '${now.toIso8601String().split('T')[0]} ${now.toUtc().toIso8601String().split('T')[1].split('.')[0]}+00', // Format as '2025-11-07 21:56:00+00'
+          '${now.toIso8601String().split('T')[0]} ${now.toUtc().toIso8601String().split('T')[1].split('.')[0]}+00',
       location: location,
       people: withWho ?? '',
       activity: whatDidYouDo ?? '',
       thoughts: thoughts ?? '',
-      triggers: [], // Add if you collect triggers
+      triggers: [],
       bodySensations: selectedSensations,
       primaryEmotion: primaryEmotions.isNotEmpty
           ? primaryEmotions.join(', ')
@@ -75,18 +75,25 @@ class _CravingsPageState extends State<CravingsPage> {
     try {
       await _cravingService.saveCraving(craving);
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Craving saved!')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Craving saved!'),
+          backgroundColor: context.theme.colors.success,
+        ),
+      );
       _resetForm();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Save failed: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Save failed: $e'),
+          backgroundColor: context.theme.colors.error,
+        ),
+      );
     } finally {
-      if (!mounted) return;
-      setState(() => _isSaving = false);
+      if (mounted) {
+        setState(() => _isSaving = false);
+      }
     }
   }
 
@@ -94,7 +101,7 @@ class _CravingsPageState extends State<CravingsPage> {
     setState(() {
       selectedCravings = [];
       intensity = 5.0;
-      location = 'Select a location'; // Set default on reset
+      location = 'Select a location';
       withWho = null;
       primaryEmotions = [];
       secondaryEmotions = {};
@@ -107,93 +114,126 @@ class _CravingsPageState extends State<CravingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
     
     return Scaffold(
+      backgroundColor: c.background,
       appBar: AppBar(
-        title: const Text('Log Craving'),
-        backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-        foregroundColor: isDark ? Colors.white : Colors.black87,
+        title: Text('Log Craving', style: t.typography.heading3),
+        backgroundColor: c.surface,
+        foregroundColor: c.textPrimary,
         elevation: 0,
         actions: [
           TextButton.icon(
             onPressed: _isSaving ? null : _save,
             icon: _isSaving
-                ? const SizedBox(
+                ? SizedBox(
                     width: 16,
                     height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: a.primary,
+                    ),
                   )
-                : const Icon(Icons.check),
-            label: Text(_isSaving ? 'Saving...' : 'Save'),
+                : Icon(Icons.check, color: a.primary),
+            label: Text(
+              _isSaving ? 'Saving...' : 'Save',
+              style: t.typography.labelLarge.copyWith(color: a.primary),
+            ),
           ),
         ],
       ),
       drawer: const DrawerMenu(),
       body: RefreshIndicator(
+        color: a.primary,
+        backgroundColor: c.surface,
         onRefresh: () async {
           setState(() {});
         },
         child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Craving Reflection',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            const Text('Log your recent craving experience'),
-            const Divider(),
-            CravingDetailsSection(
-              selectedCravings: selectedCravings,
-              onCravingsChanged: (cravings) =>
-                  setState(() => selectedCravings = cravings),
-              intensity: intensity,
-              onIntensityChanged: (value) => setState(() => intensity = value),
-              location: location,
-              onLocationChanged: (value) =>
-                  setState(() => location = value ?? 'Home'),
-              withWho: withWho,
-              onWithWhoChanged: (value) => setState(() => withWho = value),
-            ),
-            const Divider(),
-            EmotionalStateSection(
-              selectedEmotions: primaryEmotions,
-              secondaryEmotions: secondaryEmotions,
-              onEmotionsChanged: (emotions) =>
-                  setState(() => primaryEmotions = emotions),
-              onSecondaryEmotionsChanged: (secondary) =>
-                  setState(() => secondaryEmotions = secondary),
-              thoughts: thoughts,
-              onThoughtsChanged: (value) => setState(() => thoughts = value),
-            ),
-            const Divider(),
-            BodyMindSignalsSection(
-              sensations: sensations,
-              selectedSensations: selectedSensations,
-              onSensationsChanged: (sensations) =>
-                  setState(() => selectedSensations = sensations),
-            ),
-            const Divider(),
-            OutcomeSection(
-              whatDidYouDo: whatDidYouDo,
-              onWhatDidYouDoChanged: (value) =>
-                  setState(() => whatDidYouDo = value),
-              actedOnCraving: actedOnCraving,
-              onActedOnCravingChanged: (value) =>
-                  setState(() => actedOnCraving = value),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _isSaving ? null : _save, // Disable if saving
-              child: _isSaving
-                  ? const CircularProgressIndicator()
-                  : const Text('Save Entry'),
-            ),
-          ],
-        ),
+          padding: EdgeInsets.all(sp.lg),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Craving Reflection',
+                style: t.typography.heading2,
+              ),
+              SizedBox(height: sp.sm),
+              Text(
+                'Log your recent craving experience',
+                style: t.typography.body.copyWith(color: c.textSecondary),
+              ),
+              Divider(color: c.border),
+              CravingDetailsSection(
+                selectedCravings: selectedCravings,
+                onCravingsChanged: (cravings) =>
+                    setState(() => selectedCravings = cravings),
+                intensity: intensity,
+                onIntensityChanged: (value) => setState(() => intensity = value),
+                location: location,
+                onLocationChanged: (value) =>
+                    setState(() => location = value ?? 'Home'),
+                withWho: withWho,
+                onWithWhoChanged: (value) => setState(() => withWho = value),
+              ),
+              Divider(color: c.border),
+              EmotionalStateSection(
+                selectedEmotions: primaryEmotions,
+                secondaryEmotions: secondaryEmotions,
+                onEmotionsChanged: (emotions) =>
+                    setState(() => primaryEmotions = emotions),
+                onSecondaryEmotionsChanged: (secondary) =>
+                    setState(() => secondaryEmotions = secondary),
+                thoughts: thoughts,
+                onThoughtsChanged: (value) => setState(() => thoughts = value),
+              ),
+              Divider(color: c.border),
+              BodyMindSignalsSection(
+                sensations: sensations,
+                selectedSensations: selectedSensations,
+                onSensationsChanged: (sensations) =>
+                    setState(() => selectedSensations = sensations),
+              ),
+              Divider(color: c.border),
+              OutcomeSection(
+                whatDidYouDo: whatDidYouDo,
+                onWhatDidYouDoChanged: (value) =>
+                    setState(() => whatDidYouDo = value),
+                actedOnCraving: actedOnCraving,
+                onActedOnCravingChanged: (value) =>
+                    setState(() => actedOnCraving = value),
+              ),
+              SizedBox(height: sp.lg),
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: _isSaving ? null : _save,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: a.primary,
+                    foregroundColor: c.textInverse,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(sh.radiusMd),
+                    ),
+                  ),
+                  child: _isSaving
+                      ? CircularProgressIndicator(color: c.textInverse)
+                      : Text(
+                          'Save Entry',
+                          style: t.typography.labelLarge.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: c.textInverse,
+                          ),
+                        ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

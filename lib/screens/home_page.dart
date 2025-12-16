@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage>
     
     // Setup animations
     _animationController = AnimationController(
-      duration: ThemeConstants.animationNormal,
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     
@@ -110,18 +110,22 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
 
     return Scaffold(
-      backgroundColor: isDark ? UIColors.darkBackground : UIColors.lightBackground,
+      backgroundColor: c.background,
       appBar: AppBar(
         title: Text(
           'Home',
-          style: TextStyle(
-            fontWeight: ThemeConstants.fontSemiBold,
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+          style: text.headlineSmall.copyWith(
+            color: c.textPrimary,
           ),
         ),
+        backgroundColor: c.surface,
+        elevation: 0,
+        iconTheme: IconThemeData(color: c.textPrimary),
         actions: [
           // Profile Button
           IconButton(
@@ -156,8 +160,10 @@ class _HomePageState extends State<HomePage>
         ],
       ),
       drawer: const DrawerMenu(),
-      floatingActionButton: _buildFAB(isDark),
+      floatingActionButton: _buildFAB(context),
       body: RefreshIndicator(
+        color: context.accent.primary,
+        backgroundColor: c.surface,
         onRefresh: () async {
           setState(() {});
           await Future.delayed(const Duration(milliseconds: 500));
@@ -166,14 +172,14 @@ class _HomePageState extends State<HomePage>
           opacity: _fadeAnimation,
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.all(ThemeConstants.homePagePadding),
+            padding: EdgeInsets.all(sp.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Header with greeting
                 const HeaderCard(),
               
-              const SizedBox(height: ThemeConstants.cardSpacing),
+              SizedBox(height: sp.lg),
               
               // Daily Check-in Card
               ChangeNotifierProvider(
@@ -197,19 +203,17 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
               
-              const SizedBox(height: ThemeConstants.cardSpacing),
+              SizedBox(height: sp.lg),
               
               // Section Title - Professional typography
               Text(
                 'Quick Actions',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontXLarge,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                style: text.headlineMedium.copyWith(
+                  color: c.textPrimary,
                 ),
               ),
               
-              const SizedBox(height: ThemeConstants.space16),
+              SizedBox(height: sp.md),
               
               // Quick Actions Grid - Always 2 columns for consistency
               HomeQuickActionsGrid(
@@ -223,24 +227,22 @@ class _HomePageState extends State<HomePage>
                 onBloodLevels: () => openBloodLevels(context),
               ),
               
-              const SizedBox(height: ThemeConstants.cardSpacing),
+              SizedBox(height: sp.lg),
               
               // Progress Section
               Text(
                 'Your Progress',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontXLarge,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: isDark ? UIColors.darkText : UIColors.lightText,
+                style: text.headlineMedium.copyWith(
+                  color: c.textPrimary,
                 ),
               ),
               
-              const SizedBox(height: ThemeConstants.space16),
+              SizedBox(height: sp.md),
               
               // Stats Grid
               const HomeProgressStats(),
               
-              const SizedBox(height: ThemeConstants.cardSpacing),
+              SizedBox(height: sp.lg),
             ],
           ),
         ),
@@ -249,37 +251,20 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _buildFAB(bool isDark) {
-    if (isDark) {
-      // Dark theme: subtle blue-purple gradient
-      return Container(
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [UIColors.darkFabStart, UIColors.darkFabEnd],
-          ),
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          boxShadow: [
-            BoxShadow(
-              color: UIColors.darkFabStart.withValues(alpha: 0.3),
-              blurRadius: 20,
-              spreadRadius: 0,
-            ),
-          ],
-        ),
-        child: FloatingActionButton(
-          onPressed: () => openLogEntry(context),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          child: const Icon(Icons.add),
-        ),
-      );
-    } else {
-      // Light theme: blue
-      return FloatingActionButton(
-        onPressed: () => openLogEntry(context),
-        child: const Icon(Icons.add),
-      );
-    }
+  Widget _buildFAB(BuildContext context) {
+    final c = context.colors;
+    final a = context.accent;
+    final sh = context.shapes;
+
+    // Using primary color for FAB in both themes for consistency, or could use accent if defined.
+    // Assuming primary is the main action color.
+    return FloatingActionButton(
+      onPressed: () => openLogEntry(context),
+      backgroundColor: a.primary,
+      foregroundColor: c.textInverse,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(sh.radiusMd)),
+      child: const Icon(Icons.add),
+    );
   }
 }
 

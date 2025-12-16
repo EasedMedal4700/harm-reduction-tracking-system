@@ -18,70 +18,73 @@ class OutcomeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
+    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
     
     return Container(
-      padding: EdgeInsets.all(t.spacing.m),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-        border: Border.all(color: t.colors.outlineVariant),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusLg),
+        border: Border.all(color: c.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.flag, color: t.colors.primary),
-              SizedBox(width: t.spacing.s),
+              Icon(Icons.flag, color: a.primary),
+              SizedBox(width: sp.sm),
               Text(
                 'Outcome',
-                style: t.typography.titleMedium.copyWith(
-                  color: t.colors.onSurface,
+                style: t.typography.heading4.copyWith(
+                  color: c.textPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          SizedBox(height: t.spacing.m),
+          SizedBox(height: sp.md),
           
           Text(
             'What did you do?',
-            style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+            style: t.typography.body.copyWith(color: c.textPrimary),
           ),
-          SizedBox(height: t.spacing.s),
+          SizedBox(height: sp.sm),
           TextFormField(
             initialValue: whatDidYouDo,
             onChanged: onWhatDidYouDoChanged,
             maxLines: 3,
-            style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+            style: t.typography.body.copyWith(color: c.textPrimary),
             decoration: InputDecoration(
               filled: true,
-              fillColor: t.colors.surfaceContainerLow,
+              fillColor: c.surface,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(t.shapes.radiusM),
-                borderSide: BorderSide(color: t.colors.outline),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+                borderSide: BorderSide(color: c.border),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(t.shapes.radiusM),
-                borderSide: BorderSide(color: t.colors.outline),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+                borderSide: BorderSide(color: c.border),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(t.shapes.radiusM),
-                borderSide: BorderSide(color: t.colors.primary, width: 2),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+                borderSide: BorderSide(color: a.primary, width: 2),
               ),
             ),
           ),
-          SizedBox(height: t.spacing.m),
+          SizedBox(height: sp.md),
           
           SwitchListTile(
             title: Text(
               'Acted on craving?',
-              style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+              style: t.typography.body.copyWith(color: c.textPrimary),
             ),
             value: actedOnCraving,
             onChanged: onActedOnCravingChanged,
-            activeColor: t.colors.primary,
             contentPadding: EdgeInsets.zero,
           ),
         ],

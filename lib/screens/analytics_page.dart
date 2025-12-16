@@ -12,6 +12,7 @@ import '../constants/emus/time_period.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
 import '../utils/time_period_utils.dart';
+import '../constants/theme/app_theme_extension.dart';
 
 class AnalyticsPage extends StatefulWidget {
   const AnalyticsPage({super.key});
@@ -98,7 +99,10 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+
     return Scaffold(
+      backgroundColor: c.background,
       appBar: AnalyticsAppBar(
         selectedPeriod: _selectedPeriod,
         onPeriodChanged: (period) {
@@ -108,7 +112,10 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         onExport: () {
           // TODO: Implement export functionality
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Export functionality coming soon')),
+            SnackBar(
+              content: const Text('Export functionality coming soon'),
+              backgroundColor: c.info,
+            ),
           );
         },
       ),

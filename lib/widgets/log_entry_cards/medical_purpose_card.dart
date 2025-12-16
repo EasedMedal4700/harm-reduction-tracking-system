@@ -17,7 +17,9 @@ class MedicalPurposeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    final accent = t.colors.success;
+    final c = context.colors;
+    final sh = context.shapes;
+    final accent = c.success;
 
     return CommonCard(
       child: Column(
@@ -32,30 +34,30 @@ class MedicalPurposeCard extends StatelessWidget {
 
           Container(
             decoration: BoxDecoration(
-              color: t.colors.surfaceVariant,
-              borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+              color: c.surfaceVariant,
+              borderRadius: BorderRadius.circular(sh.radiusMd),
               border: Border.all(
-                color: isMedicalPurpose ? accent : t.colors.border,
+                color: isMedicalPurpose ? accent : c.border,
                 width: isMedicalPurpose ? 2 : 1,
               ),
             ),
             child: SwitchListTile(
               value: isMedicalPurpose,
               onChanged: onChanged,
-              activeThumbColor: accent,
+              activeColor: accent,
               title: Text(
                 "Medical Purpose",
                 style: t.typography.body.copyWith(
                   fontWeight: isMedicalPurpose
                       ? FontWeight.w600
                       : FontWeight.normal,
-                  color: t.colors.textPrimary,
+                  color: c.textPrimary,
                 ),
               ),
               subtitle: Text(
                 "Prescribed or therapeutic use",
                 style: t.typography.bodySmall.copyWith(
-                  color: t.colors.textSecondary,
+                  color: c.textSecondary,
                 ),
               ),
             ),

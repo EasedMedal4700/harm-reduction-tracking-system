@@ -1,3 +1,4 @@
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import '../common/old_common/drawer_menu.dart';
 
@@ -7,51 +8,58 @@ class InteractionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Drug Interactions'),
-        backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-        foregroundColor: isDark ? Colors.white : Colors.black87,
+        title: Text(
+          'Drug Interactions',
+          style: text.headlineSmall.copyWith(color: c.textPrimary),
+        ),
+        backgroundColor: c.surface,
+        foregroundColor: c.textPrimary,
         elevation: 0,
       ),
       drawer: const DrawerMenu(),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(32.0),
+          padding: EdgeInsets.all(sp.xl),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.compare_arrows,
                 size: 80,
-                color: isDark ? Colors.orange.shade300 : Colors.orange.shade400,
+                color: c.warning, // Using warning color for interactions/caution
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: sp.lg),
               Text(
                 'Drug Interactions',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                style: text.headlineMedium.copyWith(
                   fontWeight: FontWeight.bold,
+                  color: c.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: sp.md),
               Text(
                 'Check for potential interactions between substances',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                style: text.bodyMedium.copyWith(
+                  color: c.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: sp.xl),
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF252538) : Colors.orange.shade50,
-                  borderRadius: BorderRadius.circular(12),
+                  color: c.warning.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(
-                    color: isDark ? Colors.orange.shade800 : Colors.orange.shade200,
+                    color: c.warning.withValues(alpha: 0.5),
                   ),
                 ),
                 child: Row(
@@ -59,15 +67,13 @@ class InteractionsPage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.construction,
-                      color: isDark ? Colors.orange.shade300 : Colors.orange.shade700,
+                      color: c.warning,
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: sp.sm),
                     Text(
                       'Coming Soon',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: isDark ? Colors.orange.shade300 : Colors.orange.shade700,
+                      style: text.titleLarge.copyWith(
+                        color: c.warning,
                       ),
                     ),
                   ],

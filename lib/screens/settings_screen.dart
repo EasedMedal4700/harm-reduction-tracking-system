@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../common/old_common/drawer_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -38,6 +39,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final a = context.accent;
+    final sp = context.spacing;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -56,7 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: Consumer<SettingsProvider>(
         builder: (context, settingsProvider, child) {
           if (settingsProvider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator(color: a.primary));
           }
 
           final settings = settingsProvider.settings;
@@ -90,7 +94,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const AccountManagementSection(),
               AboutSection(packageInfo: _packageInfo),
-              const SizedBox(height: 16),
+              SizedBox(height: sp.md),
             ],
           );
         },

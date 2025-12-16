@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../common/old_common/drawer_menu.dart';
 
 /// Placeholder page for WearOS companion app
@@ -7,51 +8,55 @@ class WearOSPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
     
     return Scaffold(
+      backgroundColor: c.background,
       appBar: AppBar(
         title: const Text('WearOS Companion'),
-        backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-        foregroundColor: isDark ? Colors.white : Colors.black87,
+        backgroundColor: c.surface,
+        foregroundColor: c.textPrimary,
         elevation: 0,
       ),
       drawer: const DrawerMenu(),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(32.0),
+          padding: EdgeInsets.all(sp.xl),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.watch,
                 size: 80,
-                color: isDark ? Colors.green.shade300 : Colors.green.shade400,
+                color: a.primary,
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: sp.lg),
               Text(
                 'WearOS Companion',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                style: context.text.headlineMedium.copyWith(
                   fontWeight: FontWeight.bold,
+                  color: c.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: sp.md),
               Text(
                 'Connect and sync with your WearOS smartwatch',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                style: context.text.bodyLarge.copyWith(
+                  color: c.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: sp.xl),
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF252538) : Colors.green.shade50,
+                  color: c.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: isDark ? Colors.green.shade800 : Colors.green.shade200,
+                    color: a.primary.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Row(
@@ -59,15 +64,14 @@ class WearOSPage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.construction,
-                      color: isDark ? Colors.green.shade300 : Colors.green.shade700,
+                      color: a.primary,
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: sp.md),
                     Text(
                       'Coming Soon',
-                      style: TextStyle(
-                        fontSize: 18,
+                      style: context.text.titleMedium.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: isDark ? Colors.green.shade300 : Colors.green.shade700,
+                        color: a.primary,
                       ),
                     ),
                   ],

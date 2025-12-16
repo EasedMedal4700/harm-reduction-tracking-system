@@ -22,7 +22,7 @@ class RouteOfAdministrationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final s = context.spacing;
 
     return CommonCard(
       child: Column(
@@ -33,11 +33,11 @@ class RouteOfAdministrationCard extends StatelessWidget {
             subtitle: "How the substance was taken",
           ),
 
-          CommonSpacer.vertical(t.spacing.md),
+          CommonSpacer.vertical(s.md),
 
           Wrap(
-            spacing: t.spacing.sm,
-            runSpacing: t.spacing.sm,
+            spacing: s.sm,
+            runSpacing: s.sm,
             children: availableROAs.map((method) {
               final selected =
                   route.toLowerCase() == method.toLowerCase();
@@ -76,11 +76,12 @@ class RouteOfAdministrationCard extends StatelessWidget {
   }
 
   Color _accentColorForROA(BuildContext context, bool validated) {
-    final t = context.theme;
+    final c = context.colors;
+    final a = context.accent;
     if (!validated) {
-      return t.colors.warning;
+      return c.warning;
     }
-    return t.accent.primary;
+    return a.primary;
   }
 
   String _capitalize(String text) =>
