@@ -24,7 +24,6 @@ class CacheActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final text = context.text;
@@ -44,7 +43,7 @@ class CacheActionButton extends StatelessWidget {
       ),
 
       style: ElevatedButton.styleFrom(
-        backgroundColor: color.withOpacity(0.12),
+        backgroundColor: color.withValues(alpha: 0.12),
         foregroundColor: color,
         shadowColor: c.overlayHeavy,
         elevation: 0,
@@ -55,7 +54,7 @@ class CacheActionButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(sp.sm),
           side: BorderSide(
-            color: color.withOpacity(0.4),
+            color: color.withValues(alpha: 0.4),
             width: 1,
           ),
         ),

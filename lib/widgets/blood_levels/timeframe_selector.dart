@@ -42,7 +42,11 @@ class TimeframeSelector extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.all(sp.md),
-      decoration: t.cardDecoration(),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -24,44 +24,41 @@ class ReadOnlyField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final borderColor = isDark ? UIColors.darkBorder : UIColors.lightBorder;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final labelColor = isDark
-        ? UIColors.darkTextSecondary
-        : UIColors.lightTextSecondary;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.md),
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : Colors.white,
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-        border: Border.all(color: borderColor),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(color: c.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, size: 16, color: labelColor),
-              const SizedBox(width: 8),
+              Icon(icon, size: 16, color: c.textSecondary),
+              SizedBox(width: sp.sm),
               Text(
                 label,
-                style: TextStyle(
-                  color: labelColor,
-                  fontSize: ThemeConstants.fontSmall,
-                  fontWeight: ThemeConstants.fontMediumWeight,
+                style: text.bodySmall.copyWith(
+                  color: c.textSecondary,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: sp.xs),
           Text(
             value,
-            style: TextStyle(
-              color: textColor,
-              fontSize: ThemeConstants.fontMedium,
-              fontWeight: ThemeConstants.fontBold,
+            style: text.body.copyWith(
+              color: c.textPrimary,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],

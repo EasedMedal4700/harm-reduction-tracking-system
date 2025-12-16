@@ -35,8 +35,6 @@ class AnalyticsSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
     return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

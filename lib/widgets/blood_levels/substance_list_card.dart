@@ -79,7 +79,7 @@ class SubstanceListCard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(sp.sm),
                 decoration: BoxDecoration(
-                  color: accentColor.withOpacity(0.15),
+                  color: accentColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(sh.radiusSm),
                 ),
                 child: Icon(
@@ -108,9 +108,9 @@ class SubstanceListCard extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.10),
+                  color: color.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(sh.radiusSm),
-                  border: Border.all(color: color.withOpacity(0.45)),
+                  border: Border.all(color: color.withValues(alpha: 0.45)),
                 ),
                 child: Row(
                   children: [
@@ -191,7 +191,7 @@ class SubstanceListCard extends StatelessWidget {
         vertical: sp.xs,
       ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(sh.radiusSm),
       ),
       child: Text(

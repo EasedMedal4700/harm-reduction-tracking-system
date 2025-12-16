@@ -19,7 +19,6 @@ class BloodLevelsEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;     // full theme object
     final c = context.colors;    // color palette
     final sp = context.spacing;  // spacing
     final text = context.text;   // typography

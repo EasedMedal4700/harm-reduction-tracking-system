@@ -90,7 +90,7 @@ class _RecentActivityItem extends StatelessWidget {
     final hoursSince = DateTime.now().difference(entry.datetime).inHours;
     final remainingPercent = (100 - (hoursSince * 10)).clamp(0, 100).toDouble();
 
-    final categoryColor = t.accent.primary.withOpacity(0.4 + (category.hashCode % 20) / 100);
+    final categoryColor = t.accent.primary.withValues(alpha: 0.4 + (category.hashCode % 20) / 100);
 
     return Padding(
       padding: EdgeInsets.only(bottom: t.spacing.md),
@@ -110,7 +110,7 @@ class _RecentActivityItem extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(t.spacing.sm),
                 decoration: BoxDecoration(
-                  color: categoryColor.withOpacity(0.15),
+                  color: categoryColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(t.spacing.sm),
                 ),
                 child: Icon(icon, color: categoryColor, size: 22),

@@ -6,6 +6,7 @@
 // Notes: Uses new mood constants, but not fully migrated to AppTheme/context extensions.
 import 'package:flutter/material.dart';
 import '../../constants/emus/app_mood.dart';  // Import the new constants file
+import '../../constants/theme/app_theme_extension.dart';
 
 /// Widget for selecting mood from available options
 class MoodSelector extends StatefulWidget {
@@ -149,7 +150,7 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
             activeTrackColor: _getThumbColor(currentValue),
             inactiveTrackColor: Colors.grey.shade300,
             thumbColor: _getThumbColor(currentValue),
-            overlayColor: _getThumbColor(currentValue).withOpacity(0.2),
+            overlayColor: _getThumbColor(currentValue).withValues(alpha: 0.2),
           ),
           child: Slider(
             value: currentValue,

@@ -20,7 +20,6 @@ class RiskAssessmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final text = context.text;
     final sp = context.spacing;
@@ -74,16 +73,15 @@ class RiskAssessmentCard extends StatelessWidget {
         color: c.surface,
         borderRadius: BorderRadius.circular(sh.radiusMd),
         border: Border.all(
-          color: riskColor.withOpacity(0.3),
+          color: riskColor.withValues(alpha: 0.3),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: riskColor.withOpacity(0.08),
+            color: riskColor.withValues(alpha: 0.08),
             blurRadius: 12,
             offset: const Offset(0, 3),
           ),
-          if (t.isDark) ...t.getNeonGlow(intensity: 0.15),
         ],
       ),
       child: Column(
@@ -100,10 +98,10 @@ class RiskAssessmentCard extends StatelessWidget {
                   vertical: sp.sm - 2,
                 ),
                 decoration: BoxDecoration(
-                  color: riskColor.withOpacity(0.15),
+                  color: riskColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(
-                    color: riskColor.withOpacity(0.5),
+                    color: riskColor.withValues(alpha: 0.5),
                   ),
                 ),
                 child: Text(
@@ -148,7 +146,7 @@ class RiskAssessmentCard extends StatelessWidget {
                       border: Border.all(width: 2, color: c.surface),
                       boxShadow: [
                         BoxShadow(
-                          color: riskColor.withOpacity(0.6),
+                          color: riskColor.withValues(alpha: 0.6),
                           blurRadius: 10,
                           spreadRadius: 2,
                         ),

@@ -14,7 +14,6 @@ class ThemeExampleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final sp = context.spacing;
 
     return SingleChildScrollView(
@@ -49,7 +48,11 @@ class ThemeExampleWidget extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.all(sp.lg),
-      decoration: t.cardDecoration(),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -70,7 +73,11 @@ class ThemeExampleWidget extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.all(sp.lg),
-      decoration: t.gradientCardDecoration(useAccentGradient: true),
+      decoration: BoxDecoration(
+        gradient: t.accent.gradient,
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -98,7 +105,12 @@ class ThemeExampleWidget extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.all(sp.lg),
-      decoration: t.cardDecoration(neonBorder: true),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        boxShadow: t.cardShadow,
+        border: t.isDark ? Border.all(color: t.accent.primary, width: 1) : null,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -127,11 +139,19 @@ class ThemeExampleWidget extends StatelessWidget {
               alpha: t.isDark ? 0.2 : 0.1,
             ),
             borderRadius: BorderRadius.circular(sh.radiusMd),
-            boxShadow: t.isDark ? t.getNeonGlow(intensity: 0.3) : null,
+            boxShadow: t.isDark
+                ? [
+                    BoxShadow(
+                      color: t.accent.primary.withValues(alpha: 0.3),
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    )
+                  ]
+                : null,
           ),
           child: Icon(
             Icons.star,
-            size: sp.iconLg,
+            size: sp.lg,
             color: t.accent.primary,
           ),
         ),
@@ -159,7 +179,11 @@ class ThemeExampleWidget extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.all(sp.lg),
-      decoration: t.cardDecoration(),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        boxShadow: t.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

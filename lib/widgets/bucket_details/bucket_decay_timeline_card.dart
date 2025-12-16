@@ -61,6 +61,7 @@ class BucketDecayTimelineCard extends StatelessWidget {
   Widget _buildDecayBar(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
+    final sh = context.shapes;
     final text = context.text;
 
     final activeFlex = tolerancePercent.round().clamp(0, 100);
@@ -79,9 +80,9 @@ class BucketDecayTimelineCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: BucketUtils.getColorForTolerance(context, tolerancePercent / 100),
                   borderRadius: BorderRadius.horizontal(
-                    left: Radius.circular(sp.radiusSm),
+                    left: Radius.circular(sh.radiusSm),
                     right: tolerancePercent >= 100
-                        ? Radius.circular(sp.radiusSm)
+                        ? Radius.circular(sh.radiusSm)
                         : Radius.zero,
                   ),
                 ),
@@ -97,7 +98,7 @@ class BucketDecayTimelineCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: c.border, // matches theme border color
                     borderRadius: BorderRadius.horizontal(
-                      right: Radius.circular(sp.radiusSm),
+                      right: Radius.circular(sh.radiusSm),
                     ),
                   ),
                 ),

@@ -1,23 +1,21 @@
-/**
- * Bucket Tolerance Breakdown Widget
- * 
- * Created: 2024-03-15
- * Last Modified: 2025-01-23
- * 
- * Purpose:
- * Displays a comprehensive breakdown of tolerance levels across all neurochemical
- * buckets (systems). Shows active status, percentage, progress bars, and metadata
- * for each bucket defined in the tolerance model.
- * 
- * Features:
- * - Displays all neurochemical buckets with tolerance percentages
- * - Color-coded progress bars based on tolerance level (green/yellow/orange/red)
- * - Active bucket indicators with badge
- * - Bucket descriptions and metadata (weight, type, active level)
- * - Tap interaction for detailed bucket view (coming soon)
- * - Conditional notes display
- * - Empty state handling (auto-hides when no buckets)
- */
+// Bucket Tolerance Breakdown Widget
+// 
+// Created: 2024-03-15
+// Last Modified: 2025-01-23
+// 
+// Purpose:
+// Displays a comprehensive breakdown of tolerance levels across all neurochemical
+// buckets (systems). Shows active status, percentage, progress bars, and metadata
+// for each bucket defined in the tolerance model.
+// 
+// Features:
+// - Displays all neurochemical buckets with tolerance percentages
+// - Color-coded progress bars based on tolerance level (green/yellow/orange/red)
+// - Active bucket indicators with badge
+// - Bucket descriptions and metadata (weight, type, active level)
+// - Tap interaction for detailed bucket view (coming soon)
+// - Conditional notes display
+// - Empty state handling (auto-hides when no buckets)
 
 // MIGRATION
 // Theme: COMPLETE

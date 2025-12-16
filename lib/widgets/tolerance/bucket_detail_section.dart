@@ -1,24 +1,8 @@
-/**
- * Bucket Detail Section Widget
- * 
- * Created: 2024-11-12
- * Last Modified: 2025-12-14
- * 
- * Purpose:
- * Displays comprehensive details for a selected neurochemical bucket including system
- * tolerance percentage, state indicators, bucket description, and list of contributing
- * substances. Provides tap interaction to view individual substance details.
- * 
- * Features:
- * - System-wide tolerance percentage for the bucket
- * - Color-coded state indicator (recovered, stressed, depleted, etc.)
- * - Bucket description explaining the neurochemical system
- * - List of all substances contributing to this bucket
- * - Individual contribution percentages for each substance
- * - Active status indicators
- * - Tap-to-select substance for detailed view
- * - Visual selection highlighting
- */
+// Bucket Detail Section Widget
+// 
+// Displays comprehensive details for a selected neurochemical bucket including system
+// tolerance percentage, state indicators, bucket description, and list of contributing
+// substances. Provides tap interaction to view individual substance details.
 
 // MIGRATION
 // Theme: COMPLETE
@@ -30,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/bucket_definitions.dart';
 import '../../models/tolerance_model.dart';
+import '../../constants/theme/app_color_palette.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
 

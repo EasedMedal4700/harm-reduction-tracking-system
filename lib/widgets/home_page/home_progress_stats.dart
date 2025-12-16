@@ -15,12 +15,13 @@ class HomeProgressStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sp = context.spacing;
     return GridView.count(
       crossAxisCount: 1,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: ThemeConstants.cardSpacing,
-      mainAxisSpacing: ThemeConstants.cardSpacing,
+      crossAxisSpacing: sp.md,
+      mainAxisSpacing: sp.md,
       childAspectRatio: 2.5,
       children: const [
         StatCard(

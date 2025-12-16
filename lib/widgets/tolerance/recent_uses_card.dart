@@ -1,21 +1,19 @@
-/**
- * Recent Uses Card Widget
- * 
- * Created: 2024-11-15
- * Last Modified: 2025-12-14
- * 
- * Purpose:
- * Displays a list of the most recent substance use events with timestamps and dosages.
- * Shows up to 5 recent entries in a clean, card-based format. Provides empty state
- * when no use events are recorded.
- * 
- * Features:
- * - Displays recent use events with formatted timestamps
- * - Shows dosage information for each entry
- * - Empty state messaging when no data available
- * - Fully theme-aware with modern design system
- * - Responsive spacing and typography
- */
+// Recent Uses Card Widget
+// 
+// Created: 2024-11-15
+// Last Modified: 2025-12-14
+// 
+// Purpose:
+// Displays a list of the most recent substance use events with timestamps and dosages.
+// Shows up to 5 recent entries in a clean, card-based format. Provides empty state
+// when no use events are recorded.
+// 
+// Features:
+// - Displays recent use events with formatted timestamps
+// - Shows dosage information for each entry
+// - Empty state messaging when no data available
+// - Fully theme-aware with modern design system
+// - Responsive spacing and typography
 
 // MIGRATION
 // Theme: COMPLETE

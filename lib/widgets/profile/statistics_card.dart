@@ -20,14 +20,18 @@ class StatisticsCard extends StatelessWidget {
     final t = context.theme;
 
     return Container(
-      decoration: t.cardDecoration(),
+      decoration: BoxDecoration(
+        color: t.colors.surface,
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        boxShadow: t.cardShadow,
+      ),
       padding: EdgeInsets.all(t.spacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Activity Statistics',
-            style: t.typography.heading3,
+            style: t.text.heading3,
           ),
           SizedBox(height: t.spacing.lg),
 

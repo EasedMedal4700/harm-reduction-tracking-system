@@ -24,7 +24,12 @@ class SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+    final acc = context.accent;
 
     return SizedBox(
       width: double.infinity,
@@ -32,36 +37,31 @@ class SaveButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isSaving || isDisabled ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isDark
-              ? UIColors.darkNeonCyan
-              : UIColors.lightAccentBlue,
-          foregroundColor: Colors.white,
+          backgroundColor: acc.primary,
+          foregroundColor: c.textInverse,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
-              ThemeConstants.radiusLarge,
+              sh.radiusLg,
             ),
           ),
-          disabledBackgroundColor: isDark
-              ? Colors.white10
-              : Colors.grey[300],
+          disabledBackgroundColor: c.surfaceVariant,
         ),
         child: isSaving
-            ? const SizedBox(
+            ? SizedBox(
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.white,
+                    c.textInverse,
                   ),
                 ),
               )
-            : const Text(
+            : Text(
                 'Save Check-In',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontMedium,
-                  fontWeight: ThemeConstants.fontBold,
+                style: text.labelLarge.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
               ),
       ),

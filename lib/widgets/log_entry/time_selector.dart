@@ -1,116 +1,59 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class TimeSelector extends StatelessWidget {
-  final int hour;
-  final int minute;
-  final ValueChanged<int> onHourChanged;
-  final ValueChanged<int> onMinuteChanged;
+  final TimeOfDay selectedTime;
+  final ValueChanged<TimeOfDay> onTimeChanged;
 
   const TimeSelector({
     super.key,
-    required this.hour,
-    required this.minute,
-    required this.onHourChanged,
-    required this.onMinuteChanged,
+    required this.selectedTime,
+    required this.onTimeChanged,
   });
 
-  Future<void> _pickTime(BuildContext context) async {
-    final TimeOfDay initial = TimeOfDay(hour: hour, minute: minute);
-
+  Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: initial,
+      initialTime: selectedTime,
     );
-
-    if (picked != null) {
-      onHourChanged(picked.hour);
-      onMinuteChanged(picked.minute);
+    if (picked != null && picked != selectedTime) {
+      onTimeChanged(picked);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
-    final timeStr = '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+    final c = context.colors;
+    final acc = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
-    return Container(
-      padding: EdgeInsets.all(t.spacing.m),
-      decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-        border: Border.all(color: t.colors.outlineVariant),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Time",
-            style: t.typography.titleMedium.copyWith(
-              color: t.colors.onSurface,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          SizedBox(height: t.spacing.m),
-
-          InkWell(
-            borderRadius: BorderRadius.circular(t.shapes.radiusM),
-            onTap: () => _pickTime(context),
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: t.spacing.l,
-                vertical: t.spacing.m,
-              ),
-              decoration: BoxDecoration(
-                color: t.colors.surfaceContainer,
-                borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.access_time,
-                    size: 24,
-                    color: t.colors.primary,
-                  ),
-
-                  SizedBox(width: t.spacing.m),
-
-                  Expanded(
-                    child: Text(
-                      timeStr,
-                      style: t.typography.headlineMedium.copyWith(
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                            color: t.colors.onSurface,
-                          ),
-                    ),
-                  ),
-
-                  Icon(
-                    Icons.edit_outlined,
-                    size: 20,
-                    color: t.colors.onSurfaceVariant,
-                  ),
-                ],
+    return InkWell(
+      onTap: () => _selectTime(context),
+      borderRadius: BorderRadius.circular(sh.radiusMd),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: sp.sm, horizontal: sp.md),
+        decoration: BoxDecoration(
+          border: Border.all(color: c.border),
+          borderRadius: BorderRadius.circular(sh.radiusMd),
+          color: c.surface,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.access_time, size: 20, color: acc.primary),
+            SizedBox(width: sp.sm),
+            Text(
+              selectedTime.format(context),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: c.textPrimary,
               ),
             ),
-          ),
-
-          SizedBox(height: t.spacing.s),
-
-          Center(
-            child: Text(
-              "Tap to change time",
-              style: t.typography.bodySmall.copyWith(
-                    color: t.colors.onSurfaceVariant,
-                  ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-

@@ -6,7 +6,7 @@
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/settings_provider.dart';
 import '../../services/pin_timeout_service.dart';
@@ -30,9 +30,6 @@ class PrivacySettingsSection extends StatefulWidget {
 }
 
 class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
-  static const String _privacyPolicyUrl = 
-      'https://resume-drab-five.vercel.app/privacy/substance-check';
-  
   final _encryptionService = EncryptionServiceV2();
   int _foregroundTimeout = PinTimeoutService.defaultForegroundTimeout;
   int _backgroundTimeout = PinTimeoutService.defaultBackgroundTimeout;
@@ -332,44 +329,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
     );
   }
 
-  Future<void> _openPrivacyPolicy() async {
-    final uri = Uri.parse(_privacyPolicyUrl);
 
-    debugPrint("🔍 Trying to open privacy policy: $uri");
-
-    try {
-      final bool isLaunchable = await canLaunchUrl(uri);
-      debugPrint("📡 canLaunchUrl = $isLaunchable");
-
-      if (!isLaunchable) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Cannot open URL (canLaunch returned false)')),
-        );
-        return;
-      }
-
-      final success = await launchUrl(
-        uri,
-        mode: LaunchMode.externalApplication,
-      );
-
-      debugPrint("🚀 launchUrl success = $success");
-
-      if (!success && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to launch URL')),
-        );
-      }
-    } catch (e) {
-      debugPrint("❌ Error opening URL: $e");
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error opening privacy policy: $e')),
-        );
-      }
-    }
-  }
 }
 
 /// Dialog for picking timeout duration

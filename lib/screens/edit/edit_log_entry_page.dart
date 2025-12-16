@@ -258,12 +258,11 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final isDark = t.brightness == Brightness.dark;
+    final t = context.theme;
 
     return Scaffold(
       backgroundColor: c.background,
       appBar: EditLogEntryAppBar(
-        isDark: isDark,
         formData: _formData,
         onDelete: _handleDelete,
         onSimpleModeChanged: (value) {

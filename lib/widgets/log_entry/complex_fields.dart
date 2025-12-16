@@ -1,204 +1,169 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-
-import '../../constants/data/body_and_mind_catalog.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class ComplexFields extends StatelessWidget {
-  final double cravingIntensity;
-  final String? intention;
-  final List<String> selectedTriggers;
-  final List<String> selectedBodySignals;
-  final ValueChanged<double> onCravingIntensityChanged;
-  final ValueChanged<String?> onIntentionChanged;
-  final ValueChanged<List<String>> onTriggersChanged;
-  final ValueChanged<List<String>> onBodySignalsChanged;
+  final TextEditingController notesController;
+  final TextEditingController locationController;
+  final TextEditingController peopleController;
+  final TextEditingController costController;
+  final String? selectedRoa;
+  final List<String> roaOptions;
+  final ValueChanged<String?> onRoaChanged;
 
   const ComplexFields({
     super.key,
-    required this.cravingIntensity,
-    required this.intention,
-    required this.selectedTriggers,
-    required this.selectedBodySignals,
-    required this.onCravingIntensityChanged,
-    required this.onIntentionChanged,
-    required this.onTriggersChanged,
-    required this.onBodySignalsChanged,
+    required this.notesController,
+    required this.locationController,
+    required this.peopleController,
+    required this.costController,
+    required this.selectedRoa,
+    required this.roaOptions,
+    required this.onRoaChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
-    final validIntention = intentions.contains(intention) ? intention : null;
+    final c = context.colors;
+    final acc = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
-    return Container(
-      padding: EdgeInsets.all(t.spacing.m),
-      decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-        border: Border.all(color: t.colors.outlineVariant),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-
-          // -------------------------------
-          // INTENTION
-          // -------------------------------
-          Text(
-            "Intention",
-            style: t.typography.titleMedium.copyWith(
-              color: t.colors.onSurface,
-              fontWeight: FontWeight.bold,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // ROA Dropdown
+        DropdownButtonFormField<String>(
+          value: selectedRoa,
+          decoration: InputDecoration(
+            labelText: 'Route of Administration',
+            prefixIcon: Icon(Icons.route, color: acc.primary),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
-          ),
-          SizedBox(height: t.spacing.m),
-
-          DropdownButtonFormField<String>(
-            decoration: InputDecoration(
-              labelText: "Why are you using?",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: c.border),
             ),
-            value: validIntention,
-            items: intentions
-                .map((i) => DropdownMenuItem(value: i, child: Text(i, style: t.typography.bodyLarge)))
-                .toList(),
-            onChanged: onIntentionChanged,
-            style: t.typography.bodyLarge.copyWith(color: t.colors.onSurface),
-            dropdownColor: t.colors.surfaceContainer,
-          ),
-
-          SizedBox(height: t.spacing.l),
-
-          // -------------------------------
-          // CRAVING SLIDER
-          // -------------------------------
-          Text(
-            "Craving Intensity",
-            style: t.typography.titleMedium.copyWith(
-              color: t.colors.onSurface,
-              fontWeight: FontWeight.bold,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: acc.primary, width: 2),
             ),
+            filled: true,
+            fillColor: c.surface,
           ),
-          SizedBox(height: t.spacing.m),
+          items: roaOptions.map((String roa) {
+            return DropdownMenuItem<String>(
+              value: roa,
+              child: Text(roa, style: TextStyle(color: c.textPrimary)),
+            );
+          }).toList(),
+          onChanged: onRoaChanged,
+          dropdownColor: c.surface,
+          style: TextStyle(color: c.textPrimary),
+        ),
+        SizedBox(height: sp.md),
 
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("0", style: t.typography.bodySmall),
-                  Text(cravingIntensity.round().toString(), style: t.typography.titleLarge.copyWith(color: t.colors.primary)),
-                  Text("10", style: t.typography.bodySmall),
-                ],
-              ),
-              Slider(
-                value: cravingIntensity,
-                min: 0,
-                max: 10,
-                divisions: 10,
-                label: cravingIntensity.round().toString(),
-                onChanged: onCravingIntensityChanged,
-                activeColor: t.colors.primary,
-                inactiveColor: t.colors.surfaceContainerHighest,
-              ),
-            ],
-          ),
-
-          SizedBox(height: t.spacing.l),
-
-          // -------------------------------
-          // TRIGGERS
-          // -------------------------------
-          Text(
-            "Triggers",
-            style: t.typography.titleMedium.copyWith(
-              color: t.colors.onSurface,
-              fontWeight: FontWeight.bold,
+        // Location Field
+        TextFormField(
+          controller: locationController,
+          decoration: InputDecoration(
+            labelText: 'Location',
+            prefixIcon: Icon(Icons.place, color: acc.primary),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
-          ),
-          SizedBox(height: t.spacing.s),
-
-          Wrap(
-            spacing: t.spacing.s,
-            runSpacing: t.spacing.s,
-            children: triggers.map((trigger) {
-              final selected = selectedTriggers.contains(trigger);
-
-              return FilterChip(
-                label: Text(trigger),
-                selected: selected,
-                onSelected: (isSelected) {
-                  final updated = List<String>.from(selectedTriggers);
-                  isSelected ? updated.add(trigger) : updated.remove(trigger);
-                  onTriggersChanged(updated);
-                },
-                selectedColor: t.colors.primaryContainer,
-                checkmarkColor: t.colors.onPrimaryContainer,
-                labelStyle: t.typography.bodyMedium.copyWith(
-                  color: selected ? t.colors.onPrimaryContainer : t.colors.onSurface,
-                ),
-                backgroundColor: t.colors.surfaceContainerLow,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusS),
-                  side: BorderSide(
-                    color: selected ? Colors.transparent : t.colors.outline,
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-
-          SizedBox(height: t.spacing.l),
-
-          // -------------------------------
-          // BODY SIGNALS
-          // -------------------------------
-          Text(
-            "Body Signals",
-            style: t.typography.titleMedium.copyWith(
-              color: t.colors.onSurface,
-              fontWeight: FontWeight.bold,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: c.border),
             ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: acc.primary, width: 2),
+            ),
+            filled: true,
+            fillColor: c.surface,
+            labelStyle: TextStyle(color: c.textSecondary),
           ),
-          SizedBox(height: t.spacing.s),
+          style: TextStyle(color: c.textPrimary),
+        ),
+        SizedBox(height: sp.md),
 
-          Wrap(
-            spacing: t.spacing.s,
-            runSpacing: t.spacing.s,
-            children: physicalSensations.map((signal) {
-              final selected = selectedBodySignals.contains(signal);
-
-              return FilterChip(
-                label: Text(signal),
-                selected: selected,
-                onSelected: (isSelected) {
-                  final updated = List<String>.from(selectedBodySignals);
-                  isSelected ? updated.add(signal) : updated.remove(signal);
-                  onBodySignalsChanged(updated);
-                },
-                selectedColor: t.colors.primaryContainer,
-                checkmarkColor: t.colors.onPrimaryContainer,
-                labelStyle: t.typography.bodyMedium.copyWith(
-                  color: selected ? t.colors.onPrimaryContainer : t.colors.onSurface,
-                ),
-                backgroundColor: t.colors.surfaceContainerLow,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusS),
-                  side: BorderSide(
-                    color: selected ? Colors.transparent : t.colors.outline,
-                  ),
-                ),
-              );
-            }).toList(),
+        // People Field
+        TextFormField(
+          controller: peopleController,
+          decoration: InputDecoration(
+            labelText: 'People (comma separated)',
+            prefixIcon: Icon(Icons.people, color: acc.primary),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: c.border),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: acc.primary, width: 2),
+            ),
+            filled: true,
+            fillColor: c.surface,
+            labelStyle: TextStyle(color: c.textSecondary),
           ),
+          style: TextStyle(color: c.textPrimary),
+        ),
+        SizedBox(height: sp.md),
 
-          SizedBox(height: t.spacing.l),
-        ],
-      ),
+        // Cost Field
+        TextFormField(
+          controller: costController,
+          keyboardType: TextInputType.numberWithOptions(decimal: true),
+          decoration: InputDecoration(
+            labelText: 'Cost',
+            prefixIcon: Icon(Icons.attach_money, color: acc.primary),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: c.border),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: acc.primary, width: 2),
+            ),
+            filled: true,
+            fillColor: c.surface,
+            labelStyle: TextStyle(color: c.textSecondary),
+          ),
+          style: TextStyle(color: c.textPrimary),
+        ),
+        SizedBox(height: sp.md),
+
+        // Notes Field
+        TextFormField(
+          controller: notesController,
+          maxLines: 3,
+          decoration: InputDecoration(
+            labelText: 'Notes',
+            prefixIcon: Icon(Icons.note, color: acc.primary),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: c.border),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: acc.primary, width: 2),
+            ),
+            filled: true,
+            fillColor: c.surface,
+            labelStyle: TextStyle(color: c.textSecondary),
+          ),
+          style: TextStyle(color: c.textPrimary),
+        ),
+      ],
     );
   }
 }
-

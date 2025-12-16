@@ -42,7 +42,7 @@ class TimePeriodSelector extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: isSelected
-                  ? acc.primary.withOpacity(0.15)
+                  ? acc.primary.withValues(alpha: 0.15)
                   : c.surfaceVariant,
               borderRadius: BorderRadius.circular(sp.sm),
               border: Border.all(

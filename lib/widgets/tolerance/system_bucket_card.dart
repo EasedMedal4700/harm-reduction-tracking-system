@@ -1,22 +1,20 @@
-/**
- * System Bucket Card Widget
- * 
- * Created: 2024-11-10
- * Last Modified: 2025-12-14
- * 
- * Purpose:
- * Displays a single neurochemical bucket's tolerance state in a compact card format.
- * Shows tolerance percentage, system state, active status, and provides tap interaction.
- * Used in horizontal scrolling lists to show all bucket states at once.
- * 
- * Features:
- * - Visual state indicators with color-coding
- * - Tolerance percentage display
- * - Active substance indicator
- * - Selection highlighting
- * - Icon representation for each bucket type
- * - Tap-to-select interaction
- */
+// System Bucket Card Widget
+// 
+// Created: 2024-11-10
+// Last Modified: 2025-12-14
+// 
+// Purpose:
+// Displays a single neurochemical bucket's tolerance state in a compact card format.
+// Shows tolerance percentage, system state, active status, and provides tap interaction.
+// Used in horizontal scrolling lists to show all bucket states at once.
+// 
+// Features:
+// - Visual state indicators with color-coding
+// - Tolerance percentage display
+// - Active substance indicator
+// - Selection highlighting
+// - Icon representation for each bucket type
+// - Tap-to-select interaction
 
 // MIGRATION
 // Theme: COMPLETE
@@ -29,6 +27,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/bucket_definitions.dart';
 import '../../models/tolerance_model.dart';
 import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_color_palette.dart';
 
 
 /// Card widget displaying a single neurochemical bucket's system-wide tolerance

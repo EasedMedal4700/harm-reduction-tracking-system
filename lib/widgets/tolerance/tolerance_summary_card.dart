@@ -1,20 +1,18 @@
-/**
- * Tolerance Summary Card Widget
- * 
- * Created: 2024-11-10
- * Last Modified: 2025-12-14
- * 
- * Purpose:
- * Displays the current tolerance percentage as a large visual indicator with a progress bar
- * and color-coded status label. Primary summary card for tolerance information.
- * 
- * Features:
- * - Large tolerance percentage display
- * - Color-coded progress bar (green to red based on tolerance level)
- * - Status label with background color matching tolerance level
- * - Responsive to theme changes (light/dark mode)
- * - Clean, card-based design with proper spacing
- */
+// Tolerance Summary Card Widget
+// 
+// Created: 2024-11-10
+// Last Modified: 2025-12-14
+// 
+// Purpose:
+// Displays the current tolerance percentage as a large visual indicator with a progress bar
+// and color-coded status label. Primary summary card for tolerance information.
+// 
+// Features:
+// - Large tolerance percentage display
+// - Color-coded progress bar (green to red based on tolerance level)
+// - Status label with background color matching tolerance level
+// - Responsive to theme changes (light/dark mode)
+// - Clean, card-based design with proper spacing
 
 // MIGRATION
 // Theme: COMPLETE
@@ -25,6 +23,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_color_palette.dart';
 
 
 /// Card displaying current tolerance percentage with color indicator and progress bar

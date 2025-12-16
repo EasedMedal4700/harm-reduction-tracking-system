@@ -63,7 +63,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
     return Dialog(
       backgroundColor: t.colors.surface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadius.lg),
+        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
       ),
       elevation: 0,
       child: Consumer<DailyCheckinProvider>(
@@ -93,7 +93,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                         children: [
                           Text(
                             "Daily Check-In",
-                            style: t.typography.heading3.copyWith(
+                            style: t.text.heading3.copyWith(
                               color: t.colors.textPrimary,
                             ),
                           ),
@@ -164,7 +164,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                       foregroundColor: t.colors.textInverse,
                       padding: EdgeInsets.symmetric(vertical: spacing.md),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.md),
+                        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                       ),
                       elevation: 0,
                     ),
@@ -179,7 +179,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                           )
                         : Text(
                             "Save Check-In",
-                            style: t.typography.button.copyWith(
+                            style: t.text.labelLarge.copyWith(
                               color: t.colors.textInverse,
                             ),
                           ),

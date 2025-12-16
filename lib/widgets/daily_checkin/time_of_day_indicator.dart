@@ -20,22 +20,24 @@ class TimeOfDayIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final borderColor = isDark ? UIColors.darkBorder : UIColors.lightBorder;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return Container(
       height: 48,
       decoration: BoxDecoration(
-        color: isDark ? UIColors.darkSurface : Colors.white,
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-        border: Border.all(color: borderColor),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(color: c.border),
       ),
       child: Row(
         children: [
           _TimeSegment(label: 'Morning', isActive: currentTimeOfDay == 'morning'),
-          Container(width: 1, color: borderColor),
+          Container(width: 1, color: c.border),
           _TimeSegment(label: 'Afternoon', isActive: currentTimeOfDay == 'afternoon'),
-          Container(width: 1, color: borderColor),
+          Container(width: 1, color: c.border),
           _TimeSegment(label: 'Evening', isActive: currentTimeOfDay == 'evening'),
         ],
       ),
@@ -54,26 +56,22 @@ class _TimeSegment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final activeColor = isDark
-        ? UIColors.darkNeonCyan
-        : UIColors.lightAccentBlue;
-    final inactiveTextColor = isDark
-        ? UIColors.darkTextSecondary
-        : UIColors.lightTextSecondary;
+    final t = context.theme;
+    final c = context.colors;
+    final acc = context.accent;
+    final text = context.text;
 
     return Expanded(
       child: Container(
         alignment: Alignment.center,
         decoration: isActive
-            ? BoxDecoration(color: activeColor.withOpacity(0.15))
+            ? BoxDecoration(color: acc.primary.withValues(alpha: 0.15))
             : null,
         child: Text(
           label,
-          style: TextStyle(
-            color: isActive ? activeColor : inactiveTextColor,
+          style: text.bodySmall.copyWith(
+            color: isActive ? acc.primary : c.textSecondary,
             fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-            fontSize: ThemeConstants.fontSmall,
           ),
         ),
       ),

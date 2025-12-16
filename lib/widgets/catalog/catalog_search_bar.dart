@@ -18,7 +18,7 @@ class CatalogSearchBar extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
         border: Border.all(
           color: t.colors.border,
         ),
@@ -26,12 +26,12 @@ class CatalogSearchBar extends StatelessWidget {
       child: TextField(
         controller: controller,
         onChanged: (_) => onChanged(),
-        style: t.typography.body.copyWith(
+        style: t.text.body.copyWith(
           color: t.colors.textPrimary,
         ),
         decoration: InputDecoration(
           hintText: 'Search substances...',
-          hintStyle: t.typography.body.copyWith(
+          hintStyle: t.text.body.copyWith(
             color: t.colors.textSecondary,
           ),
           prefixIcon: Icon(

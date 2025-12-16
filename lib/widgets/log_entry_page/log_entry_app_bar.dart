@@ -24,7 +24,7 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0,
       backgroundColor: t.colors.surface,
-      foregroundColor: t.colors.text,
+      foregroundColor: t.colors.textPrimary,
       centerTitle: false,
 
       title: Column(
@@ -32,11 +32,11 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Text(
             "Log Entry",
-            style: t.typography.heading2,
+            style: t.text.heading2,
           ),
           Text(
             "Add a new substance record",
-            style: t.typography.bodySmall.copyWith(
+            style: t.text.bodySmall.copyWith(
               color: t.colors.textSecondary,
             ),
           ),
@@ -72,7 +72,7 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Switch(
                   value: isSimpleMode,
                   onChanged: onSimpleModeChanged,
-                  activeColor: t.colors.info,
+                  activeTrackColor: t.colors.info,
                 ),
               ],
             ),

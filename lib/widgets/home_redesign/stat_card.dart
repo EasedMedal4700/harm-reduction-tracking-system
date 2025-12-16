@@ -1,145 +1,120 @@
+import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
-import 'package:flutter/material.dart';
-
-
-
-
 /// Modular Stat Card component
-/// Professional medical dashboard style with centered content
+/// Professional medical dashboard style
 class StatCard extends StatelessWidget {
-  final IconData icon;
+  final String title;
   final String value;
-  final String label;
   final String? subtitle;
-  final Color? customAccentColor;
-  final double? progress; // 0.0 to 1.0 for progress bar
+  final IconData icon;
+  final Color? color;
+  final VoidCallback? onTap;
 
   const StatCard({
-    required this.icon,
+    required this.title,
     required this.value,
-    required this.label,
+    required this.icon,
     this.subtitle,
-    this.customAccentColor,
-    this.progress,
+    this.color,
+    this.onTap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final acc = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = customAccentColor ??
-        (isDark ? UIColors.darkNeonPurple : UIColors.lightAccentPurple);
+    
+    final cardColor = color ?? acc.primary;
 
-    return Container(
-      padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: _buildDecoration(isDark, accentColor),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Icon and Value row
-          Row(
-            children: [
-              // Icon
-              Icon(
-                icon,
-                size: 24,
-                color: accentColor,
-              ),
-              const Spacer(),
-              
-              // Value
-              Flexible(
-                child: Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: ThemeConstants.font2XLarge,
-                    fontWeight: ThemeConstants.fontSemiBold,
-                    color: isDark ? UIColors.darkText : UIColors.lightText,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(sp.md),
+        decoration: BoxDecoration(
+          color: isDark 
+              ? c.surface.withValues(alpha: 0.5) 
+              : c.surface,
+          borderRadius: BorderRadius.circular(sh.radiusMd),
+          border: Border.all(
+            color: isDark 
+                ? c.border.withValues(alpha: 0.5) 
+                : c.border,
+            width: 1,
           ),
-          
-          const SizedBox(height: ThemeConstants.space8),
-          
-          // Label
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              fontWeight: ThemeConstants.fontMediumWeight,
-              color: isDark
-                  ? UIColors.darkTextSecondary
-                  : UIColors.lightTextSecondary,
+          boxShadow: isDark ? null : [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.03),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          
-          // Subtitle
-          if (subtitle != null) ...[
-            const SizedBox(height: ThemeConstants.space4),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: cardColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: cardColor,
+                    size: 20,
+                  ),
+                ),
+                if (onTap != null)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 12,
+                    color: c.textSecondary,
+                  ),
+              ],
+            ),
+            const Spacer(),
             Text(
-              subtitle!,
+              value,
               style: TextStyle(
-                fontSize: ThemeConstants.fontXSmall,
-                color: accentColor,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: c.textPrimary,
+              ),
+            ),
+            SizedBox(height: sp.xs),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 12,
+                color: c.textSecondary,
+                fontWeight: FontWeight.w500,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-          ],
-          
-          // Progress bar
-          if (progress != null) ...[
-            const SizedBox(height: ThemeConstants.space8),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(ThemeConstants.radiusSmall),
-              child: LinearProgressIndicator(
-                value: progress,
-                minHeight: 4,
-                backgroundColor: isDark
-                    ? const Color(0x14FFFFFF)
-                    : UIColors.lightDivider,
-                valueColor: AlwaysStoppedAnimation<Color>(accentColor),
+            if (subtitle != null) ...[
+              SizedBox(height: 2),
+              Text(
+                subtitle!,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: c.textSecondary.withValues(alpha: 0.7),
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-            ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
-
-  BoxDecoration _buildDecoration(bool isDark, Color accentColor) {
-    if (isDark) {
-      // Dark theme: glassmorphism
-      return BoxDecoration(
-        color: const Color(0x0AFFFFFF), // rgba(255,255,255,0.04)
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(
-          color: const Color(0x14FFFFFF), // rgba(255,255,255,0.08)
-          width: 1,
-        ),
-        boxShadow: UIColors.createNeonGlow(accentColor, intensity: 0.1),
-      );
-    } else {
-      // Light theme: white card + soft shadow
-      return BoxDecoration(
-        color: UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        boxShadow: UIColors.createSoftShadow(),
-      );
-    }
-  }
 }
-
-

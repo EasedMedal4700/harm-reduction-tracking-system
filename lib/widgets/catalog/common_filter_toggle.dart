@@ -23,7 +23,7 @@ class CommonFilterToggle extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
         border: Border.all(
           color: showCommonOnly ? accentColor : t.colors.border,
         ),
@@ -42,7 +42,7 @@ class CommonFilterToggle extends StatelessWidget {
           Expanded(
             child: Text(
               'Common Only',
-              style: t.typography.body.copyWith(
+              style: t.text.body.copyWith(
                 color: t.colors.textPrimary,
                 fontWeight: FontWeight.w500,
               ),

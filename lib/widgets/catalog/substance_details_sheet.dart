@@ -249,7 +249,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               decoration: BoxDecoration(
                 color: accentColor.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(
-                  t.spacing.radiusMd,
+                  t.shapes.radiusMd,
                 ),
               ),
               child: Icon(
@@ -266,7 +266,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                 children: [
                   Text(
                     name,
-                    style: t.typography.heading2.copyWith(
+                    style: t.text.heading2.copyWith(
                       color: t.colors.textPrimary,
                     ),
                   ),
@@ -286,12 +286,12 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                                 color: accentColor.withValues(alpha: 0.5),
                               ),
                               borderRadius: BorderRadius.circular(
-                                t.spacing.radiusSm,
+                                t.shapes.radiusSm,
                               ),
                             ),
                             child: Text(
                               cat,
-                              style: t.typography.label.copyWith(
+                              style: t.text.label.copyWith(
                                 color: accentColor,
                               ),
                             ),
@@ -342,7 +342,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
-                  t.spacing.radiusMd,
+                  t.shapes.radiusMd,
                 ),
               ),
               elevation: 2,
@@ -364,7 +364,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
       padding: EdgeInsets.all(t.spacing.md),
       decoration: BoxDecoration(
         color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -379,7 +379,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               const SizedBox(width: 8),
               Text(
                 'Also Known As',
-                style: t.typography.body.copyWith(
+                style: t.text.body.copyWith(
                   fontWeight: FontWeight.w600,
                   color: t.colors.textPrimary,
                 ),
@@ -389,7 +389,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
           const SizedBox(height: 8),
           Text(
             aliases.join(', '),
-            style: t.typography.body.copyWith(
+            style: t.text.body.copyWith(
               color: t.colors.textSecondary,
               height: 1.5,
             ),
@@ -448,14 +448,14 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
         if (summary != null) ...[
           Text(
             'Summary',
-            style: t.typography.heading3.copyWith(
+            style: t.text.heading3.copyWith(
               color: t.colors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             summary.toString(),
-            style: t.typography.body.copyWith(
+            style: t.text.body.copyWith(
               height: 1.6,
               color: t.colors.textSecondary,
             ),
@@ -465,7 +465,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
         if (testKits != null) ...[
           Text(
             'Reagent Testing',
-            style: t.typography.heading3.copyWith(
+            style: t.text.heading3.copyWith(
               color: t.colors.textPrimary,
             ),
           ),
@@ -475,14 +475,14 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: t.colors.surface,
-              borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
               border: Border.all(
                 color: t.colors.border,
               ),
             ),
             child: Text(
               testKits.toString(),
-              style: t.typography.body.copyWith(
+              style: t.text.body.copyWith(
                 fontFamily: 'Monospace',
                 color: t.colors.textPrimary,
               ),
@@ -499,7 +499,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: t.colors.warning.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
         border: Border.all(color: t.colors.warning.withValues(alpha: 0.5)),
       ),
       child: Row(
@@ -510,7 +510,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
           Expanded(
             child: Text(
               message,
-              style: t.typography.body.copyWith(
+              style: t.text.body.copyWith(
                 color: t.colors.warning,
                 height: 1.4,
               ),

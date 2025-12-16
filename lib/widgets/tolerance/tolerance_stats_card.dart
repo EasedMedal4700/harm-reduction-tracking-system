@@ -1,21 +1,19 @@
-/**
- * Tolerance Stats Card Widget
- * 
- * Created: 2024-11-10
- * Last Modified: 2025-12-14
- * 
- * Purpose:
- * Displays key tolerance metrics in a two-column grid layout including half-life,
- * days to baseline, tolerance decay period, and recent use count. Provides at-a-glance
- * understanding of substance tolerance characteristics.
- * 
- * Features:
- * - Two-column grid layout for efficient space usage
- * - Icons for each metric type
- * - Divider between columns for visual separation
- * - Calculates and displays days until tolerance returns to baseline
- * - Shows tolerance model parameters (half-life, decay days)
- */
+// Tolerance Stats Card Widget
+// 
+// Created: 2024-11-10
+// Last Modified: 2025-12-14
+// 
+// Purpose:
+// Displays key tolerance metrics in a two-column grid layout including half-life,
+// days to baseline, tolerance decay period, and recent use count. Provides at-a-glance
+// understanding of substance tolerance characteristics.
+// 
+// Features:
+// - Two-column grid layout for efficient space usage
+// - Icons for each metric type
+// - Divider between columns for visual separation
+// - Calculates and displays days until tolerance returns to baseline
+// - Shows tolerance model parameters (half-life, decay days)
 
 // MIGRATION
 // Theme: COMPLETE

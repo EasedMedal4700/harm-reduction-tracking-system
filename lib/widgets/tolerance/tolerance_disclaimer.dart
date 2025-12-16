@@ -1,23 +1,21 @@
-/**
- * Tolerance Disclaimer Widget
- * 
- * Created: 2024-03-15
- * Last Modified: 2025-01-23
- * 
- * Purpose:
- * Displays safety disclaimers and harm reduction warnings for the tolerance
- * feature. Provides both full-page expandable and compact dismissible versions
- * to inform users about the limitations and risks of tolerance estimates.
- * 
- * Features:
- * - Full-page disclaimer with expandable details section
- * - Compact dismissible notice for quick viewing
- * - Orange warning theme with high visibility
- * - Red warning box for critical safety information
- * - Persistent dismissal state (saved via OnboardingService)
- * - Key disclaimers about medical validation, safety risks, dosing decisions
- * - Dark/light theme adaptive colors
- */
+// Tolerance Disclaimer Widget
+// 
+// Created: 2024-03-15
+// Last Modified: 2025-01-23
+// 
+// Purpose:
+// Displays safety disclaimers and harm reduction warnings for the tolerance
+// feature. Provides both full-page expandable and compact dismissible versions
+// to inform users about the limitations and risks of tolerance estimates.
+// 
+// Features:
+// - Full-page disclaimer with expandable details section
+// - Compact dismissible notice for quick viewing
+// - Orange warning theme with high visibility
+// - Red warning box for critical safety information
+// - Persistent dismissal state (saved via OnboardingService)
+// - Key disclaimers about medical validation, safety risks, dosing decisions
+// - Dark/light theme adaptive colors
 
 // MIGRATION
 // Theme: COMPLETE

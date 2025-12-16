@@ -49,7 +49,11 @@ class GreetingBanner extends StatelessWidget {
         vertical: sp.md,
       ),
       padding: EdgeInsets.all(sp.xl),
-      decoration: t.gradientCardDecoration(useAccentGradient: true),
+      decoration: BoxDecoration(
+        gradient: t.accent.gradient,
+        borderRadius: BorderRadius.circular(sh.radiusLg),
+        boxShadow: t.cardShadow,
+      ),
       child: Row(
         children: [
           // Greeting icon
@@ -63,7 +67,7 @@ class GreetingBanner extends StatelessWidget {
             ),
             child: Icon(
               _getGreetingIcon(),
-              size: sp.iconLg,
+              size: sp.lg,
               color: c.textInverse,
             ),
           ),

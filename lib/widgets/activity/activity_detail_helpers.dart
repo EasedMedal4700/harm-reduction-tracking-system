@@ -79,8 +79,6 @@ class ActivityDetailHelpers {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        final t = context.theme;
-
         return ActivityDetailSheet(
           title: craving['substance'] ?? 'Unknown Substance',
           icon: Icons.favorite,

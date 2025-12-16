@@ -54,7 +54,7 @@ class UsageTrendChart extends StatelessWidget {
                   show: true,
                   horizontalInterval: 1,
                   getDrawingHorizontalLine: (_) => FlLine(
-                    color: t.colors.border.withOpacity(0.3),
+                    color: t.colors.border.withValues(alpha: 0.3),
                     strokeWidth: 1,
                   ),
                   drawVerticalLine: false,

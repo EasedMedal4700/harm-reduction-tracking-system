@@ -4,36 +4,38 @@
 // Riverpod: COMPLETE
 // Notes: Initial migration header added. Some theme/common usage, Riverpod ready.
 import 'package:flutter/material.dart';
-import '../../constants/colors/app_colors_dark.dart';
-import '../../constants/colors/app_colors_light.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// Riverpod-ready Save Button
 /// Accepts callback instead of state
 class SaveButton extends StatelessWidget {
-  final bool isDark;
   final VoidCallback onSave;
 
   const SaveButton({
     super.key,
-    required this.isDark,
     required this.onSave,
   });
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final t = context.theme;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: isDark ? AppColorsDark.surface : AppColorsLight.surface,
+        color: c.surface,
         border: Border(
           top: BorderSide(
-            color: isDark ? AppColorsDark.border : AppColorsLight.border,
+            color: c.border,
             width: 1,
           ),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -42,27 +44,22 @@ class SaveButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onSave,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isDark
-              ? AppColorsDark.accentBlue
-              : AppColorsLight.accentPrimary,
+          backgroundColor: context.accent.primary,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          padding: EdgeInsets.symmetric(vertical: sp.md),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
           elevation: 0,
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.save),
-            SizedBox(width: 8.0),
+            const Icon(Icons.save),
+            SizedBox(width: sp.sm),
             Text(
               'Save Changes',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w600,
-              ),
+              style: t.text.button,
             ),
           ],
         ),

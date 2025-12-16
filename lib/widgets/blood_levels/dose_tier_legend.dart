@@ -89,10 +89,10 @@ class DoseTierLegend extends StatelessWidget {
                           vertical: sp.xs,
                         ),
                         decoration: BoxDecoration(
-                          color: tierColor.withOpacity(0.15),
+                          color: tierColor.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(sh.radiusSm),
                           border: Border.all(
-                            color: tierColor.withOpacity(0.4),
+                            color: tierColor.withValues(alpha: 0.4),
                             width: 1,
                           ),
                         ),

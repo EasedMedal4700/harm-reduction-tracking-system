@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use
 // MIGRATION COMPLETE — Fully theme-compliant, no deprecated API
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
@@ -58,7 +59,7 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
             /// DELETE ALL SWITCH
             SwitchListTile(
               value: _deleteAll,
-              activeColor: t.accent.primary,
+              activeThumbColor: t.accent.primary,
               onChanged: (value) => setState(() => _deleteAll = value),
 
               title: Text(

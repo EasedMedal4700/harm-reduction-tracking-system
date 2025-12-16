@@ -1,164 +1,118 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
-
-import '../../providers/drug/drug_names_provider.dart';
-import '../../providers/drug/substance_controller.dart';
-import '../../providers/drug/substance_normalization_provider.dart';
-import '../../providers/drug/substance_validation_provider.dart';
-
-class SubstanceAutocomplete extends ConsumerStatefulWidget {
-  final TextEditingController? controller;
-  final ValueChanged<String> onSubstanceChanged;
+class SubstanceAutocomplete extends StatelessWidget {
+  final TextEditingController controller;
+  final List<String> options;
 
   const SubstanceAutocomplete({
     super.key,
-    this.controller,
-    required this.onSubstanceChanged,
+    required this.controller,
+    required this.options,
   });
 
   @override
-  ConsumerState<SubstanceAutocomplete> createState() => _SubstanceAutocompleteState();
-}
-
-class _SubstanceAutocompleteState extends ConsumerState<SubstanceAutocomplete> {
-  @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
-    final currentValue = ref.watch(substanceControllerProvider);
+    final c = context.colors;
+    final acc = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
-    // Get validator function using the current value
-    final validatorFn = ref.watch(substanceValidationProvider(currentValue));
+    return Autocomplete<String>(
+      optionsBuilder: (TextEditingValue textEditingValue) {
+        if (textEditingValue.text == '') {
+          return const Iterable<String>.empty();
+        }
+        return options.where((String option) {
+          return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+        });
+      },
+      onSelected: (String selection) {
+        controller.text = selection;
+      },
+      fieldViewBuilder: (
+        BuildContext context,
+        TextEditingController fieldTextEditingController,
+        FocusNode fieldFocusNode,
+        VoidCallback onFieldSubmitted,
+      ) {
+        // Sync external controller with internal one if needed
+        if (controller.text.isNotEmpty && fieldTextEditingController.text.isEmpty) {
+          fieldTextEditingController.text = controller.text;
+        }
+        
+        // Listen to changes to update parent controller
+        fieldTextEditingController.addListener(() {
+          controller.text = fieldTextEditingController.text;
+        });
 
-    // Execute validator function
-    final validationError = validatorFn(currentValue);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Autocomplete<String>(
-          initialValue: widget.controller != null
-              ? TextEditingValue(text: widget.controller!.text)
-              : TextEditingValue(text: currentValue),
-
-          optionsBuilder: (TextEditingValue query) {
-            final q = query.text.trim();
-
-            // empty -> return all names
-            return ref
-                .read(drugNamesProvider)
-                .maybeWhen(
-                  data: (names) => names,
-                  orElse: () => const <String>[],
-                )
-                .where((name) =>
-                    q.isEmpty || name.toLowerCase().contains(q.toLowerCase()))
-                .take(30)
-                .toList();
+        return TextFormField(
+          controller: fieldTextEditingController,
+          focusNode: fieldFocusNode,
+          decoration: InputDecoration(
+            labelText: 'Substance',
+            prefixIcon: Icon(Icons.science, color: acc.primary),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: c.border),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: acc.primary, width: 2),
+            ),
+            filled: true,
+            fillColor: c.surface,
+            labelStyle: TextStyle(color: c.textSecondary),
+          ),
+          style: TextStyle(color: c.textPrimary),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter a substance';
+            }
+            return null;
           },
-
-          onSelected: (selection) async {
-            // Normalize alias  canonical
-            final results = await ref.read(substanceSearchProvider(selection).future);
-            
-            if (!mounted) return;
-
-            if (results.isNotEmpty) {
-              final normalized = results.first.canonicalName;
-
-              ref
-                  .read(substanceControllerProvider.notifier)
-                  .setSubstance(normalized);
-
-              widget.onSubstanceChanged(normalized);
-
-              if (widget.controller != null) {
-                widget.controller!.text = normalized;
-              }
-
-              // Show alias normalization message
-              final isAlias = results.first.isAlias;
-              if (isAlias) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Normalized "\" to "\"',
-                      style: t.typography.bodyMedium.copyWith(color: t.colors.onInverseSurface),
+        );
+      },
+      optionsViewBuilder: (
+        BuildContext context,
+        AutocompleteOnSelected<String> onSelected,
+        Iterable<String> options,
+      ) {
+        return Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            elevation: 4.0,
+            borderRadius: BorderRadius.circular(sh.radiusMd),
+            color: c.surface,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width - (sp.md * 2), // Adjust width based on padding
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: options.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final String option = options.elementAt(index);
+                  return InkWell(
+                    onTap: () {
+                      onSelected(option);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        option,
+                        style: TextStyle(color: c.textPrimary),
+                      ),
                     ),
-                    backgroundColor: t.colors.inverseSurface,
-                  ),
-                );
-              }
-            }
-          },
-
-          displayStringForOption: (option) => option,
-
-          fieldViewBuilder: (context, textCtrl, focusNode, onSubmit) {
-            // Sync external controller (if passed)
-            if (widget.controller != null) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (mounted && widget.controller!.text != textCtrl.text) {
-                  textCtrl.text = widget.controller!.text;
-                }
-              });
-            }
-
-            return TextFormField(
-              controller: widget.controller ?? textCtrl,
-              focusNode: focusNode,
-              style: t.typography.bodyLarge,
-              decoration: InputDecoration(
-                labelText: 'Substance',
-                suffixIcon: Icon(Icons.search, color: t.colors.onSurfaceVariant),
-                errorText: validationError,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusM),
-                ),
+                  );
+                },
               ),
-              onChanged: (value) {
-                ref.read(substanceControllerProvider.notifier).setSubstance(value);
-                widget.onSubstanceChanged(value);
-              },
-            );
-          },
-
-          optionsViewBuilder: (context, onSelected, options) {
-            return Align(
-              alignment: Alignment.topLeft,
-              child: Material(
-                elevation: 4,
-                color: t.colors.surfaceContainer,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusM),
-                ),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width - (t.spacing.m * 2),
-                  height: 250,
-                  child: ListView(
-                    padding: EdgeInsets.all(t.spacing.xs),
-                    children: options
-                        .map(
-                          (opt) => ListTile(
-                            title: Text(opt, style: t.typography.bodyMedium),
-                            leading: Icon(Icons.medication, color: t.colors.primary),
-                            onTap: () => onSelected(opt),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(t.shapes.radiusS),
-                            ),
-                            hoverColor: t.colors.surfaceContainerHighest,
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
-

@@ -36,11 +36,11 @@ class FeatureDisabledScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
     final text = context.text;
+    final acc = context.accent;
 
     final formattedName = _formatFeatureName(featureName);
 
@@ -75,16 +75,16 @@ class FeatureDisabledScreen extends StatelessWidget {
 
               // Icon
               Container(
-                width: sp.iconXl * 2,
-                height: sp.iconXl * 2,
+                width: sp.xl * 2,
+                height: sp.xl * 2,
                 decoration: BoxDecoration(
-                  color: c.primary.withValues(alpha: 0.12),
+                  color: acc.primary.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.construction_rounded,
-                  size: sp.iconXl,
-                  color: c.primary,
+                  size: sp.xl,
+                  color: acc.primary,
                 ),
               ),
 
@@ -127,8 +127,8 @@ class FeatureDisabledScreen extends StatelessWidget {
                   icon: const Icon(Icons.home_rounded),
                   label: const Text('Go to Home'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: c.primary,
-                    foregroundColor: c.onPrimary,
+                    backgroundColor: acc.primary,
+                    foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: sp.md),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(sh.radiusMd),
@@ -153,8 +153,8 @@ class FeatureDisabledScreen extends StatelessWidget {
                   icon: const Icon(Icons.arrow_back_rounded),
                   label: const Text('Go Back'),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: c.primary,
-                    side: BorderSide(color: c.primary),
+                    foregroundColor: acc.primary,
+                    side: BorderSide(color: acc.primary),
                     padding: EdgeInsets.symmetric(vertical: sp.md),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(sh.radiusMd),
@@ -181,7 +181,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                     Icon(
                       Icons.info_outline_rounded,
                       color: c.info,
-                      size: sp.iconMd,
+                      size: sp.md,
                     ),
                     SizedBox(width: sp.sm),
                     Expanded(

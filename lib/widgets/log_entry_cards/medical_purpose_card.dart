@@ -44,7 +44,7 @@ class MedicalPurposeCard extends StatelessWidget {
             child: SwitchListTile(
               value: isMedicalPurpose,
               onChanged: onChanged,
-              activeColor: accent,
+              activeTrackColor: accent,
               title: Text(
                 "Medical Purpose",
                 style: t.typography.body.copyWith(

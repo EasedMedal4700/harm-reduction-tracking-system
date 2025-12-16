@@ -49,9 +49,13 @@ class _QuickActionTileState extends State<QuickActionTile> {
           duration: const Duration(milliseconds: 150),
           curve: Curves.easeOut,
           padding: EdgeInsets.all(sp.lg),
-          decoration: t.cardDecoration(
-            hovered: _hovered,
-            neonBorder: t.isDark && _hovered,
+          decoration: BoxDecoration(
+            color: c.surface,
+            borderRadius: BorderRadius.circular(sh.radiusMd),
+            boxShadow: t.cardShadow,
+            border: t.isDark && _hovered
+                ? Border.all(color: t.accent.primary, width: 1)
+                : null,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -66,12 +70,18 @@ class _QuickActionTileState extends State<QuickActionTile> {
                   ),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   boxShadow: _hovered && t.isDark
-                      ? t.getNeonGlow(intensity: 0.3)
+                      ? [
+                          BoxShadow(
+                            color: t.accent.primary.withValues(alpha: 0.3),
+                            blurRadius: 8,
+                            spreadRadius: 2,
+                          )
+                        ]
                       : null,
                 ),
                 child: Icon(
                   widget.icon,
-                  size: sp.iconLg,
+                  size: sp.lg,
                   color: effectiveColor,
                 ),
               ),
@@ -108,7 +118,6 @@ class QuickActionsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final sp = context.spacing;
     final text = context.text;
 

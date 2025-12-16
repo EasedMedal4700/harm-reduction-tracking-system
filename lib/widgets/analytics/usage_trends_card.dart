@@ -46,7 +46,6 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
   Widget build(BuildContext context) {
     final t = context.theme;
     final c = context.colors;
-    final acc = context.accent;
     final text = context.text;
     final sp = context.spacing;
 
@@ -59,12 +58,12 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
         color: c.surface,
         borderRadius: BorderRadius.circular(sp.lg),
         border: Border.all(
-          color: t.colors.success.withOpacity(0.35),
+          color: t.colors.success.withValues(alpha: 0.35),
           width: 1.2,
         ),
         boxShadow: [
           BoxShadow(
-            color: t.colors.success.withOpacity(0.18),
+            color: t.colors.success.withValues(alpha: 0.18),
             blurRadius: 22,
             spreadRadius: 0,
             offset: const Offset(0, 10),
@@ -179,7 +178,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                         horizontalInterval:
                             _calculateGridInterval(trendData).toDouble(),
                         getDrawingHorizontalLine: (value) => FlLine(
-                          color: c.border.withOpacity(0.5),
+                          color: c.border.withValues(alpha: 0.5),
                           strokeWidth: 1,
                         ),
                       ),
@@ -230,7 +229,6 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
   Widget _buildGranularityDropdown(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),

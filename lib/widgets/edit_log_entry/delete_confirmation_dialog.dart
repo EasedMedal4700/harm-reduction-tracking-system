@@ -16,35 +16,34 @@ class DeleteConfirmationDialog {
     BuildContext context,
     LogEntryState state,
   ) async {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final c = context.colors;
+    final t = context.theme;
 
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: isDark ? UIColors.darkSurface : UIColors.lightSurface,
+        backgroundColor: c.surface,
         title: Text(
           'Delete Entry?',
-          style: TextStyle(
-            color: isDark ? UIColors.darkText : UIColors.lightText,
+          style: t.text.heading3.copyWith(
+            color: c.textPrimary,
           ),
         ),
         content: Text(
           'Are you sure you want to delete this drug use entry? This action cannot be undone.',
-          style: TextStyle(
-            color: isDark
-                ? UIColors.darkTextSecondary
-                : UIColors.lightTextSecondary,
+          style: t.text.body.copyWith(
+            color: c.textSecondary,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text('Cancel', style: TextStyle(color: context.accent.primary)),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: c.error,
               foregroundColor: Colors.white,
             ),
             child: const Text('Delete'),

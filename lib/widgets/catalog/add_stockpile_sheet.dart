@@ -157,19 +157,19 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                   color: t.accent.primary,
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                   borderSide: BorderSide(
                     color: t.colors.border,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                   borderSide: BorderSide(
                     color: t.colors.border,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                   borderSide: BorderSide(
                     color: t.accent.primary,
                     width: 2,
@@ -199,19 +199,19 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                   color: t.accent.primary,
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                   borderSide: BorderSide(
                     color: t.colors.border,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                   borderSide: BorderSide(
                     color: t.colors.border,
                   ),
                 ),
               ),
-              style: t.typography.body.copyWith(
+              style: t.text.body.copyWith(
                 color: t.colors.textPrimary,
               ),
               dropdownColor: t.colors.surface,
@@ -237,7 +237,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                 foregroundColor: t.colors.textInverse,
                 padding: EdgeInsets.symmetric(vertical: t.spacing.md),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                 ),
                 elevation: 2,
               ),

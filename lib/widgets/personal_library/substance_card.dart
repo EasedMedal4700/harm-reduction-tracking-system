@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../constants/theme/app_theme.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
 import '../../constants/data/drug_categories.dart';
@@ -72,7 +73,7 @@ class SubstanceCard extends StatelessWidget {
             ? null
             : [
                 BoxShadow(
-                  color: t.colors.text.withValues(alpha: 0.05),
+                  color: t.colors.textPrimary.withValues(alpha: 0.05),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),

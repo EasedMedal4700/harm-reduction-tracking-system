@@ -1,208 +1,178 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-
-import 'simple_fields.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/widgets/log_entry/simple_fields.dart';
 import 'package:mobile_drug_use_app/widgets/log_entry/complex_fields.dart';
 
-class LogEntryForm extends StatelessWidget {
+class LogEntryForm extends StatefulWidget {
   final bool isSimpleMode;
-
-  final double dose;
-  final String unit;
-  final String substance;
-  final String route;
-  final List<String> feelings;
-  final Map<String, List<String>> secondaryFeelings;
-  final String location;
-  final DateTime date;
-  final int hour;
-  final int minute;
-
-  final bool isMedicalPurpose;
-  final double cravingIntensity;
-  final String? intention;
-  final List<String> selectedTriggers;
-  final List<String> selectedBodySignals;
-
-  final TextEditingController notesCtrl;
-  final TextEditingController? doseCtrl;
-  final TextEditingController? substanceCtrl;
-
-  final ValueChanged<double> onDoseChanged;
-  final ValueChanged<String> onUnitChanged;
-  final ValueChanged<String> onSubstanceChanged;
-  final ValueChanged<String> onRouteChanged;
-  final ValueChanged<List<String>> onFeelingsChanged;
-  final ValueChanged<Map<String, List<String>>> onSecondaryFeelingsChanged;
-  final ValueChanged<String> onLocationChanged;
-  final ValueChanged<DateTime> onDateChanged;
-  final ValueChanged<int> onHourChanged;
-  final ValueChanged<int> onMinuteChanged;
-  final ValueChanged<bool> onMedicalPurposeChanged;
-  final ValueChanged<double> onCravingIntensityChanged;
-  final ValueChanged<String?> onIntentionChanged;
-  final ValueChanged<List<String>> onTriggersChanged;
-  final ValueChanged<List<String>> onBodySignalsChanged;
-
+  final VoidCallback onToggleMode;
   final VoidCallback onSave;
-  final GlobalKey<FormState> formKey;
-  final bool showSaveButton;
+  final bool isLoading;
+  
+  // Controllers and state passed down
+  final TextEditingController substanceController;
+  final TextEditingController dosageController;
+  final TextEditingController notesController;
+  final TextEditingController locationController;
+  final TextEditingController peopleController;
+  final TextEditingController costController;
+  final DateTime selectedDate;
+  final TimeOfDay selectedTime;
+  final String? selectedFeeling;
+  final String? selectedRoa;
+  final List<String> roaOptions;
+  final List<String> substanceOptions;
+  
+  // Callbacks
+  final ValueChanged<DateTime> onDateChanged;
+  final ValueChanged<TimeOfDay> onTimeChanged;
+  final ValueChanged<String> onFeelingSelected;
+  final ValueChanged<String?> onRoaChanged;
 
   const LogEntryForm({
     super.key,
     required this.isSimpleMode,
-    required this.dose,
-    required this.unit,
-    required this.substance,
-    required this.route,
-    required this.feelings,
-    required this.secondaryFeelings,
-    required this.location,
-    required this.date,
-    required this.hour,
-    required this.minute,
-    required this.isMedicalPurpose,
-    required this.cravingIntensity,
-    required this.intention,
-    required this.selectedTriggers,
-    required this.selectedBodySignals,
-    required this.notesCtrl,
-    required this.formKey,
-    required this.onDoseChanged,
-    required this.onUnitChanged,
-    required this.onSubstanceChanged,
-    required this.onRouteChanged,
-    required this.onFeelingsChanged,
-    required this.onSecondaryFeelingsChanged,
-    required this.onLocationChanged,
-    required this.onDateChanged,
-    required this.onHourChanged,
-    required this.onMinuteChanged,
-    required this.onMedicalPurposeChanged,
-    required this.onCravingIntensityChanged,
-    required this.onIntentionChanged,
-    required this.onTriggersChanged,
-    required this.onBodySignalsChanged,
+    required this.onToggleMode,
     required this.onSave,
-    this.showSaveButton = true,
-    this.substanceCtrl,
-    this.doseCtrl,
+    this.isLoading = false,
+    required this.substanceController,
+    required this.dosageController,
+    required this.notesController,
+    required this.locationController,
+    required this.peopleController,
+    required this.costController,
+    required this.selectedDate,
+    required this.selectedTime,
+    required this.selectedFeeling,
+    required this.selectedRoa,
+    required this.roaOptions,
+    required this.substanceOptions,
+    required this.onDateChanged,
+    required this.onTimeChanged,
+    required this.onFeelingSelected,
+    required this.onRoaChanged,
   });
 
   @override
+  State<LogEntryForm> createState() => _LogEntryFormState();
+}
+
+class _LogEntryFormState extends State<LogEntryForm> {
+  final _formKey = GlobalKey<FormState>();
+
+  @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    final acc = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return Form(
-      key: formKey,
+      key: _formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SimpleFields(
-            dose: dose,
-            unit: unit,
-            substance: substance,
-            route: route,
-            feelings: feelings,
-            secondaryFeelings: secondaryFeelings,
-            location: location,
-            date: date,
-            hour: hour,
-            minute: minute,
-            onDoseChanged: onDoseChanged,
-            onUnitChanged: onUnitChanged,
-            onSubstanceChanged: onSubstanceChanged,
-            onRouteChanged: onRouteChanged,
-            onFeelingsChanged: onFeelingsChanged,
-            onSecondaryFeelingsChanged: onSecondaryFeelingsChanged,
-            onLocationChanged: onLocationChanged,
-            onDateChanged: onDateChanged,
-            onHourChanged: onHourChanged,
-            onMinuteChanged: onMinuteChanged,
-            isMedicalPurpose: isMedicalPurpose,
-            onMedicalPurposeChanged: onMedicalPurposeChanged,
-            substanceCtrl: substanceCtrl,
-            doseCtrl: doseCtrl,
-          ),
-          
-          if (!isSimpleMode) ...[
-            SizedBox(height: t.spacing.l),
-            ComplexFields(
-              cravingIntensity: cravingIntensity,
-              intention: intention,
-              selectedTriggers: selectedTriggers,
-              selectedBodySignals: selectedBodySignals,
-              onCravingIntensityChanged: onCravingIntensityChanged,
-              onIntentionChanged: onIntentionChanged,
-              onTriggersChanged: onTriggersChanged,
-              onBodySignalsChanged: onBodySignalsChanged,
-            ),
-          ],
-
-          SizedBox(height: t.spacing.l),
-
-          // Notes
-          Container(
-            padding: EdgeInsets.all(t.spacing.m),
-            decoration: BoxDecoration(
-              color: t.colors.surface,
-              borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-              border: Border.all(color: t.colors.outlineVariant),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Notes",
-                  style: t.typography.titleMedium.copyWith(
-                    color: t.colors.onSurface,
-                    fontWeight: FontWeight.bold,
-                  ),
+          // Mode Toggle
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                widget.isSimpleMode ? 'Simple Mode' : 'Detailed Mode',
+                style: TextStyle(
+                  color: c.textSecondary,
+                  fontWeight: FontWeight.w500,
                 ),
-                SizedBox(height: t.spacing.m),
-                TextFormField(
-                  controller: notesCtrl,
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                    hintText: "Add any additional notes here...",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(t.shapes.radiusM),
-                    ),
-                  ),
-                  style: t.typography.bodyLarge,
+              ),
+              Switch(
+                value: !widget.isSimpleMode,
+                onChanged: (_) => widget.onToggleMode(),
+                activeTrackColor: acc.primary,
+              ),
+            ],
+          ),
+          SizedBox(height: sp.md),
+
+          // Fields based on mode
+          if (widget.isSimpleMode)
+            SimpleFields(
+              substanceController: widget.substanceController,
+              dosageController: widget.dosageController,
+              selectedDate: widget.selectedDate,
+              selectedTime: widget.selectedTime,
+              selectedFeeling: widget.selectedFeeling,
+              substanceOptions: widget.substanceOptions,
+              onDateChanged: widget.onDateChanged,
+              onTimeChanged: widget.onTimeChanged,
+              onFeelingSelected: widget.onFeelingSelected,
+            )
+          else
+            Column(
+              children: [
+                SimpleFields(
+                  substanceController: widget.substanceController,
+                  dosageController: widget.dosageController,
+                  selectedDate: widget.selectedDate,
+                  selectedTime: widget.selectedTime,
+                  selectedFeeling: widget.selectedFeeling,
+                  substanceOptions: widget.substanceOptions,
+                  onDateChanged: widget.onDateChanged,
+                  onTimeChanged: widget.onTimeChanged,
+                  onFeelingSelected: widget.onFeelingSelected,
+                ),
+                SizedBox(height: sp.md),
+                const Divider(),
+                SizedBox(height: sp.md),
+                ComplexFields(
+                  notesController: widget.notesController,
+                  locationController: widget.locationController,
+                  peopleController: widget.peopleController,
+                  costController: widget.costController,
+                  selectedRoa: widget.selectedRoa,
+                  roaOptions: widget.roaOptions,
+                  onRoaChanged: widget.onRoaChanged,
                 ),
               ],
             ),
-          ),
 
-          if (showSaveButton) ...[
-            SizedBox(height: t.spacing.xl),
+          SizedBox(height: sp.xl),
 
-            // Save Button
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: onSave,
-                style: FilledButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: t.spacing.m),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(t.shapes.radiusM),
-                  ),
-                ),
-                child: Text(
-                  "Save Entry",
-                  style: t.typography.titleMedium.copyWith(
-                    color: t.colors.onPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+          // Save Button
+          ElevatedButton(
+            onPressed: widget.isLoading
+                ? null
+                : () {
+                    if (_formKey.currentState!.validate()) {
+                      widget.onSave();
+                    }
+                  },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: acc.primary,
+              foregroundColor: c.textInverse,
+              padding: EdgeInsets.symmetric(vertical: sp.md),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(sh.radiusMd),
               ),
+              elevation: 2,
             ),
-          ],
-          
-          SizedBox(height: t.spacing.xxl),
+            child: widget.isLoading
+                ? SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(c.textInverse),
+                    ),
+                  )
+                : const Text(
+                    'Save Entry',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+          ),
         ],
       ),
     );
   }
 }
-

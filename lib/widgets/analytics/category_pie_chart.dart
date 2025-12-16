@@ -105,8 +105,8 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
             final category = categories[index];
             final count = widget.categoryCounts[category] ?? 0;
 
-            final color = t.accent.primary.withOpacity(
-              (0.4 + index * 0.1).clamp(0.4, 0.8),
+            final color = t.accent.primary.withValues(
+              alpha: (0.4 + index * 0.1).clamp(0.4, 0.8),
             );
 
             return Row(
@@ -165,11 +165,10 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
                     .entries
                     .map((entry) {
                   final index = entry.key;
-                  final name = entry.value.key;
                   final count = entry.value.value;
 
-                  final barColor = t.accent.primary.withOpacity(
-                    (0.4 + index * 0.15).clamp(0.4, 1.0),
+                  final barColor = t.accent.primary.withValues(
+                    alpha: (0.4 + index * 0.15).clamp(0.4, 1.0),
                   );
 
                   return BarChartGroupData(

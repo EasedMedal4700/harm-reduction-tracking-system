@@ -31,7 +31,7 @@ class LogEntrySaveButton extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: t.colors.text.withValues(alpha: 0.08),
+            color: t.colors.textPrimary.withValues(alpha: 0.08),
             blurRadius: 12,
             offset: const Offset(0, -2),
           ),

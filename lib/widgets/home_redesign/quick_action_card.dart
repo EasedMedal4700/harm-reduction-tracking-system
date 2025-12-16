@@ -1,168 +1,89 @@
+import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
-import 'package:flutter/material.dart';
-
-
-
-
 /// Modular Quick Action Card component
-/// Professional medical dashboard style with perfect centering
-class QuickActionCard extends StatefulWidget {
-  final String actionKey;
+/// Professional medical dashboard style
+class QuickActionCard extends StatelessWidget {
+  final String title;
   final IconData icon;
-  final String label;
+  final Color? color;
   final VoidCallback onTap;
-  final int? badgeCount;
 
   const QuickActionCard({
-    required this.actionKey,
+    required this.title,
     required this.icon,
-    required this.label,
     required this.onTap,
-    this.badgeCount,
+    this.color,
     super.key,
   });
 
   @override
-  State<QuickActionCard> createState() => _QuickActionCardState();
-}
-
-class _QuickActionCardState extends State<QuickActionCard> {
-  bool _isPressed = false;
-
-  @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final acc = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark
-        ? UIColors.getDarkAccent(widget.actionKey)
-        : UIColors.getLightAccent(widget.actionKey);
+    
+    final cardColor = color ?? acc.primary;
 
-    return GestureDetector(
-      onTapDown: (_) => setState(() => _isPressed = true),
-      onTapUp: (_) {
-        setState(() => _isPressed = false);
-        widget.onTap();
-      },
-      onTapCancel: () => setState(() => _isPressed = false),
-      child: AnimatedContainer(
-        duration: ThemeConstants.animationFast,
-        curve: Curves.easeOut,
-        decoration: _buildDecoration(isDark, accentColor),
-        child: Stack(
-          children: [
-            // Main content - perfectly centered
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(ThemeConstants.cardPaddingSmall),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Icon - centered
-                    Icon(widget.icon, size: 32, color: accentColor),
-                    const SizedBox(height: ThemeConstants.space12),
-                    // Label - centered
-                    Text(
-                      widget.label,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: ThemeConstants.fontSmall,
-                        fontWeight: ThemeConstants.fontSemiBold,
-                        color: isDark ? UIColors.darkText : UIColors.lightText,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        child: Container(
+          padding: EdgeInsets.all(sp.sm),
+          decoration: BoxDecoration(
+            color: isDark 
+                ? c.surface.withValues(alpha: 0.5) 
+                : c.surface,
+            borderRadius: BorderRadius.circular(sh.radiusMd),
+            border: Border.all(
+              color: isDark 
+                  ? c.border.withValues(alpha: 0.5) 
+                  : c.border,
+              width: 1,
             ),
-
-            // Badge
-            if (widget.badgeCount != null && widget.badgeCount! > 0)
-              Positioned(
-                top: ThemeConstants.space8,
-                right: ThemeConstants.space8,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: ThemeConstants.space8,
-                    vertical: ThemeConstants.space4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: accentColor,
-                    borderRadius: BorderRadius.circular(
-                      ThemeConstants.radiusSmall,
-                    ),
-                  ),
-                  child: Text(
-                    widget.badgeCount! > 99 ? '99+' : '${widget.badgeCount}',
-                    style: TextStyle(
-                      color: isDark ? UIColors.darkBackground : Colors.white,
-                      fontSize: ThemeConstants.fontXSmall,
-                      fontWeight: ThemeConstants.fontBold,
-                    ),
-                  ),
+            boxShadow: isDark ? null : [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.03),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: cardColor.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  icon,
+                  color: cardColor,
+                  size: 24,
                 ),
               ),
-          ],
+              SizedBox(height: sp.xs),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: c.textPrimary,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  BoxDecoration _buildDecoration(bool isDark, Color accentColor) {
-    if (isDark) {
-      // Dark theme: glassmorphism with subtle accent glow and gradient
-      return BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            UIColors.darkSurface.withValues(alpha: 0.8),
-            UIColors.darkSurface.withValues(alpha: 0.6),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(ThemeConstants.quickActionRadius),
-        border: Border.all(
-          color: _isPressed
-              ? accentColor.withValues(alpha: 0.5)
-              : UIColors.darkBorder,
-          width: 1,
-        ),
-        boxShadow: _isPressed
-            ? UIColors.createNeonGlow(accentColor, intensity: 0.4)
-            : [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.3),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-                ...UIColors.createNeonGlow(accentColor, intensity: 0.1),
-              ],
-      );
-    } else {
-      // Light theme: white card + soft shadow
-      return BoxDecoration(
-        color: UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.quickActionRadius),
-        boxShadow: _isPressed
-            ? [
-                BoxShadow(
-                  color: accentColor.withValues(alpha: 0.2),
-                  blurRadius: 16,
-                  offset: const Offset(0, 4),
-                ),
-              ]
-            : UIColors.createSoftShadow(),
-      );
-    }
-  }
 }
-
-

@@ -103,7 +103,7 @@ class TimelineChartConfig {
       drawVerticalLine: false,
       horizontalInterval: maxY / 4,
       getDrawingHorizontalLine: (value) => FlLine(
-        color: c.border.withOpacity(0.25),
+        color: c.border.withValues(alpha: 0.25),
         strokeWidth: 0.6,
       ),
     );
@@ -112,13 +112,12 @@ class TimelineChartConfig {
   /// Builds the “NOW” vertical line
   static ExtraLinesData buildNowLine(BuildContext context) {
     final acc = context.accent;
-    final c = context.colors;
 
     return ExtraLinesData(
       verticalLines: [
         VerticalLine(
           x: 0,
-          color: acc.primary.withOpacity(0.5),
+          color: acc.primary.withValues(alpha: 0.5),
           strokeWidth: 2,
           dashArray: [5, 5],
           label: VerticalLineLabel(

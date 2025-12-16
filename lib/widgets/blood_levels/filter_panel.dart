@@ -30,7 +30,6 @@ class FilterPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final sh = context.shapes;
     final text = context.text;
     final acc = context.accent;
 

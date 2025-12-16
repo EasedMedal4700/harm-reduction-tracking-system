@@ -65,7 +65,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
         color: c.surface,
         borderRadius: BorderRadius.circular(sp.md),
         border: Border.all(
-          color: _isExpanded ? acc.primary.withOpacity(0.4) : c.border,
+          color: _isExpanded ? acc.primary.withValues(alpha: 0.4) : c.border,
           width: _isExpanded ? 1.4 : 1,
         ),
         boxShadow: _isExpanded ? t.cardShadow : [],
@@ -98,8 +98,8 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                     duration: const Duration(milliseconds: 220),
                     padding: EdgeInsets.all(sp.md),
                     decoration: BoxDecoration(
-                      color: acc.primary.withOpacity(
-                          _isExpanded ? 0.18 : 0.1),
+                      color: acc.primary.withValues(
+                          alpha: _isExpanded ? 0.18 : 0.1),
                       borderRadius: BorderRadius.circular(sp.sm),
                     ),
                     child: Icon(
@@ -132,7 +132,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                                   vertical: sp.xs,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: acc.primary.withOpacity(0.15),
+                                  color: acc.primary.withValues(alpha: 0.15),
                                   borderRadius:
                                       BorderRadius.circular(sp.sm),
                                 ),
@@ -170,7 +170,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                     child: Container(
                       padding: EdgeInsets.all(sp.xs),
                       decoration: BoxDecoration(
-                        color: c.border.withOpacity(0.6),
+                        color: c.border.withValues(alpha: 0.6),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(

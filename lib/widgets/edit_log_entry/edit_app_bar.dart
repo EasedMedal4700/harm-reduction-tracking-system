@@ -4,21 +4,18 @@
 // Riverpod: COMPLETE
 // Notes: Initial migration header added. Some theme/common usage, Riverpod ready.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../models/log_entry_form_data.dart';
-import '../../constants/colors/app_colors_dark.dart';
-import '../../constants/colors/app_colors_light.dart';
 
 /// Riverpod-ready Edit Log Entry AppBar
 /// Accepts data and callback instead of state
 class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool isDark;
   final LogEntryFormData formData;
   final VoidCallback onDelete;
   final ValueChanged<bool>? onSimpleModeChanged;
 
   const EditLogEntryAppBar({
     super.key,
-    required this.isDark,
     required this.formData,
     required this.onDelete,
     this.onSimpleModeChanged,
@@ -26,39 +23,38 @@ class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget 
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final t = context.theme;
+    final sp = context.spacing;
+
     return AppBar(
-      backgroundColor: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-      foregroundColor: isDark ? Colors.white : Colors.black87,
+      backgroundColor: c.surface,
+      foregroundColor: c.textPrimary,
       elevation: 0,
-      title: const Text('Edit Drug Use'),
+      title: Text('Edit Drug Use', style: t.text.heading3),
       actions: [
         // Delete button
         IconButton(
           icon: const Icon(Icons.delete_outline),
-          color: Colors.red,
+          color: c.error,
           onPressed: onDelete,
           tooltip: 'Delete Entry',
         ),
         // Simple/Detailed mode toggle
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: EdgeInsets.symmetric(horizontal: sp.sm),
           child: Row(
             children: [
               Text(
                 'Simple',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: isDark
-                      ? AppColorsDark.textSecondary
-                      : AppColorsLight.textSecondary,
+                style: t.text.body.copyWith(
+                  color: c.textSecondary,
                 ),
               ),
               Switch(
                 value: formData.isSimpleMode,
                 onChanged: onSimpleModeChanged,
-                activeColor: isDark
-                    ? AppColorsDark.accentBlue
-                    : AppColorsLight.accentPrimary,
+                activeThumbColor: context.accent.primary,
               ),
             ],
           ),

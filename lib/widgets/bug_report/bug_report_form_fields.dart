@@ -30,28 +30,32 @@ class BugReportFormFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final acc = context.accent;
     
     return Column(
       children: [
         // Title
         TextFormField(
           controller: titleController,
-          style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+          style: text.body.copyWith(color: c.textPrimary),
           decoration: InputDecoration(
             labelText: 'Bug Title *',
             hintText: 'Brief description of the issue',
-            prefixIcon: Icon(Icons.title, color: t.colors.onSurfaceVariant),
+            prefixIcon: Icon(Icons.title, color: c.textSecondary),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              borderSide: BorderSide(color: t.colors.outline),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: c.border),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              borderSide: BorderSide(color: t.colors.primary, width: 2),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: acc.primary, width: 2),
             ),
           ),
           maxLength: 100,
@@ -62,25 +66,25 @@ class BugReportFormFields extends StatelessWidget {
             return null;
           },
         ),
-        SizedBox(height: t.spacing.m),
+        SizedBox(height: sp.md),
 
         // Severity
         DropdownButtonFormField<String>(
           value: severity,
-          style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+          style: text.body.copyWith(color: c.textPrimary),
           decoration: InputDecoration(
             labelText: 'Severity',
-            prefixIcon: Icon(Icons.priority_high, color: t.colors.onSurfaceVariant),
+            prefixIcon: Icon(Icons.priority_high, color: c.textSecondary),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              borderSide: BorderSide(color: t.colors.outline),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: c.border),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              borderSide: BorderSide(color: t.colors.primary, width: 2),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: acc.primary, width: 2),
             ),
           ),
           items: severityLevels.map((level) {
@@ -89,49 +93,49 @@ class BugReportFormFields extends StatelessWidget {
               child: Row(
                 children: [
                   getSeverityIcon(level),
-                  SizedBox(width: t.spacing.s),
-                  Text(level, style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface)),
+                  SizedBox(width: sp.sm),
+                  Text(level, style: text.body.copyWith(color: c.textPrimary)),
                 ],
               ),
             );
           }).toList(),
           onChanged: onSeverityChanged,
         ),
-        SizedBox(height: t.spacing.m),
+        SizedBox(height: sp.md),
 
         // Category
         DropdownButtonFormField<String>(
           value: category,
-          style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+          style: text.body.copyWith(color: c.textPrimary),
           decoration: InputDecoration(
             labelText: 'Category',
-            prefixIcon: Icon(Icons.category, color: t.colors.onSurfaceVariant),
+            prefixIcon: Icon(Icons.category, color: c.textSecondary),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              borderSide: BorderSide(color: t.colors.outline),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: c.border),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              borderSide: BorderSide(color: t.colors.primary, width: 2),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: acc.primary, width: 2),
             ),
           ),
           items: categories.map((cat) {
             return DropdownMenuItem(
               value: cat,
-              child: Text(cat, style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface)),
+              child: Text(cat, style: text.body.copyWith(color: c.textPrimary)),
             );
           }).toList(),
           onChanged: onCategoryChanged,
         ),
-        SizedBox(height: t.spacing.m),
+        SizedBox(height: sp.md),
         
         // Description
         TextFormField(
           controller: descriptionController,
-          style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+          style: text.body.copyWith(color: c.textPrimary),
           maxLines: 3,
           decoration: InputDecoration(
             labelText: 'Description',
@@ -139,27 +143,27 @@ class BugReportFormFields extends StatelessWidget {
             alignLabelWithHint: true,
             prefixIcon: Padding(
               padding: EdgeInsets.only(bottom: 48), // Align icon to top
-              child: Icon(Icons.description, color: t.colors.onSurfaceVariant),
+              child: Icon(Icons.description, color: c.textSecondary),
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              borderSide: BorderSide(color: t.colors.outline),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: c.border),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              borderSide: BorderSide(color: t.colors.primary, width: 2),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: acc.primary, width: 2),
             ),
           ),
         ),
-        SizedBox(height: t.spacing.m),
+        SizedBox(height: sp.md),
         
         // Steps to Reproduce
         TextFormField(
           controller: stepsController,
-          style: t.typography.bodyMedium.copyWith(color: t.colors.onSurface),
+          style: text.body.copyWith(color: c.textPrimary),
           maxLines: 3,
           decoration: InputDecoration(
             labelText: 'Steps to Reproduce',
@@ -167,18 +171,18 @@ class BugReportFormFields extends StatelessWidget {
             alignLabelWithHint: true,
             prefixIcon: Padding(
               padding: EdgeInsets.only(bottom: 48), // Align icon to top
-              child: Icon(Icons.format_list_numbered, color: t.colors.onSurfaceVariant),
+              child: Icon(Icons.format_list_numbered, color: c.textSecondary),
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              borderSide: BorderSide(color: t.colors.outline),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: c.border),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              borderSide: BorderSide(color: t.colors.primary, width: 2),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
+              borderSide: BorderSide(color: acc.primary, width: 2),
             ),
           ),
         ),

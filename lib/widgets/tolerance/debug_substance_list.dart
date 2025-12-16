@@ -1,21 +1,19 @@
-/**
- * Debug Substance List Widget
- * 
- * Created: 2024-11-15
- * Last Modified: 2025-12-14
- * 
- * Purpose:
- * Development/debug widget that displays per-substance tolerance percentages in a simple
- * list format. Useful for verifying tolerance calculations and debugging tolerance engine
- * behavior. Should be hidden in production unless debug mode is enabled.
- * 
- * Features:
- * - Lists all substances with their tolerance percentages
- * - Loading state indicator
- * - Empty state handling
- * - Highlighted tolerance values with accent color
- * - Debug label to indicate this is for development
- */
+// Debug Substance List Widget
+// 
+// Created: 2024-11-15
+// Last Modified: 2025-12-14
+// 
+// Purpose:
+// Development/debug widget that displays per-substance tolerance percentages in a simple
+// list format. Useful for verifying tolerance calculations and debugging tolerance engine
+// behavior. Should be hidden in production unless debug mode is enabled.
+// 
+// Features:
+// - Lists all substances with their tolerance percentages
+// - Loading state indicator
+// - Empty state handling
+// - Highlighted tolerance values with accent color
+// - Debug label to indicate this is for development
 
 // MIGRATION
 // Theme: COMPLETE

@@ -27,6 +27,7 @@ class BucketHeaderCard extends StatelessWidget {
     final c = context.colors;
     final text = context.text;
     final sp = context.spacing;
+    final sh = context.shapes;
 
     final bucketColor = BucketUtils.getColorForTolerance(context, tolerancePercent / 100);
     final isActive = tolerancePercent > 0.1;
@@ -39,7 +40,7 @@ class BucketHeaderCard extends StatelessWidget {
             padding: EdgeInsets.all(sp.sm),
             decoration: BoxDecoration(
               color: bucketColor.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(sp.radiusMd),
+              borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
             child: Icon(
               BucketUtils.getBucketIcon(bucketType),
@@ -85,7 +86,7 @@ class BucketHeaderCard extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 color: c.warning.withValues(alpha: 0.18),
-                borderRadius: BorderRadius.circular(sp.radiusSm),
+                borderRadius: BorderRadius.circular(sh.radiusSm),
               ),
               child: Text(
                 'ACTIVE',

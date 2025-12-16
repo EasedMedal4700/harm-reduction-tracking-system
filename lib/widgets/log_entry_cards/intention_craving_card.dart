@@ -72,14 +72,14 @@ class IntentionCravingCard extends StatelessWidget {
 
   Widget _buildMedicalToggle(BuildContext context) {
     final c = context.colors;
-    final s = context.spacing;
+    final sh = context.shapes;
     final text = context.text;
     final accent = c.success;
 
     return Container(
       decoration: BoxDecoration(
         color: c.surfaceVariant,
-        borderRadius: BorderRadius.circular(s.radiusMd),
+        borderRadius: BorderRadius.circular(sh.radiusMd),
         border: Border.all(
           color: isMedicalPurpose ? accent : c.border,
           width: isMedicalPurpose ? 2 : 1,
@@ -88,7 +88,7 @@ class IntentionCravingCard extends StatelessWidget {
       child: SwitchListTile(
         value: isMedicalPurpose,
         onChanged: onMedicalPurposeChanged,
-        activeColor: accent,
+        activeTrackColor: accent,
         title: Text(
           "Medical Purpose",
           style: text.body.copyWith(
@@ -115,6 +115,7 @@ class IntentionCravingCard extends StatelessWidget {
   Widget _buildCravingSection(BuildContext context) {
     final c = context.colors;
     final s = context.spacing;
+    final sh = context.shapes;
     final text = context.text;
     final accent = c.warning;
 
@@ -153,7 +154,7 @@ class IntentionCravingCard extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 color: accent.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(s.radiusMd),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(color: accent),
               ),
               child: Text(

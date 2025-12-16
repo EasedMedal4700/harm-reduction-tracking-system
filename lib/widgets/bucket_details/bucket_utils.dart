@@ -38,8 +38,8 @@ class BucketUtils {
 
     if (tolerance < 0.25) return c.success;        // Green-safe
     if (tolerance < 0.5) return c.warning;         // Yellow-warning
-    if (tolerance < 0.75) return c.warningDark;    // Darker orange
-    return c.danger;                               // Red-danger
+    if (tolerance < 0.75) return c.warning;    // Darker orange
+    return c.error;                               // Red-danger
   }
 
   /// Former API compatibility: returns a color without requiring BuildContext

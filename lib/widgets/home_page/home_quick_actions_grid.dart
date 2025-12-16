@@ -92,8 +92,8 @@ class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
           crossAxisCount: 2,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisSpacing: ThemeConstants.quickActionSpacing,
-          mainAxisSpacing: ThemeConstants.quickActionSpacing,
+          crossAxisSpacing: context.spacing.md,
+          mainAxisSpacing: context.spacing.md,
           childAspectRatio: 1.1,
           children: enabledActions.map((action) => QuickActionCard(
             actionKey: action.key,

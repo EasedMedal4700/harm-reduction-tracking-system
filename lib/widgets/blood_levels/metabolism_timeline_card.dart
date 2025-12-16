@@ -212,9 +212,9 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                drugColor.withOpacity(0.4),
-                drugColor.withOpacity(0.2),
-                drugColor.withOpacity(0.0),
+                drugColor.withValues(alpha: 0.4),
+                drugColor.withValues(alpha: 0.2),
+                drugColor.withValues(alpha: 0.0),
               ],
               stops: const [0.0, 0.5, 1.0],
             ),
@@ -288,7 +288,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
                 ),
                 lineTouchData: LineTouchData(
                   touchTooltipData: LineTouchTooltipData(
-                    tooltipBgColor: c.surface.withOpacity(0.96),
+                    tooltipBgColor: c.surface.withValues(alpha: 0.96),
                     getTooltipItems: (spots) =>
                         chart_config.TimelineChartConfig.buildTooltipItems(
                           context,

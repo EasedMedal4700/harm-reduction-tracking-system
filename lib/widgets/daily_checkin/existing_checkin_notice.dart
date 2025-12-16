@@ -14,30 +14,34 @@ class ExistingCheckinNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: Colors.red.withOpacity(0.1),
+        color: c.error.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(
-          ThemeConstants.radiusMedium,
+          sh.radiusMd,
         ),
-        border: Border.all(color: Colors.red.withOpacity(0.3)),
+        border: Border.all(color: c.error.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
-          const Icon(
+          Icon(
             Icons.info_outline,
-            color: Colors.red,
+            color: c.error,
             size: 20,
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: sp.md),
           Expanded(
             child: Text(
               'Check-in already exists for this time.',
-              style: TextStyle(
-                color: Colors.red[300],
-                fontWeight: FontWeight.bold,
-                fontSize: ThemeConstants.fontSmall,
+              style: text.bodyBold.copyWith(
+                color: c.error,
               ),
             ),
           ),

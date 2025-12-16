@@ -1,97 +1,62 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class DateSelector extends StatelessWidget {
-  final DateTime date;
+  final DateTime selectedDate;
   final ValueChanged<DateTime> onDateChanged;
 
   const DateSelector({
     super.key,
-    required this.date,
+    required this.selectedDate,
     required this.onDateChanged,
   });
 
-  Future<void> _pickDate(BuildContext context) async {
-    final picked = await showDatePicker(
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: date,
+      initialDate: selectedDate,
       firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      lastDate: DateTime.now(),
     );
-    if (picked != null) onDateChanged(picked);
+    if (picked != null && picked != selectedDate) {
+      onDateChanged(picked);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
-    final formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    final c = context.colors;
+    final acc = context.accent;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
-    return Container(
-      padding: EdgeInsets.all(t.spacing.m),
-      decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-        border: Border.all(color: t.colors.outlineVariant),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Date",
-            style: t.typography.titleMedium.copyWith(
-              color: t.colors.onSurface,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          SizedBox(height: t.spacing.m),
-
-          InkWell(
-            onTap: () => _pickDate(context),
-            borderRadius: BorderRadius.circular(t.shapes.radiusM),
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: t.spacing.m,
-                vertical: t.spacing.m,
-              ),
-              decoration: BoxDecoration(
-                color: t.colors.surfaceContainer,
-                borderRadius: BorderRadius.circular(t.shapes.radiusM),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.calendar_today,
-                    size: 24,
-                    color: t.colors.primary,
-                  ),
-
-                  SizedBox(width: t.spacing.m),
-
-                  Expanded(
-                    child: Text(
-                      formattedDate,
-                      style: t.typography.bodyLarge.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: t.colors.onSurface,
-                      ),
-                    ),
-                  ),
-
-                  Icon(
-                    Icons.edit_outlined,
-                    size: 20,
-                    color: t.colors.onSurfaceVariant,
-                  ),
-                ],
+    return InkWell(
+      onTap: () => _selectDate(context),
+      borderRadius: BorderRadius.circular(sh.radiusMd),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: sp.sm, horizontal: sp.md),
+        decoration: BoxDecoration(
+          border: Border.all(color: c.border),
+          borderRadius: BorderRadius.circular(sh.radiusMd),
+          color: c.surface,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.calendar_today, size: 20, color: acc.primary),
+            SizedBox(width: sp.sm),
+            Text(
+              DateFormat('MMM d, y').format(selectedDate),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: c.textPrimary,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-

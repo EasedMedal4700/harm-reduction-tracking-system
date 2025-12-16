@@ -121,7 +121,7 @@ class SystemOverviewCard extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(sp.sm),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.15),
+            color: color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(sh.radiusSm),
           ),
           child: Icon(icon, color: color, size: 20),

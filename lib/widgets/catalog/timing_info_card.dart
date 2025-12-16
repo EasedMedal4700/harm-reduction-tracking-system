@@ -27,7 +27,7 @@ class TimingInfoCard extends StatelessWidget {
       padding: EdgeInsets.all(t.spacing.md),
       decoration: BoxDecoration(
         color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
         border: Border.all(
           color: t.colors.border,
         ),
@@ -41,7 +41,7 @@ class TimingInfoCard extends StatelessWidget {
               SizedBox(width: t.spacing.xs),
               Text(
                 'Timing Information',
-                style: t.typography.heading3.copyWith(
+                style: t.text.heading3.copyWith(
                   color: t.colors.textPrimary,
                 ),
               ),

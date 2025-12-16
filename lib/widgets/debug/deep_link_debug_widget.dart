@@ -29,20 +29,21 @@ class DeepLinkDebugWidget extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = isDark ? UIColors.darkNeonBlue : UIColors.lightAccentBlue;
-    final surfaceColor = isDark ? UIColors.darkSurface : UIColors.lightSurface;
-    final textColor = isDark ? UIColors.darkText : UIColors.lightText;
-    final textSecondary = isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final acc = context.accent;
+    final text = context.text;
 
     return Container(
-      margin: EdgeInsets.all(ThemeConstants.space16),
-      padding: EdgeInsets.all(ThemeConstants.space16),
+      margin: EdgeInsets.all(sp.md),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: surfaceColor,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
         border: Border.all(
-          color: UIColors.lightAccentOrange.withValues(alpha: 0.5),
+          color: c.warning.withValues(alpha: 0.5),
           width: 2,
         ),
       ),
@@ -54,29 +55,26 @@ class DeepLinkDebugWidget extends StatelessWidget {
             children: [
               Icon(
                 Icons.bug_report,
-                color: UIColors.lightAccentOrange,
-                size: ThemeConstants.iconMedium,
+                color: c.warning,
+                size: 24,
               ),
-              SizedBox(width: ThemeConstants.space8),
+              SizedBox(width: sp.sm),
               Text(
                 'Deep Link Debug Tools',
-                style: TextStyle(
-                  fontSize: ThemeConstants.fontLarge,
-                  fontWeight: ThemeConstants.fontSemiBold,
-                  color: textColor,
+                style: text.heading3.copyWith(
+                  color: c.textPrimary,
                 ),
               ),
             ],
           ),
-          SizedBox(height: ThemeConstants.space8),
+          SizedBox(height: sp.sm),
           Text(
             'Simulate deep links for testing auth flows',
-            style: TextStyle(
-              fontSize: ThemeConstants.fontSmall,
-              color: textSecondary,
+            style: text.bodySmall.copyWith(
+              color: c.textSecondary,
             ),
           ),
-          SizedBox(height: ThemeConstants.space16),
+          SizedBox(height: sp.md),
           // Email Confirmation Button
           SizedBox(
             width: double.infinity,
@@ -85,15 +83,15 @@ class DeepLinkDebugWidget extends StatelessWidget {
               icon: const Icon(Icons.email_outlined),
               label: const Text('Simulate Email Confirmation'),
               style: OutlinedButton.styleFrom(
-                foregroundColor: primaryColor,
-                side: BorderSide(color: primaryColor),
+                foregroundColor: acc.primary,
+                side: BorderSide(color: acc.primary),
                 padding: EdgeInsets.symmetric(
-                  vertical: ThemeConstants.space12,
+                  vertical: sp.md,
                 ),
               ),
             ),
           ),
-          SizedBox(height: ThemeConstants.space12),
+          SizedBox(height: sp.md),
           // Password Reset Button
           SizedBox(
             width: double.infinity,
@@ -102,15 +100,15 @@ class DeepLinkDebugWidget extends StatelessWidget {
               icon: const Icon(Icons.lock_reset),
               label: const Text('Simulate Password Reset'),
               style: OutlinedButton.styleFrom(
-                foregroundColor: primaryColor,
-                side: BorderSide(color: primaryColor),
+                foregroundColor: acc.primary,
+                side: BorderSide(color: acc.primary),
                 padding: EdgeInsets.symmetric(
-                  vertical: ThemeConstants.space12,
+                  vertical: sp.md,
                 ),
               ),
             ),
           ),
-          SizedBox(height: ThemeConstants.space12),
+          SizedBox(height: sp.md),
           // Supabase Verify URL Button
           SizedBox(
             width: double.infinity,
@@ -119,10 +117,10 @@ class DeepLinkDebugWidget extends StatelessWidget {
               icon: const Icon(Icons.link),
               label: const Text('Simulate Supabase Verify URL'),
               style: OutlinedButton.styleFrom(
-                foregroundColor: primaryColor,
-                side: BorderSide(color: primaryColor),
+                foregroundColor: acc.primary,
+                side: BorderSide(color: acc.primary),
                 padding: EdgeInsets.symmetric(
-                  vertical: ThemeConstants.space12,
+                  vertical: sp.md,
                 ),
               ),
             ),

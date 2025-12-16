@@ -1,135 +1,94 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-
-import '../../constants/data/drug_use_catalog.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class FeelingSelection extends StatelessWidget {
-  final List<String> feelings;
-  final Map<String, List<String>> secondaryFeelings;
-  final ValueChanged<List<String>> onFeelingsChanged;
-  final ValueChanged<Map<String, List<String>>> onSecondaryFeelingsChanged;
+  final String? selectedFeeling;
+  final ValueChanged<String> onFeelingSelected;
 
   const FeelingSelection({
     super.key,
-    required this.feelings,
-    required this.secondaryFeelings,
-    required this.onFeelingsChanged,
-    required this.onSecondaryFeelingsChanged,
+    required this.selectedFeeling,
+    required this.onFeelingSelected,
   });
+
+  final List<Map<String, dynamic>> _feelings = const [
+    {'label': 'Great', 'icon': Icons.sentiment_very_satisfied, 'color': Colors.green},
+    {'label': 'Good', 'icon': Icons.sentiment_satisfied, 'color': Colors.lightGreen},
+    {'label': 'Okay', 'icon': Icons.sentiment_neutral, 'color': Colors.amber},
+    {'label': 'Bad', 'icon': Icons.sentiment_dissatisfied, 'color': Colors.orange},
+    {'label': 'Awful', 'icon': Icons.sentiment_very_dissatisfied, 'color': Colors.red},
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    // acc unused
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'How are you feeling?',
-          style: t.typography.titleMedium.copyWith(
-            color: t.colors.onSurface,
-            fontWeight: FontWeight.bold,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: c.textPrimary,
           ),
         ),
-        SizedBox(height: t.spacing.s),
-        Wrap(
-          spacing: t.spacing.s,
-          runSpacing: t.spacing.s,
-          children: DrugUseCatalog.primaryEmotions.map((f) {
-            final name = f['name']!;
-            final isSelected = feelings.contains(name);
-            return FilterChip(
-              label: Text(name.toUpperCase()),
-              selected: isSelected,
-              onSelected: (_) {
-                final newFeelings = List<String>.from(feelings);
-                final newSecondary = Map<String, List<String>>.from(secondaryFeelings);
-                if (newFeelings.contains(name)) {
-                  newFeelings.remove(name);
-                  newSecondary.remove(name);
-                } else {
-                  newFeelings.add(name);
-                }
-                onFeelingsChanged(newFeelings);
-                onSecondaryFeelingsChanged(newSecondary);
-              },
-              selectedColor: t.colors.primaryContainer,
-              checkmarkColor: t.colors.onPrimaryContainer,
-              labelStyle: t.typography.labelLarge.copyWith(
-                color: isSelected ? t.colors.onPrimaryContainer : t.colors.onSurface,
-                fontWeight: FontWeight.bold,
-              ),
-              backgroundColor: t.colors.surfaceContainerLow,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(t.shapes.radiusS),
-                side: BorderSide(
-                  color: isSelected ? Colors.transparent : t.colors.outline,
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-        if (feelings.isNotEmpty) ...[
-          SizedBox(height: t.spacing.l),
-          Text(
-            'Secondary feelings? (Select multiple per primary)',
-            style: t.typography.bodyMedium.copyWith(
-              color: t.colors.onSurfaceVariant,
-            ),
-          ),
-          SizedBox(height: t.spacing.m),
-          ...feelings.map((primary) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'For $primary:',
-                  style: t.typography.titleSmall.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: t.colors.onSurface,
+        SizedBox(height: sp.sm),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: _feelings.map((feeling) {
+              final isSelected = selectedFeeling == feeling['label'];
+              final color = feeling['color'] as Color;
+              
+              return Padding(
+                padding: EdgeInsets.only(right: sp.sm),
+                child: InkWell(
+                  onTap: () => onFeelingSelected(feeling['label'] as String),
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: sp.md,
+                      vertical: sp.sm,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSelected ? color.withValues(alpha: 0.2) : c.surface,
+                      border: Border.all(
+                        color: isSelected ? color : c.border,
+                        width: isSelected ? 2 : 1,
+                      ),
+                      borderRadius: BorderRadius.circular(sh.radiusMd),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          feeling['icon'] as IconData,
+                          color: isSelected ? color : c.textSecondary,
+                          size: 32,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          feeling['label'] as String,
+                          style: TextStyle(
+                            color: isSelected ? color : c.textSecondary,
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                SizedBox(height: t.spacing.xs),
-                Wrap(
-                  spacing: t.spacing.s,
-                  runSpacing: t.spacing.s,
-                  children: (DrugUseCatalog.secondaryEmotions[primary] ?? []).map((sec) {
-                    final isSelected = (secondaryFeelings[primary] ?? []).contains(sec);
-                    return FilterChip(
-                      label: Text(sec),
-                      selected: isSelected,
-                      onSelected: (_) {
-                        final newSecondary = Map<String, List<String>>.from(secondaryFeelings);
-                        newSecondary[primary] ??= [];
-                        if (newSecondary[primary]!.contains(sec)) {
-                          newSecondary[primary]!.remove(sec);
-                        } else {
-                          newSecondary[primary]!.add(sec);
-                        }
-                        onSecondaryFeelingsChanged(newSecondary);
-                      },
-                      selectedColor: t.colors.secondaryContainer,
-                      checkmarkColor: t.colors.onSecondaryContainer,
-                      labelStyle: t.typography.bodyMedium.copyWith(
-                        color: isSelected ? t.colors.onSecondaryContainer : t.colors.onSurface,
-                      ),
-                      backgroundColor: t.colors.surfaceContainerLow,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(t.shapes.radiusS),
-                        side: BorderSide(
-                          color: isSelected ? Colors.transparent : t.colors.outline,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-                SizedBox(height: t.spacing.m),
-              ],
-            );
-          }),
-        ],
+              );
+            }).toList(),
+          ),
+        ),
       ],
     );
   }
 }
-

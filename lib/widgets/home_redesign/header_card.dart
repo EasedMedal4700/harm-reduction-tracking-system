@@ -1,88 +1,79 @@
+import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
-import 'package:flutter/material.dart';
-
-
-
-
-/// Modular Header Card component with greeting
+/// Modular Header Card component
 /// Professional medical dashboard style
 class HeaderCard extends StatelessWidget {
-  final String? userName;
+  final String userName;
+  final String greeting;
+  final VoidCallback onProfileTap;
+  final String? profileImageUrl;
 
-  const HeaderCard({this.userName, super.key});
+  const HeaderCard({
+    required this.userName,
+    required this.greeting,
+    required this.onProfileTap,
+    this.profileImageUrl,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final greeting = _getGreeting();
+    final c = context.colors;
+    final acc = context.accent;
+    // sp unused
+    // sh unused
 
-    return Container(
-      padding: const EdgeInsets.all(ThemeConstants.cardPaddingMedium),
-      decoration: _buildDecoration(isDark),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Greeting - calm professional typography
-          Text(
-            greeting,
-            style: TextStyle(
-              fontSize: ThemeConstants.font2XLarge,
-              fontWeight: ThemeConstants.fontSemiBold,
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
-          ),
-          
-          if (userName != null) ...[
-            const SizedBox(height: ThemeConstants.space8),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Text(
-              userName!,
+              greeting,
               style: TextStyle(
-                fontSize: ThemeConstants.fontMedium,
-                color: isDark
-                    ? UIColors.darkTextSecondary
-                    : UIColors.lightTextSecondary,
+                fontSize: 14,
+                color: c.textSecondary,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              userName,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: c.textPrimary,
+                letterSpacing: -0.5,
               ),
             ),
           ],
-        ],
-      ),
+        ),
+        GestureDetector(
+          onTap: onProfileTap,
+          child: Container(
+            padding: const EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: acc.primary.withValues(alpha: 0.3),
+                width: 2,
+              ),
+            ),
+            child: CircleAvatar(
+              radius: 22,
+              backgroundColor: acc.primary.withValues(alpha: 0.1),
+              backgroundImage: profileImageUrl != null 
+                  ? NetworkImage(profileImageUrl!)
+                  : null,
+              child: profileImageUrl == null
+                  ? Icon(Icons.person, color: acc.primary)
+                  : null,
+            ),
+          ),
+        ),
+      ],
     );
   }
-
-  String _getGreeting() {
-    final hour = DateTime.now().hour;
-    if (hour < 12) return 'Good Morning';
-    if (hour < 17) return 'Good Afternoon';
-    if (hour < 21) return 'Good Evening';
-    return 'Good Night';
-  }
-
-  BoxDecoration _buildDecoration(bool isDark) {
-    if (isDark) {
-      // Dark theme: glassmorphism
-      return BoxDecoration(
-        color: const Color(0x0AFFFFFF), // rgba(255,255,255,0.04)
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        border: Border.all(
-          color: const Color(0x14FFFFFF), // rgba(255,255,255,0.08)
-          width: 1,
-        ),
-      );
-    } else {
-      // Light theme: clean white card
-      return BoxDecoration(
-        color: UIColors.lightSurface,
-        borderRadius: BorderRadius.circular(ThemeConstants.cardRadius),
-        boxShadow: UIColors.createSoftShadow(),
-      );
-    }
-  }
 }
-
-

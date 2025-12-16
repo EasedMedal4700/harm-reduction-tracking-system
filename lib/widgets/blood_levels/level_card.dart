@@ -31,7 +31,6 @@ class _LevelCardState extends State<LevelCard> {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
     final t = context.theme;
 
     final percentage = widget.level.percentage;
@@ -44,9 +43,9 @@ class _LevelCardState extends State<LevelCard> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
       decoration: BoxDecoration(
-        color: categoryColor.withOpacity(0.07),
+        color: categoryColor.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(color: categoryColor.withOpacity(0.3)),
+        border: Border.all(color: categoryColor.withValues(alpha: 0.3)),
         boxShadow: t.cardShadow,
       ),
       child: InkWell(
@@ -134,7 +133,7 @@ class _LevelCardState extends State<LevelCard> {
                 vertical: sp.xs,
               ),
               decoration: BoxDecoration(
-                color: _getStatusColor(status).withOpacity(0.2),
+                color: _getStatusColor(status).withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(sh.radiusSm),
                 border: Border.all(color: _getStatusColor(status)),
               ),

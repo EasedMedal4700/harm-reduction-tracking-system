@@ -33,7 +33,7 @@ class DosageGuideCard extends StatelessWidget {
             SizedBox(width: t.spacing.xs),
             Text(
               'Dose Ranges (Informational)',
-              style: t.typography.heading3.copyWith(
+              style: t.text.heading3.copyWith(
                 color: t.colors.textPrimary,
               ),
             ),
@@ -45,11 +45,11 @@ class DosageGuideCard extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 color: accentColor.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+                borderRadius: BorderRadius.circular(t.shapes.radiusMd),
               ),
               child: Text(
                 selectedMethod,
-                style: t.typography.label.copyWith(
+                style: t.text.label.copyWith(
                   color: accentColor,
                   fontWeight: FontWeight.bold,
                 ),
@@ -84,7 +84,7 @@ class DosageGuideCard extends StatelessWidget {
       padding: EdgeInsets.all(t.spacing.md),
       decoration: BoxDecoration(
         color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
         border: Border(left: BorderSide(color: color, width: 4)),
       ),
       child: Row(
@@ -144,7 +144,7 @@ class DosageGuideCard extends StatelessWidget {
       padding: EdgeInsets.all(t.spacing.md),
       decoration: BoxDecoration(
         color: t.colors.warning.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(t.spacing.radiusMd),
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
         border: Border.all(color: t.colors.warning.withValues(alpha: 0.5)),
       ),
       child: Row(
@@ -155,7 +155,7 @@ class DosageGuideCard extends StatelessWidget {
           Expanded(
             child: Text(
               message,
-              style: t.typography.body.copyWith(
+              style: t.text.body.copyWith(
                 color: t.colors.warning,
                 height: 1.4,
               ),

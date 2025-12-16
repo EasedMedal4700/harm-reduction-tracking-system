@@ -208,7 +208,7 @@ class MetabolismTimelineControls extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
         decoration: BoxDecoration(
           color: selected
-              ? t.accent.primary.withOpacity(0.2)
+              ? t.accent.primary.withValues(alpha: 0.2)
               : c.surfaceVariant,
           borderRadius: BorderRadius.circular(sh.radiusSm),
           border: Border.all(
@@ -255,7 +255,7 @@ class MetabolismTimelineControls extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
         decoration: BoxDecoration(
           color: isSelected
-              ? t.accent.primary.withOpacity(0.2)
+              ? t.accent.primary.withValues(alpha: 0.2)
               : c.surfaceVariant,
           borderRadius: BorderRadius.circular(sh.radiusSm),
           border: Border.all(

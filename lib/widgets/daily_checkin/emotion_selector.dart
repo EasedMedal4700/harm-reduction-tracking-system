@@ -6,6 +6,7 @@
 // Notes: Review for theme/context migration if needed.
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class EmotionSelector extends StatefulWidget {
   final List<String> selectedEmotions;
@@ -55,41 +56,39 @@ class _EmotionSelectorState extends State<EmotionSelector>
 
   Widget _buildChip(String emotion) {
     final isSelected = _selected.contains(emotion);
-    final theme = Theme.of(context);
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final acc = context.accent;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 240),
       curve: Curves.easeOutCubic,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(999),
         gradient: isSelected
             ? LinearGradient(
-                colors: [theme.colorScheme.primary.withOpacity(0.14), theme.colorScheme.primary.withOpacity(0.06)],
+                colors: [acc.primary.withValues(alpha: 0.14), acc.primary.withValues(alpha: 0.06)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               )
             : null,
-        color: isSelected ? null : theme.cardColor,
+        color: isSelected ? null : c.surface,
         border: Border.all(
-          color: isSelected ? theme.colorScheme.primary : theme.dividerColor,
+          color: isSelected ? acc.primary : c.border,
           width: isSelected ? 1.6 : 1.0,
         ),
         boxShadow: isSelected
             ? [
                 BoxShadow(
-                  color: theme.colorScheme.primary.withOpacity(0.12),
+                  color: acc.primary.withValues(alpha: 0.12),
                   blurRadius: 12,
                   offset: const Offset(0, 6),
                 )
               ]
-            : [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 6,
-                  offset: const Offset(0, 3),
-                )
-              ],
+            : t.cardShadow,
       ),
         child: InkWell(
         borderRadius: BorderRadius.circular(999),
@@ -105,7 +104,7 @@ class _EmotionSelectorState extends State<EmotionSelector>
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                    color: isSelected ? theme.colorScheme.primary : theme.textTheme.bodyMedium?.color?.withOpacity(0.9),
+                    color: isSelected ? acc.primary : c.textPrimary.withValues(alpha: 0.9),
                   ),
                   child: Text(
                     emotion,
@@ -122,7 +121,7 @@ class _EmotionSelectorState extends State<EmotionSelector>
                 padding: const EdgeInsets.only(left: 6.0),
                 child: Icon(
                   Icons.check_circle,
-                  color: theme.colorScheme.primary,
+                  color: acc.primary,
                   size: 18,
                 ),
               ),
@@ -135,15 +134,18 @@ class _EmotionSelectorState extends State<EmotionSelector>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(sp.md),
       margin: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
-        color: theme.canvasColor,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: theme.dividerColor.withOpacity(0.6)),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusLg),
+        border: Border.all(color: c.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,12 +158,12 @@ class _EmotionSelectorState extends State<EmotionSelector>
                   children: [
                     Text(
                       'Emotions',
-                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                      style: t.text.heading3.copyWith(fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 6),
                     Text(
                       'Select up to a few that match how you feel',
-                      style: theme.textTheme.bodySmall?.copyWith(color: theme.textTheme.bodySmall?.color?.withOpacity(0.8)),
+                      style: t.text.bodySmall.copyWith(color: t.colors.textSecondary.withValues(alpha: 0.8)),
                     ),
                   ],
                 ),

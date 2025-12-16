@@ -41,7 +41,11 @@ class StatsCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(sh.radiusMd),
       child: Container(
         padding: EdgeInsets.all(sp.lg),
-        decoration: t.cardDecoration(),
+        decoration: BoxDecoration(
+          color: c.surface,
+          borderRadius: BorderRadius.circular(sh.radiusMd),
+          boxShadow: t.cardShadow,
+        ),
         child: Row(
           children: [
             // Icon
@@ -55,7 +59,7 @@ class StatsCard extends StatelessWidget {
               ),
               child: Icon(
                 icon,
-                size: sp.iconMd,
+                size: sp.md,
                 color: effectiveIconColor,
               ),
             ),
@@ -98,7 +102,7 @@ class StatsCard extends StatelessWidget {
               Icon(
                 Icons.chevron_right,
                 color: c.textTertiary,
-                size: sp.iconMd,
+                size: sp.md,
               ),
           ],
         ),
@@ -118,7 +122,6 @@ class ProgressOverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final sp = context.spacing;
     final text = context.text;
 

@@ -1,24 +1,22 @@
-/**
- * System Tolerance Breakdown Sheet Widget
- * 
- * Created: 2024-03-15
- * Last Modified: 2025-01-23
- * 
- * Purpose:
- * Displays a bottom sheet showing detailed breakdown of substances contributing
- * to a specific neurochemical bucket's tolerance load. Shows each substance's
- * percentage contribution with visual progress bars.
- * 
- * Features:
- * - Drag handle for swipe-to-dismiss gesture
- * - Bucket header with icon, name, and current tolerance percentage
- * - Loading state during data fetch
- * - Empty state when no contributors found
- * - Scrollable list of contributing substances
- * - Progress bars showing each substance's impact percentage
- * - Bucket-specific icon mapping (GABA, Stimulant, Serotonin, etc.)
- * - Accent color theming per bucket
- */
+// System Tolerance Breakdown Sheet Widget
+// 
+// Created: 2024-03-15
+// Last Modified: 2025-01-23
+// 
+// Purpose:
+// Displays a bottom sheet showing detailed breakdown of substances contributing
+// to a specific neurochemical bucket's tolerance load. Shows each substance's
+// percentage contribution with visual progress bars.
+// 
+// Features:
+// - Drag handle for swipe-to-dismiss gesture
+// - Bucket header with icon, name, and current tolerance percentage
+// - Loading state during data fetch
+// - Empty state when no contributors found
+// - Scrollable list of contributing substances
+// - Progress bars showing each substance's impact percentage
+// - Bucket-specific icon mapping (GABA, Stimulant, Serotonin, etc.)
+// - Accent color theming per bucket
 
 // MIGRATION
 // Theme: COMPLETE

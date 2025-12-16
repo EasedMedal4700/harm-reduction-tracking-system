@@ -31,9 +31,9 @@ class TimelineLegend extends StatelessWidget {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.15),
+            color: color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(sp.xs),
-            border: Border.all(color: color.withOpacity(0.4)),
+            border: Border.all(color: color.withValues(alpha: 0.4)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -45,7 +45,7 @@ class TimelineLegend extends StatelessWidget {
               ),
               SizedBox(width: sp.xs),
               Text(
-                ' (t: h)',
+                '$name (t½: ${halfLife}h)',
                 style: text.caption.copyWith(
                   color: color,
                   fontWeight: FontWeight.w600,

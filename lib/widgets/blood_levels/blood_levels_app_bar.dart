@@ -30,7 +30,6 @@ class BloodLevelsAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;     // full theme (spacing, shapes, typography)
     final c = context.colors;    // palette colors
     final text = context.text;   // typography
     final sp = context.spacing;  // spacing

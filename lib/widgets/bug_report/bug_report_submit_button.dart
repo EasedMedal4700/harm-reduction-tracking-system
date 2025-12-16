@@ -14,19 +14,23 @@ class BugReportSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppTheme.of(context);
+    final c = context.colors;
+    final text = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final acc = context.accent;
     
     return SizedBox(
       width: double.infinity,
       child: FilledButton(
         onPressed: isSubmitting ? null : onSubmit,
         style: FilledButton.styleFrom(
-          padding: EdgeInsets.all(t.spacing.m),
+          padding: EdgeInsets.all(sp.md),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(t.shapes.radiusM),
+            borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
-          backgroundColor: t.colors.primary,
-          foregroundColor: t.colors.onPrimary,
+          backgroundColor: acc.primary,
+          foregroundColor: c.textInverse,
         ),
         child: isSubmitting
             ? SizedBox(
@@ -34,17 +38,17 @@ class BugReportSubmitButton extends StatelessWidget {
                 width: 20,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(t.colors.onPrimary),
+                  valueColor: AlwaysStoppedAnimation<Color>(c.textInverse),
                 ),
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.bug_report),
-                  SizedBox(width: t.spacing.s),
+                  SizedBox(width: sp.sm),
                   Text(
                     'Submit Bug Report',
-                    style: t.typography.labelLarge.copyWith(
+                    style: text.labelLarge.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),

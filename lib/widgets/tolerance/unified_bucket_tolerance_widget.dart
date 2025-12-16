@@ -1,26 +1,24 @@
-/**
- * Unified Bucket Tolerance Widget
- * 
- * Created: 2024-03-15
- * Last Modified: 2025-01-23
- * 
- * Purpose:
- * Displays comprehensive tolerance information combining system-wide bucket states
- * with substance-specific contributions. Shows per-neurochemical system breakdown
- * with detailed metrics, state classification, and optional debug calculations.
- * 
- * Features:
- * - System-wide tolerance percentages for all neurochemical buckets
- * - Per-substance contribution breakdown for each bucket
- * - Color-coded tolerance levels (green/blue/yellow/orange/red)
- * - State classification badges (Recovered/Light Stress/Moderate Strain/etc.)
- * - Active bucket indicators
- * - Visual progress bars for tolerance levels
- * - Expandable debug mode showing calculation formulas and raw values
- * - Bucket metadata (weight, tolerance type, half-life, decay days)
- * - Optional notes section
- * - Dark/light theme support with neon borders
- */
+// Unified Bucket Tolerance Widget
+// 
+// Created: 2024-03-15
+// Last Modified: 2025-01-23
+// 
+// Purpose:
+// Displays comprehensive tolerance information combining system-wide bucket states
+// with substance-specific contributions. Shows per-neurochemical system breakdown
+// with detailed metrics, state classification, and optional debug calculations.
+// 
+// Features:
+// - System-wide tolerance percentages for all neurochemical buckets
+// - Per-substance contribution breakdown for each bucket
+// - Color-coded tolerance levels (green/blue/yellow/orange/red)
+// - State classification badges (Recovered/Light Stress/Moderate Strain/etc.)
+// - Active bucket indicators
+// - Visual progress bars for tolerance levels
+// - Expandable debug mode showing calculation formulas and raw values
+// - Bucket metadata (weight, tolerance type, half-life, decay days)
+// - Optional notes section
+// - Dark/light theme support with neon borders
 
 // MIGRATION
 // Theme: COMPLETE
@@ -36,6 +34,7 @@ import '../../models/tolerance_model.dart';
 import '../../utils/tolerance_calculator.dart';
 
 import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme_constants.dart';
 
 
 /// Unified widget combining system tolerance and substance-specific breakdown.
@@ -135,8 +134,11 @@ class _UnifiedBucketToleranceWidgetState
     return Container(
       margin: EdgeInsets.all(spacing.lg),
       padding: EdgeInsets.all(spacing.lg),
-      decoration: theme.cardDecoration(
-        neonBorder: theme.isDark,
+      decoration: BoxDecoration(
+        color: theme.colors.surface,
+        borderRadius: BorderRadius.circular(AppThemeConstants.cardRadius),
+        boxShadow: theme.cardShadow,
+        border: theme.isDark ? Border.all(color: theme.accent.primary.withValues(alpha: 0.3)) : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
