@@ -36,14 +36,14 @@ class CommonSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.theme;
     final defaultActiveColor = t.accent.primary;
-    final defaultInactiveColor = t.colors.surfaceVariant.withOpacity(0.5);
+    final defaultInactiveColor = t.colors.surfaceVariant.withValues(alpha: 0.5);
     
     return SliderTheme(
       data: SliderThemeData(
         activeTrackColor: activeColor ?? defaultActiveColor,
         inactiveTrackColor: inactiveColor ?? defaultInactiveColor,
         thumbColor: activeColor ?? defaultActiveColor,
-        overlayColor: (activeColor ?? defaultActiveColor).withOpacity(0.2),
+        overlayColor: (activeColor ?? defaultActiveColor).withValues(alpha: 0.2),
         valueIndicatorColor: activeColor ?? defaultActiveColor,
         valueIndicatorTextStyle: t.text.bodySmall.copyWith(
           color: t.colors.textInverse,

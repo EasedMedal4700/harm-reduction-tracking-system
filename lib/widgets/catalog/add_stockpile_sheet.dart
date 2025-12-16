@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../repo/stockpile_repository.dart';
 import '../../utils/drug_profile_utils.dart';
 import '../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 
 class AddStockpileSheet extends StatefulWidget {
   final String substanceId;
@@ -27,7 +28,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
 
   final _stockpileRepo = StockpileRepository();
 
-  final List<String> _units = ['mg', 'g', 'g', 'pill', 'ml'];
+  final List<String> _units = ['mg', 'g', 'pill', 'ml'];
 
   @override
   void dispose() {
@@ -190,42 +191,15 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
             SizedBox(height: t.spacing.md),
 
             // Unit dropdown
-            DropdownButtonFormField<String>(
+            CommonDropdown<String>(
               value: _selectedUnit,
-              decoration: InputDecoration(
-                labelText: 'Unit',
-                prefixIcon: Icon(
-                  Icons.straighten,
-                  color: t.accent.primary,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                  borderSide: BorderSide(
-                    color: t.colors.border,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                  borderSide: BorderSide(
-                    color: t.colors.border,
-                  ),
-                ),
-              ),
-              style: t.text.body.copyWith(
-                color: t.colors.textPrimary,
-              ),
-              dropdownColor: t.colors.surface,
-              items: _units.map((unit) {
-                return DropdownMenuItem(
-                  value: unit,
-                  child: Text(unit),
-                );
-              }).toList(),
+              items: _units,
               onChanged: (value) {
                 if (value != null) {
                   setState(() => _selectedUnit = value);
                 }
               },
+              hintText: 'Unit',
             ),
             SizedBox(height: t.spacing.xl),
 

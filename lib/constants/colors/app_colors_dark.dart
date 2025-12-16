@@ -94,7 +94,7 @@ class AppColorsDark {
   /// Creates a neon glow effect with the primary accent color
   static BoxShadow neonGlowPrimary({double intensity = 0.4}) {
     return BoxShadow(
-      color: accentPrimary.withOpacity(intensity),
+      color: accentPrimary.withValues(alpha: intensity),
       blurRadius: 20,
       spreadRadius: 0,
     );
@@ -103,7 +103,7 @@ class AppColorsDark {
   /// Creates an intense neon glow effect
   static BoxShadow neonGlowIntense({double intensity = 0.6}) {
     return BoxShadow(
-      color: accentPrimary.withOpacity(intensity),
+      color: accentPrimary.withValues(alpha: intensity),
       blurRadius: 30,
       spreadRadius: 2,
     );
@@ -112,7 +112,7 @@ class AppColorsDark {
   /// Creates a neon glow with custom color
   static BoxShadow neonGlowCustom(Color color, {double intensity = 0.4}) {
     return BoxShadow(
-      color: color.withOpacity(intensity),
+      color: color.withValues(alpha: intensity),
       blurRadius: 20,
       spreadRadius: 0,
     );

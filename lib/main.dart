@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
 
@@ -175,8 +176,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             child: MaterialApp(
               navigatorKey: navigatorKey,
               debugShowCheckedModeBanner: false,
-              theme: AppTheme.lightTheme,
-              darkTheme: AppTheme.darkTheme,
+              theme: AppTheme.light().themeData,
+              darkTheme: AppTheme.dark().themeData,
               themeMode: settingsProvider.settings.darkMode
                   ? ThemeMode.dark
                   : ThemeMode.light,

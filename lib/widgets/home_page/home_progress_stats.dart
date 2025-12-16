@@ -27,21 +27,20 @@ class HomeProgressStats extends StatelessWidget {
         StatCard(
           icon: Icons.calendar_today,
           value: '127',
-          label: 'Days Tracked',
+          title: 'Days Tracked',
           subtitle: 'Keep up the momentum!',
         ),
         StatCard(
           icon: Icons.note_alt,
           value: '12',
-          label: 'Entries This Week',
+          title: 'Entries This Week',
           subtitle: '+3 from last week',
         ),
         StatCard(
           icon: Icons.psychology,
           value: '8',
-          label: 'Active Reflections',
+          title: 'Active Reflections',
           subtitle: 'Recent insights',
-          progress: 0.65,
         ),
       ],
     );

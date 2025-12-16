@@ -1,7 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-
-import '../log_entry/feeling_selection.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_chip_group.dart';
 
 class EmotionalStateSection extends StatelessWidget {
   final List<String> selectedEmotions;
@@ -54,11 +53,12 @@ class EmotionalStateSection extends StatelessWidget {
           ),
           SizedBox(height: sp.md),
           
-          FeelingSelection(
-            feelings: selectedEmotions,
-            onFeelingsChanged: onEmotionsChanged,
-            secondaryFeelings: secondaryEmotions,
-            onSecondaryFeelingsChanged: onSecondaryEmotionsChanged,
+          CommonChipGroup(
+            title: 'Feelings',
+            options: const ['Happy', 'Sad', 'Anxious', 'Angry', 'Neutral', 'Excited', 'Tired'],
+            selected: selectedEmotions,
+            onChanged: onEmotionsChanged,
+            allowMultiple: true,
           ),
           
           SizedBox(height: sp.lg),

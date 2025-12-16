@@ -40,10 +40,10 @@ class ModernFormCard extends StatelessWidget {
           ),
       decoration: t.isDark
           ? BoxDecoration(
-              color: t.colors.surface.withOpacity(0.6),
+              color: t.colors.surface.withValues(alpha: 0.6),
               borderRadius: BorderRadius.circular(t.shapes.radiusLg),
               border: Border.all(
-                color: t.colors.border.withOpacity(0.3),
+                color: t.colors.border.withValues(alpha: 0.3),
                 width: 1,
               ),
               boxShadow: t.cardShadow,
@@ -74,7 +74,7 @@ class ModernFormCard extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(t.spacing.sm),
                       decoration: BoxDecoration(
-                        color: effectiveAccentColor.withOpacity(0.1),
+                        color: effectiveAccentColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                       ),
                       child: Icon(

@@ -69,7 +69,7 @@ class _HarmReductionBannerState extends State<HarmReductionBanner> {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: isDark 
-            ? Colors.amber.withOpacity(0.15) 
+            ? Colors.amber.withValues(alpha: 0.15) 
             : Colors.amber.shade50,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(

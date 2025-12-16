@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 
 class ComplexFields extends StatelessWidget {
   final TextEditingController notesController;
@@ -32,34 +33,11 @@ class ComplexFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // ROA Dropdown
-        DropdownButtonFormField<String>(
+        CommonDropdown<String>(
           value: selectedRoa,
-          decoration: InputDecoration(
-            labelText: 'Route of Administration',
-            prefixIcon: Icon(Icons.route, color: acc.primary),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: c.border),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: 2),
-            ),
-            filled: true,
-            fillColor: c.surface,
-          ),
-          items: roaOptions.map((String roa) {
-            return DropdownMenuItem<String>(
-              value: roa,
-              child: Text(roa, style: TextStyle(color: c.textPrimary)),
-            );
-          }).toList(),
+          items: roaOptions,
           onChanged: onRoaChanged,
-          dropdownColor: c.surface,
-          style: TextStyle(color: c.textPrimary),
+          hintText: 'Route of Administration',
         ),
         SizedBox(height: sp.md),
 

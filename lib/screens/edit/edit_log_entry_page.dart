@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:track_your_drugs/common/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import '../../common/old_common/drawer_menu.dart';
 import '../../models/log_entry_model.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../common/old_common/modern_form_card.dart';
 import '../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 
 class EditReflectionForm extends StatefulWidget {
   final int selectedCount;
@@ -438,41 +439,11 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           ),
         ),
         SizedBox(height: t.spacing.sm),
-        DropdownButtonFormField<String>(
+        CommonDropdown<String>(
           value: items.contains(value) ? value : items.first,
+          items: items,
           onChanged: (val) => onChanged(val!),
-          items: items
-              .map(
-                (item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(item, style: t.typography.body),
-                ),
-              )
-              .toList(),
-          dropdownColor: t.colors.surface,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: t.spacing.md,
-              vertical: t.spacing.md,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(color: t.colors.border),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(color: t.colors.border),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(
-                color: t.accent.primary,
-              ),
-            ),
-            filled: true,
-            fillColor: t.colors.surfaceVariant,
-          ),
-          icon: Icon(Icons.arrow_drop_down, color: t.colors.textSecondary),
+          hintText: label,
         ),
       ],
     );

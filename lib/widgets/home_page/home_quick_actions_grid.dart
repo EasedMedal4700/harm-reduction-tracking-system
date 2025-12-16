@@ -96,9 +96,8 @@ class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
           mainAxisSpacing: context.spacing.md,
           childAspectRatio: 1.1,
           children: enabledActions.map((action) => QuickActionCard(
-            actionKey: action.key,
             icon: action.icon,
-            label: action.label,
+            title: action.label,
             onTap: action.onTap,
           )).toList(),
         );

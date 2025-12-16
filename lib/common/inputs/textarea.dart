@@ -50,7 +50,7 @@ class CommonTextarea extends StatelessWidget {
         hintText: hintText,
         labelText: labelText,
         hintStyle: t.text.body.copyWith(
-          color: t.colors.textSecondary.withOpacity(0.5),
+          color: t.colors.textSecondary.withValues(alpha: 0.5),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
@@ -85,7 +85,7 @@ class CommonTextarea extends StatelessWidget {
           ),
         ),
         filled: true,
-        fillColor: t.colors.surfaceVariant.withOpacity(0.3),
+        fillColor: t.colors.surfaceVariant.withValues(alpha: 0.3),
         alignLabelWithHint: true,
       ),
       style: t.text.body.copyWith(

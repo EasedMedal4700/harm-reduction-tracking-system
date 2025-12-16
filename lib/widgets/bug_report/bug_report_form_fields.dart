@@ -1,6 +1,7 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-
+import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
+import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 
 class BugReportFormFields extends StatelessWidget {
   final TextEditingController titleController;
@@ -33,32 +34,15 @@ class BugReportFormFields extends StatelessWidget {
     final c = context.colors;
     final text = context.text;
     final sp = context.spacing;
-    final sh = context.shapes;
-    final acc = context.accent;
     
     return Column(
       children: [
         // Title
-        TextFormField(
+        CommonInputField(
           controller: titleController,
-          style: text.body.copyWith(color: c.textPrimary),
-          decoration: InputDecoration(
-            labelText: 'Bug Title *',
-            hintText: 'Brief description of the issue',
-            prefixIcon: Icon(Icons.title, color: c.textSecondary),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: c.border),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: 2),
-            ),
-          ),
-          maxLength: 100,
+          labelText: 'Bug Title *',
+          hintText: 'Brief description of the issue',
+          prefixIcon: Icon(Icons.title, color: c.textSecondary),
           validator: (value) {
             if (value == null || value.trim().isEmpty) {
               return 'Please enter a title';
@@ -69,121 +53,54 @@ class BugReportFormFields extends StatelessWidget {
         SizedBox(height: sp.md),
 
         // Severity
-        DropdownButtonFormField<String>(
+        CommonDropdown<String>(
           value: severity,
-          style: text.body.copyWith(color: c.textPrimary),
-          decoration: InputDecoration(
-            labelText: 'Severity',
-            prefixIcon: Icon(Icons.priority_high, color: c.textSecondary),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: c.border),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: 2),
-            ),
-          ),
-          items: severityLevels.map((level) {
-            return DropdownMenuItem(
-              value: level,
-              child: Row(
-                children: [
-                  getSeverityIcon(level),
-                  SizedBox(width: sp.sm),
-                  Text(level, style: text.body.copyWith(color: c.textPrimary)),
-                ],
-              ),
-            );
-          }).toList(),
+          items: severityLevels,
           onChanged: onSeverityChanged,
+          itemBuilder: (context, level) {
+            return Row(
+              children: [
+                getSeverityIcon(level),
+                SizedBox(width: sp.sm),
+                Text(level, style: text.body.copyWith(color: c.textPrimary)),
+              ],
+            );
+          },
+          hintText: 'Severity',
         ),
         SizedBox(height: sp.md),
 
         // Category
-        DropdownButtonFormField<String>(
+        CommonDropdown<String>(
           value: category,
-          style: text.body.copyWith(color: c.textPrimary),
-          decoration: InputDecoration(
-            labelText: 'Category',
-            prefixIcon: Icon(Icons.category, color: c.textSecondary),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: c.border),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: 2),
-            ),
-          ),
-          items: categories.map((cat) {
-            return DropdownMenuItem(
-              value: cat,
-              child: Text(cat, style: text.body.copyWith(color: c.textPrimary)),
-            );
-          }).toList(),
+          items: categories,
           onChanged: onCategoryChanged,
+          hintText: 'Category',
         ),
         SizedBox(height: sp.md),
         
         // Description
-        TextFormField(
+        CommonInputField(
           controller: descriptionController,
-          style: text.body.copyWith(color: c.textPrimary),
+          labelText: 'Description',
+          hintText: 'Detailed explanation of what happened',
           maxLines: 3,
-          decoration: InputDecoration(
-            labelText: 'Description',
-            hintText: 'Detailed explanation of what happened',
-            alignLabelWithHint: true,
-            prefixIcon: Padding(
-              padding: EdgeInsets.only(bottom: 48), // Align icon to top
-              child: Icon(Icons.description, color: c.textSecondary),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: c.border),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: 2),
-            ),
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(bottom: 48), // Align icon to top
+            child: Icon(Icons.description, color: c.textSecondary),
           ),
         ),
         SizedBox(height: sp.md),
         
         // Steps to Reproduce
-        TextFormField(
+        CommonInputField(
           controller: stepsController,
-          style: text.body.copyWith(color: c.textPrimary),
+          labelText: 'Steps to Reproduce',
+          hintText: '1. Go to screen X\n2. Click button Y',
           maxLines: 3,
-          decoration: InputDecoration(
-            labelText: 'Steps to Reproduce',
-            hintText: '1. Go to screen X\n2. Click button Y',
-            alignLabelWithHint: true,
-            prefixIcon: Padding(
-              padding: EdgeInsets.only(bottom: 48), // Align icon to top
-              child: Icon(Icons.format_list_numbered, color: c.textSecondary),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: c.border),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: 2),
-            ),
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(bottom: 48), // Align icon to top
+            child: Icon(Icons.format_list_numbered, color: c.textSecondary),
           ),
         ),
       ],

@@ -170,7 +170,7 @@ class SystemToleranceWidget extends StatelessWidget {
             Icon(
               Icons.chevron_right_rounded,
               size: 18,
-              color: t.colors.textSecondary.withOpacity(0.4),
+              color: t.colors.textSecondary.withValues(alpha: 0.4),
             ),
           ],
         ),
@@ -192,10 +192,10 @@ class SystemToleranceWidget extends StatelessWidget {
         vertical: 2,
       ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: color.withOpacity(0.3),
+          color: color.withValues(alpha: 0.3),
           width: 0.5,
         ),
       ),

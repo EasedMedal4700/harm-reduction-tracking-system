@@ -222,7 +222,7 @@ class DarkShadows {
   static List<BoxShadow> neonGlow(Color color, {double intensity = 0.4}) {
     return [
       BoxShadow(
-        color: color.withOpacity(intensity),
+        color: color.withValues(alpha: intensity),
         blurRadius: AppThemeConstants.glowBlur,
         offset: Offset.zero,
         spreadRadius: AppThemeConstants.glowSpread,
@@ -233,7 +233,7 @@ class DarkShadows {
   static List<BoxShadow> neonGlowIntense(Color color, {double intensity = 0.6}) {
     return [
       BoxShadow(
-        color: color.withOpacity(intensity),
+        color: color.withValues(alpha: intensity),
         blurRadius: AppThemeConstants.glowBlurIntense,
         offset: Offset.zero,
         spreadRadius: AppThemeConstants.glowSpread,

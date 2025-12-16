@@ -75,7 +75,7 @@ class EmptyStateWidget extends ConsumerWidget {
                 label: const Text('Add First Entry'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.accent.primary,
-                  foregroundColor: colors.onPrimary,
+                  foregroundColor: colors.textInverse,
                   padding: EdgeInsets.symmetric(
                     horizontal: spacing.lg,
                     vertical: spacing.md,

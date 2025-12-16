@@ -210,7 +210,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
             children: [
               CircleAvatar(
                 radius: 32,
-                backgroundColor: Colors.white.withOpacity(0.2),
+                backgroundColor: Colors.white.withValues(alpha: 0.2),
                 child: Text(
                   username.isNotEmpty ? username[0].toUpperCase() : '?',
                   style: const TextStyle(
@@ -234,7 +234,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 email,
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha: 0.8),
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -271,7 +271,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           gradient: LinearGradient(
             colors: [
               Colors.transparent,
-              Colors.grey.withOpacity(0.3),
+              Colors.grey.withValues(alpha: 0.3),
               Colors.transparent,
             ],
           ),
@@ -297,7 +297,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
-          color: (isDark ? Colors.amber : Colors.orange).withOpacity(0.2),
+          color: (isDark ? Colors.amber : Colors.orange).withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(

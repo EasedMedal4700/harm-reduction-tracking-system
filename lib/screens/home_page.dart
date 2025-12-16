@@ -39,11 +39,14 @@ class _HomePageState extends State<HomePage>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   final _encryptionService = EncryptionServiceV2();
+  final _userService = UserService();
+  String _userName = 'User';
 
   @override
   void initState() {
     super.initState();
     _checkEncryptionStatus();
+    _loadUserProfile();
     
     // Record interaction when home page is opened
     securityManager.recordInteraction();
@@ -63,6 +66,26 @@ class _HomePageState extends State<HomePage>
     ));
     
     _animationController.forward();
+  }
+
+  Future<void> _loadUserProfile() async {
+    try {
+      final profile = await _userService.loadUserProfile();
+      if (mounted) {
+        setState(() {
+          _userName = profile.displayName ?? 'User';
+        });
+      }
+    } catch (e) {
+      // Fallback to default
+    }
+  }
+
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Good Morning';
+    if (hour < 17) return 'Good Afternoon';
+    return 'Good Evening';
   }
 
   @override
@@ -177,7 +200,11 @@ class _HomePageState extends State<HomePage>
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Header with greeting
-                const HeaderCard(),
+                HeaderCard(
+                  userName: _userName,
+                  greeting: _getGreeting(),
+                  onProfileTap: () => Navigator.pushNamed(context, '/profile'),
+                ),
               
               SizedBox(height: sp.lg),
               

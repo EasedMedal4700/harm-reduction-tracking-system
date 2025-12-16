@@ -34,7 +34,7 @@ class CommonSwitchTile extends StatelessWidget {
     
     return Container(
       decoration: BoxDecoration(
-        color: t.colors.surfaceVariant.withOpacity(0.3),
+        color: t.colors.surfaceVariant.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(t.shapes.radiusMd),
         border: Border.all(
           color: highlighted
@@ -61,7 +61,7 @@ class CommonSwitchTile extends StatelessWidget {
             : null,
         value: value,
         onChanged: enabled ? onChanged : null,
-        activeColor: accentColor,
+        activeThumbColor: accentColor,
       ),
     );
   }

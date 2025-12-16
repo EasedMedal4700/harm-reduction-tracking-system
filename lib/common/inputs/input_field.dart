@@ -68,7 +68,7 @@ class CommonInputField extends StatelessWidget {
         hintText: hintText,
         labelText: labelText,
         hintStyle: t.text.body.copyWith(
-          color: t.colors.textSecondary.withOpacity(0.5),
+          color: t.colors.textSecondary.withValues(alpha: 0.5),
         ),
         labelStyle: t.text.body.copyWith(
           color: t.colors.textSecondary,
@@ -108,7 +108,7 @@ class CommonInputField extends StatelessWidget {
           ),
         ),
         filled: true,
-        fillColor: t.colors.surfaceVariant.withOpacity(0.3),
+        fillColor: t.colors.surfaceVariant.withValues(alpha: 0.3),
         contentPadding: EdgeInsets.symmetric(
           horizontal: t.spacing.md,
           vertical: t.spacing.md,

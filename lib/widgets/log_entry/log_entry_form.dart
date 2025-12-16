@@ -1,176 +1,171 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/widgets/log_entry/simple_fields.dart';
-import 'package:mobile_drug_use_app/widgets/log_entry/complex_fields.dart';
+import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
+import 'package:mobile_drug_use_app/common/inputs/textarea.dart';
+import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 
-class LogEntryForm extends StatefulWidget {
+class LogEntryForm extends StatelessWidget {
+  final GlobalKey<FormState>? formKey;
   final bool isSimpleMode;
-  final VoidCallback onToggleMode;
-  final VoidCallback onSave;
-  final bool isLoading;
   
-  // Controllers and state passed down
-  final TextEditingController substanceController;
-  final TextEditingController dosageController;
-  final TextEditingController notesController;
-  final TextEditingController locationController;
-  final TextEditingController peopleController;
-  final TextEditingController costController;
-  final DateTime selectedDate;
-  final TimeOfDay selectedTime;
-  final String? selectedFeeling;
-  final String? selectedRoa;
-  final List<String> roaOptions;
-  final List<String> substanceOptions;
-  
+  // Data
+  final double? dose;
+  final String? unit;
+  final String? substance;
+  final String? route;
+  final List<String>? feelings;
+  final Map<String, List<String>>? secondaryFeelings;
+  final String? location;
+  final DateTime? date;
+  final int? hour;
+  final int? minute;
+  final bool? isMedicalPurpose;
+  final double? cravingIntensity;
+  final String? intention;
+  final List<String>? selectedTriggers;
+  final List<String>? selectedBodySignals;
+
+  // Controllers
+  final TextEditingController? notesCtrl;
+  final TextEditingController? doseCtrl;
+  final TextEditingController? substanceCtrl;
+
   // Callbacks
-  final ValueChanged<DateTime> onDateChanged;
-  final ValueChanged<TimeOfDay> onTimeChanged;
-  final ValueChanged<String> onFeelingSelected;
-  final ValueChanged<String?> onRoaChanged;
+  final ValueChanged<double>? onDoseChanged;
+  final ValueChanged<String>? onUnitChanged;
+  final ValueChanged<String>? onSubstanceChanged;
+  final ValueChanged<String>? onRouteChanged;
+  final ValueChanged<List<String>>? onFeelingsChanged;
+  final ValueChanged<Map<String, List<String>>>? onSecondaryFeelingsChanged;
+  final ValueChanged<String>? onLocationChanged;
+  final ValueChanged<DateTime>? onDateChanged;
+  final ValueChanged<int>? onHourChanged;
+  final ValueChanged<int>? onMinuteChanged;
+  final ValueChanged<bool>? onMedicalPurposeChanged;
+  final ValueChanged<double>? onCravingIntensityChanged;
+  final ValueChanged<String>? onIntentionChanged;
+  final ValueChanged<List<String>>? onTriggersChanged;
+  final ValueChanged<List<String>>? onBodySignalsChanged;
+  final VoidCallback? onSave;
+  
+  final bool showSaveButton;
 
   const LogEntryForm({
     super.key,
+    this.formKey,
     required this.isSimpleMode,
-    required this.onToggleMode,
-    required this.onSave,
-    this.isLoading = false,
-    required this.substanceController,
-    required this.dosageController,
-    required this.notesController,
-    required this.locationController,
-    required this.peopleController,
-    required this.costController,
-    required this.selectedDate,
-    required this.selectedTime,
-    required this.selectedFeeling,
-    required this.selectedRoa,
-    required this.roaOptions,
-    required this.substanceOptions,
-    required this.onDateChanged,
-    required this.onTimeChanged,
-    required this.onFeelingSelected,
-    required this.onRoaChanged,
+    this.dose,
+    this.unit,
+    this.substance,
+    this.route,
+    this.feelings,
+    this.secondaryFeelings,
+    this.location,
+    this.date,
+    this.hour,
+    this.minute,
+    this.isMedicalPurpose,
+    this.cravingIntensity,
+    this.intention,
+    this.selectedTriggers,
+    this.selectedBodySignals,
+    this.notesCtrl,
+    this.doseCtrl,
+    this.substanceCtrl,
+    this.onDoseChanged,
+    this.onUnitChanged,
+    this.onSubstanceChanged,
+    this.onRouteChanged,
+    this.onFeelingsChanged,
+    this.onSecondaryFeelingsChanged,
+    this.onLocationChanged,
+    this.onDateChanged,
+    this.onHourChanged,
+    this.onMinuteChanged,
+    this.onMedicalPurposeChanged,
+    this.onCravingIntensityChanged,
+    this.onIntentionChanged,
+    this.onTriggersChanged,
+    this.onBodySignalsChanged,
+    this.onSave,
+    this.showSaveButton = true,
   });
 
   @override
-  State<LogEntryForm> createState() => _LogEntryFormState();
-}
-
-class _LogEntryFormState extends State<LogEntryForm> {
-  final _formKey = GlobalKey<FormState>();
-
-  @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final acc = context.accent;
     final sp = context.spacing;
-    final sh = context.shapes;
-
+    
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Mode Toggle
+          // Substance
+          CommonInputField(
+            controller: substanceCtrl,
+            labelText: 'Substance',
+            onChanged: onSubstanceChanged,
+            validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+          ),
+          SizedBox(height: sp.md),
+
+          // Dose & Unit
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
-                widget.isSimpleMode ? 'Simple Mode' : 'Detailed Mode',
-                style: TextStyle(
-                  color: c.textSecondary,
-                  fontWeight: FontWeight.w500,
+              Expanded(
+                flex: 2,
+                child: CommonInputField(
+                  controller: doseCtrl,
+                  labelText: 'Dose',
+                  keyboardType: TextInputType.number,
+                  onChanged: (v) {
+                    if (onDoseChanged != null) {
+                      final val = double.tryParse(v);
+                      if (val != null) onDoseChanged!(val);
+                    }
+                  },
                 ),
               ),
-              Switch(
-                value: !widget.isSimpleMode,
-                onChanged: (_) => widget.onToggleMode(),
-                activeTrackColor: acc.primary,
+              SizedBox(width: sp.md),
+              Expanded(
+                flex: 1,
+                child: CommonDropdown<String>(
+                  value: unit ?? 'mg',
+                  items: const ['mg', 'g', 'ml', 'oz', 'pills', 'tabs'],
+                  onChanged: (v) => onUnitChanged?.call(v ?? 'mg'),
+                ),
               ),
             ],
           ),
           SizedBox(height: sp.md),
 
-          // Fields based on mode
-          if (widget.isSimpleMode)
-            SimpleFields(
-              substanceController: widget.substanceController,
-              dosageController: widget.dosageController,
-              selectedDate: widget.selectedDate,
-              selectedTime: widget.selectedTime,
-              selectedFeeling: widget.selectedFeeling,
-              substanceOptions: widget.substanceOptions,
-              onDateChanged: widget.onDateChanged,
-              onTimeChanged: widget.onTimeChanged,
-              onFeelingSelected: widget.onFeelingSelected,
-            )
-          else
-            Column(
-              children: [
-                SimpleFields(
-                  substanceController: widget.substanceController,
-                  dosageController: widget.dosageController,
-                  selectedDate: widget.selectedDate,
-                  selectedTime: widget.selectedTime,
-                  selectedFeeling: widget.selectedFeeling,
-                  substanceOptions: widget.substanceOptions,
-                  onDateChanged: widget.onDateChanged,
-                  onTimeChanged: widget.onTimeChanged,
-                  onFeelingSelected: widget.onFeelingSelected,
-                ),
-                SizedBox(height: sp.md),
-                const Divider(),
-                SizedBox(height: sp.md),
-                ComplexFields(
-                  notesController: widget.notesController,
-                  locationController: widget.locationController,
-                  peopleController: widget.peopleController,
-                  costController: widget.costController,
-                  selectedRoa: widget.selectedRoa,
-                  roaOptions: widget.roaOptions,
-                  onRoaChanged: widget.onRoaChanged,
-                ),
-              ],
-            ),
-
-          SizedBox(height: sp.xl),
-
-          // Save Button
-          ElevatedButton(
-            onPressed: widget.isLoading
-                ? null
-                : () {
-                    if (_formKey.currentState!.validate()) {
-                      widget.onSave();
-                    }
-                  },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: acc.primary,
-              foregroundColor: c.textInverse,
-              padding: EdgeInsets.symmetric(vertical: sp.md),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(sh.radiusMd),
-              ),
-              elevation: 2,
-            ),
-            child: widget.isLoading
-                ? SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(c.textInverse),
-                    ),
-                  )
-                : const Text(
-                    'Save Entry',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+          // Route
+          CommonDropdown<String>(
+            value: route ?? 'Oral',
+            items: const ['Oral', 'Nasal', 'Smoked', 'Vaped', 'IV', 'IM', 'Rectal', 'Sublingual'],
+            onChanged: (v) {
+              if (v != null && onRouteChanged != null) {
+                onRouteChanged!(v);
+              }
+            },
+            hintText: 'Route of Administration',
           ),
+          SizedBox(height: sp.md),
+
+          // Notes
+          CommonTextarea(
+            controller: notesCtrl,
+            labelText: 'Notes',
+            maxLines: 3,
+          ),
+          SizedBox(height: sp.lg),
+
+          if (showSaveButton && onSave != null)
+            CommonPrimaryButton(
+              onPressed: onSave!,
+              label: 'Save Entry',
+            ),
         ],
       ),
     );

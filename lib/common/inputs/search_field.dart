@@ -48,7 +48,7 @@ class CommonSearchField<T extends Object> extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hintText ?? 'Search...',
             hintStyle: t.text.body.copyWith(
-              color: t.colors.textSecondary.withOpacity(0.5),
+              color: t.colors.textSecondary.withValues(alpha: 0.5),
             ),
             prefixIcon: Icon(
               Icons.search,
@@ -86,7 +86,7 @@ class CommonSearchField<T extends Object> extends StatelessWidget {
               ),
             ),
             filled: true,
-            fillColor: t.colors.surfaceVariant.withOpacity(0.3),
+            fillColor: t.colors.surfaceVariant.withValues(alpha: 0.3),
           ),
           style: t.text.bodyLarge.copyWith(
             color: t.colors.textPrimary,

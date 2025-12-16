@@ -9,10 +9,11 @@ import '../../constants/theme/app_theme_extension.dart';
 
 /// Dropdown selector with consistent styling
 class CommonDropdown<T> extends StatelessWidget {
-  final T value;
+  final T? value;
   final List<T> items;
   final ValueChanged<T?> onChanged;
   final String Function(T)? itemLabel;
+  final Widget Function(BuildContext, T)? itemBuilder;
   final String? hintText;
   final FormFieldValidator<T>? validator;
   final bool enabled;
@@ -22,6 +23,7 @@ class CommonDropdown<T> extends StatelessWidget {
     required this.items,
     required this.onChanged,
     this.itemLabel,
+    this.itemBuilder,
     this.hintText,
     this.validator,
     this.enabled = true,
@@ -33,16 +35,19 @@ class CommonDropdown<T> extends StatelessWidget {
     final t = context.theme;
     
     return DropdownButtonFormField<T>(
-      value: value,
+      key: ValueKey(value),
+      initialValue: value,
       items: items.map((item) {
         return DropdownMenuItem<T>(
           value: item,
-          child: Text(
-            itemLabel != null ? itemLabel!(item) : item.toString(),
-            style: t.text.body.copyWith(
-              color: t.colors.textPrimary,
-            ),
-          ),
+          child: itemBuilder != null
+              ? itemBuilder!(context, item)
+              : Text(
+                  itemLabel != null ? itemLabel!(item) : item.toString(),
+                  style: t.text.body.copyWith(
+                    color: t.colors.textPrimary,
+                  ),
+                ),
         );
       }).toList(),
       onChanged: enabled ? onChanged : null,
@@ -50,7 +55,7 @@ class CommonDropdown<T> extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: t.text.body.copyWith(
-          color: t.colors.textSecondary.withOpacity(0.5),
+          color: t.colors.textSecondary.withValues(alpha: 0.5),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
@@ -72,7 +77,7 @@ class CommonDropdown<T> extends StatelessWidget {
           ),
         ),
         filled: true,
-        fillColor: t.colors.surfaceVariant.withOpacity(0.3),
+        fillColor: t.colors.surfaceVariant.withValues(alpha: 0.3),
         contentPadding: EdgeInsets.symmetric(
           horizontal: t.spacing.md,
           vertical: t.spacing.md,
