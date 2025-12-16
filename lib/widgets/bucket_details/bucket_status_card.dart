@@ -38,7 +38,7 @@ class BucketStatusCard extends StatelessWidget {
             'Current Status',
             style: text.body.copyWith(
               fontWeight: FontWeight.w600,
-              color: c.text,
+              color: c.textPrimary,
             ),
           ),
 
@@ -88,7 +88,7 @@ class BucketStatusCard extends StatelessWidget {
             value,
             style: text.bodySmall.copyWith(
               fontWeight: FontWeight.w600,
-              color: c.text,
+              color: c.textPrimary,
             ),
           ),
         ],

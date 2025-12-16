@@ -48,7 +48,7 @@ class BucketBaselineCard extends StatelessWidget {
                       : '${daysToBaseline.toStringAsFixed(1)} days',
                   style: text.body.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: c.text,
+                    color: c.textPrimary,
                   ),
                 ),
               ],

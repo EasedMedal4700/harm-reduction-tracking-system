@@ -38,7 +38,7 @@ class BucketHeaderCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(sp.sm),
             decoration: BoxDecoration(
-              color: bucketColor.withOpacity(0.12),
+              color: bucketColor.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(sp.radiusMd),
             ),
             child: Icon(
@@ -59,7 +59,7 @@ class BucketHeaderCard extends StatelessWidget {
                   BucketDefinitions.getDisplayName(bucketType),
                   style: text.titleSmall.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: c.text,
+                    color: c.textPrimary,
                   ),
                 ),
 
@@ -84,7 +84,7 @@ class BucketHeaderCard extends StatelessWidget {
                 vertical: sp.xs,
               ),
               decoration: BoxDecoration(
-                color: c.warning.withOpacity(0.18),
+                color: c.warning.withValues(alpha: 0.18),
                 borderRadius: BorderRadius.circular(sp.radiusSm),
               ),
               child: Text(

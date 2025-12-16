@@ -33,7 +33,7 @@ class BucketDescriptionCard extends StatelessWidget {
             'About This System',
             style: text.body.copyWith(
               fontWeight: FontWeight.w600,
-              color: c.text,
+              color: c.textPrimary,
             ),
           ),
 

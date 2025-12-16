@@ -32,7 +32,7 @@ class BucketContributingUsesCard extends StatelessWidget {
             'Contributing Uses',
             style: text.body.copyWith(
               fontWeight: FontWeight.w600,
-              color: c.text,
+              color: c.textPrimary,
             ),
           ),
 
@@ -56,7 +56,7 @@ class BucketContributingUsesCard extends StatelessWidget {
                     '${use.doseUnits.toStringAsFixed(1)} units',
                     style: text.bodySmall.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: c.text,
+                      color: c.textPrimary,
                     ),
                   ),
                 ],

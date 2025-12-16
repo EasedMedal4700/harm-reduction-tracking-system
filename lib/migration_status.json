@@ -304,9 +304,9 @@
       },
       {
         "path": "lib/widgets/admin_panel/admin_app_bar.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/admin_panel/cache_management_section.dart",
@@ -335,21 +335,21 @@
       },
       {
         "path": "lib/widgets/analytics/analytics_loading_state.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/analytics/analytics_error_state.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/analytics/analytics_layout.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       }
     ]
   },
@@ -390,9 +390,9 @@
       },
       {
         "path": "lib/widgets/blood_levels/blood_levels_content.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       }
     ]
   },
@@ -403,45 +403,45 @@
     "widgets": [
       {
         "path": "lib/widgets/bucket_details/bucket_header_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/bucket_details/bucket_description_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/bucket_details/bucket_status_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/bucket_details/bucket_decay_timeline_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/bucket_details/bucket_contributing_uses_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/bucket_details/bucket_notes_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       },
       {
         "path": "lib/widgets/bucket_details/bucket_baseline_card.dart",
-        "status": "needs_migration",
-        "theme": "deprecated",
-        "notes": "Check for deprecated constants"
+        "status": "updated",
+        "theme": "AppTheme",
+        "notes": "Migrated to AppThemeExtension"
       }
     ]
   },
