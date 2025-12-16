@@ -47,7 +47,11 @@ class AdminUserCard extends StatelessWidget {
     // INVALID DATA FALLBACK
     if (authUserId.isEmpty) {
       return Container(
-        decoration: t.cardDecoration(),
+        decoration: BoxDecoration(
+          color: c.surface,
+          borderRadius: BorderRadius.circular(sh.radiusMd),
+          boxShadow: t.cardShadow,
+        ),
         margin: EdgeInsets.symmetric(vertical: sp.sm),
         child: ListTile(
           leading: Icon(Icons.error_outline, color: c.error),
@@ -64,7 +68,11 @@ class AdminUserCard extends StatelessWidget {
     }
 
     return Container(
-      decoration: t.cardDecoration(),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        boxShadow: t.cardShadow,
+      ),
       margin: EdgeInsets.symmetric(vertical: sp.sm),
       child: ExpansionTile(
         tilePadding: EdgeInsets.symmetric(
@@ -80,7 +88,7 @@ class AdminUserCard extends StatelessWidget {
               : t.accent.secondary.withValues(alpha: 0.8),
           child: Text(
             username[0].toUpperCase(),
-            style: text.bodyBold.copyWith(color: c.onPrimary),
+            style: text.bodyBold.copyWith(color: c.textInverse),
           ),
         ),
 
@@ -89,7 +97,7 @@ class AdminUserCard extends StatelessWidget {
           children: [
             Text(
               username,
-              style: text.bodyBold.copyWith(color: c.text),
+              style: text.bodyBold.copyWith(color: c.textPrimary),
             ),
 
             if (isAdmin) ...[
@@ -174,12 +182,12 @@ class AdminUserCard extends StatelessWidget {
                             : Icons.add_circle),
                         label: Text(
                           isAdmin ? 'Remove Admin' : 'Make Admin',
-                          style: text.button.copyWith(color: c.onPrimary),
+                          style: text.button.copyWith(color: c.textInverse),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
                               isAdmin ? c.error : c.success,
-                          foregroundColor: c.onPrimary,
+                          foregroundColor: c.textInverse,
                           padding: EdgeInsets.symmetric(vertical: sp.sm),
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -215,7 +223,7 @@ class AdminUserCard extends StatelessWidget {
           ),
           Text(
             value,
-            style: text.bodyBold.copyWith(color: c.text),
+            style: text.bodyBold.copyWith(color: c.textPrimary),
           ),
         ],
       ),

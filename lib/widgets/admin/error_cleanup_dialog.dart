@@ -47,7 +47,7 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
       /// TITLE
       title: Text(
         'Clean Error Logs',
-        style: text.heading3.copyWith(color: c.text),
+        style: text.heading3.copyWith(color: c.textPrimary),
       ),
 
       /// CONTENT
@@ -63,7 +63,7 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
 
               title: Text(
                 'Delete entire table',
-                style: text.body.copyWith(color: c.text),
+                style: text.body.copyWith(color: c.textPrimary),
               ),
               subtitle: Text(
                 'This action cannot be undone',
@@ -76,7 +76,7 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
               TextField(
                 controller: _daysController,
                 keyboardType: TextInputType.number,
-                style: text.body.copyWith(color: c.text),
+                style: text.body.copyWith(color: c.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'Older than (days)',
                   hintText: 'e.g., 30',
@@ -103,7 +103,7 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
                     .map(
                       (v) => DropdownMenuItem(
                         value: v,
-                        child: Text(v, style: text.body.copyWith(color: c.text)),
+                        child: Text(v, style: text.body.copyWith(color: c.textPrimary)),
                       ),
                     )
                     .toList(),
@@ -126,7 +126,7 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
                     .map(
                       (v) => DropdownMenuItem(
                         value: v,
-                        child: Text(v, style: text.body.copyWith(color: c.text)),
+                        child: Text(v, style: text.body.copyWith(color: c.textPrimary)),
                       ),
                     )
                     .toList(),

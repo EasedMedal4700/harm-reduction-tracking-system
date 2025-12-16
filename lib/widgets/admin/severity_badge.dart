@@ -15,7 +15,6 @@ class SeverityBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
     final text = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -98,7 +97,7 @@ class SeverityBadge extends StatelessWidget {
         );
       default:
         return _SeverityColors(
-          background: c.surfaceBright,
+          background: c.surfaceVariant,
           border: c.border,
           text: c.textSecondary,
         );

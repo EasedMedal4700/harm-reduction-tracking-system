@@ -28,7 +28,6 @@ class ErrorLogDetailDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final text = context.text;
@@ -66,7 +65,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                     Expanded(
                       child: Text(
                         log['error_message'] ?? 'Unknown error',
-                        style: text.heading4.copyWith(color: c.text),
+                        style: text.heading4.copyWith(color: c.textPrimary),
                       ),
                     ),
                   ],
@@ -86,7 +85,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                           vertical: sp.xs,
                         ),
                         decoration: BoxDecoration(
-                          color: c.surfaceBright,
+                          color: c.surfaceVariant,
                           borderRadius: BorderRadius.circular(sh.radiusSm),
                         ),
                         child: Text(
@@ -94,7 +93,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                           style: text.caption.copyWith(
                             fontFamily: 'monospace',
                             fontWeight: FontWeight.bold,
-                            color: c.text,
+                            color: c.textPrimary,
                           ),
                         ),
                       ),
@@ -128,14 +127,14 @@ class ErrorLogDetailDialog extends StatelessWidget {
                 /// STACKTRACE
                 Text(
                   'Stacktrace',
-                  style: text.bodyBold.copyWith(color: c.text),
+                  style: text.bodyBold.copyWith(color: c.textPrimary),
                 ),
                 SizedBox(height: sp.xs),
 
                 Container(
                   padding: EdgeInsets.all(sp.md),
                   decoration: BoxDecoration(
-                    color: c.surfaceBright,
+                    color: c.surfaceVariant,
                     borderRadius: BorderRadius.circular(sh.radiusMd),
                     border: Border.all(color: c.border),
                   ),
@@ -144,7 +143,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                     style: text.caption.copyWith(
                       fontFamily: 'monospace',
                       fontSize: 12,
-                      color: c.text,
+                      color: c.textPrimary,
                     ),
                   ),
                 ),
@@ -154,13 +153,13 @@ class ErrorLogDetailDialog extends StatelessWidget {
                   SizedBox(height: sp.lg),
                   Text(
                     'Extra Data',
-                    style: text.bodyBold.copyWith(color: c.text),
+                    style: text.bodyBold.copyWith(color: c.textPrimary),
                   ),
                   SizedBox(height: sp.xs),
                   Container(
                     padding: EdgeInsets.all(sp.md),
                     decoration: BoxDecoration(
-                      color: c.surfaceBright,
+                      color: c.surfaceVariant,
                       borderRadius: BorderRadius.circular(sh.radiusMd),
                       border: Border.all(color: c.border),
                     ),
@@ -169,7 +168,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                       style: text.caption.copyWith(
                         fontFamily: 'monospace',
                         fontSize: 12,
-                        color: c.text,
+                        color: c.textPrimary,
                       ),
                     ),
                   ),
@@ -206,7 +205,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
           Expanded(
             child: Text(
               value,
-              style: text.body.copyWith(color: c.text),
+              style: text.body.copyWith(color: c.textPrimary),
             ),
           ),
         ],

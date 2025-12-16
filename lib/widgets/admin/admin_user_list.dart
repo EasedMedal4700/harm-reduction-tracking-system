@@ -37,11 +37,11 @@ class AdminUserList extends StatelessWidget {
           children: [
             Text(
               'User Management',
-              style: text.heading3.copyWith(color: c.text),
+              style: text.heading3.copyWith(color: c.textPrimary),
             ),
             IconButton(
               icon: const Icon(Icons.refresh),
-              color: c.text,
+              color: c.textPrimary,
               onPressed: onRefresh,
             ),
           ],

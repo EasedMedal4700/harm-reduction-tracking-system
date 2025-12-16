@@ -34,7 +34,7 @@ class ActivityEmptyState extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: 80,
+              size: sp.xl3 * 2.5,
               color: c.textSecondary.withValues(alpha: 0.5),
             ),
 
@@ -42,7 +42,7 @@ class ActivityEmptyState extends StatelessWidget {
 
             Text(
               title,
-              style: text.heading3.copyWith(color: c.text),
+              style: text.heading3.copyWith(color: c.textPrimary),
               textAlign: TextAlign.center,
             ),
 

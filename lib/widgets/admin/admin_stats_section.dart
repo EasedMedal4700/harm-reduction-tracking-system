@@ -27,6 +27,7 @@ class AdminStatsSection extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final text = context.text;
+    final t = context.theme;
 
     // Extract stats safely
     final cacheHitRate = (perfStats['cache_hit_rate'] ?? 0.0).toDouble();
@@ -39,7 +40,7 @@ class AdminStatsSection extends StatelessWidget {
         // Header
         Text(
           'Quick Stats',
-          style: text.heading3.copyWith(color: c.text),
+          style: text.heading3.copyWith(color: c.textPrimary),
         ),
 
         SizedBox(height: sp.lg),
@@ -81,7 +82,7 @@ class AdminStatsSection extends StatelessWidget {
                   title: 'Avg Response',
                   value: '${avgResponseTime.toStringAsFixed(0)}ms',
                   icon: Icons.speed,
-                  color: c.secondary, // replaced purple
+                  color: t.accent.secondary, // replaced purple
                   subtitle: '${perfStats['total_samples'] ?? 0} samples',
                 ),
               ],

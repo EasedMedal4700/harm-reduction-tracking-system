@@ -26,7 +26,7 @@ class ActivityHelpers {
 
     if (intensity <= 2) return c.success;               // green
     if (intensity <= 4) return c.warning;               // yellow
-    if (intensity <= 7) return c.warningDark;           // orange (preferred)
+    if (intensity <= 7) return c.warning;           // orange (preferred)
     return c.error;                                     // red
   }
 

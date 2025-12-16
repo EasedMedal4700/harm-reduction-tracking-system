@@ -31,16 +31,21 @@ class AdminStatCard extends StatelessWidget {
     final sp = context.spacing;
     final text = context.text;
     final t = context.theme;
+    final sh = context.shapes;
 
     return Container(
-      decoration: t.cardDecoration(),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        boxShadow: t.cardShadow,
+      ),
       child: Padding(
         padding: EdgeInsets.all(sp.md),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // ICON
-            Icon(icon, size: 32, color: color),
+            Icon(icon, size: sp.xl3, color: color),
 
             SizedBox(height: sp.sm),
 

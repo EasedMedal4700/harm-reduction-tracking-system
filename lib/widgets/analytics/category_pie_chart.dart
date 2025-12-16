@@ -21,7 +21,7 @@ class CategoryPieChart extends StatefulWidget {
   });
 
   @override
-  _CategoryPieChartState createState() => _CategoryPieChartState();
+  State<CategoryPieChart> createState() => _CategoryPieChartState();
 }
 
 class _CategoryPieChartState extends State<CategoryPieChart> {
@@ -61,7 +61,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
                 return PieChartSectionData(
                   value: count.toDouble(),
                   title: '$category\n$count',
-                  color: t.accent.primary.withOpacity(baseOpacity),
+                  color: t.accent.primary.withValues(alpha: baseOpacity),
                   radius: touchedIndex == index
                       ? screenWidth * 0.25
                       : screenWidth * 0.20,

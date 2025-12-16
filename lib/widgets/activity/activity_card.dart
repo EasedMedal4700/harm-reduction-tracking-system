@@ -44,8 +44,7 @@ class ActivityCard extends StatelessWidget {
       boxShadow: t.cardShadow,
     );
 
-    final effectiveDecoration =
-        t.isDark ? t.glassmorphicDecoration() : baseDecoration;
+    final effectiveDecoration = baseDecoration;
 
     return Container(
       margin: EdgeInsets.only(bottom: sp.md),
@@ -54,8 +53,8 @@ class ActivityCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          splashColor: c.text.withValues(alpha: 0.05),
-          highlightColor: c.text.withValues(alpha: 0.03),
+          splashColor: c.textPrimary.withValues(alpha: 0.05),
+          highlightColor: c.textPrimary.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(sh.radiusMd),
           child: Padding(
             padding: EdgeInsets.all(sp.md),
@@ -75,8 +74,8 @@ class ActivityCard extends StatelessWidget {
                   ),
                   child: Icon(
                     icon,
-                    color: c.onAccent,
-                    size: 22,
+                    color: c.textInverse,
+                    size: sp.lg,
                   ),
                 ),
 
@@ -95,7 +94,7 @@ class ActivityCard extends StatelessWidget {
                               title,
                               style: text.bodyLarge.copyWith(
                                 fontWeight: FontWeight.w600,
-                                color: c.text,
+                                color: c.textPrimary,
                               ),
                             ),
                           ),
@@ -143,7 +142,7 @@ class ActivityCard extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.access_time,
-                              size: 14,
+                              size: sp.sm,
                               color: c.textTertiary,
                             ),
                             SizedBox(width: sp.xs),
@@ -164,7 +163,7 @@ class ActivityCard extends StatelessWidget {
                   SizedBox(width: sp.sm),
                   Icon(
                     Icons.arrow_forward_ios,
-                    size: 16,
+                    size: sp.md,
                     color: c.textSecondary,
                   ),
                 ],

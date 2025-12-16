@@ -175,7 +175,7 @@ return CommonCard(
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      _buildHeader(t),
+      _buildHeader(context),
       if (_selectedCategory != null) ...[
         const CommonSpacer.vertical(8),
         _CategoryBreadcrumb(
@@ -188,10 +188,10 @@ return CommonCard(
       if (!hasData)
         const _EmptyChartPlaceholder()
       else
-        _buildChartSection(t, data, total),
+        _buildChartSection(context, data, total),
 
       const CommonSpacer.vertical(16),
-      _buildLegend(t, data, total),
+      _buildLegend(context, data, total),
     ],
   ),
 );
@@ -201,8 +201,8 @@ return CommonCard(
 
 // HEADER + TOGGLE -----------------------------------------------------------
 
-Widget _buildHeader(AppTheme t) {
-final isCategoryRoot =
+  Widget _buildHeader(BuildContext context) {
+    final isCategoryRoot =
 _viewType == DistributionViewType.category && _selectedCategory == null;
 final isSubstanceRoot =
 _viewType == DistributionViewType.substance && _selectedCategory == null;
@@ -251,12 +251,12 @@ _touchedIndex = -1;
 
 // CHART ---------------------------------------------------------------------
 
-Widget _buildChartSection(
-AppTheme t,
-Map<String, int> data,
-int total,
-) {
-return LayoutBuilder(
+  Widget _buildChartSection(
+    BuildContext context,
+    Map<String, int> data,
+    int total,
+  ) {
+    return LayoutBuilder(
 builder: (context, constraints) {
 final width = constraints.maxWidth;
 final radiusBase = (width * 0.22).clamp(70.0, 110.0);
@@ -335,8 +335,8 @@ return List.generate(entries.length, (index) {
       ? DrugCategoryColors.colorFor(e.key)
       : _controller.colorForSubstance(e.key, index, entries.length);
 
-  final color = baseColor.withOpacity(isTouched ? 1.0 : 0.85);
-  final radius = isTouched ? radiusBase * 1.08 : radiusBase;
+    final color = baseColor.withValues(alpha: isTouched ? 1.0 : 0.85);
+    final radius = isTouched ? radiusBase * 1.08 : radiusBase;
 
   final slicePercent = e.value / total;
   final showLabel = slicePercent > 0.08;
@@ -359,8 +359,9 @@ return List.generate(entries.length, (index) {
 
 // LEGEND --------------------------------------------------------------------
 
-Widget _buildLegend(AppTheme t, Map<String, int> data, int total) {
-final sorted = data.entries.toList()
+  Widget _buildLegend(BuildContext context, Map<String, int> data, int total) {
+    final t = context.theme;
+    final sorted = data.entries.toList()
 ..sort((a, b) => b.value.compareTo(a.value));
 
 return Column(
@@ -454,19 +455,19 @@ required this.isCategory,
 required this.isSubstance,
 });
 
-@override
-Widget build(BuildContext context) {
-final t = context.theme;
-final bg = t.colors.surface.withOpacity(0.7);
-final border = t.colors.border.withOpacity(0.25);
+  @override
+  Widget build(BuildContext context) {
+    final t = context.theme;
+    final bg = t.colors.surface.withValues(alpha: 0.7);
+    final border = t.colors.border.withValues(alpha: 0.25);
 
-return Container(
-  padding: EdgeInsets.all(t.spacing.xs),
-  decoration: BoxDecoration(
-    color: bg,
-    borderRadius: BorderRadius.circular(AppThemeConstants.radiusFull),
-    border: Border.all(color: border),
-  ),
+    return Container(
+      padding: EdgeInsets.all(t.spacing.xs),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(t.shapes.radiusFull),
+        border: Border.all(color: border),
+      ),
   child: Row(
     mainAxisSize: MainAxisSize.min,
     children: [
@@ -497,9 +498,9 @@ required VoidCallback onTap,
 }) {
 final t = context.theme;
 
-return InkWell(
-  borderRadius: BorderRadius.circular(AppThemeConstants.radiusFull),
-  onTap: onTap,
+    return InkWell(
+      borderRadius: BorderRadius.circular(t.shapes.radiusFull),
+      onTap: onTap,
   child: AnimatedContainer(
     duration: const Duration(milliseconds: 160),
     curve: Curves.easeOut,
@@ -509,9 +510,9 @@ return InkWell(
     ),
     decoration: BoxDecoration(
       color: selected
-          ? t.accent.primary.withOpacity(0.15)
+          ? t.accent.primary.withValues(alpha: 0.15)
           : Colors.transparent,
-      borderRadius: BorderRadius.circular(AppThemeConstants.radiusFull),
+      borderRadius: BorderRadius.circular(t.shapes.radiusFull),
     ),
     child: Text(
       label,
@@ -540,17 +541,17 @@ required this.onClear,
 Widget build(BuildContext context) {
 final t = context.theme;
 
-return InkWell(
-  onTap: onClear,
-  borderRadius: BorderRadius.circular(AppThemeConstants.radiusFull),
-  child: Container(
+    return InkWell(
+      onTap: onClear,
+      borderRadius: BorderRadius.circular(t.shapes.radiusFull),
+      child: Container(
     padding: EdgeInsets.symmetric(
       horizontal: t.spacing.sm,
       vertical: t.spacing.xs,
     ),
     decoration: BoxDecoration(
-      color: t.accent.primary.withOpacity(0.12),
-      borderRadius: BorderRadius.circular(AppThemeConstants.radiusFull),
+      color: t.accent.primary.withValues(alpha: 0.12),
+      borderRadius: BorderRadius.circular(t.shapes.radiusFull),
     ),
     child: Row(
       mainAxisSize: MainAxisSize.min,

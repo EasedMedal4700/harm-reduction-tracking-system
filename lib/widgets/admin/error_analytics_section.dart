@@ -50,7 +50,11 @@ class ErrorAnalyticsSection extends StatelessWidget {
     final recentLogs = _getBreakdown('recent_logs');
 
     return Container(
-      decoration: t.cardDecoration(),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        boxShadow: t.cardShadow,
+      ),
       child: Padding(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
@@ -63,7 +67,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                 SizedBox(width: sp.sm),
                 Text(
                   'Error Monitoring',
-                  style: text.heading3.copyWith(color: c.text),
+                  style: text.heading3.copyWith(color: c.textPrimary),
                 ),
                 const Spacer(),
                 TextButton.icon(
@@ -71,7 +75,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                   icon: const Icon(Icons.cleaning_services_outlined),
                   label: Text(
                     'Clean Logs',
-                    style: text.button.copyWith(color: c.text),
+                    style: text.button.copyWith(color: c.textPrimary),
                   ),
                 ),
               ],
@@ -158,7 +162,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
             /// RECENT LOGS
             Text(
               'Recent Events',
-              style: text.heading4.copyWith(color: c.text),
+              style: text.heading4.copyWith(color: c.textPrimary),
             ),
             SizedBox(height: sp.sm),
 
@@ -197,7 +201,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                               vertical: sp.xs,
                             ),
                             decoration: BoxDecoration(
-                              color: c.surfaceBright,
+                              color: c.surfaceVariant,
                               borderRadius:
                                   BorderRadius.circular(sh.radiusSm),
                             ),
@@ -205,7 +209,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                               errorCode,
                               style: text.overline.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: c.text,
+                                color: c.textPrimary,
                               ),
                             ),
                           ),
@@ -216,7 +220,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                             log['error_message'] ?? 'Unknown error',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
-                            style: text.body.copyWith(color: c.text),
+                            style: text.body.copyWith(color: c.textPrimary),
                           ),
                         ),
                       ],
@@ -272,7 +276,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
           SizedBox(height: sp.sm),
           Text(
             value,
-            style: text.heading3.copyWith(color: c.text),
+            style: text.heading3.copyWith(color: c.textPrimary),
           ),
           Text(
             label,
@@ -300,7 +304,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
       children: [
         Text(
           title,
-          style: text.bodyBold.copyWith(color: c.text),
+          style: text.bodyBold.copyWith(color: c.textPrimary),
         ),
         SizedBox(height: sp.sm),
 
@@ -319,7 +323,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                       : Text(
                           item[labelKey]?.toString() ?? 'Unknown',
                           overflow: TextOverflow.ellipsis,
-                          style: text.body.copyWith(color: c.text),
+                          style: text.body.copyWith(color: c.textPrimary),
                         ),
                 ),
                 Text(

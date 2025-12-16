@@ -32,13 +32,18 @@ class CacheManagementSection extends StatelessWidget {
     final t = context.theme;
     final sp = context.spacing;
     final text = context.text;
+    final sh = context.shapes;
 
     final totalEntries = cacheStats['total_entries'] ?? 0;
     final activeEntries = cacheStats['active_entries'] ?? 0;
     final expiredEntries = cacheStats['expired_entries'] ?? 0;
 
     return Container(
-      decoration: t.cardDecoration(),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        boxShadow: t.cardShadow,
+      ),
       child: Padding(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
@@ -47,7 +52,7 @@ class CacheManagementSection extends StatelessWidget {
             /// Header
             Row(
               children: [
-                Icon(Icons.storage_rounded, color: c.info, size: 24),
+                Icon(Icons.storage_rounded, color: c.info, size: sp.lg),
                 SizedBox(width: sp.md),
                 Text(
                   'Cache Management',
@@ -76,7 +81,7 @@ class CacheManagementSection extends StatelessWidget {
                   ),
                   Container(
                     width: 1,
-                    height: 40,
+                    height: sp.xl3,
                     color: c.divider,
                   ),
                   CacheStatWidget(
@@ -87,7 +92,7 @@ class CacheManagementSection extends StatelessWidget {
                   ),
                   Container(
                     width: 1,
-                    height: 40,
+                    height: sp.xl3,
                     color: c.divider,
                   ),
                   CacheStatWidget(

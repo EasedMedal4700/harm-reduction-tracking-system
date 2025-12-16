@@ -31,7 +31,6 @@ class ActivityDetailSheet extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
     final t = context.theme;
 
     return Container(
@@ -64,14 +63,15 @@ class ActivityDetailSheet extends StatelessWidget {
   Widget _buildHandleBar(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
+    final sh = context.shapes;
 
     return Container(
       margin: EdgeInsets.only(top: sp.sm),
-      width: 44,
-      height: 5,
+      width: sp.xl2,
+      height: sp.xs,
       decoration: BoxDecoration(
         color: c.border,
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(sh.radiusXs),
       ),
     );
   }
@@ -97,13 +97,13 @@ class ActivityDetailSheet extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(sh.radiusSm),
             ),
-            child: Icon(icon, color: c.onAccent, size: 28),
+            child: Icon(icon, color: c.textInverse, size: sp.xl),
           ),
           SizedBox(width: sp.lg),
           Expanded(
             child: Text(
               title,
-              style: text.heading3.copyWith(color: c.text),
+              style: text.heading3.copyWith(color: c.textPrimary),
             ),
           ),
         ],
@@ -154,7 +154,7 @@ class ActivityDetailSheet extends StatelessWidget {
                   child: Text(
                     detail.value,
                     style: text.bodyLarge.copyWith(
-                      color: highlight ? accentColor : c.text,
+                      color: highlight ? accentColor : c.textPrimary,
                       fontWeight:
                           highlight ? FontWeight.w600 : FontWeight.normal,
                     ),
@@ -213,12 +213,12 @@ class ActivityDetailSheet extends StatelessWidget {
                 'Edit Entry',
                 style: text.body.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: c.onAccent,
+                  color: c.textInverse,
                 ),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: accentColor,
-                foregroundColor: c.onAccent,
+                foregroundColor: c.textInverse,
                 shadowColor: c.overlayHeavy,
                 padding: EdgeInsets.symmetric(vertical: sp.md),
                 shape: RoundedRectangleBorder(

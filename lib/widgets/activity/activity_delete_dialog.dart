@@ -31,11 +31,10 @@ class ActivityDeleteDialog extends StatelessWidget {
     final text = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.theme;
 
     return AlertDialog(
       backgroundColor: c.surface,
-      elevation: 12,
+      elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(sh.radiusMd),
         side: BorderSide(color: c.border),
@@ -43,7 +42,7 @@ class ActivityDeleteDialog extends StatelessWidget {
 
       title: Text(
         'Delete Entry?',
-        style: text.heading3.copyWith(color: c.text),
+        style: text.heading3.copyWith(color: c.textPrimary),
       ),
 
       content: Text(
@@ -57,7 +56,7 @@ class ActivityDeleteDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context, false),
           child: Text(
             'Cancel',
-            style: text.body.copyWith(color: c.text),
+            style: text.body.copyWith(color: c.textPrimary),
           ),
         ),
 
@@ -66,7 +65,7 @@ class ActivityDeleteDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context, true),
           style: ElevatedButton.styleFrom(
             backgroundColor: c.error,
-            foregroundColor: c.onError,
+            foregroundColor: c.textInverse,
             padding: EdgeInsets.symmetric(
               horizontal: sp.lg,
               vertical: sp.sm,
@@ -75,13 +74,13 @@ class ActivityDeleteDialog extends StatelessWidget {
               borderRadius: BorderRadius.circular(sh.radiusSm),
             ),
             shadowColor: c.overlayHeavy,
-            elevation: 4,
+            elevation: 0,
           ),
           child: Text(
             'Delete',
             style: text.body.copyWith(
               fontWeight: FontWeight.w600,
-              color: c.onError,
+              color: c.textInverse,
             ),
           ),
         ),
