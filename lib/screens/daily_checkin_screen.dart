@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import '../common/old_common/drawer_menu.dart';
@@ -10,8 +10,8 @@ import '../widgets/daily_checkin/emotion_selector.dart';
 import '../widgets/daily_checkin/notes_input.dart';
 import '../widgets/daily_checkin/save_button.dart';
 import '../providers/daily_checkin_provider.dart';
-import '../constants/colors/ui_colors.dart';
-import '../constants/theme/app_theme_constants.dart';
+
+
 
 class DailyCheckinScreen extends StatefulWidget {
   const DailyCheckinScreen({super.key});
@@ -169,5 +169,6 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
     );
   }
 }
+
 
 

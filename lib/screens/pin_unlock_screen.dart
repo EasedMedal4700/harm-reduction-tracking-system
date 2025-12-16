@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -6,7 +6,7 @@ import '../services/encryption_service_v2.dart';
 import '../services/debug_config.dart';
 import '../services/pin_timeout_service.dart';
 import '../services/security_manager.dart';
-import '../constants/colors/ui_colors.dart';
+
 
 /// Screen for unlocking with PIN or biometrics
 class PinUnlockScreen extends StatefulWidget {
@@ -45,7 +45,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
       
       if (user == null) {
         // User not logged in, redirect to login
-        print('🔐 PIN screen: No authenticated user, redirecting to login');
+        print('ðŸ” PIN screen: No authenticated user, redirecting to login');
         if (mounted) {
           Navigator.of(context).pushReplacementNamed('/login_page');
         }
@@ -60,7 +60,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
       await _checkBiometrics();
       await _tryDebugAutoUnlock();
     } catch (e) {
-      print('❌ PIN screen auth check error: $e');
+      print('âŒ PIN screen auth check error: $e');
       // On error, redirect to login for safety
       if (mounted) {
         Navigator.of(context).pushReplacementNamed('/login_page');
@@ -75,7 +75,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
     final pin = DebugConfig.instance.debugPin;
     if (pin == null || pin.isEmpty) return;
     
-    print('🔧 DEBUG: Attempting auto-unlock with debug PIN');
+    print('ðŸ”§ DEBUG: Attempting auto-unlock with debug PIN');
     
     // Small delay to ensure widget is mounted
     await Future.delayed(const Duration(milliseconds: 100));
@@ -87,7 +87,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
     try {
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) {
-        print('❌ DEBUG: No user for auto-unlock');
+        print('âŒ DEBUG: No user for auto-unlock');
         setState(() => _isLoading = false);
         return;
       }
@@ -99,18 +99,18 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
         await pinTimeoutService.recordUnlock();
         await securityManager.recordUnlock();
         
-        print('✅ DEBUG: Auto-unlock successful');
+        print('âœ… DEBUG: Auto-unlock successful');
         if (mounted) {
           Navigator.of(context).pushReplacementNamed('/home_page');
         }
       } else {
-        print('❌ DEBUG: Auto-unlock failed, showing PIN screen');
+        print('âŒ DEBUG: Auto-unlock failed, showing PIN screen');
         if (mounted) {
           setState(() => _isLoading = false);
         }
       }
     } catch (e) {
-      print('❌ DEBUG: Auto-unlock error: $e');
+      print('âŒ DEBUG: Auto-unlock error: $e');
       if (mounted) {
         setState(() => _isLoading = false);
       }
@@ -339,7 +339,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
                 ),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                  hintText: '● ● ● ● ● ●',
+                  hintText: 'â— â— â— â— â— â—',
                   hintStyle: TextStyle(
                     color: isDark
                         ? UIColors.darkTextSecondary
@@ -467,5 +467,6 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
     ); // Close PopScope
   }
 }
+
 
 

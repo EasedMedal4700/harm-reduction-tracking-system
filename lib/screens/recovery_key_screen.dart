@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_service_v2.dart';
-import '../constants/colors/ui_colors.dart';
+
 
 /// Screen for unlocking with recovery key and optionally resetting PIN
 class RecoveryKeyScreen extends StatefulWidget {
@@ -470,7 +470,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                 ),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                  hintText: '• • • • • •',
+                  hintText: 'â€¢ â€¢ â€¢ â€¢ â€¢ â€¢',
                   hintStyle: TextStyle(
                     color: isDark
                         ? UIColors.darkTextSecondary
@@ -532,7 +532,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                 ),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                  hintText: '• • • • • •',
+                  hintText: 'â€¢ â€¢ â€¢ â€¢ â€¢ â€¢',
                   hintStyle: TextStyle(
                     color: isDark
                         ? UIColors.darkTextSecondary
@@ -627,5 +627,6 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
     );
   }
 }
+
 
 

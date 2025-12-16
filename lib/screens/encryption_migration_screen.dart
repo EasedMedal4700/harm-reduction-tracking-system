@@ -1,4 +1,4 @@
-/// Encryption Migration Screen
+﻿/// Encryption Migration Screen
 /// 
 /// This screen is shown to existing users who have data encrypted with the old
 /// JWT-based system. It explains the migration to the new PIN-based system and
@@ -9,7 +9,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_migration_service.dart';
-import '../constants/colors/ui_colors.dart';
+
 import '../utils/error_handler.dart';
 import '../states/migration_step_controller.dart';
 
@@ -265,7 +265,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
           style: const TextStyle(fontSize: 24, letterSpacing: 8),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: InputDecoration(
-            hintText: '••••••',
+            hintText: 'â€¢â€¢â€¢â€¢â€¢â€¢',
             counterText: '',
             suffixIcon: IconButton(
               icon: Icon(_pinVisible ? Icons.visibility_off : Icons.visibility),
@@ -339,7 +339,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
           style: const TextStyle(fontSize: 24, letterSpacing: 8),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: InputDecoration(
-            hintText: '••••••',
+            hintText: 'â€¢â€¢â€¢â€¢â€¢â€¢',
             counterText: '',
             suffixIcon: IconButton(
               icon: Icon(
@@ -613,6 +613,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
     }
   }
 }
+
 
 
 

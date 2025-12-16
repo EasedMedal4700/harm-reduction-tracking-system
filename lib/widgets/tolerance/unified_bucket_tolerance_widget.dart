@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Unified Bucket Tolerance Widget
  * 
  * Created: 2024-03-15
@@ -36,7 +36,7 @@ import '../../models/tolerance_model.dart';
 import '../../utils/tolerance_calculator.dart';
 
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_theme_constants.dart';
+
 
 /// Unified widget combining system tolerance and substance-specific breakdown.
 /// 
@@ -455,7 +455,7 @@ class _UnifiedBucketToleranceWidgetState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Weight: ${bucket.weight.toStringAsFixed(2)} • Type: ${bucket.toleranceType}',
+                    'Weight: ${bucket.weight.toStringAsFixed(2)} â€¢ Type: ${bucket.toleranceType}',
                     style: typography.caption.copyWith(
                       color: colors.textSecondary,
                     ),
@@ -518,7 +518,7 @@ class _UnifiedBucketToleranceWidgetState
         children: [
           // Debug header
           Text(
-            '🐛 CALCULATION DEBUG',
+            'ðŸ› CALCULATION DEBUG',
             style: typography.captionBold.copyWith(
               color: Colors.amber,
             ),
@@ -583,14 +583,14 @@ class _UnifiedBucketToleranceWidgetState
             '1. Active Level = e^(-hours_since_use / half_life)\n'
             '2. Dose Normalized = dose_mg / standard_unit_mg\n'
             '3. For EACH use event:\n'
-            '   base_contribution = dose_norm × weight × potency × gain_rate × 0.08\n'
+            '   base_contribution = dose_norm Ã— weight Ã— potency Ã— gain_rate Ã— 0.08\n'
             '4. Apply decay to EACH event individually:\n'
             '   if active_level > threshold: NO DECAY (pause)\n'
-            '   else: decay_factor = e^(-hours / (decay_days × 24))\n'
-            '5. event_tolerance = base_contribution × decay_factor\n'
+            '   else: decay_factor = e^(-hours / (decay_days Ã— 24))\n'
+            '5. event_tolerance = base_contribution Ã— decay_factor\n'
             '6. Total tolerance = SUM of all event_tolerance values\n\n'
             'KEY: Tolerance added ONCE per use, not on every recalc!\n'
-            'Example: 8×5mg over 4 days → 20–40% tolerance',
+            'Example: 8Ã—5mg over 4 days â†’ 20â€“40% tolerance',
             style: typography.caption.copyWith(
               color: colors.textSecondary,
               fontFamily: 'monospace',
@@ -634,4 +634,5 @@ class _UnifiedBucketToleranceWidgetState
     );
   }
 }
+
 

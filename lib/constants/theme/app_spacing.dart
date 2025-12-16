@@ -1,4 +1,4 @@
-import 'app_theme_constants.dart';
+﻿import 'app_theme_constants.dart';
 
 class Spacing {
   final double xs;
@@ -48,3 +48,4 @@ class Spacing {
         cardMargin: AppThemeConstants.cardMarginCompact,
       );
 }
+

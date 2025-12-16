@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import '../common/old_common/drawer_menu.dart';
@@ -6,8 +6,8 @@ import '../services/log_entry_service.dart';
 import '../providers/reflection_provider.dart';
 import '../widgets/reflection/reflection_form.dart';
 import '../widgets/reflection/reflection_selection.dart';
-import '../constants/theme/app_theme_constants.dart';
-import '../constants/colors/ui_colors.dart';
+
+
 
 class ReflectionPage extends StatefulWidget {
   const ReflectionPage({super.key});
@@ -206,5 +206,6 @@ class _ReflectionPageState extends State<ReflectionPage> {
     );
   }
 }
+
 
 

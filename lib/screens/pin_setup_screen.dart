@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_service_v2.dart';
-import '../constants/colors/ui_colors.dart';
+
 
 /// Screen for setting up PIN-based encryption
 class PinSetupScreen extends StatefulWidget {
@@ -210,7 +210,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                       color: textColor,
                     ),
                     decoration: InputDecoration(
-                      hintText: '● ● ● ● ● ●',
+                      hintText: 'â— â— â— â— â— â—',
                       counterText: '',
                       border: InputBorder.none,
                       suffixIcon: IconButton(
@@ -261,7 +261,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                       color: textColor,
                     ),
                     decoration: InputDecoration(
-                      hintText: '● ● ● ● ● ●',
+                      hintText: 'â— â— â— â— â— â—',
                       counterText: '',
                       border: InputBorder.none,
                       suffixIcon: IconButton(
@@ -505,5 +505,6 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
     ); // Close PopScope
   }
 }
+
 
 

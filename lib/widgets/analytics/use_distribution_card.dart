@@ -1,4 +1,4 @@
-
+﻿
 // MIGRATION
 // Theme: PARTIAL
 // Common: PARTIAL
@@ -9,7 +9,7 @@ import 'package:fl_chart/fl_chart.dart';
 
 import '../../constants/theme/app_theme.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_theme_constants.dart';
+
 import '../../constants/data/drug_categories.dart';
 import '../../models/log_entry_model.dart';
 
@@ -416,7 +416,7 @@ return Column(
                   ),
                   SizedBox(width: t.spacing.sm),
                   Text(
-                    '$pct · ${e.value}',
+                    '$pct Â· ${e.value}',
                     style: t.typography.caption.copyWith(
                       color: t.colors.textSecondary,
                     ),

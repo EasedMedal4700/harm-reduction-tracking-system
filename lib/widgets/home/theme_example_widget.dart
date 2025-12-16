@@ -1,11 +1,11 @@
-// MIGRATION
+﻿// MIGRATION
 // Theme: PARTIAL
 // Common: PARTIAL
 // Riverpod: TODO
 // Notes: Initial migration header added. Some theme/common usage, not fully migrated.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme.dart';
-import '../../constants/theme/app_theme_constants.dart';
+
 
 /// Example widget demonstrating theme usage patterns
 /// Use this as a reference when building new themed widgets
@@ -227,3 +227,4 @@ class ThemeExampleWidget extends StatelessWidget {
     );
   }
 }
+
