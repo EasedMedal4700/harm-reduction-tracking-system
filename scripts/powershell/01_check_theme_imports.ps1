@@ -1,41 +1,23 @@
-$projectRoot = "C:\Users\fquaa\dev\TrackYourDrugs\lib"
-
-$forbiddenImports = @(
-    "app_theme.dart",
-    "app_color_palette.dart",
-    "app_spacing.dart",
-    "app_typography.dart",
-    "app_shadows.dart",
-    "app_accent_colors.dart"
+$illegalPatterns = @(
+    "ui_colors.dart",
+    "deprecated",
+    "theme_constants.dart"
 )
+
+$files = Get-ChildItem "lib" -Recurse -Include *.dart
 
 $violations = @()
 
-Get-ChildItem -Path $projectRoot -Recurse -Filter "*.dart" | ForEach-Object {
+foreach ($file in $files) {
+    $content = Get-Content $file.FullName -Raw
 
-    # Skip theme internals
-    if ($_.FullName -match "constants\\theme") {
-        return
-    }
-
-    $content = Get-Content $_.FullName -Raw
-
-    foreach ($import in $forbiddenImports) {
-        if ($content -match $import) {
-            $violations += [PSCustomObject]@{
-                File  = $_.FullName
-                Issue = "Imports forbidden theme internal: $import"
-            }
+    foreach ($pattern in $illegalPatterns) {
+        if ($content -match $pattern) {
+            $violations += $file.FullName
+            break
         }
     }
 }
 
-if ($violations.Count -eq 0) {
-    Write-Host "✅ No illegal theme imports found." -ForegroundColor Green
-} else {
-    Write-Host "❌ Illegal theme imports detected:" -ForegroundColor Red
-    $violations | Format-Table -AutoSize
-}
-
-# IMPORTANT: return count for orchestrator
+# IMPORTANT: return only a number
 return $violations.Count
