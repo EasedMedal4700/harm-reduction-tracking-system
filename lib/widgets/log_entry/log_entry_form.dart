@@ -1,5 +1,6 @@
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme.dart';
+
 import 'simple_fields.dart';
 import 'package:mobile_drug_use_app/widgets/log_entry/complex_fields.dart';
 
@@ -204,3 +205,4 @@ class LogEntryForm extends StatelessWidget {
     );
   }
 }
+

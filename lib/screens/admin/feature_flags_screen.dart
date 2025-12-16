@@ -1,6 +1,7 @@
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../constants/theme/app_theme.dart';
+
 import '../../constants/config/feature_flags.dart';
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';
@@ -38,7 +39,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Admin access required'),
-            backgroundColor: AppTheme.of(context).colors.error,
+            backgroundColor: context.colors.error,
           ),
         );
       }
@@ -63,7 +64,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to update ""'),
-            backgroundColor: AppTheme.of(context).colors.error,
+            backgroundColor: context.colors.error,
           ),
         );
       }
@@ -365,3 +366,4 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     );
   }
 }
+

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_theme.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -30,28 +29,26 @@ class CommonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    
     return Container(
-      padding: padding ?? EdgeInsets.all(t.spacing.cardPadding),
-      decoration: _buildDecoration(t),
+      padding: padding ?? EdgeInsets.all(context.spacing.cardPadding),
+      decoration: _buildDecoration(context),
       child: child,
     );
   }
 
-  BoxDecoration _buildDecoration(AppTheme t) {
-    final defaultBorderColor = t.colors.border;
-    
+  BoxDecoration _buildDecoration(BuildContext context) {
     return BoxDecoration(
-      color: backgroundColor ?? t.colors.surface,
-      borderRadius: BorderRadius.circular(borderRadius ?? t.shapes.radiusLg),
+      color: backgroundColor ?? context.colors.surface,
+      borderRadius: BorderRadius.circular(
+        borderRadius ?? context.shapes.radiusLg,
+      ),
       border: showBorder
           ? Border.all(
-              color: borderColor ?? defaultBorderColor,
+              color: borderColor ?? context.colors.border,
               width: 1,
             )
           : null,
-      boxShadow: t.cardShadow,
+      boxShadow: context.cardShadow,
     );
   }
 }

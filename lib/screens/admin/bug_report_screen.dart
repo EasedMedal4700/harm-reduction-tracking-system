@@ -1,5 +1,6 @@
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme.dart';
+
 import '../../services/user_service.dart';
 import '../../utils/error_reporter.dart';
 import '../../widgets/bug_report/bug_report_form_fields.dart';
@@ -70,7 +71,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text(' Bug report submitted successfully'),
-          backgroundColor: AppTheme.of(context).colors.success,
+          backgroundColor: context.colors.success,
           duration: const Duration(seconds: 3),
         ),
       );
@@ -83,7 +84,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to submit bug report: '),
-          backgroundColor: AppTheme.of(context).colors.error,
+          backgroundColor: context.colors.error,
         ),
       );
     }
@@ -181,3 +182,4 @@ class _BugReportScreenState extends State<BugReportScreen> {
     }
   }
 }
+

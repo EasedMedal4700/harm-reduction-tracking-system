@@ -1,10 +1,11 @@
-﻿// MIGRATION
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+// MIGRATION
 // Theme: PARTIAL
 // Common: PARTIAL
 // Riverpod: TODO
 // Notes: Initial migration header added. Some theme/common usage, not fully migrated.
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme.dart';
+
 
 
 /// Quick action tile for the home grid
@@ -159,4 +160,5 @@ class QuickActionData {
     this.color,
   });
 }
+
 

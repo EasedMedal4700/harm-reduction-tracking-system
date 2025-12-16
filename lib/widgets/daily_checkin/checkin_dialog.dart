@@ -10,7 +10,7 @@ import '../../providers/daily_checkin_provider.dart';
 import '../../common/inputs/mood_selector.dart';
 import '../../common/inputs/emotion_selector.dart';
 import '../../common/inputs/input_field.dart';
-import '../../constants/theme/app_radius.dart';
+
 import '../../constants/theme/app_theme_extension.dart';
 
 class DailyCheckinDialog extends StatefulWidget {
@@ -193,3 +193,4 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
     );
   }
 }
+

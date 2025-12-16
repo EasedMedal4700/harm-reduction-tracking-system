@@ -1,5 +1,6 @@
-﻿import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:flutter/material.dart';
+
 import '../models/drug_catalog_entry.dart';
 import '../services/personal_library_service.dart';
 import '../repo/stockpile_repository.dart';
@@ -287,6 +288,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
     );
   }
 }
+
 
 
 

@@ -1,5 +1,6 @@
-﻿import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_service_v2.dart';
@@ -317,7 +318,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               color: textColor,
             ),
             decoration: InputDecoration(
-              hintText: 'â— â— â— â— â— â—',
+              hintText: '● ● ● ● ● ●',
               counterText: '',
               border: InputBorder.none,
               suffixIcon: IconButton(
@@ -432,6 +433,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
     );
   }
 }
+
 
 
 

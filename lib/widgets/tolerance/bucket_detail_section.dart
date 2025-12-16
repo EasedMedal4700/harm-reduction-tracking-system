@@ -31,7 +31,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/bucket_definitions.dart';
 import '../../models/tolerance_model.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_theme.dart';
+
 
 /// Detailed view for a selected neurochemical bucket
 /// 
@@ -264,3 +264,4 @@ class BucketDetailSection extends ConsumerWidget {
     );
   }
 }
+

@@ -1,5 +1,6 @@
-﻿import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:flutter/material.dart';
+
 import '../../common/old_common/drawer_menu.dart';
 import '../../models/log_entry_model.dart';
 import '../../models/log_entry_form_data.dart';
@@ -339,5 +340,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     );
   }
 }
+
 
 

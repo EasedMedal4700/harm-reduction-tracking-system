@@ -25,7 +25,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_theme.dart';
+
 
 /// Card displaying current tolerance percentage with color indicator and progress bar
 /// 
@@ -151,3 +151,4 @@ class ToleranceSummaryCard extends ConsumerWidget {
     return colors.error;
   }
 }
+

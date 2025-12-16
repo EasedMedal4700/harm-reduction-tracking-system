@@ -1,5 +1,6 @@
-﻿import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import '../common/old_common/drawer_menu.dart';
 import '../services/log_entry_service.dart';
@@ -206,6 +207,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
     );
   }
 }
+
 
 
 

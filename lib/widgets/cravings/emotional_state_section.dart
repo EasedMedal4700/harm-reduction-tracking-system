@@ -1,5 +1,6 @@
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme.dart';
+
 import '../log_entry/feeling_selection.dart';
 
 class EmotionalStateSection extends StatelessWidget {
@@ -90,3 +91,4 @@ class EmotionalStateSection extends StatelessWidget {
     );
   }
 }
+

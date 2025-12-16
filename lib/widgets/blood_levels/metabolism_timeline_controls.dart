@@ -6,7 +6,7 @@
 // Uses context.theme, context.colors, context.text, context.spacing, context.shapes.
 
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
+
 import '../../constants/theme/app_theme_extension.dart';
 
 /// Controls for adjusting metabolism timeline view parameters
@@ -273,4 +273,5 @@ class MetabolismTimelineControls extends StatelessWidget {
     );
   }
 }
+
 

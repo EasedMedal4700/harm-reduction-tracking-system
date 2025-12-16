@@ -1,7 +1,8 @@
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../constants/theme/app_theme.dart';
+
 import '../../providers/drug/drug_names_provider.dart';
 import '../../providers/drug/substance_controller.dart';
 import '../../providers/drug/substance_normalization_provider.dart';
@@ -160,3 +161,4 @@ class _SubstanceAutocompleteState extends ConsumerState<SubstanceAutocomplete> {
     );
   }
 }
+

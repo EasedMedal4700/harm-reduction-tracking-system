@@ -1,5 +1,6 @@
-﻿import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../common/old_common/drawer_menu.dart';
@@ -80,7 +81,7 @@ class _HomePageState extends State<HomePage>
         _requireUnlock();
       }
     } catch (e) {
-      print('âš ï¸ Error checking encryption status: $e');
+      print('⚠️ Error checking encryption status: $e');
     }
   }
 
@@ -281,6 +282,7 @@ class _HomePageState extends State<HomePage>
     }
   }
 }
+
 
 
 

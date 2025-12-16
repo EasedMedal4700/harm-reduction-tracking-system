@@ -1,5 +1,6 @@
-﻿import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/encryption_service_v2.dart';
@@ -470,7 +471,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                 ),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                  hintText: 'â€¢ â€¢ â€¢ â€¢ â€¢ â€¢',
+                  hintText: '• • • • • •',
                   hintStyle: TextStyle(
                     color: isDark
                         ? UIColors.darkTextSecondary
@@ -532,7 +533,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                 ),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                  hintText: 'â€¢ â€¢ â€¢ â€¢ â€¢ â€¢',
+                  hintText: '• • • • • •',
                   hintStyle: TextStyle(
                     color: isDark
                         ? UIColors.darkTextSecondary
@@ -627,6 +628,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
     );
   }
 }
+
 
 
 

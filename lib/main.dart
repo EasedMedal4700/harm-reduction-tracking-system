@@ -1,3 +1,4 @@
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
 
@@ -10,7 +11,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'providers/daily_checkin_provider.dart';
 import 'providers/settings_provider.dart';
 import 'routes/screen_tracking_observer.dart';
-import 'constants/theme/app_theme.dart';
+
 import 'constants/theme/app_theme_provider.dart';
 
 import 'screens/admin_panel_screen.dart';
@@ -284,3 +285,4 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     );
   }
 }
+

@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_theme.dart';
+
 import '../../constants/data/drug_categories.dart';
 import '../../models/drug_catalog_entry.dart';
 import '../../models/stockpile_item.dart';
@@ -319,3 +319,4 @@ class SubstanceCard extends StatelessWidget {
     );
   }
 }
+

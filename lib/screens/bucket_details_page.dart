@@ -1,5 +1,6 @@
-﻿import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:flutter/material.dart';
+
 import '../models/bucket_definitions.dart';
 import '../models/tolerance_model.dart';
 
@@ -17,7 +18,7 @@ import '../widgets/bucket_details/bucket_baseline_card.dart';
 class BucketDetailsPage extends StatelessWidget {
   final String bucketType;
   final NeuroBucket bucket;
-  final double tolerancePercent; // 0â€“100
+  final double tolerancePercent; // 0–100
   final double rawLoad;
   final List<UseLogEntry> contributingUses;
   final double daysToBaseline;
@@ -105,6 +106,7 @@ class BucketDetailsPage extends StatelessWidget {
     );
   }
 }
+
 
 
 

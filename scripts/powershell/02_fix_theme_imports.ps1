@@ -33,12 +33,12 @@ foreach ($File in $Files) {
 
     if ($Content -ne $Original) {
         if ($Content -notmatch "app_theme_extension.dart") {
-            $Content = "import 'package:your_app/constants/theme/app_theme_extension.dart';`n$Content"
+            $Content = "import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';`n$Content"
         }
 
         Set-Content -Path $File.FullName -Value $Content
         $FixedCount++
-        Write-Host "Fixed: $($File.FullName.Replace($ProjectRoot, ""))"
+        Write-Host "Fixed: "$($File.FullName.Replace($ProjectRoot, ""))
     }
 }
 

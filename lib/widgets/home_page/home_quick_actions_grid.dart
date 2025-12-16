@@ -1,3 +1,4 @@
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 // MIGRATION
 // Theme: TODO
@@ -5,7 +6,7 @@
 // Riverpod: TODO
 // Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
+
 import 'package:provider/provider.dart';
 import '../../constants/config/feature_flags.dart';
 
@@ -116,4 +117,5 @@ class _QuickAction {
 
   const _QuickAction(this.key, this.icon, this.label, this.onTap, this.flagName);
 }
+
 

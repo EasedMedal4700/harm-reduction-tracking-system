@@ -1,4 +1,4 @@
-﻿
+
 // MIGRATION
 // Theme: PARTIAL
 // Common: PARTIAL
@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-import '../../constants/theme/app_theme.dart';
+
 import '../../constants/theme/app_theme_extension.dart';
 
 import '../../constants/data/drug_categories.dart';
@@ -416,7 +416,7 @@ return Column(
                   ),
                   SizedBox(width: t.spacing.sm),
                   Text(
-                    '$pct Â· ${e.value}',
+                    '$pct · ${e.value}',
                     style: t.typography.caption.copyWith(
                       color: t.colors.textSecondary,
                     ),
@@ -643,3 +643,4 @@ return SizedBox(
 
 }
 }
+

@@ -1,5 +1,6 @@
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme.dart';
+
 import '../../constants/data/body_and_mind_catalog.dart';
 
 class ComplexFields extends StatelessWidget {
@@ -200,3 +201,4 @@ class ComplexFields extends StatelessWidget {
     );
   }
 }
+
