@@ -1,6 +1,5 @@
 $projectRoot = "C:\Users\fquaa\dev\TrackYourDrugs\lib"
 
-# Theme internals that UI files must NOT import
 $forbiddenImports = @(
     "app_theme.dart",
     "app_color_palette.dart",
@@ -14,7 +13,7 @@ $violations = @()
 
 Get-ChildItem -Path $projectRoot -Recurse -Filter "*.dart" | ForEach-Object {
 
-    # Skip theme internals themselves
+    # Skip theme internals
     if ($_.FullName -match "constants\\theme") {
         return
     }
@@ -37,3 +36,6 @@ if ($violations.Count -eq 0) {
     Write-Host "❌ Illegal theme imports detected:" -ForegroundColor Red
     $violations | Format-Table -AutoSize
 }
+
+# IMPORTANT: return count for orchestrator
+return $violations.Count
