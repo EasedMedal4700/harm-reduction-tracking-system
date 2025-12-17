@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/data/drug_use_catalog.dart';
+import 'package:mobile_drug_use_app/constants/data/body_and_mind_catalog.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
 import 'package:mobile_drug_use_app/common/inputs/textarea.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
+import 'package:mobile_drug_use_app/common/inputs/emotion_selector.dart';
+import 'package:mobile_drug_use_app/common/inputs/slider.dart';
+import 'package:mobile_drug_use_app/common/inputs/switch_tile.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_chip_group.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/common/text/common_section_header.dart';
 
 class LogEntryForm extends StatelessWidget {
   final GlobalKey<FormState>? formKey;
@@ -96,6 +103,7 @@ class LogEntryForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
+    final t = context.theme;
 
     final routeOptions = DrugUseCatalog.consumptionMethods
         .map((m) => m['name']!)
@@ -166,6 +174,112 @@ class LogEntryForm extends StatelessWidget {
           ),
           SizedBox(height: sp.md),
 
+          // Time Selector
+          _buildTimeSelector(context),
+          SizedBox(height: sp.md),
+
+          // Location
+          CommonDropdown<String>(
+            value: location ?? DrugUseCatalog.locations.first,
+            items: DrugUseCatalog.locations,
+            onChanged: (v) {
+              if (v != null && onLocationChanged != null) {
+                onLocationChanged!(v);
+              }
+            },
+            hintText: 'Location',
+          ),
+          SizedBox(height: sp.md),
+
+          // Medical Purpose
+          CommonSwitchTile(
+            title: 'Medical Purpose',
+            value: isMedicalPurpose ?? false,
+            onChanged: (v) => onMedicalPurposeChanged?.call(v),
+          ),
+          SizedBox(height: sp.md),
+
+          // Complex Mode Inputs
+          if (!isSimpleMode) ...[
+            // Intention
+            CommonDropdown<String>(
+              value: intention ?? intentions.first,
+              items: intentions,
+              onChanged: (v) {
+                if (v != null && onIntentionChanged != null) {
+                  onIntentionChanged!(v);
+                }
+              },
+              hintText: 'Intention',
+            ),
+            SizedBox(height: sp.md),
+
+            // Craving Intensity
+            CommonCard(
+              padding: EdgeInsets.all(sp.cardPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CommonSectionHeader(
+                    title: 'Craving Intensity',
+                    subtitle: 'How strong was the urge?',
+                  ),
+                  SizedBox(height: sp.sm),
+                  CommonSlider(
+                    value: cravingIntensity ?? 0.0,
+                    min: 0.0,
+                    max: 10.0,
+                    divisions: 10,
+                    onChanged: (v) => onCravingIntensityChanged?.call(v),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: sp.md),
+
+            // Emotions
+            EmotionSelector(
+              selectedEmotions: feelings ?? [],
+              availableEmotions: DrugUseCatalog.primaryEmotions.map((e) => e['name']!).toList(),
+              onEmotionToggled: (emotion) {
+                if (onFeelingsChanged != null) {
+                  final current = List<String>.from(feelings ?? []);
+                  if (current.contains(emotion)) {
+                    current.remove(emotion);
+                  } else {
+                    current.add(emotion);
+                  }
+                  onFeelingsChanged!(current);
+                }
+              },
+            ),
+            SizedBox(height: sp.md),
+
+            // Secondary Emotions
+            if (feelings != null && feelings!.isNotEmpty)
+              _buildSecondaryEmotions(context),
+
+            // Triggers
+            CommonChipGroup(
+              title: 'Triggers',
+              subtitle: 'What triggered this use?',
+              options: triggers,
+              selected: selectedTriggers ?? [],
+              onChanged: (v) => onTriggersChanged?.call(v),
+            ),
+            SizedBox(height: sp.md),
+
+            // Body Signals
+            CommonChipGroup(
+              title: 'Body Signals',
+              subtitle: 'Physical sensations',
+              options: physicalSensations,
+              selected: selectedBodySignals ?? [],
+              onChanged: (v) => onBodySignalsChanged?.call(v),
+            ),
+            SizedBox(height: sp.md),
+          ],
+
           // Notes
           CommonTextarea(
             controller: notesCtrl,
@@ -181,6 +295,71 @@ class LogEntryForm extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+
+  Widget _buildTimeSelector(BuildContext context) {
+    final t = context.theme;
+    final time = TimeOfDay(hour: hour ?? TimeOfDay.now().hour, minute: minute ?? TimeOfDay.now().minute);
+    
+    return InkWell(
+      onTap: () async {
+        final picked = await showTimePicker(
+          context: context,
+          initialTime: time,
+        );
+        if (picked != null) {
+          onHourChanged?.call(picked.hour);
+          onMinuteChanged?.call(picked.minute);
+        }
+      },
+      borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: 'Time',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: t.spacing.md, vertical: t.spacing.sm),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              time.format(context),
+              style: t.text.body,
+            ),
+            Icon(Icons.access_time, color: t.colors.textSecondary),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSecondaryEmotions(BuildContext context) {
+    final t = context.theme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: feelings!.map((emotion) {
+        final secondaryOptions = DrugUseCatalog.secondaryEmotions[emotion];
+        if (secondaryOptions == null || secondaryOptions.isEmpty) return const SizedBox.shrink();
+
+        return Padding(
+          padding: EdgeInsets.only(bottom: t.spacing.md),
+          child: CommonChipGroup(
+            title: '$emotion Details',
+            options: secondaryOptions,
+            selected: secondaryFeelings?[emotion] ?? [],
+            onChanged: (selected) {
+              if (onSecondaryFeelingsChanged != null) {
+                final current = Map<String, List<String>>.from(secondaryFeelings ?? {});
+                current[emotion] = selected;
+                onSecondaryFeelingsChanged!(current);
+              }
+            },
+          ),
+        );
+      }).toList(),
     );
   }
 }
