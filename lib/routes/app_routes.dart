@@ -11,21 +11,21 @@ import '../features/reflection/reflection_page.dart';
 import '../features/activity/activity_page.dart';
 import '../screens/personal_library_page.dart'; // Add LibraryPage import
 import '../features/home/home_page_main.dart';
-import '../screens/daily_checkin_screen.dart';
-import '../screens/checkin_history_screen.dart';
+import '../screens/daily_checkin_page.dart';
+import '../screens/checkin_history_page.dart';
 import '../screens/profile_screen.dart';
-import '../features/admin/admin_panel_screen.dart';
-import '../screens/settings_screen.dart';
+import '../features/admin/screens/admin_panel_screen.dart';
+import '../screens/settings_page.dart';
 import '../screens/tolerance_dashboard_page.dart'; // Import ToleranceDashboardPage
 import '../screens/physiological_page.dart';
 import '../features/interactions/interactions_page.dart';
 import '../features/wearOS/wearos_page.dart';
-import '../screens/bug_report_screen.dart';
-import '../screens/pin_setup_screen.dart';
-import '../screens/pin_unlock_screen.dart';
-import '../screens/recovery_key_screen.dart';
-import '../screens/encryption_migration_screen.dart';
-import '../screens/change_pin_screen.dart';
+import '../features/bug_report/bug_report_page.dart';
+import '../screens/pin_setup_page.dart';
+import '../screens/pin_unlock_page.dart';
+import '../screens/recovery_key_page.dart';
+import '../screens/encryption_migration_page.dart';
+import '../screens/change_pin_page.dart';
 
 class AppRoutes {
   static Widget buildHomePage() => const HomePage();

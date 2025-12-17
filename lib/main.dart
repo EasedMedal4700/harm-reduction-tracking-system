@@ -16,29 +16,29 @@ import 'routes/screen_tracking_observer.dart';
 
 import 'constants/theme/app_theme_provider.dart';
 
-import 'features/admin/admin_panel_screen.dart';
+import 'features/admin/screens/admin_panel_screen.dart';
 import 'screens/analytics_page.dart';
 import 'screens/blood_levels_page.dart';
 import 'screens/catalog_page.dart';
-import 'screens/change_pin_screen.dart';
-import 'screens/checkin_history_screen.dart';
+import 'screens/change_pin_page.dart';
+import 'screens/checkin_history_page.dart';
 import 'features/craving/cravings_page.dart';
-import 'screens/daily_checkin_screen.dart';
-import 'screens/encryption_migration_screen.dart';
+import 'screens/daily_checkin_page.dart';
+import 'screens/encryption_migration_page.dart';
 import 'features/home/home_page_main.dart';
 import 'features/log_entry/log_entry_page.dart';
 import 'screens/login_page.dart';
-import 'screens/pin_setup_screen.dart';
-import 'screens/pin_unlock_screen.dart';
+import 'screens/pin_setup_page.dart';
+import 'screens/pin_unlock_page.dart';
 import 'screens/profile_screen.dart';
-import 'screens/recovery_key_screen.dart';
+import 'screens/recovery_key_page.dart';
 import 'features/reflection/reflection_page.dart';
 import 'screens/register_page.dart';
-import 'screens/settings_screen.dart';
+import 'screens/settings_page.dart';
 import 'screens/tolerance_dashboard_page.dart';
-import 'screens/onboarding_screen.dart';
-import 'screens/privacy_policy_screen.dart';
-import 'screens/feature_flags_screen.dart';
+import 'screens/onboarding_page.dart';
+import 'screens/privacy_policy_page.dart';
+import 'features/feature_flags/feature_flags_page.dart';
 import 'screens/forgot_password_page.dart';
 import 'screens/set_new_password_page.dart';
 import 'screens/email_confirmed_page.dart';
@@ -51,7 +51,7 @@ import 'services/app_lock_controller.dart';
 import 'providers/core_providers.dart';
 
 import 'constants/config/feature_flags.dart';
-import 'widgets/feature_flags/feature_gate.dart';
+import 'features/feature_flags/widgets/feature_flags/feature_gate.dart';
 
 Future<void> main() async {
   final errorLoggingService = ErrorLoggingService.instance;

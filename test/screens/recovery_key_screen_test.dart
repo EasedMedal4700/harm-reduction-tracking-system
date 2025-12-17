@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/screens/recovery_key_screen.dart';
+import 'package:mobile_drug_use_app/screens/recovery_key_page.dart';
 import '../helpers/test_app_wrapper.dart';
 
 void main() {

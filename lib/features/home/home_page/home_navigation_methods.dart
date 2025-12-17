@@ -5,7 +5,7 @@
 // Riverpod: TODO
 // Notes: Review for theme/context migration if needed.
 import 'package:flutter/material.dart';
-import '../../../../routes/app_routes.dart';
+import '../../../routes/app_routes.dart';
 
 /// Mixin providing navigation methods for HomePage
 mixin HomeNavigationMethods {
