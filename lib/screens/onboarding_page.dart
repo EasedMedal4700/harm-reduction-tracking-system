@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/onboarding_service.dart';
@@ -43,7 +44,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void _nextPage() {
     if (_currentPage < 3) {
       _pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
+        duration: AppThemeConstants.animationNormal,
         curve: Curves.easeInOut,
       );
     } else {
@@ -54,7 +55,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void _previousPage() {
     if (_currentPage > 0) {
       _pageController.previousPage(
-        duration: const Duration(milliseconds: 300),
+        duration: AppThemeConstants.animationNormal,
         curve: Curves.easeInOut,
       );
     }
@@ -119,11 +120,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   return Expanded(
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: sp.xs),
-                      height: 4,
+                      height: AppThemeConstants.spaceXs,
                       decoration: BoxDecoration(
                         color: index <= _currentPage
                             ? a.primary
-                            : c.border.withValues(alpha: 0.3),
+                            : c.border.withValues(alpha: AppThemeConstants.opacityMedium),
                         borderRadius: BorderRadius.circular(sh.radiusSm),
                       ),
                     ),
@@ -217,7 +218,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               borderRadius: BorderRadius.circular(sh.radiusLg),
               boxShadow: [
                 BoxShadow(
-                  color: a.primary.withValues(alpha: 0.3),
+                  color: a.primary.withValues(alpha: AppThemeConstants.opacityMedium),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -225,7 +226,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
             child: Icon(
               Icons.science_outlined,
-              size: 60,
+              size: AppThemeConstants.icon2xl,
               color: c.textInverse,
             ),
           ),
@@ -235,7 +236,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Text(
             'SubstanceCheck',
             style: t.typography.heading1.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: AppThemeConstants.fontBold,
               letterSpacing: -1,
               color: c.textPrimary,
             ),

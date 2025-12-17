@@ -3,8 +3,9 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Overlay for loading state.
+// Notes: Overlay for loading state. No hardcoded values.
 
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class LoadingOverlay extends StatelessWidget {
     final a = context.accent;
 
     return Container(
-      color: Colors.black.withValues(alpha: 0.5),
+      color: Colors.black.withValues(alpha: AppThemeConstants.opacitySlow),
       child: Center(
         child: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(a.primary),

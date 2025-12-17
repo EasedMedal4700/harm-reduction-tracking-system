@@ -3,10 +3,11 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Reusable card for activity items. Fully theme-compliant.
+// Notes: Reusable card for activity items. Fully theme-compliant. No hardcoded values.
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class ActivityCard extends StatelessWidget {
@@ -53,8 +54,8 @@ class ActivityCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          splashColor: c.textPrimary.withValues(alpha: 0.05),
-          highlightColor: c.textPrimary.withValues(alpha: 0.03),
+          splashColor: c.textPrimary.withValues(alpha: AppThemeConstants.opacitySplash),
+          highlightColor: c.textPrimary.withValues(alpha: AppThemeConstants.opacityHighlight),
           borderRadius: BorderRadius.circular(sh.radiusMd),
           child: Padding(
             padding: EdgeInsets.all(sp.md),
@@ -67,7 +68,7 @@ class ActivityCard extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         accentColor,
-                        accentColor.withValues(alpha: 0.7),
+                        accentColor.withValues(alpha: AppThemeConstants.opacityGradientEnd),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(sh.radiusSm),
@@ -75,7 +76,7 @@ class ActivityCard extends StatelessWidget {
                   child: Icon(
                     icon,
                     color: c.textInverse,
-                    size: sp.lg,
+                    size: AppThemeConstants.iconLg,
                   ),
                 ),
 
@@ -93,7 +94,7 @@ class ActivityCard extends StatelessWidget {
                             child: Text(
                               title,
                               style: text.bodyLarge.copyWith(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: AppThemeConstants.fontSemiBold,
                                 color: c.textPrimary,
                               ),
                             ),

@@ -1,5 +1,6 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class DosageInput extends StatelessWidget {
@@ -34,7 +35,7 @@ class DosageInput extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(sh.radiusMd),
-          borderSide: BorderSide(color: acc.primary, width: 2),
+          borderSide: BorderSide(color: acc.primary, width: AppThemeConstants.borderMedium),
         ),
         filled: true,
         fillColor: c.surface,

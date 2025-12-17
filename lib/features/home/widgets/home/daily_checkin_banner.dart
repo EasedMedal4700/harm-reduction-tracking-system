@@ -1,15 +1,14 @@
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Review for theme/context migration if needed.
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/daily_checkin_provider.dart';
 import '../../../../widgets/daily_checkin/checkin_dialog.dart';
 
-/// Banner widget that displays daily check-in status and prompts
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to use AppTheme.
 class DailyCheckinBanner extends StatefulWidget {
   const DailyCheckinBanner({super.key});
 
@@ -67,128 +66,132 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final a = context.accent;
+    final sp = context.spacing;
+    final text = context.text;
+    final sh = context.shapes;
+
     return Consumer<DailyCheckinProvider>(
       builder: (context, provider, child) {
         final hasCheckedIn = provider.existingCheckin != null;
         
-        return Card(
-          margin: const EdgeInsets.all(16),
-          elevation: 4,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: hasCheckedIn
-                    ? [Colors.green.shade100, Colors.green.shade50]
-                    : [Colors.blue.shade100, Colors.blue.shade50],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+        final baseColor = hasCheckedIn ? c.success : a.primary;
+        final backgroundColor = baseColor.withValues(alpha: 0.1);
+
+        return Container(
+          margin: EdgeInsets.all(sp.md),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(sh.radiusMd),
+            border: Border.all(color: baseColor.withValues(alpha: 0.3)),
+            boxShadow: context.cardShadow,
+          ),
+          padding: EdgeInsets.all(sp.md),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header row with icon and title
+              Row(
+                children: [
+                  Icon(
+                    _getTimeIcon(provider.timeOfDay),
+                    size: 32,
+                    color: baseColor,
+                  ),
+                  SizedBox(width: sp.sm),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Daily Check-In',
+                          style: text.titleMedium.copyWith(
+                            color: c.textPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          _getTimeOfDayGreeting(provider.timeOfDay),
+                          style: text.bodySmall.copyWith(
+                            color: c.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header row with icon and title
-                Row(
-                  children: [
-                    Icon(
-                      _getTimeIcon(provider.timeOfDay),
-                      size: 32,
-                      color: hasCheckedIn ? Colors.green.shade700 : Colors.blue.shade700,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Daily Check-In',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: hasCheckedIn ? Colors.green.shade900 : Colors.blue.shade900,
-                            ),
-                          ),
-                          Text(
-                            _getTimeOfDayGreeting(provider.timeOfDay),
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: hasCheckedIn ? Colors.green.shade700 : Colors.blue.shade700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                
-                // Content based on check-in status
-                if (hasCheckedIn) 
-                  _buildCheckedInContent(provider)
-                else 
-                  _buildPromptContent(context, provider),
-              ],
-            ),
+              SizedBox(height: sp.md),
+              
+              // Content based on check-in status
+              if (hasCheckedIn) 
+                _buildCheckedInContent(context, provider, baseColor)
+              else 
+                _buildPromptContent(context, provider, baseColor),
+            ],
           ),
         );
       },
     );
   }
 
-  Widget _buildCheckedInContent(DailyCheckinProvider provider) {
+  Widget _buildCheckedInContent(BuildContext context, DailyCheckinProvider provider, Color color) {
+    final text = context.text;
+    final sp = context.spacing;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Icon(Icons.check_circle, color: Colors.green.shade700, size: 20),
-            const SizedBox(width: 8),
+            Icon(Icons.check_circle, color: color, size: 20),
+            SizedBox(width: sp.xs),
             Expanded(
               child: Text(
                 'You\'ve already checked in for ${provider.timeOfDay}. Great job tracking your wellness!',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.green.shade900,
+                style: text.bodyMedium.copyWith(
+                  color: context.colors.textPrimary,
                 ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: sp.sm),
         Text(
           'Mood: ${provider.existingCheckin!.mood}',
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: Colors.green.shade800,
+          style: text.labelMedium.copyWith(
+            color: color,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildPromptContent(BuildContext context, DailyCheckinProvider provider) {
+  Widget _buildPromptContent(BuildContext context, DailyCheckinProvider provider, Color color) {
+    final text = context.text;
+    final sp = context.spacing;
+    final c = context.colors;
+    final sh = context.shapes;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'How are you feeling today?',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+          style: text.titleSmall.copyWith(
+            fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: sp.xs),
         Text(
           'Track your wellness throughout the day.',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey.shade700,
+          style: text.bodySmall.copyWith(
+            color: c.textSecondary,
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: sp.md),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
@@ -196,9 +199,13 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
             icon: const Icon(Icons.add_circle_outline),
             label: const Text('Check-In Now'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue.shade700,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              backgroundColor: color,
+              foregroundColor: c.textInverse,
+              padding: EdgeInsets.symmetric(vertical: sp.sm),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(sh.radiusSm),
+              ),
+              elevation: 0,
             ),
           ),
         ),

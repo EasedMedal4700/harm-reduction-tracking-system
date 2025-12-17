@@ -2,7 +2,7 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Page for logging cravings. Uses CommonPrimaryButton.
+// Notes: Page for logging cravings. Uses CommonPrimaryButton. No hardcoded values.
 
 import 'package:flutter/material.dart';
 import '../../common/old_common/drawer_menu.dart';
@@ -17,6 +17,7 @@ import '../../services/craving_service.dart';
 import '../../services/timezone_service.dart';
 import '../../services/user_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
+import '../../constants/theme/app_theme_constants.dart';
 import '../../common/buttons/common_primary_button.dart';
 
 class CravingsPage extends StatefulWidget {
@@ -86,6 +87,7 @@ class _CravingsPageState extends State<CravingsPage> {
         SnackBar(
           content: const Text('Craving saved!'),
           backgroundColor: context.theme.colors.success,
+          duration: AppThemeConstants.durationToast,
         ),
       );
       _resetForm();
@@ -95,6 +97,7 @@ class _CravingsPageState extends State<CravingsPage> {
         SnackBar(
           content: Text('Save failed: $e'),
           backgroundColor: context.theme.colors.error,
+          duration: AppThemeConstants.durationToast,
         ),
       );
     } finally {
@@ -125,7 +128,6 @@ class _CravingsPageState extends State<CravingsPage> {
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
-    final sh = context.shapes;
     
     return Scaffold(
       backgroundColor: c.background,

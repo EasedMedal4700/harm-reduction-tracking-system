@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -448,10 +449,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
                 child: _isLoading
                     ? SizedBox(
-                        height: 20,
-                        width: 20,
+                        height: AppThemeConstants.iconSm,
+                        width: AppThemeConstants.iconSm,
                         child: CircularProgressIndicator(
-                          strokeWidth: 2,
+                          strokeWidth: AppThemeConstants.borderMedium,
                           valueColor: AlwaysStoppedAnimation<Color>(c.textInverse),
                         ),
                       )

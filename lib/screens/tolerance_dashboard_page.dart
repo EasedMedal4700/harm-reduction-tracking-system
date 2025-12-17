@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import '../common/old_common/drawer_menu.dart';
-import '../models/tolerance_model.dart';
 import '../models/bucket_definitions.dart';
 import '../services/tolerance_service.dart';
 import '../services/user_service.dart';
@@ -25,14 +24,9 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   bool _isLoadingOptions = true;
   String? _userId;
   List<String> _substances = [];
-  String? _selectedSubstance;
-  String? _errorMessage;
 
-  ToleranceModel? _toleranceModel;
-  List<UseLogEntry> _useEvents = [];
   // Unified tolerance results
   ToleranceResult? _systemTolerance;
-  ToleranceResult? _substanceTolerance;
   
   // Hierarchical UI state
   String? _selectedBucket; // Currently selected bucket for detail view
@@ -43,8 +37,6 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   
   // Debugging per-substance tolerance
   bool _showDebugSubstances = false;
-  Map<String, double> _perSubstanceTolerances = {};
-  bool _isLoadingPerSubstance = false;
   bool _showDebugPanel = false;
 
   @override
@@ -173,28 +165,9 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
     }
   }
 
-  Future<void> _loadPerSubstanceTolerances() async {
-    if (_userId == null) return;
-    setState(() => _isLoadingPerSubstance = true);
-    try {
-      final values = await ToleranceEngineService.computePerSubstanceTolerances(
-        userId: _userId!,
-      );
-      if (!mounted) return;
-      setState(() {
-        _perSubstanceTolerances = values;
-        _isLoadingPerSubstance = false;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() => _isLoadingPerSubstance = false);
-    }
-  }
-
   Future<void> _loadSubstances() async {
     setState(() {
       _isLoadingOptions = true;
-      _errorMessage = null;
     });
 
     try {
@@ -206,67 +179,17 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       setState(() {
         _userId = userId;
         _substances = options;
-        _selectedSubstance =
-            widget.initialSubstance ??
-            (options.isNotEmpty ? options.first : null);
         _isLoadingOptions = false;
       });
-
-      if (_selectedSubstance != null) {
-        await _loadMetrics(_selectedSubstance!);
-      }
 
       // Load system tolerance once we know the user
       await _loadSystemTolerance();
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _errorMessage = 'Unable to load your substances.';
         _isLoadingOptions = false;
       });
     }
-  }
-
-  Future<void> _loadMetrics(String substance) async {
-    if (_userId == null) return;
-
-    final toleranceData = await ToleranceService.fetchToleranceData(substance);
-    final useEventsRaw = await ToleranceService.fetchUseEvents(
-      substanceName: substance,
-      userId: _userId!,
-      daysBack: 30,
-    );
-
-    // Convert UseEvent to UseLogEntry for unified engine
-    final useEvents = useEventsRaw.map((event) => UseLogEntry(
-      substanceSlug: event.substanceName,
-      timestamp: event.timestamp,
-      doseUnits: event.dose,
-    )).toList();
-
-    if (!mounted) return;
-
-    if (toleranceData == null) {
-      setState(() {
-        _toleranceModel = null;
-        _useEvents = useEvents;
-        _substanceTolerance = null;
-        _errorMessage = 'No tolerance data available for $substance.';
-      });
-      return;
-    }
-
-    // NEW ENGINE: compute tolerance
-    final full = ToleranceCalculatorFull.computeToleranceFull(
-      useLogs: useEvents,
-      toleranceModels: { substance: toleranceData },
-    );
-
-    setState(() {
-      _toleranceModel = toleranceData;
-      _useEvents = useEvents;
-      _substanceTolerance = full;
-    });
   }
 
   @override
@@ -292,9 +215,6 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
               ),
               onPressed: () async {
                 setState(() => _showDebugSubstances = !_showDebugSubstances);
-                if (_showDebugSubstances) {
-                  await _loadPerSubstanceTolerances();
-                }
               },
               tooltip: 'Toggle substance tolerance debug',
             ),

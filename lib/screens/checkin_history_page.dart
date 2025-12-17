@@ -4,6 +4,7 @@ import '../common/old_common/drawer_menu.dart';
 import '../widgets/checkin_history/checkin_card.dart';
 import '../providers/daily_checkin_provider.dart';
 import '../constants/theme/app_theme_extension.dart';
+import '../constants/theme/app_theme_constants.dart';
 
 class CheckinHistoryScreen extends StatefulWidget {
   const CheckinHistoryScreen({super.key});
@@ -49,7 +50,7 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.history, size: 64, color: c.textSecondary),
+                  Icon(Icons.history, size: AppThemeConstants.icon2xl, color: c.textSecondary),
                   SizedBox(height: sp.lg),
                   Text(
                     'No check-ins yet',

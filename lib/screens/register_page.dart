@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -106,14 +107,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             children: [
               Icon(
                 Icons.info_outline,
-                size: 64,
+                size: AppThemeConstants.icon2xl,
                 color: c.textTertiary,
               ),
               SizedBox(height: sp.lg),
               Text(
                 'Complete Onboarding First',
                 style: t.headlineSmall.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: AppThemeConstants.fontBold,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -155,14 +156,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             children: [
               Icon(
                 Icons.policy,
-                size: 64,
+                size: AppThemeConstants.icon2xl,
                 color: a.primary,
               ),
               SizedBox(height: sp.lg),
               Text(
                 'Accept Privacy Policy',
                 style: t.headlineSmall.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: AppThemeConstants.fontBold,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -261,10 +262,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 child: ElevatedButton(
                   onPressed: _isSubmitting ? null : _handleRegister,
                   child: _isSubmitting
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
+                      ? SizedBox(
+                          width: AppThemeConstants.iconSm,
+                          height: AppThemeConstants.iconSm,
+                          child: CircularProgressIndicator(strokeWidth: AppThemeConstants.borderMedium),
                         )
                       : const Text('Create account'),
                 ),

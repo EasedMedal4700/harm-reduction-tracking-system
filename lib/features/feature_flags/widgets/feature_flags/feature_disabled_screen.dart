@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 // MIGRATION
 // Theme: COMPLETE
 // Common: TODO
 // Riverpod: TODO
-// Notes: Fully migrated to AppThemeExtension. Deprecated theme usage removed.
+// Notes: Fully migrated to AppThemeExtension. Deprecated theme usage removed. No hardcoded values.
 
 /// A screen displayed when a feature is currently disabled.
 /// Shows a friendly message and provides navigation options.
@@ -78,7 +79,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                 width: sp.xl * 2,
                 height: sp.xl * 2,
                 decoration: BoxDecoration(
-                  color: acc.primary.withValues(alpha: 0.12),
+                  color: acc.primary.withValues(alpha: AppThemeConstants.opacityVeryLow),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(

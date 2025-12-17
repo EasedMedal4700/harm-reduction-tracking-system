@@ -15,6 +15,7 @@ import 'widgets/activity/activity_detail_helpers.dart';
 import 'widgets/activity/activity_helpers.dart';
 import '../../services/activity_service.dart';
 import '../../services/user_service.dart';
+import '../../constants/theme/app_theme_constants.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
 class ActivityPage extends StatefulWidget {
@@ -89,9 +90,9 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
           labelColor: t.colors.textPrimary,
           unselectedLabelColor: t.colors.textSecondary,
           tabs: const [
-            Tab(icon: Icon(Icons.medication), text: 'Drug Use'),
-            Tab(icon: Icon(Icons.favorite), text: 'Cravings'),
-            Tab(icon: Icon(Icons.notes), text: 'Reflections'),
+            Tab(icon: Icon(Icons.medication, size: AppThemeConstants.iconMd), text: 'Drug Use'),
+            Tab(icon: Icon(Icons.favorite, size: AppThemeConstants.iconMd), text: 'Cravings'),
+            Tab(icon: Icon(Icons.notes, size: AppThemeConstants.iconMd), text: 'Reflections'),
           ],
         ),
       ),

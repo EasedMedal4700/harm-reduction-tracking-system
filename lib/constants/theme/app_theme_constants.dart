@@ -118,6 +118,7 @@ class AppThemeConstants {
   static const Duration animationFast = Duration(milliseconds: 150);
   static const Duration animationNormal = Duration(milliseconds: 300);
   static const Duration animationSlow = Duration(milliseconds: 500);
+  static const Duration durationToast = Duration(seconds: 3);
 
   static const Curve animationCurve = Curves.easeInOut;
   static const Curve animationCurveEmphasized = Curves.easeOutCubic;
@@ -135,6 +136,29 @@ class AppThemeConstants {
   static const double glowSpread = 0.0;
   static const double glowBlur = 8.0;
   static const double glowBlurIntense = 16.0;
+
+  // ============================================================================
+  // OPACITY
+  // ============================================================================
+  static const double opacityDisabled = 0.38;
+  static const double opacityVeryLow = 0.12;
+  static const double opacityBorder = 0.4;
+  static const double opacitySlow = 0.5;
+  static const double opacityLow = 0.15;
+  static const double opacityMedium = 0.3;
+  static const double opacityHigh = 0.6;
+  static const double opacityVeryHigh = 0.8;
+  static const double opacityGradientEnd = 0.7;
+  static const double opacityOverlay = 0.1;
+  static const double opacitySplash = 0.05;
+  static const double opacityHighlight = 0.03;
+  static const double opacitySelected = 0.2;
+
+  // ============================================================================
+  // MISC
+  // ============================================================================
+  static const double aspectRatioSquare = 1.0;
+  static const double lineHeightTight = 1.2;
 }
 
 /// Light theme shadows

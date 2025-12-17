@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 
-/// Modular Daily Check-in Card component
-/// Professional medical dashboard style
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to use AppTheme. Replaced magic numbers with constants.
 class DailyCheckinCard extends StatelessWidget {
   final bool isCompleted;
   final VoidCallback onTap;
@@ -23,6 +27,7 @@ class DailyCheckinCard extends StatelessWidget {
     final acc = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
+    final t = context.text;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
     final accentColor = acc.primary;
@@ -39,14 +44,14 @@ class DailyCheckinCard extends StatelessWidget {
             children: [
               // Icon with status color
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(AppThemeConstants.cardPaddingSmall),
                 decoration: BoxDecoration(
-                  color: (isCompleted ? completedColor : accentColor).withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12),
+                  color: (isCompleted ? completedColor : accentColor).withValues(alpha: AppThemeConstants.opacityLow),
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
                 ),
                 child: Icon(
                   isCompleted ? Icons.check_circle : Icons.event_note,
-                  size: 28,
+                  size: AppThemeConstants.iconLg, // Icon size
                   color: isCompleted ? completedColor : accentColor,
                 ),
               ),
@@ -61,8 +66,7 @@ class DailyCheckinCard extends StatelessWidget {
                   children: [
                     Text(
                       'Daily Check-in',
-                      style: TextStyle(
-                        fontSize: 18,
+                      style: t.heading4.copyWith(
                         fontWeight: FontWeight.bold,
                         color: c.textPrimary,
                       ),
@@ -72,8 +76,7 @@ class DailyCheckinCard extends StatelessWidget {
                       isCompleted
                           ? _getCompletedMessage()
                           : 'Track your mood and wellness',
-                      style: TextStyle(
-                        fontSize: 12,
+                      style: t.bodySmall.copyWith(
                         color: c.textSecondary,
                       ),
                     ),
@@ -92,30 +95,29 @@ class DailyCheckinCard extends StatelessWidget {
               onPressed: isCompleted ? null : onTap,
               icon: Icon(
                 isCompleted ? Icons.check_circle_outline : Icons.add_circle_outline,
-                size: 20,
+                size: AppThemeConstants.iconSm,
               ),
               label: Text(
                 _getButtonText(),
-                style: const TextStyle(
-                  fontSize: 14,
+                style: t.button.copyWith(
                   fontWeight: FontWeight.w600,
-                  height: 1.2,
+                  height: AppThemeConstants.lineHeightTight,
                 ),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: isCompleted
-                    ? (isDark ? Colors.grey.shade800 : Colors.grey.shade300)
+                    ? (isDark ? c.surface : c.surface) // Simplified for theme
                     : accentColor,
                 foregroundColor: isCompleted
-                    ? (isDark ? c.textSecondary : Colors.grey.shade600)
-                    : Colors.white,
+                    ? c.textSecondary
+                    : c.textInverse,
                 elevation: isCompleted ? 0 : 2,
-                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                padding: EdgeInsets.symmetric(vertical: sp.md, horizontal: sp.md),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                 ),
-                disabledBackgroundColor: isDark ? Colors.grey.shade800 : Colors.grey.shade300,
-                disabledForegroundColor: isDark ? c.textSecondary : Colors.grey.shade600,
+                disabledBackgroundColor: c.surface,
+                disabledForegroundColor: c.textSecondary,
               ),
             ),
           ),
@@ -173,12 +175,12 @@ class DailyCheckinCard extends StatelessWidget {
     if (isDark) {
       // Dark theme: glassmorphism with subtle accent
       return BoxDecoration(
-        color: const Color(0x0AFFFFFF), // rgba(255,255,255,0.04)
+        color: c.surface.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(sh.radiusLg),
         border: Border.all(
           color: isCompleted
               ? completedColor.withValues(alpha: 0.3)
-              : const Color(0x14FFFFFF), // rgba(255,255,255,0.08)
+              : c.border.withValues(alpha: 0.5),
           width: isCompleted ? 1.5 : 1,
         ),
         boxShadow: isCompleted
@@ -204,13 +206,7 @@ class DailyCheckinCard extends StatelessWidget {
                 width: 1.0,
               )
             : null,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        boxShadow: context.cardShadow,
       );
     }
   }

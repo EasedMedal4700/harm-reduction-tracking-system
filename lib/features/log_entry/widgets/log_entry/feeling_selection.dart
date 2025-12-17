@@ -1,5 +1,6 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class FeelingSelection extends StatelessWidget {
@@ -33,8 +34,8 @@ class FeelingSelection extends StatelessWidget {
         Text(
           'How are you feeling?',
           style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontSize: AppThemeConstants.fontMedium,
+            fontWeight: AppThemeConstants.fontSemiBold,
             color: c.textPrimary,
           ),
         ),
@@ -57,10 +58,10 @@ class FeelingSelection extends StatelessWidget {
                       vertical: sp.sm,
                     ),
                     decoration: BoxDecoration(
-                      color: isSelected ? color.withValues(alpha: 0.2) : c.surface,
+                      color: isSelected ? color.withValues(alpha: AppThemeConstants.opacitySelected) : c.surface,
                       border: Border.all(
                         color: isSelected ? color : c.border,
-                        width: isSelected ? 2 : 1,
+                        width: isSelected ? AppThemeConstants.borderMedium : AppThemeConstants.borderThin,
                       ),
                       borderRadius: BorderRadius.circular(sh.radiusMd),
                     ),
@@ -70,15 +71,15 @@ class FeelingSelection extends StatelessWidget {
                         Icon(
                           feeling['icon'] as IconData,
                           color: isSelected ? color : c.textSecondary,
-                          size: 32,
+                          size: AppThemeConstants.iconLg,
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: AppThemeConstants.space4),
                         Text(
                           feeling['label'] as String,
                           style: TextStyle(
                             color: isSelected ? color : c.textSecondary,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                            fontSize: 12,
+                            fontWeight: isSelected ? AppThemeConstants.fontBold : FontWeight.normal,
+                            fontSize: AppThemeConstants.fontXSmall,
                           ),
                         ),
                       ],

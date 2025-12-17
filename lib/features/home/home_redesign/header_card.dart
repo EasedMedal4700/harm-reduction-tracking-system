@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 
-/// Modular Header Card component
-/// Professional medical dashboard style
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to use AppTheme. Replaced magic numbers with constants.
 class HeaderCard extends StatelessWidget {
   final String userName;
   final String greeting;
@@ -21,8 +25,8 @@ class HeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final acc = context.accent;
-    // sp unused
-    // sh unused
+    final sp = context.spacing;
+    final t = context.text;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,18 +36,15 @@ class HeaderCard extends StatelessWidget {
           children: [
             Text(
               greeting,
-              style: TextStyle(
-                fontSize: 14,
+              style: t.bodySmall.copyWith(
                 color: c.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: 4),
+            SizedBox(height: sp.xs),
             Text(
               userName,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+              style: t.heading2.copyWith(
                 color: c.textPrimary,
                 letterSpacing: -0.5,
               ),
@@ -53,17 +54,17 @@ class HeaderCard extends StatelessWidget {
         GestureDetector(
           onTap: onProfileTap,
           child: Container(
-            padding: const EdgeInsets.all(3),
+            padding: EdgeInsets.all(sp.xs),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: acc.primary.withValues(alpha: 0.3),
-                width: 2,
+                color: acc.primary.withValues(alpha: AppThemeConstants.opacityMedium),
+                width: AppThemeConstants.borderThin,
               ),
             ),
             child: CircleAvatar(
-              radius: 22,
-              backgroundColor: acc.primary.withValues(alpha: 0.1),
+              radius: sp.lg, // Approx 22-24
+              backgroundColor: acc.primary.withValues(alpha: AppThemeConstants.opacityOverlay),
               backgroundImage: profileImageUrl != null 
                   ? NetworkImage(profileImageUrl!)
                   : null,

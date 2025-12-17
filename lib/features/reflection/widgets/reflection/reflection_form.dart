@@ -1,4 +1,5 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
+// Notes: No hardcoded values.
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';

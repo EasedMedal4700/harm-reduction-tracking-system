@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import '../services/admin_service.dart';
 import '../utils/error_reporter.dart';
 import '../features/admin/widgets/errors/error_analytics_section.dart';
@@ -167,10 +168,10 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
           IconButton(
             icon: _isLoading
                 ? SizedBox(
-                    width: 20,
-                    height: 20,
+                    width: AppThemeConstants.iconSm,
+                    height: AppThemeConstants.iconSm,
                     child: CircularProgressIndicator(
-                      strokeWidth: 2,
+                      strokeWidth: AppThemeConstants.borderMedium,
                       valueColor: AlwaysStoppedAnimation<Color>(c.textPrimary),
                     ),
                   )

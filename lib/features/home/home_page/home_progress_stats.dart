@@ -1,14 +1,12 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+// Notes: Migrated to use CommonStatCard and AppTheme. Replaced GridView with Column to avoid magic aspect ratio.
 import 'package:flutter/material.dart';
-
-
-import '../home_redesign/stat_card.dart';
+import '../../../../common/cards/common_stat_card.dart';
 
 class HomeProgressStats extends StatelessWidget {
   const HomeProgressStats({super.key});
@@ -16,27 +14,23 @@ class HomeProgressStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
-    return GridView.count(
-      crossAxisCount: 1,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: sp.md,
-      mainAxisSpacing: sp.md,
-      childAspectRatio: 2.5,
-      children: const [
-        StatCard(
+    return Column(
+      children: [
+        const CommonStatCard(
           icon: Icons.calendar_today,
           value: '127',
           title: 'Days Tracked',
           subtitle: 'Keep up the momentum!',
         ),
-        StatCard(
+        SizedBox(height: sp.md),
+        const CommonStatCard(
           icon: Icons.note_alt,
           value: '12',
           title: 'Entries This Week',
           subtitle: '+3 from last week',
         ),
-        StatCard(
+        SizedBox(height: sp.md),
+        const CommonStatCard(
           icon: Icons.psychology,
           value: '8',
           title: 'Active Reflections',

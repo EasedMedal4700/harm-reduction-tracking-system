@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Admin feature flags page. Migrated to use AppTheme. No hardcoded values.
 import '../../constants/config/feature_flags.dart';
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';

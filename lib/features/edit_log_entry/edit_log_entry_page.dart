@@ -2,9 +2,10 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Page for editing log entries. Uses CommonPrimaryButton.
+// Notes: Page for editing log entries. Uses CommonPrimaryButton. No hardcoded values.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import '../../common/old_common/drawer_menu.dart';
@@ -52,7 +53,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     _substanceCtrl = TextEditingController(text: _formData.substance);
     
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300), // AppThemeConstants.animationNormal
+      duration: AppThemeConstants.animationNormal,
       vsync: this,
     );
     
@@ -264,7 +265,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final t = context.theme;
 
     return Scaffold(
       backgroundColor: c.background,

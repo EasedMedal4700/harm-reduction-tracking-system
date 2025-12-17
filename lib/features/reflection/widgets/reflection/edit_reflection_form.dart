@@ -1,4 +1,5 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
+// Notes: No hardcoded values.
 import 'package:flutter/material.dart';
 import '../../../../common/old_common/modern_form_card.dart';
 import '../../../../constants/theme/app_theme_extension.dart';

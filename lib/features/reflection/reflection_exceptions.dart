@@ -39,20 +39,17 @@ class ReflectionValidationException extends ReflectionException {
 }
 
 class ReflectionSaveException extends ReflectionException {
-  ReflectionSaveException(String message, {String? details, dynamic originalError})
-      : super(message, details: details, originalError: originalError);
+  ReflectionSaveException(super.message, {super.details, super.originalError});
 }
 
 class ReflectionFetchException extends ReflectionException {
-  ReflectionFetchException(String message, {String? details, dynamic originalError})
-      : super(message, details: details, originalError: originalError);
+  ReflectionFetchException(super.message, {super.details, super.originalError});
 }
 
 class ReflectionParseException extends ReflectionException {
   final Map<String, dynamic>? rawData;
 
-  ReflectionParseException(String message, {this.rawData, String? details})
-      : super(message, details: details);
+  ReflectionParseException(super.message, {this.rawData, super.details});
 }
 
 class DatabaseConnectionException extends ReflectionException {

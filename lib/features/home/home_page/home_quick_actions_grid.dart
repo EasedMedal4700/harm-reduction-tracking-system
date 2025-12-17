@@ -1,10 +1,11 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+// Notes: Migrated to use CommonActionCard and AppTheme. No hardcoded values.
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -12,7 +13,7 @@ import '../../../constants/config/feature_flags.dart';
 
 import '../../../services/feature_flag_service.dart';
 import '../../../services/user_service.dart';
-import '../home_redesign/quick_action_card.dart';
+import '../../../../common/cards/common_action_card.dart';
 
 class HomeQuickActionsGrid extends StatefulWidget {
   final VoidCallback onLogEntry;
@@ -94,8 +95,8 @@ class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
           physics: const NeverScrollableScrollPhysics(),
           crossAxisSpacing: context.spacing.md,
           mainAxisSpacing: context.spacing.md,
-          childAspectRatio: 1.1,
-          children: enabledActions.map((action) => QuickActionCard(
+          childAspectRatio: AppThemeConstants.aspectRatioSquare, // Square aspect ratio
+          children: enabledActions.map((action) => CommonActionCard(
             icon: action.icon,
             title: action.label,
             onTap: action.onTap,

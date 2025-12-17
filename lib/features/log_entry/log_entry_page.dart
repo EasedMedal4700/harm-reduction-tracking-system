@@ -2,8 +2,9 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Page for logging drug use.
+// Notes: Page for logging drug use. No hardcoded values.
 
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +42,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
     _controller = LogEntryController();
     
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: AppThemeConstants.animationNormal,
       vsync: this,
     );
     

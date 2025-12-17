@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -285,7 +286,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
             Text(
               'Enter Your PIN',
               style: t.heading1.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: AppThemeConstants.fontBold,
                 color: c.textPrimary,
               ),
               textAlign: TextAlign.center,

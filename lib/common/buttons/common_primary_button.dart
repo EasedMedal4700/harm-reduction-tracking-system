@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
+// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension. No hardcoded values.
 
 /// Primary action button (e.g., Save Entry)
 class CommonPrimaryButton extends StatelessWidget {
@@ -40,7 +41,7 @@ class CommonPrimaryButton extends StatelessWidget {
     
     return SizedBox(
       width: width,
-      height: height ?? 56.0,
+      height: height ?? AppThemeConstants.buttonHeightLg,
       child: ElevatedButton(
         onPressed: isEnabled && !isLoading ? onPressed : null,
         style: ElevatedButton.styleFrom(
@@ -57,10 +58,10 @@ class CommonPrimaryButton extends StatelessWidget {
         ),
         child: isLoading
             ? SizedBox(
-                height: 20,
-                width: 20,
+                height: AppThemeConstants.iconSm,
+                width: AppThemeConstants.iconSm,
                 child: CircularProgressIndicator(
-                  strokeWidth: 2,
+                  strokeWidth: AppThemeConstants.borderMedium,
                   valueColor: AlwaysStoppedAnimation<Color>(
                     textColor ?? defaultTextColor,
                   ),
@@ -71,14 +72,14 @@ class CommonPrimaryButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (icon != null) ...[
-                    Icon(icon, size: 20),
+                    Icon(icon, size: AppThemeConstants.iconSm),
                     SizedBox(width: t.spacing.sm),
                   ],
                   Text(
                     label,
                     style: t.text.bodyLarge.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18.0,
+                      fontWeight: AppThemeConstants.fontSemiBold,
+                      fontSize: AppThemeConstants.fontLarge,
                     ),
                   ),
                 ],

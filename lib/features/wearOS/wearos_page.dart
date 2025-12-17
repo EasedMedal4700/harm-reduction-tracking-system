@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Placeholder page. Migrated to use AppTheme. No hardcoded values.
 import '../../common/old_common/drawer_menu.dart';
 
 /// Placeholder page for WearOS companion app
@@ -29,14 +36,14 @@ class WearOSPage extends StatelessWidget {
             children: [
               Icon(
                 Icons.watch,
-                size: 80,
+                size: AppThemeConstants.icon2xl + AppThemeConstants.space16, // 80.0
                 color: a.primary,
               ),
               SizedBox(height: sp.lg),
               Text(
                 'WearOS Companion',
                 style: context.text.headlineMedium.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: AppThemeConstants.fontBold,
                   color: c.textPrimary,
                 ),
                 textAlign: TextAlign.center,
@@ -54,9 +61,9 @@ class WearOSPage extends StatelessWidget {
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
                   color: c.surface,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppThemeConstants.radiusMedium),
                   border: Border.all(
-                    color: a.primary.withValues(alpha: 0.3),
+                    color: a.primary.withValues(alpha: AppThemeConstants.opacityMedium),
                   ),
                 ),
                 child: Row(
@@ -70,7 +77,7 @@ class WearOSPage extends StatelessWidget {
                     Text(
                       'Coming Soon',
                       style: context.text.titleMedium.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: AppThemeConstants.fontSemiBold,
                         color: a.primary,
                       ),
                     ),

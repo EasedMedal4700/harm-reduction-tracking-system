@@ -1,9 +1,9 @@
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Review for theme/context migration if needed.
+// Notes: Navigation mixin. No UI to migrate.
 import 'package:flutter/material.dart';
 import '../../../routes/app_routes.dart';
 

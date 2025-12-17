@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import '../../../common/old_common/drawer_menu.dart';
 import '../../../services/admin_service.dart';
 import '../../../services/cache_service.dart';
@@ -10,6 +11,11 @@ import '../widgets/app_bar/admin_app_bar.dart';
 import '../widgets/cache/cache_management_section.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Admin Panel Screen. Migrated to use AppTheme. No hardcoded values.
 /// Admin panel screen for managing users and monitoring system health
 class AdminPanelScreen extends StatefulWidget {
   const AdminPanelScreen({super.key});
@@ -42,7 +48,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       // Add initial samples to show functionality
       await PerformanceService.recordResponseTime(
         endpoint: 'initialization',
-        milliseconds: 150,
+        milliseconds: AppThemeConstants.animationFast.inMilliseconds,
         fromCache: false,
       );
       await PerformanceService.recordCacheEvent(key: 'init', hit: true);
@@ -213,7 +219,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
           SnackBar(
             content: const Text('✓ Cache refreshed - data will reload from database'),
             backgroundColor: context.theme.colors.success,
-            duration: const Duration(seconds: 3),
+            duration: AppThemeConstants.durationToast,
           ),
         );
       }

@@ -1,6 +1,12 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Main Home Page. Migrated to use AppTheme and Common components. No hardcoded values.
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../common/old_common/drawer_menu.dart';
@@ -48,7 +54,7 @@ class _HomePageState extends State<HomePage>
     
     // Setup animations
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: AppThemeConstants.animationNormal,
       vsync: this,
     );
     
@@ -57,7 +63,7 @@ class _HomePageState extends State<HomePage>
       end: 1.0,
     ).animate(CurvedAnimation(
       parent: _animationController,
-      curve: Curves.easeOut,
+      curve: AppThemeConstants.animationCurve,
     ));
     
     _animationController.forward();
@@ -68,7 +74,7 @@ class _HomePageState extends State<HomePage>
       final profile = await _userService.loadUserProfile();
       if (mounted) {
         setState(() {
-          _userName = profile.displayName ?? 'User';
+          _userName = profile.displayName;
         });
       }
     } catch (e) {
@@ -181,7 +187,7 @@ class _HomePageState extends State<HomePage>
         backgroundColor: c.surface,
         onRefresh: () async {
           setState(() {});
-          await Future.delayed(const Duration(milliseconds: 500));
+          await Future.delayed(AppThemeConstants.animationSlow);
         },
         child: FadeTransition(
           opacity: _fadeAnimation,

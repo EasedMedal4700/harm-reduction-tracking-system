@@ -1,6 +1,7 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class DateSelector extends StatelessWidget {
@@ -45,13 +46,13 @@ class DateSelector extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.calendar_today, size: 20, color: acc.primary),
+            Icon(Icons.calendar_today, size: AppThemeConstants.iconSm, color: acc.primary),
             SizedBox(width: sp.sm),
             Text(
               DateFormat('MMM d, y').format(selectedDate),
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                fontSize: AppThemeConstants.fontMedium,
+                fontWeight: AppThemeConstants.fontMediumWeight,
                 color: c.textPrimary,
               ),
             ),

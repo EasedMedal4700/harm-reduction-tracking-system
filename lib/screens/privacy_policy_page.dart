@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
@@ -22,7 +23,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             Text(
               "SubstanceCheck Privacy Policy",
               style: t.heading3.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: AppThemeConstants.fontBold,
               ),
             ),
             SizedBox(height: sp.xs),
@@ -229,7 +230,7 @@ Location: Netherlands / EU
         Text(
           title,
           style: t.heading4.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: AppThemeConstants.fontBold,
           ),
         ),
         if (body != null) ...[

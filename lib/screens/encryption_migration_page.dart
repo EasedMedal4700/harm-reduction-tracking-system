@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
@@ -86,7 +87,7 @@ class _EncryptionMigrationScreenState
       children: [
         Icon(
           Icons.security,
-          size: 64,
+          size: AppThemeConstants.icon2xl,
           color: a.primary,
         ),
         SizedBox(height: sp.xl2),
@@ -135,7 +136,7 @@ class _EncryptionMigrationScreenState
         Container(
           padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
-            color: a.primary.withValues(alpha: 0.1),
+            color: a.primary.withValues(alpha: AppThemeConstants.opacityOverlay),
             borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
           child: Row(
@@ -176,7 +177,7 @@ class _EncryptionMigrationScreenState
             child: Text(
               'Continue',
               style: text.labelLarge.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: AppThemeConstants.fontBold,
                 color: c.textInverse,
               ),
             ),
@@ -197,10 +198,10 @@ class _EncryptionMigrationScreenState
     return Row(
       children: [
         Container(
-          width: 48,
-          height: 48,
+          width: AppThemeConstants.iconXl,
+          height: AppThemeConstants.iconXl,
           decoration: BoxDecoration(
-            color: a.primary.withValues(alpha: 0.2),
+            color: a.primary.withValues(alpha: AppThemeConstants.opacitySelected),
             borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
           child: Icon(
@@ -216,7 +217,7 @@ class _EncryptionMigrationScreenState
               Text(
                 title,
                 style: text.labelLarge.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: AppThemeConstants.fontBold,
                   color: c.textPrimary,
                 ),
               ),

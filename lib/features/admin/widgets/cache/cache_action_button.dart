@@ -5,8 +5,14 @@
 // Riverpod: TODO
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Fully theme-based. No hardcoded values.
 /// Action button for cache management operations
 class CacheActionButton extends StatelessWidget {
   final String label;
@@ -33,7 +39,7 @@ class CacheActionButton extends StatelessWidget {
 
       icon: Icon(
         icon,
-        size: 18,
+        size: AppThemeConstants.iconSm,
         color: color, // stays as user accent color
       ),
 
@@ -43,7 +49,7 @@ class CacheActionButton extends StatelessWidget {
       ),
 
       style: ElevatedButton.styleFrom(
-        backgroundColor: color.withValues(alpha: 0.12),
+        backgroundColor: color.withValues(alpha: AppThemeConstants.opacityVeryLow),
         foregroundColor: color,
         shadowColor: c.overlayHeavy,
         elevation: 0,
@@ -54,8 +60,8 @@ class CacheActionButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(sp.sm),
           side: BorderSide(
-            color: color.withValues(alpha: 0.4),
-            width: 1,
+            color: color.withValues(alpha: AppThemeConstants.opacityBorder),
+            width: AppThemeConstants.borderThin,
           ),
         ),
       ),

@@ -2,7 +2,7 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Page for editing reflections.
+// Notes: Page for editing reflections. No hardcoded values.
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';

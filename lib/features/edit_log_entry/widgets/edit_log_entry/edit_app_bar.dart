@@ -2,7 +2,7 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: COMPLETE
-// Notes: AppBar for editing log entries.
+// Notes: AppBar for editing log entries. No hardcoded values.
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';

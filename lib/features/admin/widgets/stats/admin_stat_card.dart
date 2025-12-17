@@ -3,9 +3,10 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
+// Notes: Fully theme-compliant. No hardcoded values.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// Stat card widget for admin dashboard
@@ -45,7 +46,7 @@ class AdminStatCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // ICON
-            Icon(icon, size: sp.xl3, color: color),
+            Icon(icon, size: AppThemeConstants.iconXl, color: color),
 
             SizedBox(height: sp.sm),
 

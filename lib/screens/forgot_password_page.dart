@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -114,12 +115,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             width: 100,
             height: 100,
             decoration: BoxDecoration(
-              color: a.primary.withValues(alpha: 0.1),
+              color: a.primary.withValues(alpha: AppThemeConstants.opacityOverlay),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.lock_reset_rounded,
-              size: 48,
+              size: AppThemeConstants.iconXl,
               color: a.primary,
             ),
           ),
@@ -185,13 +186,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           SizedBox(height: sp.xl),
           // Submit button
           SizedBox(
-            height: 56,
+            height: AppThemeConstants.buttonHeightLg,
             child: ElevatedButton(
               onPressed: _isSubmitting ? null : _handleSubmit,
               style: ElevatedButton.styleFrom(
                 backgroundColor: a.primary,
                 foregroundColor: c.textInverse,
-                disabledBackgroundColor: a.primary.withValues(alpha: 0.5),
+                disabledBackgroundColor: a.primary.withValues(alpha: AppThemeConstants.opacitySlow),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                 ),
@@ -201,14 +202,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       width: 24,
                       height: 24,
                       child: CircularProgressIndicator(
-                        strokeWidth: 2,
+                        strokeWidth: AppThemeConstants.borderMedium,
                         color: c.textInverse,
                       ),
                     )
                   : Text(
                       'Send Reset Link',
                       style: text.labelLarge.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: AppThemeConstants.fontSemiBold,
                         color: c.textInverse,
                       ),
                     ),
@@ -246,12 +247,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           width: 100,
           height: 100,
           decoration: BoxDecoration(
-            color: c.success.withValues(alpha: 0.1),
+            color: c.success.withValues(alpha: AppThemeConstants.opacityOverlay),
             shape: BoxShape.circle,
           ),
           child: Icon(
             Icons.mark_email_read_rounded,
-            size: 48,
+            size: AppThemeConstants.iconXl,
             color: c.success,
           ),
         ),
@@ -288,10 +289,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         Container(
           padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
-            color: a.primary.withValues(alpha: 0.1),
+            color: a.primary.withValues(alpha: AppThemeConstants.opacityOverlay),
             borderRadius: BorderRadius.circular(sh.radiusMd),
             border: Border.all(
-              color: a.primary.withValues(alpha: 0.3),
+              color: a.primary.withValues(alpha: AppThemeConstants.opacityMedium),
             ),
           ),
           child: Row(

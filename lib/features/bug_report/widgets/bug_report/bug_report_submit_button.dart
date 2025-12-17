@@ -1,7 +1,11 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
-
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Uses AppTheme.
 class BugReportSubmitButton extends StatelessWidget {
   final bool isSubmitting;
   final VoidCallback onSubmit;

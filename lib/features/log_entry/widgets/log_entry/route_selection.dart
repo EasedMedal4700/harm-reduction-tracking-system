@@ -1,5 +1,6 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import '../../../../constants/data/drug_use_catalog.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
@@ -41,13 +42,13 @@ class RouteSelection extends StatelessWidget {
                   children: [
                     Text(
                       emoji,
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: AppThemeConstants.fontLarge),
                     ),
                     SizedBox(width: t.spacing.xs),
                     Text(
                       name.toUpperCase(),
                       style: t.typography.label.copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: AppThemeConstants.fontBold,
                         color: selected
                             ? t.colors.textInverse
                             : t.colors.textPrimary,

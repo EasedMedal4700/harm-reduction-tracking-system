@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Bug Report Screen. Migrated to use AppTheme. No hardcoded values.
 import '../../services/user_service.dart';
 import '../../utils/error_reporter.dart';
 import 'widgets/bug_report/bug_report_form_fields.dart';
@@ -72,7 +78,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
         SnackBar(
           content: const Text(' Bug report submitted successfully'),
           backgroundColor: context.colors.success,
-          duration: const Duration(seconds: 3),
+          duration: AppThemeConstants.durationToast,
         ),
       );
 

@@ -104,7 +104,6 @@ class LogEntryForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
-    final t = context.theme;
 
     final routeOptions = DrugUseCatalog.consumptionMethods
         .map((m) => m['name']!)

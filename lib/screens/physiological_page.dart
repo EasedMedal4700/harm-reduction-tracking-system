@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import '../common/old_common/drawer_menu.dart';
 
@@ -40,7 +41,7 @@ class PhysiologicalPage extends StatelessWidget {
               Text(
                 'Physiological Monitoring',
                 style: t.typography.heading2.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: AppThemeConstants.fontBold,
                   color: c.textPrimary,
                 ),
                 textAlign: TextAlign.center,
@@ -57,10 +58,10 @@ class PhysiologicalPage extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: a.primary.withValues(alpha: 0.1),
+                  color: a.primary.withValues(alpha: AppThemeConstants.opacityOverlay),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(
-                    color: a.primary.withValues(alpha: 0.5),
+                    color: a.primary.withValues(alpha: AppThemeConstants.opacitySlow),
                   ),
                 ),
                 child: Row(

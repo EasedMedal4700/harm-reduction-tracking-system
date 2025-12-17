@@ -1,5 +1,6 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class TimeSelector extends StatelessWidget {
@@ -42,13 +43,13 @@ class TimeSelector extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.access_time, size: 20, color: acc.primary),
+            Icon(Icons.access_time, size: AppThemeConstants.iconSm, color: acc.primary),
             SizedBox(width: sp.sm),
             Text(
               selectedTime.format(context),
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                fontSize: AppThemeConstants.fontMedium,
+                fontWeight: AppThemeConstants.fontMediumWeight,
                 color: c.textPrimary,
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../services/feature_flag_service.dart';
 import '../../../../services/user_service.dart';
 import 'feature_disabled_screen.dart';
@@ -75,12 +76,10 @@ class _LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
     
     return Scaffold(
-      backgroundColor: isDark 
-          ? const Color(0xFF020408) 
-          : const Color(0xFFF8F9FF),
+      backgroundColor: t.colors.background,
       body: const Center(
         child: CircularProgressIndicator(),
       ),

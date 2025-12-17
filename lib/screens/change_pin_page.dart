@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -124,7 +125,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
             // Icon
             Icon(
               Icons.lock_reset,
-              size: 64,
+              size: AppThemeConstants.icon2xl,
               color: a.primary,
             ),
             SizedBox(height: sp.xl),
@@ -153,13 +154,13 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
             Container(
               padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
-                color: a.primary.withValues(alpha: 0.1),
+                color: a.primary.withValues(alpha: AppThemeConstants.opacityOverlay),
                 borderRadius: BorderRadius.circular(sh.radiusMd),
-                border: Border.all(color: a.primary.withValues(alpha: 0.3)),
+                border: Border.all(color: a.primary.withValues(alpha: AppThemeConstants.opacityMedium)),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline, color: a.primary, size: 20),
+                  Icon(Icons.info_outline, color: a.primary, size: AppThemeConstants.iconSm),
                   SizedBox(width: sp.md),
                   Expanded(
                     child: Text(
@@ -209,13 +210,13 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               Container(
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: c.error.withValues(alpha: 0.1),
+                  color: c.error.withValues(alpha: AppThemeConstants.opacityOverlay),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
-                  border: Border.all(color: c.error.withValues(alpha: 0.3)),
+                  border: Border.all(color: c.error.withValues(alpha: AppThemeConstants.opacityMedium)),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.error_outline, color: c.error, size: 20),
+                    Icon(Icons.error_outline, color: c.error, size: AppThemeConstants.iconSm),
                     SizedBox(width: sp.md),
                     Expanded(
                       child: Text(
@@ -232,7 +233,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
 
             // Change PIN button
             SizedBox(
-              height: 56,
+              height: AppThemeConstants.buttonHeightLg,
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _changePIN,
                 style: ElevatedButton.styleFrom(
@@ -248,14 +249,14 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                         width: 24,
                         height: 24,
                         child: CircularProgressIndicator(
-                          strokeWidth: 2,
+                          strokeWidth: AppThemeConstants.borderMedium,
                           valueColor: AlwaysStoppedAnimation<Color>(c.textInverse),
                         ),
                       )
                     : Text(
                         'Change PIN',
                         style: text.labelLarge.copyWith(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: AppThemeConstants.fontBold,
                           color: c.textInverse,
                         ),
                       ),
@@ -294,7 +295,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
           Text(
             label,
             style: text.labelMedium.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: AppThemeConstants.fontSemiBold,
               color: c.textPrimary,
             ),
           ),

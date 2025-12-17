@@ -2,7 +2,7 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Dialog for deleting entries.
+// Notes: Dialog for deleting entries. No hardcoded values.
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';

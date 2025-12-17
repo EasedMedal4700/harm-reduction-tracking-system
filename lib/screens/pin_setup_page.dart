@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:async';
@@ -162,7 +163,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
             Text(
               'Create Your PIN',
               style: t.heading2.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: AppThemeConstants.fontBold,
                 color: c.textPrimary,
               ),
               textAlign: TextAlign.center,
@@ -280,13 +281,13 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
               Container(
                 padding: EdgeInsets.all(sp.sm),
                 decoration: BoxDecoration(
-                  color: c.error.withValues(alpha: 0.1),
+                  color: c.error.withValues(alpha: AppThemeConstants.opacityOverlay),
                   borderRadius: BorderRadius.circular(sh.radiusSm),
-                  border: Border.all(color: c.error.withValues(alpha: 0.3)),
+                  border: Border.all(color: c.error.withValues(alpha: AppThemeConstants.opacityMedium)),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.error_outline, color: c.error, size: 20),
+                    Icon(Icons.error_outline, color: c.error, size: AppThemeConstants.iconSm),
                     SizedBox(width: sp.sm),
                     Expanded(
                       child: Text(
