@@ -5,8 +5,8 @@
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and existing common components. No logic or state changes.
 import 'package:flutter/material.dart';
-import '../../common/buttons/common_primary_button.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import '../../../../common/buttons/common_primary_button.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 
 class LogEntrySaveButton extends StatelessWidget {
   final VoidCallback onSave;

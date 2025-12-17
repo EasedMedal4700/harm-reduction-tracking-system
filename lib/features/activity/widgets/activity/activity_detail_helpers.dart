@@ -9,9 +9,9 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import 'activity_detail_sheet.dart';
 import 'activity_helpers.dart';
-import '../../screens/edit/edit_log_entry_page.dart';
-import '../../screens/edit/edit_craving_page.dart';
-import '../../screens/edit/edit_refelction_page.dart';
+import '../../../edit_log_entry/edit_log_entry_page.dart';
+import '../../../../screens/edit/edit_craving_page.dart';
+import '../../../../screens/edit/edit_refelction_page.dart';
 
 /// Helper methods to show detail sheets for different activity types.
 class ActivityDetailHelpers {

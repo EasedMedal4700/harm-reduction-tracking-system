@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/widgets/log_entry/substance_autocomplete.dart';
-import 'package:mobile_drug_use_app/widgets/log_entry/dosage_input.dart';
-import 'package:mobile_drug_use_app/widgets/log_entry/date_selector.dart';
-import 'package:mobile_drug_use_app/widgets/log_entry/time_selector.dart';
-import 'package:mobile_drug_use_app/widgets/log_entry/feeling_selection.dart';
+import 'package:mobile_drug_use_app/features/log_entry/widgets/log_entry/substance_autocomplete.dart';
+import 'package:mobile_drug_use_app/features/log_entry/widgets/log_entry/dosage_input.dart';
+import 'package:mobile_drug_use_app/features/log_entry/widgets/log_entry/date_selector.dart';
+import 'package:mobile_drug_use_app/features/log_entry/widgets/log_entry/time_selector.dart';
+import 'package:mobile_drug_use_app/features/log_entry/widgets/log_entry/feeling_selection.dart';
 
 class SimpleFields extends StatelessWidget {
   final TextEditingController substanceController;

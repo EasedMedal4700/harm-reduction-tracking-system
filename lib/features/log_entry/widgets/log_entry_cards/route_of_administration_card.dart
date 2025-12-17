@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../common/cards/common_card.dart';
-import '../../common/text/common_section_header.dart';
-import '../../common/layout/common_spacer.dart';
-import '../../common/buttons/common_chip.dart';
-import '../../constants/data/drug_use_catalog.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/text/common_section_header.dart';
+import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/buttons/common_chip.dart';
+import '../../../../constants/data/drug_use_catalog.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 
 class RouteOfAdministrationCard extends StatelessWidget {
   final String route;

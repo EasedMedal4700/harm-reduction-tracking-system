@@ -1,16 +1,16 @@
 // MIGRATION COMPLETE — no deprecated UI colors, no isDark logic.
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../common/old_common/drawer_menu.dart';
-import '../widgets/activity/activity_drug_use_tab.dart';
-import '../widgets/activity/activity_cravings_tab.dart';
-import '../widgets/activity/activity_reflections_tab.dart';
-import '../widgets/activity/activity_delete_dialog.dart';
-import '../widgets/activity/activity_detail_helpers.dart';
-import '../widgets/activity/activity_helpers.dart';
-import '../services/activity_service.dart';
-import '../services/user_service.dart';
-import '../constants/theme/app_theme_extension.dart';
+import '../../common/old_common/drawer_menu.dart';
+import 'widgets/activity/activity_drug_use_tab.dart';
+import 'widgets/activity/activity_cravings_tab.dart';
+import 'widgets/activity/activity_reflections_tab.dart';
+import 'widgets/activity/activity_delete_dialog.dart';
+import 'widgets/activity/activity_detail_helpers.dart';
+import 'widgets/activity/activity_helpers.dart';
+import '../../services/activity_service.dart';
+import '../../services/user_service.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});

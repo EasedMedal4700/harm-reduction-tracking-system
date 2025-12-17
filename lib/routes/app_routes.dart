@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/reflection_provider.dart';
 import '../providers/daily_checkin_provider.dart';
-import '../screens/log_entry_page.dart'; // Add other imports as needed
+import '../features/log_entry/log_entry_page.dart'; // Add other imports as needed
 import '../screens/analytics_page.dart';
 import '../screens/catalog_page.dart';
 import '../screens/cravings_page.dart';
 import '../screens/blood_levels_page.dart';
 import '../screens/reflection_page.dart';
-import '../screens/activity_page.dart';
+import '../features/activity/activity_page.dart';
 import '../screens/personal_library_page.dart'; // Add LibraryPage import
 import '../screens/home_page.dart';
 import '../screens/daily_checkin_screen.dart';

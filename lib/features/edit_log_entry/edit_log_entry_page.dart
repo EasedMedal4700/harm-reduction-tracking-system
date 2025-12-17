@@ -6,9 +6,9 @@ import '../../models/log_entry_model.dart';
 import '../../models/log_entry_form_data.dart';
 import '../../controllers/log_entry_controller.dart';
 
-import '../../widgets/edit_log_entry/edit_app_bar.dart';
-import '../../widgets/edit_log_entry/loading_overlay.dart';
-import '../../widgets/log_entry/log_entry_form.dart';
+import 'widgets/edit_log_entry/edit_app_bar.dart';
+import 'widgets/edit_log_entry/loading_overlay.dart';
+import '../log_entry/widgets/log_entry/log_entry_form.dart';
 import '../../common/layout/common_bottom_bar.dart';
 import '../../common/buttons/common_primary_button.dart';
 

@@ -7,8 +7,8 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 // Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
 import 'package:flutter/material.dart';
 
-import '../../states/log_entry_state.dart';
-import '../../services/log_entry_service.dart';
+import '../../../../states/log_entry_state.dart';
+import '../../../../services/log_entry_service.dart';
 
 
 class DeleteConfirmationDialog {

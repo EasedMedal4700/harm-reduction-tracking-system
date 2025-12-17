@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/widgets/log_entry/date_selector.dart';
+import 'package:mobile_drug_use_app/features/log_entry/widgets/log_entry/date_selector.dart';
 import '../../helpers/test_app_wrapper.dart';
 
 void main() {

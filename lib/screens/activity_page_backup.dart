@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../common/old_common/drawer_menu.dart';
 import '../services/activity_service.dart';
-import 'edit/edit_log_entry_page.dart';
+import '../features/edit_log_entry/edit_log_entry_page.dart';
 import 'edit/edit_refelction_page.dart';
 import 'edit/edit_craving_page.dart';
 

@@ -4,7 +4,7 @@ import 'package:integration_test/integration_test.dart';
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
-import 'package:mobile_drug_use_app/screens/log_entry_page.dart';
+import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
