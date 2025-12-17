@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../common/old_common/drawer_menu.dart';
-import '../services/admin_service.dart';
-import '../services/cache_service.dart';
-import '../services/performance_service.dart';
-import '../utils/error_reporter.dart';
-import '../widgets/admin/admin_stats_section.dart';
-import '../widgets/admin/admin_user_list.dart';
-import '../widgets/admin_panel/admin_app_bar.dart';
-import '../widgets/admin_panel/cache_management_section.dart';
+import '../../common/old_common/drawer_menu.dart';
+import '../../services/admin_service.dart';
+import '../../services/cache_service.dart';
+import '../../services/performance_service.dart';
+import '../../utils/error_reporter.dart';
+import '../../widgets/admin/admin_stats_section.dart';
+import '../../widgets/admin/admin_user_list.dart';
+import '../../widgets/admin_panel/admin_app_bar.dart';
+import '../../widgets/admin_panel/cache_management_section.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// Admin panel screen for managing users and monitoring system health

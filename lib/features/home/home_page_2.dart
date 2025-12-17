@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../common/old_common/drawer_menu.dart';
-import '../widgets/home_redesign/header_card.dart';
-import '../widgets/home_redesign/daily_checkin_card.dart';
-import '../widgets/home_page/home_quick_actions_grid.dart';
-import '../widgets/home_page/home_progress_stats.dart';
-import '../widgets/home_page/home_navigation_methods.dart';
-import '../providers/daily_checkin_provider.dart';
+import '../../../common/old_common/drawer_menu.dart';
+import '../../../widgets/home_redesign/header_card.dart';
+import '../../../widgets/home_redesign/daily_checkin_card.dart';
+import '../../../widgets/home_page/home_quick_actions_grid.dart';
+import '../../../widgets/home_page/home_progress_stats.dart';
+import '../../../widgets/home_page/home_navigation_methods.dart';
+import '../../../providers/daily_checkin_provider.dart';
 
 
-import '../services/daily_checkin_service.dart';
-import '../services/user_service.dart';
-import '../services/encryption_service_v2.dart';
-import '../screens/profile_screen.dart';
-import '../screens/admin_panel_screen.dart';
+import '../../../services/daily_checkin_service.dart';
+import '../../../services/user_service.dart';
+import '../../../services/encryption_service_v2.dart';
+import '../../../screens/profile_screen.dart';
+import '../admin/admin_panel_screen.dart';
 
 /// Redesigned Home Page with modular architecture
 /// Supports Light (wellness) and Dark (futuristic) themes

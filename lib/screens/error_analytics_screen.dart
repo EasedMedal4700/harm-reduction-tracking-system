@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import '../../services/admin_service.dart';
-import '../../utils/error_reporter.dart';
-import '../../widgets/admin/error_analytics_section.dart';
-import '../../widgets/admin/error_cleanup_dialog.dart';
-import '../../widgets/admin/error_log_detail_dialog.dart';
+import '../services/admin_service.dart';
+import '../utils/error_reporter.dart';
+import '../widgets/admin/error_analytics_section.dart';
+import '../widgets/admin/error_cleanup_dialog.dart';
+import '../widgets/admin/error_log_detail_dialog.dart';
 
 class ErrorAnalyticsScreen extends StatefulWidget {
   const ErrorAnalyticsScreen({super.key});

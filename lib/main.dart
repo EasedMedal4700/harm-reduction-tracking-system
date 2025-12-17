@@ -16,7 +16,7 @@ import 'routes/screen_tracking_observer.dart';
 
 import 'constants/theme/app_theme_provider.dart';
 
-import 'screens/admin_panel_screen.dart';
+import 'features/admin/admin_panel_screen.dart';
 import 'screens/analytics_page.dart';
 import 'screens/blood_levels_page.dart';
 import 'screens/catalog_page.dart';
@@ -25,7 +25,7 @@ import 'screens/checkin_history_screen.dart';
 import 'features/craving/cravings_page.dart';
 import 'screens/daily_checkin_screen.dart';
 import 'screens/encryption_migration_screen.dart';
-import 'screens/home_page.dart';
+import 'features/home/home_page.dart';
 import 'features/log_entry/log_entry_page.dart';
 import 'screens/login_page.dart';
 import 'screens/pin_setup_screen.dart';
@@ -38,7 +38,7 @@ import 'screens/settings_screen.dart';
 import 'screens/tolerance_dashboard_page.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/privacy_policy_screen.dart';
-import 'screens/admin/feature_flags_screen.dart';
+import 'screens/feature_flags_screen.dart';
 import 'screens/forgot_password_page.dart';
 import 'screens/set_new_password_page.dart';
 import 'screens/email_confirmed_page.dart';

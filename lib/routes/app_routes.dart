@@ -10,17 +10,17 @@ import '../screens/blood_levels_page.dart';
 import '../features/reflection/reflection_page.dart';
 import '../features/activity/activity_page.dart';
 import '../screens/personal_library_page.dart'; // Add LibraryPage import
-import '../screens/home_page.dart';
+import '../features/home/home_page.dart';
 import '../screens/daily_checkin_screen.dart';
 import '../screens/checkin_history_screen.dart';
 import '../screens/profile_screen.dart';
-import '../screens/admin_panel_screen.dart';
+import '../features/admin/admin_panel_screen.dart';
 import '../screens/settings_screen.dart';
 import '../screens/tolerance_dashboard_page.dart'; // Import ToleranceDashboardPage
 import '../screens/physiological_page.dart';
-import '../screens/interactions_page.dart';
-import '../screens/wearos_page.dart';
-import '../screens/admin/bug_report_screen.dart';
+import '../features/interactions/interactions_page.dart';
+import '../features/wearOS/wearos_page.dart';
+import '../screens/bug_report_screen.dart';
 import '../screens/pin_setup_screen.dart';
 import '../screens/pin_unlock_screen.dart';
 import '../screens/recovery_key_screen.dart';
