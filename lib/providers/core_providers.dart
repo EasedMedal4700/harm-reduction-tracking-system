@@ -4,7 +4,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/app_lock_controller.dart';
 import '../services/auth_service.dart';
 import '../services/encryption_service_v2.dart';
-import 'shared_preferences_provider.dart';
 
 export 'shared_preferences_provider.dart';
 

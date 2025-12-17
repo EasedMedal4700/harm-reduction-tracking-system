@@ -34,7 +34,6 @@ class EncryptionService {
   final AesGcm _algorithm = AesGcm.with256bits();
   
   SecretKey? _masterKey;
-  String? _currentUserId;
 
   /// Initialize encryption for the current user.
   /// Call this after user logs in.
@@ -49,8 +48,6 @@ class EncryptionService {
         throw Exception('No authenticated user');
       }
 
-      _currentUserId = user.id;
-      
       // Check if user already has an encrypted key stored
       final response = await _client!
           .from('user_keys')
@@ -356,7 +353,6 @@ class EncryptionService {
   /// Clear the master key from memory (call on logout)
   void dispose() {
     _masterKey = null;
-    _currentUserId = null;
     ErrorHandler.logInfo('EncryptionService', 'Master key cleared from memory');
   }
 

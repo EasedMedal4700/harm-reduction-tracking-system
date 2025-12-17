@@ -29,7 +29,6 @@ class DeepLinkDebugWidget extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;

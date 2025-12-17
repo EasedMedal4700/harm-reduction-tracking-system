@@ -135,11 +135,11 @@ class ReflectionService {
       }
 
       // Validate raw data before parsing
-      ReflectionValidator.validateRawData(result as Map<String, dynamic>);
+      ReflectionValidator.validateRawData(result);
 
       // Decrypt notes field
       final decryptedResult = await _encryption.decryptFields(
-        result as Map<String, dynamic>,
+        result,
         ['notes'],
       );
 

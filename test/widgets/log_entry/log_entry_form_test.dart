@@ -5,7 +5,6 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/data/drug_use_catalog.dart';
 
-import 'package:mobile_drug_use_app/common/inputs/emotion_selector.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_chip.dart';
 
 void main() {

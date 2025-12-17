@@ -20,9 +20,7 @@ class TimeOfDayIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
-    final sp = context.spacing;
     final sh = context.shapes;
 
     return Container(
@@ -56,7 +54,6 @@ class _TimeSegment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final acc = context.accent;
     final text = context.text;

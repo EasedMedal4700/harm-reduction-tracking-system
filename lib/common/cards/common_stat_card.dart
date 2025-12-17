@@ -68,7 +68,7 @@ class CommonStatCard extends StatelessWidget {
                   ),
               ],
             ),
-            const Spacer(),
+            SizedBox(height: sp.md),
             Text(
               value,
               style: t.heading3.copyWith(

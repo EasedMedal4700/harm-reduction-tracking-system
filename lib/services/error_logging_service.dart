@@ -78,9 +78,9 @@ class ErrorLoggingService {
           _platform = 'windows';
           final displayVersion = info.displayVersion;
           final productName = info.productName;
-          _osVersion = (displayVersion != null && displayVersion.isNotEmpty)
+          _osVersion = displayVersion.isNotEmpty
               ? displayVersion
-              : ((productName != null && productName.isNotEmpty)
+              : (productName.isNotEmpty
                     ? productName
                     : 'unknown');
           _deviceModel = info.computerName;
@@ -91,11 +91,11 @@ class ErrorLoggingService {
           final prettyName = info.prettyName;
           final version = info.version;
           final id = info.id;
-          _osVersion = (prettyName != null && prettyName.isNotEmpty)
+          _osVersion = prettyName.isNotEmpty
               ? prettyName
-              : ((version != null && version.isNotEmpty)
-                    ? version
-                    : (id ?? 'unknown'));
+              : ((version?.isNotEmpty ?? false)
+                    ? version!
+                    : id);
           _deviceModel = info.machineId ?? 'unknown';
           return;
         case TargetPlatform.fuchsia:

@@ -96,9 +96,12 @@ class AdminUserCard extends StatelessWidget {
         // TITLE LINE
         title: Row(
           children: [
-            Text(
-              username,
-              style: text.bodyBold.copyWith(color: c.textPrimary),
+            Flexible(
+              child: Text(
+                username,
+                style: text.bodyBold.copyWith(color: c.textPrimary),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
 
             if (isAdmin) ...[

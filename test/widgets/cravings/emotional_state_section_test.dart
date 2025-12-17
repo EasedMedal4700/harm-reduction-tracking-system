@@ -5,7 +5,6 @@ void main() {
   group('EmotionalStateSection widget tests', () {
     testWidgets('displays emotion selection chips', (tester) async {
       final primaryEmotions = <String>[];
-      final secondaryEmotions = <String, List<String>>{};
 
       await tester.pumpWidget(
         MaterialApp(
@@ -44,7 +43,6 @@ void main() {
 
     testWidgets('primary emotion can be selected', (tester) async {
       var primaryEmotions = <String>[];
-      final secondaryEmotions = <String, List<String>>{};
 
       await tester.pumpWidget(
         MaterialApp(

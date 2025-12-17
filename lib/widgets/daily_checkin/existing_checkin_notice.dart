@@ -14,7 +14,6 @@ class ExistingCheckinNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;

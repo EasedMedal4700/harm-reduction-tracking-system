@@ -59,7 +59,6 @@ class _EmotionSelectorState extends State<EmotionSelector>
     final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-    final sh = context.shapes;
     final acc = context.accent;
 
     return AnimatedContainer(

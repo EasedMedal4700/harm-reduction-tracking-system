@@ -6,7 +6,6 @@
 // Notes: Uses new mood constants, but not fully migrated to AppTheme/context extensions.
 import 'package:flutter/material.dart';
 import '../../constants/emus/app_mood.dart';  // Import the new constants file
-import '../../constants/theme/app_theme_extension.dart';
 
 /// Widget for selecting mood from available options
 class MoodSelector extends StatefulWidget {

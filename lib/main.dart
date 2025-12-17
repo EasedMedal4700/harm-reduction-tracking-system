@@ -1,4 +1,3 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'dart:async';
 import 'dart:ui' as ui;

@@ -41,8 +41,10 @@ class AdminStatCard extends StatelessWidget {
         boxShadow: t.cardShadow,
       ),
       child: Padding(
-        padding: EdgeInsets.all(sp.md),
-        child: Column(
+        padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // ICON
@@ -84,6 +86,7 @@ class AdminStatCard extends StatelessWidget {
               ),
             ],
           ],
+        ),
         ),
       ),
     );
