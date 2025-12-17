@@ -1,4 +1,3 @@
-
 import os
 import re
 from collections import Counter
@@ -52,14 +51,20 @@ def print_percentages(counts, total, label):
 
 
 def tui():
-    widget_dir = os.path.join(os.path.dirname(__file__), '../lib/widgets')
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    widget_dir = os.path.join(project_root, 'lib', 'widgets')
+    print(f"Scanning directory: {widget_dir}")  # Debug print
+    if not os.path.exists(widget_dir):
+        print(f"Directory does not exist: {widget_dir}")
+        return
     files_info, theme_counts, common_counts, riverpod_counts, total = scan_widget_files(widget_dir)
     print(f"Total widget files scanned: {total}\n")
     print_percentages(theme_counts, total, "Theme")
     print_percentages(common_counts, total, "Common")
     print_percentages(riverpod_counts, total, "Riverpod")
     overall_complete = theme_counts.get("COMPLETE", 0)
-    print(f"Overall THEME completion: {overall_complete / total * 100:.1f}%\n")
+    overall_percent = (overall_complete / total * 100) if total else 0
+    print(f"Overall THEME completion: {overall_percent:.1f}%\n")
 
     categories = ['Theme', 'Common', 'Riverpod']
     print("Select migration header to deep dive:")
