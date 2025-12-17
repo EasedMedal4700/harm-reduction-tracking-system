@@ -1,11 +1,17 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Page for editing cravings.
+
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/old_common/drawer_menu.dart';
-import '../../widgets/cravings/craving_details_section.dart';
-import '../../widgets/cravings/emotional_state_section.dart';
-import '../../widgets/cravings/body_mind_signals_section.dart';
-import '../../widgets/cravings/outcome_section.dart';
-import '../../widgets/edit_craving/craving_app_bar.dart';
+import '../craving/widgets/cravings/craving_details_section.dart';
+import '../craving/widgets/cravings/emotional_state_section.dart';
+import '../craving/widgets/cravings/body_mind_signals_section.dart';
+import '../craving/widgets/cravings/outcome_section.dart';
+import 'widgets/edit_craving/craving_app_bar.dart';
 import '../../services/craving_service.dart';
 import '../../utils/error_handler.dart';
 import '../../constants/data/body_and_mind_catalog.dart';

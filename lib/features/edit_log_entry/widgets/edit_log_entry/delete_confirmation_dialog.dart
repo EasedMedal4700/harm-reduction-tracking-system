@@ -1,14 +1,14 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: PARTIAL
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+// Notes: Dialog for deleting entries.
+
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../states/log_entry_state.dart';
-import '../../../../services/log_entry_service.dart';
+import '../../../log_entry/log_entry_state.dart';
+import '../../../log_entry/log_entry_service.dart';
 
 
 class DeleteConfirmationDialog {
@@ -18,6 +18,7 @@ class DeleteConfirmationDialog {
   ) async {
     final c = context.colors;
     final t = context.theme;
+    final a = context.accent;
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -38,13 +39,13 @@ class DeleteConfirmationDialog {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancel', style: TextStyle(color: context.accent.primary)),
+            child: Text('Cancel', style: t.text.labelLarge.copyWith(color: a.primary)),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
               backgroundColor: c.error,
-              foregroundColor: Colors.white,
+              foregroundColor: c.textInverse,
             ),
             child: const Text('Delete'),
           ),
@@ -60,9 +61,9 @@ class DeleteConfirmationDialog {
         if (context.mounted) {
           Navigator.pop(context); // Close edit page
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Entry deleted successfully'),
-              backgroundColor: Colors.green,
+            SnackBar(
+              content: const Text('Entry deleted successfully'),
+              backgroundColor: c.success,
             ),
           );
         }
@@ -71,7 +72,7 @@ class DeleteConfirmationDialog {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Failed to delete entry: $e'),
-              backgroundColor: Colors.red,
+              backgroundColor: c.error,
             ),
           );
         }

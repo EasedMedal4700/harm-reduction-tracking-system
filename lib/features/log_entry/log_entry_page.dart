@@ -1,11 +1,17 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Page for logging drug use.
+
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../common/old_common/drawer_menu.dart';
 import 'widgets/log_entry/log_entry_form.dart';
 import 'widgets/log_entry_page/log_entry_app_bar.dart';
-import '../../states/log_entry_state.dart';
-import '../../controllers/log_entry_controller.dart';
+import 'log_entry_state.dart';
+import 'log_entry_controller.dart';
 
 
 class QuickLogEntryPage extends StatefulWidget {

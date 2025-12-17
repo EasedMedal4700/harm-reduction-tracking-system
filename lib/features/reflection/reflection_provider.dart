@@ -1,7 +1,8 @@
+// MIGRATION // Theme: [Not Applicable] // Common: [Not Applicable] // Riverpod: TODO
 // filepath: c:\Users\user\Desktop\Power BI\mobile_drug_use_app\lib\providers\reflection_provider.dart
 import 'package:flutter/material.dart';
-import '../models/reflection_model.dart';
-import '../services/reflection_service.dart';
+import '../../models/reflection_model.dart';
+import 'reflection_service.dart';
 
 class ReflectionProvider extends ChangeNotifier {
   Reflection _reflection = Reflection();

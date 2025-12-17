@@ -1,8 +1,9 @@
 // MIGRATION
-// Theme: PARTIAL
+// Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: COMPLETE
-// Notes: Initial migration header added. Some theme/common usage, Riverpod ready.
+// Notes: AppBar for editing log entries.
+
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../models/log_entry_form_data.dart';

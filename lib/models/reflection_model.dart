@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/error_handler.dart';
-import '../utils/reflection_exceptions.dart';
+import '../features/reflection/reflection_exceptions.dart';
 
 class Reflection {
   double effectiveness;

@@ -1,11 +1,7 @@
 
-// MIGRATION
-// Theme: COMPLETE
-// Common: PARTIAL
-// Riverpod: TODO
-// Notes: Fully migrated to AppTheme system. No deprecated constants remain.
+// MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 
 class ReflectionSelection extends StatelessWidget {
   final List<Map<String, dynamic>> entries;

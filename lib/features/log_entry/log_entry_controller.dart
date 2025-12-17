@@ -1,10 +1,16 @@
-import '../models/log_entry_form_data.dart';
-import '../models/log_entry_model.dart';
-import '../services/timezone_service.dart';
-import '../services/log_entry_service.dart';
-import '../repo/substance_repository.dart';
-import '../repo/stockpile_repository.dart';
-import '../utils/drug_profile_utils.dart';
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Logic controller for log entry.
+
+import '../../models/log_entry_form_data.dart';
+import '../../models/log_entry_model.dart';
+import '../../services/timezone_service.dart';
+import 'log_entry_service.dart';
+import '../../repo/substance_repository.dart';
+import '../../repo/stockpile_repository.dart';
+import '../../utils/drug_profile_utils.dart';
 
 /// Pure business logic for log entry operations
 /// Riverpod-ready: No BuildContext, no ChangeNotifier, no UI state

@@ -1,11 +1,12 @@
+// MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import '../common/old_common/drawer_menu.dart';
-import '../services/log_entry_service.dart';
-import '../providers/reflection_provider.dart';
-import '../widgets/reflection/reflection_form.dart';
-import '../widgets/reflection/reflection_selection.dart';
+import '../../common/old_common/drawer_menu.dart';
+import '../log_entry/log_entry_service.dart';
+import 'reflection_provider.dart';
+import 'widgets/reflection/reflection_form.dart';
+import 'widgets/reflection/reflection_selection.dart';
 
 class ReflectionPage extends StatefulWidget {
   const ReflectionPage({super.key});

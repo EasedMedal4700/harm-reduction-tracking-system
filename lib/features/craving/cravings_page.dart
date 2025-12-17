@@ -1,16 +1,23 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Page for logging cravings. Uses CommonPrimaryButton.
+
 import 'package:flutter/material.dart';
-import '../common/old_common/drawer_menu.dart';
-import '../constants/data/body_and_mind_catalog.dart';
-import '../constants/data/drug_use_catalog.dart';
-import '../widgets/cravings/craving_details_section.dart';
-import '../widgets/cravings/emotional_state_section.dart';
-import '../widgets/cravings/body_mind_signals_section.dart';
-import '../widgets/cravings/outcome_section.dart';
-import '../models/craving_model.dart';
-import '../services/craving_service.dart';
-import '../services/timezone_service.dart';
-import '../services/user_service.dart';
-import '../constants/theme/app_theme_extension.dart';
+import '../../common/old_common/drawer_menu.dart';
+import '../../constants/data/body_and_mind_catalog.dart';
+import '../../constants/data/drug_use_catalog.dart';
+import 'widgets/cravings/craving_details_section.dart';
+import 'widgets/cravings/emotional_state_section.dart';
+import 'widgets/cravings/body_mind_signals_section.dart';
+import 'widgets/cravings/outcome_section.dart';
+import '../../models/craving_model.dart';
+import '../../services/craving_service.dart';
+import '../../services/timezone_service.dart';
+import '../../services/user_service.dart';
+import '../../constants/theme/app_theme_extension.dart';
+import '../../common/buttons/common_primary_button.dart';
 
 class CravingsPage extends StatefulWidget {
   const CravingsPage({super.key});
@@ -209,28 +216,12 @@ class _CravingsPageState extends State<CravingsPage> {
                     setState(() => actedOnCraving = value),
               ),
               SizedBox(height: sp.lg),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: _isSaving ? null : _save,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: a.primary,
-                    foregroundColor: c.textInverse,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(sh.radiusMd),
-                    ),
-                  ),
-                  child: _isSaving
-                      ? CircularProgressIndicator(color: c.textInverse)
-                      : Text(
-                          'Save Entry',
-                          style: t.typography.labelLarge.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: c.textInverse,
-                          ),
-                        ),
-                ),
+              CommonPrimaryButton(
+                label: 'Save Entry',
+                onPressed: () {
+                  _save();
+                },
+                isLoading: _isSaving,
               ),
             ],
           ),

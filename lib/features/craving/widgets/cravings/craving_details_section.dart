@@ -1,9 +1,15 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Section for craving details.
+
 // ignore_for_file: deprecated_member_use
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants/data/craving_consatnts.dart';
-import '../../constants/data/drug_use_catalog.dart';
+import '../../../../constants/data/craving_consatnts.dart';
+import '../../../../constants/data/drug_use_catalog.dart';
 
 class CravingDetailsSection extends StatelessWidget {
   final List<String> selectedCravings;

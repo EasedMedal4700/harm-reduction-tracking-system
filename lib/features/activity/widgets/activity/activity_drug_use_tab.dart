@@ -2,7 +2,8 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
+// Notes: Tab for displaying drug use entries. Uses ActivityCard and ActivityEmptyState.
+
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'activity_card.dart';

@@ -1,3 +1,4 @@
+// MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
 import '../../../../constants/data/drug_use_catalog.dart';
 import '../../../../constants/theme/app_theme_extension.dart';

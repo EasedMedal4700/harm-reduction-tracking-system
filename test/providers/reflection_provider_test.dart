@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/models/reflection_model.dart';
-import 'package:mobile_drug_use_app/providers/reflection_provider.dart';
+import 'package:mobile_drug_use_app/features/reflection/reflection_provider.dart';
 
 void main() {
   group('ReflectionProvider', () {

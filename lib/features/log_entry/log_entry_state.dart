@@ -1,6 +1,12 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: State management for log entry.
+
 import 'package:flutter/material.dart';
-import '../models/log_entry_form_data.dart';
-import '../controllers/log_entry_controller.dart';
+import '../../models/log_entry_form_data.dart';
+import 'log_entry_controller.dart';
 
 /// Riverpod-ready state adapter for Provider
 /// This wraps the pure LogEntryFormData with ChangeNotifier for Provider compatibility

@@ -1,5 +1,5 @@
 import '../models/reflection_model.dart';
-import 'reflection_exceptions.dart';
+import '../features/reflection/reflection_exceptions.dart';
 
 /// Validator for reflection data
 class ReflectionValidator {

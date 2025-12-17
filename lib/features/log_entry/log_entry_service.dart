@@ -1,11 +1,17 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Service for log entry operations.
+
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../models/log_entry_model.dart';
-import '../services/user_service.dart'; // For user_id
-import '../utils/error_handler.dart';
-import 'cache_service.dart';
-import 'encryption_service_v2.dart';
+import '../../models/log_entry_model.dart';
+import '../../services/user_service.dart'; // For user_id
+import '../../utils/error_handler.dart';
+import '../../services/cache_service.dart';
+import '../../services/encryption_service_v2.dart';
 
 class LogEntryService {
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');

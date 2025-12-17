@@ -1,19 +1,29 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Section for emotional state. Uses CommonChipGroup.
+
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_chip_group.dart';
 
+class EmotionalStateSection extends StatelessWidget {
+  final List<String> selectedEmotions;
+  final Map<String, List<String>> secondaryEmotions;
+  final ValueChanged<List<String>> onEmotionsChanged;
+  final ValueChanged<Map<String, List<String>>> onSecondaryEmotionsChanged;
+  final String? thoughts;
+  final ValueChanged<String> onThoughtsChanged;
 
-class OutcomeSection extends StatelessWidget {
-  final String? whatDidYouDo;
-  final ValueChanged<String> onWhatDidYouDoChanged;
-  final bool actedOnCraving;
-  final ValueChanged<bool> onActedOnCravingChanged;
-
-  const OutcomeSection({
+  const EmotionalStateSection({
     super.key,
-    required this.whatDidYouDo,
-    required this.onWhatDidYouDoChanged,
-    required this.actedOnCraving,
-    required this.onActedOnCravingChanged,
+    required this.selectedEmotions,
+    required this.secondaryEmotions,
+    required this.onEmotionsChanged,
+    required this.onSecondaryEmotionsChanged,
+    required this.thoughts,
+    required this.onThoughtsChanged,
   });
 
   @override
@@ -36,10 +46,10 @@ class OutcomeSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.flag, color: a.primary),
+              Icon(Icons.favorite, color: a.primary),
               SizedBox(width: sp.sm),
               Text(
-                'Outcome',
+                'Emotional State',
                 style: t.typography.heading4.copyWith(
                   color: c.textPrimary,
                   fontWeight: FontWeight.bold,
@@ -49,14 +59,24 @@ class OutcomeSection extends StatelessWidget {
           ),
           SizedBox(height: sp.md),
           
+          CommonChipGroup(
+            title: 'Feelings',
+            options: const ['Happy', 'Sad', 'Anxious', 'Angry', 'Neutral', 'Excited', 'Tired'],
+            selected: selectedEmotions,
+            onChanged: onEmotionsChanged,
+            allowMultiple: true,
+          ),
+          
+          SizedBox(height: sp.lg),
+          
           Text(
-            'What did you do?',
+            'Thoughts',
             style: t.typography.body.copyWith(color: c.textPrimary),
           ),
           SizedBox(height: sp.sm),
           TextFormField(
-            initialValue: whatDidYouDo,
-            onChanged: onWhatDidYouDoChanged,
+            initialValue: thoughts,
+            onChanged: onThoughtsChanged,
             maxLines: 3,
             style: t.typography.body.copyWith(color: c.textPrimary),
             decoration: InputDecoration(
@@ -75,17 +95,6 @@ class OutcomeSection extends StatelessWidget {
                 borderSide: BorderSide(color: a.primary, width: 2),
               ),
             ),
-          ),
-          SizedBox(height: sp.md),
-          
-          SwitchListTile(
-            title: Text(
-              'Acted on craving?',
-              style: t.typography.body.copyWith(color: c.textPrimary),
-            ),
-            value: actedOnCraving,
-            onChanged: onActedOnCravingChanged,
-            contentPadding: EdgeInsets.zero,
           ),
         ],
       ),

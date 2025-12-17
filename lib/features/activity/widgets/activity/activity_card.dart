@@ -3,7 +3,7 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-// Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
+// Notes: Reusable card for activity items. Fully theme-compliant.
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

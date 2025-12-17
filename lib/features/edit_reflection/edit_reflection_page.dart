@@ -1,12 +1,18 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Page for editing reflections.
+
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/old_common/drawer_menu.dart';
-import '../../widgets/reflection/edit_reflection_form.dart';
-import '../../widgets/edit_reflection/reflection_app_bar.dart';
+import '../reflection/widgets/reflection/edit_reflection_form.dart';
+import 'widgets/edit_reflection/reflection_app_bar.dart';
 import '../../models/reflection_model.dart';
-import '../../services/reflection_service.dart';
+import '../reflection/reflection_service.dart';
 import '../../utils/error_handler.dart';
-import '../../utils/reflection_exceptions.dart';
+import '../reflection/reflection_exceptions.dart';
 import '../../utils/reflection_validator.dart';
 
 class EditReflectionPage extends StatefulWidget {

@@ -13,7 +13,7 @@ import '../widgets/profile/statistics_card.dart';
 import '../widgets/profile/account_info_card.dart';
 import '../widgets/profile/logout_button.dart';
 import '../services/user_service.dart';
-import '../services/log_entry_service.dart';
+import '../features/log_entry/log_entry_service.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});

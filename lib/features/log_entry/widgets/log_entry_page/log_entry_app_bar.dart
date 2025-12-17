@@ -1,9 +1,5 @@
 
-// MIGRATION
-// Theme: COMPLETE
-// Common: PARTIAL
-// Riverpod: TODO
-// Notes: Migrated to AppThemeExtension and existing common components. No logic or state changes.
+// MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 

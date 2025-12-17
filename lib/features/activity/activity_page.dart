@@ -1,4 +1,9 @@
-// MIGRATION COMPLETE — no deprecated UI colors, no isDark logic.
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: Main activity page with tabs. Uses AppThemeExtension. No hardcoded values.
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../common/old_common/drawer_menu.dart';
@@ -92,7 +97,7 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
       ),
       drawer: const DrawerMenu(),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator(color: t.accent.primary))
           : TabBarView(
               controller: _tabController,
               children: [

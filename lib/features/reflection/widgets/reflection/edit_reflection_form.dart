@@ -1,6 +1,7 @@
+// MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
-import '../../common/old_common/modern_form_card.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import '../../../../common/old_common/modern_form_card.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 
 class EditReflectionForm extends StatefulWidget {

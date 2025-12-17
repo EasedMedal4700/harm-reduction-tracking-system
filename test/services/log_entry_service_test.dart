@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/services/log_entry_service.dart';
+import 'package:mobile_drug_use_app/features/log_entry/log_entry_service.dart';
 import 'package:mobile_drug_use_app/models/log_entry_model.dart';
 
 void main() {

@@ -1,4 +1,10 @@
 
+// MIGRATION
+// Theme: COMPLETE
+// Common: PARTIAL
+// Riverpod: TODO
+// Notes: AppBar for editing cravings.
+
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +48,7 @@ class CravingAppBar extends StatelessWidget implements PreferredSizeWidget {
           TextButton.icon(
             onPressed: onSave,
             icon: Icon(Icons.check, color: a.primary),
-            label: Text('Save', style: TextStyle(color: a.primary)),
+            label: Text('Save', style: t.labelLarge.copyWith(color: a.primary)),
           ),
       ],
     );
