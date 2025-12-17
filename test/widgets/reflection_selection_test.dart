@@ -1,8 +1,7 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/widgets/reflection/reflection_selection.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
+import '../helpers/test_app_wrapper.dart';
 
 
 void main() {
@@ -23,10 +22,7 @@ void main() {
     },
   ];
 
-  Widget wrap(Widget child) => AppThemeProvider(
-        theme: AppTheme.light(),
-        child: MaterialApp(home: Scaffold(body: child)),
-      );
+  Widget wrap(Widget child) => wrapWithAppTheme(child);
 
   testWidgets('renders each entry with dose information', (tester) async {
     await tester.pumpWidget(wrap(ReflectionSelection(

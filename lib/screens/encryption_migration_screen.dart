@@ -1,20 +1,25 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../providers/core_providers.dart';
 import '../services/encryption_migration_service.dart';
 import '../utils/error_handler.dart';
 import '../states/migration_step_controller.dart';
 
-class EncryptionMigrationScreen extends StatefulWidget {
+class EncryptionMigrationScreen extends ConsumerStatefulWidget {
   const EncryptionMigrationScreen({super.key});
 
   @override
-  State<EncryptionMigrationScreen> createState() =>
+  ConsumerState<EncryptionMigrationScreen> createState() =>
       _EncryptionMigrationScreenState();
 }
 
-class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
+class _EncryptionMigrationScreenState
+    extends ConsumerState<EncryptionMigrationScreen> {
   final EncryptionMigrationService _migrationService =
       EncryptionMigrationService();
   final MigrationStepController _stepController = MigrationStepController();
@@ -569,6 +574,7 @@ class _EncryptionMigrationScreenState extends State<EncryptionMigrationScreen> {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
+              unawaited(ref.read(appLockControllerProvider.notifier).recordUnlock());
               // Navigate to home screen
               Navigator.of(context).pushReplacementNamed('/home_page');
             },

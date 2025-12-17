@@ -1,33 +1,53 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../services/auth_service.dart';
+
+import '../providers/core_providers.dart';
 import '../services/encryption_service_v2.dart';
 import '../services/encryption_migration_service.dart';
 import '../services/debug_config.dart';
-import '../services/pin_timeout_service.dart';
 import '../services/onboarding_service.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final authService = AuthService();
   static const String _rememberMeKey = 'remember_me';
   bool _rememberMe = false;
   bool _isLoading = false;
+  StreamSubscription<AuthState>? _authStateSub;
 
   @override
   void initState() {
     super.initState();
     _initializeSessionState();
+    _listenForRestoredSession();
+  }
+
+  void _listenForRestoredSession() {
+    final client = _tryGetSupabaseClient();
+    if (client == null) return;
+
+    _authStateSub = client.auth.onAuthStateChange.listen((data) {
+      final session = data.session;
+      if (!mounted) return;
+
+      final remember = ref.read(sharedPreferencesProvider).getBool(_rememberMeKey) ?? false;
+      if (remember && session != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _navigateToHome();
+        });
+      }
+    });
   }
 
   Future<void> _initializeSessionState() async {
@@ -65,29 +85,21 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     if (session != null && client != null) {
-      // Check if session is still valid (not expired)
-      final now = DateTime.now().millisecondsSinceEpoch / 1000;
-      final isSessionValid = session.expiresAt != null && session.expiresAt! > now;
+      if (remember) {
+        // Rely on Supabase persisted session + token refresh.
+        // Do NOT clear auth state automatically.
+        try {
+          await client.auth.refreshSession();
+        } catch (_) {
+          // Ignore refresh errors; user can still log in manually.
+        }
 
-      print('🔄 DEBUG: Session expires at: ${session.expiresAt}');
-      print('🔄 DEBUG: Current time: $now');
-      print('🔄 DEBUG: Session valid: $isSessionValid');
-
-      if (remember && isSessionValid) {
-        print('🔄 DEBUG: Auto-login with valid session');
+        print('🔄 DEBUG: Auto-login with existing session');
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             _navigateToHome();
           }
         });
-      } else {
-        // Session is invalid or remember me is false, clear it
-        print('🔄 DEBUG: Clearing invalid session or remember me is false');
-        try {
-          await authService.logout();
-        } catch (e) {
-          print('⚠️ DEBUG: Error during logout in init: $e');
-        }
       }
     } else {
       print('🔄 DEBUG: No session or client, staying on login page');
@@ -112,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _isLoading = true);
     
     try {
-      final success = await authService.login(email, password);
+      final success = await ref.read(authServiceProvider).login(email, password);
       if (!mounted) return;
 
       setState(() => _isLoading = false);
@@ -163,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
       
       print('🔧 DEBUG: Auto-logging in as $email');
       
-      final success = await authService.login(email, password);
+      final success = await ref.read(authServiceProvider).login(email, password);
       
       if (!mounted) return;
       
@@ -225,8 +237,9 @@ class _LoginPageState extends State<LoginPage> {
         final unlocked = await encryptionService.unlockWithPin(user.id, pin);
         
         if (unlocked) {
-          // Record the unlock for timeout tracking
-          await pinTimeoutService.recordUnlock();
+          if (mounted) {
+            await ref.read(appLockControllerProvider.notifier).recordUnlock();
+          }
           
           print('✅ DEBUG: Auto-unlock successful, going to home');
           if (mounted) {
@@ -286,7 +299,8 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       // User has PIN setup - check if PIN is required based on timeout
-      final isPinRequired = await pinTimeoutService.isPinRequired();
+      final isPinRequired =
+          await ref.read(appLockControllerProvider.notifier).shouldRequirePinNow();
       
       if (isPinRequired) {
         // PIN timeout expired, need to unlock
@@ -297,8 +311,6 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         // PIN still valid, go directly to home
         print('✅ DEBUG: PIN still valid, skipping unlock screen');
-        // Update activity to extend session
-        await pinTimeoutService.recordForegroundResume();
         if (mounted) {
           Navigator.pushReplacementNamed(context, '/home_page');
         }
@@ -322,7 +334,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<bool> _readRememberPreference() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = ref.read(sharedPreferencesProvider);
       return prefs.getBool(_rememberMeKey) ?? false;
     } catch (_) {
       return false;
@@ -331,7 +343,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _persistRememberPreference(bool value) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = ref.read(sharedPreferencesProvider);
       await prefs.setBool(_rememberMeKey, value);
     } catch (_) {
       // Ignore persistence issues; user will be asked to log in again.
@@ -340,6 +352,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
+    _authStateSub?.cancel();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();

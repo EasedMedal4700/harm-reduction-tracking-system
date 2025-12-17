@@ -170,18 +170,16 @@ class _MetricCard extends StatelessWidget {
           SizedBox(height: t.spacing.sm),
 
           // ----- VALUE -----
-          Flexible(
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                value,
-                style: t.typography.heading2.copyWith(
-                  color: t.colors.textPrimary,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              style: t.typography.heading2.copyWith(
+                color: t.colors.textPrimary,
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
 

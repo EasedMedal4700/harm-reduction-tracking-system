@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'providers/daily_checkin_provider.dart';
@@ -44,9 +45,10 @@ import 'screens/email_confirmed_page.dart';
 
 import 'services/error_logging_service.dart';
 import 'services/feature_flag_service.dart';
-import 'services/pin_timeout_service.dart';
-import 'services/security_manager.dart';
 import 'services/auth_link_handler.dart';
+import 'services/app_lock_controller.dart';
+
+import 'providers/core_providers.dart';
 
 import 'constants/config/feature_flags.dart';
 import 'widgets/feature_flags/feature_gate.dart';
@@ -95,7 +97,16 @@ Future<void> main() async {
       };
 
       final navigatorObserver = ScreenTrackingNavigatorObserver();
-      runApp(riverpod.ProviderScope(child: MyApp(navigatorObserver: navigatorObserver)));
+      final prefs = await SharedPreferences.getInstance();
+
+      runApp(
+        riverpod.ProviderScope(
+          overrides: [
+            sharedPreferencesProvider.overrideWithValue(prefs),
+          ],
+          child: MyApp(navigatorObserver: navigatorObserver),
+        ),
+      );
     },
     (error, stack) {
       errorLoggingService.logError(error: error, stackTrace: stack);
@@ -103,46 +114,78 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends riverpod.ConsumerStatefulWidget {
   const MyApp({required this.navigatorObserver, super.key});
 
   final NavigatorObserver navigatorObserver;
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  riverpod.ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+class _MyAppState extends riverpod.ConsumerState<MyApp>
+    with WidgetsBindingObserver {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
+
+  riverpod.ProviderSubscription<AppLockState>? _appLockSub;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _initServices();
+    _setupAppLockListener();
   }
 
   Future<void> _initServices() async {
-    await pinTimeoutService.init();
-    await securityManager.init();
     await featureFlagService.load();
 
     authLinkHandler.init(navigatorKey);
+  }
 
-    securityManager.onPinRequired = () {
-      final ctx = navigatorKey.currentContext;
-      if (ctx != null && ctx.mounted) {
-        Navigator.of(ctx).pushNamedAndRemoveUntil(
-          '/pin-unlock',
-          (route) => route.settings.name == '/login_page',
-        );
-      }
-    };
+  void _setupAppLockListener() {
+    _appLockSub?.close();
+    _appLockSub = ref.listenManual(
+      appLockControllerProvider,
+      (previous, next) {
+        final wasRequiringPin = previous?.requiresPin ?? false;
+        if (wasRequiringPin || !next.requiresPin) return;
+
+        final ctx = navigatorKey.currentContext;
+        if (ctx == null || !ctx.mounted) return;
+
+        unawaited(_navigateToPinUnlockIfEligible(ctx));
+      },
+    );
+  }
+
+  Future<void> _navigateToPinUnlockIfEligible(BuildContext ctx) async {
+    final currentRoute = ModalRoute.of(ctx)?.settings.name;
+    if (currentRoute == '/pin-unlock' || currentRoute == '/login_page') {
+      return;
+    }
+
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) return;
+
+    final encryption = ref.read(encryptionServiceProvider);
+    final hasEncryption = await encryption.hasEncryptionSetup(user.id);
+    if (!hasEncryption) return;
+
+    // Lock keys in memory; do NOT sign out.
+    encryption.lock();
+
+    if (!ctx.mounted) return;
+    Navigator.of(ctx).pushNamedAndRemoveUntil(
+      '/pin-unlock',
+      (route) => route.settings.name == '/login_page',
+    );
   }
 
   @override
   void dispose() {
+    _appLockSub?.close();
     WidgetsBinding.instance.removeObserver(this);
     authLinkHandler.dispose();
     super.dispose();
@@ -153,9 +196,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive) {
-      securityManager.handleBackgroundStart();
+      unawaited(ref.read(appLockControllerProvider.notifier).onBackgroundStart());
     } else if (state == AppLifecycleState.resumed) {
-      securityManager.handleForegroundResume();
+      unawaited(ref.read(appLockControllerProvider.notifier).onForegroundResume());
     }
   }
 

@@ -15,16 +15,14 @@ import '../providers/daily_checkin_provider.dart';
 import '../services/daily_checkin_service.dart';
 import '../services/user_service.dart';
 import '../services/encryption_service_v2.dart';
-import '../services/security_manager.dart';
 import '../screens/profile_screen.dart';
 import '../screens/admin_panel_screen.dart';
 
 /// Redesigned Home Page with modular architecture
 /// Supports Light (wellness) and Dark (futuristic) themes
 /// 
-/// NOTE: Lifecycle handling (background/foreground) is managed centrally
-/// by SecurityManager in main.dart. This page does NOT have its own
-/// lifecycle observer to prevent fighting/duplicate lock/unlock cycles.
+/// NOTE: Lifecycle handling (background/foreground) is managed centrally.
+/// This page does NOT have its own lifecycle observer.
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.dailyCheckinRepository});
 
@@ -47,9 +45,6 @@ class _HomePageState extends State<HomePage>
     super.initState();
     _checkEncryptionStatus();
     _loadUserProfile();
-    
-    // Record interaction when home page is opened
-    securityManager.recordInteraction();
     
     // Setup animations
     _animationController = AnimationController(
@@ -115,9 +110,6 @@ class _HomePageState extends State<HomePage>
   }
 
   void _openDailyCheckin(BuildContext context) async {
-    // Record interaction
-    securityManager.recordInteraction();
-    
     // Navigate to daily check-in and wait for result
     await Navigator.pushNamed(context, '/daily-checkin');
     
@@ -213,7 +205,8 @@ class _HomePageState extends State<HomePage>
                 create: (_) {
                   final provider = DailyCheckinProvider(repository: widget.dailyCheckinRepository);
                   provider.initialize();
-                  provider.checkExistingCheckin();
+                  // Schedule check to avoid setState during build
+                  Future.microtask(() => provider.checkExistingCheckin());
                   return provider;
                 },
                 child: Consumer<DailyCheckinProvider>(

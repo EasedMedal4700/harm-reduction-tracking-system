@@ -1,5 +1,4 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'security_manager.dart';
 
 /// Service to manage PIN timeout settings and state.
 /// 
@@ -34,8 +33,6 @@ class PinTimeoutService {
   /// Initialize the service
   Future<void> init() async {
     _prefs ??= await SharedPreferences.getInstance();
-    // Also initialize the SecurityManager
-    await securityManager.init();
   }
   
   /// Ensure prefs are loaded
@@ -113,9 +110,6 @@ class PinTimeoutService {
   Future<void> recordForegroundResume() async {
     final prefs = await _preferences;
     await prefs.remove(_keyBackgroundTime);
-    // Update last unlock time to extend the session
-    final now = DateTime.now().millisecondsSinceEpoch;
-    await prefs.setInt(_keyLastUnlockTime, now);
     print('📱 App resumed to foreground at ${DateTime.now()}');
   }
   

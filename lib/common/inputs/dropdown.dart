@@ -33,11 +33,22 @@ class CommonDropdown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
+
+    final uniqueItems = <T>[];
+    for (final item in items) {
+      if (!uniqueItems.contains(item)) {
+        uniqueItems.add(item);
+      }
+    }
+
+    final selectedMatches = value == null
+        ? 0
+        : uniqueItems.where((item) => item == value).length;
+    final safeValue = selectedMatches == 1 ? value : null;
     
     return DropdownButtonFormField<T>(
-      key: ValueKey(value),
-      initialValue: value,
-      items: items.map((item) {
+      initialValue: safeValue,
+      items: uniqueItems.map((item) {
         return DropdownMenuItem<T>(
           value: item,
           child: itemBuilder != null

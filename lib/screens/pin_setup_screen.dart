@@ -1,20 +1,25 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
+import 'dart:async';
+
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../providers/core_providers.dart';
 import '../services/encryption_service_v2.dart';
 
 
 /// Screen for setting up PIN-based encryption
-class PinSetupScreen extends StatefulWidget {
+class PinSetupScreen extends ConsumerStatefulWidget {
   const PinSetupScreen({super.key});
 
   @override
-  State<PinSetupScreen> createState() => _PinSetupScreenState();
+  ConsumerState<PinSetupScreen> createState() => _PinSetupScreenState();
 }
 
-class _PinSetupScreenState extends State<PinSetupScreen> {
+class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
   final _encryptionService = EncryptionServiceV2();
   final _pin1Controller = TextEditingController();
   final _pin2Controller = TextEditingController();
@@ -111,6 +116,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
   }
 
   void _finishSetup() {
+    unawaited(ref.read(appLockControllerProvider.notifier).recordUnlock());
     Navigator.of(context).pushReplacementNamed('/home_page');
   }
 

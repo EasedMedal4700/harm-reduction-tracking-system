@@ -2,22 +2,23 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../providers/core_providers.dart';
 import '../services/encryption_service_v2.dart';
 import '../services/debug_config.dart';
-import '../services/pin_timeout_service.dart';
-import '../services/security_manager.dart';
 
 
 /// Screen for unlocking with PIN or biometrics
-class PinUnlockScreen extends StatefulWidget {
+class PinUnlockScreen extends ConsumerStatefulWidget {
   const PinUnlockScreen({super.key});
 
   @override
-  State<PinUnlockScreen> createState() => _PinUnlockScreenState();
+  ConsumerState<PinUnlockScreen> createState() => _PinUnlockScreenState();
 }
 
-class _PinUnlockScreenState extends State<PinUnlockScreen> {
+class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
   final _encryptionService = EncryptionServiceV2();
   final _pinController = TextEditingController();
   
@@ -96,9 +97,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
       final success = await _encryptionService.unlockWithPin(user.id, pin);
       
       if (success) {
-        // Record successful unlock for timeout tracking (both services)
-        await pinTimeoutService.recordUnlock();
-        await securityManager.recordUnlock();
+        await ref.read(appLockControllerProvider.notifier).recordUnlock();
         
         print('✅ DEBUG: Auto-unlock successful');
         if (mounted) {
@@ -150,9 +149,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
       final success = await _encryptionService.unlockWithPin(user.id, pin);
 
       if (success) {
-        // Record successful unlock for timeout tracking (both services)
-        await pinTimeoutService.recordUnlock();
-        await securityManager.recordUnlock();
+        await ref.read(appLockControllerProvider.notifier).recordUnlock();
         
         // Navigate to home
         if (mounted) {
@@ -204,9 +201,7 @@ class _PinUnlockScreenState extends State<PinUnlockScreen> {
       final success = await _encryptionService.unlockWithBiometrics(user.id);
 
       if (success) {
-        // Record successful unlock for timeout tracking (both services)
-        await pinTimeoutService.recordUnlock();
-        await securityManager.recordUnlock();
+        await ref.read(appLockControllerProvider.notifier).recordUnlock();
         
         // Navigate to home
         if (mounted) {

@@ -3,12 +3,16 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
 import 'user_service.dart';
 import 'encryption_service_v2.dart';
-import 'pin_timeout_service.dart';
-import 'security_manager.dart';
 
 class AuthService {
-  SupabaseClient get _client => Supabase.instance.client;
-  final _encryption = EncryptionServiceV2();
+  AuthService({
+    required SupabaseClient client,
+    required EncryptionServiceV2 encryption,
+  })  : _client = client,
+        _encryption = encryption;
+
+  final SupabaseClient _client;
+  final EncryptionServiceV2 _encryption;
 
   Future<bool> login(String email, String password) async {
     try {
@@ -111,8 +115,6 @@ class AuthService {
       await _client.auth.signOut();
       UserService.clearCache(); // Clear cached user ID
       _encryption.lock(); // Clear encryption keys from memory
-      await pinTimeoutService.clearState(); // Clear PIN timeout state
-      await securityManager.clearState(); // Clear security manager state
     } catch (e, stackTrace) {
       ErrorHandler.logError('AuthService.logout', e, stackTrace);
     }

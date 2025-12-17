@@ -1,23 +1,16 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/widgets/log_entry/route_selection.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
-
+import '../../helpers/test_app_wrapper.dart';
 
 void main() {
   group('RouteSelection Widget', () {
     testWidgets('renders all consumption methods', (tester) async {
       await tester.pumpWidget(
-        AppThemeProvider(
-          theme: AppTheme.light(),
-          child: MaterialApp(
-            home: Scaffold(
-              body: RouteSelection(
-                route: 'oral',
-                onRouteChanged: (_) {},
-              ),
-            ),
+        wrapWithAppTheme(
+          RouteSelection(
+            route: 'oral',
+            onRouteChanged: (_) {},
           ),
         ),
       );
@@ -29,15 +22,10 @@ void main() {
 
     testWidgets('selects initial route', (tester) async {
       await tester.pumpWidget(
-        AppThemeProvider(
-          theme: AppTheme.light(),
-          child: MaterialApp(
-            home: Scaffold(
-              body: RouteSelection(
-                route: 'oral',
-                onRouteChanged: (_) {},
-              ),
-            ),
+        wrapWithAppTheme(
+          RouteSelection(
+            route: 'oral',
+            onRouteChanged: (_) {},
           ),
         ),
       );
@@ -56,17 +44,12 @@ void main() {
       String? selectedRoute;
 
       await tester.pumpWidget(
-        AppThemeProvider(
-          theme: AppTheme.light(),
-          child: MaterialApp(
-            home: Scaffold(
-              body: RouteSelection(
-                route: 'oral',
-                onRouteChanged: (route) {
-                  selectedRoute = route;
-                },
-              ),
-            ),
+        wrapWithAppTheme(
+          RouteSelection(
+            route: 'oral',
+            onRouteChanged: (route) {
+              selectedRoute = route;
+            },
           ),
         ),
       );
@@ -79,15 +62,10 @@ void main() {
 
     testWidgets('displays emojis for each method', (tester) async {
       await tester.pumpWidget(
-        AppThemeProvider(
-          theme: AppTheme.light(),
-          child: MaterialApp(
-            home: Scaffold(
-              body: RouteSelection(
-                route: 'oral',
-                onRouteChanged: (_) {},
-              ),
-            ),
+        wrapWithAppTheme(
+          RouteSelection(
+            route: 'oral',
+            onRouteChanged: (_) {},
           ),
         ),
       );
@@ -99,15 +77,10 @@ void main() {
 
     testWidgets('renders as Wrap widget for responsive layout', (tester) async {
       await tester.pumpWidget(
-        AppThemeProvider(
-          theme: AppTheme.light(),
-          child: MaterialApp(
-            home: Scaffold(
-              body: RouteSelection(
-                route: 'oral',
-                onRouteChanged: (_) {},
-              ),
-            ),
+        wrapWithAppTheme(
+          RouteSelection(
+            route: 'oral',
+            onRouteChanged: (_) {},
           ),
         ),
       );
@@ -117,15 +90,10 @@ void main() {
 
     testWidgets('multiple routes can be displayed', (tester) async {
       await tester.pumpWidget(
-        AppThemeProvider(
-          theme: AppTheme.light(),
-          child: MaterialApp(
-            home: Scaffold(
-              body: RouteSelection(
-                route: 'oral',
-                onRouteChanged: (_) {},
-              ),
-            ),
+        wrapWithAppTheme(
+          RouteSelection(
+            route: 'oral',
+            onRouteChanged: (_) {},
           ),
         ),
       );
@@ -138,23 +106,18 @@ void main() {
       String currentRoute = 'oral';
 
       await tester.pumpWidget(
-        AppThemeProvider(
-          theme: AppTheme.light(),
-          child: MaterialApp(
-            home: Scaffold(
-              body: StatefulBuilder(
-                builder: (context, setState) {
-                  return RouteSelection(
-                    route: currentRoute,
-                    onRouteChanged: (route) {
-                      setState(() {
-                        currentRoute = route;
-                      });
-                    },
-                  );
+        wrapWithAppTheme(
+          StatefulBuilder(
+            builder: (context, setState) {
+              return RouteSelection(
+                route: currentRoute,
+                onRouteChanged: (route) {
+                  setState(() {
+                    currentRoute = route;
+                  });
                 },
-              ),
-            ),
+              );
+            },
           ),
         ),
       );

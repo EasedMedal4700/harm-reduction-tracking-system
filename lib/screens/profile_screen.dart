@@ -1,23 +1,28 @@
 // MIGRATION
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
+import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers/core_providers.dart';
 import '../common/old_common/drawer_menu.dart';
 import '../widgets/profile/profile_header.dart';
 import '../widgets/profile/statistics_card.dart';
 import '../widgets/profile/account_info_card.dart';
 import '../widgets/profile/logout_button.dart';
 import '../services/user_service.dart';
-import '../services/auth_service.dart';
 import '../services/log_entry_service.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Map<String, dynamic>? _userData;
   Map<String, int>? _statistics;
   bool _isLoading = true;
@@ -110,7 +115,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
 
     if (confirmed == true) {
-      await AuthService().logout();
+      await ref.read(authServiceProvider).logout();
+      unawaited(ref.read(appLockControllerProvider.notifier).clear());
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/login_page');
       }

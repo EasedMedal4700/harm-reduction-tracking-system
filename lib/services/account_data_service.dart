@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'auth_service.dart';
+import 'encryption_service_v2.dart';
 import 'user_service.dart';
 
 /// Result of account data operations
@@ -21,7 +22,18 @@ class AccountDataResult {
 
 /// Service for managing account data operations (download, delete)
 class AccountDataService {
-  final SupabaseClient _supabase = Supabase.instance.client;
+  AccountDataService({
+    SupabaseClient? supabase,
+    AuthService? authService,
+  })  : _supabase = supabase ?? Supabase.instance.client,
+        _authService = authService ??
+            AuthService(
+              client: supabase ?? Supabase.instance.client,
+              encryption: EncryptionServiceV2(),
+            );
+
+  final SupabaseClient _supabase;
+  final AuthService _authService;
 
   /// Download all user data to a JSON file and share it
   Future<AccountDataResult> downloadUserData() async {
@@ -195,7 +207,7 @@ class AccountDataService {
 
       // Sign out
       print('[7/7] Signing out...');
-      await AuthService().logout();
+      await _authService.logout();
       print('[7/7] ✓ ACCOUNT DELETION COMPLETE\n');
 
       return const AccountDataResult(

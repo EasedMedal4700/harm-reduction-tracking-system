@@ -2,23 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/widgets/log_entry/complex_fields.dart';
 
+import '../../helpers/test_app_wrapper.dart';
+
 void main() {
-  group('ComplexFields Widget', () {
-    testWidgets('renders all complex fields', (tester) async {
+  group('ComplexFields', () {
+    testWidgets('renders dropdown and text fields', (tester) async {
+      final notes = TextEditingController();
+      final location = TextEditingController();
+      final people = TextEditingController();
+      final cost = TextEditingController();
+
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SingleChildScrollView(
-              child: ComplexFields(
-                cravingIntensity: 5.0,
-                intention: '-- Select Intention--',
-                selectedTriggers: const [],
-                selectedBodySignals: const [],
-                onCravingIntensityChanged: (_) {},
-                onIntentionChanged: (_) {},
-                onTriggersChanged: (_) {},
-                onBodySignalsChanged: (_) {},
-              ),
+        wrapWithAppTheme(
+          SingleChildScrollView(
+            child: ComplexFields(
+              notesController: notes,
+              locationController: location,
+              peopleController: people,
+              costController: cost,
+              selectedRoa: null,
+              roaOptions: const ['oral', 'inhaled'],
+              onRoaChanged: (_) {},
             ),
           ),
         ),
@@ -26,198 +30,37 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.text('Triggers'), findsOneWidget);
-      expect(find.text('Body Signals'), findsOneWidget);
       expect(find.byType(DropdownButtonFormField<String>), findsOneWidget);
+      expect(find.text('Location'), findsOneWidget);
+      expect(find.text('People (comma separated)'), findsOneWidget);
+      expect(find.text('Cost'), findsOneWidget);
+      expect(find.text('Notes'), findsOneWidget);
     });
 
-    testWidgets('intention dropdown displays value', (tester) async {
+    testWidgets('shows selected ROA', (tester) async {
+      final notes = TextEditingController();
+      final location = TextEditingController();
+      final people = TextEditingController();
+      final cost = TextEditingController();
+
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SingleChildScrollView(
-              child: ComplexFields(
-                cravingIntensity: 5.0,
-                intention: 'Recreational',
-                selectedTriggers: const [],
-                selectedBodySignals: const [],
-                onCravingIntensityChanged: (_) {},
-                onIntentionChanged: (_) {},
-                onTriggersChanged: (_) {},
-                onBodySignalsChanged: (_) {},
-              ),
+        wrapWithAppTheme(
+          SingleChildScrollView(
+            child: ComplexFields(
+              notesController: notes,
+              locationController: location,
+              peopleController: people,
+              costController: cost,
+              selectedRoa: 'oral',
+              roaOptions: const ['oral', 'inhaled'],
+              onRoaChanged: (_) {},
             ),
           ),
         ),
       );
 
       await tester.pumpAndSettle();
-      expect(find.text('Recreational'), findsOneWidget);
-    });
-
-    testWidgets('displays triggers as FilterChips', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SingleChildScrollView(
-              child: ComplexFields(
-                cravingIntensity: 5.0,
-                intention: null,
-                selectedTriggers: const [],
-                selectedBodySignals: const [],
-                onCravingIntensityChanged: (_) {},
-                onIntentionChanged: (_) {},
-                onTriggersChanged: (_) {},
-                onBodySignalsChanged: (_) {},
-              ),
-            ),
-          ),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      expect(find.byType(FilterChip), findsWidgets);
-    });
-
-    testWidgets('selects trigger when tapped', (tester) async {
-      List<String> selectedTriggers = [];
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SingleChildScrollView(
-              child: StatefulBuilder(
-                builder: (context, setState) {
-                  return ComplexFields(
-                    cravingIntensity: 5.0,
-                    intention: null,
-                    selectedTriggers: selectedTriggers,
-                    selectedBodySignals: const [],
-                    onCravingIntensityChanged: (_) {},
-                    onIntentionChanged: (_) {},
-                    onTriggersChanged: (triggers) {
-                      setState(() {
-                        selectedTriggers = triggers;
-                      });
-                    },
-                    onBodySignalsChanged: (_) {},
-                  );
-                },
-              ),
-            ),
-          ),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      final firstTrigger = find.byType(FilterChip).first;
-      await tester.tap(firstTrigger);
-      await tester.pump();
-
-      expect(selectedTriggers.isNotEmpty, true);
-    });
-
-    testWidgets('deselects trigger when tapped again', (tester) async {
-      // Skip this test - triggers list may not contain 'Stress'
-      // Test concept is valid but requires knowing exact trigger names
-    }, skip: true);
-
-    testWidgets('selects body signal when tapped', (tester) async {
-      List<String> selectedBodySignals = [];
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SingleChildScrollView(
-              child: StatefulBuilder(
-                builder: (context, setState) {
-                  return ComplexFields(
-                    cravingIntensity: 5.0,
-                    intention: null,
-                    selectedTriggers: const [],
-                    selectedBodySignals: selectedBodySignals,
-                    onCravingIntensityChanged: (_) {},
-                    onIntentionChanged: (_) {},
-                    onTriggersChanged: (_) {},
-                    onBodySignalsChanged: (signals) {
-                      setState(() {
-                        selectedBodySignals = signals;
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
-          ),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      // Scroll to make the body signals visible
-      await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -300));
-      await tester.pumpAndSettle();
-
-      // Find FilterChips under "Body Signals" section
-      final bodySignalChips = find.byType(FilterChip);
-      if (bodySignalChips.evaluate().length > 1) {
-        await tester.ensureVisible(bodySignalChips.last);
-        await tester.tap(bodySignalChips.last, warnIfMissed: false);
-        await tester.pump();
-
-        expect(selectedBodySignals.isNotEmpty, true);
-      }
-    });
-
-    testWidgets('has craving slider', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SingleChildScrollView(
-              child: ComplexFields(
-                cravingIntensity: 7.0,
-                intention: null,
-                selectedTriggers: const [],
-                selectedBodySignals: const [],
-                onCravingIntensityChanged: (_) {},
-                onIntentionChanged: (_) {},
-                onTriggersChanged: (_) {},
-                onBodySignalsChanged: (_) {},
-              ),
-            ),
-          ),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      expect(find.byType(Slider), findsOneWidget);
-    });
-
-    testWidgets('renders as Column', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SingleChildScrollView(
-              child: ComplexFields(
-                cravingIntensity: 5.0,
-                intention: null,
-                selectedTriggers: const [],
-                selectedBodySignals: const [],
-                onCravingIntensityChanged: (_) {},
-                onIntentionChanged: (_) {},
-                onTriggersChanged: (_) {},
-                onBodySignalsChanged: (_) {},
-              ),
-            ),
-          ),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-      expect(find.byType(Column), findsWidgets);
+      expect(find.text('oral'), findsOneWidget);
     });
   });
 }

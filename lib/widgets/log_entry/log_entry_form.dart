@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/data/drug_use_catalog.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
 import 'package:mobile_drug_use_app/common/inputs/textarea.dart';
@@ -95,6 +96,17 @@ class LogEntryForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
+
+    final routeOptions = DrugUseCatalog.consumptionMethods
+        .map((m) => m['name']!)
+        .toList(growable: false);
+
+    final normalizedRoute = () {
+      final raw = route;
+      if (raw == null || raw.trim().isEmpty) return 'oral';
+      final lower = raw.toLowerCase();
+      return routeOptions.contains(lower) ? lower : 'oral';
+    }();
     
     return Form(
       key: formKey,
@@ -142,8 +154,9 @@ class LogEntryForm extends StatelessWidget {
 
           // Route
           CommonDropdown<String>(
-            value: route ?? 'Oral',
-            items: const ['Oral', 'Nasal', 'Smoked', 'Vaped', 'IV', 'IM', 'Rectal', 'Sublingual'],
+            value: normalizedRoute,
+            items: routeOptions,
+            itemLabel: (v) => v.isEmpty ? v : '${v[0].toUpperCase()}${v.substring(1)}',
             onChanged: (v) {
               if (v != null && onRouteChanged != null) {
                 onRouteChanged!(v);

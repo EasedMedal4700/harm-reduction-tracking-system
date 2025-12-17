@@ -22,7 +22,7 @@ class DosageInput extends StatelessWidget {
       controller: controller,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
-        labelText: 'Dosage ()',
+        labelText: 'Dosage ($unit)',
         prefixIcon: Icon(Icons.scale, color: acc.primary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(sh.radiusMd),

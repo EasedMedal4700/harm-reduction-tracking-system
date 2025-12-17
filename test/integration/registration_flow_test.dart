@@ -3,6 +3,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_drug_use_app/services/auth_service.dart';
+import 'package:mobile_drug_use_app/services/encryption_service_v2.dart';
 import 'package:mobile_drug_use_app/services/user_service.dart';
 
 void main() {
@@ -23,7 +24,10 @@ void main() {
         anonKey: const String.fromEnvironment('SUPABASE_ANON_KEY'),
       );
       client = Supabase.instance.client;
-      authService = AuthService();
+      authService = AuthService(
+        client: client,
+        encryption: EncryptionServiceV2(),
+      );
     });
 
     tearDown(() async {

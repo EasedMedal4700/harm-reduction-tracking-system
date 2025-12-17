@@ -36,19 +36,23 @@ class SubstanceAutocomplete extends StatelessWidget {
         FocusNode fieldFocusNode,
         VoidCallback onFieldSubmitted,
       ) {
-        // Sync external controller with internal one if needed
-        if (controller.text.isNotEmpty && fieldTextEditingController.text.isEmpty) {
+        // Keep the field seeded from the external controller.
+        // Avoid attaching listeners here (build can run many times).
+        if (fieldTextEditingController.text != controller.text) {
           fieldTextEditingController.text = controller.text;
+          fieldTextEditingController.selection = TextSelection.collapsed(
+            offset: fieldTextEditingController.text.length,
+          );
         }
-        
-        // Listen to changes to update parent controller
-        fieldTextEditingController.addListener(() {
-          controller.text = fieldTextEditingController.text;
-        });
 
         return TextFormField(
           controller: fieldTextEditingController,
           focusNode: fieldFocusNode,
+          onChanged: (value) {
+            if (controller.text != value) {
+              controller.text = value;
+            }
+          },
           decoration: InputDecoration(
             labelText: 'Substance',
             prefixIcon: Icon(Icons.science, color: acc.primary),
