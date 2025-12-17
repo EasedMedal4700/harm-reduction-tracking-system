@@ -5,7 +5,7 @@
 // Riverpod: TODO
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Action button for cache management operations
 class CacheActionButton extends StatelessWidget {

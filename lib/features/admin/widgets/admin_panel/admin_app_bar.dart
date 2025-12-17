@@ -5,9 +5,9 @@
 // Riverpod: TODO
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
-import '../../screens/error_analytics_screen.dart';
-import '../../screens/bug_report_screen.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../screens/error_analytics_screen.dart';
+import '../../../../screens/bug_report_screen.dart';
 
 /// Custom app bar for the admin panel screen
 class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {

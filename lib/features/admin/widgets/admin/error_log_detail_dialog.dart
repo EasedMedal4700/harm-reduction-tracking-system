@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 import 'severity_badge.dart';
 
 /// Bottom sheet dialog showing detailed error log information

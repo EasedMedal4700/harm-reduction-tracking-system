@@ -1,6 +1,6 @@
 // MIGRATION COMPLETE — Fully theme-compliant Severity Badge.
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Severity badge for error logs
 class SeverityBadge extends StatelessWidget {

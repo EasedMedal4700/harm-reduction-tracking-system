@@ -6,8 +6,8 @@
 // Notes: Review for theme/context migration if needed.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/daily_checkin_provider.dart';
-import '../daily_checkin/checkin_dialog.dart';
+import '../../../../providers/daily_checkin_provider.dart';
+import '../../../../widgets/daily_checkin/checkin_dialog.dart';
 
 /// Banner widget that displays daily check-in status and prompts
 class DailyCheckinBanner extends StatefulWidget {

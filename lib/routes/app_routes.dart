@@ -10,7 +10,7 @@ import '../screens/blood_levels_page.dart';
 import '../features/reflection/reflection_page.dart';
 import '../features/activity/activity_page.dart';
 import '../screens/personal_library_page.dart'; // Add LibraryPage import
-import '../features/home/home_page.dart';
+import '../features/home/home_page_main.dart';
 import '../screens/daily_checkin_screen.dart';
 import '../screens/checkin_history_screen.dart';
 import '../screens/profile_screen.dart';

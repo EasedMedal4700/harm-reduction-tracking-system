@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Individual cache statistic display widget
 class CacheStatWidget extends StatelessWidget {

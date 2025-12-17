@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 // MIGRATION COMPLETE — Fully theme-compliant, no deprecated API
 import 'package:flutter/material.dart';
-import '../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Dialog for cleaning/filtering error logs with various options
 class ErrorCleanupDialog extends StatefulWidget {

@@ -25,7 +25,7 @@ import 'screens/checkin_history_screen.dart';
 import 'features/craving/cravings_page.dart';
 import 'screens/daily_checkin_screen.dart';
 import 'screens/encryption_migration_screen.dart';
-import 'features/home/home_page.dart';
+import 'features/home/home_page_main.dart';
 import 'features/log_entry/log_entry_page.dart';
 import 'screens/login_page.dart';
 import 'screens/pin_setup_screen.dart';
