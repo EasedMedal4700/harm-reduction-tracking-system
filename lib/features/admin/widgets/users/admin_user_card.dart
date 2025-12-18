@@ -7,7 +7,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// User card widget for admin panel
@@ -86,7 +85,7 @@ class AdminUserCard extends StatelessWidget {
         leading: CircleAvatar(
           backgroundColor: isAdmin
               ? t.accent.primary
-              : t.accent.secondary.withValues(alpha: AppThemeConstants.opacityVeryHigh),
+              : t.accent.secondary.withValues(alpha: context.opacities.veryHigh),
           child: Text(
             username[0].toUpperCase(),
             style: text.bodyBold.copyWith(color: c.textInverse),

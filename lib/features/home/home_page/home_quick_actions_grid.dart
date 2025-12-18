@@ -1,5 +1,4 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -95,7 +94,7 @@ class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
           physics: const NeverScrollableScrollPhysics(),
           crossAxisSpacing: context.spacing.md,
           mainAxisSpacing: context.spacing.md,
-          childAspectRatio: AppThemeConstants.aspectRatioSquare, // Square aspect ratio
+          childAspectRatio: 1.0, // Square aspect ratio
           children: enabledActions.map((action) => CommonActionCard(
             icon: action.icon,
             title: action.label,

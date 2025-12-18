@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 
 import '../../../../services/pharmacokinetics_service.dart';
 
@@ -61,7 +60,7 @@ class BloodLevelGraph extends StatelessWidget {
                 child: Icon(
                   Icons.show_chart_rounded,
                   color: acc.primary,
-                  size: AppThemeConstants.iconMd,
+                  size: context.sizes.iconMd,
                 ),
               ),
               SizedBox(width: sp.md),

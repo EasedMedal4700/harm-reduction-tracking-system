@@ -1,5 +1,4 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -49,7 +48,7 @@ class _HomePageState extends State<HomePage>
     
     // Setup animations
     _animationController = AnimationController(
-      duration: AppThemeConstants.animationNormal,
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     
@@ -182,7 +181,7 @@ class _HomePageState extends State<HomePage>
         backgroundColor: c.surface,
         onRefresh: () async {
           setState(() {});
-          await Future.delayed(AppThemeConstants.animationSlow);
+          await Future.delayed(const Duration(milliseconds: 500));
         },
         child: FadeTransition(
           opacity: _fadeAnimation,

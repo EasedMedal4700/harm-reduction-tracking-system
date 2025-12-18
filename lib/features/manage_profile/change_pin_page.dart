@@ -1,5 +1,4 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -125,7 +124,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
             // Icon
             Icon(
               Icons.lock_reset,
-              size: AppThemeConstants.icon2xl,
+              size: context.sizes.icon2xl,
               color: a.primary,
             ),
             SizedBox(height: sp.xl),
@@ -154,13 +153,13 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
             Container(
               padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
-                color: a.primary.withValues(alpha: AppThemeConstants.opacityOverlay),
+                color: a.primary.withValues(alpha: context.opacities.overlay),
                 borderRadius: BorderRadius.circular(sh.radiusMd),
-                border: Border.all(color: a.primary.withValues(alpha: AppThemeConstants.opacityMedium)),
+                border: Border.all(color: a.primary.withValues(alpha: context.opacities.medium)),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline, color: a.primary, size: AppThemeConstants.iconSm),
+                  Icon(Icons.info_outline, color: a.primary, size: context.sizes.iconSm),
                   SizedBox(width: sp.md),
                   Expanded(
                     child: Text(
@@ -210,13 +209,13 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               Container(
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: c.error.withValues(alpha: AppThemeConstants.opacityOverlay),
+                  color: c.error.withValues(alpha: context.opacities.overlay),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
-                  border: Border.all(color: c.error.withValues(alpha: AppThemeConstants.opacityMedium)),
+                  border: Border.all(color: c.error.withValues(alpha: context.opacities.medium)),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.error_outline, color: c.error, size: AppThemeConstants.iconSm),
+                    Icon(Icons.error_outline, color: c.error, size: context.sizes.iconSm),
                     SizedBox(width: sp.md),
                     Expanded(
                       child: Text(
@@ -233,7 +232,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
 
             // Change PIN button
             SizedBox(
-              height: AppThemeConstants.buttonHeightLg,
+              height: context.sizes.buttonHeightLg,
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _changePIN,
                 style: ElevatedButton.styleFrom(
@@ -249,14 +248,14 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                         width: 24,
                         height: 24,
                         child: CircularProgressIndicator(
-                          strokeWidth: AppThemeConstants.borderMedium,
+                          strokeWidth: context.borders.medium,
                           valueColor: AlwaysStoppedAnimation<Color>(c.textInverse),
                         ),
                       )
                     : Text(
                         'Change PIN',
                         style: text.labelLarge.copyWith(
-                          fontWeight: AppThemeConstants.fontBold,
+                          fontWeight: FontWeight.bold,
                           color: c.textInverse,
                         ),
                       ),
@@ -295,7 +294,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
           Text(
             label,
             style: text.labelMedium.copyWith(
-              fontWeight: AppThemeConstants.fontSemiBold,
+              fontWeight: FontWeight.w600,
               color: c.textPrimary,
             ),
           ),

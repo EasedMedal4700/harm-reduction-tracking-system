@@ -1,4 +1,3 @@
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -39,14 +38,14 @@ class InteractionsPage extends StatelessWidget {
             children: [
               Icon(
                 Icons.compare_arrows,
-                size: AppThemeConstants.icon2xl + AppThemeConstants.space16, // 80.0
+                size: context.sizes.icon2xl + context.spacing.md, // 80.0
                 color: c.warning, // Using warning color for interactions/caution
               ),
               SizedBox(height: sp.lg),
               Text(
                 'Drug Interactions',
                 style: text.headlineMedium.copyWith(
-                  fontWeight: AppThemeConstants.fontBold,
+                  fontWeight: FontWeight.bold,
                   color: c.textPrimary,
                 ),
                 textAlign: TextAlign.center,
@@ -63,10 +62,10 @@ class InteractionsPage extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: c.warning.withValues(alpha: AppThemeConstants.opacityOverlay),
+                  color: c.warning.withValues(alpha: context.opacities.overlay),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(
-                    color: c.warning.withValues(alpha: AppThemeConstants.opacitySlow),
+                    color: c.warning.withValues(alpha: context.opacities.slow),
                   ),
                 ),
                 child: Row(

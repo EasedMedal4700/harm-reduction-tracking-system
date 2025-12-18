@@ -2,7 +2,6 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 // Notes: No hardcoded values.
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 class ReflectionSelection extends StatelessWidget {
@@ -82,7 +81,7 @@ class ReflectionSelection extends StatelessWidget {
           SizedBox(height: t.spacing.xl3),
           SizedBox(
             width: double.infinity,
-            height: AppThemeConstants.buttonHeightMd + 2, // 50.0
+            height: context.sizes.buttonHeightMd + 2, // 50.0
             child: ElevatedButton(
               onPressed: selectedIds.isNotEmpty ? onNext : null,
               style: ElevatedButton.styleFrom(

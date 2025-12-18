@@ -34,7 +34,6 @@ import '../../../../models/tolerance_model.dart';
 import '../../../../utils/tolerance_calculator.dart';
 
 import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 
 
 /// Unified widget combining system tolerance and substance-specific breakdown.
@@ -136,7 +135,7 @@ class _UnifiedBucketToleranceWidgetState
       padding: EdgeInsets.all(spacing.lg),
       decoration: BoxDecoration(
         color: theme.colors.surface,
-        borderRadius: BorderRadius.circular(AppThemeConstants.cardRadius),
+        borderRadius: BorderRadius.circular(context.shapes.radiusLg),
         boxShadow: theme.cardShadow,
         border: theme.isDark ? Border.all(color: theme.accent.primary.withValues(alpha: 0.3)) : null,
       ),
@@ -152,7 +151,7 @@ class _UnifiedBucketToleranceWidgetState
                   Icon(
                     Icons.analytics_outlined,
                     color: accent.primary,
-                    size: AppThemeConstants.iconMd,
+                    size: context.sizes.iconMd,
                   ),
                   SizedBox(width: spacing.sm),
                   Text(
@@ -166,7 +165,7 @@ class _UnifiedBucketToleranceWidgetState
               IconButton(
                 icon: Icon(
                   _showDebug ? Icons.bug_report : Icons.bug_report_outlined,
-                  size: AppThemeConstants.iconSm,
+                  size: context.sizes.iconSm,
                   color: colors.textSecondary,
                 ),
                 onPressed: () {
@@ -185,7 +184,7 @@ class _UnifiedBucketToleranceWidgetState
               decoration: BoxDecoration(
                 color: Colors.amber.withValues(alpha: context.theme.isDark ? 0.15 : 0.10),
                 borderRadius:
-                    BorderRadius.circular(AppThemeConstants.radiusSm),
+                    BorderRadius.circular(context.shapes.radiusSm),
                 border: Border.all(
                   color: Colors.amber.withValues(alpha: 0.4),
                   width: 1,
@@ -287,7 +286,7 @@ class _UnifiedBucketToleranceWidgetState
       color: colors.surface,
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppThemeConstants.radiusSm),
+        borderRadius: BorderRadius.circular(context.shapes.radiusSm),
         side: BorderSide(
           color: colors.border,
           width: 1,
@@ -301,7 +300,7 @@ class _UnifiedBucketToleranceWidgetState
             });
           }
         },
-        borderRadius: BorderRadius.circular(AppThemeConstants.radiusSm),
+        borderRadius: BorderRadius.circular(context.shapes.radiusSm),
         child: Padding(
           padding: EdgeInsets.all(spacing.md),
           child: Column(
@@ -312,7 +311,7 @@ class _UnifiedBucketToleranceWidgetState
                 children: [
                   Icon(
                     _getBucketIcon(bucketType),
-                    size: AppThemeConstants.iconMd,
+                    size: context.sizes.iconMd,
                     color: colors.textSecondary,
                   ),
                   SizedBox(width: spacing.md),
@@ -347,7 +346,7 @@ class _UnifiedBucketToleranceWidgetState
                       decoration: BoxDecoration(
                         color: colors.info.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(
-                            AppThemeConstants.radiusSm),
+                            context.shapes.radiusSm),
                       ),
                       child: Text(
                         'ACTIVE',
@@ -439,7 +438,7 @@ class _UnifiedBucketToleranceWidgetState
               // PROGRESS BAR - Visual indicator of substance contribution
               ClipRRect(
                 borderRadius:
-                    BorderRadius.circular(AppThemeConstants.radiusSm),
+                    BorderRadius.circular(context.shapes.radiusSm),
                 child: LinearProgressIndicator(
                   value: substanceTolerance > 1.0 ? 1.0 : substanceTolerance,
                   backgroundColor: colors.border.withValues(alpha: 0.3),
@@ -513,7 +512,7 @@ class _UnifiedBucketToleranceWidgetState
         color: context.theme.isDark
             ? colors.surfaceVariant.withValues(alpha: 0.7)
             : colors.surfaceVariant,
-        borderRadius: BorderRadius.circular(AppThemeConstants.radiusSm),
+        borderRadius: BorderRadius.circular(context.shapes.radiusSm),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

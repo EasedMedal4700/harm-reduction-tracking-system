@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import '../../services/encryption_service_v2.dart';
 
 /// Screen for unlocking with recovery key and optionally resetting PIN
@@ -211,7 +210,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
         Text(
           'Enter Recovery Key',
           style: t.heading2.copyWith(
-            fontWeight: AppThemeConstants.fontBold,
+            fontWeight: FontWeight.bold,
             color: c.textPrimary,
           ),
           textAlign: TextAlign.center,
@@ -232,13 +231,13 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
         Container(
           padding: EdgeInsets.all(sp.md),
           decoration: BoxDecoration(
-            color: a.primary.withValues(alpha: AppThemeConstants.opacityOverlay),
+            color: a.primary.withValues(alpha: context.opacities.overlay),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: a.primary.withValues(alpha: AppThemeConstants.opacitySlow)),
+            border: Border.all(color: a.primary.withValues(alpha: context.opacities.slow)),
           ),
           child: Row(
             children: [
-              Icon(Icons.info_outline, color: a.primary, size: AppThemeConstants.iconMd),
+              Icon(Icons.info_outline, color: a.primary, size: context.sizes.iconMd),
               SizedBox(width: sp.sm),
               Expanded(
                 child: Text(
@@ -270,7 +269,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
               Text(
                 'Recovery Key',
                 style: t.labelLarge.copyWith(
-                  fontWeight: AppThemeConstants.fontSemiBold,
+                  fontWeight: FontWeight.w600,
                   color: c.textPrimary,
                 ),
               ),

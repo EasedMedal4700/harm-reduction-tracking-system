@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -44,14 +43,14 @@ class DailyCheckinCard extends StatelessWidget {
             children: [
               // Icon with status color
               Container(
-                padding: EdgeInsets.all(AppThemeConstants.cardPaddingSmall),
+                padding: EdgeInsets.all(context.spacing.sm),
                 decoration: BoxDecoration(
-                  color: (isCompleted ? completedColor : accentColor).withValues(alpha: AppThemeConstants.opacityLow),
+                  color: (isCompleted ? completedColor : accentColor).withValues(alpha: context.opacities.low),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                 ),
                 child: Icon(
                   isCompleted ? Icons.check_circle : Icons.event_note,
-                  size: AppThemeConstants.iconLg, // Icon size
+                  size: context.sizes.iconLg, // Icon size
                   color: isCompleted ? completedColor : accentColor,
                 ),
               ),
@@ -95,13 +94,13 @@ class DailyCheckinCard extends StatelessWidget {
               onPressed: isCompleted ? null : onTap,
               icon: Icon(
                 isCompleted ? Icons.check_circle_outline : Icons.add_circle_outline,
-                size: AppThemeConstants.iconSm,
+                size: context.sizes.iconSm,
               ),
               label: Text(
                 _getButtonText(),
                 style: t.button.copyWith(
                   fontWeight: FontWeight.w600,
-                  height: AppThemeConstants.lineHeightTight,
+                  height: 1.2,
                 ),
               ),
               style: ElevatedButton.styleFrom(

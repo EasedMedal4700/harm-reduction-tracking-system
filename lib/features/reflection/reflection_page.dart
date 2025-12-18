@@ -2,7 +2,6 @@
 // Notes: No hardcoded values.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/old_common/drawer_menu.dart';
 import '../log_entry/log_entry_service.dart';
@@ -90,10 +89,10 @@ class _ReflectionPageState extends State<ReflectionPage> {
                         ),
                         child: provider.isSaving
                             ? SizedBox(
-                                width: AppThemeConstants.iconSm,
-                                height: AppThemeConstants.iconSm,
+                                width: context.sizes.iconSm,
+                                height: context.sizes.iconSm,
                                 child: CircularProgressIndicator(
-                                  strokeWidth: AppThemeConstants.borderMedium,
+                                  strokeWidth: context.borders.medium,
                                   valueColor: AlwaysStoppedAnimation<Color>(
                                     a.primary,
                                   ),

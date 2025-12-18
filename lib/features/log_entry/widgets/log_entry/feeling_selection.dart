@@ -1,6 +1,5 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class FeelingSelection extends StatelessWidget {
@@ -34,8 +33,8 @@ class FeelingSelection extends StatelessWidget {
         Text(
           'How are you feeling?',
           style: TextStyle(
-            fontSize: AppThemeConstants.fontMedium,
-            fontWeight: AppThemeConstants.fontSemiBold,
+            fontSize: 16.0,
+            fontWeight: FontWeight.w600,
             color: c.textPrimary,
           ),
         ),
@@ -58,10 +57,10 @@ class FeelingSelection extends StatelessWidget {
                       vertical: sp.sm,
                     ),
                     decoration: BoxDecoration(
-                      color: isSelected ? color.withValues(alpha: AppThemeConstants.opacitySelected) : c.surface,
+                      color: isSelected ? color.withValues(alpha: context.opacities.selected) : c.surface,
                       border: Border.all(
                         color: isSelected ? color : c.border,
-                        width: isSelected ? AppThemeConstants.borderMedium : AppThemeConstants.borderThin,
+                        width: isSelected ? context.borders.medium : context.borders.thin,
                       ),
                       borderRadius: BorderRadius.circular(sh.radiusMd),
                     ),
@@ -71,15 +70,15 @@ class FeelingSelection extends StatelessWidget {
                         Icon(
                           feeling['icon'] as IconData,
                           color: isSelected ? color : c.textSecondary,
-                          size: AppThemeConstants.iconLg,
+                          size: context.sizes.iconLg,
                         ),
-                        SizedBox(height: AppThemeConstants.space4),
+                        SizedBox(height: 4.0),
                         Text(
                           feeling['label'] as String,
                           style: TextStyle(
                             color: isSelected ? color : c.textSecondary,
-                            fontWeight: isSelected ? AppThemeConstants.fontBold : FontWeight.normal,
-                            fontSize: AppThemeConstants.fontXSmall,
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            fontSize: 12.0,
                           ),
                         ),
                       ],

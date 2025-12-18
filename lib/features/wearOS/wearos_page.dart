@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 // MIGRATION
@@ -36,14 +35,14 @@ class WearOSPage extends StatelessWidget {
             children: [
               Icon(
                 Icons.watch,
-                size: AppThemeConstants.icon2xl + AppThemeConstants.space16, // 80.0
+                size: context.sizes.icon2xl + context.spacing.lg, // 80.0
                 color: a.primary,
               ),
               SizedBox(height: sp.lg),
               Text(
                 'WearOS Companion',
                 style: context.text.headlineMedium.copyWith(
-                  fontWeight: AppThemeConstants.fontBold,
+                  fontWeight: FontWeight.bold,
                   color: c.textPrimary,
                 ),
                 textAlign: TextAlign.center,
@@ -61,9 +60,9 @@ class WearOSPage extends StatelessWidget {
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
                   color: c.surface,
-                  borderRadius: BorderRadius.circular(AppThemeConstants.radiusMedium),
+                  borderRadius: BorderRadius.circular(context.shapes.radiusMd),
                   border: Border.all(
-                    color: a.primary.withValues(alpha: AppThemeConstants.opacityMedium),
+                    color: a.primary.withValues(alpha: context.opacities.medium),
                   ),
                 ),
                 child: Row(
@@ -77,7 +76,7 @@ class WearOSPage extends StatelessWidget {
                     Text(
                       'Coming Soon',
                       style: context.text.titleMedium.copyWith(
-                        fontWeight: AppThemeConstants.fontSemiBold,
+                        fontWeight: FontWeight.w600,
                         color: a.primary,
                       ),
                     ),

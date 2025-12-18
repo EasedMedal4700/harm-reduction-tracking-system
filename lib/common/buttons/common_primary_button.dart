@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
 // MIGRATION
@@ -41,7 +40,7 @@ class CommonPrimaryButton extends StatelessWidget {
     
     return SizedBox(
       width: width,
-      height: height ?? AppThemeConstants.buttonHeightLg,
+      height: height ?? context.sizes.buttonHeightLg,
       child: ElevatedButton(
         onPressed: isEnabled && !isLoading ? onPressed : null,
         style: ElevatedButton.styleFrom(
@@ -58,10 +57,10 @@ class CommonPrimaryButton extends StatelessWidget {
         ),
         child: isLoading
             ? SizedBox(
-                height: AppThemeConstants.iconSm,
-                width: AppThemeConstants.iconSm,
+                height: context.sizes.iconSm,
+                width: context.sizes.iconSm,
                 child: CircularProgressIndicator(
-                  strokeWidth: AppThemeConstants.borderMedium,
+                  strokeWidth: context.borders.medium,
                   valueColor: AlwaysStoppedAnimation<Color>(
                     textColor ?? defaultTextColor,
                   ),
@@ -72,14 +71,14 @@ class CommonPrimaryButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (icon != null) ...[
-                    Icon(icon, size: AppThemeConstants.iconSm),
+                    Icon(icon, size: context.sizes.iconSm),
                     SizedBox(width: t.spacing.sm),
                   ],
                   Text(
                     label,
                     style: t.text.bodyLarge.copyWith(
-                      fontWeight: AppThemeConstants.fontSemiBold,
-                      fontSize: AppThemeConstants.fontLarge,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16.0,
                     ),
                   ),
                 ],

@@ -5,7 +5,6 @@
 // Riverpod: TODO
 // Notes: AppBar for editing reflections. No hardcoded values.
 
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -34,12 +33,12 @@ class ReflectionAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (isSaving)
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppThemeConstants.space16),
+              padding: EdgeInsets.symmetric(horizontal: context.spacing.md),
               child: SizedBox(
-                width: AppThemeConstants.iconSm,
-                height: AppThemeConstants.iconSm,
+                width: context.sizes.iconSm,
+                height: context.sizes.iconSm,
                 child: CircularProgressIndicator(
-                  strokeWidth: AppThemeConstants.borderMedium,
+                  strokeWidth: context.borders.medium,
                   valueColor: AlwaysStoppedAnimation<Color>(a.primary),
                 ),
               ),

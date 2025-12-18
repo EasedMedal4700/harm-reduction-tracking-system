@@ -1,5 +1,4 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:flutter/material.dart';
 
 // MIGRATION
@@ -54,7 +53,7 @@ class _HomePageState extends State<HomePage>
     
     // Setup animations
     _animationController = AnimationController(
-      duration: AppThemeConstants.animationNormal,
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     
@@ -63,7 +62,7 @@ class _HomePageState extends State<HomePage>
       end: 1.0,
     ).animate(CurvedAnimation(
       parent: _animationController,
-      curve: AppThemeConstants.animationCurve,
+      curve: Curves.easeInOut,
     ));
     
     _animationController.forward();
@@ -187,7 +186,7 @@ class _HomePageState extends State<HomePage>
         backgroundColor: c.surface,
         onRefresh: () async {
           setState(() {});
-          await Future.delayed(AppThemeConstants.animationSlow);
+          await Future.delayed(context.animations.slow);
         },
         child: FadeTransition(
           opacity: _fadeAnimation,

@@ -1,6 +1,5 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 
@@ -58,7 +57,7 @@ class ComplexFields extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: AppThemeConstants.borderMedium),
+              borderSide: BorderSide(color: acc.primary, width: context.borders.medium),
             ),
             filled: true,
             fillColor: c.surface,
@@ -83,7 +82,7 @@ class ComplexFields extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: AppThemeConstants.borderMedium),
+              borderSide: BorderSide(color: acc.primary, width: context.borders.medium),
             ),
             filled: true,
             fillColor: c.surface,

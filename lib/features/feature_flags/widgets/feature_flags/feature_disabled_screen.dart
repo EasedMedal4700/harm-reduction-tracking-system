@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 // MIGRATION
@@ -79,7 +78,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                 width: sp.xl * 2,
                 height: sp.xl * 2,
                 decoration: BoxDecoration(
-                  color: acc.primary.withValues(alpha: AppThemeConstants.opacityVeryLow),
+                  color: acc.primary.withValues(alpha: context.opacities.veryLow),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(

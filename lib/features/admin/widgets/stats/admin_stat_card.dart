@@ -6,7 +6,6 @@
 // Notes: Fully theme-compliant. No hardcoded values.
 
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// Stat card widget for admin dashboard
@@ -48,7 +47,7 @@ class AdminStatCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // ICON
-            Icon(icon, size: AppThemeConstants.iconXl, color: color),
+            Icon(icon, size: context.sizes.iconXl, color: color),
 
             SizedBox(height: sp.sm),
 

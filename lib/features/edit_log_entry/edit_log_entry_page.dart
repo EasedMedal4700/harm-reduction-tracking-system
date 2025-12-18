@@ -5,7 +5,6 @@
 // Notes: Page for editing log entries. Uses CommonPrimaryButton. No hardcoded values.
 
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import '../../common/old_common/drawer_menu.dart';
@@ -53,7 +52,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     _substanceCtrl = TextEditingController(text: _formData.substance);
     
     _animationController = AnimationController(
-      duration: AppThemeConstants.animationNormal,
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     

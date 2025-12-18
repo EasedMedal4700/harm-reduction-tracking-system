@@ -1,5 +1,4 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:flutter/material.dart';
 
 /// Success page shown after email confirmation via deep link.
@@ -30,12 +29,12 @@ class EmailConfirmedPage extends StatelessWidget {
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: c.success.withValues(alpha: AppThemeConstants.opacityOverlay),
+                  color: c.success.withValues(alpha: context.opacities.overlay),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.verified_rounded,
-                  size: AppThemeConstants.icon2xl,
+                  size: context.sizes.icon2xl,
                   color: c.success,
                 ),
               ),
@@ -63,10 +62,10 @@ class EmailConfirmedPage extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(sp.lg),
                 decoration: BoxDecoration(
-                  color: c.success.withValues(alpha: AppThemeConstants.opacitySplash),
+                  color: c.success.withValues(alpha: context.opacities.splash),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(
-                    color: c.success.withValues(alpha: AppThemeConstants.opacitySelected),
+                    color: c.success.withValues(alpha: context.opacities.selected),
                   ),
                 ),
                 child: Column(
@@ -83,7 +82,7 @@ class EmailConfirmedPage extends StatelessWidget {
               // Login button
               SizedBox(
                 width: double.infinity,
-                height: AppThemeConstants.buttonHeightLg,
+                height: context.sizes.buttonHeightLg,
                 child: ElevatedButton.icon(
                   onPressed: () {
                     Navigator.of(context).pushNamedAndRemoveUntil(
@@ -95,7 +94,7 @@ class EmailConfirmedPage extends StatelessWidget {
                   label: Text(
                     'Go to Login',
                     style: text.labelLarge.copyWith(
-                      fontWeight: AppThemeConstants.fontSemiBold,
+                      fontWeight: FontWeight.w600,
                       color: c.textInverse,
                     ),
                   ),
@@ -124,15 +123,15 @@ class EmailConfirmedPage extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: AppThemeConstants.iconMd,
-          height: AppThemeConstants.iconMd,
+          width: context.sizes.iconMd,
+          height: context.sizes.iconMd,
           decoration: BoxDecoration(
             color: c.success,
             shape: BoxShape.circle,
           ),
           child: Icon(
             Icons.check,
-            size: AppThemeConstants.fontMedium,
+            size: 16.0,
             color: c.textInverse,
           ),
         ),
@@ -142,7 +141,7 @@ class EmailConfirmedPage extends StatelessWidget {
             text,
             style: t.typography.body.copyWith(
               color: c.textPrimary,
-              fontWeight: AppThemeConstants.fontMediumWeight,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),

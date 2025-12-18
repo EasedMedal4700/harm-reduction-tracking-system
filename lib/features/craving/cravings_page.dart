@@ -17,7 +17,6 @@ import '../../services/craving_service.dart';
 import '../../services/timezone_service.dart';
 import '../../services/user_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import '../../common/buttons/common_primary_button.dart';
 
 class CravingsPage extends StatefulWidget {
@@ -87,7 +86,7 @@ class _CravingsPageState extends State<CravingsPage> {
         SnackBar(
           content: const Text('Craving saved!'),
           backgroundColor: context.theme.colors.success,
-          duration: AppThemeConstants.durationToast,
+          duration: context.animations.toast,
         ),
       );
       _resetForm();
@@ -97,7 +96,7 @@ class _CravingsPageState extends State<CravingsPage> {
         SnackBar(
           content: Text('Save failed: $e'),
           backgroundColor: context.theme.colors.error,
-          duration: AppThemeConstants.durationToast,
+          duration: context.animations.toast,
         ),
       );
     } finally {

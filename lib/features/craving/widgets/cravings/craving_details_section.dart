@@ -5,7 +5,6 @@
 // Notes: Section for craving details. No hardcoded values.
 
 // ignore_for_file: deprecated_member_use
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +59,7 @@ class CravingDetailsSection extends StatelessWidget {
                 'Craving Details',
                 style: t.typography.heading4.copyWith(
                   color: c.textPrimary,
-                  fontWeight: AppThemeConstants.fontBold,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -85,7 +84,7 @@ class CravingDetailsSection extends StatelessWidget {
                       ? [...selectedCravings, entry.key]
                       : selectedCravings.where((c) => c != entry.key).toList(),
                 ),
-                selectedColor: a.primary.withValues(alpha: AppThemeConstants.opacitySelected),
+                selectedColor: a.primary.withValues(alpha: context.opacities.selected),
                 checkmarkColor: a.primary,
                 labelStyle: t.typography.body.copyWith(
                   color: isSelected ? a.primary : c.textPrimary,

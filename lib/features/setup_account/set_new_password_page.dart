@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 
 /// Page for setting a new password after clicking a reset link.
 ///
@@ -123,12 +122,12 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
-                    color: c.error.withValues(alpha: AppThemeConstants.opacityOverlay),
+                    color: c.error.withValues(alpha: context.opacities.overlay),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.link_off_rounded,
-                    size: AppThemeConstants.iconXl,
+                    size: context.sizes.iconXl,
                     color: c.error,
                   ),
                 ),
@@ -136,7 +135,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                 Text(
                   'Link Expired',
                   style: text.headlineMedium.copyWith(
-                    fontWeight: AppThemeConstants.fontBold,
+                    fontWeight: FontWeight.bold,
                     color: c.textPrimary,
                   ),
                 ),
@@ -151,7 +150,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                 SizedBox(height: sp.xl),
                 SizedBox(
                   width: double.infinity,
-                  height: AppThemeConstants.buttonHeightLg,
+                  height: context.sizes.buttonHeightLg,
                   child: ElevatedButton(
                     onPressed: () => Navigator.of(context).pushNamed('/forgot-password'),
                     style: ElevatedButton.styleFrom(
@@ -198,7 +197,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
           'Set New Password',
           style: TextStyle(
             color: c.textPrimary,
-            fontWeight: AppThemeConstants.fontSemiBold,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
@@ -216,12 +215,12 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
-                    color: a.primary.withValues(alpha: AppThemeConstants.opacityOverlay),
+                    color: a.primary.withValues(alpha: context.opacities.overlay),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.lock_outline_rounded,
-                    size: AppThemeConstants.iconXl,
+                    size: context.sizes.iconXl,
                     color: a.primary,
                   ),
                 ),
@@ -230,7 +229,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                 Text(
                   'Create a new password',
                   style: text.headlineMedium.copyWith(
-                    fontWeight: AppThemeConstants.fontBold,
+                    fontWeight: FontWeight.bold,
                     color: c.textPrimary,
                   ),
                   textAlign: TextAlign.center,
@@ -251,10 +250,10 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   Container(
                     padding: EdgeInsets.all(sp.sm),
                     decoration: BoxDecoration(
-                      color: c.error.withValues(alpha: AppThemeConstants.opacityOverlay),
+                      color: c.error.withValues(alpha: context.opacities.overlay),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: c.error.withValues(alpha: AppThemeConstants.opacityMedium),
+                        color: c.error.withValues(alpha: context.opacities.medium),
                       ),
                     ),
                     child: Row(
@@ -262,7 +261,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                         Icon(
                           Icons.error_outline,
                           color: c.error,
-                          size: AppThemeConstants.iconSm,
+                          size: context.sizes.iconSm,
                         ),
                         SizedBox(width: sp.xs),
                         Expanded(

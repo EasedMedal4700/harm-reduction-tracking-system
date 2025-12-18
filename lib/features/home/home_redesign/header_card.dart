@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -58,13 +57,13 @@ class HeaderCard extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: acc.primary.withValues(alpha: AppThemeConstants.opacityMedium),
-                width: AppThemeConstants.borderThin,
+                color: acc.primary.withValues(alpha: context.opacities.medium),
+                width: context.borders.thin,
               ),
             ),
             child: CircleAvatar(
               radius: sp.lg, // Approx 22-24
-              backgroundColor: acc.primary.withValues(alpha: AppThemeConstants.opacityOverlay),
+              backgroundColor: acc.primary.withValues(alpha: context.opacities.overlay),
               backgroundImage: profileImageUrl != null 
                   ? NetworkImage(profileImageUrl!)
                   : null,
