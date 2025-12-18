@@ -4,7 +4,7 @@ import '../../common/old_common/drawer_menu.dart';
 import 'widgets/checkin_history/checkin_card.dart';
 import '../../providers/daily_checkin_provider.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../constants/theme/app_theme_constants.dart';
+import '../../constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 
 class CheckinHistoryScreen extends StatefulWidget {
   const CheckinHistoryScreen({super.key});

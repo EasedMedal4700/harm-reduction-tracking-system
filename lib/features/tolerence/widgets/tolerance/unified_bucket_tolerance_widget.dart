@@ -34,7 +34,7 @@ import '../../../../models/tolerance_model.dart';
 import '../../../../utils/tolerance_calculator.dart';
 
 import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../constants/theme/app_theme_constants.dart';
+import '../../../../constants/OLD_DONT_USE/OLD_THEME_DONT_USE.dart';
 
 
 /// Unified widget combining system tolerance and substance-specific breakdown.
