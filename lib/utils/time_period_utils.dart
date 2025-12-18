@@ -1,4 +1,4 @@
-import '../constants/emus/time_period.dart';
+import '../constants/enums/time_period.dart';
 
 /// Utility class for time period related operations
 class TimePeriodUtils {

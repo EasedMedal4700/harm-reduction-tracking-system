@@ -8,7 +8,7 @@ import 'widgets/analytics/analytics_error_state.dart';
 import 'widgets/analytics/analytics_layout.dart';
 import '../../common/old_common/filter.dart';
 import '../../constants/data/drug_categories.dart';
-import '../../constants/emus/time_period.dart';
+import '../../constants/enums/time_period.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/error_handler.dart';
 import '../../utils/time_period_utils.dart';

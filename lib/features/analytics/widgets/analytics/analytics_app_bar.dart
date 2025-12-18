@@ -6,7 +6,7 @@
 // Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../constants/emus/time_period.dart';
+import '../../../../constants/enums/time_period.dart';
 
 class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final TimePeriod selectedPeriod;

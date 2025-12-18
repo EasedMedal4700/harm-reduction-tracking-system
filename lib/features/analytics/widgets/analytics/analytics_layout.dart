@@ -15,7 +15,7 @@ import 'usage_trends_card.dart';
 import 'recent_activity_list.dart';
 
 import '../../../../models/log_entry_model.dart';
-import '../../../../constants/emus/time_period.dart';
+import '../../../../constants/enums/time_period.dart';
 
 /// Layout wrapper for Analytics page.
 /// Handles responsive switching between single-column (mobile)

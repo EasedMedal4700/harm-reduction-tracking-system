@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants/emus/time_period.dart';
+import '../../constants/enums/time_period.dart';
 
 class FilterWidget extends StatelessWidget {
   final List<String> uniqueCategories;

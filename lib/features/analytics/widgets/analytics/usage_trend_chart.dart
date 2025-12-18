@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-import '../../../../constants/emus/time_period.dart';
+import '../../../../constants/enums/time_period.dart';
 import '../../../../models/log_entry_model.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/data/drug_categories.dart';

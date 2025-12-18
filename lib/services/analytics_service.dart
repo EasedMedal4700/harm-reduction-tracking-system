@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../constants/emus/time_period.dart';
+import '../constants/enums/time_period.dart';
 import '../models/log_entry_model.dart';
 import '../repo/substance_repository.dart';
 import '../services/user_service.dart';

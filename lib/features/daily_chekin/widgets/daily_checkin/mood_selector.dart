@@ -5,7 +5,7 @@
 // Riverpod: TODO
 // Notes: Uses new mood constants, but not fully migrated to AppTheme/context extensions.
 import 'package:flutter/material.dart';
-import '../../../../constants/emus/app_mood.dart';  // Import the new constants file
+import '../../../../constants/enums/app_mood.dart';  // Import the new constants file
 
 /// Widget for selecting mood from available options
 class MoodSelector extends StatefulWidget {
