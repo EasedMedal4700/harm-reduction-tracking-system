@@ -7,7 +7,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class ActivityCard extends StatelessWidget {
@@ -54,8 +53,8 @@ class ActivityCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          splashColor: c.textPrimary.withValues(alpha: AppThemeConstants.opacitySplash),
-          highlightColor: c.textPrimary.withValues(alpha: AppThemeConstants.opacityHighlight),
+          splashColor: c.textPrimary.withValues(alpha: context.opacities.splash),
+          highlightColor: c.textPrimary.withValues(alpha: context.opacities.highlight),
           borderRadius: BorderRadius.circular(sh.radiusMd),
           child: Padding(
             padding: EdgeInsets.all(sp.md),
@@ -68,7 +67,7 @@ class ActivityCard extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         accentColor,
-                        accentColor.withValues(alpha: AppThemeConstants.opacityGradientEnd),
+                        accentColor.withValues(alpha: context.opacities.gradientEnd),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(sh.radiusSm),
@@ -76,7 +75,7 @@ class ActivityCard extends StatelessWidget {
                   child: Icon(
                     icon,
                     color: c.textInverse,
-                    size: AppThemeConstants.iconLg,
+                    size: context.sizes.iconLg,
                   ),
                 ),
 
@@ -94,7 +93,7 @@ class ActivityCard extends StatelessWidget {
                             child: Text(
                               title,
                               style: text.bodyLarge.copyWith(
-                                fontWeight: AppThemeConstants.fontSemiBold,
+                                fontWeight: FontWeight.w600,
                                 color: c.textPrimary,
                               ),
                             ),

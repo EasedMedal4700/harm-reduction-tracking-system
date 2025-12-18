@@ -7,6 +7,10 @@ import 'app_spacing.dart';
 import 'app_typography.dart';
 import 'app_shapes.dart';
 import 'app_shadows.dart';
+import 'app_animations.dart';
+import 'app_sizes.dart';
+import 'app_opacities.dart';
+import 'app_borders.dart';
 
 /// Composed application theme.
 /// Responsible ONLY for assembling theme parts and exposing ThemeData.
@@ -25,6 +29,12 @@ class AppTheme {
   late final List<BoxShadow> cardShadowHovered;
   late final List<BoxShadow> buttonShadow;
 
+  // New theme constants
+  final AppAnimations animations = const AppAnimations();
+  final AppSizes sizes = const AppSizes();
+  final AppOpacities opacities = const AppOpacities();
+  final AppBorders borders = const AppBorders();
+
   TextStyles get text => typography;
 
   AppTheme._({
@@ -39,15 +49,13 @@ class AppTheme {
     shapes = AppShapes.defaults();
 
     if (isDark) {
-      final shadows = DarkShadows();
-      cardShadow = shadows.card;
-      cardShadowHovered = shadows.cardHovered;
-      buttonShadow = shadows.button;
+      cardShadow = DarkShadows.card;
+      cardShadowHovered = DarkShadows.cardHovered;
+      buttonShadow = DarkShadows.button;
     } else {
-      final shadows = LightShadows();
-      cardShadow = shadows.card;
-      cardShadowHovered = shadows.cardHovered;
-      buttonShadow = shadows.button;
+      cardShadow = LightShadows.card;
+      cardShadowHovered = LightShadows.cardHovered;
+      buttonShadow = LightShadows.button;
     }
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
 import '../../../common/old_common/drawer_menu.dart';
 import '../../../services/admin_service.dart';
 import '../../../services/cache_service.dart';
@@ -33,22 +32,32 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
   Map<String, dynamic> _cacheStats = {};
   Map<String, dynamic> _perfStats = {};
   bool _isLoading = true;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    _initializePerformanceTracking();
     _loadData();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isInitialized) {
+      _initializePerformanceTracking();
+      _isInitialized = true;
+    }
+  }
+
   Future<void> _initializePerformanceTracking() async {
+    final fastAnimMs = context.animations.fast.inMilliseconds;
     // Initialize with some sample data if none exists
     final stats = await PerformanceService.getStatistics();
     if (stats['total_samples'] == 0) {
       // Add initial samples to show functionality
       await PerformanceService.recordResponseTime(
         endpoint: 'initialization',
-        milliseconds: AppThemeConstants.animationFast.inMilliseconds,
+        milliseconds: fastAnimMs,
         fromCache: false,
       );
       await PerformanceService.recordCacheEvent(key: 'init', hit: true);
@@ -219,7 +228,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
           SnackBar(
             content: const Text('✓ Cache refreshed - data will reload from database'),
             backgroundColor: context.theme.colors.success,
-            duration: AppThemeConstants.durationToast,
+            duration: context.animations.toast,
           ),
         );
       }

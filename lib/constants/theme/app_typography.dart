@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
 
+/// Typography constants and system
+class AppTypographyConstants {
+  AppTypographyConstants._();
+
+  static const double fontXSmall = 12.0;
+  static const double fontSmall = 14.0;
+  static const double fontMedium = 16.0;
+  static const double fontLarge = 18.0;
+  static const double fontXLarge = 20.0;
+  static const double font2XLarge = 24.0;
+  static const double font3XLarge = 32.0;
+
+  static const FontWeight fontBold = FontWeight.w700;
+  static const FontWeight fontSemiBold = FontWeight.w600;
+  static const FontWeight fontMediumWeight = FontWeight.w500;
+
+  static const double lineHeightTight = 1.2;
+}
+
 /// Typography system with responsive font sizes
 /// Adapts to user's font size setting
+/// 
+/// TODO: Typography should not decide colors.
 class AppTypography {
   AppTypography._();
 
@@ -38,35 +59,35 @@ class AppTypography {
       // Headings
       heading1: TextStyle(
         fontSize: _scale(_baseHeading1, userFontSize),
-        fontWeight: FontWeight.bold,
+        fontWeight: AppTypographyConstants.fontBold,
         color: textColor,
         letterSpacing: -0.5,
         height: 1.2,
       ),
       heading2: TextStyle(
         fontSize: _scale(_baseHeading2, userFontSize),
-        fontWeight: FontWeight.bold,
+        fontWeight: AppTypographyConstants.fontBold,
         color: textColor,
         letterSpacing: -0.3,
         height: 1.3,
       ),
       heading3: TextStyle(
         fontSize: _scale(_baseHeading3, userFontSize),
-        fontWeight: FontWeight.w600,
+        fontWeight: AppTypographyConstants.fontSemiBold,
         color: textColor,
         letterSpacing: -0.2,
         height: 1.3,
       ),
       heading4: TextStyle(
         fontSize: _scale(_baseHeading4, userFontSize),
-        fontWeight: FontWeight.w600,
+        fontWeight: AppTypographyConstants.fontSemiBold,
         color: textColor,
         letterSpacing: 0,
         height: 1.4,
       ),
       titleSmall: TextStyle(
         fontSize: _scale(_baseBodySmall, userFontSize),
-        fontWeight: FontWeight.w600,
+        fontWeight: AppTypographyConstants.fontSemiBold,
         color: textColor,
         letterSpacing: 0.1,
         height: 1.4,
@@ -87,7 +108,7 @@ class AppTypography {
       ),
       bodyBold: TextStyle(
         fontSize: _scale(_baseBody, userFontSize),
-        fontWeight: FontWeight.w600,
+        fontWeight: AppTypographyConstants.fontSemiBold,
         color: textColor,
         height: 1.5,
       ),
@@ -107,13 +128,13 @@ class AppTypography {
       ),
       captionBold: TextStyle(
         fontSize: _scale(_baseCaption, userFontSize),
-        fontWeight: FontWeight.w600,
+        fontWeight: AppTypographyConstants.fontSemiBold,
         color: textColorSecondary,
         height: 1.3,
       ),
       overline: TextStyle(
         fontSize: _scale(_baseOverline, userFontSize),
-        fontWeight: FontWeight.w500,
+        fontWeight: AppTypographyConstants.fontMediumWeight,
         color: textColorTertiary,
         letterSpacing: 1.0,
         height: 1.2,
@@ -122,13 +143,13 @@ class AppTypography {
       // Button text
       button: TextStyle(
         fontSize: _scale(_baseBody, userFontSize),
-        fontWeight: FontWeight.w600,
+        fontWeight: AppTypographyConstants.fontSemiBold,
         letterSpacing: 0.5,
         height: 1.2,
       ),
       buttonSmall: TextStyle(
         fontSize: _scale(_baseBodySmall, userFontSize),
-        fontWeight: FontWeight.w600,
+        fontWeight: AppTypographyConstants.fontSemiBold,
         letterSpacing: 0.5,
         height: 1.2,
       ),
@@ -136,7 +157,7 @@ class AppTypography {
       // Label text (same as caption but with primary text color)
       label: TextStyle(
         fontSize: _scale(_baseCaption, userFontSize),
-        fontWeight: FontWeight.w500,
+        fontWeight: AppTypographyConstants.fontMediumWeight,
         color: textColorSecondary,
         height: 1.3,
       ),

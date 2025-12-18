@@ -64,10 +64,10 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: isLoading
               ? SizedBox(
-                  width: 20,
-                  height: 20,
+                  width: context.sizes.iconSm,
+                  height: context.sizes.iconSm,
                   child: CircularProgressIndicator(
-                    strokeWidth: 2,
+                    strokeWidth: context.borders.medium,
                     valueColor:
                         AlwaysStoppedAnimation<Color>(c.textPrimary),
                   ),
