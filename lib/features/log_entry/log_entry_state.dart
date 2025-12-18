@@ -20,7 +20,10 @@ import 'log_entry_controller.dart';
 /// ```
 class LogEntryState extends ChangeNotifier {
   LogEntryFormData _data = LogEntryFormData.initial();
-  final LogEntryController _controller = LogEntryController();
+  final LogEntryController _controller;
+
+  LogEntryState({LogEntryController? controller}) 
+      : _controller = controller ?? LogEntryController();
 
   // Expose pure data (Riverpod will use this directly)
   LogEntryFormData get data => _data;

@@ -5,6 +5,8 @@ import 'package:mobile_drug_use_app/services/feature_flag_service.dart';
 import 'package:mobile_drug_use_app/features/feature_flags/widgets/feature_flags/feature_gate.dart';
 import 'package:mobile_drug_use_app/features/feature_flags/widgets/feature_flags/feature_disabled_screen.dart';
 import 'package:mobile_drug_use_app/constants/config/feature_flags.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 import '../helpers/test_app_wrapper.dart';
 
 /// Mock FeatureFlagService for testing
@@ -87,12 +89,15 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: ChangeNotifierProvider<FeatureFlagService>.value(
-            value: mockFlags,
-            child: const FeatureGate(
-              featureName: FeatureFlags.homePage,
-              child: Text('Home Page Content'),
+        AppThemeProvider(
+          theme: AppTheme.light(),
+          child: MaterialApp(
+            home: ChangeNotifierProvider<FeatureFlagService>.value(
+              value: mockFlags,
+              child: const FeatureGate(
+                featureName: FeatureFlags.homePage,
+                child: Text('Home Page Content'),
+              ),
             ),
           ),
         ),
@@ -113,12 +118,15 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: ChangeNotifierProvider<FeatureFlagService>.value(
-            value: mockFlags,
-            child: const FeatureGate(
-              featureName: FeatureFlags.homePage,
-              child: Text('Home Page Content'),
+        AppThemeProvider(
+          theme: AppTheme.light(),
+          child: MaterialApp(
+            home: ChangeNotifierProvider<FeatureFlagService>.value(
+              value: mockFlags,
+              child: const FeatureGate(
+                featureName: FeatureFlags.homePage,
+                child: Text('Home Page Content'),
+              ),
             ),
           ),
         ),
@@ -191,12 +199,15 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: ChangeNotifierProvider<FeatureFlagService>.value(
-            value: mockFlags,
-            child: const FeatureGate(
-              featureName: FeatureFlags.analyticsPage,
-              child: Text('Analytics Content'),
+        AppThemeProvider(
+          theme: AppTheme.light(),
+          child: MaterialApp(
+            home: ChangeNotifierProvider<FeatureFlagService>.value(
+              value: mockFlags,
+              child: const FeatureGate(
+                featureName: FeatureFlags.analyticsPage,
+                child: Text('Analytics Content'),
+              ),
             ),
           ),
         ),

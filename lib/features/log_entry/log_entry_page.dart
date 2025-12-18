@@ -15,7 +15,8 @@ import 'log_entry_controller.dart';
 
 
 class QuickLogEntryPage extends StatefulWidget {
-  const QuickLogEntryPage({super.key});
+  final LogEntryController? controller;
+  const QuickLogEntryPage({super.key, this.controller});
 
   @override
   State<QuickLogEntryPage> createState() => _QuickLogEntryPageState();
@@ -26,7 +27,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   late final LogEntryState _state;
   late final LogEntryController _controller;
   
-  late AnimationController _animationController;
+  AnimationController? _animationController;
   late Animation<double> _fadeAnimation;
   final _formKey = GlobalKey<FormState>();
   final _notesCtrl = TextEditingController();
@@ -37,23 +38,11 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   @override
   void initState() {
     super.initState();
-    _state = LogEntryState();
-    _controller = LogEntryController();
+    _controller = widget.controller ?? LogEntryController();
+    _state = LogEntryState(controller: _controller);
     
-    _animationController = AnimationController(
-      duration: context.animations.normal,
-      vsync: this,
-    );
-    
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-    ));
-    
-    _animationController.forward();
+    // AnimationController will be initialized in didChangeDependencies
+    // to safely access Theme context.
     
     _notesCtrl.addListener(() => _state.setNotes(_notesCtrl.text));
     _doseCtrl.addListener(() {
@@ -64,8 +53,30 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
+    if (_animationController == null) {
+      _animationController = AnimationController(
+        duration: context.animations.normal,
+        vsync: this,
+      );
+      
+      _fadeAnimation = Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(CurvedAnimation(
+        parent: _animationController!,
+        curve: Curves.easeOut,
+      ));
+      
+      _animationController!.forward();
+    }
+  }
+
+  @override
   void dispose() {
-    _animationController.dispose();
+    _animationController?.dispose();
     _notesCtrl.dispose();
     _doseCtrl.dispose();
     _substanceCtrl.dispose();
