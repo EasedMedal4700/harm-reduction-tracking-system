@@ -21,7 +21,7 @@ import '../../providers/daily_checkin_provider.dart';
 import '../../services/daily_checkin_service.dart';
 import '../../services/user_service.dart';
 import '../../services/encryption_service_v2.dart';
-import '../../screens/profile_screen.dart';
+import '../profile/profile_screen.dart';
 import '../admin/screens/admin_panel_screen.dart';
 
 /// Redesigned Home Page with modular architecture

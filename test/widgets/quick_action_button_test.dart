@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/widgets/quick_action_button.dart';
+import 'package:mobile_drug_use_app/features/home/widgets/home/quick_action_button.dart';
 
 void main() {
   group('QuickActionButton', () {

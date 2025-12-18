@@ -3,29 +3,29 @@ import 'package:provider/provider.dart';
 import '../features/reflection/reflection_provider.dart';
 import '../providers/daily_checkin_provider.dart';
 import '../features/log_entry/log_entry_page.dart'; // Add other imports as needed
-import '../screens/analytics_page.dart';
-import '../screens/catalog_page.dart';
+import '../features/analytics/analytics_page.dart';
+import '../features/catalog/catalog_page.dart';
 import '../features/craving/cravings_page.dart';
-import '../screens/blood_levels_page.dart';
+import '../features/blood_levels/blood_levels_page.dart';
 import '../features/reflection/reflection_page.dart';
 import '../features/activity/activity_page.dart';
-import '../screens/personal_library_page.dart'; // Add LibraryPage import
+import '../features/stockpile/stockpile_page.dart'; // Add LibraryPage import
 import '../features/home/home_page_main.dart';
-import '../screens/daily_checkin_page.dart';
-import '../screens/checkin_history_page.dart';
-import '../screens/profile_screen.dart';
+import '../features/daily_chekin/daily_checkin_page.dart';
+import '../features/daily_chekin/checkin_history_page.dart';
+import '../features/profile/profile_screen.dart';
 import '../features/admin/screens/admin_panel_screen.dart';
-import '../screens/settings_page.dart';
-import '../screens/tolerance_dashboard_page.dart'; // Import ToleranceDashboardPage
-import '../screens/physiological_page.dart';
+import '../features/settings/settings_page.dart';
+import '../features/tolerence/tolerance_dashboard_page.dart'; // Import ToleranceDashboardPage
+import '../features/physiological/physiological_page.dart';
 import '../features/interactions/interactions_page.dart';
 import '../features/wearOS/wearos_page.dart';
 import '../features/bug_report/bug_report_page.dart';
-import '../screens/pin_setup_page.dart';
-import '../screens/pin_unlock_page.dart';
-import '../screens/recovery_key_page.dart';
-import '../screens/encryption_migration_page.dart';
-import '../screens/change_pin_page.dart';
+import '../features/setup_account/pin_setup_page.dart';
+import '../features/login/pin_unlock_page.dart';
+import '../features/setup_account/recovery_key_page.dart';
+import '../features/manage_profile/encryption_migration_page.dart';
+import '../features/manage_profile/change_pin_page.dart';
 
 class AppRoutes {
   static Widget buildHomePage() => const HomePage();

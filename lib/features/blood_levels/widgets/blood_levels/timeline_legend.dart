@@ -1,0 +1,60 @@
+﻿// MIGRATION COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: READY
+// Notes: Legend widget for timeline chart. Displays substance names, colors, and half-lives.
+
+import 'package:flutter/material.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
+
+/// Legend widget displaying substance names, colors, and half-lives
+class TimelineLegend extends StatelessWidget {
+  final List<Map<String, dynamic>> items;
+
+  const TimelineLegend({required this.items, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final sp = context.spacing;
+    final text = context.text;
+
+    if (items.isEmpty) return const SizedBox.shrink();
+
+    return Wrap(
+      spacing: sp.md,
+      runSpacing: sp.sm,
+      children: items.map((item) {
+        final name = item['name'] as String;
+        final color = item['color'] as Color;
+        final halfLife = item['halfLife'] as double;
+
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(sp.xs),
+            border: Border.all(color: color.withValues(alpha: 0.4)),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+              ),
+              SizedBox(width: sp.xs),
+              Text(
+                '$name (t½: ${halfLife}h)',
+                style: text.caption.copyWith(
+                  color: color,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    );
+  }
+}

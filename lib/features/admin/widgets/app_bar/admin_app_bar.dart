@@ -6,7 +6,7 @@
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../screens/error_analytics_page.dart';
+import '../../screens/error_analytics_page.dart';
 import '../../../bug_report/bug_report_page.dart';
 
 /// Custom app bar for the admin panel screen

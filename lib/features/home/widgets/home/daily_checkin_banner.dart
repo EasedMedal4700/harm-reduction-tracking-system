@@ -2,7 +2,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/daily_checkin_provider.dart';
-import '../../../../widgets/daily_checkin/checkin_dialog.dart';
+import '../../../daily_chekin/widgets/daily_checkin/checkin_dialog.dart';
 
 // MIGRATION
 // Theme: COMPLETE

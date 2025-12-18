@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/screens/pin_setup_page.dart';
+import 'package:mobile_drug_use_app/features/setup_account/pin_setup_page.dart';
 import '../helpers/test_app_wrapper.dart';
 
 void main() {
