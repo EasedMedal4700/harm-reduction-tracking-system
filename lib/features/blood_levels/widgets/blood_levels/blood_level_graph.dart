@@ -1,13 +1,16 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: TODO (extract shared chart UI patterns? axis labels? empty state?)
-// Riverpod: TODO (convert to ConsumerWidget + provider-driven data)
-// Notes: Fully migrated to theme system. Still state-less but should use providers instead of passing maps.
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to CommonCard and CommonSectionHeader. No Riverpod.
 
 import 'package:flutter/material.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/text/common_section_header.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 import '../../../../services/pharmacokinetics_service.dart';
 
@@ -29,48 +32,13 @@ class BloodLevelGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final c = context.colors;
-    final sp = context.spacing;
-    final sh = context.shapes;
-    final acc = context.accent;
 
-    return Container(
-      padding: EdgeInsets.all(sp.lg),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(
-          color: c.border,
-          width: 1,
-        ),
-        boxShadow: t.cardShadow,
-      ),
+    return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(sp.sm),
-                decoration: BoxDecoration(
-                  color: acc.primary.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(sh.radiusSm),
-                ),
-                child: Icon(
-                  Icons.show_chart_rounded,
-                  color: acc.primary,
-                  size: context.sizes.iconMd,
-                ),
-              ),
-              SizedBox(width: sp.md),
-              Text(
-                'Blood Level Curves',
-                style: context.text.heading3,
-              ),
-            ],
-          ),
-          SizedBox(height: sp.xl),
+          const CommonSectionHeader(title: 'Blood Level Curves'),
+          const CommonSpacer.vertical(24),
 
           SizedBox(
             height: 300,

@@ -2,11 +2,13 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully migrated to new AppTheme system. All deprecated constants removed.
+// Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../services/pharmacokinetics_service.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class DoseTierLegend extends StatelessWidget {
   final Map<String, Map<DoseTier, DoseRange>> substanceTiers;
@@ -20,26 +22,17 @@ class DoseTierLegend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.theme;
     final text = context.text;
     final acc = context.accent;        // <-- NEW
 
-    return Container(
-      padding: EdgeInsets.all(sp.md),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(color: c.border),
-        boxShadow: t.cardShadow,
-      ),
+    return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Dose Ranges', style: text.heading4),
-          SizedBox(height: sp.md),
+          const CommonSpacer.vertical(16),
 
           ...substanceTiers.entries.map((entry) {
             final substance = entry.key;
@@ -69,7 +62,7 @@ class DoseTierLegend extends StatelessWidget {
                       Text(substance, style: text.bodyBold),
                     ],
                   ),
-                  SizedBox(height: sp.sm),
+                  const CommonSpacer.vertical(8),
 
                   // Tier badges
                   Wrap(

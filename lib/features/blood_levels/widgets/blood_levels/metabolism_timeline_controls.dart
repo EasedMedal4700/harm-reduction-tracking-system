@@ -1,13 +1,13 @@
-// MIGRATION
+// MIGRATION: COMPLETE
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully migrated to new AppTheme system. All deprecated UIColors/ThemeConstants removed.
-// Uses context.theme, context.colors, context.text, context.spacing, context.shapes.
+// Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
-
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Controls for adjusting metabolism timeline view parameters
 class MetabolismTimelineControls extends StatelessWidget {
@@ -35,17 +35,10 @@ class MetabolismTimelineControls extends StatelessWidget {
     final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-    final sh = context.shapes;
     final text = context.text;
 
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(sp.lg),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusLg),
-        border: Border.all(color: c.border),
-        boxShadow: t.cardShadow,
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -53,7 +46,7 @@ class MetabolismTimelineControls extends StatelessWidget {
           Row(
             children: [
               Icon(Icons.tune, size: 18, color: t.accent.primary),
-              SizedBox(height: sp.sm, width: sp.sm),
+              const CommonSpacer.horizontal(8),
               Text(
                 'Timeline Controls',
                 style: text.heading4.copyWith(color: c.textPrimary),
@@ -61,7 +54,7 @@ class MetabolismTimelineControls extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: sp.lg),
+          const CommonSpacer.vertical(24),
 
           // Hours back / forward
           Row(
@@ -74,7 +67,7 @@ class MetabolismTimelineControls extends StatelessWidget {
                   onChanged: onHoursBackChanged,
                 ),
               ),
-              SizedBox(width: sp.lg),
+              const CommonSpacer.horizontal(24),
               Expanded(
                 child: _buildTimeInput(
                   context,
@@ -86,18 +79,17 @@ class MetabolismTimelineControls extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: sp.lg),
+          const CommonSpacer.vertical(24),
 
           _buildScaleSelector(context),
 
-          SizedBox(height: sp.lg),
+          const CommonSpacer.vertical(24),
 
           Text(
             'Quick Presets:',
             style: text.bodyBold.copyWith(color: c.textPrimary),
           ),
-          SizedBox(height: sp.sm),
-
+          const CommonSpacer.vertical(8),
           Wrap(
             spacing: sp.sm,
             runSpacing: sp.sm,

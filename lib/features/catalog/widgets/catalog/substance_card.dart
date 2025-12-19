@@ -1,8 +1,15 @@
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to CommonCard.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../models/stockpile_item.dart';
 import '../../../../repo/stockpile_repository.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
 
 class SubstanceCard extends StatelessWidget {
   final Map<String, dynamic> substance;
@@ -58,46 +65,38 @@ class SubstanceCard extends StatelessWidget {
       // Ignore
     }
 
-    return Container(
-      margin: EdgeInsets.only(bottom: t.spacing.md),
-      decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-        border: Border.all(
-          color: t.isDark
-              ? categoryColor.withValues(alpha: 0.3)
-              : t.colors.border,
-        ),
-        boxShadow: t.cardShadow,
-      ),
-      child: Material(
-        color: Colors.transparent,
+    return Padding(
+      padding: EdgeInsets.only(bottom: t.spacing.md),
+      child: CommonCard(
+        borderColor: t.isDark
+            ? categoryColor.withValues(alpha: 0.3)
+            : t.colors.border,
         child: Column(
-          children: [
-            // Main card content
-            InkWell(
-              onTap: onTap,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(t.shapes.radiusLg),
-                topRight: Radius.circular(t.shapes.radiusLg),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(t.spacing.md),
-                child: Row(
-                  children: [
-                    // Left circular icon
-                    Container(
-                      width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            categoryColor.withValues(alpha: 0.2),
-                            categoryColor.withValues(alpha: 0.05),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
+        children: [
+          // Main card content
+          InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(t.shapes.radiusLg),
+              topRight: Radius.circular(t.shapes.radiusLg),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(t.spacing.md),
+              child: Row(
+                children: [
+                  // Left circular icon
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          categoryColor.withValues(alpha: 0.2),
+                          categoryColor.withValues(alpha: 0.05),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: categoryColor.withValues(alpha: 0.3),

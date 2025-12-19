@@ -2,11 +2,13 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: All deprecated colors removed. Now uses full AppTheme system with neon/wellness UI.
+// Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
 import '../../../../services/blood_levels_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 import 'metabolism_timeline_card.dart';
 import 'metabolism_timeline_controls.dart';
 
@@ -38,27 +40,18 @@ class BloodLevelsTimelineSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final t = context.theme;
     final sp = context.spacing;
     final text = context.text;
 
     // Empty state
     if (levels.isEmpty) {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: sp.lg),
-        padding: EdgeInsets.all(sp.xl),
-        decoration: BoxDecoration(
-          color: c.surface,
-          borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-          border: Border.all(color: c.border),
-          boxShadow: t.cardShadow,
-        ),
+      return CommonCard(
         child: Center(
           child: Column(
             children: [
               Icon(Icons.timeline_outlined,
                   size: 48, color: c.textSecondary),
-              SizedBox(height: sp.md),
+              const CommonSpacer.vertical(16),
               Text(
                 'Select a substance to view metabolism timeline',
                 style: text.body.copyWith(color: c.textSecondary),
@@ -87,7 +80,7 @@ class BloodLevelsTimelineSection extends StatelessWidget {
             onPresetSelected: onPresetSelected,
           ),
         ),
-        SizedBox(height: sp.lg),
+        const CommonSpacer.vertical(24),
 
         // Timeline graph
         MetabolismTimelineCard(

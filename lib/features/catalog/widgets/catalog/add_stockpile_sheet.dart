@@ -3,6 +3,8 @@ import '../../../../repo/stockpile_repository.dart';
 import '../../../../utils/drug_profile_utils.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
+import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
+import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 
 class AddStockpileSheet extends StatefulWidget {
   final String substanceId;
@@ -123,7 +125,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                           color: t.colors.textPrimary,
                         ),
                       ),
-                      SizedBox(height: t.spacing.xs),
+                      const CommonSpacer.vertical(4),
                       Text(
                         widget.substanceName,
                         style: t.typography.body.copyWith(
@@ -140,42 +142,17 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                 ),
               ],
             ),
-            SizedBox(height: t.spacing.xl),
+            const CommonSpacer.vertical(24),
 
             // Amount input
-            TextFormField(
+            CommonInputField(
               controller: _amountController,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              autofocus: true,
-              style: t.typography.body.copyWith(
-                color: t.colors.textPrimary,
-              ),
-              decoration: InputDecoration(
-                labelText: 'Amount',
-                hintText: 'Enter amount',
-                prefixIcon: Icon(
-                  Icons.inventory_2,
-                  color: t.accent.primary,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                  borderSide: BorderSide(
-                    color: t.colors.border,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                  borderSide: BorderSide(
-                    color: t.colors.border,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                  borderSide: BorderSide(
-                    color: t.accent.primary,
-                    width: 2,
-                  ),
-                ),
+              labelText: 'Amount',
+              hintText: 'Enter amount',
+              prefixIcon: Icon(
+                Icons.inventory_2,
+                color: t.accent.primary,
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -188,7 +165,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                 return null;
               },
             ),
-            SizedBox(height: t.spacing.md),
+            const CommonSpacer.vertical(16),
 
             // Unit dropdown
             CommonDropdown<String>(

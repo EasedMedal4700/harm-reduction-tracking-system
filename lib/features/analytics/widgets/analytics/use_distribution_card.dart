@@ -1,9 +1,9 @@
 
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Structural refactor + CommonCard + caching. Not fully migrated or Riverpod integrated.
+// Notes: Structural refactor + CommonCard + caching. No Riverpod.
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 

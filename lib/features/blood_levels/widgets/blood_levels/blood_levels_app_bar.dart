@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 import 'blood_levels_time_display.dart';
 
 /// App bar for blood levels page with all action buttons.
@@ -96,7 +97,7 @@ class BloodLevelsAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: onRefreshPressed,
         ),
 
-        SizedBox(width: sp.sm), // breathing space at end
+        const CommonSpacer.horizontal(8), // breathing space at end
       ],
     );
   }

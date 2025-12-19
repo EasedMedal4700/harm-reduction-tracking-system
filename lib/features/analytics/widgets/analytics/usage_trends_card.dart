@@ -1,8 +1,8 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Migrated to CommonCard and CommonSectionHeader. No Riverpod.
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -10,6 +10,9 @@ import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/enums/time_period.dart';
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../models/log_entry_model.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/text/common_section_header.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 enum TrendGranularity { daily, weekly, monthly }
 
@@ -53,39 +56,20 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
     final sortedKeys = _getSortedKeys();
     final trendPercent = _calculateTrendPercent(trendData);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sp.lg),
-        border: Border.all(
-          color: t.colors.success.withValues(alpha: 0.35),
-          width: 1.2,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: t.colors.success.withValues(alpha: 0.18),
-            blurRadius: 22,
-            spreadRadius: 0,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      padding: EdgeInsets.all(sp.lg),
+    return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /// HEADER
           Row(
             children: [
-              Text(
-                'Usage trends',
-                style: text.heading3.copyWith(color: c.textPrimary),
+              const Expanded(
+                child: CommonSectionHeader(title: 'Usage trends'),
               ),
-              const Spacer(),
               _buildGranularityDropdown(context),
             ],
           ),
-          SizedBox(height: sp.xs),
+          const CommonSpacer.vertical(8),
 
           /// TREND LABEL
           if (trendPercent != null) ...[
@@ -103,15 +87,15 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                 SizedBox(width: sp.xs),
                 Text(
                   '${trendPercent.abs().toStringAsFixed(0)}% '
-                      '${trendPercent > 0 ? "increase" : "decrease"} '
-                      'this ${_getTrendPeriodLabel()}',
+                  '${trendPercent > 0 ? "increase" : "decrease"} '
+                  'this ${_getTrendPeriodLabel()}',
                   style: text.caption.copyWith(color: c.textSecondary),
                 ),
               ],
             ),
-            SizedBox(height: sp.sm),
+            const CommonSpacer.vertical(16),
           ] else
-            SizedBox(height: sp.sm),
+            const CommonSpacer.vertical(16),
 
           /// BAR CHART
           SizedBox(

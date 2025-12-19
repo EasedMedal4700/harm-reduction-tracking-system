@@ -1,11 +1,12 @@
-// MIGRATION
+// MIGRATION: COMPLETE
 // Theme: COMPLETE
-// Common: N/A
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully migrated to theme system. Removed hardcoded text styles.
+// Notes: Migrated to CommonSpacer.
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Displays the time context in the app bar
 class BloodLevelsTimeDisplay extends StatelessWidget {
@@ -20,7 +21,6 @@ class BloodLevelsTimeDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.theme;
     final c = context.colors;
-    final sp = context.spacing;
 
     final now = DateTime.now();
     final diff = selectedTime.difference(now);
@@ -44,7 +44,7 @@ class BloodLevelsTimeDisplay extends StatelessWidget {
           'Blood Levels',
           style: t.typography.heading4.copyWith(color: c.textPrimary),
         ),
-        SizedBox(height: sp.xs),
+        const CommonSpacer.vertical(4),
         Text(
           label,
           style: t.typography.caption.copyWith(color: c.textSecondary),

@@ -1,4 +1,4 @@
-﻿// MIGRATION COMPLETE
+﻿// MIGRATION: COMPLETE
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: READY
@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Legend widget displaying substance names, colors, and half-lives
 class TimelineLegend extends StatelessWidget {
@@ -43,7 +44,7 @@ class TimelineLegend extends StatelessWidget {
                 height: 12,
                 decoration: BoxDecoration(color: color, shape: BoxShape.circle),
               ),
-              SizedBox(width: sp.xs),
+              const CommonSpacer.horizontal(4),
               Text(
                 '$name (t½: ${halfLife}h)',
                 style: text.caption.copyWith(

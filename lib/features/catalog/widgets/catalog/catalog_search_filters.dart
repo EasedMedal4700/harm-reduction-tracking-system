@@ -1,5 +1,12 @@
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to CommonSpacer.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 import 'catalog_search_bar.dart';
 import 'category_filter_chips.dart';
 import 'common_filter_toggle.dart';
@@ -49,7 +56,7 @@ class CatalogSearchFilters extends StatelessWidget {
               onSearchChanged(searchController.text);
             },
           ),
-          SizedBox(height: t.spacing.md),
+          const CommonSpacer.vertical(16),
           CategoryFilterChips(
             selectedCategory: selectedCategories.isNotEmpty ? selectedCategories.first : null,
             onCategorySelected: (category) {
@@ -58,7 +65,7 @@ class CatalogSearchFilters extends StatelessWidget {
               }
             },
           ),
-          SizedBox(height: t.spacing.md),
+          const CommonSpacer.vertical(16),
           CommonFilterToggle(
             showCommonOnly: showCommonOnly,
             onChanged: onCommonOnlyChanged,

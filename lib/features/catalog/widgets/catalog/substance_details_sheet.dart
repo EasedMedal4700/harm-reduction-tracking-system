@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 import 'dosage_guide_card.dart';
 import 'timing_info_card.dart';
 
@@ -187,16 +188,16 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                   children: [
                     // Header
                     _buildHeader(context, name, categories, accentColor),
-                    SizedBox(height: t.spacing.xl),
+                    const CommonSpacer.vertical(24),
 
                     // Aliases
                     _buildAliases(context),
-                    SizedBox(height: t.spacing.xl),
+                    const CommonSpacer.vertical(24),
 
                     // Method Selector
                     if (_availableMethods.length > 1) ...[
                       _buildMethodSelector(context, accentColor),
-                      SizedBox(height: t.spacing.md),
+                      const CommonSpacer.vertical(16),
                     ],
 
                     // Dosage Guide

@@ -1,13 +1,14 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
-// MIGRATION
+// MIGRATION: COMPLETE
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Uses CommonInputField.
+// Notes: Uses CommonInputField and CommonSpacer.
 import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
+import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 
 class BugReportFormFields extends StatelessWidget {
   final TextEditingController titleController;
@@ -39,7 +40,6 @@ class BugReportFormFields extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final text = context.text;
-    final sp = context.spacing;
     
     return Column(
       children: [
@@ -56,7 +56,7 @@ class BugReportFormFields extends StatelessWidget {
             return null;
           },
         ),
-        SizedBox(height: sp.md),
+        const CommonSpacer.vertical(16),
 
         // Severity
         CommonDropdown<String>(
@@ -67,14 +67,14 @@ class BugReportFormFields extends StatelessWidget {
             return Row(
               children: [
                 getSeverityIcon(level),
-                SizedBox(width: sp.sm),
+                const CommonSpacer.horizontal(8),
                 Text(level, style: text.body.copyWith(color: c.textPrimary)),
               ],
             );
           },
           hintText: 'Severity',
         ),
-        SizedBox(height: sp.md),
+        const CommonSpacer.vertical(16),
 
         // Category
         CommonDropdown<String>(
@@ -83,7 +83,7 @@ class BugReportFormFields extends StatelessWidget {
           onChanged: onCategoryChanged,
           hintText: 'Category',
         ),
-        SizedBox(height: sp.md),
+        const CommonSpacer.vertical(16),
         
         // Description
         CommonInputField(
@@ -96,7 +96,7 @@ class BugReportFormFields extends StatelessWidget {
             child: Icon(Icons.description, color: c.textSecondary),
           ),
         ),
-        SizedBox(height: sp.md),
+        const CommonSpacer.vertical(16),
         
         // Steps to Reproduce
         CommonInputField(

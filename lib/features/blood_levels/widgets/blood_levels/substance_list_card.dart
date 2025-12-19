@@ -1,11 +1,13 @@
-// MIGRATION
+// MIGRATION: COMPLETE
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully migrated to new AppTheme system. No deprecated theme usage.
+// Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class SubstanceListCard extends StatelessWidget {
   final List<SubstanceInfo> substances;
@@ -19,7 +21,6 @@ class SubstanceListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final text = context.text;
     final sp = context.spacing;
@@ -32,14 +33,8 @@ class SubstanceListCard extends StatelessWidget {
     // EMPTY STATE
     // --------------------------
     if (substances.isEmpty) {
-      return Container(
+      return CommonCard(
         padding: EdgeInsets.all(sp.xl),
-        decoration: BoxDecoration(
-          color: c.surface,
-          borderRadius: BorderRadius.circular(sh.radiusLg),
-          border: Border.all(color: c.border, width: 1),
-          boxShadow: t.cardShadow,
-        ),
         child: Center(
           child: Column(
             children: [
@@ -48,7 +43,7 @@ class SubstanceListCard extends StatelessWidget {
                 size: 48,
                 color: c.textTertiary,
               ),
-              SizedBox(height: sp.md),
+              const CommonSpacer.vertical(16),
               Text(
                 'No substances in timeframe',
                 style: text.body.copyWith(color: c.textSecondary),
@@ -62,14 +57,8 @@ class SubstanceListCard extends StatelessWidget {
     // --------------------------
     // SUBSTANCE LIST CARD
     // --------------------------
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(sp.lg),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusLg),
-        border: Border.all(color: c.border, width: 1),
-        boxShadow: t.cardShadow,
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -88,7 +77,7 @@ class SubstanceListCard extends StatelessWidget {
                   color: accentColor,
                 ),
               ),
-              SizedBox(width: sp.md),
+              const CommonSpacer.horizontal(16),
               Text(
                 'Active Substances (${substances.length})',
                 style: text.heading4.copyWith(color: c.textPrimary),
@@ -96,7 +85,7 @@ class SubstanceListCard extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: sp.lg),
+          const CommonSpacer.vertical(24),
 
           // SUBSTANCE ITEMS
           ...substances.map((substance) {

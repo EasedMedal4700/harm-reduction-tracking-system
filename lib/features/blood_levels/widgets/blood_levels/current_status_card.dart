@@ -1,12 +1,14 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: N/A
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Widget is fully migrated to theme system. Ready for Riverpod.
+// Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../services/pharmacokinetics_service.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class CurrentStatusCard extends StatelessWidget {
   final String substanceName;
@@ -37,23 +39,14 @@ class CurrentStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.theme;
     final acc = context.accent;
 
     final tierColor =
         Color(PharmacokineticsService.getTierColorValue(currentTier));
 
-    return Container(
-      padding: EdgeInsets.all(sp.md),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(color: c.border, width: 1),
-        boxShadow: t.cardShadow,
-      ),
+    return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -84,7 +77,7 @@ class CurrentStatusCard extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: sp.lg),
+          const CommonSpacer.vertical(24),
 
           Row(
             children: [

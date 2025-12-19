@@ -1,13 +1,13 @@
-// MIGRATION
+// MIGRATION: COMPLETE
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully migrated to AppTheme system. No deprecated imports. 
-// Uses context.theme, context.colors, context.text, context.spacing, context.shapes.
+// Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
 import '../../../../services/blood_levels_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
 
 /// Risk assessment card with gradient indicator
 class RiskAssessmentCard extends StatelessWidget {
@@ -66,31 +66,18 @@ class RiskAssessmentCard extends StatelessWidget {
     // ----------------------------
     // UI
     // ----------------------------
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: sp.lg),
-      padding: EdgeInsets.all(sp.lg),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(
-          color: riskColor.withValues(alpha: 0.3),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: riskColor.withValues(alpha: 0.08),
-            blurRadius: 12,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // HEADER
-          Row(
-            children: [
-              Text('Risk Assessment', style: text.heading4),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: sp.lg),
+      child: CommonCard(
+        padding: EdgeInsets.all(sp.lg),
+        borderColor: riskColor.withValues(alpha: 0.3),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // HEADER
+            Row(
+              children: [
+                Text('Risk Assessment', style: text.heading4),
               const Spacer(),
               Container(
                 padding: EdgeInsets.symmetric(
@@ -182,6 +169,6 @@ class RiskAssessmentCard extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }

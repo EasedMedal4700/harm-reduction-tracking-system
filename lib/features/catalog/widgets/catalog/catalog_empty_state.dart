@@ -1,5 +1,12 @@
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to CommonSpacer.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class CatalogEmptyState extends StatelessWidget {
   const CatalogEmptyState({super.key});
@@ -24,14 +31,14 @@ class CatalogEmptyState extends StatelessWidget {
               color: t.colors.textSecondary,
             ),
           ),
-          SizedBox(height: t.spacing.xl),
+          const CommonSpacer.vertical(24),
           Text(
             'No substances found',
             style: t.typography.heading3.copyWith(
               color: t.colors.textPrimary,
             ),
           ),
-          SizedBox(height: t.spacing.sm),
+          const CommonSpacer.vertical(8),
           Text(
             'Try adjusting your search or filters',
             style: t.typography.body.copyWith(

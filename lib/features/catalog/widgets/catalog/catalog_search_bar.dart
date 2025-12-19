@@ -1,5 +1,12 @@
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to CommonInputField.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/inputs/input_field.dart';
 
 class CatalogSearchBar extends StatelessWidget {
   final TextEditingController controller;
@@ -15,48 +22,26 @@ class CatalogSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.theme;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-        border: Border.all(
-          color: t.colors.border,
-        ),
+    return CommonInputField(
+      controller: controller,
+      hintText: 'Search substances...',
+      prefixIcon: Icon(
+        Icons.search,
+        color: t.colors.textSecondary,
       ),
-      child: TextField(
-        controller: controller,
-        onChanged: (_) => onChanged(),
-        style: t.text.body.copyWith(
-          color: t.colors.textPrimary,
-        ),
-        decoration: InputDecoration(
-          hintText: 'Search substances...',
-          hintStyle: t.text.body.copyWith(
-            color: t.colors.textSecondary,
-          ),
-          prefixIcon: Icon(
-            Icons.search,
-            color: t.colors.textSecondary,
-          ),
-          suffixIcon: controller.text.isNotEmpty
-              ? IconButton(
-                  icon: Icon(
-                    Icons.clear,
-                    color: t.colors.textSecondary,
-                  ),
-                  onPressed: () {
-                    controller.clear();
-                    onChanged();
-                  },
-                )
-              : null,
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: t.spacing.md,
-            vertical: t.spacing.sm,
-          ),
-        ),
-      ),
+      onChanged: (_) => onChanged(),
+      suffixIcon: controller.text.isNotEmpty
+          ? IconButton(
+              icon: Icon(
+                Icons.clear,
+                color: t.colors.textSecondary,
+              ),
+              onPressed: () {
+                controller.clear();
+                onChanged();
+              },
+            )
+          : null,
     );
   }
 }

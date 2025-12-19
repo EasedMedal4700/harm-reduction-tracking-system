@@ -1,11 +1,13 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: N/A
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully migrated to new theme system. Uses spacing, colors, typography.
+// Notes: Migrated to CommonPrimaryButton.
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/buttons/common_primary_button.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Error state for blood levels with retry option
 class BloodLevelsErrorState extends StatelessWidget {
@@ -44,26 +46,13 @@ class BloodLevelsErrorState extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
 
-            SizedBox(height: sp.lg),
+            const CommonSpacer.vertical(24),
 
-            ElevatedButton(
+            CommonPrimaryButton(
+              label: 'Retry',
               onPressed: onRetry,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: c.error,
-                foregroundColor: c.textInverse,
-                padding: EdgeInsets.symmetric(
-                  horizontal: sp.lg,
-                  vertical: sp.md,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                ),
-                shadowColor: c.overlayHeavy,
-              ),
-              child: Text(
-                'Retry',
-                style: t.typography.button.copyWith(color: c.textInverse),
-              ),
+              backgroundColor: c.error,
+              textColor: c.textInverse,
             ),
           ],
         ),

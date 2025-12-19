@@ -1,6 +1,13 @@
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to CommonSpacer.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class CategoryFilterChips extends StatelessWidget {
   final String? selectedCategory;
@@ -54,7 +61,7 @@ class CategoryFilterChips extends StatelessWidget {
                   ? accentColor
                   : t.colors.textSecondary,
             ),
-            const SizedBox(width: 6),
+            const CommonSpacer.horizontal(6),
           ],
           Text(label),
         ],

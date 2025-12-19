@@ -1,5 +1,13 @@
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to CommonCard and CommonSpacer.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Widget for displaying timing information (onset, duration, after-effects)
 class TimingInfoCard extends StatelessWidget {
@@ -23,22 +31,15 @@ class TimingInfoCard extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(t.spacing.md),
-      decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-        border: Border.all(
-          color: t.colors.border,
-        ),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Icon(Icons.timer_outlined, color: accentColor),
-              SizedBox(width: t.spacing.xs),
+              const CommonSpacer.horizontal(4),
               Text(
                 'Timing Information',
                 style: t.text.heading3.copyWith(
@@ -47,7 +48,7 @@ class TimingInfoCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: t.spacing.lg),
+          const CommonSpacer.vertical(24),
 
           // Timeline Visualization
           SizedBox(
@@ -84,7 +85,7 @@ class TimingInfoCard extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: t.spacing.lg),
+          const CommonSpacer.vertical(24),
 
           // Legend
           if (onset != null) _buildTimeLegend(context, 'Onset', onset!, Colors.green),

@@ -1,12 +1,13 @@
-// MIGRATION
+// MIGRATION: COMPLETE
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully migrated to new AppTheme system.
+// Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
 import '../../../../services/blood_levels_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
 
 /// System overview card showing global PK state metrics.
 class SystemOverviewCard extends StatelessWidget {
@@ -21,11 +22,9 @@ class SystemOverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final text = context.text;
     final sp = context.spacing;
-    final sh = context.shapes;
     final acc = context.accent;
 
     final activeCount = levels.length;
@@ -43,26 +42,21 @@ class SystemOverviewCard extends StatelessWidget {
       return sum + count;
     });
 
-    return Container(
-      margin: EdgeInsets.all(sp.lg),
+    return Padding(
       padding: EdgeInsets.all(sp.lg),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(color: c.border, width: 1),
-        boxShadow: t.cardShadow,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // HEADER ROW
-          Row(
-            children: [
-              Icon(Icons.analytics, size: 20, color: acc.primary),
-              SizedBox(width: sp.sm),
-              Text('System Overview', style: text.heading4),
-            ],
-          ),
+      child: CommonCard(
+        padding: EdgeInsets.all(sp.lg),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // HEADER ROW
+            Row(
+              children: [
+                Icon(Icons.analytics, size: 20, color: acc.primary),
+                SizedBox(width: sp.sm),
+                Text('System Overview', style: text.heading4),
+              ],
+            ),
 
           SizedBox(height: sp.lg),
 
@@ -102,7 +96,7 @@ class SystemOverviewCard extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildStatCard({

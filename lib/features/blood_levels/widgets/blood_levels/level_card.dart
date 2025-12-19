@@ -1,14 +1,15 @@
-// MIGRATION
+// MIGRATION: COMPLETE
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully migrated to new AppTheme (colors, typography, spacing, shapes). All deprecated theme
-// usage removed. Logic untouched.
+// Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../services/blood_levels_service.dart';
 import '../../../../constants/data/drug_categories.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Expandable card displaying drug level information
 class LevelCard extends StatefulWidget {
@@ -31,7 +32,6 @@ class _LevelCardState extends State<LevelCard> {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.theme;
 
     final percentage = widget.level.percentage;
     final status = widget.level.status;
@@ -40,61 +40,52 @@ class _LevelCardState extends State<LevelCard> {
     final timeAgo = DateTime.now().difference(widget.level.lastUse);
     final remainingMg = widget.level.totalRemaining;
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
-      decoration: BoxDecoration(
-        color: categoryColor.withValues(alpha: 0.07),
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(color: categoryColor.withValues(alpha: 0.3)),
-        boxShadow: t.cardShadow,
-      ),
-      child: InkWell(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
+      child: CommonCard(
         onTap: () => setState(() => _expanded = !_expanded),
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        child: Padding(
-          padding: EdgeInsets.all(sp.md),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        backgroundColor: categoryColor.withValues(alpha: 0.07),
+        borderColor: categoryColor.withValues(alpha: 0.3),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeaderRow(context, categoryColor, status),
+
+            const CommonSpacer.vertical(16),
+
+            // Progress bar
+            ClipRRect(
+              borderRadius: BorderRadius.circular(sh.radiusSm),
+              child: LinearProgressIndicator(
+                value: (percentage / 100).clamp(0.0, 1.0),
+              backgroundColor: c.surfaceVariant,
+              valueColor: AlwaysStoppedAnimation<Color>(categoryColor),
+              minHeight: 8,
+            ),
+          ),
+
+          const CommonSpacer.vertical(16),
+
+          // Summary row
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildHeaderRow(context, categoryColor, status),
-
-              SizedBox(height: sp.md),
-
-              // Progress bar
-              ClipRRect(
-                borderRadius: BorderRadius.circular(sh.radiusSm),
-                child: LinearProgressIndicator(
-                  value: (percentage / 100).clamp(0.0, 1.0),
-                  backgroundColor: c.surfaceVariant,
-                  valueColor: AlwaysStoppedAnimation<Color>(categoryColor),
-                  minHeight: 8,
-                ),
-              ),
-
-              SizedBox(height: sp.md),
-
-              // Summary row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildInfoColumn(context, 'Remaining', '${remainingMg.toStringAsFixed(1)}mg'),
-                  _buildInfoColumn(context, 'Last Dose', '${widget.level.lastDose.toStringAsFixed(1)}mg'),
-                  _buildInfoColumn(context, 'Time', _formatTimeAgo(timeAgo)),
-                  _buildInfoColumn(context, 'Window', '${widget.level.activeWindow.toStringAsFixed(1)}h'),
-                ],
-              ),
-
-              if (_expanded) ...[
-                SizedBox(height: sp.lg),
-                Divider(color: c.divider),
-                SizedBox(height: sp.md),
-                _buildExpandedContent(context),
-              ],
+              _buildInfoColumn(context, 'Remaining', '${remainingMg.toStringAsFixed(1)}mg'),
+              _buildInfoColumn(context, 'Last Dose', '${widget.level.lastDose.toStringAsFixed(1)}mg'),
+              _buildInfoColumn(context, 'Time', _formatTimeAgo(timeAgo)),
+              _buildInfoColumn(context, 'Window', '${widget.level.activeWindow.toStringAsFixed(1)}h'),
             ],
           ),
-        ),
+
+          if (_expanded) ...[
+            const CommonSpacer.vertical(24),
+            Divider(color: c.divider),
+            const CommonSpacer.vertical(16),
+            _buildExpandedContent(context),
+          ],
+        ],
       ),
-    );
+    ));
   }
 
   // HEADER ROW

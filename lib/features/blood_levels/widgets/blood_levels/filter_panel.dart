@@ -1,11 +1,12 @@
-// MIGRATION
+// MIGRATION: COMPLETE
 // Theme: COMPLETE
-// Common: PARTIAL      // Chip pattern could be extracted later
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully theme-migrated. Chip groups not yet extracted.
+// Notes: Migrated to CommonSpacer. Kept Container as it's a panel.
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Collapsible filter panel for drug inclusion/exclusion
 class FilterPanel extends StatelessWidget {
@@ -63,10 +64,10 @@ class FilterPanel extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: sp.sm),
+          const CommonSpacer.vertical(8),
 
           Text('Include Only:', style: text.bodyBold),
-          SizedBox(height: sp.xs),
+          const CommonSpacer.vertical(4),
 
           Wrap(
             spacing: 8,
@@ -87,10 +88,10 @@ class FilterPanel extends StatelessWidget {
             }).toList(),
           ),
 
-          SizedBox(height: sp.md),
+          const CommonSpacer.vertical(16),
 
           Text('Exclude:', style: text.bodyBold),
-          SizedBox(height: sp.xs),
+          const CommonSpacer.vertical(4),
 
           Wrap(
             spacing: 8,

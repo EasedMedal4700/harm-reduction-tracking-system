@@ -1,5 +1,13 @@
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to CommonCard and CommonSpacer.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class CommonFilterToggle extends StatelessWidget {
   final bool showCommonOnly;
@@ -16,19 +24,12 @@ class CommonFilterToggle extends StatelessWidget {
     final t = context.theme;
     final accentColor = t.accent.primary;
 
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.symmetric(
         horizontal: t.spacing.md,
         vertical: t.spacing.sm,
       ),
-      decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-        border: Border.all(
-          color: showCommonOnly ? accentColor : t.colors.border,
-        ),
-        boxShadow: t.cardShadow,
-      ),
+      borderColor: showCommonOnly ? accentColor : t.colors.border,
       child: Row(
         children: [
           Icon(
@@ -38,7 +39,7 @@ class CommonFilterToggle extends StatelessWidget {
                 : t.colors.textSecondary,
             size: 20,
           ),
-          SizedBox(width: t.spacing.md),
+          const CommonSpacer.horizontal(16),
           Expanded(
             child: Text(
               'Common Only',

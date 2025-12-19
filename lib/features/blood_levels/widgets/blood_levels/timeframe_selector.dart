@@ -1,12 +1,13 @@
-// MIGRATION
+// MIGRATION: COMPLETE
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully migrated to new theme system. No deprecated imports left.
-//        Uses context.theme, context.colors, context.spacing, context.text.
+// Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 enum BloodLevelTimeframe {
   hours6('6 Hours', Duration(hours: 6)),
@@ -40,13 +41,8 @@ class TimeframeSelector extends StatelessWidget {
     final sh = context.shapes;
     final acc = context.accent;
 
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(sp.md),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        boxShadow: t.cardShadow,
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -65,7 +61,7 @@ class TimeframeSelector extends StatelessWidget {
                   size: 20,
                 ),
               ),
-              SizedBox(width: sp.sm),
+              const CommonSpacer.horizontal(8),
               Text(
                 'Timeframe',
                 style: text.heading4,
@@ -73,7 +69,7 @@ class TimeframeSelector extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: sp.md),
+          const CommonSpacer.vertical(16),
 
           // Chips
           Wrap(

@@ -1,5 +1,13 @@
+// MIGRATION: COMPLETE
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to CommonCard and CommonSpacer.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Widget for displaying dosage information for a specific ROA
 class DosageGuideCard extends StatelessWidget {
@@ -30,7 +38,7 @@ class DosageGuideCard extends StatelessWidget {
         Row(
           children: [
             Icon(Icons.medication_outlined, color: accentColor),
-            SizedBox(width: t.spacing.xs),
+            const CommonSpacer.horizontal(4),
             Text(
               'Dose Ranges (Informational)',
               style: t.text.heading3.copyWith(
@@ -57,14 +65,14 @@ class DosageGuideCard extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: t.spacing.md),
+        const CommonSpacer.vertical(16),
         _buildDoseCard(context, 'Light', doseData!['Light'], Colors.green),
-        SizedBox(height: t.spacing.xs),
+        const CommonSpacer.vertical(4),
         _buildDoseCard(context, 'Common', doseData!['Common'], Colors.orange),
-        SizedBox(height: t.spacing.xs),
+        const CommonSpacer.vertical(4),
         _buildDoseCard(context, 'Strong', doseData!['Strong'], Colors.red),
         if (doseData!['Heavy'] != null) ...[
-          SizedBox(height: t.spacing.xs),
+          const CommonSpacer.vertical(4),
           _buildDoseCard(context, 'Heavy', doseData!['Heavy'], Colors.purple),
         ],
       ],
@@ -80,13 +88,8 @@ class DosageGuideCard extends StatelessWidget {
     final t = context.theme;
     if (range == null) return const SizedBox.shrink();
 
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(t.spacing.md),
-      decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-        border: Border(left: BorderSide(color: color, width: 4)),
-      ),
       child: Row(
         children: [
           Container(
@@ -97,7 +100,7 @@ class DosageGuideCard extends StatelessWidget {
             ),
             child: Icon(_getDoseIcon(label), color: color, size: 20),
           ),
-          SizedBox(width: t.spacing.md),
+          const CommonSpacer.horizontal(16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

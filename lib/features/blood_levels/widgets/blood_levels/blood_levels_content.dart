@@ -1,8 +1,8 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: This file now uses theme spacing and colors, but child widgets are not migrated yet.
+// Notes: Migrated to use CommonSpacer.
 
 import 'package:flutter/material.dart';
 import '../../../../services/blood_levels_service.dart';
@@ -11,6 +11,7 @@ import 'system_overview_card.dart';
 import 'risk_assessment_card.dart';
 import 'blood_levels_timeline_section.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Main content area showing all level cards and overview
 class BloodLevelsContent extends StatelessWidget {
@@ -56,11 +57,11 @@ class BloodLevelsContent extends StatelessWidget {
           allLevels: allLevels,
         ),
 
-        SizedBox(height: sp.lg),
+        const CommonSpacer.vertical(24),
 
         RiskAssessmentCard(levels: filteredLevels),
 
-        SizedBox(height: sp.lg),
+        const CommonSpacer.vertical(24),
 
         // Metabolism Timeline
         if (showTimeline) ...[
@@ -75,7 +76,7 @@ class BloodLevelsContent extends StatelessWidget {
             onAdaptiveScaleChanged: onAdaptiveScaleChanged,
             onPresetSelected: onPresetSelected,
           ),
-          SizedBox(height: sp.lg),
+          const CommonSpacer.vertical(24),
         ],
 
         // Level cards

@@ -2,10 +2,11 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully migrated to new theme system. No deprecated constants remain.
+// Notes: Migrated to CommonSpacer.
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Empty state shown when no substances have active blood levels,
 /// or when filters hide all visible data.
@@ -20,7 +21,6 @@ class BloodLevelsEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;    // color palette
-    final sp = context.spacing;  // spacing
     final text = context.text;   // typography
 
     return Center(
@@ -32,7 +32,7 @@ class BloodLevelsEmptyState extends StatelessWidget {
             size: 64,
             color: c.textTertiary,
           ),
-          SizedBox(height: sp.lg),
+          const CommonSpacer.vertical(24),
 
           Text(
             'No active substances',
@@ -42,7 +42,7 @@ class BloodLevelsEmptyState extends StatelessWidget {
           ),
 
           if (hasActiveFilters) ...[
-            SizedBox(height: sp.sm),
+            const CommonSpacer.vertical(8),
             Text(
               'Try adjusting filters',
               style: text.bodySmall.copyWith(
