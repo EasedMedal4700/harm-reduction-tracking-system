@@ -37,7 +37,7 @@ class DrugCatalogList extends StatelessWidget {
     return ListView.separated(
       padding: EdgeInsets.all(t.spacing.md),
       itemCount: entries.length,
-      separatorBuilder: (context, index) => const CommonSpacer.vertical(12),
+      separatorBuilder: (context, index) => CommonSpacer.vertical(t.spacing.md),
       itemBuilder: (context, index) {
         final drug = entries[index];
         return DrugCatalogTile(
@@ -111,7 +111,7 @@ class DrugCatalogTile extends StatelessWidget {
   Widget _buildInfoRow(BuildContext context, String label, String value) {
     final t = context.theme;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: EdgeInsets.only(bottom: t.spacing.xs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -52,7 +52,7 @@ class SystemOverviewCard extends StatelessWidget {
             // HEADER ROW
             Row(
               children: [
-                Icon(Icons.analytics, size: 20, color: acc.primary),
+                Icon(Icons.analytics, size: t.sizes.iconSm, color: acc.primary),
                 SizedBox(width: sp.sm),
                 Text('System Overview', style: text.heading4),
               ],
@@ -118,7 +118,7 @@ class SystemOverviewCard extends StatelessWidget {
             color: color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(sh.radiusSm),
           ),
-          child: Icon(icon, color: color, size: 20),
+          child: Icon(icon, color: color, size: t.sizes.iconSm),
         ),
         SizedBox(height: sp.sm),
         Text(

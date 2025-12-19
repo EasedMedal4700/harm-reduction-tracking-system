@@ -21,6 +21,7 @@ class ColorPalette {
 
   final Color overlay;
   final Color overlayHeavy;
+  final Color transparent = const Color(0x00000000);
 
   const ColorPalette({
     required this.background,

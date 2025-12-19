@@ -7,6 +7,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 // Notes: Migrated to use CommonStatCard and AppTheme. Replaced GridView with Column to avoid magic aspect ratio.
 import 'package:flutter/material.dart';
 import '../../../../common/cards/common_stat_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class HomeProgressStats extends StatelessWidget {
   const HomeProgressStats({super.key});
@@ -22,14 +23,14 @@ class HomeProgressStats extends StatelessWidget {
           title: 'Days Tracked',
           subtitle: 'Keep up the momentum!',
         ),
-        SizedBox(height: sp.md),
+        CommonSpacer.vertical(sp.md),
         const CommonStatCard(
           icon: Icons.note_alt,
           value: '12',
           title: 'Entries This Week',
           subtitle: '+3 from last week',
         ),
-        SizedBox(height: sp.md),
+        CommonSpacer.vertical(sp.md),
         const CommonStatCard(
           icon: Icons.psychology,
           value: '8',

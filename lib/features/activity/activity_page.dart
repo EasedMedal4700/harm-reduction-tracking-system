@@ -76,7 +76,7 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
           style: t.typography.heading3.copyWith(color: t.colors.textPrimary),
         ),
         backgroundColor: t.colors.surface,
-        elevation: 0,
+        elevation: t.sizes.elevationNone,
         actions: [
           CommonIconButton(
             icon: Icons.refresh,

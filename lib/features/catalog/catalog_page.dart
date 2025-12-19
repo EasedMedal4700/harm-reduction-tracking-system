@@ -176,10 +176,11 @@ class _CatalogPageState extends State<CatalogPage> {
     String substanceName,
     Map<String, dynamic> substance,
   ) async {
+    final c = context.colors;
     final result = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: c.transparent,
       builder: (context) => AddStockpileSheet(
         substanceId: substanceId,
         substanceName: substanceName,
@@ -222,10 +223,11 @@ class _CatalogPageState extends State<CatalogPage> {
   }
 
   void _showSubstanceDetails(Map<String, dynamic> substance) {
+    final c = context.colors;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: c.transparent,
       builder: (context) => SubstanceDetailsSheet(
         substance: substance,
         onAddStockpile: _showAddStockpileSheet,

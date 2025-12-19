@@ -45,7 +45,7 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
         border: Border(
           bottom: BorderSide(
             color: c.border,
-            width: 1,
+            width: context.borders.thin,
           ),
         ),
       ),

@@ -88,7 +88,7 @@ class RiskAssessmentCard extends StatelessWidget {
                   color: riskColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(
-                    color: riskColor.withValues(alpha: 0.5),
+                    color: riskColor.withValues(alpha: context.opacities.slow),
                   ),
                 ),
                 child: Text(
@@ -106,7 +106,7 @@ class RiskAssessmentCard extends StatelessWidget {
 
           // RISK GRADIENT BAR
           Container(
-            height: 14,
+            height: context.spacing.md,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(sh.radiusMd),
               gradient: LinearGradient(
@@ -125,17 +125,17 @@ class RiskAssessmentCard extends StatelessWidget {
                       (MediaQuery.of(context).size.width * 0.80 * riskPosition),
                   top: -3,
                   child: Container(
-                    width: 20,
-                    height: 20,
+                    width: context.sizes.iconSm,
+                    height: context.sizes.iconSm,
                     decoration: BoxDecoration(
                       color: riskColor,
                       shape: BoxShape.circle,
-                      border: Border.all(width: 2, color: c.surface),
+                      border: Border.all(width: context.borders.medium, color: c.surface),
                       boxShadow: [
                         BoxShadow(
-                          color: riskColor.withValues(alpha: 0.6),
-                          blurRadius: 10,
-                          spreadRadius: 2,
+                          color: riskColor.withValues(alpha: context.opacities.high),
+                          blurRadius: context.sizes.cardElevationHovered,
+                          spreadRadius: context.borders.medium,
                         ),
                       ],
                     ),

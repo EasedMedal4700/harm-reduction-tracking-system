@@ -46,7 +46,7 @@ class CacheActionButton extends StatelessWidget {
         backgroundColor: color.withValues(alpha: context.opacities.veryLow),
         foregroundColor: color,
         shadowColor: c.overlayHeavy,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
         padding: EdgeInsets.symmetric(
           horizontal: sp.lg,
           vertical: sp.md,

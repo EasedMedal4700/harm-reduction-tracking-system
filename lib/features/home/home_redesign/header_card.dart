@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -40,7 +41,7 @@ class HeaderCard extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: sp.xs),
+            CommonSpacer.vertical(sp.xs),
             Text(
               userName,
               style: t.heading2.copyWith(

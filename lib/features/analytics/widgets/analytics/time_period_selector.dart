@@ -35,19 +35,19 @@ class TimePeriodSelector extends StatelessWidget {
         return GestureDetector(
           onTap: () => onPeriodChanged(period),
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 180),
+            duration: t.animations.fast,
             padding: EdgeInsets.symmetric(
               horizontal: sp.lg,
               vertical: sp.sm,
             ),
             decoration: BoxDecoration(
               color: isSelected
-                  ? acc.primary.withValues(alpha: 0.15)
+                  ? acc.primary.withValues(alpha: t.opacities.low)
                   : c.surfaceVariant,
               borderRadius: BorderRadius.circular(sp.sm),
               border: Border.all(
                 color: isSelected ? acc.primary : c.border,
-                width: isSelected ? 1.8 : 1.2,
+                width: isSelected ? t.borders.medium : t.borders.thin,
               ),
               boxShadow: isSelected ? t.cardShadow : null,
             ),

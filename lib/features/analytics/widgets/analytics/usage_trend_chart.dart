@@ -54,8 +54,8 @@ class UsageTrendChart extends StatelessWidget {
                   show: true,
                   horizontalInterval: 1,
                   getDrawingHorizontalLine: (_) => FlLine(
-                    color: t.colors.border.withValues(alpha: 0.3),
-                    strokeWidth: 1,
+                    color: t.colors.border.withValues(alpha: t.opacities.medium),
+                    strokeWidth: t.borders.thin,
                   ),
                   drawVerticalLine: false,
                 ),
@@ -101,22 +101,22 @@ class UsageTrendChart extends StatelessWidget {
             ),
           ),
 
-          const CommonSpacer.vertical(20),
+          CommonSpacer.vertical(t.spacing.xl),
 
           /// Legend
           Wrap(
-            spacing: 16,
-            runSpacing: 8,
+            spacing: t.spacing.lg,
+            runSpacing: t.spacing.sm,
             children: _uniqueCategories(values).map((cat) {
               return Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: 14,
-                    height: 14,
+                    width: t.spacing.md,
+                    height: t.spacing.md,
                     decoration: BoxDecoration(
                       color: DrugCategoryColors.colorFor(cat),
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(t.spacing.xs),
                     ),
                   ),
                   SizedBox(width: 6),
@@ -218,7 +218,7 @@ class UsageTrendChart extends StatelessWidget {
           BarChartRodData(
             toY: total,
             rodStackItems: stacks,
-            width: 20,
+            width: t.sizes.iconSm,
             borderRadius: BorderRadius.zero,
           ),
         ],

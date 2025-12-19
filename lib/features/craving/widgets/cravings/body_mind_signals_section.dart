@@ -36,8 +36,8 @@ class BodyMindSignalsSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.self_improvement, color: a.primary),
-              SizedBox(width: sp.sm),
+              Icon(Icons.self_improvement, color: a.primary, size: t.sizes.iconMd),
+              CommonSpacer.horizontal(sp.sm),
               Text(
                 'Body & Mind Signals',
                 style: t.typography.heading4.copyWith(
@@ -47,7 +47,7 @@ class BodyMindSignalsSection extends StatelessWidget {
               ),
             ],
           ),
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(sp.md),
           
           CommonChipGroup(
             title: 'Body Sensations',

@@ -40,7 +40,7 @@ class SubstanceListCard extends StatelessWidget {
             children: [
               Icon(
                 Icons.medical_information_outlined,
-                size: 48,
+                size: t.sizes.iconXl,
                 color: c.textTertiary,
               ),
               const CommonSpacer.vertical(16),
@@ -73,7 +73,7 @@ class SubstanceListCard extends StatelessWidget {
                 ),
                 child: Icon(
                   Icons.medication,
-                  size: 20,
+                  size: t.sizes.iconSm,
                   color: accentColor,
                 ),
               ),
@@ -99,17 +99,17 @@ class SubstanceListCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(sh.radiusSm),
-                  border: Border.all(color: color.withValues(alpha: 0.45)),
+                  border: Border.all(color: color.withValues(alpha: t.opacities.border)),
                 ),
                 child: Row(
                   children: [
                     // LEFT BAR
                     Container(
-                      width: 4,
-                      height: 40,
+                      width: sp.xs,
+                      height: sp.xl2,
                       decoration: BoxDecoration(
                         color: color,
-                        borderRadius: BorderRadius.circular(2),
+                        borderRadius: BorderRadius.circular(sh.radiusXs),
                       ),
                     ),
                     SizedBox(width: sp.md),

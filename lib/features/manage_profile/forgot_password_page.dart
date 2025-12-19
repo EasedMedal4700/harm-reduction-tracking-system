@@ -1,6 +1,7 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../common/layout/common_spacer.dart';
 
 /// Page for requesting a password reset email.
 ///
@@ -255,7 +256,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             color: c.success,
           ),
         ),
-        SizedBox(height: sp.xl2),
+        CommonSpacer.vertical(sp.xl2),
         // Title
         Text(
           'Check your email',
@@ -264,7 +265,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: sp.md),
+        CommonSpacer.vertical(sp.md),
         // Description
         Text(
           'We\'ve sent a password reset link to:',
@@ -274,7 +275,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: sp.sm),
+        CommonSpacer.vertical(sp.sm),
         Text(
           _emailController.text.trim(),
           style: text.bodyMedium.copyWith(
@@ -283,7 +284,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: sp.xl),
+        CommonSpacer.vertical(sp.xl),
         // Info box
         Container(
           padding: EdgeInsets.all(sp.lg),
@@ -299,9 +300,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               Icon(
                 Icons.info_outline_rounded,
                 color: a.primary,
-                size: 24,
+                size: context.sizes.iconMd,
               ),
-              SizedBox(width: sp.md),
+              CommonSpacer.horizontal(sp.md),
               Expanded(
                 child: Text(
                   'Click the link in the email to reset your password. '
@@ -315,7 +316,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ],
           ),
         ),
-        SizedBox(height: sp.xl2),
+        CommonSpacer.vertical(sp.xl2),
         // Back to login button
         SizedBox(
           height: 56,
@@ -340,7 +341,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ),
           ),
         ),
-        SizedBox(height: sp.lg),
+        CommonSpacer.vertical(sp.lg),
         // Resend link
         TextButton(
           onPressed: () {

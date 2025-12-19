@@ -51,7 +51,7 @@ class _LevelCardState extends State<LevelCard> {
           children: [
             _buildHeaderRow(context, categoryColor, status),
 
-            const CommonSpacer.vertical(16),
+            CommonSpacer.vertical(sp.lg),
 
             // Progress bar
             ClipRRect(
@@ -60,11 +60,11 @@ class _LevelCardState extends State<LevelCard> {
                 value: (percentage / 100).clamp(0.0, 1.0),
               backgroundColor: c.surfaceVariant,
               valueColor: AlwaysStoppedAnimation<Color>(categoryColor),
-              minHeight: 8,
+              minHeight: sp.sm,
             ),
           ),
 
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(sp.lg),
 
           // Summary row
           Row(
@@ -166,8 +166,8 @@ class _LevelCardState extends State<LevelCard> {
             child: Row(
               children: [
                 Container(
-                  width: 4,
-                  height: 24,
+                  width: context.spacing.xs,
+                  height: context.spacing.xl,
                   decoration: BoxDecoration(
                     color: _getColorForCategory(),
                     borderRadius: BorderRadius.circular(sh.radiusXs),
@@ -278,15 +278,16 @@ class _LevelCardState extends State<LevelCard> {
 
   // STATUS COLOR
   Color _getStatusColor(String status) {
+    final c = context.colors;
     switch (status) {
       case 'HIGH':
-        return Colors.red;
+        return c.error;
       case 'ACTIVE':
-        return Colors.orange;
+        return c.warning;
       case 'TRACE':
-        return Colors.amber;
+        return c.warning.withValues(alpha: context.opacities.gradientEnd);
       default:
-        return Colors.green;
+        return c.success;
     }
   }
 

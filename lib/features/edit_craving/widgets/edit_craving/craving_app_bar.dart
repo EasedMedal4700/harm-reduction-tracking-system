@@ -43,7 +43,7 @@ class CravingAppBar extends StatelessWidget implements PreferredSizeWidget {
         else
           TextButton.icon(
             onPressed: onSave,
-            icon: Icon(Icons.check, color: a.primary),
+            icon: Icon(Icons.check, color: a.primary, size: context.sizes.iconMd),
             label: Text('Save', style: t.labelLarge.copyWith(color: a.primary)),
           ),
       ],

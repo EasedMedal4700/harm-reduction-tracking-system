@@ -56,7 +56,7 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
           ),
         ),
         backgroundColor: c.surface,
-        elevation: 0,
+        elevation: t.sizes.elevationNone,
         centerTitle: true,
         iconTheme: IconThemeData(color: c.textPrimary),
         actions: [

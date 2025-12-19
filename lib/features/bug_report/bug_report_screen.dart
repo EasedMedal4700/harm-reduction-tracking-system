@@ -98,15 +98,17 @@ class _BugReportScreenState extends State<BugReportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
+    final sh = context.shapes;
 
     return Scaffold(
       backgroundColor: c.surface,
       appBar: AppBar(
         title: Text('Report a Bug', style: context.text.titleLarge),
         backgroundColor: c.surface,
-        elevation: 0,
+        elevation: t.sizes.elevationNone,
         iconTheme: IconThemeData(color: c.textPrimary),
       ),
       body: Form(
@@ -119,7 +121,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
               padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
                 color: c.surfaceVariant,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(color: c.border),
               ),
               child: Row(
@@ -127,7 +129,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
                   Icon(
                     Icons.info_outline,
                     color: c.info,
-                    size: 24,
+                    size: t.sizes.iconMd,
                   ),
                   SizedBox(width: sp.md),
                   Expanded(
@@ -174,18 +176,19 @@ class _BugReportScreenState extends State<BugReportScreen> {
   }
 
   Widget _getSeverityIcon(String severity) {
+    final t = context.theme;
     final c = context.colors;
     switch (severity) {
       case 'Critical':
-        return Icon(Icons.error, color: c.error, size: 20);
+        return Icon(Icons.error, color: c.error, size: t.sizes.iconSm);
       case 'High':
-        return Icon(Icons.warning, color: c.warning, size: 20);
+        return Icon(Icons.warning, color: c.warning, size: t.sizes.iconSm);
       case 'Medium':
-        return Icon(Icons.info, color: c.info, size: 20);
+        return Icon(Icons.info, color: c.info, size: t.sizes.iconSm);
       case 'Low':
-        return Icon(Icons.check_circle, color: c.success, size: 20);
+        return Icon(Icons.check_circle, color: c.success, size: t.sizes.iconSm);
       default:
-        return Icon(Icons.info, color: c.textSecondary, size: 20);
+        return Icon(Icons.info, color: c.textSecondary, size: t.sizes.iconSm);
     }
   }
 }

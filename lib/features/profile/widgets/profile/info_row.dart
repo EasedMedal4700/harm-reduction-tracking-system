@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class InfoRow extends StatelessWidget {
   final IconData icon;
@@ -32,11 +33,11 @@ class InfoRow extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 20,
+            size: t.sizes.iconSm,
             color: t.colors.textSecondary,
           ),
 
-          SizedBox(width: spacing.lg),
+          CommonSpacer.horizontal(spacing.lg),
 
           Expanded(
             child: Column(

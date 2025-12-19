@@ -34,7 +34,7 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
       appBar: AppBar(
         title: Text('Check-In History', style: t.typography.heading3),
         backgroundColor: c.surface,
-        elevation: 0,
+        elevation: t.sizes.elevationNone,
         iconTheme: IconThemeData(color: c.textPrimary),
       ),
       drawer: const CommonDrawer(),

@@ -1,5 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import '../../common/layout/common_spacer.dart';
 
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -298,7 +299,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               color: c.textPrimary,
             ),
           ),
-          SizedBox(height: sp.sm),
+          CommonSpacer.vertical(sp.sm),
           TextField(
             controller: controller,
             obscureText: obscure,
@@ -338,7 +339,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
       appBar: AppBar(
         title: const Text('PIN Changed'),
         backgroundColor: c.surface,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
         automaticallyImplyLeading: false,
       ),
       body: Padding(
@@ -352,7 +353,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               size: 100,
               color: c.success,
             ),
-            SizedBox(height: sp.xl2),
+            CommonSpacer.vertical(sp.xl2),
             Text(
               'PIN Changed Successfully!',
               style: text.headlineMedium.copyWith(
@@ -360,7 +361,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: sp.lg),
+            CommonSpacer.vertical(sp.lg),
             Text(
               'Your new PIN is now active. Use it the next time you need to unlock your data.',
               style: text.bodyMedium.copyWith(
@@ -368,7 +369,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: sp.lg),
+            CommonSpacer.vertical(sp.lg),
             Container(
               padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
@@ -378,8 +379,8 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.key, color: c.warning, size: 20),
-                  SizedBox(width: sp.md),
+                  Icon(Icons.key, color: c.warning, size: context.sizes.iconSm),
+                  CommonSpacer.horizontal(sp.md),
                   Expanded(
                     child: Text(
                       'Remember: Your recovery key has not changed.',
@@ -403,7 +404,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(sh.radiusMd),
                   ),
-                  elevation: 2,
+                  elevation: context.sizes.elevationSm,
                 ),
                 child: Text(
                   'Done',

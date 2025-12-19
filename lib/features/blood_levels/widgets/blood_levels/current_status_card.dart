@@ -61,7 +61,7 @@ class CurrentStatusCard extends StatelessWidget {
                 child: Icon(
                   Icons.monitor_heart,
                   color: substanceColor,
-                  size: 20,
+                  size: context.sizes.iconSm,
                 ),
               ),
               SizedBox(width: sp.md),
@@ -77,7 +77,7 @@ class CurrentStatusCard extends StatelessWidget {
             ],
           ),
 
-          const CommonSpacer.vertical(24),
+          CommonSpacer.vertical(context.spacing.xl),
 
           Row(
             children: [
@@ -128,9 +128,9 @@ class CurrentStatusCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        color: color.withValues(alpha: context.opacities.veryLow),
         borderRadius: BorderRadius.circular(sh.radiusSm),
-        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
+        border: Border.all(color: color.withValues(alpha: context.opacities.medium), width: context.borders.thin),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,5 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import '../../common/layout/common_spacer.dart';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -356,7 +357,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
 
             // Error message
             if (_errorMessage != null) ...[
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               Container(
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
@@ -366,8 +367,8 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.error_outline, color: c.error, size: 24),
-                    SizedBox(width: sp.md),
+                    Icon(Icons.error_outline, color: c.error, size: context.sizes.iconMd),
+                    CommonSpacer.horizontal(sp.md),
                     Expanded(
                       child: Text(
                         _errorMessage!,
@@ -382,7 +383,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
               ),
             ],
 
-            SizedBox(height: sp.xl),
+            CommonSpacer.vertical(sp.xl),
 
             // Unlock button
             SizedBox(
@@ -391,26 +392,26 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                 onPressed: _isLoading ? null : _unlockWithPin,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: a.primary,
-                  foregroundColor: Colors.white,
+                  foregroundColor: c.textInverse,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(sh.radiusMd),
                   ),
-                  elevation: 4,
+                  elevation: context.sizes.elevationMd,
                 ),
                 child: _isLoading
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
+                    ? SizedBox(
+                        width: context.sizes.iconMd,
+                        height: context.sizes.iconMd,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(c.textInverse),
                         ),
                       )
                     : Text(
                         'Unlock',
                         style: t.heading3.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: c.textInverse,
                         ),
                       ),
               ),
@@ -418,10 +419,10 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
 
             // Biometrics button
             if (_isBiometricsAvailable) ...[
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               OutlinedButton.icon(
                 onPressed: _isLoading ? null : _unlockWithBiometrics,
-                icon: const Icon(Icons.fingerprint, size: 28),
+                icon: Icon(Icons.fingerprint, size: context.sizes.iconLg),
                 label: Text(
                   'Unlock with Fingerprint',
                   style: t.labelLarge.copyWith(fontWeight: FontWeight.w600),
@@ -437,7 +438,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
               ),
             ],
 
-            SizedBox(height: sp.xl),
+            CommonSpacer.vertical(sp.xl),
 
             // Forgot PIN link
             TextButton(

@@ -1,5 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import '../../common/layout/common_spacer.dart';
 import '../../common/layout/common_drawer.dart';
 
 /// Placeholder page for physiological monitoring features
@@ -22,7 +23,7 @@ class PhysiologicalPage extends StatelessWidget {
         ),
         backgroundColor: c.surface,
         foregroundColor: c.textPrimary,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
       ),
       drawer: const CommonDrawer(),
       body: Center(
@@ -36,7 +37,7 @@ class PhysiologicalPage extends StatelessWidget {
                 size: 80,
                 color: c.error, // Using error color for heart/health related
               ),
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
               Text(
                 'Physiological Monitoring',
                 style: t.typography.heading2.copyWith(
@@ -45,7 +46,7 @@ class PhysiologicalPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               Text(
                 'Track heart rate, blood pressure, and other vital signs',
                 style: t.typography.body.copyWith(
@@ -53,7 +54,7 @@ class PhysiologicalPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: sp.xl),
+              CommonSpacer.vertical(sp.xl),
               Container(
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
@@ -69,8 +70,9 @@ class PhysiologicalPage extends StatelessWidget {
                     Icon(
                       Icons.construction,
                       color: a.primary,
+                      size: context.sizes.iconMd,
                     ),
-                    SizedBox(width: sp.sm),
+                    CommonSpacer.horizontal(sp.sm),
                     Text(
                       'Coming Soon',
                       style: t.typography.heading4.copyWith(

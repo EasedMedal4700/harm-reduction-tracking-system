@@ -95,7 +95,7 @@ class ActivityDetailSheet extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   accentColor,
-                  accentColor.withValues(alpha: 0.7),
+                  accentColor.withValues(alpha: t.opacities.gradientEnd),
                 ],
               ),
               borderRadius: BorderRadius.circular(sh.radiusSm),

@@ -28,7 +28,7 @@ class ActivityDetailHelpers {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: t.colors.transparent,
       builder: (context) => ActivityDetailSheet(
         title: entry['name'] ?? 'Unknown Substance',
         icon: Icons.medication,
@@ -73,12 +73,13 @@ class ActivityDetailHelpers {
     required Function(String, String, String) onDelete,
     required VoidCallback onUpdate,
   }) {
+    final t = context.theme;
     final intensity = craving['intensity'] ?? 0;
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: t.colors.transparent,
       builder: (context) {
         return ActivityDetailSheet(
           title: craving['substance'] ?? 'Unknown Substance',
@@ -133,7 +134,7 @@ class ActivityDetailHelpers {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: t.colors.transparent,
       builder: (context) => ActivityDetailSheet(
         title: 'Reflection Entry',
         icon: Icons.notes,

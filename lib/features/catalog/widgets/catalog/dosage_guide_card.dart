@@ -66,11 +66,11 @@ class DosageGuideCard extends StatelessWidget {
           ],
         ),
         const CommonSpacer.vertical(16),
-        _buildDoseCard(context, 'Light', doseData!['Light'], Colors.green),
+        _buildDoseCard(context, 'Light', doseData!['Light'], t.colors.success),
         const CommonSpacer.vertical(4),
-        _buildDoseCard(context, 'Common', doseData!['Common'], Colors.orange),
+        _buildDoseCard(context, 'Common', doseData!['Common'], t.colors.warning),
         const CommonSpacer.vertical(4),
-        _buildDoseCard(context, 'Strong', doseData!['Strong'], Colors.red),
+        _buildDoseCard(context, 'Strong', doseData!['Strong'], t.colors.error),
         if (doseData!['Heavy'] != null) ...[
           const CommonSpacer.vertical(4),
           _buildDoseCard(context, 'Heavy', doseData!['Heavy'], Colors.purple),
@@ -98,7 +98,7 @@ class DosageGuideCard extends StatelessWidget {
               color: color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(_getDoseIcon(label), color: color, size: 20),
+            child: Icon(_getDoseIcon(label), color: color, size: t.sizes.iconSm),
           ),
           const CommonSpacer.horizontal(16),
           Column(
@@ -111,11 +111,11 @@ class DosageGuideCard extends StatelessWidget {
                   color: color,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: t.spacing.xs),
               Text(
                 range,
                 style: t.typography.body.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                   color: t.colors.textPrimary,
                 ),
               ),
@@ -148,7 +148,7 @@ class DosageGuideCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: t.colors.warning.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-        border: Border.all(color: t.colors.warning.withValues(alpha: 0.5)),
+        border: Border.all(color: t.colors.warning.withValues(alpha: t.opacities.slow)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

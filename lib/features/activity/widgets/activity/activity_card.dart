@@ -75,7 +75,7 @@ class ActivityCard extends StatelessWidget {
                       child: Text(
                         title,
                         style: text.bodyLarge.copyWith(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: text.bodyBold.fontWeight,
                           color: c.textPrimary,
                         ),
                       ),
@@ -99,7 +99,7 @@ class ActivityCard extends StatelessWidget {
                                 badge!,
                                 style: text.bodySmall.copyWith(
                                   color: accentColor,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: text.bodyBold.fontWeight,
                                 ),
                               ),
                             ),

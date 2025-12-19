@@ -32,7 +32,7 @@ class DoseTierLegend extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Dose Ranges', style: text.heading4),
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(sp.lg),
 
           ...substanceTiers.entries.map((entry) {
             final substance = entry.key;
@@ -51,8 +51,8 @@ class DoseTierLegend extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 16,
-                        height: 16,
+                        width: sp.lg,
+                        height: sp.lg,
                         decoration: BoxDecoration(
                           color: substanceColor,
                           borderRadius: BorderRadius.circular(sh.radiusSm),
@@ -62,7 +62,7 @@ class DoseTierLegend extends StatelessWidget {
                       Text(substance, style: text.bodyBold),
                     ],
                   ),
-                  const CommonSpacer.vertical(8),
+                  CommonSpacer.vertical(sp.sm),
 
                   // Tier badges
                   Wrap(
@@ -82,11 +82,11 @@ class DoseTierLegend extends StatelessWidget {
                           vertical: sp.xs,
                         ),
                         decoration: BoxDecoration(
-                          color: tierColor.withValues(alpha: 0.15),
+                          color: tierColor.withValues(alpha: context.opacities.low),
                           borderRadius: BorderRadius.circular(sh.radiusSm),
                           border: Border.all(
-                            color: tierColor.withValues(alpha: 0.4),
-                            width: 1,
+                            color: tierColor.withValues(alpha: context.opacities.border),
+                            width: context.borders.thin,
                           ),
                         ),
                         child: Text(

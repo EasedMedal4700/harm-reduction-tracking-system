@@ -110,10 +110,10 @@ class _RecentActivityItem extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(t.spacing.sm),
                 decoration: BoxDecoration(
-                  color: categoryColor.withValues(alpha: 0.15),
+                  color: categoryColor.withValues(alpha: t.opacities.low),
                   borderRadius: BorderRadius.circular(t.spacing.sm),
                 ),
-                child: Icon(icon, color: categoryColor, size: 22),
+                child: Icon(icon, color: categoryColor, size: t.sizes.iconMd),
               ),
 
               SizedBox(width: t.spacing.md),
@@ -147,7 +147,7 @@ class _RecentActivityItem extends StatelessWidget {
                       ],
                     ),
 
-                    const CommonSpacer.vertical(4),
+                    CommonSpacer.vertical(t.spacing.xs),
 
                     /// Dosage + time ago
                     Text(
@@ -157,7 +157,7 @@ class _RecentActivityItem extends StatelessWidget {
                       ),
                     ),
 
-                    const CommonSpacer.vertical(12),
+                    CommonSpacer.vertical(t.spacing.md),
 
                     /// Activity bar
                     Row(
@@ -178,14 +178,14 @@ class _RecentActivityItem extends StatelessWidget {
                       ],
                     ),
 
-                    const SizedBox(height: 4),
+                    SizedBox(height: t.spacing.xs),
 
                     ClipRRect(
                       borderRadius: BorderRadius.circular(t.spacing.xs),
                       child: LinearProgressIndicator(
                         value: remainingPercent / 100,
                         backgroundColor: t.colors.border,
-                        minHeight: 6,
+                        minHeight: t.spacing.sm,
                         valueColor: AlwaysStoppedAnimation(categoryColor),
                       ),
                     ),

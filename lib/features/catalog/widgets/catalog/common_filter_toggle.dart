@@ -37,7 +37,7 @@ class CommonFilterToggle extends StatelessWidget {
             color: showCommonOnly
                 ? accentColor
                 : t.colors.textSecondary,
-            size: 20,
+            size: t.sizes.iconSm,
           ),
           const CommonSpacer.horizontal(16),
           Expanded(
@@ -53,7 +53,7 @@ class CommonFilterToggle extends StatelessWidget {
             value: showCommonOnly,
             onChanged: onChanged,
             activeThumbColor: accentColor,
-            activeTrackColor: accentColor.withValues(alpha: 0.5),
+            activeTrackColor: accentColor.withValues(alpha: t.opacities.slow),
           ),
         ],
       ),

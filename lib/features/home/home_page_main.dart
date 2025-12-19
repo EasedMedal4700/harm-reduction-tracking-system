@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../common/layout/common_drawer.dart';
+import '../../common/layout/common_spacer.dart';
 import 'home_redesign/header_card.dart';
 import 'home_redesign/daily_checkin_card.dart';
 import 'home_page/home_quick_actions_grid.dart';
@@ -203,7 +204,7 @@ class _HomePageState extends State<HomePage>
                   onProfileTap: () => Navigator.pushNamed(context, '/profile'),
                 ),
               
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
               
               // Daily Check-in Card
               ChangeNotifierProvider(
@@ -228,7 +229,7 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
               
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
               
               // Section Title - Professional typography
               Text(
@@ -238,7 +239,7 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
               
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               
               // Quick Actions Grid - Always 2 columns for consistency
               HomeQuickActionsGrid(
@@ -252,7 +253,7 @@ class _HomePageState extends State<HomePage>
                 onBloodLevels: () => openBloodLevels(context),
               ),
               
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
               
               // Progress Section
               Text(
@@ -262,12 +263,12 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
               
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               
               // Stats Grid
               const HomeProgressStats(),
               
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
             ],
           ),
         ),

@@ -78,7 +78,7 @@ class CacheManagementSection extends StatelessWidget {
                     color: c.info,
                   ),
                   Container(
-                    width: 1,
+                    width: context.borders.thin,
                     height: sp.xl3,
                     color: c.divider,
                   ),
@@ -89,7 +89,7 @@ class CacheManagementSection extends StatelessWidget {
                     color: c.success,
                   ),
                   Container(
-                    width: 1,
+                    width: context.borders.thin,
                     height: sp.xl3,
                     color: c.divider,
                   ),

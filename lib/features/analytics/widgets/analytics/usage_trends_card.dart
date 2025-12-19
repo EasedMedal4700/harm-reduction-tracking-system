@@ -78,7 +78,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                   trendPercent > 0
                       ? Icons.trending_up_rounded
                       : Icons.trending_down_rounded,
-                  size: 16,
+                  size: context.sizes.iconSm,
                   color: trendPercent > 0
                       ? c.warning
                       : c.success,
@@ -161,8 +161,8 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                         horizontalInterval:
                             _calculateGridInterval(trendData).toDouble(),
                         getDrawingHorizontalLine: (value) => FlLine(
-                          color: c.border.withValues(alpha: 0.5),
-                          strokeWidth: 1,
+                          color: c.border.withValues(alpha: context.opacities.slow),
+                          strokeWidth: context.borders.thin,
                         ),
                       ),
                       barTouchData: BarTouchData(
@@ -226,7 +226,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
           isDense: true,
           icon: Icon(
             Icons.keyboard_arrow_down_rounded,
-            size: 18,
+            size: context.sizes.iconSm,
             color: c.textSecondary,
           ),
           onChanged: (value) {
@@ -280,8 +280,8 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
     return BarChartRodData(
       toY: cumulative == 0 ? 0.1 : cumulative,
       rodStackItems: items,
-      width: 18,
-      borderRadius: BorderRadius.circular(4),
+      width: context.sizes.iconSm,
+      borderRadius: BorderRadius.circular(context.spacing.xs),
     );
   }
 

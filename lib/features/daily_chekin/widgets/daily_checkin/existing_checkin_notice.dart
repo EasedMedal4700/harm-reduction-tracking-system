@@ -14,6 +14,7 @@ class ExistingCheckinNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final text = context.text;
@@ -27,7 +28,7 @@ class ExistingCheckinNotice extends StatelessWidget {
           Icon(
             Icons.info_outline,
             color: c.error,
-            size: 20,
+            size: t.sizes.iconSm,
           ),
           const CommonSpacer.horizontal(16),
           Expanded(

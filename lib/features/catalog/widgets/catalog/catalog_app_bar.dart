@@ -14,7 +14,7 @@ class CatalogAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       backgroundColor: t.colors.surface,
-      elevation: 0,
+      elevation: t.sizes.elevationNone,
       // Automatic hamburger menu icon when drawer is present
       title: Row(
         children: [
@@ -24,7 +24,7 @@ class CatalogAppBar extends StatelessWidget implements PreferredSizeWidget {
             decoration: BoxDecoration(
               color: t.colors.surfaceVariant.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(t.shapes.radiusSm),
-              border: Border.all(color: accentColor.withValues(alpha: 0.5)),
+              border: Border.all(color: accentColor.withValues(alpha: t.opacities.slow)),
             ),
             child: Icon(Icons.science_outlined, color: accentColor),
           ),

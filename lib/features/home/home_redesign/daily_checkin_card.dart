@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -55,7 +56,7 @@ class DailyCheckinCard extends StatelessWidget {
                 ),
               ),
               
-              SizedBox(width: sp.md),
+              CommonSpacer.horizontal(sp.md),
               
               // Text content
               Expanded(
@@ -70,7 +71,7 @@ class DailyCheckinCard extends StatelessWidget {
                         color: c.textPrimary,
                       ),
                     ),
-                    SizedBox(height: sp.xs),
+                    CommonSpacer.vertical(sp.xs),
                     Text(
                       isCompleted
                           ? _getCompletedMessage()
@@ -85,7 +86,7 @@ class DailyCheckinCard extends StatelessWidget {
             ],
           ),
           
-          SizedBox(height: sp.md),
+          CommonSpacer.vertical(sp.md),
           
           // Action button with status indicator
           SizedBox(
@@ -110,7 +111,7 @@ class DailyCheckinCard extends StatelessWidget {
                 foregroundColor: isCompleted
                     ? c.textSecondary
                     : c.textInverse,
-                elevation: isCompleted ? 0 : 2,
+                elevation: isCompleted ? context.sizes.elevationNone : context.sizes.elevationSm,
                 padding: EdgeInsets.symmetric(vertical: sp.md, horizontal: sp.md),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(sh.radiusMd),

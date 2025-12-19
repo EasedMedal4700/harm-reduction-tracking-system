@@ -19,7 +19,7 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
     final t = context.theme;
 
     return AppBar(
-      elevation: 0,
+      elevation: t.sizes.elevationNone,
       backgroundColor: t.colors.surface,
       foregroundColor: t.colors.textPrimary,
       centerTitle: false,

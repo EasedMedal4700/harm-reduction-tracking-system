@@ -87,6 +87,7 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final c = context.colors;
     final a = context.accent;
     final text = context.text;
@@ -139,7 +140,7 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
                         opacity: isSelected ? _fadeAnimation.value : 0.7,
                         child: Text(
                           emoji,
-                          style: const TextStyle(fontSize: 36),
+                          style: TextStyle(fontSize: t.typography.displaySmall.fontSize),
                         ),
                       ),
                     );

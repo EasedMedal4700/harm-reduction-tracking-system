@@ -1,6 +1,7 @@
 // MIGRATION
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../common/layout/common_spacer.dart';
 
 import 'dart:async';
 
@@ -107,7 +108,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
               style: ElevatedButton.styleFrom(backgroundColor: c.error),
-              child: Text('Logout', style: t.labelLarge.copyWith(color: Colors.white)),
+              child: Text('Logout', style: t.labelLarge.copyWith(color: c.textInverse)),
             ),
           ],
         );
@@ -130,7 +131,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -150,14 +151,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   children: [
                     // Profile Header
                     ProfileHeader(userData: _userData),
-                    SizedBox(height: sp.xl),
+                    CommonSpacer.vertical(sp.xl),
                     // Statistics Card
                     if (_statistics != null)
                       StatisticsCard(statistics: _statistics!),
-                    SizedBox(height: sp.xl),
+                    CommonSpacer.vertical(sp.xl),
                     // Account Information Card
                     AccountInfoCard(userData: _userData),
-                    SizedBox(height: sp.xl),
+                    CommonSpacer.vertical(sp.xl),
                     // Logout Button
                     LogoutButton(onLogout: _logout),
                   ],

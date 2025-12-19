@@ -1,5 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import '../../common/layout/common_spacer.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +44,7 @@ class _EncryptionMigrationScreenState
               title: Text('Security Upgrade', style: text.headlineSmall),
               backgroundColor: c.surface,
               foregroundColor: c.textPrimary,
-              elevation: 0,
+              elevation: context.sizes.elevationNone,
             )
           : null,
       body: SafeArea(
@@ -89,49 +90,49 @@ class _EncryptionMigrationScreenState
           size: context.sizes.icon2xl,
           color: a.primary,
         ),
-        SizedBox(height: sp.xl2),
+        CommonSpacer.vertical(sp.xl2),
         Text(
           'Security Upgrade Required',
           style: text.headlineMedium.copyWith(
             color: c.textPrimary,
           ),
         ),
-        SizedBox(height: sp.lg),
+        CommonSpacer.vertical(sp.lg),
         Text(
           'We\'ve upgraded our encryption system to be more secure and reliable.',
           style: text.bodyMedium.copyWith(
             color: c.textSecondary,
           ),
         ),
-        SizedBox(height: sp.xl),
+        CommonSpacer.vertical(sp.xl),
         _buildFeatureItem(
           context,
           Icons.pin,
           'PIN Protection',
           'Unlock your data with a 6-digit PIN',
         ),
-        SizedBox(height: sp.lg),
+        CommonSpacer.vertical(sp.lg),
         _buildFeatureItem(
           context,
           Icons.fingerprint,
           'Biometric Unlock',
           'Use your fingerprint or face (optional)',
         ),
-        SizedBox(height: sp.lg),
+        CommonSpacer.vertical(sp.lg),
         _buildFeatureItem(
           context,
           Icons.key,
           'Recovery Key',
           'Never lose access to your data',
         ),
-        SizedBox(height: sp.lg),
+        CommonSpacer.vertical(sp.lg),
         _buildFeatureItem(
           context,
           Icons.cloud_off,
           'Zero-Knowledge',
           'Your data stays private, even from us',
         ),
-        SizedBox(height: sp.xl2),
+        CommonSpacer.vertical(sp.xl2),
         Container(
           padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
@@ -143,8 +144,9 @@ class _EncryptionMigrationScreenState
               Icon(
                 Icons.info_outline,
                 color: a.primary,
+                size: context.sizes.iconMd,
               ),
-              SizedBox(width: sp.md),
+              CommonSpacer.horizontal(sp.md),
               Expanded(
                 child: Text(
                   'This will take a moment to re-encrypt your data. Don\'t close the app during migration.',

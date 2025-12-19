@@ -37,7 +37,7 @@ class AnalyticsErrorState extends StatelessWidget {
           children: [
             Icon(
               Icons.error_outline,
-              size: 64,
+              size: context.sizes.icon2xl,
               color: c.error,
             ),
 

@@ -33,7 +33,7 @@ class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget 
     return AppBar(
       backgroundColor: c.surface,
       foregroundColor: c.textPrimary,
-      elevation: 0,
+      elevation: t.sizes.elevationNone,
       title: Text('Edit Drug Use', style: t.text.heading3),
       actions: [
         // Delete button

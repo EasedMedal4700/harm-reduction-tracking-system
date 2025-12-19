@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../common/widgets/common_spacer.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
@@ -25,14 +26,14 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: sp.xs),
+            CommonSpacer.vertical(sp.xs),
             Text(
               "Last updated: 28 November 2025",
               style: t.body.copyWith(
                 color: a.primary,
               ),
             ),
-            SizedBox(height: sp.lg),
+            CommonSpacer.vertical(sp.lg),
             _section(
               context,
               title: "1. Data We Collect",
@@ -205,7 +206,7 @@ App Owner: Falco Quaaden
 Location: Netherlands / EU
 ''',
             ),
-            SizedBox(height: sp.xl2),
+            CommonSpacer.vertical(sp.xl2),
           ],
         ),
       ),
@@ -233,18 +234,18 @@ Location: Netherlands / EU
           ),
         ),
         if (body != null) ...[
-          SizedBox(height: sp.xs),
+          CommonSpacer.vertical(sp.xs),
           Text(body, style: t.body),
         ],
         if (bulletPoints != null) ...[
-          SizedBox(height: sp.sm),
+          CommonSpacer.vertical(sp.sm),
           ...bulletPoints.map((b) => Padding(
                 padding: EdgeInsets.only(bottom: sp.xs),
                 child: Text("• $b", style: t.body),
               )),
         ],
         if (note != null) ...[
-          SizedBox(height: sp.sm),
+          CommonSpacer.vertical(sp.sm),
           Text(
             note,
             style: t.caption.copyWith(
@@ -252,7 +253,7 @@ Location: Netherlands / EU
             ),
           ),
         ],
-        SizedBox(height: sp.lg),
+        CommonSpacer.vertical(sp.lg),
       ],
     );
   }
@@ -282,7 +283,7 @@ Location: Netherlands / EU
     final sp = context.spacing;
     return Divider(
       height: sp.xl,
-      thickness: 1,
+      thickness: context.borders.thin,
       color: c.border,
     );
   }

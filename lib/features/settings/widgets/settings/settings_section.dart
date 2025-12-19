@@ -1,5 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import '../../../../common/widgets/common_spacer.dart';
 import '../../../../common/cards/common_card.dart';
 
 /// Reusable section widget for settings page
@@ -32,8 +33,8 @@ class SettingsSection extends StatelessWidget {
             padding: EdgeInsets.all(sp.md),
             child: Row(
               children: [
-                Icon(icon, color: a.primary),
-                SizedBox(width: sp.sm),
+                Icon(icon, color: a.primary, size: t.sizes.iconMd),
+                CommonSpacer.horizontal(sp.sm),
                 Text(
                   title,
                   style: t.typography.heading4.copyWith(
@@ -44,7 +45,7 @@ class SettingsSection extends StatelessWidget {
               ],
             ),
           ),
-          Divider(height: 1, color: c.border),
+          Divider(height: 1, thickness: t.borders.thin, color: c.border),
           ...children,
         ],
       ),

@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
+import '../../common/layout/common_spacer.dart';
 import '../craving/widgets/cravings/craving_details_section.dart';
 import '../craving/widgets/cravings/emotional_state_section.dart';
 import '../craving/widgets/cravings/body_mind_signals_section.dart';
@@ -291,7 +292,7 @@ class _EditCravingPageState extends State<EditCravingPage> {
                     onWithWhoChanged: (value) =>
                         setState(() => withWho = value ?? ''),
                   ),
-                  SizedBox(height: sp.lg),
+                  CommonSpacer.vertical(sp.lg),
                   EmotionalStateSection(
                     selectedEmotions: primaryEmotions,
                     secondaryEmotions: secondaryEmotions,
@@ -303,14 +304,14 @@ class _EditCravingPageState extends State<EditCravingPage> {
                     onThoughtsChanged: (value) =>
                         setState(() => thoughts = value),
                   ),
-                  SizedBox(height: sp.lg),
+                  CommonSpacer.vertical(sp.lg),
                   BodyMindSignalsSection(
                     sensations: sensations,
                     selectedSensations: selectedSensations,
                     onSensationsChanged: (value) =>
                         setState(() => selectedSensations = value),
                   ),
-                  SizedBox(height: sp.lg),
+                  CommonSpacer.vertical(sp.lg),
                   OutcomeSection(
                     whatDidYouDo: whatDidYouDo,
                     actedOnCraving: actedOnCraving,
@@ -319,7 +320,7 @@ class _EditCravingPageState extends State<EditCravingPage> {
                     onActedOnCravingChanged: (value) =>
                         setState(() => actedOnCraving = value),
                   ),
-                  SizedBox(height: sp.xl),
+                  CommonSpacer.vertical(sp.xl),
                 ],
               ),
             ),

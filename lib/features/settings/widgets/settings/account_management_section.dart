@@ -34,18 +34,18 @@ class AccountManagementSection extends StatelessWidget {
               color: colors.textPrimary,
             ),
           ),
-          CommonSpacer(height: spacing.xs),
+          CommonSpacer.vertical(spacing.xs),
           Text(
             'Manage your personal data and account',
             style: typography.bodySmall.copyWith(
               color: colors.textSecondary,
             ),
           ),
-          Divider(height: spacing.xl),
+          Divider(height: spacing.xl, thickness: context.borders.thin),
           _buildDownloadDataTile(context),
-          CommonSpacer(height: spacing.sm),
+          CommonSpacer.vertical(spacing.sm),
           _buildDeleteDataTile(context),
-          CommonSpacer(height: spacing.sm),
+          CommonSpacer.vertical(spacing.sm),
           _buildDeleteAccountTile(context),
         ],
       ),
@@ -64,11 +64,11 @@ class AccountManagementSection extends StatelessWidget {
           color: colors.info.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(radii.radiusSm),
         ),
-        child: Icon(Icons.download, color: colors.info),
+        child: Icon(Icons.download, color: colors.info, size: context.sizes.iconMd),
       ),
       title: const Text('Download My Data'),
       subtitle: const Text('Export all your personal information'),
-      trailing: Icon(Icons.arrow_forward_ios, size: spacing.lg),
+      trailing: Icon(Icons.arrow_forward_ios, size: context.sizes.iconSm),
       onTap: () => _showDownloadDataDialog(context),
     );
   }
@@ -85,11 +85,11 @@ class AccountManagementSection extends StatelessWidget {
           color: colors.warning.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(radii.radiusSm),
         ),
-        child: Icon(Icons.delete_sweep, color: colors.warning),
+        child: Icon(Icons.delete_sweep, color: colors.warning, size: context.sizes.iconMd),
       ),
       title: const Text('Delete My Data'),
       subtitle: const Text('Remove all your logs and entries'),
-      trailing: Icon(Icons.arrow_forward_ios, size: spacing.lg),
+      trailing: Icon(Icons.arrow_forward_ios, size: context.sizes.iconSm),
       onTap: () => _showDeleteDataDialog(context),
     );
   }
@@ -103,7 +103,7 @@ class AccountManagementSection extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           color: colors.error,
-          width: 2,
+          width: context.borders.medium,
         ),
         borderRadius: BorderRadius.circular(radii.radiusMd),
         color: colors.error.withValues(alpha: 0.1),
@@ -118,24 +118,24 @@ class AccountManagementSection extends StatelessWidget {
           child: Icon(
             Icons.warning,
             color: colors.error,
+            size: context.sizes.iconMd,
           ),
         ),
         title: Text(
           'Delete Account',
-          style: TextStyle(
+          style: typography.bodyBold.copyWith(
             color: colors.error,
-            fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
           'Permanently delete your account and all data',
-          style: TextStyle(
+          style: typography.bodySmall.copyWith(
             color: colors.error.withValues(alpha: 0.8),
           ),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,
-          size: spacing.lg,
+          size: context.sizes.iconSm,
           color: colors.error,
         ),
         onTap: () => _showDeleteAccountDialog(context),

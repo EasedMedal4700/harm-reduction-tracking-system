@@ -75,7 +75,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
               'Added ${amount.toStringAsFixed(1)}$_selectedUnit (${amountInMg.toStringAsFixed(1)}mg) to ${widget.substanceName} stockpile',
             ),
             backgroundColor: t.colors.success,
-            duration: const Duration(seconds: 3),
+            duration: t.animations.toast,
           ),
         );
       }

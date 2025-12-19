@@ -97,6 +97,7 @@ class TimelineChartConfig {
   /// Builds the grid configuration
   static FlGridData buildGridData(BuildContext context, double maxY) {
     final c = context.colors;
+    final b = context.borders;
 
     return FlGridData(
       show: true,
@@ -104,7 +105,7 @@ class TimelineChartConfig {
       horizontalInterval: maxY / 4,
       getDrawingHorizontalLine: (value) => FlLine(
         color: c.border.withValues(alpha: 0.25),
-        strokeWidth: 0.6,
+        strokeWidth: b.thin,
       ),
     );
   }
@@ -112,20 +113,21 @@ class TimelineChartConfig {
   /// Builds the “NOW” vertical line
   static ExtraLinesData buildNowLine(BuildContext context) {
     final acc = context.accent;
+    final b = context.borders;
+    final text = context.text;
 
     return ExtraLinesData(
       verticalLines: [
         VerticalLine(
           x: 0,
           color: acc.primary.withValues(alpha: 0.5),
-          strokeWidth: 2,
+          strokeWidth: b.medium,
           dashArray: [5, 5],
           label: VerticalLineLabel(
             show: true,
             alignment: Alignment.topCenter,
-            style: TextStyle(
+            style: text.labelSmall.copyWith(
               color: acc.primary,
-              fontSize: 10,
               fontWeight: FontWeight.bold,
             ),
             labelResolver: (line) => 'NOW',

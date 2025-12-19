@@ -20,7 +20,7 @@ class CheckinCard extends StatelessWidget {
     final t = context.theme;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: t.spacing.md),
       child: CommonCard(
         padding: EdgeInsets.all(t.spacing.md),
         child: Column(
@@ -34,10 +34,10 @@ class CheckinCard extends StatelessWidget {
                 children: [
                   Icon(
                     _getTimeIcon(checkin.timeOfDay),
-                    size: 20,
+                    size: t.sizes.iconSm,
                     color: t.colors.textSecondary,
                   ),
-                  const CommonSpacer.horizontal(8),
+                  CommonSpacer.horizontal(t.spacing.sm),
                   Text(
                     _formatDate(checkin.checkinDate),
                     style: t.text.body.copyWith(
@@ -48,7 +48,7 @@ class CheckinCard extends StatelessWidget {
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: t.spacing.sm, vertical: t.spacing.xs),
                 decoration: BoxDecoration(
                   color: t.colors.surfaceVariant,
                   borderRadius: BorderRadius.circular(t.shapes.radiusSm),
@@ -76,19 +76,19 @@ class CheckinCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: t.spacing.md, vertical: t.spacing.xs),
                 decoration: BoxDecoration(
-                  color: _getMoodColor(checkin.mood).withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
+                  color: _getMoodColor(checkin.mood, t).withValues(alpha: t.opacities.selected),
+                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                   border: Border.all(
-                    color: _getMoodColor(checkin.mood).withValues(alpha: 0.5),
+                    color: _getMoodColor(checkin.mood, t).withValues(alpha: t.opacities.slow),
                   ),
                 ),
                 child: Text(
                   checkin.mood,
                   style: t.text.label.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: _getMoodColor(checkin.mood), // Use the color for text too
+                    color: _getMoodColor(checkin.mood, t), // Use the color for text too
                   ),
                 ),
               ),
@@ -107,13 +107,13 @@ class CheckinCard extends StatelessWidget {
             ),
             const CommonSpacer.vertical(4),
             Wrap(
-              spacing: 6,
-              runSpacing: 6,
+              spacing: t.spacing.sm,
+              runSpacing: t.spacing.sm,
               children: checkin.emotions.map((emotion) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: t.spacing.sm, vertical: t.spacing.xs),
                   decoration: BoxDecoration(
-                    color: t.colors.surfaceVariant.withValues(alpha: 0.5),
+                    color: t.colors.surfaceVariant.withValues(alpha: t.opacities.slow),
                     borderRadius: BorderRadius.circular(t.shapes.radiusSm),
                     border: Border.all(color: t.colors.border),
                   ),
@@ -180,20 +180,20 @@ class CheckinCard extends StatelessWidget {
     }
   }
 
-  Color _getMoodColor(String mood) {
+  Color _getMoodColor(String mood, AppTheme t) {
     switch (mood) {
       case 'Great':
-        return Colors.green;
+        return t.colors.success;
       case 'Good':
-        return Colors.lightGreen;
+        return t.colors.success.withValues(alpha: 0.7);
       case 'Okay':
-        return Colors.amber;
+        return t.colors.warning;
       case 'Struggling':
-        return Colors.orange;
+        return t.colors.warning.withValues(alpha: 0.7);
       case 'Poor':
-        return Colors.red;
+        return t.colors.error;
       default:
-        return Colors.grey;
+        return t.colors.textSecondary;
     }
   }
 }

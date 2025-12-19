@@ -169,7 +169,7 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
         title: const Text('Error Analytics'),
         backgroundColor: c.surface,
         foregroundColor: c.textPrimary,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
         actions: [
           IconButton(
             icon: _isLoading

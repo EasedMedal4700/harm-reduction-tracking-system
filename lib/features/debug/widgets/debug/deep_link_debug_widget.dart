@@ -7,6 +7,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 // Notes: Review for theme/context migration if needed.
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 
 
@@ -55,9 +56,9 @@ class DeepLinkDebugWidget extends StatelessWidget {
               Icon(
                 Icons.bug_report,
                 color: c.warning,
-                size: 24,
+                size: context.sizes.iconMd,
               ),
-              SizedBox(width: sp.sm),
+              CommonSpacer.horizontal(sp.sm),
               Text(
                 'Deep Link Debug Tools',
                 style: text.heading3.copyWith(
@@ -66,14 +67,14 @@ class DeepLinkDebugWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: sp.sm),
+          CommonSpacer.vertical(sp.sm),
           Text(
             'Simulate deep links for testing auth flows',
             style: text.bodySmall.copyWith(
               color: c.textSecondary,
             ),
           ),
-          SizedBox(height: sp.md),
+          CommonSpacer.vertical(sp.md),
           // Email Confirmation Button
           SizedBox(
             width: double.infinity,
@@ -90,7 +91,7 @@ class DeepLinkDebugWidget extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: sp.md),
+          CommonSpacer.vertical(sp.md),
           // Password Reset Button
           SizedBox(
             width: double.infinity,

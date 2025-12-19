@@ -134,16 +134,16 @@ class _CravingsPageState extends State<CravingsPage> {
         title: Text('Log Craving', style: t.typography.heading3),
         backgroundColor: c.surface,
         foregroundColor: c.textPrimary,
-        elevation: 0,
+        elevation: t.sizes.elevationNone,
         actions: [
           TextButton.icon(
             onPressed: _isSaving ? null : _save,
             icon: _isSaving
                 ? SizedBox(
-                    width: 16,
-                    height: 16,
+                    width: t.spacing.lg,
+                    height: t.spacing.lg,
                     child: CircularProgressIndicator(
-                      strokeWidth: 2,
+                      strokeWidth: t.borders.medium,
                       color: a.primary,
                     ),
                   )

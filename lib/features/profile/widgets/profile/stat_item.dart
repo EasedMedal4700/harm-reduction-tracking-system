@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: Fully migrated to AppTheme system. No deprecated constants remain.
 import 'package:flutter/material.dart';
+import '../../../../common/widgets/common_spacer.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 class StatItem extends StatelessWidget {
@@ -32,14 +33,14 @@ class StatItem extends StatelessWidget {
             color: accent.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(t.spacing.md),
           ),
-          child: Icon(icon, color: accent, size: 28),
+          child: Icon(icon, color: accent, size: t.sizes.iconLg),
         ),
-        SizedBox(height: t.spacing.sm),
+        CommonSpacer.vertical(t.spacing.sm),
         Text(
           value,
           style: t.typography.heading3.copyWith(color: accent),
         ),
-        SizedBox(height: t.spacing.xs),
+        CommonSpacer.vertical(t.spacing.xs),
         Text(
           label,
           style: t.typography.bodySmall.copyWith(

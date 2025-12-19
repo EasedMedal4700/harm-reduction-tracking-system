@@ -6,6 +6,7 @@
 // Notes: Migrated to AppTheme. Removed deprecated Material colors.
 
 import 'package:flutter/material.dart';
+import '../../../../common/widgets/common_spacer.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 class ProfileHeader extends StatelessWidget {
@@ -27,7 +28,7 @@ class ProfileHeader extends StatelessWidget {
 
     return Column(
       children: [
-        SizedBox(height: spacing.lg),
+        CommonSpacer.vertical(spacing.lg),
 
         // Avatar
         CircleAvatar(
@@ -42,7 +43,7 @@ class ProfileHeader extends StatelessWidget {
           ),
         ),
 
-        SizedBox(height: spacing.lg),
+        CommonSpacer.vertical(spacing.lg),
 
         // Name
         Text(
@@ -50,7 +51,7 @@ class ProfileHeader extends StatelessWidget {
           style: t.typography.heading3,
         ),
 
-        SizedBox(height: spacing.sm),
+        CommonSpacer.vertical(spacing.sm),
 
         // Email
         Text(
@@ -58,7 +59,7 @@ class ProfileHeader extends StatelessWidget {
           style: t.typography.bodySmall,
         ),
 
-        SizedBox(height: spacing.md),
+        CommonSpacer.vertical(spacing.md),
 
         // Admin Badge
         if (isAdmin)
@@ -79,10 +80,10 @@ class ProfileHeader extends StatelessWidget {
               children: [
                 Icon(
                   Icons.admin_panel_settings,
-                  size: 16,
+                  size: t.sizes.iconSm,
                   color: t.colors.textSecondary,
                 ),
-                SizedBox(width: spacing.sm),
+                CommonSpacer.horizontal(spacing.sm),
                 Text(
                   'Administrator',
                   style: t.typography.bodyBold.copyWith(

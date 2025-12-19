@@ -398,11 +398,11 @@ return Column(
               child: Row(
                 children: [
                   Container(
-                    width: 10,
-                    height: 10,
+                    width: t.spacing.md,
+                    height: t.spacing.md,
                     decoration: BoxDecoration(
                       color: baseColor,
-                      borderRadius: BorderRadius.circular(3),
+                      borderRadius: BorderRadius.circular(t.spacing.xs),
                     ),
                   ),
                   SizedBox(width: t.spacing.sm),
@@ -502,7 +502,7 @@ final t = context.theme;
       borderRadius: BorderRadius.circular(t.shapes.radiusFull),
       onTap: onTap,
   child: AnimatedContainer(
-    duration: const Duration(milliseconds: 160),
+    duration: t.animations.fast,
     curve: Curves.easeOut,
     padding: EdgeInsets.symmetric(
       horizontal: t.spacing.sm,
@@ -510,8 +510,8 @@ final t = context.theme;
     ),
     decoration: BoxDecoration(
       color: selected
-          ? t.accent.primary.withValues(alpha: 0.15)
-          : Colors.transparent,
+          ? t.accent.primary.withValues(alpha: t.opacities.low)
+          : t.colors.transparent,
       borderRadius: BorderRadius.circular(t.shapes.radiusFull),
     ),
     child: Text(
@@ -550,7 +550,7 @@ final t = context.theme;
       vertical: t.spacing.xs,
     ),
     decoration: BoxDecoration(
-      color: t.accent.primary.withValues(alpha: 0.12),
+      color: t.accent.primary.withValues(alpha: t.opacities.veryLow),
       borderRadius: BorderRadius.circular(t.shapes.radiusFull),
     ),
     child: Row(
@@ -558,7 +558,7 @@ final t = context.theme;
       children: [
         Icon(
           Icons.arrow_back_ios_new_rounded,
-          size: 14,
+          size: t.spacing.lg,
           color: t.accent.primary,
         ),
         SizedBox(width: t.spacing.xs),

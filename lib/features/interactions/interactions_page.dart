@@ -1,5 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import '../../common/layout/common_spacer.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -27,7 +28,7 @@ class InteractionsPage extends StatelessWidget {
         ),
         backgroundColor: c.surface,
         foregroundColor: c.textPrimary,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
       ),
       drawer: const CommonDrawer(),
       body: Center(
@@ -41,7 +42,7 @@ class InteractionsPage extends StatelessWidget {
                 size: context.sizes.icon2xl + context.spacing.md, // 80.0
                 color: c.warning, // Using warning color for interactions/caution
               ),
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
               Text(
                 'Drug Interactions',
                 style: text.headlineMedium.copyWith(
@@ -50,7 +51,7 @@ class InteractionsPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               Text(
                 'Check for potential interactions between substances',
                 style: text.bodyMedium.copyWith(
@@ -58,7 +59,7 @@ class InteractionsPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: sp.xl),
+              CommonSpacer.vertical(sp.xl),
               Container(
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
@@ -74,8 +75,9 @@ class InteractionsPage extends StatelessWidget {
                     Icon(
                       Icons.construction,
                       color: c.warning,
+                      size: context.sizes.iconMd,
                     ),
-                    SizedBox(width: sp.sm),
+                    CommonSpacer.horizontal(sp.sm),
                     Text(
                       'Coming Soon',
                       style: text.titleLarge.copyWith(

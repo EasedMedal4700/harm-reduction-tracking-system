@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../common/widgets/common_spacer.dart';
 import '../../common/layout/common_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -94,7 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const AccountManagementSection(),
               AboutSection(packageInfo: _packageInfo),
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
             ],
           );
         },

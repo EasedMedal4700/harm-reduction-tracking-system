@@ -246,7 +246,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
           // ----- Header -----
           Row(
             children: [
-              Icon(Icons.timeline, color: accentColor, size: 18),
+              Icon(Icons.timeline, color: accentColor, size: context.sizes.iconSm),
               SizedBox(width: sp.sm),
               Text(
                 'Metabolism Timeline',
@@ -315,7 +315,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.timeline_outlined, size: 48, color: c.textSecondary),
+            Icon(Icons.timeline_outlined, size: context.sizes.iconXl, color: c.textSecondary),
             SizedBox(height: sp.md),
             Text(
               'No dose data to display',

@@ -44,7 +44,7 @@ class CatalogSearchFilters extends StatelessWidget {
         border: Border(
           bottom: BorderSide(
             color: t.colors.border,
-            width: 1,
+            width: t.borders.thin,
           ),
         ),
       ),

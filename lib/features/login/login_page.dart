@@ -377,7 +377,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         ),
         backgroundColor: c.surface,
         foregroundColor: c.textPrimary,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
       ),
       body: Padding(
         padding: EdgeInsets.all(sp.lg),

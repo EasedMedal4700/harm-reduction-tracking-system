@@ -68,7 +68,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
               ),
             ),
             backgroundColor: c.surface,
-            elevation: 0,
+            elevation: context.sizes.elevationNone,
             centerTitle: true,
             leading: provider.showForm
                 ? IconButton(
@@ -79,7 +79,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
             actions: provider.showForm
                 ? [
                     Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
+                      padding: EdgeInsets.only(right: context.spacing.sm),
                       child: TextButton(
                         onPressed: provider.isSaving
                             ? null
@@ -98,11 +98,10 @@ class _ReflectionPageState extends State<ReflectionPage> {
                                   ),
                                 ),
                               )
-                            : const Text(
+                            : Text(
                                 'Save',
-                                style: TextStyle(
+                                style: t.labelLarge.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
                                 ),
                               ),
                       ),

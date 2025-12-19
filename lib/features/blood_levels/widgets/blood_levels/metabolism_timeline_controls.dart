@@ -45,8 +45,8 @@ class MetabolismTimelineControls extends StatelessWidget {
           // Header row
           Row(
             children: [
-              Icon(Icons.tune, size: 18, color: t.accent.primary),
-              const CommonSpacer.horizontal(8),
+              Icon(Icons.tune, size: context.sizes.iconSm, color: t.accent.primary),
+              CommonSpacer.horizontal(sp.sm),
               Text(
                 'Timeline Controls',
                 style: text.heading4.copyWith(color: c.textPrimary),
@@ -54,7 +54,7 @@ class MetabolismTimelineControls extends StatelessWidget {
             ],
           ),
 
-          const CommonSpacer.vertical(24),
+          CommonSpacer.vertical(sp.xl),
 
           // Hours back / forward
           Row(
@@ -67,7 +67,7 @@ class MetabolismTimelineControls extends StatelessWidget {
                   onChanged: onHoursBackChanged,
                 ),
               ),
-              const CommonSpacer.horizontal(24),
+              CommonSpacer.horizontal(sp.xl),
               Expanded(
                 child: _buildTimeInput(
                   context,
@@ -79,17 +79,17 @@ class MetabolismTimelineControls extends StatelessWidget {
             ],
           ),
 
-          const CommonSpacer.vertical(24),
+          CommonSpacer.vertical(sp.xl),
 
           _buildScaleSelector(context),
 
-          const CommonSpacer.vertical(24),
+          CommonSpacer.vertical(sp.xl),
 
           Text(
             'Quick Presets:',
             style: text.bodyBold.copyWith(color: c.textPrimary),
           ),
-          const CommonSpacer.vertical(8),
+          CommonSpacer.vertical(sp.sm),
           Wrap(
             spacing: sp.sm,
             runSpacing: sp.sm,
@@ -163,7 +163,7 @@ class MetabolismTimelineControls extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(Icons.vertical_align_top, size: 16, color: c.textSecondary),
+        Icon(Icons.vertical_align_top, size: context.sizes.iconSm, color: c.textSecondary),
         SizedBox(width: sp.sm),
         Text(
           'Y-Axis Scale:',

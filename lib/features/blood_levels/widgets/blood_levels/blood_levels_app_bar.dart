@@ -38,10 +38,10 @@ class BloodLevelsAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       backgroundColor: c.surface,
-      surfaceTintColor: Colors.transparent,
+      surfaceTintColor: c.transparent,
 
-      elevation: 0,
-      shadowColor: Colors.transparent,
+      elevation: context.sizes.elevationNone,
+      shadowColor: c.transparent,
 
       titleSpacing: sp.md,
 
@@ -49,7 +49,7 @@ class BloodLevelsAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       actionsIconTheme: IconThemeData(
         color: c.textPrimary,
-        size: 22,
+        size: context.sizes.iconMd,
       ),
 
       actions: [

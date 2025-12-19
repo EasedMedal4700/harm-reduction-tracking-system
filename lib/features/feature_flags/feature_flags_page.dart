@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../common/layout/common_spacer.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -300,7 +301,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
             Icons.info_outline,
             color: a.primary,
           ),
-          SizedBox(width: sp.md),
+          CommonSpacer.horizontal(sp.md),
           Expanded(
             child: Text(
               'Disabled features will be hidden from regular users. '
@@ -332,6 +333,8 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     final a = context.accent;
     final text = context.text;
     final sp = context.spacing;
+    final sh = context.shapes;
+    final s = context.sizes;
 
     final isPending = _pendingUpdates.containsKey(flag.featureName);
     final displayName = FeatureFlags.getDisplayName(flag.featureName);
@@ -340,7 +343,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
       margin: EdgeInsets.only(bottom: sp.sm),
       decoration: BoxDecoration(
         color: c.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(sh.radiusMd),
         border: Border.all(
           color: c.border,
         ),
@@ -364,10 +367,10 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
             ? null 
             : (value) => _toggleFlag(flag.featureName, value),
         secondary: isPending
-            ? const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(strokeWidth: 2),
+            ? SizedBox(
+                width: s.iconMd,
+                height: s.iconMd,
+                child: const CircularProgressIndicator(strokeWidth: 2),
               )
             : Icon(
                 flag.enabled ? Icons.check_circle : Icons.cancel,
@@ -381,7 +384,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
           vertical: sp.xs,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(sh.radiusMd),
         ),
       ),
     );

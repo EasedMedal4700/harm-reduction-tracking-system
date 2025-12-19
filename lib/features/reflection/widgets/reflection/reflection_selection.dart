@@ -2,6 +2,7 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 // Notes: No hardcoded values.
 import 'package:flutter/material.dart';
+import '../../../../common/widgets/common_spacer.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 class ReflectionSelection extends StatelessWidget {
@@ -31,14 +32,14 @@ class ReflectionSelection extends StatelessWidget {
             'Select entries to reflect on',
             style: t.typography.heading2,
           ),
-          SizedBox(height: t.spacing.sm),
+          CommonSpacer.vertical(t.spacing.sm),
           Text(
             'Choose one or more recent logs to associate with this reflection.',
             style: t.typography.body.copyWith(
               color: t.colors.textSecondary,
             ),
           ),
-          SizedBox(height: t.spacing.xl),
+          CommonSpacer.vertical(t.spacing.xl),
           if (entries.isEmpty)
             Center(
               child: Padding(
@@ -57,7 +58,7 @@ class ReflectionSelection extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: entries.length,
               separatorBuilder: (context, index) =>
-                  SizedBox(height: t.spacing.md),
+                  CommonSpacer.vertical(t.spacing.md),
               itemBuilder: (context, index) {
                 final entry = entries[index];
                 final id = entry['use_id']?.toString() ?? '';
@@ -78,10 +79,10 @@ class ReflectionSelection extends StatelessWidget {
                 );
               },
             ),
-          SizedBox(height: t.spacing.xl3),
+          CommonSpacer.vertical(t.spacing.xl3),
           SizedBox(
             width: double.infinity,
-            height: context.sizes.buttonHeightMd + 2, // 50.0
+            height: context.sizes.buttonHeightLg,
             child: ElevatedButton(
               onPressed: selectedIds.isNotEmpty ? onNext : null,
               style: ElevatedButton.styleFrom(
@@ -90,7 +91,7 @@ class ReflectionSelection extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(t.shapes.radiusLg),
                 ),
-                elevation: 0,
+                elevation: context.sizes.elevationNone,
                 disabledBackgroundColor: t.colors.surface,
               ),
               child: Text(
@@ -99,7 +100,7 @@ class ReflectionSelection extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: t.spacing.xl3),
+          CommonSpacer.vertical(t.spacing.xl3),
         ],
       ),
     );
@@ -125,13 +126,13 @@ class ReflectionSelection extends StatelessWidget {
         decoration: BoxDecoration(
           color: t.colors.surface,
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          border: Border.all(color: borderColor, width: isSelected ? 2 : 1),
+          border: Border.all(color: borderColor, width: isSelected ? t.borders.medium : t.borders.thin),
           boxShadow: isSelected
               ? [
                   BoxShadow(
                     color: t.accent.primary.withValues(alpha: 0.2),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+                    blurRadius: t.sizes.cardElevationHovered,
+                    offset: Offset(0, t.spacing.xs),
                   ),
                 ]
               : null,
@@ -139,21 +140,21 @@ class ReflectionSelection extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 24,
-              height: 24,
+              width: t.sizes.iconMd,
+              height: t.sizes.iconMd,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isSelected ? t.accent.primary : Colors.transparent,
                 border: Border.all(
                   color: isSelected ? t.accent.primary : t.colors.textSecondary,
-                  width: 2,
+                  width: t.borders.medium,
                 ),
               ),
               child: isSelected
                   ? Icon(Icons.check, size: 16, color: t.colors.textInverse)
                   : null,
             ),
-            SizedBox(width: t.spacing.lg),
+            CommonSpacer.horizontal(t.spacing.lg),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +163,7 @@ class ReflectionSelection extends StatelessWidget {
                     '$substance • $dose',
                     style: t.typography.bodyBold,
                   ),
-                  SizedBox(height: t.spacing.xs),
+                  CommonSpacer.vertical(t.spacing.xs),
                   Text(
                     '${_formatTime(time)} • $place',
                     style: t.typography.bodySmall.copyWith(

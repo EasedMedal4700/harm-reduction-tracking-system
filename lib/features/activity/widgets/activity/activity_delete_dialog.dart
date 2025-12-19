@@ -34,7 +34,7 @@ class ActivityDeleteDialog extends StatelessWidget {
 
     return AlertDialog(
       backgroundColor: c.surface,
-      elevation: 0,
+      elevation: context.sizes.elevationNone,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(sh.radiusMd),
         side: BorderSide(color: c.border),

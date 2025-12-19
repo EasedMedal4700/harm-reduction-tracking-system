@@ -26,6 +26,7 @@ class ReadOnlyField extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final text = context.text;
+    final s = context.sizes;
 
     return CommonCard(
       padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.md),
@@ -34,8 +35,8 @@ class ReadOnlyField extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, size: 16, color: c.textSecondary),
-              const CommonSpacer.horizontal(8),
+              Icon(icon, size: s.iconSm, color: c.textSecondary),
+              CommonSpacer.horizontal(sp.sm),
               Text(
                 label,
                 style: text.bodySmall.copyWith(
@@ -45,7 +46,7 @@ class ReadOnlyField extends StatelessWidget {
               ),
             ],
           ),
-          const CommonSpacer.vertical(4),
+          CommonSpacer.vertical(sp.xs),
           Text(
             value,
             style: text.body.copyWith(

@@ -1,6 +1,7 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 // Notes: No hardcoded values.
 import 'package:flutter/material.dart';
+import '../../../../common/widgets/common_spacer.dart';
 import '../../../../common/cards/common_form_card.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/inputs/dropdown.dart';
@@ -129,7 +130,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             'Reflecting on ${widget.selectedCount} selected entries',
             style: t.typography.heading2,
           ),
-          SizedBox(height: t.spacing.lg),
+          CommonSpacer.vertical(t.spacing.lg),
           
           // Effectiveness Section
           CommonFormCard(
@@ -145,7 +146,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               maxLabel: 'Highly Effective',
             ),
           ),
-          SizedBox(height: t.spacing.lg),
+          CommonSpacer.vertical(t.spacing.lg),
           
           // Sleep Section
           CommonFormCard(
@@ -164,7 +165,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                     widget.onSleepHoursChanged(parsed);
                   },
                 ),
-                SizedBox(height: t.spacing.lg),
+                CommonSpacer.vertical(t.spacing.lg),
                 _buildDropdown(
                   context,
                   'Sleep Quality',
@@ -175,7 +176,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               ],
             ),
           ),
-          SizedBox(height: t.spacing.lg),
+          CommonSpacer.vertical(t.spacing.lg),
           
           // Mood & Energy Section
           CommonFormCard(
@@ -190,7 +191,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   labelText: 'Next Day Mood',
                   onChanged: widget.onNextDayMoodChanged,
                 ),
-                SizedBox(height: t.spacing.lg),
+                CommonSpacer.vertical(t.spacing.lg),
                 _buildDropdown(
                   context,
                   'Energy Level',
@@ -201,7 +202,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               ],
             ),
           ),
-          SizedBox(height: t.spacing.lg),
+          CommonSpacer.vertical(t.spacing.lg),
           
           // Side Effects Section
           CommonFormCard(
@@ -215,7 +216,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               maxLines: 3,
             ),
           ),
-          SizedBox(height: t.spacing.lg),
+          CommonSpacer.vertical(t.spacing.lg),
           
           // Cravings & Coping Section
           CommonFormCard(
@@ -233,14 +234,14 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   minLabel: 'None',
                   maxLabel: 'Intense',
                 ),
-                SizedBox(height: t.spacing.lg),
+                CommonSpacer.vertical(t.spacing.lg),
                 CommonTextarea(
                   controller: _copingStrategiesController,
                   labelText: 'Coping Strategies',
                   onChanged: widget.onCopingStrategiesChanged,
                   maxLines: 2,
                 ),
-                SizedBox(height: t.spacing.lg),
+                CommonSpacer.vertical(t.spacing.lg),
                 _buildSlider(
                   context,
                   'Coping Effectiveness',
@@ -252,7 +253,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               ],
             ),
           ),
-          SizedBox(height: t.spacing.lg),
+          CommonSpacer.vertical(t.spacing.lg),
           
           // Overall & Notes Section
           CommonFormCard(
@@ -270,7 +271,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   minLabel: 'Dissatisfied',
                   maxLabel: 'Very Satisfied',
                 ),
-                SizedBox(height: t.spacing.lg),
+                CommonSpacer.vertical(t.spacing.lg),
                 CommonTextarea(
                   controller: _notesController,
                   labelText: 'Notes',
@@ -280,7 +281,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               ],
             ),
           ),
-          SizedBox(height: t.spacing.xl),
+          CommonSpacer.vertical(t.spacing.xl),
           
           // Save Button
           CommonPrimaryButton(
@@ -370,7 +371,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             color: t.colors.textSecondary,
           ),
         ),
-        SizedBox(height: t.spacing.sm),
+        CommonSpacer.vertical(t.spacing.sm),
         CommonDropdown<String>(
           value: items.contains(value) ? value : items.first,
           items: items,

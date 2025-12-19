@@ -56,7 +56,7 @@ class CategoryFilterChips extends StatelessWidget {
           if (icon != null) ...[
             Icon(
               icon,
-              size: 16,
+              size: t.spacing.lg,
               color: isSelected
                   ? accentColor
                   : t.colors.textSecondary,

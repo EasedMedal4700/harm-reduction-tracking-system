@@ -40,7 +40,7 @@ class FilterPanel extends StatelessWidget {
         border: Border(
           bottom: BorderSide(
             color: c.border,
-            width: 1,
+            width: context.borders.thin,
           ),
         ),
       ),
@@ -64,14 +64,14 @@ class FilterPanel extends StatelessWidget {
             ],
           ),
 
-          const CommonSpacer.vertical(8),
+          CommonSpacer.vertical(sp.sm),
 
           Text('Include Only:', style: text.bodyBold),
-          const CommonSpacer.vertical(4),
+          CommonSpacer.vertical(sp.xs),
 
           Wrap(
-            spacing: 8,
-            runSpacing: 4,
+            spacing: sp.sm,
+            runSpacing: sp.xs,
             children: availableDrugs.map((drug) {
               final isSelected = includedDrugs.contains(drug);
               return FilterChip(
@@ -79,7 +79,7 @@ class FilterPanel extends StatelessWidget {
                 selected: isSelected,
                 onSelected: (selected) => onIncludeChanged(drug, selected),
                 backgroundColor: c.surfaceVariant,
-                selectedColor: acc.primary.withValues(alpha: 0.2),
+                selectedColor: acc.primary.withValues(alpha: context.opacities.selected),
                 checkmarkColor: acc.primary,
                 labelStyle: TextStyle(
                   color: isSelected ? acc.primary : c.textPrimary,
@@ -88,14 +88,14 @@ class FilterPanel extends StatelessWidget {
             }).toList(),
           ),
 
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(sp.lg),
 
           Text('Exclude:', style: text.bodyBold),
-          const CommonSpacer.vertical(4),
+          CommonSpacer.vertical(sp.xs),
 
           Wrap(
-            spacing: 8,
-            runSpacing: 4,
+            spacing: sp.sm,
+            runSpacing: sp.xs,
             children: availableDrugs.map((drug) {
               final isSelected = excludedDrugs.contains(drug);
               final excludeColor = c.error;

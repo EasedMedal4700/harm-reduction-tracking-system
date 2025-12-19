@@ -39,8 +39,8 @@ class OutcomeSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.flag, color: a.primary),
-              SizedBox(width: sp.sm),
+              Icon(Icons.flag, color: a.primary, size: t.sizes.iconMd),
+              CommonSpacer.horizontal(sp.sm),
               Text(
                 'Outcome',
                 style: t.typography.heading4.copyWith(
@@ -50,7 +50,7 @@ class OutcomeSection extends StatelessWidget {
               ),
             ],
           ),
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(sp.md),
           
           CommonInputField(
             initialValue: whatDidYouDo,
@@ -60,7 +60,7 @@ class OutcomeSection extends StatelessWidget {
             hintText: 'Describe your actions...',
           ),
           
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(sp.md),
           
           CommonSwitchTile(
             title: 'Acted on craving?',

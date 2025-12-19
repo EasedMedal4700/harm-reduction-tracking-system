@@ -34,9 +34,9 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       backgroundColor: c.surface,
       foregroundColor: c.textPrimary,
-      elevation: 0,
-      scrolledUnderElevation: 0,
-      surfaceTintColor: Colors.transparent,
+      elevation: context.sizes.elevationNone,
+      scrolledUnderElevation: context.sizes.elevationNone,
+      surfaceTintColor: c.transparent,
 
       actions: [
         Padding(

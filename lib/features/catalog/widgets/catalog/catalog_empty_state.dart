@@ -22,12 +22,12 @@ class CatalogEmptyState extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(t.spacing.xl),
             decoration: BoxDecoration(
-              color: t.colors.surfaceVariant.withValues(alpha: 0.5),
+              color: t.colors.surfaceVariant.withValues(alpha: t.opacities.slow),
               borderRadius: BorderRadius.circular(t.shapes.radiusLg),
             ),
             child: Icon(
               Icons.search_off,
-              size: 64,
+              size: t.sizes.icon2xl,
               color: t.colors.textSecondary,
             ),
           ),

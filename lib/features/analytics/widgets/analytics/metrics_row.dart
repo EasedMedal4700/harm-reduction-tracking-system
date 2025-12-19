@@ -154,10 +154,10 @@ class _MetricCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(t.spacing.sm),
             decoration: BoxDecoration(
-              color: accent.withValues(alpha: 0.15),
+              color: accent.withValues(alpha: t.opacities.low),
               borderRadius: BorderRadius.circular(t.spacing.sm),
             ),
-            child: Icon(icon, color: accent, size: 20),
+            child: Icon(icon, color: accent, size: t.sizes.iconSm),
           ),
 
           SizedBox(height: t.spacing.sm),
@@ -210,9 +210,9 @@ class _MetricCard extends StatelessWidget {
                 vertical: t.spacing.xs,
               ),
               decoration: BoxDecoration(
-                color: accent.withValues(alpha: 0.15),
+                color: accent.withValues(alpha: t.opacities.low),
                 borderRadius: BorderRadius.circular(t.spacing.sm),
-                border: Border.all(color: accent.withValues(alpha: 0.3)),
+                border: Border.all(color: accent.withValues(alpha: t.opacities.medium)),
               ),
               child: Text(
                 chipLabel!,

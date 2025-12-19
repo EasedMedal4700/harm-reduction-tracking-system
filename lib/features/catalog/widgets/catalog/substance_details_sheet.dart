@@ -174,10 +174,10 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                     vertical: t.spacing.sm,
                   ),
                   width: 40,
-                  height: 4,
+                  height: t.spacing.xs,
                   decoration: BoxDecoration(
                     color: t.colors.divider,
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: BorderRadius.circular(t.shapes.radiusXs),
                   ),
                 ),
               ),
@@ -259,7 +259,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                 DrugCategories.categoryIconMap[categories.firstOrNull] ??
                     Icons.science,
                 color: accentColor,
-                size: 32,
+                size: t.sizes.iconLg,
               ),
             ),
             SizedBox(width: t.spacing.md),
@@ -273,20 +273,20 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                       color: t.colors.textPrimary,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: t.spacing.xs),
                   Wrap(
-                    spacing: 8,
-                    runSpacing: 4,
+                    spacing: t.spacing.sm,
+                    runSpacing: t.spacing.xs,
                     children: categories
                         .map(
                           (cat) => Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: t.spacing.sm,
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: accentColor.withValues(alpha: 0.5),
+                                color: accentColor.withValues(alpha: t.opacities.slow),
                               ),
                               borderRadius: BorderRadius.circular(
                                 t.shapes.radiusSm,
@@ -307,7 +307,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
             ),
             IconButton(
               icon: Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(t.spacing.sm),
                 decoration: BoxDecoration(
                   color: t.colors.surface,
                   shape: BoxShape.circle,
@@ -334,11 +334,11 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                     widget.onAddStockpile!(substanceId, name, widget.substance);
                   }
                 : null,
-            icon: const Icon(Icons.add, size: 18),
+            icon: Icon(Icons.add, size: t.sizes.iconSm),
             label: const Text('Add to Stockpile'),
             style: ElevatedButton.styleFrom(
               backgroundColor: accentColor,
-              foregroundColor: Colors.white,
+              foregroundColor: t.colors.textInverse,
               padding: EdgeInsets.symmetric(
                 horizontal: t.spacing.md,
                 vertical: t.spacing.sm,
@@ -372,20 +372,20 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
             children: [
               Icon(
                 Icons.alternate_email,
-                size: 16,
+                size: t.spacing.lg,
                 color: t.colors.textSecondary,
               ),
-              const SizedBox(width: 8),
+              CommonSpacer.horizontal(t.spacing.sm),
               Text(
                 'Also Known As',
                 style: t.text.body.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                   color: t.colors.textPrimary,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          CommonSpacer.vertical(t.spacing.sm),
           Text(
             aliases.join(', '),
             style: t.text.body.copyWith(
@@ -425,7 +425,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
       children: [
         if (warning != null) ...[
           _buildWarningCard(context, warning.toString()),
-          const SizedBox(height: 16),
+          CommonSpacer.vertical(t.spacing.lg),
         ],
         if (summary != null) ...[
           Text(
@@ -434,7 +434,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               color: t.colors.textPrimary,
             ),
           ),
-          const SizedBox(height: 8),
+          CommonSpacer.vertical(t.spacing.sm),
           Text(
             summary.toString(),
             style: t.text.body.copyWith(
@@ -442,7 +442,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               color: t.colors.textSecondary,
             ),
           ),
-          const SizedBox(height: 24),
+          CommonSpacer.vertical(t.spacing.xl),
         ],
         if (testKits != null) ...[
           Text(
@@ -451,10 +451,10 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               color: t.colors.textPrimary,
             ),
           ),
-          const SizedBox(height: 8),
+          CommonSpacer.vertical(t.spacing.sm),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(t.spacing.lg),
             decoration: BoxDecoration(
               color: t.colors.surface,
               borderRadius: BorderRadius.circular(t.shapes.radiusMd),
@@ -478,14 +478,14 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
   Widget _buildWarningCard(BuildContext context, String message) {
     final t = context.theme;
     return CommonCard(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(t.spacing.lg),
       backgroundColor: t.colors.warning.withValues(alpha: 0.1),
-      borderColor: t.colors.warning.withValues(alpha: 0.5),
+      borderColor: t.colors.warning.withValues(alpha: t.opacities.slow),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(Icons.warning_amber_rounded, color: t.colors.warning),
-          const SizedBox(width: 12),
+          CommonSpacer.horizontal(t.spacing.md),
           Expanded(
             child: Text(
               message,

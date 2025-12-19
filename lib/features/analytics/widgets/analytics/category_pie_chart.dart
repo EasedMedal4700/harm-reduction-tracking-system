@@ -112,11 +112,11 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  width: 16,
-                  height: 16,
+                  width: t.spacing.lg,
+                  height: t.spacing.lg,
                   decoration: BoxDecoration(
                     color: color,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(t.spacing.xs),
                   ),
                 ),
                 SizedBox(width: t.spacing.sm),

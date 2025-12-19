@@ -51,8 +51,8 @@ class CravingDetailsSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.psychology, color: a.primary),
-              SizedBox(width: sp.sm),
+              Icon(Icons.psychology, color: a.primary, size: t.sizes.iconMd),
+              CommonSpacer.horizontal(sp.sm),
               Text(
                 'Craving Details',
                 style: t.typography.heading4.copyWith(
@@ -62,7 +62,7 @@ class CravingDetailsSection extends StatelessWidget {
               ),
             ],
           ),
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(sp.md),
           
           CommonChipGroup(
             title: 'What were you craving?',
@@ -72,7 +72,7 @@ class CravingDetailsSection extends StatelessWidget {
             allowMultiple: true,
           ),
           
-          const CommonSpacer.vertical(24),
+          CommonSpacer.vertical(sp.lg),
           
           Text(
             'Intensity: ${intensity.round()}/10',
@@ -89,7 +89,7 @@ class CravingDetailsSection extends StatelessWidget {
             inactiveColor: c.border,
           ),
           
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(sp.md),
           
           CommonDropdown<String>(
             value: location.isEmpty ? null : location,

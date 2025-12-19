@@ -20,18 +20,16 @@ class NotesInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Notes (optional)',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+            style: t.typography.heading4,
           ),
-          const CommonSpacer.vertical(12),
+          CommonSpacer.vertical(t.spacing.md),
           CommonInputField(
             controller: controller,
             hintText: 'Any thoughts or observations?',

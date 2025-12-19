@@ -16,6 +16,7 @@ class TimelineLegend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final sp = context.spacing;
     final text = context.text;
 
@@ -34,14 +35,14 @@ class TimelineLegend extends StatelessWidget {
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(sp.xs),
-            border: Border.all(color: color.withValues(alpha: 0.4)),
+            border: Border.all(color: color.withValues(alpha: t.opacities.border)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 12,
-                height: 12,
+                width: sp.md,
+                height: sp.md,
                 decoration: BoxDecoration(color: color, shape: BoxShape.circle),
               ),
               const CommonSpacer.horizontal(4),

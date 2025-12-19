@@ -1,6 +1,7 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 // Notes: No hardcoded values.
 import 'package:flutter/material.dart';
+import '../../../../common/widgets/common_spacer.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 
@@ -66,17 +67,17 @@ class ReflectionForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Reflecting on  entries',
+            'Reflecting on $selectedCount entries',
             style: t.typography.heading2,
           ),
-          SizedBox(height: t.spacing.sm),
+          CommonSpacer.vertical(t.spacing.sm),
           Text(
             'Take a moment to analyze how these experiences affected you.',
             style: t.typography.body.copyWith(
               color: t.colors.textSecondary,
             ),
           ),
-          SizedBox(height: t.spacing.xl),
+          CommonSpacer.vertical(t.spacing.xl),
 
           // 1. Core Experience
           _buildSectionCard(context, 'Core Experience', Icons.stars, [
@@ -88,7 +89,7 @@ class ReflectionForm extends StatelessWidget {
               minLabel: 'Ineffective',
               maxLabel: 'Highly Effective',
             ),
-            SizedBox(height: t.spacing.md),
+            CommonSpacer.vertical(t.spacing.md),
             _buildSlider(
               context,
               'Overall Satisfaction',
@@ -98,7 +99,7 @@ class ReflectionForm extends StatelessWidget {
               maxLabel: 'Very Satisfied',
             ),
           ]),
-          SizedBox(height: t.spacing.lg),
+          CommonSpacer.vertical(t.spacing.lg),
 
           // 2. Sleep & Recovery
           _buildSectionCard(context, 'Sleep & Recovery', Icons.bedtime, [
@@ -112,7 +113,7 @@ class ReflectionForm extends StatelessWidget {
                     onSleepHoursChanged,
                   ),
                 ),
-                SizedBox(width: t.spacing.md),
+                CommonSpacer.horizontal(t.spacing.md),
                 Expanded(
                   child: _buildDropdown(
                     context,
@@ -124,7 +125,7 @@ class ReflectionForm extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: t.spacing.md),
+            CommonSpacer.vertical(t.spacing.md),
             Row(
               children: [
                 Expanded(
@@ -136,7 +137,7 @@ class ReflectionForm extends StatelessWidget {
                     onNextDayMoodChanged,
                   ),
                 ),
-                SizedBox(width: t.spacing.md),
+                CommonSpacer.horizontal(t.spacing.md),
                 Expanded(
                   child: _buildDropdown(
                     context,
@@ -149,7 +150,7 @@ class ReflectionForm extends StatelessWidget {
               ],
             ),
           ]),
-          SizedBox(height: t.spacing.lg),
+          CommonSpacer.vertical(t.spacing.lg),
 
           // 3. Side Effects & Cravings
           _buildSectionCard(context, 'Side Effects & Cravings', Icons.warning_amber, [
@@ -160,7 +161,7 @@ class ReflectionForm extends StatelessWidget {
               onSideEffectsChanged,
               hint: 'Headache, nausea, anxiety...',
             ),
-            SizedBox(height: t.spacing.md),
+            CommonSpacer.vertical(t.spacing.md),
             _buildSlider(
               context,
               'Post-Use Craving',
@@ -170,7 +171,7 @@ class ReflectionForm extends StatelessWidget {
               maxLabel: 'Intense',
             ),
           ]),
-          SizedBox(height: t.spacing.lg),
+          CommonSpacer.vertical(t.spacing.lg),
 
           // 4. Coping & Notes
           _buildSectionCard(context, 'Coping & Notes', Icons.psychology, [
@@ -181,7 +182,7 @@ class ReflectionForm extends StatelessWidget {
               onCopingStrategiesChanged,
               hint: 'Meditation, exercise, talking to a friend...',
             ),
-            SizedBox(height: t.spacing.md),
+            CommonSpacer.vertical(t.spacing.md),
             _buildSlider(
               context,
               'Coping Effectiveness',
@@ -190,7 +191,7 @@ class ReflectionForm extends StatelessWidget {
               minLabel: 'Not Helpful',
               maxLabel: 'Very Helpful',
             ),
-            SizedBox(height: t.spacing.md),
+            CommonSpacer.vertical(t.spacing.md),
             _buildTextInput(
               context,
               'Additional Notes',
@@ -200,7 +201,7 @@ class ReflectionForm extends StatelessWidget {
               hint: 'Any other thoughts or observations...',
             ),
           ]),
-          SizedBox(height: t.spacing.xl3),
+          CommonSpacer.vertical(t.spacing.xl3),
         ],
       ),
     );
@@ -227,15 +228,15 @@ class ReflectionForm extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: t.accent.primary, size: 20),
-              SizedBox(width: t.spacing.sm),
+              Icon(icon, color: t.accent.primary, size: t.sizes.iconSm),
+              CommonSpacer.horizontal(t.spacing.sm),
               Text(
                 title,
                 style: t.typography.heading3,
               ),
             ],
           ),
-          SizedBox(height: t.spacing.lg),
+          CommonSpacer.vertical(t.spacing.lg),
           ...children,
         ],
       ),

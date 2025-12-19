@@ -61,13 +61,13 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
     final acc = context.accent;
 
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 220),
+      duration: t.animations.normal,
       decoration: BoxDecoration(
         color: c.surface,
         borderRadius: BorderRadius.circular(sp.md),
         border: Border.all(
-          color: _isExpanded ? acc.primary.withValues(alpha: 0.4) : c.border,
-          width: _isExpanded ? 1.4 : 1,
+          color: _isExpanded ? acc.primary.withValues(alpha: t.opacities.border) : c.border,
+          width: _isExpanded ? 1.4 : t.borders.thin,
         ),
         boxShadow: _isExpanded ? t.cardShadow : [],
       ),
@@ -87,7 +87,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                       border: Border(
                         bottom: BorderSide(
                           color: c.border,
-                          width: 1,
+                          width: t.borders.thin,
                         ),
                       ),
                     )
@@ -96,17 +96,17 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                 children: [
                   // Icon container
                   AnimatedContainer(
-                    duration: const Duration(milliseconds: 220),
+                    duration: t.animations.normal,
                     padding: EdgeInsets.all(sp.md),
                     decoration: BoxDecoration(
                       color: acc.primary.withValues(
-                          alpha: _isExpanded ? 0.18 : 0.1),
+                          alpha: _isExpanded ? t.opacities.selected : t.opacities.overlay),
                       borderRadius: BorderRadius.circular(sp.sm),
                     ),
                     child: Icon(
                       Icons.tune_rounded,
                       color: acc.primary,
-                      size: 22,
+                      size: t.sizes.iconMd,
                     ),
                   ),
 
@@ -133,7 +133,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                                   vertical: sp.xs,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: acc.primary.withValues(alpha: 0.15),
+                                  color: acc.primary.withValues(alpha: t.opacities.low),
                                   borderRadius:
                                       BorderRadius.circular(sp.sm),
                                 ),
@@ -171,13 +171,13 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                     child: Container(
                       padding: EdgeInsets.all(sp.xs),
                       decoration: BoxDecoration(
-                        color: c.border.withValues(alpha: 0.6),
+                        color: c.border.withValues(alpha: t.opacities.high),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.expand_more_rounded,
                         color: c.textSecondary,
-                        size: 20,
+                        size: t.sizes.iconSm,
                       ),
                     ),
                   ),
@@ -188,7 +188,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
 
           // Content
           AnimatedSize(
-            duration: const Duration(milliseconds: 220),
+            duration: t.animations.normal,
             curve: Curves.easeInOut,
             child: _isExpanded
                 ? Container(

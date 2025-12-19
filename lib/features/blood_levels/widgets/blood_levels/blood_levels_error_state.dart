@@ -34,7 +34,7 @@ class BloodLevelsErrorState extends StatelessWidget {
           children: [
             Icon(
               Icons.error_outline,
-              size: 64,
+              size: t.sizes.icon2xl,
               color: c.error,
             ),
 
@@ -46,7 +46,7 @@ class BloodLevelsErrorState extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
 
-            const CommonSpacer.vertical(24),
+            CommonSpacer.vertical(t.spacing.xl),
 
             CommonPrimaryButton(
               label: 'Retry',

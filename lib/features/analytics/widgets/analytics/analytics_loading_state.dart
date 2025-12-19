@@ -21,7 +21,7 @@ class AnalyticsLoadingState extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(sp.xl),
         child: CommonLoader(
-          size: 42,
+          size: context.sizes.iconXl,
           color: acc.primary,
         ),
       ),

@@ -58,7 +58,7 @@ class TimeframeSelector extends StatelessWidget {
                 child: Icon(
                   Icons.schedule,
                   color: acc.primary,
-                  size: 20,
+                  size: t.sizes.iconSm,
                 ),
               ),
               const CommonSpacer.horizontal(8),
@@ -82,7 +82,7 @@ class TimeframeSelector extends StatelessWidget {
                 onTap: () => onChanged(timeframe),
                 borderRadius: BorderRadius.circular(sh.radiusSm),
                 child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
+                  duration: t.animations.fast,
                   padding: EdgeInsets.symmetric(
                     horizontal: sp.md,
                     vertical: sp.sm,

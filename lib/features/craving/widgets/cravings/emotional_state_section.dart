@@ -43,8 +43,8 @@ class EmotionalStateSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.favorite, color: a.primary),
-              SizedBox(width: sp.sm),
+              Icon(Icons.favorite, color: a.primary, size: t.sizes.iconMd),
+              CommonSpacer.horizontal(sp.sm),
               Text(
                 'Emotional State',
                 style: t.typography.heading4.copyWith(
@@ -54,7 +54,7 @@ class EmotionalStateSection extends StatelessWidget {
               ),
             ],
           ),
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(sp.md),
           
           CommonChipGroup(
             title: 'Feelings',
@@ -64,7 +64,7 @@ class EmotionalStateSection extends StatelessWidget {
             allowMultiple: true,
           ),
           
-          const CommonSpacer.vertical(24),
+          CommonSpacer.vertical(sp.lg),
           
           CommonInputField(
             initialValue: thoughts,

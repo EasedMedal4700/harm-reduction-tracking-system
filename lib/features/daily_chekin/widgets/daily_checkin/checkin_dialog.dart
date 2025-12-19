@@ -68,7 +68,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(t.shapes.radiusLg),
       ),
-      elevation: 0,
+      elevation: t.sizes.elevationNone,
       child: Consumer<DailyCheckinProvider>(
         builder: (context, provider, child) {
           return SingleChildScrollView(
@@ -84,7 +84,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                   children: [
                     Icon(
                       _getTimeIcon(provider.timeOfDay),
-                      size: 32,
+                      size: t.sizes.iconLg,
                       color:  t.accent.primary,
                     ),
 

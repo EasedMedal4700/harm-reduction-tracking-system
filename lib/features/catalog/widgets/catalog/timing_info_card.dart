@@ -39,7 +39,7 @@ class TimingInfoCard extends StatelessWidget {
           Row(
             children: [
               Icon(Icons.timer_outlined, color: accentColor),
-              const CommonSpacer.horizontal(4),
+              CommonSpacer.horizontal(t.spacing.xs),
               Text(
                 'Timing Information',
                 style: t.text.heading3.copyWith(
@@ -59,7 +59,7 @@ class TimingInfoCard extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: _buildTimeBar(
-                      Colors.green,
+                      t.colors.success,
                       true,
                       duration == null && afterEffects == null,
                     ),
@@ -68,7 +68,7 @@ class TimingInfoCard extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: _buildTimeBar(
-                      Colors.blue,
+                      t.colors.info,
                       onset == null,
                       afterEffects == null,
                     ),
@@ -77,7 +77,7 @@ class TimingInfoCard extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: _buildTimeBar(
-                      Colors.orange,
+                      t.colors.warning,
                       onset == null && duration == null,
                       true,
                     ),
@@ -88,11 +88,11 @@ class TimingInfoCard extends StatelessWidget {
           const CommonSpacer.vertical(24),
 
           // Legend
-          if (onset != null) _buildTimeLegend(context, 'Onset', onset!, Colors.green),
+          if (onset != null) _buildTimeLegend(context, 'Onset', onset!, t.colors.success),
           if (duration != null)
-            _buildTimeLegend(context, 'Duration', duration!, Colors.blue),
+            _buildTimeLegend(context, 'Duration', duration!, t.colors.info),
           if (afterEffects != null)
-            _buildTimeLegend(context, 'After Effects', afterEffects!, Colors.orange),
+            _buildTimeLegend(context, 'After Effects', afterEffects!, t.colors.warning),
         ],
       ),
     );
@@ -118,15 +118,15 @@ class TimingInfoCard extends StatelessWidget {
   ) {
     final t = context.theme;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: t.spacing.md),
       child: Row(
         children: [
           Container(
-            width: 12,
-            height: 12,
+            width: t.spacing.md,
+            height: t.spacing.md,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(t.shapes.radiusXs),
             ),
           ),
           SizedBox(width: t.spacing.sm),
@@ -143,7 +143,7 @@ class TimingInfoCard extends StatelessWidget {
               Text(
                 value,
                 style: t.typography.body.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                   color: t.colors.textPrimary,
                 ),
               ),

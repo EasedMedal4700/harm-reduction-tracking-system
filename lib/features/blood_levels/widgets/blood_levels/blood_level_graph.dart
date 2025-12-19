@@ -38,7 +38,7 @@ class BloodLevelGraph extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const CommonSectionHeader(title: 'Blood Level Curves'),
-          const CommonSpacer.vertical(24),
+          CommonSpacer.vertical(context.spacing.xl),
 
           SizedBox(
             height: 300,
@@ -62,8 +62,8 @@ class BloodLevelGraph extends StatelessWidget {
         children: [
           Icon(
             Icons.water_drop_outlined,
-            size: 64,
-            color: c.textSecondary.withValues(alpha: 0.3),
+            size: context.sizes.icon2xl,
+            color: c.textSecondary.withValues(alpha: context.opacities.medium),
           ),
           SizedBox(height: sp.lg),
           Text(
@@ -82,7 +82,7 @@ class BloodLevelGraph extends StatelessWidget {
     final lines = substanceCurves.entries.map((entry) {
       final substance = entry.key;
       final points = entry.value;
-      final color = substanceColors[substance] ?? Colors.blue;
+      final color = substanceColors[substance] ?? context.accent.primary;
 
       return LineChartBarData(
         spots: points
@@ -98,7 +98,7 @@ class BloodLevelGraph extends StatelessWidget {
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(
           show: true,
-          color: color.withValues(alpha: 0.12),
+          color: color.withValues(alpha: context.opacities.veryLow),
         ),
       );
     }).toList();
@@ -131,19 +131,19 @@ class BloodLevelGraph extends StatelessWidget {
           drawVerticalLine: true,
           horizontalInterval: 20,
           getDrawingHorizontalLine: (value) => FlLine(
-            color: c.border.withValues(alpha: 0.5),
-            strokeWidth: 1,
+            color: c.border.withValues(alpha: context.opacities.slow),
+            strokeWidth: context.borders.thin,
           ),
           getDrawingVerticalLine: (value) => FlLine(
-            color: c.border.withValues(alpha: 0.5),
-            strokeWidth: 1,
+            color: c.border.withValues(alpha: context.opacities.slow),
+            strokeWidth: context.borders.thin,
           ),
         ),
         borderData: FlBorderData(
           show: true,
           border: Border.all(
             color: c.border,
-            width: 1,
+            width: context.borders.thin,
           ),
         ),
         minY: 0,

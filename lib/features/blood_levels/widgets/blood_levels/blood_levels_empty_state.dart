@@ -29,10 +29,10 @@ class BloodLevelsEmptyState extends StatelessWidget {
         children: [
           Icon(
             Icons.science_outlined,
-            size: 64,
+            size: context.sizes.icon2xl,
             color: c.textTertiary,
           ),
-          const CommonSpacer.vertical(24),
+          CommonSpacer.vertical(context.spacing.xl),
 
           Text(
             'No active substances',
