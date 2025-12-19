@@ -2,11 +2,14 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Section for emotional state. Uses CommonChipGroup.
+// Notes: Migrated to CommonCard and CommonInputField.
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_chip_group.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/inputs/input_field.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class EmotionalStateSection extends StatelessWidget {
   final List<String> selectedEmotions;
@@ -32,15 +35,9 @@ class EmotionalStateSection extends StatelessWidget {
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
-    final sh = context.shapes;
     
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(sp.md),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusLg),
-        border: Border.all(color: c.border),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -57,7 +54,7 @@ class EmotionalStateSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: sp.md),
+          const CommonSpacer.vertical(16),
           
           CommonChipGroup(
             title: 'Feelings',
@@ -67,34 +64,14 @@ class EmotionalStateSection extends StatelessWidget {
             allowMultiple: true,
           ),
           
-          SizedBox(height: sp.lg),
+          const CommonSpacer.vertical(24),
           
-          Text(
-            'Thoughts',
-            style: t.typography.body.copyWith(color: c.textPrimary),
-          ),
-          SizedBox(height: sp.sm),
-          TextFormField(
+          CommonInputField(
             initialValue: thoughts,
             onChanged: onThoughtsChanged,
             maxLines: 3,
-            style: t.typography.body.copyWith(color: c.textPrimary),
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: c.surface,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(sh.radiusMd),
-                borderSide: BorderSide(color: c.border),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(sh.radiusMd),
-                borderSide: BorderSide(color: c.border),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(sh.radiusMd),
-                borderSide: BorderSide(color: a.primary, width: 2),
-              ),
-            ),
+            labelText: 'Thoughts',
+            hintText: 'What are you thinking?',
           ),
         ],
       ),

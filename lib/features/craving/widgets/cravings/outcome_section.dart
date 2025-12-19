@@ -1,12 +1,15 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Section for outcome.
+// Notes: Migrated to CommonCard, CommonInputField, and CommonSwitchTile.
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/inputs/input_field.dart';
+import '../../../../common/inputs/switch_tile.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class OutcomeSection extends StatelessWidget {
   final String? whatDidYouDo;
@@ -28,15 +31,9 @@ class OutcomeSection extends StatelessWidget {
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
-    final sh = context.shapes;
     
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(sp.md),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusLg),
-        border: Border.all(color: c.border),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -53,45 +50,22 @@ class OutcomeSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: sp.md),
+          const CommonSpacer.vertical(16),
           
-          Text(
-            'What did you do?',
-            style: t.typography.body.copyWith(color: c.textPrimary),
-          ),
-          SizedBox(height: sp.sm),
-          TextFormField(
+          CommonInputField(
             initialValue: whatDidYouDo,
             onChanged: onWhatDidYouDoChanged,
             maxLines: 3,
-            style: t.typography.body.copyWith(color: c.textPrimary),
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: c.surface,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(sh.radiusMd),
-                borderSide: BorderSide(color: c.border),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(sh.radiusMd),
-                borderSide: BorderSide(color: c.border),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(sh.radiusMd),
-                borderSide: BorderSide(color: a.primary, width: 2),
-              ),
-            ),
+            labelText: 'What did you do?',
+            hintText: 'Describe your actions...',
           ),
-          SizedBox(height: sp.md),
           
-          SwitchListTile(
-            title: Text(
-              'Acted on craving?',
-              style: t.typography.body.copyWith(color: c.textPrimary),
-            ),
+          const CommonSpacer.vertical(16),
+          
+          CommonSwitchTile(
+            title: 'Acted on craving?',
             value: actedOnCraving,
             onChanged: onActedOnCravingChanged,
-            contentPadding: EdgeInsets.zero,
           ),
         ],
       ),

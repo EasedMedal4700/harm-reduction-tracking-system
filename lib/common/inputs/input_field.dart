@@ -11,6 +11,7 @@ import '../../constants/theme/app_theme_extension.dart';
 /// Used for dosage, location, etc.
 class CommonInputField extends StatelessWidget {
   final TextEditingController? controller;
+  final String? initialValue;
   final String? hintText;
   final String? labelText;
   final TextInputType? keyboardType;
@@ -29,6 +30,7 @@ class CommonInputField extends StatelessWidget {
 
   const CommonInputField({
     this.controller,
+    this.initialValue,
     this.hintText,
     this.labelText,
     this.keyboardType,
@@ -53,6 +55,7 @@ class CommonInputField extends StatelessWidget {
     
     return TextFormField(
       controller: controller,
+      initialValue: initialValue,
       keyboardType: keyboardType,
       onChanged: onChanged,
       validator: validator,

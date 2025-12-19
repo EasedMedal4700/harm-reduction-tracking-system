@@ -1,17 +1,20 @@
 
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Uses some new theme/common, but not fully migrated.
+// Notes: Migrated to use local widgets which are now standardized.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/daily_checkin_provider.dart';
-import '../../../../common/inputs/mood_selector.dart';
-import '../../../../common/inputs/emotion_selector.dart';
-import '../../../../common/inputs/input_field.dart';
-
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
+
+// Local widgets
+import 'mood_selector.dart';
+import 'emotion_selector.dart';
+import 'notes_input.dart';
+import 'save_button.dart';
 
 class DailyCheckinDialog extends StatefulWidget {
   const DailyCheckinDialog({super.key});
@@ -114,7 +117,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                   ],
                 ),
 
-                SizedBox(height: spacing.xl),
+                const CommonSpacer.vertical(24),
 
                 // ---------------------------------------------------------------------
                 // MOOD SELECTOR
@@ -125,7 +128,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                   onMoodSelected: provider.setMood,
                 ),
 
-                SizedBox(height: spacing.xl),
+                const CommonSpacer.vertical(24),
 
                 // ---------------------------------------------------------------------
                 // EMOTION SELECTOR
@@ -136,54 +139,25 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                   onEmotionToggled: provider.toggleEmotion,
                 ),
 
-                SizedBox(height: spacing.xl),
+                const CommonSpacer.vertical(24),
 
                 // ---------------------------------------------------------------------
                 // NOTES INPUT
                 // ---------------------------------------------------------------------
-                CommonInputField(
+                NotesInput(
                   controller: _notesController,
-                  hintText: "Add notes...",
-                  maxLines: 4,
                   onChanged: provider.setNotes,
                 ),
 
-                SizedBox(height: spacing.xl),
+                const CommonSpacer.vertical(24),
 
                 // ---------------------------------------------------------------------
                 // SAVE BUTTON
                 // ---------------------------------------------------------------------
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: provider.isSaving
-                        ? null
-                        : () async => provider.saveCheckin(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: t.accent.primary,
-                      foregroundColor: t.colors.textInverse,
-                      padding: EdgeInsets.symmetric(vertical: spacing.md),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: provider.isSaving
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          )
-                        : Text(
-                            "Save Check-In",
-                            style: t.text.labelLarge.copyWith(
-                              color: t.colors.textInverse,
-                            ),
-                          ),
-                  ),
+                SaveButton(
+                  isSaving: provider.isSaving,
+                  isDisabled: false, // Logic was implicit in button before, now explicit
+                  onPressed: () async => provider.saveCheckin(context),
                 ),
               ],
             ),

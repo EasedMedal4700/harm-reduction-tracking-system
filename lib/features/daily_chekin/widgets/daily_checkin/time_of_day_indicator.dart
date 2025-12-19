@@ -1,14 +1,12 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+// Notes: Migrated to CommonCard.
 import 'package:flutter/material.dart';
-
-
-
+import '../../../../common/cards/common_card.dart';
 
 class TimeOfDayIndicator extends StatelessWidget {
   final String currentTimeOfDay;
@@ -21,23 +19,20 @@ class TimeOfDayIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final sh = context.shapes;
 
-    return Container(
-      height: 48,
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(color: c.border),
-      ),
-      child: Row(
-        children: [
-          _TimeSegment(label: 'Morning', isActive: currentTimeOfDay == 'morning'),
-          Container(width: 1, color: c.border),
-          _TimeSegment(label: 'Afternoon', isActive: currentTimeOfDay == 'afternoon'),
-          Container(width: 1, color: c.border),
-          _TimeSegment(label: 'Evening', isActive: currentTimeOfDay == 'evening'),
-        ],
+    return CommonCard(
+      padding: EdgeInsets.zero,
+      child: SizedBox(
+        height: 48,
+        child: Row(
+          children: [
+            _TimeSegment(label: 'Morning', isActive: currentTimeOfDay == 'morning'),
+            VerticalDivider(width: 1, color: c.border),
+            _TimeSegment(label: 'Afternoon', isActive: currentTimeOfDay == 'afternoon'),
+            VerticalDivider(width: 1, color: c.border),
+            _TimeSegment(label: 'Evening', isActive: currentTimeOfDay == 'evening'),
+          ],
+        ),
       ),
     );
   }

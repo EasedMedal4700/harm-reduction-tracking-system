@@ -1,14 +1,13 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+// Notes: Migrated to CommonCard.
 import 'package:flutter/material.dart';
-
-
-
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class ReadOnlyField extends StatelessWidget {
   final IconData icon;
@@ -26,23 +25,17 @@ class ReadOnlyField extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final sh = context.shapes;
     final text = context.text;
 
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.md),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(color: c.border),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Icon(icon, size: 16, color: c.textSecondary),
-              SizedBox(width: sp.sm),
+              const CommonSpacer.horizontal(8),
               Text(
                 label,
                 style: text.bodySmall.copyWith(
@@ -52,7 +45,7 @@ class ReadOnlyField extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: sp.xs),
+          const CommonSpacer.vertical(4),
           Text(
             value,
             style: text.body.copyWith(

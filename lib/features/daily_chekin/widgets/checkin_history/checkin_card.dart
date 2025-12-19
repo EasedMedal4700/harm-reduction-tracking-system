@@ -1,11 +1,14 @@
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Review for theme/context migration if needed.
+// Notes: Migrated to CommonCard and AppThemeExtension.
 import 'package:flutter/material.dart';
 import '../../../../models/daily_checkin_model.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class CheckinCard extends StatelessWidget {
   final DailyCheckin checkin;
@@ -14,100 +17,137 @@ class CheckinCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header with date and time of day
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(_getTimeIcon(checkin.timeOfDay), size: 20),
-                    const SizedBox(width: 8),
-                    Text(
-                      _formatDate(checkin.checkinDate),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Chip(
-                  label: Text(
-                    checkin.timeOfDay.toUpperCase(),
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
+    final t = context.theme;
 
-            // Mood
-            Row(
-              children: [
-                const Text(
-                  'Mood: ',
-                  style: TextStyle(fontWeight: FontWeight.w500),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: CommonCard(
+        padding: EdgeInsets.all(t.spacing.md),
+        child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header with date and time of day
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    _getTimeIcon(checkin.timeOfDay),
+                    size: 20,
+                    color: t.colors.textSecondary,
+                  ),
+                  const CommonSpacer.horizontal(8),
+                  Text(
+                    _formatDate(checkin.checkinDate),
+                    style: t.text.body.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: t.colors.textPrimary,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: t.colors.surfaceVariant,
+                  borderRadius: BorderRadius.circular(t.shapes.radiusSm),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                child: Text(
+                  checkin.timeOfDay.toUpperCase(),
+                  style: t.text.label.copyWith(
+                    fontSize: 10,
+                    color: t.colors.textSecondary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const CommonSpacer.vertical(12),
+
+          // Mood
+          Row(
+            children: [
+              Text(
+                'Mood: ',
+                style: t.text.body.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: t.colors.textSecondary,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: _getMoodColor(checkin.mood).withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: _getMoodColor(checkin.mood).withValues(alpha: 0.5),
+                  ),
+                ),
+                child: Text(
+                  checkin.mood,
+                  style: t.text.label.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: _getMoodColor(checkin.mood), // Use the color for text too
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const CommonSpacer.vertical(8),
+
+          // Emotions
+          if (checkin.emotions.isNotEmpty) ...[
+            Text(
+              'Emotions:',
+              style: t.text.body.copyWith(
+                fontWeight: FontWeight.w500,
+                color: t.colors.textSecondary,
+              ),
+            ),
+            const CommonSpacer.vertical(4),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: checkin.emotions.map((emotion) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: _getMoodColor(checkin.mood),
-                    borderRadius: BorderRadius.circular(12),
+                    color: t.colors.surfaceVariant.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+                    border: Border.all(color: t.colors.border),
                   ),
                   child: Text(
-                    checkin.mood,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    emotion,
+                    style: t.text.label.copyWith(
+                      color: t.colors.textPrimary,
+                    ),
                   ),
-                ),
-              ],
+                );
+              }).toList(),
             ),
-            const SizedBox(height: 8),
-
-            // Emotions
-            if (checkin.emotions.isNotEmpty) ...[
-              const Text(
-                'Emotions:',
-                style: TextStyle(fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 4),
-              Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                children: checkin.emotions.map((emotion) {
-                  return Chip(
-                    label: Text(emotion, style: const TextStyle(fontSize: 12)),
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    visualDensity: VisualDensity.compact,
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 8),
-            ],
-
-            // Notes
-            if (checkin.notes != null && checkin.notes!.isNotEmpty) ...[
-              const Text(
-                'Notes:',
-                style: TextStyle(fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                checkin.notes!,
-                style: TextStyle(color: Colors.grey.shade700),
-              ),
-            ],
+            const CommonSpacer.vertical(8),
           ],
-        ),
+
+          // Notes
+          if (checkin.notes != null && checkin.notes!.isNotEmpty) ...[
+            Text(
+              'Notes:',
+              style: t.text.body.copyWith(
+                fontWeight: FontWeight.w500,
+                color: t.colors.textSecondary,
+              ),
+            ),
+            const CommonSpacer.vertical(4),
+            Text(
+              checkin.notes!,
+              style: t.text.body.copyWith(
+                color: t.colors.textSecondary,
+              ),
+            ),
+          ],
+        ],
+      ),
       ),
     );
   }
@@ -130,30 +170,30 @@ class CheckinCard extends StatelessWidget {
   IconData _getTimeIcon(String timeOfDay) {
     switch (timeOfDay) {
       case 'morning':
-        return Icons.wb_sunny;
+        return Icons.wb_sunny_rounded;
       case 'afternoon':
-        return Icons.wb_cloudy;
+        return Icons.wb_cloudy_rounded;
       case 'evening':
-        return Icons.nightlight_round;
+        return Icons.nightlight_round_rounded;
       default:
-        return Icons.access_time;
+        return Icons.access_time_rounded;
     }
   }
 
   Color _getMoodColor(String mood) {
     switch (mood) {
       case 'Great':
-        return Colors.green.shade200;
+        return Colors.green;
       case 'Good':
-        return Colors.lightGreen.shade200;
+        return Colors.lightGreen;
       case 'Okay':
-        return Colors.yellow.shade200;
+        return Colors.amber;
       case 'Struggling':
-        return Colors.orange.shade200;
+        return Colors.orange;
       case 'Poor':
-        return Colors.red.shade200;
+        return Colors.red;
       default:
-        return Colors.grey.shade200;
+        return Colors.grey;
     }
   }
 }

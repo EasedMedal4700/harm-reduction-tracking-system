@@ -1,12 +1,15 @@
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Review for theme/context migration if needed.
+// Notes: Migrated to CommonCard and AppTheme.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../models/drug_catalog_entry.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class DrugCatalogList extends StatelessWidget {
   final List<DrugCatalogEntry> entries;
@@ -20,12 +23,21 @@ class DrugCatalogList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    
     if (entries.isEmpty) {
-      return const Center(child: Text('No drugs found.'));
+      return Center(
+        child: Text(
+          'No drugs found.',
+          style: t.typography.bodyMedium.copyWith(color: t.colors.textSecondary),
+        ),
+      );
     }
 
-    return ListView.builder(
+    return ListView.separated(
+      padding: EdgeInsets.all(t.spacing.md),
       itemCount: entries.length,
+      separatorBuilder: (context, index) => const CommonSpacer.vertical(12),
       itemBuilder: (context, index) {
         final drug = entries[index];
         return DrugCatalogTile(
@@ -55,22 +67,73 @@ class DrugCatalogTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(drug.name),
-      subtitle: Column(
+    final t = context.theme;
+    final c = context.colors;
+    final text = context.text;
+
+    return CommonCard(
+      child: Padding(
+        padding: EdgeInsets.all(t.spacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    drug.name,
+                    style: text.heading4,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    drug.favorite ? Icons.star : Icons.star_border,
+                    color: drug.favorite ? t.accent.primary : c.textSecondary,
+                  ),
+                  onPressed: onToggleFavorite,
+                ),
+              ],
+            ),
+            const CommonSpacer.vertical(8),
+            _buildInfoRow(context, 'Categories:', drug.categories.join(', ')),
+            _buildInfoRow(context, 'Total uses:', '${drug.totalUses}'),
+            _buildInfoRow(context, 'Average dose:', drug.avgDose.toStringAsFixed(2)),
+            _buildInfoRow(context, 'Last used:', _formatDate(drug.lastUsed)),
+            _buildInfoRow(context, 'Most active day:', '${drug.weekdayUsage.mostActive}'),
+            _buildInfoRow(context, 'Least active day:', '${drug.weekdayUsage.leastActive}'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(BuildContext context, String label, String value) {
+    final t = context.theme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Categories: ${drug.categories.join(', ')}'),
-          Text('Total uses: ${drug.totalUses}'),
-          Text('Average dose: ${drug.avgDose.toStringAsFixed(2)}'),
-          Text('Last used: ${_formatDate(drug.lastUsed)}'),
-          Text('Most active day: ${drug.weekdayUsage.mostActive}'),
-          Text('Least active day: ${drug.weekdayUsage.leastActive}'),
+          SizedBox(
+            width: 120,
+            child: Text(
+              label,
+              style: t.typography.bodySmall.copyWith(
+                color: t.colors.textSecondary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: t.typography.bodySmall.copyWith(
+                color: t.colors.textPrimary,
+              ),
+            ),
+          ),
         ],
-      ),
-      trailing: IconButton(
-        icon: Icon(drug.favorite ? Icons.star : Icons.star_border),
-        onPressed: onToggleFavorite,
       ),
     );
   }

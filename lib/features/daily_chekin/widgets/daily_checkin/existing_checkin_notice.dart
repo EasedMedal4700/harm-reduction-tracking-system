@@ -1,13 +1,13 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Needs migration to AppTheme/context extensions and new constants. Remove deprecated theme usage.
+// Notes: Migrated to CommonCard.
 import 'package:flutter/material.dart';
-
-
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class ExistingCheckinNotice extends StatelessWidget {
   const ExistingCheckinNotice({super.key});
@@ -16,18 +16,12 @@ class ExistingCheckinNotice extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final sh = context.shapes;
     final text = context.text;
 
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(sp.md),
-      decoration: BoxDecoration(
-        color: c.error.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(
-          sh.radiusMd,
-        ),
-        border: Border.all(color: c.error.withValues(alpha: 0.3)),
-      ),
+      backgroundColor: c.error.withValues(alpha: 0.1),
+      borderColor: c.error.withValues(alpha: 0.3),
       child: Row(
         children: [
           Icon(
@@ -35,7 +29,7 @@ class ExistingCheckinNotice extends StatelessWidget {
             color: c.error,
             size: 20,
           ),
-          SizedBox(width: sp.md),
+          const CommonSpacer.horizontal(16),
           Expanded(
             child: Text(
               'Check-in already exists for this time.',

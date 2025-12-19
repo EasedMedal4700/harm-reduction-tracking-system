@@ -1,4 +1,13 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to CommonCard and CommonInputField.
 import 'package:flutter/material.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/inputs/input_field.dart';
+import '../../../../common/layout/common_spacer.dart';
+
 class NotesInput extends StatelessWidget {
   final TextEditingController controller;
   final Function(String) onChanged;
@@ -11,33 +20,26 @@ class NotesInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Notes (optional)',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+    return CommonCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Notes (optional)',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        const SizedBox(height: 12),
-        TextField(
-          controller: controller,
-          maxLines: 3,
-          decoration: const InputDecoration(
+          const CommonSpacer.vertical(12),
+          CommonInputField(
+            controller: controller,
             hintText: 'Any thoughts or observations?',
-            border: OutlineInputBorder(),
+            maxLines: 3,
+            onChanged: onChanged,
           ),
-          onChanged: onChanged,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
-
-// MIGRATION
-// Theme: TODO
-// Common: TODO
-// Riverpod: TODO
-// Notes: Review for theme/context migration if needed.

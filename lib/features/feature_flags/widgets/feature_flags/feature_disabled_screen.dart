@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../../../common/buttons/common_primary_button.dart';
+import '../../../../common/buttons/common_outlined_button.dart';
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: TODO
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Fully migrated to AppThemeExtension. Deprecated theme usage removed. No hardcoded values.
+// Notes: Fully migrated to AppThemeExtension and Common buttons.
 
 /// A screen displayed when a feature is currently disabled.
 /// Shows a friendly message and provides navigation options.
@@ -115,52 +117,32 @@ class FeatureDisabledScreen extends StatelessWidget {
               SizedBox(height: sp.xl),
 
               // Go Home button
-              SizedBox(
+              CommonPrimaryButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/home',
+                    (_) => false,
+                  );
+                },
+                icon: Icons.home_rounded,
+                label: 'Go to Home',
                 width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/home',
-                      (_) => false,
-                    );
-                  },
-                  icon: const Icon(Icons.home_rounded),
-                  label: const Text('Go to Home'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: acc.primary,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: sp.md),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(sh.radiusMd),
-                    ),
-                  ),
-                ),
               ),
 
               SizedBox(height: sp.sm),
 
               // Back button
-              SizedBox(
+              CommonOutlinedButton(
+                onPressed: () {
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  } else {
+                    Navigator.of(context).pushReplacementNamed('/home');
+                  }
+                },
+                icon: Icons.arrow_back_rounded,
+                label: 'Go Back',
                 width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    if (Navigator.of(context).canPop()) {
-                      Navigator.of(context).pop();
-                    } else {
-                      Navigator.of(context).pushReplacementNamed('/home');
-                    }
-                  },
-                  icon: const Icon(Icons.arrow_back_rounded),
-                  label: const Text('Go Back'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: acc.primary,
-                    side: BorderSide(color: acc.primary),
-                    padding: EdgeInsets.symmetric(vertical: sp.md),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(sh.radiusMd),
-                    ),
-                  ),
-                ),
               ),
 
               SizedBox(height: sp.lg),

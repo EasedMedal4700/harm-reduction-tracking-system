@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/buttons/common_chip_group.dart';
 import 'dosage_guide_card.dart';
 import 'timing_info_card.dart';
 
@@ -361,12 +363,8 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
         .toList();
     if (aliases == null || aliases.isEmpty) return const SizedBox.shrink();
 
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(t.spacing.md),
-      decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -401,35 +399,18 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
   }
 
   Widget _buildMethodSelector(BuildContext context, Color accentColor) {
-    final t = context.theme;
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: _availableMethods.map((method) {
-          final isSelected = method == _selectedMethod;
-          return Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: ChoiceChip(
-              label: Text(method),
-              selected: isSelected,
-              onSelected: (selected) {
-                if (selected) setState(() => _selectedMethod = method);
-              },
-              selectedColor: accentColor.withValues(alpha: 0.2),
-              backgroundColor: t.colors.surface,
-              labelStyle: t.typography.body.copyWith(
-                color: isSelected
-                    ? accentColor
-                    : t.colors.textSecondary,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
-              side: BorderSide(
-                color: isSelected ? accentColor : Colors.transparent,
-              ),
-            ),
-          );
-        }).toList(),
-      ),
+    return CommonChipGroup(
+      title: 'Administration Method',
+      showHeader: false,
+      options: _availableMethods,
+      selected: [_selectedMethod],
+      onChanged: (selectedList) {
+        if (selectedList.isNotEmpty) {
+          setState(() => _selectedMethod = selectedList.first);
+        }
+      },
+      allowMultiple: false,
+      selectedColor: accentColor,
     );
   }
 
@@ -496,13 +477,10 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
 
   Widget _buildWarningCard(BuildContext context, String message) {
     final t = context.theme;
-    return Container(
+    return CommonCard(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: t.colors.warning.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-        border: Border.all(color: t.colors.warning.withValues(alpha: 0.5)),
-      ),
+      backgroundColor: t.colors.warning.withValues(alpha: 0.1),
+      borderColor: t.colors.warning.withValues(alpha: 0.5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

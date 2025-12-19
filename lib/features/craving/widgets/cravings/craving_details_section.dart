@@ -1,8 +1,8 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Section for craving details. No hardcoded values.
+// Notes: Migrated to CommonCard and CommonChipGroup.
 
 // ignore_for_file: deprecated_member_use
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -10,6 +10,10 @@ import 'package:flutter/material.dart';
 
 import '../../../../constants/data/craving_consatnts.dart';
 import '../../../../constants/data/drug_use_catalog.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/buttons/common_chip_group.dart';
+import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/inputs/dropdown.dart';
 
 class CravingDetailsSection extends StatelessWidget {
   final List<String> selectedCravings;
@@ -39,15 +43,9 @@ class CravingDetailsSection extends StatelessWidget {
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
-    final sh = context.shapes;
     
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(sp.md),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusLg),
-        border: Border.all(color: c.border),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -64,43 +62,17 @@ class CravingDetailsSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: sp.md),
+          const CommonSpacer.vertical(16),
           
-          Text(
-            'What were you craving?',
-            style: t.typography.body.copyWith(color: c.textPrimary),
-          ),
-          SizedBox(height: sp.sm),
-          Wrap(
-            spacing: sp.xs,
-            runSpacing: sp.xs,
-            children: cravingCategories.entries.map((entry) {
-              final isSelected = selectedCravings.contains(entry.key);
-              return FilterChip(
-                label: Text(entry.key),
-                selected: isSelected,
-                onSelected: (selected) => onCravingsChanged(
-                  selected
-                      ? [...selectedCravings, entry.key]
-                      : selectedCravings.where((c) => c != entry.key).toList(),
-                ),
-                selectedColor: a.primary.withValues(alpha: context.opacities.selected),
-                checkmarkColor: a.primary,
-                labelStyle: t.typography.body.copyWith(
-                  color: isSelected ? a.primary : c.textPrimary,
-                ),
-                backgroundColor: c.surface,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(sh.radiusSm),
-                  side: BorderSide(
-                    color: isSelected ? Colors.transparent : c.border,
-                  ),
-                ),
-              );
-            }).toList(),
+          CommonChipGroup(
+            title: 'What were you craving?',
+            options: cravingCategories.keys.toList(),
+            selected: selectedCravings,
+            onChanged: onCravingsChanged,
+            allowMultiple: true,
           ),
           
-          SizedBox(height: sp.lg),
+          const CommonSpacer.vertical(24),
           
           Text(
             'Intensity: ${intensity.round()}/10',
@@ -117,33 +89,23 @@ class CravingDetailsSection extends StatelessWidget {
             inactiveColor: c.border,
           ),
           
-          SizedBox(height: sp.md),
+          const CommonSpacer.vertical(16),
           
-          DropdownButtonFormField<String>(
+          CommonDropdown<String>(
             value: location.isEmpty ? null : location,
-            decoration: InputDecoration(
-              labelText: 'Location',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(sh.radiusMd)),
-              contentPadding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
-            ),
-            items: DrugUseCatalog.locations.map((loc) => DropdownMenuItem(value: loc, child: Text(loc))).toList(),
+            hintText: 'Location',
+            items: DrugUseCatalog.locations,
             onChanged: (v) {
               if (v != null) onLocationChanged(v);
             },
           ),
           
-          SizedBox(height: sp.md),
+          const CommonSpacer.vertical(16),
           
-          DropdownButtonFormField<String>(
+          CommonDropdown<String>(
             value: withWho?.isEmpty == true ? null : withWho,
-            decoration: InputDecoration(
-              labelText: 'Who were you with?',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(sh.radiusMd)),
-              contentPadding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
-            ),
-            items: const ['Alone', 'Friends', 'Family', 'Other']
-                .map((item) => DropdownMenuItem(value: item, child: Text(item)))
-                .toList(),
+            hintText: 'Who were you with?',
+            items: const ['Alone', 'Friends', 'Family', 'Other'],
             onChanged: onWithWhoChanged,
           ),
         ],

@@ -1,12 +1,14 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Section for selecting body/mind signals.
+// Notes: Migrated to CommonCard and CommonChipGroup.
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/buttons/common_chip_group.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class BodyMindSignalsSection extends StatelessWidget {
   final List<String> sensations;
@@ -26,15 +28,9 @@ class BodyMindSignalsSection extends StatelessWidget {
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
-    final sh = context.shapes;
     
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(sp.md),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusLg),
-        border: Border.all(color: c.border),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -51,34 +47,14 @@ class BodyMindSignalsSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: sp.md),
-          Wrap(
-            spacing: sp.sm,
-            runSpacing: sp.sm,
-            children: sensations.map((sensation) {
-              final isSelected = selectedSensations.contains(sensation);
-              return FilterChip(
-                label: Text(sensation),
-                selected: isSelected,
-                onSelected: (selected) => onSensationsChanged(
-                  selected
-                    ? [...selectedSensations, sensation]
-                    : selectedSensations.where((s) => s != sensation).toList(),
-                ),
-                selectedColor: a.primary.withValues(alpha: 0.2),
-                checkmarkColor: a.primary,
-                labelStyle: t.typography.body.copyWith(
-                  color: isSelected ? a.primary : c.textPrimary,
-                ),
-                backgroundColor: c.surface,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(sh.radiusSm),
-                  side: BorderSide(
-                    color: isSelected ? Colors.transparent : c.border,
-                  ),
-                ),
-              );
-            }).toList(),
+          const CommonSpacer.vertical(16),
+          
+          CommonChipGroup(
+            title: 'Body Sensations',
+            options: sensations,
+            selected: selectedSensations,
+            onChanged: onSensationsChanged,
+            allowMultiple: true,
           ),
         ],
       ),

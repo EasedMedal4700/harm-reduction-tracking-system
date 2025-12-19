@@ -3,7 +3,11 @@
 import 'package:flutter/material.dart';
 import '../../../../common/cards/common_form_card.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
+import '../../../../common/inputs/dropdown.dart';
+import '../../../../common/inputs/input_field.dart';
+import '../../../../common/inputs/textarea.dart';
+import '../../../../common/inputs/slider.dart';
+import '../../../../common/buttons/common_primary_button.dart';
 
 class EditReflectionForm extends StatefulWidget {
   final int selectedCount;
@@ -122,7 +126,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Reflecting on  selected entries',
+            'Reflecting on ${widget.selectedCount} selected entries',
             style: t.typography.heading2,
           ),
           SizedBox(height: t.spacing.lg),
@@ -151,15 +155,14 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildTextField(
-                  context,
-                  'Sleep Hours',
-                  _sleepHoursController,
-                  (value) {
+                CommonInputField(
+                  controller: _sleepHoursController,
+                  labelText: 'Sleep Hours',
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
                     final parsed = double.tryParse(value) ?? 8.0;
                     widget.onSleepHoursChanged(parsed);
                   },
-                  keyboardType: TextInputType.number,
                 ),
                 SizedBox(height: t.spacing.lg),
                 _buildDropdown(
@@ -182,11 +185,10 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildTextField(
-                  context,
-                  'Next Day Mood',
-                  _nextDayMoodController,
-                  widget.onNextDayMoodChanged,
+                CommonInputField(
+                  controller: _nextDayMoodController,
+                  labelText: 'Next Day Mood',
+                  onChanged: widget.onNextDayMoodChanged,
                 ),
                 SizedBox(height: t.spacing.lg),
                 _buildDropdown(
@@ -206,11 +208,10 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             title: 'Side Effects',
             icon: Icons.warning_amber,
             accentColor: t.accent.secondary,
-            child: _buildTextField(
-              context,
-              'Side Effects',
-              _sideEffectsController,
-              widget.onSideEffectsChanged,
+            child: CommonTextarea(
+              controller: _sideEffectsController,
+              labelText: 'Side Effects',
+              onChanged: widget.onSideEffectsChanged,
               maxLines: 3,
             ),
           ),
@@ -233,11 +234,10 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   maxLabel: 'Intense',
                 ),
                 SizedBox(height: t.spacing.lg),
-                _buildTextField(
-                  context,
-                  'Coping Strategies',
-                  _copingStrategiesController,
-                  widget.onCopingStrategiesChanged,
+                CommonTextarea(
+                  controller: _copingStrategiesController,
+                  labelText: 'Coping Strategies',
+                  onChanged: widget.onCopingStrategiesChanged,
                   maxLines: 2,
                 ),
                 SizedBox(height: t.spacing.lg),
@@ -271,11 +271,10 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   maxLabel: 'Very Satisfied',
                 ),
                 SizedBox(height: t.spacing.lg),
-                _buildTextField(
-                  context,
-                  'Notes',
-                  _notesController,
-                  widget.onNotesChanged,
+                CommonTextarea(
+                  controller: _notesController,
+                  labelText: 'Notes',
+                  onChanged: widget.onNotesChanged,
                   maxLines: 3,
                 ),
               ],
@@ -284,21 +283,11 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           SizedBox(height: t.spacing.xl),
           
           // Save Button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: widget.onSave,
-              icon: const Icon(Icons.save),
-              label: Text('Save Changes', style: t.typography.button),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: t.colors.info,
-                foregroundColor: t.colors.textInverse,
-                padding: EdgeInsets.symmetric(vertical: t.spacing.lg),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                ),
-              ),
-            ),
+          CommonPrimaryButton(
+            onPressed: widget.onSave,
+            label: 'Save Changes',
+            icon: Icons.save,
+            backgroundColor: t.colors.info,
           ),
         ],
       ),
@@ -333,21 +322,13 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             ),
           ],
         ),
-        SliderTheme(
-          data: SliderTheme.of(context).copyWith(
-            activeTrackColor: t.accent.primary,
-            inactiveTrackColor: t.accent.primary.withValues(alpha: 0.2),
-            thumbColor: t.accent.primary,
-            overlayColor: t.accent.primary.withValues(alpha: 0.1),
-            trackHeight: 4,
-          ),
-          child: Slider(
-            value: value,
-            min: 1,
-            max: 10,
-            divisions: 9,
-            onChanged: onChanged,
-          ),
+        CommonSlider(
+          value: value,
+          min: 1,
+          max: 10,
+          divisions: 9,
+          onChanged: onChanged,
+          activeColor: t.accent.primary,
         ),
         if (minLabel != null && maxLabel != null)
           Padding(
@@ -366,57 +347,6 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               ],
             ),
           ),
-      ],
-    );
-  }
-
-  Widget _buildTextField(
-    BuildContext context,
-    String label,
-    TextEditingController controller,
-    ValueChanged<String> onChanged, {
-    int maxLines = 1,
-    TextInputType? keyboardType,
-  }) {
-    final t = context.theme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: t.typography.bodySmall.copyWith(
-            fontWeight: FontWeight.bold,
-            color: t.colors.textSecondary,
-          ),
-        ),
-        SizedBox(height: t.spacing.sm),
-        TextFormField(
-          controller: controller,
-          onChanged: onChanged,
-          maxLines: maxLines,
-          keyboardType: keyboardType,
-          style: t.typography.body,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(t.spacing.md),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(color: t.colors.border),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(color: t.colors.border),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(
-                color: t.accent.primary,
-              ),
-            ),
-            filled: true,
-            fillColor: t.colors.surfaceVariant,
-          ),
-        ),
       ],
     );
   }

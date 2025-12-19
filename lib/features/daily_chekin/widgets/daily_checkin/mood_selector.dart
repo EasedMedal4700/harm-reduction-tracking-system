@@ -1,11 +1,16 @@
 
 // MIGRATION
-// Theme: PARTIAL
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Uses new mood constants, but not fully migrated to AppTheme/context extensions.
+// Notes: Migrated to CommonCard and AppTheme. Kept custom slider logic.
 import 'package:flutter/material.dart';
-import '../../../../constants/enums/app_mood.dart';  // Import the new constants file
+import '../../../../constants/enums/app_mood.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_color_palette.dart';
+import '../../../../constants/theme/app_accent_colors.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Widget for selecting mood from available options
 class MoodSelector extends StatefulWidget {
@@ -60,28 +65,33 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
     super.dispose();
   }
 
-  Color _getThumbColor(double value) {
+  Color _getThumbColor(double value, ColorPalette c, AccentColors a) {
     final moodIndex = (value - 1).toInt();
     final moods = ['Poor', 'Struggling', 'Neutral', 'Good', 'Great'];
     final mood = moods[moodIndex];
     switch (mood) {
       case 'Poor':
-        return const Color(0xFFFF6B6B);
+        return c.error;
       case 'Struggling':
-        return const Color(0xFFF0A04B);
+        return c.warning;
       case 'Neutral':
-        return const Color(0xFFCCCCCC);
+        return c.textSecondary;
       case 'Good':
-        return const Color(0xFF6BCB77);
+        return c.success;
       case 'Great':
-        return const Color(0xFF4ECDC4);
+        return a.primary;
       default:
-        return Colors.grey;
+        return c.textSecondary;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final a = context.accent;
+    final text = context.text;
+    final sp = context.spacing;
+
     // Reverse mapping: first mood ('Poor') -> 1.0 (left), last mood ('Great') -> max (right)
     final moodToValue = {
       for (int i = 0; i < widget.availableMoods.length; i++)
@@ -99,85 +109,85 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
 
     final selectedMoodIndex = (currentValue - 1).toInt();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const Text(
-          'How are you feeling?',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+    return CommonCard(
+      padding: EdgeInsets.all(sp.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'How are you feeling?',
+            style: text.heading4,
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 16),
-        // Emojis above slider (Poor to Great)
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(5, (index) {
-            final isSelected = index == selectedMoodIndex;
-            final emoji = ['😞', '😕', '😐', '🙂', '😄'][index];
-            return GestureDetector(
-              onTap: () {
-                widget.onMoodSelected(['Poor', 'Struggling', 'Neutral', 'Good', 'Great'][index]);
-              },
-              child: AnimatedBuilder(
-                animation: _scaleController,
-                builder: (context, child) {
-                  return Transform.scale(
-                    scale: isSelected ? _scaleAnimation.value : 1.0,
-                    child: Opacity(
-                      opacity: isSelected ? _fadeAnimation.value : 0.7,
-                      child: Text(
-                        emoji,
-                        style: const TextStyle(fontSize: 36),
-                      ),
-                    ),
-                  );
+          const CommonSpacer.vertical(16),
+          // Emojis above slider (Poor to Great)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(5, (index) {
+              final isSelected = index == selectedMoodIndex;
+              final emoji = ['😞', '😕', '😐', '🙂', '😄'][index];
+              return GestureDetector(
+                onTap: () {
+                  widget.onMoodSelected(['Poor', 'Struggling', 'Neutral', 'Good', 'Great'][index]);
                 },
-              ),
-            );
-          }),
-        ),
-        const SizedBox(height: 8),
-        // Slider with custom theme
-        SliderTheme(
-          data: SliderTheme.of(context).copyWith(
-            trackHeight: 6.0, // Thicker track
-            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12.0),
-            overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
-            activeTrackColor: _getThumbColor(currentValue),
-            inactiveTrackColor: Colors.grey.shade300,
-            thumbColor: _getThumbColor(currentValue),
-            overlayColor: _getThumbColor(currentValue).withValues(alpha: 0.2),
+                child: AnimatedBuilder(
+                  animation: _scaleController,
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: isSelected ? _scaleAnimation.value : 1.0,
+                      child: Opacity(
+                        opacity: isSelected ? _fadeAnimation.value : 0.7,
+                        child: Text(
+                          emoji,
+                          style: const TextStyle(fontSize: 36),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            }),
           ),
-          child: Slider(
-            value: currentValue,
-            min: 1.0,
-            max: widget.availableMoods.length.toDouble(),
-            divisions: widget.availableMoods.length - 1,
-            label: widget.selectedMood != null
-                ? '${moodEmojis[widget.selectedMood]} ${widget.selectedMood}'
-                : '${moodEmojis[widget.availableMoods.last]} ${widget.availableMoods.last}',
-            onChanged: (value) {
-              final mood = valueToMood[value]!;
-              widget.onMoodSelected(mood);
-            },
+          const CommonSpacer.vertical(8),
+          // Slider with custom theme
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              trackHeight: 6.0, // Thicker track
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12.0),
+              overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
+              activeTrackColor: _getThumbColor(currentValue, c, a),
+              inactiveTrackColor: c.border,
+              thumbColor: _getThumbColor(currentValue, c, a),
+              overlayColor: _getThumbColor(currentValue, c, a).withValues(alpha: 0.2),
+            ),
+            child: Slider(
+              value: currentValue,
+              min: 1.0,
+              max: widget.availableMoods.length.toDouble(),
+              divisions: widget.availableMoods.length - 1,
+              label: widget.selectedMood != null
+                  ? '${moodEmojis[widget.selectedMood]} ${widget.selectedMood}'
+                  : '${moodEmojis[widget.availableMoods.last]} ${widget.availableMoods.last}',
+              onChanged: (value) {
+                final mood = valueToMood[value]!;
+                widget.onMoodSelected(mood);
+              },
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        // Text labels below (Poor to Great)
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: ['Poor', 'Struggling', 'Neutral', 'Good', 'Great']
-              .map((label) => Text(
-                    label,
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.center,
-                  ))
-              .toList(),
-        ),
-      ],
+          const CommonSpacer.vertical(8),
+          // Text labels below (Poor to Great)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: ['Poor', 'Struggling', 'Neutral', 'Good', 'Great']
+                .map((label) => Text(
+                      label,
+                      style: text.bodySmall.copyWith(fontWeight: FontWeight.w500),
+                      textAlign: TextAlign.center,
+                    ))
+                .toList(),
+          ),
+        ],
+      ),
     );
   }
 }
