@@ -62,7 +62,7 @@ class ActivityDeleteDialog extends StatelessWidget {
 
         // Delete Button
         CommonPrimaryButton(
-          text: 'Delete',
+          label: 'Delete',
           onPressed: () => Navigator.pop(context, true),
           backgroundColor: c.error,
           textColor: c.textInverse,

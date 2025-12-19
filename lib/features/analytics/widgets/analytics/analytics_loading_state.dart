@@ -1,10 +1,12 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Fully theme-compliant. Uses CommonLoader.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
 
 /// Widget displaying a loading indicator for the analytics page
 class AnalyticsLoadingState extends StatelessWidget {
@@ -18,13 +20,9 @@ class AnalyticsLoadingState extends StatelessWidget {
     return Center(
       child: Padding(
         padding: EdgeInsets.all(sp.xl),
-        child: SizedBox(
-          width: 42,
-          height: 42,
-          child: CircularProgressIndicator(
-            strokeWidth: 3,
-            valueColor: AlwaysStoppedAnimation(acc.primary),
-          ),
+        child: CommonLoader(
+          size: 42,
+          color: acc.primary,
         ),
       ),
     );

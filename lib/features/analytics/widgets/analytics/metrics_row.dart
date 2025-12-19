@@ -1,10 +1,11 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Migrated to use CommonCard. No Riverpod.
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
 
 class MetricsRow extends StatelessWidget {
   final int totalEntries;
@@ -145,15 +146,7 @@ class _MetricCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.theme;
 
-    return Container(
-      constraints: const BoxConstraints(minHeight: 130),
-      padding: EdgeInsets.all(t.spacing.lg),
-      decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.spacing.md),
-        border: Border.all(color: t.colors.border),
-        boxShadow: t.cardShadow,
-      ),
+    return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

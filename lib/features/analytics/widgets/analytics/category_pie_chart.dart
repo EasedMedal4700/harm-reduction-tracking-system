@@ -1,11 +1,14 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Migrated to use CommonCard and CommonSectionHeader. No Riverpod.
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/text/common_section_header.dart';
+import '../../../../common/layout/common_spacer.dart';
 import '../../../../models/log_entry_model.dart';
 
 class CategoryPieChart extends StatefulWidget {
@@ -34,20 +37,16 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
 
     final categories = widget.categoryCounts.keys.toList();
 
-    return Column(
-      children: [
-        // ---- TITLE ----
-        Text(
-          'Category Distribution',
-          style: t.typography.heading3.copyWith(
-            color: t.colors.textPrimary,
-          ),
-        ),
+    return CommonCard(
+      child: Column(
+        children: [
+          // ---- TITLE ----
+          const CommonSectionHeader(title: 'Category Distribution'),
 
-        SizedBox(height: t.spacing.lg),
+          const CommonSpacer.vertical(16),
 
-        // ---- PIE CHART ----
-        SizedBox(
+          // ---- PIE CHART ----
+          SizedBox(
           height: 350,
           child: PieChart(
             PieChartData(
@@ -95,12 +94,12 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
           ),
         ),
 
-        SizedBox(height: t.spacing.lg),
+          const CommonSpacer.vertical(16),
 
-        // ---- LEGEND ----
-        Wrap(
-          spacing: t.spacing.lg,
-          runSpacing: t.spacing.sm,
+          // ---- LEGEND ----
+          Wrap(
+            spacing: t.spacing.lg,
+            runSpacing: t.spacing.sm,
           children: List.generate(categories.length, (index) {
             final category = categories[index];
             final count = widget.categoryCounts[category] ?? 0;
@@ -134,7 +133,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
 
         // ---- SUBSTANCE BREAKDOWN ----
         if (selectedCategory != null) ...[
-          SizedBox(height: t.spacing.lg),
+          const CommonSpacer.vertical(16),
 
           Row(
             children: [
@@ -151,7 +150,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
             ],
           ),
 
-          SizedBox(height: t.spacing.lg),
+          const CommonSpacer.vertical(16),
 
           // ---- BAR CHART ----
           SizedBox(
@@ -217,6 +216,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
           ),
         ],
       ],
+      ),
     );
   }
 

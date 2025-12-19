@@ -1,18 +1,19 @@
 
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Theme alignment & structural cleanup. Not fully migrated or Riverpod integrated.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 import 'analytics_filter_card.dart';
 import 'metrics_row.dart';
-import 'use_distribution_card.dart';
 import 'insight_summary_card.dart';
-import 'usage_trends_card.dart';
 import 'recent_activity_list.dart';
+import 'use_distribution_card.dart';
+import 'usage_trends_card.dart';
 
 import '../../../../models/log_entry_model.dart';
 import '../../../../constants/enums/time_period.dart';

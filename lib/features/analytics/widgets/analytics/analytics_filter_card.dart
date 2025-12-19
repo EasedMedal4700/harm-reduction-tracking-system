@@ -1,8 +1,9 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Fully theme-compliant.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 

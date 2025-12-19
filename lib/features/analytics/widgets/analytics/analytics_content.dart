@@ -1,16 +1,18 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Fully theme-compliant.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../models/log_entry_model.dart';
 import '../../../../services/analytics_service.dart';
 import '../../../../constants/enums/time_period.dart';
-import 'time_period_selector.dart';
+import '../../../../common/inputs/filter_widget.dart';
 import 'analytics_summary.dart';
 import 'category_pie_chart.dart';
+import 'time_period_selector.dart';
 import 'usage_trend_chart.dart';
 
 class AnalyticsContent extends StatelessWidget {

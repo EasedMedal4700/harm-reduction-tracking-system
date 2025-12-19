@@ -1,10 +1,12 @@
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Initial migration header added. Some theme extension usage, but not fully migrated or Riverpod integrated.
+// Notes: Fully theme-compliant. Uses CommonPrimaryButton.
+
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 
 /// Widget displaying error state for the analytics page
 class AnalyticsErrorState extends StatelessWidget {
@@ -61,22 +63,12 @@ class AnalyticsErrorState extends StatelessWidget {
 
             SizedBox(height: sp.xl),
 
-            ElevatedButton.icon(
+            CommonPrimaryButton(
               onPressed: onRetry,
-              icon: const Icon(Icons.refresh),
-              label: const Text('Try Again'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: acc.primary,
-                foregroundColor: c.textInverse,
-                padding: EdgeInsets.symmetric(
-                  horizontal: sp.lg,
-                  vertical: sp.md,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(sp.md),
-                ),
-                shadowColor: c.overlayHeavy,
-              ),
+              icon: Icons.refresh,
+              label: 'Try Again',
+              backgroundColor: acc.primary,
+              textColor: c.textInverse,
             ),
           ],
         ),

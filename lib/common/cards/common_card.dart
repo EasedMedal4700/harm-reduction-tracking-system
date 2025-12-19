@@ -16,6 +16,7 @@ class CommonCard extends StatelessWidget {
   final double? borderRadius;
   final bool showBorder;
   final Color? borderColor;
+  final VoidCallback? onTap;
 
   const CommonCard({
     required this.child,
@@ -24,31 +25,59 @@ class CommonCard extends StatelessWidget {
     this.borderRadius,
     this.showBorder = true,
     this.borderColor,
+    this.onTap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: padding ?? EdgeInsets.all(context.spacing.cardPadding),
-      decoration: _buildDecoration(context),
-      child: child,
-    );
-  }
+    final radius = borderRadius ?? context.shapes.radiusLg;
+    
+    // If no tap handler, use simple Container
+    if (onTap == null) {
+      return Container(
+        padding: padding ?? EdgeInsets.all(context.spacing.cardPadding),
+        decoration: BoxDecoration(
+          color: backgroundColor ?? context.colors.surface,
+          borderRadius: BorderRadius.circular(radius),
+          border: showBorder
+              ? Border.all(
+                  color: borderColor ?? context.colors.border,
+                  width: 1,
+                )
+              : null,
+          boxShadow: context.cardShadow,
+        ),
+        child: child,
+      );
+    }
 
-  BoxDecoration _buildDecoration(BuildContext context) {
-    return BoxDecoration(
-      color: backgroundColor ?? context.colors.surface,
-      borderRadius: BorderRadius.circular(
-        borderRadius ?? context.shapes.radiusLg,
+    // If tappable, use Material+InkWell
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(radius),
+        boxShadow: context.cardShadow,
       ),
-      border: showBorder
-          ? Border.all(
-              color: borderColor ?? context.colors.border,
-              width: 1,
-            )
-          : null,
-      boxShadow: context.cardShadow,
+      child: Material(
+        color: backgroundColor ?? context.colors.surface,
+        shape: showBorder
+            ? RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(radius),
+                side: BorderSide(
+                  color: borderColor ?? context.colors.border,
+                  width: 1,
+                ),
+              )
+            : RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: padding ?? EdgeInsets.all(context.spacing.cardPadding),
+            child: child,
+          ),
+        ),
+      ),
     );
   }
 }
