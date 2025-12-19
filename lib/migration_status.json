@@ -116,9 +116,9 @@
     ]
   },
   "lib/screens/tolerance_dashboard_page.dart": {
-    "status": "needs_migration",
-    "theme": "deprecated",
-    "notes": "Uses UIColors and ThemeConstants",
+    "status": "updated",
+    "theme": "AppTheme",
+    "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE",
     "widgets": [
       {
         "path": "lib/widgets/tolerance_dashboard/dashboard_content_widget.dart",
@@ -172,7 +172,7 @@
         "path": "lib/widgets/tolerance/tolerance_summary_card.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/tolerance/tolerance_stats_card.dart",
@@ -208,7 +208,7 @@
         "path": "lib/widgets/tolerance/bucket_tolerance_breakdown.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/tolerance/bucket_detail_section.dart",
@@ -669,13 +669,13 @@
         "path": "lib/widgets/catalog/add_stockpile_sheet.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/personal_library/substance_card.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/personal_library/summary_stats_banner.dart",
@@ -798,49 +798,49 @@
         "path": "lib/widgets/settings/ui_settings_section.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/settings/notification_settings_section.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/settings/privacy_settings_section.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/settings/data_sync_settings_section.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/settings/entry_preferences_section.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/settings/display_settings_section.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/settings/about_section.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/settings/account_management_section.dart",
         "status": "updated",
         "theme": "AppTheme",
-        "notes": "Migrated to AppThemeExtension"
+        "notes": "Migrated to AppThemeExtension and common components. Common: COMPLETE"
       },
       {
         "path": "lib/widgets/settings/settings_dialogs.dart",
