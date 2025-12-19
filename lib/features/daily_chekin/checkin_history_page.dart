@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 import 'widgets/checkin_history/checkin_card.dart';
 import '../../providers/daily_checkin_provider.dart';
 import '../../constants/theme/app_theme_extension.dart';
@@ -37,7 +37,7 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
         elevation: 0,
         iconTheme: IconThemeData(color: c.textPrimary),
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: Consumer<DailyCheckinProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {

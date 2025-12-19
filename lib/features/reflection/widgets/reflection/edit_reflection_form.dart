@@ -1,7 +1,7 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 // Notes: No hardcoded values.
 import 'package:flutter/material.dart';
-import '../../../../common/old_common/modern_form_card.dart';
+import '../../../../common/cards/common_form_card.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 
@@ -128,7 +128,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           SizedBox(height: t.spacing.lg),
           
           // Effectiveness Section
-          ModernFormCard(
+          CommonFormCard(
             title: 'Effectiveness',
             icon: Icons.star,
             accentColor: t.colors.info,
@@ -144,7 +144,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           SizedBox(height: t.spacing.lg),
           
           // Sleep Section
-          ModernFormCard(
+          CommonFormCard(
             title: 'Sleep',
             icon: Icons.bedtime,
             accentColor: t.accent.primary,
@@ -175,7 +175,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           SizedBox(height: t.spacing.lg),
           
           // Mood & Energy Section
-          ModernFormCard(
+          CommonFormCard(
             title: 'Mood & Energy',
             icon: Icons.psychology,
             accentColor: t.colors.warning,
@@ -202,7 +202,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           SizedBox(height: t.spacing.lg),
           
           // Side Effects Section
-          ModernFormCard(
+          CommonFormCard(
             title: 'Side Effects',
             icon: Icons.warning_amber,
             accentColor: t.accent.secondary,
@@ -217,7 +217,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           SizedBox(height: t.spacing.lg),
           
           // Cravings & Coping Section
-          ModernFormCard(
+          CommonFormCard(
             title: 'Cravings & Coping',
             icon: Icons.psychology_outlined,
             accentColor: t.colors.success,
@@ -255,7 +255,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           SizedBox(height: t.spacing.lg),
           
           // Overall & Notes Section
-          ModernFormCard(
+          CommonFormCard(
             title: 'Overall',
             icon: Icons.assessment,
             accentColor: t.accent.secondary,

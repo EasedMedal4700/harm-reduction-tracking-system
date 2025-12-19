@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../repo/substance_repository.dart';
 import '../../services/analytics_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 import 'widgets/catalog/add_stockpile_sheet.dart';
 import 'widgets/catalog/substance_details_sheet.dart';
 import 'widgets/catalog/catalog_app_bar.dart';
@@ -112,7 +112,7 @@ class _CatalogPageState extends State<CatalogPage> {
       return Scaffold(
         backgroundColor: t.colors.background,
         appBar: const CatalogAppBar(),
-        drawer: const DrawerMenu(),
+        drawer: const CommonDrawer(),
         body: Center(child: CircularProgressIndicator(color: t.accent.primary)),
       );
     }
@@ -120,7 +120,7 @@ class _CatalogPageState extends State<CatalogPage> {
     return Scaffold(
       backgroundColor: t.colors.background,
       appBar: const CatalogAppBar(),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: Column(
         children: [
           CatalogSearchFilters(

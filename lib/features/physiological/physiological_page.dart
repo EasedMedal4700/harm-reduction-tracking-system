@@ -1,6 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 
 /// Placeholder page for physiological monitoring features
 class PhysiologicalPage extends StatelessWidget {
@@ -24,7 +24,7 @@ class PhysiologicalPage extends StatelessWidget {
         foregroundColor: c.textPrimary,
         elevation: 0,
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(sp.xl),

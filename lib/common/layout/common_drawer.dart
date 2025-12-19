@@ -3,24 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../constants/config/feature_flags.dart';
+import '../../constants/theme/app_theme_extension.dart';
 import '../../routes/app_routes.dart';
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';
 
 // MIGRATION
-// Theme: PARTIAL (Hardcoded colors, but no deprecated constants)
-// Common: CHECKED
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
-// Notes: Uses hardcoded colors for gradient header. Safe to keep for now.
+// Notes: Replaces old_common/drawer_menu.dart. Fully themed.
 
-class DrawerMenu extends StatefulWidget {
-  const DrawerMenu({super.key});
+class CommonDrawer extends StatefulWidget {
+  const CommonDrawer({super.key});
 
   @override
-  State<DrawerMenu> createState() => _DrawerMenuState();
+  State<CommonDrawer> createState() => _CommonDrawerState();
 }
 
-class _DrawerMenuState extends State<DrawerMenu> {
+class _CommonDrawerState extends State<CommonDrawer> {
   late Timer _timer;
   DateTime _now = DateTime.now();
   bool _isAdmin = false;
@@ -30,7 +31,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
     super.initState();
     // Update every second to keep time live
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      setState(() => _now = DateTime.now());
+      if (mounted) {
+        setState(() => _now = DateTime.now());
+      }
     });
     _loadAdminStatus();
   }
@@ -59,6 +62,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final text = context.text;
+
     // Section 1: Main Navigation (with feature flag keys)
     final List<Map<String, dynamic>> mainPages = [
       {'icon': Icons.home, 'title': 'Home', 'builder': AppRoutes.buildHomePage, 'flag': FeatureFlags.homePage},
@@ -94,6 +100,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin)).toList();
 
         return Drawer(
+          backgroundColor: c.surface,
           child: Column(
             children: [
               // Modern gradient header
@@ -107,19 +114,19 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     // Section 1: Main Navigation
                     if (filteredMainPages.isNotEmpty) ...[
                       ...filteredMainPages.map((page) => _buildMenuItem(context, page)),
-                      _buildSleekDivider(),
+                      _buildSleekDivider(context),
                     ],
                     
                     // Section 2: Data & Resources
                     if (filteredDataPages.isNotEmpty) ...[
                       ...filteredDataPages.map((page) => _buildMenuItem(context, page)),
-                      _buildSleekDivider(),
+                      _buildSleekDivider(context),
                     ],
                     
                     // Section 3: Advanced Features
                     if (filteredAdvancedPages.isNotEmpty) ...[
                       ...filteredAdvancedPages.map((page) => _buildMenuItem(context, page)),
-                      _buildSleekDivider(),
+                      _buildSleekDivider(context),
                     ],
                     
                     // Daily Check-In
@@ -163,16 +170,16 @@ class _DrawerMenuState extends State<DrawerMenu> {
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 decoration: BoxDecoration(
-                  border: Border(top: BorderSide(color: Theme.of(context).dividerColor)),
+                  border: Border(top: BorderSide(color: c.divider)),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(_formatDate(_now), style: Theme.of(context).textTheme.bodyMedium),
+                    Text(_formatDate(_now), style: text.bodyMedium.copyWith(color: c.textSecondary)),
                     const SizedBox(height: 4),
                     Text(
                       _formatTime(_now),
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                      style: text.titleMedium.copyWith(fontWeight: FontWeight.w600, color: c.textPrimary),
                     ),
                   ],
                 ),
@@ -185,7 +192,10 @@ class _DrawerMenuState extends State<DrawerMenu> {
   }
 
   Widget _buildModernHeader(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final c = context.colors;
+    final accent = context.accent;
+    final text = context.text;
+    
     final user = Supabase.instance.client.auth.currentUser;
     final email = user?.email ?? 'Guest';
     final username = email.split('@')[0];
@@ -196,9 +206,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: isDark
-              ? [const Color(0xFF1A1A2E), const Color(0xFF2A2A3E)]
-              : [Colors.blue.shade700, Colors.blue.shade900],
+          colors: [accent.primary, accent.primaryVariant],
         ),
       ),
       child: SafeArea(
@@ -210,31 +218,28 @@ class _DrawerMenuState extends State<DrawerMenu> {
             children: [
               CircleAvatar(
                 radius: 32,
-                backgroundColor: Colors.white.withValues(alpha: 0.2),
+                backgroundColor: c.surface.withValues(alpha: 0.2),
                 child: Text(
                   username.isNotEmpty ? username[0].toUpperCase() : '?',
-                  style: const TextStyle(
-                    fontSize: 32,
+                  style: text.headlineMedium.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: c.textInverse,
                   ),
                 ),
               ),
               const SizedBox(height: 12),
               Text(
                 username,
-                style: const TextStyle(
-                  fontSize: 20,
+                style: text.titleLarge.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: c.textInverse,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 email,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white.withValues(alpha: 0.8),
+                style: text.bodySmall.copyWith(
+                  color: c.textInverse.withValues(alpha: 0.8),
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -246,9 +251,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
   }
 
   Widget _buildMenuItem(BuildContext context, Map<String, dynamic> page) {
+    final c = context.colors;
+    final text = context.text;
+
     return ListTile(
-      leading: Icon(page['icon']),
-      title: Text(page['title']),
+      leading: Icon(page['icon'], color: c.textSecondary),
+      title: Text(page['title'], style: text.bodyMedium.copyWith(color: c.textPrimary)),
       onTap: () async {
         Navigator.pop(context);
         // Navigate and wait for result - triggers refresh on return
@@ -262,7 +270,8 @@ class _DrawerMenuState extends State<DrawerMenu> {
     );
   }
 
-  Widget _buildSleekDivider() {
+  Widget _buildSleekDivider(BuildContext context) {
+    final c = context.colors;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Container(
@@ -271,7 +280,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           gradient: LinearGradient(
             colors: [
               Colors.transparent,
-              Colors.grey.withValues(alpha: 0.3),
+              c.divider.withValues(alpha: 0.5),
               Colors.transparent,
             ],
           ),
@@ -281,31 +290,32 @@ class _DrawerMenuState extends State<DrawerMenu> {
   }
 
   Widget _buildAdminFeatureFlagsItem(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final c = context.colors;
+    final text = context.text;
+    
     return ListTile(
       leading: Icon(
         Icons.flag,
-        color: isDark ? Colors.amber : Colors.orange,
+        color: c.warning,
       ),
       title: Text(
         'Feature Flags',
-        style: TextStyle(
-          color: isDark ? Colors.amber : Colors.orange,
+        style: text.bodyMedium.copyWith(
+          color: c.warning,
           fontWeight: FontWeight.w500,
         ),
       ),
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
-          color: (isDark ? Colors.amber : Colors.orange).withValues(alpha: 0.2),
+          color: c.warning.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
           'Admin',
-          style: TextStyle(
-            fontSize: 10,
+          style: text.labelSmall.copyWith(
             fontWeight: FontWeight.bold,
-            color: isDark ? Colors.amber : Colors.orange,
+            color: c.warning,
           ),
         ),
       ),

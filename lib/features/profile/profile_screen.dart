@@ -7,7 +7,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/core_providers.dart';
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 import 'widgets/profile/profile_header.dart';
 import 'widgets/profile/statistics_card.dart';
 import 'widgets/profile/account_info_card.dart';
@@ -139,7 +139,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
         ],
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : RefreshIndicator(

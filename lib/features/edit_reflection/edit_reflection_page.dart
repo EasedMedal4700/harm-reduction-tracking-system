@@ -6,7 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 import '../reflection/widgets/reflection/edit_reflection_form.dart';
 import 'widgets/edit_reflection/reflection_app_bar.dart';
 import '../../models/reflection_model.dart';
@@ -214,7 +214,7 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
         isSaving: _isSaving,
         onSave: _saveChanges,
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: _isLoading 
           ? Center(child: CircularProgressIndicator(color: a.primary)) 
           : EditReflectionForm(

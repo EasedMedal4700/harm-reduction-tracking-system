@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
-import '../../../common/old_common/drawer_menu.dart';
-import '../../../models/bucket_definitions.dart';
-import '../../../services/tolerance_service.dart';
+import '../../common/layout/common_drawer.dart';
+import '../../models/bucket_definitions.dart';
+import '../../services/tolerance_service.dart';
 import '../../../services/user_service.dart';
 import '../../../services/tolerance_engine_service.dart';
 import '../../../services/debug_config.dart';
@@ -232,7 +232,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
           ],
         ],
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: _isLoadingOptions
           ? Center(child: CircularProgressIndicator(color: a.primary))
           : SingleChildScrollView(

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../services/analytics_service.dart';
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 import '../../models/log_entry_model.dart';
 import 'widgets/analytics/analytics_app_bar.dart';
 import 'widgets/analytics/analytics_loading_state.dart';
 import 'widgets/analytics/analytics_error_state.dart';
 import 'widgets/analytics/analytics_layout.dart';
-import '../../common/old_common/filter.dart';
+import '../../common/inputs/filter_widget.dart';
 import '../../constants/data/drug_categories.dart';
 import '../../constants/enums/time_period.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -119,7 +119,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
           );
         },
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: _buildBody(),
     );
   }

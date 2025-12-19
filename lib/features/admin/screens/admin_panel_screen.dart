@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../common/old_common/drawer_menu.dart';
+import '../../../common/layout/common_drawer.dart';
 import '../../../services/admin_service.dart';
 import '../../../services/cache_service.dart';
 import '../../../services/performance_service.dart';
@@ -256,7 +256,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         isLoading: _isLoading,
         onRefresh: _loadData,
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: _isLoading
           ? Center(child: CircularProgressIndicator(color: t.accent.primary))
           : RefreshIndicator(

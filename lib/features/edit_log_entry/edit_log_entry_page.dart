@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 import '../../models/log_entry_model.dart';
 import '../../models/log_entry_form_data.dart';
 import '../log_entry/log_entry_controller.dart';
@@ -274,7 +274,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
           setState(() => _formData = _formData.copyWith(isSimpleMode: value));
         },
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: Stack(
         children: [
           FadeTransition(

@@ -7,7 +7,7 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 import 'widgets/log_entry/log_entry_form.dart';
 import 'widgets/log_entry_page/log_entry_app_bar.dart';
 import 'log_entry_state.dart';
@@ -204,7 +204,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
               isSimpleMode: state.isSimpleMode,
               onSimpleModeChanged: state.setIsSimpleMode,
             ),
-            drawer: const DrawerMenu(),
+            drawer: const CommonDrawer(),
             body: Stack(
               children: [
                 FadeTransition(

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Placeholder page. Migrated to use AppTheme. No hardcoded values.
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 
 /// Placeholder page for drug interaction checking
 class InteractionsPage extends StatelessWidget {
@@ -29,7 +29,7 @@ class InteractionsPage extends StatelessWidget {
         foregroundColor: c.textPrimary,
         elevation: 0,
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(sp.xl),

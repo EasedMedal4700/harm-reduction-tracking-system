@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../common/layout/common_drawer.dart';
 
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Placeholder page. Migrated to use AppTheme. No hardcoded values.
-import '../../common/old_common/drawer_menu.dart';
 
 /// Placeholder page for WearOS companion app
 class WearOSPage extends StatelessWidget {
@@ -26,7 +26,7 @@ class WearOSPage extends StatelessWidget {
         foregroundColor: c.textPrimary,
         elevation: 0,
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(sp.xl),

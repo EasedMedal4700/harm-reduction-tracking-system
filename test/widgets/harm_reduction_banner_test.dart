@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/common/old_common/harm_reduction_banner.dart';
+import 'package:mobile_drug_use_app/common/feedback/harm_reduction_banner.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -10,13 +12,22 @@ void main() {
       SharedPreferences.setMockInitialValues({});
     });
 
-    testWidgets('displays default message', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
+    Widget createWidgetUnderTest(Widget child, {Brightness brightness = Brightness.light}) {
+      final theme = brightness == Brightness.light ? AppTheme.light() : AppTheme.dark();
+      return AppThemeProvider(
+        theme: theme,
+        child: MaterialApp(
+          theme: theme.themeData,
           home: Scaffold(
-            body: HarmReductionBanner(),
+            body: child,
           ),
         ),
+      );
+    }
+
+    testWidgets('displays default message', (tester) async {
+      await tester.pumpWidget(
+        createWidgetUnderTest(const HarmReductionBanner()),
       );
       await tester.pumpAndSettle();
 
@@ -28,11 +39,7 @@ void main() {
       const customMessage = 'Custom warning message';
       
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: HarmReductionBanner(message: customMessage),
-          ),
-        ),
+        createWidgetUnderTest(const HarmReductionBanner(message: customMessage)),
       );
       await tester.pumpAndSettle();
 
@@ -41,12 +48,10 @@ void main() {
 
     testWidgets('shows dismiss button when dismissKey is provided', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: HarmReductionBanner(
-              dismissKey: 'test_key',
-              onDismiss: () {},
-            ),
+        createWidgetUnderTest(
+          HarmReductionBanner(
+            dismissKey: 'test_key',
+            onDismiss: () {},
           ),
         ),
       );
@@ -57,11 +62,7 @@ void main() {
 
     testWidgets('hides dismiss button when dismissKey is not provided', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: HarmReductionBanner(),
-          ),
-        ),
+        createWidgetUnderTest(const HarmReductionBanner()),
       );
       await tester.pumpAndSettle();
 
@@ -72,12 +73,10 @@ void main() {
       bool dismissed = false;
       
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: HarmReductionBanner(
-              dismissKey: 'test_dismiss_key',
-              onDismiss: () => dismissed = true,
-            ),
+        createWidgetUnderTest(
+          HarmReductionBanner(
+            dismissKey: 'test_dismiss_key',
+            onDismiss: () => dismissed = true,
           ),
         ),
       );
@@ -90,12 +89,7 @@ void main() {
 
     testWidgets('renders in light theme', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          theme: ThemeData.light(),
-          home: const Scaffold(
-            body: HarmReductionBanner(),
-          ),
-        ),
+        createWidgetUnderTest(const HarmReductionBanner(), brightness: Brightness.light),
       );
 
       expect(find.text('Harm Reduction Notice'), findsOneWidget);
@@ -103,12 +97,7 @@ void main() {
 
     testWidgets('renders in dark theme', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          theme: ThemeData.dark(),
-          home: const Scaffold(
-            body: HarmReductionBanner(),
-          ),
-        ),
+        createWidgetUnderTest(const HarmReductionBanner(), brightness: Brightness.dark),
       );
 
       expect(find.text('Harm Reduction Notice'), findsOneWidget);

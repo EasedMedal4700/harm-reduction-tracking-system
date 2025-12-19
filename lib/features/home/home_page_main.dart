@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 // Notes: Main Home Page. Migrated to use AppTheme and Common components. No hardcoded values.
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 import 'home_redesign/header_card.dart';
 import 'home_redesign/daily_checkin_card.dart';
 import 'home_page/home_quick_actions_grid.dart';
@@ -179,7 +179,7 @@ class _HomePageState extends State<HomePage>
           ),
         ],
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       floatingActionButton: _buildFAB(context),
       body: RefreshIndicator(
         color: context.accent.primary,

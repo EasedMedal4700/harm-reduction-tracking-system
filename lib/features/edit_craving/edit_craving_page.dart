@@ -6,7 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 import '../craving/widgets/cravings/craving_details_section.dart';
 import '../craving/widgets/cravings/emotional_state_section.dart';
 import '../craving/widgets/cravings/body_mind_signals_section.dart';
@@ -269,7 +269,7 @@ class _EditCravingPageState extends State<EditCravingPage> {
         isSaving: _isSaving,
         onSave: _saveChanges,
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: _isLoading
           ? Center(child: CircularProgressIndicator(color: a.primary))
           : SingleChildScrollView(

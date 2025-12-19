@@ -2,7 +2,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 import 'widgets/daily_checkin/readonly_field.dart';
 import 'widgets/daily_checkin/time_of_day_indicator.dart';
 import 'widgets/daily_checkin/existing_checkin_notice.dart';
@@ -69,7 +69,7 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
           ),
         ],
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: RefreshIndicator(
         color: a.primary,
         backgroundColor: c.surface,

@@ -7,8 +7,8 @@ import 'widgets/blood_levels/blood_levels_loading_state.dart';
 import 'widgets/blood_levels/blood_levels_error_state.dart';
 import 'widgets/blood_levels/blood_levels_empty_state.dart';
 import 'widgets/blood_levels/blood_levels_content.dart';
-import '../../common/old_common/drawer_menu.dart';
-import '../../common/old_common/harm_reduction_banner.dart';
+import '../../common/layout/common_drawer.dart';
+import '../../common/feedback/harm_reduction_banner.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
 class BloodLevelsPage extends StatefulWidget {
@@ -106,7 +106,7 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
         filterCount: _includedDrugs.length + _excludedDrugs.length,
         timelineVisible: _showTimeline,
       ),
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: _buildBody(),
     );
   }

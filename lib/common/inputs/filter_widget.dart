@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../constants/enums/time_period.dart';
+import '../../constants/theme/app_theme_extension.dart';
+
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Replaces old_common/filter.dart. Fully aligned with AppThemeExtension.
 
 class FilterWidget extends StatelessWidget {
   final List<String> uniqueCategories;
@@ -56,7 +63,10 @@ class FilterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -64,13 +74,12 @@ class FilterWidget extends StatelessWidget {
               if (selectedPeriod != null && onPeriodChanged != null) ...[
                 Text(
                   'Time Period',
-                  style: TextStyle(
-                    fontSize: 14,
+                  style: t.text.heading4.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: isDark ? Colors.white : Colors.black87,
+                    color: c.textPrimary,
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: sp.sm),
                 Row(
                   children: [
                     Expanded(
@@ -80,7 +89,7 @@ class FilterWidget extends StatelessWidget {
                         onTap: () => onPeriodChanged!(TimePeriod.last7Days),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: sp.xs),
                     Expanded(
                       child: _PeriodButton(
                         label: '30 Days',
@@ -88,7 +97,7 @@ class FilterWidget extends StatelessWidget {
                         onTap: () => onPeriodChanged!(TimePeriod.last7Weeks),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: sp.xs),
                     Expanded(
                       child: _PeriodButton(
                         label: '90 Days',
@@ -96,7 +105,7 @@ class FilterWidget extends StatelessWidget {
                         onTap: () => onPeriodChanged!(TimePeriod.last7Months),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: sp.xs),
                     Expanded(
                       child: _PeriodButton(
                         label: 'All Time',
@@ -106,28 +115,32 @@ class FilterWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: sp.md),
               ],
               // Type filter with buttons
               Text(
                 'Filter by Type',
-                style: TextStyle(
-                  fontSize: 14,
+                style: t.text.heading4.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: isDark ? Colors.white : Colors.black87,
+                  color: c.textPrimary,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: sp.sm),
               LayoutBuilder(
                 builder: (context, constraints) {
                   return ToggleButtons(
                     isSelected: [selectedTypeIndex == 0, selectedTypeIndex == 1, selectedTypeIndex == 2],
                     onPressed: onTypeChanged,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                     constraints: BoxConstraints(
                       minHeight: 40,
                       minWidth: (constraints.maxWidth - 20) / 3,
                     ),
+                    color: c.textSecondary,
+                    selectedColor: c.textPrimary,
+                    fillColor: t.accent.primary.withValues(alpha: 0.2),
+                    borderColor: c.border,
+                    selectedBorderColor: t.accent.primary,
                     children: const [
                       Text('All', style: TextStyle(fontSize: 13)),
                       Text('Medical', style: TextStyle(fontSize: 13)),
@@ -136,7 +149,7 @@ class FilterWidget extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: sp.md),
               FilterButtons(
                 label: 'Category',
                 options: uniqueCategories,
@@ -144,7 +157,7 @@ class FilterWidget extends StatelessWidget {
                 onChanged: onCategoryChanged,
                 allOptions: uniqueCategories,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: sp.md),
               FilterButtons(
                 label: 'Substance',
                 options: uniqueSubstances,
@@ -152,7 +165,7 @@ class FilterWidget extends StatelessWidget {
                 onChanged: onSubstanceChanged,
                 allOptions: uniqueSubstances,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: sp.md),
               FilterButtons(
                 label: 'Location',
                 options: uniquePlaces,
@@ -160,7 +173,7 @@ class FilterWidget extends StatelessWidget {
                 onChanged: onPlaceChanged,
                 allOptions: uniquePlaces,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: sp.md),
               FilterButtons(
                 label: 'Route',
                 options: uniqueRoutes,
@@ -168,7 +181,7 @@ class FilterWidget extends StatelessWidget {
                 onChanged: onRouteChanged,
                 allOptions: uniqueRoutes,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: sp.md),
               FilterButtons(
                 label: 'Emotions',
                 options: uniqueFeelings,
@@ -176,23 +189,24 @@ class FilterWidget extends StatelessWidget {
                 onChanged: onFeelingChanged,
                 allOptions: uniqueFeelings,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: sp.md),
               // Craving slider
               Text(
                 'Craving Intensity',
-                style: TextStyle(
-                  fontSize: 14,
+                style: t.text.heading4.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: isDark ? Colors.white : Colors.black87,
+                  color: c.textPrimary,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: sp.sm),
               RangeSlider(
                 values: RangeValues(minCraving, maxCraving),
                 min: 0,
                 max: 10,
                 divisions: 10,
                 labels: RangeLabels(minCraving.toStringAsFixed(0), maxCraving.toStringAsFixed(0)),
+                activeColor: t.accent.primary,
+                inactiveColor: c.border,
                 onChanged: (values) {
                   onMinCravingChanged(values.start);
                   onMaxCravingChanged(values.end);
@@ -216,36 +230,39 @@ class _PeriodButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(sh.radiusMd),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+          padding: EdgeInsets.symmetric(vertical: sp.sm, horizontal: sp.xs),
           decoration: BoxDecoration(
             color: isSelected
-                ? Theme.of(context).primaryColor.withValues(alpha: 0.15)
-                : (isDark ? Colors.grey[800] : Colors.grey[200]),
-            borderRadius: BorderRadius.circular(10),
+                ? t.accent.primary.withValues(alpha: 0.15)
+                : c.surface,
+            borderRadius: BorderRadius.circular(sh.radiusMd),
             border: Border.all(
               color: isSelected
-                  ? Theme.of(context).primaryColor
-                  : (isDark ? Colors.grey[700]! : Colors.grey[400]!),
+                  ? t.accent.primary
+                  : c.border,
               width: isSelected ? 2 : 1,
             ),
           ),
           child: Center(
             child: Text(
               label,
-              style: TextStyle(
-                fontSize: 13,
+              style: t.text.bodySmall.copyWith(
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                 color: isSelected
-                    ? Theme.of(context).primaryColor
-                    : (isDark ? Colors.grey[300] : Colors.grey[700]),
+                    ? t.accent.primary
+                    : c.textSecondary,
               ),
             ),
           ),
@@ -278,7 +295,11 @@ class FilterButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMulti = selectedValues != null;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final t = context.theme;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -286,29 +307,28 @@ class FilterButtons extends StatelessWidget {
           children: [
             Text(
               label,
-              style: TextStyle(
-                fontSize: 14,
+              style: t.text.heading4.copyWith(
                 fontWeight: FontWeight.w600,
-                color: isDark ? Colors.white : Colors.black87,
+                color: c.textPrimary,
               ),
             ),
             if (allOptions != null && onChanged != null) ...[
               const Spacer(),
               TextButton.icon(
                 onPressed: () => onChanged!(allOptions!),
-                icon: const Icon(Icons.select_all_rounded, size: 16),
-                label: const Text('Select All', style: TextStyle(fontSize: 12)),
+                icon: Icon(Icons.select_all_rounded, size: 16, color: t.accent.primary),
+                label: Text('Select All', style: TextStyle(fontSize: 12, color: t.accent.primary)),
                 style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),
                 ),
               ),
             ]
           ],
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: sp.sm),
         Wrap(
-          spacing: 10.0,
-          runSpacing: 10.0,
+          spacing: sp.sm,
+          runSpacing: sp.sm,
           children: options.map((option) {
             final isSelected = isMulti
                 ? selectedValues!.contains(option)
@@ -316,9 +336,9 @@ class FilterButtons extends StatelessWidget {
             return FilterChip(
               label: Text(
                 option,
-                style: TextStyle(
-                  fontSize: 13,
+                style: t.text.bodySmall.copyWith(
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                  color: isSelected ? t.accent.primary : c.textPrimary,
                 ),
               ),
               selected: isSelected,
@@ -335,18 +355,18 @@ class FilterButtons extends StatelessWidget {
                   onSingleChanged!(option == 'All' ? null : option);
                 }
               },
-              backgroundColor: isDark ? Colors.grey[800] : Colors.grey[200],
-              selectedColor: Theme.of(context).primaryColor.withValues(alpha: 0.2),
-              checkmarkColor: Theme.of(context).primaryColor,
+              backgroundColor: c.surface,
+              selectedColor: t.accent.primary.withValues(alpha: 0.2),
+              checkmarkColor: t.accent.primary,
               side: BorderSide(
                 color: isSelected 
-                    ? Theme.of(context).primaryColor 
-                    : (isDark ? Colors.grey[700]! : Colors.grey[400]!),
+                    ? t.accent.primary 
+                    : c.border,
                 width: isSelected ? 1.5 : 1,
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(sh.radiusLg),
               ),
             );
           }).toList(),

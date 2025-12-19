@@ -5,10 +5,10 @@ import '../../constants/theme/app_theme_extension.dart';
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
+// Notes: Replaces old_common/modern_form_card.dart. Fully aligned with AppThemeExtension.
 
 /// Modern card widget for form sections with glassmorphism effect
-class ModernFormCard extends StatelessWidget {
+class CommonFormCard extends StatelessWidget {
   final String? title;
   final IconData? icon;
   final Color? accentColor;
@@ -16,7 +16,7 @@ class ModernFormCard extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
 
-  const ModernFormCard({
+  const CommonFormCard({
     super.key,
     this.title,
     this.icon,

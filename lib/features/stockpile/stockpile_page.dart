@@ -6,7 +6,7 @@ import '../../services/personal_library_service.dart';
 import '../../repo/stockpile_repository.dart';
 import '../../repo/substance_repository.dart';
 import '../../models/stockpile_item.dart';
-import '../../common/old_common/drawer_menu.dart';
+import '../../common/layout/common_drawer.dart';
 import '../catalog/widgets/catalog/add_stockpile_sheet.dart';
 import 'widgets/personal_library/substance_card.dart';
 import 'widgets/personal_library/summary_stats_banner.dart';
@@ -189,7 +189,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
     
     return Scaffold(
       backgroundColor: c.background,
-      drawer: const DrawerMenu(),
+      drawer: const CommonDrawer(),
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
