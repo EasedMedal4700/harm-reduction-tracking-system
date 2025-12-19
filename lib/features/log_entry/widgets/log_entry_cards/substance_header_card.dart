@@ -20,6 +20,8 @@ class SubstanceHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final text = context.text;
     final c = context.colors;
     final acc = context.accent;
     final sp = context.spacing;

@@ -63,7 +63,7 @@ void showDeleteDataConfirmation(
                 Expanded(
                   child: Text(
                     'Consider downloading your data first!',
-                    style: context.text.body.copyWith(fontWeight: text.body.fontWeight),
+                    style: context.text.body.copyWith(fontWeight: context.text.body.fontWeight),
                   ),
                 ),
               ],
@@ -72,7 +72,7 @@ void showDeleteDataConfirmation(
           CommonSpacer.vertical(spacing.md),
           Text(
             'Your account will remain active, but all your data will be gone forever.',
-            style: context.text.body.copyWith(color: colors.error, fontWeight: text.body.fontWeight),
+            style: context.text.body.copyWith(color: colors.error, fontWeight: context.text.body.fontWeight),
           ),
         ],
       ),
@@ -201,7 +201,7 @@ void showDeleteAccountConfirmation(
             'This action CANNOT be reversed. Your data will be gone forever.',
             style: context.text.bodySmall.copyWith(
               color: colors.error,
-              fontWeight: text.bodyBold.fontWeight,
+              fontWeight: context.text.bodyBold.fontWeight,
             ),
           ),
         ],

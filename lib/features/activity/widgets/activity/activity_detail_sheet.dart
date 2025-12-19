@@ -69,10 +69,7 @@ class ActivityDetailSheet extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final c = context.colors;
     final text = context.text;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return Container(
       margin: EdgeInsets.only(top: sp.sm),
@@ -91,10 +88,6 @@ class ActivityDetailSheet extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final c = context.colors;
-    final sp = context.spacing;
-    final sh = context.shapes;
-    final text = context.text;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: sp.lg),
@@ -130,10 +123,6 @@ class ActivityDetailSheet extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final c = context.colors;
-    final sp = context.spacing;
-    final sh = context.shapes;
-    final text = context.text;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: sp.lg),
@@ -187,8 +176,7 @@ class ActivityDetailSheet extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context) {
-    final c = context.colors;
-    final sp = context.spacing;
+    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
 

@@ -111,7 +111,7 @@ class _HelpfulTipCard extends ConsumerWidget {
                   'About Tolerance Systems',
                   style: typography.body.copyWith(
                     color: colors.textPrimary,
-                    fontWeight: text.bodyBold.fontWeight,
+                    fontWeight: context.text.bodyBold.fontWeight,
                   ),
                 ),
                 CommonSpacer.vertical(spacing.xs),

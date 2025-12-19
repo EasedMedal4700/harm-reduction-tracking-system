@@ -334,10 +334,6 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-    final c = context.colors;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return Scaffold(
       backgroundColor: c.background,

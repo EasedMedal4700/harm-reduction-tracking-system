@@ -25,6 +25,7 @@ class DosageGuideCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
     if (doseData == null) {
       return _buildWarningCard(
@@ -87,6 +88,7 @@ class DosageGuideCard extends StatelessWidget {
     Color color,
   ) {
     final t = context.theme;
+    final text = context.text;
     if (range == null) return const SizedBox.shrink();
 
     return CommonCard(

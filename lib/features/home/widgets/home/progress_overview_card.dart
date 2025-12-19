@@ -123,6 +123,7 @@ class ProgressOverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final sp = context.spacing;
     final text = context.text;
 

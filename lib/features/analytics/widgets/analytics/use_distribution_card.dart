@@ -165,6 +165,7 @@ if (oldWidget.categoryCounts != widget.categoryCounts ||
 
 @override
 Widget build(BuildContext context) {
+    final text = context.text;
 final t = context.theme;
 
 final data = _controller.getActiveData(_viewType, _selectedCategory);
@@ -497,7 +498,7 @@ required String label,
 required bool selected,
 required VoidCallback onTap,
 }) {
-final t = context.theme;
+  final t = context.theme;
 
     return InkWell(
       borderRadius: BorderRadius.circular(t.shapes.radiusFull),

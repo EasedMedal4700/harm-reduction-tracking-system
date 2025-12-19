@@ -194,7 +194,7 @@ class SubstanceCard extends StatelessWidget {
                         'Total Uses',
                         '${entry.totalUses}',
                         Icons.bar_chart,
-                        t,
+                        context,
                       ),
                       CommonSpacer(width: t.spacing.lg),
                       _buildStatItem(
@@ -203,7 +203,7 @@ class SubstanceCard extends StatelessWidget {
                             ? DateFormat('MMM d').format(entry.lastUsed!)
                             : 'Never',
                         Icons.access_time,
-                        t,
+                        context,
                       ),
                     ],
                   ),                // Stockpile info
@@ -289,15 +289,18 @@ class SubstanceCard extends StatelessWidget {
   }
 
   Widget _buildStatItem(String label, String value, IconData icon, BuildContext context) {
+    final t = context.theme;
+    final text = context.text;
+
     return Expanded(
       child: Row(
         children: [
           Icon(
             icon,
-            size: t.sizes.iconSm,
+            size: context.sizes.iconSm,
             color: t.colors.textSecondary,
           ),
-          CommonSpacer(width: t.spacing.xs),
+          CommonSpacer(width: context.spacing.xs),
           Expanded(
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

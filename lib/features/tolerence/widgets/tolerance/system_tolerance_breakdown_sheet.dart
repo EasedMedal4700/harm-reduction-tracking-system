@@ -204,10 +204,9 @@ class _SystemToleranceBreakdownSheetState
     BuildContext context,
     ToleranceContribution item,
   ) {
-    // THEME ACCESS
+    final typography = context.text;
     final colors = context.colors;
     final spacing = context.spacing;
-    final typography = context.text;
     final radii = context.shapes;
 
     return Row(

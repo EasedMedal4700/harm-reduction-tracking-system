@@ -2,7 +2,6 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../../../common/layout/common_spacer.dart';
-import '../../../../common/widgets/common_spacer.dart';
 import '../../../../common/cards/common_card.dart';
 
 /// Reusable section widget for settings page
@@ -20,6 +19,7 @@ class SettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
     final c = context.colors;
     final a = context.accent;

@@ -42,6 +42,7 @@ class SubstanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
     final name = substance['pretty_name'] ?? substance['name'] ?? 'Unknown';
     final substanceId = substance['name'] ?? 'unknown';

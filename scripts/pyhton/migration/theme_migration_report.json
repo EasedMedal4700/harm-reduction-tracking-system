@@ -9,11 +9,21 @@
       }
     ]
   },
+  "lib\\features\\analytics\\widgets\\analytics\\analytics_filter_card.dart": {
+    "migrated": false,
+    "issues": [
+      {
+        "line": 33,
+        "description": "Duration with hardcoded value",
+        "snippet": "duration: const Duration(milliseconds: 300),"
+      }
+    ]
+  },
   "lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart": {
     "migrated": false,
     "issues": [
       {
-        "line": 180,
+        "line": 181,
         "description": "width with hardcoded value",
         "snippet": "width: 18,"
       }
@@ -43,52 +53,52 @@
     "migrated": false,
     "issues": [
       {
-        "line": 277,
+        "line": 275,
         "description": "hardcoded Colors",
         "snippet": "DrugCategoryColors.colorFor(cat),"
       },
       {
-        "line": 324,
+        "line": 322,
         "description": "maxHeight with hardcoded value",
         "snippet": "constraints: const BoxConstraints(maxHeight: 200),"
       },
       {
-        "line": 328,
+        "line": 326,
         "description": "hardcoded Colors",
         "snippet": "final color = DrugCategoryColors.colorFor(e.key);"
       },
       {
-        "line": 338,
+        "line": 336,
         "description": "width with hardcoded value",
         "snippet": "width: 10,"
       },
       {
-        "line": 339,
+        "line": 337,
         "description": "height with hardcoded value",
         "snippet": "height: 10,"
       },
       {
-        "line": 389,
+        "line": 387,
         "description": "Duration with hardcoded value",
         "snippet": "final d = now.subtract(Duration(days: i * 7));"
       },
       {
-        "line": 390,
+        "line": 388,
         "description": "Duration with hardcoded value",
         "snippet": "final monday = d.subtract(Duration(days: d.weekday - 1));"
       },
       {
-        "line": 415,
+        "line": 413,
         "description": "Duration with hardcoded value",
         "snippet": "final monday = dt.subtract(Duration(days: dt.weekday - 1));"
       },
       {
-        "line": 451,
+        "line": 449,
         "description": "Duration with hardcoded value",
         "snippet": "final d = now.subtract(Duration(days: i * 7));"
       },
       {
-        "line": 452,
+        "line": 450,
         "description": "Duration with hardcoded value",
         "snippet": "final mon = d.subtract(Duration(days: d.weekday - 1));"
       }
@@ -138,37 +148,37 @@
         "snippet": "final base = DrugCategoryColors.colorFor(category);"
       },
       {
-        "line": 336,
+        "line": 337,
         "description": "hardcoded Colors",
         "snippet": "? DrugCategoryColors.colorFor(e.key)"
       },
       {
-        "line": 351,
+        "line": 352,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 12,"
       },
       {
-        "line": 352,
+        "line": 353,
         "description": "FontWeight with hardcoded value",
         "snippet": "fontWeight: FontWeight.w700,"
       },
       {
-        "line": 353,
+        "line": 354,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.white,"
       },
       {
-        "line": 379,
+        "line": 380,
         "description": "maxHeight with hardcoded value",
         "snippet": "constraints: const BoxConstraints(maxHeight: 220),"
       },
       {
-        "line": 386,
+        "line": 387,
         "description": "hardcoded Colors",
         "snippet": "? DrugCategoryColors.colorFor(e.key)"
       },
       {
-        "line": 633,
+        "line": 634,
         "description": "height with hardcoded value",
         "snippet": "height: 180,"
       }
@@ -193,12 +203,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 193,
+        "line": 189,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 11,"
       },
       {
-        "line": 215,
+        "line": 211,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 11,"
       }
@@ -208,12 +218,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 279,
+        "line": 276,
         "description": "hardcoded Colors",
         "snippet": "return DrugCategoryColors.defaultColor;"
       },
       {
-        "line": 281,
+        "line": 278,
         "description": "hardcoded Colors",
         "snippet": "return DrugCategoryColors.colorFor(widget.level.categories.first);"
       }
@@ -223,12 +233,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 270,
+        "line": 271,
         "description": "height with hardcoded value",
         "snippet": "height: 250,"
       },
       {
-        "line": 339,
+        "line": 338,
         "description": "hardcoded Colors",
         "snippet": "final baseColor = DrugCategoryColors.colorFor(category);"
       }
@@ -298,12 +308,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 77,
+        "line": 78,
         "description": "hardcoded Colors",
         "snippet": "_buildDoseCard(context, 'Heavy', doseData!['Heavy'], Colors.purple),"
       },
       {
-        "line": 164,
+        "line": 166,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       }
@@ -313,22 +323,22 @@
     "migrated": false,
     "issues": [
       {
-        "line": 55,
+        "line": 56,
         "description": "hardcoded Colors",
         "snippet": "final categoryColor = DrugCategoryColors.colorFor(primaryCategory);"
       },
       {
-        "line": 105,
+        "line": 106,
         "description": "width with hardcoded value",
         "snippet": "width: 1.5,"
       },
       {
-        "line": 125,
+        "line": 126,
         "description": "spacing with hardcoded value",
         "snippet": "spacing: 6,"
       },
       {
-        "line": 170,
+        "line": 171,
         "description": "height with hardcoded value",
         "snippet": "Divider(height: 1, color: t.colors.divider),"
       }
@@ -338,12 +348,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 155,
+        "line": 156,
         "description": "hardcoded Colors",
         "snippet": "final accentColor = DrugCategoryColors.colorFor(primaryCategory);"
       },
       {
-        "line": 177,
+        "line": 178,
         "description": "width with hardcoded value",
         "snippet": "width: 40,"
       },
@@ -353,12 +363,12 @@
         "snippet": "height: 1.5,"
       },
       {
-        "line": 446,
+        "line": 445,
         "description": "height with hardcoded value",
         "snippet": "height: 1.6,"
       },
       {
-        "line": 499,
+        "line": 498,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       }
@@ -368,7 +378,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 56,
+        "line": 57,
         "description": "height with hardcoded value",
         "snippet": "height: 40,"
       }
@@ -381,6 +391,21 @@
         "line": 160,
         "description": "Duration with hardcoded value",
         "snippet": "final yesterday = today.subtract(const Duration(days: 1));"
+      }
+    ]
+  },
+  "lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart": {
+    "migrated": false,
+    "issues": [
+      {
+        "line": 146,
+        "description": "Duration with hardcoded value",
+        "snippet": "duration: const Duration(seconds: 3),"
+      },
+      {
+        "line": 163,
+        "description": "Duration with hardcoded value",
+        "snippet": "duration: const Duration(seconds: 3),"
       }
     ]
   },
@@ -398,24 +423,49 @@
     "migrated": false,
     "issues": [
       {
-        "line": 169,
+        "line": 163,
         "description": "size with hardcoded value",
         "snippet": "size: 64,"
       },
       {
-        "line": 214,
+        "line": 202,
         "description": "size with hardcoded value",
         "snippet": "size: 64,"
       },
       {
-        "line": 392,
+        "line": 374,
         "description": "strokeWidth with hardcoded value",
         "snippet": "child: const CircularProgressIndicator(strokeWidth: 2),"
       },
       {
-        "line": 392,
+        "line": 374,
         "description": "CircularProgressIndicator with hardcoded strokeWidth",
         "snippet": "child: const CircularProgressIndicator(strokeWidth: 2),"
+      }
+    ]
+  },
+  "lib\\features\\home\\home_page.dart": {
+    "migrated": false,
+    "issues": [
+      {
+        "line": 53,
+        "description": "Duration with hardcoded value",
+        "snippet": "duration: const Duration(milliseconds: 300),"
+      },
+      {
+        "line": 186,
+        "description": "Duration with hardcoded value",
+        "snippet": "await Future.delayed(const Duration(milliseconds: 500));"
+      }
+    ]
+  },
+  "lib\\features\\home\\home_page_main.dart": {
+    "migrated": false,
+    "issues": [
+      {
+        "line": 58,
+        "description": "Duration with hardcoded value",
+        "snippet": "duration: const Duration(milliseconds: 300),"
       }
     ]
   },
@@ -448,7 +498,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 51,
+        "line": 52,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.black.withValues(alpha: 0.03),"
       }
@@ -458,17 +508,17 @@
     "migrated": false,
     "issues": [
       {
-        "line": 52,
+        "line": 53,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.black.withValues(alpha: 0.03),"
       },
       {
-        "line": 105,
+        "line": 106,
         "description": "SizedBox with hardcoded size",
         "snippet": "SizedBox(height: 2),"
       },
       {
-        "line": 105,
+        "line": 106,
         "description": "height with hardcoded value",
         "snippet": "SizedBox(height: 2),"
       }
@@ -493,12 +543,12 @@
         "snippet": "? Border.all(color: t.accent.primary, width: 1)"
       },
       {
-        "line": 144,
+        "line": 145,
         "description": "crossAxisCount with hardcoded value",
         "snippet": "crossAxisCount: 3,"
       },
       {
-        "line": 147,
+        "line": 148,
         "description": "childAspectRatio with hardcoded value",
         "snippet": "childAspectRatio: 1.0,"
       }
@@ -508,7 +558,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 120,
+        "line": 114,
         "description": "width with hardcoded value",
         "snippet": "border: t.isDark ? Border.all(color: t.accent.primary, width: 1) : null,"
       }
@@ -533,47 +583,52 @@
     "migrated": false,
     "issues": [
       {
-        "line": 281,
+        "line": 85,
+        "description": "Duration with hardcoded value",
+        "snippet": "await Future.delayed(const Duration(milliseconds: 100));"
+      },
+      {
+        "line": 282,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
       },
       {
-        "line": 319,
+        "line": 320,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.black.withValues(alpha: 0.05),"
       },
       {
-        "line": 320,
+        "line": 321,
         "description": "blurRadius with hardcoded value",
         "snippet": "blurRadius: 10,"
       },
       {
-        "line": 332,
+        "line": 333,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 12,"
       },
       {
-        "line": 340,
+        "line": 341,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 12,"
       },
       {
-        "line": 367,
+        "line": 368,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.error.withValues(alpha: 0.3)),"
       },
       {
-        "line": 391,
+        "line": 392,
         "description": "height with hardcoded value",
         "snippet": "height: 60,"
       },
       {
-        "line": 407,
+        "line": 408,
         "description": "strokeWidth with hardcoded value",
         "snippet": "strokeWidth: 2,"
       },
       {
-        "line": 434,
+        "line": 435,
         "description": "width with hardcoded value",
         "snippet": "side: BorderSide(color: a.primary, width: 2),"
       }
@@ -678,12 +733,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 45,
+        "line": 46,
         "description": "fontSize with hardcoded value",
         "snippet": "style: const TextStyle(fontSize: 20.0),"
       },
       {
-        "line": 45,
+        "line": 46,
         "description": "TextStyle with hardcoded fontSize",
         "snippet": "style: const TextStyle(fontSize: 20.0),"
       }
@@ -728,17 +783,17 @@
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 358,
+        "line": 354,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
       },
       {
-        "line": 383,
+        "line": 379,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.warning.withValues(alpha: 0.3)),"
       },
       {
-        "line": 403,
+        "line": 399,
         "description": "height with hardcoded value",
         "snippet": "height: 56,"
       }
@@ -748,32 +803,32 @@
     "migrated": false,
     "issues": [
       {
-        "line": 278,
+        "line": 265,
         "description": "letterSpacing with hardcoded value",
         "snippet": "style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),"
       },
       {
-        "line": 364,
+        "line": 347,
         "description": "letterSpacing with hardcoded value",
         "snippet": "style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),"
       },
       {
-        "line": 492,
+        "line": 468,
         "description": "size with hardcoded value",
         "snippet": "size: 64,"
       },
       {
-        "line": 514,
+        "line": 490,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.error.withValues(alpha: 0.3)),"
       },
       {
-        "line": 566,
+        "line": 542,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 2,"
       },
       {
-        "line": 660,
+        "line": 636,
         "description": "Duration with hardcoded value",
         "snippet": "duration: const Duration(seconds: 5),"
       }
@@ -783,42 +838,42 @@
     "migrated": false,
     "issues": [
       {
-        "line": 120,
+        "line": 116,
         "description": "width with hardcoded value",
         "snippet": "width: 100,"
       },
       {
-        "line": 147,
+        "line": 143,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
       },
       {
-        "line": 207,
+        "line": 203,
         "description": "width with hardcoded value",
         "snippet": "width: 24,"
       },
       {
-        "line": 208,
+        "line": 204,
         "description": "height with hardcoded value",
         "snippet": "height: 24,"
       },
       {
-        "line": 256,
+        "line": 248,
         "description": "width with hardcoded value",
         "snippet": "width: 100,"
       },
       {
-        "line": 283,
+        "line": 275,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
       },
       {
-        "line": 321,
+        "line": 313,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       },
       {
-        "line": 331,
+        "line": 323,
         "description": "height with hardcoded value",
         "snippet": "height: 56,"
       }
@@ -828,7 +883,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 38,
+        "line": 39,
         "description": "size with hardcoded value",
         "snippet": "size: 80,"
       }
@@ -853,17 +908,17 @@
     "migrated": false,
     "issues": [
       {
-        "line": 37,
+        "line": 36,
         "description": "radius with hardcoded value",
         "snippet": "radius: 50,"
       },
       {
-        "line": 37,
+        "line": 36,
         "description": "radius with hardcoded value",
         "snippet": "radius: 50,"
       },
       {
-        "line": 37,
+        "line": 36,
         "description": "radius with hardcoded value",
         "snippet": "radius: 50,"
       }
@@ -923,47 +978,47 @@
     "migrated": false,
     "issues": [
       {
-        "line": 212,
+        "line": 211,
         "description": "height with hardcoded value",
         "snippet": "height: 120,"
       },
       {
-        "line": 226,
+        "line": 225,
         "description": "blurRadius with hardcoded value",
         "snippet": "blurRadius: 20,"
       },
       {
-        "line": 256,
+        "line": 255,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       },
       {
-        "line": 411,
+        "line": 407,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.blue,"
       },
       {
-        "line": 421,
+        "line": 417,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.purple,"
       },
       {
-        "line": 431,
+        "line": 427,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.orange,"
       },
       {
-        "line": 544,
+        "line": 540,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       },
       {
-        "line": 721,
+        "line": 714,
         "description": "width with hardcoded value",
         "snippet": "width: 28,"
       },
       {
-        "line": 722,
+        "line": 715,
         "description": "height with hardcoded value",
         "snippet": "height: 28,"
       }
@@ -973,32 +1028,37 @@
     "migrated": false,
     "issues": [
       {
-        "line": 158,
+        "line": 114,
+        "description": "Duration with hardcoded value",
+        "snippet": "duration: const Duration(seconds: 3),"
+      },
+      {
+        "line": 159,
         "description": "size with hardcoded value",
         "snippet": "size: 80,"
       },
       {
-        "line": 210,
+        "line": 211,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 258,
+        "line": 259,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 352,
+        "line": 350,
         "description": "size with hardcoded value",
         "snippet": "size: 80,"
       },
       {
-        "line": 374,
+        "line": 372,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.warning.withValues(alpha: 0.3)),"
       },
       {
-        "line": 422,
+        "line": 420,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 2,"
       }
@@ -1008,42 +1068,47 @@
     "migrated": false,
     "issues": [
       {
-        "line": 210,
+        "line": 139,
+        "description": "Duration with hardcoded value",
+        "snippet": "duration: const Duration(seconds: 3),"
+      },
+      {
+        "line": 209,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
       },
       {
-        "line": 290,
+        "line": 289,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 1,"
       },
       {
-        "line": 363,
+        "line": 360,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
       },
       {
-        "line": 395,
+        "line": 392,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.success.withValues(alpha: 0.3)),"
       },
       {
-        "line": 445,
+        "line": 442,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 453,
+        "line": 450,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 501,
+        "line": 498,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 509,
+        "line": 506,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       }
@@ -1179,6 +1244,16 @@
       }
     ]
   },
+  "lib\\features\\tolerence\\tolerance_dashboard_page.dart": {
+    "migrated": false,
+    "issues": [
+      {
+        "line": 267,
+        "description": "Duration with hardcoded value",
+        "snippet": "duration: const Duration(milliseconds: 300),"
+      }
+    ]
+  },
   "lib\\features\\tolerence\\widgets\\system_tolerance_widget.dart": {
     "migrated": false,
     "issues": [
@@ -1238,12 +1313,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 84,
+        "line": 81,
         "description": "height with hardcoded value",
         "snippet": "height: 12,"
       },
       {
-        "line": 102,
+        "line": 99,
         "description": "height with hardcoded value",
         "snippet": "height: 12,"
       }
@@ -1328,6 +1403,11 @@
         "snippet": "if (value < 0.75) return Colors.orangeAccent;"
       },
       {
+        "line": 130,
+        "description": "Duration with hardcoded value",
+        "snippet": "duration: const Duration(seconds: 3),"
+      },
+      {
         "line": 211,
         "description": "minHeight with hardcoded value",
         "snippet": "minHeight: 8,"
@@ -1368,7 +1448,7 @@
         "snippet": "Divider(color: colors.divider, height: 1),"
       },
       {
-        "line": 233,
+        "line": 232,
         "description": "minHeight with hardcoded value",
         "snippet": "minHeight: 7,"
       }
@@ -1418,57 +1498,57 @@
         "snippet": "height: 1.4,"
       },
       {
-        "line": 218,
+        "line": 219,
         "description": "hardcoded Colors",
         "snippet": "? Colors.amber.withValues(alpha: 0.18)"
       },
       {
-        "line": 219,
+        "line": 220,
         "description": "hardcoded Colors",
         "snippet": ": Colors.amber.shade50;"
       },
       {
-        "line": 222,
+        "line": 223,
         "description": "hardcoded Colors",
         "snippet": "? Colors.amber.shade700"
       },
       {
-        "line": 223,
+        "line": 224,
         "description": "hardcoded Colors",
         "snippet": ": Colors.amber.shade300;"
       },
       {
-        "line": 226,
+        "line": 227,
         "description": "hardcoded Colors",
         "snippet": "? Colors.amber.shade300"
       },
       {
-        "line": 227,
+        "line": 228,
         "description": "hardcoded Colors",
         "snippet": ": Colors.amber.shade900;"
       },
       {
-        "line": 230,
+        "line": 231,
         "description": "hardcoded Colors",
         "snippet": "? Colors.grey.shade300"
       },
       {
-        "line": 231,
+        "line": 232,
         "description": "hardcoded Colors",
         "snippet": ": Colors.grey.shade800;"
       },
       {
-        "line": 239,
+        "line": 240,
         "description": "width with hardcoded value",
         "snippet": "border: Border.all(color: borderColor, width: 1.5),"
       },
       {
-        "line": 239,
+        "line": 240,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: borderColor, width: 1.5),"
       },
       {
-        "line": 266,
+        "line": 267,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       }

@@ -92,6 +92,7 @@ class _PasswordVerificationDialogState
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final spacing = context.spacing;
     final colors = context.colors;
 
@@ -185,7 +186,7 @@ class WarningItem extends StatelessWidget {
               text,
               style: context.text.bodyMedium.copyWith(
                 color: isRed ? colors.error : colors.warning,
-                fontWeight: text.bodyMedium.fontWeight,
+                fontWeight: context.text.bodyMedium.fontWeight,
               ),
             ),
           ),

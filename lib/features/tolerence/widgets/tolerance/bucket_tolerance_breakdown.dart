@@ -125,9 +125,9 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(radii.radiusMd),
                 onTap: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Bucket details page coming soon'),
-                      duration: context.animations.snackbar,
+                    SnackBar(
+                      content: const Text('Bucket details page coming soon'),
+                      duration: const Duration(seconds: 3),
                     ),
                   );
                 },

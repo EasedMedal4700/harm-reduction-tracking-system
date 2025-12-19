@@ -610,8 +610,8 @@ class _UnifiedBucketToleranceWidgetState
     String label,
     String value,
   ) {
-    final colors = context.colors;
     final typography = context.text;
+    final colors = context.colors;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2),

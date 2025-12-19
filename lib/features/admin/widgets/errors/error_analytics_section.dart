@@ -257,10 +257,10 @@ class ErrorAnalyticsSection extends StatelessWidget {
     required IconData icon,
     required Color color,
   }) {
-    final c = context.colors;
-    final text = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
+    final text = context.text;
+    final c = context.colors;
 
     return Container(
       width: context.sizes.cardWidthMd,

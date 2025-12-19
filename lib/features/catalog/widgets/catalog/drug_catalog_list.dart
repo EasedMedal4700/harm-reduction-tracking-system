@@ -122,7 +122,7 @@ class DrugCatalogTile extends StatelessWidget {
               label,
               style: t.typography.bodySmall.copyWith(
                 color: t.colors.textSecondary,
-                fontWeight: text.bodyBold.fontWeight,
+                fontWeight: context.text.bodyBold.fontWeight,
               ),
             ),
           ),

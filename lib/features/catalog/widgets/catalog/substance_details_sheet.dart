@@ -142,6 +142,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
     final name = widget.substance['pretty_name'] ?? widget.substance['name'];
     final categories =
@@ -360,7 +361,6 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
   Widget _buildAliases(BuildContext context) {
     final t = context.theme;
     final text = context.text;
-    final t = context.theme;
     final aliases = (widget.substance['aliases'] as List?)
         ?.map((e) => e.toString())
         .toList();
@@ -420,7 +420,6 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
   Widget _buildProperties(BuildContext context) {
     final t = context.theme;
     final text = context.text;
-    final t = context.theme;
     final summary = widget.substance['properties']?['summary'];
     final warning = widget.substance['properties']?['warning'];
     final testKits = widget.substance['properties']?['test-kits'];

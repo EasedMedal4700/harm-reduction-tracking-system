@@ -34,6 +34,7 @@ class BloodLevelGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final text = context.text;
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -56,9 +57,6 @@ class BloodLevelGraph extends StatelessWidget {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
-    final c = context.colors;
-    final sp = context.spacing;
-    final text = context.text;
 
     return Center(
       child: Column(
@@ -83,8 +81,6 @@ class BloodLevelGraph extends StatelessWidget {
   Widget _buildChart(BuildContext context) {
     final text = context.text;
     final c = context.colors;
-    final c = context.colors;
-    final text = context.text;
 
     final lines = substanceCurves.entries.map((entry) {
       final substance = entry.key;

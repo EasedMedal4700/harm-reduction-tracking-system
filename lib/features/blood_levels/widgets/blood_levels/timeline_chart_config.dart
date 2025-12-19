@@ -56,9 +56,9 @@ class TimelineChartConfig {
     int hoursBack,
     int hoursForward,
   ) {
-    final c = context.colors;
-    final text = context.text;
     final acc = context.accent;
+    final text = context.text;
+    final c = context.colors;
 
     final int hour = value.toInt();
 
@@ -96,8 +96,8 @@ class TimelineChartConfig {
 
   /// Builds the grid configuration
   static FlGridData buildGridData(BuildContext context, double maxY) {
-    final c = context.colors;
     final b = context.borders;
+    final c = context.colors;
 
     return FlGridData(
       show: true,
@@ -111,11 +111,9 @@ class TimelineChartConfig {
   }
 
   /// Builds the “NOW” vertical line
-  static ExtraLinesData buildNowLine(BuildContext context) {
+  static ExtraLinesData buildNowLine(BuildContext context) {    final text = context.text;
     final acc = context.accent;
     final b = context.borders;
-    final text = context.text;
-
     return ExtraLinesData(
       verticalLines: [
         VerticalLine(

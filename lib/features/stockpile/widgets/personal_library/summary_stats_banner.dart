@@ -59,19 +59,19 @@ class SummaryStatsBanner extends StatelessWidget {
                 'Total Uses',
                 '$totalUses',
                 Icons.bar_chart,
-                t,
+                context,
               ),
               _buildSummaryItem(
                 'Active Substances',
                 '$activeSubstances',
                 Icons.science,
-                t,
+                context,
               ),
               _buildSummaryItem(
                 'Avg Uses',
                 avgUses.toStringAsFixed(1),
                 Icons.trending_up,
-                t,
+                context,
               ),
             ],
           ),
@@ -109,14 +109,17 @@ class SummaryStatsBanner extends StatelessWidget {
   }
 
   Widget _buildSummaryItem(String label, String value, IconData icon, BuildContext context) {
+    final t = context.theme;
+    final text = context.text;
+
     return Column(
       children: [
         Icon(
           icon,
-          size: t.sizes.iconMd,
+          size: context.sizes.iconMd,
           color: t.accent.primary,
         ),
-        CommonSpacer.vertical(t.spacing.xs / 2),
+        CommonSpacer.vertical(context.spacing.xs / 2),
         Text(
           value,
           style: t.typography.heading3.copyWith(

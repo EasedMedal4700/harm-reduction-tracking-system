@@ -213,8 +213,6 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
   Widget _buildGranularityDropdown(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final c = context.colors;
-    final sp = context.spacing;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),

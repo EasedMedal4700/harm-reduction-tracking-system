@@ -98,6 +98,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;

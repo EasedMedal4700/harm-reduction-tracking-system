@@ -26,6 +26,7 @@ class DeepLinkDebugWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     // Only show in debug mode
     if (!kDebugMode) {
       return const SizedBox.shrink();
@@ -35,7 +36,6 @@ class DeepLinkDebugWidget extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
     final acc = context.accent;
-    final text = context.text;
 
     return Container(
       margin: EdgeInsets.all(sp.md),
@@ -141,9 +141,9 @@ class DeepLinkDebugWidget extends StatelessWidget {
     authLinkHandler._handleDeepLink(uri);
     
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Simulated: substancecheck://auth'),
-        duration: context.animations.snackbar,
+      SnackBar(
+        content: const Text('Simulated: substancecheck://auth'),
+        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -158,9 +158,9 @@ class DeepLinkDebugWidget extends StatelessWidget {
     authLinkHandler._handleDeepLink(uri);
     
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Simulated: substancecheck://reset-password'),
-        duration: context.animations.snackbar,
+      SnackBar(
+        content: const Text('Simulated: substancecheck://reset-password'),
+        duration: const Duration(seconds: 3),
       ),
     );
   }

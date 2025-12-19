@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../../common/layout/common_spacer.dart';
+import '../../common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import '../../common/widgets/common_spacer.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final a = context.accent;
     final sp = context.spacing;
     final t = context.text;
@@ -222,9 +222,10 @@ Location: Netherlands / EU
     List<String>? bulletPoints,
     String? note,
   }) {
-    final a = context.accent;
-    final sp = context.spacing;
     final t = context.text;
+    final text = context.text;
+    final sp = context.spacing;
+    final a = context.accent;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -281,8 +282,6 @@ Location: Netherlands / EU
   }
 
   Widget _divider(BuildContext context) {
-    final c = context.colors;
-    final sp = context.spacing;
     final c = context.colors;
     final sp = context.spacing;
     return Divider(

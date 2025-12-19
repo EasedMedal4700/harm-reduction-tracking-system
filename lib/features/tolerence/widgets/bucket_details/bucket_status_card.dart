@@ -68,9 +68,9 @@ class BucketStatusCard extends StatelessWidget {
 
   Widget _buildStatRow(
       BuildContext context, String label, String value) {
-    final c = context.colors;
-    final text = context.text;
     final sp = context.spacing;
+    final text = context.text;
+    final c = context.colors;
 
     return Padding(
       padding: EdgeInsets.only(bottom: sp.sm),

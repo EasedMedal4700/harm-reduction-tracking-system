@@ -82,7 +82,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
     print('🔧 DEBUG: Attempting auto-unlock with debug PIN');
     
     // Small delay to ensure widget is mounted
-    await Future.delayed(const context.animations.extraFast);
+    await Future.delayed(const Duration(milliseconds: 100));
     
     if (!mounted) return;
     
@@ -229,6 +229,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
@@ -397,7 +398,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(sh.radiusMd),
                   ),
-                  elevation: context.sizes.elevationMd,
+                  elevation: context.sizes.elevationSm,
                 ),
                 child: _isLoading
                     ? SizedBox(

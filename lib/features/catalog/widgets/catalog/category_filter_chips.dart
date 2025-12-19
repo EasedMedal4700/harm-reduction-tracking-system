@@ -22,6 +22,7 @@ class CategoryFilterChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final categories = <String?>[
       null, // "All" option
       ...DrugCategories.categoryPriority,
@@ -42,6 +43,7 @@ class CategoryFilterChips extends StatelessWidget {
 
   Widget _buildFilterChip(BuildContext context, String? category) {
     final t = context.theme;
+    final text = context.text;
     final isSelected = selectedCategory == category;
     final label = category ?? 'All';
     final icon = category != null
@@ -74,7 +76,7 @@ class CategoryFilterChips extends StatelessWidget {
         color: isSelected
             ? accentColor
             : t.colors.textSecondary,
-        fontWeight: isSelected ? text.bodyBold.fontWeight : text.bodyRegular.fontWeight,
+        fontWeight: isSelected ? context.text.bodyBold.fontWeight : FontWeight.normal,
       ),
       side: BorderSide(
         color: isSelected

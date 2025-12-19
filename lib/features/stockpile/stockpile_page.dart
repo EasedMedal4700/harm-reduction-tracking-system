@@ -192,6 +192,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     

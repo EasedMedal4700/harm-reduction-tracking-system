@@ -127,7 +127,7 @@ class EmailConfirmedPage extends StatelessWidget {
             text,
             style: t.typography.body.copyWith(
               color: c.textPrimary,
-              fontWeight: text.bodyMedium.fontWeight,
+              fontWeight: context.text.bodyMedium.fontWeight,
             ),
           ),
         ),

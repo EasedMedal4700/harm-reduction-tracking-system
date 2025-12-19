@@ -34,6 +34,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
 
     final categories = widget.categoryCounts.keys.toList();

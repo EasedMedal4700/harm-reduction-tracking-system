@@ -103,7 +103,7 @@ class BucketDetailsWidget extends ConsumerWidget {
                         '${tolerancePercent.toStringAsFixed(1)}%',
                         style: typography.heading2.copyWith(
                           color: stateColor,
-                          fontWeight: text.bodyBold.fontWeight,
+                          fontWeight: context.text.bodyBold.fontWeight,
                         ),
                       ),
                     ],
@@ -122,7 +122,7 @@ class BucketDetailsWidget extends ConsumerWidget {
                     state.name.toUpperCase(),
                     style: typography.label.copyWith(
                       color: stateColor,
-                      fontWeight: text.bodyBold.fontWeight,
+                      fontWeight: context.text.bodyBold.fontWeight,
                     ),
                   ),
                 ),
@@ -137,7 +137,7 @@ class BucketDetailsWidget extends ConsumerWidget {
             'Active Substances',
             style: typography.bodyLarge.copyWith(
               color: colors.textPrimary,
-              fontWeight: text.bodyBold.fontWeight,
+              fontWeight: context.text.bodyBold.fontWeight,
             ),
           ),
 
@@ -223,7 +223,7 @@ class _SubstanceContributionRow extends ConsumerWidget {
             '${percentage.toStringAsFixed(0)}%',
             style: typography.body.copyWith(
               color: colors.textPrimary,
-              fontWeight: text.bodyBold.fontWeight,
+              fontWeight: context.text.bodyBold.fontWeight,
             ),
           ),
         ],

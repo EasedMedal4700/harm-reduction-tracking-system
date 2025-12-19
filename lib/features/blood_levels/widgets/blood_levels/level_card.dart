@@ -30,6 +30,7 @@ class _LevelCardState extends State<LevelCard> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -151,10 +152,6 @@ class _LevelCardState extends State<LevelCard> {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final c = context.colors;
-    final sp = context.spacing;
-    final sh = context.shapes;
-    final text = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

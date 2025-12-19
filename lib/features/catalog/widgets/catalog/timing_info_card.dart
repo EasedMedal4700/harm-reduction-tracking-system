@@ -27,6 +27,7 @@ class TimingInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
     if (onset == null && duration == null && afterEffects == null) {
       return const SizedBox.shrink();
@@ -138,13 +139,13 @@ class TimingInfoCard extends StatelessWidget {
                 label,
                 style: t.typography.label.copyWith(
                   color: color,
-                  fontWeight: text.bodyBold.fontWeight,
+                  fontWeight: context.text.bodyBold.fontWeight,
                 ),
               ),
               Text(
                 value,
                 style: t.typography.body.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                  fontWeight: context.text.bodyBold.fontWeight,
                   color: t.colors.textPrimary,
                 ),
               ),

@@ -306,6 +306,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
     String? maxLabel,
   }) {
     final t = context.theme;
+    final text = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -362,6 +363,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
     ValueChanged<String> onChanged,
   ) {
     final t = context.theme;
+    final text = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

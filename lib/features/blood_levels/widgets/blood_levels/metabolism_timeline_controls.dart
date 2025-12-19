@@ -115,10 +115,10 @@ class MetabolismTimelineControls extends StatelessWidget {
     required int value,
     required Function(int) onChanged,
   }) {
-    final c = context.colors;
-    final text = context.text;
-    final sp = context.spacing;
     final sh = context.shapes;
+    final sp = context.spacing;
+    final text = context.text;
+    final c = context.colors;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -161,9 +161,6 @@ class MetabolismTimelineControls extends StatelessWidget {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-    final sp = context.spacing;
-    final c = context.colors;
 
     return Row(
       children: [
@@ -192,8 +189,8 @@ class MetabolismTimelineControls extends StatelessWidget {
     VoidCallback onTap,
   ) {
     final t = context.theme;
-    final sp = context.spacing;
     final sh = context.shapes;
+    final sp = context.spacing;
     final c = context.colors;
     final text = context.text;
 
@@ -232,10 +229,10 @@ class MetabolismTimelineControls extends StatelessWidget {
     int forward,
   ) {
     final t = context.theme;
+    final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
     final text = context.text;
-    final c = context.colors;
 
     final bool isSelected =
         (hoursBack == back && hoursForward == forward);

@@ -254,6 +254,7 @@ class ReflectionForm extends StatelessWidget {
     String? maxLabel,
   }) {
     final t = context.theme;
+    final text = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -319,6 +320,7 @@ class ReflectionForm extends StatelessWidget {
     String? hint,
   }) {
     final t = context.theme;
+    final text = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -371,6 +373,7 @@ class ReflectionForm extends StatelessWidget {
     ValueChanged<double> onChanged,
   ) {
     final t = context.theme;
+    final text = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -420,6 +423,7 @@ class ReflectionForm extends StatelessWidget {
     ValueChanged<String> onChanged,
   ) {
     final t = context.theme;
+    final text = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

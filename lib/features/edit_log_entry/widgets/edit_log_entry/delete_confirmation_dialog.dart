@@ -17,6 +17,7 @@ class DeleteConfirmationDialog {
     BuildContext context,
     LogEntryState state,
   ) async {
+    final t = context.theme;
     final c = context.colors;
     final a = context.accent;
 

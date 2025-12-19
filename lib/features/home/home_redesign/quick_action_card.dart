@@ -20,6 +20,7 @@ class QuickActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final c = context.colors;
     final acc = context.accent;
     final sp = context.spacing;

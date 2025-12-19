@@ -61,6 +61,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
     final spacing = t.spacing;
 

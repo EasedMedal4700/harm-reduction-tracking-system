@@ -124,13 +124,13 @@ class AccountManagementSection extends StatelessWidget {
         ),
         title: Text(
           'Delete Account',
-          style: typography.bodyBold.copyWith(
+          style: context.text.bodyBold.copyWith(
             color: colors.error,
           ),
         ),
         subtitle: Text(
           'Permanently delete your account and all data',
-          style: typography.bodySmall.copyWith(
+          style: context.text.bodySmall.copyWith(
             color: colors.error.withValues(alpha: 0.8),
           ),
         ),

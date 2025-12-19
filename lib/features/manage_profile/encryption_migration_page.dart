@@ -80,11 +80,7 @@ class _EncryptionMigrationScreenState
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return Column(
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
@@ -195,11 +191,6 @@ class _EncryptionMigrationScreenState
 
   Widget _buildFeatureItem(
       BuildContext context, IconData icon, String title, String subtitle) {
-    final text = context.text;
-    final c = context.colors;
-    final a = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return Row(
       children: [
@@ -207,30 +198,30 @@ class _EncryptionMigrationScreenState
           width: context.sizes.iconXl,
           height: context.sizes.iconXl,
           decoration: BoxDecoration(
-            color: a.primary.withValues(alpha: context.opacities.selected),
-            borderRadius: BorderRadius.circular(sh.radiusMd),
+            color: context.accent.primary.withValues(alpha: context.opacities.selected),
+            borderRadius: BorderRadius.circular(context.shapes.radiusMd),
           ),
           child: Icon(
             icon,
-            color: a.primary,
+            color: context.accent.primary,
           ),
         ),
-        SizedBox(width: sp.lg),
+        SizedBox(width: context.spacing.lg),
         Expanded(
           child: Column(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 title,
-                style: text.labelLarge.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
-                  color: c.textPrimary,
+                style: context.text.labelLarge.copyWith(
+                  fontWeight: context.text.bodyBold.fontWeight,
+                  color: context.colors.textPrimary,
                 ),
               ),
               Text(
                 subtitle,
-                style: text.bodySmall.copyWith(
-                  color: c.textSecondary,
+                style: context.text.bodySmall.copyWith(
+                  color: context.colors.textSecondary,
                 ),
               ),
             ],
@@ -246,11 +237,7 @@ class _EncryptionMigrationScreenState
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return Column(
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
@@ -332,11 +319,7 @@ class _EncryptionMigrationScreenState
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return Column(
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
@@ -441,10 +424,7 @@ class _EncryptionMigrationScreenState
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
 
     return Column(
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
@@ -477,11 +457,7 @@ class _EncryptionMigrationScreenState
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return Column(
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,

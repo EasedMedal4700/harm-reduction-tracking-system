@@ -102,6 +102,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
     final accentColor = context.accent.primary;
@@ -308,8 +309,6 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
 
   Widget _buildEmptyState(BuildContext context) {
     final text = context.text;
-    final c = context.colors;
-    final sp = context.spacing;
     final c = context.colors;
     final sp = context.spacing;
 

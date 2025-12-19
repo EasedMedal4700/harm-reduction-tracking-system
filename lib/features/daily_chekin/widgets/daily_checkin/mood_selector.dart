@@ -88,6 +88,7 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final c = context.colors;
     final a = context.accent;
     final text = context.text;

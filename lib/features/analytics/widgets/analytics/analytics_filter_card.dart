@@ -30,7 +30,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: context.animations.medium,
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     _rotationAnimation = Tween<double>(begin: 0, end: 0.5).animate(

@@ -21,6 +21,7 @@ class CommonFilterToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
     final accentColor = t.accent.primary;
 

@@ -31,6 +31,7 @@ class IntentionCravingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final s = context.spacing;
     final validIntention =
         intentions.contains(intention) ? intention : null;
@@ -76,9 +77,6 @@ class IntentionCravingCard extends StatelessWidget {
     final text = context.text;
     final c = context.colors;
     final sh = context.shapes;
-    final c = context.colors;
-    final sh = context.shapes;
-    final text = context.text;
     final accent = c.success;
 
     return Container(
@@ -121,10 +119,7 @@ class IntentionCravingCard extends StatelessWidget {
     final text = context.text;
     final c = context.colors;
     final sh = context.shapes;
-    final c = context.colors;
     final s = context.spacing;
-    final sh = context.shapes;
-    final text = context.text;
     final accent = c.warning;
 
     return Column(

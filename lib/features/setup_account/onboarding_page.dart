@@ -102,6 +102,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
+    final text = context.text;
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
@@ -195,10 +197,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final sp = context.spacing;
     final sh = context.shapes;
     final t = context.theme;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
@@ -298,6 +297,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     required String description,
   }) {
     final t = context.theme;
+    final text = context.text;
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
@@ -347,10 +347,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget _buildPrivacyInfoPage(BuildContext context) {
     final t = context.theme;
     final text = context.text;
-    final c = context.colors;
-    final sp = context.spacing;
-    final sh = context.shapes;
-    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -533,7 +529,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 Text(
                   title,
                   style: t.typography.heading4.copyWith(
-                    fontWeight: text.bodyBold.fontWeight,
+                    fontWeight: context.text.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
                 ),
@@ -561,6 +557,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     required VoidCallback onTap,
   }) {
     final t = context.theme;
+    final text = context.text;
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
@@ -595,7 +592,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Text(
               title,
               style: t.typography.body.copyWith(
-                fontWeight: isSelected ? text.bodyBold.fontWeight : text.bodyRegular.fontWeight,
+                fontWeight: isSelected ? text.bodyBold.fontWeight : FontWeight.normal,
                 color: isSelected
                     ? a.primary
                     : c.textSecondary,
@@ -613,11 +610,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.theme;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
@@ -741,7 +734,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Text(
                       'I have read and accept the Privacy Policy',
                       style: t.typography.body.copyWith(
-                        fontWeight: _privacyAccepted ? text.bodyBold.fontWeight : text.bodyRegular.fontWeight,
+                        fontWeight: _privacyAccepted ? text.bodyBold.fontWeight : FontWeight.normal,
                         color: _privacyAccepted
                             ? c.success
                             : c.textSecondary,
@@ -792,11 +785,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.theme;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
@@ -846,7 +835,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     children: [
                       Text(
                         frequency.icon,
-                        style: const TextStyle(fontSize: context.text.heading1.fontSize),
+                        style: TextStyle(fontSize: context.text.heading1.fontSize),
                       ),
                       CommonSpacer.horizontal(sp.md),
                       Expanded(

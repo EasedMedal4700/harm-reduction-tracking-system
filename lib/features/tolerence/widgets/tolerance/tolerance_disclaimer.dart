@@ -83,7 +83,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
                   'SAFETY DISCLAIMER',
                   style: typography.heading3.copyWith(
                     color: Colors.orange,
-                    fontWeight: text.bodyBold.fontWeight,
+                    fontWeight: context.text.bodyBold.fontWeight,
                   ),
                 ),
               ),
@@ -147,7 +147,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
                 'Always consult medical professionals and follow harm reduction practices.',
                 style: typography.bodySmall.copyWith(
                   color: Colors.red.shade300,
-                  fontWeight: text.bodyBold.fontWeight,
+                  fontWeight: context.text.bodyBold.fontWeight,
                   height: 1.4,
                 ),
                 textAlign: AppLayout.textAlignCenter,
@@ -203,6 +203,7 @@ class _CompactToleranceDisclaimerState
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     // EARLY RETURN - Hide while loading or if dismissed
     if (_isLoading || _isDismissed) return const SizedBox.shrink();
 

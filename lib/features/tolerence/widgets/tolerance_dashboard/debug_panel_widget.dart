@@ -53,7 +53,7 @@ class DebugPanelWidget extends ConsumerWidget {
                 'Debug Panel',
                 style: typography.bodyLarge.copyWith(
                   color: colors.warning,
-                  fontWeight: text.bodyBold.fontWeight,
+                  fontWeight: context.text.bodyBold.fontWeight,
                 ),
               ),
             ],
@@ -126,7 +126,7 @@ class _DebugSection extends ConsumerWidget {
           title,
           style: typography.bodySmall.copyWith(
             color: colors.textSecondary,
-            fontWeight: text.bodyBold.fontWeight,
+            fontWeight: context.text.bodyBold.fontWeight,
           ),
         ),
         SizedBox(height: spacing.xs),

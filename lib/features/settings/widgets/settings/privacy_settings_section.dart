@@ -161,7 +161,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           child: Text(
             'PIN Timeout Settings',
             style: t.typography.labelLarge.copyWith(
-              fontWeight: text.bodyBold.fontWeight,
+              fontWeight: context.text.bodyBold.fontWeight,
               color: c.textSecondary,
             ),
           ),
@@ -388,6 +388,7 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final spacing = context.spacing;
     final text = context.text;
     final c = context.colors;

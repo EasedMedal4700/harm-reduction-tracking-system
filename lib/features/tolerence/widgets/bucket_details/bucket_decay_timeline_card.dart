@@ -64,10 +64,7 @@ class BucketDecayTimelineCard extends StatelessWidget {
     final text = context.text;
     final c = context.colors;
     final sh = context.shapes;
-    final c = context.colors;
     final sp = context.spacing;
-    final sh = context.shapes;
-    final text = context.text;
 
     final activeFlex = tolerancePercent.round().clamp(0, 100);
     final remainingFlex = (100 - tolerancePercent).round().clamp(0, 100);

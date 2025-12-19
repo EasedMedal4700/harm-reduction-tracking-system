@@ -103,11 +103,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return Form(
       key: _formKey,
@@ -241,11 +237,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,

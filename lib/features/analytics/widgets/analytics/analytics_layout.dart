@@ -117,7 +117,6 @@ class AnalyticsLayout extends StatelessWidget {
   // ---------------------------------------------------------------------------
   Widget _buildWideLayout(BuildContext context) {
     final t = context.theme;
-    final t = context.theme;
 
     return Row(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -173,7 +172,6 @@ class AnalyticsLayout extends StatelessWidget {
   // MOBILE LAYOUT (single column)
   // ---------------------------------------------------------------------------
   Widget _buildNarrowLayout(BuildContext context) {
-    final t = context.theme;
     final t = context.theme;
 
     return Column(

@@ -113,7 +113,7 @@ class ToleranceSummaryCard extends ConsumerWidget {
               label,
               style: typography.bodySmall.copyWith(
                 color: color,
-                fontWeight: text.bodyBold.fontWeight,
+                fontWeight: context.text.bodyBold.fontWeight,
               ),
             ),
           ),

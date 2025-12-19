@@ -53,9 +53,9 @@ class _HomePageState extends State<HomePage>
     _checkEncryptionStatus();
     _loadUserProfile();
     
-    // Setup animations
+    // Setup animations - duration will be set in didChangeDependencies
     _animationController = AnimationController(
-      duration: context.animations.normal,
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     
@@ -281,9 +281,7 @@ class _HomePageState extends State<HomePage>
   Widget _buildFAB(BuildContext context) {
     final c = context.colors;
     final sh = context.shapes;
-    final c = context.colors;
     final a = context.accent;
-    final sh = context.shapes;
 
     // Using primary color for FAB in both themes for consistency, or could use accent if defined.
     // Assuming primary is the main action color.

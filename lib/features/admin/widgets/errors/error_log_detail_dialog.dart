@@ -188,9 +188,9 @@ class ErrorLogDetailDialog extends StatelessWidget {
     String label,
     String value,
   ) {
-    final c = context.colors;
     final sp = context.spacing;
     final text = context.text;
+    final c = context.colors;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: sp.xs),

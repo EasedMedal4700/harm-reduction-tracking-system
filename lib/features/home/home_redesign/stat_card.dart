@@ -24,6 +24,7 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final c = context.colors;
     final acc = context.accent;
     final sp = context.spacing;
@@ -76,7 +77,7 @@ class StatCard extends StatelessWidget {
                 if (onTap != null)
                   Icon(
                     Icons.arrow_forward_ios,
-                    size: context.sizes.iconXs,
+                    size: context.sizes.iconSm,
                     color: c.textSecondary,
                   ),
               ],
@@ -86,7 +87,7 @@ class StatCard extends StatelessWidget {
               value,
               style: TextStyle(
                 fontSize: context.text.heading2.fontSize,
-                fontWeight: text.bodyBold.fontWeight,
+                fontWeight: context.text.bodyBold.fontWeight,
                 color: c.textPrimary,
               ),
             ),

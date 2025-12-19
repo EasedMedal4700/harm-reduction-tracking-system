@@ -40,6 +40,7 @@ class CurrentStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
     final acc = context.accent;
@@ -122,9 +123,9 @@ class CurrentStatusCard extends StatelessWidget {
     String value,
     Color color,
   ) {
+    final text = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
 
     return Container(
       padding: EdgeInsets.all(sp.md),

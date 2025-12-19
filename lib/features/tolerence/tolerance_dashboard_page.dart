@@ -264,7 +264,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
             if (context != null) {
               Scrollable.ensureVisible(
                 context,
-                duration: const context.animations.normal,
+                duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
               );
             }

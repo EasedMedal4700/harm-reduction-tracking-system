@@ -151,12 +151,6 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-    final c = context.colors;
-    final sp = context.spacing;
-    final c = context.colors;
-    final text = context.text;
-    final sp = context.spacing;
     
     return Center(
       child: Padding(
@@ -195,12 +189,6 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
   Widget _buildEmptyState(BuildContext context) {
     final text = context.text;
     final c = context.colors;
-    final sp = context.spacing;
-    final text = context.text;
-    final c = context.colors;
-    final sp = context.spacing;
-    final c = context.colors;
-    final text = context.text;
     final sp = context.spacing;
 
     return Center(
@@ -297,13 +285,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-    final c = context.colors;
-    final sp = context.spacing;
-    final c = context.colors;
     final a = context.accent;
-    final text = context.text;
-    final sp = context.spacing;
 
     return Container(
       padding: EdgeInsets.all(sp.md),

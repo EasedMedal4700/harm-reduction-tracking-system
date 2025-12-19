@@ -109,9 +109,9 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
     if (_recoveryKey != null) {
       Clipboard.setData(ClipboardData(text: _recoveryKey!));
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Recovery key copied to clipboard'),
-          duration: context.animations.snackbar,
+        SnackBar(
+          content: const Text('Recovery key copied to clipboard'),
+          duration: const Duration(seconds: 3),
         ),
       );
     }
@@ -124,6 +124,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
@@ -322,10 +323,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
     final t = context.text;
 
     return PopScope(

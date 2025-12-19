@@ -136,7 +136,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             SnackBar(
               content: const Text('PIN reset successful!'),
               backgroundColor: context.colors.success,
-              duration: const context.animations.snackbar,
+              duration: const Duration(seconds: 3),
             ),
           );
           Navigator.of(context).pushReplacementNamed('/home_page');
@@ -157,6 +157,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
 
@@ -194,9 +195,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
     final t = context.text;
 
     return Column(
@@ -347,9 +346,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
-    final c = context.colors;
     final a = context.accent;
-    final sp = context.spacing;
     final t = context.text;
 
     return Column(
@@ -545,8 +542,6 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
   /// Build error message widget
   Widget _buildErrorMessage(BuildContext context) {
     final text = context.text;
-    final c = context.colors;
-    final sp = context.spacing;
     final c = context.colors;
     final sp = context.spacing;
     final t = context.text;

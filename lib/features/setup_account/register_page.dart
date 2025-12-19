@@ -87,6 +87,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final c = context.colors;
     final a = context.accent;
     final t = context.text;

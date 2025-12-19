@@ -26,6 +26,7 @@ class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget 
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final c = context.colors;
     final t = context.theme;
     final sp = context.spacing;

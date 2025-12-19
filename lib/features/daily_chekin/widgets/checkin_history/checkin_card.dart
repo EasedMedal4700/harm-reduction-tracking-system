@@ -80,17 +80,17 @@ class CheckinCard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: t.spacing.md, vertical: t.spacing.xs),
                 decoration: BoxDecoration(
-                  color: _getMoodColor(checkin.mood, t).withValues(alpha: t.opacities.selected),
+                  color: _getMoodColor(checkin.mood, context).withValues(alpha: t.opacities.selected),
                   borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                   border: Border.all(
-                    color: _getMoodColor(checkin.mood, t).withValues(alpha: t.opacities.slow),
+                    color: _getMoodColor(checkin.mood, context).withValues(alpha: t.opacities.slow),
                   ),
                 ),
                 child: Text(
                   checkin.mood,
                   style: t.text.label.copyWith(
                     fontWeight: text.bodyBold.fontWeight,
-                    color: _getMoodColor(checkin.mood, t), // Use the color for text too
+                    color: _getMoodColor(checkin.mood, context), // Use the color for text too
                   ),
                 ),
               ),
@@ -183,6 +183,7 @@ class CheckinCard extends StatelessWidget {
   }
 
   Color _getMoodColor(String mood, BuildContext context) {
+    final t = context.theme;
     switch (mood) {
       case 'Great':
         return t.colors.success;

@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage>
     
     // Setup animations
     _animationController = AnimationController(
-      duration: const context.animations.normal,
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     
@@ -183,7 +183,7 @@ class _HomePageState extends State<HomePage>
         backgroundColor: c.surface,
         onRefresh: () async {
           setState(() {});
-          await Future.delayed(const context.animations.slow);
+          await Future.delayed(const Duration(milliseconds: 500));
         },
         child: FadeTransition(
           opacity: _fadeAnimation,
@@ -276,9 +276,7 @@ class _HomePageState extends State<HomePage>
   Widget _buildFAB(BuildContext context) {
     final c = context.colors;
     final sh = context.shapes;
-    final c = context.colors;
     final a = context.accent;
-    final sh = context.shapes;
 
     // Using primary color for FAB in both themes for consistency, or could use accent if defined.
     // Assuming primary is the main action color.
