@@ -7,6 +7,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/buttons/common_primary_button.dart';
 
 class EmptyStateWidget extends ConsumerWidget {
   final VoidCallback? onAddEntry;
@@ -43,7 +45,7 @@ class EmptyStateWidget extends ConsumerWidget {
               ),
             ),
 
-            SizedBox(height: spacing.lg),
+            CommonSpacer.vertical(spacing.lg),
 
             // TITLE
             Text(
@@ -54,7 +56,7 @@ class EmptyStateWidget extends ConsumerWidget {
               textAlign: TextAlign.center,
             ),
 
-            SizedBox(height: spacing.sm),
+            CommonSpacer.vertical(spacing.sm),
 
             // DESCRIPTION
             Text(
@@ -66,24 +68,13 @@ class EmptyStateWidget extends ConsumerWidget {
             ),
 
             if (onAddEntry != null) ...[
-              SizedBox(height: spacing.xl),
+              CommonSpacer.vertical(spacing.xl),
 
               // ACTION BUTTON
-              ElevatedButton.icon(
-                onPressed: onAddEntry,
-                icon: const Icon(Icons.add),
-                label: const Text('Add First Entry'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: context.accent.primary,
-                  foregroundColor: colors.textInverse,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: spacing.lg,
-                    vertical: spacing.md,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(radii.radiusSm),
-                  ),
-                ),
+              CommonPrimaryButton(
+                onPressed: onAddEntry!,
+                icon: Icons.add,
+                label: 'Add First Entry',
               ),
             ],
           ],

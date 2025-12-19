@@ -28,6 +28,8 @@ import 'package:flutter/material.dart';
 import '../../../../services/tolerance_engine_service.dart';
 import '../../../../services/user_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/feedback/common_loader.dart';
 
 class SystemToleranceBreakdownSheet extends StatefulWidget {
   final String bucketName;
@@ -82,6 +84,7 @@ class _SystemToleranceBreakdownSheetState
     final spacing = context.spacing;
     final typography = context.text;
     final radii = context.shapes;
+    final sizes = context.sizes;
 
     // BOTTOM SHEET CONTAINER
     return Container(
@@ -124,10 +127,10 @@ class _SystemToleranceBreakdownSheetState
                   child: Icon(
                     _getBucketIcon(widget.bucketName),
                     color: widget.accentColor,
-                    size: 26,
+                    size: sizes.iconMd,
                   ),
                 ),
-                SizedBox(width: spacing.lg),
+                CommonSpacer.horizontal(spacing.lg),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +162,7 @@ class _SystemToleranceBreakdownSheetState
                 // Loading state
                 ? const Padding(
                     padding: EdgeInsets.all(32),
-                    child: Center(child: CircularProgressIndicator()),
+                    child: Center(child: CommonLoader()),
                   )
                 : _contributions.isEmpty
                     // Empty state
@@ -178,7 +181,7 @@ class _SystemToleranceBreakdownSheetState
                         padding: EdgeInsets.all(spacing.lg),
                         itemCount: _contributions.length,
                         separatorBuilder: (_, __) =>
-                            SizedBox(height: spacing.lg),
+                            CommonSpacer.vertical(spacing.lg),
                         itemBuilder: (_, index) {
                           return _buildContributionRow(
                             context,
@@ -188,7 +191,7 @@ class _SystemToleranceBreakdownSheetState
                       ),
           ),
 
-          SizedBox(height: spacing.xl),
+          CommonSpacer.vertical(spacing.xl),
         ],
       ),
     );
@@ -219,7 +222,7 @@ class _SystemToleranceBreakdownSheetState
                   color: colors.textPrimary,
                 ),
               ),
-              SizedBox(height: spacing.xs),
+              CommonSpacer.vertical(spacing.xs),
               ClipRRect(
                 borderRadius: BorderRadius.circular(radii.radiusSm),
                 child: LinearProgressIndicator(
@@ -233,7 +236,7 @@ class _SystemToleranceBreakdownSheetState
           ),
         ),
 
-        SizedBox(width: spacing.lg),
+        CommonSpacer.horizontal(spacing.lg),
 
         // RIGHT SIDE - Percentage impact
         Column(

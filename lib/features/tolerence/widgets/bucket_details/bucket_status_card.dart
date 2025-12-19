@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../models/tolerance_model.dart';
 
@@ -42,7 +43,7 @@ class BucketStatusCard extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: sp.md),
+          CommonSpacer.vertical(sp.md),
 
           // Stats
           _buildStatRow(context, 'Tolerance Level',

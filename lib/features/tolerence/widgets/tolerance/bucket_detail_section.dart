@@ -16,6 +16,7 @@ import '../../../../models/bucket_definitions.dart';
 import '../../../../models/tolerance_model.dart';
 import '../../../../constants/theme/app_color_palette.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 
 /// Detailed view for a selected neurochemical bucket
@@ -90,8 +91,8 @@ class BucketDetailSection extends ConsumerWidget {
           // HEADER with bucket name and tolerance percentage
           Row(
             children: [
-              Icon(Icons.analytics_outlined, color: stateColor, size: 24),
-              SizedBox(width: spacing.sm),
+              Icon(Icons.analytics_outlined, color: stateColor, size: context.sizes.iconMd),
+              CommonSpacer.horizontal(spacing.sm),
               Expanded(
                 child: Text(
                   '${BucketDefinitions.getDisplayName(bucketType)} Tolerance',
@@ -120,7 +121,7 @@ class BucketDetailSection extends ConsumerWidget {
             ],
           ),
 
-          SizedBox(height: spacing.md),
+          CommonSpacer.vertical(spacing.md),
 
           // BUCKET DESCRIPTION
           Text(
@@ -128,16 +129,16 @@ class BucketDetailSection extends ConsumerWidget {
             style: typography.bodySmall,
           ),
 
-          SizedBox(height: spacing.md),
+          CommonSpacer.vertical(spacing.md),
           Divider(color: colors.divider),
-          SizedBox(height: spacing.md),
+          CommonSpacer.vertical(spacing.md),
 
           // SUBSTANCES SECTION HEADER
           Text(
             'Contributing Substances',
             style: typography.heading4,
           ),
-          SizedBox(height: spacing.sm),
+          CommonSpacer.vertical(spacing.sm),
 
           // EMPTY STATE when no substances contribute to this bucket
           if (substanceContributions.isEmpty)
@@ -185,7 +186,7 @@ class BucketDetailSection extends ConsumerWidget {
                             children: [
                               // Substance name
                               Text(substanceName, style: typography.bodyBold),
-                              SizedBox(height: 2),
+                              CommonSpacer.vertical(2),
                               // Contribution percentage label
                               Text(
                                 'Contribution: ${contribution.toStringAsFixed(1)}%',
@@ -215,7 +216,7 @@ class BucketDetailSection extends ConsumerWidget {
 
                         // ACTIVE indicator badge (shown when substance is currently active)
                         if (isActive) ...[
-                          SizedBox(width: spacing.sm),
+                          CommonSpacer.horizontal(spacing.sm),
                           Container(
                             padding: EdgeInsets.symmetric(
                               horizontal: spacing.xs,
@@ -235,9 +236,9 @@ class BucketDetailSection extends ConsumerWidget {
                           ),
                         ],
 
-                        SizedBox(width: spacing.sm),
+                        CommonSpacer.horizontal(spacing.sm),
                         // Chevron indicating tappable item
-                        Icon(Icons.chevron_right, color: colors.textSecondary, size: 20),
+                        Icon(Icons.chevron_right, color: colors.textSecondary, size: context.sizes.iconMd),
                       ],
                     ),
                   ),

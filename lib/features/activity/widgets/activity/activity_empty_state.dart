@@ -39,7 +39,7 @@ class ActivityEmptyState extends StatelessWidget {
               color: c.textSecondary.withValues(alpha: 0.5),
             ),
 
-            CommonSpacer(height: sp.xl),
+            CommonSpacer.vertical(sp.xl),
 
             Text(
               title,
@@ -47,7 +47,7 @@ class ActivityEmptyState extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
 
-            CommonSpacer(height: sp.sm),
+            CommonSpacer.vertical(sp.sm),
 
             Text(
               subtitle,

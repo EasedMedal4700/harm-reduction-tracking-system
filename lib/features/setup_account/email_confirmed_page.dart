@@ -1,5 +1,7 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import '../../common/layout/common_spacer.dart';
+import '../../common/buttons/common_primary_button.dart';
 
 /// Success page shown after email confirmation via deep link.
 ///
@@ -11,7 +13,6 @@ class EmailConfirmedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = context.text;
     final c = context.colors;
-    final a = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -38,7 +39,7 @@ class EmailConfirmedPage extends StatelessWidget {
                   color: c.success,
                 ),
               ),
-              SizedBox(height: sp.xl2),
+              CommonSpacer.vertical(sp.xl2),
               // Title
               Text(
                 'Email Verified!',
@@ -47,7 +48,7 @@ class EmailConfirmedPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
               // Description
               Text(
                 'Your email has been successfully verified. You can now log in to your account.',
@@ -57,7 +58,7 @@ class EmailConfirmedPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
               // Checkmark list
               Container(
                 padding: EdgeInsets.all(sp.lg),
@@ -71,43 +72,27 @@ class EmailConfirmedPage extends StatelessWidget {
                 child: Column(
                   children: [
                     _buildCheckItem(context, 'Email address confirmed'),
-                    SizedBox(height: sp.md),
+                    CommonSpacer.vertical(sp.md),
                     _buildCheckItem(context, 'Account activated'),
-                    SizedBox(height: sp.md),
+                    CommonSpacer.vertical(sp.md),
                     _buildCheckItem(context, 'Ready to log in'),
                   ],
                 ),
               ),
               const Spacer(),
               // Login button
-              SizedBox(
+              CommonPrimaryButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/login_page',
+                    (route) => false,
+                  );
+                },
+                icon: Icons.login_rounded,
+                label: 'Go to Login',
                 width: double.infinity,
-                height: context.sizes.buttonHeightLg,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/login_page',
-                      (route) => false,
-                    );
-                  },
-                  icon: const Icon(Icons.login_rounded),
-                  label: Text(
-                    'Go to Login',
-                    style: text.labelLarge.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: c.textInverse,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: a.primary,
-                    foregroundColor: c.textInverse,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(sh.radiusMd),
-                    ),
-                  ),
-                ),
               ),
-              SizedBox(height: sp.xl2),
+              CommonSpacer.vertical(sp.xl2),
             ],
           ),
         ),
@@ -135,7 +120,7 @@ class EmailConfirmedPage extends StatelessWidget {
             color: c.textInverse,
           ),
         ),
-        SizedBox(width: sp.md),
+        CommonSpacer.horizontal(sp.md),
         Expanded(
           child: Text(
             text,

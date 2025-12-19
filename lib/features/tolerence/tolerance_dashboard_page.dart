@@ -9,6 +9,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import '../../common/layout/common_drawer.dart';
 import '../../common/feedback/common_loader.dart';
+import '../../common/buttons/common_icon_button.dart';
 import '../../models/bucket_definitions.dart';
 import '../../services/tolerance_service.dart';
 import '../../../services/user_service.dart';
@@ -214,23 +215,19 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
         actions: [
           // Debug toggle - only show when DEBUG_MODE=true in .env
           if (DebugConfig.instance.isDebugMode) ...[
-            IconButton(
-              icon: Icon(
-                _showDebugSubstances
-                    ? Icons.bug_report
-                    : Icons.bug_report_outlined,
-              ),
+            CommonIconButton(
+              icon: _showDebugSubstances
+                  ? Icons.bug_report
+                  : Icons.bug_report_outlined,
               onPressed: () async {
                 setState(() => _showDebugSubstances = !_showDebugSubstances);
               },
               tooltip: 'Toggle substance tolerance debug',
             ),
-            IconButton(
-              icon: Icon(
-                _showDebugPanel
-                    ? Icons.developer_board
-                    : Icons.developer_board_outlined,
-              ),
+            CommonIconButton(
+              icon: _showDebugPanel
+                  ? Icons.developer_board
+                  : Icons.developer_board_outlined,
               onPressed: () {
                 setState(() => _showDebugPanel = !_showDebugPanel);
               },

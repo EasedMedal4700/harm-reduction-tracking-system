@@ -51,11 +51,11 @@ class ActivityDetailSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildHandleBar(context),
-            CommonSpacer(height: sp.lg),
+            CommonSpacer.vertical(sp.lg),
             _buildHeader(context),
-            CommonSpacer(height: sp.xl),
+            CommonSpacer.vertical(sp.xl),
             _buildDetailsList(context),
-            CommonSpacer(height: sp.xl),
+            CommonSpacer.vertical(sp.xl),
             _buildActionButtons(context),
           ],
         ),
@@ -102,7 +102,7 @@ class ActivityDetailSheet extends StatelessWidget {
             ),
             child: Icon(icon, color: c.textInverse, size: sp.xl),
           ),
-          CommonSpacer(width: sp.lg),
+          CommonSpacer.horizontal(sp.lg),
           Expanded(
             child: Text(
               title,
@@ -136,7 +136,7 @@ class ActivityDetailSheet extends StatelessWidget {
                   detail.label,
                   style: text.label.copyWith(color: c.textSecondary),
                 ),
-                CommonSpacer(height: sp.xs),
+                CommonSpacer.vertical(sp.xs),
 
                 Container(
                   padding: highlight
@@ -190,7 +190,7 @@ class ActivityDetailSheet extends StatelessWidget {
             ),
           ),
 
-          CommonSpacer(width: sp.md),
+          CommonSpacer.horizontal(sp.md),
 
           /// EDIT BUTTON
           Expanded(

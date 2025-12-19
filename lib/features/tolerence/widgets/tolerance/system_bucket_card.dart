@@ -125,8 +125,8 @@ class SystemBucketCard extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Bucket icon with state color
-              Icon(_getBucketIcon(), size: 24, color: stateColor),
-              CommonSpacer(height: spacing.sm),
+              Icon(_getBucketIcon(), size: context.sizes.iconMd, color: stateColor),
+              CommonSpacer.vertical(spacing.sm),
 
               // Bucket name
               Text(
@@ -139,7 +139,7 @@ class SystemBucketCard extends ConsumerWidget {
                 overflow: TextOverflow.ellipsis,
               ),
 
-              CommonSpacer(height: spacing.sm),
+              CommonSpacer.vertical(spacing.sm),
 
               // Tolerance percentage with state color
               Text(
@@ -149,7 +149,7 @@ class SystemBucketCard extends ConsumerWidget {
                 ),
               ),
 
-              CommonSpacer(height: spacing.sm),
+              CommonSpacer.vertical(spacing.sm),
 
               // Status badge showing current system state
               Container(
@@ -175,7 +175,7 @@ class SystemBucketCard extends ConsumerWidget {
 
               // Active indicator badge (shown when substances are actively affecting this bucket)
               if (isActive) ...[
-                CommonSpacer(height: spacing.xs),
+                CommonSpacer.vertical(spacing.xs),
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: spacing.sm,

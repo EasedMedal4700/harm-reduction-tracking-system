@@ -97,8 +97,8 @@ class BucketToleranceBreakdown extends ConsumerWidget {
           Row(
             children: [
               Icon(Icons.analytics_outlined,
-                  color: accent.primary, size: 20),
-              CommonSpacer(width: spacing.sm),
+                  color: accent.primary, size: context.sizes.iconMd),
+              CommonSpacer.horizontal(spacing.sm),
               Text(
                 'Neurochemical Tolerance Breakdown',
                 style: typography.heading3,
@@ -106,7 +106,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
             ],
           ),
 
-          SizedBox(height: spacing.lg),
+          CommonSpacer.vertical(spacing.lg),
 
           // BUCKET CARDS - Display each bucket defined in the model
           // Only show buckets that exist in both neuroBuckets and bucketResults
@@ -156,7 +156,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                                   _getBucketDisplayName(bucketType),
                                   style: typography.bodyBold,
                                 ),
-                                SizedBox(height: 4),
+                                CommonSpacer.vertical(4),
                                 Text(
                                   BucketDefinitions.getDescription(bucketType),
                                   style: typography.caption,
@@ -186,7 +186,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                                     ),
                                   ),
                                 ),
-                              SizedBox(width: spacing.sm),
+                              CommonSpacer.horizontal(spacing.sm),
 
                               // Tolerance percentage with color coding
                               Text(
@@ -200,7 +200,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                         ],
                       ),
 
-                      SizedBox(height: spacing.sm),
+                      CommonSpacer.vertical(spacing.sm),
 
                       // PROGRESS BAR - Visual tolerance indicator
                       ClipRRect(
@@ -214,7 +214,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                         ),
                       ),
 
-                      SizedBox(height: spacing.xs),
+                      CommonSpacer.vertical(spacing.xs),
 
                       // METADATA - Bucket weight, type, and active level
                       Row(
@@ -248,8 +248,8 @@ class BucketToleranceBreakdown extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(Icons.info_outline,
-                    size: 16, color: colors.textSecondary),
-                SizedBox(width: spacing.sm),
+                    size: context.sizes.iconSm, color: colors.textSecondary),
+                CommonSpacer.horizontal(spacing.sm),
                 Expanded(
                   child: Text(
                     model.notes!,

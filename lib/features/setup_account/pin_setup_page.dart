@@ -9,7 +9,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../providers/core_providers.dart';
 import '../../services/encryption_service_v2.dart';
-
+import '../../common/layout/common_spacer.dart';
+import '../../common/buttons/common_primary_button.dart';
 
 /// Screen for setting up PIN-based encryption
 class PinSetupScreen extends ConsumerStatefulWidget {
@@ -85,9 +86,9 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
       await _encryptionService.enableBiometrics(_pin1Controller.text);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Fingerprint unlock enabled'),
-            backgroundColor: Colors.green,
+          SnackBar(
+            content: const Text('Fingerprint unlock enabled'),
+            backgroundColor: context.colors.success,
           ),
         );
       }
@@ -96,7 +97,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to enable biometrics: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: context.colors.error,
           ),
         );
       }
@@ -156,7 +157,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
               size: 80,
               color: a.primary,
             ),
-            SizedBox(height: sp.xl),
+            CommonSpacer.vertical(sp.xl),
 
             // Title
             Text(
@@ -167,7 +168,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: sp.sm),
+            CommonSpacer.vertical(sp.sm),
 
             // Description
             Text(
@@ -177,7 +178,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: sp.xl2),
+            CommonSpacer.vertical(sp.xl2),
 
             // PIN 1
             Container(
@@ -198,7 +199,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                       color: c.textPrimary,
                     ),
                   ),
-                  SizedBox(height: sp.sm),
+                  CommonSpacer.vertical(sp.sm),
                   TextField(
                     controller: _pin1Controller,
                     obscureText: _pin1Obscure,
@@ -225,7 +226,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                 ],
               ),
             ),
-            SizedBox(height: sp.lg),
+            CommonSpacer.vertical(sp.lg),
 
             // PIN 2
             Container(
@@ -246,7 +247,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                       color: c.textPrimary,
                     ),
                   ),
-                  SizedBox(height: sp.sm),
+                  CommonSpacer.vertical(sp.sm),
                   TextField(
                     controller: _pin2Controller,
                     obscureText: _pin2Obscure,
@@ -276,7 +277,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
 
             // Error message
             if (_errorMessage != null) ...[
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               Container(
                 padding: EdgeInsets.all(sp.sm),
                 decoration: BoxDecoration(
@@ -287,7 +288,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                 child: Row(
                   children: [
                     Icon(Icons.error_outline, color: c.error, size: context.sizes.iconSm),
-                    SizedBox(width: sp.sm),
+                    CommonSpacer.horizontal(sp.sm),
                     Expanded(
                       child: Text(
                         _errorMessage!,
@@ -299,38 +300,14 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
               ),
             ],
 
-            SizedBox(height: sp.xl2),
+            CommonSpacer.vertical(sp.xl2),
 
             // Setup button
-            SizedBox(
-              height: 56,
-              child: ElevatedButton(
-                onPressed: _isLoading ? null : _setupEncryption,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: a.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(sh.radiusMd),
-                  ),
-                  elevation: 2,
-                ),
-                child: _isLoading
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      )
-                    : Text(
-                        'Create PIN',
-                        style: t.labelLarge.copyWith(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-              ),
+            CommonPrimaryButton(
+              onPressed: _setupEncryption,
+              isLoading: _isLoading,
+              label: 'Create PIN',
+              height: context.sizes.buttonHeightLg,
             ),
           ],
         ),
@@ -370,7 +347,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
               size: 80,
               color: c.warning,
             ),
-            SizedBox(height: sp.xl),
+            CommonSpacer.vertical(sp.xl),
 
             // Title
             Text(
@@ -381,7 +358,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: sp.sm),
+            CommonSpacer.vertical(sp.sm),
 
             // Warning
             Container(
@@ -396,7 +373,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                   Row(
                     children: [
                       Icon(Icons.warning_amber, color: c.warning),
-                      SizedBox(width: sp.sm),
+                      CommonSpacer.horizontal(sp.sm),
                       Expanded(
                         child: Text(
                           'IMPORTANT: Save this key securely',
@@ -408,7 +385,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: sp.xs),
+                  CommonSpacer.vertical(sp.xs),
                   Text(
                     'If you forget your PIN, this recovery key is the ONLY way to access your encrypted data. Write it down and store it somewhere safe.',
                     style: t.body.copyWith(
@@ -418,7 +395,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                 ],
               ),
             ),
-            SizedBox(height: sp.xl),
+            CommonSpacer.vertical(sp.xl),
 
             // Recovery key
             Container(
@@ -443,7 +420,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: sp.md),
+                  CommonSpacer.vertical(sp.md),
                   OutlinedButton.icon(
                     onPressed: _copyRecoveryKey,
                     icon: const Icon(Icons.copy),
@@ -456,7 +433,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                 ],
               ),
             ),
-            SizedBox(height: sp.xl2),
+            CommonSpacer.vertical(sp.xl2),
 
             // Enable biometrics option
             OutlinedButton.icon(
@@ -469,29 +446,14 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                 side: BorderSide(color: a.primary),
               ),
             ),
-            SizedBox(height: sp.md),
+            CommonSpacer.vertical(sp.md),
 
             // Finish button
-            SizedBox(
-              height: 56,
-              child: ElevatedButton(
-                onPressed: _finishSetup,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: c.success,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(sh.radiusMd),
-                  ),
-                  elevation: 2,
-                ),
-                child: Text(
-                  'I\'ve Saved My Recovery Key',
-                  style: t.labelLarge.copyWith(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+            CommonPrimaryButton(
+              onPressed: _finishSetup,
+              label: 'I\'ve Saved My Recovery Key',
+              backgroundColor: c.success,
+              height: context.sizes.buttonHeightLg,
             ),
           ],
         ),

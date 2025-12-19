@@ -7,6 +7,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/buttons/common_icon_button.dart';
 import '../../../../models/bucket_definitions.dart';
 import '../../../../utils/tolerance_calculator.dart';
 import '../bucket_details/bucket_utils.dart';
@@ -53,9 +55,9 @@ class BucketDetailsWidget extends ConsumerWidget {
               Icon(
                 BucketUtils.getBucketIcon(bucketType),
                 color: context.accent.primary,
-                size: 24.0,
+                size: context.sizes.iconMd,
               ),
-              SizedBox(width: spacing.sm),
+              CommonSpacer.horizontal(spacing.sm),
               Expanded(
                 child: Text(
                   bucketName,
@@ -73,7 +75,7 @@ class BucketDetailsWidget extends ConsumerWidget {
             ],
           ),
 
-          SizedBox(height: spacing.md),
+          CommonSpacer.vertical(spacing.md),
 
           // TOLERANCE LEVEL
           Container(
@@ -95,7 +97,7 @@ class BucketDetailsWidget extends ConsumerWidget {
                           color: colors.textSecondary,
                         ),
                       ),
-                      SizedBox(height: spacing.xs),
+                      CommonSpacer.vertical(spacing.xs),
                       Text(
                         '${tolerancePercent.toStringAsFixed(1)}%',
                         style: typography.heading2.copyWith(
@@ -127,7 +129,7 @@ class BucketDetailsWidget extends ConsumerWidget {
             ),
           ),
 
-          SizedBox(height: spacing.lg),
+          CommonSpacer.vertical(spacing.lg),
 
           // SUBSTANCE CONTRIBUTIONS
           Text(
@@ -138,7 +140,7 @@ class BucketDetailsWidget extends ConsumerWidget {
             ),
           ),
 
-          SizedBox(height: spacing.sm),
+          CommonSpacer.vertical(spacing.sm),
 
           if (substanceContributions.isEmpty)
             Padding(
@@ -202,7 +204,7 @@ class _SubstanceContributionRow extends ConsumerWidget {
                     color: colors.textPrimary,
                   ),
                 ),
-                SizedBox(height: spacing.xs),
+                CommonSpacer.vertical(spacing.xs),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(radii.radiusXs),
                   child: LinearProgressIndicator(
@@ -215,7 +217,7 @@ class _SubstanceContributionRow extends ConsumerWidget {
               ],
             ),
           ),
-          SizedBox(width: spacing.sm),
+          CommonSpacer.horizontal(spacing.sm),
           Text(
             '${percentage.toStringAsFixed(0)}%',
             style: typography.body.copyWith(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../common/layout/common_spacer.dart';
+import '../../common/buttons/common_primary_button.dart';
+import '../../common/inputs/input_field.dart';
 
 /// Page for setting a new password after clicking a reset link.
 ///
@@ -131,7 +134,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                     color: c.error,
                   ),
                 ),
-                SizedBox(height: sp.lg),
+                CommonSpacer.vertical(sp.lg),
                 Text(
                   'Link Expired',
                   style: text.headlineMedium.copyWith(
@@ -139,7 +142,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                     color: c.textPrimary,
                   ),
                 ),
-                SizedBox(height: sp.sm),
+                CommonSpacer.vertical(sp.sm),
                 Text(
                   _errorMessage!,
                   style: text.bodyMedium.copyWith(
@@ -147,23 +150,12 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: sp.xl),
-                SizedBox(
-                  width: double.infinity,
-                  height: context.sizes.buttonHeightLg,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.of(context).pushNamed('/forgot-password'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: a.primary,
-                      foregroundColor: c.textInverse,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12), // Assuming buttonRadius was around 12
-                      ),
-                    ),
-                    child: const Text('Request New Link'),
-                  ),
+                CommonSpacer.vertical(sp.xl),
+                CommonPrimaryButton(
+                  onPressed: () => Navigator.of(context).pushNamed('/forgot-password'),
+                  label: 'Request New Link',
                 ),
-                SizedBox(height: sp.md),
+                CommonSpacer.vertical(sp.md),
                 TextButton(
                   onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
                     '/login_page',
@@ -209,7 +201,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: sp.lg),
+                CommonSpacer.vertical(sp.lg),
                 // Icon
                 Container(
                   width: 100,
@@ -224,7 +216,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                     color: a.primary,
                   ),
                 ),
-                SizedBox(height: sp.xl),
+                CommonSpacer.vertical(sp.xl),
                 // Title
                 Text(
                   'Create a new password',
@@ -234,7 +226,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: sp.sm),
+                CommonSpacer.vertical(sp.sm),
                 // Description
                 Text(
                   'Your new password must be different from your previous password.',
@@ -244,7 +236,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: sp.xl),
+                CommonSpacer.vertical(sp.xl),
                 // Error message
                 if (_errorMessage != null) ...[
                   Container(
@@ -263,7 +255,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                           color: c.error,
                           size: context.sizes.iconSm,
                         ),
-                        SizedBox(width: sp.xs),
+                        CommonSpacer.horizontal(sp.xs),
                         Expanded(
                           child: Text(
                             _errorMessage!,
@@ -276,133 +268,72 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: sp.md),
+                  CommonSpacer.vertical(sp.md),
                 ],
                 // Password field
-                Container(
-                  decoration: BoxDecoration(
-                    color: c.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: c.border,
+                CommonInputField(
+                  controller: _passwordController,
+                  enabled: !_isSubmitting,
+                  obscureText: _obscurePassword,
+                  textInputAction: TextInputAction.next,
+                  labelText: 'New Password',
+                  prefixIcon: Icon(Icons.lock_outline, color: c.textSecondary),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      color: c.textSecondary,
                     ),
-                  ),
-                  child: TextFormField(
-                    controller: _passwordController,
-                    enabled: !_isSubmitting,
-                    obscureText: _obscurePassword,
-                    textInputAction: TextInputAction.next,
-                    style: TextStyle(color: c.textPrimary),
-                    decoration: InputDecoration(
-                      labelText: 'New Password',
-                      labelStyle: TextStyle(color: c.textSecondary),
-                      prefixIcon: Icon(Icons.lock_outline, color: c.textSecondary),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                          color: c.textSecondary,
-                        ),
-                        onPressed: () {
-                          setState(() => _obscurePassword = !_obscurePassword);
-                        },
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: sp.md,
-                        vertical: sp.md,
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a password';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
+                    onPressed: () {
+                      setState(() => _obscurePassword = !_obscurePassword);
                     },
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a password';
+                    }
+                    if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
                 ),
-                SizedBox(height: sp.md),
+                CommonSpacer.vertical(sp.md),
                 // Confirm password field
-                Container(
-                  decoration: BoxDecoration(
-                    color: c.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: c.border,
+                CommonInputField(
+                  controller: _confirmPasswordController,
+                  enabled: !_isSubmitting,
+                  obscureText: _obscureConfirmPassword,
+                  textInputAction: TextInputAction.done,
+                  onFieldSubmitted: (_) => _handleSubmit(),
+                  labelText: 'Confirm Password',
+                  prefixIcon: Icon(Icons.lock_outline, color: c.textSecondary),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                      color: c.textSecondary,
                     ),
-                  ),
-                  child: TextFormField(
-                    controller: _confirmPasswordController,
-                    enabled: !_isSubmitting,
-                    obscureText: _obscureConfirmPassword,
-                    textInputAction: TextInputAction.done,
-                    onFieldSubmitted: (_) => _handleSubmit(),
-                    style: TextStyle(color: c.textPrimary),
-                    decoration: InputDecoration(
-                      labelText: 'Confirm Password',
-                      labelStyle: TextStyle(color: c.textSecondary),
-                      prefixIcon: Icon(Icons.lock_outline, color: c.textSecondary),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
-                          color: c.textSecondary,
-                        ),
-                        onPressed: () {
-                          setState(() => _obscureConfirmPassword = !_obscureConfirmPassword);
-                        },
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: sp.md,
-                        vertical: sp.md,
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please confirm your password';
-                      }
-                      if (value != _passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
+                    onPressed: () {
+                      setState(() => _obscureConfirmPassword = !_obscureConfirmPassword);
                     },
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please confirm your password';
+                    }
+                    if (value != _passwordController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
                 ),
-                SizedBox(height: sp.lg),
+                CommonSpacer.vertical(sp.lg),
                 // Submit button
-                SizedBox(
-                  height: 56,
-                  child: ElevatedButton(
-                    onPressed: _isSubmitting ? null : _handleSubmit,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: a.primary,
-                      foregroundColor: c.textInverse,
-                      disabledBackgroundColor: a.primary.withValues(alpha: 0.5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: _isSubmitting
-                        ? const SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          )
-                        : const Text(
-                            'Update Password',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                  ),
+                CommonPrimaryButton(
+                  onPressed: _handleSubmit,
+                  label: 'Update Password',
+                  isLoading: _isSubmitting,
                 ),
-                SizedBox(height: sp.lg),
+                CommonSpacer.vertical(sp.lg),
                 // Password requirements
                 Container(
                   padding: EdgeInsets.all(sp.md),
@@ -420,7 +351,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                           color: c.textPrimary,
                         ),
                       ),
-                      SizedBox(height: sp.xs),
+                      CommonSpacer.vertical(sp.xs),
                       _buildRequirement(
                         context,
                         'At least 6 characters',
@@ -455,10 +386,10 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
         children: [
           Icon(
             met ? Icons.check_circle : Icons.radio_button_unchecked,
-            size: 16,
+            size: context.sizes.iconSm,
             color: color,
           ),
-          SizedBox(width: sp.xs),
+          CommonSpacer.horizontal(sp.xs),
           Text(
             text,
             style: textStyle.bodySmall.copyWith(

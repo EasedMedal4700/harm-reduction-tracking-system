@@ -9,6 +9,7 @@ import '../../../../providers/settings_provider.dart';
 import 'settings_section.dart';
 import '../../../../common/inputs/switch_tile.dart';
 import '../../../../common/inputs/slider.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Entry Preferences section widget
 class EntryPreferencesSection extends StatelessWidget {
@@ -24,6 +25,7 @@ class EntryPreferencesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = settingsProvider.settings;
+    final t = context.theme;
 
     return SettingsSection(
       title: 'Entry Preferences',
@@ -32,7 +34,7 @@ class EntryPreferencesSection extends StatelessWidget {
         ListTile(
           title: const Text('Default Dose Unit'),
           subtitle: Text(settings.defaultDoseUnit),
-          trailing: const Icon(Icons.chevron_right),
+          trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
           onTap: onDoseUnitTap,
         ),
         CommonSwitchTile(

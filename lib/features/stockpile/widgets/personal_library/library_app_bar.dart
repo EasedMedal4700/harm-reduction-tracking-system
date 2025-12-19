@@ -5,6 +5,7 @@
 // Notes: Migrated to AppThemeExtension and existing common components. No logic or state changes.
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/buttons/common_icon_button.dart';
 
 class LibraryAppBar extends StatelessWidget {
   final bool showArchived;
@@ -28,13 +29,13 @@ class LibraryAppBar extends StatelessWidget {
       pinned: true,
       floating: false,
       actions: [
-        IconButton(
-          icon: Icon(showArchived ? Icons.archive : Icons.archive_outlined),
+        CommonIconButton(
+          icon: showArchived ? Icons.archive : Icons.archive_outlined,
           onPressed: onToggleArchived,
           tooltip: showArchived ? 'Hide Archived' : 'Show Archived',
         ),
-        IconButton(
-          icon: const Icon(Icons.refresh),
+        CommonIconButton(
+          icon: Icons.refresh,
           onPressed: onRefresh,
           tooltip: 'Refresh',
         ),

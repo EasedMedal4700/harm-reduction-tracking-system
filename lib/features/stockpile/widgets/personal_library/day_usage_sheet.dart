@@ -137,7 +137,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                       child: Icon(
                         Icons.calendar_today,
                         color: Colors.white,
-                        size: 20,
+                        size: t.sizes.iconMd,
                       ),
                     ),
                     CommonSpacer(width: t.spacing.sm),
@@ -196,9 +196,9 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
 
           // List of entries
           if (_loading)
-            const Padding(
-              padding: EdgeInsets.all(32.0),
-              child: CommonLoader(),
+            Padding(
+              padding: EdgeInsets.all(t.spacing.xl),
+              child: const CommonLoader(),
             )
           else
             Flexible(
@@ -268,7 +268,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                                 children: [
                                   Icon(
                                     Icons.route,
-                                    size: 12,
+                                    size: t.sizes.iconSm,
                                     color: t.colors.textSecondary,
                                   ),
                                   CommonSpacer(width: t.spacing.xs / 2),
@@ -282,7 +282,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                                     CommonSpacer(width: t.spacing.xs),
                                     Icon(
                                       Icons.medical_services,
-                                      size: 12,
+                                      size: t.sizes.iconSm,
                                       color: t.colors.success,
                                     ),
                                   ],

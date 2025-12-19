@@ -26,8 +26,8 @@ void showDeleteDataConfirmation(
     builder: (context) => AlertDialog(
       title: Row(
         children: [
-          Icon(Icons.warning_amber, color: colors.warning, size: spacing.xl * 2),
-          CommonSpacer(width: spacing.md),
+          Icon(Icons.warning_amber, color: colors.warning, size: context.sizes.icon2xl),
+          CommonSpacer.horizontal(spacing.md),
           const Expanded(child: Text('Are You Sure?')),
         ],
       ),
@@ -35,17 +35,17 @@ void showDeleteDataConfirmation(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'This will permanently delete:',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: context.text.bodyBold,
           ),
-          CommonSpacer(height: spacing.md),
+          CommonSpacer.vertical(spacing.md),
           WarningItem('All your drug use logs'),
           WarningItem('All your reflections'),
           WarningItem('All your cravings data'),
           WarningItem('All your tolerance data'),
           WarningItem('All your stockpile entries'),
-          CommonSpacer(height: spacing.lg),
+          CommonSpacer.vertical(spacing.lg),
           Container(
             padding: EdgeInsets.all(spacing.md),
             decoration: BoxDecoration(
@@ -57,21 +57,21 @@ void showDeleteDataConfirmation(
             ),
             child: Row(
               children: [
-                Icon(Icons.info_outline, color: colors.info),
-                CommonSpacer(width: spacing.sm),
-                const Expanded(
+                Icon(Icons.info_outline, color: colors.info, size: context.sizes.iconMd),
+                CommonSpacer.horizontal(spacing.sm),
+                Expanded(
                   child: Text(
                     'Consider downloading your data first!',
-                    style: TextStyle(fontWeight: FontWeight.w500),
+                    style: context.text.bodyMedium.copyWith(fontWeight: FontWeight.w500),
                   ),
                 ),
               ],
             ),
           ),
-          CommonSpacer(height: spacing.md),
+          CommonSpacer.vertical(spacing.md),
           Text(
             'Your account will remain active, but all your data will be gone forever.',
-            style: TextStyle(color: colors.error, fontWeight: FontWeight.w500),
+            style: context.text.bodyMedium.copyWith(color: colors.error, fontWeight: FontWeight.w500),
           ),
         ],
       ),
@@ -146,8 +146,8 @@ void showDeleteAccountConfirmation(
       backgroundColor: colors.error.withValues(alpha: 0.1),
       title: Row(
         children: [
-          Icon(Icons.error_outline, color: colors.error, size: spacing.xl * 2),
-          CommonSpacer(width: spacing.md),
+          Icon(Icons.error_outline, color: colors.error, size: context.sizes.icon2xl),
+          CommonSpacer.horizontal(spacing.md),
           const Expanded(child: Text('⚠️ DELETE ACCOUNT')),
         ],
       ),
@@ -157,21 +157,20 @@ void showDeleteAccountConfirmation(
         children: [
           Text(
             'This will PERMANENTLY delete:',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            style: context.text.bodyBold.copyWith(
               color: colors.error,
             ),
           ),
-          CommonSpacer(height: spacing.md),
+          CommonSpacer.vertical(spacing.md),
           WarningItem('All your data and logs', isRed: true),
           WarningItem('All your settings and profile',
               isRed: true),
           WarningItem('Your account record', isRed: true),
-          CommonSpacer(height: spacing.sm),
+          CommonSpacer.vertical(spacing.sm),
           WarningItem(
             '⚠️ Login credentials remain (contact support to delete)',
           ),
-          CommonSpacer(height: spacing.lg),
+          CommonSpacer.vertical(spacing.lg),
           Container(
             padding: EdgeInsets.all(spacing.md),
             decoration: BoxDecoration(
@@ -179,24 +178,24 @@ void showDeleteAccountConfirmation(
               borderRadius: BorderRadius.circular(radii.radiusSm),
               border: Border.all(
                 color: colors.warning,
-                width: 2,
+                width: context.borders.medium,
               ),
             ),
             child: Row(
               children: [
                 Icon(Icons.download,
-                    color: colors.warning),
-                CommonSpacer(width: spacing.sm),
-                const Expanded(
+                    color: colors.warning, size: context.sizes.iconMd),
+                CommonSpacer.horizontal(spacing.sm),
+                Expanded(
                   child: Text(
                     'Download your data first so you can always come back!',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: context.text.bodyBold,
                   ),
                 ),
               ],
             ),
           ),
-          CommonSpacer(height: spacing.md),
+          CommonSpacer.vertical(spacing.md),
           Text(
             'This action CANNOT be reversed. Your data will be gone forever.',
             style: context.text.bodySmall.copyWith(
@@ -255,8 +254,8 @@ void showFinalDeleteAccountConfirmation(
           children: [
             Icon(Icons.warning,
                 color: colors.error,
-                size: spacing.xl * 2),
-            CommonSpacer(width: spacing.sm),
+                size: context.sizes.icon2xl),
+            CommonSpacer.horizontal(spacing.sm),
             const Expanded(child: Text('FINAL CONFIRMATION')),
           ],
         ),
@@ -265,36 +264,37 @@ void showFinalDeleteAccountConfirmation(
           children: [
             Text(
               'Type "DELETE MY ACCOUNT" to confirm account deletion:',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+              style: context.text.bodyBold.copyWith(
                 color: colors.error,
               ),
             ),
-            CommonSpacer(height: spacing.md),
+            CommonSpacer.vertical(spacing.md),
             TextField(
               decoration: InputDecoration(
                 hintText: 'DELETE MY ACCOUNT',
-                border: const OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(context.shapes.radiusMd),
+                ),
                 focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(context.shapes.radiusMd),
                   borderSide: BorderSide(
                     color: colors.error,
-                    width: 2,
+                    width: context.borders.medium,
                   ),
                 ),
               ),
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: context.text.bodyBold,
               onChanged: (value) {
                 setState(() {
                   userConfirmed = value.trim() == 'DELETE MY ACCOUNT';
                 });
               },
             ),
-            CommonSpacer(height: spacing.lg),
+            CommonSpacer.vertical(spacing.lg),
             Text(
               '⚠️ This is your last chance to cancel!',
-              style: TextStyle(
+              style: context.text.bodyBold.copyWith(
                 color: colors.error,
-                fontWeight: FontWeight.bold,
               ),
             ),
           ],

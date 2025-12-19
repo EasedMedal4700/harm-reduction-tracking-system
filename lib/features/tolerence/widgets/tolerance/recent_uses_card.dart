@@ -26,6 +26,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 import '../../../../models/tolerance_model.dart';
 
 /// Card widget that displays a list of recent substance use events
@@ -95,7 +96,7 @@ class RecentUsesCard extends ConsumerWidget {
             'Recent use events',
             style: typography.heading4,
           ),
-          SizedBox(height: spacing.md),
+          CommonSpacer.vertical(spacing.md),
 
           // LIST OF EVENTS
           // Map each event to a row showing timestamp and dosage

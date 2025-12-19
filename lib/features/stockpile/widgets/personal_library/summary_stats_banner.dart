@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 import '../../../../constants/data/drug_categories.dart';
 
@@ -72,7 +73,7 @@ class SummaryStatsBanner extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: t.spacing.sm),
+          CommonSpacer.vertical(t.spacing.sm),
           Container(
             padding: EdgeInsets.symmetric(
               horizontal: t.spacing.sm,
@@ -87,10 +88,10 @@ class SummaryStatsBanner extends StatelessWidget {
               children: [
                 Icon(
                   Icons.star,
-                  size: 16,
+                  size: t.sizes.iconSm,
                   color: DrugCategoryColors.colorFor(mostUsedCategory),
                 ),
-                SizedBox(width: t.spacing.xs),
+                CommonSpacer.horizontal(t.spacing.xs),
                 Text(
                   'Most Used Category: $mostUsedCategory',
                   style: t.typography.bodySmall.copyWith(
@@ -110,10 +111,10 @@ class SummaryStatsBanner extends StatelessWidget {
       children: [
         Icon(
           icon,
-          size: 20,
+          size: t.sizes.iconMd,
           color: t.accent.primary,
         ),
-        SizedBox(height: t.spacing.xs / 2),
+        CommonSpacer.vertical(t.spacing.xs / 2),
         Text(
           value,
           style: t.typography.heading3.copyWith(

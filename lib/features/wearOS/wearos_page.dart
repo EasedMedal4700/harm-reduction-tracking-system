@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
+import '../../common/layout/common_spacer.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -38,7 +39,7 @@ class WearOSPage extends StatelessWidget {
                 size: context.sizes.icon2xl + context.spacing.lg, // 80.0
                 color: a.primary,
               ),
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
               Text(
                 'WearOS Companion',
                 style: context.text.headlineMedium.copyWith(
@@ -47,7 +48,7 @@ class WearOSPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               Text(
                 'Connect and sync with your WearOS smartwatch',
                 style: context.text.bodyLarge.copyWith(
@@ -55,7 +56,7 @@ class WearOSPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: sp.xl),
+              CommonSpacer.vertical(sp.xl),
               Container(
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
@@ -72,7 +73,7 @@ class WearOSPage extends StatelessWidget {
                       Icons.construction,
                       color: a.primary,
                     ),
-                    SizedBox(width: sp.md),
+                    CommonSpacer.horizontal(sp.md),
                     Text(
                       'Coming Soon',
                       style: context.text.titleMedium.copyWith(

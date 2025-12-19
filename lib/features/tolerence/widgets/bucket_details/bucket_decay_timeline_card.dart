@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'bucket_utils.dart';
 
@@ -37,11 +38,11 @@ class BucketDecayTimelineCard extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: sp.md),
+          CommonSpacer.vertical(sp.md),
 
           _buildDecayBar(context),
 
-          SizedBox(height: sp.sm),
+          CommonSpacer.vertical(sp.sm),
 
           Text(
             tolerancePercent > 0.1
@@ -106,7 +107,7 @@ class BucketDecayTimelineCard extends StatelessWidget {
           ],
         ),
 
-        SizedBox(height: sp.xs),
+        CommonSpacer.vertical(sp.xs),
 
         // Percentage labels
         Row(

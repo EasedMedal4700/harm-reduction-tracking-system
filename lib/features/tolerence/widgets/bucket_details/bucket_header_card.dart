@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import '../../../../models/bucket_definitions.dart';
 import 'bucket_utils.dart';
 
@@ -45,11 +46,11 @@ class BucketHeaderCard extends StatelessWidget {
             child: Icon(
               BucketUtils.getBucketIcon(bucketType),
               color: bucketColor,
-              size: 32,
+              size: context.sizes.iconXl,
             ),
           ),
 
-          SizedBox(width: sp.md),
+          CommonSpacer.horizontal(sp.md),
 
           // Title + tolerance display
           Expanded(
@@ -64,7 +65,7 @@ class BucketHeaderCard extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: sp.xs),
+                CommonSpacer.vertical(sp.xs),
 
                 Text(
                   '${tolerancePercent.toStringAsFixed(1)}% Tolerance',

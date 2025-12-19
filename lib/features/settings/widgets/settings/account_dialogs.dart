@@ -101,17 +101,20 @@ class _PasswordVerificationDialogState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(widget.description),
-          CommonSpacer(height: spacing.lg),
+          CommonSpacer.vertical(spacing.lg),
           TextField(
             controller: _passwordController,
             obscureText: _obscurePassword,
             decoration: InputDecoration(
               labelText: 'Password',
-              border: const OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(context.shapes.radiusMd),
+              ),
               errorText: _errorMessage,
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                  size: context.sizes.iconMd,
                 ),
                 onPressed: () {
                   setState(() => _obscurePassword = !_obscurePassword);
@@ -173,13 +176,13 @@ class WarningItem extends StatelessWidget {
           Icon(
             Icons.close,
             color: isRed ? colors.error : colors.warning,
-            size: spacing.lg + spacing.xs,
+            size: context.sizes.iconLg,
           ),
-          CommonSpacer(width: spacing.sm),
+          CommonSpacer.horizontal(spacing.sm),
           Expanded(
             child: Text(
               text,
-              style: TextStyle(
+              style: context.text.bodyMedium.copyWith(
                 color: isRed ? colors.error : colors.warning,
                 fontWeight: FontWeight.w500,
               ),
@@ -209,7 +212,7 @@ class LoadingDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CommonLoader(),
-              CommonSpacer(height: spacing.lg),
+              CommonSpacer.vertical(spacing.lg),
               Text(message),
             ],
           ),
@@ -256,13 +259,15 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
         children: [
           Text(
             widget.description,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: context.text.bodyBold,
           ),
-          CommonSpacer(height: spacing.md),
+          CommonSpacer.vertical(spacing.md),
           TextField(
             decoration: InputDecoration(
               hintText: widget.confirmText,
-              border: const OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(context.shapes.radiusMd),
+              ),
             ),
             onChanged: (value) {
               setState(() {

@@ -24,6 +24,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/feedback/common_loader.dart';
 
 /// Debug widget showing per-substance tolerance percentages
 /// 
@@ -67,11 +69,11 @@ class DebugSubstanceList extends ConsumerWidget {
               fontSize: typography.body.fontSize! + 1,
             ),
           ),
-          SizedBox(height: spacing.sm),
+          CommonSpacer.vertical(spacing.sm),
 
           // LOADING STATE
           if (isLoading)
-            const Center(child: CircularProgressIndicator())
+            const Center(child: CommonLoader())
 
           // EMPTY STATE
           else if (perSubstanceTolerances.isEmpty)

@@ -5,6 +5,7 @@
 // Notes: Updated to CommonCard and new theme system. No Riverpod.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../models/tolerance_model.dart';
 import 'bucket_utils.dart';
@@ -36,7 +37,7 @@ class BucketContributingUsesCard extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: sp.sm),
+          CommonSpacer.vertical(sp.sm),
 
           ...contributingUses.take(10).map((use) {
             final timeAgo = DateTime.now().difference(use.timestamp);

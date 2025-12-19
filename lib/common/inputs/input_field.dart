@@ -27,6 +27,7 @@ class CommonInputField extends StatelessWidget {
   final FocusNode? focusNode;
   final VoidCallback? onTap;
   final bool readOnly;
+  final ValueChanged<String>? onFieldSubmitted;
 
   const CommonInputField({
     this.controller,
@@ -46,6 +47,7 @@ class CommonInputField extends StatelessWidget {
     this.focusNode,
     this.onTap,
     this.readOnly = false,
+    this.onFieldSubmitted,
     super.key,
   });
 
@@ -67,6 +69,7 @@ class CommonInputField extends StatelessWidget {
       focusNode: focusNode,
       onTap: onTap,
       readOnly: readOnly,
+      onFieldSubmitted: onFieldSubmitted,
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,

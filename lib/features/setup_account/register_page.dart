@@ -112,7 +112,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 size: context.sizes.icon2xl,
                 color: c.textTertiary,
               ),
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
               Text(
                 'Complete Onboarding First',
                 style: t.headlineSmall.copyWith(
@@ -120,26 +120,20 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               Text(
                 'Please complete the onboarding process before creating an account. '
                 'This helps us personalize your experience.',
                 textAlign: TextAlign.center,
                 style: t.bodyLarge,
               ),
-              SizedBox(height: sp.xl),
-              ElevatedButton.icon(
+              CommonSpacer.vertical(sp.xl),
+              CommonPrimaryButton(
                 onPressed: () {
                   Navigator.of(context).pushReplacementNamed('/onboarding');
                 },
-                icon: const Icon(Icons.arrow_forward),
-                label: const Text('Go to Onboarding'),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: sp.lg,
-                    vertical: sp.sm,
-                  ),
-                ),
+                icon: Icons.arrow_forward,
+                label: 'Go to Onboarding',
               ),
             ],
           ),
@@ -161,7 +155,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 size: context.sizes.icon2xl,
                 color: a.primary,
               ),
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
               Text(
                 'Accept Privacy Policy',
                 style: t.headlineSmall.copyWith(
@@ -169,7 +163,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               Text(
                 'You need to accept the privacy policy before creating an account. '
                 'Please complete the onboarding process.',

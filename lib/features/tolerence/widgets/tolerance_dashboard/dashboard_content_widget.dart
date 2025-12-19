@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 import '../../../../utils/tolerance_calculator.dart';
 import 'system_overview_widget.dart';
 import 'bucket_details_widget.dart';
@@ -55,7 +56,7 @@ class DashboardContentWidget extends ConsumerWidget {
             onBucketSelected: (bucket) => onBucketSelected(bucket),
           ),
 
-          SizedBox(height: spacing.lg),
+          CommonSpacer.vertical(spacing.lg),
 
           // BUCKET DETAILS (if selected)
           if (selectedBucket != null) ...[
@@ -65,7 +66,7 @@ class DashboardContentWidget extends ConsumerWidget {
               substanceContributions: substanceContributions[selectedBucket!] ?? {},
               onClose: () => onBucketSelected(null),
             ),
-            SizedBox(height: spacing.lg),
+            CommonSpacer.vertical(spacing.lg),
           ],
 
           // HELPFUL TIP
@@ -98,9 +99,9 @@ class _HelpfulTipCard extends ConsumerWidget {
           Icon(
             Icons.lightbulb_outline,
             color: colors.info,
-            size: 24.0,
+            size: context.sizes.iconMd,
           ),
-          SizedBox(width: spacing.sm),
+          CommonSpacer.horizontal(spacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +113,7 @@ class _HelpfulTipCard extends ConsumerWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(height: spacing.xs),
+                CommonSpacer.vertical(spacing.xs),
                 Text(
                   'Different substances affect different neurotransmitter systems. Understanding cross-tolerance helps you make safer choices.',
                   style: typography.bodySmall.copyWith(

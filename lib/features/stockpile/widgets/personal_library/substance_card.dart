@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/buttons/common_outlined_button.dart';
 
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../models/drug_catalog_entry.dart';
@@ -117,7 +118,7 @@ class SubstanceCard extends StatelessWidget {
                     child: Icon(
                       categoryIcon,
                       color: Colors.white,
-                      size: 20,
+                      size: t.sizes.iconMd,
                     ),
                   ),
                   CommonSpacer(width: t.spacing.sm),
@@ -165,7 +166,7 @@ class SubstanceCard extends StatelessWidget {
                           children: [
                             Icon(
                               entry.archived ? Icons.unarchive : Icons.archive,
-                              size: 16,
+                              size: t.sizes.iconSm,
                             ),
                             CommonSpacer(width: t.spacing.xs),
                             Text(entry.archived ? 'Unarchive' : 'Archive'),
@@ -260,14 +261,13 @@ class SubstanceCard extends StatelessWidget {
                   ),
                 ] else ...[
                   CommonSpacer(height: t.spacing.sm),
-                  OutlinedButton.icon(
+                  CommonOutlinedButton(
                     onPressed: onManageStockpile,
-                    icon: const Icon(Icons.add, size: 18),
-                    label: const Text('Add to Stockpile'),
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: categoryColor),
-                      foregroundColor: categoryColor,
-                    ),
+                    icon: Icons.add,
+                    label: 'Add to Stockpile',
+                    color: categoryColor,
+                    borderColor: categoryColor,
+                    height: 40,
                   ),
                 ],
 
@@ -292,7 +292,7 @@ class SubstanceCard extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 16,
+            size: t.sizes.iconSm,
             color: t.colors.textSecondary,
           ),
           CommonSpacer(width: t.spacing.xs),

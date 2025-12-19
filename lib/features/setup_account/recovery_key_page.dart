@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../services/encryption_service_v2.dart';
+import '../../common/layout/common_spacer.dart';
+import '../../common/buttons/common_primary_button.dart';
 
 /// Screen for unlocking with recovery key and optionally resetting PIN
 class RecoveryKeyScreen extends StatefulWidget {
@@ -130,10 +132,10 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
         // PIN reset successful - navigate to home
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('PIN reset successful!'),
-              backgroundColor: Colors.green,
-              duration: Duration(seconds: 2),
+            SnackBar(
+              content: const Text('PIN reset successful!'),
+              backgroundColor: context.colors.success,
+              duration: const Duration(seconds: 2),
             ),
           );
           Navigator.of(context).pushReplacementNamed('/home_page');
@@ -196,7 +198,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SizedBox(height: sp.lg),
+        CommonSpacer.vertical(sp.lg),
 
         // Key Icon
         Icon(
@@ -204,7 +206,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           size: 100,
           color: a.primary,
         ),
-        SizedBox(height: sp.xl),
+        CommonSpacer.vertical(sp.xl),
 
         // Title
         Text(
@@ -215,7 +217,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: sp.sm),
+        CommonSpacer.vertical(sp.sm),
 
         // Description
         Text(
@@ -225,7 +227,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: sp.xl2),
+        CommonSpacer.vertical(sp.xl2),
 
         // Info box
         Container(
@@ -238,7 +240,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           child: Row(
             children: [
               Icon(Icons.info_outline, color: a.primary, size: context.sizes.iconMd),
-              SizedBox(width: sp.sm),
+              CommonSpacer.horizontal(sp.sm),
               Expanded(
                 child: Text(
                   'Your recovery key is a 24-character hexadecimal code',
@@ -250,7 +252,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             ],
           ),
         ),
-        SizedBox(height: sp.lg),
+        CommonSpacer.vertical(sp.lg),
 
         // Recovery Key Input
         Container(
@@ -273,7 +275,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                   color: c.textPrimary,
                 ),
               ),
-              SizedBox(height: sp.sm),
+              CommonSpacer.vertical(sp.sm),
               TextField(
                 controller: _recoveryKeyController,
                 obscureText: _keyObscure,
@@ -306,45 +308,21 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
         // Error message
         if (_errorMessage != null) ...[
-          SizedBox(height: sp.lg),
+          CommonSpacer.vertical(sp.lg),
           _buildErrorMessage(context),
         ],
 
-        SizedBox(height: sp.xl),
+        CommonSpacer.vertical(sp.xl),
 
         // Validate button
-        SizedBox(
-          height: 60,
-          child: ElevatedButton(
-            onPressed: _isLoading ? null : _validateRecoveryKey,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: a.primary,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              elevation: 4,
-            ),
-            child: _isLoading
-                ? const SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                  )
-                : Text(
-                    'Continue',
-                    style: t.heading4.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-          ),
+        CommonPrimaryButton(
+          onPressed: _validateRecoveryKey,
+          isLoading: _isLoading,
+          label: 'Continue',
+          height: context.sizes.buttonHeightLg,
         ),
 
-        SizedBox(height: sp.lg),
+        CommonSpacer.vertical(sp.lg),
 
         // Back button
         TextButton.icon(
@@ -370,7 +348,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SizedBox(height: sp.lg),
+        CommonSpacer.vertical(sp.lg),
 
         // Lock Icon
         Icon(
@@ -378,7 +356,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           size: 100,
           color: a.primary,
         ),
-        SizedBox(height: sp.xl),
+        CommonSpacer.vertical(sp.xl),
 
         // Title
         Text(
@@ -389,7 +367,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: sp.sm),
+        CommonSpacer.vertical(sp.sm),
 
         // Description
         Text(
@@ -399,20 +377,20 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: sp.xl2),
+        CommonSpacer.vertical(sp.xl2),
 
         // Success indicator
         Container(
           padding: EdgeInsets.all(sp.md),
           decoration: BoxDecoration(
-            color: Colors.green.withValues(alpha: 0.1),
+            color: c.success.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
+            border: Border.all(color: c.success.withValues(alpha: 0.3)),
           ),
           child: Row(
             children: [
-              const Icon(Icons.check_circle, color: Colors.green, size: 24),
-              SizedBox(width: sp.sm),
+              Icon(Icons.check_circle, color: c.success, size: context.sizes.iconMd),
+              CommonSpacer.horizontal(sp.sm),
               Expanded(
                 child: Text(
                   'Recovery key verified successfully',
@@ -425,7 +403,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             ],
           ),
         ),
-        SizedBox(height: sp.lg),
+        CommonSpacer.vertical(sp.lg),
 
         // New PIN Input
         Container(
@@ -448,7 +426,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                   color: c.textPrimary,
                 ),
               ),
-              SizedBox(height: sp.sm),
+              CommonSpacer.vertical(sp.sm),
               TextField(
                 controller: _newPinController,
                 obscureText: _pinObscure,
@@ -481,7 +459,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             ],
           ),
         ),
-        SizedBox(height: sp.md),
+        CommonSpacer.vertical(sp.md),
 
         // Confirm PIN Input
         Container(
@@ -504,7 +482,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                   color: c.textPrimary,
                 ),
               ),
-              SizedBox(height: sp.sm),
+              CommonSpacer.vertical(sp.sm),
               TextField(
                 controller: _confirmPinController,
                 obscureText: _confirmPinObscure,
@@ -540,42 +518,18 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
         // Error message
         if (_errorMessage != null) ...[
-          SizedBox(height: sp.lg),
+          CommonSpacer.vertical(sp.lg),
           _buildErrorMessage(context),
         ],
 
-        SizedBox(height: sp.xl),
+        CommonSpacer.vertical(sp.xl),
 
         // Create PIN button
-        SizedBox(
-          height: 60,
-          child: ElevatedButton(
-            onPressed: _isLoading ? null : _createNewPin,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: a.primary,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              elevation: 4,
-            ),
-            child: _isLoading
-                ? const SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                  )
-                : Text(
-                    'Reset PIN',
-                    style: t.heading4.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-          ),
+        CommonPrimaryButton(
+          onPressed: _createNewPin,
+          isLoading: _isLoading,
+          label: 'Reset PIN',
+          height: context.sizes.buttonHeightLg,
         ),
       ],
     );
@@ -596,8 +550,8 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
       ),
       child: Row(
         children: [
-          Icon(Icons.error_outline, color: c.error, size: 24),
-          SizedBox(width: sp.sm),
+          Icon(Icons.error_outline, color: c.error, size: context.sizes.iconMd),
+          CommonSpacer.horizontal(sp.sm),
           Expanded(
             child: Text(
               _errorMessage!,

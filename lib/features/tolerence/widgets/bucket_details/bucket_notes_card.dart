@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// Card displaying substance-specific notes or information
@@ -33,11 +34,11 @@ class BucketNotesCard extends StatelessWidget {
             children: [
               Icon(
                 Icons.info_outline,
-                size: 20,
+                size: context.sizes.iconMd,
                 color: c.textSecondary,
               ),
 
-              SizedBox(width: sp.sm),
+              CommonSpacer.horizontal(sp.sm),
 
               Text(
                 'Notes',
@@ -49,7 +50,7 @@ class BucketNotesCard extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: sp.sm),
+          CommonSpacer.vertical(sp.sm),
 
           // Notes text
           Text(

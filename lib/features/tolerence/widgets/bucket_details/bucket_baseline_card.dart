@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Card showing days until tolerance returns to baseline
@@ -27,9 +28,9 @@ class BucketBaselineCard extends StatelessWidget {
     return CommonCard(
       child: Row(
         children: [
-          Icon(Icons.schedule, color: c.textSecondary, size: 24),
+          Icon(Icons.schedule, color: c.textSecondary, size: context.sizes.iconMd),
 
-          SizedBox(width: sp.sm),
+          CommonSpacer.horizontal(sp.sm),
 
           Expanded(
             child: Column(
@@ -40,7 +41,7 @@ class BucketBaselineCard extends StatelessWidget {
                   style: text.bodySmall.copyWith(color: c.textSecondary),
                 ),
 
-                SizedBox(height: sp.xs),
+                CommonSpacer.vertical(sp.xs),
 
                 Text(
                   daysToBaseline < 0.1

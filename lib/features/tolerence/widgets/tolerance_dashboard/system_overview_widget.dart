@@ -7,6 +7,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/feedback/common_loader.dart';
 import '../../../../models/bucket_definitions.dart';
 import '../../../../utils/tolerance_calculator.dart';
 import '../tolerance/system_bucket_card.dart';
@@ -45,10 +47,8 @@ class SystemOverviewWidget extends ConsumerWidget {
           border: Border.all(color: colors.border),
         ),
         padding: EdgeInsets.all(spacing.lg),
-        child: Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(context.accent.primary),
-          ),
+        child: const Center(
+          child: CommonLoader(),
         ),
       );
     }
@@ -72,7 +72,7 @@ class SystemOverviewWidget extends ConsumerWidget {
           ),
         ),
 
-        SizedBox(height: spacing.sm),
+        CommonSpacer.vertical(spacing.sm),
 
         // BUCKET CARDS — horizontal scroll
         SizedBox(
@@ -81,7 +81,7 @@ class SystemOverviewWidget extends ConsumerWidget {
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: spacing.sm),
             itemCount: orderedBuckets.length,
-            separatorBuilder: (_, __) => SizedBox(width: spacing.sm),
+            separatorBuilder: (_, __) => CommonSpacer.horizontal(spacing.sm),
             itemBuilder: (context, index) {
               final bucket = orderedBuckets[index];
               final percent =

@@ -121,8 +121,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           ListTile(
             title: const Text('Change PIN'),
             subtitle: const Text('Update your encryption PIN'),
-            leading: const Icon(Icons.lock_reset),
-            trailing: const Icon(Icons.chevron_right),
+            leading: Icon(Icons.lock_reset, size: t.sizes.iconMd),
+            trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
             onTap: () async {
               final result = await Navigator.of(context).pushNamed('/change-pin');
               if (result == true && mounted) {
@@ -139,8 +139,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           ListTile(
             title: const Text('Setup PIN Encryption'),
             subtitle: const Text('Create a PIN for enhanced security'),
-            leading: const Icon(Icons.security),
-            trailing: const Icon(Icons.chevron_right),
+            leading: Icon(Icons.security, size: t.sizes.iconMd),
+            trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
             onTap: () {
               Navigator.of(context).pushNamed('/pin-setup');
             },
@@ -174,8 +174,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 ? 'Loading...' 
                 : 'Require PIN after ${_formatDuration(_foregroundTimeout)} of inactivity',
           ),
-          leading: const Icon(Icons.timer),
-          trailing: const Icon(Icons.chevron_right),
+          leading: Icon(Icons.timer, size: t.sizes.iconMd),
+          trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
           onTap: _isLoading ? null : () => _showTimeoutPicker(
             title: 'Active Timeout',
             subtitle: 'Time before PIN is required when app is in use',
@@ -198,8 +198,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 ? 'Loading...' 
                 : 'Require PIN after ${_formatDuration(_backgroundTimeout)} in background',
           ),
-          leading: const Icon(Icons.phonelink_lock),
-          trailing: const Icon(Icons.chevron_right),
+          leading: Icon(Icons.phonelink_lock, size: t.sizes.iconMd),
+          trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
           onTap: _isLoading ? null : () => _showTimeoutPicker(
             title: 'Background Timeout',
             subtitle: 'Time in background before PIN is required',
@@ -224,8 +224,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                     ? 'No limit'
                     : 'Auto-lock after ${_formatDuration(_maxSessionDuration)}',
           ),
-          leading: const Icon(Icons.lock_clock),
-          trailing: const Icon(Icons.chevron_right),
+          leading: Icon(Icons.lock_clock, size: t.sizes.iconMd),
+          trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
           onTap: _isLoading ? null : () => _showTimeoutPicker(
             title: 'Max Session Duration',
             subtitle: 'Auto-lock after this time regardless of activity',
@@ -259,8 +259,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
         ListTile(
           title: const Text('Reset Harm Reduction Notices'),
           subtitle: const Text('Show dismissed warning banners again'),
-          leading: const Icon(Icons.restore),
-          trailing: const Icon(Icons.chevron_right),
+          leading: Icon(Icons.restore, size: t.sizes.iconMd),
+          trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
           onTap: () async {
             final confirm = await showDialog<bool>(
               context: context,
@@ -311,8 +311,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
             child: ListTile(
               title: const Text('Privacy Policy'),
               subtitle: const Text('View our privacy policy'),
-              leading: const Icon(Icons.policy),
-              trailing: const Icon(Icons.open_in_new),
+              leading: Icon(Icons.policy, size: t.sizes.iconMd),
+              trailing: Icon(Icons.open_in_new, size: t.sizes.iconSm),
             ),
           ),
         ),
@@ -389,6 +389,8 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
   Widget build(BuildContext context) {
     final spacing = context.spacing;
     final text = context.text;
+    final c = context.colors;
+    
     return AlertDialog(
       title: Text(widget.title),
       content: SingleChildScrollView(
@@ -398,7 +400,7 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
           children: [
             Text(
               widget.subtitle,
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
+              style: text.bodySmall.copyWith(color: c.textSecondary),
             ),
             CommonSpacer(height: spacing.lg),
             Wrap(

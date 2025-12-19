@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../../../../providers/settings_provider.dart';
 import 'settings_section.dart';
 import '../../../../common/inputs/switch_tile.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Data & Sync section widget
 class DataSyncSettingsSection extends StatelessWidget {
@@ -25,6 +26,7 @@ class DataSyncSettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = settingsProvider.settings;
+    final t = context.theme;
 
     return SettingsSection(
       title: 'Data & Sync',
@@ -40,7 +42,7 @@ class DataSyncSettingsSection extends StatelessWidget {
           ListTile(
             title: const Text('Backup Frequency'),
             subtitle: Text(settings.backupFrequency),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
             onTap: onBackupFrequencyTap,
           ),
         CommonSwitchTile(
@@ -65,7 +67,7 @@ class DataSyncSettingsSection extends StatelessWidget {
           ListTile(
             title: const Text('Cache Duration'),
             subtitle: Text(settings.cacheDuration),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
             onTap: onCacheDurationTap,
           ),
       ],

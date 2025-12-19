@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/bucket_definitions.dart';
 import '../../models/tolerance_model.dart';
+import '../../common/layout/common_spacer.dart';
 
 
 import 'widgets/bucket_details/bucket_header_card.dart';
@@ -57,13 +58,13 @@ class BucketDetailsPage extends StatelessWidget {
               bucketType: bucketType,
               tolerancePercent: tolerancePercent,
             ),
-            SizedBox(height: sp.lg),
+            CommonSpacer.vertical(sp.lg),
 
             // Description
             BucketDescriptionCard(
               bucketType: bucketType,
             ),
-            SizedBox(height: sp.lg),
+            CommonSpacer.vertical(sp.lg),
 
             // Current status
             BucketStatusCard(
@@ -71,20 +72,20 @@ class BucketDetailsPage extends StatelessWidget {
               tolerancePercent: tolerancePercent,
               rawLoad: rawLoad,
             ),
-            SizedBox(height: sp.lg),
+            CommonSpacer.vertical(sp.lg),
 
             // Decay timeline (visual representation)
             BucketDecayTimelineCard(
               tolerancePercent: tolerancePercent,
             ),
-            SizedBox(height: sp.lg),
+            CommonSpacer.vertical(sp.lg),
 
             // Contributing uses
             if (contributingUses.isNotEmpty) ...[
               BucketContributingUsesCard(
                 contributingUses: contributingUses,
               ),
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
             ],
 
             // Substance-specific notes
@@ -92,7 +93,7 @@ class BucketDetailsPage extends StatelessWidget {
               BucketNotesCard(
                 substanceNotes: substanceNotes!,
               ),
-              SizedBox(height: sp.lg),
+              CommonSpacer.vertical(sp.lg),
             ],
 
             // Days to baseline

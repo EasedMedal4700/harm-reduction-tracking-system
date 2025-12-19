@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 import '../../../../models/drug_catalog_entry.dart';
 
 class WeeklyUsageDisplay extends StatelessWidget {
@@ -50,7 +51,7 @@ class WeeklyUsageDisplay extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: t.spacing.xs),
+        CommonSpacer.vertical(t.spacing.xs),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(7, (index) {
@@ -97,7 +98,7 @@ class WeeklyUsageDisplay extends StatelessWidget {
                           ),
                         ),
                         if (count > 0) ...[
-                          SizedBox(height: t.spacing.xs / 2),
+                          CommonSpacer.vertical(t.spacing.xs / 2),
                           Container(
                             padding: EdgeInsets.symmetric(
                               horizontal: t.spacing.xs / 2,

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../../../../providers/settings_provider.dart';
 import 'settings_section.dart';
 import '../../../../common/inputs/switch_tile.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Notifications section widget
 class NotificationSettingsSection extends StatelessWidget {
@@ -23,6 +24,7 @@ class NotificationSettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = settingsProvider.settings;
+    final t = context.theme;
 
     return SettingsSection(
       title: 'Notifications',
@@ -44,7 +46,7 @@ class NotificationSettingsSection extends StatelessWidget {
           ListTile(
             title: const Text('Reminder Time'),
             subtitle: Text(settings.checkinReminderTime),
-            trailing: const Icon(Icons.access_time),
+            trailing: Icon(Icons.access_time, size: t.sizes.iconSm),
             onTap: onReminderTimeTap,
           ),
         CommonSwitchTile(

@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../models/bucket_definitions.dart';
 
@@ -37,7 +38,7 @@ class BucketDescriptionCard extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: sp.sm),
+          CommonSpacer.vertical(sp.sm),
 
           Text(
             BucketDefinitions.getDescription(bucketType),
