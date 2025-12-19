@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../common/utils/common_spacer.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../models/drug_catalog_entry.dart';

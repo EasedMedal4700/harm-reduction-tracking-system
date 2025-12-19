@@ -32,7 +32,7 @@ import '../../../../utils/bucket_tolerance_calculator.dart';
 
 // NEW THEME SYSTEM
 import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../common/utils/common_spacer.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Modern bucket tolerance breakdown widget using the NEW theme system.
 /// 

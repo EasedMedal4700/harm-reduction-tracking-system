@@ -6,7 +6,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../common/utils/common_spacer.dart';
+import '../../../../common/layout/common_spacer.dart';
 import 'account_dialogs.dart';
 
 /// Shows confirmation dialog for delete data operation

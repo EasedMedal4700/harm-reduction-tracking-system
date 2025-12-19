@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../common/utils/common_spacer.dart';
+import '../../../../common/layout/common_spacer.dart';
 import '../../../../common/feedback/common_loader.dart';
 import '../../../../common/buttons/common_primary_button.dart';
 

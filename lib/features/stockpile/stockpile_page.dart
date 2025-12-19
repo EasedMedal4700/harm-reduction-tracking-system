@@ -14,7 +14,7 @@ import '../../repo/substance_repository.dart';
 import '../../models/stockpile_item.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../common/feedback/common_loader.dart';
-import '../../common/utils/common_spacer.dart';
+import '../../common/layout/common_spacer.dart';
 import '../catalog/widgets/catalog/add_stockpile_sheet.dart';
 import 'widgets/personal_library/substance_card.dart';
 import 'widgets/personal_library/summary_stats_banner.dart';

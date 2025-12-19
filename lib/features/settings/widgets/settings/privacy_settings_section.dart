@@ -14,7 +14,7 @@ import '../../../../services/encryption_service_v2.dart';
 import '../../../../services/onboarding_service.dart';
 import 'settings_section.dart';
 import '../../../../common/inputs/switch_tile.dart';
-import '../../../../common/utils/common_spacer.dart';
+import '../../../../common/layout/common_spacer.dart';
 import '../../../../common/buttons/common_primary_button.dart';
 
 /// Privacy & Security section widget
@@ -277,7 +277,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                   ),
                   CommonPrimaryButton(
                     onPressed: () => Navigator.pop(context, true),
-                    text: 'Reset',
+                    label: 'Reset',
                   ),
                 ],
               ),
@@ -387,6 +387,8 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final spacing = context.spacing;
+    final text = context.text;
     return AlertDialog(
       title: Text(widget.title),
       content: SingleChildScrollView(
@@ -398,10 +400,10 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
               widget.subtitle,
               style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
-            const CommonSpacer(height: 16),
+            CommonSpacer(height: spacing.lg),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: spacing.sm,
+              runSpacing: spacing.sm,
               children: widget.presets.map((value) {
                 final isSelected = _selectedValue == value;
                 return ChoiceChip(
@@ -415,7 +417,7 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
                 );
               }).toList(),
             ),
-            const CommonSpacer(height: 16),
+            CommonSpacer(height: spacing.lg),
             Row(
               children: [
                 Expanded(
@@ -430,7 +432,7 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
                     ),
                   ),
                 ),
-                const CommonSpacer(width: 8),
+                CommonSpacer(width: spacing.sm),
                 CommonPrimaryButton(
                   onPressed: () {
                     final value = int.tryParse(_customController.text);
@@ -442,16 +444,15 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
                       setState(() => _selectedValue = clamped);
                     }
                   },
-                  text: 'Set',
+                  label: 'Set',
                 ),
               ],
             ),
-            const CommonSpacer(height: 8),
+            CommonSpacer(height: spacing.sm),
             Text(
               'Current: ${_formatDuration(_selectedValue)}',
-              style: const TextStyle(
+              style: text.bodyLarge.copyWith(
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
               ),
             ),
           ],
@@ -464,7 +465,7 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
         ),
         CommonPrimaryButton(
           onPressed: () => Navigator.of(context).pop(_selectedValue),
-          text: 'Save',
+          label: 'Save',
         ),
       ],
     );

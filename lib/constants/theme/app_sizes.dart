@@ -16,6 +16,7 @@ class AppSizes {
   final double buttonPaddingHorizontal = 24.0;
 
   // Card Dimensions
+  final double elevationNone = 0.0;
   final double cardElevation = 4.0;
   final double cardElevationHovered = 8.0;
 }

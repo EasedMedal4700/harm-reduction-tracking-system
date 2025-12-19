@@ -29,7 +29,7 @@ class ReflectionAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text('Edit Reflection', style: t.titleLarge.copyWith(color: c.textPrimary)),
       backgroundColor: c.surface,
       foregroundColor: c.textPrimary,
-      elevation: 0,
+      elevation: context.sizes.elevationNone,
       actions: [
         if (isSaving)
           Center(
@@ -38,7 +38,6 @@ class ReflectionAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: CommonLoader(
                 size: context.sizes.iconSm,
                 color: a.primary,
-                strokeWidth: context.borders.medium,
               ),
             ),
           )

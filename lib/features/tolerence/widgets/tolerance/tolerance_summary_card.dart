@@ -24,7 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/theme/app_color_palette.dart';
-import '../../../../common/utils/common_spacer.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 
 /// Card displaying current tolerance percentage with color indicator and progress bar

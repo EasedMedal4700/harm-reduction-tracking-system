@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../common/utils/common_spacer.dart';
+import '../../../../common/layout/common_spacer.dart';
 import '../../../../common/feedback/common_loader.dart';
 
 /// Dialog for password verification before sensitive operations

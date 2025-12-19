@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import '../../../../services/account_data_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
-import '../../../../common/utils/common_spacer.dart';
+import '../../../../common/layout/common_spacer.dart';
 import 'account_dialogs.dart';
 import 'account_confirmation_dialogs.dart';
 
