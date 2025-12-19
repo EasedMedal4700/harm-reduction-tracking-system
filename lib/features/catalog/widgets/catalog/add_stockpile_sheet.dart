@@ -1,3 +1,8 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+
 import 'package:flutter/material.dart';
 import '../../../../repo/stockpile_repository.dart';
 import '../../../../utils/drug_profile_utils.dart';
@@ -5,6 +10,7 @@ import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 
 class AddStockpileSheet extends StatefulWidget {
   final String substanceId;
@@ -178,43 +184,14 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
               },
               hintText: 'Unit',
             ),
-            SizedBox(height: t.spacing.xl),
+            CommonSpacer(height: t.spacing.xl),
 
             // Save button
-            ElevatedButton(
-              onPressed: _isSaving ? null : _saveStockpile,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: t.accent.primary,
-                foregroundColor: t.colors.textInverse,
-                padding: EdgeInsets.symmetric(vertical: t.spacing.md),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                ),
-                elevation: 2,
-              ),
-              child: _isSaving
-                  ? SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(t.colors.textInverse),
-                      ),
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.add),
-                        SizedBox(width: t.spacing.sm),
-                        Text(
-                          'Add to Stockpile',
-                          style: t.typography.body.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: t.colors.textInverse,
-                          ),
-                        ),
-                      ],
-                    ),
+            CommonPrimaryButton(
+              onPressed: _saveStockpile,
+              label: 'Add to Stockpile',
+              isLoading: _isSaving,
+              icon: Icons.add,
             ),
           ],
         ),

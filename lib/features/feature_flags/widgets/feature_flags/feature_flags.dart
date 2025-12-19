@@ -1,7 +1,7 @@
 
 // MIGRATION
-// Theme: TODO
-// Common: TODO
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Review for theme/context migration if needed.
 

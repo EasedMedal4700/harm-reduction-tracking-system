@@ -1,12 +1,14 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
 import '../../../../providers/settings_provider.dart';
 import 'settings_section.dart';
+import '../../../../common/inputs/switch_tile.dart';
+import '../../../../common/inputs/slider.dart';
 
 /// UI Settings section widget
 class UISettingsSection extends StatelessWidget {
@@ -27,15 +29,15 @@ class UISettingsSection extends StatelessWidget {
       title: 'UI Settings',
       icon: Icons.palette,
       children: [
-        SwitchListTile(
-          title: const Text('Dark Mode'),
-          subtitle: const Text('Switch between light and dark theme'),
+        CommonSwitchTile(
+          title: 'Dark Mode',
+          subtitle: 'Switch between light and dark theme',
           value: settings.darkMode,
           onChanged: settingsProvider.setDarkMode,
         ),
         ListTile(
           title: const Text('Font Size'),
-          subtitle: Slider(
+          subtitle: CommonSlider(
             value: settings.fontSize,
             min: 12.0,
             max: 20.0,
@@ -44,9 +46,9 @@ class UISettingsSection extends StatelessWidget {
             onChanged: settingsProvider.setFontSize,
           ),
         ),
-        SwitchListTile(
-          title: const Text('Compact Mode'),
-          subtitle: const Text('Reduce spacing and padding'),
+        CommonSwitchTile(
+          title: 'Compact Mode',
+          subtitle: 'Reduce spacing and padding',
           value: settings.compactMode,
           onChanged: settingsProvider.setCompactMode,
         ),

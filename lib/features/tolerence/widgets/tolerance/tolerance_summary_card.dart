@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/theme/app_color_palette.dart';
+import '../../../../common/utils/common_spacer.dart';
 
 
 /// Card displaying current tolerance percentage with color indicator and progress bar
@@ -70,7 +71,7 @@ class ToleranceSummaryCard extends ConsumerWidget {
             ),
           ),
 
-          SizedBox(height: spacing.md),
+          CommonSpacer(height: spacing.md),
 
           // Large tolerance percentage display
           Text(
@@ -82,7 +83,7 @@ class ToleranceSummaryCard extends ConsumerWidget {
             ),
           ),
 
-          SizedBox(height: spacing.xl),
+          CommonSpacer(height: spacing.xl),
 
           // Visual progress bar showing tolerance level
           ClipRRect(
@@ -95,7 +96,7 @@ class ToleranceSummaryCard extends ConsumerWidget {
             ),
           ),
 
-          SizedBox(height: spacing.md),
+          CommonSpacer(height: spacing.md),
 
           // Status label chip with color-coded background
           Container(

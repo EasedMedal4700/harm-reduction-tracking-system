@@ -32,6 +32,7 @@ import '../../../../utils/bucket_tolerance_calculator.dart';
 
 // NEW THEME SYSTEM
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/utils/common_spacer.dart';
 
 /// Modern bucket tolerance breakdown widget using the NEW theme system.
 /// 
@@ -97,7 +98,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
             children: [
               Icon(Icons.analytics_outlined,
                   color: accent.primary, size: 20),
-              SizedBox(width: spacing.sm),
+              CommonSpacer(width: spacing.sm),
               Text(
                 'Neurochemical Tolerance Breakdown',
                 style: typography.heading3,

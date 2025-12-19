@@ -1,6 +1,6 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Page for logging drug use. No hardcoded values.
 
@@ -8,6 +8,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../common/layout/common_drawer.dart';
+import '../../common/feedback/common_loader.dart';
 import 'widgets/log_entry/log_entry_form.dart';
 import 'widgets/log_entry_page/log_entry_app_bar.dart';
 import 'log_entry_state.dart';
@@ -254,9 +255,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                 if (_isSaving)
                   Container(
                     color: Colors.black.withValues(alpha: 0.5),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    child: const CommonLoader(),
                   ),
               ],
             ),

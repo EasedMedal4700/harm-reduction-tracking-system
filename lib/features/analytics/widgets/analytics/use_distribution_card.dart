@@ -177,20 +177,20 @@ return CommonCard(
     children: [
       _buildHeader(context),
       if (_selectedCategory != null) ...[
-        const CommonSpacer.vertical(8),
+        CommonSpacer.vertical(t.spacing.sm),
         _CategoryBreadcrumb(
           category: _selectedCategory!,
           onClear: _resetToCategoryView,
         ),
       ],
-      const CommonSpacer.vertical(16),
+      CommonSpacer.vertical(t.spacing.md),
 
       if (!hasData)
         const _EmptyChartPlaceholder()
       else
         _buildChartSection(context, data, total),
 
-      const CommonSpacer.vertical(16),
+      CommonSpacer.vertical(t.spacing.md),
       _buildLegend(context, data, total),
     ],
   ),

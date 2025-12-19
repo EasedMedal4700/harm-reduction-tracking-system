@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class ActivityCard extends StatelessWidget {
   final String title;
@@ -32,7 +33,6 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -61,7 +61,7 @@ class ActivityCard extends StatelessWidget {
             ),
           ),
 
-          SizedBox(width: sp.md),
+          CommonSpacer(width: sp.md),
 
           // CONTENT
           Expanded(

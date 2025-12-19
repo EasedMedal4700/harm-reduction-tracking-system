@@ -1,11 +1,12 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Dialog for deleting entries. No hardcoded values.
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import '../../../../common/buttons/common_primary_button.dart';
 
 import '../../../log_entry/log_entry_state.dart';
 import '../../../log_entry/log_entry_service.dart';
@@ -41,13 +42,11 @@ class DeleteConfirmationDialog {
             onPressed: () => Navigator.pop(context, false),
             child: Text('Cancel', style: t.text.labelLarge.copyWith(color: a.primary)),
           ),
-          ElevatedButton(
+          CommonPrimaryButton(
             onPressed: () => Navigator.pop(context, true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: c.error,
-              foregroundColor: c.textInverse,
-            ),
-            child: const Text('Delete'),
+            label: 'Delete',
+            backgroundColor: c.error,
+            textColor: c.textInverse,
           ),
         ],
       ),

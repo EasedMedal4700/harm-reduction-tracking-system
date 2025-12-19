@@ -28,6 +28,7 @@ import '../../../../models/bucket_definitions.dart';
 import '../../../../models/tolerance_model.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/theme/app_color_palette.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 
 /// Card widget displaying a single neurochemical bucket's system-wide tolerance
@@ -119,13 +120,13 @@ class SystemBucketCard extends ConsumerWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(radii.radiusMd),
         child: Padding(
-          padding: EdgeInsets.all(spacing.md),
+          padding: EdgeInsets.all(spacing.sm),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               // Bucket icon with state color
-              Icon(_getBucketIcon(), size: 32, color: stateColor),
-              SizedBox(height: spacing.sm),
+              Icon(_getBucketIcon(), size: 24, color: stateColor),
+              CommonSpacer(height: spacing.sm),
 
               // Bucket name
               Text(
@@ -138,7 +139,7 @@ class SystemBucketCard extends ConsumerWidget {
                 overflow: TextOverflow.ellipsis,
               ),
 
-              SizedBox(height: spacing.sm),
+              CommonSpacer(height: spacing.sm),
 
               // Tolerance percentage with state color
               Text(
@@ -148,7 +149,7 @@ class SystemBucketCard extends ConsumerWidget {
                 ),
               ),
 
-              SizedBox(height: spacing.sm),
+              CommonSpacer(height: spacing.sm),
 
               // Status badge showing current system state
               Container(
@@ -174,7 +175,7 @@ class SystemBucketCard extends ConsumerWidget {
 
               // Active indicator badge (shown when substances are actively affecting this bucket)
               if (isActive) ...[
-                SizedBox(height: spacing.xs),
+                CommonSpacer(height: spacing.xs),
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: spacing.sm,

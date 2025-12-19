@@ -1,6 +1,6 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Page for editing reflections. No hardcoded values.
 

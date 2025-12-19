@@ -1,12 +1,15 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/utils/common_spacer.dart';
+import '../../../../common/feedback/common_loader.dart';
+import '../../../../common/buttons/common_primary_button.dart';
 
 class DayUsageSheet extends StatefulWidget {
   final String substanceName;
@@ -137,7 +140,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                         size: 20,
                       ),
                     ),
-                    SizedBox(width: t.spacing.sm),
+                    CommonSpacer(width: t.spacing.sm),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +167,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                     ),
                   ],
                 ),
-                SizedBox(height: t.spacing.xs),
+                CommonSpacer(height: t.spacing.xs),
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: t.spacing.sm,
@@ -195,7 +198,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
           if (_loading)
             const Padding(
               padding: EdgeInsets.all(32.0),
-              child: CircularProgressIndicator(),
+              child: CommonLoader(),
             )
           else
             Flexible(
@@ -249,7 +252,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                             ],
                           ),
                         ),
-                        SizedBox(width: t.spacing.sm),
+                        CommonSpacer(width: t.spacing.sm),
                         // Details
                         Expanded(
                           child: Column(
@@ -268,7 +271,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                                     size: 12,
                                     color: t.colors.textSecondary,
                                   ),
-                                  SizedBox(width: t.spacing.xs / 2),
+                                  CommonSpacer(width: t.spacing.xs / 2),
                                   Text(
                                     route,
                                     style: t.typography.bodySmall.copyWith(
@@ -276,7 +279,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                                     ),
                                   ),
                                   if (isMedical) ...[
-                                    SizedBox(width: t.spacing.xs),
+                                    CommonSpacer(width: t.spacing.xs),
                                     Icon(
                                       Icons.medical_services,
                                       size: 12,
@@ -299,25 +302,19 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
           if (!_showAll && _allEntries.length > 10)
             Padding(
               padding: EdgeInsets.all(t.spacing.md),
-              child: ElevatedButton(
+              child: CommonPrimaryButton(
                 onPressed: () {
                   setState(() {
                     _showAll = true;
                   });
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: widget.accentColor,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: t.spacing.lg,
-                    vertical: t.spacing.sm,
-                  ),
-                ),
-                child: Text('Show All ${_allEntries.length} Uses'),
+                backgroundColor: widget.accentColor,
+                textColor: Colors.white,
+                label: 'Show All ${_allEntries.length} Uses',
               ),
             ),
 
-          SizedBox(height: t.spacing.md),
+          CommonSpacer(height: t.spacing.md),
         ],
       ),
     );

@@ -1,11 +1,13 @@
 
 // MIGRATION
-// Theme: PARTIAL
-// Common: PARTIAL
+// Theme: COMPLETE
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Initial migration header added. No theme extension or common component usage yet.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../../../common/buttons/common_primary_button.dart';
 
 class QuickActionButton extends StatelessWidget {
   final IconData icon;
@@ -21,12 +23,14 @@ class QuickActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sp = context.spacing;
+    
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: ElevatedButton.icon(
+      padding: EdgeInsets.only(bottom: sp.sm),
+      child: CommonPrimaryButton(
         onPressed: onPressed,
-        icon: Icon(icon),
-        label: Text(label),
+        icon: icon,
+        label: label,
       ),
     );
   }

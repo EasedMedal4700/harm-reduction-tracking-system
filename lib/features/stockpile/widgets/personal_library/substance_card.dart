@@ -1,12 +1,13 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/utils/common_spacer.dart';
 
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../models/drug_catalog_entry.dart';
@@ -119,7 +120,7 @@ class SubstanceCard extends StatelessWidget {
                       size: 20,
                     ),
                   ),
-                  SizedBox(width: t.spacing.sm),
+                  CommonSpacer(width: t.spacing.sm),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,7 +167,7 @@ class SubstanceCard extends StatelessWidget {
                               entry.archived ? Icons.unarchive : Icons.archive,
                               size: 16,
                             ),
-                            SizedBox(width: t.spacing.xs),
+                            CommonSpacer(width: t.spacing.xs),
                             Text(entry.archived ? 'Unarchive' : 'Archive'),
                           ],
                         ),
@@ -192,7 +193,7 @@ class SubstanceCard extends StatelessWidget {
                         Icons.bar_chart,
                         t,
                       ),
-                      SizedBox(width: t.spacing.lg),
+                      CommonSpacer(width: t.spacing.lg),
                       _buildStatItem(
                         'Last Used',
                         entry.lastUsed != null 
@@ -204,7 +205,7 @@ class SubstanceCard extends StatelessWidget {
                     ],
                   ),                // Stockpile info
                 if (stockpile != null) ...[
-                  SizedBox(height: t.spacing.md),
+                  CommonSpacer(height: t.spacing.md),
                   InkWell(
                     onTap: onManageStockpile,
                     borderRadius: BorderRadius.circular(t.shapes.radiusMd),
@@ -238,7 +239,7 @@ class SubstanceCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: t.spacing.xs),
+                          CommonSpacer(height: t.spacing.xs),
                           // Progress bar
                           ClipRRect(
                             borderRadius: BorderRadius.circular(t.shapes.radiusSm),
@@ -258,7 +259,7 @@ class SubstanceCard extends StatelessWidget {
                     ),
                   ),
                 ] else ...[
-                  SizedBox(height: t.spacing.sm),
+                  CommonSpacer(height: t.spacing.sm),
                   OutlinedButton.icon(
                     onPressed: onManageStockpile,
                     icon: const Icon(Icons.add, size: 18),
@@ -271,7 +272,7 @@ class SubstanceCard extends StatelessWidget {
                 ],
 
                 // Weekly usage display
-                SizedBox(height: t.spacing.md),
+                CommonSpacer(height: t.spacing.md),
                 WeeklyUsageDisplay(
                   entry: entry,
                   categoryColor: categoryColor,
@@ -294,7 +295,7 @@ class SubstanceCard extends StatelessWidget {
             size: 16,
             color: t.colors.textSecondary,
           ),
-          SizedBox(width: t.spacing.xs),
+          CommonSpacer(width: t.spacing.xs),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

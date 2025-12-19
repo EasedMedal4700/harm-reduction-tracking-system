@@ -39,7 +39,7 @@ class InsightSummaryCard extends StatelessWidget {
             subtitle: selectedPeriodText,
           ),
 
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(t.spacing.md),
 
           Text(
             _generateInsightText(),

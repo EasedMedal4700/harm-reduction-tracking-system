@@ -1,12 +1,13 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
 import '../../../../providers/settings_provider.dart';
 import 'settings_section.dart';
+import '../../../../common/inputs/switch_tile.dart';
 
 /// Notifications section widget
 class NotificationSettingsSection extends StatelessWidget {
@@ -27,18 +28,17 @@ class NotificationSettingsSection extends StatelessWidget {
       title: 'Notifications',
       icon: Icons.notifications,
       children: [
-        SwitchListTile(
-          title: const Text('Enable Notifications'),
+        CommonSwitchTile(
+          title: 'Enable Notifications',
           value: settings.notificationsEnabled,
           onChanged: settingsProvider.setNotificationsEnabled,
         ),
-        SwitchListTile(
-          title: const Text('Daily Check-in Reminder'),
-          subtitle: Text('At ${settings.checkinReminderTime}'),
+        CommonSwitchTile(
+          title: 'Daily Check-in Reminder',
+          subtitle: 'At ${settings.checkinReminderTime}',
           value: settings.dailyCheckinReminder,
-          onChanged: settings.notificationsEnabled
-              ? settingsProvider.setDailyCheckinReminder
-              : null,
+          onChanged: settingsProvider.setDailyCheckinReminder,
+          enabled: settings.notificationsEnabled,
         ),
         if (settings.dailyCheckinReminder && settings.notificationsEnabled)
           ListTile(
@@ -47,26 +47,23 @@ class NotificationSettingsSection extends StatelessWidget {
             trailing: const Icon(Icons.access_time),
             onTap: onReminderTimeTap,
           ),
-        SwitchListTile(
-          title: const Text('Medication Reminders'),
+        CommonSwitchTile(
+          title: 'Medication Reminders',
           value: settings.medicationReminders,
-          onChanged: settings.notificationsEnabled
-              ? settingsProvider.setMedicationReminders
-              : null,
+          onChanged: settingsProvider.setMedicationReminders,
+          enabled: settings.notificationsEnabled,
         ),
-        SwitchListTile(
-          title: const Text('Craving Alerts'),
+        CommonSwitchTile(
+          title: 'Craving Alerts',
           value: settings.cravingAlerts,
-          onChanged: settings.notificationsEnabled
-              ? settingsProvider.setCravingAlerts
-              : null,
+          onChanged: settingsProvider.setCravingAlerts,
+          enabled: settings.notificationsEnabled,
         ),
-        SwitchListTile(
-          title: const Text('Weekly Reports'),
+        CommonSwitchTile(
+          title: 'Weekly Reports',
           value: settings.weeklyReports,
-          onChanged: settings.notificationsEnabled
-              ? settingsProvider.setWeeklyReports
-              : null,
+          onChanged: settingsProvider.setWeeklyReports,
+          enabled: settings.notificationsEnabled,
         ),
       ],
     );

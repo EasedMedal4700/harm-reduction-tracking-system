@@ -10,6 +10,9 @@ import '../../services/encryption_service_v2.dart';
 import '../../services/encryption_migration_service.dart';
 import '../../services/debug_config.dart';
 import '../../services/onboarding_service.dart';
+import '../../common/inputs/input_field.dart';
+import '../../common/buttons/common_primary_button.dart';
+import '../../common/layout/common_spacer.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -364,7 +367,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
-    final sh = context.shapes;
 
     return Scaffold(
       backgroundColor: c.background,
@@ -383,41 +385,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
+            CommonInputField(
               controller: emailController,
               enabled: !_isLoading,
-              style: text.bodyMedium.copyWith(color: c.textPrimary),
-              decoration: InputDecoration(
-                labelText: 'Email',
-                labelStyle: text.bodyMedium.copyWith(color: c.textSecondary),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(sh.radiusMd),
-                  borderSide: BorderSide(color: c.border),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(sh.radiusMd),
-                  borderSide: BorderSide(color: a.primary),
-                ),
-              ),
+              labelText: 'Email',
               keyboardType: TextInputType.emailAddress,
             ),
-            SizedBox(height: sp.md),
-            TextField(
+            CommonSpacer.vertical(sp.md),
+            CommonInputField(
               controller: passwordController,
               enabled: !_isLoading,
-              style: text.bodyMedium.copyWith(color: c.textPrimary),
-              decoration: InputDecoration(
-                labelText: 'Password',
-                labelStyle: text.bodyMedium.copyWith(color: c.textSecondary),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(sh.radiusMd),
-                  borderSide: BorderSide(color: c.border),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(sh.radiusMd),
-                  borderSide: BorderSide(color: a.primary),
-                ),
-              ),
+              labelText: 'Password',
               obscureText: true,
             ),
             CheckboxListTile(
@@ -433,35 +411,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ? null
                   : (value) => setState(() => _rememberMe = value ?? false),
             ),
-            SizedBox(height: sp.xl),
-            SizedBox(
+            CommonSpacer.vertical(sp.xl),
+            CommonPrimaryButton(
+              onPressed: _handleLogin,
+              label: 'Login',
+              isLoading: _isLoading,
+              isEnabled: !_isLoading,
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _isLoading ? null : _handleLogin,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: a.primary,
-                  foregroundColor: c.textInverse,
-                  padding: EdgeInsets.symmetric(vertical: sp.md),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(sh.radiusMd),
-                  ),
-                ),
-                child: _isLoading
-                    ? SizedBox(
-                        height: context.sizes.iconSm,
-                        width: context.sizes.iconSm,
-                        child: CircularProgressIndicator(
-                          strokeWidth: context.borders.medium,
-                          valueColor: AlwaysStoppedAnimation<Color>(c.textInverse),
-                        ),
-                      )
-                    : Text(
-                        'Login',
-                        style: text.labelLarge.copyWith(color: c.textInverse),
-                      ),
-              ),
             ),
-            SizedBox(height: sp.md),
+            CommonSpacer.vertical(sp.md),
             TextButton(
               onPressed: _isLoading
                   ? null

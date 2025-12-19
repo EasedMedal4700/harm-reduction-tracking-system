@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Widget displaying error state for the analytics page
 class AnalyticsErrorState extends StatelessWidget {
@@ -40,7 +41,7 @@ class AnalyticsErrorState extends StatelessWidget {
               color: c.error,
             ),
 
-            SizedBox(height: sp.lg),
+            CommonSpacer.vertical(sp.lg),
 
             Text(
               message,
@@ -51,7 +52,7 @@ class AnalyticsErrorState extends StatelessWidget {
             ),
 
             if (details != null) ...[
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               SelectableText(
                 details!,
                 textAlign: TextAlign.center,
@@ -61,7 +62,7 @@ class AnalyticsErrorState extends StatelessWidget {
               ),
             ],
 
-            SizedBox(height: sp.xl),
+            CommonSpacer.vertical(sp.xl),
 
             CommonPrimaryButton(
               onPressed: onRetry,

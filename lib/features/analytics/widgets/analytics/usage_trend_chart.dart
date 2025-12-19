@@ -44,7 +44,7 @@ class UsageTrendChart extends StatelessWidget {
             title: _title(period),
           ),
 
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(t.spacing.md),
 
           SizedBox(
             height: 220,

@@ -1,12 +1,13 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
 import '../../../../providers/settings_provider.dart';
 import 'settings_section.dart';
+import '../../../../common/inputs/switch_tile.dart';
 
 /// Data & Sync section widget
 class DataSyncSettingsSection extends StatelessWidget {
@@ -29,9 +30,9 @@ class DataSyncSettingsSection extends StatelessWidget {
       title: 'Data & Sync',
       icon: Icons.cloud,
       children: [
-        SwitchListTile(
-          title: const Text('Auto Backup'),
-          subtitle: Text('Frequency: ${settings.backupFrequency}'),
+        CommonSwitchTile(
+          title: 'Auto Backup',
+          subtitle: 'Frequency: ${settings.backupFrequency}',
           value: settings.autoBackup,
           onChanged: settingsProvider.setAutoBackup,
         ),
@@ -42,21 +43,21 @@ class DataSyncSettingsSection extends StatelessWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: onBackupFrequencyTap,
           ),
-        SwitchListTile(
-          title: const Text('Cloud Sync'),
-          subtitle: const Text('Sync data across devices'),
+        CommonSwitchTile(
+          title: 'Cloud Sync',
+          subtitle: 'Sync data across devices',
           value: settings.syncEnabled,
           onChanged: settingsProvider.setSyncEnabled,
         ),
-        SwitchListTile(
-          title: const Text('Offline Mode'),
-          subtitle: const Text('Work without internet'),
+        CommonSwitchTile(
+          title: 'Offline Mode',
+          subtitle: 'Work without internet',
           value: settings.offlineMode,
           onChanged: settingsProvider.setOfflineMode,
         ),
-        SwitchListTile(
-          title: const Text('Enable Cache'),
-          subtitle: Text('Duration: ${settings.cacheDuration}'),
+        CommonSwitchTile(
+          title: 'Enable Cache',
+          subtitle: 'Duration: ${settings.cacheDuration}',
           value: settings.cacheEnabled,
           onChanged: settingsProvider.setCacheEnabled,
         ),

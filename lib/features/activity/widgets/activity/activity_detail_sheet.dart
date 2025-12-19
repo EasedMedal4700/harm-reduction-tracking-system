@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_outlined_button.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class ActivityDetailSheet extends StatelessWidget {
   final String title;
@@ -50,11 +51,11 @@ class ActivityDetailSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildHandleBar(context),
-            SizedBox(height: sp.lg),
+            CommonSpacer(height: sp.lg),
             _buildHeader(context),
-            SizedBox(height: sp.xl),
+            CommonSpacer(height: sp.xl),
             _buildDetailsList(context),
-            SizedBox(height: sp.xl),
+            CommonSpacer(height: sp.xl),
             _buildActionButtons(context),
           ],
         ),
@@ -101,7 +102,7 @@ class ActivityDetailSheet extends StatelessWidget {
             ),
             child: Icon(icon, color: c.textInverse, size: sp.xl),
           ),
-          SizedBox(width: sp.lg),
+          CommonSpacer(width: sp.lg),
           Expanded(
             child: Text(
               title,
@@ -135,7 +136,7 @@ class ActivityDetailSheet extends StatelessWidget {
                   detail.label,
                   style: text.label.copyWith(color: c.textSecondary),
                 ),
-                SizedBox(height: sp.xs),
+                CommonSpacer(height: sp.xs),
 
                 Container(
                   padding: highlight
@@ -189,7 +190,7 @@ class ActivityDetailSheet extends StatelessWidget {
             ),
           ),
 
-          SizedBox(width: sp.md),
+          CommonSpacer(width: sp.md),
 
           /// EDIT BUTTON
           Expanded(

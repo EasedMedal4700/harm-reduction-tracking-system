@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../common/feedback/common_loader.dart';
+import '../../common/buttons/common_icon_button.dart';
 import 'widgets/activity/activity_drug_use_tab.dart';
 import 'widgets/activity/activity_cravings_tab.dart';
 import 'widgets/activity/activity_reflections_tab.dart';
@@ -77,8 +78,8 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
         backgroundColor: t.colors.surface,
         elevation: 0,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
+          CommonIconButton(
+            icon: Icons.refresh,
             onPressed: _fetchActivity,
             tooltip: 'Refresh',
             color: t.colors.textPrimary,

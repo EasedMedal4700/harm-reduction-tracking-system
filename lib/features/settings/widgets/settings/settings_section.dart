@@ -1,5 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import '../../../../common/cards/common_card.dart';
 
 /// Reusable section widget for settings page
 class SettingsSection extends StatelessWidget {
@@ -20,18 +21,13 @@ class SettingsSection extends StatelessWidget {
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
-    final sh = context.shapes;
 
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
-      color: c.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        side: BorderSide(color: c.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
+      child: CommonCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Padding(
             padding: EdgeInsets.all(sp.md),
             child: Row(
@@ -51,6 +47,7 @@ class SettingsSection extends StatelessWidget {
           Divider(height: 1, color: c.border),
           ...children,
         ],
+      ),
       ),
     );
   }

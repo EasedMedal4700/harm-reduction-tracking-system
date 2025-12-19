@@ -1,12 +1,14 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: AppBar for editing log entries. No hardcoded values.
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../models/log_entry_form_data.dart';
+import '../../../../common/buttons/common_icon_button.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 /// Riverpod-ready Edit Log Entry AppBar
 /// Accepts data and callback instead of state
@@ -35,8 +37,8 @@ class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget 
       title: Text('Edit Drug Use', style: t.text.heading3),
       actions: [
         // Delete button
-        IconButton(
-          icon: const Icon(Icons.delete_outline),
+        CommonIconButton(
+          icon: Icons.delete_outline,
           color: c.error,
           onPressed: onDelete,
           tooltip: 'Delete Entry',
@@ -52,6 +54,7 @@ class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget 
                   color: c.textSecondary,
                 ),
               ),
+              CommonSpacer.horizontal(sp.sm),
               Switch(
                 value: formData.isSimpleMode,
                 onChanged: onSimpleModeChanged,

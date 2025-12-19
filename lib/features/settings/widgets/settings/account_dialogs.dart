@@ -1,12 +1,14 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/utils/common_spacer.dart';
+import '../../../../common/feedback/common_loader.dart';
 
 /// Dialog for password verification before sensitive operations
 class PasswordVerificationDialog extends StatefulWidget {
@@ -99,7 +101,7 @@ class _PasswordVerificationDialogState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(widget.description),
-          SizedBox(height: spacing.lg),
+          CommonSpacer(height: spacing.lg),
           TextField(
             controller: _passwordController,
             obscureText: _obscurePassword,
@@ -136,9 +138,9 @@ class _PasswordVerificationDialogState
               ? SizedBox(
                   width: spacing.lg,
                   height: spacing.lg,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(colors.surface),
+                  child: CommonLoader(
+                    size: spacing.lg,
+                    color: colors.surface,
                   ),
                 )
               : Text(widget.actionButtonText),
@@ -173,7 +175,7 @@ class WarningItem extends StatelessWidget {
             color: isRed ? colors.error : colors.warning,
             size: spacing.lg + spacing.xs,
           ),
-          SizedBox(width: spacing.sm),
+          CommonSpacer(width: spacing.sm),
           Expanded(
             child: Text(
               text,
@@ -206,8 +208,8 @@ class LoadingDialog extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const CircularProgressIndicator(),
-              SizedBox(height: spacing.lg),
+              const CommonLoader(),
+              CommonSpacer(height: spacing.lg),
               Text(message),
             ],
           ),
@@ -256,7 +258,7 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
             widget.description,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: spacing.md),
+          CommonSpacer(height: spacing.md),
           TextField(
             decoration: InputDecoration(
               hintText: widget.confirmText,

@@ -1,6 +1,6 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Bug Report Screen. Migrated to use AppTheme. No hardcoded values.
 

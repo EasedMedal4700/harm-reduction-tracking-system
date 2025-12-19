@@ -1,6 +1,9 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/buttons/common_icon_button.dart';
 
 class SubstanceHeaderCard extends StatelessWidget {
   final String substanceName;
@@ -19,22 +22,10 @@ class SubstanceHeaderCard extends StatelessWidget {
     final c = context.colors;
     final acc = context.accent;
     final sp = context.spacing;
-    final sh = context.shapes;
+    final t = context.theme;
 
-    return Container(
+    return CommonCard(
       padding: EdgeInsets.all(sp.md),
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(color: c.border),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
       child: Row(
         children: [
           Container(
@@ -49,25 +40,20 @@ class SubstanceHeaderCard extends StatelessWidget {
               size: 24,
             ),
           ),
-          SizedBox(width: sp.md),
+          CommonSpacer.horizontal(sp.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   substanceName,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: c.textPrimary,
-                  ),
+                  style: t.text.heading3,
                 ),
                 if (roa != null) ...[
-                  SizedBox(height: 4),
+                  CommonSpacer.vertical(sp.xs),
                   Text(
                     roa!,
-                    style: TextStyle(
-                      fontSize: 14,
+                    style: t.text.bodySmall.copyWith(
                       color: c.textSecondary,
                     ),
                   ),
@@ -76,8 +62,9 @@ class SubstanceHeaderCard extends StatelessWidget {
             ),
           ),
           if (onEdit != null)
-            IconButton(
-              icon: Icon(Icons.edit, color: c.textSecondary),
+            CommonIconButton(
+              icon: Icons.edit,
+              color: c.textSecondary,
               onPressed: onEdit,
             ),
         ],

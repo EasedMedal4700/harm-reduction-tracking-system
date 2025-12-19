@@ -42,7 +42,7 @@ class RecentActivityList extends StatelessWidget {
             title: 'Recent Activity',
           ),
 
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(t.spacing.md),
 
           if (display.isEmpty)
             Center(

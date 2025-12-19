@@ -13,6 +13,7 @@ import 'package:mobile_drug_use_app/common/inputs/switch_tile.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_chip_group.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/text/common_section_header.dart';
+import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 
 class LogEntryForm extends StatelessWidget {
   final GlobalKey<FormState>? formKey;
@@ -128,7 +129,7 @@ class LogEntryForm extends StatelessWidget {
             onChanged: onSubstanceChanged,
             validator: (v) => v == null || v.isEmpty ? 'Required' : null,
           ),
-          SizedBox(height: sp.md),
+          CommonSpacer.vertical(sp.md),
 
           // Dose & Unit
           Row(
@@ -147,18 +148,19 @@ class LogEntryForm extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(width: sp.md),
+              CommonSpacer.horizontal(sp.md),
               Expanded(
                 flex: 1,
                 child: CommonDropdown<String>(
                   value: unit ?? 'mg',
                   items: const ['mg', 'g', 'ml', 'oz', 'pills', 'tabs'],
                   onChanged: (v) => onUnitChanged?.call(v ?? 'mg'),
+                  hintText: 'Unit',
                 ),
               ),
             ],
           ),
-          SizedBox(height: sp.md),
+          CommonSpacer.vertical(sp.md),
 
           // Route
           CommonDropdown<String>(
@@ -172,11 +174,11 @@ class LogEntryForm extends StatelessWidget {
             },
             hintText: 'Route of Administration',
           ),
-          SizedBox(height: sp.md),
+          CommonSpacer.vertical(sp.md),
 
           // Time Selector
           _buildTimeSelector(context),
-          SizedBox(height: sp.md),
+          CommonSpacer.vertical(sp.md),
 
           // Location
           CommonDropdown<String>(
@@ -189,7 +191,7 @@ class LogEntryForm extends StatelessWidget {
             },
             hintText: 'Location',
           ),
-          SizedBox(height: sp.md),
+          CommonSpacer.vertical(sp.md),
 
           // Medical Purpose
           CommonSwitchTile(
@@ -197,7 +199,7 @@ class LogEntryForm extends StatelessWidget {
             value: isMedicalPurpose ?? false,
             onChanged: (v) => onMedicalPurposeChanged?.call(v),
           ),
-          SizedBox(height: sp.md),
+          CommonSpacer.vertical(sp.md),
 
           // Complex Mode Inputs
           if (!isSimpleMode) ...[
@@ -212,7 +214,7 @@ class LogEntryForm extends StatelessWidget {
               },
               hintText: 'Intention',
             ),
-            SizedBox(height: sp.md),
+            CommonSpacer.vertical(sp.md),
 
             // Craving Intensity
             CommonCard(
@@ -224,7 +226,7 @@ class LogEntryForm extends StatelessWidget {
                     title: 'Craving Intensity',
                     subtitle: 'How strong was the urge?',
                   ),
-                  SizedBox(height: sp.sm),
+                  CommonSpacer.vertical(sp.sm),
                   CommonSlider(
                     value: cravingIntensity ?? 0.0,
                     min: 0.0,
@@ -235,7 +237,7 @@ class LogEntryForm extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: sp.md),
+            CommonSpacer.vertical(sp.md),
 
             // Emotions
             EmotionSelector(
@@ -253,7 +255,7 @@ class LogEntryForm extends StatelessWidget {
                 }
               },
             ),
-            SizedBox(height: sp.md),
+            CommonSpacer.vertical(sp.md),
 
             // Secondary Emotions
             if (feelings != null && feelings!.isNotEmpty)
@@ -267,7 +269,7 @@ class LogEntryForm extends StatelessWidget {
               selected: selectedTriggers ?? [],
               onChanged: (v) => onTriggersChanged?.call(v),
             ),
-            SizedBox(height: sp.md),
+            CommonSpacer.vertical(sp.md),
 
             // Body Signals
             CommonChipGroup(
@@ -277,7 +279,7 @@ class LogEntryForm extends StatelessWidget {
               selected: selectedBodySignals ?? [],
               onChanged: (v) => onBodySignalsChanged?.call(v),
             ),
-            SizedBox(height: sp.md),
+            CommonSpacer.vertical(sp.md),
           ],
 
           // Notes
@@ -286,7 +288,7 @@ class LogEntryForm extends StatelessWidget {
             labelText: 'Notes',
             maxLines: 3,
           ),
-          SizedBox(height: sp.lg),
+          CommonSpacer.vertical(sp.lg),
 
           if (showSaveButton && onSave != null)
             CommonPrimaryButton(

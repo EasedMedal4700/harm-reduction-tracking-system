@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully migrated. Uses context-based AppTheme access only.
 
@@ -22,19 +23,19 @@ class ThemeExampleWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildBasicCard(context),
-          SizedBox(height: sp.xl),
+          CommonSpacer(height: sp.xl),
 
           _buildGradientCard(context),
-          SizedBox(height: sp.xl),
+          CommonSpacer(height: sp.xl),
 
           _buildNeonCard(context),
-          SizedBox(height: sp.xl),
+          CommonSpacer(height: sp.xl),
 
           _buildIconExample(context),
-          SizedBox(height: sp.xl),
+          CommonSpacer(height: sp.xl),
 
           _buildTypographyExample(context),
-          SizedBox(height: sp.xl),
+          CommonSpacer(height: sp.xl),
 
           _buildButtonExample(context),
         ],

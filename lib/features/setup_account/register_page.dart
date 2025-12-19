@@ -5,6 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/core_providers.dart';
 import '../../services/onboarding_service.dart';
+import '../../common/inputs/input_field.dart';
+import '../../common/buttons/common_primary_button.dart';
+import '../../common/layout/common_spacer.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -173,19 +176,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 textAlign: TextAlign.center,
                 style: t.bodyLarge,
               ),
-              SizedBox(height: sp.xl),
-              ElevatedButton.icon(
+              CommonSpacer.vertical(sp.xl),
+              CommonPrimaryButton(
                 onPressed: () {
                   Navigator.of(context).pushReplacementNamed('/onboarding');
                 },
-                icon: const Icon(Icons.arrow_forward),
-                label: const Text('Go to Onboarding'),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: sp.lg,
-                    vertical: sp.sm,
-                  ),
-                ),
+                icon: Icons.arrow_forward,
+                label: 'Go to Onboarding',
               ),
             ],
           ),
@@ -203,9 +200,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           key: _formKey,
           child: ListView(
             children: [
-              TextFormField(
+              CommonInputField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                labelText: 'Email',
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
@@ -218,17 +215,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   return null;
                 },
               ),
-              SizedBox(height: sp.sm),
-              TextFormField(
+              CommonSpacer.vertical(sp.sm),
+              CommonInputField(
                 controller: _displayNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Display name (optional)',
-                ),
+                labelText: 'Display name (optional)',
               ),
-              SizedBox(height: sp.sm),
-              TextFormField(
+              CommonSpacer.vertical(sp.sm),
+              CommonInputField(
                 controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
+                labelText: 'Password',
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -240,10 +235,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   return null;
                 },
               ),
-              SizedBox(height: sp.sm),
-              TextFormField(
+              CommonSpacer.vertical(sp.sm),
+              CommonInputField(
                 controller: _confirmPasswordController,
-                decoration: const InputDecoration(labelText: 'Confirm password'),
+                labelText: 'Confirm password',
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -255,21 +250,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   return null;
                 },
               ),
-              SizedBox(height: sp.lg),
-              SizedBox(
+              CommonSpacer.vertical(sp.lg),
+              CommonPrimaryButton(
+                onPressed: _handleRegister,
+                label: 'Create account',
+                isLoading: _isSubmitting,
+                isEnabled: !_isSubmitting,
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _isSubmitting ? null : _handleRegister,
-                  child: _isSubmitting
-                      ? SizedBox(
-                          width: context.sizes.iconSm,
-                          height: context.sizes.iconSm,
-                          child: CircularProgressIndicator(strokeWidth: context.borders.medium),
-                        )
-                      : const Text('Create account'),
-                ),
               ),
-              SizedBox(height: sp.md),
+              CommonSpacer.vertical(sp.md),
               TextButton.icon(
                 icon: const Icon(Icons.login),
                 label: const Text('Already have an account? Log in'),

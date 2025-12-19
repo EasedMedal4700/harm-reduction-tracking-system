@@ -1,12 +1,14 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
 import '../../../../providers/settings_provider.dart';
 import 'settings_section.dart';
+import '../../../../common/inputs/switch_tile.dart';
+import '../../../../common/inputs/slider.dart';
 
 /// Entry Preferences section widget
 class EntryPreferencesSection extends StatelessWidget {
@@ -33,28 +35,28 @@ class EntryPreferencesSection extends StatelessWidget {
           trailing: const Icon(Icons.chevron_right),
           onTap: onDoseUnitTap,
         ),
-        SwitchListTile(
-          title: const Text('Quick Entry Mode'),
-          subtitle: const Text('Skip confirmation dialogs'),
+        CommonSwitchTile(
+          title: 'Quick Entry Mode',
+          subtitle: 'Skip confirmation dialogs',
           value: settings.quickEntryMode,
           onChanged: settingsProvider.setQuickEntryMode,
         ),
-        SwitchListTile(
-          title: const Text('Auto-save Entries'),
-          subtitle: const Text('Save without confirmation'),
+        CommonSwitchTile(
+          title: 'Auto-save Entries',
+          subtitle: 'Save without confirmation',
           value: settings.autoSaveEntries,
           onChanged: settingsProvider.setAutoSaveEntries,
         ),
-        SwitchListTile(
-          title: const Text('Show Recent Substances'),
-          subtitle: Text('Show last ${settings.recentSubstancesCount} used'),
+        CommonSwitchTile(
+          title: 'Show Recent Substances',
+          subtitle: 'Show last ${settings.recentSubstancesCount} used',
           value: settings.showRecentSubstances,
           onChanged: settingsProvider.setShowRecentSubstances,
         ),
         if (settings.showRecentSubstances)
           ListTile(
             title: const Text('Recent Count'),
-            subtitle: Slider(
+            subtitle: CommonSlider(
               value: settings.recentSubstancesCount.toDouble(),
               min: 3,
               max: 10,

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/enums/time_period.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_icon_button.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final TimePeriod selectedPeriod;
@@ -71,7 +72,7 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
 
-                SizedBox(width: sp.md),
+                CommonSpacer.horizontal(sp.md),
 
                 /// Title
                 Expanded(
@@ -102,7 +103,7 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
               ],
             ),
 
-            SizedBox(height: sp.sm),
+            CommonSpacer.vertical(sp.sm),
 
             /// Subtitle
             Text(

@@ -62,20 +62,32 @@ Future<void> main() async {
       // Load .env
       try {
         await dotenv.load(fileName: ".env");
-      } catch (_) {}
+      } catch (e) {
+        debugPrint('Error loading .env file: $e');
+        // If .env fails to load, we might want to throw or handle it, 
+        // but for now let's at least see the error.
+      }
 
-      final supabaseUrl = dotenv.env['SUPABASE_URL']!;
-      final supabaseKey = dotenv.env['SUPABASE_ANON_KEY']!;
+      if (!dotenv.isInitialized) {
+         debugPrint('DotEnv not initialized. Check if .env file exists.');
+      }
 
-      // Init Supabase
-      await Supabase.initialize(
-        url: supabaseUrl,
-        anonKey: supabaseKey,
-        authOptions: const FlutterAuthClientOptions(
-          authFlowType: AuthFlowType.pkce,
-          autoRefreshToken: true,
-        ),
-      );
+      final supabaseUrl = dotenv.isInitialized ? (dotenv.env['SUPABASE_URL'] ?? '') : '';
+      final supabaseKey = dotenv.isInitialized ? (dotenv.env['SUPABASE_ANON_KEY'] ?? '') : '';
+
+      if (supabaseUrl.isNotEmpty && supabaseKey.isNotEmpty) {
+        // Init Supabase
+        await Supabase.initialize(
+          url: supabaseUrl,
+          anonKey: supabaseKey,
+          authOptions: const FlutterAuthClientOptions(
+            authFlowType: AuthFlowType.pkce,
+            autoRefreshToken: true,
+          ),
+        );
+      } else {
+        debugPrint('Supabase not initialized: Missing credentials');
+      }
 
       await errorLoggingService.init();
 

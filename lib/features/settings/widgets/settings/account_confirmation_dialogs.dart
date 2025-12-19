@@ -1,11 +1,12 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/utils/common_spacer.dart';
 import 'account_dialogs.dart';
 
 /// Shows confirmation dialog for delete data operation
@@ -26,7 +27,7 @@ void showDeleteDataConfirmation(
       title: Row(
         children: [
           Icon(Icons.warning_amber, color: colors.warning, size: spacing.xl * 2),
-          SizedBox(width: spacing.md),
+          CommonSpacer(width: spacing.md),
           const Expanded(child: Text('Are You Sure?')),
         ],
       ),
@@ -38,13 +39,13 @@ void showDeleteDataConfirmation(
             'This will permanently delete:',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: spacing.md),
+          CommonSpacer(height: spacing.md),
           WarningItem('All your drug use logs'),
           WarningItem('All your reflections'),
           WarningItem('All your cravings data'),
           WarningItem('All your tolerance data'),
           WarningItem('All your stockpile entries'),
-          SizedBox(height: spacing.lg),
+          CommonSpacer(height: spacing.lg),
           Container(
             padding: EdgeInsets.all(spacing.md),
             decoration: BoxDecoration(
@@ -57,7 +58,7 @@ void showDeleteDataConfirmation(
             child: Row(
               children: [
                 Icon(Icons.info_outline, color: colors.info),
-                SizedBox(width: spacing.sm),
+                CommonSpacer(width: spacing.sm),
                 const Expanded(
                   child: Text(
                     'Consider downloading your data first!',
@@ -67,7 +68,7 @@ void showDeleteDataConfirmation(
               ],
             ),
           ),
-          SizedBox(height: spacing.md),
+          CommonSpacer(height: spacing.md),
           Text(
             'Your account will remain active, but all your data will be gone forever.',
             style: TextStyle(color: colors.error, fontWeight: FontWeight.w500),
@@ -146,7 +147,7 @@ void showDeleteAccountConfirmation(
       title: Row(
         children: [
           Icon(Icons.error_outline, color: colors.error, size: spacing.xl * 2),
-          SizedBox(width: spacing.md),
+          CommonSpacer(width: spacing.md),
           const Expanded(child: Text('⚠️ DELETE ACCOUNT')),
         ],
       ),
@@ -161,16 +162,16 @@ void showDeleteAccountConfirmation(
               color: colors.error,
             ),
           ),
-          SizedBox(height: spacing.md),
+          CommonSpacer(height: spacing.md),
           WarningItem('All your data and logs', isRed: true),
           WarningItem('All your settings and profile',
               isRed: true),
           WarningItem('Your account record', isRed: true),
-          SizedBox(height: spacing.sm),
+          CommonSpacer(height: spacing.sm),
           WarningItem(
             '⚠️ Login credentials remain (contact support to delete)',
           ),
-          SizedBox(height: spacing.lg),
+          CommonSpacer(height: spacing.lg),
           Container(
             padding: EdgeInsets.all(spacing.md),
             decoration: BoxDecoration(
@@ -185,7 +186,7 @@ void showDeleteAccountConfirmation(
               children: [
                 Icon(Icons.download,
                     color: colors.warning),
-                SizedBox(width: spacing.sm),
+                CommonSpacer(width: spacing.sm),
                 const Expanded(
                   child: Text(
                     'Download your data first so you can always come back!',
@@ -195,7 +196,7 @@ void showDeleteAccountConfirmation(
               ],
             ),
           ),
-          SizedBox(height: spacing.md),
+          CommonSpacer(height: spacing.md),
           Text(
             'This action CANNOT be reversed. Your data will be gone forever.',
             style: context.text.bodySmall.copyWith(
@@ -255,7 +256,7 @@ void showFinalDeleteAccountConfirmation(
             Icon(Icons.warning,
                 color: colors.error,
                 size: spacing.xl * 2),
-            SizedBox(width: spacing.sm),
+            CommonSpacer(width: spacing.sm),
             const Expanded(child: Text('FINAL CONFIRMATION')),
           ],
         ),
@@ -269,7 +270,7 @@ void showFinalDeleteAccountConfirmation(
                 color: colors.error,
               ),
             ),
-            SizedBox(height: spacing.md),
+            CommonSpacer(height: spacing.md),
             TextField(
               decoration: InputDecoration(
                 hintText: 'DELETE MY ACCOUNT',
@@ -288,7 +289,7 @@ void showFinalDeleteAccountConfirmation(
                 });
               },
             ),
-            SizedBox(height: spacing.lg),
+            CommonSpacer(height: spacing.lg),
             Text(
               '⚠️ This is your last chance to cancel!',
               style: TextStyle(

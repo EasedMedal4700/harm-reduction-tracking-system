@@ -1,7 +1,14 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
+
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import '../../common/layout/common_drawer.dart';
+import '../../common/feedback/common_loader.dart';
 import '../../models/bucket_definitions.dart';
 import '../../services/tolerance_service.dart';
 import '../../../services/user_service.dart';
@@ -234,7 +241,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       ),
       drawer: const CommonDrawer(),
       body: _isLoadingOptions
-          ? Center(child: CircularProgressIndicator(color: a.primary))
+          ? Center(child: CommonLoader(color: a.primary))
           : SingleChildScrollView(
               controller: _scrollController,
               padding: EdgeInsets.all(sp.md),

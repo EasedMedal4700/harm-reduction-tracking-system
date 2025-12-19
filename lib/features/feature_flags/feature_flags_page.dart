@@ -4,7 +4,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Admin feature flags page. Migrated to use AppTheme. No hardcoded values.
 import '../../constants/config/feature_flags.dart';

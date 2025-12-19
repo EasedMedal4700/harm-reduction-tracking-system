@@ -52,7 +52,7 @@ def print_percentages(counts, total, label):
 
 def tui():
     project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-    widget_dir = os.path.join(project_root, 'lib', 'widgets')
+    widget_dir = os.path.join(project_root, 'lib', 'features')
     print(f"Scanning directory: {widget_dir}")  # Debug print
     if not os.path.exists(widget_dir):
         print(f"Directory does not exist: {widget_dir}")

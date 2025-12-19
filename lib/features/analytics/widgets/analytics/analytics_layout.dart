@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 import 'analytics_filter_card.dart';
 import 'metrics_row.dart';
@@ -86,7 +87,7 @@ class AnalyticsLayout extends StatelessWidget {
             children: [
               /// 🔹 Filters
               AnalyticsFilterCard(filterContent: filterContent),
-              SizedBox(height: t.spacing.lg),
+              CommonSpacer.vertical(t.spacing.lg),
 
               /// 🔹 Metrics at the top (always full-width)
               MetricsRow(
@@ -97,7 +98,7 @@ class AnalyticsLayout extends StatelessWidget {
                 topCategory: topCategory,
                 topCategoryPercent: topCategoryPercent,
               ),
-              SizedBox(height: t.spacing.lg),
+              CommonSpacer.vertical(t.spacing.lg),
 
               /// 🔹 Main responsive content
               isWideScreen
@@ -130,7 +131,7 @@ class AnalyticsLayout extends StatelessWidget {
                 substanceToCategory: substanceToCategory,
                 onCategoryTapped: onCategoryTapped,
               ),
-              SizedBox(height: t.spacing.lg),
+              CommonSpacer.vertical(t.spacing.lg),
 
               InsightSummaryCard(
                 totalEntries: totalEntries,
@@ -142,7 +143,7 @@ class AnalyticsLayout extends StatelessWidget {
           ),
         ),
 
-        SizedBox(width: t.spacing.lg),
+        CommonSpacer.horizontal(t.spacing.lg),
 
         /// RIGHT COLUMN
         Expanded(
@@ -153,7 +154,7 @@ class AnalyticsLayout extends StatelessWidget {
                 period: period,
                 substanceToCategory: substanceToCategory,
               ),
-              SizedBox(height: t.spacing.lg),
+              CommonSpacer.vertical(t.spacing.lg),
 
               RecentActivityList(
                 entries: filteredEntries,
@@ -181,14 +182,14 @@ class AnalyticsLayout extends StatelessWidget {
           substanceToCategory: substanceToCategory,
           onCategoryTapped: onCategoryTapped,
         ),
-        SizedBox(height: t.spacing.lg),
+        CommonSpacer.vertical(t.spacing.lg),
 
         UsageTrendsCard(
           filteredEntries: filteredEntries,
           period: period,
           substanceToCategory: substanceToCategory,
         ),
-        SizedBox(height: t.spacing.lg),
+        CommonSpacer.vertical(t.spacing.lg),
 
         InsightSummaryCard(
           totalEntries: totalEntries,
@@ -196,7 +197,7 @@ class AnalyticsLayout extends StatelessWidget {
           weeklyAverage: weeklyAverage,
           selectedPeriodText: selectedPeriodText,
         ),
-        SizedBox(height: t.spacing.lg),
+        CommonSpacer.vertical(t.spacing.lg),
 
         RecentActivityList(
           entries: filteredEntries,

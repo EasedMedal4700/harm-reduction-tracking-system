@@ -43,7 +43,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
           // ---- TITLE ----
           const CommonSectionHeader(title: 'Category Distribution'),
 
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(t.spacing.md),
 
           // ---- PIE CHART ----
           SizedBox(

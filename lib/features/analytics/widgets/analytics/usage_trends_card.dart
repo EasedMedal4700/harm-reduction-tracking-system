@@ -47,7 +47,6 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final text = context.text;
     final sp = context.spacing;
@@ -69,7 +68,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
               _buildGranularityDropdown(context),
             ],
           ),
-          const CommonSpacer.vertical(8),
+          CommonSpacer.vertical(sp.sm),
 
           /// TREND LABEL
           if (trendPercent != null) ...[
@@ -84,7 +83,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                       ? c.warning
                       : c.success,
                 ),
-                SizedBox(width: sp.xs),
+                CommonSpacer.horizontal(sp.xs),
                 Text(
                   '${trendPercent.abs().toStringAsFixed(0)}% '
                   '${trendPercent > 0 ? "increase" : "decrease"} '
@@ -93,9 +92,9 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                 ),
               ],
             ),
-            const CommonSpacer.vertical(16),
+            CommonSpacer.vertical(sp.md),
           ] else
-            const CommonSpacer.vertical(16),
+            CommonSpacer.vertical(sp.md),
 
           /// BAR CHART
           SizedBox(

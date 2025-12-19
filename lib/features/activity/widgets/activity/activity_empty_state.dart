@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class ActivityEmptyState extends StatelessWidget {
   final IconData icon;
@@ -38,7 +39,7 @@ class ActivityEmptyState extends StatelessWidget {
               color: c.textSecondary.withValues(alpha: 0.5),
             ),
 
-            SizedBox(height: sp.xl),
+            CommonSpacer(height: sp.xl),
 
             Text(
               title,
@@ -46,7 +47,7 @@ class ActivityEmptyState extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
 
-            SizedBox(height: sp.sm),
+            CommonSpacer(height: sp.sm),
 
             Text(
               subtitle,

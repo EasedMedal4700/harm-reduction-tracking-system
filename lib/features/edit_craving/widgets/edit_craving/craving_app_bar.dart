@@ -1,12 +1,13 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: AppBar for editing cravings. No hardcoded values.
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import '../../../../common/feedback/common_loader.dart';
 
 class CravingAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isSaving;
@@ -34,13 +35,10 @@ class CravingAppBar extends StatelessWidget implements PreferredSizeWidget {
           Center(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: context.spacing.md),
-              child: SizedBox(
-                width: context.sizes.iconSm,
-                height: context.sizes.iconSm,
-                child: CircularProgressIndicator(
-                  strokeWidth: context.borders.medium,
-                  valueColor: AlwaysStoppedAnimation<Color>(a.primary),
-                ),
+              child: CommonLoader(
+                size: context.sizes.iconSm,
+                color: a.primary,
+                strokeWidth: context.borders.medium,
               ),
             ),
           )

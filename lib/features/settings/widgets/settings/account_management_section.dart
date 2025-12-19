@@ -1,6 +1,6 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../../../../services/account_data_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
+import '../../../../common/utils/common_spacer.dart';
 import 'account_dialogs.dart';
 import 'account_confirmation_dialogs.dart';
 
@@ -33,7 +34,7 @@ class AccountManagementSection extends StatelessWidget {
               color: colors.textPrimary,
             ),
           ),
-          SizedBox(height: spacing.xs),
+          CommonSpacer(height: spacing.xs),
           Text(
             'Manage your personal data and account',
             style: typography.bodySmall.copyWith(
@@ -42,9 +43,9 @@ class AccountManagementSection extends StatelessWidget {
           ),
           Divider(height: spacing.xl),
           _buildDownloadDataTile(context),
-          SizedBox(height: spacing.sm),
+          CommonSpacer(height: spacing.sm),
           _buildDeleteDataTile(context),
-          SizedBox(height: spacing.sm),
+          CommonSpacer(height: spacing.sm),
           _buildDeleteAccountTile(context),
         ],
       ),

@@ -2,6 +2,7 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../common/layout/common_spacer.dart';
 
 class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isSimpleMode;
@@ -64,7 +65,7 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
                     color: t.colors.textSecondary,
                   ),
                 ),
-                SizedBox(width: t.spacing.sm),
+                CommonSpacer.horizontal(t.spacing.sm),
                 Switch(
                   value: isSimpleMode,
                   onChanged: onSimpleModeChanged,

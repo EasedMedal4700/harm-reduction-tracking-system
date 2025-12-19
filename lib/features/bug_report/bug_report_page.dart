@@ -3,7 +3,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Bug Report Screen. Migrated to use AppTheme. No hardcoded values.
 import '../../services/user_service.dart';

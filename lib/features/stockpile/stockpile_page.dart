@@ -1,3 +1,9 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
+
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +13,8 @@ import '../../repo/stockpile_repository.dart';
 import '../../repo/substance_repository.dart';
 import '../../models/stockpile_item.dart';
 import '../../common/layout/common_drawer.dart';
+import '../../common/feedback/common_loader.dart';
+import '../../common/utils/common_spacer.dart';
 import '../catalog/widgets/catalog/add_stockpile_sheet.dart';
 import 'widgets/personal_library/substance_card.dart';
 import 'widgets/personal_library/summary_stats_banner.dart';
@@ -231,7 +239,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
           // Content
           if (_loading)
             const SliverFillRemaining(
-              child: Center(child: CircularProgressIndicator()),
+              child: Center(child: CommonLoader()),
             )
           else if (_error != null)
             SliverFillRemaining(
@@ -240,7 +248,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(_error!, style: t.typography.body.copyWith(color: c.error)),
-                    SizedBox(height: sp.md),
+                    CommonSpacer(height: sp.md),
                     TextButton(onPressed: _loadCatalog, child: const Text('Retry')),
                   ],
                 ),

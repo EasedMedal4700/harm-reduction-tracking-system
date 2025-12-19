@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/text/common_section_header.dart';
 import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/inputs/switch_tile.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 class MedicalPurposeCard extends StatelessWidget {
@@ -18,10 +19,6 @@ class MedicalPurposeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    final c = context.colors;
-    final sh = context.shapes;
-    final accent = c.success;
-
     return CommonCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,35 +30,12 @@ class MedicalPurposeCard extends StatelessWidget {
 
           CommonSpacer.vertical(t.spacing.md),
 
-          Container(
-            decoration: BoxDecoration(
-              color: c.surfaceVariant,
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              border: Border.all(
-                color: isMedicalPurpose ? accent : c.border,
-                width: isMedicalPurpose ? 2 : 1,
-              ),
-            ),
-            child: SwitchListTile(
-              value: isMedicalPurpose,
-              onChanged: onChanged,
-              activeTrackColor: accent,
-              title: Text(
-                "Medical Purpose",
-                style: t.typography.body.copyWith(
-                  fontWeight: isMedicalPurpose
-                      ? FontWeight.w600
-                      : FontWeight.normal,
-                  color: c.textPrimary,
-                ),
-              ),
-              subtitle: Text(
-                "Prescribed or therapeutic use",
-                style: t.typography.bodySmall.copyWith(
-                  color: c.textSecondary,
-                ),
-              ),
-            ),
+          CommonSwitchTile(
+            title: "Medical Purpose",
+            subtitle: "Prescribed or therapeutic use",
+            value: isMedicalPurpose,
+            onChanged: onChanged,
+            highlighted: isMedicalPurpose,
           ),
         ],
       ),

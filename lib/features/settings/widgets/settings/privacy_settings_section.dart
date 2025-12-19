@@ -1,6 +1,6 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
@@ -13,6 +13,9 @@ import '../../../../services/pin_timeout_service.dart';
 import '../../../../services/encryption_service_v2.dart';
 import '../../../../services/onboarding_service.dart';
 import 'settings_section.dart';
+import '../../../../common/inputs/switch_tile.dart';
+import '../../../../common/utils/common_spacer.dart';
+import '../../../../common/buttons/common_primary_button.dart';
 
 /// Privacy & Security section widget
 class PrivacySettingsSection extends StatefulWidget {
@@ -144,9 +147,9 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           ),
         ],
         Divider(color: c.border),
-        SwitchListTile(
-          title: const Text('Biometric Lock'),
-          subtitle: const Text('Use fingerprint/face to unlock'),
+        CommonSwitchTile(
+          title: 'Biometric Lock',
+          subtitle: 'Use fingerprint/face to unlock',
           value: settings.biometricLock,
           onChanged: widget.settingsProvider.setBiometricLock,
         ),
@@ -239,15 +242,15 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
         ),
         
         Divider(color: c.border),
-        SwitchListTile(
-          title: const Text('Hide in Recent Apps'),
-          subtitle: const Text('Blur content in app switcher'),
+        CommonSwitchTile(
+          title: 'Hide in Recent Apps',
+          subtitle: 'Blur content in app switcher',
           value: settings.hideContentInRecents,
           onChanged: widget.settingsProvider.setHideContentInRecents,
         ),
-        SwitchListTile(
-          title: const Text('Analytics'),
-          subtitle: const Text('Share anonymous usage data'),
+        CommonSwitchTile(
+          title: 'Analytics',
+          subtitle: 'Share anonymous usage data',
           value: settings.analyticsEnabled,
           onChanged: widget.settingsProvider.setAnalyticsEnabled,
         ),
@@ -272,9 +275,9 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                     onPressed: () => Navigator.pop(context, false),
                     child: const Text('Cancel'),
                   ),
-                  ElevatedButton(
+                  CommonPrimaryButton(
                     onPressed: () => Navigator.pop(context, true),
-                    child: const Text('Reset'),
+                    text: 'Reset',
                   ),
                 ],
               ),
@@ -395,7 +398,7 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
               widget.subtitle,
               style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
-            const SizedBox(height: 16),
+            const CommonSpacer(height: 16),
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -412,7 +415,7 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
                 );
               }).toList(),
             ),
-            const SizedBox(height: 16),
+            const CommonSpacer(height: 16),
             Row(
               children: [
                 Expanded(
@@ -427,8 +430,8 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
-                ElevatedButton(
+                const CommonSpacer(width: 8),
+                CommonPrimaryButton(
                   onPressed: () {
                     final value = int.tryParse(_customController.text);
                     if (value != null) {
@@ -439,11 +442,11 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
                       setState(() => _selectedValue = clamped);
                     }
                   },
-                  child: const Text('Set'),
+                  text: 'Set',
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const CommonSpacer(height: 8),
             Text(
               'Current: ${_formatDuration(_selectedValue)}',
               style: const TextStyle(
@@ -459,9 +462,9 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cancel'),
         ),
-        ElevatedButton(
+        CommonPrimaryButton(
           onPressed: () => Navigator.of(context).pop(_selectedValue),
-          child: const Text('Save'),
+          text: 'Save',
         ),
       ],
     );
