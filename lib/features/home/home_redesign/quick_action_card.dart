@@ -29,7 +29,7 @@ class QuickActionCard extends StatelessWidget {
     final cardColor = color ?? acc.primary;
 
     return Material(
-      color: Colors.transparent,
+      color: context.colors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(sh.radiusMd),
@@ -44,12 +44,12 @@ class QuickActionCard extends StatelessWidget {
               color: isDark 
                   ? c.border.withValues(alpha: 0.5) 
                   : c.border,
-              width: 1,
+              width: context.sizes.borderThin,
             ),
             boxShadow: isDark ? null : [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.03),
-                blurRadius: 4,
+                blurRadius: context.sizes.blurRadiusSm,
                 offset: const Offset(0, 2),
               ),
             ],
@@ -61,7 +61,7 @@ class QuickActionCard extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: cardColor.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
+                  shape: context.shapes.boxShapeCircle,
                 ),
                 child: Icon(
                   icon,

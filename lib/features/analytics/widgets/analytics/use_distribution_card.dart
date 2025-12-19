@@ -266,7 +266,7 @@ final innerRadius = radiusBase * 0.5;
     return SizedBox(
       height: radiusBase * 2.1,
       child: Stack(
-        alignment: Alignment.center,
+        alignment: context.shapes.alignmentCenter,
         children: [
           PieChart(
             PieChartData(

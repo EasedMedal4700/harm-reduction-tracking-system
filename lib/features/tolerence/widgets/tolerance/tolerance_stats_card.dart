@@ -102,7 +102,7 @@ class ToleranceStatsCard extends ConsumerWidget {
 
               // Vertical divider between columns
               Container(
-                width: 1,
+                width: context.sizes.borderThin,
                 height: 80,
                 margin: EdgeInsets.symmetric(horizontal: spacing.lg),
                 color: colors.divider,

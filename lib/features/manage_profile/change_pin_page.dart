@@ -116,7 +116,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
       appBar: AppBar(
         title: const Text('Change PIN'),
         backgroundColor: c.surface,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(sp.xl),
@@ -243,7 +243,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(sh.radiusMd),
                   ),
-                  elevation: 2,
+                  elevation: context.sizes.elevationSm,
                 ),
                 child: _isLoading
                     ? SizedBox(
@@ -330,6 +330,10 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
   }
 
   Widget _buildSuccessView(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;

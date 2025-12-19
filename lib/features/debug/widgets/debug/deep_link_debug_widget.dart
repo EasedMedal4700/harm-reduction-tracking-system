@@ -45,7 +45,7 @@ class DeepLinkDebugWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(sh.radiusMd),
         border: Border.all(
           color: c.warning.withValues(alpha: 0.5),
-          width: 2,
+          width: context.sizes.borderRegular,
         ),
       ),
       child: Column(
@@ -143,7 +143,7 @@ class DeepLinkDebugWidget extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Simulated: substancecheck://auth'),
-        duration: Duration(seconds: 2),
+        duration: context.animations.snackbar,
       ),
     );
   }
@@ -160,7 +160,7 @@ class DeepLinkDebugWidget extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Simulated: substancecheck://reset-password'),
-        duration: Duration(seconds: 2),
+        duration: context.animations.snackbar,
       ),
     );
   }

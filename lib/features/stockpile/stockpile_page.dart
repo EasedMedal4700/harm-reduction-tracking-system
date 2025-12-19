@@ -163,7 +163,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
     final result = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: context.colors.transparent,
       builder: (context) => AddStockpileSheet(
         substanceId: entry.name,
         substanceName: entry.name,
@@ -180,7 +180,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: context.colors.transparent,
       builder: (context) => DayUsageSheet(
         substanceName: substanceName,
         weekdayIndex: weekdayIndex,
@@ -192,7 +192,6 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     

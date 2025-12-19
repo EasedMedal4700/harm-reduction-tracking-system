@@ -25,7 +25,6 @@ class FeelingSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final text = context.text;
-    final t = context.theme;
     // acc unused
     final sp = context.spacing;
     final sh = context.shapes;

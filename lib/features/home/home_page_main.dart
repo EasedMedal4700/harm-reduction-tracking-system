@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage>
     
     // Setup animations
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: context.animations.normal,
       vsync: this,
     );
     
@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage>
           ),
         ),
         backgroundColor: c.surface,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
         iconTheme: IconThemeData(color: c.textPrimary),
         actions: [
           // Profile Button
@@ -279,6 +279,8 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildFAB(BuildContext context) {
+    final c = context.colors;
+    final sh = context.shapes;
     final c = context.colors;
     final a = context.accent;
     final sh = context.shapes;

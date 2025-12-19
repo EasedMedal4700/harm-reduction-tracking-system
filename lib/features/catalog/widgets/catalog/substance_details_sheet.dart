@@ -311,7 +311,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                 padding: EdgeInsets.all(t.spacing.sm),
                 decoration: BoxDecoration(
                   color: t.colors.surface,
-                  shape: BoxShape.circle,
+                  shape: context.shapes.boxShapeCircle,
                 ),
                 child: const Icon(Icons.close),
               ),
@@ -349,7 +349,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                   t.shapes.radiusMd,
                 ),
               ),
-              elevation: 2,
+              elevation: context.sizes.elevationSm,
             ),
           ),
         ),
@@ -358,6 +358,8 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
   }
 
   Widget _buildAliases(BuildContext context) {
+    final t = context.theme;
+    final text = context.text;
     final t = context.theme;
     final aliases = (widget.substance['aliases'] as List?)
         ?.map((e) => e.toString())
@@ -416,6 +418,8 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
   }
 
   Widget _buildProperties(BuildContext context) {
+    final t = context.theme;
+    final text = context.text;
     final t = context.theme;
     final summary = widget.substance['properties']?['summary'];
     final warning = widget.substance['properties']?['warning'];

@@ -61,6 +61,9 @@ class BucketDecayTimelineCard extends StatelessWidget {
 
   /// Progress bar + labels
   Widget _buildDecayBar(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sh = context.shapes;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;

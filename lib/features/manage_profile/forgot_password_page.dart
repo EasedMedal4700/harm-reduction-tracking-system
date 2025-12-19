@@ -76,8 +76,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: context.colors.transparent,
+        elevation: context.sizes.elevationNone,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: c.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
@@ -101,6 +101,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget _buildFormContent(BuildContext context) {
     final text = context.text;
     final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+    final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -114,10 +118,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           // Icon
           Container(
             width: 100,
-            height: 100,
+            height: context.sizes.heightSm,
             decoration: BoxDecoration(
               color: a.primary.withValues(alpha: context.opacities.overlay),
-              shape: BoxShape.circle,
+              shape: context.shapes.boxShapeCircle,
             ),
             child: Icon(
               Icons.lock_reset_rounded,
@@ -235,6 +239,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget _buildSuccessContent(BuildContext context) {
     final text = context.text;
     final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+    final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -246,10 +254,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         // Success icon
         Container(
           width: 100,
-          height: 100,
+          height: context.sizes.heightSm,
           decoration: BoxDecoration(
             color: c.success.withValues(alpha: context.opacities.overlay),
-            shape: BoxShape.circle,
+            shape: context.shapes.boxShapeCircle,
           ),
           child: Icon(
             Icons.mark_email_read_rounded,

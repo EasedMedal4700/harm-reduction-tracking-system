@@ -23,7 +23,6 @@ class SubstanceHeaderCard extends StatelessWidget {
     final c = context.colors;
     final acc = context.accent;
     final sp = context.spacing;
-    final t = context.theme;
 
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
@@ -33,7 +32,7 @@ class SubstanceHeaderCard extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: acc.primary.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
+              shape: context.shapes.boxShapeCircle,
             ),
             child: Icon(
               Icons.science,

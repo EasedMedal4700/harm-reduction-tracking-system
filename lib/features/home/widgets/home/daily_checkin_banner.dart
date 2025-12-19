@@ -206,7 +206,7 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(sh.radiusSm),
               ),
-              elevation: 0,
+              elevation: context.sizes.elevationNone,
             ),
           ),
         ),

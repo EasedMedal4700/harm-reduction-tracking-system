@@ -1,4 +1,6 @@
-﻿/// Shape and radius constants
+﻿import 'package:flutter/painting.dart';
+
+/// Shape and radius constants
 class AppShapeConstants {
   AppShapeConstants._();
 
@@ -12,6 +14,21 @@ class AppShapeConstants {
   
   static const double buttonRadius = 12.0;
   static const double quickActionRadius = 16.0;
+  
+  // Alignment constants
+  static const Alignment alignmentCenter = Alignment.center;
+  static const Alignment alignmentTopLeft = Alignment.topLeft;
+  static const Alignment alignmentTopCenter = Alignment.topCenter;
+  static const Alignment alignmentTopRight = Alignment.topRight;
+  static const Alignment alignmentCenterLeft = Alignment.centerLeft;
+  static const Alignment alignmentCenterRight = Alignment.centerRight;
+  static const Alignment alignmentBottomLeft = Alignment.bottomLeft;
+  static const Alignment alignmentBottomCenter = Alignment.bottomCenter;
+  static const Alignment alignmentBottomRight = Alignment.bottomRight;
+  
+  // BoxShape constants
+  static const BoxShape boxShapeRectangle = BoxShape.rectangle;
+  static const BoxShape boxShapeCircle = BoxShape.circle;
 }
 
 class AppShapes {
@@ -45,6 +62,21 @@ class AppShapes {
   // Aliases
   double get radiusS => radiusSm;
   double get radiusM => radiusMd;
+  
+  // Alignment getters
+  Alignment get alignmentCenter => AppShapeConstants.alignmentCenter;
+  Alignment get alignmentTopLeft => AppShapeConstants.alignmentTopLeft;
+  Alignment get alignmentTopCenter => AppShapeConstants.alignmentTopCenter;
+  Alignment get alignmentTopRight => AppShapeConstants.alignmentTopRight;
+  Alignment get alignmentCenterLeft => AppShapeConstants.alignmentCenterLeft;
+  Alignment get alignmentCenterRight => AppShapeConstants.alignmentCenterRight;
+  Alignment get alignmentBottomLeft => AppShapeConstants.alignmentBottomLeft;
+  Alignment get alignmentBottomCenter => AppShapeConstants.alignmentBottomCenter;
+  Alignment get alignmentBottomRight => AppShapeConstants.alignmentBottomRight;
+  
+  // BoxShape getters
+  BoxShape get boxShapeRectangle => AppShapeConstants.boxShapeRectangle;
+  BoxShape get boxShapeCircle => AppShapeConstants.boxShapeCircle;
 }
 
 

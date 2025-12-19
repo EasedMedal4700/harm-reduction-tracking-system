@@ -3,7 +3,7 @@
 // Notes: No hardcoded values.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
-import '../../../../common/widgets/common_spacer.dart';
+import '../../../../common/layout/common_spacer.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 class ReflectionSelection extends StatelessWidget {
@@ -144,8 +144,8 @@ class ReflectionSelection extends StatelessWidget {
               width: t.sizes.iconMd,
               height: t.sizes.iconMd,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isSelected ? t.accent.primary : Colors.transparent,
+                shape: context.shapes.boxShapeCircle,
+                color: isSelected ? t.accent.primary : context.colors.transparent,
                 border: Border.all(
                   color: isSelected ? t.accent.primary : t.colors.textSecondary,
                   width: t.borders.medium,

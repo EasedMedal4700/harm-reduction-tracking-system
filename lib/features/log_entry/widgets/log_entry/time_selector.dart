@@ -27,10 +27,8 @@ class TimeSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final text = context.text;
-    final t = context.theme;
     final acc = context.accent;
     final sp = context.spacing;
-    final text = context.text;
     final sh = context.shapes;
 
     return InkWell(

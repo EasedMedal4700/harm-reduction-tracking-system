@@ -47,7 +47,7 @@ class _QuickActionTileState extends State<QuickActionTile> {
         onTap: widget.onTap,
         borderRadius: BorderRadius.circular(sh.radiusMd),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
+          duration: context.animations.fast,
           curve: Curves.easeOut,
           padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
@@ -63,7 +63,7 @@ class _QuickActionTileState extends State<QuickActionTile> {
             children: [
               // Icon with background
               AnimatedContainer(
-                duration: const Duration(milliseconds: 150),
+                duration: context.animations.fast,
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
                   color: effectiveColor.withValues(
@@ -74,8 +74,8 @@ class _QuickActionTileState extends State<QuickActionTile> {
                       ? [
                           BoxShadow(
                             color: t.accent.primary.withValues(alpha: 0.3),
-                            blurRadius: 8,
-                            spreadRadius: 2,
+                            blurRadius: context.sizes.blurRadiusMd,
+                            spreadRadius: context.sizes.spreadRadiusMd,
                           )
                         ]
                       : null,

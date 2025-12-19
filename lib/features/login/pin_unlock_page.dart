@@ -82,7 +82,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
     print('🔧 DEBUG: Attempting auto-unlock with debug PIN');
     
     // Small delay to ensure widget is mounted
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const context.animations.extraFast);
     
     if (!mounted) return;
     
@@ -265,7 +265,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
             style: t.heading3.copyWith(color: c.textPrimary),
           ),
           backgroundColor: c.surface,
-          elevation: 0,
+          elevation: context.sizes.elevationNone,
           automaticallyImplyLeading: false, // Remove back button
         ),
         body: SingleChildScrollView(
@@ -312,7 +312,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                 borderRadius: BorderRadius.circular(sh.radiusLg),
                 border: Border.all(
                   color: c.border,
-                  width: 2,
+                  width: context.sizes.borderRegular,
                 ),
                 boxShadow: [
                   BoxShadow(

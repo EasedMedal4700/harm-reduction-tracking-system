@@ -18,7 +18,6 @@ class DeleteConfirmationDialog {
     LogEntryState state,
   ) async {
     final c = context.colors;
-    final t = context.theme;
     final a = context.accent;
 
     final confirmed = await showDialog<bool>(

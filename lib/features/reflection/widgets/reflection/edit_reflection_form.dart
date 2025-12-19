@@ -121,6 +121,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
+    final text = context.text;
     
     return SingleChildScrollView(
       padding: EdgeInsets.all(t.spacing.lg),

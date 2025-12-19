@@ -111,7 +111,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Recovery key copied to clipboard'),
-          duration: Duration(seconds: 2),
+          duration: context.animations.snackbar,
         ),
       );
     }
@@ -144,7 +144,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
             style: t.heading3.copyWith(color: c.textPrimary),
           ),
           backgroundColor: c.surface,
-          elevation: 0,
+          elevation: context.sizes.elevationNone,
           automaticallyImplyLeading: false, // Remove back button
         ),
         body: SingleChildScrollView(
@@ -318,6 +318,10 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
   }
 
   Widget _buildRecoveryKeyView(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
@@ -334,7 +338,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
             style: t.heading3.copyWith(color: c.textPrimary),
           ),
           backgroundColor: c.surface,
-          elevation: 0,
+          elevation: context.sizes.elevationNone,
           automaticallyImplyLeading: false,
         ),
         body: SingleChildScrollView(
@@ -406,7 +410,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                 borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(
                   color: a.primary,
-                  width: 2,
+                  width: context.sizes.borderRegular,
                 ),
               ),
               child: Column(

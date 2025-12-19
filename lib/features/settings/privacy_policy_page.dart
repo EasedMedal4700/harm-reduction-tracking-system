@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/widgets/common_spacer.dart';
@@ -280,6 +281,8 @@ Location: Netherlands / EU
   }
 
   Widget _divider(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
     final c = context.colors;
     final sp = context.spacing;
     return Divider(

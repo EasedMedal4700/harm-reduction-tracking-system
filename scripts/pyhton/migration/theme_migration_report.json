@@ -9,44 +9,9 @@
       }
     ]
   },
-  "lib\\features\\analytics\\widgets\\analytics\\analytics_app_bar.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 84,
-        "description": "letterSpacing with hardcoded value",
-        "snippet": "letterSpacing: 1.2,"
-      }
-    ]
-  },
-  "lib\\features\\analytics\\widgets\\analytics\\analytics_filter_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 33,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: const Duration(milliseconds: 220),"
-      },
-      {
-        "line": 176,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      }
-    ]
-  },
   "lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart": {
     "migrated": false,
     "issues": [
-      {
-        "line": 51,
-        "description": "height with hardcoded value",
-        "snippet": "height: 350,"
-      },
-      {
-        "line": 158,
-        "description": "height with hardcoded value",
-        "snippet": "height: 200,"
-      },
       {
         "line": 180,
         "description": "width with hardcoded value",
@@ -68,19 +33,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 40,
-        "description": "height with hardcoded value",
-        "snippet": "height: 330,     // ensures proper rendering in ListViews"
-      },
-      {
         "line": 42,
         "description": "crossAxisCount with hardcoded value",
         "snippet": "crossAxisCount: 2,"
-      },
-      {
-        "line": 169,
-        "description": "hardcoded Alignment",
-        "snippet": "alignment: Alignment.centerLeft,"
       }
     ]
   },
@@ -88,57 +43,52 @@
     "migrated": false,
     "issues": [
       {
-        "line": 102,
-        "description": "height with hardcoded value",
-        "snippet": "height: 220,"
-      },
-      {
-        "line": 275,
+        "line": 277,
         "description": "hardcoded Colors",
         "snippet": "DrugCategoryColors.colorFor(cat),"
       },
       {
-        "line": 322,
+        "line": 324,
         "description": "maxHeight with hardcoded value",
         "snippet": "constraints: const BoxConstraints(maxHeight: 200),"
       },
       {
-        "line": 326,
+        "line": 328,
         "description": "hardcoded Colors",
         "snippet": "final color = DrugCategoryColors.colorFor(e.key);"
       },
       {
-        "line": 336,
+        "line": 338,
         "description": "width with hardcoded value",
         "snippet": "width: 10,"
       },
       {
-        "line": 337,
+        "line": 339,
         "description": "height with hardcoded value",
         "snippet": "height: 10,"
       },
       {
-        "line": 387,
+        "line": 389,
         "description": "Duration with hardcoded value",
         "snippet": "final d = now.subtract(Duration(days: i * 7));"
       },
       {
-        "line": 388,
+        "line": 390,
         "description": "Duration with hardcoded value",
         "snippet": "final monday = d.subtract(Duration(days: d.weekday - 1));"
       },
       {
-        "line": 413,
+        "line": 415,
         "description": "Duration with hardcoded value",
         "snippet": "final monday = dt.subtract(Duration(days: dt.weekday - 1));"
       },
       {
-        "line": 449,
+        "line": 451,
         "description": "Duration with hardcoded value",
         "snippet": "final d = now.subtract(Duration(days: i * 7));"
       },
       {
-        "line": 450,
+        "line": 452,
         "description": "Duration with hardcoded value",
         "snippet": "final mon = d.subtract(Duration(days: d.weekday - 1));"
       }
@@ -147,11 +97,6 @@
   "lib\\features\\analytics\\widgets\\analytics\\usage_trend_chart.dart": {
     "migrated": false,
     "issues": [
-      {
-        "line": 51,
-        "description": "height with hardcoded value",
-        "snippet": "height: 220,"
-      },
       {
         "line": 119,
         "description": "hardcoded Colors",
@@ -191,11 +136,6 @@
         "line": 118,
         "description": "hardcoded Colors",
         "snippet": "final base = DrugCategoryColors.colorFor(category);"
-      },
-      {
-        "line": 269,
-        "description": "hardcoded Alignment",
-        "snippet": "alignment: Alignment.center,"
       },
       {
         "line": 336,
@@ -253,17 +193,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 45,
-        "description": "height with hardcoded value",
-        "snippet": "height: 300,"
-      },
-      {
-        "line": 190,
+        "line": 193,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 11,"
       },
       {
-        "line": 212,
+        "line": 215,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 11,"
       }
@@ -273,12 +208,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 275,
+        "line": 279,
         "description": "hardcoded Colors",
         "snippet": "return DrugCategoryColors.defaultColor;"
       },
       {
-        "line": 277,
+        "line": 281,
         "description": "hardcoded Colors",
         "snippet": "return DrugCategoryColors.colorFor(widget.level.categories.first);"
       }
@@ -288,27 +223,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 213,
-        "description": "hardcoded begin Alignment",
-        "snippet": "begin: Alignment.topCenter,"
-      },
-      {
-        "line": 214,
-        "description": "hardcoded end Alignment",
-        "snippet": "end: Alignment.bottomCenter,"
-      },
-      {
-        "line": 257,
-        "description": "letterSpacing with hardcoded value",
-        "snippet": "letterSpacing: 0.5,"
-      },
-      {
         "line": 270,
         "description": "height with hardcoded value",
         "snippet": "height: 250,"
       },
       {
-        "line": 336,
+        "line": 339,
         "description": "hardcoded Colors",
         "snippet": "final baseColor = DrugCategoryColors.colorFor(category);"
       }
@@ -318,17 +238,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 99,
-        "description": "letterSpacing with hardcoded value",
-        "snippet": "letterSpacing: 1.0,"
-      },
-      {
-        "line": 133,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 168,
+        "line": 169,
         "description": "height with hardcoded value",
         "snippet": "height: 1.35,"
       }
@@ -369,26 +279,6 @@
       }
     ]
   },
-  "lib\\features\\blood_levels\\widgets\\blood_levels\\timeline_chart_config.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 128,
-        "description": "hardcoded Alignment",
-        "snippet": "alignment: Alignment.topCenter,"
-      }
-    ]
-  },
-  "lib\\features\\blood_levels\\widgets\\blood_levels\\timeline_legend.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 47,
-        "description": "hardcoded BoxShape",
-        "snippet": "decoration: BoxDecoration(color: color, shape: BoxShape.circle),"
-      }
-    ]
-  },
   "lib\\features\\catalog\\widgets\\catalog\\animated_substance_list.dart": {
     "migrated": false,
     "issues": [
@@ -413,11 +303,6 @@
         "snippet": "_buildDoseCard(context, 'Heavy', doseData!['Heavy'], Colors.purple),"
       },
       {
-        "line": 100,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
         "line": 164,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
@@ -428,37 +313,22 @@
     "migrated": false,
     "issues": [
       {
-        "line": 54,
+        "line": 55,
         "description": "hardcoded Colors",
         "snippet": "final categoryColor = DrugCategoryColors.colorFor(primaryCategory);"
       },
       {
-        "line": 98,
-        "description": "hardcoded begin Alignment",
-        "snippet": "begin: Alignment.topLeft,"
-      },
-      {
-        "line": 99,
-        "description": "hardcoded end Alignment",
-        "snippet": "end: Alignment.bottomRight,"
-      },
-      {
-        "line": 101,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 104,
+        "line": 105,
         "description": "width with hardcoded value",
         "snippet": "width: 1.5,"
       },
       {
-        "line": 124,
+        "line": 125,
         "description": "spacing with hardcoded value",
         "snippet": "spacing: 6,"
       },
       {
-        "line": 169,
+        "line": 170,
         "description": "height with hardcoded value",
         "snippet": "Divider(height: 1, color: t.colors.divider),"
       }
@@ -478,32 +348,17 @@
         "snippet": "width: 40,"
       },
       {
-        "line": 314,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 352,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 2,"
-      },
-      {
-        "line": 352,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 2,"
-      },
-      {
-        "line": 394,
+        "line": 396,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
       },
       {
-        "line": 442,
+        "line": 446,
         "description": "height with hardcoded value",
         "snippet": "height: 1.6,"
       },
       {
-        "line": 495,
+        "line": 499,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       }
@@ -523,84 +378,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 159,
+        "line": 160,
         "description": "Duration with hardcoded value",
         "snippet": "final yesterday = today.subtract(const Duration(days: 1));"
-      }
-    ]
-  },
-  "lib\\features\\daily_chekin\\widgets\\daily_checkin\\mood_selector.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 42,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: const Duration(milliseconds: 300),"
-      }
-    ]
-  },
-  "lib\\features\\daily_chekin\\widgets\\daily_checkin\\time_of_day_indicator.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 26,
-        "description": "height with hardcoded value",
-        "snippet": "height: 48,"
-      },
-      {
-        "line": 30,
-        "description": "width with hardcoded value",
-        "snippet": "VerticalDivider(width: 1, color: c.border),"
-      },
-      {
-        "line": 32,
-        "description": "width with hardcoded value",
-        "snippet": "VerticalDivider(width: 1, color: c.border),"
-      },
-      {
-        "line": 58,
-        "description": "hardcoded Alignment",
-        "snippet": "alignment: Alignment.center,"
-      }
-    ]
-  },
-  "lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 48,
-        "description": "width with hardcoded value",
-        "snippet": "width: 2,"
-      },
-      {
-        "line": 146,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: Duration(seconds: 2),"
-      },
-      {
-        "line": 163,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: Duration(seconds: 2),"
-      }
-    ]
-  },
-  "lib\\features\\edit_log_entry\\edit_log_entry_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 55,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: const Duration(milliseconds: 300),"
-      },
-      {
-        "line": 183,
-        "description": "Duration with hardcoded value",
-        "snippet": "_showSnackBar(result.message, duration: const Duration(seconds: 4));"
-      },
-      {
-        "line": 222,
-        "description": "Duration with hardcoded value",
-        "snippet": "SnackBar(content: Text(message), duration: duration ?? const Duration(seconds: 2)),"
       }
     ]
   },
@@ -618,99 +398,24 @@
     "migrated": false,
     "issues": [
       {
-        "line": 110,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 110,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 163,
+        "line": 169,
         "description": "size with hardcoded value",
         "snippet": "size: 64,"
       },
       {
-        "line": 202,
+        "line": 214,
         "description": "size with hardcoded value",
         "snippet": "size: 64,"
       },
       {
-        "line": 374,
+        "line": 392,
         "description": "strokeWidth with hardcoded value",
         "snippet": "child: const CircularProgressIndicator(strokeWidth: 2),"
       },
       {
-        "line": 374,
+        "line": 392,
         "description": "CircularProgressIndicator with hardcoded strokeWidth",
         "snippet": "child: const CircularProgressIndicator(strokeWidth: 2),"
-      }
-    ]
-  },
-  "lib\\features\\feature_flags\\widgets\\feature_flags\\feature_disabled_screen.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 54,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 54,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 85,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      }
-    ]
-  },
-  "lib\\features\\home\\home_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 53,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: const Duration(milliseconds: 300),"
-      },
-      {
-        "line": 144,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 144,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 186,
-        "description": "Duration with hardcoded value",
-        "snippet": "await Future.delayed(const Duration(milliseconds: 500));"
-      }
-    ]
-  },
-  "lib\\features\\home\\home_page_main.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 58,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: const Duration(milliseconds: 300),"
-      },
-      {
-        "line": 149,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 149,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
       }
     ]
   },
@@ -736,31 +441,6 @@
         "line": 106,
         "description": "height with hardcoded value",
         "snippet": "height: 1.2,"
-      },
-      {
-        "line": 192,
-        "description": "blurRadius with hardcoded value",
-        "snippet": "blurRadius: 8,"
-      },
-      {
-        "line": 193,
-        "description": "spreadRadius with hardcoded value",
-        "snippet": "spreadRadius: 1,"
-      },
-      {
-        "line": 208,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1.0,"
-      }
-    ]
-  },
-  "lib\\features\\home\\home_redesign\\header_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 61,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
       }
     ]
   },
@@ -768,29 +448,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 32,
-        "description": "hardcoded Colors",
-        "snippet": "color: Colors.transparent,"
-      },
-      {
-        "line": 47,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
-      },
-      {
         "line": 51,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.black.withValues(alpha: 0.03),"
-      },
-      {
-        "line": 52,
-        "description": "blurRadius with hardcoded value",
-        "snippet": "blurRadius: 4,"
-      },
-      {
-        "line": 64,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
       }
     ]
   },
@@ -798,19 +458,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 48,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
-      },
-      {
         "line": 52,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.black.withValues(alpha: 0.03),"
-      },
-      {
-        "line": 53,
-        "description": "blurRadius with hardcoded value",
-        "snippet": "blurRadius: 4,"
       },
       {
         "line": 105,
@@ -831,16 +481,6 @@
         "line": 88,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: baseColor.withValues(alpha: 0.3)),"
-      },
-      {
-        "line": 209,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 209,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
       }
     ]
   },
@@ -848,29 +488,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 50,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: const Duration(milliseconds: 150),"
-      },
-      {
         "line": 58,
         "description": "width with hardcoded value",
         "snippet": "? Border.all(color: t.accent.primary, width: 1)"
-      },
-      {
-        "line": 66,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: const Duration(milliseconds: 150),"
-      },
-      {
-        "line": 77,
-        "description": "blurRadius with hardcoded value",
-        "snippet": "blurRadius: 8,"
-      },
-      {
-        "line": 78,
-        "description": "spreadRadius with hardcoded value",
-        "snippet": "spreadRadius: 2,"
       },
       {
         "line": 144,
@@ -888,19 +508,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 114,
+        "line": 120,
         "description": "width with hardcoded value",
         "snippet": "border: t.isDark ? Border.all(color: t.accent.primary, width: 1) : null,"
-      },
-      {
-        "line": 148,
-        "description": "blurRadius with hardcoded value",
-        "snippet": "blurRadius: 8,"
-      },
-      {
-        "line": 149,
-        "description": "spreadRadius with hardcoded value",
-        "snippet": "spreadRadius: 2,"
       }
     ]
   },
@@ -923,29 +533,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 85,
-        "description": "Duration with hardcoded value",
-        "snippet": "await Future.delayed(const Duration(milliseconds: 100));"
-      },
-      {
-        "line": 268,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 268,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
         "line": 281,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
-      },
-      {
-        "line": 315,
-        "description": "width with hardcoded value",
-        "snippet": "width: 2,"
       },
       {
         "line": 319,
@@ -993,16 +583,6 @@
     "migrated": false,
     "issues": [
       {
-        "line": 135,
-        "description": "Duration with hardcoded value",
-        "snippet": "_showSnackBar(result.message, duration: const Duration(seconds: 4));"
-      },
-      {
-        "line": 152,
-        "description": "Duration with hardcoded value",
-        "snippet": "SnackBar(content: Text(message), duration: duration ?? const Duration(seconds: 2)),"
-      },
-      {
         "line": 257,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.black.withValues(alpha: context.opacities.slow),"
@@ -1038,7 +618,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 56,
+        "line": 55,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 16.0,"
       }
@@ -1073,22 +653,22 @@
         "snippet": "{'label': 'Awful', 'icon': Icons.sentiment_very_dissatisfied, 'color': Colors.red},"
       },
       {
-        "line": 39,
+        "line": 38,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 16.0,"
       },
       {
-        "line": 78,
+        "line": 77,
         "description": "SizedBox with hardcoded size",
         "snippet": "SizedBox(height: 4.0),"
       },
       {
-        "line": 78,
+        "line": 77,
         "description": "height with hardcoded value",
         "snippet": "SizedBox(height: 4.0),"
       },
       {
-        "line": 84,
+        "line": 83,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 12.0,"
       }
@@ -1109,43 +689,13 @@
       }
     ]
   },
-  "lib\\features\\log_entry\\widgets\\log_entry\\substance_autocomplete.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 90,
-        "description": "hardcoded Alignment",
-        "snippet": "alignment: Alignment.topLeft,"
-      },
-      {
-        "line": 92,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 4.0,"
-      },
-      {
-        "line": 92,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 4.0,"
-      }
-    ]
-  },
   "lib\\features\\log_entry\\widgets\\log_entry\\time_selector.dart": {
     "migrated": false,
     "issues": [
       {
-        "line": 54,
+        "line": 52,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 16.0,"
-      }
-    ]
-  },
-  "lib\\features\\log_entry\\widgets\\log_entry_cards\\substance_header_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 36,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
       }
     ]
   },
@@ -1163,26 +713,6 @@
     "migrated": false,
     "issues": [
       {
-        "line": 119,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 119,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 246,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 2,"
-      },
-      {
-        "line": 246,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 2,"
-      },
-      {
         "line": 250,
         "description": "width with hardcoded value",
         "snippet": "width: 24,"
@@ -1198,17 +728,17 @@
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 354,
+        "line": 358,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
       },
       {
-        "line": 379,
+        "line": 383,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.warning.withValues(alpha: 0.3)),"
       },
       {
-        "line": 399,
+        "line": 403,
         "description": "height with hardcoded value",
         "snippet": "height: 56,"
       }
@@ -1218,32 +748,32 @@
     "migrated": false,
     "issues": [
       {
-        "line": 270,
+        "line": 278,
         "description": "letterSpacing with hardcoded value",
         "snippet": "style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),"
       },
       {
-        "line": 352,
+        "line": 364,
         "description": "letterSpacing with hardcoded value",
         "snippet": "style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),"
       },
       {
-        "line": 473,
+        "line": 492,
         "description": "size with hardcoded value",
         "snippet": "size: 64,"
       },
       {
-        "line": 495,
+        "line": 514,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.error.withValues(alpha: 0.3)),"
       },
       {
-        "line": 547,
+        "line": 566,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 2,"
       },
       {
-        "line": 641,
+        "line": 660,
         "description": "Duration with hardcoded value",
         "snippet": "duration: const Duration(seconds: 5),"
       }
@@ -1253,82 +783,42 @@
     "migrated": false,
     "issues": [
       {
-        "line": 79,
-        "description": "hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 79,
-        "description": "backgroundColor with hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 80,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 80,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 116,
+        "line": 120,
         "description": "width with hardcoded value",
         "snippet": "width: 100,"
       },
       {
-        "line": 117,
-        "description": "height with hardcoded value",
-        "snippet": "height: 100,"
-      },
-      {
-        "line": 120,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 143,
+        "line": 147,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
       },
       {
-        "line": 203,
+        "line": 207,
         "description": "width with hardcoded value",
         "snippet": "width: 24,"
       },
       {
-        "line": 204,
+        "line": 208,
         "description": "height with hardcoded value",
         "snippet": "height: 24,"
       },
       {
-        "line": 248,
+        "line": 256,
         "description": "width with hardcoded value",
         "snippet": "width: 100,"
       },
       {
-        "line": 249,
-        "description": "height with hardcoded value",
-        "snippet": "height: 100,"
-      },
-      {
-        "line": 252,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 275,
+        "line": 283,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
       },
       {
-        "line": 313,
+        "line": 321,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       },
       {
-        "line": 323,
+        "line": 331,
         "description": "height with hardcoded value",
         "snippet": "height: 56,"
       }
@@ -1359,36 +849,21 @@
       }
     ]
   },
-  "lib\\features\\profile\\widgets\\profile\\logout_button.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 40,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 40,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      }
-    ]
-  },
   "lib\\features\\profile\\widgets\\profile\\profile_header.dart": {
     "migrated": false,
     "issues": [
       {
-        "line": 36,
+        "line": 37,
         "description": "radius with hardcoded value",
         "snippet": "radius: 50,"
       },
       {
-        "line": 36,
+        "line": 37,
         "description": "radius with hardcoded value",
         "snippet": "radius: 50,"
       },
       {
-        "line": 36,
+        "line": 37,
         "description": "radius with hardcoded value",
         "snippet": "radius: 50,"
       }
@@ -1401,16 +876,6 @@
         "line": 136,
         "description": "offset with hardcoded Offset",
         "snippet": "offset: Offset(0, t.spacing.xs),"
-      },
-      {
-        "line": 147,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 148,
-        "description": "hardcoded Colors",
-        "snippet": "color: isSelected ? t.accent.primary : Colors.transparent,"
       }
     ]
   },
@@ -1428,7 +893,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 49,
+        "line": 50,
         "description": "height with hardcoded value",
         "snippet": "Divider(height: 1, thickness: t.borders.thin, color: c.border),"
       }
@@ -1443,19 +908,9 @@
         "snippet": "height: 120,"
       },
       {
-        "line": 35,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
         "line": 58,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
-      },
-      {
-        "line": 116,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
       },
       {
         "line": 120,
@@ -1468,105 +923,55 @@
     "migrated": false,
     "issues": [
       {
-        "line": 209,
+        "line": 212,
         "description": "height with hardcoded value",
         "snippet": "height: 120,"
       },
       {
-        "line": 216,
-        "description": "hardcoded begin Alignment",
-        "snippet": "begin: Alignment.topLeft,"
-      },
-      {
-        "line": 217,
-        "description": "hardcoded end Alignment",
-        "snippet": "end: Alignment.bottomRight,"
-      },
-      {
-        "line": 223,
+        "line": 226,
         "description": "blurRadius with hardcoded value",
         "snippet": "blurRadius: 20,"
       },
       {
-        "line": 253,
+        "line": 256,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       },
       {
-        "line": 403,
+        "line": 411,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.blue,"
       },
       {
-        "line": 413,
+        "line": 421,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.purple,"
       },
       {
-        "line": 423,
+        "line": 431,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.orange,"
       },
       {
-        "line": 536,
+        "line": 544,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       },
       {
-        "line": 568,
-        "description": "hardcoded Colors",
-        "snippet": ": Colors.transparent,"
-      },
-      {
-        "line": 696,
-        "description": "hardcoded Colors",
-        "snippet": ": Colors.transparent,"
-      },
-      {
-        "line": 708,
+        "line": 721,
         "description": "width with hardcoded value",
         "snippet": "width: 28,"
       },
       {
-        "line": 709,
+        "line": 722,
         "description": "height with hardcoded value",
         "snippet": "height: 28,"
-      },
-      {
-        "line": 713,
-        "description": "hardcoded Colors",
-        "snippet": ": Colors.transparent,"
-      },
-      {
-        "line": 719,
-        "description": "width with hardcoded value",
-        "snippet": "width: 2,"
-      },
-      {
-        "line": 862,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
       }
     ]
   },
   "lib\\features\\setup_account\\pin_setup_page.dart": {
     "migrated": false,
     "issues": [
-      {
-        "line": 114,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: Duration(seconds: 2),"
-      },
-      {
-        "line": 147,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 147,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
       {
         "line": 158,
         "description": "size with hardcoded value",
@@ -1583,32 +988,17 @@
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 337,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 337,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 348,
+        "line": 352,
         "description": "size with hardcoded value",
         "snippet": "size: 80,"
       },
       {
-        "line": 370,
+        "line": 374,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.warning.withValues(alpha: 0.3)),"
       },
       {
-        "line": 409,
-        "description": "width with hardcoded value",
-        "snippet": "width: 2,"
-      },
-      {
-        "line": 418,
+        "line": 422,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 2,"
       }
@@ -1618,72 +1008,42 @@
     "migrated": false,
     "issues": [
       {
-        "line": 139,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: const Duration(seconds: 2),"
-      },
-      {
-        "line": 168,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 168,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 207,
+        "line": 210,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
       },
       {
-        "line": 266,
-        "description": "width with hardcoded value",
-        "snippet": "width: 2,"
-      },
-      {
-        "line": 287,
+        "line": 290,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 1,"
       },
       {
-        "line": 357,
+        "line": 363,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
       },
       {
-        "line": 389,
+        "line": 395,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.success.withValues(alpha: 0.3)),"
       },
       {
-        "line": 417,
-        "description": "width with hardcoded value",
-        "snippet": "width: 2,"
-      },
-      {
-        "line": 439,
+        "line": 445,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 447,
+        "line": 453,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 473,
-        "description": "width with hardcoded value",
-        "snippet": "width: 2,"
-      },
-      {
-        "line": 495,
+        "line": 501,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 503,
+        "line": 509,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       }
@@ -1703,74 +1063,14 @@
         "snippet": "backgroundColor: Colors.green,"
       },
       {
-        "line": 112,
-        "description": "hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 112,
-        "description": "backgroundColor with hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 113,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 113,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
         "line": 126,
         "description": "width with hardcoded value",
         "snippet": "width: 100,"
       },
       {
-        "line": 127,
-        "description": "height with hardcoded value",
-        "snippet": "height: 100,"
-      },
-      {
-        "line": 130,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 180,
-        "description": "hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 180,
-        "description": "backgroundColor with hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 181,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 181,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
         "line": 208,
         "description": "width with hardcoded value",
         "snippet": "width: 100,"
-      },
-      {
-        "line": 209,
-        "description": "height with hardcoded value",
-        "snippet": "height: 100,"
-      },
-      {
-        "line": 212,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
       },
       {
         "line": 236,
@@ -1784,31 +1084,6 @@
       }
     ]
   },
-  "lib\\features\\stockpile\\stockpile_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 166,
-        "description": "hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 166,
-        "description": "backgroundColor with hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 183,
-        "description": "hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 183,
-        "description": "backgroundColor with hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      }
-    ]
-  },
   "lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart": {
     "migrated": false,
     "issues": [
@@ -1818,27 +1093,27 @@
         "snippet": "adjustedTime = startTime.subtract(const Duration(hours: 5));"
       },
       {
-        "line": 110,
+        "line": 111,
         "description": "width with hardcoded value",
         "snippet": "width: 40,"
       },
       {
-        "line": 111,
+        "line": 112,
         "description": "height with hardcoded value",
         "snippet": "height: 4,"
       },
       {
-        "line": 140,
+        "line": 141,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.white,"
       },
       {
-        "line": 236,
+        "line": 237,
         "description": "width with hardcoded value",
         "snippet": "width: 60,"
       },
       {
-        "line": 313,
+        "line": 314,
         "description": "hardcoded Colors",
         "snippet": "textColor: Colors.white,"
       }
@@ -1848,47 +1123,32 @@
     "migrated": false,
     "issues": [
       {
-        "line": 64,
+        "line": 65,
         "description": "hardcoded Colors",
         "snippet": "final categoryColor = DrugCategoryColors.colorFor(primaryCategory);"
       },
       {
-        "line": 80,
-        "description": "blurRadius with hardcoded value",
-        "snippet": "blurRadius: 8,"
-      },
-      {
-        "line": 102,
-        "description": "hardcoded begin Alignment",
-        "snippet": "begin: Alignment.topLeft,"
-      },
-      {
-        "line": 103,
-        "description": "hardcoded end Alignment",
-        "snippet": "end: Alignment.bottomRight,"
-      },
-      {
-        "line": 121,
+        "line": 122,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.white,"
       },
       {
-        "line": 149,
+        "line": 150,
         "description": "hardcoded Colors",
         "snippet": "color: entry.favorite ? Colors.red : t.colors.textSecondary,"
       },
       {
-        "line": 250,
+        "line": 251,
         "description": "minHeight with hardcoded value",
         "snippet": "minHeight: 8,"
       },
       {
-        "line": 254,
+        "line": 255,
         "description": "hardcoded Colors",
         "snippet": "? Colors.red"
       },
       {
-        "line": 271,
+        "line": 272,
         "description": "height with hardcoded value",
         "snippet": "height: 40,"
       }
@@ -1898,17 +1158,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 43,
-        "description": "hardcoded begin Alignment",
-        "snippet": "begin: Alignment.topLeft,"
-      },
-      {
-        "line": 44,
-        "description": "hardcoded end Alignment",
-        "snippet": "end: Alignment.bottomRight,"
-      },
-      {
-        "line": 93,
+        "line": 94,
         "description": "hardcoded Colors",
         "snippet": "color: DrugCategoryColors.colorFor(mostUsedCategory),"
       }
@@ -1918,60 +1168,20 @@
     "migrated": false,
     "issues": [
       {
-        "line": 74,
+        "line": 75,
         "description": "height with hardcoded value",
         "snippet": "height: 60,"
       },
       {
-        "line": 116,
+        "line": 117,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.white,"
-      }
-    ]
-  },
-  "lib\\features\\tolerence\\bucket_details_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 50,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 50,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      }
-    ]
-  },
-  "lib\\features\\tolerence\\tolerance_dashboard_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 214,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 214,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 267,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: const Duration(milliseconds: 300),"
       }
     ]
   },
   "lib\\features\\tolerence\\widgets\\system_tolerance_widget.dart": {
     "migrated": false,
     "issues": [
-      {
-        "line": 56,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
-      },
       {
         "line": 80,
         "description": "height with hardcoded value",
@@ -1986,16 +1196,6 @@
         "line": 116,
         "description": "hardcoded Colors",
         "snippet": "valueColor = Colors.redAccent;"
-      },
-      {
-        "line": 125,
-        "description": "hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 125,
-        "description": "backgroundColor with hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
       },
       {
         "line": 173,
@@ -2038,12 +1238,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 81,
+        "line": 84,
         "description": "height with hardcoded value",
         "snippet": "height: 12,"
       },
       {
-        "line": 99,
+        "line": 102,
         "description": "height with hardcoded value",
         "snippet": "height: 12,"
       }
@@ -2116,11 +1316,6 @@
         "line": 86,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: colors.border, width: 1),"
-      },
-      {
-        "line": 114,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
       }
     ]
   },
@@ -2131,21 +1326,6 @@
         "line": 59,
         "description": "hardcoded Colors",
         "snippet": "if (value < 0.75) return Colors.orangeAccent;"
-      },
-      {
-        "line": 90,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
-      },
-      {
-        "line": 130,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: Duration(seconds: 2),"
-      },
-      {
-        "line": 141,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
       },
       {
         "line": 211,
@@ -2166,11 +1346,6 @@
         "line": 110,
         "description": "width with hardcoded value",
         "snippet": "width: 145,"
-      },
-      {
-        "line": 166,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
       }
     ]
   },
@@ -2208,11 +1383,6 @@
         "snippet": "color: Colors.orange.withValues(alpha: 0.5),"
       },
       {
-        "line": 66,
-        "description": "width with hardcoded value",
-        "snippet": "width: 2,"
-      },
-      {
         "line": 77,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.orange,"
@@ -2236,11 +1406,6 @@
         "line": 140,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.red.withValues(alpha: 0.35),"
-      },
-      {
-        "line": 141,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
       },
       {
         "line": 149,
@@ -2323,11 +1488,6 @@
     "migrated": false,
     "issues": [
       {
-        "line": 105,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
-      },
-      {
         "line": 106,
         "description": "height with hardcoded value",
         "snippet": "height: 80,"
@@ -2373,44 +1533,24 @@
         "snippet": "return Colors.deepOrangeAccent;"
       },
       {
-        "line": 186,
+        "line": 187,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.amber.withValues(alpha: context.theme.isDark ? 0.15 : 0.10),"
       },
       {
-        "line": 190,
+        "line": 191,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.amber.withValues(alpha: 0.4),"
       },
       {
-        "line": 191,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
-      },
-      {
         "line": 197,
         "description": "hardcoded Colors",
-        "snippet": "size: context.sizes.iconSm, color: Colors.amber),"
+        "snippet": "Icon(Icons.info_outline, size: context.sizes.iconSm, color: Colors.amber),"
       },
       {
         "line": 254,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
-      },
-      {
-        "line": 288,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 288,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 293,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
       },
       {
         "line": 329,
@@ -2503,11 +1643,6 @@
     "migrated": false,
     "issues": [
       {
-        "line": 40,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
         "line": 44,
         "description": "size with hardcoded value",
         "snippet": "size: 64.0,"
@@ -2521,21 +1656,6 @@
         "line": 80,
         "description": "height with hardcoded value",
         "snippet": "height: 140.0,"
-      }
-    ]
-  },
-  "lib\\features\\wearOS\\wearos_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 29,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 29,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
       }
     ]
   }

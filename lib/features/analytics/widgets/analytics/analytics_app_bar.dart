@@ -81,7 +81,7 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
                     'DRUG USE ANALYTICS',
                     style: text.heading3.copyWith(
                       color: c.textPrimary,
-                      letterSpacing: 1.2,
+                      letterSpacing: context.sizes.letterSpacingMd,
                     ),
                     maxLines: 1,
                     overflow: AppLayout.textOverflowEllipsis,

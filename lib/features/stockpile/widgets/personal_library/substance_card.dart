@@ -59,6 +59,7 @@ class SubstanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
     final primaryCategory = _selectPrimaryCategory(entry.categories);
     final categoryColor = DrugCategoryColors.colorFor(primaryCategory);
@@ -77,7 +78,7 @@ class SubstanceCard extends StatelessWidget {
             : [
                 BoxShadow(
                   color: t.colors.textPrimary.withValues(alpha: 0.05),
-                  blurRadius: 8,
+                  blurRadius: context.sizes.blurRadiusMd,
                   offset: const Offset(0, 2),
                 ),
               ],
@@ -99,8 +100,8 @@ class SubstanceCard extends StatelessWidget {
                     categoryColor.withValues(alpha: 0.2),
                     categoryColor.withValues(alpha: 0.05),
                   ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  begin: context.shapes.alignmentTopLeft,
+                  end: context.shapes.alignmentBottomRight,
                 ),
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(t.shapes.radiusLg),
@@ -287,7 +288,7 @@ class SubstanceCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatItem(String label, String value, IconData icon, AppTheme t) {
+  Widget _buildStatItem(String label, String value, IconData icon, BuildContext context) {
     return Expanded(
       child: Row(
         children: [

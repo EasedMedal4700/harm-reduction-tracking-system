@@ -97,7 +97,7 @@ class DosageGuideCard extends StatelessWidget {
             padding: EdgeInsets.all(t.spacing.xs),
             decoration: BoxDecoration(
               color: color.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
+              shape: context.shapes.boxShapeCircle,
             ),
             child: Icon(_getDoseIcon(label), color: color, size: t.sizes.iconSm),
           ),

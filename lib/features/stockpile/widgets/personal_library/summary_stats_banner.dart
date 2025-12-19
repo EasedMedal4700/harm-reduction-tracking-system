@@ -29,6 +29,7 @@ class SummaryStatsBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
 
     return Container(
@@ -40,8 +41,8 @@ class SummaryStatsBanner extends StatelessWidget {
             t.colors.surface,
             t.colors.surface.withValues(alpha: t.isDark ? 0.8 : 0.9),
           ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          begin: context.shapes.alignmentTopLeft,
+          end: context.shapes.alignmentBottomRight,
         ),
         border: Border(
           bottom: BorderSide(
@@ -107,7 +108,7 @@ class SummaryStatsBanner extends StatelessWidget {
     );
   }
 
-  Widget _buildSummaryItem(String label, String value, IconData icon, AppTheme t) {
+  Widget _buildSummaryItem(String label, String value, IconData icon, BuildContext context) {
     return Column(
       children: [
         Icon(

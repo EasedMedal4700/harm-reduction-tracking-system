@@ -89,6 +89,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
     final displayEntries = _showAll || _allEntries.length <= 10
         ? _allEntries

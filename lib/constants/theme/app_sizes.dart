@@ -15,10 +15,19 @@ class AppSizes {
   final double buttonHeightLg = 56.0;
   final double buttonPaddingHorizontal = 24.0;
 
-  // Card Dimensions
+  // Card Dimensions and Heights
   final double elevationNone = 0.0;
+  final double elevationSm = 2.0;
   final double cardElevation = 4.0;
   final double cardElevationHovered = 8.0;
+  
+  // Common Heights
+  final double heightXs = 48.0;
+  final double heightSm = 100.0;
+  final double heightMd = 200.0;
+  final double heightLg = 300.0;
+  final double heightXl = 350.0;
+  final double height2xl = 400.0;
 
   // Common UI Widths
   final double cardWidthSm = 120.0;
@@ -27,4 +36,17 @@ class AppSizes {
   final double labelWidthSm = 80.0;
   final double labelWidthMd = 110.0;
   final double labelWidthLg = 140.0;
+  
+  // Border Widths
+  final double borderThin = 1.0;
+  final double borderRegular = 2.0;
+  final double borderThick = 3.0;
+  
+  // Other Dimensions
+  final double letterSpacingSm = 0.5;
+  final double letterSpacingMd = 1.0;
+  final double blurRadiusSm = 4.0;
+  final double blurRadiusMd = 8.0;
+  final double spreadRadiusSm = 1.0;
+  final double spreadRadiusMd = 2.0;
 }

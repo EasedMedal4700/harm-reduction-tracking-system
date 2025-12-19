@@ -32,11 +32,11 @@ class ActivityDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.theme;
     final c = context.colors;
     final text = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.theme;
 
     return Container(
       decoration: BoxDecoration(
@@ -67,8 +67,10 @@ class ActivityDetailSheet extends StatelessWidget {
 
   Widget _buildHandleBar(BuildContext context) {
     final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final c = context.colors;
     final text = context.text;
-    final t = context.theme;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -84,8 +86,12 @@ class ActivityDetailSheet extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
-    final c = context.colors;
     final t = context.theme;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
     final text = context.text;
@@ -120,6 +126,10 @@ class ActivityDetailSheet extends StatelessWidget {
   }
 
   Widget _buildDetailsList(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -177,6 +187,8 @@ class ActivityDetailSheet extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
     final c = context.colors;
     final sp = context.spacing;
 

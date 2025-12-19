@@ -303,6 +303,8 @@ class LogEntryForm extends StatelessWidget {
 
   Widget _buildTimeSelector(BuildContext context) {
     final t = context.theme;
+    final text = context.text;
+    final t = context.theme;
     final time = TimeOfDay(hour: hour ?? TimeOfDay.now().hour, minute: minute ?? TimeOfDay.now().minute);
     
     return InkWell(
@@ -340,6 +342,7 @@ class LogEntryForm extends StatelessWidget {
   }
 
   Widget _buildSecondaryEmotions(BuildContext context) {
+    final t = context.theme;
     final t = context.theme;
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

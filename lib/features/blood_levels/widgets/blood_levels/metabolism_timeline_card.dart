@@ -210,8 +210,8 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+              begin: context.shapes.alignmentTopCenter,
+              end: context.shapes.alignmentBottomCenter,
               colors: [
                 drugColor.withValues(alpha: 0.4),
                 drugColor.withValues(alpha: 0.2),
@@ -254,7 +254,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
                 style: context.text.bodySmall.copyWith(
                   fontWeight: text.bodyBold.fontWeight,
                   color: accentColor,
-                  letterSpacing: 0.5,
+                  letterSpacing: context.sizes.letterSpacingSm,
                 ),
               ),
             ],
@@ -307,6 +307,9 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
     final c = context.colors;
     final sp = context.spacing;
 

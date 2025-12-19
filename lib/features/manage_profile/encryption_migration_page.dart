@@ -78,6 +78,10 @@ class _EncryptionMigrationScreenState
   Widget _buildExplanationStep(BuildContext context) {
     final text = context.text;
     final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+    final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -240,6 +244,10 @@ class _EncryptionMigrationScreenState
   Widget _buildCreatePinStep(BuildContext context) {
     final text = context.text;
     final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
+    final text = context.text;
+    final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -320,6 +328,10 @@ class _EncryptionMigrationScreenState
 
   // Step 3: Confirm PIN
   Widget _buildConfirmPinStep(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final text = context.text;
     final c = context.colors;
     final a = context.accent;
@@ -428,6 +440,9 @@ class _EncryptionMigrationScreenState
   Widget _buildMigratingStep(BuildContext context) {
     final text = context.text;
     final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
+    final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
 
@@ -458,6 +473,10 @@ class _EncryptionMigrationScreenState
 
   // Step 5: Show recovery key
   Widget _buildRecoveryKeyStep(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final text = context.text;
     final c = context.colors;
     final a = context.accent;

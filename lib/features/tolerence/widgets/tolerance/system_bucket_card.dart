@@ -163,7 +163,7 @@ class SystemBucketCard extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
                     color: stateColor.withValues(alpha: 0.35),
-                    width: 1,
+                    width: context.sizes.borderThin,
                   ),
                 ),
                 child: Text(

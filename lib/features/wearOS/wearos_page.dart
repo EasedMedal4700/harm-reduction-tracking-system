@@ -16,6 +16,7 @@ class WearOSPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
@@ -26,7 +27,7 @@ class WearOSPage extends StatelessWidget {
         title: const Text('WearOS Companion'),
         backgroundColor: c.surface,
         foregroundColor: c.textPrimary,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
       ),
       drawer: const CommonDrawer(),
       body: Center(

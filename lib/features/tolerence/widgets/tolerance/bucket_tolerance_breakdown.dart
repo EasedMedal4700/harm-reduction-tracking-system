@@ -87,7 +87,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
         borderRadius: BorderRadius.circular(radii.radiusLg),
         border: Border.all(
           color: colors.border.withValues(alpha: 0.6),
-          width: 1,
+          width: context.sizes.borderThin,
         ),
         boxShadow: context.cardShadow,
       ),
@@ -127,7 +127,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Bucket details page coming soon'),
-                      duration: Duration(seconds: 2),
+                      duration: context.animations.snackbar,
                     ),
                   );
                 },
@@ -138,7 +138,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(radii.radiusMd),
                     border: Border.all(
                       color: colors.border,
-                      width: 1,
+                      width: context.sizes.borderThin,
                     ),
                   ),
                   child: Column(

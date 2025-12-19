@@ -24,6 +24,7 @@ class WeeklyUsageDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
     final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     final counts = entry.weekdayUsage.counts;
@@ -92,7 +93,7 @@ class WeeklyUsageDisplay extends StatelessWidget {
                           style: t.typography.caption.copyWith(
                             fontWeight: count > 0
                                 ? text.bodyBold.fontWeight
-                                : text.bodyRegular.fontWeight,
+                                : text.body.fontWeight,
                             color: count > 0
                                 ? accentColor
                                 : t.colors.textSecondary,

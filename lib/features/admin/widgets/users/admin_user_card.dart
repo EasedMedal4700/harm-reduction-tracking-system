@@ -29,7 +29,6 @@ class AdminUserCard extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
     final text = context.text;
-    final t = context.theme;
 
     final authUserId = user['auth_user_id'] as String? ?? '';
     final username = user['username'] as String? ??

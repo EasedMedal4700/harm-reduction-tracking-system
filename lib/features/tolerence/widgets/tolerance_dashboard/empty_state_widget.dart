@@ -37,7 +37,7 @@ class EmptyStateWidget extends ConsumerWidget {
               padding: EdgeInsets.all(spacing.xl),
               decoration: BoxDecoration(
                 color: colors.surfaceVariant,
-                shape: BoxShape.circle,
+                shape: context.shapes.boxShapeCircle,
               ),
               child: Icon(
                 Icons.science_outlined,

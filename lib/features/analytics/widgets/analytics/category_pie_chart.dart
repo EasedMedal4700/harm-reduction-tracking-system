@@ -48,7 +48,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
 
           // ---- PIE CHART ----
           SizedBox(
-          height: 350,
+          height: context.sizes.heightXl,
           child: PieChart(
             PieChartData(
               sections: List.generate(categories.length, (index) {
@@ -155,7 +155,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
 
           // ---- BAR CHART ----
           SizedBox(
-            height: 200,
+            height: context.sizes.heightMd,
             child: BarChart(
               BarChartData(
                 barGroups: _getSubstanceCounts(selectedCategory!)

@@ -107,7 +107,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
           style: text.titleLarge,
         ),
         backgroundColor: c.surface,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
         iconTheme: IconThemeData(color: c.textPrimary),
         actions: [
           IconButton(
@@ -148,6 +148,12 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
   }
 
   Widget _buildErrorState(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
     final c = context.colors;
     final text = context.text;
     final sp = context.spacing;
@@ -187,6 +193,12 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
     final c = context.colors;
     final text = context.text;
     final sp = context.spacing;
@@ -282,6 +294,12 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
   }
 
   Widget _buildInfoBanner(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
     final c = context.colors;
     final a = context.accent;
     final text = context.text;

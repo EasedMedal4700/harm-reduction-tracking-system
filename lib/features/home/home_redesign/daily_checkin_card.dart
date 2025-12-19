@@ -68,7 +68,7 @@ class DailyCheckinCard extends StatelessWidget {
                   children: [
                     Text(
                       'Daily Check-in',
-                      style: t.heading4.copyWith(
+                      style: t.typography.heading4.copyWith(
                         fontWeight: text.bodyBold.fontWeight,
                         color: c.textPrimary,
                       ),
@@ -78,7 +78,7 @@ class DailyCheckinCard extends StatelessWidget {
                       isCompleted
                           ? _getCompletedMessage()
                           : 'Track your mood and wellness',
-                      style: t.bodySmall.copyWith(
+                      style: t.typography.bodySmall.copyWith(
                         color: c.textSecondary,
                       ),
                     ),
@@ -101,7 +101,7 @@ class DailyCheckinCard extends StatelessWidget {
               ),
               label: Text(
                 _getButtonText(),
-                style: t.button.copyWith(
+                style: t.typography.button.copyWith(
                   fontWeight: text.bodyBold.fontWeight,
                   height: 1.2,
                 ),
@@ -189,8 +189,8 @@ class DailyCheckinCard extends StatelessWidget {
             ? [
                 BoxShadow(
                   color: completedColor.withValues(alpha: 0.15),
-                  blurRadius: 8,
-                  spreadRadius: 1,
+                  blurRadius: context.sizes.blurRadiusMd,
+                  spreadRadius: context.sizes.spreadRadiusSm,
                 )
               ]
             : null,
@@ -205,7 +205,7 @@ class DailyCheckinCard extends StatelessWidget {
         border: isCompleted
             ? Border.all(
                 color: completedColor.withValues(alpha: 0.3),
-                width: 1.0,
+                width: context.sizes.borderThin,
               )
             : null,
         boxShadow: context.cardShadow,

@@ -53,7 +53,7 @@ class SystemToleranceWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(t.spacing.lg),
         border: Border.all(
           color: t.colors.border,
-          width: 1,
+          width: context.sizes.borderThin,
         ),
         boxShadow: t.cardShadow,
       ),
@@ -122,7 +122,7 @@ class SystemToleranceWidget extends StatelessWidget {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
-          backgroundColor: Colors.transparent,
+          backgroundColor: context.colors.transparent,
           builder: (_) => SystemToleranceBreakdownSheet(
             bucketName: bucket,
             currentPercent: percent,

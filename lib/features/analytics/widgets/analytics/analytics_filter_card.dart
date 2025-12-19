@@ -30,7 +30,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 220),
+      duration: context.animations.medium,
       vsync: this,
     );
     _rotationAnimation = Tween<double>(begin: 0, end: 0.5).animate(
@@ -173,7 +173,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                       padding: EdgeInsets.all(sp.xs),
                       decoration: BoxDecoration(
                         color: c.border.withValues(alpha: t.opacities.high),
-                        shape: BoxShape.circle,
+                        shape: context.shapes.boxShapeCircle,
                       ),
                       child: Icon(
                         Icons.expand_more_rounded,

@@ -37,7 +37,7 @@ class MetricsRow extends StatelessWidget {
       final aspect = screenWidth < 380 ? 1.1 : 1.25;
 
       return SizedBox(
-        height: 330,     // ensures proper rendering in ListViews
+        height: context.sizes.heightXl,     // ensures proper rendering in ListViews
         child: GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
@@ -166,7 +166,7 @@ class _MetricCard extends StatelessWidget {
           // ----- VALUE -----
           FittedBox(
             fit: AppLayout.boxFitScaleDown,
-            alignment: Alignment.centerLeft,
+            alignment: context.shapes.alignmentCenterLeft,
             child: Text(
               value,
               style: t.typography.heading2.copyWith(

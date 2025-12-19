@@ -39,7 +39,6 @@ class ErrorAnalyticsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final text = context.text;
     final sp = context.spacing;

@@ -39,7 +39,7 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
   void initState() {
     super.initState();
     _scaleController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: context.animations.normal,
       vsync: this,
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
@@ -88,7 +88,6 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final a = context.accent;
     final text = context.text;
@@ -183,7 +182,7 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
             children: ['Poor', 'Struggling', 'Neutral', 'Good', 'Great']
                 .map((label) => Text(
                       label,
-                      style: text.bodySmall.copyWith(fontWeight: text.bodyMedium.fontWeight),
+                      style: text.bodySmall.copyWith(fontWeight: text.body.fontWeight),
                       textAlign: AppLayout.textAlignCenter,
                     ))
                 .toList(),

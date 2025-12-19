@@ -45,12 +45,12 @@ class StatCard extends StatelessWidget {
             color: isDark 
                 ? c.border.withValues(alpha: 0.5) 
                 : c.border,
-            width: 1,
+            width: context.sizes.borderThin,
           ),
           boxShadow: isDark ? null : [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.03),
-              blurRadius: 4,
+              blurRadius: context.sizes.blurRadiusSm,
               offset: const Offset(0, 2),
             ),
           ],

@@ -44,7 +44,7 @@ class TimelineLegend extends StatelessWidget {
               Container(
                 width: sp.md,
                 height: sp.md,
-                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+                decoration: BoxDecoration(color: color, shape: context.shapes.boxShapeCircle),
               ),
               const CommonSpacer.horizontal(4),
               Text(

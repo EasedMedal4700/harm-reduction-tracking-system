@@ -47,7 +47,7 @@ class BucketDetailsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(BucketDefinitions.getDisplayName(bucketType)),
         backgroundColor: c.surface,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(sp.lg),

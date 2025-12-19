@@ -18,6 +18,7 @@ class CheckinCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     final t = context.theme;
 
     return Padding(
@@ -72,7 +73,7 @@ class CheckinCard extends StatelessWidget {
               Text(
                 'Mood: ',
                 style: t.text.body.copyWith(
-                  fontWeight: text.bodyMedium.fontWeight,
+                  fontWeight: text.body.fontWeight,
                   color: t.colors.textSecondary,
                 ),
               ),
@@ -102,7 +103,7 @@ class CheckinCard extends StatelessWidget {
             Text(
               'Emotions:',
               style: t.text.body.copyWith(
-                fontWeight: text.bodyMedium.fontWeight,
+                fontWeight: text.body.fontWeight,
                 color: t.colors.textSecondary,
               ),
             ),
@@ -135,7 +136,7 @@ class CheckinCard extends StatelessWidget {
             Text(
               'Notes:',
               style: t.text.body.copyWith(
-                fontWeight: text.bodyMedium.fontWeight,
+                fontWeight: text.body.fontWeight,
                 color: t.colors.textSecondary,
               ),
             ),
@@ -181,7 +182,7 @@ class CheckinCard extends StatelessWidget {
     }
   }
 
-  Color _getMoodColor(String mood, AppTheme t) {
+  Color _getMoodColor(String mood, BuildContext context) {
     switch (mood) {
       case 'Great':
         return t.colors.success;

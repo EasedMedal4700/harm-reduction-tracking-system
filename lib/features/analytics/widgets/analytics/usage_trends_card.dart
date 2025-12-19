@@ -99,7 +99,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
 
           /// BAR CHART
           SizedBox(
-            height: 220,
+            height: context.sizes.heightMd,
             child: trendData.isEmpty
                 ? Center(
                     child: Text(
@@ -211,6 +211,8 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
   // Granularity dropdown
   // ---------------------------------------------------------------------------
   Widget _buildGranularityDropdown(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
     final c = context.colors;
     final sp = context.spacing;
 

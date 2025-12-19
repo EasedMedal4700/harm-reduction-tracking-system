@@ -136,7 +136,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             SnackBar(
               content: const Text('PIN reset successful!'),
               backgroundColor: context.colors.success,
-              duration: const Duration(seconds: 2),
+              duration: const context.animations.snackbar,
             ),
           );
           Navigator.of(context).pushReplacementNamed('/home_page');
@@ -165,7 +165,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
       appBar: AppBar(
         title: Text(_recoveryKeyValidated ? 'Create New PIN' : 'Recovery Key'),
         backgroundColor: c.surface,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
         leading: _recoveryKeyValidated 
           ? IconButton(
               icon: const Icon(Icons.arrow_back),
@@ -191,6 +191,9 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
   /// Build the recovery key input view (Step 1)
   Widget _buildRecoveryKeyView(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
@@ -263,7 +266,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: c.border,
-              width: 2,
+              width: context.sizes.borderRegular,
             ),
           ),
           child: Column(
@@ -341,6 +344,9 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
   /// Build the PIN creation view (Step 2)
   Widget _buildPinCreationView(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
@@ -414,7 +420,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: c.border,
-              width: 2,
+              width: context.sizes.borderRegular,
             ),
           ),
           child: Column(
@@ -470,7 +476,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: c.border,
-              width: 2,
+              width: context.sizes.borderRegular,
             ),
           ),
           child: Column(
@@ -538,6 +544,9 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
   /// Build error message widget
   Widget _buildErrorMessage(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
     final c = context.colors;
     final sp = context.spacing;
     final t = context.text;

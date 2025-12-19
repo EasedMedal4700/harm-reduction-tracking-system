@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard.
 
 import 'package:flutter/material.dart';
+import '../../../../common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../models/stockpile_item.dart';
@@ -95,10 +96,10 @@ class SubstanceCard extends StatelessWidget {
                           categoryColor.withValues(alpha: 0.2),
                           categoryColor.withValues(alpha: 0.05),
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                        begin: context.shapes.alignmentTopLeft,
+                        end: context.shapes.alignmentBottomRight,
                       ),
-                        shape: BoxShape.circle,
+                        shape: context.shapes.boxShapeCircle,
                         border: Border.all(
                           color: categoryColor.withValues(alpha: 0.3),
                           width: 1.5,

@@ -47,6 +47,8 @@ class ThemeExampleWidget extends StatelessWidget {
   Widget _buildBasicCard(BuildContext context) {
     final t = context.theme;
     final sp = context.spacing;
+    final t = context.theme;
+    final sp = context.spacing;
 
     return Container(
       padding: EdgeInsets.all(sp.lg),
@@ -70,6 +72,8 @@ class ThemeExampleWidget extends StatelessWidget {
   }
 
   Widget _buildGradientCard(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
     final t = context.theme;
     final sp = context.spacing;
 
@@ -104,6 +108,8 @@ class ThemeExampleWidget extends StatelessWidget {
   Widget _buildNeonCard(BuildContext context) {
     final t = context.theme;
     final sp = context.spacing;
+    final t = context.theme;
+    final sp = context.spacing;
 
     return Container(
       padding: EdgeInsets.all(sp.lg),
@@ -131,6 +137,9 @@ class ThemeExampleWidget extends StatelessWidget {
     final t = context.theme;
     final sp = context.spacing;
     final sh = context.shapes;
+    final t = context.theme;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return Row(
       children: [
@@ -145,8 +154,8 @@ class ThemeExampleWidget extends StatelessWidget {
                 ? [
                     BoxShadow(
                       color: t.accent.primary.withValues(alpha: 0.3),
-                      blurRadius: 8,
-                      spreadRadius: 2,
+                      blurRadius: context.sizes.blurRadiusMd,
+                      spreadRadius: context.sizes.spreadRadiusMd,
                     )
                   ]
                 : null,
@@ -176,6 +185,8 @@ class ThemeExampleWidget extends StatelessWidget {
   }
 
   Widget _buildTypographyExample(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
     final t = context.theme;
     final sp = context.spacing;
 
@@ -211,6 +222,9 @@ class ThemeExampleWidget extends StatelessWidget {
   }
 
   Widget _buildButtonExample(BuildContext context) {
+    final t = context.theme;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final t = context.theme;
     final sp = context.spacing;
     final sh = context.shapes;

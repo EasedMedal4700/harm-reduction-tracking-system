@@ -109,8 +109,8 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
       return Scaffold(
         backgroundColor: c.background,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
+          backgroundColor: context.colors.transparent,
+          elevation: context.sizes.elevationNone,
           title: Text(
             'Reset Password',
             style: TextStyle(color: c.textPrimary),
@@ -124,10 +124,10 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
               children: [
                 Container(
                   width: 100,
-                  height: 100,
+                  height: context.sizes.heightSm,
                   decoration: BoxDecoration(
                     color: c.error.withValues(alpha: context.opacities.overlay),
-                    shape: BoxShape.circle,
+                    shape: context.shapes.boxShapeCircle,
                   ),
                   child: Icon(
                     Icons.link_off_rounded,
@@ -177,8 +177,8 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: context.colors.transparent,
+        elevation: context.sizes.elevationNone,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: c.textPrimary),
           onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
@@ -206,10 +206,10 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                 // Icon
                 Container(
                   width: 100,
-                  height: 100,
+                  height: context.sizes.heightSm,
                   decoration: BoxDecoration(
                     color: a.primary.withValues(alpha: context.opacities.overlay),
-                    shape: BoxShape.circle,
+                    shape: context.shapes.boxShapeCircle,
                   ),
                   child: Icon(
                     Icons.lock_outline_rounded,

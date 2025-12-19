@@ -125,7 +125,7 @@ class TimelineChartConfig {
           dashArray: [5, 5],
           label: VerticalLineLabel(
             show: true,
-            alignment: Alignment.topCenter,
+            alignment: context.shapes.alignmentTopCenter,
             style: text.labelSmall.copyWith(
               color: acc.primary,
               fontWeight: text.bodyBold.fontWeight,

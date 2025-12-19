@@ -63,7 +63,6 @@ class AnalyticsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
 
     final periodFilteredEntries =
         service.filterEntriesByPeriod(entries, selectedPeriod);

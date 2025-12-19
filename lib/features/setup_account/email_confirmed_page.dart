@@ -32,7 +32,7 @@ class EmailConfirmedPage extends StatelessWidget {
                 height: 120,
                 decoration: BoxDecoration(
                   color: c.success.withValues(alpha: context.opacities.overlay),
-                  shape: BoxShape.circle,
+                  shape: context.shapes.boxShapeCircle,
                 ),
                 child: Icon(
                   Icons.verified_rounded,
@@ -113,7 +113,7 @@ class EmailConfirmedPage extends StatelessWidget {
           height: context.sizes.iconMd,
           decoration: BoxDecoration(
             color: c.success,
-            shape: BoxShape.circle,
+            shape: context.shapes.boxShapeCircle,
           ),
           child: Icon(
             Icons.check,

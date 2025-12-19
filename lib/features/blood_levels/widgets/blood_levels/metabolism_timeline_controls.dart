@@ -159,6 +159,9 @@ class MetabolismTimelineControls extends StatelessWidget {
   // -------------------------
   Widget _buildScaleSelector(BuildContext context) {
     final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final text = context.text;
     final sp = context.spacing;
     final c = context.colors;
 

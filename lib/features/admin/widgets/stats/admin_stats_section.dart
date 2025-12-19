@@ -28,7 +28,6 @@ class AdminStatsSection extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final text = context.text;
-    final t = context.theme;
 
     // Extract stats safely
     final cacheHitRate = (perfStats['cache_hit_rate'] ?? 0.0).toDouble();

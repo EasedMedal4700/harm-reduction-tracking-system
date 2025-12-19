@@ -23,13 +23,13 @@ class TimeOfDayIndicator extends StatelessWidget {
     return CommonCard(
       padding: EdgeInsets.zero,
       child: SizedBox(
-        height: 48,
+        height: context.sizes.heightXs,
         child: Row(
           children: [
             _TimeSegment(label: 'Morning', isActive: currentTimeOfDay == 'morning'),
-            VerticalDivider(width: 1, color: c.border),
+            VerticalDivider(width: context.sizes.borderThin, color: c.border),
             _TimeSegment(label: 'Afternoon', isActive: currentTimeOfDay == 'afternoon'),
-            VerticalDivider(width: 1, color: c.border),
+            VerticalDivider(width: context.sizes.borderThin, color: c.border),
             _TimeSegment(label: 'Evening', isActive: currentTimeOfDay == 'evening'),
           ],
         ),
@@ -55,7 +55,7 @@ class _TimeSegment extends StatelessWidget {
 
     return Expanded(
       child: Container(
-        alignment: Alignment.center,
+        alignment: context.shapes.alignmentCenter,
         decoration: isActive
             ? BoxDecoration(color: acc.primary.withValues(alpha: 0.15))
             : null,
@@ -63,7 +63,7 @@ class _TimeSegment extends StatelessWidget {
           label,
           style: text.bodySmall.copyWith(
             color: isActive ? acc.primary : c.textSecondary,
-            fontWeight: isActive ? text.bodyBold.fontWeight : text.bodyRegular.fontWeight,
+            fontWeight: isActive ? text.bodyBold.fontWeight : text.body.fontWeight,
           ),
         ),
       ),

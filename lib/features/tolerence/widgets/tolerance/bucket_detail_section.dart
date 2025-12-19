@@ -111,7 +111,7 @@ class BucketDetailSection extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: stateColor.withValues(alpha: 0.3),
-                    width: 1,
+                    width: context.sizes.borderThin,
                   ),
                 ),
                 child: Text(

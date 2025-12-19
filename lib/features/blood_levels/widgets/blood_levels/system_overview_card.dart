@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
+import '../../../../common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../services/blood_levels_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -24,7 +25,6 @@ class SystemOverviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final t = context.theme;
     final text = context.text;
     final sp = context.spacing;
     final acc = context.accent;
@@ -54,7 +54,7 @@ class SystemOverviewCard extends StatelessWidget {
             // HEADER ROW
             Row(
               children: [
-                Icon(Icons.analytics, size: t.sizes.iconSm, color: acc.primary),
+                Icon(Icons.analytics, size: context.sizes.iconSm, color: acc.primary),
                 SizedBox(width: sp.sm),
                 Text('System Overview', style: text.heading4),
               ],
@@ -120,7 +120,7 @@ class SystemOverviewCard extends StatelessWidget {
             color: color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(sh.radiusSm),
           ),
-          child: Icon(icon, color: color, size: t.sizes.iconSm),
+          child: Icon(icon, color: color, size: context.sizes.iconSm),
         ),
         SizedBox(height: sp.sm),
         Text(

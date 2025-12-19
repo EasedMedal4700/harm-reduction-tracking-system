@@ -123,6 +123,7 @@ class _UnifiedBucketToleranceWidgetState
 
   @override
   Widget build(BuildContext context) {
+    final text = context.text;
     // THEME ACCESS
     final theme = context.theme;
     final colors = context.colors;
@@ -188,13 +189,12 @@ class _UnifiedBucketToleranceWidgetState
                     BorderRadius.circular(context.shapes.radiusSm),
                 border: Border.all(
                   color: Colors.amber.withValues(alpha: 0.4),
-                  width: 1,
+                  width: context.sizes.borderThin,
                 ),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.info_outline,
-                      size: context.sizes.iconSm, color: Colors.amber),
+                  Icon(Icons.info_outline, size: context.sizes.iconSm, color: Colors.amber),
                   SizedBox(width: spacing.sm),
                   Expanded(
                     child: Text(
@@ -285,12 +285,12 @@ class _UnifiedBucketToleranceWidgetState
     return Card(
       margin: EdgeInsets.only(bottom: spacing.md),
       color: colors.surface,
-      elevation: 0,
+      elevation: context.sizes.elevationNone,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(context.shapes.radiusSm),
         side: BorderSide(
           color: colors.border,
-          width: 1,
+          width: context.sizes.borderThin,
         ),
       ),
       child: InkWell(

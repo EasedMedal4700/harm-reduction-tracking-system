@@ -52,7 +52,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     _substanceCtrl = TextEditingController(text: _formData.substance);
     
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: context.animations.normal,
       vsync: this,
     );
     
@@ -180,7 +180,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     setState(() => _isSaving = false);
 
     if (result.isSuccess) {
-      _showSnackBar(result.message, duration: const Duration(seconds: 4));
+      _showSnackBar(result.message, duration: context.animations.longSnackbar);
       if (mounted) {
         Navigator.of(context).pop(true);
       }
@@ -219,7 +219,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
 
   void _showSnackBar(String message, {Duration? duration}) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), duration: duration ?? const Duration(seconds: 2)),
+      SnackBar(content: Text(message), duration: duration ?? context.animations.snackbar),
     );
   }
 

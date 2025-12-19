@@ -132,7 +132,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
     setState(() => _isSaving = false);
 
     if (result.isSuccess) {
-      _showSnackBar(result.message, duration: const Duration(seconds: 4));
+      _showSnackBar(result.message, duration: context.animations.longSnackbar);
       _resetForm();
     } else {
       _showSnackBar(result.message);
@@ -149,7 +149,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
 
   void _showSnackBar(String message, {Duration? duration}) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), duration: duration ?? const Duration(seconds: 2)),
+      SnackBar(content: Text(message), duration: duration ?? context.animations.snackbar),
     );
   }
 

@@ -48,7 +48,7 @@ class UsageTrendChart extends StatelessWidget {
           CommonSpacer.vertical(t.spacing.md),
 
           SizedBox(
-            height: 220,
+            height: context.sizes.heightMd,
             child: BarChart(
               BarChartData(
                 gridData: FlGridData(
@@ -61,7 +61,7 @@ class UsageTrendChart extends StatelessWidget {
                   drawVerticalLine: false,
                 ),
                 borderData: FlBorderData(show: false),
-                barGroups: _buildBars(values),
+                barGroups: _buildBars(context, values),
                 titlesData: FlTitlesData(
                   rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
                   topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -188,7 +188,7 @@ class UsageTrendChart extends StatelessWidget {
   // BAR BUILDER
   // ---------------------------------------------------------------------------
 
-  List<BarChartGroupData> _buildBars(List<Map<String, int>> data) {
+  List<BarChartGroupData> _buildBars(BuildContext context, List<Map<String, int>> data) {
     final barWidth = context.sizes.iconSm;
     return data.asMap().entries.map((e) {
       final x = e.key;

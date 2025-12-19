@@ -87,9 +87,9 @@ class SubstanceAutocomplete extends StatelessWidget {
         Iterable<String> options,
       ) {
         return Align(
-          alignment: Alignment.topLeft,
+          alignment: context.shapes.alignmentTopLeft,
           child: Material(
-            elevation: 4.0,
+            elevation: context.sizes.cardElevation,
             borderRadius: BorderRadius.circular(sh.radiusMd),
             color: c.surface,
             child: SizedBox(

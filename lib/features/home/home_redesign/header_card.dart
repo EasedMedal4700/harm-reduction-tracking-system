@@ -38,7 +38,7 @@ class HeaderCard extends StatelessWidget {
           children: [
             Text(
               greeting,
-              style: t.bodySmall.copyWith(
+              style: t.typography.bodySmall.copyWith(
                 color: c.textSecondary,
                 fontWeight: text.bodyMedium.fontWeight,
               ),
@@ -46,7 +46,7 @@ class HeaderCard extends StatelessWidget {
             CommonSpacer.vertical(sp.xs),
             Text(
               userName,
-              style: t.heading2.copyWith(
+              style: t.typography.heading2.copyWith(
                 color: c.textPrimary,
                 letterSpacing: -0.5,
               ),
@@ -58,7 +58,7 @@ class HeaderCard extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(sp.xs),
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
+              shape: context.shapes.boxShapeCircle,
               border: Border.all(
                 color: acc.primary.withValues(alpha: context.opacities.medium),
                 width: context.borders.thin,

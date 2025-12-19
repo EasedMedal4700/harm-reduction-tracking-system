@@ -51,7 +51,7 @@ class FeatureDisabledScreen extends StatelessWidget {
       backgroundColor: c.background,
       appBar: AppBar(
         backgroundColor: c.surface,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
         title: Text(
           formattedName,
           style: text.titleLarge,
@@ -82,7 +82,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                 height: sp.xl * 2,
                 decoration: BoxDecoration(
                   color: acc.primary.withValues(alpha: context.opacities.veryLow),
-                  shape: BoxShape.circle,
+                  shape: context.shapes.boxShapeCircle,
                 ),
                 child: Icon(
                   Icons.construction_rounded,

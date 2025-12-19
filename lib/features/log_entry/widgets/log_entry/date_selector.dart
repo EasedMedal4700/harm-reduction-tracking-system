@@ -30,7 +30,6 @@ class DateSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final text = context.text;
-    final t = context.theme;
     final acc = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;

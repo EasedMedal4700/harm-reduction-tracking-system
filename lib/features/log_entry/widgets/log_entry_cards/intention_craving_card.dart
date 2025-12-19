@@ -73,6 +73,9 @@ class IntentionCravingCard extends StatelessWidget {
   // ----------------------------------------------------------
 
   Widget _buildMedicalToggle(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sh = context.shapes;
     final c = context.colors;
     final sh = context.shapes;
     final text = context.text;
@@ -115,6 +118,9 @@ class IntentionCravingCard extends StatelessWidget {
   // ----------------------------------------------------------
 
   Widget _buildCravingSection(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sh = context.shapes;
     final c = context.colors;
     final s = context.spacing;
     final sh = context.shapes;

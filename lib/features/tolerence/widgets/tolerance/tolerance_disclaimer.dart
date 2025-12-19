@@ -63,7 +63,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
         borderRadius: BorderRadius.circular(radii.radiusMd),
         border: Border.all(
           color: Colors.orange.withValues(alpha: 0.5),
-          width: 2,
+          width: context.sizes.borderRegular,
         ),
       ),
       child: Column(
@@ -138,7 +138,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(radii.radiusSm),
                 border: Border.all(
                   color: Colors.red.withValues(alpha: 0.35),
-                  width: 1,
+                  width: context.sizes.borderThin,
                 ),
               ),
               child: Text(

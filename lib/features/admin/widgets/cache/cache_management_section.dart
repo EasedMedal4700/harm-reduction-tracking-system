@@ -32,7 +32,6 @@ class CacheManagementSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final t = context.theme;
     final sp = context.spacing;
     final text = context.text;
     final sh = context.shapes;

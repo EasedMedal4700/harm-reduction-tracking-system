@@ -32,7 +32,6 @@ class AdminStatCard extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final text = context.text;
-    final t = context.theme;
     final sh = context.shapes;
 
     return CommonCard(

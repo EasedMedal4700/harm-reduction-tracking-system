@@ -102,7 +102,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
@@ -191,6 +190,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildWelcomePage(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final t = context.theme;
     final c = context.colors;
     final a = context.accent;
@@ -213,8 +216,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   a.primary,
                   a.secondary,
                 ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                begin: context.shapes.alignmentTopLeft,
+                end: context.shapes.alignmentBottomRight,
               ),
               borderRadius: BorderRadius.circular(sh.radiusLg),
               boxShadow: [
@@ -342,6 +345,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildPrivacyInfoPage(BuildContext context) {
+    final t = context.theme;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
@@ -565,7 +573,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         decoration: BoxDecoration(
           color: isSelected
               ? a.primary.withValues(alpha: 0.1)
-              : Colors.transparent,
+              : context.colors.transparent,
           borderRadius: BorderRadius.circular(sh.radiusMd),
           border: Border.all(
             color: isSelected
@@ -600,6 +608,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildPrivacyAcceptancePage(BuildContext context) {
+    final t = context.theme;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final t = context.theme;
     final c = context.colors;
     final a = context.accent;
@@ -693,7 +706,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               decoration: BoxDecoration(
                 color: _privacyAccepted
                     ? c.success.withValues(alpha: 0.15)
-                    : Colors.transparent,
+                    : context.colors.transparent,
                 borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(
                   color: _privacyAccepted
@@ -710,13 +723,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     decoration: BoxDecoration(
                       color: _privacyAccepted
                           ? c.success
-                          : Colors.transparent,
+                          : context.colors.transparent,
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(
                         color: _privacyAccepted
                             ? c.success
                             : c.border,
-                        width: 2,
+                        width: context.sizes.borderRegular,
                       ),
                     ),
                     child: _privacyAccepted
@@ -774,6 +787,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildUsageFrequencyPage(BuildContext context) {
+    final t = context.theme;
+    final text = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
     final t = context.theme;
     final c = context.colors;
     final a = context.accent;
@@ -859,7 +877,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           padding: EdgeInsets.all(sp.xs),
                           decoration: BoxDecoration(
                             color: a.primary,
-                            shape: BoxShape.circle,
+                            shape: context.shapes.boxShapeCircle,
                           ),
                           child: Icon(
                             Icons.check,

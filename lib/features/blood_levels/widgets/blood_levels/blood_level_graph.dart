@@ -42,7 +42,7 @@ class BloodLevelGraph extends StatelessWidget {
           CommonSpacer.vertical(context.spacing.xl),
 
           SizedBox(
-            height: 300,
+            height: context.sizes.heightLg,
             child: substanceCurves.isEmpty
                 ? _buildEmptyState(context)
                 : _buildChart(context),
@@ -53,8 +53,10 @@ class BloodLevelGraph extends StatelessWidget {
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final text = context.text;
     final c = context.colors;
-    final t = context.theme;
+    final sp = context.spacing;
+    final c = context.colors;
     final sp = context.spacing;
     final text = context.text;
 
@@ -79,9 +81,10 @@ class BloodLevelGraph extends StatelessWidget {
   }
 
   Widget _buildChart(BuildContext context) {
+    final text = context.text;
+    final c = context.colors;
     final c = context.colors;
     final text = context.text;
-    final t = context.theme;
 
     final lines = substanceCurves.entries.map((entry) {
       final substance = entry.key;

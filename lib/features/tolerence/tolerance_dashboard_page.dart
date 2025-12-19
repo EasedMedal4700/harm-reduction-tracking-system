@@ -211,7 +211,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       appBar: AppBar(
         title: const Text('Tolerance dashboard'),
         backgroundColor: c.surface,
-        elevation: 0,
+        elevation: context.sizes.elevationNone,
         actions: [
           // Debug toggle - only show when DEBUG_MODE=true in .env
           if (DebugConfig.instance.isDebugMode) ...[
@@ -264,7 +264,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
             if (context != null) {
               Scrollable.ensureVisible(
                 context,
-                duration: const Duration(milliseconds: 300),
+                duration: const context.animations.normal,
                 curve: Curves.easeInOut,
               );
             }
