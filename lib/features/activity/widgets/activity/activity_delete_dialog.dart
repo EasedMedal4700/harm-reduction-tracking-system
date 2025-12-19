@@ -1,12 +1,13 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Dialog for confirming deletion. Fully theme-compliant.
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../../../common/buttons/common_primary_button.dart';
 
 class ActivityDeleteDialog extends StatelessWidget {
   final String entryType;
@@ -29,7 +30,6 @@ class ActivityDeleteDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final text = context.text;
-    final sp = context.spacing;
     final sh = context.shapes;
 
     return AlertDialog(
@@ -61,28 +61,11 @@ class ActivityDeleteDialog extends StatelessWidget {
         ),
 
         // Delete Button
-        ElevatedButton(
+        CommonPrimaryButton(
+          text: 'Delete',
           onPressed: () => Navigator.pop(context, true),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: c.error,
-            foregroundColor: c.textInverse,
-            padding: EdgeInsets.symmetric(
-              horizontal: sp.lg,
-              vertical: sp.sm,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(sh.radiusSm),
-            ),
-            shadowColor: c.overlayHeavy,
-            elevation: 0,
-          ),
-          child: Text(
-            'Delete',
-            style: text.body.copyWith(
-              fontWeight: FontWeight.w600,
-              color: c.textInverse,
-            ),
-          ),
+          backgroundColor: c.error,
+          textColor: c.textInverse,
         ),
       ],
     );

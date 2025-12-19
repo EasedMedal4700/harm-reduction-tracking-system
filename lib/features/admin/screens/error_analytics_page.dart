@@ -1,5 +1,12 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Error analytics screen. Migrated to use AppTheme and CommonLoader.
+
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
 import '../../../services/admin_service.dart';
 import '../../../utils/error_reporter.dart';
 import '../widgets/errors/error_analytics_section.dart';
@@ -166,13 +173,9 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
         actions: [
           IconButton(
             icon: _isLoading
-                ? SizedBox(
-                    width: context.sizes.iconSm,
-                    height: context.sizes.iconSm,
-                    child: CircularProgressIndicator(
-                      strokeWidth: context.borders.medium,
-                      valueColor: AlwaysStoppedAnimation<Color>(c.textPrimary),
-                    ),
+                ? CommonLoader(
+                    size: context.sizes.iconSm,
+                    color: c.textPrimary,
                   )
                 : const Icon(Icons.refresh),
             onPressed: _isLoading ? null : _loadData,
@@ -181,7 +184,7 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
         ],
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator(color: a.primary))
+          ? const CommonLoader()
           : RefreshIndicator(
               onRefresh: _loadData,
               color: a.primary,

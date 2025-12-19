@@ -1,12 +1,13 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Main activity page with tabs. Uses AppThemeExtension. No hardcoded values.
 
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../common/layout/common_drawer.dart';
+import '../../common/feedback/common_loader.dart';
 import 'widgets/activity/activity_drug_use_tab.dart';
 import 'widgets/activity/activity_cravings_tab.dart';
 import 'widgets/activity/activity_reflections_tab.dart';
@@ -97,7 +98,7 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
       ),
       drawer: const CommonDrawer(),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator(color: t.accent.primary))
+          ? const CommonLoader()
           : TabBarView(
               controller: _tabController,
               children: [

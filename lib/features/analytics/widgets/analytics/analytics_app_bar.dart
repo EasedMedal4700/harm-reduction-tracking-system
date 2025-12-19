@@ -1,12 +1,13 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/enums/time_period.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_icon_button.dart';
 
 class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final TimePeriod selectedPeriod;
@@ -62,10 +63,10 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
                     borderRadius: BorderRadius.circular(sp.sm),
                     boxShadow: theme.cardShadow,
                   ),
-                  child: IconButton(
-                    icon: Icon(Icons.menu, color: acc.primary, size: 24),
-                    padding: EdgeInsets.all(sp.sm),
-                    constraints: const BoxConstraints(),
+                  child: CommonIconButton(
+                    icon: Icons.menu,
+                    color: acc.primary,
+                    size: 24,
                     onPressed: () => Scaffold.of(context).openDrawer(),
                   ),
                 ),
@@ -91,14 +92,10 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
                     borderRadius: BorderRadius.circular(sp.sm),
                     boxShadow: theme.cardShadow,
                   ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.file_download_outlined,
-                      color: acc.primary,
-                      size: 20,
-                    ),
-                    padding: EdgeInsets.all(sp.sm),
-                    constraints: const BoxConstraints(),
+                  child: CommonIconButton(
+                    icon: Icons.file_download_outlined,
+                    color: acc.primary,
+                    size: 20,
                     onPressed: onExport,
                   ),
                 ),

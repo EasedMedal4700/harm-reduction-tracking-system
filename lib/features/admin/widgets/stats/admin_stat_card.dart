@@ -1,12 +1,13 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-compliant. No hardcoded values.
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 
 /// Stat card widget for admin dashboard
 class AdminStatCard extends StatelessWidget {
@@ -33,15 +34,11 @@ class AdminStatCard extends StatelessWidget {
     final t = context.theme;
     final sh = context.shapes;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        boxShadow: t.cardShadow,
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
-        child: FittedBox(
+    return CommonCard(
+      borderRadius: sh.radiusMd,
+      padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
+      showBorder: false,
+      child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +84,6 @@ class AdminStatCard extends StatelessWidget {
           ],
         ),
         ),
-      ),
     );
   }
 }

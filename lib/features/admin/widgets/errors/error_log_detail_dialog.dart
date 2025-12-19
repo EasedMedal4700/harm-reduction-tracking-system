@@ -1,8 +1,13 @@
-// MIGRATION COMPLETE — Fully theme-based, correct typography & colors.
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Fully theme-based, correct typography & colors.
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'severity_badge.dart';
 
 /// Bottom sheet dialog showing detailed error log information
@@ -131,13 +136,11 @@ class ErrorLogDetailDialog extends StatelessWidget {
                 ),
                 SizedBox(height: sp.xs),
 
-                Container(
+                CommonCard(
                   padding: EdgeInsets.all(sp.md),
-                  decoration: BoxDecoration(
-                    color: c.surfaceVariant,
-                    borderRadius: BorderRadius.circular(sh.radiusMd),
-                    border: Border.all(color: c.border),
-                  ),
+                  backgroundColor: c.surfaceVariant,
+                  borderRadius: sh.radiusMd,
+                  borderColor: c.border,
                   child: SelectableText(
                     log['stacktrace'] ?? 'Unavailable',
                     style: text.caption.copyWith(
@@ -156,13 +159,11 @@ class ErrorLogDetailDialog extends StatelessWidget {
                     style: text.bodyBold.copyWith(color: c.textPrimary),
                   ),
                   SizedBox(height: sp.xs),
-                  Container(
+                  CommonCard(
                     padding: EdgeInsets.all(sp.md),
-                    decoration: BoxDecoration(
-                      color: c.surfaceVariant,
-                      borderRadius: BorderRadius.circular(sh.radiusMd),
-                      border: Border.all(color: c.border),
-                    ),
+                    backgroundColor: c.surfaceVariant,
+                    borderRadius: sh.radiusMd,
+                    borderColor: c.border,
                     child: SelectableText(
                       const JsonEncoder.withIndent('  ').convert(extra),
                       style: text.caption.copyWith(

@@ -1,17 +1,12 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
-// Riverpod: TODO
-// Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
-import 'package:flutter/material.dart';
-import '../../../../constants/theme/app_theme_extension.dart';
-
-// MIGRATION
-// Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-based. No hardcoded values.
+
+import 'package:flutter/material.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
 /// Action button for cache management operations
 class CacheActionButton extends StatelessWidget {
   final String label;

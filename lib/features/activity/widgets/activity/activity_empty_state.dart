@@ -1,7 +1,7 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Empty state widget. Fully theme-compliant.
 

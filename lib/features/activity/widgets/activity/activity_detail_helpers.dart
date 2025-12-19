@@ -1,7 +1,7 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Helper methods to show detail sheets. Fully theme-compliant.
 

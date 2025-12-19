@@ -1,7 +1,7 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
 

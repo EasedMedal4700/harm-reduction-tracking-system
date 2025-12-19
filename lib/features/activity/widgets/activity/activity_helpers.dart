@@ -1,7 +1,7 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Helper functions for activity UI. Fully theme-compliant.
 

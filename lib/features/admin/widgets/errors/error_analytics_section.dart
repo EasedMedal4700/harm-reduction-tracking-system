@@ -1,8 +1,13 @@
-// MIGRATION COMPLETE — Fully theme-based, no deprecated typography or colors.
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Fully theme-based, no deprecated typography or colors.
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'severity_badge.dart';
 
 /// Error analytics dashboard widget for admin panel
@@ -49,15 +54,11 @@ class ErrorAnalyticsSection extends StatelessWidget {
     final errorCodeBreakdown = _getBreakdown('error_code_breakdown');
     final recentLogs = _getBreakdown('recent_logs');
 
-    return Container(
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        boxShadow: t.cardShadow,
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(sp.lg),
-        child: Column(
+    return CommonCard(
+      borderRadius: sh.radiusMd,
+      padding: EdgeInsets.all(sp.lg),
+      showBorder: false,
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// HEADER
@@ -246,7 +247,6 @@ class ErrorAnalyticsSection extends StatelessWidget {
               ),
           ],
         ),
-      ),
     );
   }
 

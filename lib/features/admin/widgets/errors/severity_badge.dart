@@ -1,4 +1,8 @@
-// MIGRATION COMPLETE — Fully theme-compliant Severity Badge.
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Fully theme-compliant Severity Badge.
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 

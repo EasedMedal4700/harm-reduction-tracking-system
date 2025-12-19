@@ -1,13 +1,15 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-compliant. No hardcoded values.
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 
 /// User card widget for admin panel
 class AdminUserCard extends StatelessWidget {
@@ -46,14 +48,13 @@ class AdminUserCard extends StatelessWidget {
 
     // INVALID DATA FALLBACK
     if (authUserId.isEmpty) {
-      return Container(
-        decoration: BoxDecoration(
-          color: c.surface,
-          borderRadius: BorderRadius.circular(sh.radiusMd),
-          boxShadow: t.cardShadow,
-        ),
-        margin: EdgeInsets.symmetric(vertical: sp.sm),
-        child: ListTile(
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: sp.sm),
+        child: CommonCard(
+          borderRadius: sh.radiusMd,
+          showBorder: false,
+          padding: EdgeInsets.zero,
+          child: ListTile(
           leading: Icon(Icons.error_outline, color: c.error),
           title: Text(
             'Invalid user data',
@@ -64,17 +65,17 @@ class AdminUserCard extends StatelessWidget {
             style: text.bodySmall.copyWith(color: c.textSecondary),
           ),
         ),
-      );
+      ),
+    );
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        boxShadow: t.cardShadow,
-      ),
-      margin: EdgeInsets.symmetric(vertical: sp.sm),
-      child: ExpansionTile(
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: sp.sm),
+      child: CommonCard(
+        borderRadius: sh.radiusMd,
+        showBorder: false,
+        padding: EdgeInsets.zero,
+        child: ExpansionTile(
         tilePadding: EdgeInsets.symmetric(
           horizontal: sp.md,
           vertical: sp.sm,
@@ -177,27 +178,12 @@ class AdminUserCard extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () =>
-                            onToggleAdmin(authUserId, isAdmin),
-                        icon: Icon(isAdmin
-                            ? Icons.remove_circle
-                            : Icons.add_circle),
-                        label: Text(
-                          isAdmin ? 'Remove Admin' : 'Make Admin',
-                          style: text.button.copyWith(color: c.textInverse),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              isAdmin ? c.error : c.success,
-                          foregroundColor: c.textInverse,
-                          padding: EdgeInsets.symmetric(vertical: sp.sm),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(sh.radiusSm),
-                          ),
-                          shadowColor: c.overlayHeavy,
-                        ),
+                      child: CommonPrimaryButton(
+                        onPressed: () => onToggleAdmin(authUserId, isAdmin),
+                        icon: isAdmin ? Icons.remove_circle : Icons.add_circle,
+                        label: isAdmin ? 'Remove Admin' : 'Make Admin',
+                        backgroundColor: isAdmin ? c.error : c.success,
+                        textColor: c.textInverse,
                       ),
                     ),
                   ],
@@ -206,6 +192,7 @@ class AdminUserCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

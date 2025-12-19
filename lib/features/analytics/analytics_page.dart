@@ -1,3 +1,9 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Analytics page. Uses common components and theme.
+
 import 'package:flutter/material.dart';
 import '../../services/analytics_service.dart';
 import '../../common/layout/common_drawer.dart';

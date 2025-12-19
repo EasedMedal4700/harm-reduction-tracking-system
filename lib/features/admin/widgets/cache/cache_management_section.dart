@@ -1,11 +1,13 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 import '../stats/cache_stat_widget.dart';
 import 'cache_action_button.dart';
 
@@ -38,15 +40,11 @@ class CacheManagementSection extends StatelessWidget {
     final activeEntries = cacheStats['active_entries'] ?? 0;
     final expiredEntries = cacheStats['expired_entries'] ?? 0;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        boxShadow: t.cardShadow,
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(sp.lg),
-        child: Column(
+    return CommonCard(
+      borderRadius: sh.radiusMd,
+      padding: EdgeInsets.all(sp.lg),
+      showBorder: false,
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// Header
@@ -150,7 +148,6 @@ class CacheManagementSection extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 
@@ -188,26 +185,14 @@ class CacheManagementSection extends StatelessWidget {
               style: text.button.copyWith(color: c.textSecondary),
             ),
           ),
-          ElevatedButton(
+          CommonPrimaryButton(
             onPressed: () {
               Navigator.pop(context);
               onConfirm();
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: c.error,
-              foregroundColor: c.textInverse,
-              padding: EdgeInsets.symmetric(
-                horizontal: sp.lg,
-                vertical: sp.sm,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(sp.sm),
-              ),
-            ),
-            child: Text(
-              'Clear',
-              style: text.button.copyWith(color: c.textInverse),
-            ),
+            label: 'Clear',
+            backgroundColor: c.error,
+            textColor: c.textInverse,
           ),
         ],
       ),

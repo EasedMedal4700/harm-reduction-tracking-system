@@ -1,11 +1,12 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
 import '../../screens/error_analytics_page.dart';
 import '../../../bug_report/bug_report_page.dart';
 
@@ -63,14 +64,9 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
 
         IconButton(
           icon: isLoading
-              ? SizedBox(
-                  width: context.sizes.iconSm,
-                  height: context.sizes.iconSm,
-                  child: CircularProgressIndicator(
-                    strokeWidth: context.borders.medium,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(c.textPrimary),
-                  ),
+              ? CommonLoader(
+                  size: context.sizes.iconSm,
+                  color: c.textPrimary,
                 )
               : Icon(Icons.refresh, color: c.textPrimary),
           onPressed: isLoading ? null : onRefresh,

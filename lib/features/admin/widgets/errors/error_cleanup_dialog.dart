@@ -1,7 +1,15 @@
 // ignore_for_file: deprecated_member_use
-// MIGRATION COMPLETE — Fully theme-compliant, no deprecated API
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Fully theme-compliant, no deprecated API
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
+import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
+import 'package:mobile_drug_use_app/common/inputs/switch_tile.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 
 /// Dialog for cleaning/filtering error logs with various options
 class ErrorCleanupDialog extends StatefulWidget {
@@ -57,80 +65,41 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             /// DELETE ALL SWITCH
-            SwitchListTile(
+            CommonSwitchTile(
               value: _deleteAll,
-              activeThumbColor: t.accent.primary,
               onChanged: (value) => setState(() => _deleteAll = value),
-
-              title: Text(
-                'Delete entire table',
-                style: text.body.copyWith(color: c.textPrimary),
-              ),
-              subtitle: Text(
-                'This action cannot be undone',
-                style: text.bodySmall.copyWith(color: c.textSecondary),
-              ),
+              title: 'Delete entire table',
+              subtitle: 'This action cannot be undone',
             ),
 
             if (!_deleteAll) ...[
               /// DAYS FIELD
-              TextField(
+              CommonInputField(
                 controller: _daysController,
                 keyboardType: TextInputType.number,
-                style: text.body.copyWith(color: c.textPrimary),
-                decoration: InputDecoration(
-                  labelText: 'Older than (days)',
-                  hintText: 'e.g., 30',
-                  labelStyle: text.bodySmall.copyWith(color: c.textSecondary),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(sh.radiusSm),
-                  ),
-                ),
+                labelText: 'Older than (days)',
+                hintText: 'e.g., 30',
               ),
 
               SizedBox(height: sp.md),
 
               /// PLATFORM DROPDOWN
-              DropdownButtonFormField<String>(
+              CommonDropdown<String>(
                 value: _platform,
-                decoration: InputDecoration(
-                  labelText: 'Platform (optional)',
-                  labelStyle: text.bodySmall.copyWith(color: c.textSecondary),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(sh.radiusSm),
-                  ),
-                ),
-                items: widget.platformOptions
-                    .map(
-                      (v) => DropdownMenuItem(
-                        value: v,
-                        child: Text(v, style: text.body.copyWith(color: c.textPrimary)),
-                      ),
-                    )
-                    .toList(),
+                items: widget.platformOptions,
+                hintText: 'Platform (optional)',
+                itemLabel: (v) => v,
                 onChanged: (val) => setState(() => _platform = val),
               ),
 
               SizedBox(height: sp.md),
 
               /// SCREEN DROPDOWN
-              DropdownButtonFormField<String>(
+              CommonDropdown<String>(
                 value: _screen,
-                decoration: InputDecoration(
-                  labelText: 'Screen (optional)',
-                  labelStyle: text.bodySmall.copyWith(color: c.textSecondary),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(sh.radiusSm),
-                  ),
-                ),
-                items: widget.screenOptions
-                    .map(
-                      (v) => DropdownMenuItem(
-                        value: v,
-                        child: Text(v, style: text.body.copyWith(color: c.textPrimary)),
-                      ),
-                    )
-                    .toList(),
+                items: widget.screenOptions,
+                hintText: 'Screen (optional)',
+                itemLabel: (v) => v,
                 onChanged: (val) => setState(() => _screen = val),
               ),
             ],
@@ -148,7 +117,7 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
           ),
         ),
 
-        ElevatedButton(
+        CommonPrimaryButton(
           onPressed: () {
             final days = int.tryParse(_daysController.text);
 
@@ -159,22 +128,7 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
               'screen': _screen,
             });
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: t.accent.primary,
-            foregroundColor: c.textInverse,
-            padding: EdgeInsets.symmetric(
-              horizontal: sp.lg,
-              vertical: sp.sm,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(sh.radiusSm),
-            ),
-            shadowColor: c.overlayHeavy,
-          ),
-          child: Text(
-            'Confirm',
-            style: text.button.copyWith(color: c.textInverse),
-          ),
+          label: 'Confirm',
         ),
       ],
     );

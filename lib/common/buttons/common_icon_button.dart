@@ -10,7 +10,7 @@ import '../../constants/theme/app_theme_extension.dart';
 /// Icon button with consistent styling
 class CommonIconButton extends StatelessWidget {
   final IconData icon;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color? color;
   final Color? backgroundColor;
   final double? size;
@@ -18,7 +18,7 @@ class CommonIconButton extends StatelessWidget {
 
   const CommonIconButton({
     required this.icon,
-    required this.onPressed,
+    this.onPressed,
     this.color,
     this.backgroundColor,
     this.size,

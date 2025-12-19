@@ -1,12 +1,14 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Detail sheet widget. Fully theme-compliant.
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_outlined_button.dart';
 
 class ActivityDetailSheet extends StatelessWidget {
   final String title;
@@ -171,8 +173,6 @@ class ActivityDetailSheet extends StatelessWidget {
   Widget _buildActionButtons(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final sh = context.shapes;
-    final text = context.text;
 
     return Padding(
       padding: EdgeInsets.all(sp.lg),
@@ -180,24 +180,12 @@ class ActivityDetailSheet extends StatelessWidget {
         children: [
           /// DELETE BUTTON
           Expanded(
-            child: OutlinedButton.icon(
+            child: CommonOutlinedButton(
               onPressed: onDelete,
-              icon: const Icon(Icons.delete_outline),
-              label: Text(
-                'Delete',
-                style: text.body.copyWith(
-                  color: c.error,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(color: c.error),
-                padding: EdgeInsets.symmetric(vertical: sp.md),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(sh.radiusMd),
-                ),
-                foregroundColor: c.error,
-              ),
+              icon: Icons.delete_outline,
+              label: 'Delete',
+              color: c.error,
+              borderColor: c.error,
             ),
           ),
 
@@ -206,25 +194,12 @@ class ActivityDetailSheet extends StatelessWidget {
           /// EDIT BUTTON
           Expanded(
             flex: 2,
-            child: ElevatedButton.icon(
+            child: CommonPrimaryButton(
               onPressed: onEdit,
-              icon: const Icon(Icons.edit),
-              label: Text(
-                'Edit Entry',
-                style: text.body.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: c.textInverse,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: accentColor,
-                foregroundColor: c.textInverse,
-                shadowColor: c.overlayHeavy,
-                padding: EdgeInsets.symmetric(vertical: sp.md),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(sh.radiusMd),
-                ),
-              ),
+              icon: Icons.edit,
+              label: 'Edit Entry',
+              backgroundColor: accentColor,
+              textColor: c.textInverse,
             ),
           ),
         ],

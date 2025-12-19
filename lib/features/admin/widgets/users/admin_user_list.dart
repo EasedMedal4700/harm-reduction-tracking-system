@@ -1,12 +1,13 @@
 
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_icon_button.dart';
 import 'admin_user_card.dart';
 
 /// User list section for admin panel
@@ -39,8 +40,8 @@ class AdminUserList extends StatelessWidget {
               'User Management',
               style: text.heading3.copyWith(color: c.textPrimary),
             ),
-            IconButton(
-              icon: const Icon(Icons.refresh),
+            CommonIconButton(
+              icon: Icons.refresh,
               color: c.textPrimary,
               onPressed: onRefresh,
             ),

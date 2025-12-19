@@ -9,6 +9,7 @@ import '../widgets/users/admin_user_list.dart';
 import '../widgets/app_bar/admin_app_bar.dart';
 import '../widgets/cache/cache_management_section.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -258,7 +259,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       ),
       drawer: const CommonDrawer(),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator(color: t.accent.primary))
+          ? const CommonLoader()
           : RefreshIndicator(
               color: t.accent.primary,
               onRefresh: _loadData,

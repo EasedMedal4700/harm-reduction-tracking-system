@@ -1,6 +1,6 @@
 // MIGRATION
 // Theme: COMPLETE
-// Common: PARTIAL
+// Common: COMPLETE
 // Riverpod: TODO
 // Notes: Tab for displaying drug use entries. Uses ActivityCard and ActivityEmptyState. No hardcoded values.
 
