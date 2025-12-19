@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../common/layout/common_spacer.dart';
 
@@ -240,7 +241,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
         backgroundColor: c.background,
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
               CircularProgressIndicator(color: a.primary),
               SizedBox(height: sp.md),
@@ -270,7 +271,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
         body: SingleChildScrollView(
         padding: EdgeInsets.all(sp.xl),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
           children: [
             SizedBox(height: sp.xl2),
 
@@ -286,10 +287,10 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
             Text(
               'Enter Your PIN',
               style: t.heading1.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: text.bodyBold.fontWeight,
                 color: c.textPrimary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
             SizedBox(height: sp.sm),
 
@@ -299,7 +300,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
               style: t.bodyMedium.copyWith(
                 color: c.textSecondary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
             SizedBox(height: sp.xl2),
 
@@ -329,15 +330,15 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                 autofocus: true,
                 style: t.heading1.copyWith(
                   letterSpacing: 12,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
                 decoration: InputDecoration(
                   hintText: '● ● ● ● ● ●',
                   hintStyle: t.heading1.copyWith(
                     letterSpacing: 12,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: text.bodyBold.fontWeight,
                     color: c.textSecondary,
                   ),
                   counterText: '',
@@ -374,7 +375,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                         _errorMessage!,
                         style: t.bodyMedium.copyWith(
                           color: c.error,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: text.bodyMedium.fontWeight,
                         ),
                       ),
                     ),
@@ -410,7 +411,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                     : Text(
                         'Unlock',
                         style: t.heading3.copyWith(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: text.bodyBold.fontWeight,
                           color: c.textInverse,
                         ),
                       ),
@@ -425,7 +426,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                 icon: Icon(Icons.fingerprint, size: context.sizes.iconLg),
                 label: Text(
                   'Unlock with Fingerprint',
-                  style: t.labelLarge.copyWith(fontWeight: FontWeight.w600),
+                  style: t.labelLarge.copyWith(fontWeight: text.bodyBold.fontWeight),
                 ),
                 style: OutlinedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: sp.md),

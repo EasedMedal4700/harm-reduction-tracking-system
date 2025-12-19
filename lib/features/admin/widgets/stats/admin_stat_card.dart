@@ -6,6 +6,7 @@
 // Notes: Fully theme-compliant. No hardcoded values.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 
@@ -39,9 +40,9 @@ class AdminStatCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
       showBorder: false,
       child: FittedBox(
-          fit: BoxFit.scaleDown,
+          fit: AppLayout.boxFitScaleDown,
           child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
             // ICON
             Icon(icon, size: context.sizes.iconXl, color: color),
@@ -53,7 +54,7 @@ class AdminStatCard extends StatelessWidget {
               value,
               style: text.heading3.copyWith(
                 color: color,
-                fontWeight: FontWeight.w700,
+                fontWeight: text.bodyBold.fontWeight,
               ),
             ),
 
@@ -65,9 +66,9 @@ class AdminStatCard extends StatelessWidget {
               style: text.caption.copyWith(
                 color: c.textSecondary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              overflow: AppLayout.textOverflowEllipsis,
             ),
 
             if (subtitle != null) ...[
@@ -78,7 +79,7 @@ class AdminStatCard extends StatelessWidget {
                 style: text.caption.copyWith(
                   color: c.textTertiary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
             ],
           ],

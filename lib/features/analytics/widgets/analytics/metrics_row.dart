@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: Migrated to use CommonCard. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
 
@@ -148,7 +149,7 @@ class _MetricCard extends StatelessWidget {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // ----- ICON -----
           Container(
@@ -164,7 +165,7 @@ class _MetricCard extends StatelessWidget {
 
           // ----- VALUE -----
           FittedBox(
-            fit: BoxFit.scaleDown,
+            fit: AppLayout.boxFitScaleDown,
             alignment: Alignment.centerLeft,
             child: Text(
               value,
@@ -172,7 +173,7 @@ class _MetricCard extends StatelessWidget {
                 color: t.colors.textPrimary,
               ),
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              overflow: AppLayout.textOverflowEllipsis,
             ),
           ),
 
@@ -185,7 +186,7 @@ class _MetricCard extends StatelessWidget {
               color: t.colors.textSecondary,
             ),
             maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+            overflow: AppLayout.textOverflowEllipsis,
           ),
 
           // ----- SUBTITLE -----
@@ -197,7 +198,7 @@ class _MetricCard extends StatelessWidget {
                 color: t.colors.textSecondary,
               ),
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              overflow: AppLayout.textOverflowEllipsis,
             ),
           ],
 

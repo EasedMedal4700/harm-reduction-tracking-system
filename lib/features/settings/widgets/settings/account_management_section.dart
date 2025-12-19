@@ -5,6 +5,7 @@
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../services/account_data_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
@@ -26,7 +27,7 @@ class AccountManagementSection extends StatelessWidget {
     return CommonCard(
       padding: EdgeInsets.all(spacing.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Account Management',

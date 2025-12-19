@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Migrated to CommonChipGroup.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../common/buttons/common_chip_group.dart';
 import '../../../../common/cards/common_card.dart';
 
@@ -24,7 +25,7 @@ class EmotionSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           CommonChipGroup(
             title: 'Emotions',

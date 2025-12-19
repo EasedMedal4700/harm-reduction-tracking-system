@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and AppTheme.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:intl/intl.dart';
 import '../../../../models/drug_catalog_entry.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -75,10 +76,10 @@ class DrugCatalogTile extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(t.spacing.md),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
                 Expanded(
                   child: Text(
@@ -113,15 +114,15 @@ class DrugCatalogTile extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: t.spacing.xs),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           SizedBox(
-            width: 120,
+            width: context.sizes.cardWidthSm,
             child: Text(
               label,
               style: t.typography.bodySmall.copyWith(
                 color: t.colors.textSecondary,
-                fontWeight: FontWeight.bold,
+                fontWeight: text.bodyBold.fontWeight,
               ),
             ),
           ),

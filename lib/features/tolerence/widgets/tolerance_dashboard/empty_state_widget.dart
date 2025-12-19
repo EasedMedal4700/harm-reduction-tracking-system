@@ -5,6 +5,7 @@
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -29,7 +30,7 @@ class EmptyStateWidget extends ConsumerWidget {
       child: Padding(
         padding: EdgeInsets.all(spacing.xl),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
             // ICON
             Container(
@@ -53,7 +54,7 @@ class EmptyStateWidget extends ConsumerWidget {
               style: typography.heading2.copyWith(
                 color: colors.textPrimary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
 
             CommonSpacer.vertical(spacing.sm),
@@ -64,7 +65,7 @@ class EmptyStateWidget extends ConsumerWidget {
               style: typography.body.copyWith(
                 color: colors.textSecondary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
 
             if (onAddEntry != null) ...[

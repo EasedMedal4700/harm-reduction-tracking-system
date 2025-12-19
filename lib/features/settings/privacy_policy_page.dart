@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/widgets/common_spacer.dart';
 
@@ -18,12 +19,12 @@ class PrivacyPolicyScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             Text(
               "SubstanceCheck Privacy Policy",
               style: t.heading3.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: text.bodyBold.fontWeight,
               ),
             ),
             CommonSpacer.vertical(sp.xs),
@@ -225,12 +226,12 @@ Location: Netherlands / EU
     final t = context.text;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           title,
           style: t.heading4.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: text.bodyBold.fontWeight,
           ),
         ),
         if (body != null) ...[

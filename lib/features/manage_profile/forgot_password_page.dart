@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../common/layout/common_spacer.dart';
@@ -107,7 +108,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
         children: [
           SizedBox(height: sp.xl2),
           // Icon
@@ -131,7 +132,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             style: text.headlineMedium.copyWith(
               color: c.textPrimary,
             ),
-            textAlign: TextAlign.center,
+            textAlign: AppLayout.textAlignCenter,
           ),
           SizedBox(height: sp.md),
           // Description
@@ -141,7 +142,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               color: c.textSecondary,
               height: 1.5,
             ),
-            textAlign: TextAlign.center,
+            textAlign: AppLayout.textAlignCenter,
           ),
           SizedBox(height: sp.xl2),
           // Email field
@@ -209,7 +210,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   : Text(
                       'Send Reset Link',
                       style: text.labelLarge.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: text.bodyBold.fontWeight,
                         color: c.textInverse,
                       ),
                     ),
@@ -239,7 +240,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     final sh = context.shapes;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
       children: [
         SizedBox(height: sp.xl2), // Approximate space48
         // Success icon
@@ -263,7 +264,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           style: text.headlineMedium.copyWith(
             color: c.textPrimary,
           ),
-          textAlign: TextAlign.center,
+          textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.md),
         // Description
@@ -273,16 +274,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             color: c.textSecondary,
             height: 1.5,
           ),
-          textAlign: TextAlign.center,
+          textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.sm),
         Text(
           _emailController.text.trim(),
           style: text.bodyMedium.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: text.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
-          textAlign: TextAlign.center,
+          textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.xl),
         // Info box
@@ -335,7 +336,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             child: Text(
               'Back to Login',
               style: text.labelLarge.copyWith(
-                fontWeight: FontWeight.w600,
+                fontWeight: text.bodyBold.fontWeight,
                 color: c.textInverse,
               ),
             ),

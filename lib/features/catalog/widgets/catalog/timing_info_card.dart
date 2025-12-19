@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -34,7 +35,7 @@ class TimingInfoCard extends StatelessWidget {
     return CommonCard(
       padding: EdgeInsets.all(t.spacing.md),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Row(
             children: [
@@ -57,7 +58,7 @@ class TimingInfoCard extends StatelessWidget {
               children: [
                 if (onset != null)
                   Expanded(
-                    flex: 1,
+                    flex: AppLayout.flex1,
                     child: _buildTimeBar(
                       t.colors.success,
                       true,
@@ -66,7 +67,7 @@ class TimingInfoCard extends StatelessWidget {
                   ),
                 if (duration != null)
                   Expanded(
-                    flex: 3,
+                    flex: AppLayout.flex3,
                     child: _buildTimeBar(
                       t.colors.info,
                       onset == null,
@@ -75,7 +76,7 @@ class TimingInfoCard extends StatelessWidget {
                   ),
                 if (afterEffects != null)
                   Expanded(
-                    flex: 2,
+                    flex: AppLayout.flex2,
                     child: _buildTimeBar(
                       t.colors.warning,
                       onset == null && duration == null,
@@ -131,19 +132,19 @@ class TimingInfoCard extends StatelessWidget {
           ),
           SizedBox(width: t.spacing.sm),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 label,
                 style: t.typography.label.copyWith(
                   color: color,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                 ),
               ),
               Text(
                 value,
                 style: t.typography.body.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: t.colors.textPrimary,
                 ),
               ),

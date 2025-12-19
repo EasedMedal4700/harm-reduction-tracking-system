@@ -5,6 +5,7 @@
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -46,8 +47,8 @@ class BucketDetailsWidget extends ConsumerWidget {
       ),
       padding: EdgeInsets.all(spacing.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+        mainAxisSize: AppLayout.mainAxisSizeMin,
         children: [
           // HEADER with close button
           Row(
@@ -89,7 +90,7 @@ class BucketDetailsWidget extends ConsumerWidget {
               children: [
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                     children: [
                       Text(
                         'Tolerance Level',
@@ -102,7 +103,7 @@ class BucketDetailsWidget extends ConsumerWidget {
                         '${tolerancePercent.toStringAsFixed(1)}%',
                         style: typography.heading2.copyWith(
                           color: stateColor,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: text.bodyBold.fontWeight,
                         ),
                       ),
                     ],
@@ -121,7 +122,7 @@ class BucketDetailsWidget extends ConsumerWidget {
                     state.name.toUpperCase(),
                     style: typography.label.copyWith(
                       color: stateColor,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: text.bodyBold.fontWeight,
                     ),
                   ),
                 ),
@@ -136,7 +137,7 @@ class BucketDetailsWidget extends ConsumerWidget {
             'Active Substances',
             style: typography.bodyLarge.copyWith(
               color: colors.textPrimary,
-              fontWeight: FontWeight.w600,
+              fontWeight: text.bodyBold.fontWeight,
             ),
           ),
 
@@ -196,7 +197,7 @@ class _SubstanceContributionRow extends ConsumerWidget {
         children: [
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(
                   substanceName,
@@ -222,7 +223,7 @@ class _SubstanceContributionRow extends ConsumerWidget {
             '${percentage.toStringAsFixed(0)}%',
             style: typography.body.copyWith(
               color: colors.textPrimary,
-              fontWeight: FontWeight.w600,
+              fontWeight: text.bodyBold.fontWeight,
             ),
           ),
         ],

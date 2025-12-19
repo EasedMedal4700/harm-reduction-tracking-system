@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 
 // MIGRATION
 // Theme: TODO
@@ -48,8 +49,8 @@ class DeepLinkDebugWidget extends StatelessWidget {
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+        mainAxisSize: AppLayout.mainAxisSizeMin,
         children: [
           Row(
             children: [
@@ -176,7 +177,7 @@ class DeepLinkDebugWidget extends StatelessWidget {
       builder: (context) => AlertDialog(
         title: const Text('Choose Verification Type'),
         content: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
             ListTile(
               leading: const Icon(Icons.email),

@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_outlined_button.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -32,6 +33,7 @@ class ActivityDetailSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
+    final text = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
     final t = context.theme;
@@ -48,7 +50,7 @@ class ActivityDetailSheet extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
             _buildHandleBar(context),
             CommonSpacer.vertical(sp.lg),
@@ -65,6 +67,8 @@ class ActivityDetailSheet extends StatelessWidget {
 
   Widget _buildHandleBar(BuildContext context) {
     final c = context.colors;
+    final text = context.text;
+    final t = context.theme;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -81,6 +85,7 @@ class ActivityDetailSheet extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     final c = context.colors;
+    final t = context.theme;
     final sp = context.spacing;
     final sh = context.shapes;
     final text = context.text;
@@ -123,14 +128,14 @@ class ActivityDetailSheet extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: sp.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: details.map((detail) {
           final highlight = detail.highlight;
 
           return Padding(
             padding: EdgeInsets.only(bottom: sp.lg),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(
                   detail.label,
@@ -159,7 +164,7 @@ class ActivityDetailSheet extends StatelessWidget {
                     style: text.bodyLarge.copyWith(
                       color: highlight ? accentColor : c.textPrimary,
                       fontWeight:
-                          highlight ? FontWeight.w600 : FontWeight.normal,
+                          highlight ? text.bodyBold.fontWeight : text.body.fontWeight,
                     ),
                   ),
                 ),
@@ -194,7 +199,7 @@ class ActivityDetailSheet extends StatelessWidget {
 
           /// EDIT BUTTON
           Expanded(
-            flex: 2,
+            flex: AppLayout.flex2,
             child: CommonPrimaryButton(
               onPressed: onEdit,
               icon: Icons.edit,

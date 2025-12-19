@@ -29,7 +29,7 @@ class CacheStatWidget extends StatelessWidget {
 
     return Column(
       children: [
-        Icon(icon, color: color, size: 28),
+        Icon(icon, color: color, size: context.sizes.iconLg),
 
         SizedBox(height: sp.sm),
 

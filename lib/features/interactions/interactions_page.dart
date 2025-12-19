@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../common/layout/common_spacer.dart';
 
@@ -35,7 +36,7 @@ class InteractionsPage extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(sp.xl),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
               Icon(
                 Icons.compare_arrows,
@@ -46,10 +47,10 @@ class InteractionsPage extends StatelessWidget {
               Text(
                 'Drug Interactions',
                 style: text.headlineMedium.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.md),
               Text(
@@ -57,7 +58,7 @@ class InteractionsPage extends StatelessWidget {
                 style: text.bodyMedium.copyWith(
                   color: c.textSecondary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.xl),
               Container(
@@ -70,7 +71,7 @@ class InteractionsPage extends StatelessWidget {
                   ),
                 ),
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: AppLayout.mainAxisSizeMin,
                   children: [
                     Icon(
                       Icons.construction,

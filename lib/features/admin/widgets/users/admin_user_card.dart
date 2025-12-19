@@ -6,6 +6,7 @@
 // Notes: Fully theme-compliant. No hardcoded values.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
@@ -100,7 +101,7 @@ class AdminUserCard extends StatelessWidget {
               child: Text(
                 username,
                 style: text.bodyBold.copyWith(color: c.textPrimary),
-                overflow: TextOverflow.ellipsis,
+                overflow: AppLayout.textOverflowEllipsis,
               ),
             ),
 
@@ -119,7 +120,7 @@ class AdminUserCard extends StatelessWidget {
                   'ADMIN',
                   style: text.overline.copyWith(
                     color: t.accent.primary,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: text.bodyBold.fontWeight,
                   ),
                 ),
               ),
@@ -138,7 +139,7 @@ class AdminUserCard extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: sp.md),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 _buildInfoRow(context, 'Auth User ID',
                     '${authUserId.substring(0, 8)}...'),
@@ -205,7 +206,7 @@ class AdminUserCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: sp.xs),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
         children: [
           Text(
             label,

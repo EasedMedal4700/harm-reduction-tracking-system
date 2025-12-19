@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -105,7 +106,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         body: Padding(
           padding: EdgeInsets.all(sp.lg),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
               Icon(
                 Icons.info_outline,
@@ -116,15 +117,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               Text(
                 'Complete Onboarding First',
                 style: t.headlineSmall.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.md),
               Text(
                 'Please complete the onboarding process before creating an account. '
                 'This helps us personalize your experience.',
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
                 style: t.bodyLarge,
               ),
               CommonSpacer.vertical(sp.xl),
@@ -148,7 +149,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         body: Padding(
           padding: EdgeInsets.all(sp.lg),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
               Icon(
                 Icons.policy,
@@ -159,15 +160,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               Text(
                 'Accept Privacy Policy',
                 style: t.headlineSmall.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.md),
               Text(
                 'You need to accept the privacy policy before creating an account. '
                 'Please complete the onboarding process.',
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
                 style: t.bodyLarge,
               ),
               CommonSpacer.vertical(sp.xl),

@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonInputField.
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_chip_group.dart';
 import '../../../../common/cards/common_card.dart';
@@ -33,13 +34,14 @@ class EmotionalStateSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.theme;
     final c = context.colors;
+    final text = context.text;
     final a = context.accent;
     final sp = context.spacing;
     
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Row(
             children: [
@@ -49,7 +51,7 @@ class EmotionalStateSection extends StatelessWidget {
                 'Emotional State',
                 style: t.typography.heading4.copyWith(
                   color: c.textPrimary,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                 ),
               ),
             ],

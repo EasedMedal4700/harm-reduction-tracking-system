@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonSpacer.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
@@ -37,8 +38,8 @@ class BloodLevelsTimeDisplay extends StatelessWidget {
     final label = diff.isNegative ? '$hours hours ago' : '$hours hours future';
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: AppLayout.mainAxisSizeMin,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           'Blood Levels',

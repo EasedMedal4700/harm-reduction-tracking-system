@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: Updated to CommonCard and new theme system. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -27,12 +28,12 @@ class BucketContributingUsesCard extends StatelessWidget {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Contributing Uses',
             style: text.body.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: text.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),
@@ -45,7 +46,7 @@ class BucketContributingUsesCard extends StatelessWidget {
             return Padding(
               padding: EdgeInsets.only(bottom: sp.xs),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                 children: [
                   Text(
                     BucketUtils.formatTimeAgo(timeAgo),
@@ -56,7 +57,7 @@ class BucketContributingUsesCard extends StatelessWidget {
                   Text(
                     '${use.doseUnits.toStringAsFixed(1)} units',
                     style: text.bodySmall.copyWith(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: text.bodyBold.fontWeight,
                       color: c.textPrimary,
                     ),
                   ),

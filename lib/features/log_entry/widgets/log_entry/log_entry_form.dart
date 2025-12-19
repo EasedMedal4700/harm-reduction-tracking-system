@@ -1,5 +1,6 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/data/drug_use_catalog.dart';
 import 'package:mobile_drug_use_app/constants/data/body_and_mind_catalog.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -120,7 +121,7 @@ class LogEntryForm extends StatelessWidget {
     return Form(
       key: formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
         children: [
           // Substance
           CommonInputField(
@@ -135,7 +136,7 @@ class LogEntryForm extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: AppLayout.flex2,
                 child: CommonInputField(
                   controller: doseCtrl,
                   labelText: 'Dose',
@@ -150,7 +151,7 @@ class LogEntryForm extends StatelessWidget {
               ),
               CommonSpacer.horizontal(sp.md),
               Expanded(
-                flex: 1,
+                flex: AppLayout.flex1,
                 child: CommonDropdown<String>(
                   value: unit ?? 'mg',
                   items: const ['mg', 'g', 'ml', 'oz', 'pills', 'tabs'],
@@ -220,7 +221,7 @@ class LogEntryForm extends StatelessWidget {
             CommonCard(
               padding: EdgeInsets.all(sp.cardPadding),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                 children: [
                   CommonSectionHeader(
                     title: 'Craving Intensity',
@@ -325,7 +326,7 @@ class LogEntryForm extends StatelessWidget {
           contentPadding: EdgeInsets.symmetric(horizontal: t.spacing.md, vertical: t.spacing.sm),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: [
             Text(
               time.format(context),
@@ -341,7 +342,7 @@ class LogEntryForm extends StatelessWidget {
   Widget _buildSecondaryEmotions(BuildContext context) {
     final t = context.theme;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: feelings!.map((emotion) {
         final secondaryOptions = DrugUseCatalog.secondaryEmotions[emotion];
         if (secondaryOptions == null || secondaryOptions.isEmpty) return const SizedBox.shrink();

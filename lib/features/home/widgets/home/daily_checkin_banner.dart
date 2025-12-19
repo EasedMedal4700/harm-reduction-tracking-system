@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/daily_checkin_provider.dart';
@@ -89,26 +90,26 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
           ),
           padding: EdgeInsets.all(sp.md),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               // Header row with icon and title
               Row(
                 children: [
                   Icon(
                     _getTimeIcon(provider.timeOfDay),
-                    size: 32,
+                    size: context.sizes.iconLg,
                     color: baseColor,
                   ),
                   SizedBox(width: sp.sm),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                       children: [
                         Text(
                           'Daily Check-In',
                           style: text.titleMedium.copyWith(
                             color: c.textPrimary,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: text.bodyBold.fontWeight,
                           ),
                         ),
                         Text(
@@ -141,11 +142,11 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
     final sp = context.spacing;
     
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Row(
           children: [
-            Icon(Icons.check_circle, color: color, size: 20),
+            Icon(Icons.check_circle, color: color, size: context.sizes.iconMd),
             SizedBox(width: sp.xs),
             Expanded(
               child: Text(
@@ -162,7 +163,7 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
           'Mood: ${provider.existingCheckin!.mood}',
           style: text.labelMedium.copyWith(
             color: color,
-            fontWeight: FontWeight.bold,
+            fontWeight: text.bodyBold.fontWeight,
           ),
         ),
       ],
@@ -176,12 +177,12 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
     final sh = context.shapes;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           'How are you feeling today?',
           style: text.titleSmall.copyWith(
-            fontWeight: FontWeight.w600,
+            fontWeight: text.bodyBold.fontWeight,
           ),
         ),
         SizedBox(height: sp.xs),

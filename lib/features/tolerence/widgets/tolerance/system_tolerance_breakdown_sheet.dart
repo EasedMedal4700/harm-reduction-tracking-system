@@ -25,6 +25,7 @@
 // Notes: Fully modernized theme API. StatefulWidget kept due to async loading state.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../services/tolerance_engine_service.dart';
 import '../../../../services/user_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -95,7 +96,7 @@ class _SystemToleranceBreakdownSheetState
         ),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: AppLayout.mainAxisSizeMin,
         children: [
           // DRAG HANDLE - Visual indicator for swipe gesture
           Center(
@@ -133,7 +134,7 @@ class _SystemToleranceBreakdownSheetState
                 CommonSpacer.horizontal(spacing.lg),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                     children: [
                       Text(
                         _formatBucketName(widget.bucketName),
@@ -214,7 +215,7 @@ class _SystemToleranceBreakdownSheetState
         // LEFT SIDE - Substance name and progress bar
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 item.substanceName,
@@ -240,7 +241,7 @@ class _SystemToleranceBreakdownSheetState
 
         // RIGHT SIDE - Percentage impact
         Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentEnd,
           children: [
             Text(
               '${item.percentContribution.toStringAsFixed(1)}%',

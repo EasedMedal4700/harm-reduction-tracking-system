@@ -5,6 +5,7 @@
 // Notes: Fully theme-compliant. Uses CommonPrimaryButton.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -33,7 +34,7 @@ class AnalyticsErrorState extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(sp.xl),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
             Icon(
               Icons.error_outline,
@@ -48,14 +49,14 @@ class AnalyticsErrorState extends StatelessWidget {
               style: text.heading3.copyWith(
                 color: c.textPrimary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
 
             if (details != null) ...[
               CommonSpacer.vertical(sp.md),
               SelectableText(
                 details!,
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
                 style: text.bodySmall.copyWith(
                   color: c.textSecondary,
                 ),

@@ -11,6 +11,7 @@
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../models/bucket_definitions.dart';
 import '../../../../models/tolerance_model.dart';
@@ -86,7 +87,7 @@ class BucketDetailSection extends ConsumerWidget {
         boxShadow: context.cardShadow,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // HEADER with bucket name and tolerance percentage
           Row(
@@ -182,7 +183,7 @@ class BucketDetailSection extends ConsumerWidget {
                         // SUBSTANCE NAME + TEXT
                         Expanded(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                             children: [
                               // Substance name
                               Text(substanceName, style: typography.bodyBold),
@@ -230,7 +231,7 @@ class BucketDetailSection extends ConsumerWidget {
                               'ACTIVE',
                               style: typography.captionBold.copyWith(
                                 color: context.accent.secondary,
-                                fontSize: 10,
+                                fontSize: context.text.caption.fontSize,
                               ),
                             ),
                           ),

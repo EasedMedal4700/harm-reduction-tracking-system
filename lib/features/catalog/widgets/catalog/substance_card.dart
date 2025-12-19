@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../models/stockpile_item.dart';
 import '../../../../repo/stockpile_repository.dart';
@@ -103,14 +104,14 @@ class SubstanceCard extends StatelessWidget {
                           width: 1.5,
                         ),
                       ),
-                      child: Icon(categoryIcon, color: categoryColor, size: 28),
+                      child: Icon(categoryIcon, color: categoryColor, size: context.sizes.iconLg),
                     ),
                     SizedBox(width: t.spacing.md),
 
                     // Text content
                     Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                         children: [
                           Text(
                             name,
@@ -135,9 +136,9 @@ class SubstanceCard extends StatelessWidget {
                                 child: Text(
                                   cat,
                                   style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: context.text.caption.fontSize,
                                     color: categoryColor,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: text.bodyBold.fontWeight,
                                   ),
                                 ),
                               );
@@ -214,7 +215,7 @@ class SubstanceCard extends StatelessWidget {
                                 '${amount.toStringAsFixed(1)} $unit',
                                 style: t.typography.label.copyWith(
                                   color: t.colors.success,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: text.bodyBold.fontWeight,
                                 ),
                               ),
                             ],
@@ -238,7 +239,7 @@ class SubstanceCard extends StatelessWidget {
                       'Add Stockpile',
                       style: t.typography.label.copyWith(
                         color: t.accent.primary,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: text.bodyBold.fontWeight,
                       ),
                     ),
                     style: TextButton.styleFrom(

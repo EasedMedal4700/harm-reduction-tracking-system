@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: Migrated to use CommonCard and CommonSectionHeader. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
@@ -66,7 +67,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
                       : screenWidth * 0.20,
                   titleStyle: t.typography.bodySmall.copyWith(
                     fontSize: touchedIndex == index ? 16 : 12,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: t.text.bodyBold.fontWeight,
                     color: t.colors.textPrimary,
                   ),
                 );
@@ -109,7 +110,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
             );
 
             return Row(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: AppLayout.mainAxisSizeMin,
               children: [
                 Container(
                   width: t.spacing.lg,

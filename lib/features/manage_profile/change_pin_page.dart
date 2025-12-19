@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../common/layout/common_spacer.dart';
 
@@ -120,7 +121,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(sp.xl),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
           children: [
             // Icon
             Icon(
@@ -136,7 +137,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               style: text.headlineMedium.copyWith(
                 color: c.textPrimary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
             SizedBox(height: sp.md),
 
@@ -146,7 +147,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               style: text.bodyMedium.copyWith(
                 color: c.textSecondary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
             SizedBox(height: sp.xl),
 
@@ -256,7 +257,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                     : Text(
                         'Change PIN',
                         style: text.labelLarge.copyWith(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: text.bodyBold.fontWeight,
                           color: c.textInverse,
                         ),
                       ),
@@ -290,12 +291,12 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             label,
             style: text.labelMedium.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: text.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),
@@ -345,8 +346,8 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
       body: Padding(
         padding: EdgeInsets.all(sp.xl),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
           children: [
             Icon(
               Icons.check_circle,
@@ -359,7 +360,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               style: text.headlineMedium.copyWith(
                 color: c.textPrimary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
             CommonSpacer.vertical(sp.lg),
             Text(
@@ -367,7 +368,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               style: text.bodyMedium.copyWith(
                 color: c.textSecondary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
             CommonSpacer.vertical(sp.lg),
             Container(
@@ -386,7 +387,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                       'Remember: Your recovery key has not changed.',
                       style: text.bodySmall.copyWith(
                         color: c.warning,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: text.bodyMedium.fontWeight,
                       ),
                     ),
                   ),
@@ -409,7 +410,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                 child: Text(
                   'Done',
                   style: text.labelLarge.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: text.bodyBold.fontWeight,
                     color: c.textInverse,
                   ),
                 ),

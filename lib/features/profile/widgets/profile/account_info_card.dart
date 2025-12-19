@@ -5,6 +5,7 @@
 // Notes: Fully migrated to AppTheme system. No deprecated constants remain.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../common/cards/common_card.dart';
@@ -28,7 +29,7 @@ class AccountInfoCard extends StatelessWidget {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           const CommonSectionHeader(
             title: "Account Information",

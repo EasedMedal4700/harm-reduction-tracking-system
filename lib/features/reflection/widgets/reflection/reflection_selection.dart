@@ -2,6 +2,7 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 // Notes: No hardcoded values.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../common/widgets/common_spacer.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
@@ -26,7 +27,7 @@ class ReflectionSelection extends StatelessWidget {
     return SingleChildScrollView(
       padding: EdgeInsets.all(t.spacing.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Select entries to reflect on',
@@ -151,13 +152,13 @@ class ReflectionSelection extends StatelessWidget {
                 ),
               ),
               child: isSelected
-                  ? Icon(Icons.check, size: 16, color: t.colors.textInverse)
+                  ? Icon(Icons.check, size: context.sizes.iconSm, color: t.colors.textInverse)
                   : null,
             ),
             CommonSpacer.horizontal(t.spacing.lg),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                 children: [
                   Text(
                     '$substance • $dose',

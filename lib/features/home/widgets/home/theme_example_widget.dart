@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
@@ -20,7 +21,7 @@ class ThemeExampleWidget extends StatelessWidget {
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
         children: [
           _buildBasicCard(context),
           CommonSpacer(height: sp.xl),
@@ -55,7 +56,7 @@ class ThemeExampleWidget extends StatelessWidget {
         boxShadow: t.cardShadow,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text('Basic Card', style: t.typography.heading3),
           SizedBox(height: sp.sm),
@@ -80,7 +81,7 @@ class ThemeExampleWidget extends StatelessWidget {
         boxShadow: t.cardShadow,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Gradient Card',
@@ -113,7 +114,7 @@ class ThemeExampleWidget extends StatelessWidget {
         border: t.isDark ? Border.all(color: t.accent.primary, width: 1) : null,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text('Neon Border Card', style: t.typography.heading3),
           SizedBox(height: sp.sm),
@@ -159,7 +160,7 @@ class ThemeExampleWidget extends StatelessWidget {
         SizedBox(width: sp.lg),
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text('Icon with Background', style: t.typography.heading4),
               SizedBox(height: sp.xs),
@@ -186,7 +187,7 @@ class ThemeExampleWidget extends StatelessWidget {
         boxShadow: t.cardShadow,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text('Heading 1', style: t.typography.heading1),
           SizedBox(height: sp.sm),

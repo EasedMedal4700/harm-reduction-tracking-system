@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../services/blood_levels_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
@@ -23,6 +24,7 @@ class SystemOverviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
+    final t = context.theme;
     final text = context.text;
     final sp = context.spacing;
     final acc = context.accent;
@@ -47,7 +49,7 @@ class SystemOverviewCard extends StatelessWidget {
       child: CommonCard(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             // HEADER ROW
             Row(
@@ -62,7 +64,7 @@ class SystemOverviewCard extends StatelessWidget {
 
           // FOUR STAT CARDS
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceAround,
             children: [
               _buildStatCard(
                 label: 'Active\nSubstances',
@@ -129,7 +131,7 @@ class SystemOverviewCard extends StatelessWidget {
         Text(
           label,
           style: text.caption,
-          textAlign: TextAlign.center,
+          textAlign: AppLayout.textAlignCenter,
         ),
       ],
     );

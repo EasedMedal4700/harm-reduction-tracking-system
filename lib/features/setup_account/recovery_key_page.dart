@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -196,7 +197,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
     final t = context.text;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
       children: [
         CommonSpacer.vertical(sp.lg),
 
@@ -212,10 +213,10 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
         Text(
           'Enter Recovery Key',
           style: t.heading2.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: text.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
-          textAlign: TextAlign.center,
+          textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.sm),
 
@@ -225,7 +226,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           style: t.bodyLarge.copyWith(
             color: c.textSecondary,
           ),
-          textAlign: TextAlign.center,
+          textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.xl2),
 
@@ -266,12 +267,12 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             ),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 'Recovery Key',
                 style: t.labelLarge.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
               ),
@@ -346,7 +347,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
     final t = context.text;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
       children: [
         CommonSpacer.vertical(sp.lg),
 
@@ -362,10 +363,10 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
         Text(
           'Create New PIN',
           style: t.heading2.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: text.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
-          textAlign: TextAlign.center,
+          textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.sm),
 
@@ -375,7 +376,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           style: t.bodyLarge.copyWith(
             color: c.textSecondary,
           ),
-          textAlign: TextAlign.center,
+          textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.xl2),
 
@@ -396,7 +397,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                   'Recovery key verified successfully',
                   style: t.body.copyWith(
                     color: c.textPrimary,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: text.bodyMedium.fontWeight,
                   ),
                 ),
               ),
@@ -417,12 +418,12 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             ),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 'New PIN',
                 style: t.labelLarge.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
               ),
@@ -434,11 +435,11 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                 maxLength: 6,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 style: t.heading3.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   letterSpacing: 8,
                   color: c.textPrimary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
                 decoration: InputDecoration(
                   hintText: '• • • • • •',
                   hintStyle: TextStyle(
@@ -473,12 +474,12 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             ),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 'Confirm PIN',
                 style: t.labelLarge.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
               ),
@@ -490,11 +491,11 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                 maxLength: 6,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 style: t.heading3.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   letterSpacing: 8,
                   color: c.textPrimary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
                 decoration: InputDecoration(
                   hintText: '• • • • • •',
                   hintStyle: TextStyle(
@@ -557,7 +558,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
               _errorMessage!,
               style: t.body.copyWith(
                 color: c.error,
-                fontWeight: FontWeight.w500,
+                fontWeight: text.bodyMedium.fontWeight,
               ),
             ),
           ),

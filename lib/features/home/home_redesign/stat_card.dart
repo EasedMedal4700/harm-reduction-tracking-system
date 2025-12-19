@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// Modular Stat Card component
@@ -55,10 +56,10 @@ class StatCard extends StatelessWidget {
           ],
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
                 Container(
                   padding: const EdgeInsets.all(8),
@@ -69,13 +70,13 @@ class StatCard extends StatelessWidget {
                   child: Icon(
                     icon,
                     color: cardColor,
-                    size: 20,
+                    size: context.sizes.iconMd,
                   ),
                 ),
                 if (onTap != null)
                   Icon(
                     Icons.arrow_forward_ios,
-                    size: 12,
+                    size: context.sizes.iconXs,
                     color: c.textSecondary,
                   ),
               ],
@@ -84,8 +85,8 @@ class StatCard extends StatelessWidget {
             Text(
               value,
               style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+                fontSize: context.text.heading2.fontSize,
+                fontWeight: text.bodyBold.fontWeight,
                 color: c.textPrimary,
               ),
             ),
@@ -93,23 +94,23 @@ class StatCard extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: context.text.label.fontSize,
                 color: c.textSecondary,
-                fontWeight: FontWeight.w500,
+                fontWeight: text.bodyMedium.fontWeight,
               ),
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              overflow: AppLayout.textOverflowEllipsis,
             ),
             if (subtitle != null) ...[
               SizedBox(height: 2),
               Text(
                 subtitle!,
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: context.text.caption.fontSize,
                   color: c.textSecondary.withValues(alpha: 0.7),
                 ),
                 maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                overflow: AppLayout.textOverflowEllipsis,
               ),
             ],
           ],

@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../common/layout/common_spacer.dart';
 import 'dart:async';
@@ -82,8 +83,8 @@ class _EncryptionMigrationScreenState
     final sh = context.shapes;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Icon(
           Icons.security,
@@ -178,7 +179,7 @@ class _EncryptionMigrationScreenState
             child: Text(
               'Continue',
               style: text.labelLarge.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: text.bodyBold.fontWeight,
                 color: c.textInverse,
               ),
             ),
@@ -213,12 +214,12 @@ class _EncryptionMigrationScreenState
         SizedBox(width: sp.lg),
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 title,
                 style: text.labelLarge.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
               ),
@@ -244,7 +245,7 @@ class _EncryptionMigrationScreenState
     final sh = context.shapes;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
       children: [
         Text(
           'Create Your PIN',
@@ -265,7 +266,7 @@ class _EncryptionMigrationScreenState
           enableInteractiveSelection: false,
           keyboardType: TextInputType.number,
           maxLength: 6,
-          textAlign: TextAlign.center,
+          textAlign: AppLayout.textAlignCenter,
           style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: InputDecoration(
@@ -309,7 +310,7 @@ class _EncryptionMigrationScreenState
             ),
             child: Text(
               'Next',
-              style: text.labelLarge.copyWith(fontWeight: FontWeight.bold, color: c.textInverse),
+              style: text.labelLarge.copyWith(fontWeight: text.bodyBold.fontWeight, color: c.textInverse),
             ),
           ),
         ),
@@ -326,7 +327,7 @@ class _EncryptionMigrationScreenState
     final sh = context.shapes;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
       children: [
         Text(
           'Confirm Your PIN',
@@ -347,7 +348,7 @@ class _EncryptionMigrationScreenState
           enableInteractiveSelection: false,
           keyboardType: TextInputType.number,
           maxLength: 6,
-          textAlign: TextAlign.center,
+          textAlign: AppLayout.textAlignCenter,
           style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: InputDecoration(
@@ -413,7 +414,7 @@ class _EncryptionMigrationScreenState
                 ),
                 child: Text(
                   'Start Migration',
-                  style: text.labelLarge.copyWith(fontWeight: FontWeight.bold, color: c.textInverse),
+                  style: text.labelLarge.copyWith(fontWeight: text.bodyBold.fontWeight, color: c.textInverse),
                 ),
               ),
             ),
@@ -431,7 +432,7 @@ class _EncryptionMigrationScreenState
     final sp = context.spacing;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
       children: [
         CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(a.primary),
@@ -446,7 +447,7 @@ class _EncryptionMigrationScreenState
         SizedBox(height: sp.lg),
         Text(
           'Re-encrypting your data with the new system.\nThis may take a minute.',
-          textAlign: TextAlign.center,
+          textAlign: AppLayout.textAlignCenter,
           style: text.bodyMedium.copyWith(
             color: c.textSecondary,
           ),
@@ -464,8 +465,8 @@ class _EncryptionMigrationScreenState
     final sh = context.shapes;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Icon(
           Icons.check_circle,
@@ -495,7 +496,7 @@ class _EncryptionMigrationScreenState
             borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Row(
                 children: [
@@ -504,7 +505,7 @@ class _EncryptionMigrationScreenState
                   Text(
                     'IMPORTANT: Save Your Recovery Key',
                     style: text.labelLarge.copyWith(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: text.bodyBold.fontWeight,
                       color: c.error,
                     ),
                   ),
@@ -524,7 +525,7 @@ class _EncryptionMigrationScreenState
         Text(
           'Recovery Key:',
           style: text.labelMedium.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: text.bodyBold.fontWeight,
             color: c.textSecondary,
           ),
         ),
@@ -540,7 +541,7 @@ class _EncryptionMigrationScreenState
           child: SelectableText(
             _recoveryKey,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: context.text.heading4.fontSize,
               fontFamily: 'monospace',
               color: a.primary,
               letterSpacing: 2,
@@ -591,7 +592,7 @@ class _EncryptionMigrationScreenState
             child: Text(
               'Continue to App',
               style: text.labelLarge.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: text.bodyBold.fontWeight,
                 color: c.textInverse,
               ),
             ),

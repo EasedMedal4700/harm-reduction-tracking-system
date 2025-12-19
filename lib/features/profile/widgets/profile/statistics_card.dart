@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: Fully migrated to AppTheme system. No deprecated constants remain.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'stat_item.dart';
 
@@ -27,7 +28,7 @@ class StatisticsCard extends StatelessWidget {
       ),
       padding: EdgeInsets.all(t.spacing.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Activity Statistics',
@@ -36,7 +37,7 @@ class StatisticsCard extends StatelessWidget {
           SizedBox(height: t.spacing.lg),
 
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceAround,
             children: [
               StatItem(
                 icon: Icons.medication,

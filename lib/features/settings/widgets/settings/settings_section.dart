@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../../../common/widgets/common_spacer.dart';
 import '../../../../common/cards/common_card.dart';
@@ -27,7 +28,7 @@ class SettingsSection extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
       child: CommonCard(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
           Padding(
             padding: EdgeInsets.all(sp.md),
@@ -39,7 +40,7 @@ class SettingsSection extends StatelessWidget {
                   title,
                   style: t.typography.heading4.copyWith(
                     color: c.textPrimary,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: text.bodyBold.fontWeight,
                   ),
                 ),
               ],

@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/bucket_definitions.dart';
@@ -51,7 +52,7 @@ class BucketDetailsPage extends StatelessWidget {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             // Header card
             BucketHeaderCard(

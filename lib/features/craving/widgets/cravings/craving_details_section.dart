@@ -6,6 +6,7 @@
 
 // ignore_for_file: deprecated_member_use
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../constants/data/craving_consatnts.dart';
@@ -41,13 +42,14 @@ class CravingDetailsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.theme;
     final c = context.colors;
+    final text = context.text;
     final a = context.accent;
     final sp = context.spacing;
     
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Row(
             children: [
@@ -57,7 +59,7 @@ class CravingDetailsSection extends StatelessWidget {
                 'Craving Details',
                 style: t.typography.heading4.copyWith(
                   color: c.textPrimary,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                 ),
               ),
             ],

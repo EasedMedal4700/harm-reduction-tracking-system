@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../common/layout/common_spacer.dart';
@@ -32,7 +33,7 @@ class WearOSPage extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(sp.xl),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
               Icon(
                 Icons.watch,
@@ -43,10 +44,10 @@ class WearOSPage extends StatelessWidget {
               Text(
                 'WearOS Companion',
                 style: context.text.headlineMedium.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.md),
               Text(
@@ -54,7 +55,7 @@ class WearOSPage extends StatelessWidget {
                 style: context.text.bodyLarge.copyWith(
                   color: c.textSecondary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.xl),
               Container(
@@ -67,7 +68,7 @@ class WearOSPage extends StatelessWidget {
                   ),
                 ),
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: AppLayout.mainAxisSizeMin,
                   children: [
                     Icon(
                       Icons.construction,
@@ -77,7 +78,7 @@ class WearOSPage extends StatelessWidget {
                     Text(
                       'Coming Soon',
                       style: context.text.titleMedium.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: text.bodyBold.fontWeight,
                         color: a.primary,
                       ),
                     ),

@@ -78,7 +78,7 @@ class TimelineChartConfig {
         'Now',
         style: text.caption.copyWith(
           color: acc.primary,
-          fontWeight: FontWeight.bold,
+          fontWeight: text.bodyBold.fontWeight,
         ),
       );
     }
@@ -128,7 +128,7 @@ class TimelineChartConfig {
             alignment: Alignment.topCenter,
             style: text.labelSmall.copyWith(
               color: acc.primary,
-              fontWeight: FontWeight.bold,
+              fontWeight: text.bodyBold.fontWeight,
             ),
             labelResolver: (line) => 'NOW',
           ),

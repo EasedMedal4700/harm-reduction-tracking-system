@@ -1,49 +1,4 @@
 {
-  "lib\\features\\activity\\widgets\\activity\\activity_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 69,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 118,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      }
-    ]
-  },
-  "lib\\features\\activity\\widgets\\activity\\activity_detail_sheet.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 51,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 126,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 133,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 162,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "highlight ? FontWeight.w600 : FontWeight.normal,"
-      },
-      {
-        "line": 197,
-        "description": "flex with hardcoded value",
-        "snippet": "flex: 2,"
-      }
-    ]
-  },
   "lib\\features\\activity\\widgets\\activity\\activity_drug_use_tab.dart": {
     "migrated": false,
     "issues": [
@@ -54,293 +9,13 @@
       }
     ]
   },
-  "lib\\features\\activity\\widgets\\activity\\activity_empty_state.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 34,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 47,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 55,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      }
-    ]
-  },
-  "lib\\features\\admin\\screens\\admin_panel_screen.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 269,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\admin\\widgets\\cache\\cache_management_section.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 48,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 72,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceAround,"
-      }
-    ]
-  },
-  "lib\\features\\admin\\widgets\\errors\\error_analytics_section.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 62,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 222,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 236,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 266,
-        "description": "width with hardcoded value",
-        "snippet": "width: 160,"
-      },
-      {
-        "line": 273,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 303,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 315,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 325,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      }
-    ]
-  },
-  "lib\\features\\admin\\widgets\\errors\\error_cleanup_dialog.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 65,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      }
-    ]
-  },
-  "lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 148,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 12,"
-      },
-      {
-        "line": 171,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 12,"
-      },
-      {
-        "line": 197,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 200,
-        "description": "width with hardcoded value",
-        "snippet": "width: 110,"
-      }
-    ]
-  },
-  "lib\\features\\admin\\widgets\\errors\\severity_badge.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 59,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      }
-    ]
-  },
-  "lib\\features\\admin\\widgets\\stats\\admin_stats_section.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 38,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\admin\\widgets\\stats\\admin_stat_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 42,
-        "description": "hardcoded BoxFit",
-        "snippet": "fit: BoxFit.scaleDown,"
-      },
-      {
-        "line": 44,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 56,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w700,"
-      },
-      {
-        "line": 68,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 70,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 81,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      }
-    ]
-  },
-  "lib\\features\\admin\\widgets\\stats\\cache_stat_widget.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 32,
-        "description": "size with hardcoded value",
-        "snippet": "Icon(icon, color: color, size: 28),"
-      },
-      {
-        "line": 32,
-        "description": "Icon with hardcoded size",
-        "snippet": "Icon(icon, color: color, size: 28),"
-      }
-    ]
-  },
-  "lib\\features\\admin\\widgets\\users\\admin_user_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 103,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 141,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 208,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      }
-    ]
-  },
-  "lib\\features\\admin\\widgets\\users\\admin_user_list.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 33,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 37,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      }
-    ]
-  },
   "lib\\features\\analytics\\widgets\\analytics\\analytics_app_bar.dart": {
     "migrated": false,
     "issues": [
       {
-        "line": 55,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 56,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 70,
-        "description": "size with hardcoded value",
-        "snippet": "size: 24,"
-      },
-      {
-        "line": 83,
+        "line": 84,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 1.2,"
-      },
-      {
-        "line": 86,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 99,
-        "description": "size with hardcoded value",
-        "snippet": "size: 20,"
-      },
-      {
-        "line": 115,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      }
-    ]
-  },
-  "lib\\features\\analytics\\widgets\\analytics\\analytics_error_state.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 36,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 51,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 58,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
       }
     ]
   },
@@ -348,49 +23,14 @@
     "migrated": false,
     "issues": [
       {
-        "line": 32,
+        "line": 33,
         "description": "Duration with hardcoded value",
         "snippet": "duration: const Duration(milliseconds: 220),"
       },
       {
-        "line": 118,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 175,
+        "line": 176,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
-      }
-    ]
-  },
-  "lib\\features\\analytics\\widgets\\analytics\\analytics_layout.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 86,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 121,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\analytics\\widgets\\analytics\\analytics_summary.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 40,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 88,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
       }
     ]
   },
@@ -398,22 +38,17 @@
     "migrated": false,
     "issues": [
       {
-        "line": 50,
+        "line": 51,
         "description": "height with hardcoded value",
         "snippet": "height: 350,"
       },
       {
-        "line": 112,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 157,
+        "line": 158,
         "description": "height with hardcoded value",
         "snippet": "height: 200,"
       },
       {
-        "line": 179,
+        "line": 180,
         "description": "width with hardcoded value",
         "snippet": "width: 18,"
       }
@@ -423,12 +58,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 34,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 48,
+        "line": 49,
         "description": "height with hardcoded value",
         "snippet": "height: 1.55,"
       }
@@ -438,69 +68,19 @@
     "migrated": false,
     "issues": [
       {
-        "line": 39,
+        "line": 40,
         "description": "height with hardcoded value",
         "snippet": "height: 330,     // ensures proper rendering in ListViews"
       },
       {
-        "line": 41,
+        "line": 42,
         "description": "crossAxisCount with hardcoded value",
         "snippet": "crossAxisCount: 2,"
       },
       {
-        "line": 151,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 167,
-        "description": "hardcoded BoxFit",
-        "snippet": "fit: BoxFit.scaleDown,"
-      },
-      {
-        "line": 168,
+        "line": 169,
         "description": "hardcoded Alignment",
         "snippet": "alignment: Alignment.centerLeft,"
-      },
-      {
-        "line": 175,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 188,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 200,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      }
-    ]
-  },
-  "lib\\features\\analytics\\widgets\\analytics\\recent_activity_list.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 39,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 124,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 135,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 164,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
       }
     ]
   },
@@ -508,82 +88,57 @@
     "migrated": false,
     "issues": [
       {
-        "line": 60,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 101,
+        "line": 102,
         "description": "height with hardcoded value",
         "snippet": "height: 220,"
       },
       {
-        "line": 182,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 274,
+        "line": 275,
         "description": "hardcoded Colors",
         "snippet": "DrugCategoryColors.colorFor(cat),"
       },
       {
-        "line": 310,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 316,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 321,
+        "line": 322,
         "description": "maxHeight with hardcoded value",
         "snippet": "constraints: const BoxConstraints(maxHeight: 200),"
       },
       {
-        "line": 325,
+        "line": 326,
         "description": "hardcoded Colors",
         "snippet": "final color = DrugCategoryColors.colorFor(e.key);"
       },
       {
-        "line": 335,
+        "line": 336,
         "description": "width with hardcoded value",
         "snippet": "width: 10,"
       },
       {
-        "line": 336,
+        "line": 337,
         "description": "height with hardcoded value",
         "snippet": "height: 10,"
       },
       {
-        "line": 347,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 386,
+        "line": 387,
         "description": "Duration with hardcoded value",
         "snippet": "final d = now.subtract(Duration(days: i * 7));"
       },
       {
-        "line": 387,
+        "line": 388,
         "description": "Duration with hardcoded value",
         "snippet": "final monday = d.subtract(Duration(days: d.weekday - 1));"
       },
       {
-        "line": 412,
+        "line": 413,
         "description": "Duration with hardcoded value",
         "snippet": "final monday = dt.subtract(Duration(days: dt.weekday - 1));"
       },
       {
-        "line": 448,
+        "line": 449,
         "description": "Duration with hardcoded value",
         "snippet": "final d = now.subtract(Duration(days: i * 7));"
       },
       {
-        "line": 449,
+        "line": 450,
         "description": "Duration with hardcoded value",
         "snippet": "final mon = d.subtract(Duration(days: d.weekday - 1));"
       }
@@ -593,47 +148,37 @@
     "migrated": false,
     "issues": [
       {
-        "line": 41,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 50,
+        "line": 51,
         "description": "height with hardcoded value",
         "snippet": "height: 220,"
       },
       {
-        "line": 112,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 118,
+        "line": 119,
         "description": "hardcoded Colors",
         "snippet": "color: DrugCategoryColors.colorFor(cat),"
       },
       {
-        "line": 122,
+        "line": 123,
         "description": "SizedBox with hardcoded size",
         "snippet": "SizedBox(width: 6),"
       },
       {
-        "line": 122,
+        "line": 123,
         "description": "width with hardcoded value",
         "snippet": "SizedBox(width: 6),"
       },
       {
-        "line": 149,
+        "line": 150,
         "description": "Duration with hardcoded value",
         "snippet": "final d = now.subtract(Duration(days: 6 - i));"
       },
       {
-        "line": 153,
+        "line": 154,
         "description": "Duration with hardcoded value",
         "snippet": "final base = now.subtract(Duration(days: (6 - i) * 7));"
       },
       {
-        "line": 208,
+        "line": 210,
         "description": "hardcoded Colors",
         "snippet": "DrugCategoryColors.colorFor(cat),"
       }
@@ -643,94 +188,49 @@
     "migrated": false,
     "issues": [
       {
-        "line": 117,
+        "line": 118,
         "description": "hardcoded Colors",
         "snippet": "final base = DrugCategoryColors.colorFor(category);"
       },
       {
-        "line": 176,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 268,
+        "line": 269,
         "description": "hardcoded Alignment",
         "snippet": "alignment: Alignment.center,"
       },
       {
-        "line": 335,
+        "line": 336,
         "description": "hardcoded Colors",
         "snippet": "? DrugCategoryColors.colorFor(e.key)"
       },
       {
-        "line": 350,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 10,"
-      },
-      {
         "line": 351,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
+        "description": "fontSize with hardcoded value",
+        "snippet": "fontSize: 12,"
       },
       {
         "line": 352,
+        "description": "FontWeight with hardcoded value",
+        "snippet": "fontWeight: FontWeight.w700,"
+      },
+      {
+        "line": 353,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.white,"
       },
       {
-        "line": 368,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 378,
+        "line": 379,
         "description": "maxHeight with hardcoded value",
         "snippet": "constraints: const BoxConstraints(maxHeight: 220),"
       },
       {
-        "line": 385,
+        "line": 386,
         "description": "hardcoded Colors",
         "snippet": "? DrugCategoryColors.colorFor(e.key)"
       },
       {
-        "line": 415,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 472,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 520,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: selected ? FontWeight.w600 : FontWeight.w400,"
-      },
-      {
-        "line": 557,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 569,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 602,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 632,
+        "line": 633,
         "description": "height with hardcoded value",
         "snippet": "height: 180,"
-      },
-      {
-        "line": 636,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
       }
     ]
   },
@@ -749,148 +249,23 @@
       }
     ]
   },
-  "lib\\features\\blood_levels\\widgets\\blood_levels\\blood_levels_empty_state.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 28,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      }
-    ]
-  },
-  "lib\\features\\blood_levels\\widgets\\blood_levels\\blood_levels_error_state.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 33,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 46,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      }
-    ]
-  },
-  "lib\\features\\blood_levels\\widgets\\blood_levels\\blood_levels_time_display.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 40,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 41,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
   "lib\\features\\blood_levels\\widgets\\blood_levels\\blood_level_graph.dart": {
     "migrated": false,
     "issues": [
       {
-        "line": 38,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 44,
+        "line": 45,
         "description": "height with hardcoded value",
         "snippet": "height: 300,"
       },
       {
-        "line": 61,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 72,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 164,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 165,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 12,"
-      },
-      {
-        "line": 185,
+        "line": 190,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 11,"
       },
       {
-        "line": 187,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      },
-      {
-        "line": 206,
+        "line": 212,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 11,"
-      },
-      {
-        "line": 208,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      }
-    ]
-  },
-  "lib\\features\\blood_levels\\widgets\\blood_levels\\current_status_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 51,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 70,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 136,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\blood_levels\\widgets\\blood_levels\\dose_tier_legend.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 32,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 48,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\blood_levels\\widgets\\blood_levels\\filter_panel.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 49,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 50,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
       }
     ]
   },
@@ -898,52 +273,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 50,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 71,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 99,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 104,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 155,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 179,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 245,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 262,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 274,
+        "line": 275,
         "description": "hardcoded Colors",
         "snippet": "return DrugCategoryColors.defaultColor;"
       },
       {
-        "line": 276,
+        "line": 277,
         "description": "hardcoded Colors",
         "snippet": "return DrugCategoryColors.colorFor(widget.level.categories.first);"
       }
@@ -953,59 +288,29 @@
     "migrated": false,
     "issues": [
       {
-        "line": 212,
+        "line": 213,
         "description": "hardcoded begin Alignment",
         "snippet": "begin: Alignment.topCenter,"
       },
       {
-        "line": 213,
+        "line": 214,
         "description": "hardcoded end Alignment",
         "snippet": "end: Alignment.bottomCenter,"
       },
       {
-        "line": 244,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 254,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 256,
+        "line": 257,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 0.5,"
       },
       {
-        "line": 269,
+        "line": 270,
         "description": "height with hardcoded value",
         "snippet": "height: 250,"
       },
       {
-        "line": 316,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 335,
+        "line": 336,
         "description": "hardcoded Colors",
         "snippet": "final baseColor = DrugCategoryColors.colorFor(category);"
-      }
-    ]
-  },
-  "lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_controls.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 43,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 123,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -1013,69 +318,19 @@
     "migrated": false,
     "issues": [
       {
-        "line": 75,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 98,
+        "line": 99,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 1.0,"
       },
       {
-        "line": 132,
+        "line": 133,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
       },
       {
-        "line": 151,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 167,
+        "line": 168,
         "description": "height with hardcoded value",
         "snippet": "height: 1.35,"
-      }
-    ]
-  },
-  "lib\\features\\blood_levels\\widgets\\blood_levels\\substance_list_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 63,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 120,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 150,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.end,"
-      }
-    ]
-  },
-  "lib\\features\\blood_levels\\widgets\\blood_levels\\system_overview_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 50,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 65,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceAround,"
-      },
-      {
-        "line": 132,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
       }
     ]
   },
@@ -1083,39 +338,34 @@
     "migrated": false,
     "issues": [
       {
-        "line": 13,
+        "line": 14,
         "description": "Duration with hardcoded value",
         "snippet": "hours6('6 Hours', Duration(hours: 6)),"
       },
       {
-        "line": 14,
+        "line": 15,
         "description": "Duration with hardcoded value",
         "snippet": "hours12('12 Hours', Duration(hours: 12)),"
       },
       {
-        "line": 15,
+        "line": 16,
         "description": "Duration with hardcoded value",
         "snippet": "hours24('24 Hours', Duration(hours: 24)),"
       },
       {
-        "line": 16,
+        "line": 17,
         "description": "Duration with hardcoded value",
         "snippet": "hours48('48 Hours', Duration(hours: 48)),"
       },
       {
-        "line": 17,
+        "line": 18,
         "description": "Duration with hardcoded value",
         "snippet": "days3('3 Days', Duration(days: 3)),"
       },
       {
-        "line": 18,
+        "line": 19,
         "description": "Duration with hardcoded value",
         "snippet": "week('1 Week', Duration(days: 7));"
-      },
-      {
-        "line": 47,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -1133,39 +383,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 41,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 46,
+        "line": 47,
         "description": "hardcoded BoxShape",
         "snippet": "decoration: BoxDecoration(color: color, shape: BoxShape.circle),"
-      },
-      {
-        "line": 53,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      }
-    ]
-  },
-  "lib\\features\\catalog\\widgets\\catalog\\add_stockpile_sheet.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 118,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 119,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 126,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -1184,113 +404,13 @@
       }
     ]
   },
-  "lib\\features\\catalog\\widgets\\catalog\\catalog_empty_state.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 20,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      }
-    ]
-  },
-  "lib\\features\\catalog\\widgets\\catalog\\category_filter_chips.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 54,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      }
-    ]
-  },
-  "lib\\features\\catalog\\widgets\\catalog\\common_filter_toggle.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 48,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      }
-    ]
-  },
   "lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart": {
     "migrated": false,
     "issues": [
       {
-        "line": 36,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 76,
+        "line": 77,
         "description": "hardcoded Colors",
         "snippet": "_buildDoseCard(context, 'Heavy', doseData!['Heavy'], Colors.purple),"
-      },
-      {
-        "line": 99,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 105,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 154,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 163,
-        "description": "height with hardcoded value",
-        "snippet": "height: 1.4,"
-      }
-    ]
-  },
-  "lib\\features\\catalog\\widgets\\catalog\\drug_catalog_list.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 78,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 81,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 116,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 119,
-        "description": "width with hardcoded value",
-        "snippet": "width: 120,"
-      }
-    ]
-  },
-  "lib\\features\\catalog\\widgets\\catalog\\substance_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 53,
-        "description": "hardcoded Colors",
-        "snippet": "final categoryColor = DrugCategoryColors.colorFor(primaryCategory);"
-      },
-      {
-        "line": 97,
-        "description": "hardcoded begin Alignment",
-        "snippet": "begin: Alignment.topLeft,"
-      },
-      {
-        "line": 98,
-        "description": "hardcoded end Alignment",
-        "snippet": "end: Alignment.bottomRight,"
       },
       {
         "line": 100,
@@ -1298,37 +418,47 @@
         "snippet": "shape: BoxShape.circle,"
       },
       {
-        "line": 103,
+        "line": 164,
+        "description": "height with hardcoded value",
+        "snippet": "height: 1.4,"
+      }
+    ]
+  },
+  "lib\\features\\catalog\\widgets\\catalog\\substance_card.dart": {
+    "migrated": false,
+    "issues": [
+      {
+        "line": 54,
+        "description": "hardcoded Colors",
+        "snippet": "final categoryColor = DrugCategoryColors.colorFor(primaryCategory);"
+      },
+      {
+        "line": 98,
+        "description": "hardcoded begin Alignment",
+        "snippet": "begin: Alignment.topLeft,"
+      },
+      {
+        "line": 99,
+        "description": "hardcoded end Alignment",
+        "snippet": "end: Alignment.bottomRight,"
+      },
+      {
+        "line": 101,
+        "description": "hardcoded BoxShape",
+        "snippet": "shape: BoxShape.circle,"
+      },
+      {
+        "line": 104,
         "description": "width with hardcoded value",
         "snippet": "width: 1.5,"
       },
       {
-        "line": 106,
-        "description": "size with hardcoded value",
-        "snippet": "child: Icon(categoryIcon, color: categoryColor, size: 28),"
-      },
-      {
-        "line": 106,
-        "description": "Icon with hardcoded size",
-        "snippet": "child: Icon(categoryIcon, color: categoryColor, size: 28),"
-      },
-      {
-        "line": 113,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 123,
+        "line": 124,
         "description": "spacing with hardcoded value",
         "snippet": "spacing: 6,"
       },
       {
-        "line": 138,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 10,"
-      },
-      {
-        "line": 168,
+        "line": 169,
         "description": "height with hardcoded value",
         "snippet": "Divider(height: 1, color: t.colors.divider),"
       }
@@ -1338,67 +468,42 @@
     "migrated": false,
     "issues": [
       {
-        "line": 154,
+        "line": 155,
         "description": "hardcoded Colors",
         "snippet": "final accentColor = DrugCategoryColors.colorFor(primaryCategory);"
       },
       {
-        "line": 176,
+        "line": 177,
         "description": "width with hardcoded value",
         "snippet": "width: 40,"
       },
       {
-        "line": 246,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 268,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 313,
+        "line": 314,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
       },
       {
-        "line": 351,
+        "line": 352,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 2,"
       },
       {
-        "line": 351,
+        "line": 352,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 2,"
       },
       {
-        "line": 369,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 393,
+        "line": 394,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
       },
       {
-        "line": 424,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 441,
+        "line": 442,
         "description": "height with hardcoded value",
         "snippet": "height: 1.6,"
       },
       {
-        "line": 485,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 494,
+        "line": 495,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       }
@@ -1408,104 +513,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 37,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 55,
+        "line": 56,
         "description": "height with hardcoded value",
         "snippet": "height: 40,"
-      },
-      {
-        "line": 60,
-        "description": "flex with hardcoded value",
-        "snippet": "flex: 1,"
-      },
-      {
-        "line": 69,
-        "description": "flex with hardcoded value",
-        "snippet": "flex: 3,"
-      },
-      {
-        "line": 78,
-        "description": "flex with hardcoded value",
-        "snippet": "flex: 2,"
-      },
-      {
-        "line": 134,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\craving\\cravings_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 168,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\craving\\widgets\\cravings\\body_mind_signals_section.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 35,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\craving\\widgets\\cravings\\craving_details_section.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 50,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\craving\\widgets\\cravings\\emotional_state_section.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 42,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\craving\\widgets\\cravings\\outcome_section.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 38,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\daily_chekin\\checkin_history_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 50,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      }
-    ]
-  },
-  "lib\\features\\daily_chekin\\daily_checkin_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 93,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -1513,64 +523,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 27,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 31,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 59,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 10,"
-      },
-      {
-        "line": 74,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      },
-      {
-        "line": 104,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      },
-      {
-        "line": 137,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      },
-      {
-        "line": 158,
+        "line": 159,
         "description": "Duration with hardcoded value",
         "snippet": "final yesterday = today.subtract(const Duration(days: 1));"
-      }
-    ]
-  },
-  "lib\\features\\daily_chekin\\widgets\\daily_checkin\\checkin_dialog.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 77,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 95,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\daily_chekin\\widgets\\daily_checkin\\emotion_selector.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 27,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -1578,64 +533,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 41,
+        "line": 42,
         "description": "Duration with hardcoded value",
         "snippet": "duration: const Duration(milliseconds: 300),"
-      },
-      {
-        "line": 116,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.center,"
-      },
-      {
-        "line": 121,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 126,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 181,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 185,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "style: text.bodySmall.copyWith(fontWeight: FontWeight.w500),"
-      },
-      {
-        "line": 186,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      }
-    ]
-  },
-  "lib\\features\\daily_chekin\\widgets\\daily_checkin\\notes_input.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 26,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\daily_chekin\\widgets\\daily_checkin\\readonly_field.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 34,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 44,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
       }
     ]
   },
@@ -1668,44 +568,19 @@
     "migrated": false,
     "issues": [
       {
-        "line": 47,
+        "line": 48,
         "description": "width with hardcoded value",
         "snippet": "width: 2,"
       },
       {
-        "line": 51,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 52,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 145,
+        "line": 146,
         "description": "Duration with hardcoded value",
         "snippet": "duration: Duration(seconds: 2),"
       },
       {
-        "line": 162,
+        "line": 163,
         "description": "Duration with hardcoded value",
         "snippet": "duration: Duration(seconds: 2),"
-      },
-      {
-        "line": 179,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      }
-    ]
-  },
-  "lib\\features\\edit_craving\\edit_craving_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 279,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -1743,47 +618,32 @@
     "migrated": false,
     "issues": [
       {
-        "line": 109,
+        "line": 110,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 109,
+        "line": 110,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 158,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 162,
+        "line": 163,
         "description": "size with hardcoded value",
         "snippet": "size: 64,"
       },
       {
-        "line": 174,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 197,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 201,
+        "line": 202,
         "description": "size with hardcoded value",
         "snippet": "size: 64,"
       },
       {
-        "line": 373,
+        "line": 374,
         "description": "strokeWidth with hardcoded value",
         "snippet": "child: const CircularProgressIndicator(strokeWidth: 2),"
       },
       {
-        "line": 373,
+        "line": 374,
         "description": "CircularProgressIndicator with hardcoded strokeWidth",
         "snippet": "child: const CircularProgressIndicator(strokeWidth: 2),"
       }
@@ -1793,39 +653,19 @@
     "migrated": false,
     "issues": [
       {
-        "line": 53,
+        "line": 54,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 53,
+        "line": 54,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 74,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.center,"
-      },
-      {
-        "line": 84,
+        "line": 85,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 101,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 114,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 161,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -1833,29 +673,24 @@
     "migrated": false,
     "issues": [
       {
-        "line": 52,
+        "line": 53,
         "description": "Duration with hardcoded value",
         "snippet": "duration: const Duration(milliseconds: 300),"
       },
       {
-        "line": 143,
+        "line": 144,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 143,
+        "line": 144,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 185,
+        "line": 186,
         "description": "Duration with hardcoded value",
         "snippet": "await Future.delayed(const Duration(milliseconds: 500));"
-      },
-      {
-        "line": 193,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
       }
     ]
   },
@@ -1863,24 +698,19 @@
     "migrated": false,
     "issues": [
       {
-        "line": 57,
+        "line": 58,
         "description": "Duration with hardcoded value",
         "snippet": "duration: const Duration(milliseconds: 300),"
       },
       {
-        "line": 148,
+        "line": 149,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 148,
+        "line": 149,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
-      },
-      {
-        "line": 198,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
       }
     ]
   },
@@ -1903,42 +733,22 @@
     "migrated": false,
     "issues": [
       {
-        "line": 40,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 64,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 65,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 103,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 104,
+        "line": 106,
         "description": "height with hardcoded value",
         "snippet": "height: 1.2,"
       },
       {
-        "line": 190,
+        "line": 192,
         "description": "blurRadius with hardcoded value",
         "snippet": "blurRadius: 8,"
       },
       {
-        "line": 191,
+        "line": 193,
         "description": "spreadRadius with hardcoded value",
         "snippet": "spreadRadius: 1,"
       },
       {
-        "line": 206,
+        "line": 208,
         "description": "width with hardcoded value",
         "snippet": "width: 1.0,"
       }
@@ -1948,22 +758,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 32,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 35,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 41,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      },
-      {
-        "line": 59,
+        "line": 61,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
       }
@@ -1973,65 +768,10 @@
     "migrated": false,
     "issues": [
       {
-        "line": 31,
+        "line": 32,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.transparent,"
       },
-      {
-        "line": 46,
-        "description": "width with hardcoded value",
-        "snippet": "width: 1,"
-      },
-      {
-        "line": 50,
-        "description": "hardcoded Colors",
-        "snippet": "color: Colors.black.withValues(alpha: 0.03),"
-      },
-      {
-        "line": 51,
-        "description": "blurRadius with hardcoded value",
-        "snippet": "blurRadius: 4,"
-      },
-      {
-        "line": 57,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 63,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 68,
-        "description": "size with hardcoded value",
-        "snippet": "size: 24,"
-      },
-      {
-        "line": 74,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 76,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 12,"
-      },
-      {
-        "line": 77,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 81,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      }
-    ]
-  },
-  "lib\\features\\home\\home_redesign\\stat_card.dart": {
-    "migrated": false,
-    "issues": [
       {
         "line": 47,
         "description": "width with hardcoded value",
@@ -2048,64 +788,39 @@
         "snippet": "blurRadius: 4,"
       },
       {
-        "line": 58,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
+        "line": 64,
+        "description": "hardcoded BoxShape",
+        "snippet": "shape: BoxShape.circle,"
+      }
+    ]
+  },
+  "lib\\features\\home\\home_redesign\\stat_card.dart": {
+    "migrated": false,
+    "issues": [
+      {
+        "line": 48,
+        "description": "width with hardcoded value",
+        "snippet": "width: 1,"
       },
       {
-        "line": 61,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
+        "line": 52,
+        "description": "hardcoded Colors",
+        "snippet": "color: Colors.black.withValues(alpha: 0.03),"
       },
       {
-        "line": 72,
-        "description": "size with hardcoded value",
-        "snippet": "size: 20,"
+        "line": 53,
+        "description": "blurRadius with hardcoded value",
+        "snippet": "blurRadius: 4,"
       },
       {
-        "line": 78,
-        "description": "size with hardcoded value",
-        "snippet": "size: 12,"
-      },
-      {
-        "line": 87,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 24,"
-      },
-      {
-        "line": 96,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 12,"
-      },
-      {
-        "line": 98,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      },
-      {
-        "line": 101,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 104,
+        "line": 105,
         "description": "SizedBox with hardcoded size",
         "snippet": "SizedBox(height: 2),"
       },
       {
-        "line": 104,
+        "line": 105,
         "description": "height with hardcoded value",
         "snippet": "SizedBox(height: 2),"
-      },
-      {
-        "line": 108,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 10,"
-      },
-      {
-        "line": 112,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
       }
     ]
   },
@@ -2113,84 +828,19 @@
     "migrated": false,
     "issues": [
       {
-        "line": 87,
+        "line": 88,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: baseColor.withValues(alpha: 0.3)),"
       },
       {
-        "line": 92,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 99,
-        "description": "size with hardcoded value",
-        "snippet": "size: 32,"
-      },
-      {
-        "line": 105,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 144,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 148,
-        "description": "size with hardcoded value",
-        "snippet": "Icon(Icons.check_circle, color: color, size: 20),"
-      },
-      {
-        "line": 148,
-        "description": "Icon with hardcoded size",
-        "snippet": "Icon(Icons.check_circle, color: color, size: 20),"
-      },
-      {
-        "line": 179,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 184,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 208,
+        "line": 209,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 208,
+        "line": 209,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
-      }
-    ]
-  },
-  "lib\\features\\home\\widgets\\home\\greeting_banner.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 80,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\home\\widgets\\home\\progress_overview_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 72,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 131,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -2198,62 +848,37 @@
     "migrated": false,
     "issues": [
       {
-        "line": 49,
+        "line": 50,
         "description": "Duration with hardcoded value",
         "snippet": "duration: const Duration(milliseconds: 150),"
       },
       {
-        "line": 57,
+        "line": 58,
         "description": "width with hardcoded value",
         "snippet": "? Border.all(color: t.accent.primary, width: 1)"
       },
       {
-        "line": 61,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 65,
+        "line": 66,
         "description": "Duration with hardcoded value",
         "snippet": "duration: const Duration(milliseconds: 150),"
       },
       {
-        "line": 76,
+        "line": 77,
         "description": "blurRadius with hardcoded value",
         "snippet": "blurRadius: 8,"
       },
       {
-        "line": 77,
+        "line": 78,
         "description": "spreadRadius with hardcoded value",
         "snippet": "spreadRadius: 2,"
       },
       {
-        "line": 95,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 98,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 100,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 127,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 143,
+        "line": 144,
         "description": "crossAxisCount with hardcoded value",
         "snippet": "crossAxisCount: 3,"
       },
       {
-        "line": 146,
+        "line": 147,
         "description": "childAspectRatio with hardcoded value",
         "snippet": "childAspectRatio: 1.0,"
       }
@@ -2263,74 +888,19 @@
     "migrated": false,
     "issues": [
       {
-        "line": 23,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 58,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 83,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 113,
+        "line": 114,
         "description": "width with hardcoded value",
         "snippet": "border: t.isDark ? Border.all(color: t.accent.primary, width: 1) : null,"
       },
       {
-        "line": 116,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 147,
+        "line": 148,
         "description": "blurRadius with hardcoded value",
         "snippet": "blurRadius: 8,"
       },
       {
-        "line": 148,
+        "line": 149,
         "description": "spreadRadius with hardcoded value",
         "snippet": "spreadRadius: 2,"
-      },
-      {
-        "line": 162,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 189,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\interactions\\interactions_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 38,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 52,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 60,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 73,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
       }
     ]
   },
@@ -2338,24 +908,14 @@
     "migrated": false,
     "issues": [
       {
-        "line": 157,
+        "line": 158,
         "description": "hardcoded Colors",
         "snippet": "backgroundColor: Colors.red,"
       },
       {
-        "line": 157,
+        "line": 158,
         "description": "backgroundColor with hardcoded Colors",
         "snippet": "backgroundColor: Colors.red,"
-      },
-      {
-        "line": 385,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 386,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
       }
     ]
   },
@@ -2363,102 +923,67 @@
     "migrated": false,
     "issues": [
       {
-        "line": 84,
+        "line": 85,
         "description": "Duration with hardcoded value",
         "snippet": "await Future.delayed(const Duration(milliseconds: 100));"
       },
       {
-        "line": 243,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 267,
+        "line": 268,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 267,
+        "line": 268,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 273,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 280,
+        "line": 281,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
       },
       {
-        "line": 292,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 302,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 314,
+        "line": 315,
         "description": "width with hardcoded value",
         "snippet": "width: 2,"
       },
       {
-        "line": 318,
+        "line": 319,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.black.withValues(alpha: 0.05),"
       },
       {
-        "line": 319,
+        "line": 320,
         "description": "blurRadius with hardcoded value",
         "snippet": "blurRadius: 10,"
       },
       {
-        "line": 331,
+        "line": 332,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 12,"
       },
       {
-        "line": 335,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 339,
+        "line": 340,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 12,"
       },
       {
-        "line": 366,
+        "line": 367,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.error.withValues(alpha: 0.3)),"
       },
       {
-        "line": 377,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      },
-      {
-        "line": 390,
+        "line": 391,
         "description": "height with hardcoded value",
         "snippet": "height: 60,"
       },
       {
-        "line": 406,
+        "line": 407,
         "description": "strokeWidth with hardcoded value",
         "snippet": "strokeWidth: 2,"
       },
       {
-        "line": 428,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "style: t.labelLarge.copyWith(fontWeight: FontWeight.w600),"
-      },
-      {
-        "line": 433,
+        "line": 434,
         "description": "width with hardcoded value",
         "snippet": "side: BorderSide(color: a.primary, width: 2),"
       }
@@ -2488,27 +1013,22 @@
     "migrated": false,
     "issues": [
       {
-        "line": 34,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 111,
+        "line": 112,
         "description": "width with hardcoded value",
         "snippet": "borderSide: BorderSide(color: acc.primary, width: 2),"
       },
       {
-        "line": 111,
+        "line": 112,
         "description": "BorderSide with hardcoded values",
         "snippet": "borderSide: BorderSide(color: acc.primary, width: 2),"
       },
       {
-        "line": 137,
+        "line": 138,
         "description": "width with hardcoded value",
         "snippet": "borderSide: BorderSide(color: acc.primary, width: 2),"
       },
       {
-        "line": 137,
+        "line": 138,
         "description": "BorderSide with hardcoded values",
         "snippet": "borderSide: BorderSide(color: acc.primary, width: 2),"
       }
@@ -2518,19 +1038,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 46,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 53,
+        "line": 56,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 16.0,"
-      },
-      {
-        "line": 54,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
       }
     ]
   },
@@ -2538,99 +1048,49 @@
     "migrated": false,
     "issues": [
       {
-        "line": 16,
+        "line": 17,
         "description": "hardcoded Colors",
         "snippet": "{'label': 'Great', 'icon': Icons.sentiment_very_satisfied, 'color': Colors.green},"
       },
       {
-        "line": 17,
+        "line": 18,
         "description": "hardcoded Colors",
         "snippet": "{'label': 'Good', 'icon': Icons.sentiment_satisfied, 'color': Colors.lightGreen},"
       },
       {
-        "line": 18,
+        "line": 19,
         "description": "hardcoded Colors",
         "snippet": "{'label': 'Okay', 'icon': Icons.sentiment_neutral, 'color': Colors.amber},"
       },
       {
-        "line": 19,
+        "line": 20,
         "description": "hardcoded Colors",
         "snippet": "{'label': 'Bad', 'icon': Icons.sentiment_dissatisfied, 'color': Colors.orange},"
       },
       {
-        "line": 20,
+        "line": 21,
         "description": "hardcoded Colors",
         "snippet": "{'label': 'Awful', 'icon': Icons.sentiment_very_dissatisfied, 'color': Colors.red},"
       },
       {
-        "line": 31,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 36,
+        "line": 39,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 16.0,"
       },
       {
-        "line": 37,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 68,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 75,
+        "line": 78,
         "description": "SizedBox with hardcoded size",
         "snippet": "SizedBox(height: 4.0),"
       },
       {
-        "line": 75,
+        "line": 78,
         "description": "height with hardcoded value",
         "snippet": "SizedBox(height: 4.0),"
       },
       {
-        "line": 81,
+        "line": 84,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 12.0,"
-      }
-    ]
-  },
-  "lib\\features\\log_entry\\widgets\\log_entry\\log_entry_form.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 123,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 138,
-        "description": "flex with hardcoded value",
-        "snippet": "flex: 2,"
-      },
-      {
-        "line": 153,
-        "description": "flex with hardcoded value",
-        "snippet": "flex: 1,"
-      },
-      {
-        "line": 223,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 328,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 344,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -2638,34 +1098,14 @@
     "migrated": false,
     "issues": [
       {
-        "line": 24,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 40,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 44,
+        "line": 45,
         "description": "fontSize with hardcoded value",
         "snippet": "style: const TextStyle(fontSize: 20.0),"
       },
       {
-        "line": 44,
+        "line": 45,
         "description": "TextStyle with hardcoded fontSize",
         "snippet": "style: const TextStyle(fontSize: 20.0),"
-      }
-    ]
-  },
-  "lib\\features\\log_entry\\widgets\\log_entry\\simple_fields.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 39,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -2693,64 +1133,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 43,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 50,
+        "line": 54,
         "description": "fontSize with hardcoded value",
         "snippet": "fontSize: 16.0,"
-      },
-      {
-        "line": 51,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      }
-    ]
-  },
-  "lib\\features\\log_entry\\widgets\\log_entry_cards\\intention_craving_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 39,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 97,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "? FontWeight.w600"
-      },
-      {
-        "line": 124,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 164,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      }
-    ]
-  },
-  "lib\\features\\log_entry\\widgets\\log_entry_cards\\medical_purpose_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 24,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\log_entry\\widgets\\log_entry_cards\\route_of_administration_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 30,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -2758,29 +1143,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 35,
+        "line": 36,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 40,
-        "description": "size with hardcoded value",
-        "snippet": "size: 24,"
-      },
-      {
-        "line": 46,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\log_entry\\widgets\\log_entry_page\\log_entry_app_bar.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 28,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -2798,102 +1163,52 @@
     "migrated": false,
     "issues": [
       {
-        "line": 118,
+        "line": 119,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 118,
+        "line": 119,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 123,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 139,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 149,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 245,
+        "line": 246,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 2,"
       },
       {
-        "line": 245,
+        "line": 246,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 2,"
       },
       {
-        "line": 249,
+        "line": 250,
         "description": "width with hardcoded value",
         "snippet": "width: 24,"
       },
       {
-        "line": 250,
+        "line": 251,
         "description": "height with hardcoded value",
         "snippet": "height: 24,"
       },
       {
-        "line": 293,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 298,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 309,
+        "line": 310,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 348,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 349,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 353,
+        "line": 354,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
       },
       {
-        "line": 362,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 370,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 378,
+        "line": 379,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.warning.withValues(alpha: 0.3)),"
       },
       {
-        "line": 389,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      },
-      {
-        "line": 398,
+        "line": 399,
         "description": "height with hardcoded value",
         "snippet": "height: 56,"
       }
@@ -2903,97 +1218,32 @@
     "migrated": false,
     "issues": [
       {
-        "line": 85,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 86,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 216,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 247,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 268,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 269,
+        "line": 270,
         "description": "letterSpacing with hardcoded value",
         "snippet": "style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),"
       },
       {
-        "line": 329,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 350,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 351,
+        "line": 352,
         "description": "letterSpacing with hardcoded value",
         "snippet": "style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),"
       },
       {
-        "line": 434,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 449,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 467,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 468,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 472,
+        "line": 473,
         "description": "size with hardcoded value",
         "snippet": "size: 64,"
       },
       {
-        "line": 494,
+        "line": 495,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.error.withValues(alpha: 0.3)),"
       },
       {
-        "line": 498,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 543,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 18,"
-      },
-      {
-        "line": 546,
+        "line": 547,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 2,"
       },
       {
-        "line": 640,
+        "line": 641,
         "description": "Duration with hardcoded value",
         "snippet": "duration: const Duration(seconds: 5),"
       }
@@ -3003,129 +1253,84 @@
     "migrated": false,
     "issues": [
       {
-        "line": 78,
+        "line": 79,
         "description": "hardcoded Colors",
         "snippet": "backgroundColor: Colors.transparent,"
       },
       {
-        "line": 78,
+        "line": 79,
         "description": "backgroundColor with hardcoded Colors",
         "snippet": "backgroundColor: Colors.transparent,"
       },
       {
-        "line": 79,
+        "line": 80,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 79,
+        "line": 80,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 110,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 115,
+        "line": 116,
         "description": "width with hardcoded value",
         "snippet": "width: 100,"
       },
       {
-        "line": 116,
+        "line": 117,
         "description": "height with hardcoded value",
         "snippet": "height: 100,"
       },
       {
-        "line": 119,
+        "line": 120,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
       },
       {
-        "line": 134,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 142,
+        "line": 143,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
       },
       {
-        "line": 144,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 202,
+        "line": 203,
         "description": "width with hardcoded value",
         "snippet": "width: 24,"
       },
       {
-        "line": 203,
+        "line": 204,
         "description": "height with hardcoded value",
         "snippet": "height: 24,"
       },
       {
-        "line": 212,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 242,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 247,
+        "line": 248,
         "description": "width with hardcoded value",
         "snippet": "width: 100,"
       },
       {
-        "line": 248,
+        "line": 249,
         "description": "height with hardcoded value",
         "snippet": "height: 100,"
       },
       {
-        "line": 251,
+        "line": 252,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
       },
       {
-        "line": 266,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 274,
+        "line": 275,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
       },
       {
-        "line": 276,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 285,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 312,
+        "line": 313,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       },
       {
-        "line": 322,
+        "line": 323,
         "description": "height with hardcoded value",
         "snippet": "height: 56,"
-      },
-      {
-        "line": 338,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
       }
     ]
   },
@@ -3133,29 +1338,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 33,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 37,
+        "line": 38,
         "description": "size with hardcoded value",
         "snippet": "size: 80,"
-      },
-      {
-        "line": 47,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 55,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 68,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
       }
     ]
   },
@@ -3171,31 +1356,6 @@
         "line": 65,
         "description": "Duration with hardcoded value",
         "snippet": "final sevenDaysAgo = now.subtract(const Duration(days: 7));"
-      }
-    ]
-  },
-  "lib\\features\\profile\\widgets\\profile\\account_info_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 31,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\profile\\widgets\\profile\\info_row.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 32,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 44,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -3218,144 +1378,19 @@
     "migrated": false,
     "issues": [
       {
-        "line": 35,
+        "line": 36,
         "description": "radius with hardcoded value",
         "snippet": "radius: 50,"
       },
       {
-        "line": 35,
+        "line": 36,
         "description": "radius with hardcoded value",
         "snippet": "radius: 50,"
       },
       {
-        "line": 35,
+        "line": 36,
         "description": "radius with hardcoded value",
         "snippet": "radius: 50,"
-      },
-      {
-        "line": 79,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      }
-    ]
-  },
-  "lib\\features\\profile\\widgets\\profile\\statistics_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 30,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 39,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceAround,"
-      }
-    ]
-  },
-  "lib\\features\\profile\\widgets\\profile\\stat_item.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 49,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      }
-    ]
-  },
-  "lib\\features\\reflection\\widgets\\reflection\\edit_reflection_form.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 127,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 157,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 187,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 227,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 264,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 309,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 312,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 338,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 365,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\reflection\\widgets\\reflection\\reflection_form.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 67,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 227,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 257,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 260,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 294,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 322,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 374,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 423,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -3363,124 +1398,19 @@
     "migrated": false,
     "issues": [
       {
-        "line": 29,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 135,
+        "line": 136,
         "description": "offset with hardcoded Offset",
         "snippet": "offset: Offset(0, t.spacing.xs),"
       },
       {
-        "line": 146,
+        "line": 147,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
       },
       {
-        "line": 147,
+        "line": 148,
         "description": "hardcoded Colors",
         "snippet": "color: isSelected ? t.accent.primary : Colors.transparent,"
-      },
-      {
-        "line": 154,
-        "description": "size with hardcoded value",
-        "snippet": "? Icon(Icons.check, size: 16, color: t.colors.textInverse)"
-      },
-      {
-        "line": 154,
-        "description": "Icon with hardcoded size",
-        "snippet": "? Icon(Icons.check, size: 16, color: t.colors.textInverse)"
-      },
-      {
-        "line": 160,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\settings\\privacy_policy_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 21,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 228,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 35,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 36,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 65,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "style: context.text.bodyMedium.copyWith(fontWeight: FontWeight.w500),"
-      },
-      {
-        "line": 74,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "style: context.text.bodyMedium.copyWith(color: colors.error, fontWeight: FontWeight.w500),"
-      },
-      {
-        "line": 155,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 156,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 263,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      }
-    ]
-  },
-  "lib\\features\\settings\\widgets\\settings\\account_dialogs.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 100,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 101,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 187,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      },
-      {
-        "line": 212,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 258,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
       }
     ]
   },
@@ -3488,64 +1418,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 29,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 286,
+        "line": 287,
         "description": "Duration with hardcoded value",
         "snippet": "duration: const Duration(seconds: 8),"
-      }
-    ]
-  },
-  "lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 398,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 399,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\settings\\widgets\\settings\\settings_dialogs.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 18,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 58,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 80,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 102,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 124,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 146,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
       }
     ]
   },
@@ -3553,12 +1428,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 30,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 48,
+        "line": 49,
         "description": "height with hardcoded value",
         "snippet": "Divider(height: 1, thickness: t.borders.thin, color: c.border),"
       }
@@ -3568,54 +1438,29 @@
     "migrated": false,
     "issues": [
       {
-        "line": 25,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 30,
-        "description": "width with hardcoded value",
-        "snippet": "width: 120,"
-      },
-      {
-        "line": 31,
+        "line": 32,
         "description": "height with hardcoded value",
         "snippet": "height: 120,"
       },
       {
-        "line": 34,
+        "line": 35,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
       },
       {
-        "line": 49,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 57,
+        "line": 58,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
       },
       {
-        "line": 59,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 115,
+        "line": 116,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
       },
       {
-        "line": 119,
+        "line": 120,
         "description": "size with hardcoded value",
         "snippet": "size: 16.0,"
-      },
-      {
-        "line": 129,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
       }
     ]
   },
@@ -3623,179 +1468,84 @@
     "migrated": false,
     "issues": [
       {
-        "line": 202,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 207,
-        "description": "width with hardcoded value",
-        "snippet": "width: 120,"
-      },
-      {
-        "line": 208,
+        "line": 209,
         "description": "height with hardcoded value",
         "snippet": "height: 120,"
       },
       {
-        "line": 215,
+        "line": 216,
         "description": "hardcoded begin Alignment",
         "snippet": "begin: Alignment.topLeft,"
       },
       {
-        "line": 216,
+        "line": 217,
         "description": "hardcoded end Alignment",
         "snippet": "end: Alignment.bottomRight,"
       },
       {
-        "line": 222,
+        "line": 223,
         "description": "blurRadius with hardcoded value",
         "snippet": "blurRadius: 20,"
       },
       {
-        "line": 249,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 252,
+        "line": 253,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       },
       {
-        "line": 303,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 320,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 352,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 373,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 402,
+        "line": 403,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.blue,"
       },
       {
-        "line": 412,
+        "line": 413,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.purple,"
       },
       {
-        "line": 422,
+        "line": 423,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.orange,"
       },
       {
-        "line": 447,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 516,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 522,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 535,
+        "line": 536,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       },
       {
-        "line": 567,
+        "line": 568,
         "description": "hardcoded Colors",
         "snippet": ": Colors.transparent,"
       },
       {
-        "line": 611,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 652,
-        "description": "size with hardcoded value",
-        "snippet": "size: 40,"
-      },
-      {
-        "line": 657,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 695,
+        "line": 696,
         "description": "hardcoded Colors",
         "snippet": ": Colors.transparent,"
       },
       {
-        "line": 707,
+        "line": 708,
         "description": "width with hardcoded value",
         "snippet": "width: 28,"
       },
       {
-        "line": 708,
+        "line": 709,
         "description": "height with hardcoded value",
         "snippet": "height: 28,"
       },
       {
-        "line": 712,
+        "line": 713,
         "description": "hardcoded Colors",
         "snippet": ": Colors.transparent,"
       },
       {
-        "line": 718,
+        "line": 719,
         "description": "width with hardcoded value",
         "snippet": "width: 2,"
       },
       {
-        "line": 730,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: _privacyAccepted ? FontWeight.w600 : FontWeight.normal,"
-      },
-      {
-        "line": 785,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 830,
-        "description": "fontSize with hardcoded value",
-        "snippet": "style: const TextStyle(fontSize: 28),"
-      },
-      {
-        "line": 830,
-        "description": "TextStyle with hardcoded fontSize",
-        "snippet": "style: const TextStyle(fontSize: 28),"
-      },
-      {
-        "line": 835,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 861,
+        "line": 862,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 866,
-        "description": "size with hardcoded value",
-        "snippet": "size: 16,"
       }
     ]
   },
@@ -3803,104 +1553,64 @@
     "migrated": false,
     "issues": [
       {
-        "line": 113,
+        "line": 114,
         "description": "Duration with hardcoded value",
         "snippet": "duration: Duration(seconds: 2),"
       },
       {
-        "line": 146,
+        "line": 147,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 146,
+        "line": 147,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 152,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 157,
+        "line": 158,
         "description": "size with hardcoded value",
         "snippet": "size: 80,"
       },
       {
-        "line": 169,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 179,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 194,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 209,
+        "line": 210,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 242,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 257,
+        "line": 258,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 336,
+        "line": 337,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 336,
+        "line": 337,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 342,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 347,
+        "line": 348,
         "description": "size with hardcoded value",
         "snippet": "size: 80,"
       },
       {
-        "line": 359,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 369,
+        "line": 370,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.warning.withValues(alpha: 0.3)),"
       },
       {
-        "line": 408,
+        "line": 409,
         "description": "width with hardcoded value",
         "snippet": "width: 2,"
       },
       {
-        "line": 417,
+        "line": 418,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 2,"
-      },
-      {
-        "line": 421,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
       }
     ]
   },
@@ -3908,189 +1618,74 @@
     "migrated": false,
     "issues": [
       {
-        "line": 138,
+        "line": 139,
         "description": "Duration with hardcoded value",
         "snippet": "duration: const Duration(seconds: 2),"
       },
       {
-        "line": 167,
+        "line": 168,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 167,
+        "line": 168,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 199,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 206,
+        "line": 207,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
       },
       {
-        "line": 218,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 228,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 265,
+        "line": 266,
         "description": "width with hardcoded value",
         "snippet": "width: 2,"
       },
       {
-        "line": 269,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 274,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 286,
+        "line": 287,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 1,"
       },
       {
-        "line": 349,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 356,
+        "line": 357,
         "description": "size with hardcoded value",
         "snippet": "size: 100,"
       },
       {
-        "line": 368,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 378,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 388,
+        "line": 389,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: c.success.withValues(alpha: 0.3)),"
       },
       {
-        "line": 399,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      },
-      {
-        "line": 416,
+        "line": 417,
         "description": "width with hardcoded value",
         "snippet": "width: 2,"
       },
       {
-        "line": 420,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 425,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 438,
+        "line": 439,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 441,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 446,
+        "line": 447,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 472,
+        "line": 473,
         "description": "width with hardcoded value",
         "snippet": "width: 2,"
       },
       {
-        "line": 476,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 481,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 494,
+        "line": 495,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
       },
       {
-        "line": 497,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 502,
+        "line": 503,
         "description": "letterSpacing with hardcoded value",
         "snippet": "letterSpacing: 8,"
-      },
-      {
-        "line": 560,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w500,"
-      }
-    ]
-  },
-  "lib\\features\\setup_account\\register_page.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 108,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 121,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 127,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 151,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 164,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 170,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
       }
     ]
   },
@@ -4098,137 +1693,92 @@
     "migrated": false,
     "issues": [
       {
-        "line": 74,
+        "line": 75,
         "description": "hardcoded Colors",
         "snippet": "backgroundColor: Colors.green,"
       },
       {
-        "line": 74,
+        "line": 75,
         "description": "backgroundColor with hardcoded Colors",
         "snippet": "backgroundColor: Colors.green,"
       },
       {
-        "line": 111,
+        "line": 112,
         "description": "hardcoded Colors",
         "snippet": "backgroundColor: Colors.transparent,"
       },
       {
-        "line": 111,
+        "line": 112,
         "description": "backgroundColor with hardcoded Colors",
         "snippet": "backgroundColor: Colors.transparent,"
       },
       {
-        "line": 112,
+        "line": 113,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 112,
+        "line": 113,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
-      },
-      {
-        "line": 122,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 125,
-        "description": "width with hardcoded value",
-        "snippet": "width: 100,"
       },
       {
         "line": 126,
-        "description": "height with hardcoded value",
-        "snippet": "height: 100,"
-      },
-      {
-        "line": 129,
-        "description": "hardcoded BoxShape",
-        "snippet": "shape: BoxShape.circle,"
-      },
-      {
-        "line": 151,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 179,
-        "description": "hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 179,
-        "description": "backgroundColor with hardcoded Colors",
-        "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 180,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 180,
-        "description": "elevation with hardcoded value",
-        "snippet": "elevation: 0,"
-      },
-      {
-        "line": 192,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 202,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.stretch,"
-      },
-      {
-        "line": 207,
         "description": "width with hardcoded value",
         "snippet": "width: 100,"
       },
       {
-        "line": 208,
+        "line": 127,
         "description": "height with hardcoded value",
         "snippet": "height: 100,"
       },
       {
-        "line": 211,
+        "line": 130,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
       },
       {
-        "line": 227,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
+        "line": 180,
+        "description": "hardcoded Colors",
+        "snippet": "backgroundColor: Colors.transparent,"
       },
       {
-        "line": 235,
+        "line": 180,
+        "description": "backgroundColor with hardcoded Colors",
+        "snippet": "backgroundColor: Colors.transparent,"
+      },
+      {
+        "line": 181,
+        "description": "elevation with hardcoded value",
+        "snippet": "elevation: 0,"
+      },
+      {
+        "line": 181,
+        "description": "elevation with hardcoded value",
+        "snippet": "elevation: 0,"
+      },
+      {
+        "line": 208,
+        "description": "width with hardcoded value",
+        "snippet": "width: 100,"
+      },
+      {
+        "line": 209,
+        "description": "height with hardcoded value",
+        "snippet": "height: 100,"
+      },
+      {
+        "line": 212,
+        "description": "hardcoded BoxShape",
+        "snippet": "shape: BoxShape.circle,"
+      },
+      {
+        "line": 236,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
       },
       {
-        "line": 237,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 264,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 14,"
-      },
-      {
-        "line": 345,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 350,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 381,
+        "line": 382,
         "description": "hardcoded Colors",
         "snippet": "final color = met ? Colors.green : c.textSecondary;"
       }
@@ -4238,29 +1788,24 @@
     "migrated": false,
     "issues": [
       {
-        "line": 165,
+        "line": 166,
         "description": "hardcoded Colors",
         "snippet": "backgroundColor: Colors.transparent,"
       },
       {
-        "line": 165,
+        "line": 166,
         "description": "backgroundColor with hardcoded Colors",
         "snippet": "backgroundColor: Colors.transparent,"
       },
       {
-        "line": 182,
+        "line": 183,
         "description": "hardcoded Colors",
         "snippet": "backgroundColor: Colors.transparent,"
       },
       {
-        "line": 182,
+        "line": 183,
         "description": "backgroundColor with hardcoded Colors",
         "snippet": "backgroundColor: Colors.transparent,"
-      },
-      {
-        "line": 248,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
       }
     ]
   },
@@ -4268,62 +1813,32 @@
     "migrated": false,
     "issues": [
       {
-        "line": 67,
+        "line": 68,
         "description": "Duration with hardcoded value",
         "snippet": "adjustedTime = startTime.subtract(const Duration(hours: 5));"
       },
       {
-        "line": 104,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 109,
+        "line": 110,
         "description": "width with hardcoded value",
         "snippet": "width: 40,"
       },
       {
-        "line": 110,
+        "line": 111,
         "description": "height with hardcoded value",
         "snippet": "height: 4,"
       },
       {
-        "line": 139,
+        "line": 140,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.white,"
       },
       {
-        "line": 146,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 188,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 235,
+        "line": 236,
         "description": "width with hardcoded value",
         "snippet": "width: 60,"
       },
       {
-        "line": 237,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 259,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 264,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 312,
+        "line": 313,
         "description": "hardcoded Colors",
         "snippet": "textColor: Colors.white,"
       }
@@ -4333,99 +1848,49 @@
     "migrated": false,
     "issues": [
       {
-        "line": 63,
+        "line": 64,
         "description": "hardcoded Colors",
         "snippet": "final categoryColor = DrugCategoryColors.colorFor(primaryCategory);"
       },
       {
-        "line": 79,
+        "line": 80,
         "description": "blurRadius with hardcoded value",
         "snippet": "blurRadius: 8,"
       },
       {
-        "line": 85,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 101,
+        "line": 102,
         "description": "hardcoded begin Alignment",
         "snippet": "begin: Alignment.topLeft,"
       },
       {
-        "line": 102,
+        "line": 103,
         "description": "hardcoded end Alignment",
         "snippet": "end: Alignment.bottomRight,"
       },
       {
-        "line": 120,
+        "line": 121,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.white,"
       },
       {
-        "line": 127,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 139,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 148,
+        "line": 149,
         "description": "hardcoded Colors",
         "snippet": "color: entry.favorite ? Colors.red : t.colors.textSecondary,"
       },
       {
-        "line": 186,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 223,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 226,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 231,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 249,
+        "line": 250,
         "description": "minHeight with hardcoded value",
         "snippet": "minHeight: 8,"
       },
       {
-        "line": 253,
+        "line": 254,
         "description": "hardcoded Colors",
         "snippet": "? Colors.red"
       },
       {
-        "line": 270,
+        "line": 271,
         "description": "height with hardcoded value",
         "snippet": "height: 40,"
-      },
-      {
-        "line": 301,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 312,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 314,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
       }
     ]
   },
@@ -4433,34 +1898,19 @@
     "migrated": false,
     "issues": [
       {
-        "line": 42,
+        "line": 43,
         "description": "hardcoded begin Alignment",
         "snippet": "begin: Alignment.topLeft,"
       },
       {
-        "line": 43,
+        "line": 44,
         "description": "hardcoded end Alignment",
         "snippet": "end: Alignment.bottomRight,"
       },
       {
-        "line": 54,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceEvenly,"
-      },
-      {
-        "line": 87,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 92,
+        "line": 93,
         "description": "hardcoded Colors",
         "snippet": "color: DrugCategoryColors.colorFor(mostUsedCategory),"
-      },
-      {
-        "line": 98,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
       }
     ]
   },
@@ -4468,37 +1918,12 @@
     "migrated": false,
     "issues": [
       {
-        "line": 34,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 37,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 42,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 56,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 73,
+        "line": 74,
         "description": "height with hardcoded value",
         "snippet": "height: 60,"
       },
       {
-        "line": 87,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 115,
+        "line": 116,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.white,"
       }
@@ -4508,19 +1933,14 @@
     "migrated": false,
     "issues": [
       {
-        "line": 49,
+        "line": 50,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 49,
+        "line": 50,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
-      },
-      {
-        "line": 54,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
       }
     ]
   },
@@ -4548,119 +1968,69 @@
     "migrated": false,
     "issues": [
       {
-        "line": 55,
+        "line": 56,
         "description": "width with hardcoded value",
         "snippet": "width: 1,"
       },
       {
-        "line": 61,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 79,
+        "line": 80,
         "description": "height with hardcoded value",
         "snippet": "height: 1,"
       },
       {
-        "line": 113,
+        "line": 114,
         "description": "hardcoded Colors",
         "snippet": "valueColor = Colors.orangeAccent;"
       },
       {
-        "line": 115,
+        "line": 116,
         "description": "hardcoded Colors",
         "snippet": "valueColor = Colors.redAccent;"
       },
       {
-        "line": 124,
+        "line": 125,
         "description": "hardcoded Colors",
         "snippet": "backgroundColor: Colors.transparent,"
       },
       {
-        "line": 124,
+        "line": 125,
         "description": "backgroundColor with hardcoded Colors",
         "snippet": "backgroundColor: Colors.transparent,"
       },
       {
-        "line": 141,
-        "description": "size with hardcoded value",
-        "snippet": "size: 20,"
-      },
-      {
-        "line": 172,
+        "line": 173,
         "description": "size with hardcoded value",
         "snippet": "size: 18,"
       },
       {
-        "line": 199,
+        "line": 200,
         "description": "width with hardcoded value",
         "snippet": "width: 0.5,"
       },
       {
-        "line": 240,
+        "line": 241,
         "description": "hardcoded Colors",
         "snippet": "return Colors.greenAccent;"
       },
       {
-        "line": 242,
+        "line": 243,
         "description": "hardcoded Colors",
         "snippet": "return Colors.lightBlueAccent;"
       },
       {
-        "line": 244,
+        "line": 245,
         "description": "hardcoded Colors",
         "snippet": "return Colors.orangeAccent;"
       },
       {
-        "line": 246,
+        "line": 247,
         "description": "hardcoded Colors",
         "snippet": "return Colors.deepOrangeAccent;"
       },
       {
-        "line": 248,
+        "line": 249,
         "description": "hardcoded Colors",
         "snippet": "return Colors.redAccent;"
-      }
-    ]
-  },
-  "lib\\features\\tolerence\\widgets\\bucket_details\\bucket_baseline_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 37,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 51,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      }
-    ]
-  },
-  "lib\\features\\tolerence\\widgets\\bucket_details\\bucket_contributing_uses_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 30,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 35,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 48,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 59,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
       }
     ]
   },
@@ -4668,29 +2038,14 @@
     "migrated": false,
     "issues": [
       {
-        "line": 31,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 36,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 80,
+        "line": 81,
         "description": "height with hardcoded value",
         "snippet": "height: 12,"
       },
       {
-        "line": 98,
+        "line": 99,
         "description": "height with hardcoded value",
         "snippet": "height: 12,"
-      },
-      {
-        "line": 114,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
       }
     ]
   },
@@ -4698,44 +2053,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 31,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 36,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 47,
+        "line": 48,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
-      }
-    ]
-  },
-  "lib\\features\\tolerence\\widgets\\bucket_details\\bucket_header_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 58,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 63,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 73,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 95,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
       }
     ]
   },
@@ -4743,44 +2063,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 30,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 46,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 60,
+        "line": 61,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
-      }
-    ]
-  },
-  "lib\\features\\tolerence\\widgets\\bucket_details\\bucket_status_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 35,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 41,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 77,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 91,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
       }
     ]
   },
@@ -4813,44 +2098,29 @@
     "migrated": false,
     "issues": [
       {
-        "line": 55,
+        "line": 56,
         "description": "hardcoded Colors",
         "snippet": "return Colors.deepOrangeAccent;"
       },
       {
-        "line": 64,
+        "line": 65,
         "description": "hardcoded Colors",
         "snippet": "if (percent < 75) return Colors.orange;"
       },
       {
-        "line": 85,
+        "line": 86,
         "description": "width with hardcoded value",
         "snippet": "border: Border.all(color: colors.border, width: 1),"
       },
       {
-        "line": 85,
+        "line": 86,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: colors.border, width: 1),"
       },
       {
-        "line": 89,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 113,
+        "line": 114,
         "description": "width with hardcoded value",
         "snippet": "width: 1,"
-      },
-      {
-        "line": 185,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 233,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 10,"
       }
     ]
   },
@@ -4858,94 +2128,29 @@
     "migrated": false,
     "issues": [
       {
-        "line": 58,
+        "line": 59,
         "description": "hardcoded Colors",
         "snippet": "if (value < 0.75) return Colors.orangeAccent;"
       },
       {
-        "line": 89,
+        "line": 90,
         "description": "width with hardcoded value",
         "snippet": "width: 1,"
       },
       {
-        "line": 94,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 129,
+        "line": 130,
         "description": "Duration with hardcoded value",
         "snippet": "duration: Duration(seconds: 2),"
       },
       {
-        "line": 140,
+        "line": 141,
         "description": "width with hardcoded value",
         "snippet": "width: 1,"
       },
       {
-        "line": 144,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 148,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 153,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 185,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 10,"
-      },
-      {
-        "line": 210,
+        "line": 211,
         "description": "minHeight with hardcoded value",
         "snippet": "minHeight: 8,"
-      },
-      {
-        "line": 221,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 248,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      }
-    ]
-  },
-  "lib\\features\\tolerence\\widgets\\tolerance\\debug_substance_list.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 63,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 93,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      }
-    ]
-  },
-  "lib\\features\\tolerence\\widgets\\tolerance\\recent_uses_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 92,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 107,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
       }
     ]
   },
@@ -4953,39 +2158,19 @@
     "migrated": false,
     "issues": [
       {
-        "line": 69,
+        "line": 70,
         "description": "hardcoded Colors",
         "snippet": "return Colors.deepOrangeAccent;"
       },
       {
-        "line": 109,
+        "line": 110,
         "description": "width with hardcoded value",
         "snippet": "width: 145,"
       },
       {
-        "line": 125,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 137,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 139,
-        "description": "hardcoded TextOverflow",
-        "snippet": "overflow: TextOverflow.ellipsis,"
-      },
-      {
-        "line": 165,
+        "line": 166,
         "description": "width with hardcoded value",
         "snippet": "width: 1,"
-      },
-      {
-        "line": 192,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 10,"
       }
     ]
   },
@@ -4993,44 +2178,24 @@
     "migrated": false,
     "issues": [
       {
-        "line": 98,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 107,
+        "line": 108,
         "description": "width with hardcoded value",
         "snippet": "width: 40,"
       },
       {
-        "line": 108,
+        "line": 109,
         "description": "height with hardcoded value",
         "snippet": "height: 4,"
       },
       {
-        "line": 136,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 157,
+        "line": 158,
         "description": "height with hardcoded value",
         "snippet": "Divider(color: colors.divider, height: 1),"
       },
       {
-        "line": 217,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 232,
+        "line": 233,
         "description": "minHeight with hardcoded value",
         "snippet": "minHeight: 7,"
-      },
-      {
-        "line": 243,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.end,"
       }
     ]
   },
@@ -5038,137 +2203,107 @@
     "migrated": false,
     "issues": [
       {
-        "line": 64,
+        "line": 65,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.orange.withValues(alpha: 0.5),"
       },
       {
-        "line": 65,
+        "line": 66,
         "description": "width with hardcoded value",
         "snippet": "width: 2,"
       },
       {
-        "line": 69,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 76,
-        "description": "hardcoded Colors",
-        "snippet": "color: Colors.orange,"
-      },
-      {
-        "line": 84,
+        "line": 77,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.orange,"
       },
       {
         "line": 85,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w700,"
+        "description": "hardcoded Colors",
+        "snippet": "color: Colors.orange,"
       },
       {
-        "line": 125,
+        "line": 126,
         "description": "height with hardcoded value",
         "snippet": "height: 1.5,"
       },
       {
-        "line": 136,
+        "line": 137,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.red.withValues(alpha: 0.08),"
       },
       {
-        "line": 139,
+        "line": 140,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.red.withValues(alpha: 0.35),"
       },
       {
-        "line": 140,
+        "line": 141,
         "description": "width with hardcoded value",
         "snippet": "width: 1,"
       },
       {
-        "line": 148,
+        "line": 149,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.red.shade300,"
       },
       {
-        "line": 149,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 150,
+        "line": 151,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       },
       {
-        "line": 152,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 217,
+        "line": 218,
         "description": "hardcoded Colors",
         "snippet": "? Colors.amber.withValues(alpha: 0.18)"
       },
       {
-        "line": 218,
+        "line": 219,
         "description": "hardcoded Colors",
         "snippet": ": Colors.amber.shade50;"
       },
       {
-        "line": 221,
+        "line": 222,
         "description": "hardcoded Colors",
         "snippet": "? Colors.amber.shade700"
       },
       {
-        "line": 222,
+        "line": 223,
         "description": "hardcoded Colors",
         "snippet": ": Colors.amber.shade300;"
       },
       {
-        "line": 225,
+        "line": 226,
         "description": "hardcoded Colors",
         "snippet": "? Colors.amber.shade300"
       },
       {
-        "line": 226,
+        "line": 227,
         "description": "hardcoded Colors",
         "snippet": ": Colors.amber.shade900;"
       },
       {
-        "line": 229,
+        "line": 230,
         "description": "hardcoded Colors",
         "snippet": "? Colors.grey.shade300"
       },
       {
-        "line": 230,
+        "line": 231,
         "description": "hardcoded Colors",
         "snippet": ": Colors.grey.shade800;"
       },
       {
-        "line": 238,
+        "line": 239,
         "description": "width with hardcoded value",
         "snippet": "border: Border.all(color: borderColor, width: 1.5),"
       },
       {
-        "line": 238,
+        "line": 239,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: borderColor, width: 1.5),"
       },
       {
-        "line": 241,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 251,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 265,
+        "line": 266,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       }
@@ -5178,12 +2313,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 62,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 77,
+        "line": 78,
         "description": "height with hardcoded value",
         "snippet": "height: 1.45,"
       }
@@ -5193,57 +2323,22 @@
     "migrated": false,
     "issues": [
       {
-        "line": 63,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 76,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 81,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 104,
+        "line": 105,
         "description": "width with hardcoded value",
         "snippet": "width: 1,"
       },
       {
-        "line": 105,
+        "line": 106,
         "description": "height with hardcoded value",
         "snippet": "height: 80,"
       },
       {
-        "line": 113,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 156,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 161,
-        "description": "size with hardcoded value",
-        "snippet": "Icon(icon, size: 16, color: colors.textSecondary),"
-      },
-      {
-        "line": 161,
-        "description": "Icon with hardcoded size",
-        "snippet": "Icon(icon, size: 16, color: colors.textSecondary),"
-      },
-      {
-        "line": 171,
+        "line": 172,
         "description": "SizedBox with hardcoded size",
         "snippet": "SizedBox(height: 4),"
       },
       {
-        "line": 171,
+        "line": 172,
         "description": "height with hardcoded value",
         "snippet": "SizedBox(height: 4),"
       }
@@ -5253,27 +2348,17 @@
     "migrated": false,
     "issues": [
       {
-        "line": 64,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 81,
+        "line": 82,
         "description": "height with hardcoded value",
         "snippet": "height: 1.0,"
       },
       {
-        "line": 93,
+        "line": 94,
         "description": "minHeight with hardcoded value",
         "snippet": "minHeight: 10,"
       },
       {
-        "line": 115,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 150,
+        "line": 151,
         "description": "hardcoded Colors",
         "snippet": "if (tolerance < 70) return Colors.deepOrange;"
       }
@@ -5283,164 +2368,99 @@
     "migrated": false,
     "issues": [
       {
-        "line": 92,
+        "line": 93,
         "description": "hardcoded Colors",
         "snippet": "return Colors.deepOrangeAccent;"
       },
       {
-        "line": 143,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 147,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 185,
+        "line": 186,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.amber.withValues(alpha: context.theme.isDark ? 0.15 : 0.10),"
       },
       {
-        "line": 189,
+        "line": 190,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.amber.withValues(alpha: 0.4),"
       },
       {
-        "line": 190,
+        "line": 191,
         "description": "width with hardcoded value",
         "snippet": "width: 1,"
       },
       {
-        "line": 196,
-        "description": "size with hardcoded value",
-        "snippet": "size: 16, color: Colors.amber),"
-      },
-      {
-        "line": 196,
+        "line": 197,
         "description": "hardcoded Colors",
-        "snippet": "size: 16, color: Colors.amber),"
+        "snippet": "size: context.sizes.iconSm, color: Colors.amber),"
       },
       {
-        "line": 239,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 243,
-        "description": "size with hardcoded value",
-        "snippet": "size: 16,"
-      },
-      {
-        "line": 253,
+        "line": 254,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
       },
       {
-        "line": 287,
+        "line": 288,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 287,
+        "line": 288,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 292,
+        "line": 293,
         "description": "width with hardcoded value",
         "snippet": "width: 1,"
       },
       {
-        "line": 307,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 320,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 328,
+        "line": 329,
         "description": "SizedBox with hardcoded size",
         "snippet": "SizedBox(height: 2),"
       },
       {
-        "line": 328,
+        "line": 329,
         "description": "height with hardcoded value",
         "snippet": "SizedBox(height: 2),"
       },
       {
-        "line": 333,
+        "line": 334,
         "description": "height with hardcoded value",
         "snippet": "height: 1.2,"
       },
       {
-        "line": 366,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 398,
+        "line": 399,
         "description": "width with hardcoded value",
         "snippet": "width: 0.5,"
       },
       {
-        "line": 404,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 10,"
-      },
-      {
-        "line": 418,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 448,
+        "line": 449,
         "description": "minHeight with hardcoded value",
         "snippet": "minHeight: 8,"
       },
       {
-        "line": 456,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
-      },
-      {
-        "line": 518,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 524,
+        "line": 525,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.amber,"
       },
       {
-        "line": 578,
+        "line": 579,
         "description": "hardcoded Colors",
         "snippet": "color: Colors.amber,"
       },
       {
-        "line": 581,
+        "line": 582,
         "description": "SizedBox with hardcoded size",
         "snippet": "SizedBox(height: 4),"
       },
       {
-        "line": 581,
+        "line": 582,
         "description": "height with hardcoded value",
         "snippet": "SizedBox(height: 4),"
       },
       {
-        "line": 598,
+        "line": 599,
         "description": "height with hardcoded value",
         "snippet": "height: 1.4,"
-      },
-      {
-        "line": 618,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.spaceBetween,"
       }
     ]
   },
@@ -5448,44 +2468,14 @@
     "migrated": false,
     "issues": [
       {
-        "line": 49,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 50,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 86,
+        "line": 87,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: stateColor.withValues(alpha: 0.3)),"
       },
       {
-        "line": 92,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 139,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 199,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 214,
+        "line": 215,
         "description": "minHeight with hardcoded value",
         "snippet": "minHeight: 6.0,"
-      },
-      {
-        "line": 225,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
       }
     ]
   },
@@ -5493,24 +2483,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 48,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 95,
+        "line": 96,
         "description": "Border.all with hardcoded values",
         "snippet": "border: Border.all(color: colors.info.withValues(alpha: 0.3)),"
-      },
-      {
-        "line": 107,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 113,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
       }
     ]
   },
@@ -5518,29 +2493,9 @@
     "migrated": false,
     "issues": [
       {
-        "line": 40,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 48,
+        "line": 49,
         "description": "size with hardcoded value",
         "snippet": "size: 20.0,"
-      },
-      {
-        "line": 55,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
-      },
-      {
-        "line": 122,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 128,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
       }
     ]
   },
@@ -5548,29 +2503,14 @@
     "migrated": false,
     "issues": [
       {
-        "line": 32,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 39,
+        "line": 40,
         "description": "hardcoded BoxShape",
         "snippet": "shape: BoxShape.circle,"
       },
       {
-        "line": 43,
+        "line": 44,
         "description": "size with hardcoded value",
         "snippet": "size: 64.0,"
-      },
-      {
-        "line": 56,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 67,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
       }
     ]
   },
@@ -5578,12 +2518,7 @@
     "migrated": false,
     "issues": [
       {
-        "line": 59,
-        "description": "hardcoded CrossAxisAlignment",
-        "snippet": "crossAxisAlignment: CrossAxisAlignment.start,"
-      },
-      {
-        "line": 79,
+        "line": 80,
         "description": "height with hardcoded value",
         "snippet": "height: 140.0,"
       }
@@ -5593,39 +2528,14 @@
     "migrated": false,
     "issues": [
       {
-        "line": 28,
+        "line": 29,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
       },
       {
-        "line": 28,
+        "line": 29,
         "description": "elevation with hardcoded value",
         "snippet": "elevation: 0,"
-      },
-      {
-        "line": 35,
-        "description": "hardcoded MainAxisAlignment",
-        "snippet": "mainAxisAlignment: MainAxisAlignment.center,"
-      },
-      {
-        "line": 49,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 57,
-        "description": "hardcoded TextAlign",
-        "snippet": "textAlign: TextAlign.center,"
-      },
-      {
-        "line": 70,
-        "description": "hardcoded MainAxisSize",
-        "snippet": "mainAxisSize: MainAxisSize.min,"
-      },
-      {
-        "line": 80,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w600,"
       }
     ]
   }

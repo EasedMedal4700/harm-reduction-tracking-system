@@ -5,6 +5,7 @@
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../providers/settings_provider.dart';
 
 class SettingsDialogs {
@@ -15,7 +16,7 @@ class SettingsDialogs {
       builder: (context) => AlertDialog(
         title: const Text('Select Language'),
         content: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: languages.map((lang) {
             return ListTile(
               title: Text(lang),
@@ -55,7 +56,7 @@ class SettingsDialogs {
       builder: (context) => AlertDialog(
         title: const Text('Auto-lock Duration'),
         content: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: durations.map((duration) {
             return ListTile(
               title: Text(duration),
@@ -77,7 +78,7 @@ class SettingsDialogs {
       builder: (context) => AlertDialog(
         title: const Text('Backup Frequency'),
         content: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: frequencies.map((freq) {
             return ListTile(
               title: Text(freq[0].toUpperCase() + freq.substring(1)),
@@ -99,7 +100,7 @@ class SettingsDialogs {
       builder: (context) => AlertDialog(
         title: const Text('Cache Duration'),
         content: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: durations.map((duration) {
             return ListTile(
               title: Text(duration),
@@ -121,7 +122,7 @@ class SettingsDialogs {
       builder: (context) => AlertDialog(
         title: const Text('Default Dose Unit'),
         content: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: units.map((unit) {
             return ListTile(
               title: Text(unit),
@@ -143,7 +144,7 @@ class SettingsDialogs {
       builder: (context) => AlertDialog(
         title: const Text('Date Format'),
         content: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: formats.map((format) {
             return ListTile(
               title: Text(format),

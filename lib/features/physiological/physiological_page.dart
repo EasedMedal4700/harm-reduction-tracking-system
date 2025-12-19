@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../common/layout/common_spacer.dart';
 import '../../common/layout/common_drawer.dart';
@@ -30,7 +31,7 @@ class PhysiologicalPage extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(sp.xl),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
               Icon(
                 Icons.favorite,
@@ -41,10 +42,10 @@ class PhysiologicalPage extends StatelessWidget {
               Text(
                 'Physiological Monitoring',
                 style: t.typography.heading2.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.md),
               Text(
@@ -52,7 +53,7 @@ class PhysiologicalPage extends StatelessWidget {
                 style: t.typography.body.copyWith(
                   color: c.textSecondary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.xl),
               Container(
@@ -65,7 +66,7 @@ class PhysiologicalPage extends StatelessWidget {
                   ),
                 ),
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: AppLayout.mainAxisSizeMin,
                   children: [
                     Icon(
                       Icons.construction,

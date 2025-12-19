@@ -21,6 +21,7 @@
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/theme/app_color_palette.dart';
@@ -61,7 +62,7 @@ class ToleranceSummaryCard extends ConsumerWidget {
       padding: EdgeInsets.all(spacing.xl),
       margin: EdgeInsets.zero,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // Label text
           Text(
@@ -112,7 +113,7 @@ class ToleranceSummaryCard extends ConsumerWidget {
               label,
               style: typography.bodySmall.copyWith(
                 color: color,
-                fontWeight: FontWeight.w600,
+                fontWeight: text.bodyBold.fontWeight,
               ),
             ),
           ),

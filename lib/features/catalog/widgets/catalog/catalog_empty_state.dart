@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonSpacer.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
@@ -17,7 +18,7 @@ class CatalogEmptyState extends StatelessWidget {
 
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
         children: [
           Container(
             padding: EdgeInsets.all(t.spacing.xl),

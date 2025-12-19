@@ -63,7 +63,7 @@ class _TimeSegment extends StatelessWidget {
           label,
           style: text.bodySmall.copyWith(
             color: isActive ? acc.primary : c.textSecondary,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+            fontWeight: isActive ? text.bodyBold.fontWeight : text.bodyRegular.fontWeight,
           ),
         ),
       ),

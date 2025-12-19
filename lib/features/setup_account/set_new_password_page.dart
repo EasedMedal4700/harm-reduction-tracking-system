@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_spacer.dart';
@@ -119,7 +120,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
           child: Padding(
             padding: EdgeInsets.all(sp.lg),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
               children: [
                 Container(
                   width: 100,
@@ -138,7 +139,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                 Text(
                   'Link Expired',
                   style: text.headlineMedium.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: text.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
                 ),
@@ -148,7 +149,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   style: text.bodyMedium.copyWith(
                     color: c.textSecondary,
                   ),
-                  textAlign: TextAlign.center,
+                  textAlign: AppLayout.textAlignCenter,
                 ),
                 CommonSpacer.vertical(sp.xl),
                 CommonPrimaryButton(
@@ -189,7 +190,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
           'Set New Password',
           style: TextStyle(
             color: c.textPrimary,
-            fontWeight: FontWeight.w600,
+            fontWeight: text.bodyBold.fontWeight,
           ),
         ),
       ),
@@ -199,7 +200,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
               children: [
                 CommonSpacer.vertical(sp.lg),
                 // Icon
@@ -221,10 +222,10 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                 Text(
                   'Create a new password',
                   style: text.headlineMedium.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: text.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
-                  textAlign: TextAlign.center,
+                  textAlign: AppLayout.textAlignCenter,
                 ),
                 CommonSpacer.vertical(sp.sm),
                 // Description
@@ -234,7 +235,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                     color: c.textSecondary,
                     height: 1.5,
                   ),
-                  textAlign: TextAlign.center,
+                  textAlign: AppLayout.textAlignCenter,
                 ),
                 CommonSpacer.vertical(sp.xl),
                 // Error message
@@ -261,7 +262,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                             _errorMessage!,
                             style: TextStyle(
                               color: c.error,
-                              fontSize: 14,
+                              fontSize: context.text.bodySmall.fontSize,
                             ),
                           ),
                         ),
@@ -342,12 +343,12 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                     children: [
                       Text(
                         'Password requirements:',
                         style: text.bodySmall.copyWith(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: text.bodyBold.fontWeight,
                           color: c.textPrimary,
                         ),
                       ),

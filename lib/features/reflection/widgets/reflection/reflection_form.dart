@@ -1,6 +1,7 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 // Notes: No hardcoded values.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../common/widgets/common_spacer.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
@@ -64,7 +65,7 @@ class ReflectionForm extends StatelessWidget {
     return SingleChildScrollView(
       padding: EdgeInsets.all(t.spacing.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Reflecting on $selectedCount entries',
@@ -224,7 +225,7 @@ class ReflectionForm extends StatelessWidget {
         border: Border.all(color: t.colors.border),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Row(
             children: [
@@ -254,14 +255,14 @@ class ReflectionForm extends StatelessWidget {
     final t = context.theme;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: [
             Text(
               label,
-              style: t.typography.bodySmall.copyWith(fontWeight: FontWeight.bold),
+              style: t.typography.bodySmall.copyWith(fontWeight: text.bodyBold.fontWeight),
             ),
             Text(
               value.round().toString(),
@@ -291,7 +292,7 @@ class ReflectionForm extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: t.spacing.sm),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
                 Text(
                   minLabel,
@@ -319,12 +320,12 @@ class ReflectionForm extends StatelessWidget {
     final t = context.theme;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           label,
           style: t.typography.bodySmall.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: text.bodyBold.fontWeight,
             color: t.colors.textSecondary,
           ),
         ),
@@ -371,12 +372,12 @@ class ReflectionForm extends StatelessWidget {
     final t = context.theme;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           label,
           style: t.typography.bodySmall.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: text.bodyBold.fontWeight,
             color: t.colors.textSecondary,
           ),
         ),
@@ -420,12 +421,12 @@ class ReflectionForm extends StatelessWidget {
     final t = context.theme;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           label,
           style: t.typography.bodySmall.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: text.bodyBold.fontWeight,
             color: t.colors.textSecondary,
           ),
         ),

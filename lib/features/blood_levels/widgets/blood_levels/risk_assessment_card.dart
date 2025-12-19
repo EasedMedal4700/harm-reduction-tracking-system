@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../services/blood_levels_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
@@ -72,7 +73,7 @@ class RiskAssessmentCard extends StatelessWidget {
         padding: EdgeInsets.all(sp.lg),
         borderColor: riskColor.withValues(alpha: 0.3),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             // HEADER
             Row(
@@ -148,7 +149,7 @@ class RiskAssessmentCard extends StatelessWidget {
           SizedBox(height: sp.sm),
 
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
             children: [
               Text('LOW',
                   style: text.captionBold.copyWith(color: c.success)),

@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonInputField.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/inputs/input_field.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -23,7 +24,7 @@ class NotesInput extends StatelessWidget {
     final t = context.theme;
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Notes (optional)',

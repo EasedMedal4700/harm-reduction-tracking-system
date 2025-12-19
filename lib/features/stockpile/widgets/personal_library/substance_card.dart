@@ -4,6 +4,7 @@
 // Riverpod: TODO
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -82,7 +83,7 @@ class SubstanceCard extends StatelessWidget {
               ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // Header with name, favorite, archive
           InkWell(
@@ -124,19 +125,19 @@ class SubstanceCard extends StatelessWidget {
                   CommonSpacer(width: t.spacing.sm),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                       children: [
                         Text(
                           entry.name,
                           style: t.typography.heading3.copyWith(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: text.bodyBold.fontWeight,
                           ),
                         ),
                         Text(
                           primaryCategory,
                           style: t.typography.bodySmall.copyWith(
                             color: categoryColor,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: text.bodyBold.fontWeight,
                           ),
                         ),
                       ],
@@ -183,7 +184,7 @@ class SubstanceCard extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(t.spacing.md),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 // Stats row
                   Row(
@@ -220,21 +221,21 @@ class SubstanceCard extends StatelessWidget {
                         ),
                       ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                             children: [
                               Text(
                                 'Stockpile',
                                 style: t.typography.bodySmall.copyWith(
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: text.bodyBold.fontWeight,
                                 ),
                               ),
                               Text(
                                 '${stockpile!.currentAmountMg.toStringAsFixed(1)} mg',
                                 style: t.typography.body.copyWith(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: text.bodyBold.fontWeight,
                                   color: categoryColor,
                                 ),
                               ),
@@ -298,7 +299,7 @@ class SubstanceCard extends StatelessWidget {
           CommonSpacer(width: t.spacing.xs),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(
                   label,
@@ -309,9 +310,9 @@ class SubstanceCard extends StatelessWidget {
                 Text(
                   value,
                   style: t.typography.body.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: text.bodyBold.fontWeight,
                   ),
-                  overflow: TextOverflow.ellipsis,
+                  overflow: AppLayout.textOverflowEllipsis,
                 ),
               ],
             ),

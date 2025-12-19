@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: Fully theme-based, correct typography & colors.
 import 'dart:convert';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -97,7 +98,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                           errorCode,
                           style: text.caption.copyWith(
                             fontFamily: 'monospace',
-                            fontWeight: FontWeight.bold,
+                            fontWeight: text.bodyBold.fontWeight,
                             color: c.textPrimary,
                           ),
                         ),
@@ -145,7 +146,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                     log['stacktrace'] ?? 'Unavailable',
                     style: text.caption.copyWith(
                       fontFamily: 'monospace',
-                      fontSize: 12,
+                      fontSize: context.text.label.fontSize,
                       color: c.textPrimary,
                     ),
                   ),
@@ -168,7 +169,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                       const JsonEncoder.withIndent('  ').convert(extra),
                       style: text.caption.copyWith(
                         fontFamily: 'monospace',
-                        fontSize: 12,
+                        fontSize: context.text.label.fontSize,
                         color: c.textPrimary,
                       ),
                     ),
@@ -194,10 +195,10 @@ class ErrorLogDetailDialog extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: sp.xs),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           SizedBox(
-            width: 110,
+            width: context.sizes.labelWidthMd,
             child: Text(
               '$label:',
               style: text.bodyBold.copyWith(color: c.textSecondary),

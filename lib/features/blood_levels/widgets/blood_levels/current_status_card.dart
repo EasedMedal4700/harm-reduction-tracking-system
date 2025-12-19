@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../services/pharmacokinetics_service.dart';
 import '../../../../common/cards/common_card.dart';
@@ -48,7 +49,7 @@ class CurrentStatusCard extends StatelessWidget {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Row(
             children: [
@@ -67,7 +68,7 @@ class CurrentStatusCard extends StatelessWidget {
               SizedBox(width: sp.md),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                   children: [
                     Text(substanceName, style: context.text.heading4),
                     Text('Current Status', style: context.text.caption),
@@ -133,7 +134,7 @@ class CurrentStatusCard extends StatelessWidget {
         border: Border.all(color: color.withValues(alpha: context.opacities.medium), width: context.borders.thin),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(label, style: text.caption),
           SizedBox(height: sp.xs),

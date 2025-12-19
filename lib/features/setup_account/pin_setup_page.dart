@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:async';
@@ -149,7 +150,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
         body: SingleChildScrollView(
         padding: EdgeInsets.all(sp.xl),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
           children: [
             // Icon
             Icon(
@@ -163,10 +164,10 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
             Text(
               'Create Your PIN',
               style: t.heading2.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: text.bodyBold.fontWeight,
                 color: c.textPrimary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
             CommonSpacer.vertical(sp.sm),
 
@@ -176,7 +177,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
               style: t.body.copyWith(
                 color: c.textSecondary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
             CommonSpacer.vertical(sp.xl2),
 
@@ -191,7 +192,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                 ),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                 children: [
                   Text(
                     'Enter PIN',
@@ -239,7 +240,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                 ),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                 children: [
                   Text(
                     'Confirm PIN',
@@ -339,7 +340,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
         body: SingleChildScrollView(
         padding: EdgeInsets.all(sp.xl),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
           children: [
             // Icon
             Icon(
@@ -353,10 +354,10 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
             Text(
               'Save Your Recovery Key',
               style: t.heading2.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: text.bodyBold.fontWeight,
                 color: c.textPrimary,
               ),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
             CommonSpacer.vertical(sp.sm),
 
@@ -378,7 +379,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                         child: Text(
                           'IMPORTANT: Save this key securely',
                           style: t.heading4.copyWith(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: text.bodyBold.fontWeight,
                             color: c.textPrimary,
                           ),
                         ),
@@ -413,12 +414,12 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                   SelectableText(
                     _recoveryKey ?? '',
                     style: t.heading3.copyWith(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: text.bodyBold.fontWeight,
                       letterSpacing: 2,
                       color: a.primary,
                       fontFamily: 'monospace',
                     ),
-                    textAlign: TextAlign.center,
+                    textAlign: AppLayout.textAlignCenter,
                   ),
                   CommonSpacer.vertical(sp.md),
                   OutlinedButton.icon(

@@ -45,7 +45,7 @@ class CommonFilterToggle extends StatelessWidget {
               'Common Only',
               style: t.text.body.copyWith(
                 color: t.colors.textPrimary,
-                fontWeight: FontWeight.w500,
+                fontWeight: text.bodyMedium.fontWeight,
               ),
             ),
           ),

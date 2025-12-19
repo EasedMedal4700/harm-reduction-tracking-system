@@ -27,6 +27,7 @@
 // Notes: StatefulWidget kept for expand/collapse state. Fully modernized theme API.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 
 
 import '../../../../models/bucket_definitions.dart';
@@ -140,11 +141,11 @@ class _UnifiedBucketToleranceWidgetState
         border: theme.isDark ? Border.all(color: theme.accent.primary.withValues(alpha: 0.3)) : null,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // HEADER - Title with debug toggle button
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
             children: [
               Row(
                 children: [
@@ -193,7 +194,7 @@ class _UnifiedBucketToleranceWidgetState
               child: Row(
                 children: [
                   const Icon(Icons.info_outline,
-                      size: 16, color: Colors.amber),
+                      size: context.sizes.iconSm, color: Colors.amber),
                   SizedBox(width: spacing.sm),
                   Expanded(
                     child: Text(
@@ -236,11 +237,11 @@ class _UnifiedBucketToleranceWidgetState
             Divider(color: colors.divider),
             SizedBox(height: spacing.sm),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Icon(
                   Icons.info_outline,
-                  size: 16,
+                  size: context.sizes.iconSm,
                   color: colors.textSecondary,
                 ),
                 SizedBox(width: spacing.sm),
@@ -304,7 +305,7 @@ class _UnifiedBucketToleranceWidgetState
         child: Padding(
           padding: EdgeInsets.all(spacing.md),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               // HEADER ROW - Bucket icon, name, description, active badge
               Row(
@@ -317,7 +318,7 @@ class _UnifiedBucketToleranceWidgetState
                   SizedBox(width: spacing.md),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                       children: [
                         Text(
                           BucketDefinitions.getDisplayName(bucketType),
@@ -363,7 +364,7 @@ class _UnifiedBucketToleranceWidgetState
 
               // SYSTEM-WIDE TOLERANCE - Combined load from all substances
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                 children: [
                   Text(
                     'System-wide (all substances):',
@@ -401,7 +402,7 @@ class _UnifiedBucketToleranceWidgetState
                         child: Text(
                           state.displayName,
                           style: typography.captionBold.copyWith(
-                            fontSize: 10,
+                            fontSize: context.text.caption.fontSize,
                             color: _getStateColor(state, context),
                           ),
                         ),
@@ -415,7 +416,7 @@ class _UnifiedBucketToleranceWidgetState
 
               // SUBSTANCE CONTRIBUTION - This substance's impact on bucket
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                 children: [
                   Text(
                     '${widget.substanceName} contribution:',
@@ -453,7 +454,7 @@ class _UnifiedBucketToleranceWidgetState
 
               // STATS ROW - Bucket metadata
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                 children: [
                   Text(
                     'Weight: ${bucket.weight.toStringAsFixed(2)} • Type: ${bucket.toleranceType}',
@@ -515,7 +516,7 @@ class _UnifiedBucketToleranceWidgetState
         borderRadius: BorderRadius.circular(context.shapes.radiusSm),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // Debug header
           Text(
@@ -615,7 +616,7 @@ class _UnifiedBucketToleranceWidgetState
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
         children: [
           Text(
             '$label:',

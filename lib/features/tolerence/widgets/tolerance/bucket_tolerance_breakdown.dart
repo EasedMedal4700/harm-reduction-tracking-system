@@ -24,6 +24,7 @@
 // Notes: Fully modernized with granular theme API and ConsumerWidget.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../models/tolerance_bucket.dart';
@@ -91,7 +92,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
         boxShadow: context.cardShadow,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // HEADER - Section title with analytics icon
           Row(
@@ -141,16 +142,16 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                     ),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                     children: [
                       // BUCKET HEADER - Name, description, and status
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                         children: [
                           // Bucket name and description
                           Expanded(
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                               children: [
                                 Text(
                                   _getBucketDisplayName(bucketType),
@@ -182,7 +183,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                                     'ACTIVE',
                                     style: typography.captionBold.copyWith(
                                       color: accent.primary,
-                                      fontSize: 10,
+                                      fontSize: context.text.caption.fontSize,
                                     ),
                                   ),
                                 ),
@@ -218,7 +219,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
 
                       // METADATA - Bucket weight, type, and active level
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                         children: [
                           Text(
                             'Weight: ${bucket.weight.toStringAsFixed(2)} • Type: ${bucket.toleranceType}',
@@ -245,7 +246,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
           if (model.notes != null) ...[
             Divider(color: colors.border, height: spacing.xl),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Icon(Icons.info_outline,
                     size: context.sizes.iconSm, color: colors.textSecondary),

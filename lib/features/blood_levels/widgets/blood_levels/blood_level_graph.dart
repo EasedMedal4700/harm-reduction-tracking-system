@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSectionHeader. No Riverpod.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -35,7 +36,7 @@ class BloodLevelGraph extends StatelessWidget {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           const CommonSectionHeader(title: 'Blood Level Curves'),
           CommonSpacer.vertical(context.spacing.xl),
@@ -53,12 +54,13 @@ class BloodLevelGraph extends StatelessWidget {
 
   Widget _buildEmptyState(BuildContext context) {
     final c = context.colors;
+    final t = context.theme;
     final sp = context.spacing;
     final text = context.text;
 
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
         children: [
           Icon(
             Icons.water_drop_outlined,
@@ -69,7 +71,7 @@ class BloodLevelGraph extends StatelessWidget {
           Text(
             'No active substances in selected timeframe',
             style: text.body.copyWith(color: c.textSecondary),
-            textAlign: TextAlign.center,
+            textAlign: AppLayout.textAlignCenter,
           ),
         ],
       ),
@@ -78,6 +80,8 @@ class BloodLevelGraph extends StatelessWidget {
 
   Widget _buildChart(BuildContext context) {
     final c = context.colors;
+    final text = context.text;
+    final t = context.theme;
 
     final lines = substanceCurves.entries.map((entry) {
       final substance = entry.key;
@@ -161,8 +165,8 @@ class BloodLevelGraph extends StatelessWidget {
                   '$substance\n${spot.y.toStringAsFixed(1)}%',
                   TextStyle(
                     color: c.textPrimary,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
+                    fontWeight: text.bodyBold.fontWeight,
+                    fontSize: context.text.label.fontSize,
                   ),
                 );
               }).toList();
@@ -175,6 +179,7 @@ class BloodLevelGraph extends StatelessWidget {
 
   Widget _buildLeftTitle(double value, TitleMeta meta, BuildContext context) {
     final c = context.colors;
+    final text = context.text;
 
     if (value == 0 || value == 100) {
       return Padding(
@@ -184,7 +189,7 @@ class BloodLevelGraph extends StatelessWidget {
           style: TextStyle(
             fontSize: 11,
             color: c.textSecondary,
-            fontWeight: FontWeight.w500,
+            fontWeight: text.bodyMedium.fontWeight,
           ),
         ),
       );
@@ -194,6 +199,7 @@ class BloodLevelGraph extends StatelessWidget {
 
   Widget _buildBottomTitle(double value, TitleMeta meta, BuildContext context) {
     final c = context.colors;
+    final text = context.text;
     final date = DateTime.fromMillisecondsSinceEpoch(value.toInt());
     final hoursDiff = date.difference(startTime).inHours;
 
@@ -205,7 +211,7 @@ class BloodLevelGraph extends StatelessWidget {
           style: TextStyle(
             fontSize: 11,
             color: c.textSecondary,
-            fontWeight: FontWeight.w500,
+            fontWeight: text.bodyMedium.fontWeight,
           ),
         ),
       );

@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Structural refactor + CommonCard + caching. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 
@@ -173,7 +174,7 @@ final hasData = total > 0;
 return CommonCard(
   padding: EdgeInsets.all(t.spacing.lg),
   child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
+    crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
     children: [
       _buildHeader(context),
       if (_selectedCategory != null) ...[
@@ -346,9 +347,9 @@ return List.generate(entries.length, (index) {
     color: color,
     radius: radius,
     title: showLabel ? '${(slicePercent * 100).round()}%' : '',
-    titleStyle: const TextStyle(
-      fontSize: 10,
-      fontWeight: FontWeight.w600,
+    titleStyle: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
   );
@@ -365,7 +366,7 @@ return List.generate(entries.length, (index) {
 ..sort((a, b) => b.value.compareTo(a.value));
 
 return Column(
-  crossAxisAlignment: CrossAxisAlignment.start,
+  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
   children: [
     Text(
       'Breakdown',
@@ -412,7 +413,7 @@ return Column(
                       style: t.typography.bodySmall.copyWith(
                         color: t.colors.textPrimary,
                       ),
-                      overflow: TextOverflow.ellipsis,
+                      overflow: AppLayout.textOverflowEllipsis,
                     ),
                   ),
                   SizedBox(width: t.spacing.sm),
@@ -469,7 +470,7 @@ required this.isSubstance,
         border: Border.all(color: border),
       ),
   child: Row(
-    mainAxisSize: MainAxisSize.min,
+    mainAxisSize: AppLayout.mainAxisSizeMin,
     children: [
       _pill(
         context,
@@ -517,7 +518,7 @@ final t = context.theme;
     child: Text(
       label,
       style: t.typography.caption.copyWith(
-        fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+        fontWeight: selected ? t.text.bodyBold.fontWeight : t.text.body.fontWeight,
         color: selected ? t.accent.primary : t.colors.textSecondary,
       ),
     ),
@@ -554,7 +555,7 @@ final t = context.theme;
       borderRadius: BorderRadius.circular(t.shapes.radiusFull),
     ),
     child: Row(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: AppLayout.mainAxisSizeMin,
       children: [
         Icon(
           Icons.arrow_back_ios_new_rounded,
@@ -566,7 +567,7 @@ final t = context.theme;
           'Substances in $category',
           style: t.typography.caption.copyWith(
             color: t.accent.primary,
-            fontWeight: FontWeight.w600,
+            fontWeight: t.text.bodyBold.fontWeight,
           ),
         ),
       ],
@@ -599,7 +600,7 @@ final label = switch (mode) {
 };
 
 return Column(
-  mainAxisSize: MainAxisSize.min,
+  mainAxisSize: AppLayout.mainAxisSizeMin,
   children: [
     Text(
       total.toString(),
@@ -633,7 +634,7 @@ return SizedBox(
   child: Center(
     child: Text(
       'No data to visualize yet.\nLog a few entries to see distribution.',
-      textAlign: TextAlign.center,
+      textAlign: AppLayout.textAlignCenter,
       style: t.typography.bodySmall.copyWith(
         color: t.colors.textSecondary,
       ),

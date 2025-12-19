@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
@@ -45,7 +46,7 @@ class CacheManagementSection extends StatelessWidget {
       padding: EdgeInsets.all(sp.lg),
       showBorder: false,
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             /// Header
             Row(
@@ -69,7 +70,7 @@ class CacheManagementSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(sp.sm),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceAround,
                 children: [
                   CacheStatWidget(
                     label: 'Total',

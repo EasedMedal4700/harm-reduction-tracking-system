@@ -5,6 +5,7 @@
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -160,7 +161,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           child: Text(
             'PIN Timeout Settings',
             style: t.typography.labelLarge.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: text.bodyBold.fontWeight,
               color: c.textSecondary,
             ),
           ),
@@ -395,8 +396,8 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
       title: Text(widget.title),
       content: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             Text(
               widget.subtitle,
@@ -454,7 +455,7 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
             Text(
               'Current: ${_formatDuration(_selectedValue)}',
               style: text.bodyLarge.copyWith(
-                fontWeight: FontWeight.bold,
+                fontWeight: text.bodyBold.fontWeight,
               ),
             ),
           ],

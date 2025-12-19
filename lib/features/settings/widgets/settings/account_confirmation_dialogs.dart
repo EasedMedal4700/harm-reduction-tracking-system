@@ -5,6 +5,7 @@
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 import 'account_dialogs.dart';
@@ -32,8 +33,8 @@ void showDeleteDataConfirmation(
         ],
       ),
       content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: AppLayout.mainAxisSizeMin,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'This will permanently delete:',
@@ -62,7 +63,7 @@ void showDeleteDataConfirmation(
                 Expanded(
                   child: Text(
                     'Consider downloading your data first!',
-                    style: context.text.bodyMedium.copyWith(fontWeight: FontWeight.w500),
+                    style: context.text.bodyMedium.copyWith(fontWeight: text.bodyMedium.fontWeight),
                   ),
                 ),
               ],
@@ -71,7 +72,7 @@ void showDeleteDataConfirmation(
           CommonSpacer.vertical(spacing.md),
           Text(
             'Your account will remain active, but all your data will be gone forever.',
-            style: context.text.bodyMedium.copyWith(color: colors.error, fontWeight: FontWeight.w500),
+            style: context.text.bodyMedium.copyWith(color: colors.error, fontWeight: text.bodyMedium.fontWeight),
           ),
         ],
       ),
@@ -152,8 +153,8 @@ void showDeleteAccountConfirmation(
         ],
       ),
       content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: AppLayout.mainAxisSizeMin,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'This will PERMANENTLY delete:',
@@ -200,7 +201,7 @@ void showDeleteAccountConfirmation(
             'This action CANNOT be reversed. Your data will be gone forever.',
             style: context.text.bodySmall.copyWith(
               color: colors.error,
-              fontWeight: FontWeight.bold,
+              fontWeight: text.bodyBold.fontWeight,
             ),
           ),
         ],
@@ -260,7 +261,7 @@ void showFinalDeleteAccountConfirmation(
           ],
         ),
         content: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
             Text(
               'Type "DELETE MY ACCOUNT" to confirm account deletion:',

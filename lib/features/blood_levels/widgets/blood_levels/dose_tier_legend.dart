@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../services/pharmacokinetics_service.dart';
 import '../../../../common/cards/common_card.dart';
@@ -29,7 +30,7 @@ class DoseTierLegend extends StatelessWidget {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text('Dose Ranges', style: text.heading4),
           CommonSpacer.vertical(sp.lg),
@@ -45,7 +46,7 @@ class DoseTierLegend extends StatelessWidget {
             return Padding(
               padding: EdgeInsets.only(bottom: sp.md),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                 children: [
                   // Substance name + colored square
                   Row(

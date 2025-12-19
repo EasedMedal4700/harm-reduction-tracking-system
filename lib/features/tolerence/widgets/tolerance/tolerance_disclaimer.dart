@@ -24,6 +24,7 @@
 // Notes: Fully modernized with granular theme API and ConsumerWidget.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../services/onboarding_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -66,7 +67,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // HEADER - Warning icon and title with optional expand button
           Row(
@@ -82,7 +83,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
                   'SAFETY DISCLAIMER',
                   style: typography.heading3.copyWith(
                     color: Colors.orange,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: text.bodyBold.fontWeight,
                   ),
                 ),
               ),
@@ -146,10 +147,10 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
                 'Always consult medical professionals and follow harm reduction practices.',
                 style: typography.bodySmall.copyWith(
                   color: Colors.red.shade300,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: text.bodyBold.fontWeight,
                   height: 1.4,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
             ),
           ],
@@ -238,7 +239,7 @@ class _CompactToleranceDisclaimerState
         border: Border.all(color: borderColor, width: 1.5),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Icon(
             Icons.warning_amber_rounded,
@@ -248,7 +249,7 @@ class _CompactToleranceDisclaimerState
           SizedBox(width: spacing.md),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(
                   'Harm Reduction Notice',

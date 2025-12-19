@@ -6,6 +6,7 @@
 // Notes: Updated to CommonCard and new theme system. No Riverpod.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -32,13 +33,13 @@ class BucketStatusCard extends StatelessWidget {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // Title
           Text(
             'Current Status',
             style: text.body.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: text.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),
@@ -74,7 +75,7 @@ class BucketStatusCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: sp.sm),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
         children: [
           // Label
           Text(
@@ -88,7 +89,7 @@ class BucketStatusCard extends StatelessWidget {
           Text(
             value,
             style: text.bodySmall.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: text.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),

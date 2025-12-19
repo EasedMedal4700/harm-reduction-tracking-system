@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
@@ -24,10 +25,11 @@ class DailyCheckinCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
+    final text = context.text;
+    final t = context.theme;
     final acc = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.text;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
     final accentColor = acc.primary;
@@ -37,7 +39,7 @@ class DailyCheckinCard extends StatelessWidget {
       padding: EdgeInsets.all(sp.md),
       decoration: _buildDecoration(context, isDark, accentColor, completedColor),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // Header row with icon and title
           Row(
@@ -61,13 +63,13 @@ class DailyCheckinCard extends StatelessWidget {
               // Text content
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+                  mainAxisSize: AppLayout.mainAxisSizeMin,
                   children: [
                     Text(
                       'Daily Check-in',
                       style: t.heading4.copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: text.bodyBold.fontWeight,
                         color: c.textPrimary,
                       ),
                     ),
@@ -100,7 +102,7 @@ class DailyCheckinCard extends StatelessWidget {
               label: Text(
                 _getButtonText(),
                 style: t.button.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: text.bodyBold.fontWeight,
                   height: 1.2,
                 ),
               ),
@@ -111,7 +113,7 @@ class DailyCheckinCard extends StatelessWidget {
                 foregroundColor: isCompleted
                     ? c.textSecondary
                     : c.textInverse,
-                elevation: isCompleted ? context.sizes.elevationNone : context.sizes.elevationSm,
+                elevation: isCompleted ? context.sizes.elevationNone : context.sizes.cardElevation,
                 padding: EdgeInsets.symmetric(vertical: sp.md, horizontal: sp.md),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(sh.radiusMd),

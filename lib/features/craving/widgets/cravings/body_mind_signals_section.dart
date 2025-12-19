@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonChipGroup.
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/buttons/common_chip_group.dart';
@@ -26,13 +27,14 @@ class BodyMindSignalsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.theme;
     final c = context.colors;
+    final text = context.text;
     final a = context.accent;
     final sp = context.spacing;
     
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Row(
             children: [
@@ -42,7 +44,7 @@ class BodyMindSignalsSection extends StatelessWidget {
                 'Body & Mind Signals',
                 style: t.typography.heading4.copyWith(
                   color: c.textPrimary,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                 ),
               ),
             ],

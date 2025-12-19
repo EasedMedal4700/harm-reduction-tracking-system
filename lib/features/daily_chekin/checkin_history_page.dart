@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:provider/provider.dart';
 import '../../common/layout/common_drawer.dart';
 import 'widgets/checkin_history/checkin_card.dart';
@@ -47,7 +48,7 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
           if (provider.recentCheckins.isEmpty) {
             return Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
                 children: [
                   Icon(Icons.history, size: context.sizes.icon2xl, color: c.textSecondary),
                   SizedBox(height: sp.lg),

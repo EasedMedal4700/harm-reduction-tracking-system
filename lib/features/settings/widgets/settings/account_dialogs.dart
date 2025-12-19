@@ -5,6 +5,7 @@
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -97,8 +98,8 @@ class _PasswordVerificationDialogState
     return AlertDialog(
       title: Text(widget.title),
       content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: AppLayout.mainAxisSizeMin,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(widget.description),
           CommonSpacer.vertical(spacing.lg),
@@ -184,7 +185,7 @@ class WarningItem extends StatelessWidget {
               text,
               style: context.text.bodyMedium.copyWith(
                 color: isRed ? colors.error : colors.warning,
-                fontWeight: FontWeight.w500,
+                fontWeight: text.bodyMedium.fontWeight,
               ),
             ),
           ),
@@ -209,7 +210,7 @@ class LoadingDialog extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(spacing.xl),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: AppLayout.mainAxisSizeMin,
             children: [
               const CommonLoader(),
               CommonSpacer.vertical(spacing.lg),
@@ -255,7 +256,7 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
     return AlertDialog(
       title: Text(widget.title),
       content: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: AppLayout.mainAxisSizeMin,
         children: [
           Text(
             widget.description,

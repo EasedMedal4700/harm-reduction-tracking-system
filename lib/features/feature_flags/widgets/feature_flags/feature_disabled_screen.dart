@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../common/buttons/common_primary_button.dart';
 import '../../../../common/buttons/common_outlined_button.dart';
@@ -71,7 +72,7 @@ class FeatureDisabledScreen extends StatelessWidget {
         child: SingleChildScrollView(
           padding: EdgeInsets.all(sp.lg),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentCenter,
             children: [
               SizedBox(height: sp.xl),
 
@@ -98,7 +99,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                 style: text.heading3.copyWith(
                   color: c.textPrimary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
 
               SizedBox(height: sp.md),
@@ -111,7 +112,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                 style: text.body.copyWith(
                   color: c.textSecondary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
 
               SizedBox(height: sp.xl),
@@ -158,7 +159,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                   ),
                 ),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                   children: [
                     Icon(
                       Icons.info_outline_rounded,

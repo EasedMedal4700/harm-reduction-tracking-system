@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../common/layout/common_drawer.dart';
 import '../../../services/admin_service.dart';
 import '../../../services/cache_service.dart';
@@ -266,7 +267,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(sp.lg),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                   children: [
                     // Stats Dashboard
                     AdminStatsSection(

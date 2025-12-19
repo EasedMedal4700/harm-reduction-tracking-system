@@ -5,6 +5,7 @@
 // Notes: Page for editing cravings. No hardcoded values.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../common/layout/common_spacer.dart';
@@ -276,7 +277,7 @@ class _EditCravingPageState extends State<EditCravingPage> {
           : SingleChildScrollView(
               padding: EdgeInsets.all(sp.md),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                 children: [
                   CravingDetailsSection(
                     selectedCravings: selectedCravings,

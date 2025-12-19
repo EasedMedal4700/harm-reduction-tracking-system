@@ -1,5 +1,6 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -37,13 +38,13 @@ class SubstanceHeaderCard extends StatelessWidget {
             child: Icon(
               Icons.science,
               color: acc.primary,
-              size: 24,
+              size: context.sizes.iconMd,
             ),
           ),
           CommonSpacer.horizontal(sp.md),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(
                   substanceName,

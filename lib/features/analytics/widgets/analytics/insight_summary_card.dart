@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Modern Insight Summary using CommonCard & SectionHeader. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 import '../../../../common/cards/common_card.dart';
@@ -31,7 +32,7 @@ class InsightSummaryCard extends StatelessWidget {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           /// Standardized header with icon
           CommonSectionHeader(

@@ -6,6 +6,7 @@
 // Notes: Initial migration header added. Uses some theme extensions, but not fully migrated or Riverpod integrated.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 
 import '../../../models/tolerance_model.dart';
 import '../../../models/bucket_definitions.dart';
@@ -58,7 +59,7 @@ class SystemToleranceWidget extends StatelessWidget {
       ),
       padding: EdgeInsets.all(t.spacing.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // TITLE
           Text(
@@ -138,7 +139,7 @@ class SystemToleranceWidget extends StatelessWidget {
           children: [
             Icon(
               _getBucketIcon(bucket),
-              size: 20,
+              size: context.sizes.iconMd,
               color: t.colors.textSecondary,
             ),
             SizedBox(width: t.spacing.sm),

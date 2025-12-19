@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Converted to CommonCard layout + cleaned architecture. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../../../../constants/enums/time_period.dart';
@@ -38,7 +39,7 @@ class UsageTrendChart extends StatelessWidget {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           CommonSectionHeader(
             title: _title(period),
@@ -109,7 +110,7 @@ class UsageTrendChart extends StatelessWidget {
             runSpacing: t.spacing.sm,
             children: _uniqueCategories(values).map((cat) {
               return Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: AppLayout.mainAxisSizeMin,
                 children: [
                   Container(
                     width: t.spacing.md,
@@ -188,6 +189,7 @@ class UsageTrendChart extends StatelessWidget {
   // ---------------------------------------------------------------------------
 
   List<BarChartGroupData> _buildBars(List<Map<String, int>> data) {
+    final barWidth = context.sizes.iconSm;
     return data.asMap().entries.map((e) {
       final x = e.key;
       final map = e.value;
@@ -218,7 +220,7 @@ class UsageTrendChart extends StatelessWidget {
           BarChartRodData(
             toY: total,
             rodStackItems: stacks,
-            width: t.sizes.iconSm,
+            width: barWidth,
             borderRadius: BorderRadius.zero,
           ),
         ],

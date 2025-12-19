@@ -4,6 +4,7 @@
 // Riverpod: TODO
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../repo/stockpile_repository.dart';
 import '../../../../utils/drug_profile_utils.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -115,15 +116,15 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
       child: Form(
         key: _formKey,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
           children: [
             // Header
             Row(
               children: [
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                     children: [
                       Text(
                         'Add to Stockpile',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 // MIGRATION
@@ -58,7 +59,7 @@ class _QuickActionTileState extends State<QuickActionTile> {
                 : null,
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
               // Icon with background
               AnimatedContainer(
@@ -92,12 +93,12 @@ class _QuickActionTileState extends State<QuickActionTile> {
               Text(
                 widget.label,
                 style: text.bodySmall.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
                 maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                overflow: AppLayout.textOverflowEllipsis,
               ),
             ],
           ),
@@ -124,7 +125,7 @@ class QuickActionsGrid extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: sp.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // Section header
           Padding(

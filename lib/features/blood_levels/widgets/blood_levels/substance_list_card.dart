@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -22,6 +23,7 @@ class SubstanceListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
+    final t = context.theme;
     final text = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -60,7 +62,7 @@ class SubstanceListCard extends StatelessWidget {
     return CommonCard(
       padding: EdgeInsets.all(sp.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // HEADER
           Row(
@@ -117,7 +119,7 @@ class SubstanceListCard extends StatelessWidget {
                     // MAIN CONTENT
                     Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                         children: [
                           Text(
                             substance.name,
@@ -147,7 +149,7 @@ class SubstanceListCard extends StatelessWidget {
 
                     // TIME AGO
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: AppLayout.crossAxisAlignmentEnd,
                       children: [
                         Text(
                           _formatTimeDiff(substance.timeSinceUse),

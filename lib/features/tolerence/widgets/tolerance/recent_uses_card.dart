@@ -22,6 +22,7 @@
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -89,7 +90,7 @@ class RecentUsesCard extends ConsumerWidget {
       ),
       padding: EdgeInsets.all(spacing.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // HEADER
           Text(
@@ -104,7 +105,7 @@ class RecentUsesCard extends ConsumerWidget {
             (event) => Padding(
               padding: EdgeInsets.symmetric(vertical: spacing.xs),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                 children: [
                   // Timestamp (e.g., "Dec 14 · 21:30")
                   Text(

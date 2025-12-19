@@ -6,6 +6,7 @@
 // Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'admin_stat_card.dart';
 
@@ -35,7 +36,7 @@ class AdminStatsSection extends StatelessWidget {
         (perfStats['avg_response_time'] ?? 0.0).toDouble();
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         // Header
         Text(

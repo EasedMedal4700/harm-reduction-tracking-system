@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Migrated to use local widgets which are now standardized.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/daily_checkin_provider.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -74,7 +75,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
           return SingleChildScrollView(
             padding: EdgeInsets.all(spacing.xl),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
 
                 // ---------------------------------------------------------------------
@@ -92,7 +93,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
 
                     Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                         children: [
                           Text(
                             "Daily Check-In",

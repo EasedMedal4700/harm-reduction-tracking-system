@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../services/onboarding_service.dart';
@@ -199,12 +200,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
         children: [
           CommonSpacer.vertical(sp.xl2),
           // App Icon
           Container(
-            width: 120,
+            width: context.sizes.cardWidthSm,
             height: 120,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -236,7 +237,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Text(
             'SubstanceCheck',
             style: t.typography.heading1.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: text.bodyBold.fontWeight,
               letterSpacing: -1,
               color: c.textPrimary,
             ),
@@ -246,7 +247,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           // Tagline
           Text(
             'Realtime pharmacokinetic tracking\nfor informed substance use',
-            textAlign: TextAlign.center,
+            textAlign: AppLayout.textAlignCenter,
             style: t.typography.heading4.copyWith(
               color: c.textSecondary,
               height: 1.4,
@@ -300,7 +301,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final sh = context.shapes;
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Container(
           padding: EdgeInsets.all(sp.sm),
@@ -317,12 +318,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         CommonSpacer.horizontal(sp.md),
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 title,
                 style: t.typography.heading4.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
               ),
@@ -349,7 +350,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           CommonSpacer.vertical(sp.md),
           // Header
@@ -370,12 +371,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               CommonSpacer.horizontal(sp.md),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                   children: [
                     Text(
                       'Privacy & Safety',
                       style: t.typography.heading3.copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: text.bodyBold.fontWeight,
                         color: c.textPrimary,
                       ),
                     ),
@@ -444,12 +445,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(
                   'Choose Your Theme',
                   style: t.typography.heading4.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: text.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
                 ),
@@ -513,18 +514,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Icon(icon, color: color, size: t.sizes.iconMd),
           CommonSpacer.horizontal(sp.md),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(
                   title,
                   style: t.typography.heading4.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: text.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
                 ),
@@ -586,7 +587,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Text(
               title,
               style: t.typography.body.copyWith(
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                fontWeight: isSelected ? text.bodyBold.fontWeight : text.bodyRegular.fontWeight,
                 color: isSelected
                     ? a.primary
                     : c.textSecondary,
@@ -608,14 +609,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           CommonSpacer.vertical(sp.md),
           // Header
           Text(
             'Privacy Policy',
             style: t.typography.heading3.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: text.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),
@@ -649,17 +650,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Icon(
                     Icons.policy,
                     color: a.primary,
-                    size: 40,
+                    size: context.sizes.iconXl,
                   ),
                   CommonSpacer.horizontal(sp.md),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                       children: [
                         Text(
                           'Read Privacy Policy',
                           style: t.typography.heading4.copyWith(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: text.bodyBold.fontWeight,
                             color: c.textPrimary,
                           ),
                         ),
@@ -727,7 +728,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Text(
                       'I have read and accept the Privacy Policy',
                       style: t.typography.body.copyWith(
-                        fontWeight: _privacyAccepted ? FontWeight.w600 : FontWeight.normal,
+                        fontWeight: _privacyAccepted ? text.bodyBold.fontWeight : text.bodyRegular.fontWeight,
                         color: _privacyAccepted
                             ? c.success
                             : c.textSecondary,
@@ -782,14 +783,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           CommonSpacer.vertical(sp.md),
           // Header
           Text(
             'How often do you use?',
             style: t.typography.heading3.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: text.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),
@@ -827,17 +828,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     children: [
                       Text(
                         frequency.icon,
-                        style: const TextStyle(fontSize: 28),
+                        style: const TextStyle(fontSize: context.text.heading1.fontSize),
                       ),
                       CommonSpacer.horizontal(sp.md),
                       Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                           children: [
                             Text(
                               frequency.label,
                               style: t.typography.heading4.copyWith(
-                                fontWeight: FontWeight.bold,
+                                fontWeight: text.bodyBold.fontWeight,
                                 color: isSelected
                                     ? a.primary
                                     : c.textPrimary,
@@ -863,7 +864,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           child: Icon(
                             Icons.check,
                             color: c.textInverse,
-                            size: 16,
+                            size: context.sizes.iconSm,
                           ),
                         ),
                     ],

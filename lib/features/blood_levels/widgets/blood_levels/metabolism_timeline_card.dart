@@ -7,6 +7,7 @@
 //        Fully updated for new TimelineChartConfig signatures.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -241,7 +242,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // ----- Header -----
           Row(
@@ -251,7 +252,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
               Text(
                 'Metabolism Timeline',
                 style: context.text.bodySmall.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: accentColor,
                   letterSpacing: 0.5,
                 ),
@@ -313,7 +314,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
       padding: EdgeInsets.all(sp.lg),
       child: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
             Icon(Icons.timeline_outlined, size: context.sizes.iconXl, color: c.textSecondary),
             SizedBox(height: sp.md),

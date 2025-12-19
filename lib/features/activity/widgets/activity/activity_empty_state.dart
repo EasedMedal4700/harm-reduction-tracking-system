@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_layout.dart';
 import '../../../../common/layout/common_spacer.dart';
 
 class ActivityEmptyState extends StatelessWidget {
@@ -31,7 +32,7 @@ class ActivityEmptyState extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(sp.xl2),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
             Icon(
               icon,
@@ -44,7 +45,7 @@ class ActivityEmptyState extends StatelessWidget {
             Text(
               title,
               style: text.heading3.copyWith(color: c.textPrimary),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
 
             CommonSpacer.vertical(sp.sm),
@@ -52,7 +53,7 @@ class ActivityEmptyState extends StatelessWidget {
             Text(
               subtitle,
               style: text.bodySmall.copyWith(color: c.textSecondary),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
           ],
         ),

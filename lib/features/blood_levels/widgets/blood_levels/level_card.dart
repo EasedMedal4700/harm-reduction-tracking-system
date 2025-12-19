@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../services/blood_levels_service.dart';
 import '../../../../constants/data/drug_categories.dart';
@@ -47,7 +48,7 @@ class _LevelCardState extends State<LevelCard> {
         backgroundColor: categoryColor.withValues(alpha: 0.07),
         borderColor: categoryColor.withValues(alpha: 0.3),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             _buildHeaderRow(context, categoryColor, status),
 
@@ -68,7 +69,7 @@ class _LevelCardState extends State<LevelCard> {
 
           // Summary row
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
             children: [
               _buildInfoColumn(context, 'Remaining', '${remainingMg.toStringAsFixed(1)}mg'),
               _buildInfoColumn(context, 'Last Dose', '${widget.level.lastDose.toStringAsFixed(1)}mg'),
@@ -96,12 +97,12 @@ class _LevelCardState extends State<LevelCard> {
     final sh = context.shapes;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
       children: [
         // Left section: name + category
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 widget.level.drugName.toUpperCase(),
@@ -152,7 +153,7 @@ class _LevelCardState extends State<LevelCard> {
     final text = context.text;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           'Individual Doses',
@@ -176,7 +177,7 @@ class _LevelCardState extends State<LevelCard> {
                 SizedBox(width: sp.sm),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                     children: [
                       Text(
                         '${dose.dose.toStringAsFixed(1)}mg → '
@@ -242,7 +243,7 @@ class _LevelCardState extends State<LevelCard> {
         border: Border.all(color: c.border),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(label, style: text.caption.copyWith(color: c.textSecondary)),
           SizedBox(height: sp.xs),
@@ -259,7 +260,7 @@ class _LevelCardState extends State<LevelCard> {
     final sp = context.spacing;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(label, style: text.caption.copyWith(color: c.textSecondary)),
         SizedBox(height: sp.xs),

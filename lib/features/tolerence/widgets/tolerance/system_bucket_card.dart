@@ -23,6 +23,7 @@
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../models/bucket_definitions.dart';
 import '../../../../models/tolerance_model.dart';
@@ -122,7 +123,7 @@ class SystemBucketCard extends ConsumerWidget {
         child: Padding(
           padding: EdgeInsets.all(spacing.sm),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: AppLayout.mainAxisSizeMin,
             children: [
               // Bucket icon with state color
               Icon(_getBucketIcon(), size: context.sizes.iconMd, color: stateColor),
@@ -134,9 +135,9 @@ class SystemBucketCard extends ConsumerWidget {
                 style: typography.bodyBold.copyWith(
                   color: colors.textPrimary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
                 maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                overflow: AppLayout.textOverflowEllipsis,
               ),
 
               CommonSpacer.vertical(spacing.sm),
@@ -189,7 +190,7 @@ class SystemBucketCard extends ConsumerWidget {
                     'ACTIVE',
                     style: typography.captionBold.copyWith(
                       color: colors.info,
-                      fontSize: 10,
+                      fontSize: context.text.caption.fontSize,
                     ),
                   ),
                 ),

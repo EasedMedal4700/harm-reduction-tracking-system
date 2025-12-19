@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../common/layout/common_spacer.dart';
 import '../../common/buttons/common_primary_button.dart';
@@ -22,12 +23,12 @@ class EmailConfirmedPage extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(sp.xl),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
               const Spacer(),
               // Success animation/icon
               Container(
-                width: 120,
+                width: context.sizes.cardWidthSm,
                 height: 120,
                 decoration: BoxDecoration(
                   color: c.success.withValues(alpha: context.opacities.overlay),
@@ -46,7 +47,7 @@ class EmailConfirmedPage extends StatelessWidget {
                 style: text.headlineMedium.copyWith(
                   color: c.textPrimary,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.lg),
               // Description
@@ -56,7 +57,7 @@ class EmailConfirmedPage extends StatelessWidget {
                   color: c.textSecondary,
                   height: 1.5,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.lg),
               // Checkmark list
@@ -126,7 +127,7 @@ class EmailConfirmedPage extends StatelessWidget {
             text,
             style: t.typography.body.copyWith(
               color: c.textPrimary,
-              fontWeight: FontWeight.w500,
+              fontWeight: text.bodyMedium.fontWeight,
             ),
           ),
         ),

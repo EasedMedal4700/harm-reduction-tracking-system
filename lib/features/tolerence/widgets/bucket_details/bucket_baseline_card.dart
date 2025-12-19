@@ -6,6 +6,7 @@
 // Notes: Updated to CommonCard and new theme system. No Riverpod.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -34,7 +35,7 @@ class BucketBaselineCard extends StatelessWidget {
 
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(
                   'Days to Baseline',
@@ -48,7 +49,7 @@ class BucketBaselineCard extends StatelessWidget {
                       ? 'At baseline'
                       : '${daysToBaseline.toStringAsFixed(1)} days',
                   style: text.body.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: text.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
                 ),

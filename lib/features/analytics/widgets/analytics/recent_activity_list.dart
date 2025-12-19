@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Rebuilt RecentActivityList with CommonCard + unified layout. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 import '../../../../common/cards/common_card.dart';
@@ -36,7 +37,7 @@ class RecentActivityList extends StatelessWidget {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           const CommonSectionHeader(
             title: 'Recent Activity',
@@ -121,7 +122,7 @@ class _RecentActivityItem extends StatelessWidget {
               /// Content
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                   children: [
                     /// Substance + category chip
                     Row(
@@ -132,7 +133,7 @@ class _RecentActivityItem extends StatelessWidget {
                             style: t.typography.bodyBold.copyWith(
                               color: t.colors.textPrimary,
                             ),
-                            overflow: TextOverflow.ellipsis,
+                            overflow: AppLayout.textOverflowEllipsis,
                           ),
                         ),
                         SizedBox(width: t.spacing.sm),
@@ -161,7 +162,7 @@ class _RecentActivityItem extends StatelessWidget {
 
                     /// Activity bar
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                       children: [
                         Text(
                           'Active',

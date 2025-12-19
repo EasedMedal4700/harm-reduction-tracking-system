@@ -4,6 +4,7 @@
 // Riverpod: TODO
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -101,7 +102,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
         ),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: AppLayout.mainAxisSizeMin,
         children: [
           // Handle bar
           Container(
@@ -143,12 +144,12 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                     CommonSpacer(width: t.spacing.sm),
                     Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                         children: [
                           Text(
                             widget.substanceName,
                             style: t.typography.heading3.copyWith(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: text.bodyBold.fontWeight,
                             ),
                           ),
                           Text(
@@ -185,7 +186,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                   child: Text(
                     '${_allEntries.length} ${_allEntries.length == 1 ? 'use' : 'uses'} on ${widget.dayName}s',
                     style: t.typography.bodySmall.copyWith(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: text.bodyBold.fontWeight,
                       color: widget.accentColor,
                     ),
                   ),
@@ -234,12 +235,12 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                         SizedBox(
                           width: 60,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                             children: [
                               Text(
                                 DateFormat('HH:mm').format(startTime),
                                 style: t.typography.body.copyWith(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: text.bodyBold.fontWeight,
                                   color: widget.accentColor,
                                 ),
                               ),
@@ -256,12 +257,12 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                         // Details
                         Expanded(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                             children: [
                               Text(
                                 dose,
                                 style: t.typography.body.copyWith(
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: text.bodyBold.fontWeight,
                                 ),
                               ),
                               Row(

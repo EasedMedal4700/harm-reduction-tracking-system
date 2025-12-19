@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Modernized summary card using CommonCard & unified typography. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 import '../../../../common/cards/common_card.dart';
@@ -37,7 +38,7 @@ class AnalyticsSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           CommonSectionHeader(
             title: 'Analytics Summary',
@@ -85,7 +86,7 @@ class AnalyticsSummary extends StatelessWidget {
     final t = context.theme;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
       children: [
         Text(
           label,

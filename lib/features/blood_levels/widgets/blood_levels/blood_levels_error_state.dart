@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonPrimaryButton.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/buttons/common_primary_button.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -30,7 +31,7 @@ class BloodLevelsErrorState extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
             Icon(
               Icons.error_outline,
@@ -43,7 +44,7 @@ class BloodLevelsErrorState extends StatelessWidget {
             Text(
               error,
               style: t.typography.body.copyWith(color: c.textPrimary),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
 
             CommonSpacer.vertical(t.spacing.xl),

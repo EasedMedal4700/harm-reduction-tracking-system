@@ -1,5 +1,6 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class TimeSelector extends StatelessWidget {
@@ -25,8 +26,11 @@ class TimeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
+    final text = context.text;
+    final t = context.theme;
     final acc = context.accent;
     final sp = context.spacing;
+    final text = context.text;
     final sh = context.shapes;
 
     return InkWell(
@@ -40,7 +44,7 @@ class TimeSelector extends StatelessWidget {
           color: c.surface,
         ),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
             Icon(Icons.access_time, size: context.sizes.iconSm, color: acc.primary),
             SizedBox(width: sp.sm),
@@ -48,7 +52,7 @@ class TimeSelector extends StatelessWidget {
               selectedTime.format(context),
               style: TextStyle(
                 fontSize: 16.0,
-                fontWeight: FontWeight.w500,
+                fontWeight: text.bodyMedium.fontWeight,
                 color: c.textPrimary,
               ),
             ),

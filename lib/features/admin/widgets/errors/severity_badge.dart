@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: Fully theme-compliant Severity Badge.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Severity badge for error logs
@@ -41,7 +42,7 @@ class SeverityBadge extends StatelessWidget {
 
     final textStyle = (compact ? text.caption : text.bodySmall).copyWith(
       color: colors.text,
-      fontWeight: FontWeight.bold,
+      fontWeight: text.bodyBold.fontWeight,
       letterSpacing: compact ? 0 : 0.5,
     );
 
@@ -56,7 +57,7 @@ class SeverityBadge extends StatelessWidget {
         ),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: AppLayout.mainAxisSizeMin,
         children: [
           Icon(
             icon,

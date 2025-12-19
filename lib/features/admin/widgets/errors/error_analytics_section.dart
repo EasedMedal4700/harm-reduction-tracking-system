@@ -5,6 +5,7 @@
 // Notes: Fully theme-based, no deprecated typography or colors.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
@@ -59,7 +60,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
       padding: EdgeInsets.all(sp.lg),
       showBorder: false,
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             /// HEADER
             Row(
@@ -209,7 +210,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                             child: Text(
                               errorCode,
                               style: text.overline.copyWith(
-                                fontWeight: FontWeight.bold,
+                                fontWeight: text.bodyBold.fontWeight,
                                 color: c.textPrimary,
                               ),
                             ),
@@ -219,7 +220,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                         Expanded(
                           child: Text(
                             log['error_message'] ?? 'Unknown error',
-                            overflow: TextOverflow.ellipsis,
+                            overflow: AppLayout.textOverflowEllipsis,
                             maxLines: 2,
                             style: text.body.copyWith(color: c.textPrimary),
                           ),
@@ -233,7 +234,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                       style: text.caption.copyWith(color: c.textSecondary),
                     ),
                     trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
                       children: [
                         Icon(Icons.devices, color: c.textSecondary),
                         Text(
@@ -263,14 +264,14 @@ class ErrorAnalyticsSection extends StatelessWidget {
     final sh = context.shapes;
 
     return Container(
-      width: 160,
+      width: context.sizes.cardWidthMd,
       padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(sh.radiusMd),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Icon(icon, color: color),
           SizedBox(height: sp.sm),
@@ -300,7 +301,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
     final sp = context.spacing;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           title,
@@ -312,7 +313,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
           (item) => Padding(
             padding: EdgeInsets.symmetric(vertical: sp.xs),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
                 Expanded(
                   child: useSeverityBadge
@@ -322,7 +323,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                         )
                       : Text(
                           item[labelKey]?.toString() ?? 'Unknown',
-                          overflow: TextOverflow.ellipsis,
+                          overflow: AppLayout.textOverflowEllipsis,
                           style: text.body.copyWith(color: c.textPrimary),
                         ),
                 ),

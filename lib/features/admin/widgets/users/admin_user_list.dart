@@ -6,6 +6,7 @@
 // Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_icon_button.dart';
 import 'admin_user_card.dart';
@@ -30,11 +31,11 @@ class AdminUserList extends StatelessWidget {
     final text = context.text;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         // HEADER
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: [
             Text(
               'User Management',

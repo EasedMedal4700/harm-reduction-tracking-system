@@ -6,6 +6,7 @@
 // Notes: Theme alignment & structural cleanup. Not fully migrated or Riverpod integrated.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
@@ -83,7 +84,7 @@ class AnalyticsLayout extends StatelessWidget {
         return SingleChildScrollView(
           padding: EdgeInsets.all(t.spacing.lg),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               /// 🔹 Filters
               AnalyticsFilterCard(filterContent: filterContent),
@@ -118,7 +119,7 @@ class AnalyticsLayout extends StatelessWidget {
     final t = context.theme;
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         /// LEFT COLUMN
         Expanded(

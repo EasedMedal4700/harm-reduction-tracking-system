@@ -6,6 +6,7 @@
 // Notes: Updated to CommonCard and new theme system. No Riverpod.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
@@ -55,12 +56,12 @@ class BucketHeaderCard extends StatelessWidget {
           // Title + tolerance display
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(
                   BucketDefinitions.getDisplayName(bucketType),
                   style: text.titleSmall.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: text.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
                 ),
@@ -70,7 +71,7 @@ class BucketHeaderCard extends StatelessWidget {
                 Text(
                   '${tolerancePercent.toStringAsFixed(1)}% Tolerance',
                   style: text.body.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: text.bodyBold.fontWeight,
                     color: bucketColor,
                   ),
                 ),
@@ -92,7 +93,7 @@ class BucketHeaderCard extends StatelessWidget {
               child: Text(
                 'ACTIVE',
                 style: text.bodySmall.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.warning,
                 ),
               ),

@@ -5,6 +5,7 @@
 // Notes: Legend widget for timeline chart. Displays substance names, colors, and half-lives.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
@@ -38,7 +39,7 @@ class TimelineLegend extends StatelessWidget {
             border: Border.all(color: color.withValues(alpha: t.opacities.border)),
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: AppLayout.mainAxisSizeMin,
             children: [
               Container(
                 width: sp.md,
@@ -50,7 +51,7 @@ class TimelineLegend extends StatelessWidget {
                 '$name (t½: ${halfLife}h)',
                 style: text.caption.copyWith(
                   color: color,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: text.bodyBold.fontWeight,
                 ),
               ),
             ],

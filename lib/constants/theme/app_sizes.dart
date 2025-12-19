@@ -19,4 +19,12 @@ class AppSizes {
   final double elevationNone = 0.0;
   final double cardElevation = 4.0;
   final double cardElevationHovered = 8.0;
+
+  // Common UI Widths
+  final double cardWidthSm = 120.0;
+  final double cardWidthMd = 160.0;
+  final double cardWidthLg = 200.0;
+  final double labelWidthSm = 80.0;
+  final double labelWidthMd = 110.0;
+  final double labelWidthLg = 140.0;
 }

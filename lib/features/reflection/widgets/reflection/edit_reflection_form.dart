@@ -1,7 +1,8 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 // Notes: No hardcoded values.
 import 'package:flutter/material.dart';
-import '../../../../common/widgets/common_spacer.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import '../../../../common/layout/common_spacer.dart';
 import '../../../../common/cards/common_form_card.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/inputs/dropdown.dart';
@@ -124,7 +125,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
     return SingleChildScrollView(
       padding: EdgeInsets.all(t.spacing.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Reflecting on ${widget.selectedCount} selected entries',
@@ -154,7 +155,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             icon: Icons.bedtime,
             accentColor: t.accent.primary,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 CommonInputField(
                   controller: _sleepHoursController,
@@ -184,7 +185,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             icon: Icons.psychology,
             accentColor: t.colors.warning,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 CommonInputField(
                   controller: _nextDayMoodController,
@@ -224,7 +225,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             icon: Icons.psychology_outlined,
             accentColor: t.colors.success,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 _buildSlider(
                   context,
@@ -261,7 +262,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             icon: Icons.assessment,
             accentColor: t.accent.secondary,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 _buildSlider(
                   context,
@@ -306,14 +307,14 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
     final t = context.theme;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: [
             Text(
               label,
-              style: t.typography.bodySmall.copyWith(fontWeight: FontWeight.bold),
+              style: t.typography.bodySmall.copyWith(fontWeight: text.bodyBold.fontWeight),
             ),
             Text(
               value.round().toString(),
@@ -335,7 +336,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: t.spacing.sm),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
                 Text(
                   minLabel,
@@ -362,12 +363,12 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
     final t = context.theme;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           label,
           style: t.typography.bodySmall.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: text.bodyBold.fontWeight,
             color: t.colors.textSecondary,
           ),
         ),

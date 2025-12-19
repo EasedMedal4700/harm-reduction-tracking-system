@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -33,7 +34,7 @@ class DosageGuideCard extends StatelessWidget {
     }
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Row(
           children: [
@@ -59,7 +60,7 @@ class DosageGuideCard extends StatelessWidget {
                 selectedMethod,
                 style: t.text.label.copyWith(
                   color: accentColor,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                 ),
               ),
             ),
@@ -102,12 +103,12 @@ class DosageGuideCard extends StatelessWidget {
           ),
           const CommonSpacer.horizontal(16),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 label,
                 style: t.typography.captionBold.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: color,
                 ),
               ),
@@ -115,7 +116,7 @@ class DosageGuideCard extends StatelessWidget {
               Text(
                 range,
                 style: t.typography.body.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: t.colors.textPrimary,
                 ),
               ),
@@ -151,7 +152,7 @@ class DosageGuideCard extends StatelessWidget {
         border: Border.all(color: t.colors.warning.withValues(alpha: t.opacities.slow)),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Icon(Icons.warning_amber_rounded, color: t.colors.warning),
           SizedBox(width: t.spacing.sm),

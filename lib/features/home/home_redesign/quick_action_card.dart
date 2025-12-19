@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// Modular Quick Action Card component
@@ -54,7 +55,7 @@ class QuickActionCard extends StatelessWidget {
             ],
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
@@ -65,20 +66,20 @@ class QuickActionCard extends StatelessWidget {
                 child: Icon(
                   icon,
                   color: cardColor,
-                  size: 24,
+                  size: context.sizes.iconMd,
                 ),
               ),
               SizedBox(height: sp.xs),
               Text(
                 title,
-                textAlign: TextAlign.center,
+                textAlign: AppLayout.textAlignCenter,
                 style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
+                  fontSize: context.text.label.fontSize,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
                 maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                overflow: AppLayout.textOverflowEllipsis,
               ),
             ],
           ),

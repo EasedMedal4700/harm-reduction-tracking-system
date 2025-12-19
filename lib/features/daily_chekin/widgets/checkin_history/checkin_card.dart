@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and AppThemeExtension.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../models/daily_checkin_model.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
@@ -24,11 +25,11 @@ class CheckinCard extends StatelessWidget {
       child: CommonCard(
         padding: EdgeInsets.all(t.spacing.md),
         child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // Header with date and time of day
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
             children: [
               Row(
                 children: [
@@ -41,7 +42,7 @@ class CheckinCard extends StatelessWidget {
                   Text(
                     _formatDate(checkin.checkinDate),
                     style: t.text.body.copyWith(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: text.bodyBold.fontWeight,
                       color: t.colors.textPrimary,
                     ),
                   ),
@@ -56,7 +57,7 @@ class CheckinCard extends StatelessWidget {
                 child: Text(
                   checkin.timeOfDay.toUpperCase(),
                   style: t.text.label.copyWith(
-                    fontSize: 10,
+                    fontSize: context.text.caption.fontSize,
                     color: t.colors.textSecondary,
                   ),
                 ),
@@ -71,7 +72,7 @@ class CheckinCard extends StatelessWidget {
               Text(
                 'Mood: ',
                 style: t.text.body.copyWith(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: text.bodyMedium.fontWeight,
                   color: t.colors.textSecondary,
                 ),
               ),
@@ -87,7 +88,7 @@ class CheckinCard extends StatelessWidget {
                 child: Text(
                   checkin.mood,
                   style: t.text.label.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: text.bodyBold.fontWeight,
                     color: _getMoodColor(checkin.mood, t), // Use the color for text too
                   ),
                 ),
@@ -101,7 +102,7 @@ class CheckinCard extends StatelessWidget {
             Text(
               'Emotions:',
               style: t.text.body.copyWith(
-                fontWeight: FontWeight.w500,
+                fontWeight: text.bodyMedium.fontWeight,
                 color: t.colors.textSecondary,
               ),
             ),
@@ -134,7 +135,7 @@ class CheckinCard extends StatelessWidget {
             Text(
               'Notes:',
               style: t.text.body.copyWith(
-                fontWeight: FontWeight.w500,
+                fontWeight: text.bodyMedium.fontWeight,
                 color: t.colors.textSecondary,
               ),
             ),

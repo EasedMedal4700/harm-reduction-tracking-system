@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
@@ -24,21 +25,22 @@ class HeaderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
+    final text = context.text;
+    final t = context.theme;
     final acc = context.accent;
     final sp = context.spacing;
-    final t = context.text;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
       children: [
         Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             Text(
               greeting,
               style: t.bodySmall.copyWith(
                 color: c.textSecondary,
-                fontWeight: FontWeight.w500,
+                fontWeight: text.bodyMedium.fontWeight,
               ),
             ),
             CommonSpacer.vertical(sp.xs),

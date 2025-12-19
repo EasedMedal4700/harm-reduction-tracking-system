@@ -22,6 +22,7 @@
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../models/tolerance_model.dart';
@@ -60,7 +61,7 @@ class ToleranceStatsCard extends ConsumerWidget {
       padding: EdgeInsets.all(spacing.cardPadding),
       margin: EdgeInsets.zero,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // Section header
           Text(
@@ -73,12 +74,12 @@ class ToleranceStatsCard extends ConsumerWidget {
 
           // TWO COLUMN GRID
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               // LEFT COLUMN
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                   children: [
                     _metricItem(
                       context,
@@ -110,7 +111,7 @@ class ToleranceStatsCard extends ConsumerWidget {
               // RIGHT COLUMN
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                   children: [
                     _metricItem(
                       context,
@@ -153,12 +154,12 @@ class ToleranceStatsCard extends ConsumerWidget {
     final typography = context.text;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         // Icon and label row
         Row(
           children: [
-            Icon(icon, size: 16, color: colors.textSecondary),
+            Icon(icon, size: context.sizes.iconSm, color: colors.textSecondary),
             SizedBox(width: spacing.xs),
             Text(
               label,

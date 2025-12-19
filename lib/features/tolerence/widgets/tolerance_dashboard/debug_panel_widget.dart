@@ -5,6 +5,7 @@
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../utils/tolerance_calculator.dart';
@@ -37,7 +38,7 @@ class DebugPanelWidget extends ConsumerWidget {
         border: Border.all(color: colors.warning),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // HEADER
           Row(
@@ -52,7 +53,7 @@ class DebugPanelWidget extends ConsumerWidget {
                 'Debug Panel',
                 style: typography.bodyLarge.copyWith(
                   color: colors.warning,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: text.bodyBold.fontWeight,
                 ),
               ),
             ],
@@ -119,13 +120,13 @@ class _DebugSection extends ConsumerWidget {
     final radii = context.shapes;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           title,
           style: typography.bodySmall.copyWith(
             color: colors.textSecondary,
-            fontWeight: FontWeight.w600,
+            fontWeight: text.bodyBold.fontWeight,
           ),
         ),
         SizedBox(height: spacing.xs),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_spacer.dart';
@@ -155,7 +156,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
       child: Padding(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
             Icon(
               Icons.error_outline,
@@ -171,7 +172,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
             Text(
               _errorMessage ?? 'Unknown error',
               style: text.bodyMedium.copyWith(color: c.textSecondary),
-              textAlign: TextAlign.center,
+              textAlign: AppLayout.textAlignCenter,
             ),
             SizedBox(height: sp.lg),
             FilledButton.icon(
@@ -194,7 +195,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
       child: Padding(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
             Icon(
               Icons.flag_outlined,
@@ -322,7 +323,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     return Text(
       category,
       style: text.titleMedium.copyWith(
-        fontWeight: FontWeight.bold,
+        fontWeight: text.bodyBold.fontWeight,
         color: c.textPrimary,
       ),
     );
@@ -352,7 +353,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
         title: Text(
           displayName,
           style: text.bodyMedium.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: text.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
         ),

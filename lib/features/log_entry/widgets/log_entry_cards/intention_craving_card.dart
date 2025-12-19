@@ -1,5 +1,6 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 
 import '../../../../constants/data/body_and_mind_catalog.dart';
 import '../../../../common/cards/common_card.dart';
@@ -36,7 +37,7 @@ class IntentionCravingCard extends StatelessWidget {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           const CommonSectionHeader(
             title: "Intention & Purpose",
@@ -94,8 +95,8 @@ class IntentionCravingCard extends StatelessWidget {
           "Medical Purpose",
           style: text.body.copyWith(
             fontWeight: isMedicalPurpose
-                ? FontWeight.w600
-                : FontWeight.normal,
+                ? text.bodyBold.fontWeight
+                : text.body.fontWeight,
             color: c.textPrimary,
           ),
         ),
@@ -121,7 +122,7 @@ class IntentionCravingCard extends StatelessWidget {
     final accent = c.warning;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           "Craving Intensity",
@@ -161,7 +162,7 @@ class IntentionCravingCard extends StatelessWidget {
               child: Text(
                 cravingIntensity.toStringAsFixed(0),
                 style: text.body.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
               ),

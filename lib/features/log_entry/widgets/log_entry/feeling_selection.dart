@@ -1,5 +1,6 @@
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class FeelingSelection extends StatelessWidget {
@@ -23,18 +24,20 @@ class FeelingSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
+    final text = context.text;
+    final t = context.theme;
     // acc unused
     final sp = context.spacing;
     final sh = context.shapes;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           'How are you feeling?',
           style: TextStyle(
             fontSize: 16.0,
-            fontWeight: FontWeight.w600,
+            fontWeight: text.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
         ),
@@ -65,7 +68,7 @@ class FeelingSelection extends StatelessWidget {
                       borderRadius: BorderRadius.circular(sh.radiusMd),
                     ),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisSize: AppLayout.mainAxisSizeMin,
                       children: [
                         Icon(
                           feeling['icon'] as IconData,
@@ -77,7 +80,7 @@ class FeelingSelection extends StatelessWidget {
                           feeling['label'] as String,
                           style: TextStyle(
                             color: isSelected ? color : c.textSecondary,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            fontWeight: isSelected ? text.bodyBold.fontWeight : text.body.fontWeight,
                             fontSize: 12.0,
                           ),
                         ),

@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSectionHeader. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -57,7 +58,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
 
     return CommonCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           /// HEADER
           Row(
@@ -179,7 +180,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                               '$label\n',
                               text.bodySmall.copyWith(
                                 color: c.textPrimary,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: text.bodyBold.fontWeight,
                               ),
                               children: [
                                 TextSpan(
@@ -307,13 +308,13 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
       ..sort((a, b) => b.value.compareTo(a.value));
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           'Category breakdown',
           style: text.bodySmall.copyWith(
             color: c.textSecondary,
-            fontWeight: FontWeight.w600,
+            fontWeight: text.bodyBold.fontWeight,
           ),
         ),
         SizedBox(height: sp.sm),
@@ -344,7 +345,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                         child: Text(
                           e.key,
                           style: text.bodySmall.copyWith(color: c.textPrimary),
-                          overflow: TextOverflow.ellipsis,
+                          overflow: AppLayout.textOverflowEllipsis,
                         ),
                       ),
                       SizedBox(width: sp.sm),

@@ -5,6 +5,7 @@
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/drug_catalog_entry.dart';
@@ -245,7 +246,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
             SliverFillRemaining(
               child: Center(
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: AppLayout.mainAxisSizeMin,
                   children: [
                     Text(_error!, style: t.typography.body.copyWith(color: c.error)),
                     CommonSpacer(height: sp.md),

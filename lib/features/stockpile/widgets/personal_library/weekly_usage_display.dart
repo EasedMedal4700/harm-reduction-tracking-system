@@ -5,6 +5,7 @@
 // Riverpod: TODO
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 import '../../../../models/drug_catalog_entry.dart';
@@ -31,15 +32,15 @@ class WeeklyUsageDisplay extends StatelessWidget {
         : counts.reduce((a, b) => a > b ? a : b);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: [
             Text(
               'Weekly Pattern',
               style: t.typography.bodySmall.copyWith(
-                fontWeight: FontWeight.w600,
+                fontWeight: text.bodyBold.fontWeight,
               ),
             ),
             Text(
@@ -53,7 +54,7 @@ class WeeklyUsageDisplay extends StatelessWidget {
         ),
         CommonSpacer.vertical(t.spacing.xs),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: List.generate(7, (index) {
             final count = counts.isNotEmpty && index < counts.length
                 ? counts[index]
@@ -84,14 +85,14 @@ class WeeklyUsageDisplay extends StatelessWidget {
                       ),
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
                       children: [
                         Text(
                           days[index],
                           style: t.typography.caption.copyWith(
                             fontWeight: count > 0
-                                ? FontWeight.bold
-                                : FontWeight.normal,
+                                ? text.bodyBold.fontWeight
+                                : text.bodyRegular.fontWeight,
                             color: count > 0
                                 ? accentColor
                                 : t.colors.textSecondary,
@@ -111,7 +112,7 @@ class WeeklyUsageDisplay extends StatelessWidget {
                             child: Text(
                               '$count',
                               style: t.typography.caption.copyWith(
-                                fontWeight: FontWeight.bold,
+                                fontWeight: text.bodyBold.fontWeight,
                                 color: Colors.white,
                               ),
                             ),

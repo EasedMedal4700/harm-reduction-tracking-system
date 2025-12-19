@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -40,7 +41,7 @@ class MetabolismTimelineControls extends StatelessWidget {
     return CommonCard(
       padding: EdgeInsets.all(sp.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // Header row
           Row(
@@ -120,7 +121,7 @@ class MetabolismTimelineControls extends StatelessWidget {
     final sh = context.shapes;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(label, style: text.bodySmall.copyWith(color: c.textSecondary)),
         SizedBox(height: sp.xs),

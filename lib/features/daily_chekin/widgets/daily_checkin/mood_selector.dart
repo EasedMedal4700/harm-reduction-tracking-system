@@ -5,6 +5,7 @@
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and AppTheme. Kept custom slider logic.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/enums/app_mood.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/theme/app_color_palette.dart';
@@ -113,17 +114,17 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
     return CommonCard(
       padding: EdgeInsets.all(sp.lg),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentCenter,
         children: [
           Text(
             'How are you feeling?',
             style: text.heading4,
-            textAlign: TextAlign.center,
+            textAlign: AppLayout.textAlignCenter,
           ),
           const CommonSpacer.vertical(16),
           // Emojis above slider (Poor to Great)
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
             children: List.generate(5, (index) {
               final isSelected = index == selectedMoodIndex;
               final emoji = ['😞', '😕', '😐', '🙂', '😄'][index];
@@ -178,12 +179,12 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
           const CommonSpacer.vertical(8),
           // Text labels below (Poor to Great)
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
             children: ['Poor', 'Struggling', 'Neutral', 'Good', 'Great']
                 .map((label) => Text(
                       label,
-                      style: text.bodySmall.copyWith(fontWeight: FontWeight.w500),
-                      textAlign: TextAlign.center,
+                      style: text.bodySmall.copyWith(fontWeight: text.bodyMedium.fontWeight),
+                      textAlign: AppLayout.textAlignCenter,
                     ))
                 .toList(),
           ),

@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonSpacer. Kept Container as it's a panel.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
@@ -46,8 +47,8 @@ class FilterPanel extends StatelessWidget {
       ),
       padding: EdgeInsets.all(sp.md),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+        mainAxisSize: AppLayout.mainAxisSizeMin,
         children: [
           Row(
             children: [

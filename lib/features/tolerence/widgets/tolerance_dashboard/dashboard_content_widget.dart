@@ -5,6 +5,7 @@
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -45,7 +46,7 @@ class DashboardContentWidget extends ConsumerWidget {
     return SingleChildScrollView(
       padding: EdgeInsets.all(spacing.md),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // SYSTEM OVERVIEW
           SystemOverviewWidget(
@@ -104,13 +105,13 @@ class _HelpfulTipCard extends ConsumerWidget {
           CommonSpacer.horizontal(spacing.sm),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(
                   'About Tolerance Systems',
                   style: typography.body.copyWith(
                     color: colors.textPrimary,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: text.bodyBold.fontWeight,
                   ),
                 ),
                 CommonSpacer.vertical(spacing.xs),

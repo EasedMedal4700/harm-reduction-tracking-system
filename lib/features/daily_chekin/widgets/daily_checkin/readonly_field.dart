@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -31,7 +32,7 @@ class ReadOnlyField extends StatelessWidget {
     return CommonCard(
       padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.md),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Row(
             children: [
@@ -41,7 +42,7 @@ class ReadOnlyField extends StatelessWidget {
                 label,
                 style: text.bodySmall.copyWith(
                   color: c.textSecondary,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: text.bodyMedium.fontWeight,
                 ),
               ),
             ],
@@ -51,7 +52,7 @@ class ReadOnlyField extends StatelessWidget {
             value,
             style: text.body.copyWith(
               color: c.textPrimary,
-              fontWeight: FontWeight.bold,
+              fontWeight: text.bodyBold.fontWeight,
             ),
           ),
         ],

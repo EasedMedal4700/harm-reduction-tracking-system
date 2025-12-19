@@ -5,6 +5,7 @@
 // Notes: Fully theme-compliant.
 
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 class AnalyticsFilterCard extends StatefulWidget {
@@ -115,7 +116,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                   // Titles
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                       children: [
                         Row(
                           children: [
@@ -141,7 +142,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                                   'ACTIVE',
                                   style: text.overline.copyWith(
                                     color: acc.primary,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: text.bodyBold.fontWeight,
                                   ),
                                 ),
                               ),

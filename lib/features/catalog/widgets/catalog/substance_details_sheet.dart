@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -243,7 +244,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
   ) {
     final t = context.theme;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Row(
           children: [
@@ -265,7 +266,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
             SizedBox(width: t.spacing.md),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                 children: [
                   Text(
                     name,
@@ -366,7 +367,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
     return CommonCard(
       padding: EdgeInsets.all(t.spacing.md),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Row(
             children: [
@@ -379,7 +380,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               Text(
                 'Also Known As',
                 style: t.text.body.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: text.bodyBold.fontWeight,
                   color: t.colors.textPrimary,
                 ),
               ),
@@ -421,7 +422,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
     final testKits = widget.substance['properties']?['test-kits'];
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         if (warning != null) ...[
           _buildWarningCard(context, warning.toString()),
@@ -482,7 +483,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
       backgroundColor: t.colors.warning.withValues(alpha: 0.1),
       borderColor: t.colors.warning.withValues(alpha: t.opacities.slow),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Icon(Icons.warning_amber_rounded, color: t.colors.warning),
           CommonSpacer.horizontal(t.spacing.md),
