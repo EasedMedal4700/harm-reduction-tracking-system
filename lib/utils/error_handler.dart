@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_typography.dart';
+
 import 'error_reporter.dart';
 
 /// Central error handler for the application with automatic DB reporting.
@@ -21,7 +24,7 @@ class ErrorHandler {
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            const Icon(Icons.error_outline, color: Colors.red),
+            Icon(Icons.error_outline, color: context.colors.error),
             const SizedBox(width: 8),
             Text(title),
           ],
@@ -36,12 +39,15 @@ class ErrorHandler {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: context.colors.surfaceVariant,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
                   details,
-                  style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: AppTypographyConstants.fontFamilyMonospace,
+                  ),
                 ),
               ),
             ],

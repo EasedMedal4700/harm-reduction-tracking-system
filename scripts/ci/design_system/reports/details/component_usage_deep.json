@@ -1,6 +1,6 @@
 {
   "check": "component_usage_check",
-  "total_issues": 142,
+  "total_issues": 141,
   "issues": [
     {
       "severity": "WARNING",
@@ -89,7 +89,7 @@
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 67,
+      "line": 68,
       "snippet": "Icon(Icons.bug_report, color: c.error),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart"
     },
@@ -278,35 +278,35 @@
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 168,
+      "line": 173,
       "snippet": "Icon(Icons.warning_amber_rounded, color: t.colors.warning),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 313,
+      "line": 319,
       "snippet": "child: const Icon(Icons.close),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 335,
+      "line": 341,
       "snippet": "icon: Icon(Icons.add, size: t.sizes.iconSm),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 479,
+      "line": 485,
       "snippet": "Icon(Icons.warning_amber_rounded, color: t.colors.warning),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 43,
+      "line": 46,
       "snippet": "Icon(Icons.timer_outlined, color: accentColor),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\timing_info_card.dart"
     },
@@ -404,28 +404,28 @@
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 161,
-      "snippet": "Icon(Icons.error_outline, size: 64, color: c.error),",
+      "line": 162,
+      "snippet": "Icon(Icons.error_outline, size: s.icon2xl, color: c.error),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 173,
+      "line": 174,
       "snippet": "icon: const Icon(Icons.refresh),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 193,
-      "snippet": "Icon(Icons.flag_outlined, size: 64, color: c.textSecondary),",
+      "line": 195,
+      "snippet": "Icon(Icons.flag_outlined, size: s.icon2xl, color: c.textSecondary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 306,
+      "line": 308,
       "snippet": "Icon(Icons.info_outline, color: a.primary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
@@ -481,7 +481,7 @@
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 76,
+      "line": 81,
       "snippet": "? Icon(Icons.person, color: acc.primary)",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\home_redesign\\header_card.dart"
     },
@@ -509,14 +509,7 @@
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 279,
-      "snippet": "Icon(Icons.lock_outline, size: 100, color: a.primary),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Icon without semanticLabel",
-      "line": 427,
+      "line": 431,
       "snippet": "icon: Icon(Icons.fingerprint, size: context.sizes.iconLg),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
     },
@@ -586,28 +579,28 @@
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 89,
+      "line": 90,
       "snippet": "Icon(Icons.security, size: context.sizes.icon2xl, color: a.primary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 475,
+      "line": 476,
       "snippet": "Icon(Icons.check_circle, size: 64, color: c.success),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 499,
+      "line": 500,
       "snippet": "Icon(Icons.warning, color: c.error),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 558,
+      "line": 559,
       "snippet": "icon: Icon(Icons.copy, color: a.primary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
@@ -852,70 +845,70 @@
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 157,
+      "line": 158,
       "snippet": "Icon(Icons.lock_outline, size: 80, color: a.primary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 348,
+      "line": 349,
       "snippet": "Icon(Icons.key, size: 80, color: c.warning),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 374,
+      "line": 375,
       "snippet": "Icon(Icons.warning_amber, color: c.warning),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 423,
+      "line": 424,
       "snippet": "icon: const Icon(Icons.copy),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 438,
+      "line": 439,
       "snippet": "icon: const Icon(Icons.fingerprint),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 172,
+      "line": 173,
       "snippet": "icon: const Icon(Icons.arrow_back),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 207,
+      "line": 208,
       "snippet": "Icon(Icons.vpn_key, size: 100, color: a.primary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 329,
+      "line": 330,
       "snippet": "icon: const Icon(Icons.arrow_back),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 354,
+      "line": 355,
       "snippet": "Icon(Icons.lock_reset, size: 100, color: a.primary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 556,
+      "line": 557,
       "snippet": "Icon(Icons.error_outline, color: c.error, size: context.sizes.iconMd),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
@@ -957,7 +950,7 @@
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 164,
+      "line": 168,
       "snippet": "icon: const Icon(Icons.close),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart"
     },
@@ -978,7 +971,7 @@
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 167,
+      "line": 169,
       "snippet": "icon: Icon(Icons.more_vert, color: t.colors.textSecondary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\substance_card.dart"
     },

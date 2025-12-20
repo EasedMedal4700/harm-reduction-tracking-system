@@ -16,6 +16,8 @@ import '../../../../models/drug_catalog_entry.dart';
 import '../../../../models/stockpile_item.dart';
 import 'weekly_usage_display.dart';
 
+const double _buttonHeight = 40.0;
+
 class SubstanceCard extends StatelessWidget {
   final DrugCatalogEntry entry;
   final StockpileItem? stockpile;
@@ -129,7 +131,7 @@ class SubstanceCard extends StatelessWidget {
                     ),
                     child: Icon(
                       categoryIcon,
-                      color: Colors.white,
+                      color: t.isDark ? t.colors.textPrimary : t.colors.surface,
                       size: t.sizes.iconMd,
                     ),
                   ),
@@ -158,7 +160,7 @@ class SubstanceCard extends StatelessWidget {
                     icon: Icon(
                       entry.favorite ? Icons.favorite : Icons.favorite_border,
                       color: entry.favorite
-                          ? Colors.red
+                          ? t.colors.error
                           : t.colors.textSecondary,
                     ),
                     onPressed: onFavorite,
@@ -263,7 +265,9 @@ class SubstanceCard extends StatelessWidget {
                               minHeight: 8,
                               backgroundColor: t.colors.border,
                               valueColor: AlwaysStoppedAnimation<Color>(
-                                stockpile!.isLow() ? Colors.red : categoryColor,
+                                stockpile!.isLow()
+                                    ? t.colors.error
+                                    : categoryColor,
                               ),
                             ),
                           ),
@@ -279,7 +283,7 @@ class SubstanceCard extends StatelessWidget {
                     label: 'Add to Stockpile',
                     color: categoryColor,
                     borderColor: categoryColor,
-                    height: 40,
+                    height: _buttonHeight,
                   ),
                 ],
 

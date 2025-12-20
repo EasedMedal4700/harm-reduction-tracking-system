@@ -71,9 +71,9 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Password updated successfully! Please log in.'),
-          backgroundColor: Colors.green,
+        SnackBar(
+          content: const Text('Password updated successfully! Please log in.'),
+          backgroundColor: context.colors.success,
         ),
       );
 
@@ -388,7 +388,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
     final c = context.colors;
     final sp = context.spacing;
     final textStyle = context.text;
-    final color = met ? Colors.green : c.textSecondary;
+    final color = met ? c.success : c.textSecondary;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: sp.xs),

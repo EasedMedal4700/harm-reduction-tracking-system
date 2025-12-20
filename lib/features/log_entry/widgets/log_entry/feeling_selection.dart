@@ -13,30 +13,6 @@ class FeelingSelection extends StatelessWidget {
     required this.onFeelingSelected,
   });
 
-  final List<Map<String, dynamic>> _feelings = const [
-    {
-      'label': 'Great',
-      'icon': Icons.sentiment_very_satisfied,
-      'color': Colors.green,
-    },
-    {
-      'label': 'Good',
-      'icon': Icons.sentiment_satisfied,
-      'color': Colors.lightGreen,
-    },
-    {'label': 'Okay', 'icon': Icons.sentiment_neutral, 'color': Colors.amber},
-    {
-      'label': 'Bad',
-      'icon': Icons.sentiment_dissatisfied,
-      'color': Colors.orange,
-    },
-    {
-      'label': 'Awful',
-      'icon': Icons.sentiment_very_dissatisfied,
-      'color': Colors.red,
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
@@ -45,13 +21,36 @@ class FeelingSelection extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
 
+    final feelings = [
+      {
+        'label': 'Great',
+        'icon': Icons.sentiment_very_satisfied,
+        'color': c.success,
+      },
+      {
+        'label': 'Good',
+        'icon': Icons.sentiment_satisfied,
+        'color': c.success.withValues(alpha: 0.7),
+      },
+      {'label': 'Okay', 'icon': Icons.sentiment_neutral, 'color': c.warning},
+      {
+        'label': 'Bad',
+        'icon': Icons.sentiment_dissatisfied,
+        'color': c.warning.withValues(alpha: 0.7),
+      },
+      {
+        'label': 'Awful',
+        'icon': Icons.sentiment_very_dissatisfied,
+        'color': c.error,
+      },
+    ];
+
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           'How are you feeling?',
-          style: TextStyle(
-            fontSize: 16.0,
+          style: text.bodyLarge.copyWith(
             fontWeight: text.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
@@ -60,7 +59,7 @@ class FeelingSelection extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: _feelings.map((feeling) {
+            children: feelings.map((feeling) {
               final isSelected = selectedFeeling == feeling['label'];
               final color = feeling['color'] as Color;
 
@@ -94,15 +93,14 @@ class FeelingSelection extends StatelessWidget {
                           color: isSelected ? color : c.textSecondary,
                           size: context.sizes.iconLg,
                         ),
-                        SizedBox(height: 4.0),
+                        SizedBox(height: sp.xs),
                         Text(
                           feeling['label'] as String,
-                          style: TextStyle(
+                          style: text.bodySmall.copyWith(
                             color: isSelected ? color : c.textSecondary,
                             fontWeight: isSelected
                                 ? text.bodyBold.fontWeight
                                 : text.body.fontWeight,
-                            fontSize: 12.0,
                           ),
                         ),
                       ],

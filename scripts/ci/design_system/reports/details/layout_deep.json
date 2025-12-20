@@ -1,21 +1,7 @@
 {
   "check": "layout_check",
-  "total_issues": 95,
+  "total_issues": 71,
   "issues": [
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 348,
-      "snippet": "width: 10,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 349,
-      "snippet": "height: 10,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart"
-    },
     {
       "severity": "WARNING",
       "message": "SizedBox with hardcoded value",
@@ -40,79 +26,9 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 173,
+      "line": 178,
       "snippet": "style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 106,
-      "snippet": "width: 1.5,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 177,
-      "snippet": "Divider(height: 1, color: t.colors.divider),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 176,
-      "snippet": "width: 40,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 390,
-      "snippet": "height: 1.5,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 437,
-      "snippet": "height: 1.6,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 484,
-      "snippet": "style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 55,
-      "snippet": "height: 40,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\timing_info_card.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 161,
-      "snippet": "Icon(Icons.error_outline, size: 64, color: c.error),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 193,
-      "snippet": "Icon(Icons.flag_outlined, size: 64, color: c.textSecondary),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded visual constant",
-      "line": 370,
-      "snippet": "child: const CircularProgressIndicator(strokeWidth: 2),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
       "severity": "WARNING",
@@ -145,41 +61,6 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 279,
-      "snippet": "Icon(Icons.lock_outline, size: 100, color: a.primary),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded visual constant",
-      "line": 314,
-      "snippet": "blurRadius: 10,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 390,
-      "snippet": "height: 60,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded visual constant",
-      "line": 406,
-      "snippet": "strokeWidth: 2,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 437,
-      "snippet": "side: BorderSide(color: a.primary, width: 2),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
       "line": 118,
       "snippet": "borderSide: BorderSide(color: acc.primary, width: 2),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\complex_fields.dart"
@@ -197,34 +78,6 @@
       "line": 59,
       "snippet": "fontSize: 16.0,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\date_selector.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 54,
-      "snippet": "fontSize: 16.0,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "SizedBox with hardcoded value",
-      "line": 97,
-      "snippet": "SizedBox(height: 4.0),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 97,
-      "snippet": "SizedBox(height: 4.0),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 105,
-      "snippet": "fontSize: 12.0,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart"
     },
     {
       "severity": "WARNING",
@@ -278,7 +131,7 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 475,
+      "line": 476,
       "snippet": "Icon(Icons.check_circle, size: 64, color: c.success),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
@@ -418,28 +271,28 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 157,
+      "line": 158,
       "snippet": "Icon(Icons.lock_outline, size: 80, color: a.primary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 348,
+      "line": 349,
       "snippet": "Icon(Icons.key, size: 80, color: c.warning),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 207,
+      "line": 208,
       "snippet": "Icon(Icons.vpn_key, size: 100, color: a.primary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 354,
+      "line": 355,
       "snippet": "Icon(Icons.lock_reset, size: 100, color: a.primary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
@@ -467,30 +320,9 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 111,
-      "snippet": "width: 40,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 112,
-      "snippet": "height: 4,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 229,
+      "line": 233,
       "snippet": "width: 60,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Hardcoded size value",
-      "line": 282,
-      "snippet": "height: 40,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\substance_card.dart"
     },
     {
       "severity": "WARNING",
@@ -600,56 +432,56 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 262,
+      "line": 263,
       "snippet": "height: 1.4,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "SizedBox with hardcoded value",
-      "line": 334,
+      "line": 335,
       "snippet": "SizedBox(height: 2),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 334,
+      "line": 335,
       "snippet": "SizedBox(height: 2),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 339,
+      "line": 340,
       "snippet": "height: 1.2,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 409,
+      "line": 410,
       "snippet": "width: 0.5,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "SizedBox with hardcoded value",
-      "line": 591,
+      "line": 592,
       "snippet": "SizedBox(height: 4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 591,
+      "line": 592,
       "snippet": "SizedBox(height: 4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded size value",
-      "line": 608,
+      "line": 609,
       "snippet": "height: 1.4,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },

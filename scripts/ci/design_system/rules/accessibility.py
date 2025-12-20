@@ -26,8 +26,8 @@ IGNORE_FILE_PATTERNS = [
 
 RULES = [
     # BLOCKING: Images without semantic labels
-    (r"Image\s*\([^)]*\)", "Image without semanticLabel for accessibility", Severity.BLOCKING),
-    (r"Image\.[a-zA-Z]+\s*\([^)]*\)", "Image without semanticLabel for accessibility", Severity.BLOCKING),
+    (r"\bImage\s*\([^)]*\)", "Image without semanticLabel for accessibility", Severity.BLOCKING),
+    (r"\bImage\.[a-zA-Z]+\s*\([^)]*\)", "Image without semanticLabel for accessibility", Severity.BLOCKING),
 
     # WARNING: Buttons without semantic labels
     (r"(ElevatedButton|TextButton|OutlinedButton|IconButton)\s*\([^)]*child\s*:", "Button without semanticLabel", Severity.WARNING),

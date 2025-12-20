@@ -1,4 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_typography.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -413,7 +414,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                         fontWeight: text.bodyBold.fontWeight,
                         letterSpacing: 2,
                         color: a.primary,
-                        fontFamily: 'monospace',
+                        fontFamily: AppTypographyConstants.fontFamilyMonospace,
                       ),
                       textAlign: AppLayout.textAlignCenter,
                     ),

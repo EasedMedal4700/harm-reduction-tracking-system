@@ -25,7 +25,7 @@ class QuickActionCard extends StatelessWidget {
     final acc = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.theme.isDark;
 
     final cardColor = color ?? acc.primary;
 
@@ -47,7 +47,7 @@ class QuickActionCard extends StatelessWidget {
                 ? null
                 : [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.03),
+                      color: context.colors.textPrimary.withValues(alpha: 0.03),
                       blurRadius: context.sizes.blurRadiusSm,
                       offset: const Offset(0, 2),
                     ),

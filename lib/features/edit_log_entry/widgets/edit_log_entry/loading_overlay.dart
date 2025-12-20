@@ -20,7 +20,7 @@ class LoadingOverlay extends StatelessWidget {
     final a = context.accent;
 
     return Container(
-      color: Colors.black.withValues(alpha: context.opacities.slow),
+      color: context.colors.overlayHeavy,
       child: Center(child: CommonLoader(color: a.primary)),
     );
   }

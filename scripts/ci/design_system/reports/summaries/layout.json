@@ -2,6 +2,6 @@
   "check": "layout_check",
   "status": "PASS",
   "blocking_issues": 0,
-  "warning_issues": 95,
-  "files_affected": 42
+  "warning_issues": 71,
+  "files_affected": 34
 }

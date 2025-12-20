@@ -1,7 +1,7 @@
 {
   "check": "colors_check",
-  "status": "FAIL",
-  "blocking_issues": 23,
+  "status": "PASS",
+  "blocking_issues": 0,
   "warning_issues": 0,
-  "files_affected": 13
+  "files_affected": 0
 }

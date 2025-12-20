@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_typography.dart';
 import '../../../../utils/tolerance_calculator.dart';
 
 class DebugPanelWidget extends ConsumerWidget {
@@ -147,7 +148,7 @@ class _DebugSection extends ConsumerWidget {
             content,
             style: typography.bodySmall.copyWith(
               color: colors.textPrimary,
-              fontFamily: 'monospace',
+              fontFamily: AppTypographyConstants.fontFamilyMonospace,
             ),
           ),
         ),

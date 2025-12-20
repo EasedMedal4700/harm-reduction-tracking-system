@@ -78,7 +78,12 @@ class DosageGuideCard extends StatelessWidget {
         _buildDoseCard(context, 'Strong', doseData!['Strong'], t.colors.error),
         if (doseData!['Heavy'] != null) ...[
           const CommonSpacer.vertical(4),
-          _buildDoseCard(context, 'Heavy', doseData!['Heavy'], Colors.purple),
+          _buildDoseCard(
+            context,
+            'Heavy',
+            doseData!['Heavy'],
+            t.accent.secondary,
+          ),
         ],
       ],
     );

@@ -55,26 +55,32 @@ class HeaderCard extends StatelessWidget {
         ),
         GestureDetector(
           onTap: onProfileTap,
-          child: Container(
-            padding: EdgeInsets.all(sp.xs),
-            decoration: BoxDecoration(
-              shape: context.shapes.boxShapeCircle,
-              border: Border.all(
-                color: acc.primary.withValues(alpha: context.opacities.medium),
-                width: context.borders.thin,
+          child: Semantics(
+            label: 'Profile picture',
+            button: true,
+            child: Container(
+              padding: EdgeInsets.all(sp.xs),
+              decoration: BoxDecoration(
+                shape: context.shapes.boxShapeCircle,
+                border: Border.all(
+                  color: acc.primary.withValues(
+                    alpha: context.opacities.medium,
+                  ),
+                  width: context.borders.thin,
+                ),
               ),
-            ),
-            child: CircleAvatar(
-              radius: sp.lg, // Approx 22-24
-              backgroundColor: acc.primary.withValues(
-                alpha: context.opacities.overlay,
+              child: CircleAvatar(
+                radius: sp.lg, // Approx 22-24
+                backgroundColor: acc.primary.withValues(
+                  alpha: context.opacities.overlay,
+                ),
+                backgroundImage: profileImageUrl != null
+                    ? NetworkImage(profileImageUrl!)
+                    : null,
+                child: profileImageUrl == null
+                    ? Icon(Icons.person, color: acc.primary)
+                    : null,
               ),
-              backgroundImage: profileImageUrl != null
-                  ? NetworkImage(profileImageUrl!)
-                  : null,
-              child: profileImageUrl == null
-                  ? Icon(Icons.person, color: acc.primary)
-                  : null,
             ),
           ),
         ),

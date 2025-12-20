@@ -12,6 +12,8 @@ import '../../../../common/layout/common_spacer.dart';
 import '../../../../common/feedback/common_loader.dart';
 import '../../../../common/buttons/common_primary_button.dart';
 
+const double _handleWidth = 40.0;
+
 class DayUsageSheet extends StatefulWidget {
   final String substanceName;
   final int weekdayIndex;
@@ -108,11 +110,11 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
           // Handle bar
           Container(
             margin: EdgeInsets.only(top: t.spacing.sm),
-            width: 40,
-            height: 4,
+            width: _handleWidth,
+            height: t.spacing.xs,
             decoration: BoxDecoration(
               color: t.colors.border,
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: BorderRadius.circular(t.shapes.radiusXs / 2),
             ),
           ),
 
@@ -136,7 +138,9 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                       ),
                       child: Icon(
                         Icons.calendar_today,
-                        color: Colors.white,
+                        color: t.isDark
+                            ? t.colors.textPrimary
+                            : t.colors.surface,
                         size: t.sizes.iconMd,
                       ),
                     ),
@@ -305,7 +309,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                   });
                 },
                 backgroundColor: widget.accentColor,
-                textColor: Colors.white,
+                textColor: t.isDark ? t.colors.textPrimary : t.colors.surface,
                 label: 'Show All ${_allEntries.length} Uses',
               ),
             ),

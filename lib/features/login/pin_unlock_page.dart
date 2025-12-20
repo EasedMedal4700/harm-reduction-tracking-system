@@ -276,7 +276,11 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
               SizedBox(height: sp.xl2),
 
               // Lock Icon
-              Icon(Icons.lock_outline, size: 100, color: a.primary),
+              Icon(
+                Icons.lock_outline,
+                size: context.sizes.heightSm,
+                color: a.primary,
+              ),
               SizedBox(height: sp.xl),
 
               // Title
@@ -310,8 +314,8 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      blurRadius: 10,
+                      color: context.colors.overlay,
+                      blurRadius: context.sizes.blurRadiusMd,
                       offset: const Offset(0, 4),
                     ),
                   ],
@@ -387,7 +391,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
 
               // Unlock button
               SizedBox(
-                height: 60,
+                height: context.sizes.buttonHeightLg,
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _unlockWithPin,
                   style: ElevatedButton.styleFrom(
@@ -403,7 +407,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                           width: context.sizes.iconMd,
                           height: context.sizes.iconMd,
                           child: CircularProgressIndicator(
-                            strokeWidth: 2,
+                            strokeWidth: context.sizes.borderRegular,
                             valueColor: AlwaysStoppedAnimation<Color>(
                               c.textInverse,
                             ),
@@ -434,7 +438,10 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                   style: OutlinedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: sp.md),
                     foregroundColor: a.primary,
-                    side: BorderSide(color: a.primary, width: 2),
+                    side: BorderSide(
+                      color: a.primary,
+                      width: context.sizes.borderRegular,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(sh.radiusMd),
                     ),

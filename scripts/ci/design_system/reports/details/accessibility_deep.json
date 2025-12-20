@@ -1,21 +1,7 @@
 {
   "check": "accessibility_check",
-  "total_issues": 67,
+  "total_issues": 51,
   "issues": [
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "line": 348,
-      "snippet": "width: 10,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "line": 349,
-      "snippet": "height: 10,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart"
-    },
     {
       "severity": "WARNING",
       "message": "Potentially small touch target (<44px) - found 6.0px",
@@ -33,58 +19,9 @@
     {
       "severity": "WARNING",
       "message": "Potentially small touch target (<44px) - found 1.0px",
-      "line": 173,
+      "line": 178,
       "snippet": "style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "line": 106,
-      "snippet": "width: 1.5,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "line": 177,
-      "snippet": "Divider(height: 1, color: t.colors.divider),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "line": 176,
-      "snippet": "width: 40,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "line": 390,
-      "snippet": "height: 1.5,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "line": 437,
-      "snippet": "height: 1.6,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "line": 484,
-      "snippet": "style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "line": 55,
-      "snippet": "height: 40,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\timing_info_card.dart"
     },
     {
       "severity": "WARNING",
@@ -92,13 +29,6 @@
       "line": 114,
       "snippet": "height: 1.2,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\home_redesign\\daily_checkin_card.dart"
-    },
-    {
-      "severity": "BLOCKING",
-      "message": "Image without semanticLabel for accessibility",
-      "line": 73,
-      "snippet": "? NetworkImage(profileImageUrl!)",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\home_redesign\\header_card.dart"
     },
     {
       "severity": "WARNING",
@@ -116,20 +46,6 @@
     },
     {
       "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 6.0px",
-      "line": 390,
-      "snippet": "height: 60,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 2.0px",
-      "line": 437,
-      "snippet": "side: BorderSide(color: a.primary, width: 2),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
-    },
-    {
-      "severity": "WARNING",
       "message": "Potentially small touch target (<44px) - found 2.0px",
       "line": 118,
       "snippet": "borderSide: BorderSide(color: acc.primary, width: 2),",
@@ -141,13 +57,6 @@
       "line": 144,
       "snippet": "borderSide: BorderSide(color: acc.primary, width: 2),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\complex_fields.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "line": 97,
-      "snippet": "SizedBox(height: 4.0),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart"
     },
     {
       "severity": "WARNING",
@@ -305,31 +214,10 @@
     },
     {
       "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "line": 111,
-      "snippet": "width: 40,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "line": 112,
-      "snippet": "height: 4,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
       "message": "Potentially small touch target (<44px) - found 6.0px",
-      "line": 229,
+      "line": 233,
       "snippet": "width: 60,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "line": 282,
-      "snippet": "height: 40,",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\substance_card.dart"
     },
     {
       "severity": "WARNING",
@@ -432,35 +320,35 @@
     {
       "severity": "WARNING",
       "message": "Potentially small touch target (<44px) - found 1.0px",
-      "line": 262,
+      "line": 263,
       "snippet": "height: 1.4,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "Potentially small touch target (<44px) - found 2.0px",
-      "line": 334,
+      "line": 335,
       "snippet": "SizedBox(height: 2),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "Potentially small touch target (<44px) - found 1.0px",
-      "line": 339,
+      "line": 340,
       "snippet": "height: 1.2,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "Potentially small touch target (<44px) - found 4.0px",
-      "line": 591,
+      "line": 592,
       "snippet": "SizedBox(height: 4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "Potentially small touch target (<44px) - found 1.0px",
-      "line": 608,
+      "line": 609,
       "snippet": "height: 1.4,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },

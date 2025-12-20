@@ -15,6 +15,9 @@ import '../../../../common/cards/common_card.dart';
 import '../../../../common/text/common_section_header.dart';
 import '../../../../common/layout/common_spacer.dart';
 
+const int _daysInWeek = 7;
+const int _oneDay = 1;
+
 enum TrendGranularity { daily, weekly, monthly }
 
 class UsageTrendsCard extends StatefulWidget {
@@ -345,11 +348,13 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                   child: Row(
                     children: [
                       Container(
-                        width: 10,
-                        height: 10,
+                        width: sp.md,
+                        height: sp.md,
                         decoration: BoxDecoration(
                           color: color,
-                          borderRadius: BorderRadius.circular(3),
+                          borderRadius: BorderRadius.circular(
+                            context.shapes.radiusXs,
+                          ),
                         ),
                       ),
                       SizedBox(width: sp.sm),
@@ -396,8 +401,8 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
 
       case TrendGranularity.weekly:
         for (int i = 6; i >= 0; i--) {
-          final d = now.subtract(Duration(days: i * 7));
-          final monday = d.subtract(Duration(days: d.weekday - 1));
+          final d = now.subtract(Duration(days: i * _daysInWeek));
+          final monday = d.subtract(Duration(days: d.weekday - _oneDay));
           final key = DateTime(monday.year, monday.month, monday.day);
           units.add(key);
           grouped[key] = {};
@@ -422,7 +427,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
           key = DateTime(dt.year, dt.month, dt.day);
           break;
         case TrendGranularity.weekly:
-          final monday = dt.subtract(Duration(days: dt.weekday - 1));
+          final monday = dt.subtract(Duration(days: dt.weekday - _oneDay));
           key = DateTime(monday.year, monday.month, monday.day);
           break;
         case TrendGranularity.monthly:
@@ -458,8 +463,8 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
 
       case TrendGranularity.weekly:
         for (int i = 6; i >= 0; i--) {
-          final d = now.subtract(Duration(days: i * 7));
-          final mon = d.subtract(Duration(days: d.weekday - 1));
+          final d = now.subtract(Duration(days: i * _daysInWeek));
+          final mon = d.subtract(Duration(days: d.weekday - _oneDay));
           list.add(DateTime(mon.year, mon.month, mon.day));
         }
         break;

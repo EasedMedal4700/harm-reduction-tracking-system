@@ -9,6 +9,9 @@ import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/layout/common_spacer.dart';
+import '../../../../constants/theme/app_spacing.dart';
+
+const double _timelineHeight = 40.0;
 
 /// Widget for displaying timing information (onset, duration, after-effects)
 class TimingInfoCard extends StatelessWidget {
@@ -48,11 +51,11 @@ class TimingInfoCard extends StatelessWidget {
               ),
             ],
           ),
-          const CommonSpacer.vertical(24),
+          const CommonSpacer.vertical(AppSpacingConstants.xl),
 
           // Timeline Visualization
           SizedBox(
-            height: 40,
+            height: _timelineHeight,
             child: Row(
               children: [
                 if (onset != null)

@@ -404,7 +404,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             content:
                 'Your sensitive data is encrypted with a PIN that only you know. '
                 'Even we cannot access your encrypted information. Your PIN never leaves your device.',
-            color: Colors.blue,
+            color: c.info,
           ),
           CommonSpacer.vertical(sp.md),
 
@@ -415,7 +415,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             content:
                 'Your encryption keys are stored locally on your device. '
                 'If you lose your PIN and recovery key, your data cannot be recovered by anyone.',
-            color: Colors.purple,
+            color: context.accent.secondary,
           ),
           CommonSpacer.vertical(sp.md),
 
@@ -426,7 +426,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             content:
                 'We don\'t track your behavior, sell your data, or show ads. '
                 'This app exists solely to help you make informed decisions.',
-            color: Colors.orange,
+            color: c.warning,
           ),
           CommonSpacer.vertical(sp.md),
 

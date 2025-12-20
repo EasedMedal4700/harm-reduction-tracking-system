@@ -30,7 +30,7 @@ class DailyCheckinCard extends StatelessWidget {
     final acc = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.theme.isDark;
 
     final accentColor = acc.primary;
     final completedColor = c.success;

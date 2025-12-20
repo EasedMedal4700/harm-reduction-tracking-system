@@ -17,6 +17,7 @@ class AppTypographyConstants {
   static const FontWeight fontMediumWeight = FontWeight.w500;
 
   static const double lineHeightTight = 1.2;
+  static const String fontFamilyMonospace = 'monospace';
 }
 
 /// Typography system with responsive font sizes

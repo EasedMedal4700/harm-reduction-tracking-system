@@ -3,11 +3,17 @@ import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_typography.dart';
 import '../../../../common/layout/common_spacer.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/buttons/common_chip_group.dart';
 import 'dosage_guide_card.dart';
 import 'timing_info_card.dart';
+
+const double _handleWidth = 40.0;
+const double _lineHeightRelaxed = 1.6;
+const double _lineHeightNormal = 1.4;
+const double _lineHeightAliases = 1.5;
 
 class SubstanceDetailsSheet extends StatefulWidget {
   final Map<String, dynamic> substance;
@@ -173,7 +179,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               Center(
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: t.spacing.sm),
-                  width: 40,
+                  width: _handleWidth,
                   height: t.spacing.xs,
                   decoration: BoxDecoration(
                     color: t.colors.divider,
@@ -387,7 +393,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
             aliases.join(', '),
             style: t.text.body.copyWith(
               color: t.colors.textSecondary,
-              height: 1.5,
+              height: _lineHeightAliases,
             ),
           ),
         ],
@@ -434,7 +440,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
           Text(
             summary.toString(),
             style: t.text.body.copyWith(
-              height: 1.6,
+              height: _lineHeightRelaxed,
               color: t.colors.textSecondary,
             ),
           ),
@@ -457,7 +463,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
             child: Text(
               testKits.toString(),
               style: t.text.body.copyWith(
-                fontFamily: 'Monospace',
+                fontFamily: AppTypographyConstants.fontFamilyMonospace,
                 color: t.colors.textPrimary,
               ),
             ),
@@ -481,7 +487,10 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
           Expanded(
             child: Text(
               message,
-              style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),
+              style: t.text.body.copyWith(
+                color: t.colors.warning,
+                height: _lineHeightNormal,
+              ),
             ),
           ),
         ],

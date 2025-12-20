@@ -80,7 +80,7 @@ def run_design_system_checks() -> Tuple[bool, str]:
 
 def run_dart_format() -> Tuple[bool, str]:
     """Run dart format and return status"""
-    step = PipelineStep("Dart Format", "dart format --output=none --set-exit-if-changed .")
+    step = PipelineStep("Dart Format", "dart format --set-exit-if-changed .")
     success, output = step.execute()
 
     if success:

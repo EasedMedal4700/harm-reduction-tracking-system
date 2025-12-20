@@ -1,29 +1,11 @@
 {
   "summary": {
     "files_scanned": 219,
-    "blocking": 34,
-    "warnings": 933,
+    "blocking": 0,
+    "warnings": 875,
     "rules_executed": 11
   },
   "issues": [
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 348,
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "snippet": "width: 10,",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 349,
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "snippet": "height: 10,",
-      "ignored": false
-    },
     {
       "rule": "accessibility",
       "severity": "WARNING",
@@ -46,72 +28,9 @@
       "rule": "accessibility",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart",
-      "line": 173,
+      "line": 178,
       "message": "Potentially small touch target (<44px) - found 1.0px",
       "snippet": "style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart",
-      "line": 106,
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "snippet": "width: 1.5,",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart",
-      "line": 177,
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "snippet": "Divider(height: 1, color: t.colors.divider),",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 176,
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "snippet": "width: 40,",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 390,
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "snippet": "height: 1.5,",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 437,
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "snippet": "height: 1.6,",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 484,
-      "message": "Potentially small touch target (<44px) - found 1.0px",
-      "snippet": "style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\timing_info_card.dart",
-      "line": 55,
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "snippet": "height: 40,",
       "ignored": false
     },
     {
@@ -121,15 +40,6 @@
       "line": 114,
       "message": "Potentially small touch target (<44px) - found 1.0px",
       "snippet": "height: 1.2,",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\home_redesign\\header_card.dart",
-      "line": 73,
-      "message": "Image without semanticLabel for accessibility",
-      "snippet": "? NetworkImage(profileImageUrl!)",
       "ignored": false
     },
     {
@@ -153,24 +63,6 @@
     {
       "rule": "accessibility",
       "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 390,
-      "message": "Potentially small touch target (<44px) - found 6.0px",
-      "snippet": "height: 60,",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 437,
-      "message": "Potentially small touch target (<44px) - found 2.0px",
-      "snippet": "side: BorderSide(color: a.primary, width: 2),",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\complex_fields.dart",
       "line": 118,
       "message": "Potentially small touch target (<44px) - found 2.0px",
@@ -184,15 +76,6 @@
       "line": 144,
       "message": "Potentially small touch target (<44px) - found 2.0px",
       "snippet": "borderSide: BorderSide(color: acc.primary, width: 2),",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 97,
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "snippet": "SizedBox(height: 4.0),",
       "ignored": false
     },
     {
@@ -397,36 +280,9 @@
       "rule": "accessibility",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 111,
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "snippet": "width: 40,",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 112,
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "snippet": "height: 4,",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 229,
+      "line": 233,
       "message": "Potentially small touch target (<44px) - found 6.0px",
       "snippet": "width: 60,",
-      "ignored": false
-    },
-    {
-      "rule": "accessibility",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\substance_card.dart",
-      "line": 282,
-      "message": "Potentially small touch target (<44px) - found 4.0px",
-      "snippet": "height: 40,",
       "ignored": false
     },
     {
@@ -559,7 +415,7 @@
       "rule": "accessibility",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 262,
+      "line": 263,
       "message": "Potentially small touch target (<44px) - found 1.0px",
       "snippet": "height: 1.4,",
       "ignored": false
@@ -568,7 +424,7 @@
       "rule": "accessibility",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 334,
+      "line": 335,
       "message": "Potentially small touch target (<44px) - found 2.0px",
       "snippet": "SizedBox(height: 2),",
       "ignored": false
@@ -577,7 +433,7 @@
       "rule": "accessibility",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 339,
+      "line": 340,
       "message": "Potentially small touch target (<44px) - found 1.0px",
       "snippet": "height: 1.2,",
       "ignored": false
@@ -586,7 +442,7 @@
       "rule": "accessibility",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 591,
+      "line": 592,
       "message": "Potentially small touch target (<44px) - found 4.0px",
       "snippet": "SizedBox(height: 4),",
       "ignored": false
@@ -595,7 +451,7 @@
       "rule": "accessibility",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 608,
+      "line": 609,
       "message": "Potentially small touch target (<44px) - found 1.0px",
       "snippet": "height: 1.4,",
       "ignored": false
@@ -607,51 +463,6 @@
       "line": 76,
       "message": "Potentially small touch target (<44px) - found 1.0px",
       "snippet": "height: 140.0,",
-      "ignored": false
-    },
-    {
-      "rule": "animation_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 399,
-      "message": "Hardcoded timing/animation value",
-      "snippet": "final d = now.subtract(Duration(days: i * 7));",
-      "ignored": false
-    },
-    {
-      "rule": "animation_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 400,
-      "message": "Hardcoded timing/animation value",
-      "snippet": "final monday = d.subtract(Duration(days: d.weekday - 1));",
-      "ignored": false
-    },
-    {
-      "rule": "animation_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 425,
-      "message": "Hardcoded timing/animation value",
-      "snippet": "final monday = dt.subtract(Duration(days: dt.weekday - 1));",
-      "ignored": false
-    },
-    {
-      "rule": "animation_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 461,
-      "message": "Hardcoded timing/animation value",
-      "snippet": "final d = now.subtract(Duration(days: i * 7));",
-      "ignored": false
-    },
-    {
-      "rule": "animation_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 462,
-      "message": "Hardcoded timing/animation value",
-      "snippet": "final mon = d.subtract(Duration(days: d.weekday - 1));",
       "ignored": false
     },
     {
@@ -847,7 +658,7 @@
       "rule": "animation_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 642,
+      "line": 643,
       "message": "Hardcoded timing/animation value",
       "snippet": "duration: const Duration(seconds: 5),",
       "ignored": false
@@ -883,7 +694,7 @@
       "rule": "animation_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 114,
+      "line": 115,
       "message": "Hardcoded timing/animation value",
       "snippet": "duration: const Duration(seconds: 3),",
       "ignored": false
@@ -892,7 +703,7 @@
       "rule": "animation_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 139,
+      "line": 140,
       "message": "Hardcoded timing/animation value",
       "snippet": "duration: const Duration(seconds: 3),",
       "ignored": false
@@ -901,7 +712,7 @@
       "rule": "animation_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 68,
+      "line": 70,
       "message": "Hardcoded timing/animation value",
       "snippet": "adjustedTime = startTime.subtract(const Duration(hours: 5));",
       "ignored": false
@@ -922,213 +733,6 @@
       "line": 140,
       "message": "Hardcoded timing/animation value",
       "snippet": "duration: const Duration(seconds: 3),",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart",
-      "line": 81,
-      "message": "Hardcoded Flutter color",
-      "snippet": "_buildDoseCard(context, 'Heavy', doseData!['Heavy'], Colors.purple),",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\widgets\\edit_log_entry\\loading_overlay.dart",
-      "line": 23,
-      "message": "Hardcoded Flutter color",
-      "snippet": "color: Colors.black.withValues(alpha: context.opacities.slow),",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\home_redesign\\quick_action_card.dart",
-      "line": 50,
-      "message": "Hardcoded Flutter color",
-      "snippet": "color: Colors.black.withValues(alpha: 0.03),",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\home_redesign\\stat_card.dart",
-      "line": 51,
-      "message": "Hardcoded Flutter color",
-      "snippet": "color: Colors.black.withValues(alpha: 0.03),",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\login_page.dart",
-      "line": 163,
-      "message": "Hardcoded Flutter color",
-      "snippet": "backgroundColor: Colors.red,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 313,
-      "message": "Hardcoded Flutter color",
-      "snippet": "color: Colors.black.withValues(alpha: 0.05),",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\log_entry_page.dart",
-      "line": 260,
-      "message": "Hardcoded Flutter color",
-      "snippet": "color: Colors.black.withValues(",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 20,
-      "message": "Hardcoded Flutter color",
-      "snippet": "'color': Colors.green,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 25,
-      "message": "Hardcoded Flutter color",
-      "snippet": "'color': Colors.lightGreen,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 27,
-      "message": "Hardcoded Flutter color",
-      "snippet": "{'label': 'Okay', 'icon': Icons.sentiment_neutral, 'color': Colors.amber},",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 31,
-      "message": "Hardcoded Flutter color",
-      "snippet": "'color': Colors.orange,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 36,
-      "message": "Hardcoded Flutter color",
-      "snippet": "'color': Colors.red,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\onboarding_page.dart",
-      "line": 407,
-      "message": "Hardcoded Flutter color",
-      "snippet": "color: Colors.blue,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\onboarding_page.dart",
-      "line": 418,
-      "message": "Hardcoded Flutter color",
-      "snippet": "color: Colors.purple,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\onboarding_page.dart",
-      "line": 429,
-      "message": "Hardcoded Flutter color",
-      "snippet": "color: Colors.orange,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\set_new_password_page.dart",
-      "line": 76,
-      "message": "Hardcoded Flutter color",
-      "snippet": "backgroundColor: Colors.green,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\set_new_password_page.dart",
-      "line": 391,
-      "message": "Hardcoded Flutter color",
-      "snippet": "final color = met ? Colors.green : c.textSecondary;",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 139,
-      "message": "Hardcoded Flutter color",
-      "snippet": "color: Colors.white,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 308,
-      "message": "Hardcoded Flutter color",
-      "snippet": "textColor: Colors.white,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\substance_card.dart",
-      "line": 132,
-      "message": "Hardcoded Flutter color",
-      "snippet": "color: Colors.white,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\substance_card.dart",
-      "line": 161,
-      "message": "Hardcoded Flutter color",
-      "snippet": "? Colors.red",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\substance_card.dart",
-      "line": 266,
-      "message": "Hardcoded Flutter color",
-      "snippet": "stockpile!.isLow() ? Colors.red : categoryColor,",
-      "ignored": false
-    },
-    {
-      "rule": "color_and_theme",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\weekly_usage_display.dart",
-      "line": 128,
-      "message": "Hardcoded Flutter color",
-      "snippet": "color: Colors.white,",
       "ignored": false
     },
     {
@@ -1243,7 +847,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 67,
+      "line": 68,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.bug_report, color: c.error),",
       "ignored": false
@@ -1486,7 +1090,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart",
-      "line": 168,
+      "line": 173,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.warning_amber_rounded, color: t.colors.warning),",
       "ignored": false
@@ -1495,7 +1099,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 313,
+      "line": 319,
       "message": "Icon without semanticLabel",
       "snippet": "child: const Icon(Icons.close),",
       "ignored": false
@@ -1504,7 +1108,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 335,
+      "line": 341,
       "message": "Icon without semanticLabel",
       "snippet": "icon: Icon(Icons.add, size: t.sizes.iconSm),",
       "ignored": false
@@ -1513,7 +1117,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 479,
+      "line": 485,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.warning_amber_rounded, color: t.colors.warning),",
       "ignored": false
@@ -1522,7 +1126,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\timing_info_card.dart",
-      "line": 43,
+      "line": 46,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.timer_outlined, color: accentColor),",
       "ignored": false
@@ -1648,16 +1252,16 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 161,
+      "line": 162,
       "message": "Icon without semanticLabel",
-      "snippet": "Icon(Icons.error_outline, size: 64, color: c.error),",
+      "snippet": "Icon(Icons.error_outline, size: s.icon2xl, color: c.error),",
       "ignored": false
     },
     {
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 173,
+      "line": 174,
       "message": "Icon without semanticLabel",
       "snippet": "icon: const Icon(Icons.refresh),",
       "ignored": false
@@ -1666,16 +1270,16 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 193,
+      "line": 195,
       "message": "Icon without semanticLabel",
-      "snippet": "Icon(Icons.flag_outlined, size: 64, color: c.textSecondary),",
+      "snippet": "Icon(Icons.flag_outlined, size: s.icon2xl, color: c.textSecondary),",
       "ignored": false
     },
     {
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 306,
+      "line": 308,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.info_outline, color: a.primary),",
       "ignored": false
@@ -1747,7 +1351,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\home_redesign\\header_card.dart",
-      "line": 76,
+      "line": 81,
       "message": "Icon without semanticLabel",
       "snippet": "? Icon(Icons.person, color: acc.primary)",
       "ignored": false
@@ -1783,16 +1387,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 279,
-      "message": "Icon without semanticLabel",
-      "snippet": "Icon(Icons.lock_outline, size: 100, color: a.primary),",
-      "ignored": false
-    },
-    {
-      "rule": "component_usage",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 427,
+      "line": 431,
       "message": "Icon without semanticLabel",
       "snippet": "icon: Icon(Icons.fingerprint, size: context.sizes.iconLg),",
       "ignored": false
@@ -1882,7 +1477,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 89,
+      "line": 90,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.security, size: context.sizes.icon2xl, color: a.primary),",
       "ignored": false
@@ -1891,7 +1486,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 475,
+      "line": 476,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.check_circle, size: 64, color: c.success),",
       "ignored": false
@@ -1900,7 +1495,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 499,
+      "line": 500,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.warning, color: c.error),",
       "ignored": false
@@ -1909,7 +1504,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 558,
+      "line": 559,
       "message": "Icon without semanticLabel",
       "snippet": "icon: Icon(Icons.copy, color: a.primary),",
       "ignored": false
@@ -2224,7 +1819,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 157,
+      "line": 158,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.lock_outline, size: 80, color: a.primary),",
       "ignored": false
@@ -2233,7 +1828,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 348,
+      "line": 349,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.key, size: 80, color: c.warning),",
       "ignored": false
@@ -2242,7 +1837,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 374,
+      "line": 375,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.warning_amber, color: c.warning),",
       "ignored": false
@@ -2251,7 +1846,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 423,
+      "line": 424,
       "message": "Icon without semanticLabel",
       "snippet": "icon: const Icon(Icons.copy),",
       "ignored": false
@@ -2260,7 +1855,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 438,
+      "line": 439,
       "message": "Icon without semanticLabel",
       "snippet": "icon: const Icon(Icons.fingerprint),",
       "ignored": false
@@ -2269,7 +1864,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 172,
+      "line": 173,
       "message": "Icon without semanticLabel",
       "snippet": "icon: const Icon(Icons.arrow_back),",
       "ignored": false
@@ -2278,7 +1873,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 207,
+      "line": 208,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.vpn_key, size: 100, color: a.primary),",
       "ignored": false
@@ -2287,7 +1882,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 329,
+      "line": 330,
       "message": "Icon without semanticLabel",
       "snippet": "icon: const Icon(Icons.arrow_back),",
       "ignored": false
@@ -2296,7 +1891,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 354,
+      "line": 355,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.lock_reset, size: 100, color: a.primary),",
       "ignored": false
@@ -2305,7 +1900,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 556,
+      "line": 557,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.error_outline, color: c.error, size: context.sizes.iconMd),",
       "ignored": false
@@ -2359,7 +1954,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 164,
+      "line": 168,
       "message": "Icon without semanticLabel",
       "snippet": "icon: const Icon(Icons.close),",
       "ignored": false
@@ -2386,7 +1981,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\substance_card.dart",
-      "line": 167,
+      "line": 169,
       "message": "Icon without semanticLabel",
       "snippet": "icon: Icon(Icons.more_vert, color: t.colors.textSecondary),",
       "ignored": false
@@ -2407,24 +2002,6 @@
       "line": 74,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.construction, color: a.primary),",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 348,
-      "message": "Hardcoded size value",
-      "snippet": "width: 10,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 349,
-      "message": "Hardcoded size value",
-      "snippet": "height: 10,",
       "ignored": false
     },
     {
@@ -2458,99 +2035,9 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart",
-      "line": 173,
+      "line": 178,
       "message": "Hardcoded size value",
       "snippet": "style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart",
-      "line": 106,
-      "message": "Hardcoded size value",
-      "snippet": "width: 1.5,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart",
-      "line": 177,
-      "message": "Hardcoded size value",
-      "snippet": "Divider(height: 1, color: t.colors.divider),",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 176,
-      "message": "Hardcoded size value",
-      "snippet": "width: 40,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 390,
-      "message": "Hardcoded size value",
-      "snippet": "height: 1.5,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 437,
-      "message": "Hardcoded size value",
-      "snippet": "height: 1.6,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 484,
-      "message": "Hardcoded size value",
-      "snippet": "style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\timing_info_card.dart",
-      "line": 55,
-      "message": "Hardcoded size value",
-      "snippet": "height: 40,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 161,
-      "message": "Hardcoded size value",
-      "snippet": "Icon(Icons.error_outline, size: 64, color: c.error),",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 193,
-      "message": "Hardcoded size value",
-      "snippet": "Icon(Icons.flag_outlined, size: 64, color: c.textSecondary),",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 370,
-      "message": "Hardcoded visual constant",
-      "snippet": "child: const CircularProgressIndicator(strokeWidth: 2),",
       "ignored": false
     },
     {
@@ -2592,51 +2079,6 @@
     {
       "rule": "layout_constants",
       "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 279,
-      "message": "Hardcoded size value",
-      "snippet": "Icon(Icons.lock_outline, size: 100, color: a.primary),",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 314,
-      "message": "Hardcoded visual constant",
-      "snippet": "blurRadius: 10,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 390,
-      "message": "Hardcoded size value",
-      "snippet": "height: 60,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 406,
-      "message": "Hardcoded visual constant",
-      "snippet": "strokeWidth: 2,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 437,
-      "message": "Hardcoded size value",
-      "snippet": "side: BorderSide(color: a.primary, width: 2),",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\complex_fields.dart",
       "line": 118,
       "message": "Hardcoded size value",
@@ -2659,42 +2101,6 @@
       "line": 59,
       "message": "Hardcoded size value",
       "snippet": "fontSize: 16.0,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 54,
-      "message": "Hardcoded size value",
-      "snippet": "fontSize: 16.0,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 97,
-      "message": "SizedBox with hardcoded value",
-      "snippet": "SizedBox(height: 4.0),",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 97,
-      "message": "Hardcoded size value",
-      "snippet": "SizedBox(height: 4.0),",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 105,
-      "message": "Hardcoded size value",
-      "snippet": "fontSize: 12.0,",
       "ignored": false
     },
     {
@@ -2764,7 +2170,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 475,
+      "line": 476,
       "message": "Hardcoded size value",
       "snippet": "Icon(Icons.check_circle, size: 64, color: c.success),",
       "ignored": false
@@ -2944,7 +2350,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 157,
+      "line": 158,
       "message": "Hardcoded size value",
       "snippet": "Icon(Icons.lock_outline, size: 80, color: a.primary),",
       "ignored": false
@@ -2953,7 +2359,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 348,
+      "line": 349,
       "message": "Hardcoded size value",
       "snippet": "Icon(Icons.key, size: 80, color: c.warning),",
       "ignored": false
@@ -2962,7 +2368,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 207,
+      "line": 208,
       "message": "Hardcoded size value",
       "snippet": "Icon(Icons.vpn_key, size: 100, color: a.primary),",
       "ignored": false
@@ -2971,7 +2377,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 354,
+      "line": 355,
       "message": "Hardcoded size value",
       "snippet": "Icon(Icons.lock_reset, size: 100, color: a.primary),",
       "ignored": false
@@ -3007,36 +2413,9 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 111,
-      "message": "Hardcoded size value",
-      "snippet": "width: 40,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 112,
-      "message": "Hardcoded size value",
-      "snippet": "height: 4,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 229,
+      "line": 233,
       "message": "Hardcoded size value",
       "snippet": "width: 60,",
-      "ignored": false
-    },
-    {
-      "rule": "layout_constants",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\substance_card.dart",
-      "line": 282,
-      "message": "Hardcoded size value",
-      "snippet": "height: 40,",
       "ignored": false
     },
     {
@@ -3178,7 +2557,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 262,
+      "line": 263,
       "message": "Hardcoded size value",
       "snippet": "height: 1.4,",
       "ignored": false
@@ -3187,7 +2566,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 334,
+      "line": 335,
       "message": "SizedBox with hardcoded value",
       "snippet": "SizedBox(height: 2),",
       "ignored": false
@@ -3196,7 +2575,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 334,
+      "line": 335,
       "message": "Hardcoded size value",
       "snippet": "SizedBox(height: 2),",
       "ignored": false
@@ -3205,7 +2584,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 339,
+      "line": 340,
       "message": "Hardcoded size value",
       "snippet": "height: 1.2,",
       "ignored": false
@@ -3214,7 +2593,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 409,
+      "line": 410,
       "message": "Hardcoded size value",
       "snippet": "width: 0.5,",
       "ignored": false
@@ -3223,7 +2602,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 591,
+      "line": 592,
       "message": "SizedBox with hardcoded value",
       "snippet": "SizedBox(height: 4),",
       "ignored": false
@@ -3232,7 +2611,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 591,
+      "line": 592,
       "message": "Hardcoded size value",
       "snippet": "SizedBox(height: 4),",
       "ignored": false
@@ -3241,7 +2620,7 @@
       "rule": "layout_constants",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 608,
+      "line": 609,
       "message": "Hardcoded size value",
       "snippet": "height: 1.4,",
       "ignored": false
@@ -3484,7 +2863,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 240,
+      "line": 243,
       "message": "Hardcoded string in Text widget: 'Daily'",
       "snippet": "child: Text('Daily'),",
       "ignored": false
@@ -3493,7 +2872,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 244,
+      "line": 247,
       "message": "Hardcoded string in Text widget: 'Weekly'",
       "snippet": "child: Text('Weekly'),",
       "ignored": false
@@ -3502,7 +2881,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 248,
+      "line": 251,
       "message": "Hardcoded string in Text widget: 'Monthly'",
       "snippet": "child: Text('Monthly'),",
       "ignored": false
@@ -3772,7 +3151,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 336,
+      "line": 342,
       "message": "Hardcoded string in Text widget: 'Add to Stockpile'",
       "snippet": "label: const Text('Add to Stockpile'),",
       "ignored": false
@@ -4105,7 +3484,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 163,
+      "line": 164,
       "message": "Hardcoded string in Text widget: 'Error Loading Flags'",
       "snippet": "Text('Error Loading Flags', style: text.headlineMedium),",
       "ignored": false
@@ -4114,7 +3493,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 174,
+      "line": 175,
       "message": "Hardcoded string in Text widget: 'Retry'",
       "snippet": "label: const Text('Retry'),",
       "ignored": false
@@ -4123,7 +3502,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 195,
+      "line": 197,
       "message": "Hardcoded string in Text widget: 'No Feature Flags'",
       "snippet": "Text('No Feature Flags', style: text.headlineMedium),",
       "ignored": false
@@ -4222,7 +3601,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 332,
+      "line": 336,
       "message": "Hardcoded form field text: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf'",
       "snippet": "hintText: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf',",
       "ignored": false
@@ -4420,7 +3799,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 45,
+      "line": 46,
       "message": "Hardcoded string in Text widget: 'Security Upgrade'",
       "snippet": "title: Text('Security Upgrade', style: text.headlineSmall),",
       "ignored": false
@@ -4429,7 +3808,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 259,
+      "line": 260,
       "message": "Hardcoded form field text: '\u2022\u2022\u2022\u2022\u2022\u2022'",
       "snippet": "hintText: '\u2022\u2022\u2022\u2022\u2022\u2022',",
       "ignored": false
@@ -4438,7 +3817,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 350,
+      "line": 351,
       "message": "Hardcoded form field text: '\u2022\u2022\u2022\u2022\u2022\u2022'",
       "snippet": "hintText: '\u2022\u2022\u2022\u2022\u2022\u2022',",
       "ignored": false
@@ -4447,7 +3826,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 403,
+      "line": 404,
       "message": "Hardcoded string in Text widget: 'Back'",
       "snippet": "child: Text('Back', style: TextStyle(color: c.textPrimary)),",
       "ignored": false
@@ -4456,7 +3835,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 553,
+      "line": 554,
       "message": "Hardcoded string in Text widget: 'Recovery key copied to clipboard'",
       "snippet": "content: const Text('Recovery key copied to clipboard'),",
       "ignored": false
@@ -4465,7 +3844,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 640,
+      "line": 641,
       "message": "Hardcoded string in Text widget: 'Migration failed: ${e.toString()}'",
       "snippet": "content: Text('Migration failed: ${e.toString()}'),",
       "ignored": false
@@ -5248,7 +4627,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 91,
+      "line": 92,
       "message": "Hardcoded string in Text widget: 'Fingerprint unlock enabled'",
       "snippet": "content: const Text('Fingerprint unlock enabled'),",
       "ignored": false
@@ -5257,7 +4636,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 100,
+      "line": 101,
       "message": "Hardcoded string in Text widget: 'Failed to enable biometrics: $e'",
       "snippet": "content: Text('Failed to enable biometrics: $e'),",
       "ignored": false
@@ -5266,7 +4645,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 113,
+      "line": 114,
       "message": "Hardcoded string in Text widget: 'Recovery key copied to clipboard'",
       "snippet": "content: const Text('Recovery key copied to clipboard'),",
       "ignored": false
@@ -5275,7 +4654,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 205,
+      "line": 206,
       "message": "Hardcoded form field text: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf'",
       "snippet": "hintText: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf',",
       "ignored": false
@@ -5284,7 +4663,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 252,
+      "line": 253,
       "message": "Hardcoded form field text: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf'",
       "snippet": "hintText: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf',",
       "ignored": false
@@ -5293,7 +4672,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 424,
+      "line": 425,
       "message": "Hardcoded string in Text widget: 'Copy to Clipboard'",
       "snippet": "label: const Text('Copy to Clipboard'),",
       "ignored": false
@@ -5302,7 +4681,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 439,
+      "line": 440,
       "message": "Hardcoded string in Text widget: 'Enable Fingerprint Unlock (Optional)'",
       "snippet": "label: const Text('Enable Fingerprint Unlock (Optional)'),",
       "ignored": false
@@ -5311,7 +4690,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 137,
+      "line": 138,
       "message": "Hardcoded string in Text widget: 'PIN reset successful!'",
       "snippet": "content: const Text('PIN reset successful!'),",
       "ignored": false
@@ -5320,7 +4699,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 292,
+      "line": 293,
       "message": "Hardcoded form field text: 'Enter your 24-character recovery key'",
       "snippet": "hintText: 'Enter your 24-character recovery key',",
       "ignored": false
@@ -5329,7 +4708,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 330,
+      "line": 331,
       "message": "Hardcoded string in Text widget: 'Back to PIN Unlock'",
       "snippet": "label: const Text('Back to PIN Unlock'),",
       "ignored": false
@@ -5338,7 +4717,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 441,
+      "line": 442,
       "message": "Hardcoded form field text: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022'",
       "snippet": "hintText: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022',",
       "ignored": false
@@ -5347,7 +4726,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 497,
+      "line": 498,
       "message": "Hardcoded form field text: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022'",
       "snippet": "hintText: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022',",
       "ignored": false
@@ -5448,7 +4827,7 @@
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\set_new_password_page.dart",
       "line": 75,
       "message": "Hardcoded string in Text widget: 'Password updated successfully! Please log in.'",
-      "snippet": "content: Text('Password updated successfully! Please log in.'),",
+      "snippet": "content: const Text('Password updated successfully! Please log in.'),",
       "ignored": false
     },
     {
@@ -5500,7 +4879,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 84,
+      "line": 86,
       "message": "Hardcoded string in Text widget: 'Failed to load usage data: $e'",
       "snippet": "SnackBar(content: Text('Failed to load usage data: $e')),",
       "ignored": false
@@ -5761,7 +5140,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 68,
+      "line": 69,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: sp.sm),",
       "ignored": false
@@ -5770,7 +5149,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 78,
+      "line": 79,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.md),",
       "ignored": false
@@ -5779,7 +5158,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 85,
+      "line": 86,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: sp.sm),",
       "ignored": false
@@ -5788,7 +5167,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 108,
+      "line": 110,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.md),",
       "ignored": false
@@ -5797,7 +5176,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 146,
+      "line": 148,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.md),",
       "ignored": false
@@ -5806,7 +5185,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 153,
+      "line": 155,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xs),",
       "ignored": false
@@ -5815,7 +5194,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 172,
+      "line": 174,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.lg),",
       "ignored": false
@@ -5824,7 +5203,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 177,
+      "line": 179,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xs),",
       "ignored": false
@@ -6085,7 +5464,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 202,
+      "line": 205,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.lg),",
       "ignored": false
@@ -6094,7 +5473,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 332,
+      "line": 335,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.sm),",
       "ignored": false
@@ -6103,7 +5482,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 355,
+      "line": 360,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: sp.sm),",
       "ignored": false
@@ -6112,7 +5491,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 363,
+      "line": 368,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: sp.sm),",
       "ignored": false
@@ -6526,7 +5905,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart",
-      "line": 124,
+      "line": 129,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.xs),",
       "ignored": false
@@ -6535,7 +5914,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart",
-      "line": 169,
+      "line": 174,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: t.spacing.sm),",
       "ignored": false
@@ -6544,7 +5923,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart",
-      "line": 115,
+      "line": 121,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: t.spacing.md),",
       "ignored": false
@@ -6553,7 +5932,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart",
-      "line": 128,
+      "line": 134,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.xs),",
       "ignored": false
@@ -6562,7 +5941,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart",
-      "line": 156,
+      "line": 162,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.xs),",
       "ignored": false
@@ -6571,7 +5950,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 215,
+      "line": 221,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.xl),",
       "ignored": false
@@ -6580,7 +5959,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 224,
+      "line": 230,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.xl),",
       "ignored": false
@@ -6589,7 +5968,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 263,
+      "line": 269,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: t.spacing.md),",
       "ignored": false
@@ -6598,7 +5977,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 274,
+      "line": 280,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.xs),",
       "ignored": false
@@ -6607,7 +5986,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 319,
+      "line": 325,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.md),",
       "ignored": false
@@ -6616,7 +5995,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\timing_info_card.dart",
-      "line": 138,
+      "line": 141,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: t.spacing.sm),",
       "ignored": false
@@ -6751,7 +6130,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 162,
+      "line": 163,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.md),",
       "ignored": false
@@ -6760,7 +6139,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 164,
+      "line": 165,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.sm),",
       "ignored": false
@@ -6769,7 +6148,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 170,
+      "line": 171,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.lg),",
       "ignored": false
@@ -6778,26 +6157,8 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 194,
-      "message": "Missing const constructor",
-      "snippet": "SizedBox(height: sp.md),",
-      "ignored": false
-    },
-    {
-      "rule": "performance",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
       "line": 196,
       "message": "Missing const constructor",
-      "snippet": "SizedBox(height: sp.sm),",
-      "ignored": false
-    },
-    {
-      "rule": "performance",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 217,
-      "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.md),",
       "ignored": false
     },
@@ -6805,9 +6166,18 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
-      "line": 222,
+      "line": 198,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.sm),",
+      "ignored": false
+    },
+    {
+      "rule": "performance",
+      "severity": "WARNING",
+      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
+      "line": 219,
+      "message": "Missing const constructor",
+      "snippet": "SizedBox(height: sp.md),",
       "ignored": false
     },
     {
@@ -6815,6 +6185,15 @@
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
       "line": 224,
+      "message": "Missing const constructor",
+      "snippet": "SizedBox(height: sp.sm),",
+      "ignored": false
+    },
+    {
+      "rule": "performance",
+      "severity": "WARNING",
+      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart",
+      "line": 226,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.md),",
       "ignored": false
@@ -7048,7 +6427,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 280,
+      "line": 284,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xl),",
       "ignored": false
@@ -7057,7 +6436,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 291,
+      "line": 295,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.sm),",
       "ignored": false
@@ -7066,7 +6445,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 299,
+      "line": 303,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xl2),",
       "ignored": false
@@ -7120,7 +6499,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 59,
+      "line": 58,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.sm),",
       "ignored": false
@@ -7129,9 +6508,9 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 97,
+      "line": 96,
       "message": "Missing const constructor",
-      "snippet": "SizedBox(height: 4.0),",
+      "snippet": "SizedBox(height: sp.xs),",
       "ignored": false
     },
     {
@@ -7291,7 +6670,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 201,
+      "line": 202,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: context.spacing.lg),",
       "ignored": false
@@ -7300,7 +6679,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 241,
+      "line": 242,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.lg),",
       "ignored": false
@@ -7309,7 +6688,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 246,
+      "line": 247,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xl2),",
       "ignored": false
@@ -7318,7 +6697,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 285,
+      "line": 286,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xl2),",
       "ignored": false
@@ -7327,7 +6706,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 332,
+      "line": 333,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.lg),",
       "ignored": false
@@ -7336,7 +6715,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 337,
+      "line": 338,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xl2),",
       "ignored": false
@@ -7345,7 +6724,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 385,
+      "line": 386,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xl2),",
       "ignored": false
@@ -7354,7 +6733,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 406,
+      "line": 407,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: sp.lg),",
       "ignored": false
@@ -7363,7 +6742,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 448,
+      "line": 449,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xl2),",
       "ignored": false
@@ -7372,7 +6751,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 453,
+      "line": 454,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.lg),",
       "ignored": false
@@ -7381,7 +6760,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 476,
+      "line": 477,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xl),",
       "ignored": false
@@ -7390,7 +6769,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 481,
+      "line": 482,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.lg),",
       "ignored": false
@@ -7399,7 +6778,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 486,
+      "line": 487,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xl2),",
       "ignored": false
@@ -7408,7 +6787,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 500,
+      "line": 501,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: sp.sm),",
       "ignored": false
@@ -7417,7 +6796,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 510,
+      "line": 511,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.md),",
       "ignored": false
@@ -7426,7 +6805,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 518,
+      "line": 519,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.lg),",
       "ignored": false
@@ -7435,7 +6814,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 526,
+      "line": 527,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.sm),",
       "ignored": false
@@ -7444,7 +6823,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 545,
+      "line": 546,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.lg),",
       "ignored": false
@@ -7705,7 +7084,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 157,
+      "line": 158,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: spacing.sm),",
       "ignored": false
@@ -7714,7 +7093,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 182,
+      "line": 183,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.sm),",
       "ignored": false
@@ -7723,7 +7102,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 202,
+      "line": 203,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: spacing.sm),",
       "ignored": false
@@ -7732,7 +7111,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 216,
+      "line": 217,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.lg),",
       "ignored": false
@@ -7741,7 +7120,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 244,
+      "line": 245,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.lg),",
       "ignored": false
@@ -7750,7 +7129,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 246,
+      "line": 247,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.sm),",
       "ignored": false
@@ -7759,7 +7138,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 255,
+      "line": 256,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: spacing.sm),",
       "ignored": false
@@ -7768,7 +7147,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 323,
+      "line": 324,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: spacing.md),",
       "ignored": false
@@ -7777,7 +7156,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 334,
+      "line": 335,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: 2),",
       "ignored": false
@@ -7786,7 +7165,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 345,
+      "line": 346,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: spacing.sm),",
       "ignored": false
@@ -7795,7 +7174,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 369,
+      "line": 370,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.md),",
       "ignored": false
@@ -7804,7 +7183,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 392,
+      "line": 393,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: spacing.xs),",
       "ignored": false
@@ -7813,7 +7192,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 425,
+      "line": 426,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.sm),",
       "ignored": false
@@ -7822,7 +7201,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 446,
+      "line": 447,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.sm),",
       "ignored": false
@@ -7831,7 +7210,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 461,
+      "line": 462,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.sm),",
       "ignored": false
@@ -7840,7 +7219,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 484,
+      "line": 485,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.md),",
       "ignored": false
@@ -7849,7 +7228,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 486,
+      "line": 487,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.sm),",
       "ignored": false
@@ -7858,7 +7237,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 534,
+      "line": 535,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.sm),",
       "ignored": false
@@ -7867,7 +7246,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 582,
+      "line": 583,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.md),",
       "ignored": false
@@ -7876,7 +7255,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 591,
+      "line": 592,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: 4),",
       "ignored": false
@@ -7885,7 +7264,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance_dashboard\\debug_panel_widget.dart",
-      "line": 51,
+      "line": 52,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: spacing.xs),",
       "ignored": false
@@ -7894,7 +7273,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance_dashboard\\debug_panel_widget.dart",
-      "line": 62,
+      "line": 63,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.md),",
       "ignored": false
@@ -7903,7 +7282,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance_dashboard\\debug_panel_widget.dart",
-      "line": 74,
+      "line": 75,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.sm),",
       "ignored": false
@@ -7912,7 +7291,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance_dashboard\\debug_panel_widget.dart",
-      "line": 92,
+      "line": 93,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.sm),",
       "ignored": false
@@ -7921,7 +7300,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance_dashboard\\debug_panel_widget.dart",
-      "line": 138,
+      "line": 139,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: spacing.xs),",
       "ignored": false
@@ -7947,15 +7326,6 @@
     {
       "rule": "spacing",
       "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 97,
-      "message": "SizedBox used for spacing (use theme spacing)",
-      "snippet": "SizedBox(height: 4.0),",
-      "ignored": false
-    },
-    {
-      "rule": "spacing",
-      "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\tolerance_stats_card.dart",
       "line": 168,
       "message": "SizedBox used for spacing (use theme spacing)",
@@ -7966,7 +7336,7 @@
       "rule": "spacing",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 334,
+      "line": 335,
       "message": "SizedBox used for spacing (use theme spacing)",
       "snippet": "SizedBox(height: 2),",
       "ignored": false
@@ -7975,45 +7345,9 @@
       "rule": "spacing",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 591,
+      "line": 592,
       "message": "SizedBox used for spacing (use theme spacing)",
       "snippet": "SizedBox(height: 4),",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 98,
-      "message": "Hardcoded font family",
-      "snippet": "fontFamily: 'monospace',",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 163,
-      "message": "Hardcoded font family",
-      "snippet": "fontFamily: 'monospace',",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_log_detail_dialog.dart",
-      "line": 186,
-      "message": "Hardcoded font family",
-      "snippet": "fontFamily: 'monospace',",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart",
-      "line": 349,
-      "message": "Hardcoded line height",
-      "snippet": "height: 10,",
       "ignored": false
     },
     {
@@ -8029,63 +7363,9 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart",
-      "line": 173,
+      "line": 178,
       "message": "Hardcoded line height",
       "snippet": "style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_card.dart",
-      "line": 177,
-      "message": "Hardcoded line height",
-      "snippet": "Divider(height: 1, color: t.colors.divider),",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 390,
-      "message": "Hardcoded line height",
-      "snippet": "height: 1.5,",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 437,
-      "message": "Hardcoded line height",
-      "snippet": "height: 1.6,",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 460,
-      "message": "Hardcoded font family",
-      "snippet": "fontFamily: 'Monospace',",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-      "line": 484,
-      "message": "Hardcoded line height",
-      "snippet": "style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\timing_info_card.dart",
-      "line": 55,
-      "message": "Hardcoded line height",
-      "snippet": "height: 40,",
       "ignored": false
     },
     {
@@ -8119,7 +7399,7 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 326,
+      "line": 330,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 12,",
       "ignored": false
@@ -8128,18 +7408,9 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 334,
+      "line": 338,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 12,",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart",
-      "line": 390,
-      "message": "Hardcoded line height",
-      "snippet": "height: 60,",
       "ignored": false
     },
     {
@@ -8149,33 +7420,6 @@
       "line": 59,
       "message": "Hardcoded font size",
       "snippet": "fontSize: 16.0,",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 54,
-      "message": "Hardcoded font size",
-      "snippet": "fontSize: 16.0,",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 97,
-      "message": "Hardcoded line height",
-      "snippet": "SizedBox(height: 4.0),",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart",
-      "line": 105,
-      "message": "Hardcoded font size",
-      "snippet": "fontSize: 12.0,",
       "ignored": false
     },
     {
@@ -8236,7 +7480,7 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 254,
+      "line": 255,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 8,",
       "ignored": false
@@ -8245,25 +7489,16 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 345,
+      "line": 346,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 8,",
       "ignored": false
     },
     {
       "rule": "typography",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 539,
-      "message": "Hardcoded font family",
-      "snippet": "fontFamily: 'monospace',",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart",
-      "line": 541,
+      "line": 542,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 2,",
       "ignored": false
@@ -8389,7 +7624,7 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 201,
+      "line": 202,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 8,",
       "ignored": false
@@ -8398,7 +7633,7 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 248,
+      "line": 249,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 8,",
       "ignored": false
@@ -8407,34 +7642,16 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 414,
+      "line": 415,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 2,",
       "ignored": false
     },
     {
       "rule": "typography",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart",
-      "line": 416,
-      "message": "Hardcoded font family",
-      "snippet": "fontFamily: 'monospace',",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 286,
-      "message": "Hardcoded font family",
-      "snippet": "fontFamily: 'monospace',",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 287,
+      "line": 288,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 1,",
       "ignored": false
@@ -8443,7 +7660,7 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 436,
+      "line": 437,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 8,",
       "ignored": false
@@ -8452,7 +7669,7 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 444,
+      "line": 445,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 8,",
       "ignored": false
@@ -8461,7 +7678,7 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 492,
+      "line": 493,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 8,",
       "ignored": false
@@ -8470,7 +7687,7 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
-      "line": 500,
+      "line": 501,
       "message": "Hardcoded letter spacing",
       "snippet": "letterSpacing: 8,",
       "ignored": false
@@ -8482,24 +7699,6 @@
       "line": 233,
       "message": "Hardcoded line height",
       "snippet": "height: 1.5,",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart",
-      "line": 112,
-      "message": "Hardcoded line height",
-      "snippet": "height: 4,",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\substance_card.dart",
-      "line": 282,
-      "message": "Hardcoded line height",
-      "snippet": "height: 40,",
       "ignored": false
     },
     {
@@ -8632,7 +7831,7 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 262,
+      "line": 263,
       "message": "Hardcoded line height",
       "snippet": "height: 1.4,",
       "ignored": false
@@ -8641,7 +7840,7 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 334,
+      "line": 335,
       "message": "Hardcoded line height",
       "snippet": "SizedBox(height: 2),",
       "ignored": false
@@ -8650,7 +7849,7 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 339,
+      "line": 340,
       "message": "Hardcoded line height",
       "snippet": "height: 1.2,",
       "ignored": false
@@ -8659,45 +7858,18 @@
       "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 591,
+      "line": 592,
       "message": "Hardcoded line height",
       "snippet": "SizedBox(height: 4),",
       "ignored": false
     },
     {
       "rule": "typography",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 607,
-      "message": "Hardcoded font family",
-      "snippet": "fontFamily: 'monospace',",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 608,
+      "line": 609,
       "message": "Hardcoded line height",
       "snippet": "height: 1.4,",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart",
-      "line": 634,
-      "message": "Hardcoded font family",
-      "snippet": "fontFamily: 'monospace',",
-      "ignored": false
-    },
-    {
-      "rule": "typography",
-      "severity": "BLOCKING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance_dashboard\\debug_panel_widget.dart",
-      "line": 150,
-      "message": "Hardcoded font family",
-      "snippet": "fontFamily: 'monospace',",
       "ignored": false
     },
     {

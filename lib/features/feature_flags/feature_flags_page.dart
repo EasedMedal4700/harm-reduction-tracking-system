@@ -151,6 +151,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
+    final s = context.sizes;
 
     return Center(
       child: Padding(
@@ -158,7 +159,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
         child: Column(
           mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
-            Icon(Icons.error_outline, size: 64, color: c.error),
+            Icon(Icons.error_outline, size: s.icon2xl, color: c.error),
             SizedBox(height: sp.md),
             Text('Error Loading Flags', style: text.headlineMedium),
             SizedBox(height: sp.sm),
@@ -183,6 +184,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
+    final s = context.sizes;
 
     return Center(
       child: Padding(
@@ -190,7 +192,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
         child: Column(
           mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
-            Icon(Icons.flag_outlined, size: 64, color: c.textSecondary),
+            Icon(Icons.flag_outlined, size: s.icon2xl, color: c.textSecondary),
             SizedBox(height: sp.md),
             Text('No Feature Flags', style: text.headlineMedium),
             SizedBox(height: sp.sm),
@@ -367,7 +369,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
             ? SizedBox(
                 width: s.iconMd,
                 height: s.iconMd,
-                child: const CircularProgressIndicator(strokeWidth: 2),
+                child: CircularProgressIndicator(strokeWidth: s.borderRegular),
               )
             : Icon(
                 flag.enabled ? Icons.check_circle : Icons.cancel,

@@ -1,6 +1,6 @@
 {
   "check": "spacing_check",
-  "total_issues": 6,
+  "total_issues": 5,
   "issues": [
     {
       "severity": "WARNING",
@@ -19,13 +19,6 @@
     {
       "severity": "WARNING",
       "message": "SizedBox used for spacing (use theme spacing)",
-      "line": 97,
-      "snippet": "SizedBox(height: 4.0),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart"
-    },
-    {
-      "severity": "WARNING",
-      "message": "SizedBox used for spacing (use theme spacing)",
       "line": 168,
       "snippet": "SizedBox(height: 4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\tolerance_stats_card.dart"
@@ -33,14 +26,14 @@
     {
       "severity": "WARNING",
       "message": "SizedBox used for spacing (use theme spacing)",
-      "line": 334,
+      "line": 335,
       "snippet": "SizedBox(height: 2),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
       "severity": "WARNING",
       "message": "SizedBox used for spacing (use theme spacing)",
-      "line": 591,
+      "line": 592,
       "snippet": "SizedBox(height: 4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     }

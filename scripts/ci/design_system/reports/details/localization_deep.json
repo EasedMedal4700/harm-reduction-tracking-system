@@ -173,21 +173,21 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Daily'",
-      "line": 240,
+      "line": 243,
       "snippet": "child: Text('Daily'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Weekly'",
-      "line": 244,
+      "line": 247,
       "snippet": "child: Text('Weekly'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Monthly'",
-      "line": 248,
+      "line": 251,
       "snippet": "child: Text('Monthly'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart"
     },
@@ -397,7 +397,7 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Add to Stockpile'",
-      "line": 336,
+      "line": 342,
       "snippet": "label: const Text('Add to Stockpile'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
     },
@@ -656,21 +656,21 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Error Loading Flags'",
-      "line": 163,
+      "line": 164,
       "snippet": "Text('Error Loading Flags', style: text.headlineMedium),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Retry'",
-      "line": 174,
+      "line": 175,
       "snippet": "label: const Text('Retry'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'No Feature Flags'",
-      "line": 195,
+      "line": 197,
       "snippet": "Text('No Feature Flags', style: text.headlineMedium),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
@@ -747,7 +747,7 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded form field text: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf'",
-      "line": 332,
+      "line": 336,
       "snippet": "hintText: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
     },
@@ -901,42 +901,42 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Security Upgrade'",
-      "line": 45,
+      "line": 46,
       "snippet": "title: Text('Security Upgrade', style: text.headlineSmall),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded form field text: '\u2022\u2022\u2022\u2022\u2022\u2022'",
-      "line": 259,
+      "line": 260,
       "snippet": "hintText: '\u2022\u2022\u2022\u2022\u2022\u2022',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded form field text: '\u2022\u2022\u2022\u2022\u2022\u2022'",
-      "line": 350,
+      "line": 351,
       "snippet": "hintText: '\u2022\u2022\u2022\u2022\u2022\u2022',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Back'",
-      "line": 403,
+      "line": 404,
       "snippet": "child: Text('Back', style: TextStyle(color: c.textPrimary)),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Recovery key copied to clipboard'",
-      "line": 553,
+      "line": 554,
       "snippet": "content: const Text('Recovery key copied to clipboard'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Migration failed: ${e.toString()}'",
-      "line": 640,
+      "line": 641,
       "snippet": "content: Text('Migration failed: ${e.toString()}'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
@@ -1545,84 +1545,84 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Fingerprint unlock enabled'",
-      "line": 91,
+      "line": 92,
       "snippet": "content: const Text('Fingerprint unlock enabled'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Failed to enable biometrics: $e'",
-      "line": 100,
+      "line": 101,
       "snippet": "content: Text('Failed to enable biometrics: $e'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Recovery key copied to clipboard'",
-      "line": 113,
+      "line": 114,
       "snippet": "content: const Text('Recovery key copied to clipboard'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded form field text: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf'",
-      "line": 205,
+      "line": 206,
       "snippet": "hintText: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded form field text: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf'",
-      "line": 252,
+      "line": 253,
       "snippet": "hintText: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Copy to Clipboard'",
-      "line": 424,
+      "line": 425,
       "snippet": "label: const Text('Copy to Clipboard'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Enable Fingerprint Unlock (Optional)'",
-      "line": 439,
+      "line": 440,
       "snippet": "label: const Text('Enable Fingerprint Unlock (Optional)'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'PIN reset successful!'",
-      "line": 137,
+      "line": 138,
       "snippet": "content: const Text('PIN reset successful!'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded form field text: 'Enter your 24-character recovery key'",
-      "line": 292,
+      "line": 293,
       "snippet": "hintText: 'Enter your 24-character recovery key',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Back to PIN Unlock'",
-      "line": 330,
+      "line": 331,
       "snippet": "label: const Text('Back to PIN Unlock'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded form field text: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022'",
-      "line": 441,
+      "line": 442,
       "snippet": "hintText: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
       "severity": "WARNING",
       "message": "Hardcoded form field text: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022'",
-      "line": 497,
+      "line": 498,
       "snippet": "hintText: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
@@ -1700,7 +1700,7 @@
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Password updated successfully! Please log in.'",
       "line": 75,
-      "snippet": "content: Text('Password updated successfully! Please log in.'),",
+      "snippet": "content: const Text('Password updated successfully! Please log in.'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\set_new_password_page.dart"
     },
     {
@@ -1741,7 +1741,7 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'Failed to load usage data: $e'",
-      "line": 84,
+      "line": 86,
       "snippet": "SnackBar(content: Text('Failed to load usage data: $e')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart"
     },

@@ -34,6 +34,7 @@ import '../../../../models/tolerance_model.dart';
 import '../../../../utils/tolerance_calculator.dart';
 
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_typography.dart';
 
 /// Unified widget combining system tolerance and substance-specific breakdown.
 ///
@@ -604,7 +605,7 @@ class _UnifiedBucketToleranceWidgetState
             'Example: 8×5mg over 4 days → 20–40% tolerance',
             style: typography.caption.copyWith(
               color: colors.textSecondary,
-              fontFamily: 'monospace',
+              fontFamily: AppTypographyConstants.fontFamilyMonospace,
               height: 1.4,
             ),
           ),
@@ -631,7 +632,7 @@ class _UnifiedBucketToleranceWidgetState
             value,
             style: typography.captionBold.copyWith(
               color: colors.textPrimary,
-              fontFamily: 'monospace',
+              fontFamily: AppTypographyConstants.fontFamilyMonospace,
             ),
           ),
         ],

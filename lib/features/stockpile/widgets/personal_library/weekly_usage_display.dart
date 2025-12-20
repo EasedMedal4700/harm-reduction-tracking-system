@@ -125,7 +125,9 @@ class WeeklyUsageDisplay extends StatelessWidget {
                               '$count',
                               style: t.typography.caption.copyWith(
                                 fontWeight: text.bodyBold.fontWeight,
-                                color: Colors.white,
+                                color: t.isDark
+                                    ? t.colors.textPrimary
+                                    : t.colors.surface,
                               ),
                             ),
                           ),

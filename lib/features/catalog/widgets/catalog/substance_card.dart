@@ -13,6 +13,12 @@ import '../../../../repo/stockpile_repository.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
 
+const double _borderWidth = 1.5;
+const double _dividerHeight = 1.0;
+const double _tagSpacing = 6.0;
+const double _tagPaddingH = 6.0;
+const double _tagPaddingV = 2.0;
+
 class SubstanceCard extends StatelessWidget {
   final Map<String, dynamic> substance;
   final VoidCallback onTap;
@@ -103,7 +109,7 @@ class SubstanceCard extends StatelessWidget {
                         shape: context.shapes.boxShapeCircle,
                         border: Border.all(
                           color: categoryColor.withValues(alpha: 0.3),
-                          width: 1.5,
+                          width: _borderWidth,
                         ),
                       ),
                       child: Icon(
@@ -127,13 +133,13 @@ class SubstanceCard extends StatelessWidget {
                           ),
                           SizedBox(height: t.spacing.xs),
                           Wrap(
-                            spacing: 6,
+                            spacing: _tagSpacing,
                             runSpacing: t.spacing.xs,
                             children: categories.take(3).map((cat) {
                               return Container(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 6,
-                                  vertical: 2,
+                                  horizontal: _tagPaddingH,
+                                  vertical: _tagPaddingV,
                                 ),
                                 decoration: BoxDecoration(
                                   color: categoryColor.withValues(alpha: 0.1),
@@ -174,7 +180,7 @@ class SubstanceCard extends StatelessWidget {
             ),
 
             // Divider
-            Divider(height: 1, color: t.colors.divider),
+            Divider(height: _dividerHeight, color: t.colors.divider),
 
             // Action bar
             Padding(

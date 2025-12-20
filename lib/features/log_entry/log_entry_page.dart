@@ -257,9 +257,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                 ),
                 if (_isSaving)
                   Container(
-                    color: Colors.black.withValues(
-                      alpha: context.opacities.slow,
-                    ),
+                    color: context.colors.overlayHeavy,
                     child: const CommonLoader(),
                   ),
               ],

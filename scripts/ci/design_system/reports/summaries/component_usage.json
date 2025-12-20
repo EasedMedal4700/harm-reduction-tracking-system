@@ -2,6 +2,6 @@
   "check": "component_usage_check",
   "status": "PASS",
   "blocking_issues": 0,
-  "warning_issues": 142,
+  "warning_issues": 141,
   "files_affected": 66
 }

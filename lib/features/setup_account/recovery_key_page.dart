@@ -3,6 +3,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_typography.dart';
 import '../../services/encryption_service_v2.dart';
 import '../../common/layout/common_spacer.dart';
 import '../../common/buttons/common_primary_button.dart';
@@ -283,7 +284,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                 autocorrect: false,
                 enableSuggestions: false,
                 style: t.bodyLarge.copyWith(
-                  fontFamily: 'monospace',
+                  fontFamily: AppTypographyConstants.fontFamilyMonospace,
                   letterSpacing: 1,
                   color: c.textPrimary,
                 ),

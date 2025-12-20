@@ -8,6 +8,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_typography.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'severity_badge.dart';
 
@@ -95,7 +96,8 @@ class ErrorLogDetailDialog extends StatelessWidget {
                         child: Text(
                           errorCode,
                           style: text.caption.copyWith(
-                            fontFamily: 'monospace',
+                            fontFamily:
+                                AppTypographyConstants.fontFamilyMonospace,
                             fontWeight: text.bodyBold.fontWeight,
                             color: c.textPrimary,
                           ),
@@ -160,7 +162,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                   child: SelectableText(
                     log['stacktrace'] ?? 'Unavailable',
                     style: text.caption.copyWith(
-                      fontFamily: 'monospace',
+                      fontFamily: AppTypographyConstants.fontFamilyMonospace,
                       fontSize: context.text.label.fontSize,
                       color: c.textPrimary,
                     ),
@@ -183,7 +185,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                     child: SelectableText(
                       const JsonEncoder.withIndent('  ').convert(extra),
                       style: text.caption.copyWith(
-                        fontFamily: 'monospace',
+                        fontFamily: AppTypographyConstants.fontFamilyMonospace,
                         fontSize: context.text.label.fontSize,
                         color: c.textPrimary,
                       ),
