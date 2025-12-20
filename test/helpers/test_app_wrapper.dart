@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 
+/// Legacy wrapper functions - consider using TestUtils from flutter_test_config.dart instead
+@deprecated
 Widget wrapWithAppTheme(Widget child) {
   return AppThemeProvider(
     theme: AppTheme.light(),
@@ -12,6 +14,7 @@ Widget wrapWithAppTheme(Widget child) {
   );
 }
 
+@deprecated
 Widget wrapWithAppThemeApp({required Widget home}) {
   return AppThemeProvider(
     theme: AppTheme.light(),
@@ -21,6 +24,7 @@ Widget wrapWithAppThemeApp({required Widget home}) {
   );
 }
 
+@deprecated
 Widget wrapWithAppThemeAndProvidersApp({
   required Widget home,
   List<Override> overrides = const [],
@@ -31,6 +35,34 @@ Widget wrapWithAppThemeAndProvidersApp({
       theme: AppTheme.light(),
       child: MaterialApp(
         home: home,
+      ),
+    ),
+  );
+}
+
+/// Enhanced test wrapper with more options
+Widget createEnhancedTestWrapper({
+  required Widget child,
+  List<Override> providerOverrides = const [],
+  ThemeMode themeMode = ThemeMode.light,
+  Size? size,
+  bool disableAnimations = true,
+}) {
+  return ProviderScope(
+    overrides: providerOverrides,
+    child: AppThemeProvider(
+      theme: themeMode == ThemeMode.light ? AppTheme.light() : AppTheme.dark(),
+      child: MaterialApp(
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: themeMode,
+        home: Scaffold(body: child),
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            size: size ?? const Size(400, 800),
+          ),
+          child: child!,
+        ),
       ),
     ),
   );

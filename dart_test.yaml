@@ -1,0 +1,48 @@
+# Dart test configuration
+# This file configures the test runner behavior
+
+# Test timeout settings
+timeout: 30s
+
+# Concurrency settings (number of tests to run in parallel)
+concurrency: 4
+
+# Reporter settings
+reporter: expanded
+
+# Platform settings
+platforms:
+  - vm
+
+# Test file patterns
+# Only run files matching these patterns
+# patterns:
+#   - "**/*_test.dart"
+
+# Test file exclusions
+# Skip files matching these patterns
+# exclude:
+#   - "**/integration_test/**"
+#   - "**/golden_test/**"
+
+# Custom test tags
+# Define custom tags for grouping tests
+# tags:
+#   - unit
+#   - widget
+#   - integration
+#   - slow
+
+# Precompiled dependencies
+# Precompile these packages for faster test startup
+# precompiled:
+#   - path/to/package
+
+# Pause after tests
+# pause_after_load: true
+
+# Randomize test order for better detection of test interdependencies
+# randomize_order: true
+
+# Verbose output
+# verbose: true
