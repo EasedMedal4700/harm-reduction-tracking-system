@@ -1,14 +1,16 @@
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Placeholder page. Migrated to use AppTheme. No hardcoded values.
+
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../common/layout/common_spacer.dart';
 
-// MIGRATION
-// Theme: COMPLETE
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Placeholder page. Migrated to use AppTheme. No hardcoded values.
+
 
 /// Placeholder page for WearOS companion app
 class WearOSPage extends StatelessWidget {
