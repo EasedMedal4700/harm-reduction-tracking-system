@@ -67,7 +67,7 @@ class SystemBucketCard extends ConsumerWidget {
       case ToleranceSystemState.moderateStrain:
         return c.warning;
       case ToleranceSystemState.highStrain:
-        return Colors.deepOrangeAccent;
+        return c.error;
       case ToleranceSystemState.depleted:
         return c.error;
     }
@@ -107,13 +107,13 @@ class SystemBucketCard extends ConsumerWidget {
     final stateColor = _getStateColor(state, colors);
 
     return Container(
-      width: 145,
+      width: context.sizes.cardWidthMd,
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: BorderRadius.circular(radii.radiusMd),
         border: Border.all(
           color: isSelected ? stateColor : colors.border,
-          width: isSelected ? 2 : 1,
+          width: isSelected ? context.sizes.borderRegular : context.sizes.borderThin,
         ),
         boxShadow: isSelected ? context.cardShadowHovered : context.cardShadow,
       ),
@@ -160,7 +160,7 @@ class SystemBucketCard extends ConsumerWidget {
                 ),
                 decoration: BoxDecoration(
                   color: stateColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(radii.radiusMd),
                   border: Border.all(
                     color: stateColor.withValues(alpha: 0.35),
                     width: context.sizes.borderThin,
@@ -180,11 +180,11 @@ class SystemBucketCard extends ConsumerWidget {
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: spacing.sm,
-                    vertical: 2,
+                    vertical: spacing.xs / 2,
                   ),
                   decoration: BoxDecoration(
                     color: colors.info.withValues(alpha: 0.18),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(radii.radiusSm),
                   ),
                   child: Text(
                     'ACTIVE',

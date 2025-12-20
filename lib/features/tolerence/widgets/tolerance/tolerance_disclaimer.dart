@@ -62,7 +62,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
         color: colors.surface,
         borderRadius: BorderRadius.circular(radii.radiusMd),
         border: Border.all(
-          color: Colors.orange.withValues(alpha: 0.5),
+          color: context.accent.warning.withValues(alpha: 0.5),
           width: context.sizes.borderRegular,
         ),
       ),
@@ -74,7 +74,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
             children: [
               Icon(
                 Icons.warning_amber_rounded,
-                color: Colors.orange,
+                color: context.accent.warning,
                 size: spacing.xl,
               ),
               SizedBox(width: spacing.md),
@@ -82,7 +82,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
                 child: Text(
                   'SAFETY DISCLAIMER',
                   style: typography.heading3.copyWith(
-                    color: Colors.orange,
+                    color: context.accent.warning,
                     fontWeight: context.text.bodyBold.fontWeight,
                   ),
                 ),
@@ -134,10 +134,10 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
             Container(
               padding: EdgeInsets.all(spacing.md),
               decoration: BoxDecoration(
-                color: Colors.red.withValues(alpha: 0.08),
+                color: context.colors.error.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(radii.radiusSm),
                 border: Border.all(
-                  color: Colors.red.withValues(alpha: 0.35),
+                  color: context.colors.error.withValues(alpha: 0.35),
                   width: context.sizes.borderThin,
                 ),
               ),
@@ -146,7 +146,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
                 'This feature is informational only. The developers assume no liability for harm. '
                 'Always consult medical professionals and follow harm reduction practices.',
                 style: typography.bodySmall.copyWith(
-                  color: Colors.red.shade300,
+                  color: context.colors.error,
                   fontWeight: context.text.bodyBold.fontWeight,
                   height: 1.4,
                 ),
@@ -215,20 +215,20 @@ class _CompactToleranceDisclaimerState
 
     // ADAPTIVE COLORS - Different colors for dark/light mode
     final bg = isDark
-        ? Colors.amber.withValues(alpha: 0.18)
-        : Colors.amber.shade50;
+        ? context.accent.warning.withValues(alpha: 0.18)
+        : context.accent.warning.withValues(alpha: 0.1);
 
     final borderColor = isDark
-        ? Colors.amber.shade700
-        : Colors.amber.shade300;
+        ? context.accent.warning
+        : context.accent.warning.withValues(alpha: 0.5);
 
     final titleColor = isDark
-        ? Colors.amber.shade300
-        : Colors.amber.shade900;
+        ? context.accent.warning
+        : context.accent.warning;
 
     final bodyColor = isDark
-        ? Colors.grey.shade300
-        : Colors.grey.shade800;
+        ? context.colors.textSecondary
+        : context.colors.textSecondary;
 
     // COMPACT NOTICE CONTAINER
     return Container(
@@ -236,7 +236,7 @@ class _CompactToleranceDisclaimerState
       decoration: BoxDecoration(
         color: bg,
         borderRadius: BorderRadius.circular(radii.radiusMd),
-        border: Border.all(color: borderColor, width: 1.5),
+        border: Border.all(color: borderColor, width: context.sizes.borderRegular),
       ),
       child: Row(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

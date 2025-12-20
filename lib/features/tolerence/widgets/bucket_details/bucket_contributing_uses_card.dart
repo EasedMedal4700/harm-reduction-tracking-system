@@ -69,10 +69,9 @@ class BucketContributingUsesCard extends StatelessWidget {
           if (contributingUses.length > 10)
             Text(
               '...and ${contributingUses.length - 10} more',
-              style: text.bodySmall.copyWith(
+              style: text.overline.copyWith(
                 color: c.textSecondary,
                 fontStyle: FontStyle.italic,
-                fontSize: text.bodySmall.fontSize! - 2,
               ),
             ),
         ],

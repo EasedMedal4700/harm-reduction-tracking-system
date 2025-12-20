@@ -78,7 +78,7 @@ class BucketDecayTimelineCard extends StatelessWidget {
             Expanded(
               flex: activeFlex,
               child: Container(
-                height: 12,
+                height: sp.md,
                 decoration: BoxDecoration(
                   color: BucketUtils.getColorForTolerance(context, tolerancePercent / 100),
                   borderRadius: BorderRadius.horizontal(
@@ -96,7 +96,7 @@ class BucketDecayTimelineCard extends StatelessWidget {
               Expanded(
                 flex: remainingFlex,
                 child: Container(
-                  height: 12,
+                  height: sp.md,
                   decoration: BoxDecoration(
                     color: c.border, // matches theme border color
                     borderRadius: BorderRadius.horizontal(
@@ -116,16 +116,14 @@ class BucketDecayTimelineCard extends StatelessWidget {
           children: [
             Text(
               '0%',
-              style: text.bodySmall.copyWith(
+              style: text.overline.copyWith(
                 color: c.textSecondary,
-                fontSize: text.bodySmall.fontSize! - 2,
               ),
             ),
             Text(
               '100%',
-              style: text.bodySmall.copyWith(
+              style: text.overline.copyWith(
                 color: c.textSecondary,
-                fontSize: text.bodySmall.fontSize! - 2,
               ),
             ),
           ],

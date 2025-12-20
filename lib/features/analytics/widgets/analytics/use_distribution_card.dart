@@ -7,13 +7,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:fl_chart/fl_chart.dart';
-
-
 import '../../../../constants/theme/app_theme_extension.dart';
-
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../models/log_entry_model.dart';
-
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/text/common_section_header.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -115,7 +111,7 @@ int index,
 int total,
 ) {
 final category = substanceToCategory[substance.toLowerCase()] ?? 'Other';
-final base = DrugCategoryColors.colorFor(category);
+final base = context.accent.primary;
 
 if (total <= 1) return base;
 
@@ -349,9 +345,9 @@ return List.generate(entries.length, (index) {
     radius: radius,
     title: showLabel ? '${(slicePercent * 100).round()}%' : '',
     titleStyle: TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.w700,
-      color: Colors.white,
+      fontSize: context.text.bodySmall.fontSize,
+      fontWeight: context.text.bodyBold.fontWeight,
+      color: context.colors.surface,
     ),
   );
 });
@@ -377,14 +373,14 @@ return Column(
     ),
     SizedBox(height: t.spacing.sm),
     ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 220),
+      constraints: BoxConstraints(maxHeight: context.sizes.heightMd),
       child: SingleChildScrollView(
         child: Column(
           children: sorted.map((e) {
             final index = sorted.indexOf(e);
             final baseColor =
                 _viewType == DistributionViewType.category
-                    ? DrugCategoryColors.colorFor(e.key)
+                    ? context.accent.primary
                     : _controller.colorForSubstance(
                         e.key,
                         index,
@@ -631,7 +627,7 @@ Widget build(BuildContext context) {
 final t = context.theme;
 
 return SizedBox(
-  height: 180,
+  height: context.sizes.heightMd,
   child: Center(
     child: Text(
       'No data to visualize yet.\nLog a few entries to see distribution.',

@@ -42,15 +42,6 @@ class BucketUtils {
     return c.error;                               // Red-danger
   }
 
-  /// Former API compatibility: returns a color without requiring BuildContext
-  /// BUT theme colors won't apply without context, so this should be avoided.
-  static Color getColorForToleranceFallback(double tolerance) {
-    if (tolerance < 0.25) return Colors.green;
-    if (tolerance < 0.5) return Colors.yellow.shade700;
-    if (tolerance < 0.75) return Colors.orange;
-    return Colors.red;
-  }
-
   /// Always prefer this instead of getColorForToleranceFallback
   static Color getColorForTolerance(BuildContext context, double tolerance) {
     return toleranceColor(context, tolerance);

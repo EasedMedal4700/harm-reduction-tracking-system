@@ -90,9 +90,9 @@ class _UnifiedBucketToleranceWidgetState
         return colors.warning;
       case ToleranceSystemState.highStrain:
         // More urgent than normal warning
-        return Colors.deepOrangeAccent;
+        return context.colors.error;
       case ToleranceSystemState.depleted:
-        return colors.error;
+        return context.colors.error;
     }
   }
 
@@ -183,17 +183,17 @@ class _UnifiedBucketToleranceWidgetState
             Container(
               padding: EdgeInsets.all(spacing.sm),
               decoration: BoxDecoration(
-                color: Colors.amber.withValues(alpha: context.theme.isDark ? 0.15 : 0.10),
+                color: context.accent.warning.withValues(alpha: context.theme.isDark ? 0.15 : 0.10),
                 borderRadius:
                     BorderRadius.circular(context.shapes.radiusSm),
                 border: Border.all(
-                  color: Colors.amber.withValues(alpha: 0.4),
+                  color: context.accent.warning.withValues(alpha: 0.4),
                   width: context.sizes.borderThin,
                 ),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline, size: context.sizes.iconSm, color: Colors.amber),
+                  Icon(Icons.info_outline, size: context.sizes.iconSm, color: context.accent.warning),
                   SizedBox(width: spacing.sm),
                   Expanded(
                     child: Text(
@@ -521,7 +521,7 @@ class _UnifiedBucketToleranceWidgetState
           Text(
             '🐛 CALCULATION DEBUG',
             style: typography.captionBold.copyWith(
-              color: Colors.amber,
+              color: context.accent.warning,
             ),
           ),
           SizedBox(height: spacing.sm),
@@ -575,7 +575,7 @@ class _UnifiedBucketToleranceWidgetState
           Text(
             'FORMULA EXPLANATION:',
             style: typography.captionBold.copyWith(
-              color: Colors.amber,
+              color: context.accent.warning,
             ),
           ),
           SizedBox(height: 4),

@@ -111,9 +111,9 @@ class SystemToleranceWidget extends StatelessWidget {
     if (percent < 10) {
       valueColor = t.colors.textSecondary;
     } else if (percent < 40) {
-      valueColor = Colors.orangeAccent;
+      valueColor = context.accent.warning;
     } else {
-      valueColor = Colors.redAccent;
+      valueColor = context.colors.error;
     }
 
     return InkWell(
@@ -126,7 +126,7 @@ class SystemToleranceWidget extends StatelessWidget {
           builder: (_) => SystemToleranceBreakdownSheet(
             bucketName: bucket,
             currentPercent: percent,
-            accentColor: _getStateColor(state),
+            accentColor: _getStateColor(state, context),
           ),
         );
       },
@@ -170,7 +170,7 @@ class SystemToleranceWidget extends StatelessWidget {
             // Arrow
             Icon(
               Icons.chevron_right_rounded,
-              size: 18,
+              size: context.sizes.iconSm,
               color: t.colors.textSecondary.withValues(alpha: 0.4),
             ),
           ],
@@ -185,19 +185,19 @@ class SystemToleranceWidget extends StatelessWidget {
 
   Widget _buildStateBadge(BuildContext context, ToleranceSystemState state) {
     final t = context.theme;
-    final color = _getStateColor(state);
+    final color = _getStateColor(state, context);
 
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: t.spacing.sm,
-        vertical: 2,
+        vertical: t.spacing.xs / 2,
       ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
         border: Border.all(
           color: color.withValues(alpha: 0.3),
-          width: 0.5,
+          width: context.sizes.borderThin,
         ),
       ),
       child: Text(
@@ -235,18 +235,19 @@ class SystemToleranceWidget extends StatelessWidget {
     }
   }
 
-  Color _getStateColor(ToleranceSystemState state) {
+  Color _getStateColor(ToleranceSystemState state, BuildContext context) {
+    final colors = context.colors;
     switch (state) {
       case ToleranceSystemState.recovered:
-        return Colors.greenAccent;
+        return colors.success;
       case ToleranceSystemState.lightStress:
-        return Colors.lightBlueAccent;
+        return colors.info;
       case ToleranceSystemState.moderateStrain:
-        return Colors.orangeAccent;
+        return context.accent.warning;
       case ToleranceSystemState.highStrain:
-        return Colors.deepOrangeAccent;
+        return context.colors.error;
       case ToleranceSystemState.depleted:
-        return Colors.redAccent;
+        return context.colors.error;
     }
   }
 }

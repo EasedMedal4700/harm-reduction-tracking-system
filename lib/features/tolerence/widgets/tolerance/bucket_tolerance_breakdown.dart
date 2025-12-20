@@ -56,7 +56,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
     final colors = context.colors;
     if (value < 0.25) return colors.success;
     if (value < 0.50) return colors.warning;
-    if (value < 0.75) return Colors.orangeAccent;
+    if (value < 0.75) return colors.warning;
     return colors.error;
   }
 
@@ -157,7 +157,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                                   _getBucketDisplayName(bucketType),
                                   style: typography.bodyBold,
                                 ),
-                                CommonSpacer.vertical(4),
+                                CommonSpacer.vertical(spacing.xs),
                                 Text(
                                   BucketDefinitions.getDescription(bucketType),
                                   style: typography.caption,
@@ -173,11 +173,11 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                                 Container(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: spacing.sm,
-                                    vertical: 2,
+                                    vertical: spacing.xs / 2,
                                   ),
                                   decoration: BoxDecoration(
                                     color: accent.primary.withValues(alpha: 0.15),
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(radii.radiusSm),
                                   ),
                                   child: Text(
                                     'ACTIVE',
@@ -208,7 +208,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(radii.radiusSm),
                         child: LinearProgressIndicator(
                           value: result.tolerance > 1 ? 1 : result.tolerance,
-                          minHeight: 8,
+                          minHeight: spacing.sm,
                           backgroundColor: colors.border.withValues(alpha: 0.4),
                           valueColor:
                               AlwaysStoppedAnimation<Color>(toleranceColor),

@@ -53,7 +53,7 @@ class BucketDetailSection extends ConsumerWidget {
       case ToleranceSystemState.moderateStrain:
         return c.warning;
       case ToleranceSystemState.highStrain:
-        return Colors.deepOrangeAccent;
+        return c.error;
       case ToleranceSystemState.depleted:
         return c.error;
     }
@@ -62,7 +62,7 @@ class BucketDetailSection extends ConsumerWidget {
   Color _getToleranceColor(double percent, ColorPalette c) {
     if (percent < 25) return c.success;
     if (percent < 50) return c.warning;
-    if (percent < 75) return Colors.orange;
+    if (percent < 75) return c.warning;
     return c.error;
   }
 
@@ -83,7 +83,7 @@ class BucketDetailSection extends ConsumerWidget {
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: BorderRadius.circular(radii.radiusMd),
-        border: Border.all(color: colors.border, width: 1),
+        border: Border.all(color: colors.border, width: context.sizes.borderThin),
         boxShadow: context.cardShadow,
       ),
       child: Column(
@@ -108,7 +108,7 @@ class BucketDetailSection extends ConsumerWidget {
                 ),
                 decoration: BoxDecoration(
                   color: stateColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(radii.radiusLg),
                   border: Border.all(
                     color: stateColor.withValues(alpha: 0.3),
                     width: context.sizes.borderThin,
@@ -170,7 +170,7 @@ class BucketDetailSection extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(radii.radiusSm),
                   border: Border.all(
                     color: isSelected ? context.accent.primary : colors.border,
-                    width: isSelected ? 2 : 1,
+                    width: isSelected ? context.sizes.borderRegular : context.sizes.borderThin,
                   ),
                 ),
                 child: InkWell(
@@ -187,7 +187,7 @@ class BucketDetailSection extends ConsumerWidget {
                             children: [
                               // Substance name
                               Text(substanceName, style: typography.bodyBold),
-                              CommonSpacer.vertical(2),
+                              CommonSpacer.vertical(spacing.xs / 2),
                               // Contribution percentage label
                               Text(
                                 'Contribution: ${contribution.toStringAsFixed(1)}%',
@@ -205,7 +205,7 @@ class BucketDetailSection extends ConsumerWidget {
                           ),
                           decoration: BoxDecoration(
                             color: tolColor.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(radii.radiusMd),
                           ),
                           child: Text(
                             '${contribution.toStringAsFixed(1)}%',
@@ -221,11 +221,11 @@ class BucketDetailSection extends ConsumerWidget {
                           Container(
                             padding: EdgeInsets.symmetric(
                               horizontal: spacing.xs,
-                              vertical: 2,
+                              vertical: spacing.xs / 2,
                             ),
                             decoration: BoxDecoration(
                               color: context.accent.secondary.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(radii.radiusSm),
                             ),
                             child: Text(
                               'ACTIVE',

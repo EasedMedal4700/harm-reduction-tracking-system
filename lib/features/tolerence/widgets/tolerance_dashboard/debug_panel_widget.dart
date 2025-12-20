@@ -46,7 +46,7 @@ class DebugPanelWidget extends ConsumerWidget {
               Icon(
                 Icons.bug_report,
                 color: colors.warning,
-                size: 20.0,
+                size: context.sizes.iconSm,
               ),
               SizedBox(width: spacing.xs),
               Text(

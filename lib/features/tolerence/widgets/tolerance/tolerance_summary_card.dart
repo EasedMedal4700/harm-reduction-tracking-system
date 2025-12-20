@@ -91,7 +91,7 @@ class ToleranceSummaryCard extends ConsumerWidget {
             borderRadius: BorderRadius.circular(radii.radiusSm),
             child: LinearProgressIndicator(
               value: (currentTolerance / 100).clamp(0.0, 1.0),
-              minHeight: 10,
+              minHeight: spacing.md,
               backgroundColor: colors.surfaceVariant,
               valueColor: AlwaysStoppedAnimation(color),
             ),
@@ -148,7 +148,7 @@ class ToleranceSummaryCard extends ConsumerWidget {
     if (tolerance < 10) return colors.success;
     if (tolerance < 30) return colors.info;
     if (tolerance < 50) return colors.warning;
-    if (tolerance < 70) return Colors.deepOrange;
+    if (tolerance < 70) return colors.error;
     return colors.error;
   }
 }
