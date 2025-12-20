@@ -7,7 +7,17 @@ import '../services/encryption_service_v2.dart';
 
 class CravingService {
   final _uuid = const Uuid();
-  final _encryption = EncryptionServiceV2();
+  final EncryptionServiceV2 _encryption;
+  final SupabaseClient _supabase;
+  final String Function() _getUserId;
+
+  CravingService({
+    EncryptionServiceV2? encryption,
+    SupabaseClient? supabase,
+    String Function()? getUserId,
+  })  : _encryption = encryption ?? EncryptionServiceV2(),
+        _supabase = supabase ?? Supabase.instance.client,
+        _getUserId = getUserId ?? UserService.getCurrentUserId;
 
   Future<void> saveCraving(Craving craving) async {
     // Add validation
@@ -24,7 +34,7 @@ class CravingService {
     }
 
     try {
-      final userId = UserService.getCurrentUserId();
+      final userId = _getUserId();
 
       // Encrypt sensitive free-text fields
       final encryptedAction = await _encryption.encryptText(craving.action);
@@ -49,7 +59,7 @@ class CravingService {
         'action': encryptedAction,
         'timezone': craving.timezone.toString(),
       };
-      await Supabase.instance.client.from('cravings').insert(data);
+      await _supabase.from('cravings').insert(data);
     } on PostgrestException catch (e, stackTrace) {
       ErrorHandler.logError(
         'CravingService.saveCraving.Postgrest',
@@ -91,9 +101,9 @@ class CravingService {
         throw Exception('Invalid craving ID: ID cannot be empty');
       }
 
-      final userId = UserService.getCurrentUserId();
+      final userId = _getUserId();
 
-      final result = await Supabase.instance.client
+      final result = await _supabase
           .from('cravings')
           .select('*')
           .eq('craving_id', cravingId)
@@ -155,7 +165,7 @@ class CravingService {
         throw Exception('Please select a valid location');
       }
 
-      final userId = UserService.getCurrentUserId();
+      final userId = _getUserId();
 
       // Encrypt sensitive fields if they are being updated
       final encryptedData = await _encryption.encryptFields(data, [
@@ -163,7 +173,7 @@ class CravingService {
         'thoughts',
       ]);
 
-      final response = await Supabase.instance.client
+      final response = await _supabase
           .from('cravings')
           .update(encryptedData)
           .eq('craving_id', cravingId)

@@ -3,6 +3,7 @@ import '../models/daily_checkin_model.dart';
 import '../services/user_service.dart';
 import '../utils/error_handler.dart';
 import 'cache_service.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class DailyCheckinRepository {
   Future<void> saveCheckin(DailyCheckin checkin);
@@ -20,8 +21,17 @@ abstract class DailyCheckinRepository {
 }
 
 class DailyCheckinService implements DailyCheckinRepository {
-  final SupabaseClient _client = Supabase.instance.client;
-  final _cache = CacheService();
+  final SupabaseClient _client;
+  final CacheService _cache;
+  final String Function() _getUserId;
+
+  DailyCheckinService({
+    SupabaseClient? client,
+    CacheService? cache,
+    String Function()? getUserId,
+  })  : _client = client ?? Supabase.instance.client,
+        _cache = cache ?? CacheService(),
+        _getUserId = getUserId ?? UserService.getCurrentUserId;
 
   /// Save a new daily check-in to the database
   @override
@@ -29,7 +39,7 @@ class DailyCheckinService implements DailyCheckinRepository {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Saving new check-in');
 
-      final userId = UserService.getCurrentUserId();
+      final userId = _getUserId();
       final data = {
         'uuid_user_id': userId,
         'checkin_date': checkin.checkinDate.toIso8601String().split('T')[0],
@@ -60,9 +70,9 @@ class DailyCheckinService implements DailyCheckinRepository {
   @override
   Future<void> updateCheckin(String id, DailyCheckin checkin) async {
     try {
-      ErrorHandler.logDebug('DailyCheckinService', 'Updating check-in: $id');
+      ErrorHandler.logDebug('DailyCheckinService', 'Updating check-in: ');
 
-      final userId = UserService.getCurrentUserId();
+      final userId = _getUserId();
       final data = {
         'mood': checkin.mood,
         'emotions': checkin.emotions,
@@ -104,7 +114,7 @@ class DailyCheckinService implements DailyCheckinRepository {
         'Fetching check-ins for date: $date',
       );
 
-      final userId = UserService.getCurrentUserId();
+      final userId = _getUserId();
       final dateStr = date.toIso8601String().split('T')[0];
 
       final response = await _client
@@ -145,7 +155,7 @@ class DailyCheckinService implements DailyCheckinRepository {
         'Fetching check-ins from $startDate to $endDate',
       );
 
-      final userId = UserService.getCurrentUserId();
+      final userId = _getUserId();
       final startStr = startDate.toIso8601String().split('T')[0];
       final endStr = endDate.toIso8601String().split('T')[0];
 
@@ -189,7 +199,7 @@ class DailyCheckinService implements DailyCheckinRepository {
         'Checking for existing check-in: $date, $timeOfDay',
       );
 
-      final userId = UserService.getCurrentUserId();
+      final userId = _getUserId();
       final dateStr = date.toIso8601String().split('T')[0];
 
       final response = await _client
@@ -221,7 +231,7 @@ class DailyCheckinService implements DailyCheckinRepository {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Deleting check-in: $id');
 
-      final userId = UserService.getCurrentUserId();
+      final userId = _getUserId();
 
       await _client
           .from('daily_checkins')

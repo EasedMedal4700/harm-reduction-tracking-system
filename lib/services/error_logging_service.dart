@@ -8,11 +8,28 @@ import '../utils/error_reporter.dart';
 
 /// Centralized error logging that pushes failures into the `error_logs` table.
 class ErrorLoggingService {
-  ErrorLoggingService._();
+  final DeviceInfoPlugin _deviceInfo;
+  final Future<PackageInfo> Function() _packageInfoLoader;
+
+  ErrorLoggingService._({
+    DeviceInfoPlugin? deviceInfo,
+    Future<PackageInfo> Function()? packageInfoLoader,
+  })  : _deviceInfo = deviceInfo ?? DeviceInfoPlugin(),
+        _packageInfoLoader = packageInfoLoader ?? PackageInfo.fromPlatform;
 
   static final ErrorLoggingService instance = ErrorLoggingService._();
 
-  final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
+  /// Visible for testing to inject mocks
+  @visibleForTesting
+  factory ErrorLoggingService.test({
+    required DeviceInfoPlugin deviceInfo,
+    required Future<PackageInfo> Function() packageInfoLoader,
+  }) {
+    return ErrorLoggingService._(
+      deviceInfo: deviceInfo,
+      packageInfoLoader: packageInfoLoader,
+    );
+  }
 
   String? _appVersion;
   String? _platform;
@@ -36,7 +53,7 @@ class ErrorLoggingService {
 
   Future<void> _loadAppVersion() async {
     try {
-      final info = await PackageInfo.fromPlatform();
+      final info = await _packageInfoLoader();
       _appVersion = '${info.version}+${info.buildNumber}';
     } catch (_) {
       _appVersion = null;

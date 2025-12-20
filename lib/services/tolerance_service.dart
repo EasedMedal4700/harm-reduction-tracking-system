@@ -5,9 +5,12 @@ import '../utils/error_handler.dart';
 
 /// Service for fetching tolerance calculation data from Supabase
 class ToleranceService {
-  static final _supabase = Supabase.instance.client;
+  final SupabaseClient _supabase;
 
-  static Future<List<String>> fetchUserSubstances(String userId) async {
+  ToleranceService({SupabaseClient? client})
+      : _supabase = client ?? Supabase.instance.client;
+
+  Future<List<String>> fetchUserSubstances(String userId) async {
     try {
       final response = await _supabase
           .from('drug_use')
@@ -39,7 +42,7 @@ class ToleranceService {
   }
 
   /// Fetch tolerance model for a specific substance
-  static Future<ToleranceModel?> fetchToleranceData(
+  Future<ToleranceModel?> fetchToleranceData(
     String substanceName,
   ) async {
     if (substanceName.isEmpty) return null;
@@ -94,7 +97,7 @@ class ToleranceService {
   }
 
   /// Fetch use events for tolerance calculation
-  static Future<List<UseEvent>> fetchUseEvents({
+  Future<List<UseEvent>> fetchUseEvents({
     required String substanceName,
     required String userId,
     int daysBack = 30,
@@ -140,7 +143,7 @@ class ToleranceService {
     }
   }
 
-  static double _parseDose(dynamic rawDose) {
+  double _parseDose(dynamic rawDose) {
     if (rawDose == null) return 0.0;
     if (rawDose is num) return rawDose.toDouble();
     if (rawDose is String) {

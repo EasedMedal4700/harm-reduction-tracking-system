@@ -29,6 +29,7 @@ class ToleranceDashboardPage extends StatefulWidget {
 }
 
 class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
+  final _toleranceService = ToleranceService();
   bool _isLoadingOptions = true;
   String? _userId;
   List<String> _substances = [];
@@ -189,7 +190,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
 
     try {
       final userId = UserService.getCurrentUserId();
-      final options = await ToleranceService.fetchUserSubstances(userId);
+      final options = await _toleranceService.fetchUserSubstances(userId);
 
       if (!mounted) return;
 

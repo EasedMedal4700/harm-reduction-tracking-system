@@ -143,7 +143,7 @@ class AppLockController extends Notifier<AppLockState> {
     await prefs.remove(_keyLastUnlockTimeMs);
     await prefs.remove(_keyBackgroundTimeMs);
 
-    state = state.copyWith(
+    state = AppLockState(
       requiresPin: true,
       lastUnlockAt: null,
       backgroundStartedAt: null,
