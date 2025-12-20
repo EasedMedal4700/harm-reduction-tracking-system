@@ -8,7 +8,7 @@ class AppColorsDark {
   // ============================================================================
   // BASE COLORS
   // ============================================================================
-  
+
   static const Color background = Color(0xFF0A0E1A); // Deep navy-black
   static const Color surface = Color(0xFF141B2D); // Card background
   static const Color surfaceVariant = Color(0xFF1A2235); // Elevated surface
@@ -18,7 +18,7 @@ class AppColorsDark {
   // ============================================================================
   // TEXT COLORS
   // ============================================================================
-  
+
   static const Color textPrimary = Color(0xFFE5E7EB);
   static const Color textSecondary = Color(0xFFB0B8C8);
   static const Color textTertiary = Color(0xFF6B7280);
@@ -27,12 +27,12 @@ class AppColorsDark {
   // ============================================================================
   // NEON ACCENT COLORS (Built-in - NOT user-configurable)
   // ============================================================================
-  
+
   // Primary neon - cyan/electric blue
   static const Color accentPrimary = Color(0xFF00E5FF); // Neon cyan
   static const Color accentPrimaryVariant = Color(0xFF00B8CC);
   static const Color accentSecondary = Color(0xFFBF00FF); // Neon purple
-  
+
   // Complementary neon colors for variety
   static const Color accentMagenta = Color(0xFFFF00E5);
   static const Color accentBlue = Color(0xFF0080FF);
@@ -65,16 +65,13 @@ class AppColorsDark {
   static const LinearGradient surfaceGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [
-      Color(0xFF1A2235),
-      Color(0xFF141B2D),
-    ],
+    colors: [Color(0xFF1A2235), Color(0xFF141B2D)],
   );
 
   // ============================================================================
   // STATUS COLORS (More vibrant for dark theme)
   // ============================================================================
-  
+
   static const Color success = Color(0xFF34D399);
   static const Color warning = Color(0xFFFBBF24);
   static const Color error = Color(0xFFF87171);
@@ -83,14 +80,14 @@ class AppColorsDark {
   // ============================================================================
   // OVERLAY COLORS
   // ============================================================================
-  
+
   static const Color overlay = Color(0x1AFFFFFF);
   static const Color overlayHeavy = Color(0x33FFFFFF);
 
   // ============================================================================
   // GLOW COLORS (For neon effects)
   // ============================================================================
-  
+
   /// Creates a neon glow effect with the primary accent color
   static BoxShadow neonGlowPrimary({double intensity = 0.4}) {
     return BoxShadow(

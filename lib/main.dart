@@ -64,16 +64,20 @@ Future<void> main() async {
         await dotenv.load(fileName: ".env");
       } catch (e) {
         debugPrint('Error loading .env file: $e');
-        // If .env fails to load, we might want to throw or handle it, 
+        // If .env fails to load, we might want to throw or handle it,
         // but for now let's at least see the error.
       }
 
       if (!dotenv.isInitialized) {
-         debugPrint('DotEnv not initialized. Check if .env file exists.');
+        debugPrint('DotEnv not initialized. Check if .env file exists.');
       }
 
-      final supabaseUrl = dotenv.isInitialized ? (dotenv.env['SUPABASE_URL'] ?? '') : '';
-      final supabaseKey = dotenv.isInitialized ? (dotenv.env['SUPABASE_ANON_KEY'] ?? '') : '';
+      final supabaseUrl = dotenv.isInitialized
+          ? (dotenv.env['SUPABASE_URL'] ?? '')
+          : '';
+      final supabaseKey = dotenv.isInitialized
+          ? (dotenv.env['SUPABASE_ANON_KEY'] ?? '')
+          : '';
 
       if (supabaseUrl.isNotEmpty && supabaseKey.isNotEmpty) {
         // Init Supabase
@@ -93,17 +97,18 @@ Future<void> main() async {
 
       FlutterError.onError = (details) {
         FlutterError.presentError(details);
-        unawaited(errorLoggingService.logError(
-          error: details.exception,
-          stackTrace: details.stack,
-        ));
+        unawaited(
+          errorLoggingService.logError(
+            error: details.exception,
+            stackTrace: details.stack,
+          ),
+        );
       };
 
       ui.PlatformDispatcher.instance.onError = (error, stack) {
-        unawaited(errorLoggingService.logError(
-          error: error,
-          stackTrace: stack,
-        ));
+        unawaited(
+          errorLoggingService.logError(error: error, stackTrace: stack),
+        );
         return true;
       };
 
@@ -112,9 +117,7 @@ Future<void> main() async {
 
       runApp(
         riverpod.ProviderScope(
-          overrides: [
-            sharedPreferencesProvider.overrideWithValue(prefs),
-          ],
+          overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
           child: MyApp(navigatorObserver: navigatorObserver),
         ),
       );
@@ -157,18 +160,15 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
 
   void _setupAppLockListener() {
     _appLockSub?.close();
-    _appLockSub = ref.listenManual(
-      appLockControllerProvider,
-      (previous, next) {
-        final wasRequiringPin = previous?.requiresPin ?? false;
-        if (wasRequiringPin || !next.requiresPin) return;
+    _appLockSub = ref.listenManual(appLockControllerProvider, (previous, next) {
+      final wasRequiringPin = previous?.requiresPin ?? false;
+      if (wasRequiringPin || !next.requiresPin) return;
 
-        final ctx = navigatorKey.currentContext;
-        if (ctx == null || !ctx.mounted) return;
+      final ctx = navigatorKey.currentContext;
+      if (ctx == null || !ctx.mounted) return;
 
-        unawaited(_navigateToPinUnlockIfEligible(ctx));
-      },
-    );
+      unawaited(_navigateToPinUnlockIfEligible(ctx));
+    });
   }
 
   Future<void> _navigateToPinUnlockIfEligible(BuildContext ctx) async {
@@ -207,9 +207,13 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive) {
-      unawaited(ref.read(appLockControllerProvider.notifier).onBackgroundStart());
+      unawaited(
+        ref.read(appLockControllerProvider.notifier).onBackgroundStart(),
+      );
     } else if (state == AppLifecycleState.resumed) {
-      unawaited(ref.read(appLockControllerProvider.notifier).onForegroundResume());
+      unawaited(
+        ref.read(appLockControllerProvider.notifier).onForegroundResume(),
+      );
     }
   }
 
@@ -222,8 +226,7 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
       ],
       child: Consumer<SettingsProvider>(
         builder: (context, settingsProvider, _) {
-          final appTheme =
-              AppTheme.fromSettings(settingsProvider.settings);
+          final appTheme = AppTheme.fromSettings(settingsProvider.settings);
 
           return AppThemeProvider(
             theme: appTheme,
@@ -255,79 +258,76 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
 
                 // Feature-gated
                 '/home_page': (_) => FeatureGate(
-                      featureName: FeatureFlags.homePage,
-                      child: const HomePage(),
-                    ),
+                  featureName: FeatureFlags.homePage,
+                  child: const HomePage(),
+                ),
 
                 '/log_entry': (_) => FeatureGate(
-                      featureName: FeatureFlags.logEntryPage,
-                      child: const QuickLogEntryPage(),
-                    ),
+                  featureName: FeatureFlags.logEntryPage,
+                  child: const QuickLogEntryPage(),
+                ),
 
                 '/analytics': (_) => FeatureGate(
-                      featureName: FeatureFlags.analyticsPage,
-                      child: const AnalyticsPage(),
-                    ),
+                  featureName: FeatureFlags.analyticsPage,
+                  child: const AnalyticsPage(),
+                ),
 
                 '/catalog': (_) => FeatureGate(
-                      featureName: FeatureFlags.catalogPage,
-                      child: const CatalogPage(),
-                    ),
+                  featureName: FeatureFlags.catalogPage,
+                  child: const CatalogPage(),
+                ),
 
                 '/cravings': (_) => FeatureGate(
-                      featureName: FeatureFlags.cravingsPage,
-                      child: const CravingsPage(),
-                    ),
+                  featureName: FeatureFlags.cravingsPage,
+                  child: const CravingsPage(),
+                ),
 
                 '/blood_levels': (_) => FeatureGate(
-                      featureName: FeatureFlags.bloodLevelsPage,
-                      child: const BloodLevelsPage(),
-                    ),
+                  featureName: FeatureFlags.bloodLevelsPage,
+                  child: const BloodLevelsPage(),
+                ),
 
                 '/reflection': (_) => FeatureGate(
-                      featureName: FeatureFlags.reflectionPage,
-                      child: const ReflectionPage(),
-                    ),
+                  featureName: FeatureFlags.reflectionPage,
+                  child: const ReflectionPage(),
+                ),
 
                 '/daily-checkin': (_) => FeatureGate(
-                      featureName: FeatureFlags.dailyCheckin,
-                      child: ChangeNotifierProvider(
-                        create: (_) => DailyCheckinProvider(),
-                        child: const DailyCheckinScreen(),
-                      ),
-                    ),
+                  featureName: FeatureFlags.dailyCheckin,
+                  child: ChangeNotifierProvider(
+                    create: (_) => DailyCheckinProvider(),
+                    child: const DailyCheckinScreen(),
+                  ),
+                ),
 
                 '/checkin-history': (_) => FeatureGate(
-                      featureName: FeatureFlags.checkinHistoryPage,
-                      child: ChangeNotifierProvider(
-                        create: (_) => DailyCheckinProvider(),
-                        child: const CheckinHistoryScreen(),
-                      ),
-                    ),
+                  featureName: FeatureFlags.checkinHistoryPage,
+                  child: ChangeNotifierProvider(
+                    create: (_) => DailyCheckinProvider(),
+                    child: const CheckinHistoryScreen(),
+                  ),
+                ),
 
                 '/profile': (_) => const ProfileScreen(),
 
                 '/admin-panel': (_) => FeatureGate(
-                      featureName: FeatureFlags.adminPanel,
-                      child: const AdminPanelScreen(),
-                    ),
+                  featureName: FeatureFlags.adminPanel,
+                  child: const AdminPanelScreen(),
+                ),
 
-                '/admin/feature-flags': (_) =>
-                    const FeatureFlagsScreen(),
+                '/admin/feature-flags': (_) => const FeatureFlagsScreen(),
 
                 '/settings': (_) => const SettingsScreen(),
 
                 '/tolerance-dashboard': (context) {
-                  final args = ModalRoute.of(context)
-                          ?.settings
-                          .arguments as Map<String, dynamic>? ??
+                  final args =
+                      ModalRoute.of(context)?.settings.arguments
+                          as Map<String, dynamic>? ??
                       {};
                   final substance = args['substance'] as String?;
                   return FeatureGate(
                     featureName: FeatureFlags.toleranceDashboardPage,
-                    child: ToleranceDashboardPage(
-                      initialSubstance: substance,
-                    ),
+                    child: ToleranceDashboardPage(initialSubstance: substance),
                   );
                 },
               },
@@ -340,4 +340,3 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
     );
   }
 }
-

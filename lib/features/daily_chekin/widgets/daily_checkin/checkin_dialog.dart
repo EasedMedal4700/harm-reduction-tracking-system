@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -78,7 +77,6 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
-
                 // ---------------------------------------------------------------------
                 // HEADER
                 // ---------------------------------------------------------------------
@@ -87,7 +85,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                     Icon(
                       _getTimeIcon(provider.timeOfDay),
                       size: t.sizes.iconLg,
-                      color:  t.accent.primary,
+                      color: t.accent.primary,
                     ),
 
                     SizedBox(width: spacing.md),
@@ -158,7 +156,8 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                 // ---------------------------------------------------------------------
                 SaveButton(
                   isSaving: provider.isSaving,
-                  isDisabled: false, // Logic was implicit in button before, now explicit
+                  isDisabled:
+                      false, // Logic was implicit in button before, now explicit
                   onPressed: () async => provider.saveCheckin(context),
                 ),
               ],
@@ -169,4 +168,3 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
     );
   }
 }
-

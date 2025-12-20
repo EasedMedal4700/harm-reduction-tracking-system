@@ -46,7 +46,11 @@ class MetabolismTimelineControls extends StatelessWidget {
           // Header row
           Row(
             children: [
-              Icon(Icons.tune, size: context.sizes.iconSm, color: t.accent.primary),
+              Icon(
+                Icons.tune,
+                size: context.sizes.iconSm,
+                color: t.accent.primary,
+              ),
               CommonSpacer.horizontal(sp.sm),
               Text(
                 'Timeline Controls',
@@ -164,7 +168,11 @@ class MetabolismTimelineControls extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(Icons.vertical_align_top, size: context.sizes.iconSm, color: c.textSecondary),
+        Icon(
+          Icons.vertical_align_top,
+          size: context.sizes.iconSm,
+          color: c.textSecondary,
+        ),
         SizedBox(width: sp.sm),
         Text(
           'Y-Axis Scale:',
@@ -234,8 +242,7 @@ class MetabolismTimelineControls extends StatelessWidget {
     final sh = context.shapes;
     final text = context.text;
 
-    final bool isSelected =
-        (hoursBack == back && hoursForward == forward);
+    final bool isSelected = (hoursBack == back && hoursForward == forward);
 
     return InkWell(
       onTap: () {
@@ -266,5 +273,3 @@ class MetabolismTimelineControls extends StatelessWidget {
     );
   }
 }
-
-

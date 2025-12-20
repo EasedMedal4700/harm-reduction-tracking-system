@@ -28,17 +28,12 @@ class SeverityBadge extends StatelessWidget {
     final icon = _getSeverityIcon(severity);
 
     final padding = compact
-        ? EdgeInsets.symmetric(
-            horizontal: sp.xs,
-            vertical: sp.xs * 0.7,
-          )
-        : EdgeInsets.symmetric(
-            horizontal: sp.md,
-            vertical: sp.sm,
-          );
+        ? EdgeInsets.symmetric(horizontal: sp.xs, vertical: sp.xs * 0.7)
+        : EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm);
 
-    final borderRadius =
-        BorderRadius.circular(compact ? sh.radiusSm : sh.radiusMd);
+    final borderRadius = BorderRadius.circular(
+      compact ? sh.radiusSm : sh.radiusMd,
+    );
 
     final textStyle = (compact ? text.caption : text.bodySmall).copyWith(
       color: colors.text,
@@ -51,19 +46,12 @@ class SeverityBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.background,
         borderRadius: borderRadius,
-        border: Border.all(
-          color: colors.border,
-          width: compact ? 1 : 1.5,
-        ),
+        border: Border.all(color: colors.border, width: compact ? 1 : 1.5),
       ),
       child: Row(
         mainAxisSize: AppLayout.mainAxisSizeMin,
         children: [
-          Icon(
-            icon,
-            size: compact ? 12 : 16,
-            color: colors.text,
-          ),
+          Icon(icon, size: compact ? 12 : 16, color: colors.text),
           SizedBox(width: compact ? sp.xs : sp.sm),
           Text(severity.toUpperCase(), style: textStyle),
         ],

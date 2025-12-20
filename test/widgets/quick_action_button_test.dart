@@ -69,8 +69,9 @@ void main() {
       expect(paddings, findsWidgets);
 
       // Find the Padding widget that is a direct child of QuickActionButton
-      final padding = tester.widgetList<Padding>(paddings)
-        .firstWhere((p) => p.padding == const EdgeInsets.only(bottom: 8));
+      final padding = tester
+          .widgetList<Padding>(paddings)
+          .firstWhere((p) => p.padding == const EdgeInsets.only(bottom: 8));
       expect(padding.padding, const EdgeInsets.only(bottom: 8));
     });
 
@@ -109,7 +110,10 @@ void main() {
         ),
       );
 
-      expect(find.text('This is a very long label that might wrap'), findsOneWidget);
+      expect(
+        find.text('This is a very long label that might wrap'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('maintains button state', (tester) async {

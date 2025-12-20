@@ -11,10 +11,7 @@ import 'stat_item.dart';
 class StatisticsCard extends StatelessWidget {
   final Map<String, int> statistics;
 
-  const StatisticsCard({
-    super.key,
-    required this.statistics,
-  });
+  const StatisticsCard({super.key, required this.statistics});
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +27,7 @@ class StatisticsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          Text(
-            'Activity Statistics',
-            style: t.text.heading3,
-          ),
+          Text('Activity Statistics', style: t.text.heading3),
           SizedBox(height: t.spacing.lg),
 
           Row(

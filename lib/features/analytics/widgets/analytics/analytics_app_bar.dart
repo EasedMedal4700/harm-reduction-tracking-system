@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -45,10 +44,7 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
       decoration: BoxDecoration(
         color: c.surface,
         border: Border(
-          bottom: BorderSide(
-            color: c.border,
-            width: context.borders.thin,
-          ),
+          bottom: BorderSide(color: c.border, width: context.borders.thin),
         ),
       ),
       child: SafeArea(
@@ -110,9 +106,7 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
             /// Subtitle
             Text(
               'Analyze your pharmacological activity',
-              style: text.caption.copyWith(
-                color: c.textSecondary,
-              ),
+              style: text.caption.copyWith(color: c.textSecondary),
               maxLines: 1,
               overflow: AppLayout.textOverflowEllipsis,
             ),

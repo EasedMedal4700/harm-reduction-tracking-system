@@ -64,9 +64,11 @@ class DebugPanelWidget extends ConsumerWidget {
           // SYSTEM TOLERANCE DATA
           _DebugSection(
             title: 'System Tolerance',
-            content: systemTolerance?.bucketPercents.entries
-                .map((e) => '${e.key}: ${e.value.toStringAsFixed(1)}%')
-                .join('\n') ?? 'No data',
+            content:
+                systemTolerance?.bucketPercents.entries
+                    .map((e) => '${e.key}: ${e.value.toStringAsFixed(1)}%')
+                    .join('\n') ??
+                'No data',
           ),
 
           SizedBox(height: spacing.sm),
@@ -74,13 +76,17 @@ class DebugPanelWidget extends ConsumerWidget {
           // ACTIVE SUBSTANCES
           _DebugSection(
             title: 'Active Substances',
-            content: substanceActiveStates.entries
-                .where((e) => e.value)
-                .map((e) => e.key)
-                .join(', ').isEmpty ? 'None' : substanceActiveStates.entries
-                .where((e) => e.value)
-                .map((e) => e.key)
-                .join(', '),
+            content:
+                substanceActiveStates.entries
+                    .where((e) => e.value)
+                    .map((e) => e.key)
+                    .join(', ')
+                    .isEmpty
+                ? 'None'
+                : substanceActiveStates.entries
+                      .where((e) => e.value)
+                      .map((e) => e.key)
+                      .join(', '),
           ),
 
           SizedBox(height: spacing.sm),
@@ -91,7 +97,10 @@ class DebugPanelWidget extends ConsumerWidget {
             content: substanceContributions.entries
                 .map((bucket) {
                   final contribs = bucket.value.entries
-                      .map((e) => '  ${e.key}: ${(e.value * 100).toStringAsFixed(0)}%')
+                      .map(
+                        (e) =>
+                            '  ${e.key}: ${(e.value * 100).toStringAsFixed(0)}%',
+                      )
                       .join('\n');
                   return '${bucket.key}:\n$contribs';
                 })
@@ -107,10 +116,7 @@ class _DebugSection extends ConsumerWidget {
   final String title;
   final String content;
 
-  const _DebugSection({
-    required this.title,
-    required this.content,
-  });
+  const _DebugSection({required this.title, required this.content});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

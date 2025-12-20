@@ -26,7 +26,7 @@ class CommonStatCard extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
     final t = context.text;
-    
+
     final cardColor = color ?? acc.primary;
 
     return GestureDetector(
@@ -36,10 +36,7 @@ class CommonStatCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: c.surface,
           borderRadius: BorderRadius.circular(sh.radiusMd),
-          border: Border.all(
-            color: c.border,
-            width: 1.0,
-          ),
+          border: Border.all(color: c.border, width: 1.0),
           boxShadow: context.cardShadow,
         ),
         child: Column(
@@ -57,7 +54,8 @@ class CommonStatCard extends StatelessWidget {
                   child: Icon(
                     icon,
                     color: cardColor,
-                    size: 20, // TODO: Add to constants if needed, or use default
+                    size:
+                        20, // TODO: Add to constants if needed, or use default
                   ),
                 ),
                 if (onTap != null)

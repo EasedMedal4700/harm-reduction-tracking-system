@@ -80,10 +80,14 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
   void initState() {
     super.initState();
     // Initialize controllers with current values
-    _sleepHoursController = TextEditingController(text: widget.sleepHours.toString());
+    _sleepHoursController = TextEditingController(
+      text: widget.sleepHours.toString(),
+    );
     _nextDayMoodController = TextEditingController(text: widget.nextDayMood);
     _sideEffectsController = TextEditingController(text: widget.sideEffects);
-    _copingStrategiesController = TextEditingController(text: widget.copingStrategies);
+    _copingStrategiesController = TextEditingController(
+      text: widget.copingStrategies,
+    );
     _notesController = TextEditingController(text: widget.notes);
   }
 
@@ -121,7 +125,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    
+
     return SingleChildScrollView(
       padding: EdgeInsets.all(t.spacing.lg),
       child: Column(
@@ -132,7 +136,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             style: t.typography.heading2,
           ),
           CommonSpacer.vertical(t.spacing.lg),
-          
+
           // Effectiveness Section
           CommonFormCard(
             title: 'Effectiveness',
@@ -148,7 +152,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             ),
           ),
           CommonSpacer.vertical(t.spacing.lg),
-          
+
           // Sleep Section
           CommonFormCard(
             title: 'Sleep',
@@ -178,7 +182,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             ),
           ),
           CommonSpacer.vertical(t.spacing.lg),
-          
+
           // Mood & Energy Section
           CommonFormCard(
             title: 'Mood & Energy',
@@ -204,7 +208,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             ),
           ),
           CommonSpacer.vertical(t.spacing.lg),
-          
+
           // Side Effects Section
           CommonFormCard(
             title: 'Side Effects',
@@ -218,7 +222,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             ),
           ),
           CommonSpacer.vertical(t.spacing.lg),
-          
+
           // Cravings & Coping Section
           CommonFormCard(
             title: 'Cravings & Coping',
@@ -255,7 +259,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             ),
           ),
           CommonSpacer.vertical(t.spacing.lg),
-          
+
           // Overall & Notes Section
           CommonFormCard(
             title: 'Overall',
@@ -283,7 +287,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             ),
           ),
           CommonSpacer.vertical(t.spacing.xl),
-          
+
           // Save Button
           CommonPrimaryButton(
             onPressed: widget.onSave,
@@ -315,13 +319,13 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           children: [
             Text(
               label,
-              style: t.typography.bodySmall.copyWith(fontWeight: text.bodyBold.fontWeight),
+              style: t.typography.bodySmall.copyWith(
+                fontWeight: text.bodyBold.fontWeight,
+              ),
             ),
             Text(
               value.round().toString(),
-              style: t.typography.heading3.copyWith(
-                color: t.accent.primary,
-              ),
+              style: t.typography.heading3.copyWith(color: t.accent.primary),
             ),
           ],
         ),
@@ -339,14 +343,8 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             child: Row(
               mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
-                Text(
-                  minLabel,
-                  style: t.typography.caption,
-                ),
-                Text(
-                  maxLabel,
-                  style: t.typography.caption,
-                ),
+                Text(minLabel, style: t.typography.caption),
+                Text(maxLabel, style: t.typography.caption),
               ],
             ),
           ),

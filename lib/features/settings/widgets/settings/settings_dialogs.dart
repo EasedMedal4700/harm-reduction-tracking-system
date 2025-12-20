@@ -9,7 +9,10 @@ import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../providers/settings_provider.dart';
 
 class SettingsDialogs {
-  static void showLanguagePicker(BuildContext context, SettingsProvider provider) {
+  static void showLanguagePicker(
+    BuildContext context,
+    SettingsProvider provider,
+  ) {
     final languages = ['English', 'Spanish', 'French', 'German', 'Portuguese'];
     showDialog(
       context: context,
@@ -31,7 +34,11 @@ class SettingsDialogs {
     );
   }
 
-  static Future<void> showTimePickerDialog(BuildContext context, SettingsProvider provider, String currentTime) async {
+  static Future<void> showTimePickerDialog(
+    BuildContext context,
+    SettingsProvider provider,
+    String currentTime,
+  ) async {
     final parts = currentTime.split(':');
     final initialTime = TimeOfDay(
       hour: int.parse(parts[0]),
@@ -44,12 +51,16 @@ class SettingsDialogs {
     );
 
     if (time != null) {
-      final timeString = '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+      final timeString =
+          '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
       await provider.setCheckinReminderTime(timeString);
     }
   }
 
-  static void showAutoLockPicker(BuildContext context, SettingsProvider provider) {
+  static void showAutoLockPicker(
+    BuildContext context,
+    SettingsProvider provider,
+  ) {
     final durations = ['1min', '5min', '15min', '30min', 'never'];
     showDialog(
       context: context,
@@ -71,7 +82,10 @@ class SettingsDialogs {
     );
   }
 
-  static void showBackupFrequencyPicker(BuildContext context, SettingsProvider provider) {
+  static void showBackupFrequencyPicker(
+    BuildContext context,
+    SettingsProvider provider,
+  ) {
     final frequencies = ['daily', 'weekly', 'monthly'];
     showDialog(
       context: context,
@@ -93,7 +107,10 @@ class SettingsDialogs {
     );
   }
 
-  static void showCacheDurationPicker(BuildContext context, SettingsProvider provider) {
+  static void showCacheDurationPicker(
+    BuildContext context,
+    SettingsProvider provider,
+  ) {
     final durations = ['15min', '30min', '1hour', '6hours', '1day'];
     showDialog(
       context: context,
@@ -115,7 +132,10 @@ class SettingsDialogs {
     );
   }
 
-  static void showDoseUnitPicker(BuildContext context, SettingsProvider provider) {
+  static void showDoseUnitPicker(
+    BuildContext context,
+    SettingsProvider provider,
+  ) {
     final units = ['mg', 'g', 'µg', 'ml', 'pills', 'puffs'];
     showDialog(
       context: context,
@@ -137,7 +157,10 @@ class SettingsDialogs {
     );
   }
 
-  static void showDateFormatPicker(BuildContext context, SettingsProvider provider) {
+  static void showDateFormatPicker(
+    BuildContext context,
+    SettingsProvider provider,
+  ) {
     final formats = ['MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'];
     showDialog(
       context: context,
@@ -164,7 +187,9 @@ class SettingsDialogs {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Reset Settings?'),
-        content: const Text('This will reset all settings to their default values.'),
+        content: const Text(
+          'This will reset all settings to their default values.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

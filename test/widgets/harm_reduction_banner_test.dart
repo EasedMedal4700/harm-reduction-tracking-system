@@ -12,15 +12,18 @@ void main() {
       SharedPreferences.setMockInitialValues({});
     });
 
-    Widget createWidgetUnderTest(Widget child, {Brightness brightness = Brightness.light}) {
-      final theme = brightness == Brightness.light ? AppTheme.light() : AppTheme.dark();
+    Widget createWidgetUnderTest(
+      Widget child, {
+      Brightness brightness = Brightness.light,
+    }) {
+      final theme = brightness == Brightness.light
+          ? AppTheme.light()
+          : AppTheme.dark();
       return AppThemeProvider(
         theme: theme,
         child: MaterialApp(
           theme: theme.themeData,
-          home: Scaffold(
-            body: child,
-          ),
+          home: Scaffold(body: child),
         ),
       );
     }
@@ -37,22 +40,23 @@ void main() {
 
     testWidgets('displays custom message', (tester) async {
       const customMessage = 'Custom warning message';
-      
+
       await tester.pumpWidget(
-        createWidgetUnderTest(const HarmReductionBanner(message: customMessage)),
+        createWidgetUnderTest(
+          const HarmReductionBanner(message: customMessage),
+        ),
       );
       await tester.pumpAndSettle();
 
       expect(find.text(customMessage), findsOneWidget);
     });
 
-    testWidgets('shows dismiss button when dismissKey is provided', (tester) async {
+    testWidgets('shows dismiss button when dismissKey is provided', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createWidgetUnderTest(
-          HarmReductionBanner(
-            dismissKey: 'test_key',
-            onDismiss: () {},
-          ),
+          HarmReductionBanner(dismissKey: 'test_key', onDismiss: () {}),
         ),
       );
       await tester.pumpAndSettle();
@@ -60,7 +64,9 @@ void main() {
       expect(find.byIcon(Icons.close), findsOneWidget);
     });
 
-    testWidgets('hides dismiss button when dismissKey is not provided', (tester) async {
+    testWidgets('hides dismiss button when dismissKey is not provided', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         createWidgetUnderTest(const HarmReductionBanner()),
       );
@@ -69,9 +75,11 @@ void main() {
       expect(find.byIcon(Icons.close), findsNothing);
     });
 
-    testWidgets('calls onDismiss when dismiss button is tapped', (tester) async {
+    testWidgets('calls onDismiss when dismiss button is tapped', (
+      tester,
+    ) async {
       bool dismissed = false;
-      
+
       await tester.pumpWidget(
         createWidgetUnderTest(
           HarmReductionBanner(
@@ -89,7 +97,10 @@ void main() {
 
     testWidgets('renders in light theme', (tester) async {
       await tester.pumpWidget(
-        createWidgetUnderTest(const HarmReductionBanner(), brightness: Brightness.light),
+        createWidgetUnderTest(
+          const HarmReductionBanner(),
+          brightness: Brightness.light,
+        ),
       );
 
       expect(find.text('Harm Reduction Notice'), findsOneWidget);
@@ -97,7 +108,10 @@ void main() {
 
     testWidgets('renders in dark theme', (tester) async {
       await tester.pumpWidget(
-        createWidgetUnderTest(const HarmReductionBanner(), brightness: Brightness.dark),
+        createWidgetUnderTest(
+          const HarmReductionBanner(),
+          brightness: Brightness.dark,
+        ),
       );
 
       expect(find.text('Harm Reduction Notice'), findsOneWidget);

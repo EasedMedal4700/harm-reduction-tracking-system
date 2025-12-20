@@ -11,12 +11,8 @@ import '../../../../common/buttons/common_primary_button.dart';
 import '../../../log_entry/log_entry_state.dart';
 import '../../../log_entry/log_entry_service.dart';
 
-
 class DeleteConfirmationDialog {
-  static Future<void> show(
-    BuildContext context,
-    LogEntryState state,
-  ) async {
+  static Future<void> show(BuildContext context, LogEntryState state) async {
     final t = context.theme;
     final c = context.colors;
     final a = context.accent;
@@ -27,20 +23,19 @@ class DeleteConfirmationDialog {
         backgroundColor: c.surface,
         title: Text(
           'Delete Entry?',
-          style: t.text.heading3.copyWith(
-            color: c.textPrimary,
-          ),
+          style: t.text.heading3.copyWith(color: c.textPrimary),
         ),
         content: Text(
           'Are you sure you want to delete this drug use entry? This action cannot be undone.',
-          style: t.text.body.copyWith(
-            color: c.textSecondary,
-          ),
+          style: t.text.body.copyWith(color: c.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancel', style: t.text.labelLarge.copyWith(color: a.primary)),
+            child: Text(
+              'Cancel',
+              style: t.text.labelLarge.copyWith(color: a.primary),
+            ),
           ),
           CommonPrimaryButton(
             onPressed: () => Navigator.pop(context, true),
@@ -79,5 +74,3 @@ class DeleteConfirmationDialog {
     }
   }
 }
-
-

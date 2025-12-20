@@ -22,7 +22,7 @@ class LibrarySearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    
+
     return Container(
       padding: EdgeInsets.all(t.spacing.md),
       color: t.colors.surface,
@@ -30,15 +30,9 @@ class LibrarySearchBar extends StatelessWidget {
         controller: controller,
         onChanged: onChanged,
         hintText: 'Search by name or category',
-        prefixIcon: Icon(
-          Icons.search,
-          color: t.colors.textSecondary,
-        ),
+        prefixIcon: Icon(Icons.search, color: t.colors.textSecondary),
         suffixIcon: controller.text.isNotEmpty
-            ? IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: onClear,
-              )
+            ? IconButton(icon: const Icon(Icons.clear), onPressed: onClear)
             : null,
       ),
     );

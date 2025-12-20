@@ -52,9 +52,7 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
       appBar: AppBar(
         title: Text(
           'Daily Check-In',
-          style: t.typography.heading3.copyWith(
-            color: c.textPrimary,
-          ),
+          style: t.typography.heading3.copyWith(color: c.textPrimary),
         ),
         backgroundColor: c.surface,
         elevation: t.sizes.elevationNone,
@@ -166,7 +164,3 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
     );
   }
 }
-
-
-
-

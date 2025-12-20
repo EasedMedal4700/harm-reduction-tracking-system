@@ -168,9 +168,9 @@ class ReflectionProvider extends ChangeNotifier {
       reset();
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error saving reflection: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error saving reflection: $e')));
       }
     } finally {
       setSaving(false);

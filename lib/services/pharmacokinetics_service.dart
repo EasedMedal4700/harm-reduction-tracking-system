@@ -1,13 +1,7 @@
 import 'dart:math' as math;
 
 /// Dose tier classification for visual representation
-enum DoseTier {
-  threshold,
-  light,
-  common,
-  strong,
-  heavy,
-}
+enum DoseTier { threshold, light, common, strong, heavy }
 
 /// Represents a parsed dose range with min and max values in mg
 class DoseRange {
@@ -58,9 +52,12 @@ class PharmacokineticsService {
   }
 
   /// Extract all dose tiers for a given ROA from dose data
-  static Map<DoseTier, DoseRange> extractDoseTiers(Map<String, dynamic>? doseData, String roa) {
+  static Map<DoseTier, DoseRange> extractDoseTiers(
+    Map<String, dynamic>? doseData,
+    String roa,
+  ) {
     final tiers = <DoseTier, DoseRange>{};
-    
+
     if (doseData == null || !doseData.containsKey(roa)) {
       return tiers;
     }
@@ -95,7 +92,7 @@ class PharmacokineticsService {
     for (final roa in roas) {
       final tiers = extractDoseTiers(doseData, roa);
       final heavy = tiers[DoseTier.heavy];
-      
+
       if (heavy != null && heavy.min < minHeavyThreshold) {
         minHeavyThreshold = heavy.min;
       }
@@ -143,7 +140,7 @@ class PharmacokineticsService {
 
     final hoursElapsed = timeSinceIngestion.inMinutes / 60.0;
     final halfLives = hoursElapsed / halfLifeHours;
-    
+
     return initialDoseMg * math.pow(0.5, halfLives);
   }
 
@@ -205,8 +202,10 @@ class PharmacokineticsService {
     final intervalMs = totalDuration.inMilliseconds / pointCount;
 
     for (int i = 0; i <= pointCount; i++) {
-      final currentTime = startTime.add(Duration(milliseconds: (intervalMs * i).round()));
-      
+      final currentTime = startTime.add(
+        Duration(milliseconds: (intervalMs * i).round()),
+      );
+
       // Only calculate if time is after ingestion
       if (currentTime.isBefore(ingestionTime)) {
         points.add(PKPoint(currentTime, 0, 0));

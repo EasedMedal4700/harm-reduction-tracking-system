@@ -33,7 +33,6 @@ class BloodLevelGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final text = context.text;
     return CommonCard(
       child: Column(
@@ -89,10 +88,12 @@ class BloodLevelGraph extends StatelessWidget {
 
       return LineChartBarData(
         spots: points
-            .map((p) => FlSpot(
-                  p.time.millisecondsSinceEpoch.toDouble(),
-                  p.percentage,
-                ))
+            .map(
+              (p) => FlSpot(
+                p.time.millisecondsSinceEpoch.toDouble(),
+                p.percentage,
+              ),
+            )
             .toList(),
         isCurved: true,
         color: color,
@@ -126,8 +127,12 @@ class BloodLevelGraph extends StatelessWidget {
                   _buildBottomTitle(value, meta, context),
             ),
           ),
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
         ),
         gridData: FlGridData(
           show: true,
@@ -144,10 +149,7 @@ class BloodLevelGraph extends StatelessWidget {
         ),
         borderData: FlBorderData(
           show: true,
-          border: Border.all(
-            color: c.border,
-            width: context.borders.thin,
-          ),
+          border: Border.all(color: c.border, width: context.borders.thin),
         ),
         minY: 0,
         maxY: 120,
@@ -158,8 +160,7 @@ class BloodLevelGraph extends StatelessWidget {
             tooltipBgColor: c.surface,
             getTooltipItems: (touchedSpots) {
               return touchedSpots.map((spot) {
-                final substance =
-                    substanceCurves.keys.elementAt(spot.barIndex);
+                final substance = substanceCurves.keys.elementAt(spot.barIndex);
                 return LineTooltipItem(
                   '$substance\n${spot.y.toStringAsFixed(1)}%',
                   TextStyle(
@@ -218,6 +219,3 @@ class BloodLevelGraph extends StatelessWidget {
     return const SizedBox.shrink();
   }
 }
-
-
-

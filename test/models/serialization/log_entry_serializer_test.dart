@@ -72,14 +72,18 @@ void main() {
       });
 
       test('parses feelings as list', () {
-        final json = {'feelings': ['happy', 'relaxed']};
+        final json = {
+          'feelings': ['happy', 'relaxed'],
+        };
         final entry = LogEntrySerializer.fromJson(json);
 
         expect(entry.feelings, ['happy', 'relaxed']);
       });
 
       test('parses feelings from alternative field name', () {
-        final json = {'primary_emotions': ['excited', 'energetic']};
+        final json = {
+          'primary_emotions': ['excited', 'energetic'],
+        };
         final entry = LogEntrySerializer.fromJson(json);
 
         expect(entry.feelings, ['excited', 'energetic']);
@@ -89,26 +93,30 @@ void main() {
         final json = {
           'secondary_feelings': {
             'happy': ['joyful', 'content'],
-            'sad': ['lonely']
-          }
+            'sad': ['lonely'],
+          },
         };
         final entry = LogEntrySerializer.fromJson(json);
 
         expect(entry.secondaryFeelings, {
           'happy': ['joyful', 'content'],
-          'sad': ['lonely']
+          'sad': ['lonely'],
         });
       });
 
       test('parses triggers as list', () {
-        final json = {'triggers': ['stress', 'social']};
+        final json = {
+          'triggers': ['stress', 'social'],
+        };
         final entry = LogEntrySerializer.fromJson(json);
 
         expect(entry.triggers, ['stress', 'social']);
       });
 
       test('parses body signals as list', () {
-        final json = {'body_signals': ['rapid heartbeat', 'sweating']};
+        final json = {
+          'body_signals': ['rapid heartbeat', 'sweating'],
+        };
         final entry = LogEntrySerializer.fromJson(json);
 
         expect(entry.bodySignals, ['rapid heartbeat', 'sweating']);
@@ -176,7 +184,9 @@ void main() {
         };
 
         final entry = LogEntrySerializer.fromJson(json);
-        final expected = DateTime.parse('2024-01-15T10:00:00').add(Duration(minutes: 30));
+        final expected = DateTime.parse(
+          '2024-01-15T10:00:00',
+        ).add(Duration(minutes: 30));
 
         expect(entry.datetime, expected);
       });
@@ -188,8 +198,9 @@ void main() {
         };
 
         final entry = LogEntrySerializer.fromJson(json);
-        final expected = DateTime.parse('2024-01-15T10:00:00')
-            .add(Duration(minutes: (5.5 * 60).round()));
+        final expected = DateTime.parse(
+          '2024-01-15T10:00:00',
+        ).add(Duration(minutes: (5.5 * 60).round()));
 
         expect(entry.datetime, expected);
       });
@@ -199,12 +210,18 @@ void main() {
         final json2 = {'time': '2024-01-16T11:00:00'};
         final json3 = {'created_at': '2024-01-17T12:00:00'};
 
-        expect(LogEntrySerializer.fromJson(json1).datetime, 
-               DateTime.parse('2024-01-15T10:00:00'));
-        expect(LogEntrySerializer.fromJson(json2).datetime, 
-               DateTime.parse('2024-01-16T11:00:00'));
-        expect(LogEntrySerializer.fromJson(json3).datetime, 
-               DateTime.parse('2024-01-17T12:00:00'));
+        expect(
+          LogEntrySerializer.fromJson(json1).datetime,
+          DateTime.parse('2024-01-15T10:00:00'),
+        );
+        expect(
+          LogEntrySerializer.fromJson(json2).datetime,
+          DateTime.parse('2024-01-16T11:00:00'),
+        );
+        expect(
+          LogEntrySerializer.fromJson(json3).datetime,
+          DateTime.parse('2024-01-17T12:00:00'),
+        );
       });
 
       test('uses DateTime.now() for invalid datetime', () {
@@ -248,7 +265,9 @@ void main() {
           location: 'Home',
           notes: 'Test note',
           feelings: ['happy', 'relaxed'],
-          secondaryFeelings: {'happy': ['joyful']},
+          secondaryFeelings: {
+            'happy': ['joyful'],
+          },
           triggers: ['stress'],
           bodySignals: ['calm'],
           people: ['John', 'Jane'],
@@ -274,8 +293,12 @@ void main() {
         expect(json['place'], 'Home'); // Duplicate
         expect(json['notes'], 'Test note');
         expect(json['feelings'], ['happy', 'relaxed']);
-        expect(json['secondary_feelings'], {'happy': ['joyful']});
-        expect(json['secondaryFeelings'], {'happy': ['joyful']}); // Duplicate
+        expect(json['secondary_feelings'], {
+          'happy': ['joyful'],
+        });
+        expect(json['secondaryFeelings'], {
+          'happy': ['joyful'],
+        }); // Duplicate
         expect(json['triggers'], ['stress']);
         expect(json['body_signals'], ['calm']);
         expect(json['bodySignals'], ['calm']); // Duplicate
@@ -325,7 +348,9 @@ void main() {
           location: 'Park',
           notes: 'Sunny day',
           feelings: ['happy', 'energetic'],
-          secondaryFeelings: {'happy': ['joyful', 'excited']},
+          secondaryFeelings: {
+            'happy': ['joyful', 'excited'],
+          },
           triggers: ['social'],
           bodySignals: ['increased heart rate'],
           people: ['Alice', 'Bob'],

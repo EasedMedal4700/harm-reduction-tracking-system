@@ -14,11 +14,27 @@ class FeelingSelection extends StatelessWidget {
   });
 
   final List<Map<String, dynamic>> _feelings = const [
-    {'label': 'Great', 'icon': Icons.sentiment_very_satisfied, 'color': Colors.green},
-    {'label': 'Good', 'icon': Icons.sentiment_satisfied, 'color': Colors.lightGreen},
+    {
+      'label': 'Great',
+      'icon': Icons.sentiment_very_satisfied,
+      'color': Colors.green,
+    },
+    {
+      'label': 'Good',
+      'icon': Icons.sentiment_satisfied,
+      'color': Colors.lightGreen,
+    },
     {'label': 'Okay', 'icon': Icons.sentiment_neutral, 'color': Colors.amber},
-    {'label': 'Bad', 'icon': Icons.sentiment_dissatisfied, 'color': Colors.orange},
-    {'label': 'Awful', 'icon': Icons.sentiment_very_dissatisfied, 'color': Colors.red},
+    {
+      'label': 'Bad',
+      'icon': Icons.sentiment_dissatisfied,
+      'color': Colors.orange,
+    },
+    {
+      'label': 'Awful',
+      'icon': Icons.sentiment_very_dissatisfied,
+      'color': Colors.red,
+    },
   ];
 
   @override
@@ -47,7 +63,7 @@ class FeelingSelection extends StatelessWidget {
             children: _feelings.map((feeling) {
               final isSelected = selectedFeeling == feeling['label'];
               final color = feeling['color'] as Color;
-              
+
               return Padding(
                 padding: EdgeInsets.only(right: sp.sm),
                 child: InkWell(
@@ -59,10 +75,14 @@ class FeelingSelection extends StatelessWidget {
                       vertical: sp.sm,
                     ),
                     decoration: BoxDecoration(
-                      color: isSelected ? color.withValues(alpha: context.opacities.selected) : c.surface,
+                      color: isSelected
+                          ? color.withValues(alpha: context.opacities.selected)
+                          : c.surface,
                       border: Border.all(
                         color: isSelected ? color : c.border,
-                        width: isSelected ? context.borders.medium : context.borders.thin,
+                        width: isSelected
+                            ? context.borders.medium
+                            : context.borders.thin,
                       ),
                       borderRadius: BorderRadius.circular(sh.radiusMd),
                     ),
@@ -79,7 +99,9 @@ class FeelingSelection extends StatelessWidget {
                           feeling['label'] as String,
                           style: TextStyle(
                             color: isSelected ? color : c.textSecondary,
-                            fontWeight: isSelected ? text.bodyBold.fontWeight : text.body.fontWeight,
+                            fontWeight: isSelected
+                                ? text.bodyBold.fontWeight
+                                : text.body.fontWeight,
                             fontSize: 12.0,
                           ),
                         ),

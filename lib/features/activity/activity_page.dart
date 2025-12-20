@@ -26,7 +26,8 @@ class ActivityPage extends StatefulWidget {
   State<ActivityPage> createState() => _ActivityPageState();
 }
 
-class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderStateMixin {
+class _ActivityPageState extends State<ActivityPage>
+    with SingleTickerProviderStateMixin {
   final ActivityService _service = ActivityService();
   Map<String, dynamic> _activity = {};
   bool _isLoading = true;
@@ -57,9 +58,9 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load activity: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to load activity: $e')));
       }
     }
   }
@@ -91,9 +92,18 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
           labelColor: t.colors.textPrimary,
           unselectedLabelColor: t.colors.textSecondary,
           tabs: [
-            Tab(icon: Icon(Icons.medication, size: context.sizes.iconMd), text: 'Drug Use'),
-            Tab(icon: Icon(Icons.favorite, size: context.sizes.iconMd), text: 'Cravings'),
-            Tab(icon: Icon(Icons.notes, size: context.sizes.iconMd), text: 'Reflections'),
+            Tab(
+              icon: Icon(Icons.medication, size: context.sizes.iconMd),
+              text: 'Drug Use',
+            ),
+            Tab(
+              icon: Icon(Icons.favorite, size: context.sizes.iconMd),
+              text: 'Cravings',
+            ),
+            Tab(
+              icon: Icon(Icons.notes, size: context.sizes.iconMd),
+              text: 'Reflections',
+            ),
           ],
         ),
       ),
@@ -143,12 +153,13 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
     final reflections = _activity['reflections'] as List? ?? [];
     return ActivityReflectionsTab(
       reflections: reflections,
-      onReflectionTap: (reflection) => ActivityDetailHelpers.showReflectionDetail(
-        context: context,
-        reflection: reflection,
-        onDelete: _handleDelete,
-        onUpdate: _fetchActivity,
-      ),
+      onReflectionTap: (reflection) =>
+          ActivityDetailHelpers.showReflectionDetail(
+            context: context,
+            reflection: reflection,
+            onDelete: _handleDelete,
+            onUpdate: _fetchActivity,
+          ),
       onRefresh: _fetchActivity,
     );
   }
@@ -177,7 +188,10 @@ class _ActivityPageState extends State<ActivityPage> with SingleTickerProviderSt
   }
 
   Future<void> _deleteEntry(
-      BuildContext context, String entryId, String serviceName) async {
+    BuildContext context,
+    String entryId,
+    String serviceName,
+  ) async {
     try {
       final supabase = Supabase.instance.client;
       final userId = UserService.getCurrentUserId();

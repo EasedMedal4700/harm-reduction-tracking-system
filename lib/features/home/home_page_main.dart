@@ -18,7 +18,6 @@ import 'home_page/home_progress_stats.dart';
 import 'home_page/home_navigation_methods.dart';
 import '../../providers/daily_checkin_provider.dart';
 
-
 import '../../services/daily_checkin_service.dart';
 import '../../services/user_service.dart';
 import '../../services/encryption_service_v2.dart';
@@ -27,7 +26,7 @@ import '../admin/screens/admin_panel_screen.dart';
 
 /// Redesigned Home Page with modular architecture
 /// Supports Light (wellness) and Dark (futuristic) themes
-/// 
+///
 /// NOTE: Lifecycle handling (background/foreground) is managed centrally.
 /// This page does NOT have its own lifecycle observer.
 class HomePage extends StatefulWidget {
@@ -52,21 +51,17 @@ class _HomePageState extends State<HomePage>
     super.initState();
     _checkEncryptionStatus();
     _loadUserProfile();
-    
+
     // Setup animations - duration will be set in didChangeDependencies
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
-    
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
+
     _animationController.forward();
   }
 
@@ -101,7 +96,9 @@ class _HomePageState extends State<HomePage>
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) return;
 
-      final hasEncryption = await _encryptionService.hasEncryptionSetup(user.id);
+      final hasEncryption = await _encryptionService.hasEncryptionSetup(
+        user.id,
+      );
       if (hasEncryption && !_encryptionService.isReady) {
         _requireUnlock();
       }
@@ -119,12 +116,15 @@ class _HomePageState extends State<HomePage>
   void _openDailyCheckin(BuildContext context) async {
     // Navigate to daily check-in and wait for result
     await Navigator.pushNamed(context, '/daily-checkin');
-    
+
     // Refresh the daily check-in status when returning
     if (context.mounted) {
-      final provider = Provider.of<DailyCheckinProvider>(context, listen: false);
+      final provider = Provider.of<DailyCheckinProvider>(
+        context,
+        listen: false,
+      );
       await provider.checkExistingCheckin();
-      
+
       // Trigger rebuild to show updated status
       setState(() {});
     }
@@ -141,9 +141,7 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         title: Text(
           'Home',
-          style: text.headlineSmall.copyWith(
-            color: c.textPrimary,
-          ),
+          style: text.headlineSmall.copyWith(color: c.textPrimary),
         ),
         backgroundColor: c.surface,
         elevation: context.sizes.elevationNone,
@@ -170,7 +168,9 @@ class _HomePageState extends State<HomePage>
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => const AdminPanelScreen()),
+                      MaterialPageRoute(
+                        builder: (_) => const AdminPanelScreen(),
+                      ),
                     );
                   },
                   tooltip: 'Admin Panel',
@@ -204,75 +204,73 @@ class _HomePageState extends State<HomePage>
                   greeting: _getGreeting(),
                   onProfileTap: () => Navigator.pushNamed(context, '/profile'),
                 ),
-              
-              CommonSpacer.vertical(sp.lg),
-              
-              // Daily Check-in Card
-              ChangeNotifierProvider(
-                create: (_) {
-                  final provider = DailyCheckinProvider(repository: widget.dailyCheckinRepository);
-                  provider.initialize();
-                  // Schedule check to avoid setState during build
-                  Future.microtask(() => provider.checkExistingCheckin());
-                  return provider;
-                },
-                child: Consumer<DailyCheckinProvider>(
-                  builder: (context, provider, _) {
-                    final hasCompleted = provider.existingCheckin != null;
-                    final timeSlot = provider.existingCheckin?.timeOfDay;
-                    return DailyCheckinCard(
-                      isCompleted: hasCompleted,
-                      onTap: () => _openDailyCheckin(context),
-                      completedMessage: 'Keep up the great work!',
-                      completedTimeSlot: timeSlot,
+
+                CommonSpacer.vertical(sp.lg),
+
+                // Daily Check-in Card
+                ChangeNotifierProvider(
+                  create: (_) {
+                    final provider = DailyCheckinProvider(
+                      repository: widget.dailyCheckinRepository,
                     );
+                    provider.initialize();
+                    // Schedule check to avoid setState during build
+                    Future.microtask(() => provider.checkExistingCheckin());
+                    return provider;
                   },
+                  child: Consumer<DailyCheckinProvider>(
+                    builder: (context, provider, _) {
+                      final hasCompleted = provider.existingCheckin != null;
+                      final timeSlot = provider.existingCheckin?.timeOfDay;
+                      return DailyCheckinCard(
+                        isCompleted: hasCompleted,
+                        onTap: () => _openDailyCheckin(context),
+                        completedMessage: 'Keep up the great work!',
+                        completedTimeSlot: timeSlot,
+                      );
+                    },
+                  ),
                 ),
-              ),
-              
-              CommonSpacer.vertical(sp.lg),
-              
-              // Section Title - Professional typography
-              Text(
-                'Quick Actions',
-                style: text.headlineMedium.copyWith(
-                  color: c.textPrimary,
+
+                CommonSpacer.vertical(sp.lg),
+
+                // Section Title - Professional typography
+                Text(
+                  'Quick Actions',
+                  style: text.headlineMedium.copyWith(color: c.textPrimary),
                 ),
-              ),
-              
-              CommonSpacer.vertical(sp.md),
-              
-              // Quick Actions Grid - Always 2 columns for consistency
-              HomeQuickActionsGrid(
-                onLogEntry: () => openLogEntry(context),
-                onReflection: () => openReflection(context),
-                onAnalytics: () => openAnalytics(context),
-                onCravings: () => openCravings(context),
-                onActivity: () => openActivity(context),
-                onLibrary: () => openLibrary(context),
-                onCatalog: () => openCatalog(context),
-                onBloodLevels: () => openBloodLevels(context),
-              ),
-              
-              CommonSpacer.vertical(sp.lg),
-              
-              // Progress Section
-              Text(
-                'Your Progress',
-                style: text.headlineMedium.copyWith(
-                  color: c.textPrimary,
+
+                CommonSpacer.vertical(sp.md),
+
+                // Quick Actions Grid - Always 2 columns for consistency
+                HomeQuickActionsGrid(
+                  onLogEntry: () => openLogEntry(context),
+                  onReflection: () => openReflection(context),
+                  onAnalytics: () => openAnalytics(context),
+                  onCravings: () => openCravings(context),
+                  onActivity: () => openActivity(context),
+                  onLibrary: () => openLibrary(context),
+                  onCatalog: () => openCatalog(context),
+                  onBloodLevels: () => openBloodLevels(context),
                 ),
-              ),
-              
-              CommonSpacer.vertical(sp.md),
-              
-              // Stats Grid
-              const HomeProgressStats(),
-              
-              CommonSpacer.vertical(sp.lg),
-            ],
+
+                CommonSpacer.vertical(sp.lg),
+
+                // Progress Section
+                Text(
+                  'Your Progress',
+                  style: text.headlineMedium.copyWith(color: c.textPrimary),
+                ),
+
+                CommonSpacer.vertical(sp.md),
+
+                // Stats Grid
+                const HomeProgressStats(),
+
+                CommonSpacer.vertical(sp.lg),
+              ],
+            ),
           ),
-        ),
         ),
       ),
     );
@@ -289,12 +287,10 @@ class _HomePageState extends State<HomePage>
       onPressed: () => openLogEntry(context),
       backgroundColor: a.primary,
       foregroundColor: c.textInverse,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(sh.radiusMd)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+      ),
       child: const Icon(Icons.add),
     );
   }
 }
-
-
-
-

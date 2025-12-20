@@ -76,7 +76,7 @@ class SubstanceRepository {
 
     final formattedDoseRaw = substanceDetails['formatted_dose'];
     if (formattedDoseRaw == null) return [];
-    
+
     // Handle both Map<dynamic, dynamic> and Map<String, dynamic>
     final Map<String, dynamic> formattedDose;
     if (formattedDoseRaw is Map<String, dynamic>) {
@@ -86,7 +86,7 @@ class SubstanceRepository {
     } else {
       return [];
     }
-    
+
     if (formattedDose.isEmpty) return [];
 
     // Extract ROA keys and convert to lowercase (Oral -> oral, Insufflated -> insufflated, etc.)

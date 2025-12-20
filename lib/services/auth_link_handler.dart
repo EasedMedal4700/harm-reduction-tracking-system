@@ -48,7 +48,9 @@ class AuthLinkHandler {
       _handleDeepLink,
       onError: (error) {
         if (kDebugMode) {
-          debugPrint('❌ AuthLinkHandler: Error listening to deep links: $error');
+          debugPrint(
+            '❌ AuthLinkHandler: Error listening to deep links: $error',
+          );
         }
       },
     );
@@ -167,7 +169,9 @@ class AuthLinkHandler {
       if (kDebugMode) {
         debugPrint('🔗 AuthLinkHandler: Verification type: $type');
         debugPrint('🔗 AuthLinkHandler: Token exists: ${token != null}');
-        debugPrint('🔗 AuthLinkHandler: Access token exists: ${accessToken != null}');
+        debugPrint(
+          '🔗 AuthLinkHandler: Access token exists: ${accessToken != null}',
+        );
       }
 
       switch (type) {
@@ -300,10 +304,9 @@ class AuthLinkHandler {
   void _navigateToEmailConfirmed() {
     final context = _navigatorKey?.currentContext;
     if (context != null && context.mounted) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        '/email-confirmed',
-        (route) => false,
-      );
+      Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil('/email-confirmed', (route) => false);
     } else {
       if (kDebugMode) {
         debugPrint('⚠️ AuthLinkHandler: Navigator context not available');
@@ -315,10 +318,9 @@ class AuthLinkHandler {
   void _navigateToSetNewPassword() {
     final context = _navigatorKey?.currentContext;
     if (context != null && context.mounted) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        '/set-new-password',
-        (route) => false,
-      );
+      Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil('/set-new-password', (route) => false);
     } else {
       if (kDebugMode) {
         debugPrint('⚠️ AuthLinkHandler: Navigator context not available');
@@ -331,10 +333,7 @@ class AuthLinkHandler {
     final context = _navigatorKey?.currentContext;
     if (context != null && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: Colors.red,
-        ),
+        SnackBar(content: Text(message), backgroundColor: Colors.red),
       );
     }
   }

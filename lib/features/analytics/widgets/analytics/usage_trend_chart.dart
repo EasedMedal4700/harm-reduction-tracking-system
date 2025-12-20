@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -41,9 +40,7 @@ class UsageTrendChart extends StatelessWidget {
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          CommonSectionHeader(
-            title: _title(period),
-          ),
+          CommonSectionHeader(title: _title(period)),
 
           CommonSpacer.vertical(t.spacing.md),
 
@@ -55,7 +52,9 @@ class UsageTrendChart extends StatelessWidget {
                   show: true,
                   horizontalInterval: 1,
                   getDrawingHorizontalLine: (_) => FlLine(
-                    color: t.colors.border.withValues(alpha: t.opacities.medium),
+                    color: t.colors.border.withValues(
+                      alpha: t.opacities.medium,
+                    ),
                     strokeWidth: t.borders.thin,
                   ),
                   drawVerticalLine: false,
@@ -63,8 +62,12 @@ class UsageTrendChart extends StatelessWidget {
                 borderData: FlBorderData(show: false),
                 barGroups: _buildBars(context, values),
                 titlesData: FlTitlesData(
-                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
 
                   leftTitles: AxisTitles(
                     sideTitles: SideTitles(
@@ -126,7 +129,7 @@ class UsageTrendChart extends StatelessWidget {
                     style: t.typography.captionBold.copyWith(
                       color: t.colors.textPrimary,
                     ),
-                  )
+                  ),
                 ],
               );
             }).toList(),
@@ -147,17 +150,17 @@ class UsageTrendChart extends StatelessWidget {
     final timeUnits = switch (period) {
       TimePeriod.all => _monthsRange(),
       TimePeriod.last7Days => List.generate(7, (i) {
-          final d = now.subtract(Duration(days: 6 - i));
-          return DateTime(d.year, d.month, d.day);
-        }),
+        final d = now.subtract(Duration(days: 6 - i));
+        return DateTime(d.year, d.month, d.day);
+      }),
       TimePeriod.last7Weeks => List.generate(7, (i) {
-          final base = now.subtract(Duration(days: (6 - i) * 7));
-          return DateTime(base.year, base.month, base.day - base.weekday + 1);
-        }),
+        final base = now.subtract(Duration(days: (6 - i) * 7));
+        return DateTime(base.year, base.month, base.day - base.weekday + 1);
+      }),
       TimePeriod.last7Months => List.generate(7, (i) {
-          final d = DateTime(now.year, now.month - (6 - i), 1);
-          return d;
-        }),
+        final d = DateTime(now.year, now.month - (6 - i), 1);
+        return d;
+      }),
     };
 
     for (final t in timeUnits) {
@@ -166,13 +169,21 @@ class UsageTrendChart extends StatelessWidget {
 
     for (final e in filteredEntries) {
       final bucketKey = switch (period) {
-        TimePeriod.all || TimePeriod.last7Months =>
-          DateTime(e.datetime.year, e.datetime.month, 1),
-        TimePeriod.last7Weeks =>
-          DateTime(e.datetime.year, e.datetime.month,
-              e.datetime.day - e.datetime.weekday + 1),
-        TimePeriod.last7Days =>
-          DateTime(e.datetime.year, e.datetime.month, e.datetime.day),
+        TimePeriod.all || TimePeriod.last7Months => DateTime(
+          e.datetime.year,
+          e.datetime.month,
+          1,
+        ),
+        TimePeriod.last7Weeks => DateTime(
+          e.datetime.year,
+          e.datetime.month,
+          e.datetime.day - e.datetime.weekday + 1,
+        ),
+        TimePeriod.last7Days => DateTime(
+          e.datetime.year,
+          e.datetime.month,
+          e.datetime.day,
+        ),
       };
 
       if (!buckets.containsKey(bucketKey)) continue;
@@ -188,7 +199,10 @@ class UsageTrendChart extends StatelessWidget {
   // BAR BUILDER
   // ---------------------------------------------------------------------------
 
-  List<BarChartGroupData> _buildBars(BuildContext context, List<Map<String, int>> data) {
+  List<BarChartGroupData> _buildBars(
+    BuildContext context,
+    List<Map<String, int>> data,
+  ) {
     final barWidth = context.sizes.iconSm;
     return data.asMap().entries.map((e) {
       final x = e.key;
@@ -204,11 +218,7 @@ class UsageTrendChart extends StatelessWidget {
         final next = total + count;
 
         stacks.add(
-          BarChartRodStackItem(
-            total,
-            next,
-            DrugCategoryColors.colorFor(cat),
-          ),
+          BarChartRodStackItem(total, next, DrugCategoryColors.colorFor(cat)),
         );
 
         total = next;
@@ -254,7 +264,11 @@ class UsageTrendChart extends StatelessWidget {
     final end = DateTime(now.year, now.month, 1);
 
     final list = <DateTime>[];
-    for (DateTime d = start; !d.isAfter(end); d = DateTime(d.year, d.month + 1, 1)) {
+    for (
+      DateTime d = start;
+      !d.isAfter(end);
+      d = DateTime(d.year, d.month + 1, 1)
+    ) {
       list.add(d);
     }
     return list;
@@ -273,9 +287,9 @@ class UsageTrendChart extends StatelessWidget {
   }
 
   String _title(TimePeriod p) => switch (p) {
-        TimePeriod.all => 'Usage Trend (All Time)',
-        TimePeriod.last7Days => 'Usage Trend (Last 7 Days)',
-        TimePeriod.last7Weeks => 'Usage Trend (Last 7 Weeks)',
-        TimePeriod.last7Months => 'Usage Trend (Last 7 Months)',
-      };
+    TimePeriod.all => 'Usage Trend (All Time)',
+    TimePeriod.last7Days => 'Usage Trend (Last 7 Days)',
+    TimePeriod.last7Weeks => 'Usage Trend (Last 7 Weeks)',
+    TimePeriod.last7Months => 'Usage Trend (Last 7 Months)',
+  };
 }

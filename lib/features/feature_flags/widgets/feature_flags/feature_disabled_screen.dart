@@ -52,10 +52,7 @@ class FeatureDisabledScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: c.surface,
         elevation: context.sizes.elevationNone,
-        title: Text(
-          formattedName,
-          style: text.titleLarge,
-        ),
+        title: Text(formattedName, style: text.titleLarge),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           color: c.textPrimary,
@@ -81,7 +78,9 @@ class FeatureDisabledScreen extends StatelessWidget {
                 width: sp.xl * 2,
                 height: sp.xl * 2,
                 decoration: BoxDecoration(
-                  color: acc.primary.withValues(alpha: context.opacities.veryLow),
+                  color: acc.primary.withValues(
+                    alpha: context.opacities.veryLow,
+                  ),
                   shape: context.shapes.boxShapeCircle,
                 ),
                 child: Icon(
@@ -96,9 +95,7 @@ class FeatureDisabledScreen extends StatelessWidget {
               // Title
               Text(
                 'Feature Temporarily Unavailable',
-                style: text.heading3.copyWith(
-                  color: c.textPrimary,
-                ),
+                style: text.heading3.copyWith(color: c.textPrimary),
                 textAlign: AppLayout.textAlignCenter,
               ),
 
@@ -109,9 +106,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                 customMessage ??
                     'The $formattedName feature is currently undergoing maintenance. '
                         'Please check back later.',
-                style: text.body.copyWith(
-                  color: c.textSecondary,
-                ),
+                style: text.body.copyWith(color: c.textSecondary),
                 textAlign: AppLayout.textAlignCenter,
               ),
 
@@ -120,10 +115,9 @@ class FeatureDisabledScreen extends StatelessWidget {
               // Go Home button
               CommonPrimaryButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/home',
-                    (_) => false,
-                  );
+                  Navigator.of(
+                    context,
+                  ).pushNamedAndRemoveUntil('/home', (_) => false);
                 },
                 icon: Icons.home_rounded,
                 label: 'Go to Home',
@@ -154,9 +148,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: c.info.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
-                  border: Border.all(
-                    color: c.info.withValues(alpha: 0.3),
-                  ),
+                  border: Border.all(color: c.info.withValues(alpha: 0.3)),
                 ),
                 child: Row(
                   crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -171,9 +163,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                       child: Text(
                         'This feature will be available again soon. '
                         'Thank you for your patience.',
-                        style: text.bodySmall.copyWith(
-                          color: c.info,
-                        ),
+                        style: text.bodySmall.copyWith(color: c.info),
                       ),
                     ),
                   ],

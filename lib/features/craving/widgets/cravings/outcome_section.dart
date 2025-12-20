@@ -33,7 +33,7 @@ class OutcomeSection extends StatelessWidget {
     final text = context.text;
     final a = context.accent;
     final sp = context.spacing;
-    
+
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
@@ -53,7 +53,7 @@ class OutcomeSection extends StatelessWidget {
             ],
           ),
           CommonSpacer.vertical(sp.md),
-          
+
           CommonInputField(
             initialValue: whatDidYouDo,
             onChanged: onWhatDidYouDoChanged,
@@ -61,9 +61,9 @@ class OutcomeSection extends StatelessWidget {
             labelText: 'What did you do?',
             hintText: 'Describe your actions...',
           ),
-          
+
           CommonSpacer.vertical(sp.md),
-          
+
           CommonSwitchTile(
             title: 'Acted on craving?',
             value: actedOnCraving,
@@ -74,4 +74,3 @@ class OutcomeSection extends StatelessWidget {
     );
   }
 }
-

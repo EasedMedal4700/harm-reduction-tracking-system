@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -41,9 +40,7 @@ class ActivityDetailSheet extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: c.surface,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(sh.radiusLg),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(sh.radiusLg)),
         border: Border.all(color: c.border),
         boxShadow: t.cardShadow,
       ),
@@ -144,10 +141,7 @@ class ActivityDetailSheet extends StatelessWidget {
 
                 Container(
                   padding: highlight
-                      ? EdgeInsets.symmetric(
-                          horizontal: sp.sm,
-                          vertical: sp.xs,
-                        )
+                      ? EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs)
                       : null,
                   decoration: highlight
                       ? BoxDecoration(
@@ -162,8 +156,9 @@ class ActivityDetailSheet extends StatelessWidget {
                     detail.value,
                     style: text.bodyLarge.copyWith(
                       color: highlight ? accentColor : c.textPrimary,
-                      fontWeight:
-                          highlight ? text.bodyBold.fontWeight : text.body.fontWeight,
+                      fontWeight: highlight
+                          ? text.bodyBold.fontWeight
+                          : text.body.fontWeight,
                     ),
                   ),
                 ),

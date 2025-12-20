@@ -16,10 +16,7 @@ import '../../../../common/layout/common_spacer.dart';
 class LevelCard extends StatefulWidget {
   final DrugLevel level;
 
-  const LevelCard({
-    required this.level,
-    super.key,
-  });
+  const LevelCard({required this.level, super.key});
 
   @override
   State<LevelCard> createState() => _LevelCardState();
@@ -60,38 +57,55 @@ class _LevelCardState extends State<LevelCard> {
               borderRadius: BorderRadius.circular(sh.radiusSm),
               child: LinearProgressIndicator(
                 value: (percentage / 100).clamp(0.0, 1.0),
-              backgroundColor: c.surfaceVariant,
-              valueColor: AlwaysStoppedAnimation<Color>(categoryColor),
-              minHeight: sp.sm,
+                backgroundColor: c.surfaceVariant,
+                valueColor: AlwaysStoppedAnimation<Color>(categoryColor),
+                minHeight: sp.sm,
+              ),
             ),
-          ),
 
-          CommonSpacer.vertical(sp.lg),
+            CommonSpacer.vertical(sp.lg),
 
-          // Summary row
-          Row(
-            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
-            children: [
-              _buildInfoColumn(context, 'Remaining', '${remainingMg.toStringAsFixed(1)}mg'),
-              _buildInfoColumn(context, 'Last Dose', '${widget.level.lastDose.toStringAsFixed(1)}mg'),
-              _buildInfoColumn(context, 'Time', _formatTimeAgo(timeAgo)),
-              _buildInfoColumn(context, 'Window', '${widget.level.activeWindow.toStringAsFixed(1)}h'),
+            // Summary row
+            Row(
+              mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
+              children: [
+                _buildInfoColumn(
+                  context,
+                  'Remaining',
+                  '${remainingMg.toStringAsFixed(1)}mg',
+                ),
+                _buildInfoColumn(
+                  context,
+                  'Last Dose',
+                  '${widget.level.lastDose.toStringAsFixed(1)}mg',
+                ),
+                _buildInfoColumn(context, 'Time', _formatTimeAgo(timeAgo)),
+                _buildInfoColumn(
+                  context,
+                  'Window',
+                  '${widget.level.activeWindow.toStringAsFixed(1)}h',
+                ),
+              ],
+            ),
+
+            if (_expanded) ...[
+              const CommonSpacer.vertical(24),
+              Divider(color: c.divider),
+              const CommonSpacer.vertical(16),
+              _buildExpandedContent(context),
             ],
-          ),
-
-          if (_expanded) ...[
-            const CommonSpacer.vertical(24),
-            Divider(color: c.divider),
-            const CommonSpacer.vertical(16),
-            _buildExpandedContent(context),
           ],
-        ],
+        ),
       ),
-    ));
+    );
   }
 
   // HEADER ROW
-  Widget _buildHeaderRow(BuildContext context, Color categoryColor, String status) {
+  Widget _buildHeaderRow(
+    BuildContext context,
+    Color categoryColor,
+    String status,
+  ) {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
@@ -121,10 +135,7 @@ class _LevelCardState extends State<LevelCard> {
         Row(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: sp.sm,
-                vertical: sp.xs,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),
               decoration: BoxDecoration(
                 color: _getStatusColor(status).withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(sh.radiusSm),
@@ -132,7 +143,9 @@ class _LevelCardState extends State<LevelCard> {
               ),
               child: Text(
                 status,
-                style: text.captionBold.copyWith(color: _getStatusColor(status)),
+                style: text.captionBold.copyWith(
+                  color: _getStatusColor(status),
+                ),
               ),
             ),
             SizedBox(width: sp.sm),
@@ -156,10 +169,7 @@ class _LevelCardState extends State<LevelCard> {
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
-        Text(
-          'Individual Doses',
-          style: text.bodyBold,
-        ),
+        Text('Individual Doses', style: text.bodyBold),
         SizedBox(height: sp.sm),
 
         ...widget.level.doses.map(
@@ -203,11 +213,19 @@ class _LevelCardState extends State<LevelCard> {
         Row(
           children: [
             Expanded(
-              child: _buildDetailItem(context, 'Half-life', '${widget.level.halfLife.toStringAsFixed(1)}h'),
+              child: _buildDetailItem(
+                context,
+                'Half-life',
+                '${widget.level.halfLife.toStringAsFixed(1)}h',
+              ),
             ),
             SizedBox(width: sp.sm),
             Expanded(
-              child: _buildDetailItem(context, 'Duration', '${widget.level.maxDuration.toStringAsFixed(1)}h'),
+              child: _buildDetailItem(
+                context,
+                'Duration',
+                '${widget.level.maxDuration.toStringAsFixed(1)}h',
+              ),
             ),
           ],
         ),
@@ -217,11 +235,19 @@ class _LevelCardState extends State<LevelCard> {
         Row(
           children: [
             Expanded(
-              child: _buildDetailItem(context, 'Total Dosed', '${widget.level.totalDose.toStringAsFixed(1)}mg'),
+              child: _buildDetailItem(
+                context,
+                'Total Dosed',
+                '${widget.level.totalDose.toStringAsFixed(1)}mg',
+              ),
             ),
             SizedBox(width: sp.sm),
             Expanded(
-              child: _buildDetailItem(context, '# Doses', '${widget.level.doses.length}'),
+              child: _buildDetailItem(
+                context,
+                '# Doses',
+                '${widget.level.doses.length}',
+              ),
             ),
           ],
         ),

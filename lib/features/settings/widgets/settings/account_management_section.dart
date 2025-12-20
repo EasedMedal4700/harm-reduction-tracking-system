@@ -31,16 +31,12 @@ class AccountManagementSection extends StatelessWidget {
         children: [
           Text(
             'Account Management',
-            style: typography.heading3.copyWith(
-              color: colors.textPrimary,
-            ),
+            style: typography.heading3.copyWith(color: colors.textPrimary),
           ),
           CommonSpacer.vertical(spacing.xs),
           Text(
             'Manage your personal data and account',
-            style: typography.bodySmall.copyWith(
-              color: colors.textSecondary,
-            ),
+            style: typography.bodySmall.copyWith(color: colors.textSecondary),
           ),
           Divider(height: spacing.xl, thickness: context.borders.thin),
           _buildDownloadDataTile(context),
@@ -65,7 +61,11 @@ class AccountManagementSection extends StatelessWidget {
           color: colors.info.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(radii.radiusSm),
         ),
-        child: Icon(Icons.download, color: colors.info, size: context.sizes.iconMd),
+        child: Icon(
+          Icons.download,
+          color: colors.info,
+          size: context.sizes.iconMd,
+        ),
       ),
       title: const Text('Download My Data'),
       subtitle: const Text('Export all your personal information'),
@@ -86,7 +86,11 @@ class AccountManagementSection extends StatelessWidget {
           color: colors.warning.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(radii.radiusSm),
         ),
-        child: Icon(Icons.delete_sweep, color: colors.warning, size: context.sizes.iconMd),
+        child: Icon(
+          Icons.delete_sweep,
+          color: colors.warning,
+          size: context.sizes.iconMd,
+        ),
       ),
       title: const Text('Delete My Data'),
       subtitle: const Text('Remove all your logs and entries'),
@@ -102,10 +106,7 @@ class AccountManagementSection extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: colors.error,
-          width: context.borders.medium,
-        ),
+        border: Border.all(color: colors.error, width: context.borders.medium),
         borderRadius: BorderRadius.circular(radii.radiusMd),
         color: colors.error.withValues(alpha: 0.1),
       ),
@@ -124,9 +125,7 @@ class AccountManagementSection extends StatelessWidget {
         ),
         title: Text(
           'Delete Account',
-          style: context.text.bodyBold.copyWith(
-            color: colors.error,
-          ),
+          style: context.text.bodyBold.copyWith(color: colors.error),
         ),
         subtitle: Text(
           'Permanently delete your account and all data',
@@ -146,7 +145,7 @@ class AccountManagementSection extends StatelessWidget {
 
   void _showDownloadDataDialog(BuildContext context) {
     final colors = context.colors;
-    
+
     showDialog(
       context: context,
       builder: (context) => PasswordVerificationDialog(
@@ -178,7 +177,7 @@ class AccountManagementSection extends StatelessWidget {
 
   void _showDeleteDataDialog(BuildContext context) {
     final colors = context.colors;
-    
+
     showDialog(
       context: context,
       builder: (context) => PasswordVerificationDialog(
@@ -200,7 +199,8 @@ class AccountManagementSection extends StatelessWidget {
     showDeleteDataConfirmation(
       context,
       password,
-      onDownloadFirst: () => _showFinalDeleteDataWithDownload(context, password),
+      onDownloadFirst: () =>
+          _showFinalDeleteDataWithDownload(context, password),
       onConfirmDelete: () async {
         await _executeDeleteData(context);
       },
@@ -232,7 +232,7 @@ class AccountManagementSection extends StatelessWidget {
 
   void _showDeleteAccountDialog(BuildContext context) {
     final colors = context.colors;
-    
+
     showDialog(
       context: context,
       builder: (context) => PasswordVerificationDialog(
@@ -275,11 +275,11 @@ class AccountManagementSection extends StatelessWidget {
     final colors = context.colors;
     final service = AccountDataService();
     final result = await service.deleteAccount();
-    
+
     if (result.success) {
       navigator.pushNamedAndRemoveUntil('/login_page', (route) => false);
     }
-    
+
     messenger.showSnackBar(
       SnackBar(
         content: Text(result.message ?? 'Operation completed'),

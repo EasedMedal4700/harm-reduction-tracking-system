@@ -30,7 +30,7 @@ class BodyMindSignalsSection extends StatelessWidget {
     final text = context.text;
     final a = context.accent;
     final sp = context.spacing;
-    
+
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
@@ -38,7 +38,11 @@ class BodyMindSignalsSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.self_improvement, color: a.primary, size: t.sizes.iconMd),
+              Icon(
+                Icons.self_improvement,
+                color: a.primary,
+                size: t.sizes.iconMd,
+              ),
               CommonSpacer.horizontal(sp.sm),
               Text(
                 'Body & Mind Signals',
@@ -50,7 +54,7 @@ class BodyMindSignalsSection extends StatelessWidget {
             ],
           ),
           CommonSpacer.vertical(sp.md),
-          
+
           CommonChipGroup(
             title: 'Body Sensations',
             options: sensations,
@@ -63,4 +67,3 @@ class BodyMindSignalsSection extends StatelessWidget {
     );
   }
 }
-

@@ -52,10 +52,7 @@ class BloodLevelsContent extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.all(sp.lg),
       children: [
-        SystemOverviewCard(
-          levels: filteredLevels,
-          allLevels: allLevels,
-        ),
+        SystemOverviewCard(levels: filteredLevels, allLevels: allLevels),
 
         const CommonSpacer.vertical(24),
 

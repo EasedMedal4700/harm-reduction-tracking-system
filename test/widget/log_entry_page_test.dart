@@ -8,9 +8,7 @@ void main() {
   Widget createWidgetUnderTest() {
     return AppThemeProvider(
       theme: AppTheme.light(),
-      child: const MaterialApp(
-        home: QuickLogEntryPage(),
-      ),
+      child: const MaterialApp(home: QuickLogEntryPage()),
     );
   }
 
@@ -25,12 +23,14 @@ void main() {
       // Route dropdown defaults to 'Oral'
       expect(find.text('Oral'), findsOneWidget);
       expect(find.text('Notes'), findsOneWidget);
-      
+
       // Verify Save button exists
       expect(find.text('Save Entry'), findsOneWidget);
     });
 
-    testWidgets('shows validation error when saving empty form', (tester) async {
+    testWidgets('shows validation error when saving empty form', (
+      tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 
@@ -40,7 +40,10 @@ void main() {
 
       // Should show validation error snackbar or dialog
       // The implementation uses _showSnackBar('Please fix validation errors before saving.')
-      expect(find.text('Please fix validation errors before saving.'), findsOneWidget);
+      expect(
+        find.text('Please fix validation errors before saving.'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('updates state when fields are modified', (tester) async {
@@ -48,13 +51,19 @@ void main() {
       await tester.pumpAndSettle();
 
       // Enter substance
-      await tester.enterText(find.widgetWithText(TextFormField, 'Substance'), 'Caffeine');
-      
+      await tester.enterText(
+        find.widgetWithText(TextFormField, 'Substance'),
+        'Caffeine',
+      );
+
       // Enter dose
       await tester.enterText(find.widgetWithText(TextFormField, 'Dose'), '100');
-      
+
       // Enter notes
-      await tester.enterText(find.widgetWithText(TextFormField, 'Notes'), 'Morning coffee');
+      await tester.enterText(
+        find.widgetWithText(TextFormField, 'Notes'),
+        'Morning coffee',
+      );
 
       await tester.pumpAndSettle();
 

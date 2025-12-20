@@ -30,7 +30,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     with SingleTickerProviderStateMixin {
   late final LogEntryController _controller;
   late LogEntryFormData _formData;
-  
+
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   final _formKey = GlobalKey<FormState>();
@@ -43,29 +43,25 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
   void initState() {
     super.initState();
     _controller = LogEntryController();
-    
+
     final LogEntry model = LogEntry.fromJson(widget.entry);
     _formData = _convertToFormData(model);
-    
+
     _notesCtrl = TextEditingController(text: _formData.notes);
     _doseCtrl = TextEditingController(text: _formData.dose.toString());
     _substanceCtrl = TextEditingController(text: _formData.substance);
-    
+
     _animationController = AnimationController(
       duration: context.animations.normal,
       vsync: this,
     );
-    
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-    ));
-    
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+    );
+
     _animationController.forward();
-    
+
     _notesCtrl.addListener(() {
       setState(() => _formData = _formData.copyWith(notes: _notesCtrl.text));
     });
@@ -105,7 +101,10 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
       bodySignals: model.bodySignals,
       notes: model.notes ?? '',
       substanceDetails: null,
-      entryId: widget.entry['use_id']?.toString() ?? widget.entry['id']?.toString() ?? '',
+      entryId:
+          widget.entry['use_id']?.toString() ??
+          widget.entry['id']?.toString() ??
+          '',
     );
   }
 
@@ -142,7 +141,10 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
 
     final substanceValidation = await _controller.validateSubstance(_formData);
     if (!substanceValidation.isValid) {
-      _showErrorDialog(substanceValidation.title!, substanceValidation.message!);
+      _showErrorDialog(
+        substanceValidation.title!,
+        substanceValidation.message!,
+      );
       return;
     }
 
@@ -174,9 +176,9 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     }
 
     setState(() => _isSaving = true);
-    
+
     final result = await _controller.saveLogEntry(_formData);
-    
+
     setState(() => _isSaving = false);
 
     if (result.isSuccess) {
@@ -219,7 +221,10 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
 
   void _showSnackBar(String message, {Duration? duration}) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), duration: duration ?? context.animations.snackbar),
+      SnackBar(
+        content: Text(message),
+        duration: duration ?? context.animations.snackbar,
+      ),
     );
   }
 
@@ -305,21 +310,55 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
                       notesCtrl: _notesCtrl,
                       doseCtrl: _doseCtrl,
                       substanceCtrl: _substanceCtrl,
-                      onDoseChanged: (v) => setState(() => _formData = _formData.copyWith(dose: v)),
-                      onUnitChanged: (v) => setState(() => _formData = _formData.copyWith(unit: v)),
-                      onSubstanceChanged: (v) => setState(() => _formData = _formData.copyWith(substance: v)),
-                      onRouteChanged: (v) => setState(() => _formData = _formData.copyWith(route: v)),
-                      onFeelingsChanged: (v) => setState(() => _formData = _formData.copyWith(feelings: v)),
-                      onSecondaryFeelingsChanged: (v) => setState(() => _formData = _formData.copyWith(secondaryFeelings: v)),
-                      onLocationChanged: (v) => setState(() => _formData = _formData.copyWith(location: v)),
-                      onDateChanged: (v) => setState(() => _formData = _formData.copyWith(date: v)),
-                      onHourChanged: (v) => setState(() => _formData = _formData.copyWith(hour: v)),
-                      onMinuteChanged: (v) => setState(() => _formData = _formData.copyWith(minute: v)),
-                      onMedicalPurposeChanged: (v) => setState(() => _formData = _formData.copyWith(isMedicalPurpose: v)),
-                      onCravingIntensityChanged: (v) => setState(() => _formData = _formData.copyWith(cravingIntensity: v)),
-                      onIntentionChanged: (v) => setState(() => _formData = _formData.copyWith(intention: v)),
-                      onTriggersChanged: (v) => setState(() => _formData = _formData.copyWith(triggers: v)),
-                      onBodySignalsChanged: (v) => setState(() => _formData = _formData.copyWith(bodySignals: v)),
+                      onDoseChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(dose: v),
+                      ),
+                      onUnitChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(unit: v),
+                      ),
+                      onSubstanceChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(substance: v),
+                      ),
+                      onRouteChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(route: v),
+                      ),
+                      onFeelingsChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(feelings: v),
+                      ),
+                      onSecondaryFeelingsChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(
+                          secondaryFeelings: v,
+                        ),
+                      ),
+                      onLocationChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(location: v),
+                      ),
+                      onDateChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(date: v),
+                      ),
+                      onHourChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(hour: v),
+                      ),
+                      onMinuteChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(minute: v),
+                      ),
+                      onMedicalPurposeChanged: (v) => setState(
+                        () =>
+                            _formData = _formData.copyWith(isMedicalPurpose: v),
+                      ),
+                      onCravingIntensityChanged: (v) => setState(
+                        () =>
+                            _formData = _formData.copyWith(cravingIntensity: v),
+                      ),
+                      onIntentionChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(intention: v),
+                      ),
+                      onTriggersChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(triggers: v),
+                      ),
+                      onBodySignalsChanged: (v) => setState(
+                        () => _formData = _formData.copyWith(bodySignals: v),
+                      ),
                       onSave: _handleSave,
                       showSaveButton: false,
                     ),
@@ -343,6 +382,3 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     );
   }
 }
-
-
-

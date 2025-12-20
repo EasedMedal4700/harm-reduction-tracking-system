@@ -36,7 +36,7 @@ void main() {
       test('resets onboarding completion status', () async {
         await service.completeOnboarding();
         expect(await service.isOnboardingComplete(), true);
-        
+
         await service.resetOnboarding();
         expect(await service.isOnboardingComplete(), false);
       });
@@ -44,7 +44,7 @@ void main() {
       test('resets privacy policy acceptance', () async {
         await service.acceptPrivacyPolicy();
         expect(await service.isPrivacyPolicyAccepted(), true);
-        
+
         await service.resetOnboarding();
         expect(await service.isPrivacyPolicyAccepted(), false);
       });
@@ -52,7 +52,7 @@ void main() {
       test('resets usage frequency', () async {
         await service.saveUsageFrequency('daily');
         expect(await service.getUsageFrequency(), 'daily');
-        
+
         await service.resetOnboarding();
         expect(await service.getUsageFrequency(), null);
       });
@@ -86,7 +86,7 @@ void main() {
       test('can update usage frequency', () async {
         await service.saveUsageFrequency('rarely');
         expect(await service.getUsageFrequency(), 'rarely');
-        
+
         await service.saveUsageFrequency('daily');
         expect(await service.getUsageFrequency(), 'daily');
       });
@@ -111,11 +111,11 @@ void main() {
           ),
           false,
         );
-        
+
         await service.dismissHarmNotice(
           OnboardingService.bloodLevelsHarmNoticeDismissedKey,
         );
-        
+
         expect(
           await service.isHarmNoticeDismissed(
             OnboardingService.bloodLevelsHarmNoticeDismissedKey,
@@ -131,11 +131,11 @@ void main() {
           ),
           false,
         );
-        
+
         await service.dismissHarmNotice(
           OnboardingService.toleranceHarmNoticeDismissedKey,
         );
-        
+
         expect(
           await service.isHarmNoticeDismissed(
             OnboardingService.toleranceHarmNoticeDismissedKey,
@@ -148,7 +148,7 @@ void main() {
         await service.dismissHarmNotice(
           OnboardingService.bloodLevelsHarmNoticeDismissedKey,
         );
-        
+
         // Blood levels should be dismissed
         expect(
           await service.isHarmNoticeDismissed(
@@ -156,7 +156,7 @@ void main() {
           ),
           true,
         );
-        
+
         // Tolerance should still not be dismissed
         expect(
           await service.isHarmNoticeDismissed(
@@ -174,7 +174,7 @@ void main() {
         await service.dismissHarmNotice(
           OnboardingService.toleranceHarmNoticeDismissedKey,
         );
-        
+
         // Verify both are dismissed
         expect(
           await service.isHarmNoticeDismissed(
@@ -188,10 +188,10 @@ void main() {
           ),
           true,
         );
-        
+
         // Reset
         await service.resetHarmNotices();
-        
+
         // Both should be not dismissed again
         expect(
           await service.isHarmNoticeDismissed(

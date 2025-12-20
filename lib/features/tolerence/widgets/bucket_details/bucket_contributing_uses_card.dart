@@ -15,10 +15,7 @@ import 'bucket_utils.dart';
 class BucketContributingUsesCard extends StatelessWidget {
   final List<UseLogEntry> contributingUses;
 
-  const BucketContributingUsesCard({
-    super.key,
-    required this.contributingUses,
-  });
+  const BucketContributingUsesCard({super.key, required this.contributingUses});
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +47,7 @@ class BucketContributingUsesCard extends StatelessWidget {
                 children: [
                   Text(
                     BucketUtils.formatTimeAgo(timeAgo),
-                    style: text.bodySmall.copyWith(
-                      color: c.textSecondary,
-                    ),
+                    style: text.bodySmall.copyWith(color: c.textSecondary),
                   ),
                   Text(
                     '${use.doseUnits.toStringAsFixed(1)} units',
@@ -79,4 +74,3 @@ class BucketContributingUsesCard extends StatelessWidget {
     );
   }
 }
-

@@ -1,4 +1,4 @@
-﻿// MIGRATION: COMPLETE
+// MIGRATION: COMPLETE
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: READY
@@ -36,7 +36,9 @@ class TimelineLegend extends StatelessWidget {
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(sp.xs),
-            border: Border.all(color: color.withValues(alpha: t.opacities.border)),
+            border: Border.all(
+              color: color.withValues(alpha: t.opacities.border),
+            ),
           ),
           child: Row(
             mainAxisSize: AppLayout.mainAxisSizeMin,
@@ -44,7 +46,10 @@ class TimelineLegend extends StatelessWidget {
               Container(
                 width: sp.md,
                 height: sp.md,
-                decoration: BoxDecoration(color: color, shape: context.shapes.boxShapeCircle),
+                decoration: BoxDecoration(
+                  color: color,
+                  shape: context.shapes.boxShapeCircle,
+                ),
               ),
               const CommonSpacer.horizontal(4),
               Text(

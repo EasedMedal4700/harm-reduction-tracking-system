@@ -30,11 +30,16 @@ void main() {
         people: [],
       );
 
-      expect(() => service.saveLogEntry(entry), throwsA(isA<Exception>().having(
-        (e) => e.toString(),
-        'message',
-        contains('Please select a valid location'),
-      )));
+      expect(
+        () => service.saveLogEntry(entry),
+        throwsA(
+          isA<Exception>().having(
+            (e) => e.toString(),
+            'message',
+            contains('Please select a valid location'),
+          ),
+        ),
+      );
     });
 
     test('validates location is not default value', () {
@@ -57,10 +62,7 @@ void main() {
         people: [],
       );
 
-      expect(
-        () => service.saveLogEntry(entry),
-        throwsA(isA<Exception>()),
-      );
+      expect(() => service.saveLogEntry(entry), throwsA(isA<Exception>()));
     });
 
     test('DateFormat formatter is configured correctly', () {
@@ -76,7 +78,9 @@ void main() {
         unit: 'mg',
         route: 'oral',
         feelings: ['Happy', 'Excited'],
-        secondaryFeelings: {'Happy': ['Joyful']},
+        secondaryFeelings: {
+          'Happy': ['Joyful'],
+        },
         datetime: DateTime(2025, 7, 4, 22, 0),
         location: 'Festival',
         notes: 'Great time',
@@ -124,7 +128,7 @@ void main() {
       final localTime = DateTime(2025, 11, 7, 21, 56, 0);
       final utcTime = localTime.toUtc();
       final formatted = service.formatter.format(utcTime);
-      
+
       expect(formatted, contains('2025-11-07'));
       expect(formatted.length, 19); // 'yyyy-MM-dd HH:mm:ss' length
     });
@@ -159,8 +163,10 @@ void main() {
         'Happy': ['Joyful', 'Excited'],
         'Calm': ['Peaceful'],
       };
-      
-      final flattened = secondaryFeelings.values.expand((list) => list).toList();
+
+      final flattened = secondaryFeelings.values
+          .expand((list) => list)
+          .toList();
       expect(flattened, ['Joyful', 'Excited', 'Peaceful']);
     });
 
@@ -486,8 +492,15 @@ void main() {
     });
 
     test('handles different routes of administration', () {
-      final routes = ['oral', 'smoked', 'vaporized', 'insufflated', 'injected', 'sublingual'];
-      
+      final routes = [
+        'oral',
+        'smoked',
+        'vaporized',
+        'insufflated',
+        'injected',
+        'sublingual',
+      ];
+
       for (final route in routes) {
         final entry = LogEntry(
           substance: 'Test',

@@ -8,8 +8,14 @@ abstract class DailyCheckinRepository {
   Future<void> saveCheckin(DailyCheckin checkin);
   Future<void> updateCheckin(String id, DailyCheckin checkin);
   Future<List<DailyCheckin>> fetchCheckinsByDate(DateTime date);
-  Future<List<DailyCheckin>> fetchCheckinsInRange(DateTime startDate, DateTime endDate);
-  Future<DailyCheckin?> fetchCheckinByDateAndTime(DateTime date, String timeOfDay);
+  Future<List<DailyCheckin>> fetchCheckinsInRange(
+    DateTime startDate,
+    DateTime endDate,
+  );
+  Future<DailyCheckin?> fetchCheckinByDateAndTime(
+    DateTime date,
+    String timeOfDay,
+  );
   Future<void> deleteCheckin(String id);
 }
 
@@ -36,11 +42,14 @@ class DailyCheckinService implements DailyCheckinRepository {
       };
 
       await _client.from('daily_checkins').insert(data);
-      
+
       // Invalidate cache
       _cache.removePattern('daily_checkin');
 
-      ErrorHandler.logInfo('DailyCheckinService', 'Check-in saved successfully');
+      ErrorHandler.logInfo(
+        'DailyCheckinService',
+        'Check-in saved successfully',
+      );
     } catch (e, stackTrace) {
       ErrorHandler.logError('DailyCheckinService.saveCheckin', e, stackTrace);
       rethrow;
@@ -72,11 +81,14 @@ class DailyCheckinService implements DailyCheckinRepository {
       if (response.isEmpty) {
         throw Exception('Check-in not found or access denied');
       }
-      
+
       // Invalidate cache
       _cache.removePattern('daily_checkin');
 
-      ErrorHandler.logInfo('DailyCheckinService', 'Check-in updated successfully');
+      ErrorHandler.logInfo(
+        'DailyCheckinService',
+        'Check-in updated successfully',
+      );
     } catch (e, stackTrace) {
       ErrorHandler.logError('DailyCheckinService.updateCheckin', e, stackTrace);
       rethrow;
@@ -87,7 +99,10 @@ class DailyCheckinService implements DailyCheckinRepository {
   @override
   Future<List<DailyCheckin>> fetchCheckinsByDate(DateTime date) async {
     try {
-      ErrorHandler.logDebug('DailyCheckinService', 'Fetching check-ins for date: $date');
+      ErrorHandler.logDebug(
+        'DailyCheckinService',
+        'Fetching check-ins for date: $date',
+      );
 
       final userId = UserService.getCurrentUserId();
       final dateStr = date.toIso8601String().split('T')[0];
@@ -103,19 +118,32 @@ class DailyCheckinService implements DailyCheckinRepository {
           .map((json) => DailyCheckin.fromJson(json as Map<String, dynamic>))
           .toList();
 
-      ErrorHandler.logInfo('DailyCheckinService', 'Fetched ${checkins.length} check-ins');
+      ErrorHandler.logInfo(
+        'DailyCheckinService',
+        'Fetched ${checkins.length} check-ins',
+      );
       return checkins;
     } catch (e, stackTrace) {
-      ErrorHandler.logError('DailyCheckinService.fetchCheckinsByDate', e, stackTrace);
+      ErrorHandler.logError(
+        'DailyCheckinService.fetchCheckinsByDate',
+        e,
+        stackTrace,
+      );
       rethrow;
     }
   }
 
   /// Fetch check-ins for a date range
   @override
-  Future<List<DailyCheckin>> fetchCheckinsInRange(DateTime startDate, DateTime endDate) async {
+  Future<List<DailyCheckin>> fetchCheckinsInRange(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
     try {
-      ErrorHandler.logDebug('DailyCheckinService', 'Fetching check-ins from $startDate to $endDate');
+      ErrorHandler.logDebug(
+        'DailyCheckinService',
+        'Fetching check-ins from $startDate to $endDate',
+      );
 
       final userId = UserService.getCurrentUserId();
       final startStr = startDate.toIso8601String().split('T')[0];
@@ -134,19 +162,32 @@ class DailyCheckinService implements DailyCheckinRepository {
           .map((json) => DailyCheckin.fromJson(json as Map<String, dynamic>))
           .toList();
 
-      ErrorHandler.logInfo('DailyCheckinService', 'Fetched ${checkins.length} check-ins in range');
+      ErrorHandler.logInfo(
+        'DailyCheckinService',
+        'Fetched ${checkins.length} check-ins in range',
+      );
       return checkins;
     } catch (e, stackTrace) {
-      ErrorHandler.logError('DailyCheckinService.fetchCheckinsInRange', e, stackTrace);
+      ErrorHandler.logError(
+        'DailyCheckinService.fetchCheckinsInRange',
+        e,
+        stackTrace,
+      );
       rethrow;
     }
   }
 
   /// Check if a check-in exists for a specific date and time of day
   @override
-  Future<DailyCheckin?> fetchCheckinByDateAndTime(DateTime date, String timeOfDay) async {
+  Future<DailyCheckin?> fetchCheckinByDateAndTime(
+    DateTime date,
+    String timeOfDay,
+  ) async {
     try {
-      ErrorHandler.logDebug('DailyCheckinService', 'Checking for existing check-in: $date, $timeOfDay');
+      ErrorHandler.logDebug(
+        'DailyCheckinService',
+        'Checking for existing check-in: $date, $timeOfDay',
+      );
 
       final userId = UserService.getCurrentUserId();
       final dateStr = date.toIso8601String().split('T')[0];
@@ -165,7 +206,11 @@ class DailyCheckinService implements DailyCheckinRepository {
 
       return DailyCheckin.fromJson(response);
     } catch (e, stackTrace) {
-      ErrorHandler.logError('DailyCheckinService.fetchCheckinByDateAndTime', e, stackTrace);
+      ErrorHandler.logError(
+        'DailyCheckinService.fetchCheckinByDateAndTime',
+        e,
+        stackTrace,
+      );
       rethrow;
     }
   }
@@ -184,7 +229,10 @@ class DailyCheckinService implements DailyCheckinRepository {
           .eq('id', id)
           .eq('uuid_user_id', userId);
 
-      ErrorHandler.logInfo('DailyCheckinService', 'Check-in deleted successfully');
+      ErrorHandler.logInfo(
+        'DailyCheckinService',
+        'Check-in deleted successfully',
+      );
     } catch (e, stackTrace) {
       ErrorHandler.logError('DailyCheckinService.deleteCheckin', e, stackTrace);
       rethrow;

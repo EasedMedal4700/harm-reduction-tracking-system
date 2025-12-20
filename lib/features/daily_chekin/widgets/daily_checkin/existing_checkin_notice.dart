@@ -25,18 +25,12 @@ class ExistingCheckinNotice extends StatelessWidget {
       borderColor: c.error.withValues(alpha: 0.3),
       child: Row(
         children: [
-          Icon(
-            Icons.info_outline,
-            color: c.error,
-            size: t.sizes.iconSm,
-          ),
+          Icon(Icons.info_outline, color: c.error, size: t.sizes.iconSm),
           const CommonSpacer.horizontal(16),
           Expanded(
             child: Text(
               'Check-in already exists for this time.',
-              style: text.bodyBold.copyWith(
-                color: c.error,
-              ),
+              style: text.bodyBold.copyWith(color: c.error),
             ),
           ),
         ],
@@ -44,5 +38,3 @@ class ExistingCheckinNotice extends StatelessWidget {
     );
   }
 }
-
-

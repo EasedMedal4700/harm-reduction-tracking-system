@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -39,9 +38,7 @@ class RecentActivityList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          const CommonSectionHeader(
-            title: 'Recent Activity',
-          ),
+          const CommonSectionHeader(title: 'Recent Activity'),
 
           CommonSpacer.vertical(t.spacing.md),
 
@@ -60,10 +57,14 @@ class RecentActivityList extends StatelessWidget {
           else
             Column(
               children: display
-                  .map((e) => _RecentActivityItem(
-                        entry: e,
-                        category: substanceToCategory[e.substance.toLowerCase()] ?? 'Unknown',
-                      ))
+                  .map(
+                    (e) => _RecentActivityItem(
+                      entry: e,
+                      category:
+                          substanceToCategory[e.substance.toLowerCase()] ??
+                          'Unknown',
+                    ),
+                  )
                   .toList(),
             ),
         ],
@@ -76,10 +77,7 @@ class _RecentActivityItem extends StatelessWidget {
   final LogEntry entry;
   final String category;
 
-  const _RecentActivityItem({
-    required this.entry,
-    required this.category,
-  });
+  const _RecentActivityItem({required this.entry, required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +89,9 @@ class _RecentActivityItem extends StatelessWidget {
     final hoursSince = DateTime.now().difference(entry.datetime).inHours;
     final remainingPercent = (100 - (hoursSince * 10)).clamp(0, 100).toDouble();
 
-    final categoryColor = t.accent.primary.withValues(alpha: 0.4 + (category.hashCode % 20) / 100);
+    final categoryColor = t.accent.primary.withValues(
+      alpha: 0.4 + (category.hashCode % 20) / 100,
+    );
 
     return Padding(
       padding: EdgeInsets.only(bottom: t.spacing.md),
@@ -162,7 +162,8 @@ class _RecentActivityItem extends StatelessWidget {
 
                     /// Activity bar
                     Row(
-                      mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
+                      mainAxisAlignment:
+                          AppLayout.mainAxisAlignmentSpaceBetween,
                       children: [
                         Text(
                           'Active',

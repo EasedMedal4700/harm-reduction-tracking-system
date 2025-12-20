@@ -24,7 +24,7 @@ void main() {
 
     test('getTimezoneOffsetString has correct format', () {
       final offsetString = service.getTimezoneOffsetString();
-      
+
       // Should be +XX:XX or -XX:XX
       expect(offsetString.length, 6);
       expect(offsetString[0], matches(r'[+-]'));
@@ -33,7 +33,7 @@ void main() {
 
     test('getTimezoneOffset converts minutes to hours correctly', () {
       final offset = service.getTimezoneOffset();
-      
+
       // Verify it's a valid timezone offset (multiple of 0.25 usually)
       // Most timezones are whole hours or half hours (some are 45 minutes)
       final multipliedBy4 = (offset * 4).round();
@@ -67,7 +67,7 @@ void main() {
       final parts = offsetString.substring(1).split(':');
       final hours = int.parse(parts[0]);
       final minutes = int.parse(parts[1]);
-      
+
       expect(hours, greaterThanOrEqualTo(0));
       expect(hours, lessThanOrEqualTo(14));
       expect(minutes, greaterThanOrEqualTo(0));

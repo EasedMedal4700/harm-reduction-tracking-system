@@ -298,15 +298,17 @@ class ToleranceEngineService {
           if (hoursSince < 0) continue;
 
           // Active level (PK decay)
-          final activeLevel =
-              halfLife > 0 ? math.exp(-hoursSince / halfLife) : 0.0;
+          final activeLevel = halfLife > 0
+              ? math.exp(-hoursSince / halfLife)
+              : 0.0;
 
           // Dose normalized to standard unit
           final doseNorm = logEntry.doseUnits / model.standardUnitMg;
 
           // Base contribution similar to main engine:
           // base = doseNorm * weightSum * potency * gainRate * 0.08 * durationMultiplier
-          final baseContribution = doseNorm *
+          final baseContribution =
+              doseNorm *
               weightSum *
               model.potencyMultiplier *
               model.toleranceGainRate *
@@ -322,8 +324,10 @@ class ToleranceEngineService {
             if (activeLevel >= activeThreshold) {
               decayFactor = 1.0;
             } else {
-              final hoursPastActive =
-                  math.max(0.0, hoursSince - activeWindowHours);
+              final hoursPastActive = math.max(
+                0.0,
+                hoursSince - activeWindowHours,
+              );
               final daysPastActive = hoursPastActive / 24.0;
               decayFactor = math.exp(-daysPastActive / decayDays);
             }
@@ -441,14 +445,14 @@ class ToleranceEngineService {
         final hoursSince = now.difference(log.timestamp).inMinutes / 60.0;
         if (hoursSince < 0) continue;
 
-        final activeLevel =
-            math.exp(-hoursSince / halfLife); // PK active level
+        final activeLevel = math.exp(-hoursSince / halfLife); // PK active level
 
         // Normalize dose
         final doseNorm = log.doseUnits / model.standardUnitMg;
 
         // Base contribution as in main model
-        final baseContribution = doseNorm *
+        final baseContribution =
+            doseNorm *
             neuroBucket.weight *
             model.potencyMultiplier *
             model.toleranceGainRate *
@@ -463,8 +467,10 @@ class ToleranceEngineService {
           if (activeLevel >= activeThreshold) {
             decayFactor = 1.0;
           } else {
-            final hoursPastActive =
-                math.max(0.0, hoursSince - activeWindowHours);
+            final hoursPastActive = math.max(
+              0.0,
+              hoursSince - activeWindowHours,
+            );
             final daysPastActive = hoursPastActive / 24.0;
             decayFactor = math.exp(-daysPastActive / decayDays);
           }
@@ -593,4 +599,3 @@ class ToleranceReport {
     );
   }
 }
-

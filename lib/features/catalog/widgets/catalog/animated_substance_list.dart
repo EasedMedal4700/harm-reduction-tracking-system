@@ -26,7 +26,9 @@ class AnimatedSubstanceList extends StatelessWidget {
       itemBuilder: (context, index) {
         final substance = substances[index];
         return TweenAnimationBuilder<double>(
-          duration: Duration(milliseconds: t.animations.normal.inMilliseconds + (index * 30)),
+          duration: Duration(
+            milliseconds: t.animations.normal.inMilliseconds + (index * 30),
+          ),
           tween: Tween(begin: 0.0, end: 1.0),
           curve: Curves.easeOutCubic,
           builder: (context, value, child) {

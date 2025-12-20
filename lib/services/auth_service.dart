@@ -8,8 +8,8 @@ class AuthService {
   AuthService({
     required SupabaseClient client,
     required EncryptionServiceV2 encryption,
-  })  : _client = client,
-        _encryption = encryption;
+  }) : _client = client,
+       _encryption = encryption;
 
   final SupabaseClient _client;
   final EncryptionServiceV2 _encryption;
@@ -55,10 +55,11 @@ class AuthService {
   }) async {
     // Note: User profile is created automatically by a database trigger
     // when the auth user is created. We pass display_name via user metadata.
-    
+
     try {
-      final friendlyName =
-          displayName?.trim().isNotEmpty == true ? displayName!.trim() : email;
+      final friendlyName = displayName?.trim().isNotEmpty == true
+          ? displayName!.trim()
+          : email;
 
       print('📝 DEBUG: Starting registration for email: $email');
       print('📝 DEBUG: Display name: $friendlyName');
@@ -68,9 +69,7 @@ class AuthService {
       final response = await _client.auth.signUp(
         email: email,
         password: password,
-        data: {
-          'display_name': friendlyName,
-        },
+        data: {'display_name': friendlyName},
       );
 
       final user = response.user;
@@ -91,11 +90,18 @@ class AuthService {
       // Initialize encryption for the new user
       // Note: PIN-based encryption is set up in PIN setup screen after registration
       // The user will be prompted to create a PIN which will initialize encryption
-      ErrorHandler.logInfo('AuthService', 'User registered, PIN setup will initialize encryption');
+      ErrorHandler.logInfo(
+        'AuthService',
+        'User registered, PIN setup will initialize encryption',
+      );
 
       return const AuthResult.success();
     } on AuthException catch (e, stackTrace) {
-      ErrorHandler.logError('AuthService.register.AuthException', e, stackTrace);
+      ErrorHandler.logError(
+        'AuthService.register.AuthException',
+        e,
+        stackTrace,
+      );
       print('❌ DEBUG: AuthException: ${e.message}');
       final message = e.message.contains('already registered')
           ? 'Email is already in use.'

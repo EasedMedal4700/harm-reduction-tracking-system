@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -16,10 +15,7 @@ import '../../../../models/bucket_definitions.dart';
 class BucketDescriptionCard extends StatelessWidget {
   final String bucketType;
 
-  const BucketDescriptionCard({
-    super.key,
-    required this.bucketType,
-  });
+  const BucketDescriptionCard({super.key, required this.bucketType});
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +39,10 @@ class BucketDescriptionCard extends StatelessWidget {
 
           Text(
             BucketDefinitions.getDescription(bucketType),
-            style: text.bodySmall.copyWith(
-              color: c.textSecondary,
-              height: 1.5,
-            ),
+            style: text.bodySmall.copyWith(color: c.textSecondary, height: 1.5),
           ),
         ],
       ),
     );
   }
 }
-

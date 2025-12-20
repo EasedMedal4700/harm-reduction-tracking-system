@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -32,7 +31,8 @@ class AdminUserCard extends StatelessWidget {
     final text = context.text;
 
     final authUserId = user['auth_user_id'] as String? ?? '';
-    final username = user['username'] as String? ??
+    final username =
+        user['username'] as String? ??
         user['display_name'] as String? ??
         'Unknown';
     final email = user['email'] as String? ?? 'No email';
@@ -56,18 +56,18 @@ class AdminUserCard extends StatelessWidget {
           showBorder: false,
           padding: EdgeInsets.zero,
           child: ListTile(
-          leading: Icon(Icons.error_outline, color: c.error),
-          title: Text(
-            'Invalid user data',
-            style: text.bodyBold.copyWith(color: c.error),
-          ),
-          subtitle: Text(
-            'Email: $email',
-            style: text.bodySmall.copyWith(color: c.textSecondary),
+            leading: Icon(Icons.error_outline, color: c.error),
+            title: Text(
+              'Invalid user data',
+              style: text.bodyBold.copyWith(color: c.error),
+            ),
+            subtitle: Text(
+              'Email: $email',
+              style: text.bodySmall.copyWith(color: c.textSecondary),
+            ),
           ),
         ),
-      ),
-    );
+      );
     }
 
     return Padding(
@@ -77,123 +77,133 @@ class AdminUserCard extends StatelessWidget {
         showBorder: false,
         padding: EdgeInsets.zero,
         child: ExpansionTile(
-        tilePadding: EdgeInsets.symmetric(
-          horizontal: sp.md,
-          vertical: sp.sm,
-        ),
-        childrenPadding: EdgeInsets.only(bottom: sp.md),
+          tilePadding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
+          childrenPadding: EdgeInsets.only(bottom: sp.md),
 
-        // USER AVATAR
-        leading: CircleAvatar(
-          backgroundColor: isAdmin
-              ? t.accent.primary
-              : t.accent.secondary.withValues(alpha: context.opacities.veryHigh),
-          child: Text(
-            username[0].toUpperCase(),
-            style: text.bodyBold.copyWith(color: c.textInverse),
-          ),
-        ),
-
-        // TITLE LINE
-        title: Row(
-          children: [
-            Flexible(
-              child: Text(
-                username,
-                style: text.bodyBold.copyWith(color: c.textPrimary),
-                overflow: AppLayout.textOverflowEllipsis,
-              ),
+          // USER AVATAR
+          leading: CircleAvatar(
+            backgroundColor: isAdmin
+                ? t.accent.primary
+                : t.accent.secondary.withValues(
+                    alpha: context.opacities.veryHigh,
+                  ),
+            child: Text(
+              username[0].toUpperCase(),
+              style: text.bodyBold.copyWith(color: c.textInverse),
             ),
+          ),
 
-            if (isAdmin) ...[
-              SizedBox(width: sp.sm),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: sp.sm,
-                  vertical: sp.xs,
-                ),
-                decoration: BoxDecoration(
-                  color: t.accent.primary.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(sh.radiusSm),
-                ),
+          // TITLE LINE
+          title: Row(
+            children: [
+              Flexible(
                 child: Text(
-                  'ADMIN',
-                  style: text.overline.copyWith(
-                    color: t.accent.primary,
-                    fontWeight: text.bodyBold.fontWeight,
-                  ),
+                  username,
+                  style: text.bodyBold.copyWith(color: c.textPrimary),
+                  overflow: AppLayout.textOverflowEllipsis,
                 ),
               ),
-            ],
-          ],
-        ),
 
-        // SUBTITLE (email)
-        subtitle: Text(
-          email,
-          style: text.bodySmall.copyWith(color: c.textSecondary),
-        ),
-
-        // EXPANDED DETAILS
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: sp.md),
-            child: Column(
-              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
-              children: [
-                _buildInfoRow(context, 'Auth User ID',
-                    '${authUserId.substring(0, 8)}...'),
-
-                Divider(color: c.divider),
-
-                _buildInfoRow(context, 'Entries', entryCount.toString()),
-                _buildInfoRow(context, 'Cravings', cravingCount.toString()),
-                _buildInfoRow(context, 'Reflections', reflectionCount.toString()),
-                _buildInfoRow(
-                  context,
-                  'Total Activity',
-                  (entryCount + cravingCount + reflectionCount).toString(),
-                ),
-
-                Divider(color: c.divider),
-
-                if (createdAt != null)
-                  _buildInfoRow(
-                    context,
-                    'Joined',
-                    DateFormat('MMM d, yyyy')
-                        .format(DateTime.parse(createdAt)),
+              if (isAdmin) ...[
+                SizedBox(width: sp.sm),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: sp.sm,
+                    vertical: sp.xs,
                   ),
-
-                if (lastActive != null)
-                  _buildInfoRow(
-                    context,
-                    'Last Active',
-                    DateFormat('MMM d, yyyy HH:mm')
-                        .format(DateTime.parse(lastActive)),
+                  decoration: BoxDecoration(
+                    color: t.accent.primary.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(sh.radiusSm),
                   ),
-
-                SizedBox(height: sp.lg),
-
-                /// ADMIN TOGGLE BUTTON
-                Row(
-                  children: [
-                    Expanded(
-                      child: CommonPrimaryButton(
-                        onPressed: () => onToggleAdmin(authUserId, isAdmin),
-                        icon: isAdmin ? Icons.remove_circle : Icons.add_circle,
-                        label: isAdmin ? 'Remove Admin' : 'Make Admin',
-                        backgroundColor: isAdmin ? c.error : c.success,
-                        textColor: c.textInverse,
-                      ),
+                  child: Text(
+                    'ADMIN',
+                    style: text.overline.copyWith(
+                      color: t.accent.primary,
+                      fontWeight: text.bodyBold.fontWeight,
                     ),
-                  ],
+                  ),
                 ),
               ],
-            ),
+            ],
           ),
-        ],
-      ),
+
+          // SUBTITLE (email)
+          subtitle: Text(
+            email,
+            style: text.bodySmall.copyWith(color: c.textSecondary),
+          ),
+
+          // EXPANDED DETAILS
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: sp.md),
+              child: Column(
+                crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+                children: [
+                  _buildInfoRow(
+                    context,
+                    'Auth User ID',
+                    '${authUserId.substring(0, 8)}...',
+                  ),
+
+                  Divider(color: c.divider),
+
+                  _buildInfoRow(context, 'Entries', entryCount.toString()),
+                  _buildInfoRow(context, 'Cravings', cravingCount.toString()),
+                  _buildInfoRow(
+                    context,
+                    'Reflections',
+                    reflectionCount.toString(),
+                  ),
+                  _buildInfoRow(
+                    context,
+                    'Total Activity',
+                    (entryCount + cravingCount + reflectionCount).toString(),
+                  ),
+
+                  Divider(color: c.divider),
+
+                  if (createdAt != null)
+                    _buildInfoRow(
+                      context,
+                      'Joined',
+                      DateFormat(
+                        'MMM d, yyyy',
+                      ).format(DateTime.parse(createdAt)),
+                    ),
+
+                  if (lastActive != null)
+                    _buildInfoRow(
+                      context,
+                      'Last Active',
+                      DateFormat(
+                        'MMM d, yyyy HH:mm',
+                      ).format(DateTime.parse(lastActive)),
+                    ),
+
+                  SizedBox(height: sp.lg),
+
+                  /// ADMIN TOGGLE BUTTON
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CommonPrimaryButton(
+                          onPressed: () => onToggleAdmin(authUserId, isAdmin),
+                          icon: isAdmin
+                              ? Icons.remove_circle
+                              : Icons.add_circle,
+                          label: isAdmin ? 'Remove Admin' : 'Make Admin',
+                          backgroundColor: isAdmin ? c.error : c.success,
+                          textColor: c.textInverse,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -208,14 +218,8 @@ class AdminUserCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
         children: [
-          Text(
-            label,
-            style: text.caption.copyWith(color: c.textSecondary),
-          ),
-          Text(
-            value,
-            style: text.bodyBold.copyWith(color: c.textPrimary),
-          ),
+          Text(label, style: text.caption.copyWith(color: c.textSecondary)),
+          Text(value, style: text.bodyBold.copyWith(color: c.textPrimary)),
         ],
       ),
     );

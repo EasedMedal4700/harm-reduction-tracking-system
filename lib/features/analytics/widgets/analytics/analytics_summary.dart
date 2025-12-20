@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -47,11 +46,7 @@ class AnalyticsSummary extends StatelessWidget {
 
           const CommonSpacer.vertical(16),
 
-          _buildMetric(
-            context,
-            label: 'Total Entries',
-            value: '$totalEntries',
-          ),
+          _buildMetric(context, label: 'Total Entries', value: '$totalEntries'),
           const CommonSpacer.vertical(8),
 
           _buildMetric(
@@ -90,15 +85,11 @@ class AnalyticsSummary extends StatelessWidget {
       children: [
         Text(
           label,
-          style: t.typography.body.copyWith(
-            color: t.colors.textSecondary,
-          ),
+          style: t.typography.body.copyWith(color: t.colors.textSecondary),
         ),
         Text(
           value,
-          style: t.typography.bodyBold.copyWith(
-            color: t.colors.textPrimary,
-          ),
+          style: t.typography.bodyBold.copyWith(color: t.colors.textPrimary),
         ),
       ],
     );

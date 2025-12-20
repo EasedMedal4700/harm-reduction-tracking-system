@@ -37,7 +37,7 @@ class EmotionalStateSection extends StatelessWidget {
     final text = context.text;
     final a = context.accent;
     final sp = context.spacing;
-    
+
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
@@ -57,17 +57,25 @@ class EmotionalStateSection extends StatelessWidget {
             ],
           ),
           CommonSpacer.vertical(sp.md),
-          
+
           CommonChipGroup(
             title: 'Feelings',
-            options: const ['Happy', 'Sad', 'Anxious', 'Angry', 'Neutral', 'Excited', 'Tired'],
+            options: const [
+              'Happy',
+              'Sad',
+              'Anxious',
+              'Angry',
+              'Neutral',
+              'Excited',
+              'Tired',
+            ],
             selected: selectedEmotions,
             onChanged: onEmotionsChanged,
             allowMultiple: true,
           ),
-          
+
           CommonSpacer.vertical(sp.lg),
-          
+
           CommonInputField(
             initialValue: thoughts,
             onChanged: onThoughtsChanged,
@@ -80,4 +88,3 @@ class EmotionalStateSection extends StatelessWidget {
     );
   }
 }
-

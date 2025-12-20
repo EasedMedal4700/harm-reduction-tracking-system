@@ -46,17 +46,12 @@ class SubstanceHeaderCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
-                Text(
-                  substanceName,
-                  style: t.text.heading3,
-                ),
+                Text(substanceName, style: t.text.heading3),
                 if (roa != null) ...[
                   CommonSpacer.vertical(sp.xs),
                   Text(
                     roa!,
-                    style: t.text.bodySmall.copyWith(
-                      color: c.textSecondary,
-                    ),
+                    style: t.text.bodySmall.copyWith(color: c.textSecondary),
                   ),
                 ],
               ],

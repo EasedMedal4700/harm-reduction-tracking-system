@@ -30,7 +30,7 @@ class StatCard extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     final cardColor = color ?? acc.primary;
 
     return GestureDetector(
@@ -38,23 +38,21 @@ class StatCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(sp.md),
         decoration: BoxDecoration(
-          color: isDark 
-              ? c.surface.withValues(alpha: 0.5) 
-              : c.surface,
+          color: isDark ? c.surface.withValues(alpha: 0.5) : c.surface,
           borderRadius: BorderRadius.circular(sh.radiusMd),
           border: Border.all(
-            color: isDark 
-                ? c.border.withValues(alpha: 0.5) 
-                : c.border,
+            color: isDark ? c.border.withValues(alpha: 0.5) : c.border,
             width: context.sizes.borderThin,
           ),
-          boxShadow: isDark ? null : [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.03),
-              blurRadius: context.sizes.blurRadiusSm,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          boxShadow: isDark
+              ? null
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.03),
+                    blurRadius: context.sizes.blurRadiusSm,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
         ),
         child: Column(
           crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

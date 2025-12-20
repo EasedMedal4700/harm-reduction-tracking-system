@@ -75,38 +75,42 @@ class SubstanceCard extends StatelessWidget {
             ? categoryColor.withValues(alpha: 0.3)
             : t.colors.border,
         child: Column(
-        children: [
-          // Main card content
-          InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(t.shapes.radiusLg),
-              topRight: Radius.circular(t.shapes.radiusLg),
-            ),
-            child: Padding(
-              padding: EdgeInsets.all(t.spacing.md),
-              child: Row(
-                children: [
-                  // Left circular icon
-                  Container(
-                    width: t.sizes.buttonHeightLg,
-                    height: t.sizes.buttonHeightLg,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          categoryColor.withValues(alpha: 0.2),
-                          categoryColor.withValues(alpha: 0.05),
-                        ],
-                        begin: context.shapes.alignmentTopLeft,
-                        end: context.shapes.alignmentBottomRight,
-                      ),
+          children: [
+            // Main card content
+            InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(t.shapes.radiusLg),
+                topRight: Radius.circular(t.shapes.radiusLg),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(t.spacing.md),
+                child: Row(
+                  children: [
+                    // Left circular icon
+                    Container(
+                      width: t.sizes.buttonHeightLg,
+                      height: t.sizes.buttonHeightLg,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            categoryColor.withValues(alpha: 0.2),
+                            categoryColor.withValues(alpha: 0.05),
+                          ],
+                          begin: context.shapes.alignmentTopLeft,
+                          end: context.shapes.alignmentBottomRight,
+                        ),
                         shape: context.shapes.boxShapeCircle,
                         border: Border.all(
                           color: categoryColor.withValues(alpha: 0.3),
                           width: 1.5,
                         ),
                       ),
-                      child: Icon(categoryIcon, color: categoryColor, size: context.sizes.iconLg),
+                      child: Icon(
+                        categoryIcon,
+                        color: categoryColor,
+                        size: context.sizes.iconLg,
+                      ),
                     ),
                     SizedBox(width: t.spacing.md),
 
@@ -133,7 +137,9 @@ class SubstanceCard extends StatelessWidget {
                                 ),
                                 decoration: BoxDecoration(
                                   color: categoryColor.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(t.shapes.radiusXs),
+                                  borderRadius: BorderRadius.circular(
+                                    t.shapes.radiusXs,
+                                  ),
                                 ),
                                 child: Text(
                                   cat,
@@ -190,7 +196,7 @@ class SubstanceCard extends StatelessWidget {
                         final unit = item.unitMg != null && item.unitMg! > 1.0
                             ? 'units'
                             : 'mg';
-                        
+
                         return Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: t.spacing.sm,
@@ -231,12 +237,13 @@ class SubstanceCard extends StatelessWidget {
 
                   // Add to stockpile button
                   TextButton.icon(
-                    onPressed: () => onAddStockpile(
-                      substanceId,
-                      name,
-                      substance,
+                    onPressed: () =>
+                        onAddStockpile(substanceId, name, substance),
+                    icon: Icon(
+                      Icons.add,
+                      size: t.spacing.lg,
+                      color: t.accent.primary,
                     ),
-                    icon: Icon(Icons.add, size: t.spacing.lg, color: t.accent.primary),
                     label: Text(
                       'Add Stockpile',
                       style: t.typography.label.copyWith(

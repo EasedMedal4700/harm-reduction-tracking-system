@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -13,10 +12,7 @@ import 'settings_section.dart';
 class AboutSection extends StatelessWidget {
   final PackageInfo? packageInfo;
 
-  const AboutSection({
-    this.packageInfo,
-    super.key,
-  });
+  const AboutSection({this.packageInfo, super.key});
 
   @override
   Widget build(BuildContext context) {

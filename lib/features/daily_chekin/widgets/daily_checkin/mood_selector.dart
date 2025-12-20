@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -30,7 +29,8 @@ class MoodSelector extends StatefulWidget {
   State<MoodSelector> createState() => _MoodSelectorState();
 }
 
-class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMixin {
+class _MoodSelectorState extends State<MoodSelector>
+    with TickerProviderStateMixin {
   late AnimationController _scaleController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
@@ -42,12 +42,14 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
       duration: context.animations.normal,
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
-      CurvedAnimation(parent: _scaleController, curve: Curves.easeOut),
-    );
-    _fadeAnimation = Tween<double>(begin: 0.7, end: 1.0).animate(
-      CurvedAnimation(parent: _scaleController, curve: Curves.easeOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.1,
+    ).animate(CurvedAnimation(parent: _scaleController, curve: Curves.easeOut));
+    _fadeAnimation = Tween<double>(
+      begin: 0.7,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _scaleController, curve: Curves.easeOut));
     _scaleController.forward();
   }
 
@@ -97,17 +99,18 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
     // Reverse mapping: first mood ('Poor') -> 1.0 (left), last mood ('Great') -> max (right)
     final moodToValue = {
       for (int i = 0; i < widget.availableMoods.length; i++)
-        widget.availableMoods[i]: (widget.availableMoods.length - i).toDouble()
+        widget.availableMoods[i]: (widget.availableMoods.length - i).toDouble(),
     };
 
     final valueToMood = {
       for (int i = 0; i < widget.availableMoods.length; i++)
-        (widget.availableMoods.length - i).toDouble(): widget.availableMoods[i]
+        (widget.availableMoods.length - i).toDouble(): widget.availableMoods[i],
     };
 
     // Get current slider value (default to first mood if none selected)
-    final currentValue =
-        widget.selectedMood != null ? moodToValue[widget.selectedMood]! : 1.0;
+    final currentValue = widget.selectedMood != null
+        ? moodToValue[widget.selectedMood]!
+        : 1.0;
 
     final selectedMoodIndex = (currentValue - 1).toInt();
 
@@ -130,7 +133,9 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
               final emoji = ['😞', '😕', '😐', '🙂', '😄'][index];
               return GestureDetector(
                 onTap: () {
-                  widget.onMoodSelected(['Poor', 'Struggling', 'Neutral', 'Good', 'Great'][index]);
+                  widget.onMoodSelected(
+                    ['Poor', 'Struggling', 'Neutral', 'Good', 'Great'][index],
+                  );
                 },
                 child: AnimatedBuilder(
                   animation: _scaleController,
@@ -141,7 +146,9 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
                         opacity: isSelected ? _fadeAnimation.value : 0.7,
                         child: Text(
                           emoji,
-                          style: TextStyle(fontSize: t.typography.displaySmall.fontSize),
+                          style: TextStyle(
+                            fontSize: t.typography.displaySmall.fontSize,
+                          ),
                         ),
                       ),
                     );
@@ -160,7 +167,11 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
               activeTrackColor: _getThumbColor(currentValue, c, a),
               inactiveTrackColor: c.border,
               thumbColor: _getThumbColor(currentValue, c, a),
-              overlayColor: _getThumbColor(currentValue, c, a).withValues(alpha: 0.2),
+              overlayColor: _getThumbColor(
+                currentValue,
+                c,
+                a,
+              ).withValues(alpha: 0.2),
             ),
             child: Slider(
               value: currentValue,
@@ -181,11 +192,15 @@ class _MoodSelectorState extends State<MoodSelector> with TickerProviderStateMix
           Row(
             mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
             children: ['Poor', 'Struggling', 'Neutral', 'Good', 'Great']
-                .map((label) => Text(
-                      label,
-                      style: text.bodySmall.copyWith(fontWeight: text.body.fontWeight),
-                      textAlign: AppLayout.textAlignCenter,
-                    ))
+                .map(
+                  (label) => Text(
+                    label,
+                    style: text.bodySmall.copyWith(
+                      fontWeight: text.body.fontWeight,
+                    ),
+                    textAlign: AppLayout.textAlignCenter,
+                  ),
+                )
                 .toList(),
           ),
         ],

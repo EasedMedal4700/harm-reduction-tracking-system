@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -32,11 +31,7 @@ class InfoRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          Icon(
-            icon,
-            size: t.sizes.iconSm,
-            color: t.colors.textSecondary,
-          ),
+          Icon(icon, size: t.sizes.iconSm, color: t.colors.textSecondary),
 
           CommonSpacer.horizontal(spacing.lg),
 
@@ -45,18 +40,12 @@ class InfoRow extends StatelessWidget {
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 // Label
-                Text(
-                  label,
-                  style: t.typography.caption,
-                ),
+                Text(label, style: t.typography.caption),
 
                 SizedBox(height: spacing.xs),
 
                 // Value
-                Text(
-                  value,
-                  style: t.typography.bodyBold,
-                ),
+                Text(value, style: t.typography.bodyBold),
               ],
             ),
           ),

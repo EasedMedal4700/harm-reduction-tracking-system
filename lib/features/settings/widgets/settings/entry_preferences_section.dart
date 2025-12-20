@@ -64,7 +64,8 @@ class EntryPreferencesSection extends StatelessWidget {
               max: 10,
               divisions: 7,
               label: settings.recentSubstancesCount.toString(),
-              onChanged: (value) => settingsProvider.setRecentSubstancesCount(value.round()),
+              onChanged: (value) =>
+                  settingsProvider.setRecentSubstancesCount(value.round()),
             ),
           ),
       ],

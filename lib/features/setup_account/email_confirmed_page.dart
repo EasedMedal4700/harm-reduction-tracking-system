@@ -44,9 +44,7 @@ class EmailConfirmedPage extends StatelessWidget {
               // Title
               Text(
                 'Email Verified!',
-                style: text.headlineMedium.copyWith(
-                  color: c.textPrimary,
-                ),
+                style: text.headlineMedium.copyWith(color: c.textPrimary),
                 textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.lg),
@@ -67,7 +65,9 @@ class EmailConfirmedPage extends StatelessWidget {
                   color: c.success.withValues(alpha: context.opacities.splash),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(
-                    color: c.success.withValues(alpha: context.opacities.selected),
+                    color: c.success.withValues(
+                      alpha: context.opacities.selected,
+                    ),
                   ),
                 ),
                 child: Column(
@@ -84,10 +84,9 @@ class EmailConfirmedPage extends StatelessWidget {
               // Login button
               CommonPrimaryButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/login_page',
-                    (route) => false,
-                  );
+                  Navigator.of(
+                    context,
+                  ).pushNamedAndRemoveUntil('/login_page', (route) => false);
                 },
                 icon: Icons.login_rounded,
                 label: 'Go to Login',
@@ -115,11 +114,7 @@ class EmailConfirmedPage extends StatelessWidget {
             color: c.success,
             shape: context.shapes.boxShapeCircle,
           ),
-          child: Icon(
-            Icons.check,
-            size: 16.0,
-            color: c.textInverse,
-          ),
+          child: Icon(Icons.check, size: 16.0, color: c.textInverse),
         ),
         CommonSpacer.horizontal(sp.md),
         Expanded(
@@ -135,7 +130,3 @@ class EmailConfirmedPage extends StatelessWidget {
     );
   }
 }
-
-
-
-

@@ -122,16 +122,10 @@ void main() {
             body: ListView(
               children: [
                 Card(
-                  child: ListTile(
-                    title: const Text('Cannabis'),
-                    onTap: () {},
-                  ),
+                  child: ListTile(title: const Text('Cannabis'), onTap: () {}),
                 ),
                 Card(
-                  child: ListTile(
-                    title: const Text('MDMA'),
-                    onTap: () {},
-                  ),
+                  child: ListTile(title: const Text('MDMA'), onTap: () {}),
                 ),
                 Card(
                   child: ListTile(
@@ -156,11 +150,7 @@ void main() {
     testWidgets('displays empty state when no entries', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: Center(
-              child: Text('No recent activity'),
-            ),
-          ),
+          home: Scaffold(body: Center(child: Text('No recent activity'))),
         ),
       );
 
@@ -170,11 +160,7 @@ void main() {
     testWidgets('displays loading indicator', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
+          home: Scaffold(body: Center(child: CircularProgressIndicator())),
         ),
       );
 

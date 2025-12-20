@@ -6,10 +6,10 @@ import '../../../../services/user_service.dart';
 import 'feature_disabled_screen.dart';
 
 /// A wrapper widget that conditionally shows a page based on feature flags.
-/// 
+///
 /// If the feature is enabled (or user is admin), shows the child widget.
 /// Otherwise, shows the [FeatureDisabledScreen].
-/// 
+///
 /// Usage:
 /// ```dart
 /// FeatureGate(
@@ -20,10 +20,10 @@ import 'feature_disabled_screen.dart';
 class FeatureGate extends StatelessWidget {
   /// The feature flag name to check (e.g., 'home_page', 'analytics_page').
   final String featureName;
-  
+
   /// The widget to show if the feature is enabled.
   final Widget child;
-  
+
   /// Optional custom disabled screen. If null, uses [FeatureDisabledScreen].
   final Widget? disabledScreen;
 
@@ -43,9 +43,9 @@ class FeatureGate extends StatelessWidget {
         if (adminSnapshot.connectionState == ConnectionState.waiting) {
           return const _LoadingScreen();
         }
-        
+
         final isAdmin = adminSnapshot.data ?? false;
-        
+
         // Use Consumer to listen to feature flag changes
         return Consumer<FeatureFlagService>(
           builder: (context, flags, _) {
@@ -53,16 +53,17 @@ class FeatureGate extends StatelessWidget {
             if (flags.isLoading && !flags.isLoaded) {
               return const _LoadingScreen();
             }
-            
+
             // Check if feature is enabled (or admin override)
             final isEnabled = flags.isEnabled(featureName, isAdmin: isAdmin);
-            
+
             if (isEnabled) {
               return child;
             }
-            
+
             // Show disabled screen
-            return disabledScreen ?? FeatureDisabledScreen(featureName: featureName);
+            return disabledScreen ??
+                FeatureDisabledScreen(featureName: featureName);
           },
         );
       },
@@ -77,12 +78,10 @@ class _LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    
+
     return Scaffold(
       backgroundColor: t.colors.background,
-      body: const Center(
-        child: CircularProgressIndicator(),
-      ),
+      body: const Center(child: CircularProgressIndicator()),
     );
   }
 }

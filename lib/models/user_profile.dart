@@ -1,18 +1,18 @@
 /// User profile model matching the public.users table structure.
-/// 
+///
 /// The user profile is automatically created by a database trigger when
 /// a new auth user signs up. The app should only READ and UPDATE profiles,
 /// never INSERT.
 class UserProfile {
   /// The auth user ID (UUID) - primary key, references auth.users(id)
   final String authUserId;
-  
+
   /// The user's display name
   final String displayName;
-  
+
   /// Whether the user has admin privileges
   final bool isAdmin;
-  
+
   /// Email from auth.users (not stored in public.users)
   final String? email;
 
@@ -42,11 +42,7 @@ class UserProfile {
   }
 
   /// Create a copy with updated fields
-  UserProfile copyWith({
-    String? displayName,
-    bool? isAdmin,
-    String? email,
-  }) {
+  UserProfile copyWith({String? displayName, bool? isAdmin, String? email}) {
     return UserProfile(
       authUserId: authUserId,
       displayName: displayName ?? this.displayName,
@@ -89,10 +85,10 @@ class UserProfileException implements Exception {
 
   @override
   String toString() => 'UserProfileException: $message (code: $code)';
-  
+
   /// Profile not found - user should contact support
   bool get isProfileMissing => code == 'PROFILE_NOT_FOUND';
-  
+
   /// RLS blocked the operation
   bool get isUnauthorized => code == '42501' || code == 'UNAUTHORIZED';
 }

@@ -45,7 +45,7 @@ class CommonDropdown<T> extends StatelessWidget {
         ? 0
         : uniqueItems.where((item) => item == value).length;
     final safeValue = selectedMatches == 1 ? value : null;
-    
+
     return DropdownButtonFormField<T>(
       initialValue: safeValue,
       items: uniqueItems.map((item) {
@@ -55,9 +55,7 @@ class CommonDropdown<T> extends StatelessWidget {
               ? itemBuilder!(context, item)
               : Text(
                   itemLabel != null ? itemLabel!(item) : item.toString(),
-                  style: t.text.body.copyWith(
-                    color: t.colors.textPrimary,
-                  ),
+                  style: t.text.body.copyWith(color: t.colors.textPrimary),
                 ),
         );
       }).toList(),
@@ -70,22 +68,15 @@ class CommonDropdown<T> extends StatelessWidget {
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(
-            color: t.colors.border,
-          ),
+          borderSide: BorderSide(color: t.colors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(
-            color: t.colors.border,
-          ),
+          borderSide: BorderSide(color: t.colors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(
-            color: t.accent.primary,
-            width: 2,
-          ),
+          borderSide: BorderSide(color: t.accent.primary, width: 2),
         ),
         filled: true,
         fillColor: t.colors.surfaceVariant.withValues(alpha: 0.3),
@@ -94,14 +85,9 @@ class CommonDropdown<T> extends StatelessWidget {
           vertical: t.spacing.md,
         ),
       ),
-      style: t.text.body.copyWith(
-        color: t.colors.textPrimary,
-      ),
+      style: t.text.body.copyWith(color: t.colors.textPrimary),
       dropdownColor: t.colors.surface,
-      icon: Icon(
-        Icons.arrow_drop_down,
-        color: t.colors.textSecondary,
-      ),
+      icon: Icon(Icons.arrow_drop_down, color: t.colors.textSecondary),
     );
   }
 }

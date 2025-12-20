@@ -13,8 +13,6 @@ class BloodLevelsLoadingState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CommonLoader(),
-    );
+    return const Center(child: CommonLoader());
   }
 }

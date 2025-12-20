@@ -37,7 +37,7 @@ class MetricsRow extends StatelessWidget {
       final aspect = screenWidth < 380 ? 1.1 : 1.25;
 
       return SizedBox(
-        height: context.sizes.heightXl,     // ensures proper rendering in ListViews
+        height: context.sizes.heightXl, // ensures proper rendering in ListViews
         child: GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
@@ -61,7 +61,7 @@ class MetricsRow extends StatelessWidget {
             ),
             _MetricCard(
               icon: Icons.calendar_today_outlined,
-              accent: t.accent.secondary,          // replaced invalid primaryVariant
+              accent: t.accent.secondary, // replaced invalid primaryVariant
               value: weeklyAverage.toStringAsFixed(1),
               label: 'Weekly Average',
             ),
@@ -213,7 +213,9 @@ class _MetricCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: accent.withValues(alpha: t.opacities.low),
                 borderRadius: BorderRadius.circular(t.spacing.sm),
-                border: Border.all(color: accent.withValues(alpha: t.opacities.medium)),
+                border: Border.all(
+                  color: accent.withValues(alpha: t.opacities.medium),
+                ),
               ),
               child: Text(
                 chipLabel!,

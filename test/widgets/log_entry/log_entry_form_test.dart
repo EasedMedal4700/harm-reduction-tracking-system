@@ -15,7 +15,7 @@ void main() {
     ValueChanged<List<String>>? onFeelingsChanged,
   }) {
     final theme = AppTheme.light();
-    
+
     return AppThemeProvider(
       theme: theme,
       child: MaterialApp(
@@ -37,17 +37,19 @@ void main() {
     );
   }
 
-  testWidgets('Simple mode shows basic inputs only', (WidgetTester tester) async {
+  testWidgets('Simple mode shows basic inputs only', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createWidgetUnderTest(isSimpleMode: true));
 
     // Basic inputs should be present
     expect(find.text('Substance'), findsOneWidget);
     expect(find.text('Dose'), findsOneWidget);
     // Route defaults to 'oral', so we look for 'Oral' (capitalized by itemLabel)
-    expect(find.text('Oral'), findsOneWidget); 
+    expect(find.text('Oral'), findsOneWidget);
     expect(find.text('Time'), findsOneWidget); // Label
     // Location defaults to 'Select a location'
-    expect(find.text('Select a location'), findsOneWidget); 
+    expect(find.text('Select a location'), findsOneWidget);
     expect(find.text('Medical Purpose'), findsOneWidget);
     expect(find.text('Notes'), findsOneWidget);
 
@@ -78,10 +80,12 @@ void main() {
 
   testWidgets('Medical Purpose switch works', (WidgetTester tester) async {
     bool? medicalPurpose;
-    await tester.pumpWidget(createWidgetUnderTest(
-      isSimpleMode: true,
-      onMedicalPurposeChanged: (val) => medicalPurpose = val,
-    ));
+    await tester.pumpWidget(
+      createWidgetUnderTest(
+        isSimpleMode: true,
+        onMedicalPurposeChanged: (val) => medicalPurpose = val,
+      ),
+    );
 
     await tester.tap(find.text('Medical Purpose'));
     await tester.pump();
@@ -91,10 +95,12 @@ void main() {
 
   testWidgets('Craving Intensity slider works', (WidgetTester tester) async {
     double? craving;
-    await tester.pumpWidget(createWidgetUnderTest(
-      isSimpleMode: false,
-      onCravingIntensityChanged: (val) => craving = val,
-    ));
+    await tester.pumpWidget(
+      createWidgetUnderTest(
+        isSimpleMode: false,
+        onCravingIntensityChanged: (val) => craving = val,
+      ),
+    );
 
     final sliderFinder = find.byType(Slider);
     expect(sliderFinder, findsOneWidget);
@@ -107,18 +113,20 @@ void main() {
 
   testWidgets('Emotions selection works', (WidgetTester tester) async {
     List<String>? feelings;
-    await tester.pumpWidget(createWidgetUnderTest(
-      isSimpleMode: false,
-      onFeelingsChanged: (val) => feelings = val,
-    ));
+    await tester.pumpWidget(
+      createWidgetUnderTest(
+        isSimpleMode: false,
+        onFeelingsChanged: (val) => feelings = val,
+      ),
+    );
 
     // Find an emotion chip (e.g., 'Happy')
     final emotion = DrugUseCatalog.primaryEmotions.first['name']!;
-    
+
     // Find the CommonChip with the specific label
     // Using .first to resolve potential ambiguity if multiple widgets match
     final chipFinder = find.widgetWithText(CommonChip, emotion).first;
-    
+
     await tester.ensureVisible(chipFinder);
     await tester.tap(chipFinder);
     await tester.pump();

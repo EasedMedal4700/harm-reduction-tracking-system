@@ -45,8 +45,9 @@ class CurrentStatusCard extends StatelessWidget {
     final sh = context.shapes;
     final acc = context.accent;
 
-    final tierColor =
-        Color(PharmacokineticsService.getTierColorValue(currentTier));
+    final tierColor = Color(
+      PharmacokineticsService.getTierColorValue(currentTier),
+    );
 
     return CommonCard(
       child: Column(
@@ -132,17 +133,17 @@ class CurrentStatusCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withValues(alpha: context.opacities.veryLow),
         borderRadius: BorderRadius.circular(sh.radiusSm),
-        border: Border.all(color: color.withValues(alpha: context.opacities.medium), width: context.borders.thin),
+        border: Border.all(
+          color: color.withValues(alpha: context.opacities.medium),
+          width: context.borders.thin,
+        ),
       ),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(label, style: text.caption),
           SizedBox(height: sp.xs),
-          Text(
-            value,
-            style: text.heading3.copyWith(color: color),
-          ),
+          Text(value, style: text.heading3.copyWith(color: color)),
         ],
       ),
     );

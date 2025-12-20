@@ -4,6 +4,11 @@ class ReflectionConstants {
   static const double defaultSleepHours = 8.0;
   static const String defaultSleepQuality = 'Good';
   static const String defaultEnergyLevel = 'Neutral';
-  static const List<String> sleepQualityOptions = ['Poor', 'Fair', 'Good', 'Excellent'];
+  static const List<String> sleepQualityOptions = [
+    'Poor',
+    'Fair',
+    'Good',
+    'Excellent',
+  ];
   static const List<String> energyLevelOptions = ['Low', 'Neutral', 'High'];
 }

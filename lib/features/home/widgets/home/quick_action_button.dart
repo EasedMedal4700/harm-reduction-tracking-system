@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -24,7 +23,7 @@ class QuickActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
-    
+
     return Padding(
       padding: EdgeInsets.only(bottom: sp.sm),
       child: CommonPrimaryButton(

@@ -31,13 +31,18 @@ class DailyCheckinCard extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     final accentColor = acc.primary;
     final completedColor = c.success;
 
     return Container(
       padding: EdgeInsets.all(sp.md),
-      decoration: _buildDecoration(context, isDark, accentColor, completedColor),
+      decoration: _buildDecoration(
+        context,
+        isDark,
+        accentColor,
+        completedColor,
+      ),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
@@ -48,7 +53,8 @@ class DailyCheckinCard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(context.spacing.sm),
                 decoration: BoxDecoration(
-                  color: (isCompleted ? completedColor : accentColor).withValues(alpha: context.opacities.low),
+                  color: (isCompleted ? completedColor : accentColor)
+                      .withValues(alpha: context.opacities.low),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                 ),
                 child: Icon(
@@ -57,9 +63,9 @@ class DailyCheckinCard extends StatelessWidget {
                   color: isCompleted ? completedColor : accentColor,
                 ),
               ),
-              
+
               CommonSpacer.horizontal(sp.md),
-              
+
               // Text content
               Expanded(
                 child: Column(
@@ -87,16 +93,18 @@ class DailyCheckinCard extends StatelessWidget {
               ),
             ],
           ),
-          
+
           CommonSpacer.vertical(sp.md),
-          
+
           // Action button with status indicator
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: isCompleted ? null : onTap,
               icon: Icon(
-                isCompleted ? Icons.check_circle_outline : Icons.add_circle_outline,
+                isCompleted
+                    ? Icons.check_circle_outline
+                    : Icons.add_circle_outline,
                 size: context.sizes.iconSm,
               ),
               label: Text(
@@ -110,11 +118,14 @@ class DailyCheckinCard extends StatelessWidget {
                 backgroundColor: isCompleted
                     ? (isDark ? c.surface : c.surface) // Simplified for theme
                     : accentColor,
-                foregroundColor: isCompleted
-                    ? c.textSecondary
-                    : c.textInverse,
-                elevation: isCompleted ? context.sizes.elevationNone : context.sizes.cardElevation,
-                padding: EdgeInsets.symmetric(vertical: sp.md, horizontal: sp.md),
+                foregroundColor: isCompleted ? c.textSecondary : c.textInverse,
+                elevation: isCompleted
+                    ? context.sizes.elevationNone
+                    : context.sizes.cardElevation,
+                padding: EdgeInsets.symmetric(
+                  vertical: sp.md,
+                  horizontal: sp.md,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                 ),
@@ -170,10 +181,15 @@ class DailyCheckinCard extends StatelessWidget {
     return isCompleted ? 'Completed ' : 'Check-In Now';
   }
 
-  BoxDecoration _buildDecoration(BuildContext context, bool isDark, Color accentColor, Color completedColor) {
+  BoxDecoration _buildDecoration(
+    BuildContext context,
+    bool isDark,
+    Color accentColor,
+    Color completedColor,
+  ) {
     final c = context.colors;
     final sh = context.shapes;
-    
+
     if (isDark) {
       // Dark theme: glassmorphism with subtle accent
       return BoxDecoration(
@@ -191,16 +207,14 @@ class DailyCheckinCard extends StatelessWidget {
                   color: completedColor.withValues(alpha: 0.15),
                   blurRadius: context.sizes.blurRadiusMd,
                   spreadRadius: context.sizes.spreadRadiusSm,
-                )
+                ),
               ]
             : null,
       );
     } else {
       // Light theme: clean white card
       return BoxDecoration(
-        color: isCompleted
-            ? completedColor.withValues(alpha: 0.05)
-            : c.surface,
+        color: isCompleted ? completedColor.withValues(alpha: 0.05) : c.surface,
         borderRadius: BorderRadius.circular(sh.radiusLg),
         border: isCompleted
             ? Border.all(

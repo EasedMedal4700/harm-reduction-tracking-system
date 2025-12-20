@@ -52,11 +52,7 @@ class LogEntryFormData {
   /// Create initial state with current time
   factory LogEntryFormData.initial() {
     final now = DateTime.now();
-    return LogEntryFormData(
-      date: now,
-      hour: now.hour,
-      minute: now.minute,
-    );
+    return LogEntryFormData(date: now, hour: now.hour, minute: now.minute);
   }
 
   /// Create empty state for reset

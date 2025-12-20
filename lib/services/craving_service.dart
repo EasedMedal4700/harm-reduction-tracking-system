@@ -15,7 +15,9 @@ class CravingService {
       throw Exception('Intensity must be higher than 0');
     }
     if (craving.substance.isEmpty || craving.substance == 'Unspecified') {
-      throw Exception('Substance must be one from the list and not unspecified or null');
+      throw Exception(
+        'Substance must be one from the list and not unspecified or null',
+      );
     }
     if (craving.location == 'Select a location') {
       throw Exception('Please select a valid location');
@@ -23,12 +25,12 @@ class CravingService {
 
     try {
       final userId = UserService.getCurrentUserId();
-      
+
       // Encrypt sensitive free-text fields
       final encryptedAction = await _encryption.encryptText(craving.action);
       final encryptedThoughts = await _encryption.encryptText(craving.thoughts);
       // Note: cravings table doesn't have a notes field, but keeping this for future compatibility
-      
+
       final data = {
         'craving_id': _uuid.v4(),
         'uuid_user_id': userId,
@@ -49,7 +51,11 @@ class CravingService {
       };
       await Supabase.instance.client.from('cravings').insert(data);
     } on PostgrestException catch (e, stackTrace) {
-      ErrorHandler.logError('CravingService.saveCraving.Postgrest', e, stackTrace);
+      ErrorHandler.logError(
+        'CravingService.saveCraving.Postgrest',
+        e,
+        stackTrace,
+      );
       // Handle specific DB errors
       switch (e.code) {
         case 'PGRST116':
@@ -76,7 +82,10 @@ class CravingService {
 
   Future<Map<String, dynamic>?> fetchCravingById(String cravingId) async {
     try {
-      ErrorHandler.logDebug('CravingService', 'Fetching craving by ID: $cravingId');
+      ErrorHandler.logDebug(
+        'CravingService',
+        'Fetching craving by ID: $cravingId',
+      );
 
       if (cravingId.isEmpty) {
         throw Exception('Invalid craving ID: ID cannot be empty');
@@ -94,17 +103,23 @@ class CravingService {
       ErrorHandler.logDebug('CravingService', 'Raw DB result: $result');
 
       if (result == null) {
-        ErrorHandler.logWarning('CravingService', 'No craving found with ID: $cravingId');
+        ErrorHandler.logWarning(
+          'CravingService',
+          'No craving found with ID: $cravingId',
+        );
         throw Exception('Craving not found with ID: $cravingId');
       }
 
       // Decrypt sensitive fields
-      final decryptedResult = await _encryption.decryptFields(
-        result,
-        ['action', 'thoughts'],
-      );
+      final decryptedResult = await _encryption.decryptFields(result, [
+        'action',
+        'thoughts',
+      ]);
 
-      ErrorHandler.logInfo('CravingService', 'Craving fetched successfully: $cravingId');
+      ErrorHandler.logInfo(
+        'CravingService',
+        'Craving fetched successfully: $cravingId',
+      );
       return decryptedResult;
     } catch (e, stackTrace) {
       ErrorHandler.logError('CravingService.fetchCravingById', e, stackTrace);
@@ -112,9 +127,15 @@ class CravingService {
     }
   }
 
-  Future<void> updateCraving(String cravingId, Map<String, dynamic> data) async {
+  Future<void> updateCraving(
+    String cravingId,
+    Map<String, dynamic> data,
+  ) async {
     try {
-      ErrorHandler.logDebug('CravingService', 'Updating craving $cravingId with ${data.keys.length} fields');
+      ErrorHandler.logDebug(
+        'CravingService',
+        'Updating craving $cravingId with ${data.keys.length} fields',
+      );
 
       if (cravingId.isEmpty) {
         throw Exception('Invalid craving ID: ID cannot be empty');
@@ -124,9 +145,11 @@ class CravingService {
       if (data['intensity'] != null && (data['intensity'] <= 0)) {
         throw Exception('Intensity must be higher than 0');
       }
-      if (data['substance'] != null && 
+      if (data['substance'] != null &&
           (data['substance'].isEmpty || data['substance'] == 'Unspecified')) {
-        throw Exception('Substance must be one from the list and not unspecified or null');
+        throw Exception(
+          'Substance must be one from the list and not unspecified or null',
+        );
       }
       if (data['location'] != null && data['location'] == 'Select a location') {
         throw Exception('Please select a valid location');
@@ -135,10 +158,10 @@ class CravingService {
       final userId = UserService.getCurrentUserId();
 
       // Encrypt sensitive fields if they are being updated
-      final encryptedData = await _encryption.encryptFields(
-        data,
-        ['action', 'thoughts'],
-      );
+      final encryptedData = await _encryption.encryptFields(data, [
+        'action',
+        'thoughts',
+      ]);
 
       final response = await Supabase.instance.client
           .from('cravings')
@@ -148,10 +171,15 @@ class CravingService {
           .select();
 
       if (response.isEmpty) {
-        throw Exception('Craving not found or you do not have permission to edit it');
+        throw Exception(
+          'Craving not found or you do not have permission to edit it',
+        );
       }
 
-      ErrorHandler.logInfo('CravingService', 'Craving updated successfully: $cravingId');
+      ErrorHandler.logInfo(
+        'CravingService',
+        'Craving updated successfully: $cravingId',
+      );
     } on PostgrestException catch (e, stackTrace) {
       ErrorHandler.logError('CravingService.updateCraving', e, stackTrace);
       switch (e.code) {

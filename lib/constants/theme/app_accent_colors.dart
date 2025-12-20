@@ -16,16 +16,16 @@ class AccentColors {
   });
 
   factory AccentColors.light() => const AccentColors(
-        primary: AppColorsLight.accentPrimary,
-        primaryVariant: AppColorsLight.accentPrimaryVariant,
-        secondary: AppColorsLight.accentSecondary,
-        gradient: AppColorsLight.accentGradient,
-      );
+    primary: AppColorsLight.accentPrimary,
+    primaryVariant: AppColorsLight.accentPrimaryVariant,
+    secondary: AppColorsLight.accentSecondary,
+    gradient: AppColorsLight.accentGradient,
+  );
 
   factory AccentColors.dark() => const AccentColors(
-        primary: AppColorsDark.accentPrimary,
-        primaryVariant: AppColorsDark.accentPrimaryVariant,
-        secondary: AppColorsDark.accentSecondary,
-        gradient: AppColorsDark.accentGradient,
-      );
+    primary: AppColorsDark.accentPrimary,
+    primaryVariant: AppColorsDark.accentPrimaryVariant,
+    secondary: AppColorsDark.accentSecondary,
+    gradient: AppColorsDark.accentGradient,
+  );
 }

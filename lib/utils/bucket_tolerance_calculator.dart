@@ -31,7 +31,7 @@ class BucketToleranceResult {
 }
 
 /// Main bucket-based tolerance calculator.
-/// 
+///
 /// CRITICAL SAFETY WARNING:
 /// These tolerance calculations are NOT medically validated.
 /// The values shown are approximations only and cannot predict safety,
@@ -39,9 +39,8 @@ class BucketToleranceResult {
 /// Real-world risks vary widely based on individual physiology, drug purity,
 /// drug interactions, and countless other factors. Use at your own risk.
 class BucketToleranceCalculator {
-  
   /// Calculates active level using exponential decay.
-  /// 
+  ///
   /// Formula: active_level = e^(-time_since_use_hours / half_life_hours)
   static double calculateActiveLevel({
     required DateTime useTime,
@@ -50,13 +49,13 @@ class BucketToleranceCalculator {
   }) {
     final timeSinceUseHours = currentTime.difference(useTime).inMinutes / 60.0;
     if (timeSinceUseHours < 0) return 0.0;
-    
+
     final activeLevel = exp(-timeSinceUseHours / halfLifeHours);
     return activeLevel;
   }
 
   /// Normalizes dose based on standard unit.
-  /// 
+  ///
   /// Formula: dose_normalized = dose_mg / standard_unit_mg
   static double normalizeDose({
     required double doseMg,
@@ -67,13 +66,13 @@ class BucketToleranceCalculator {
   }
 
   /// Calculates tolerance for a single bucket from use events.
-  /// 
+  ///
   /// NEW ALGORITHM (Fixed for accurate tolerance calculation):
   /// 1. For EACH use event, calculate its base tolerance contribution at the moment of use
   /// 2. Apply exponential decay to each contribution individually based on time since that use
   /// 3. If active_level > threshold, PAUSE decay (don't add more tolerance, just pause decay)
   /// 4. Sum all decayed contributions to get total current tolerance
-  /// 
+  ///
   /// This ensures:
   /// - Tolerance is added ONCE per use event (not repeatedly on every recalculation)
   /// - Each event decays independently based on its own timestamp
@@ -90,9 +89,13 @@ class BucketToleranceCalculator {
     required DateTime currentTime,
   }) {
     print('  🔍 DETAILED CALCULATION FOR BUCKET: ${bucket.type}');
-    print('     halfLife: ${halfLifeHours}h, gainRate: $toleranceGainRate, decayDays: $toleranceDecayDays');
-    print('     standardUnit: ${standardUnitMg}mg, weight: ${bucket.weight}, potency: ${bucket.potencyMultiplier}');
-    
+    print(
+      '     halfLife: ${halfLifeHours}h, gainRate: $toleranceGainRate, decayDays: $toleranceDecayDays',
+    );
+    print(
+      '     standardUnit: ${standardUnitMg}mg, weight: ${bucket.weight}, potency: ${bucket.potencyMultiplier}',
+    );
+
     double totalTolerance = 0.0;
     double currentActiveLevel = 0.0;
 
@@ -113,8 +116,9 @@ class BucketToleranceCalculator {
       currentActiveLevel = max(currentActiveLevel, activeLevel);
 
       // Calculate hours since this specific use
-      final hoursSinceUse = currentTime.difference(event.timestamp).inMinutes / 60.0;
-      
+      final hoursSinceUse =
+          currentTime.difference(event.timestamp).inMinutes / 60.0;
+
       // Normalize the dose to standard units
       final doseNormalized = normalizeDose(
         doseMg: event.doseMg,
@@ -131,22 +135,26 @@ class BucketToleranceCalculator {
         durationMultiplier: bucket.durationMultiplier,
         toleranceGainRate: toleranceGainRate,
       );
-      
-      print('       └─ doseNorm: ${doseNormalized.toStringAsFixed(3)}, baseContribution: ${baseContribution.toStringAsFixed(4)}');
+
+      print(
+        '       └─ doseNorm: ${doseNormalized.toStringAsFixed(3)}, baseContribution: ${baseContribution.toStringAsFixed(4)}',
+      );
 
       // Apply exponential decay to THIS event's contribution
       // Formula: tolerance_now = base_contribution × e^(-hours_since_use / (decay_days × 24))
-      // 
+      //
       // CRITICAL: active_level does NOT add more tolerance. It ONLY pauses decay.
       // If active_level > threshold, skip decay (set decay factor to 1.0)
       double decayFactor = 1.0;
-      
+
       if (activeLevel <= activeThreshold) {
         // Substance is no longer active from this use, apply decay
-        final decayMultiplier = BucketToleranceFormulas.getDecayMultiplier(bucket.toleranceType);
+        final decayMultiplier = BucketToleranceFormulas.getDecayMultiplier(
+          bucket.toleranceType,
+        );
         final adjustedDecayDays = toleranceDecayDays * decayMultiplier;
         final decayHours = adjustedDecayDays * 24.0;
-        
+
         // Exponential decay: e^(-time / decay_constant)
         decayFactor = exp(-hoursSinceUse / decayHours);
       }
@@ -154,14 +162,18 @@ class BucketToleranceCalculator {
 
       // Calculate current tolerance from this event (with decay applied)
       final eventToleranceNow = baseContribution * decayFactor;
-      
-      print('       └─ decayFactor: ${decayFactor.toStringAsFixed(4)}, eventTolNow: ${eventToleranceNow.toStringAsFixed(4)}, total: ${(totalTolerance + eventToleranceNow).toStringAsFixed(4)}');
-      
+
+      print(
+        '       └─ decayFactor: ${decayFactor.toStringAsFixed(4)}, eventTolNow: ${eventToleranceNow.toStringAsFixed(4)}, total: ${(totalTolerance + eventToleranceNow).toStringAsFixed(4)}',
+      );
+
       // Add this event's decayed contribution to total tolerance
       totalTolerance += eventToleranceNow;
     }
-    
-    print('     ✅ FINAL TOLERANCE: ${totalTolerance.toStringAsFixed(4)} (${(totalTolerance * 100).toStringAsFixed(1)}%)');
+
+    print(
+      '     ✅ FINAL TOLERANCE: ${totalTolerance.toStringAsFixed(4)} (${(totalTolerance * 100).toStringAsFixed(1)}%)',
+    );
     if (totalTolerance > 2.0) {
       print('     ⚠️⚠️⚠️ ERROR: Tolerance > 200%! Check formula parameters!');
     }
@@ -219,11 +231,12 @@ class BucketToleranceCalculator {
   }
 
   /// Calculates system-wide tolerance across multiple substances with cross-tolerance.
-  /// 
+  ///
   /// Cross-tolerance: If a bucket_type appears in multiple substances,
   /// tolerance combines (summed for now).
   static Map<String, double> calculateSystemTolerance({
-    required Map<String, Map<String, BucketToleranceResult>> allSubstanceResults,
+    required Map<String, Map<String, BucketToleranceResult>>
+    allSubstanceResults,
   }) {
     final systemTolerance = <String, double>{};
 
@@ -233,7 +246,8 @@ class BucketToleranceCalculator {
         final bucketType = entry.key;
         final result = entry.value;
 
-        systemTolerance[bucketType] = (systemTolerance[bucketType] ?? 0.0) + result.tolerance;
+        systemTolerance[bucketType] =
+            (systemTolerance[bucketType] ?? 0.0) + result.tolerance;
       }
     }
 
@@ -266,13 +280,15 @@ class BucketToleranceCalculator {
   }) {
     if (currentTolerance <= baselineThreshold) return 0.0;
 
-    final decayMultiplier = BucketToleranceFormulas.getDecayMultiplier(toleranceType);
+    final decayMultiplier = BucketToleranceFormulas.getDecayMultiplier(
+      toleranceType,
+    );
     final adjustedDecayDays = toleranceDecayDays * decayMultiplier;
 
     // Using exponential decay: tolerance = initial * e^(-days / decay_days)
     // Solve for days when tolerance = baseline_threshold
     final days = -adjustedDecayDays * log(baselineThreshold / currentTolerance);
-    
+
     return days.isFinite && days > 0 ? days : 0.0;
   }
 }

@@ -1,13 +1,13 @@
 // Debug Substance List Widget
-// 
+//
 // Created: 2024-11-15
 // Last Modified: 2025-12-14
-// 
+//
 // Purpose:
 // Development/debug widget that displays per-substance tolerance percentages in a simple
 // list format. Useful for verifying tolerance calculations and debugging tolerance engine
 // behavior. Should be hidden in production unless debug mode is enabled.
-// 
+//
 // Features:
 // - Lists all substances with their tolerance percentages
 // - Loading state indicator
@@ -29,13 +29,13 @@ import '../../../../common/layout/common_spacer.dart';
 import '../../../../common/feedback/common_loader.dart';
 
 /// Debug widget showing per-substance tolerance percentages
-/// 
+///
 /// Development tool for displaying and verifying tolerance calculations.
 /// Intended for debug builds or when explicitly enabled by user.
 class DebugSubstanceList extends ConsumerWidget {
   /// Map of substance names to their tolerance percentages
   final Map<String, double> perSubstanceTolerances;
-  
+
   /// Whether data is currently loading
   final bool isLoading;
 
@@ -75,16 +75,12 @@ class DebugSubstanceList extends ConsumerWidget {
           // LOADING STATE
           if (isLoading)
             const Center(child: CommonLoader())
-
           // EMPTY STATE
           else if (perSubstanceTolerances.isEmpty)
             Text(
               'No data',
-              style: typography.bodySmall.copyWith(
-                color: colors.textSecondary,
-              ),
+              style: typography.bodySmall.copyWith(color: colors.textSecondary),
             )
-
           // LIST OF SUBSTANCES WITH TOLERANCE PERCENTAGES
           else
             ...perSubstanceTolerances.entries.map(
@@ -94,10 +90,7 @@ class DebugSubstanceList extends ConsumerWidget {
                   mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                   children: [
                     // Substance name
-                    Text(
-                      entry.key,
-                      style: typography.body,
-                    ),
+                    Text(entry.key, style: typography.body),
                     // Tolerance percentage (highlighted with accent color)
                     Text(
                       '${entry.value.toStringAsFixed(1)}%',
@@ -114,4 +107,3 @@ class DebugSubstanceList extends ConsumerWidget {
     );
   }
 }
-

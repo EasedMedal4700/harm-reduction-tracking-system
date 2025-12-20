@@ -1,13 +1,13 @@
 // Tolerance Stats Card Widget
-// 
+//
 // Created: 2024-11-10
 // Last Modified: 2025-12-14
-// 
+//
 // Purpose:
 // Displays key tolerance metrics in a two-column grid layout including half-life,
 // days to baseline, tolerance decay period, and recent use count. Provides at-a-glance
 // understanding of substance tolerance characteristics.
-// 
+//
 // Features:
 // - Two-column grid layout for efficient space usage
 // - Icons for each metric type
@@ -28,7 +28,7 @@ import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../models/tolerance_model.dart';
 
 /// Card displaying key tolerance metrics in a grid layout
-/// 
+///
 /// Shows important tolerance information including pharmacological parameters
 /// and usage statistics in an easy-to-scan format.
 class ToleranceStatsCard extends ConsumerWidget {
@@ -66,9 +66,7 @@ class ToleranceStatsCard extends ConsumerWidget {
           // Section header
           Text(
             'Key metrics',
-            style: typography.heading4.copyWith(
-              color: colors.textPrimary,
-            ),
+            style: typography.heading4.copyWith(color: colors.textPrimary),
           ),
           SizedBox(height: spacing.lg),
 
@@ -141,7 +139,7 @@ class ToleranceStatsCard extends ConsumerWidget {
   // ---------------------------------------------------------------------------
 
   /// Builds a single metric item with icon, label, and value
-  /// 
+  ///
   /// Used to display individual statistics in a consistent format.
   Widget _metricItem(
     BuildContext context, {
@@ -163,9 +161,7 @@ class ToleranceStatsCard extends ConsumerWidget {
             SizedBox(width: spacing.xs),
             Text(
               label,
-              style: typography.bodySmall.copyWith(
-                color: colors.textSecondary,
-              ),
+              style: typography.bodySmall.copyWith(color: colors.textSecondary),
             ),
           ],
         ),
@@ -175,9 +171,7 @@ class ToleranceStatsCard extends ConsumerWidget {
           padding: const EdgeInsets.only(left: 22),
           child: Text(
             value,
-            style: typography.bodyBold.copyWith(
-              color: colors.textPrimary,
-            ),
+            style: typography.bodyBold.copyWith(color: colors.textPrimary),
           ),
         ),
       ],

@@ -22,7 +22,7 @@ class LibraryAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    
+
     return SliverAppBar(
       title: const Text('Personal Library'),
       backgroundColor: t.colors.surface,

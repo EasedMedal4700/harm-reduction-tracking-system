@@ -14,10 +14,7 @@ import '../../../../common/buttons/common_primary_button.dart';
 class EmptyStateWidget extends ConsumerWidget {
   final VoidCallback? onAddEntry;
 
-  const EmptyStateWidget({
-    super.key,
-    this.onAddEntry,
-  });
+  const EmptyStateWidget({super.key, this.onAddEntry});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,9 +47,7 @@ class EmptyStateWidget extends ConsumerWidget {
             // TITLE
             Text(
               'No Tolerance Data',
-              style: typography.heading2.copyWith(
-                color: colors.textPrimary,
-              ),
+              style: typography.heading2.copyWith(color: colors.textPrimary),
               textAlign: AppLayout.textAlignCenter,
             ),
 
@@ -61,9 +56,7 @@ class EmptyStateWidget extends ConsumerWidget {
             // DESCRIPTION
             Text(
               'Start tracking your substance use to see\ntolerance insights and system interactions',
-              style: typography.body.copyWith(
-                color: colors.textSecondary,
-              ),
+              style: typography.body.copyWith(color: colors.textSecondary),
               textAlign: AppLayout.textAlignCenter,
             ),
 

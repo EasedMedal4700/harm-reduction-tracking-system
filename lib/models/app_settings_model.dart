@@ -5,7 +5,7 @@ class AppSettings {
   final double fontSize;
   final bool compactMode;
   final String language;
-  
+
   // Notification Settings
   final bool notificationsEnabled;
   final bool dailyCheckinReminder;
@@ -13,14 +13,14 @@ class AppSettings {
   final bool medicationReminders;
   final bool cravingAlerts;
   final bool weeklyReports;
-  
+
   // Privacy Settings
   final bool biometricLock;
   final bool requirePinOnOpen;
   final String autoLockDuration; // '1min', '5min', '15min', 'never'
   final bool hideContentInRecents;
   final bool analyticsEnabled;
-  
+
   // Data Settings
   final bool autoBackup;
   final String backupFrequency; // 'daily', 'weekly', 'monthly'
@@ -28,14 +28,14 @@ class AppSettings {
   final bool offlineMode;
   final bool cacheEnabled;
   final String cacheDuration; // '1hour', '6hours', '1day'
-  
+
   // Entry Settings
   final String defaultDoseUnit;
   final bool quickEntryMode;
   final bool autoSaveEntries;
   final bool showRecentSubstances;
   final int recentSubstancesCount;
-  
+
   // Display Settings
   final bool show24HourTime;
   final String dateFormat; // 'MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'
@@ -48,7 +48,7 @@ class AppSettings {
     this.fontSize = 14.0,
     this.compactMode = false,
     this.language = 'en',
-    
+
     // Notification Settings
     this.notificationsEnabled = true,
     this.dailyCheckinReminder = true,
@@ -56,14 +56,14 @@ class AppSettings {
     this.medicationReminders = true,
     this.cravingAlerts = true,
     this.weeklyReports = false,
-    
+
     // Privacy Settings
     this.biometricLock = false,
     this.requirePinOnOpen = false,
     this.autoLockDuration = '5min',
     this.hideContentInRecents = false,
     this.analyticsEnabled = false,
-    
+
     // Data Settings
     this.autoBackup = false,
     this.backupFrequency = 'weekly',
@@ -71,14 +71,14 @@ class AppSettings {
     this.offlineMode = false,
     this.cacheEnabled = true,
     this.cacheDuration = '1hour',
-    
+
     // Entry Settings
     this.defaultDoseUnit = 'mg',
     this.quickEntryMode = false,
     this.autoSaveEntries = true,
     this.showRecentSubstances = true,
     this.recentSubstancesCount = 5,
-    
+
     // Display Settings
     this.show24HourTime = false,
     this.dateFormat = 'MM/DD/YYYY',
@@ -94,7 +94,7 @@ class AppSettings {
       fontSize: (json['fontSize'] as num?)?.toDouble() ?? 14.0,
       compactMode: json['compactMode'] as bool? ?? false,
       language: json['language'] as String? ?? 'en',
-      
+
       // Notification Settings
       notificationsEnabled: json['notificationsEnabled'] as bool? ?? true,
       dailyCheckinReminder: json['dailyCheckinReminder'] as bool? ?? true,
@@ -102,14 +102,14 @@ class AppSettings {
       medicationReminders: json['medicationReminders'] as bool? ?? true,
       cravingAlerts: json['cravingAlerts'] as bool? ?? true,
       weeklyReports: json['weeklyReports'] as bool? ?? false,
-      
+
       // Privacy Settings
       biometricLock: json['biometricLock'] as bool? ?? false,
       requirePinOnOpen: json['requirePinOnOpen'] as bool? ?? false,
       autoLockDuration: json['autoLockDuration'] as String? ?? '5min',
       hideContentInRecents: json['hideContentInRecents'] as bool? ?? false,
       analyticsEnabled: json['analyticsEnabled'] as bool? ?? false,
-      
+
       // Data Settings
       autoBackup: json['autoBackup'] as bool? ?? false,
       backupFrequency: json['backupFrequency'] as String? ?? 'weekly',
@@ -117,14 +117,14 @@ class AppSettings {
       offlineMode: json['offlineMode'] as bool? ?? false,
       cacheEnabled: json['cacheEnabled'] as bool? ?? true,
       cacheDuration: json['cacheDuration'] as String? ?? '1hour',
-      
+
       // Entry Settings
       defaultDoseUnit: json['defaultDoseUnit'] as String? ?? 'mg',
       quickEntryMode: json['quickEntryMode'] as bool? ?? false,
       autoSaveEntries: json['autoSaveEntries'] as bool? ?? true,
       showRecentSubstances: json['showRecentSubstances'] as bool? ?? true,
       recentSubstancesCount: json['recentSubstancesCount'] as int? ?? 5,
-      
+
       // Display Settings
       show24HourTime: json['show24HourTime'] as bool? ?? false,
       dateFormat: json['dateFormat'] as String? ?? 'MM/DD/YYYY',
@@ -141,7 +141,7 @@ class AppSettings {
       'fontSize': fontSize,
       'compactMode': compactMode,
       'language': language,
-      
+
       // Notification Settings
       'notificationsEnabled': notificationsEnabled,
       'dailyCheckinReminder': dailyCheckinReminder,
@@ -149,14 +149,14 @@ class AppSettings {
       'medicationReminders': medicationReminders,
       'cravingAlerts': cravingAlerts,
       'weeklyReports': weeklyReports,
-      
+
       // Privacy Settings
       'biometricLock': biometricLock,
       'requirePinOnOpen': requirePinOnOpen,
       'autoLockDuration': autoLockDuration,
       'hideContentInRecents': hideContentInRecents,
       'analyticsEnabled': analyticsEnabled,
-      
+
       // Data Settings
       'autoBackup': autoBackup,
       'backupFrequency': backupFrequency,
@@ -164,14 +164,14 @@ class AppSettings {
       'offlineMode': offlineMode,
       'cacheEnabled': cacheEnabled,
       'cacheDuration': cacheDuration,
-      
+
       // Entry Settings
       'defaultDoseUnit': defaultDoseUnit,
       'quickEntryMode': quickEntryMode,
       'autoSaveEntries': autoSaveEntries,
       'showRecentSubstances': showRecentSubstances,
       'recentSubstancesCount': recentSubstancesCount,
-      
+
       // Display Settings
       'show24HourTime': show24HourTime,
       'dateFormat': dateFormat,
@@ -239,7 +239,8 @@ class AppSettings {
       quickEntryMode: quickEntryMode ?? this.quickEntryMode,
       autoSaveEntries: autoSaveEntries ?? this.autoSaveEntries,
       showRecentSubstances: showRecentSubstances ?? this.showRecentSubstances,
-      recentSubstancesCount: recentSubstancesCount ?? this.recentSubstancesCount,
+      recentSubstancesCount:
+          recentSubstancesCount ?? this.recentSubstancesCount,
       show24HourTime: show24HourTime ?? this.show24HourTime,
       dateFormat: dateFormat ?? this.dateFormat,
       showBloodLevels: showBloodLevels ?? this.showBloodLevels,

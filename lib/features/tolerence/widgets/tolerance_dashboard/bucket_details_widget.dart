@@ -36,7 +36,10 @@ class BucketDetailsWidget extends ConsumerWidget {
 
     final bucketName = BucketDefinitions.getDisplayName(bucketType);
     final state = ToleranceCalculator.classifyState(tolerancePercent);
-    final stateColor = BucketUtils.toleranceColor(context, tolerancePercent / 100.0);
+    final stateColor = BucketUtils.toleranceColor(
+      context,
+      tolerancePercent / 100.0,
+    );
 
     return Container(
       decoration: BoxDecoration(
@@ -200,9 +203,7 @@ class _SubstanceContributionRow extends ConsumerWidget {
               children: [
                 Text(
                   substanceName,
-                  style: typography.body.copyWith(
-                    color: colors.textPrimary,
-                  ),
+                  style: typography.body.copyWith(color: colors.textPrimary),
                 ),
                 CommonSpacer.vertical(spacing.xs),
                 ClipRRect(
@@ -210,7 +211,9 @@ class _SubstanceContributionRow extends ConsumerWidget {
                   child: LinearProgressIndicator(
                     value: percentage / 100.0,
                     backgroundColor: colors.border,
-                    valueColor: AlwaysStoppedAnimation<Color>(context.accent.primary),
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      context.accent.primary,
+                    ),
                     minHeight: 6.0,
                   ),
                 ),

@@ -10,12 +10,7 @@ void main() {
       final controller = TextEditingController(text: '10');
 
       await tester.pumpWidget(
-        wrapWithAppTheme(
-          DosageInput(
-            controller: controller,
-            unit: 'mg',
-          ),
-        ),
+        wrapWithAppTheme(DosageInput(controller: controller, unit: 'mg')),
       );
 
       expect(find.text('Dosage (mg)'), findsOneWidget);
@@ -26,12 +21,7 @@ void main() {
       final controller = TextEditingController(text: '10');
 
       await tester.pumpWidget(
-        wrapWithAppTheme(
-          DosageInput(
-            controller: controller,
-            unit: 'mg',
-          ),
-        ),
+        wrapWithAppTheme(DosageInput(controller: controller, unit: 'mg')),
       );
 
       await tester.enterText(find.byType(TextFormField), '25.5');
@@ -48,10 +38,7 @@ void main() {
         wrapWithAppTheme(
           Form(
             key: formKey,
-            child: DosageInput(
-              controller: controller,
-              unit: 'mg',
-            ),
+            child: DosageInput(controller: controller, unit: 'mg'),
           ),
         ),
       );

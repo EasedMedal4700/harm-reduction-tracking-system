@@ -32,7 +32,7 @@ class CommonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final radius = borderRadius ?? context.shapes.radiusLg;
-    
+
     // If no tap handler, use simple Container
     if (onTap == null) {
       return Container(
@@ -68,7 +68,9 @@ class CommonCard extends StatelessWidget {
                   width: 1,
                 ),
               )
-            : RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
+            : RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(radius),
+              ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,

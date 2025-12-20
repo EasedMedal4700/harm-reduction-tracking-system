@@ -29,14 +29,14 @@ class DrugUseCatalog {
   ];
 
   static const Map<String, List<String>> secondaryEmotions = {
-  'Happy': ['Joyful', 'Proud', 'Grateful', 'Satisfied'],
-  'Calm': ['Peaceful', 'Relaxed', 'Grounded', 'Safe'],
-  'Anxious': ['Nervous', 'Worried', 'Restless', 'Tense'],
-  'Surprised': ['Curious', 'Shocked', 'Amazed'],
-  'Sad': ['Lonely', 'Disappointed', 'Hopeless', 'Grieving'],
-  'Disgusted': ['Irritated', 'Grossed Out', 'Uncomfortable'],
-  'Angry': ['Frustrated', 'Annoyed', 'Bitter', 'Hostile'],
-  'Excited': ['Energized', 'Motivated', 'Inspired', 'Playful'],
+    'Happy': ['Joyful', 'Proud', 'Grateful', 'Satisfied'],
+    'Calm': ['Peaceful', 'Relaxed', 'Grounded', 'Safe'],
+    'Anxious': ['Nervous', 'Worried', 'Restless', 'Tense'],
+    'Surprised': ['Curious', 'Shocked', 'Amazed'],
+    'Sad': ['Lonely', 'Disappointed', 'Hopeless', 'Grieving'],
+    'Disgusted': ['Irritated', 'Grossed Out', 'Uncomfortable'],
+    'Angry': ['Frustrated', 'Annoyed', 'Bitter', 'Hostile'],
+    'Excited': ['Energized', 'Motivated', 'Inspired', 'Playful'],
   };
 
   // ============================================================================
@@ -44,8 +44,25 @@ class DrugUseCatalog {
   // ============================================================================
 
   static const List<String> substances = [
-    'Test', 'Cannabis', 'Cocaine', 'Heroin', 'Methamphetamine', 'MDMA', 'Alcohol', 'Nicotine', 'Other',
+    'Test',
+    'Cannabis',
+    'Cocaine',
+    'Heroin',
+    'Methamphetamine',
+    'MDMA',
+    'Alcohol',
+    'Nicotine',
+    'Other',
   ];
 
-  static const List<String> locations = ['Select a location', 'Home', 'Work', 'School', 'Public', 'Vehicle', 'Gym', 'Other'];
+  static const List<String> locations = [
+    'Select a location',
+    'Home',
+    'Work',
+    'School',
+    'Public',
+    'Vehicle',
+    'Gym',
+    'Other',
+  ];
 }

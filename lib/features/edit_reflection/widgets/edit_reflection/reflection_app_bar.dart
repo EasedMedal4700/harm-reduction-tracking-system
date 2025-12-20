@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -26,7 +25,10 @@ class ReflectionAppBar extends StatelessWidget implements PreferredSizeWidget {
     final t = context.text;
 
     return AppBar(
-      title: Text('Edit Reflection', style: t.titleLarge.copyWith(color: c.textPrimary)),
+      title: Text(
+        'Edit Reflection',
+        style: t.titleLarge.copyWith(color: c.textPrimary),
+      ),
       backgroundColor: c.surface,
       foregroundColor: c.textPrimary,
       elevation: context.sizes.elevationNone,
@@ -35,10 +37,7 @@ class ReflectionAppBar extends StatelessWidget implements PreferredSizeWidget {
           Center(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: context.spacing.md),
-              child: CommonLoader(
-                size: context.sizes.iconSm,
-                color: a.primary,
-              ),
+              child: CommonLoader(size: context.sizes.iconSm, color: a.primary),
             ),
           )
         else

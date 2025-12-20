@@ -36,10 +36,10 @@ class BucketUtils {
   static Color toleranceColor(BuildContext context, double tolerance) {
     final c = context.colors;
 
-    if (tolerance < 0.25) return c.success;        // Green-safe
-    if (tolerance < 0.5) return c.warning;         // Yellow-warning
-    if (tolerance < 0.75) return c.warning;    // Darker orange
-    return c.error;                               // Red-danger
+    if (tolerance < 0.25) return c.success; // Green-safe
+    if (tolerance < 0.5) return c.warning; // Yellow-warning
+    if (tolerance < 0.75) return c.warning; // Darker orange
+    return c.error; // Red-danger
   }
 
   /// Always prefer this instead of getColorForToleranceFallback
@@ -60,4 +60,3 @@ class BucketUtils {
     }
   }
 }
-

@@ -28,7 +28,7 @@ class MockSubstanceRepository implements SubstanceRepository {
     final roas = getAvailableROAs(details);
     return roas.contains(roa);
   }
-  
+
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
@@ -52,27 +52,30 @@ void main() {
         minute: 0,
       );
       final result = await controller.validateSubstance(data);
-      
+
       expect(result.isValid, isFalse);
       expect(result.title, 'Missing Substance');
     });
 
-    test('validateSubstance returns error if substance not found in DB', () async {
-      final data = LogEntryFormData(
-        substance: 'UnknownDrug',
-        date: now,
-        hour: 12,
-        minute: 0,
-      );
-      final result = await controller.validateSubstance(data);
-      
-      expect(result.isValid, isFalse);
-      expect(result.title, 'Substance Not Found');
-    });
+    test(
+      'validateSubstance returns error if substance not found in DB',
+      () async {
+        final data = LogEntryFormData(
+          substance: 'UnknownDrug',
+          date: now,
+          hour: 12,
+          minute: 0,
+        );
+        final result = await controller.validateSubstance(data);
+
+        expect(result.isValid, isFalse);
+        expect(result.title, 'Substance Not Found');
+      },
+    );
 
     test('validateSubstance returns success if substance exists', () async {
       mockRepo.addSubstance('Caffeine', {'pretty_name': 'Caffeine'});
-      
+
       final data = LogEntryFormData(
         substance: 'Caffeine',
         date: now,
@@ -80,12 +83,15 @@ void main() {
         minute: 0,
       );
       final result = await controller.validateSubstance(data);
-      
+
       expect(result.isValid, isTrue);
     });
 
     test('validateROA returns warning for unvalidated route', () {
-      final details = {'pretty_name': 'Caffeine', 'roas': ['oral']};
+      final details = {
+        'pretty_name': 'Caffeine',
+        'roas': ['oral'],
+      };
       final data = LogEntryFormData(
         substance: 'Caffeine',
         route: 'inject',
@@ -94,15 +100,18 @@ void main() {
         hour: 12,
         minute: 0,
       );
-      
+
       final result = controller.validateROA(data);
-      
+
       expect(result.needsConfirmation, isTrue);
       expect(result.title, 'Unvalidated Route');
     });
 
     test('validateROA returns success for validated route', () {
-      final details = {'pretty_name': 'Caffeine', 'roas': ['oral']};
+      final details = {
+        'pretty_name': 'Caffeine',
+        'roas': ['oral'],
+      };
       final data = LogEntryFormData(
         substance: 'Caffeine',
         route: 'oral',
@@ -111,9 +120,9 @@ void main() {
         hour: 12,
         minute: 0,
       );
-      
+
       final result = controller.validateROA(data);
-      
+
       expect(result.isValid, isTrue);
       expect(result.needsConfirmation, isFalse);
     });
@@ -126,9 +135,9 @@ void main() {
         hour: 12,
         minute: 0,
       );
-      
+
       final result = controller.validateEmotions(data);
-      
+
       expect(result.needsConfirmation, isTrue);
       expect(result.title, 'No Emotions Selected');
     });
@@ -141,9 +150,9 @@ void main() {
         hour: 12,
         minute: 0,
       );
-      
+
       final result = controller.validateEmotions(data);
-      
+
       expect(result.isValid, isTrue);
     });
   });

@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: PARTIAL
@@ -28,9 +27,7 @@ class WeeklyUsageDisplay extends StatelessWidget {
     final t = context.theme;
     final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     final counts = entry.weekdayUsage.counts;
-    final maxUses = counts.isEmpty
-        ? 1
-        : counts.reduce((a, b) => a > b ? a : b);
+    final maxUses = counts.isEmpty ? 1 : counts.reduce((a, b) => a > b ? a : b);
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -68,19 +65,31 @@ class WeeklyUsageDisplay extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: t.spacing.xs / 4),
                 child: InkWell(
                   onTap: count > 0
-                      ? () => onDayTap(entry.name, index, days[index], t.isDark, accentColor)
+                      ? () => onDayTap(
+                          entry.name,
+                          index,
+                          days[index],
+                          t.isDark,
+                          accentColor,
+                        )
                       : null,
                   borderRadius: BorderRadius.circular(t.shapes.radiusSm),
                   child: Container(
                     height: 60,
                     decoration: BoxDecoration(
                       color: count > 0
-                          ? accentColor.withValues(alpha: 0.2 + (intensity * 0.6))
-                          : t.colors.background.withValues(alpha: t.isDark ? 0.3 : 1.0),
+                          ? accentColor.withValues(
+                              alpha: 0.2 + (intensity * 0.6),
+                            )
+                          : t.colors.background.withValues(
+                              alpha: t.isDark ? 0.3 : 1.0,
+                            ),
                       borderRadius: BorderRadius.circular(t.shapes.radiusSm),
                       border: Border.all(
                         color: count > 0
-                            ? accentColor.withValues(alpha: 0.5 + (intensity * 0.5))
+                            ? accentColor.withValues(
+                                alpha: 0.5 + (intensity * 0.5),
+                              )
                             : t.colors.border,
                         width: count > 0 ? 2 : 1,
                       ),
@@ -108,7 +117,9 @@ class WeeklyUsageDisplay extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: accentColor,
-                              borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+                              borderRadius: BorderRadius.circular(
+                                t.shapes.radiusSm,
+                              ),
                             ),
                             child: Text(
                               '$count',

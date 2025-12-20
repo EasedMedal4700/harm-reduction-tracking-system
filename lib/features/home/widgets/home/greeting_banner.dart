@@ -12,10 +12,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 class GreetingBanner extends StatelessWidget {
   final String? userName;
 
-  const GreetingBanner({
-    super.key,
-    this.userName,
-  });
+  const GreetingBanner({super.key, this.userName});
 
   String _getGreeting() {
     final hour = DateTime.now().hour;
@@ -45,10 +42,7 @@ class GreetingBanner extends StatelessWidget {
     final displayName = userName ?? 'there';
 
     return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: sp.lg,
-        vertical: sp.md,
-      ),
+      margin: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.md),
       padding: EdgeInsets.all(sp.xl),
       decoration: BoxDecoration(
         gradient: t.accent.gradient,
@@ -61,16 +55,10 @@ class GreetingBanner extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(sp.md),
             decoration: BoxDecoration(
-              color: c.surface.withValues(
-                alpha: t.isDark ? 0.3 : 0.5,
-              ),
+              color: c.surface.withValues(alpha: t.isDark ? 0.3 : 0.5),
               borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
-            child: Icon(
-              _getGreetingIcon(),
-              size: sp.lg,
-              color: c.textInverse,
-            ),
+            child: Icon(_getGreetingIcon(), size: sp.lg, color: c.textInverse),
           ),
 
           SizedBox(width: sp.lg),
@@ -82,9 +70,7 @@ class GreetingBanner extends StatelessWidget {
               children: [
                 Text(
                   greeting,
-                  style: text.heading3.copyWith(
-                    color: c.textInverse,
-                  ),
+                  style: text.heading3.copyWith(color: c.textInverse),
                 ),
                 SizedBox(height: sp.xs),
                 Text(

@@ -6,13 +6,13 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
 
 /// Service for handling end-to-end encryption of sensitive user data.
-/// 
+///
 /// Architecture:
 /// 1. User's JWT is used to derive an encryption key (never stored)
 /// 2. A random 32-byte master key is generated per user
 /// 3. The master key is encrypted with the JWT-derived key and stored in Supabase
 /// 4. The master key is used to encrypt/decrypt user's notes and free-text fields
-/// 
+///
 /// This ensures:
 /// - Data is encrypted at rest in Supabase
 /// - Only the authenticated user can decrypt their data
@@ -30,9 +30,9 @@ class EncryptionService {
       return null;
     }
   }
-  
+
   final AesGcm _algorithm = AesGcm.with256bits();
-  
+
   SecretKey? _masterKey;
 
   /// Initialize encryption for the current user.
@@ -42,7 +42,7 @@ class EncryptionService {
       if (_client == null) {
         throw Exception('Supabase not initialized');
       }
-      
+
       final user = _client!.auth.currentUser;
       if (user == null) {
         throw Exception('No authenticated user');
@@ -65,9 +65,10 @@ class EncryptionService {
         } catch (e) {
           // If decryption fails (MAC error), regenerate the key
           // This can happen if JWT was refreshed and old encrypted key is invalid
-          if (e.toString().contains('MAC') || e.toString().contains('authentication')) {
+          if (e.toString().contains('MAC') ||
+              e.toString().contains('authentication')) {
             ErrorHandler.logWarning(
-              'EncryptionService', 
+              'EncryptionService',
               'Encryption key invalid (likely due to token refresh). Regenerating...',
             );
             await _generateAndStoreNewKey(user, isRegeneration: true);
@@ -77,15 +78,25 @@ class EncryptionService {
         }
       }
 
-      ErrorHandler.logInfo('EncryptionService', 'Initialized for user: ${user.id.substring(0, 8)}...');
+      ErrorHandler.logInfo(
+        'EncryptionService',
+        'Initialized for user: ${user.id.substring(0, 8)}...',
+      );
     } catch (e, stack) {
-      ErrorHandler.logError('EncryptionService', 'Failed to initialize: $e', stack);
+      ErrorHandler.logError(
+        'EncryptionService',
+        'Failed to initialize: $e',
+        stack,
+      );
       rethrow;
     }
   }
 
   /// Generate a new master key, encrypt it with JWT-derived key, and store in Supabase
-  Future<void> _generateAndStoreNewKey(User user, {bool isRegeneration = false}) async {
+  Future<void> _generateAndStoreNewKey(
+    User user, {
+    bool isRegeneration = false,
+  }) async {
     try {
       // 1. Generate random 32-byte master key
       final random = Random.secure();
@@ -128,15 +139,25 @@ class EncryptionService {
       // Use upsert to handle both insert and update cases
       if (isRegeneration) {
         // Update existing row
-        await _client!.from('user_keys').update(keyData).eq('uuid_user_id', user.id);
+        await _client!
+            .from('user_keys')
+            .update(keyData)
+            .eq('uuid_user_id', user.id);
       } else {
         // Insert new row (use upsert to avoid conflicts)
         await _client!.from('user_keys').upsert(keyData);
       }
 
-      ErrorHandler.logInfo('EncryptionService', 'Generated and stored new master key');
+      ErrorHandler.logInfo(
+        'EncryptionService',
+        'Generated and stored new master key',
+      );
     } catch (e, stack) {
-      ErrorHandler.logError('EncryptionService', 'Failed to generate key: $e', stack);
+      ErrorHandler.logError(
+        'EncryptionService',
+        'Failed to generate key: $e',
+        stack,
+      );
       rethrow;
     }
   }
@@ -147,7 +168,7 @@ class EncryptionService {
       if (_client == null) {
         throw Exception('Supabase not initialized');
       }
-      
+
       final user = _client!.auth.currentUser;
       if (user == null) {
         throw Exception('No authenticated user');
@@ -161,7 +182,8 @@ class EncryptionService {
           .single();
 
       final encryptedKeyJson = response['encrypted_key'] as String;
-      final encryptedData = jsonDecode(encryptedKeyJson) as Map<String, dynamic>;
+      final encryptedData =
+          jsonDecode(encryptedKeyJson) as Map<String, dynamic>;
 
       // 2. Derive decryption key from JWT
       final session = _client!.auth.currentSession;
@@ -184,9 +206,16 @@ class EncryptionService {
 
       _masterKey = SecretKey(decryptedBytes);
 
-      ErrorHandler.logInfo('EncryptionService', 'Loaded master key successfully');
+      ErrorHandler.logInfo(
+        'EncryptionService',
+        'Loaded master key successfully',
+      );
     } catch (e, stack) {
-      ErrorHandler.logError('EncryptionService', 'Failed to load key: $e', stack);
+      ErrorHandler.logError(
+        'EncryptionService',
+        'Failed to load key: $e',
+        stack,
+      );
       rethrow;
     }
   }
@@ -206,12 +235,19 @@ class EncryptionService {
     }
 
     if (_masterKey == null) {
-      ErrorHandler.logWarning('EncryptionService', 'Master key not loaded, initializing...');
+      ErrorHandler.logWarning(
+        'EncryptionService',
+        'Master key not loaded, initializing...',
+      );
       try {
         await initialize();
       } catch (e) {
-        if (e.toString().contains('MAC') || e.toString().contains('authentication')) {
-          ErrorHandler.logWarning('EncryptionService', 'Recovering from MAC error during initialization');
+        if (e.toString().contains('MAC') ||
+            e.toString().contains('authentication')) {
+          ErrorHandler.logWarning(
+            'EncryptionService',
+            'Recovering from MAC error during initialization',
+          );
           // Clear the key and retry initialization to regenerate
           _masterKey = null;
           await initialize();
@@ -240,7 +276,11 @@ class EncryptionService {
 
       return jsonEncode(encryptedData);
     } catch (e, stack) {
-      ErrorHandler.logError('EncryptionService', 'Encryption failed: $e', stack);
+      ErrorHandler.logError(
+        'EncryptionService',
+        'Encryption failed: $e',
+        stack,
+      );
       rethrow;
     }
   }
@@ -259,12 +299,19 @@ class EncryptionService {
     }
 
     if (_masterKey == null) {
-      ErrorHandler.logWarning('EncryptionService', 'Master key not loaded, initializing...');
+      ErrorHandler.logWarning(
+        'EncryptionService',
+        'Master key not loaded, initializing...',
+      );
       try {
         await initialize();
       } catch (e) {
-        if (e.toString().contains('MAC') || e.toString().contains('authentication')) {
-          ErrorHandler.logWarning('EncryptionService', 'Recovering from MAC error during initialization');
+        if (e.toString().contains('MAC') ||
+            e.toString().contains('authentication')) {
+          ErrorHandler.logWarning(
+            'EncryptionService',
+            'Recovering from MAC error during initialization',
+          );
           // Clear the key and retry initialization to regenerate
           _masterKey = null;
           await initialize();
@@ -293,7 +340,11 @@ class EncryptionService {
 
       return utf8.decode(decryptedBytes);
     } catch (e, stack) {
-      ErrorHandler.logError('EncryptionService', 'Decryption failed: $e', stack);
+      ErrorHandler.logError(
+        'EncryptionService',
+        'Decryption failed: $e',
+        stack,
+      );
       // Return original text as fallback (might be legacy plaintext data)
       return encryptedJson;
     }
@@ -303,14 +354,14 @@ class EncryptionService {
   /// Returns true if encrypted, false if plaintext
   bool isEncrypted(String text) {
     if (text.isEmpty) return false;
-    
+
     try {
       final json = jsonDecode(text);
       if (json is! Map<String, dynamic>) return false;
-      
+
       return json.containsKey('nonce') &&
-             json.containsKey('ciphertext') &&
-             json.containsKey('mac');
+          json.containsKey('ciphertext') &&
+          json.containsKey('mac');
     } catch (_) {
       return false;
     }
@@ -323,13 +374,13 @@ class EncryptionService {
     List<String> fieldsToEncrypt,
   ) async {
     final result = Map<String, dynamic>.from(data);
-    
+
     for (final field in fieldsToEncrypt) {
       if (result.containsKey(field) && result[field] is String) {
         result[field] = await encryptText(result[field] as String);
       }
     }
-    
+
     return result;
   }
 
@@ -340,13 +391,13 @@ class EncryptionService {
     List<String> fieldsToDecrypt,
   ) async {
     final result = Map<String, dynamic>.from(data);
-    
+
     for (final field in fieldsToDecrypt) {
       if (result.containsKey(field) && result[field] is String) {
         result[field] = await decryptText(result[field] as String);
       }
     }
-    
+
     return result;
   }
 
@@ -362,7 +413,7 @@ class EncryptionService {
       if (_client == null) {
         throw Exception('Supabase not initialized');
       }
-      
+
       final user = _client!.auth.currentUser;
       if (user == null || _masterKey == null) {
         throw Exception('No authenticated user or master key');
@@ -388,13 +439,18 @@ class EncryptionService {
       };
 
       // Update stored key
-      await _client!.from('user_keys').update({
-        'encrypted_key': jsonEncode(encryptedData),
-      }).eq('uuid_user_id', user.id);
+      await _client!
+          .from('user_keys')
+          .update({'encrypted_key': jsonEncode(encryptedData)})
+          .eq('uuid_user_id', user.id);
 
       ErrorHandler.logInfo('EncryptionService', 'Rotated encryption key');
     } catch (e, stack) {
-      ErrorHandler.logError('EncryptionService', 'Failed to rotate key: $e', stack);
+      ErrorHandler.logError(
+        'EncryptionService',
+        'Failed to rotate key: $e',
+        stack,
+      );
       rethrow;
     }
   }

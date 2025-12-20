@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -47,27 +46,37 @@ class BucketStatusCard extends StatelessWidget {
           CommonSpacer.vertical(sp.md),
 
           // Stats
-          _buildStatRow(context, 'Tolerance Level',
-              '${tolerancePercent.toStringAsFixed(1)}%'),
+          _buildStatRow(
+            context,
+            'Tolerance Level',
+            '${tolerancePercent.toStringAsFixed(1)}%',
+          ),
 
-          _buildStatRow(context, 'Raw Load',
-              rawLoad.toStringAsFixed(4)),
+          _buildStatRow(context, 'Raw Load', rawLoad.toStringAsFixed(4)),
 
-          _buildStatRow(context, 'Bucket Weight',
-              bucket.weight.toStringAsFixed(2)),
+          _buildStatRow(
+            context,
+            'Bucket Weight',
+            bucket.weight.toStringAsFixed(2),
+          ),
 
-          _buildStatRow(context, 'Tolerance Type',
-              bucket.toleranceType ?? 'unknown'),
+          _buildStatRow(
+            context,
+            'Tolerance Type',
+            bucket.toleranceType ?? 'unknown',
+          ),
 
-          _buildStatRow(context, 'Status',
-              tolerancePercent > 0.1 ? 'Active' : 'Inactive'),
+          _buildStatRow(
+            context,
+            'Status',
+            tolerancePercent > 0.1 ? 'Active' : 'Inactive',
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildStatRow(
-      BuildContext context, String label, String value) {
+  Widget _buildStatRow(BuildContext context, String label, String value) {
     final sp = context.spacing;
     final text = context.text;
     final c = context.colors;
@@ -78,12 +87,7 @@ class BucketStatusCard extends StatelessWidget {
         mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
         children: [
           // Label
-          Text(
-            label,
-            style: text.bodySmall.copyWith(
-              color: c.textSecondary,
-            ),
-          ),
+          Text(label, style: text.bodySmall.copyWith(color: c.textSecondary)),
 
           // Value
           Text(
@@ -98,4 +102,3 @@ class BucketStatusCard extends StatelessWidget {
     );
   }
 }
-

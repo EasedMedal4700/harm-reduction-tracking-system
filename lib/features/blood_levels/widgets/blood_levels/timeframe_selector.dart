@@ -63,10 +63,7 @@ class TimeframeSelector extends StatelessWidget {
                 ),
               ),
               const CommonSpacer.horizontal(8),
-              Text(
-                'Timeframe',
-                style: text.heading4,
-              ),
+              Text('Timeframe', style: text.heading4),
             ],
           ),
 

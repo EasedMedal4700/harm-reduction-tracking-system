@@ -74,9 +74,7 @@ class ReflectionForm extends StatelessWidget {
           CommonSpacer.vertical(t.spacing.sm),
           Text(
             'Take a moment to analyze how these experiences affected you.',
-            style: t.typography.body.copyWith(
-              color: t.colors.textSecondary,
-            ),
+            style: t.typography.body.copyWith(color: t.colors.textSecondary),
           ),
           CommonSpacer.vertical(t.spacing.xl),
 
@@ -130,23 +128,21 @@ class ReflectionForm extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: _buildDropdown(
-                    context,
-                    'Next Day Mood',
-                    nextDayMood,
-                    ['Depressed', 'Anxious', 'Neutral', 'Good', 'Great'],
-                    onNextDayMoodChanged,
-                  ),
+                  child: _buildDropdown(context, 'Next Day Mood', nextDayMood, [
+                    'Depressed',
+                    'Anxious',
+                    'Neutral',
+                    'Good',
+                    'Great',
+                  ], onNextDayMoodChanged),
                 ),
                 CommonSpacer.horizontal(t.spacing.md),
                 Expanded(
-                  child: _buildDropdown(
-                    context,
-                    'Energy Level',
-                    energyLevel,
-                    ['Low', 'Medium', 'High'],
-                    onEnergyLevelChanged,
-                  ),
+                  child: _buildDropdown(context, 'Energy Level', energyLevel, [
+                    'Low',
+                    'Medium',
+                    'High',
+                  ], onEnergyLevelChanged),
                 ),
               ],
             ),
@@ -154,24 +150,29 @@ class ReflectionForm extends StatelessWidget {
           CommonSpacer.vertical(t.spacing.lg),
 
           // 3. Side Effects & Cravings
-          _buildSectionCard(context, 'Side Effects & Cravings', Icons.warning_amber, [
-            _buildTextInput(
-              context,
-              'Side Effects',
-              sideEffects,
-              onSideEffectsChanged,
-              hint: 'Headache, nausea, anxiety...',
-            ),
-            CommonSpacer.vertical(t.spacing.md),
-            _buildSlider(
-              context,
-              'Post-Use Craving',
-              postUseCraving,
-              onPostUseCravingChanged,
-              minLabel: 'None',
-              maxLabel: 'Intense',
-            ),
-          ]),
+          _buildSectionCard(
+            context,
+            'Side Effects & Cravings',
+            Icons.warning_amber,
+            [
+              _buildTextInput(
+                context,
+                'Side Effects',
+                sideEffects,
+                onSideEffectsChanged,
+                hint: 'Headache, nausea, anxiety...',
+              ),
+              CommonSpacer.vertical(t.spacing.md),
+              _buildSlider(
+                context,
+                'Post-Use Craving',
+                postUseCraving,
+                onPostUseCravingChanged,
+                minLabel: 'None',
+                maxLabel: 'Intense',
+              ),
+            ],
+          ),
           CommonSpacer.vertical(t.spacing.lg),
 
           // 4. Coping & Notes
@@ -231,10 +232,7 @@ class ReflectionForm extends StatelessWidget {
             children: [
               Icon(icon, color: t.accent.primary, size: t.sizes.iconSm),
               CommonSpacer.horizontal(t.spacing.sm),
-              Text(
-                title,
-                style: t.typography.heading3,
-              ),
+              Text(title, style: t.typography.heading3),
             ],
           ),
           CommonSpacer.vertical(t.spacing.lg),
@@ -263,13 +261,13 @@ class ReflectionForm extends StatelessWidget {
           children: [
             Text(
               label,
-              style: t.typography.bodySmall.copyWith(fontWeight: text.bodyBold.fontWeight),
+              style: t.typography.bodySmall.copyWith(
+                fontWeight: text.bodyBold.fontWeight,
+              ),
             ),
             Text(
               value.round().toString(),
-              style: t.typography.heading3.copyWith(
-                color: t.accent.primary,
-              ),
+              style: t.typography.heading3.copyWith(color: t.accent.primary),
             ),
           ],
         ),
@@ -295,14 +293,8 @@ class ReflectionForm extends StatelessWidget {
             child: Row(
               mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
-                Text(
-                  minLabel,
-                  style: t.typography.caption,
-                ),
-                Text(
-                  maxLabel,
-                  style: t.typography.caption,
-                ),
+                Text(minLabel, style: t.typography.caption),
+                Text(maxLabel, style: t.typography.caption),
               ],
             ),
           ),
@@ -353,9 +345,7 @@ class ReflectionForm extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(
-                color: t.accent.primary,
-              ),
+              borderSide: BorderSide(color: t.accent.primary),
             ),
             filled: true,
             fillColor: t.colors.surfaceVariant,
@@ -402,9 +392,7 @@ class ReflectionForm extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(
-                color: t.accent.primary,
-              ),
+              borderSide: BorderSide(color: t.accent.primary),
             ),
             filled: true,
             fillColor: t.colors.surfaceVariant,

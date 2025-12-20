@@ -21,7 +21,7 @@ class AppTypographyConstants {
 
 /// Typography system with responsive font sizes
 /// Adapts to user's font size setting
-/// 
+///
 /// TODO: Typography should not decide colors.
 class AppTypography {
   AppTypography._();
@@ -45,14 +45,14 @@ class AppTypography {
 
   /// Get responsive text styles based on user's font size setting
   static TextStyles getTextStyles(double userFontSize, bool isDark) {
-    final textColor = isDark 
-        ? const Color(0xFFE5E7EB) 
+    final textColor = isDark
+        ? const Color(0xFFE5E7EB)
         : const Color(0xFF1F2937);
-    final textColorSecondary = isDark 
-        ? const Color(0xFFB0B8C8) 
+    final textColorSecondary = isDark
+        ? const Color(0xFFB0B8C8)
         : const Color(0xFF6B7280);
-    final textColorTertiary = isDark 
-        ? const Color(0xFF6B7280) 
+    final textColorTertiary = isDark
+        ? const Color(0xFF6B7280)
         : const Color(0xFF9CA3AF);
 
     return TextStyles(
@@ -92,7 +92,7 @@ class AppTypography {
         letterSpacing: 0.1,
         height: 1.4,
       ),
-      
+
       // Body text
       bodyLarge: TextStyle(
         fontSize: _scale(_baseBody + 2, userFontSize),
@@ -118,7 +118,7 @@ class AppTypography {
         color: textColorSecondary,
         height: 1.4,
       ),
-      
+
       // Utility text
       caption: TextStyle(
         fontSize: _scale(_baseCaption, userFontSize),
@@ -139,7 +139,7 @@ class AppTypography {
         letterSpacing: 1.0,
         height: 1.2,
       ),
-      
+
       // Button text
       button: TextStyle(
         fontSize: _scale(_baseBody, userFontSize),
@@ -153,7 +153,7 @@ class AppTypography {
         letterSpacing: 0.5,
         height: 1.2,
       ),
-      
+
       // Label text (same as caption but with primary text color)
       label: TextStyle(
         fontSize: _scale(_baseCaption, userFontSize),
@@ -173,19 +173,19 @@ class TextStyles {
   final TextStyle heading3;
   final TextStyle heading4;
   final TextStyle titleSmall;
-  
+
   // Body
   final TextStyle bodyLarge;
   final TextStyle body;
   final TextStyle bodyBold;
   final TextStyle bodySmall;
-  
+
   // Utility
   final TextStyle caption;
   final TextStyle captionBold;
   final TextStyle overline;
   final TextStyle label;
-  
+
   // Buttons
   final TextStyle button;
   final TextStyle buttonSmall;

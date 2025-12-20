@@ -15,10 +15,7 @@ void main() {
     });
 
     test('fetchRecentActivity method exists and has correct signature', () {
-      expect(
-        service.fetchRecentActivity,
-        isA<Function>(),
-      );
+      expect(service.fetchRecentActivity, isA<Function>());
     });
   });
 }

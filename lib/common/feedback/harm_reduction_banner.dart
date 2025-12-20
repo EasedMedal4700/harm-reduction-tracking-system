@@ -18,7 +18,8 @@ class HarmReductionBanner extends StatefulWidget {
 
   const HarmReductionBanner({
     super.key,
-    this.message = 'These calculations are estimates only and should not be taken as medical advice. '
+    this.message =
+        'These calculations are estimates only and should not be taken as medical advice. '
         'Individual responses vary significantly based on factors like metabolism, tolerance, '
         'and substance purity. Always prioritize safety and consult healthcare professionals.',
     this.dismissKey,
@@ -41,7 +42,9 @@ class _HarmReductionBannerState extends State<HarmReductionBanner> {
 
   Future<void> _checkDismissedState() async {
     if (widget.dismissKey != null) {
-      final isDismissed = await onboardingService.isHarmNoticeDismissed(widget.dismissKey!);
+      final isDismissed = await onboardingService.isHarmNoticeDismissed(
+        widget.dismissKey!,
+      );
       if (mounted) {
         setState(() {
           _isDismissed = isDismissed;
@@ -57,7 +60,7 @@ class _HarmReductionBannerState extends State<HarmReductionBanner> {
     if (widget.dismissKey != null) {
       await onboardingService.dismissHarmNotice(widget.dismissKey!);
     }
-    
+
     if (mounted) {
       setState(() => _isDismissed = true);
       widget.onDismiss?.call();
@@ -79,9 +82,7 @@ class _HarmReductionBannerState extends State<HarmReductionBanner> {
       decoration: BoxDecoration(
         color: c.warning.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(
-          color: c.warning.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: c.warning.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: PARTIAL
@@ -11,7 +10,6 @@ import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
 import '../../../../constants/data/drug_categories.dart';
-
 
 class SummaryStatsBanner extends StatelessWidget {
   final int totalUses;
@@ -44,11 +42,7 @@ class SummaryStatsBanner extends StatelessWidget {
           begin: context.shapes.alignmentTopLeft,
           end: context.shapes.alignmentBottomRight,
         ),
-        border: Border(
-          bottom: BorderSide(
-            color: t.colors.border,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: t.colors.border)),
       ),
       child: Column(
         children: [
@@ -108,17 +102,18 @@ class SummaryStatsBanner extends StatelessWidget {
     );
   }
 
-  Widget _buildSummaryItem(String label, String value, IconData icon, BuildContext context) {
+  Widget _buildSummaryItem(
+    String label,
+    String value,
+    IconData icon,
+    BuildContext context,
+  ) {
     final t = context.theme;
     final text = context.text;
 
     return Column(
       children: [
-        Icon(
-          icon,
-          size: context.sizes.iconMd,
-          color: t.accent.primary,
-        ),
+        Icon(icon, size: context.sizes.iconMd, color: t.accent.primary),
         CommonSpacer.vertical(context.spacing.xs / 2),
         Text(
           value,
@@ -128,12 +123,9 @@ class SummaryStatsBanner extends StatelessWidget {
         ),
         Text(
           label,
-          style: t.typography.caption.copyWith(
-            color: t.colors.textSecondary,
-          ),
+          style: t.typography.caption.copyWith(color: t.colors.textSecondary),
         ),
       ],
     );
   }
 }
-

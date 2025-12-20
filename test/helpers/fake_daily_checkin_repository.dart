@@ -12,7 +12,10 @@ class FakeDailyCheckinRepository implements DailyCheckinRepository {
   }
 
   @override
-  Future<DailyCheckin?> fetchCheckinByDateAndTime(DateTime date, String timeOfDay) async {
+  Future<DailyCheckin?> fetchCheckinByDateAndTime(
+    DateTime date,
+    String timeOfDay,
+  ) async {
     return existingCheckin;
   }
 
@@ -22,7 +25,10 @@ class FakeDailyCheckinRepository implements DailyCheckinRepository {
   }
 
   @override
-  Future<List<DailyCheckin>> fetchCheckinsInRange(DateTime startDate, DateTime endDate) async {
+  Future<List<DailyCheckin>> fetchCheckinsInRange(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
     return List.unmodifiable(_checkins);
   }
 

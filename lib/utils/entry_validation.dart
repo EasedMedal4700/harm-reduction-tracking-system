@@ -3,7 +3,8 @@ import '../constants/data/drug_use_catalog.dart';
 class ValidationUtils {
   // Public constants for error messages (can be reused)
   static const String emptyDosageError = 'Please enter a dosage';
-  static const String invalidDosageError = 'Dosage must be a positive number between 0.01 and 1000';
+  static const String invalidDosageError =
+      'Dosage must be a positive number between 0.01 and 1000';
   static const String emptySubstanceError = 'Please enter a substance';
   static const String unrecognizedSubstanceError = 'Substance not recognized';
 
@@ -58,7 +59,9 @@ class ValidationUtils {
     final requiredError = validateRequired(trimmed, 'Please select a route');
     if (requiredError != null) return requiredError;
 
-    if (!DrugUseCatalog.consumptionMethods.any((method) => method['name'] == trimmed)) {
+    if (!DrugUseCatalog.consumptionMethods.any(
+      (method) => method['name'] == trimmed,
+    )) {
       return 'Invalid route';
     }
     return null;
@@ -70,7 +73,9 @@ class ValidationUtils {
     final requiredError = validateRequired(trimmed, 'Please select a feeling');
     if (requiredError != null) return requiredError;
 
-    if (!DrugUseCatalog.primaryEmotions.any((emotion) => emotion['name'] == trimmed)) {
+    if (!DrugUseCatalog.primaryEmotions.any(
+      (emotion) => emotion['name'] == trimmed,
+    )) {
       return 'Invalid feeling';
     }
     return null;

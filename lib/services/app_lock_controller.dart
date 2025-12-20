@@ -72,7 +72,8 @@ class AppLockController extends Notifier<AppLockState> {
   }
 
   Duration _readGracePeriod(SharedPreferences prefs) {
-    final minutes = prefs.getInt(_keyForegroundTimeoutMinutes) ?? _minGraceMinutes;
+    final minutes =
+        prefs.getInt(_keyForegroundTimeoutMinutes) ?? _minGraceMinutes;
     final clamped = minutes < _minGraceMinutes ? _minGraceMinutes : minutes;
     return Duration(minutes: clamped);
   }

@@ -50,11 +50,17 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
               child: Column(
                 mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
                 children: [
-                  Icon(Icons.history, size: context.sizes.icon2xl, color: c.textSecondary),
+                  Icon(
+                    Icons.history,
+                    size: context.sizes.icon2xl,
+                    color: c.textSecondary,
+                  ),
                   SizedBox(height: sp.lg),
                   Text(
                     'No check-ins yet',
-                    style: t.typography.heading3.copyWith(color: c.textSecondary),
+                    style: t.typography.heading3.copyWith(
+                      color: c.textSecondary,
+                    ),
                   ),
                   SizedBox(height: sp.sm),
                   Text(

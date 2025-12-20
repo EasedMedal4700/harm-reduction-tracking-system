@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -63,10 +62,7 @@ class AdminUserList extends StatelessWidget {
           )
         else
           ...users.map(
-            (user) => AdminUserCard(
-              user: user,
-              onToggleAdmin: onToggleAdmin,
-            ),
+            (user) => AdminUserCard(user: user, onToggleAdmin: onToggleAdmin),
           ),
       ],
     );

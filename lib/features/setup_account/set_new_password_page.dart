@@ -38,7 +38,8 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
     if (session == null) {
       if (mounted) {
         setState(() {
-          _errorMessage = 'Your reset link has expired. Please request a new one.';
+          _errorMessage =
+              'Your reset link has expired. Please request a new one.';
         });
       }
     }
@@ -68,7 +69,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
       await Supabase.instance.client.auth.signOut();
 
       if (!mounted) return;
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Password updated successfully! Please log in.'),
@@ -76,10 +77,9 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
         ),
       );
 
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        '/login_page',
-        (route) => false,
-      );
+      Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil('/login_page', (route) => false);
     } on AuthException catch (e) {
       if (mounted) {
         setState(() {
@@ -105,16 +105,14 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
     final sp = context.spacing;
 
     // Show error state if no session
-    if (_errorMessage != null && Supabase.instance.client.auth.currentSession == null) {
+    if (_errorMessage != null &&
+        Supabase.instance.client.auth.currentSession == null) {
       return Scaffold(
         backgroundColor: c.background,
         appBar: AppBar(
           backgroundColor: context.colors.transparent,
           elevation: context.sizes.elevationNone,
-          title: Text(
-            'Reset Password',
-            style: TextStyle(color: c.textPrimary),
-          ),
+          title: Text('Reset Password', style: TextStyle(color: c.textPrimary)),
         ),
         body: SafeArea(
           child: Padding(
@@ -146,22 +144,20 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                 CommonSpacer.vertical(sp.sm),
                 Text(
                   _errorMessage!,
-                  style: text.bodyMedium.copyWith(
-                    color: c.textSecondary,
-                  ),
+                  style: text.bodyMedium.copyWith(color: c.textSecondary),
                   textAlign: AppLayout.textAlignCenter,
                 ),
                 CommonSpacer.vertical(sp.xl),
                 CommonPrimaryButton(
-                  onPressed: () => Navigator.of(context).pushNamed('/forgot-password'),
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed('/forgot-password'),
                   label: 'Request New Link',
                 ),
                 CommonSpacer.vertical(sp.md),
                 TextButton(
-                  onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/login_page',
-                    (route) => false,
-                  ),
+                  onPressed: () => Navigator.of(
+                    context,
+                  ).pushNamedAndRemoveUntil('/login_page', (route) => false),
                   child: Text(
                     'Back to Login',
                     style: TextStyle(color: a.primary),
@@ -181,10 +177,9 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
         elevation: context.sizes.elevationNone,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: c.textPrimary),
-          onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
-            '/login_page',
-            (route) => false,
-          ),
+          onPressed: () => Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil('/login_page', (route) => false),
         ),
         title: Text(
           'Set New Password',
@@ -208,7 +203,9 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   width: 100,
                   height: context.sizes.heightSm,
                   decoration: BoxDecoration(
-                    color: a.primary.withValues(alpha: context.opacities.overlay),
+                    color: a.primary.withValues(
+                      alpha: context.opacities.overlay,
+                    ),
                     shape: context.shapes.boxShapeCircle,
                   ),
                   child: Icon(
@@ -243,10 +240,14 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   Container(
                     padding: EdgeInsets.all(sp.sm),
                     decoration: BoxDecoration(
-                      color: c.error.withValues(alpha: context.opacities.overlay),
+                      color: c.error.withValues(
+                        alpha: context.opacities.overlay,
+                      ),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: c.error.withValues(alpha: context.opacities.medium),
+                        color: c.error.withValues(
+                          alpha: context.opacities.medium,
+                        ),
                       ),
                     ),
                     child: Row(
@@ -281,7 +282,9 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   prefixIcon: Icon(Icons.lock_outline, color: c.textSecondary),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: c.textSecondary,
                     ),
                     onPressed: () {
@@ -310,11 +313,16 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   prefixIcon: Icon(Icons.lock_outline, color: c.textSecondary),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                      _obscureConfirmPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: c.textSecondary,
                     ),
                     onPressed: () {
-                      setState(() => _obscureConfirmPassword = !_obscureConfirmPassword);
+                      setState(
+                        () =>
+                            _obscureConfirmPassword = !_obscureConfirmPassword,
+                      );
                     },
                   ),
                   validator: (value) {
@@ -362,7 +370,8 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                         context,
                         'Passwords match',
                         _passwordController.text.isNotEmpty &&
-                            _passwordController.text == _confirmPasswordController.text,
+                            _passwordController.text ==
+                                _confirmPasswordController.text,
                       ),
                     ],
                   ),
@@ -391,18 +400,9 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
             color: color,
           ),
           CommonSpacer.horizontal(sp.xs),
-          Text(
-            text,
-            style: textStyle.bodySmall.copyWith(
-              color: color,
-            ),
-          ),
+          Text(text, style: textStyle.bodySmall.copyWith(color: color)),
         ],
       ),
     );
   }
 }
-
-
-
-

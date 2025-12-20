@@ -27,7 +27,11 @@ void showDeleteDataConfirmation(
     builder: (context) => AlertDialog(
       title: Row(
         children: [
-          Icon(Icons.warning_amber, color: colors.warning, size: context.sizes.icon2xl),
+          Icon(
+            Icons.warning_amber,
+            color: colors.warning,
+            size: context.sizes.icon2xl,
+          ),
           CommonSpacer.horizontal(spacing.md),
           const Expanded(child: Text('Are You Sure?')),
         ],
@@ -36,10 +40,7 @@ void showDeleteDataConfirmation(
         mainAxisSize: AppLayout.mainAxisSizeMin,
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          Text(
-            'This will permanently delete:',
-            style: context.text.bodyBold,
-          ),
+          Text('This will permanently delete:', style: context.text.bodyBold),
           CommonSpacer.vertical(spacing.md),
           WarningItem('All your drug use logs'),
           WarningItem('All your reflections'),
@@ -52,18 +53,22 @@ void showDeleteDataConfirmation(
             decoration: BoxDecoration(
               color: colors.info.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(radii.radiusSm),
-              border: Border.all(
-                color: colors.info,
-              ),
+              border: Border.all(color: colors.info),
             ),
             child: Row(
               children: [
-                Icon(Icons.info_outline, color: colors.info, size: context.sizes.iconMd),
+                Icon(
+                  Icons.info_outline,
+                  color: colors.info,
+                  size: context.sizes.iconMd,
+                ),
                 CommonSpacer.horizontal(spacing.sm),
                 Expanded(
                   child: Text(
                     'Consider downloading your data first!',
-                    style: context.text.body.copyWith(fontWeight: context.text.body.fontWeight),
+                    style: context.text.body.copyWith(
+                      fontWeight: context.text.body.fontWeight,
+                    ),
                   ),
                 ),
               ],
@@ -72,7 +77,10 @@ void showDeleteDataConfirmation(
           CommonSpacer.vertical(spacing.md),
           Text(
             'Your account will remain active, but all your data will be gone forever.',
-            style: context.text.body.copyWith(color: colors.error, fontWeight: context.text.body.fontWeight),
+            style: context.text.body.copyWith(
+              color: colors.error,
+              fontWeight: context.text.body.fontWeight,
+            ),
           ),
         ],
       ),
@@ -112,7 +120,7 @@ void showFinalDeleteDataConfirmation(
   required VoidCallback onConfirmDelete,
 }) {
   final colors = context.colors;
-  
+
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -147,7 +155,11 @@ void showDeleteAccountConfirmation(
       backgroundColor: colors.error.withValues(alpha: 0.1),
       title: Row(
         children: [
-          Icon(Icons.error_outline, color: colors.error, size: context.sizes.icon2xl),
+          Icon(
+            Icons.error_outline,
+            color: colors.error,
+            size: context.sizes.icon2xl,
+          ),
           CommonSpacer.horizontal(spacing.md),
           const Expanded(child: Text('⚠️ DELETE ACCOUNT')),
         ],
@@ -158,14 +170,11 @@ void showDeleteAccountConfirmation(
         children: [
           Text(
             'This will PERMANENTLY delete:',
-            style: context.text.bodyBold.copyWith(
-              color: colors.error,
-            ),
+            style: context.text.bodyBold.copyWith(color: colors.error),
           ),
           CommonSpacer.vertical(spacing.md),
           WarningItem('All your data and logs', isRed: true),
-          WarningItem('All your settings and profile',
-              isRed: true),
+          WarningItem('All your settings and profile', isRed: true),
           WarningItem('Your account record', isRed: true),
           CommonSpacer.vertical(spacing.sm),
           WarningItem(
@@ -184,8 +193,11 @@ void showDeleteAccountConfirmation(
             ),
             child: Row(
               children: [
-                Icon(Icons.download,
-                    color: colors.warning, size: context.sizes.iconMd),
+                Icon(
+                  Icons.download,
+                  color: colors.warning,
+                  size: context.sizes.iconMd,
+                ),
                 CommonSpacer.horizontal(spacing.sm),
                 Expanded(
                   child: Text(
@@ -253,9 +265,11 @@ void showFinalDeleteAccountConfirmation(
         backgroundColor: colors.error.withValues(alpha: 0.1),
         title: Row(
           children: [
-            Icon(Icons.warning,
-                color: colors.error,
-                size: context.sizes.icon2xl),
+            Icon(
+              Icons.warning,
+              color: colors.error,
+              size: context.sizes.icon2xl,
+            ),
             CommonSpacer.horizontal(spacing.sm),
             const Expanded(child: Text('FINAL CONFIRMATION')),
           ],
@@ -265,9 +279,7 @@ void showFinalDeleteAccountConfirmation(
           children: [
             Text(
               'Type "DELETE MY ACCOUNT" to confirm account deletion:',
-              style: context.text.bodyBold.copyWith(
-                color: colors.error,
-              ),
+              style: context.text.bodyBold.copyWith(color: colors.error),
             ),
             CommonSpacer.vertical(spacing.md),
             TextField(
@@ -294,9 +306,7 @@ void showFinalDeleteAccountConfirmation(
             CommonSpacer.vertical(spacing.lg),
             Text(
               '⚠️ This is your last chance to cancel!',
-              style: context.text.bodyBold.copyWith(
-                color: colors.error,
-              ),
+              style: context.text.bodyBold.copyWith(color: colors.error),
             ),
           ],
         ),
@@ -315,7 +325,9 @@ void showFinalDeleteAccountConfirmation(
             style: ElevatedButton.styleFrom(
               backgroundColor: colors.error,
               foregroundColor: colors.surface,
-              disabledBackgroundColor: colors.textSecondary.withValues(alpha: 0.3),
+              disabledBackgroundColor: colors.textSecondary.withValues(
+                alpha: 0.3,
+              ),
             ),
             child: const Text('DELETE MY ACCOUNT FOREVER'),
           ),

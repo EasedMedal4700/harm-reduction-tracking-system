@@ -65,18 +65,21 @@ class AnalyticsContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.theme;
 
-    final periodFilteredEntries =
-        service.filterEntriesByPeriod(entries, selectedPeriod);
+    final periodFilteredEntries = service.filterEntriesByPeriod(
+      entries,
+      selectedPeriod,
+    );
 
     final categoryTypeFilteredEntries = periodFilteredEntries.where((e) {
       final category =
           service.substanceToCategory[e.substance.toLowerCase()] ??
-              'Placeholder';
+          'Placeholder';
 
       final matchesCategory =
           selectedCategories.isEmpty || selectedCategories.contains(category);
 
-      final matchesType = selectedTypeIndex == 0 ||
+      final matchesType =
+          selectedTypeIndex == 0 ||
           (selectedTypeIndex == 1 && e.isMedicalPurpose) ||
           (selectedTypeIndex == 2 && !e.isMedicalPurpose);
 
@@ -85,7 +88,8 @@ class AnalyticsContent extends StatelessWidget {
 
     final filteredEntries = categoryTypeFilteredEntries.where((e) {
       final matchesSubstance =
-          selectedSubstances.isEmpty || selectedSubstances.contains(e.substance);
+          selectedSubstances.isEmpty ||
+          selectedSubstances.contains(e.substance);
 
       final matchesPlace =
           selectedPlaces.isEmpty || selectedPlaces.contains(e.location);
@@ -93,7 +97,8 @@ class AnalyticsContent extends StatelessWidget {
       final matchesRoute =
           selectedRoutes.isEmpty || selectedRoutes.contains(e.route);
 
-      final matchesFeeling = selectedFeelings.isEmpty ||
+      final matchesFeeling =
+          selectedFeelings.isEmpty ||
           e.feelings.any((f) => selectedFeelings.contains(f));
 
       final matchesCraving =
@@ -113,8 +118,10 @@ class AnalyticsContent extends StatelessWidget {
     final mostUsedSubstance = service.getMostUsedSubstance(substanceCounts);
 
     final totalEntries = filteredEntries.length;
-    final topCategoryPercent =
-        service.getTopCategoryPercent(mostUsed.value, totalEntries);
+    final topCategoryPercent = service.getTopCategoryPercent(
+      mostUsed.value,
+      totalEntries,
+    );
 
     final selectedPeriodText = _getSelectedPeriodText();
 
@@ -122,13 +129,16 @@ class AnalyticsContent extends StatelessWidget {
         categoryTypeFilteredEntries.map((e) => e.substance).toSet().toList()
           ..sort();
 
-    final uniqueCategories = periodFilteredEntries
-        .map((e) =>
-            service.substanceToCategory[e.substance.toLowerCase()] ??
-            'Placeholder')
-        .toSet()
-        .toList()
-      ..sort();
+    final uniqueCategories =
+        periodFilteredEntries
+            .map(
+              (e) =>
+                  service.substanceToCategory[e.substance.toLowerCase()] ??
+                  'Placeholder',
+            )
+            .toSet()
+            .toList()
+          ..sort();
 
     final uniquePlaces =
         periodFilteredEntries.map((e) => e.location).toSet().toList()..sort();

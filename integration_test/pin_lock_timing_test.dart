@@ -8,16 +8,16 @@ import 'package:mobile_drug_use_app/providers/core_providers.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('App Lock Timing: Resume within grace period does not lock', (tester) async {
+  testWidgets('App Lock Timing: Resume within grace period does not lock', (
+    tester,
+  ) async {
     // Setup SharedPreferences
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          sharedPreferencesProvider.overrideWithValue(prefs),
-        ],
+        overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
         child: MaterialApp(
           home: Consumer(
             builder: (context, ref, _) {
@@ -33,14 +33,20 @@ void main() {
     expect(find.text('UNLOCKED'), findsOneWidget);
 
     // Simulate backgrounding
-    final container = ProviderScope.containerOf(tester.element(find.byType(MaterialApp)));
-    await container.read(appLockControllerProvider.notifier).onBackgroundStart();
-    
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(MaterialApp)),
+    );
+    await container
+        .read(appLockControllerProvider.notifier)
+        .onBackgroundStart();
+
     // Wait a bit (less than grace period)
     await Future.delayed(const Duration(seconds: 1));
-    
+
     // Simulate resume
-    await container.read(appLockControllerProvider.notifier).onForegroundResume();
+    await container
+        .read(appLockControllerProvider.notifier)
+        .onForegroundResume();
     await tester.pump();
 
     expect(find.text('UNLOCKED'), findsOneWidget);

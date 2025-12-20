@@ -24,15 +24,15 @@ class CatalogAppBar extends StatelessWidget implements PreferredSizeWidget {
             decoration: BoxDecoration(
               color: t.colors.surfaceVariant.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(t.shapes.radiusSm),
-              border: Border.all(color: accentColor.withValues(alpha: t.opacities.slow)),
+              border: Border.all(
+                color: accentColor.withValues(alpha: t.opacities.slow),
+              ),
             ),
             child: Icon(Icons.science_outlined, color: accentColor),
           ),
           Text(
             'Substance Catalog',
-            style: t.typography.heading3.copyWith(
-              color: t.colors.textPrimary,
-            ),
+            style: t.typography.heading3.copyWith(color: t.colors.textPrimary),
           ),
         ],
       ),

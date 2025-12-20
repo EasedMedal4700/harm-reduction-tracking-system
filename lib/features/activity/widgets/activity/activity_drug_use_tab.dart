@@ -54,8 +54,9 @@ class ActivityDrugUseTab extends StatelessWidget {
         itemCount: entries.length,
         itemBuilder: (context, index) {
           final entry = entries[index];
-          final timestamp =
-              _parseTimestamp(entry['start_time'] ?? entry['time']);
+          final timestamp = _parseTimestamp(
+            entry['start_time'] ?? entry['time'],
+          );
 
           return ActivityCard(
             title: entry['name'] ?? 'Unknown Substance',

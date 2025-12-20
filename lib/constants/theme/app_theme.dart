@@ -59,36 +59,21 @@ class AppTheme {
     }
   }
 
-  factory AppTheme.light({
-    double fontSize = 14,
-    bool compactMode = false,
-  }) =>
-      AppTheme._(
-        isDark: false,
-        fontSize: fontSize,
-        compactMode: compactMode,
-      );
+  factory AppTheme.light({double fontSize = 14, bool compactMode = false}) =>
+      AppTheme._(isDark: false, fontSize: fontSize, compactMode: compactMode);
 
-  factory AppTheme.dark({
-    double fontSize = 14,
-    bool compactMode = false,
-  }) =>
-      AppTheme._(
-        isDark: true,
-        fontSize: fontSize,
-        compactMode: compactMode,
-      );
+  factory AppTheme.dark({double fontSize = 14, bool compactMode = false}) =>
+      AppTheme._(isDark: true, fontSize: fontSize, compactMode: compactMode);
 
-  factory AppTheme.fromSettings(AppSettings settings) =>
-      settings.darkMode
-          ? AppTheme.dark(
-              fontSize: settings.fontSize,
-              compactMode: settings.compactMode,
-            )
-          : AppTheme.light(
-              fontSize: settings.fontSize,
-              compactMode: settings.compactMode,
-            );
+  factory AppTheme.fromSettings(AppSettings settings) => settings.darkMode
+      ? AppTheme.dark(
+          fontSize: settings.fontSize,
+          compactMode: settings.compactMode,
+        )
+      : AppTheme.light(
+          fontSize: settings.fontSize,
+          compactMode: settings.compactMode,
+        );
 
   ThemeData get themeData =>
       isDark ? _buildDarkThemeData() : _buildLightThemeData();

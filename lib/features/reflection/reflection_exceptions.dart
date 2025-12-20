@@ -20,22 +20,22 @@ class ReflectionNotFoundException extends ReflectionException {
   final String reflectionId;
 
   ReflectionNotFoundException(this.reflectionId)
-      : super(
-          'Reflection not found',
-          details: 'Could not find reflection with ID: $reflectionId',
-        );
+    : super(
+        'Reflection not found',
+        details: 'Could not find reflection with ID: $reflectionId',
+      );
 }
 
 class ReflectionValidationException extends ReflectionException {
   final Map<String, String> validationErrors;
 
   ReflectionValidationException(this.validationErrors)
-      : super(
-          'Validation failed',
-          details: validationErrors.entries
-              .map((e) => '${e.key}: ${e.value}')
-              .join('\n'),
-        );
+    : super(
+        'Validation failed',
+        details: validationErrors.entries
+            .map((e) => '${e.key}: ${e.value}')
+            .join('\n'),
+      );
 }
 
 class ReflectionSaveException extends ReflectionException {
@@ -54,5 +54,5 @@ class ReflectionParseException extends ReflectionException {
 
 class DatabaseConnectionException extends ReflectionException {
   DatabaseConnectionException({String? details})
-      : super('Database connection error', details: details);
+    : super('Database connection error', details: details);
 }

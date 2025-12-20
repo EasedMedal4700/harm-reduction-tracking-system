@@ -276,14 +276,16 @@ class BloodLevelsService {
 
         final hoursSinceDose =
             referenceTime.difference(startTime).inMinutes / 60.0;
-        
+
         // Get profile for this drug to determine half-life
         final profileResponse = await Supabase.instance.client
             .from('drug_profiles')
-            .select('properties, formatted_duration, formatted_aftereffects, categories')
+            .select(
+              'properties, formatted_duration, formatted_aftereffects, categories',
+            )
             .ilike('slug', drugName)
             .maybeSingle();
-        
+
         final halfLife = _getHalfLife(drugName, profile: profileResponse);
 
         // Calculate remaining at reference time (may be 0 if fully decayed)
@@ -368,7 +370,7 @@ class BloodLevelsService {
   }
 
   /// Determine half-life for a drug using database properties or intelligent estimation
-  /// 
+  ///
   /// Priority:
   /// 1. Read from drug_profiles.properties.half_life_hours
   /// 2. Estimate from duration, onset, after-effects, and categories
@@ -388,23 +390,25 @@ class BloodLevelsService {
 
     // Step 2: Estimate from duration, onset, and after-effects
     double estimatedHalfLife = 8.0; // Default fallback
-    
+
     if (profile != null) {
       // Parse duration to get effective duration in hours
       final duration = _parseMaxDuration(profile['formatted_duration']);
       final afterEffects = _parseMaxDuration(profile['formatted_aftereffects']);
-      final categories = (profile['categories'] as List<dynamic>?)
-          ?.map((e) => e.toString().toLowerCase())
-          .toList() ?? [];
-      
+      final categories =
+          (profile['categories'] as List<dynamic>?)
+              ?.map((e) => e.toString().toLowerCase())
+              .toList() ??
+          [];
+
       // Base estimation: half-life = (duration / 4) + (after_effects / 8)
       if (duration > 0) {
         estimatedHalfLife = (duration / 4) + (afterEffects / 8);
       }
-      
+
       // Step 3: Apply category-specific adjustments
       final categoryLower = categories.join(' ').toLowerCase();
-      
+
       if (categoryLower.contains('benzo')) {
         // Benzodiazepines: classify by duration
         if (duration < 4) {
@@ -434,22 +438,22 @@ class BloodLevelsService {
       } else if (categoryLower.contains('dissociative')) {
         // Dissociatives: 30-60% of duration
         estimatedHalfLife = duration * 0.45;
-      } else if (categoryLower.contains('alcohol') || 
-                 categoryLower.contains('depressant') && 
-                 categoryLower.contains('gaba')) {
+      } else if (categoryLower.contains('alcohol') ||
+          categoryLower.contains('depressant') &&
+              categoryLower.contains('gaba')) {
         // Alcohol/GABAergic depressants: short relative to effects
         estimatedHalfLife = duration * 0.15;
       } else if (duration > 0) {
         // Default category: 30% of duration
         estimatedHalfLife = duration * 0.3;
       }
-      
+
       // Step 4: Adjust for extremely long after-effects (24h+)
       if (afterEffects >= 24) {
         estimatedHalfLife *= 1.15; // Add 15% for long after-effects
       }
     }
-    
+
     // Step 5: Clamp to reasonable range
     return estimatedHalfLife.clamp(0.5, 120.0);
   }

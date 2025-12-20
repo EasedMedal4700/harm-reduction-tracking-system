@@ -1,5 +1,5 @@
 /// Migration Service: Migrate from old JWT-based encryption to new PIN-based encryption
-/// 
+///
 /// This service handles the migration for existing users who have data encrypted
 /// with the old EncryptionService (JWT-based). It detects if migration is needed,
 /// prompts the user to create a PIN, and re-encrypts all existing data with the
@@ -20,7 +20,7 @@ class EncryptionMigrationService {
   // ============================================================================
 
   /// Check if user needs to migrate from old to new encryption system
-  /// 
+  ///
   /// Returns:
   /// - `true`: User has old encryption data, needs migration
   /// - `false`: User already migrated or new user
@@ -63,7 +63,7 @@ class EncryptionMigrationService {
   // ============================================================================
 
   /// Migrate user data from old JWT-based encryption to new PIN-based encryption
-  /// 
+  ///
   /// Process:
   /// 1. Initialize old encryption service (JWT-based)
   /// 2. Setup new encryption service (PIN-based) with user's PIN
@@ -71,11 +71,11 @@ class EncryptionMigrationService {
   /// 4. Decrypt with old service, re-encrypt with new service
   /// 5. Update database with re-encrypted data
   /// 6. Delete old encryption keys
-  /// 
+  ///
   /// Parameters:
   /// - `uuidUserId`: User's UUID
   /// - `pin`: User's chosen 6-digit PIN (validated before calling this)
-  /// 
+  ///
   /// Returns: Recovery key string (24-char hex) on success
   /// Throws: Exception on failure
   Future<String> migrateUserData(String uuidUserId, String pin) async {
@@ -232,10 +232,7 @@ class EncryptionMigrationService {
         }
 
         if (updates.isNotEmpty) {
-          await _client
-              .from('log_entries')
-              .update(updates)
-              .eq('id', id);
+          await _client.from('log_entries').update(updates).eq('id', id);
           migrated++;
         }
       }

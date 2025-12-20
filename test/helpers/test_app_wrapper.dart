@@ -8,9 +8,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 Widget wrapWithAppTheme(Widget child) {
   return AppThemeProvider(
     theme: AppTheme.light(),
-    child: MaterialApp(
-      home: Scaffold(body: child),
-    ),
+    child: MaterialApp(home: Scaffold(body: child)),
   );
 }
 
@@ -18,9 +16,7 @@ Widget wrapWithAppTheme(Widget child) {
 Widget wrapWithAppThemeApp({required Widget home}) {
   return AppThemeProvider(
     theme: AppTheme.light(),
-    child: MaterialApp(
-      home: home,
-    ),
+    child: MaterialApp(home: home),
   );
 }
 
@@ -33,9 +29,7 @@ Widget wrapWithAppThemeAndProvidersApp({
     overrides: overrides,
     child: AppThemeProvider(
       theme: AppTheme.light(),
-      child: MaterialApp(
-        home: home,
-      ),
+      child: MaterialApp(home: home),
     ),
   );
 }
@@ -58,9 +52,9 @@ Widget createEnhancedTestWrapper({
         themeMode: themeMode,
         home: Scaffold(body: child),
         builder: (context, child) => MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            size: size ?? const Size(400, 800),
-          ),
+          data: MediaQuery.of(
+            context,
+          ).copyWith(size: size ?? const Size(400, 800)),
           child: child!,
         ),
       ),

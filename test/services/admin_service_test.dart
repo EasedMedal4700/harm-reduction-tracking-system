@@ -13,45 +13,27 @@ void main() {
     });
 
     test('has fetchAllUsers method', () {
-      expect(
-        AdminService().fetchAllUsers,
-        isA<Function>(),
-      );
+      expect(AdminService().fetchAllUsers, isA<Function>());
     }, skip: 'Requires Supabase initialization');
 
     test('has getSystemStats method', () {
-      expect(
-        AdminService().getSystemStats,
-        isA<Function>(),
-      );
+      expect(AdminService().getSystemStats, isA<Function>());
     }, skip: 'Requires Supabase initialization');
 
     test('has getErrorAnalytics method', () {
-      expect(
-        AdminService().getErrorAnalytics,
-        isA<Function>(),
-      );
+      expect(AdminService().getErrorAnalytics, isA<Function>());
     }, skip: 'Requires Supabase initialization');
 
     test('has promoteUser method', () {
-      expect(
-        AdminService().promoteUser,
-        isA<Function>(),
-      );
+      expect(AdminService().promoteUser, isA<Function>());
     }, skip: 'Requires Supabase initialization');
 
     test('has demoteUser method', () {
-      expect(
-        AdminService().demoteUser,
-        isA<Function>(),
-      );
+      expect(AdminService().demoteUser, isA<Function>());
     }, skip: 'Requires Supabase initialization');
 
     test('has clearErrorLogs method', () {
-      expect(
-        AdminService().clearErrorLogs,
-        isA<Function>(),
-      );
+      expect(AdminService().clearErrorLogs, isA<Function>());
     }, skip: 'Requires Supabase initialization');
   });
 }

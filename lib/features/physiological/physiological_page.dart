@@ -16,7 +16,7 @@ class PhysiologicalPage extends StatelessWidget {
     final a = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -51,9 +51,7 @@ class PhysiologicalPage extends StatelessWidget {
               CommonSpacer.vertical(sp.md),
               Text(
                 'Track heart rate, blood pressure, and other vital signs',
-                style: t.typography.body.copyWith(
-                  color: c.textSecondary,
-                ),
+                style: t.typography.body.copyWith(color: c.textSecondary),
                 textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.xl),
@@ -77,9 +75,7 @@ class PhysiologicalPage extends StatelessWidget {
                     CommonSpacer.horizontal(sp.sm),
                     Text(
                       'Coming Soon',
-                      style: t.typography.heading4.copyWith(
-                        color: a.primary,
-                      ),
+                      style: t.typography.heading4.copyWith(color: a.primary),
                     ),
                   ],
                 ),

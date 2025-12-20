@@ -1,12 +1,12 @@
 // Tolerance Summary Card Widget
-// 
+//
 // Created: 2024-11-10
 // Last Modified: 2025-12-14
-// 
+//
 // Purpose:
 // Displays the current tolerance percentage as a large visual indicator with a progress bar
 // and color-coded status label. Primary summary card for tolerance information.
-// 
+//
 // Features:
 // - Large tolerance percentage display
 // - Color-coded progress bar (green to red based on tolerance level)
@@ -27,18 +27,14 @@ import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/theme/app_color_palette.dart';
 import '../../../../common/layout/common_spacer.dart';
 
-
 /// Card displaying current tolerance percentage with color indicator and progress bar
-/// 
+///
 /// Shows a prominent percentage value, visual progress bar, and text label
 /// indicating the tolerance level (Baseline, Low, Moderate, High, Very High).
 class ToleranceSummaryCard extends ConsumerWidget {
   final double currentTolerance;
 
-  const ToleranceSummaryCard({
-    required this.currentTolerance,
-    super.key,
-  });
+  const ToleranceSummaryCard({required this.currentTolerance, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,9 +63,7 @@ class ToleranceSummaryCard extends ConsumerWidget {
           // Label text
           Text(
             'Current tolerance',
-            style: typography.bodySmall.copyWith(
-              color: colors.textSecondary,
-            ),
+            style: typography.bodySmall.copyWith(color: colors.textSecondary),
           ),
 
           CommonSpacer(height: spacing.md),
@@ -152,4 +146,3 @@ class ToleranceSummaryCard extends ConsumerWidget {
     return colors.error;
   }
 }
-

@@ -39,10 +39,7 @@ class FilterPanel extends StatelessWidget {
       decoration: BoxDecoration(
         color: c.surface,
         border: Border(
-          bottom: BorderSide(
-            color: c.border,
-            width: context.borders.thin,
-          ),
+          bottom: BorderSide(color: c.border, width: context.borders.thin),
         ),
       ),
       padding: EdgeInsets.all(sp.md),
@@ -80,7 +77,9 @@ class FilterPanel extends StatelessWidget {
                 selected: isSelected,
                 onSelected: (selected) => onIncludeChanged(drug, selected),
                 backgroundColor: c.surfaceVariant,
-                selectedColor: acc.primary.withValues(alpha: context.opacities.selected),
+                selectedColor: acc.primary.withValues(
+                  alpha: context.opacities.selected,
+                ),
                 checkmarkColor: acc.primary,
                 labelStyle: TextStyle(
                   color: isSelected ? acc.primary : c.textPrimary,

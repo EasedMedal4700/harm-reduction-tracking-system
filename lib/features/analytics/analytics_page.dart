@@ -61,16 +61,28 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       _service ??= AnalyticsService();
       final supabase = Supabase.instance.client;
       final entries = await _service!.fetchEntries();
-      final substanceResponse = await supabase.from('drug_profiles').select('name, categories');
+      final substanceResponse = await supabase
+          .from('drug_profiles')
+          .select('name, categories');
       final substanceData = substanceResponse as List<dynamic>;
       final substanceToCategory = <String, String>{};
 
       for (final item in substanceData) {
-        final categories = (item['categories'] as List<dynamic>?)?.map((e) => e as String).toList() ?? ['Placeholder'];
-        final validCategories = categories.where((c) => DrugCategories.categoryPriority.contains(c)).toList();
+        final categories =
+            (item['categories'] as List<dynamic>?)
+                ?.map((e) => e as String)
+                .toList() ??
+            ['Placeholder'];
+        final validCategories = categories
+            .where((c) => DrugCategories.categoryPriority.contains(c))
+            .toList();
         final category = validCategories.isNotEmpty
             ? validCategories.reduce(
-                (a, b) => DrugCategories.categoryPriority.indexOf(a) < DrugCategories.categoryPriority.indexOf(b) ? a : b,
+                (a, b) =>
+                    DrugCategories.categoryPriority.indexOf(a) <
+                        DrugCategories.categoryPriority.indexOf(b)
+                    ? a
+                    : b,
               )
             : 'Placeholder';
         substanceToCategory[(item['name'] as String).toLowerCase()] = category;
@@ -83,7 +95,10 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         _entries = entries;
         _isLoading = false;
       });
-      ErrorHandler.logInfo('AnalyticsPage._fetchData', 'Loaded ${entries.length} entries');
+      ErrorHandler.logInfo(
+        'AnalyticsPage._fetchData',
+        'Loaded ${entries.length} entries',
+      );
     } catch (e, stackTrace) {
       ErrorHandler.logError('AnalyticsPage._fetchData', e, stackTrace);
       if (!mounted) return;
@@ -159,23 +174,42 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 
   Widget _buildAnalyticsContent() {
     // Calculate filtered data
-    final periodFilteredEntries = _service!.filterEntriesByPeriod(_entries, _selectedPeriod);
+    final periodFilteredEntries = _service!.filterEntriesByPeriod(
+      _entries,
+      _selectedPeriod,
+    );
     final categoryTypeFilteredEntries = periodFilteredEntries.where((e) {
-      final category = _service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder';
-      final matchesCategory = _selectedCategories.isEmpty || _selectedCategories.contains(category);
-      final matchesType = _selectedTypeIndex == 0 ||
+      final category =
+          _service!.substanceToCategory[e.substance.toLowerCase()] ??
+          'Placeholder';
+      final matchesCategory =
+          _selectedCategories.isEmpty || _selectedCategories.contains(category);
+      final matchesType =
+          _selectedTypeIndex == 0 ||
           (_selectedTypeIndex == 1 && e.isMedicalPurpose) ||
           (_selectedTypeIndex == 2 && !e.isMedicalPurpose);
       return matchesCategory && matchesType;
     }).toList();
 
     final filteredEntries = categoryTypeFilteredEntries.where((e) {
-      final matchesSubstance = _selectedSubstances.isEmpty || _selectedSubstances.contains(e.substance);
-      final matchesPlace = _selectedPlaces.isEmpty || _selectedPlaces.contains(e.location);
-      final matchesRoute = _selectedRoutes.isEmpty || _selectedRoutes.contains(e.route);
-      final matchesFeeling = _selectedFeelings.isEmpty || e.feelings.any((f) => _selectedFeelings.contains(f));
-      final matchesCraving = e.cravingIntensity >= _minCraving && e.cravingIntensity <= _maxCraving;
-      return matchesSubstance && matchesPlace && matchesRoute && matchesFeeling && matchesCraving;
+      final matchesSubstance =
+          _selectedSubstances.isEmpty ||
+          _selectedSubstances.contains(e.substance);
+      final matchesPlace =
+          _selectedPlaces.isEmpty || _selectedPlaces.contains(e.location);
+      final matchesRoute =
+          _selectedRoutes.isEmpty || _selectedRoutes.contains(e.route);
+      final matchesFeeling =
+          _selectedFeelings.isEmpty ||
+          e.feelings.any((f) => _selectedFeelings.contains(f));
+      final matchesCraving =
+          e.cravingIntensity >= _minCraving &&
+          e.cravingIntensity <= _maxCraving;
+      return matchesSubstance &&
+          matchesPlace &&
+          matchesRoute &&
+          matchesFeeling &&
+          matchesCraving;
     }).toList();
 
     // Calculate metrics
@@ -185,24 +219,43 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     final substanceCounts = _service!.getSubstanceCounts(filteredEntries);
     final mostUsedSubstance = _service!.getMostUsedSubstance(substanceCounts);
     final totalEntries = filteredEntries.length;
-    final topCategoryPercent = _service!.getTopCategoryPercent(mostUsed.value, totalEntries).toDouble();
+    final topCategoryPercent = _service!
+        .getTopCategoryPercent(mostUsed.value, totalEntries)
+        .toDouble();
     final selectedPeriodText = TimePeriodUtils.getPeriodText(_selectedPeriod);
 
     // Get unique values for filters
-    final uniqueSubstances = categoryTypeFilteredEntries.map((e) => e.substance).toSet().toList()..sort();
-    final uniqueCategories = periodFilteredEntries.map((e) => _service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder').toSet().toList()..sort();
-    final uniquePlaces = periodFilteredEntries.map((e) => e.location).toSet().toList()..sort();
-    final uniqueRoutes = periodFilteredEntries.map((e) => e.route).toSet().toList()..sort();
-    final uniqueFeelings = periodFilteredEntries.expand((e) => e.feelings).toSet().toList()..sort();
+    final uniqueSubstances =
+        categoryTypeFilteredEntries.map((e) => e.substance).toSet().toList()
+          ..sort();
+    final uniqueCategories =
+        periodFilteredEntries
+            .map(
+              (e) =>
+                  _service!.substanceToCategory[e.substance.toLowerCase()] ??
+                  'Placeholder',
+            )
+            .toSet()
+            .toList()
+          ..sort();
+    final uniquePlaces =
+        periodFilteredEntries.map((e) => e.location).toSet().toList()..sort();
+    final uniqueRoutes =
+        periodFilteredEntries.map((e) => e.route).toSet().toList()..sort();
+    final uniqueFeelings =
+        periodFilteredEntries.expand((e) => e.feelings).toSet().toList()
+          ..sort();
 
     return AnalyticsLayout(
       filterContent: FilterWidget(
         uniqueCategories: uniqueCategories,
         uniqueSubstances: uniqueSubstances,
         selectedCategories: _selectedCategories,
-        onCategoryChanged: (categories) => setState(() => _selectedCategories = categories),
+        onCategoryChanged: (categories) =>
+            setState(() => _selectedCategories = categories),
         selectedSubstances: _selectedSubstances,
-        onSubstanceChanged: (substances) => setState(() => _selectedSubstances = substances),
+        onSubstanceChanged: (substances) =>
+            setState(() => _selectedSubstances = substances),
         selectedTypeIndex: _selectedTypeIndex,
         onTypeChanged: (index) => setState(() => _selectedTypeIndex = index),
         uniquePlaces: uniquePlaces,
@@ -213,7 +266,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         onRouteChanged: (routes) => setState(() => _selectedRoutes = routes),
         uniqueFeelings: uniqueFeelings,
         selectedFeelings: _selectedFeelings,
-        onFeelingChanged: (feelings) => setState(() => _selectedFeelings = feelings),
+        onFeelingChanged: (feelings) =>
+            setState(() => _selectedFeelings = feelings),
         minCraving: _minCraving,
         maxCraving: _maxCraving,
         onMinCravingChanged: (value) => setState(() => _minCraving = value),
@@ -238,7 +292,12 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         setState(() {
           // Filter logic differs based on context, using simpler approach
           _selectedSubstances = filteredEntries
-              .where((e) => (_service!.substanceToCategory[e.substance.toLowerCase()] ?? 'Placeholder') == category)
+              .where(
+                (e) =>
+                    (_service!.substanceToCategory[e.substance.toLowerCase()] ??
+                        'Placeholder') ==
+                    category,
+              )
               .map((e) => e.substance)
               .toSet()
               .toList();

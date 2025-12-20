@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -12,10 +11,7 @@ import '../../../../common/buttons/common_primary_button.dart';
 class ActivityDeleteDialog extends StatelessWidget {
   final String entryType;
 
-  const ActivityDeleteDialog({
-    super.key,
-    required this.entryType,
-  });
+  const ActivityDeleteDialog({super.key, required this.entryType});
 
   static Future<bool> show(BuildContext context, String entryType) async {
     final confirmed = await showDialog<bool>(

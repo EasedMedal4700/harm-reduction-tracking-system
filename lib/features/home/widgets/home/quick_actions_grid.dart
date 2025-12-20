@@ -66,9 +66,7 @@ class _QuickActionTileState extends State<QuickActionTile> {
                 duration: context.animations.fast,
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: effectiveColor.withValues(
-                    alpha: t.isDark ? 0.2 : 0.1,
-                  ),
+                  color: effectiveColor.withValues(alpha: t.isDark ? 0.2 : 0.1),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   boxShadow: _hovered && t.isDark
                       ? [
@@ -76,15 +74,11 @@ class _QuickActionTileState extends State<QuickActionTile> {
                             color: t.accent.primary.withValues(alpha: 0.3),
                             blurRadius: context.sizes.blurRadiusMd,
                             spreadRadius: context.sizes.spreadRadiusMd,
-                          )
+                          ),
                         ]
                       : null,
                 ),
-                child: Icon(
-                  widget.icon,
-                  size: sp.lg,
-                  color: effectiveColor,
-                ),
+                child: Icon(widget.icon, size: sp.lg, color: effectiveColor),
               ),
 
               SizedBox(height: sp.sm),
@@ -112,10 +106,7 @@ class _QuickActionTileState extends State<QuickActionTile> {
 class QuickActionsGrid extends StatelessWidget {
   final List<QuickActionData> actions;
 
-  const QuickActionsGrid({
-    super.key,
-    required this.actions,
-  });
+  const QuickActionsGrid({super.key, required this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -131,10 +122,7 @@ class QuickActionsGrid extends StatelessWidget {
           // Section header
           Padding(
             padding: EdgeInsets.only(bottom: sp.md),
-            child: Text(
-              'Quick Actions',
-              style: text.heading3,
-            ),
+            child: Text('Quick Actions', style: text.heading3),
           ),
 
           // Grid

@@ -40,7 +40,7 @@ class BugReportFormFields extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final text = context.text;
-    
+
     return Column(
       children: [
         // Title
@@ -84,7 +84,7 @@ class BugReportFormFields extends StatelessWidget {
           hintText: 'Category',
         ),
         const CommonSpacer.vertical(16),
-        
+
         // Description
         CommonInputField(
           controller: descriptionController,
@@ -97,7 +97,7 @@ class BugReportFormFields extends StatelessWidget {
           ),
         ),
         const CommonSpacer.vertical(16),
-        
+
         // Steps to Reproduce
         CommonInputField(
           controller: stepsController,
@@ -113,4 +113,3 @@ class BugReportFormFields extends StatelessWidget {
     );
   }
 }
-

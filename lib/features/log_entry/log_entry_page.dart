@@ -14,7 +14,6 @@ import 'widgets/log_entry_page/log_entry_app_bar.dart';
 import 'log_entry_state.dart';
 import 'log_entry_controller.dart';
 
-
 class QuickLogEntryPage extends StatefulWidget {
   final LogEntryController? controller;
   const QuickLogEntryPage({super.key, this.controller});
@@ -27,7 +26,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
     with SingleTickerProviderStateMixin {
   late final LogEntryState _state;
   late final LogEntryController _controller;
-  
+
   AnimationController? _animationController;
   late Animation<double> _fadeAnimation;
   final _formKey = GlobalKey<FormState>();
@@ -41,10 +40,10 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
     super.initState();
     _controller = widget.controller ?? LogEntryController();
     _state = LogEntryState(controller: _controller);
-    
+
     // AnimationController will be initialized in didChangeDependencies
     // to safely access Theme context.
-    
+
     _notesCtrl.addListener(() => _state.setNotes(_notesCtrl.text));
     _doseCtrl.addListener(() {
       final value = double.tryParse(_doseCtrl.text);
@@ -56,21 +55,17 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    
+
     if (_animationController == null) {
       _animationController = AnimationController(
         duration: context.animations.normal,
         vsync: this,
       );
-      
-      _fadeAnimation = Tween<double>(
-        begin: 0.0,
-        end: 1.0,
-      ).animate(CurvedAnimation(
-        parent: _animationController!,
-        curve: Curves.easeOut,
-      ));
-      
+
+      _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: _animationController!, curve: Curves.easeOut),
+      );
+
       _animationController!.forward();
     }
   }
@@ -91,9 +86,14 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
     }
 
     // Run validations
-    final substanceValidation = await _controller.validateSubstance(_state.data);
+    final substanceValidation = await _controller.validateSubstance(
+      _state.data,
+    );
     if (!substanceValidation.isValid) {
-      _showErrorDialog(substanceValidation.title!, substanceValidation.message!);
+      _showErrorDialog(
+        substanceValidation.title!,
+        substanceValidation.message!,
+      );
       return;
     }
 
@@ -126,9 +126,9 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
 
     // Save
     setState(() => _isSaving = true);
-    
+
     final result = await _controller.saveLogEntry(_state.data);
-    
+
     setState(() => _isSaving = false);
 
     if (result.isSuccess) {
@@ -149,7 +149,10 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
 
   void _showSnackBar(String message, {Duration? duration}) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), duration: duration ?? context.animations.snackbar),
+      SnackBar(
+        content: Text(message),
+        duration: duration ?? context.animations.snackbar,
+      ),
     );
   }
 
@@ -194,7 +197,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    
+
     return ChangeNotifierProvider<LogEntryState>.value(
       value: _state,
       child: Consumer<LogEntryState>(
@@ -254,7 +257,9 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                 ),
                 if (_isSaving)
                   Container(
-                    color: Colors.black.withValues(alpha: context.opacities.slow),
+                    color: Colors.black.withValues(
+                      alpha: context.opacities.slow,
+                    ),
                     child: const CommonLoader(),
                   ),
               ],
@@ -265,4 +270,3 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
     );
   }
 }
-

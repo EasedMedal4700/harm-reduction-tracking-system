@@ -26,7 +26,7 @@ class QuickActionCard extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     final cardColor = color ?? acc.primary;
 
     return Material(
@@ -37,23 +37,21 @@ class QuickActionCard extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(sp.sm),
           decoration: BoxDecoration(
-            color: isDark 
-                ? c.surface.withValues(alpha: 0.5) 
-                : c.surface,
+            color: isDark ? c.surface.withValues(alpha: 0.5) : c.surface,
             borderRadius: BorderRadius.circular(sh.radiusMd),
             border: Border.all(
-              color: isDark 
-                  ? c.border.withValues(alpha: 0.5) 
-                  : c.border,
+              color: isDark ? c.border.withValues(alpha: 0.5) : c.border,
               width: context.sizes.borderThin,
             ),
-            boxShadow: isDark ? null : [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.03),
-                blurRadius: context.sizes.blurRadiusSm,
-                offset: const Offset(0, 2),
-              ),
-            ],
+            boxShadow: isDark
+                ? null
+                : [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.03),
+                      blurRadius: context.sizes.blurRadiusSm,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
           ),
           child: Column(
             mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
@@ -64,11 +62,7 @@ class QuickActionCard extends StatelessWidget {
                   color: cardColor.withValues(alpha: 0.1),
                   shape: context.shapes.boxShapeCircle,
                 ),
-                child: Icon(
-                  icon,
-                  color: cardColor,
-                  size: context.sizes.iconMd,
-                ),
+                child: Icon(icon, color: cardColor, size: context.sizes.iconMd),
               ),
               SizedBox(height: sp.xs),
               Text(

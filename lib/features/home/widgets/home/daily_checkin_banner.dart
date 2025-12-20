@@ -76,7 +76,7 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
     return Consumer<DailyCheckinProvider>(
       builder: (context, provider, child) {
         final hasCheckedIn = provider.existingCheckin != null;
-        
+
         final baseColor = hasCheckedIn ? c.success : a.primary;
         final backgroundColor = baseColor.withValues(alpha: 0.1);
 
@@ -124,11 +124,11 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
                 ],
               ),
               SizedBox(height: sp.md),
-              
+
               // Content based on check-in status
-              if (hasCheckedIn) 
+              if (hasCheckedIn)
                 _buildCheckedInContent(context, provider, baseColor)
-              else 
+              else
                 _buildPromptContent(context, provider, baseColor),
             ],
           ),
@@ -137,10 +137,14 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
     );
   }
 
-  Widget _buildCheckedInContent(BuildContext context, DailyCheckinProvider provider, Color color) {
+  Widget _buildCheckedInContent(
+    BuildContext context,
+    DailyCheckinProvider provider,
+    Color color,
+  ) {
     final text = context.text;
     final sp = context.spacing;
-    
+
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
@@ -170,7 +174,11 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
     );
   }
 
-  Widget _buildPromptContent(BuildContext context, DailyCheckinProvider provider, Color color) {
+  Widget _buildPromptContent(
+    BuildContext context,
+    DailyCheckinProvider provider,
+    Color color,
+  ) {
     final text = context.text;
     final sp = context.spacing;
     final c = context.colors;
@@ -181,16 +189,12 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
       children: [
         Text(
           'How are you feeling today?',
-          style: text.titleSmall.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
-          ),
+          style: text.titleSmall.copyWith(fontWeight: text.bodyBold.fontWeight),
         ),
         SizedBox(height: sp.xs),
         Text(
           'Track your wellness throughout the day.',
-          style: text.bodySmall.copyWith(
-            color: c.textSecondary,
-          ),
+          style: text.bodySmall.copyWith(color: c.textSecondary),
         ),
         SizedBox(height: sp.md),
         SizedBox(

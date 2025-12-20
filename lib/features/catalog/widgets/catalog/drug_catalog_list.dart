@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -25,12 +24,14 @@ class DrugCatalogList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    
+
     if (entries.isEmpty) {
       return Center(
         child: Text(
           'No drugs found.',
-          style: t.typography.bodyMedium.copyWith(color: t.colors.textSecondary),
+          style: t.typography.bodyMedium.copyWith(
+            color: t.colors.textSecondary,
+          ),
         ),
       );
     }
@@ -81,12 +82,7 @@ class DrugCatalogTile extends StatelessWidget {
             Row(
               mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
-                Expanded(
-                  child: Text(
-                    drug.name,
-                    style: text.heading4,
-                  ),
-                ),
+                Expanded(child: Text(drug.name, style: text.heading4)),
                 IconButton(
                   icon: Icon(
                     drug.favorite ? Icons.star : Icons.star_border,
@@ -99,10 +95,22 @@ class DrugCatalogTile extends StatelessWidget {
             const CommonSpacer.vertical(8),
             _buildInfoRow(context, 'Categories:', drug.categories.join(', ')),
             _buildInfoRow(context, 'Total uses:', '${drug.totalUses}'),
-            _buildInfoRow(context, 'Average dose:', drug.avgDose.toStringAsFixed(2)),
+            _buildInfoRow(
+              context,
+              'Average dose:',
+              drug.avgDose.toStringAsFixed(2),
+            ),
             _buildInfoRow(context, 'Last used:', _formatDate(drug.lastUsed)),
-            _buildInfoRow(context, 'Most active day:', '${drug.weekdayUsage.mostActive}'),
-            _buildInfoRow(context, 'Least active day:', '${drug.weekdayUsage.leastActive}'),
+            _buildInfoRow(
+              context,
+              'Most active day:',
+              '${drug.weekdayUsage.mostActive}',
+            ),
+            _buildInfoRow(
+              context,
+              'Least active day:',
+              '${drug.weekdayUsage.leastActive}',
+            ),
           ],
         ),
       ),

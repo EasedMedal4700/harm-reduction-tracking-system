@@ -86,24 +86,16 @@ class _EncryptionMigrationScreenState
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
-        Icon(
-          Icons.security,
-          size: context.sizes.icon2xl,
-          color: a.primary,
-        ),
+        Icon(Icons.security, size: context.sizes.icon2xl, color: a.primary),
         CommonSpacer.vertical(sp.xl2),
         Text(
           'Security Upgrade Required',
-          style: text.headlineMedium.copyWith(
-            color: c.textPrimary,
-          ),
+          style: text.headlineMedium.copyWith(color: c.textPrimary),
         ),
         CommonSpacer.vertical(sp.lg),
         Text(
           'We\'ve upgraded our encryption system to be more secure and reliable.',
-          style: text.bodyMedium.copyWith(
-            color: c.textSecondary,
-          ),
+          style: text.bodyMedium.copyWith(color: c.textSecondary),
         ),
         CommonSpacer.vertical(sp.xl),
         _buildFeatureItem(
@@ -151,9 +143,7 @@ class _EncryptionMigrationScreenState
               Expanded(
                 child: Text(
                   'This will take a moment to re-encrypt your data. Don\'t close the app during migration.',
-                  style: text.bodySmall.copyWith(
-                    color: c.textPrimary,
-                  ),
+                  style: text.bodySmall.copyWith(color: c.textPrimary),
                 ),
               ),
             ],
@@ -190,21 +180,23 @@ class _EncryptionMigrationScreenState
   }
 
   Widget _buildFeatureItem(
-      BuildContext context, IconData icon, String title, String subtitle) {
-
+    BuildContext context,
+    IconData icon,
+    String title,
+    String subtitle,
+  ) {
     return Row(
       children: [
         Container(
           width: context.sizes.iconXl,
           height: context.sizes.iconXl,
           decoration: BoxDecoration(
-            color: context.accent.primary.withValues(alpha: context.opacities.selected),
+            color: context.accent.primary.withValues(
+              alpha: context.opacities.selected,
+            ),
             borderRadius: BorderRadius.circular(context.shapes.radiusMd),
           ),
-          child: Icon(
-            icon,
-            color: context.accent.primary,
-          ),
+          child: Icon(icon, color: context.accent.primary),
         ),
         SizedBox(width: context.spacing.lg),
         Expanded(
@@ -244,16 +236,12 @@ class _EncryptionMigrationScreenState
       children: [
         Text(
           'Create Your PIN',
-          style: text.headlineMedium.copyWith(
-            color: c.textPrimary,
-          ),
+          style: text.headlineMedium.copyWith(color: c.textPrimary),
         ),
         SizedBox(height: sp.lg),
         Text(
           'Enter a 6-digit PIN to protect your data',
-          style: text.bodyMedium.copyWith(
-            color: c.textSecondary,
-          ),
+          style: text.bodyMedium.copyWith(color: c.textSecondary),
         ),
         SizedBox(height: sp.xl2),
         TextField(
@@ -262,21 +250,31 @@ class _EncryptionMigrationScreenState
           keyboardType: TextInputType.number,
           maxLength: 6,
           textAlign: AppLayout.textAlignCenter,
-          style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),
+          style: text.headlineSmall.copyWith(
+            letterSpacing: 8,
+            color: c.textPrimary,
+          ),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: InputDecoration(
             hintText: '••••••',
             counterText: '',
             suffixIcon: IconButton(
-              icon: Icon(_pinVisible ? Icons.visibility_off : Icons.visibility, color: c.textSecondary),
+              icon: Icon(
+                _pinVisible ? Icons.visibility_off : Icons.visibility,
+                color: c.textSecondary,
+              ),
               onPressed: () {
                 setState(() {
                   _pinVisible = !_pinVisible;
                 });
               },
             ),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: c.border)),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: a.primary)),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: c.border),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: a.primary),
+            ),
           ),
           onChanged: (value) {
             setState(() {
@@ -305,7 +303,10 @@ class _EncryptionMigrationScreenState
             ),
             child: Text(
               'Next',
-              style: text.labelLarge.copyWith(fontWeight: text.bodyBold.fontWeight, color: c.textInverse),
+              style: text.labelLarge.copyWith(
+                fontWeight: text.bodyBold.fontWeight,
+                color: c.textInverse,
+              ),
             ),
           ),
         ),
@@ -326,16 +327,12 @@ class _EncryptionMigrationScreenState
       children: [
         Text(
           'Confirm Your PIN',
-          style: text.headlineMedium.copyWith(
-            color: c.textPrimary,
-          ),
+          style: text.headlineMedium.copyWith(color: c.textPrimary),
         ),
         SizedBox(height: sp.lg),
         Text(
           'Enter your PIN again to confirm',
-          style: text.bodyMedium.copyWith(
-            color: c.textSecondary,
-          ),
+          style: text.bodyMedium.copyWith(color: c.textSecondary),
         ),
         SizedBox(height: sp.xl2),
         TextField(
@@ -344,14 +341,19 @@ class _EncryptionMigrationScreenState
           keyboardType: TextInputType.number,
           maxLength: 6,
           textAlign: AppLayout.textAlignCenter,
-          style: text.headlineSmall.copyWith(letterSpacing: 8, color: c.textPrimary),
+          style: text.headlineSmall.copyWith(
+            letterSpacing: 8,
+            color: c.textPrimary,
+          ),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: InputDecoration(
             hintText: '••••••',
             counterText: '',
             suffixIcon: IconButton(
               icon: Icon(
-                  _confirmPinVisible ? Icons.visibility_off : Icons.visibility, color: c.textSecondary),
+                _confirmPinVisible ? Icons.visibility_off : Icons.visibility,
+                color: c.textSecondary,
+              ),
               onPressed: () {
                 setState(() {
                   _confirmPinVisible = !_confirmPinVisible;
@@ -361,10 +363,18 @@ class _EncryptionMigrationScreenState
             errorText: _confirmPin.length == 6 && _confirmPin != _pin
                 ? 'PINs do not match'
                 : null,
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: c.border)),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: a.primary)),
-            errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: c.error)),
-            focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: c.error)),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: c.border),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: a.primary),
+            ),
+            errorBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: c.error),
+            ),
+            focusedErrorBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: c.error),
+            ),
           ),
           onChanged: (value) {
             setState(() {
@@ -409,7 +419,10 @@ class _EncryptionMigrationScreenState
                 ),
                 child: Text(
                   'Start Migration',
-                  style: text.labelLarge.copyWith(fontWeight: text.bodyBold.fontWeight, color: c.textInverse),
+                  style: text.labelLarge.copyWith(
+                    fontWeight: text.bodyBold.fontWeight,
+                    color: c.textInverse,
+                  ),
                 ),
               ),
             ),
@@ -435,17 +448,13 @@ class _EncryptionMigrationScreenState
         SizedBox(height: sp.xl2),
         Text(
           'Upgrading Security...',
-          style: text.headlineMedium.copyWith(
-            color: c.textPrimary,
-          ),
+          style: text.headlineMedium.copyWith(color: c.textPrimary),
         ),
         SizedBox(height: sp.lg),
         Text(
           'Re-encrypting your data with the new system.\nThis may take a minute.',
           textAlign: AppLayout.textAlignCenter,
-          style: text.bodyMedium.copyWith(
-            color: c.textSecondary,
-          ),
+          style: text.bodyMedium.copyWith(color: c.textSecondary),
         ),
       ],
     );
@@ -463,24 +472,16 @@ class _EncryptionMigrationScreenState
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
-        Icon(
-          Icons.check_circle,
-          size: 64,
-          color: c.success,
-        ),
+        Icon(Icons.check_circle, size: 64, color: c.success),
         SizedBox(height: sp.xl),
         Text(
           'Migration Complete!',
-          style: text.headlineMedium.copyWith(
-            color: c.textPrimary,
-          ),
+          style: text.headlineMedium.copyWith(color: c.textPrimary),
         ),
         SizedBox(height: sp.lg),
         Text(
           'Your data has been successfully upgraded to the new encryption system.',
-          style: text.bodyMedium.copyWith(
-            color: c.textSecondary,
-          ),
+          style: text.bodyMedium.copyWith(color: c.textSecondary),
         ),
         SizedBox(height: sp.xl2),
         Container(
@@ -509,9 +510,7 @@ class _EncryptionMigrationScreenState
               SizedBox(height: sp.md),
               Text(
                 'If you forget your PIN, you\'ll need this recovery key to access your data. Store it somewhere safe.',
-                style: text.bodyMedium.copyWith(
-                  color: c.textPrimary,
-                ),
+                style: text.bodyMedium.copyWith(color: c.textPrimary),
               ),
             ],
           ),
@@ -557,7 +556,10 @@ class _EncryptionMigrationScreenState
               );
             },
             icon: Icon(Icons.copy, color: a.primary),
-            label: Text('Copy Recovery Key', style: TextStyle(color: a.primary)),
+            label: Text(
+              'Copy Recovery Key',
+              style: TextStyle(color: a.primary),
+            ),
             style: OutlinedButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: sp.lg),
               side: BorderSide(color: a.primary),
@@ -572,7 +574,9 @@ class _EncryptionMigrationScreenState
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
-              unawaited(ref.read(appLockControllerProvider.notifier).recordUnlock());
+              unawaited(
+                ref.read(appLockControllerProvider.notifier).recordUnlock(),
+              );
               // Navigate to home screen
               Navigator.of(context).pushReplacementNamed('/home_page');
             },
@@ -610,8 +614,10 @@ class _EncryptionMigrationScreenState
       }
 
       // Perform migration
-      final recoveryKey =
-          await _migrationService.migrateUserData(user.id, _pin);
+      final recoveryKey = await _migrationService.migrateUserData(
+        user.id,
+        _pin,
+      );
 
       setState(() {
         _recoveryKey = recoveryKey;
@@ -640,8 +646,3 @@ class _EncryptionMigrationScreenState
     }
   }
 }
-
-
-
-
-

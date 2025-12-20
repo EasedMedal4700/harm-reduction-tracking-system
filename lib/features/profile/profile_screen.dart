@@ -47,9 +47,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading profile: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error loading profile: $e')));
       }
     }
   }
@@ -58,15 +58,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     try {
       final logService = LogEntryService();
       final entries = await logService.fetchRecentEntriesRaw();
-      
+
       // Calculate statistics from entries
       final now = DateTime.now();
       final thirtyDaysAgo = now.subtract(const Duration(days: 30));
       final sevenDaysAgo = now.subtract(const Duration(days: 7));
-      
+
       int last7Days = 0;
       int last30Days = 0;
-      
+
       for (var entry in entries) {
         final timestamp = DateTime.parse(entry['timestamp'] as String);
         if (timestamp.isAfter(sevenDaysAgo)) {
@@ -83,11 +83,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         'last_30_days': last30Days,
       };
     } catch (e) {
-      return {
-        'total_entries': 0,
-        'last_7_days': 0,
-        'last_30_days': 0,
-      };
+      return {'total_entries': 0, 'last_7_days': 0, 'last_30_days': 0};
     }
   }
 
@@ -108,7 +104,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
               style: ElevatedButton.styleFrom(backgroundColor: c.error),
-              child: Text('Logout', style: t.labelLarge.copyWith(color: c.textInverse)),
+              child: Text(
+                'Logout',
+                style: t.labelLarge.copyWith(color: c.textInverse),
+              ),
             ),
           ],
         );
@@ -127,7 +126,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),

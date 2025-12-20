@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -16,10 +15,7 @@ import 'bucket_utils.dart';
 class BucketDecayTimelineCard extends StatelessWidget {
   final double tolerancePercent; // 0–100
 
-  const BucketDecayTimelineCard({
-    super.key,
-    required this.tolerancePercent,
-  });
+  const BucketDecayTimelineCard({super.key, required this.tolerancePercent});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +76,10 @@ class BucketDecayTimelineCard extends StatelessWidget {
               child: Container(
                 height: sp.md,
                 decoration: BoxDecoration(
-                  color: BucketUtils.getColorForTolerance(context, tolerancePercent / 100),
+                  color: BucketUtils.getColorForTolerance(
+                    context,
+                    tolerancePercent / 100,
+                  ),
                   borderRadius: BorderRadius.horizontal(
                     left: Radius.circular(sh.radiusSm),
                     right: tolerancePercent >= 100
@@ -114,22 +113,11 @@ class BucketDecayTimelineCard extends StatelessWidget {
         Row(
           mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: [
-            Text(
-              '0%',
-              style: text.overline.copyWith(
-                color: c.textSecondary,
-              ),
-            ),
-            Text(
-              '100%',
-              style: text.overline.copyWith(
-                color: c.textSecondary,
-              ),
-            ),
+            Text('0%', style: text.overline.copyWith(color: c.textSecondary)),
+            Text('100%', style: text.overline.copyWith(color: c.textSecondary)),
           ],
         ),
       ],
     );
   }
 }
-

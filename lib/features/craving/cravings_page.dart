@@ -50,16 +50,14 @@ class _CravingsPageState extends State<CravingsPage> {
   Future<void> _save() async {
     setState(() => _isSaving = true);
     final now = DateTime.now();
-    
+
     final allSecondary = secondaryEmotions.values
         .expand((list) => list)
         .toList();
-    
+
     final craving = Craving(
       userId: UserService.getCurrentUserId(),
-      substance: selectedCravings.isNotEmpty
-          ? selectedCravings.join('; ')
-          : '',
+      substance: selectedCravings.isNotEmpty ? selectedCravings.join('; ') : '',
       intensity: intensity,
       date: now,
       time:
@@ -128,7 +126,7 @@ class _CravingsPageState extends State<CravingsPage> {
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
-    
+
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -168,10 +166,7 @@ class _CravingsPageState extends State<CravingsPage> {
           child: Column(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
-              Text(
-                'Craving Reflection',
-                style: t.typography.heading2,
-              ),
+              Text('Craving Reflection', style: t.typography.heading2),
               SizedBox(height: sp.sm),
               Text(
                 'Log your recent craving experience',
@@ -183,7 +178,8 @@ class _CravingsPageState extends State<CravingsPage> {
                 onCravingsChanged: (cravings) =>
                     setState(() => selectedCravings = cravings),
                 intensity: intensity,
-                onIntensityChanged: (value) => setState(() => intensity = value),
+                onIntensityChanged: (value) =>
+                    setState(() => intensity = value),
                 location: location,
                 onLocationChanged: (value) =>
                     setState(() => location = value ?? 'Home'),

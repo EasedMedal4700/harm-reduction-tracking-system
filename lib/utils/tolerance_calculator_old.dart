@@ -2,10 +2,10 @@ import 'dart:math';
 import '../models/tolerance_model.dart';
 
 /// Tolerance calculation utilities
-/// 
+///
 /// LEGACY SYSTEM: This calculator uses the OLD exponential decay + logistic curve formula.
 /// It's used for system-wide tolerance aggregation across all substances.
-/// 
+///
 /// For per-substance bucket-specific tolerance, see BucketToleranceCalculator (NEW system).
 class ToleranceCalculator {
   /// Logistic curve parameter for load -> percent conversion
@@ -14,10 +14,10 @@ class ToleranceCalculator {
   /// Formula: percent = 100 × (1 - e^(-load / K))
   /// Lower K = higher sensitivity (more tolerance per dose)
   /// Higher K = lower sensitivity (less tolerance per dose)
-  static const double kLogisticK = 18.0;  // Was 100.0, then 12.5, now 18.0
+  static const double kLogisticK = 18.0; // Was 100.0, then 12.5, now 18.0
 
   /// Classify system state based on tolerance percentage
-  /// 
+  ///
   /// Returns:
   /// - Recovered: 0-20%
   /// - Light Stress: 20-40%
@@ -33,7 +33,7 @@ class ToleranceCalculator {
   }
 
   /// Compute raw bucket load using exponential decay
-  /// 
+  ///
   /// Formula: load += doseUnits * weight * exp(-hoursSince / halfLifeHours)
   static double computeRawBucketLoad({
     required List<UseLogEntry> useLogs,
@@ -55,7 +55,7 @@ class ToleranceCalculator {
 
       final weight = neuroBucket.weight;
       final halfLife = model.halfLifeHours;
-      
+
       if (halfLife <= 0) continue;
 
       final decayFactor = exp(-hoursSince / halfLife);
@@ -66,7 +66,7 @@ class ToleranceCalculator {
   }
 
   /// Convert raw load to tolerance percentage using logistic curve
-  /// 
+  ///
   /// Formula: percent = 100 * (1 - exp(-load / K))
   /// where K = 100
   static double loadToPercent(double load) {
@@ -76,10 +76,10 @@ class ToleranceCalculator {
   }
 
   /// Compute tolerance percentages for all buckets
-  /// 
+  ///
   /// CRITICAL: Computes tolerance for ALL buckets found in tolerance models,
   /// not just a hardcoded list. This ensures we capture all 7+ bucket types.
-  /// 
+  ///
   /// Returns Map<String, double> like:
   /// {
   ///   "gaba": 72.4,
@@ -142,13 +142,13 @@ class ToleranceCalculator {
     required double initialDose,
   }) {
     final hoursSinceUse = currentTime.difference(useTime).inMinutes / 60.0;
-    
+
     if (hoursSinceUse < 0) return 0.0;
     if (halfLifeHours <= 0) return 0.0;
-    
+
     final decayConstant = log(2) / halfLifeHours;
     final plasmaLevel = initialDose * exp(-decayConstant * hoursSinceUse);
-    
+
     return plasmaLevel;
   }
 
@@ -160,9 +160,9 @@ class ToleranceCalculator {
     required DateTime currentTime,
   }) {
     if (useEvents.isEmpty) return 0.0;
-    
+
     double cumulativePlasma = 0.0;
-    
+
     for (final event in useEvents) {
       final plasma = effectivePlasmaLevel(
         useTime: event.timestamp,
@@ -172,11 +172,11 @@ class ToleranceCalculator {
       );
       cumulativePlasma += plasma;
     }
-    
+
     // Normalize to 0-100 scale with logarithmic scaling
     // This prevents extreme values while maintaining sensitivity
     final normalizedScore = (log(cumulativePlasma + 1) / log(100)) * 100;
-    
+
     return normalizedScore.clamp(0.0, 100.0);
   }
 
@@ -188,11 +188,11 @@ class ToleranceCalculator {
   }) {
     if (daysSinceLastUse <= 0) return 1.0;
     if (toleranceDecayDays <= 0) return 0.0;
-    
+
     // Exponential decay: e^(-t/τ) where τ is decay time constant
     final decayRate = 1.0 / toleranceDecayDays;
     final decayMultiplier = exp(-decayRate * daysSinceLastUse);
-    
+
     return decayMultiplier.clamp(0.0, 1.0);
   }
 
@@ -210,11 +210,11 @@ class ToleranceCalculator {
     required double toleranceDecayDays,
   }) {
     if (currentTolerance <= 5.0) return 0.0;
-    
+
     // Solve: current * e^(-t/τ) = 5
     // t = -τ * ln(5/current)
     final timeToBaseline = -toleranceDecayDays * log(5.0 / currentTolerance);
-    
+
     return timeToBaseline.clamp(0.0, 365.0); // Cap at 1 year
   }
 
@@ -228,11 +228,11 @@ class ToleranceCalculator {
     int dataPoints = 50,
   }) {
     if (useEvents.isEmpty) return [];
-    
+
     final points = <TolerancePoint>[];
     final duration = endTime.difference(startTime);
     final interval = duration ~/ dataPoints;
-    
+
     for (int i = 0; i <= dataPoints; i++) {
       final time = startTime.add(interval * i);
       final score = toleranceScore(
@@ -240,18 +240,22 @@ class ToleranceCalculator {
         halfLifeHours: halfLifeHours,
         currentTime: time,
       );
-      
+
       // Apply decay if past last use
-      final lastUse = useEvents.map((e) => e.timestamp).reduce((a, b) => a.isAfter(b) ? a : b);
+      final lastUse = useEvents
+          .map((e) => e.timestamp)
+          .reduce((a, b) => a.isAfter(b) ? a : b);
       final daysSinceLast = time.difference(lastUse).inHours / 24.0;
-      final decayedScore = score * decayFunction(
-        daysSinceLastUse: daysSinceLast,
-        toleranceDecayDays: toleranceDecayDays,
-      );
-      
+      final decayedScore =
+          score *
+          decayFunction(
+            daysSinceLastUse: daysSinceLast,
+            toleranceDecayDays: toleranceDecayDays,
+          );
+
       points.add(TolerancePoint(time: time, score: decayedScore));
     }
-    
+
     return points;
   }
 
@@ -265,19 +269,21 @@ class ToleranceCalculator {
   }) {
     final points = <TolerancePoint>[];
     final hoursPerPoint = (durationDays * 24) / dataPoints;
-    
+
     for (int i = 0; i <= dataPoints; i++) {
       final time = startTime.add(Duration(hours: (hoursPerPoint * i).round()));
       final daysSinceStart = i * hoursPerPoint / 24.0;
-      
-      final score = currentTolerance * decayFunction(
-        daysSinceLastUse: daysSinceStart,
-        toleranceDecayDays: toleranceDecayDays,
-      );
-      
+
+      final score =
+          currentTolerance *
+          decayFunction(
+            daysSinceLastUse: daysSinceStart,
+            toleranceDecayDays: toleranceDecayDays,
+          );
+
       points.add(TolerancePoint(time: time, score: score));
     }
-    
+
     return points;
   }
 }

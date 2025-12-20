@@ -41,8 +41,7 @@ class RouteOfAdministrationCard extends StatelessWidget {
             spacing: s.sm,
             runSpacing: s.sm,
             children: availableROAs.map((method) {
-              final selected =
-                  route.toLowerCase() == method.toLowerCase();
+              final selected = route.toLowerCase() == method.toLowerCase();
               final validated = isROAValidated?.call(method) ?? true;
 
               final emoji = _emojiForROA(method);

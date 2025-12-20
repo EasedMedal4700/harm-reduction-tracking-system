@@ -52,7 +52,7 @@ void main() {
       test('isEnabled respects isAdmin parameter', () {
         // Admin always gets access
         expect(service.isEnabled('any_feature', isAdmin: true), isTrue);
-        
+
         // Non-admin depends on the flag (defaults to true when not loaded)
         expect(service.isEnabled('any_feature', isAdmin: false), isTrue);
       });
@@ -139,15 +139,20 @@ void main() {
 
     test('displayNames contains all flags', () {
       for (final flag in FeatureFlags.all) {
-        expect(FeatureFlags.displayNames.containsKey(flag), isTrue,
-            reason: 'Missing display name for $flag');
+        expect(
+          FeatureFlags.displayNames.containsKey(flag),
+          isTrue,
+          reason: 'Missing display name for $flag',
+        );
       }
     });
 
     test('getDisplayName returns correct name', () {
       expect(FeatureFlags.getDisplayName(FeatureFlags.homePage), 'Home Page');
-      expect(FeatureFlags.getDisplayName(FeatureFlags.analyticsPage), 
-          'Analytics Page');
+      expect(
+        FeatureFlags.getDisplayName(FeatureFlags.analyticsPage),
+        'Analytics Page',
+      );
     });
 
     test('getDisplayName returns flag name for unknown flags', () {

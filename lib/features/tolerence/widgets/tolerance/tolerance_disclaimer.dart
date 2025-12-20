@@ -1,13 +1,13 @@
 // Tolerance Disclaimer Widget
-// 
+//
 // Created: 2024-03-15
 // Last Modified: 2025-01-23
-// 
+//
 // Purpose:
 // Displays safety disclaimers and harm reduction warnings for the tolerance
 // feature. Provides both full-page expandable and compact dismissible versions
 // to inform users about the limitations and risks of tolerance estimates.
-// 
+//
 // Features:
 // - Full-page disclaimer with expandable details section
 // - Compact dismissible notice for quick viewing
@@ -29,10 +29,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../services/onboarding_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
-
-
 /// Full-page tolerance disclaimer widget.
-/// 
+///
 /// Displays a prominent safety warning with expandable details about the
 /// limitations of tolerance estimates. Used on tolerance-related pages to
 /// ensure users understand risks before viewing tolerance data.
@@ -62,7 +60,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
         color: colors.surface,
         borderRadius: BorderRadius.circular(radii.radiusMd),
         border: Border.all(
-          color: context.accent.warning.withValues(alpha: 0.5),
+          color: context.colors.warning.withValues(alpha: 0.5),
           width: context.sizes.borderRegular,
         ),
       ),
@@ -74,7 +72,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
             children: [
               Icon(
                 Icons.warning_amber_rounded,
-                color: context.accent.warning,
+                color: context.colors.warning,
                 size: spacing.xl,
               ),
               SizedBox(width: spacing.md),
@@ -82,7 +80,7 @@ class ToleranceDisclaimerWidget extends ConsumerWidget {
                 child: Text(
                   'SAFETY DISCLAIMER',
                   style: typography.heading3.copyWith(
-                    color: context.accent.warning,
+                    color: context.colors.warning,
                     fontWeight: context.text.bodyBold.fontWeight,
                   ),
                 ),
@@ -215,16 +213,14 @@ class _CompactToleranceDisclaimerState
 
     // ADAPTIVE COLORS - Different colors for dark/light mode
     final bg = isDark
-        ? context.accent.warning.withValues(alpha: 0.18)
-        : context.accent.warning.withValues(alpha: 0.1);
+        ? context.colors.warning.withValues(alpha: 0.18)
+        : context.colors.warning.withValues(alpha: 0.1);
 
     final borderColor = isDark
-        ? context.accent.warning
-        : context.accent.warning.withValues(alpha: 0.5);
+        ? context.colors.warning
+        : context.colors.warning.withValues(alpha: 0.5);
 
-    final titleColor = isDark
-        ? context.accent.warning
-        : context.accent.warning;
+    final titleColor = isDark ? context.colors.warning : context.colors.warning;
 
     final bodyColor = isDark
         ? context.colors.textSecondary
@@ -236,7 +232,10 @@ class _CompactToleranceDisclaimerState
       decoration: BoxDecoration(
         color: bg,
         borderRadius: BorderRadius.circular(radii.radiusMd),
-        border: Border.all(color: borderColor, width: context.sizes.borderRegular),
+        border: Border.all(
+          color: borderColor,
+          width: context.sizes.borderRegular,
+        ),
       ),
       child: Row(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -253,9 +252,7 @@ class _CompactToleranceDisclaimerState
               children: [
                 Text(
                   'Harm Reduction Notice',
-                  style: typography.bodyBold.copyWith(
-                    color: titleColor,
-                  ),
+                  style: typography.bodyBold.copyWith(color: titleColor),
                 ),
                 SizedBox(height: spacing.xs),
                 Text(
@@ -287,4 +284,3 @@ class _CompactToleranceDisclaimerState
     );
   }
 }
-

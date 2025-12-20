@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/features/reflection/widgets/reflection/reflection_selection.dart';
 import '../helpers/test_app_wrapper.dart';
 
-
 void main() {
   final entries = [
     {
@@ -25,12 +24,16 @@ void main() {
   Widget wrap(Widget child) => wrapWithAppTheme(child);
 
   testWidgets('renders each entry with dose information', (tester) async {
-    await tester.pumpWidget(wrap(ReflectionSelection(
-      entries: entries,
-      selectedIds: const {},
-      onEntryChanged: (_, __) {},
-      onNext: () {},
-    )));
+    await tester.pumpWidget(
+      wrap(
+        ReflectionSelection(
+          entries: entries,
+          selectedIds: const {},
+          onEntryChanged: (_, __) {},
+          onNext: () {},
+        ),
+      ),
+    );
 
     // Widget uses "•" separator now, not "-"
     expect(find.textContaining('Cannabis'), findsOneWidget);
@@ -39,25 +42,35 @@ void main() {
     expect(find.textContaining('120 mg'), findsOneWidget);
   });
 
-  testWidgets('shows Next Step button (disabled when none selected)', (tester) async {
-    await tester.pumpWidget(wrap(ReflectionSelection(
-      entries: entries,
-      selectedIds: const {},
-      onEntryChanged: (_, __) {},
-      onNext: () {},
-    )));
+  testWidgets('shows Next Step button (disabled when none selected)', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrap(
+        ReflectionSelection(
+          entries: entries,
+          selectedIds: const {},
+          onEntryChanged: (_, __) {},
+          onNext: () {},
+        ),
+      ),
+    );
 
     // Button text is "Next Step", and should always be visible
     expect(find.text('Next Step'), findsOneWidget);
   });
 
   testWidgets('Next Step button enabled when entry selected', (tester) async {
-    await tester.pumpWidget(wrap(ReflectionSelection(
-      entries: entries,
-      selectedIds: const {'1'},
-      onEntryChanged: (_, __) {},
-      onNext: () {},
-    )));
+    await tester.pumpWidget(
+      wrap(
+        ReflectionSelection(
+          entries: entries,
+          selectedIds: const {'1'},
+          onEntryChanged: (_, __) {},
+          onNext: () {},
+        ),
+      ),
+    );
 
     final button = tester.widget<ElevatedButton>(
       find.widgetWithText(ElevatedButton, 'Next Step'),
@@ -65,13 +78,19 @@ void main() {
     expect(button.onPressed, isNotNull);
   });
 
-  testWidgets('Next Step button disabled when no entry selected', (tester) async {
-    await tester.pumpWidget(wrap(ReflectionSelection(
-      entries: entries,
-      selectedIds: const {},
-      onEntryChanged: (_, __) {},
-      onNext: () {},
-    )));
+  testWidgets('Next Step button disabled when no entry selected', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrap(
+        ReflectionSelection(
+          entries: entries,
+          selectedIds: const {},
+          onEntryChanged: (_, __) {},
+          onNext: () {},
+        ),
+      ),
+    );
 
     final button = tester.widget<ElevatedButton>(
       find.widgetWithText(ElevatedButton, 'Next Step'),
@@ -83,15 +102,19 @@ void main() {
     String? toggledId;
     bool? toggledValue;
 
-    await tester.pumpWidget(wrap(ReflectionSelection(
-      entries: entries,
-      selectedIds: const {},
-      onEntryChanged: (id, selected) {
-        toggledId = id;
-        toggledValue = selected;
-      },
-      onNext: () {},
-    )));
+    await tester.pumpWidget(
+      wrap(
+        ReflectionSelection(
+          entries: entries,
+          selectedIds: const {},
+          onEntryChanged: (id, selected) {
+            toggledId = id;
+            toggledValue = selected;
+          },
+          onNext: () {},
+        ),
+      ),
+    );
 
     // Tap the first InkWell (entry card)
     await tester.tap(find.byType(InkWell).first);
@@ -102,37 +125,48 @@ void main() {
   });
 
   testWidgets('displays selection title', (tester) async {
-    await tester.pumpWidget(wrap(ReflectionSelection(
-      entries: entries,
-      selectedIds: const {},
-      onEntryChanged: (_, __) {},
-      onNext: () {},
-    )));
+    await tester.pumpWidget(
+      wrap(
+        ReflectionSelection(
+          entries: entries,
+          selectedIds: const {},
+          onEntryChanged: (_, __) {},
+          onNext: () {},
+        ),
+      ),
+    );
 
     expect(find.text('Select entries to reflect on'), findsOneWidget);
   });
 
   testWidgets('shows empty state when no entries', (tester) async {
-    await tester.pumpWidget(wrap(ReflectionSelection(
-      entries: const [],
-      selectedIds: const {},
-      onEntryChanged: (_, __) {},
-      onNext: () {},
-    )));
+    await tester.pumpWidget(
+      wrap(
+        ReflectionSelection(
+          entries: const [],
+          selectedIds: const {},
+          onEntryChanged: (_, __) {},
+          onNext: () {},
+        ),
+      ),
+    );
 
     expect(find.text('No recent entries found.'), findsOneWidget);
   });
 
   testWidgets('selected entry shows check icon', (tester) async {
-    await tester.pumpWidget(wrap(ReflectionSelection(
-      entries: entries,
-      selectedIds: const {'1'},
-      onEntryChanged: (_, __) {},
-      onNext: () {},
-    )));
+    await tester.pumpWidget(
+      wrap(
+        ReflectionSelection(
+          entries: entries,
+          selectedIds: const {'1'},
+          onEntryChanged: (_, __) {},
+          onNext: () {},
+        ),
+      ),
+    );
 
     // Check icon appears when entry is selected
     expect(find.byIcon(Icons.check), findsOneWidget);
   });
 }
-

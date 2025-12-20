@@ -49,8 +49,11 @@ class BloodLevelsTimelineSection extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Icon(Icons.timeline_outlined,
-                  size: context.sizes.iconXl, color: c.textSecondary),
+              Icon(
+                Icons.timeline_outlined,
+                size: context.sizes.iconXl,
+                color: c.textSecondary,
+              ),
               CommonSpacer.vertical(sp.lg),
               Text(
                 'Select a substance to view metabolism timeline',

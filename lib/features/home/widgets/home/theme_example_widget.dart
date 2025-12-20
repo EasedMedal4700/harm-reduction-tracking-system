@@ -85,9 +85,7 @@ class ThemeExampleWidget extends StatelessWidget {
         children: [
           Text(
             'Gradient Card',
-            style: t.typography.heading3.copyWith(
-              color: t.colors.textInverse,
-            ),
+            style: t.typography.heading3.copyWith(color: t.colors.textInverse),
           ),
           SizedBox(height: sp.sm),
           Text(
@@ -137,9 +135,7 @@ class ThemeExampleWidget extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(sp.md),
           decoration: BoxDecoration(
-            color: t.accent.primary.withValues(
-              alpha: t.isDark ? 0.2 : 0.1,
-            ),
+            color: t.accent.primary.withValues(alpha: t.isDark ? 0.2 : 0.1),
             borderRadius: BorderRadius.circular(sh.radiusMd),
             boxShadow: t.isDark
                 ? [
@@ -147,15 +143,11 @@ class ThemeExampleWidget extends StatelessWidget {
                       color: t.accent.primary.withValues(alpha: 0.3),
                       blurRadius: context.sizes.blurRadiusMd,
                       spreadRadius: context.sizes.spreadRadiusMd,
-                    )
+                    ),
                   ]
                 : null,
           ),
-          child: Icon(
-            Icons.star,
-            size: sp.lg,
-            color: t.accent.primary,
-          ),
+          child: Icon(Icons.star, size: sp.lg, color: t.accent.primary),
         ),
         SizedBox(width: sp.lg),
         Expanded(
@@ -222,10 +214,7 @@ class ThemeExampleWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: t.accent.primary,
             foregroundColor: t.colors.textInverse,
-            padding: EdgeInsets.symmetric(
-              horizontal: sp.lg,
-              vertical: sp.md,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.md),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
@@ -239,10 +228,7 @@ class ThemeExampleWidget extends StatelessWidget {
           style: OutlinedButton.styleFrom(
             foregroundColor: t.accent.primary,
             side: BorderSide(color: t.accent.primary),
-            padding: EdgeInsets.symmetric(
-              horizontal: sp.lg,
-              vertical: sp.md,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.md),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
@@ -255,10 +241,7 @@ class ThemeExampleWidget extends StatelessWidget {
           onPressed: () {},
           style: TextButton.styleFrom(
             foregroundColor: t.accent.primary,
-            padding: EdgeInsets.symmetric(
-              horizontal: sp.lg,
-              vertical: sp.md,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.md),
           ),
           child: Text('Text Button', style: t.typography.button),
         ),

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 class AppShadowConstants {
   AppShadowConstants._();
 
-  static const Color shadowLight = Color(0x1A000000);  // 10% opacity
-  static const Color shadowDark = Color(0x66000000);   // 40% opacity
+  static const Color shadowLight = Color(0x1A000000); // 10% opacity
+  static const Color shadowDark = Color(0x66000000); // 40% opacity
 
   static const double blurLight = 10.0;
   static const double blurMedium = 20.0;
@@ -20,22 +20,22 @@ class LightShadows {
   LightShadows._();
 
   static const List<BoxShadow> card = [
-        BoxShadow(
-          color: Color(0x1A000000),
-          blurRadius: 8,
-          offset: Offset(0, 2),
-          spreadRadius: 0,
-        ),
-      ];
+    BoxShadow(
+      color: Color(0x1A000000),
+      blurRadius: 8,
+      offset: Offset(0, 2),
+      spreadRadius: 0,
+    ),
+  ];
 
   static const List<BoxShadow> cardHovered = [
-        BoxShadow(
-          color: Color(0x26000000),
-          blurRadius: 12,
-          offset: Offset(0, 4),
-          spreadRadius: 0,
-        ),
-      ];
+    BoxShadow(
+      color: Color(0x26000000),
+      blurRadius: 12,
+      offset: Offset(0, 4),
+      spreadRadius: 0,
+    ),
+  ];
 
   static const List<BoxShadow> softShadow = [
     BoxShadow(
@@ -47,35 +47,35 @@ class LightShadows {
   ];
 
   static const List<BoxShadow> button = [
-        BoxShadow(
-          color: Color(0x1A000000),
-          blurRadius: 4,
-          offset: Offset(0, 2),
-          spreadRadius: 0,
-        ),
-      ];
+    BoxShadow(
+      color: Color(0x1A000000),
+      blurRadius: 4,
+      offset: Offset(0, 2),
+      spreadRadius: 0,
+    ),
+  ];
 }
 
 class DarkShadows {
   DarkShadows._();
 
   static const List<BoxShadow> card = [
-        BoxShadow(
-          color: Color(0x40000000),
-          blurRadius: 12,
-          offset: Offset(0, 4),
-          spreadRadius: 0,
-        ),
-      ];
+    BoxShadow(
+      color: Color(0x40000000),
+      blurRadius: 12,
+      offset: Offset(0, 4),
+      spreadRadius: 0,
+    ),
+  ];
 
   static const List<BoxShadow> cardHovered = [
-        BoxShadow(
-          color: Color(0x60000000),
-          blurRadius: 16,
-          offset: Offset(0, 6),
-          spreadRadius: 0,
-        ),
-      ];
+    BoxShadow(
+      color: Color(0x60000000),
+      blurRadius: 16,
+      offset: Offset(0, 6),
+      spreadRadius: 0,
+    ),
+  ];
 
   static const List<BoxShadow> softShadow = [
     BoxShadow(
@@ -87,13 +87,13 @@ class DarkShadows {
   ];
 
   static const List<BoxShadow> button = [
-        BoxShadow(
-          color: Color(0x40000000),
-          blurRadius: 8,
-          offset: Offset(0, 3),
-          spreadRadius: 0,
-        ),
-      ];
+    BoxShadow(
+      color: Color(0x40000000),
+      blurRadius: 8,
+      offset: Offset(0, 3),
+      spreadRadius: 0,
+    ),
+  ];
 
   // Neon glow effects
   static List<BoxShadow> neonGlow(Color color, {double intensity = 0.4}) {
@@ -107,7 +107,10 @@ class DarkShadows {
     ];
   }
 
-  static List<BoxShadow> neonGlowIntense(Color color, {double intensity = 0.6}) {
+  static List<BoxShadow> neonGlowIntense(
+    Color color, {
+    double intensity = 0.6,
+  }) {
     return [
       BoxShadow(
         color: color.withValues(alpha: intensity),

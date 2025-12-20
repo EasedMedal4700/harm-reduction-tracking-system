@@ -25,17 +25,11 @@ class CatalogSearchBar extends StatelessWidget {
     return CommonInputField(
       controller: controller,
       hintText: 'Search substances...',
-      prefixIcon: Icon(
-        Icons.search,
-        color: t.colors.textSecondary,
-      ),
+      prefixIcon: Icon(Icons.search, color: t.colors.textSecondary),
       onChanged: (_) => onChanged(),
       suffixIcon: controller.text.isNotEmpty
           ? IconButton(
-              icon: Icon(
-                Icons.clear,
-                color: t.colors.textSecondary,
-              ),
+              icon: Icon(Icons.clear, color: t.colors.textSecondary),
               onPressed: () {
                 controller.clear();
                 onChanged();

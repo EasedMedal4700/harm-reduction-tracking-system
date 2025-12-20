@@ -37,24 +37,22 @@ class CommonSlider extends StatelessWidget {
     final t = context.theme;
     final defaultActiveColor = t.accent.primary;
     final defaultInactiveColor = t.colors.surfaceVariant.withValues(alpha: 0.5);
-    
+
     return SliderTheme(
       data: SliderThemeData(
         activeTrackColor: activeColor ?? defaultActiveColor,
         inactiveTrackColor: inactiveColor ?? defaultInactiveColor,
         thumbColor: activeColor ?? defaultActiveColor,
-        overlayColor: (activeColor ?? defaultActiveColor).withValues(alpha: 0.2),
+        overlayColor: (activeColor ?? defaultActiveColor).withValues(
+          alpha: 0.2,
+        ),
         valueIndicatorColor: activeColor ?? defaultActiveColor,
         valueIndicatorTextStyle: t.text.bodySmall.copyWith(
           color: t.colors.textInverse,
           fontWeight: FontWeight.w500,
         ),
-        thumbShape: const RoundSliderThumbShape(
-          enabledThumbRadius: 10.0,
-        ),
-        overlayShape: const RoundSliderOverlayShape(
-          overlayRadius: 20.0,
-        ),
+        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10.0),
+        overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
       ),
       child: Slider(
         value: value,

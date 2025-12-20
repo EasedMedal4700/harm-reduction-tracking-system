@@ -38,13 +38,13 @@ class DailyCheckin {
       notes: json['notes']?.toString(),
       createdAt: json['created_at'] != null
           ? (json['created_at'] is String
-              ? DateTime.parse(json['created_at'])
-              : json['created_at'] as DateTime)
+                ? DateTime.parse(json['created_at'])
+                : json['created_at'] as DateTime)
           : null,
       updatedAt: json['updated_at'] != null
           ? (json['updated_at'] is String
-              ? DateTime.parse(json['updated_at'])
-              : json['updated_at'] as DateTime)
+                ? DateTime.parse(json['updated_at'])
+                : json['updated_at'] as DateTime)
           : null,
     );
   }

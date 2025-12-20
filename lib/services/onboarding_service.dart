@@ -5,10 +5,12 @@ class OnboardingService {
   static const String _onboardingCompleteKey = 'onboarding_complete';
   static const String _privacyPolicyAcceptedKey = 'privacy_policy_accepted';
   static const String _usageFrequencyKey = 'usage_frequency';
-  
+
   // Harm reduction banner dismissal keys
-  static const String bloodLevelsHarmNoticeDismissedKey = 'blood_levels_harm_notice_dismissed';
-  static const String toleranceHarmNoticeDismissedKey = 'tolerance_harm_notice_dismissed';
+  static const String bloodLevelsHarmNoticeDismissedKey =
+      'blood_levels_harm_notice_dismissed';
+  static const String toleranceHarmNoticeDismissedKey =
+      'tolerance_harm_notice_dismissed';
 
   /// Usage frequency options
   static const List<UsageFrequency> usageFrequencies = [

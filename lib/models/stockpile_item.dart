@@ -22,7 +22,9 @@ class StockpileItem {
       substanceId: json['substanceId'] as String,
       totalAddedMg: (json['totalAddedMg'] as num).toDouble(),
       currentAmountMg: (json['currentAmountMg'] as num).toDouble(),
-      unitMg: json['unitMg'] != null ? (json['unitMg'] as num).toDouble() : null,
+      unitMg: json['unitMg'] != null
+          ? (json['unitMg'] as num).toDouble()
+          : null,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );

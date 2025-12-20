@@ -30,7 +30,7 @@ class CommonIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.theme;
     final defaultColor = t.colors.textPrimary;
-    
+
     return IconButton(
       icon: Icon(icon),
       onPressed: onPressed,

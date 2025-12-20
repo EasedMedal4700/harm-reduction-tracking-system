@@ -31,10 +31,10 @@ class BloodLevelsAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;    // palette colors
-    final text = context.text;   // typography
-    final sp = context.spacing;  // spacing
-    final acc = context.accent;  // accent colors
+    final c = context.colors; // palette colors
+    final text = context.text; // typography
+    final sp = context.spacing; // spacing
+    final acc = context.accent; // accent colors
 
     return AppBar(
       backgroundColor: c.surface,
@@ -69,9 +69,7 @@ class BloodLevelsAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Badge(
             label: Text(
               '$filterCount',
-              style: text.captionBold.copyWith(
-                color: c.textInverse,
-              ),
+              style: text.captionBold.copyWith(color: c.textInverse),
             ),
             isLabelVisible: filterCount > 0,
             backgroundColor: acc.primary,

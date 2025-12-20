@@ -33,11 +33,7 @@ class BloodLevelsErrorState extends StatelessWidget {
         child: Column(
           mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: t.sizes.icon2xl,
-              color: c.error,
-            ),
+            Icon(Icons.error_outline, size: t.sizes.icon2xl, color: c.error),
 
             SizedBox(height: sp.lg),
 

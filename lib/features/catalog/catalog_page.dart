@@ -70,23 +70,27 @@ class _CatalogPageState extends State<CatalogPage> {
         final name = (substance['pretty_name'] ?? substance['name'] ?? '')
             .toString()
             .toLowerCase();
-        final aliases = (substance['aliases'] as List?)
+        final aliases =
+            (substance['aliases'] as List?)
                 ?.map((e) => e.toString().toLowerCase())
                 .toList() ??
             [];
-        final categories = (substance['categories'] as List?)
+        final categories =
+            (substance['categories'] as List?)
                 ?.map((e) => e.toString())
                 .toList() ??
             [];
 
         // Search filter
         final query = _searchQuery.toLowerCase();
-        final matchesSearch = query.isEmpty ||
+        final matchesSearch =
+            query.isEmpty ||
             name.contains(query) ||
             aliases.any((alias) => alias.contains(query));
 
         // Category filter
-        final matchesCategory = _selectedCategories.isEmpty ||
+        final matchesCategory =
+            _selectedCategories.isEmpty ||
             categories.any((cat) => _selectedCategories.contains(cat));
 
         // Common only filter (simplified logic for now, assuming 'common' property or similar if available, otherwise ignored or based on categories)
@@ -97,7 +101,7 @@ class _CatalogPageState extends State<CatalogPage> {
         // But `CatalogSearchFilters` has `showCommonOnly`.
         // I'll assume for now it's just a placeholder or I should check `drug_profiles.txt` or similar.
         // For now, I will just ignore `matchesCommon` logic or set it to true to avoid filtering out everything.
-        final matchesCommon = true; 
+        final matchesCommon = true;
 
         return matchesSearch && matchesCategory && matchesCommon;
       }).toList();

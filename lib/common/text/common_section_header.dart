@@ -30,7 +30,7 @@ class CommonSectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    
+
     return Padding(
       padding: padding ?? EdgeInsets.zero,
       child: Column(

@@ -59,194 +59,193 @@ class ErrorAnalyticsSection extends StatelessWidget {
       padding: EdgeInsets.all(sp.lg),
       showBorder: false,
       child: Column(
-          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
-          children: [
-            /// HEADER
-            Row(
-              children: [
-                Icon(Icons.error_outline, color: c.error),
-                SizedBox(width: sp.sm),
-                Text(
-                  'Error Monitoring',
-                  style: text.heading3.copyWith(color: c.textPrimary),
-                ),
-                const Spacer(),
-                TextButton.icon(
-                  onPressed: isClearingErrors ? null : onCleanLogs,
-                  icon: const Icon(Icons.cleaning_services_outlined),
-                  label: Text(
-                    'Clean Logs',
-                    style: text.button.copyWith(color: c.textPrimary),
-                  ),
-                ),
-              ],
-            ),
-
-            SizedBox(height: sp.md),
-
-            /// STAT CHIPS
-            Wrap(
-              spacing: sp.md,
-              runSpacing: sp.md,
-              children: [
-                _buildErrorStatChip(
-                  context,
-                  label: 'Total Errors',
-                  value: totalErrors.toString(),
-                  icon: Icons.warning_amber_outlined,
-                  color: c.error,
-                ),
-                _buildErrorStatChip(
-                  context,
-                  label: 'Last 24h',
-                  value: last24h.toString(),
-                  icon: Icons.timer_outlined,
-                  color: c.warning,
-                ),
-                _buildErrorStatChip(
-                  context,
-                  label: 'Tracked Screens',
-                  value: screenBreakdown.length.toString(),
-                  icon: Icons.devices_other,
-                  color: c.info,
-                ),
-              ],
-            ),
-
-            SizedBox(height: sp.lg),
-
-            /// BREAKDOWN SECTIONS
-            if (platformBreakdown.isNotEmpty)
-              _buildBreakdownSection(
-                context: context,
-                title: 'Top Platforms',
-                data: platformBreakdown,
-                labelKey: 'platform',
-                countKey: 'count',
-              ),
-            if (screenBreakdown.isNotEmpty)
-              _buildBreakdownSection(
-                context: context,
-                title: 'Top Screens',
-                data: screenBreakdown,
-                labelKey: 'screen_name',
-                countKey: 'count',
-              ),
-            if (messageBreakdown.isNotEmpty)
-              _buildBreakdownSection(
-                context: context,
-                title: 'Frequent Errors',
-                data: messageBreakdown,
-                labelKey: 'error_message',
-                countKey: 'count',
-              ),
-            if (severityBreakdown.isNotEmpty)
-              _buildBreakdownSection(
-                context: context,
-                title: 'By Severity',
-                data: severityBreakdown,
-                labelKey: 'severity',
-                countKey: 'count',
-                useSeverityBadge: true,
-              ),
-            if (errorCodeBreakdown.isNotEmpty)
-              _buildBreakdownSection(
-                context: context,
-                title: 'By Error Code',
-                data: errorCodeBreakdown,
-                labelKey: 'error_code',
-                countKey: 'count',
-              ),
-
-            SizedBox(height: sp.lg),
-
-            /// RECENT LOGS
-            Text(
-              'Recent Events',
-              style: text.heading4.copyWith(color: c.textPrimary),
-            ),
-            SizedBox(height: sp.sm),
-
-            if (recentLogs.isEmpty)
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+        children: [
+          /// HEADER
+          Row(
+            children: [
+              Icon(Icons.error_outline, color: c.error),
+              SizedBox(width: sp.sm),
               Text(
-                'No recent error logs available.',
-                style: text.bodySmall.copyWith(color: c.textSecondary),
-              )
-            else
-              Column(
-                children: recentLogs.map((log) {
-                  final createdRaw = log['created_at'];
-                  final createdAt = createdRaw is String
-                      ? DateTime.tryParse(createdRaw)
-                      : createdRaw is DateTime
-                          ? createdRaw
-                          : null;
-
-                  final timestamp = createdAt != null
-                      ? DateFormat('MMM dd, HH:mm').format(createdAt)
-                      : 'Unknown time';
-
-                  final severity = log['severity']?.toString() ?? 'medium';
-                  final errorCode = log['error_code']?.toString() ?? '';
-
-                  return ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: SeverityBadge(severity: severity, compact: true),
-                    onTap: () => onShowLogDetails(log),
-                    title: Row(
-                      children: [
-                        if (errorCode.isNotEmpty) ...[
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: sp.xs,
-                              vertical: sp.xs,
-                            ),
-                            decoration: BoxDecoration(
-                              color: c.surfaceVariant,
-                              borderRadius:
-                                  BorderRadius.circular(sh.radiusSm),
-                            ),
-                            child: Text(
-                              errorCode,
-                              style: text.overline.copyWith(
-                                fontWeight: text.bodyBold.fontWeight,
-                                color: c.textPrimary,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: sp.sm),
-                        ],
-                        Expanded(
-                          child: Text(
-                            log['error_message'] ?? 'Unknown error',
-                            overflow: AppLayout.textOverflowEllipsis,
-                            maxLines: 2,
-                            style: text.body.copyWith(color: c.textPrimary),
-                          ),
-                        ),
-                      ],
-                    ),
-                    subtitle: Text(
-                      '${log['platform'] ?? 'unknown'} • '
-                      '${log['screen_name'] ?? 'Unknown screen'}\n'
-                      '$timestamp',
-                      style: text.caption.copyWith(color: c.textSecondary),
-                    ),
-                    trailing: Column(
-                      mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
-                      children: [
-                        Icon(Icons.devices, color: c.textSecondary),
-                        Text(
-                          log['device_model'] ?? 'unavailable',
-                          style: text.caption.copyWith(color: c.textSecondary),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
+                'Error Monitoring',
+                style: text.heading3.copyWith(color: c.textPrimary),
               ),
-          ],
-        ),
+              const Spacer(),
+              TextButton.icon(
+                onPressed: isClearingErrors ? null : onCleanLogs,
+                icon: const Icon(Icons.cleaning_services_outlined),
+                label: Text(
+                  'Clean Logs',
+                  style: text.button.copyWith(color: c.textPrimary),
+                ),
+              ),
+            ],
+          ),
+
+          SizedBox(height: sp.md),
+
+          /// STAT CHIPS
+          Wrap(
+            spacing: sp.md,
+            runSpacing: sp.md,
+            children: [
+              _buildErrorStatChip(
+                context,
+                label: 'Total Errors',
+                value: totalErrors.toString(),
+                icon: Icons.warning_amber_outlined,
+                color: c.error,
+              ),
+              _buildErrorStatChip(
+                context,
+                label: 'Last 24h',
+                value: last24h.toString(),
+                icon: Icons.timer_outlined,
+                color: c.warning,
+              ),
+              _buildErrorStatChip(
+                context,
+                label: 'Tracked Screens',
+                value: screenBreakdown.length.toString(),
+                icon: Icons.devices_other,
+                color: c.info,
+              ),
+            ],
+          ),
+
+          SizedBox(height: sp.lg),
+
+          /// BREAKDOWN SECTIONS
+          if (platformBreakdown.isNotEmpty)
+            _buildBreakdownSection(
+              context: context,
+              title: 'Top Platforms',
+              data: platformBreakdown,
+              labelKey: 'platform',
+              countKey: 'count',
+            ),
+          if (screenBreakdown.isNotEmpty)
+            _buildBreakdownSection(
+              context: context,
+              title: 'Top Screens',
+              data: screenBreakdown,
+              labelKey: 'screen_name',
+              countKey: 'count',
+            ),
+          if (messageBreakdown.isNotEmpty)
+            _buildBreakdownSection(
+              context: context,
+              title: 'Frequent Errors',
+              data: messageBreakdown,
+              labelKey: 'error_message',
+              countKey: 'count',
+            ),
+          if (severityBreakdown.isNotEmpty)
+            _buildBreakdownSection(
+              context: context,
+              title: 'By Severity',
+              data: severityBreakdown,
+              labelKey: 'severity',
+              countKey: 'count',
+              useSeverityBadge: true,
+            ),
+          if (errorCodeBreakdown.isNotEmpty)
+            _buildBreakdownSection(
+              context: context,
+              title: 'By Error Code',
+              data: errorCodeBreakdown,
+              labelKey: 'error_code',
+              countKey: 'count',
+            ),
+
+          SizedBox(height: sp.lg),
+
+          /// RECENT LOGS
+          Text(
+            'Recent Events',
+            style: text.heading4.copyWith(color: c.textPrimary),
+          ),
+          SizedBox(height: sp.sm),
+
+          if (recentLogs.isEmpty)
+            Text(
+              'No recent error logs available.',
+              style: text.bodySmall.copyWith(color: c.textSecondary),
+            )
+          else
+            Column(
+              children: recentLogs.map((log) {
+                final createdRaw = log['created_at'];
+                final createdAt = createdRaw is String
+                    ? DateTime.tryParse(createdRaw)
+                    : createdRaw is DateTime
+                    ? createdRaw
+                    : null;
+
+                final timestamp = createdAt != null
+                    ? DateFormat('MMM dd, HH:mm').format(createdAt)
+                    : 'Unknown time';
+
+                final severity = log['severity']?.toString() ?? 'medium';
+                final errorCode = log['error_code']?.toString() ?? '';
+
+                return ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: SeverityBadge(severity: severity, compact: true),
+                  onTap: () => onShowLogDetails(log),
+                  title: Row(
+                    children: [
+                      if (errorCode.isNotEmpty) ...[
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: sp.xs,
+                            vertical: sp.xs,
+                          ),
+                          decoration: BoxDecoration(
+                            color: c.surfaceVariant,
+                            borderRadius: BorderRadius.circular(sh.radiusSm),
+                          ),
+                          child: Text(
+                            errorCode,
+                            style: text.overline.copyWith(
+                              fontWeight: text.bodyBold.fontWeight,
+                              color: c.textPrimary,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: sp.sm),
+                      ],
+                      Expanded(
+                        child: Text(
+                          log['error_message'] ?? 'Unknown error',
+                          overflow: AppLayout.textOverflowEllipsis,
+                          maxLines: 2,
+                          style: text.body.copyWith(color: c.textPrimary),
+                        ),
+                      ),
+                    ],
+                  ),
+                  subtitle: Text(
+                    '${log['platform'] ?? 'unknown'} • '
+                    '${log['screen_name'] ?? 'Unknown screen'}\n'
+                    '$timestamp',
+                    style: text.caption.copyWith(color: c.textSecondary),
+                  ),
+                  trailing: Column(
+                    mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
+                    children: [
+                      Icon(Icons.devices, color: c.textSecondary),
+                      Text(
+                        log['device_model'] ?? 'unavailable',
+                        style: text.caption.copyWith(color: c.textSecondary),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+        ],
+      ),
     );
   }
 
@@ -274,14 +273,8 @@ class ErrorAnalyticsSection extends StatelessWidget {
         children: [
           Icon(icon, color: color),
           SizedBox(height: sp.sm),
-          Text(
-            value,
-            style: text.heading3.copyWith(color: c.textPrimary),
-          ),
-          Text(
-            label,
-            style: text.bodySmall.copyWith(color: c.textSecondary),
-          ),
+          Text(value, style: text.heading3.copyWith(color: c.textPrimary)),
+          Text(label, style: text.bodySmall.copyWith(color: c.textSecondary)),
         ],
       ),
     );
@@ -302,38 +295,37 @@ class ErrorAnalyticsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
-        Text(
-          title,
-          style: text.bodyBold.copyWith(color: c.textPrimary),
-        ),
+        Text(title, style: text.bodyBold.copyWith(color: c.textPrimary)),
         SizedBox(height: sp.sm),
 
-        ...data.take(5).map(
-          (item) => Padding(
-            padding: EdgeInsets.symmetric(vertical: sp.xs),
-            child: Row(
-              mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
-              children: [
-                Expanded(
-                  child: useSeverityBadge
-                      ? SeverityBadge(
-                          severity: item[labelKey]?.toString() ?? 'medium',
-                          compact: false,
-                        )
-                      : Text(
-                          item[labelKey]?.toString() ?? 'Unknown',
-                          overflow: AppLayout.textOverflowEllipsis,
-                          style: text.body.copyWith(color: c.textPrimary),
-                        ),
+        ...data
+            .take(5)
+            .map(
+              (item) => Padding(
+                padding: EdgeInsets.symmetric(vertical: sp.xs),
+                child: Row(
+                  mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
+                  children: [
+                    Expanded(
+                      child: useSeverityBadge
+                          ? SeverityBadge(
+                              severity: item[labelKey]?.toString() ?? 'medium',
+                              compact: false,
+                            )
+                          : Text(
+                              item[labelKey]?.toString() ?? 'Unknown',
+                              overflow: AppLayout.textOverflowEllipsis,
+                              style: text.body.copyWith(color: c.textPrimary),
+                            ),
+                    ),
+                    Text(
+                      '${item[countKey] ?? 0} hits',
+                      style: text.bodyBold.copyWith(color: c.textSecondary),
+                    ),
+                  ],
                 ),
-                Text(
-                  '${item[countKey] ?? 0} hits',
-                  style: text.bodyBold.copyWith(color: c.textSecondary),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
 
         SizedBox(height: sp.lg),
       ],

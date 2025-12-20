@@ -28,10 +28,7 @@ class NotesInput extends StatelessWidget {
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          Text(
-            'Notes (optional)',
-            style: t.typography.heading4,
-          ),
+          Text('Notes (optional)', style: t.typography.heading4),
           CommonSpacer.vertical(t.spacing.md),
           CommonInputField(
             controller: controller,

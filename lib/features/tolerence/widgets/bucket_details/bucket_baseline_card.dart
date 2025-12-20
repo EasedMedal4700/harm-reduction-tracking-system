@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -15,10 +14,7 @@ import '../../../../constants/theme/app_theme_extension.dart';
 class BucketBaselineCard extends StatelessWidget {
   final double daysToBaseline;
 
-  const BucketBaselineCard({
-    super.key,
-    required this.daysToBaseline,
-  });
+  const BucketBaselineCard({super.key, required this.daysToBaseline});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +25,11 @@ class BucketBaselineCard extends StatelessWidget {
     return CommonCard(
       child: Row(
         children: [
-          Icon(Icons.schedule, color: c.textSecondary, size: context.sizes.iconMd),
+          Icon(
+            Icons.schedule,
+            color: c.textSecondary,
+            size: context.sizes.iconMd,
+          ),
 
           CommonSpacer.horizontal(sp.sm),
 
@@ -61,4 +61,3 @@ class BucketBaselineCard extends StatelessWidget {
     );
   }
 }
-

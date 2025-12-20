@@ -1,4 +1,4 @@
-﻿/// Spacing constants and system
+/// Spacing constants and system
 class AppSpacingConstants {
   AppSpacingConstants._();
 
@@ -11,7 +11,7 @@ class AppSpacingConstants {
   static const double xl3 = 48.0;
   static const double space32 = 32.0;
   static const double space48 = 48.0;
-  
+
   static const double cardSpacing = 16.0;
   static const double homePagePadding = 16.0;
   static const double quickActionSpacing = 16.0;
@@ -57,27 +57,26 @@ class Spacing {
   });
 
   factory Spacing.normal() => const Spacing(
-        xs: AppSpacingConstants.xs,
-        sm: AppSpacingConstants.sm,
-        md: AppSpacingConstants.md,
-        lg: AppSpacingConstants.lg,
-        xl: AppSpacingConstants.xl,
-        xl2: AppSpacingConstants.xl2,
-        xl3: AppSpacingConstants.xl3,
-        cardPadding: AppSpacingConstants.cardPadding,
-        cardMargin: AppSpacingConstants.cardMargin,
-      );
+    xs: AppSpacingConstants.xs,
+    sm: AppSpacingConstants.sm,
+    md: AppSpacingConstants.md,
+    lg: AppSpacingConstants.lg,
+    xl: AppSpacingConstants.xl,
+    xl2: AppSpacingConstants.xl2,
+    xl3: AppSpacingConstants.xl3,
+    cardPadding: AppSpacingConstants.cardPadding,
+    cardMargin: AppSpacingConstants.cardMargin,
+  );
 
   factory Spacing.compact() => const Spacing(
-        xs: AppSpacingConstants.xsCompact,
-        sm: AppSpacingConstants.smCompact,
-        md: AppSpacingConstants.mdCompact,
-        lg: AppSpacingConstants.lgCompact,
-        xl: AppSpacingConstants.xlCompact,
-        xl2: AppSpacingConstants.xl2Compact,
-        xl3: AppSpacingConstants.xl3Compact,
-        cardPadding: AppSpacingConstants.cardPaddingCompact,
-        cardMargin: AppSpacingConstants.cardMarginCompact,
-      );
+    xs: AppSpacingConstants.xsCompact,
+    sm: AppSpacingConstants.smCompact,
+    md: AppSpacingConstants.mdCompact,
+    lg: AppSpacingConstants.lgCompact,
+    xl: AppSpacingConstants.xlCompact,
+    xl2: AppSpacingConstants.xl2Compact,
+    xl3: AppSpacingConstants.xl3Compact,
+    cardPadding: AppSpacingConstants.cardPaddingCompact,
+    cardMargin: AppSpacingConstants.cardMarginCompact,
+  );
 }
-

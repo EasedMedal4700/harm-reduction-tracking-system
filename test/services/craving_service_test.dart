@@ -32,11 +32,13 @@ void main() {
 
       expect(
         () => service.saveCraving(craving),
-        throwsA(isA<Exception>().having(
-          (e) => e.toString(),
-          'message',
-          contains('Intensity must be higher than 0'),
-        )),
+        throwsA(
+          isA<Exception>().having(
+            (e) => e.toString(),
+            'message',
+            contains('Intensity must be higher than 0'),
+          ),
+        ),
       );
     });
 
@@ -60,10 +62,7 @@ void main() {
         timezone: -5.0,
       );
 
-      expect(
-        () => service.saveCraving(craving),
-        throwsA(isA<Exception>()),
-      );
+      expect(() => service.saveCraving(craving), throwsA(isA<Exception>()));
     });
 
     test('throws exception for empty substance', () {
@@ -88,11 +87,13 @@ void main() {
 
       expect(
         () => service.saveCraving(craving),
-        throwsA(isA<Exception>().having(
-          (e) => e.toString(),
-          'message',
-          contains('Substance must be one from the list'),
-        )),
+        throwsA(
+          isA<Exception>().having(
+            (e) => e.toString(),
+            'message',
+            contains('Substance must be one from the list'),
+          ),
+        ),
       );
     });
 
@@ -116,10 +117,7 @@ void main() {
         timezone: -5.0,
       );
 
-      expect(
-        () => service.saveCraving(craving),
-        throwsA(isA<Exception>()),
-      );
+      expect(() => service.saveCraving(craving), throwsA(isA<Exception>()));
     });
 
     test('throws exception for "Select a location" location', () {
@@ -144,11 +142,13 @@ void main() {
 
       expect(
         () => service.saveCraving(craving),
-        throwsA(isA<Exception>().having(
-          (e) => e.toString(),
-          'message',
-          contains('Please select a valid location'),
-        )),
+        throwsA(
+          isA<Exception>().having(
+            (e) => e.toString(),
+            'message',
+            contains('Please select a valid location'),
+          ),
+        ),
       );
     });
 

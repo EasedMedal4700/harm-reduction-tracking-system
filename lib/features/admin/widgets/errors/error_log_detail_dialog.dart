@@ -15,10 +15,7 @@ import 'severity_badge.dart';
 class ErrorLogDetailDialog extends StatelessWidget {
   final Map<String, dynamic> log;
 
-  const ErrorLogDetailDialog({
-    required this.log,
-    super.key,
-  });
+  const ErrorLogDetailDialog({required this.log, super.key});
 
   Map<String, dynamic>? _parseExtraData(dynamic data) {
     if (data is Map<String, dynamic>) return data;
@@ -40,8 +37,9 @@ class ErrorLogDetailDialog extends StatelessWidget {
     final sh = context.shapes;
 
     final createdAtString = log['created_at']?.toString();
-    final createdAt =
-        createdAtString != null ? DateTime.tryParse(createdAtString) : null;
+    final createdAt = createdAtString != null
+        ? DateTime.tryParse(createdAtString)
+        : null;
 
     final extra = _parseExtraData(log['extra_data']);
     final severity = log['severity'] as String? ?? 'medium';
@@ -114,19 +112,36 @@ class ErrorLogDetailDialog extends StatelessWidget {
                   context,
                   'Created',
                   createdAt != null
-                      ? DateFormat('MMM dd, yyyy HH:mm:ss')
-                          .format(createdAt.toLocal())
+                      ? DateFormat(
+                          'MMM dd, yyyy HH:mm:ss',
+                        ).format(createdAt.toLocal())
                       : 'Unknown',
                 ),
-                _buildKeyValue(context, 'Platform', log['platform'] ?? 'Unknown'),
                 _buildKeyValue(
-                    context, 'OS Version', log['os_version'] ?? 'Unknown'),
+                  context,
+                  'Platform',
+                  log['platform'] ?? 'Unknown',
+                ),
                 _buildKeyValue(
-                    context, 'Device', log['device_model'] ?? 'Unknown'),
+                  context,
+                  'OS Version',
+                  log['os_version'] ?? 'Unknown',
+                ),
                 _buildKeyValue(
-                    context, 'App Version', log['app_version'] ?? 'Unknown'),
+                  context,
+                  'Device',
+                  log['device_model'] ?? 'Unknown',
+                ),
                 _buildKeyValue(
-                    context, 'Screen', log['screen_name'] ?? 'Unknown'),
+                  context,
+                  'App Version',
+                  log['app_version'] ?? 'Unknown',
+                ),
+                _buildKeyValue(
+                  context,
+                  'Screen',
+                  log['screen_name'] ?? 'Unknown',
+                ),
 
                 SizedBox(height: sp.md),
 
@@ -183,11 +198,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildKeyValue(
-    BuildContext context,
-    String label,
-    String value,
-  ) {
+  Widget _buildKeyValue(BuildContext context, String label, String value) {
     final sp = context.spacing;
     final text = context.text;
     final c = context.colors;
@@ -205,10 +216,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Text(
-              value,
-              style: text.body.copyWith(color: c.textPrimary),
-            ),
+            child: Text(value, style: text.body.copyWith(color: c.textPrimary)),
           ),
         ],
       ),

@@ -22,7 +22,7 @@ class CommonActionCard extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
     final t = context.text;
-    
+
     final cardColor = color ?? acc.primary;
 
     return Material(
@@ -35,10 +35,7 @@ class CommonActionCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: c.surface,
             borderRadius: BorderRadius.circular(sh.radiusMd),
-            border: Border.all(
-              color: c.border,
-              width: 1.0,
-            ),
+            border: Border.all(color: c.border, width: 1.0),
             boxShadow: context.cardShadow,
           ),
           child: Column(
@@ -50,11 +47,7 @@ class CommonActionCard extends StatelessWidget {
                   color: cardColor.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  icon,
-                  color: cardColor,
-                  size: 24,
-                ),
+                child: Icon(icon, color: cardColor, size: 24),
               ),
               SizedBox(height: sp.xs),
               Text(

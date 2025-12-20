@@ -15,10 +15,7 @@ import '../../../../common/cards/common_card.dart';
 class RiskAssessmentCard extends StatelessWidget {
   final Map<String, DrugLevel> levels;
 
-  const RiskAssessmentCard({
-    super.key,
-    required this.levels,
-  });
+  const RiskAssessmentCard({super.key, required this.levels});
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +28,14 @@ class RiskAssessmentCard extends StatelessWidget {
     // RISK EVALUATION LOGIC
     // ----------------------------
     final highRisk = levels.values.where((l) => l.percentage > 20).length;
-    final moderateRisk =
-        levels.values.where((l) => l.percentage > 10 && l.percentage <= 20).length;
+    final moderateRisk = levels.values
+        .where((l) => l.percentage > 10 && l.percentage <= 20)
+        .length;
 
-    final totalDose =
-        levels.values.fold<double>(0.0, (sum, l) => sum + l.totalRemaining);
+    final totalDose = levels.values.fold<double>(
+      0.0,
+      (sum, l) => sum + l.totalRemaining,
+    );
 
     String riskLevel;
     Color riskColor;
@@ -45,7 +45,8 @@ class RiskAssessmentCard extends StatelessWidget {
     if (highRisk > 0) {
       riskLevel = 'HIGH';
       riskColor = c.error;
-      warningMessage = 'Elevated risk detected. Avoid redosing and monitor carefully.';
+      warningMessage =
+          'Elevated risk detected. Avoid redosing and monitor carefully.';
       riskPosition = 0.8;
     } else if (moderateRisk > 0 || totalDose > 5.0) {
       riskLevel = 'MODERATE';
@@ -80,97 +81,101 @@ class RiskAssessmentCard extends StatelessWidget {
             Row(
               children: [
                 Text('Risk Assessment', style: text.heading4),
-              const Spacer(),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: sp.md,
-                  vertical: sp.sm - 2,
-                ),
-                decoration: BoxDecoration(
-                  color: riskColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(sh.radiusMd),
-                  border: Border.all(
-                    color: riskColor.withValues(alpha: context.opacities.slow),
+                const Spacer(),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: sp.md,
+                    vertical: sp.sm - 2,
                   ),
-                ),
-                child: Text(
-                  riskLevel,
-                  style: text.bodyBold.copyWith(
-                    color: riskColor,
-                    letterSpacing: context.sizes.letterSpacingMd,
+                  decoration: BoxDecoration(
+                    color: riskColor.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
+                    border: Border.all(
+                      color: riskColor.withValues(
+                        alpha: context.opacities.slow,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ],
-          ),
-
-          SizedBox(height: sp.lg),
-
-          // RISK GRADIENT BAR
-          Container(
-            height: context.spacing.md,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(sh.radiusMd),
-              gradient: LinearGradient(
-                colors: [
-                  c.success,
-                  c.warning,
-                  c.error,
-                ],
-                stops: const [0.0, 0.5, 1.0],
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  left:
-                      (MediaQuery.of(context).size.width * 0.80 * riskPosition),
-                  top: -3,
-                  child: Container(
-                    width: context.sizes.iconSm,
-                    height: context.sizes.iconSm,
-                    decoration: BoxDecoration(
+                  child: Text(
+                    riskLevel,
+                    style: text.bodyBold.copyWith(
                       color: riskColor,
-                      shape: context.shapes.boxShapeCircle,
-                      border: Border.all(width: context.borders.medium, color: c.surface),
-                      boxShadow: [
-                        BoxShadow(
-                          color: riskColor.withValues(alpha: context.opacities.high),
-                          blurRadius: context.sizes.cardElevationHovered,
-                          spreadRadius: context.borders.medium,
-                        ),
-                      ],
+                      letterSpacing: context.sizes.letterSpacingMd,
                     ),
                   ),
                 ),
               ],
             ),
-          ),
 
-          SizedBox(height: sp.sm),
+            SizedBox(height: sp.lg),
 
-          Row(
-            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
-            children: [
-              Text('LOW',
-                  style: text.captionBold.copyWith(color: c.success)),
-              Text('HIGH',
-                  style: text.captionBold.copyWith(color: c.error)),
-            ],
-          ),
-
-          SizedBox(height: sp.md),
-
-          // WARNING MESSAGE
-          Text(
-            warningMessage,
-            style: text.bodySmall.copyWith(
-              color: c.textSecondary,
-              height: 1.35,
+            // RISK GRADIENT BAR
+            Container(
+              height: context.spacing.md,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(sh.radiusMd),
+                gradient: LinearGradient(
+                  colors: [c.success, c.warning, c.error],
+                  stops: const [0.0, 0.5, 1.0],
+                ),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    left:
+                        (MediaQuery.of(context).size.width *
+                        0.80 *
+                        riskPosition),
+                    top: -3,
+                    child: Container(
+                      width: context.sizes.iconSm,
+                      height: context.sizes.iconSm,
+                      decoration: BoxDecoration(
+                        color: riskColor,
+                        shape: context.shapes.boxShapeCircle,
+                        border: Border.all(
+                          width: context.borders.medium,
+                          color: c.surface,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: riskColor.withValues(
+                              alpha: context.opacities.high,
+                            ),
+                            blurRadius: context.sizes.cardElevationHovered,
+                            spreadRadius: context.borders.medium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+
+            SizedBox(height: sp.sm),
+
+            Row(
+              mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
+              children: [
+                Text('LOW', style: text.captionBold.copyWith(color: c.success)),
+                Text('HIGH', style: text.captionBold.copyWith(color: c.error)),
+              ],
+            ),
+
+            SizedBox(height: sp.md),
+
+            // WARNING MESSAGE
+            Text(
+              warningMessage,
+              style: text.bodySmall.copyWith(
+                color: c.textSecondary,
+                height: 1.35,
+              ),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

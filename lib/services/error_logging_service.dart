@@ -80,9 +80,7 @@ class ErrorLoggingService {
           final productName = info.productName;
           _osVersion = displayVersion.isNotEmpty
               ? displayVersion
-              : (productName.isNotEmpty
-                    ? productName
-                    : 'unknown');
+              : (productName.isNotEmpty ? productName : 'unknown');
           _deviceModel = info.computerName;
           return;
         case TargetPlatform.linux:
@@ -93,9 +91,7 @@ class ErrorLoggingService {
           final id = info.id;
           _osVersion = prettyName.isNotEmpty
               ? prettyName
-              : ((version?.isNotEmpty ?? false)
-                    ? version!
-                    : id);
+              : ((version?.isNotEmpty ?? false) ? version! : id);
           _deviceModel = info.machineId ?? 'unknown';
           return;
         case TargetPlatform.fuchsia:

@@ -19,7 +19,7 @@ class CacheService {
   /// Get cached data
   T? get<T>(String key) {
     final entry = _cache[key];
-    
+
     if (entry == null) {
       // Cache miss - record it
       PerformanceService.recordCacheEvent(key: key, hit: false);
@@ -60,7 +60,9 @@ class CacheService {
 
   /// Remove all cache entries matching a pattern
   void removePattern(String pattern) {
-    final keysToRemove = _cache.keys.where((key) => key.contains(pattern)).toList();
+    final keysToRemove = _cache.keys
+        .where((key) => key.contains(pattern))
+        .toList();
     for (final key in keysToRemove) {
       _cache.remove(key);
     }
@@ -77,7 +79,7 @@ class CacheService {
         .where((entry) => entry.value.isExpired)
         .map((entry) => entry.key)
         .toList();
-    
+
     for (final key in expiredKeys) {
       _cache.remove(key);
     }
@@ -109,10 +111,7 @@ class _CacheEntry {
   final dynamic data;
   final DateTime expiresAt;
 
-  _CacheEntry({
-    required this.data,
-    required this.expiresAt,
-  });
+  _CacheEntry({required this.data, required this.expiresAt});
 
   bool get isExpired => DateTime.now().isAfter(expiresAt);
 }
@@ -122,40 +121,40 @@ class CacheKeys {
   // Drug profiles
   static String drugProfile(String drugName) => 'drug_profile:$drugName';
   static const String allDrugNames = 'drug_names:all';
-  
+
   // User data
   static const String currentUserData = 'user:current';
   static const String currentUserId = 'user:id';
   static const String currentUserIsAdmin = 'user:is_admin';
-  
+
   // Drug use entries - now using UUID strings
   static String userDrugEntries(String userId) => 'drug_entries:user:$userId';
   static String drugEntry(String entryId) => 'drug_entry:$entryId';
   static String recentEntries(String userId) => 'recent_entries:user:$userId';
-  
+
   // Daily check-ins - now using UUID strings
   static String dailyCheckins(String userId) => 'daily_checkins:user:$userId';
   static String dailyCheckin(String userId, String date, String timeOfDay) =>
       'daily_checkin:$userId:$date:$timeOfDay';
-  
+
   // Cravings - now using UUID strings
   static String userCravings(String userId) => 'cravings:user:$userId';
   static String craving(String cravingId) => 'craving:$cravingId';
-  
+
   // Admin data
   static const String allUsers = 'admin:users:all';
   static const String systemStats = 'admin:stats';
-  
+
   // Location and settings
   static const String locationsList = 'locations:all';
-  
+
   // Clear all user-specific cache - now using UUID strings
   static void clearUserCache(String userId) {
     final cache = CacheService();
     cache.removePattern('user:$userId');
     cache.removePattern(':user:$userId');
   }
-  
+
   // Clear all drug-related cache
   static void clearDrugCache() {
     final cache = CacheService();

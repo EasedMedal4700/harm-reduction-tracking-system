@@ -6,9 +6,9 @@ import '../models/drug_catalog_entry.dart';
 class DrugPreferencesManager {
   /// Read preferences for a specific drug
   static LocalPrefs readPreferences(SharedPreferences prefs, String name) {
-    final stored = prefs.getString(_prefsKey(name)) ?? 
-                   prefs.getString(_legacyKey(name));
-    
+    final stored =
+        prefs.getString(_prefsKey(name)) ?? prefs.getString(_legacyKey(name));
+
     if (stored == null) {
       return const LocalPrefs(
         favorite: false,
@@ -17,7 +17,7 @@ class DrugPreferencesManager {
         quantity: 0,
       );
     }
-    
+
     try {
       final decoded = jsonDecode(stored);
       if (decoded is Map<String, dynamic>) {
@@ -31,7 +31,7 @@ class DrugPreferencesManager {
     } catch (_) {
       // Ignore malformed data
     }
-    
+
     return const LocalPrefs(
       favorite: false,
       archived: false,
@@ -53,11 +53,11 @@ class DrugPreferencesManager {
       'notes': current.notes,
       'quantity': current.quantity,
     };
-    
+
     final encoded = jsonEncode(updated);
     final primary = _prefsKey(drugName);
     final legacy = _legacyKey(drugName);
-    
+
     await prefs.setString(primary, encoded);
     if (legacy != primary) {
       await prefs.setString(legacy, encoded);
@@ -77,11 +77,11 @@ class DrugPreferencesManager {
       'notes': current.notes,
       'quantity': current.quantity,
     };
-    
+
     final encoded = jsonEncode(updated);
     final primary = _prefsKey(drugName);
     final legacy = _legacyKey(drugName);
-    
+
     await prefs.setString(primary, encoded);
     if (legacy != primary) {
       await prefs.setString(legacy, encoded);
@@ -95,6 +95,6 @@ class DrugPreferencesManager {
   }
 
   static String _prefsKey(String name) => 'drug_${name.trim()}';
-  
+
   static String _legacyKey(String name) => 'drug_${name.trim().toLowerCase()}';
 }

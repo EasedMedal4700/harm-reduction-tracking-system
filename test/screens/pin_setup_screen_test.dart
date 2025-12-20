@@ -14,7 +14,7 @@ void main() {
 
       // Check for title in AppBar
       expect(find.text('Setup Encryption'), findsOneWidget);
-      
+
       // Check for PIN input labels
       expect(find.textContaining('Create'), findsWidgets);
       expect(find.text('Confirm PIN'), findsOneWidget);
@@ -151,7 +151,9 @@ void main() {
       expect(find.textContaining('6-digit'), findsOneWidget);
     });
 
-    testWidgets('toggling visibility icon changes PIN visibility', (tester) async {
+    testWidgets('toggling visibility icon changes PIN visibility', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
@@ -159,11 +161,11 @@ void main() {
 
       // Initially all visibility icons (text obscured)
       expect(find.byIcon(Icons.visibility), findsNWidgets(2));
-      
+
       // Tap first visibility icon
       await tester.tap(find.byIcon(Icons.visibility).first);
       await tester.pump();
-      
+
       // Now should have one visibility and one visibility_off
       expect(find.byIcon(Icons.visibility), findsNWidgets(1));
       expect(find.byIcon(Icons.visibility_off), findsNWidgets(1));

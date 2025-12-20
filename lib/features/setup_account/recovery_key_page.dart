@@ -20,13 +20,13 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
   final _recoveryKeyController = TextEditingController();
   final _newPinController = TextEditingController();
   final _confirmPinController = TextEditingController();
-  
+
   bool _isLoading = false;
   String? _errorMessage;
   bool _keyObscure = true;
   bool _pinObscure = true;
   bool _confirmPinObscure = true;
-  
+
   // Two-step flow: first validate recovery key, then create new PIN
   bool _recoveryKeyValidated = false;
   String _validatedRecoveryKey = '';
@@ -167,25 +167,25 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
         title: Text(_recoveryKeyValidated ? 'Create New PIN' : 'Recovery Key'),
         backgroundColor: c.surface,
         elevation: context.sizes.elevationNone,
-        leading: _recoveryKeyValidated 
-          ? IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                setState(() {
-                  _recoveryKeyValidated = false;
-                  _newPinController.clear();
-                  _confirmPinController.clear();
-                  _errorMessage = null;
-                });
-              },
-            )
-          : null,
+        leading: _recoveryKeyValidated
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  setState(() {
+                    _recoveryKeyValidated = false;
+                    _newPinController.clear();
+                    _confirmPinController.clear();
+                    _errorMessage = null;
+                  });
+                },
+              )
+            : null,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(sp.lg),
-        child: _recoveryKeyValidated 
-          ? _buildPinCreationView(context)
-          : _buildRecoveryKeyView(context),
+        child: _recoveryKeyValidated
+            ? _buildPinCreationView(context)
+            : _buildRecoveryKeyView(context),
       ),
     );
   }
@@ -204,11 +204,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
         CommonSpacer.vertical(sp.lg),
 
         // Key Icon
-        Icon(
-          Icons.vpn_key,
-          size: 100,
-          color: a.primary,
-        ),
+        Icon(Icons.vpn_key, size: 100, color: a.primary),
         CommonSpacer.vertical(sp.xl),
 
         // Title
@@ -225,9 +221,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
         // Description
         Text(
           'Enter your recovery key to reset your PIN',
-          style: t.bodyLarge.copyWith(
-            color: c.textSecondary,
-          ),
+          style: t.bodyLarge.copyWith(color: c.textSecondary),
           textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.xl2),
@@ -238,18 +232,22 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           decoration: BoxDecoration(
             color: a.primary.withValues(alpha: context.opacities.overlay),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: a.primary.withValues(alpha: context.opacities.slow)),
+            border: Border.all(
+              color: a.primary.withValues(alpha: context.opacities.slow),
+            ),
           ),
           child: Row(
             children: [
-              Icon(Icons.info_outline, color: a.primary, size: context.sizes.iconMd),
+              Icon(
+                Icons.info_outline,
+                color: a.primary,
+                size: context.sizes.iconMd,
+              ),
               CommonSpacer.horizontal(sp.sm),
               Expanded(
                 child: Text(
                   'Your recovery key is a 24-character hexadecimal code',
-                  style: t.body.copyWith(
-                    color: c.textPrimary,
-                  ),
+                  style: t.body.copyWith(color: c.textPrimary),
                 ),
               ),
             ],
@@ -292,9 +290,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                 maxLines: 1,
                 decoration: InputDecoration(
                   hintText: 'Enter your 24-character recovery key',
-                  hintStyle: TextStyle(
-                    color: c.textSecondary,
-                  ),
+                  hintStyle: TextStyle(color: c.textSecondary),
                   border: InputBorder.none,
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -355,11 +351,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
         CommonSpacer.vertical(sp.lg),
 
         // Lock Icon
-        Icon(
-          Icons.lock_reset,
-          size: 100,
-          color: a.primary,
-        ),
+        Icon(Icons.lock_reset, size: 100, color: a.primary),
         CommonSpacer.vertical(sp.xl),
 
         // Title
@@ -376,9 +368,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
         // Description
         Text(
           'Recovery key validated! Now create a new 6-digit PIN',
-          style: t.bodyLarge.copyWith(
-            color: c.textSecondary,
-          ),
+          style: t.bodyLarge.copyWith(color: c.textSecondary),
           textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.xl2),
@@ -393,7 +383,11 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           ),
           child: Row(
             children: [
-              Icon(Icons.check_circle, color: c.success, size: context.sizes.iconMd),
+              Icon(
+                Icons.check_circle,
+                color: c.success,
+                size: context.sizes.iconMd,
+              ),
               CommonSpacer.horizontal(sp.sm),
               Expanded(
                 child: Text(
@@ -509,10 +503,14 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                   counterText: '',
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _confirmPinObscure ? Icons.visibility : Icons.visibility_off,
+                      _confirmPinObscure
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                       color: c.textSecondary,
                     ),
-                    onPressed: () => setState(() => _confirmPinObscure = !_confirmPinObscure),
+                    onPressed: () => setState(
+                      () => _confirmPinObscure = !_confirmPinObscure,
+                    ),
                   ),
                 ),
               ),
@@ -545,7 +543,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
     final c = context.colors;
     final sp = context.spacing;
     final t = context.text;
-    
+
     return Container(
       padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
@@ -571,8 +569,3 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
     );
   }
 }
-
-
-
-
-

@@ -44,9 +44,7 @@ class TimingInfoCard extends StatelessWidget {
               CommonSpacer.horizontal(t.spacing.xs),
               Text(
                 'Timing Information',
-                style: t.text.heading3.copyWith(
-                  color: t.colors.textPrimary,
-                ),
+                style: t.text.heading3.copyWith(color: t.colors.textPrimary),
               ),
             ],
           ),
@@ -90,11 +88,17 @@ class TimingInfoCard extends StatelessWidget {
           const CommonSpacer.vertical(24),
 
           // Legend
-          if (onset != null) _buildTimeLegend(context, 'Onset', onset!, t.colors.success),
+          if (onset != null)
+            _buildTimeLegend(context, 'Onset', onset!, t.colors.success),
           if (duration != null)
             _buildTimeLegend(context, 'Duration', duration!, t.colors.info),
           if (afterEffects != null)
-            _buildTimeLegend(context, 'After Effects', afterEffects!, t.colors.warning),
+            _buildTimeLegend(
+              context,
+              'After Effects',
+              afterEffects!,
+              t.colors.warning,
+            ),
         ],
       ),
     );

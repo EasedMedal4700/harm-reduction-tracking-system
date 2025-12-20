@@ -31,26 +31,26 @@ class SettingsSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
-          Padding(
-            padding: EdgeInsets.all(sp.md),
-            child: Row(
-              children: [
-                Icon(icon, color: a.primary, size: t.sizes.iconMd),
-                CommonSpacer.horizontal(sp.sm),
-                Text(
-                  title,
-                  style: t.typography.heading4.copyWith(
-                    color: c.textPrimary,
-                    fontWeight: text.bodyBold.fontWeight,
+            Padding(
+              padding: EdgeInsets.all(sp.md),
+              child: Row(
+                children: [
+                  Icon(icon, color: a.primary, size: t.sizes.iconMd),
+                  CommonSpacer.horizontal(sp.sm),
+                  Text(
+                    title,
+                    style: t.typography.heading4.copyWith(
+                      color: c.textPrimary,
+                      fontWeight: text.bodyBold.fontWeight,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Divider(height: 1, thickness: t.borders.thin, color: c.border),
-          ...children,
-        ],
-      ),
+            Divider(height: 1, thickness: t.borders.thin, color: c.border),
+            ...children,
+          ],
+        ),
       ),
     );
   }

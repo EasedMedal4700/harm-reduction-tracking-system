@@ -41,5 +41,3 @@ class HomeProgressStats extends StatelessWidget {
     );
   }
 }
-
-

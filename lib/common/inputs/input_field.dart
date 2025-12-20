@@ -54,7 +54,7 @@ class CommonInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    
+
     return TextFormField(
       controller: controller,
       initialValue: initialValue,
@@ -76,42 +76,28 @@ class CommonInputField extends StatelessWidget {
         hintStyle: t.text.body.copyWith(
           color: t.colors.textSecondary.withValues(alpha: 0.5),
         ),
-        labelStyle: t.text.body.copyWith(
-          color: t.colors.textSecondary,
-        ),
+        labelStyle: t.text.body.copyWith(color: t.colors.textSecondary),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(
-            color: t.colors.border,
-          ),
+          borderSide: BorderSide(color: t.colors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(
-            color: t.colors.border,
-          ),
+          borderSide: BorderSide(color: t.colors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(
-            color: t.accent.primary,
-            width: 2,
-          ),
+          borderSide: BorderSide(color: t.accent.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(
-            color: t.colors.error,
-          ),
+          borderSide: BorderSide(color: t.colors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(
-            color: t.colors.error,
-            width: 2,
-          ),
+          borderSide: BorderSide(color: t.colors.error, width: 2),
         ),
         filled: true,
         fillColor: t.colors.surfaceVariant.withValues(alpha: 0.3),

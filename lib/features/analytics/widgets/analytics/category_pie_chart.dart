@@ -49,52 +49,52 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
 
           // ---- PIE CHART ----
           SizedBox(
-          height: context.sizes.heightXl,
-          child: PieChart(
-            PieChartData(
-              sections: List.generate(categories.length, (index) {
-                final category = categories[index];
-                final count = widget.categoryCounts[category] ?? 0;
+            height: context.sizes.heightXl,
+            child: PieChart(
+              PieChartData(
+                sections: List.generate(categories.length, (index) {
+                  final category = categories[index];
+                  final count = widget.categoryCounts[category] ?? 0;
 
-                final screenWidth = MediaQuery.of(context).size.width;
-                final baseOpacity = (0.4 + index * 0.1).clamp(0.4, 0.8);
+                  final screenWidth = MediaQuery.of(context).size.width;
+                  final baseOpacity = (0.4 + index * 0.1).clamp(0.4, 0.8);
 
-                return PieChartSectionData(
-                  value: count.toDouble(),
-                  title: '$category\n$count',
-                  color: t.accent.primary.withValues(alpha: baseOpacity),
-                  radius: touchedIndex == index
-                      ? screenWidth * 0.25
-                      : screenWidth * 0.20,
-                  titleStyle: t.typography.bodySmall.copyWith(
-                    fontSize: touchedIndex == index ? 16 : 12,
-                    fontWeight: t.text.bodyBold.fontWeight,
-                    color: t.colors.textPrimary,
-                  ),
-                );
-              }),
-              sectionsSpace: 2,
-              centerSpaceRadius: 50,
-              pieTouchData: PieTouchData(
-                enabled: true,
-                touchCallback: (event, response) {
-                  setState(() {
-                    final section = response?.touchedSection;
+                  return PieChartSectionData(
+                    value: count.toDouble(),
+                    title: '$category\n$count',
+                    color: t.accent.primary.withValues(alpha: baseOpacity),
+                    radius: touchedIndex == index
+                        ? screenWidth * 0.25
+                        : screenWidth * 0.20,
+                    titleStyle: t.typography.bodySmall.copyWith(
+                      fontSize: touchedIndex == index ? 16 : 12,
+                      fontWeight: t.text.bodyBold.fontWeight,
+                      color: t.colors.textPrimary,
+                    ),
+                  );
+                }),
+                sectionsSpace: 2,
+                centerSpaceRadius: 50,
+                pieTouchData: PieTouchData(
+                  enabled: true,
+                  touchCallback: (event, response) {
+                    setState(() {
+                      final section = response?.touchedSection;
 
-                    if (section == null) {
-                      touchedIndex = -1;
-                      selectedCategory = null;
-                      return;
-                    }
+                      if (section == null) {
+                        touchedIndex = -1;
+                        selectedCategory = null;
+                        return;
+                      }
 
-                    touchedIndex = section.touchedSectionIndex;
-                    selectedCategory = categories[touchedIndex];
-                  });
-                },
+                      touchedIndex = section.touchedSectionIndex;
+                      selectedCategory = categories[touchedIndex];
+                    });
+                  },
+                ),
               ),
             ),
           ),
-        ),
 
           const CommonSpacer.vertical(16),
 
@@ -102,122 +102,123 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
           Wrap(
             spacing: t.spacing.lg,
             runSpacing: t.spacing.sm,
-          children: List.generate(categories.length, (index) {
-            final category = categories[index];
-            final count = widget.categoryCounts[category] ?? 0;
+            children: List.generate(categories.length, (index) {
+              final category = categories[index];
+              final count = widget.categoryCounts[category] ?? 0;
 
-            final color = t.accent.primary.withValues(
-              alpha: (0.4 + index * 0.1).clamp(0.4, 0.8),
-            );
+              final color = t.accent.primary.withValues(
+                alpha: (0.4 + index * 0.1).clamp(0.4, 0.8),
+              );
 
-            return Row(
-              mainAxisSize: AppLayout.mainAxisSizeMin,
-              children: [
-                Container(
-                  width: t.spacing.lg,
-                  height: t.spacing.lg,
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: BorderRadius.circular(t.spacing.xs),
+              return Row(
+                mainAxisSize: AppLayout.mainAxisSizeMin,
+                children: [
+                  Container(
+                    width: t.spacing.lg,
+                    height: t.spacing.lg,
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.circular(t.spacing.xs),
+                    ),
                   ),
+                  SizedBox(width: t.spacing.sm),
+                  Text(
+                    '$category ($count)',
+                    style: t.typography.body.copyWith(
+                      color: t.colors.textPrimary,
+                    ),
+                  ),
+                ],
+              );
+            }),
+          ),
+
+          // ---- SUBSTANCE BREAKDOWN ----
+          if (selectedCategory != null) ...[
+            const CommonSpacer.vertical(16),
+
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () => setState(() => selectedCategory = null),
+                  icon: Icon(Icons.arrow_back, color: t.colors.textPrimary),
                 ),
-                SizedBox(width: t.spacing.sm),
                 Text(
-                  '$category ($count)',
-                  style: t.typography.body.copyWith(
+                  '$selectedCategory Substances',
+                  style: t.typography.heading3.copyWith(
                     color: t.colors.textPrimary,
                   ),
                 ),
               ],
-            );
-          }),
-        ),
+            ),
 
-        // ---- SUBSTANCE BREAKDOWN ----
-        if (selectedCategory != null) ...[
-          const CommonSpacer.vertical(16),
+            const CommonSpacer.vertical(16),
 
-          Row(
-            children: [
-              IconButton(
-                onPressed: () => setState(() => selectedCategory = null),
-                icon: Icon(Icons.arrow_back, color: t.colors.textPrimary),
-              ),
-              Text(
-                '$selectedCategory Substances',
-                style: t.typography.heading3.copyWith(
-                  color: t.colors.textPrimary,
-                ),
-              ),
-            ],
-          ),
+            // ---- BAR CHART ----
+            SizedBox(
+              height: context.sizes.heightMd,
+              child: BarChart(
+                BarChartData(
+                  barGroups: _getSubstanceCounts(selectedCategory!).entries
+                      .toList()
+                      .asMap()
+                      .entries
+                      .map((entry) {
+                        final index = entry.key;
+                        final count = entry.value.value;
 
-          const CommonSpacer.vertical(16),
-
-          // ---- BAR CHART ----
-          SizedBox(
-            height: context.sizes.heightMd,
-            child: BarChart(
-              BarChartData(
-                barGroups: _getSubstanceCounts(selectedCategory!)
-                    .entries
-                    .toList()
-                    .asMap()
-                    .entries
-                    .map((entry) {
-                  final index = entry.key;
-                  final count = entry.value.value;
-
-                  final barColor = t.accent.primary.withValues(
-                    alpha: (0.4 + index * 0.15).clamp(0.4, 1.0),
-                  );
-
-                  return BarChartGroupData(
-                    x: index,
-                    barRods: [
-                      BarChartRodData(
-                        toY: count.toDouble(),
-                        color: barColor,
-                        width: context.spacing.lg,
-                      ),
-                    ],
-                  );
-                }).toList(),
-
-                titlesData: FlTitlesData(
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 40,
-                      getTitlesWidget: (value, meta) {
-                        final names =
-                            _getSubstanceCounts(selectedCategory!).keys.toList();
-                        if (value.toInt() >= names.length) {
-                          return const SizedBox.shrink();
-                        }
-                        return Text(
-                          names[value.toInt()],
-                          style: t.typography.caption.copyWith(
-                            color: t.colors.textSecondary,
-                          ),
+                        final barColor = t.accent.primary.withValues(
+                          alpha: (0.4 + index * 0.15).clamp(0.4, 1.0),
                         );
-                      },
+
+                        return BarChartGroupData(
+                          x: index,
+                          barRods: [
+                            BarChartRodData(
+                              toY: count.toDouble(),
+                              color: barColor,
+                              width: context.spacing.lg,
+                            ),
+                          ],
+                        );
+                      })
+                      .toList(),
+
+                  titlesData: FlTitlesData(
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 40,
+                        getTitlesWidget: (value, meta) {
+                          final names = _getSubstanceCounts(
+                            selectedCategory!,
+                          ).keys.toList();
+                          if (value.toInt() >= names.length) {
+                            return const SizedBox.shrink();
+                          }
+                          return Text(
+                            names[value.toInt()],
+                            style: t.typography.caption.copyWith(
+                              color: t.colors.textSecondary,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: true),
                     ),
                   ),
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: true),
-                  ),
-                ),
 
-                borderData: FlBorderData(
-                  show: true,
-                  border: Border.all(color: t.colors.border),
+                  borderData: FlBorderData(
+                    show: true,
+                    border: Border.all(color: t.colors.border),
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ],
-      ],
       ),
     );
   }
@@ -230,8 +231,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
       final substance = entry.substance;
       final normalized = substance.toLowerCase();
 
-      final cat =
-          widget.substanceToCategory[normalized] ?? 'Unknown';
+      final cat = widget.substanceToCategory[normalized] ?? 'Unknown';
 
       if (cat == category) {
         counts[substance] = (counts[substance] ?? 0) + 1;

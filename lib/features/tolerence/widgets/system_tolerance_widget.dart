@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: PARTIAL
 // Common: PARTIAL
@@ -15,7 +14,6 @@ import '../../../services/user_service.dart';
 
 import '../../../constants/theme/app_theme_extension.dart';
 import 'tolerance/system_tolerance_breakdown_sheet.dart';
-
 
 /// Model for system tolerance
 class SystemToleranceData {
@@ -38,10 +36,7 @@ Future<SystemToleranceData> loadSystemToleranceData() async {
 class SystemToleranceWidget extends StatelessWidget {
   final SystemToleranceData data;
 
-  const SystemToleranceWidget({
-    required this.data,
-    super.key,
-  });
+  const SystemToleranceWidget({required this.data, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +59,7 @@ class SystemToleranceWidget extends StatelessWidget {
           // TITLE
           Text(
             'System Tolerance',
-            style: t.typography.heading4.copyWith(
-              color: t.colors.textPrimary,
-            ),
+            style: t.typography.heading4.copyWith(color: t.colors.textPrimary),
           ),
 
           SizedBox(height: t.spacing.lg),
@@ -76,10 +69,8 @@ class SystemToleranceWidget extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: BucketDefinitions.orderedBuckets.length,
-            separatorBuilder: (_, __) => Divider(
-              height: 1,
-              color: t.colors.divider,
-            ),
+            separatorBuilder: (_, __) =>
+                Divider(height: 1, color: t.colors.divider),
             itemBuilder: (context, index) {
               final bucket = BucketDefinitions.orderedBuckets[index];
               final percent = data.percents[bucket] ?? 0.0;
@@ -111,7 +102,7 @@ class SystemToleranceWidget extends StatelessWidget {
     if (percent < 10) {
       valueColor = t.colors.textSecondary;
     } else if (percent < 40) {
-      valueColor = context.accent.warning;
+      valueColor = context.colors.warning;
     } else {
       valueColor = context.colors.error;
     }
@@ -148,9 +139,7 @@ class SystemToleranceWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 BucketDefinitions.getDisplayName(bucket),
-                style: t.typography.body.copyWith(
-                  color: t.colors.textPrimary,
-                ),
+                style: t.typography.body.copyWith(color: t.colors.textPrimary),
               ),
             ),
 
@@ -243,7 +232,7 @@ class SystemToleranceWidget extends StatelessWidget {
       case ToleranceSystemState.lightStress:
         return colors.info;
       case ToleranceSystemState.moderateStrain:
-        return context.accent.warning;
+        return context.colors.warning;
       case ToleranceSystemState.highStrain:
         return context.colors.error;
       case ToleranceSystemState.depleted:

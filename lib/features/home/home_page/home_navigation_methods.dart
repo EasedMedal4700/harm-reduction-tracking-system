@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -10,38 +9,67 @@ import '../../../routes/app_routes.dart';
 /// Mixin providing navigation methods for HomePage
 mixin HomeNavigationMethods {
   void openLogEntry(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildLogEntryPage()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => AppRoutes.buildLogEntryPage()),
+    );
   }
-  
+
   void openAnalytics(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildAnalyticsPage()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => AppRoutes.buildAnalyticsPage()),
+    );
   }
-  
+
   void openCatalog(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildCatalogPage()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => AppRoutes.buildCatalogPage()),
+    );
   }
-  
+
   void openCravings(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildCravingsPage()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => AppRoutes.buildCravingsPage()),
+    );
   }
-  
+
   void openBloodLevels(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildBloodLevelsPage()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => AppRoutes.buildBloodLevelsPage()),
+    );
   }
-  
+
   void openReflection(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildReflectionPage()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => AppRoutes.buildReflectionPage()),
+    );
   }
-  
+
   void openActivity(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildActivityPage()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => AppRoutes.buildActivityPage()),
+    );
   }
-  
+
   void openLibrary(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildLibraryPage()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => AppRoutes.buildLibraryPage()),
+    );
   }
-  
+
   void openToleranceDashboard(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => AppRoutes.buildToleranceDashboardPage()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => AppRoutes.buildToleranceDashboardPage(),
+      ),
+    );
   }
 }

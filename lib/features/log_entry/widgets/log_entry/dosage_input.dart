@@ -6,11 +6,7 @@ class DosageInput extends StatelessWidget {
   final TextEditingController controller;
   final String unit;
 
-  const DosageInput({
-    super.key,
-    required this.controller,
-    required this.unit,
-  });
+  const DosageInput({super.key, required this.controller, required this.unit});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +30,10 @@ class DosageInput extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(sh.radiusMd),
-          borderSide: BorderSide(color: acc.primary, width: context.borders.medium),
+          borderSide: BorderSide(
+            color: acc.primary,
+            width: context.borders.medium,
+          ),
         ),
         filled: true,
         fillColor: c.surface,

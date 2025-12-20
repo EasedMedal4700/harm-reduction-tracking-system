@@ -9,7 +9,7 @@ void main() {
     testWidgets('complete craving lifecycle', (tester) async {
       // This is a simplified integration test that tests the data flow
       // In a real scenario, you would launch the actual app and interact with the UI
-      
+
       // 1. Create a craving
       final craving = Craving(
         cravingId: 'test-craving-1',
@@ -172,14 +172,16 @@ void main() {
       expect(cravings.length, 5);
       expect(cravings[0].substance, 'Cannabis');
       expect(cravings[4].substance, 'MDMA');
-      
+
       // Verify intensity progression
       for (int i = 0; i < 5; i++) {
         expect(cravings[i].intensity, (i + 1) * 2.0);
       }
 
       // Verify action distribution
-      final resistedCount = cravings.where((c) => c.action == 'Resisted').length;
+      final resistedCount = cravings
+          .where((c) => c.action == 'Resisted')
+          .length;
       final actedCount = cravings.where((c) => c.action == 'Acted').length;
       expect(resistedCount, 3);
       expect(actedCount, 2);
@@ -228,7 +230,7 @@ void main() {
 
       expect(primaryOnly.primaryEmotion, isNotEmpty);
       expect(primaryOnly.secondaryEmotion, isNull);
-      
+
       expect(bothEmotions.primaryEmotion, isNotEmpty);
       expect(bothEmotions.secondaryEmotion, isNotNull);
       expect(bothEmotions.secondaryEmotion, contains('Joyful'));

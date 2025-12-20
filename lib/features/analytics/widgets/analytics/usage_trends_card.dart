@@ -63,9 +63,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
           /// HEADER
           Row(
             children: [
-              const Expanded(
-                child: CommonSectionHeader(title: 'Usage trends'),
-              ),
+              const Expanded(child: CommonSectionHeader(title: 'Usage trends')),
               _buildGranularityDropdown(context),
             ],
           ),
@@ -80,9 +78,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                       ? Icons.trending_up_rounded
                       : Icons.trending_down_rounded,
                   size: context.sizes.iconSm,
-                  color: trendPercent > 0
-                      ? c.warning
-                      : c.success,
+                  color: trendPercent > 0 ? c.warning : c.success,
                 ),
                 CommonSpacer.horizontal(sp.xs),
                 Text(
@@ -140,8 +136,10 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                             interval: 1,
                             reservedSize: 30,
                             getTitlesWidget: (value, meta) {
-                              final label =
-                                  _getXLabel(value.toInt(), sortedKeys);
+                              final label = _getXLabel(
+                                value.toInt(),
+                                sortedKeys,
+                              );
                               return Padding(
                                 padding: EdgeInsets.only(top: sp.xs),
                                 child: Text(
@@ -159,10 +157,13 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                       gridData: FlGridData(
                         show: true,
                         drawVerticalLine: false,
-                        horizontalInterval:
-                            _calculateGridInterval(trendData).toDouble(),
+                        horizontalInterval: _calculateGridInterval(
+                          trendData,
+                        ).toDouble(),
                         getDrawingHorizontalLine: (value) => FlLine(
-                          color: c.border.withValues(alpha: context.opacities.slow),
+                          color: c.border.withValues(
+                            alpha: context.opacities.slow,
+                          ),
                           strokeWidth: context.borders.thin,
                         ),
                       ),
@@ -173,8 +174,8 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                             final total = rod.toY.toInt();
                             final label =
                                 _getXLabel(group.x, sortedKeys).isEmpty
-                                    ? 'Period ${group.x + 1}'
-                                    : _getXLabel(group.x, sortedKeys);
+                                ? 'Period ${group.x + 1}'
+                                : _getXLabel(group.x, sortedKeys);
 
                             return BarTooltipItem(
                               '$label\n',
@@ -234,9 +235,18 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
             if (value != null) setState(() => _granularity = value);
           },
           items: const [
-            DropdownMenuItem(value: TrendGranularity.daily, child: Text('Daily')),
-            DropdownMenuItem(value: TrendGranularity.weekly, child: Text('Weekly')),
-            DropdownMenuItem(value: TrendGranularity.monthly, child: Text('Monthly')),
+            DropdownMenuItem(
+              value: TrendGranularity.daily,
+              child: Text('Daily'),
+            ),
+            DropdownMenuItem(
+              value: TrendGranularity.weekly,
+              child: Text('Weekly'),
+            ),
+            DropdownMenuItem(
+              value: TrendGranularity.monthly,
+              child: Text('Monthly'),
+            ),
           ],
         ),
       ),
@@ -257,9 +267,11 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
 
   BarChartRodData _buildBarRod(Map<String, int> categoryCounts) {
     final sortedCats = categoryCounts.keys.toList()
-      ..sort((a, b) => DrugCategories.categoryPriority
-          .indexOf(a)
-          .compareTo(DrugCategories.categoryPriority.indexOf(b)));
+      ..sort(
+        (a, b) => DrugCategories.categoryPriority
+            .indexOf(a)
+            .compareTo(DrugCategories.categoryPriority.indexOf(b)),
+      );
 
     double cumulative = 0;
     final items = <BarChartRodStackItem>[];
@@ -482,8 +494,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
   double? _calculateTrendPercent(List<Map<String, int>> data) {
     if (data.length < 2) return null;
 
-    int sumAt(int i) =>
-        data[i].values.fold<int>(0, (s, v) => s + v);
+    int sumAt(int i) => data[i].values.fold<int>(0, (s, v) => s + v);
 
     final prev = sumAt(data.length - 2);
     final curr = sumAt(data.length - 1);
@@ -517,4 +528,3 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
     return (step / 10).ceil() * 10;
   }
 }
-

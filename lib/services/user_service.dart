@@ -5,10 +5,10 @@ import '../utils/error_handler.dart';
 import 'cache_service.dart';
 
 /// Service for managing user profiles.
-/// 
+///
 /// User profiles are automatically created by a database trigger when a new
 /// auth user signs up. This service only handles READ and UPDATE operations.
-/// 
+///
 /// Usage:
 /// ```dart
 /// final userService = UserService();
@@ -20,12 +20,12 @@ class UserService {
   static Map<String, dynamic>? _cachedUserData;
   static UserProfile? _cachedProfile;
   static final _cache = CacheService();
-  
+
   final SupabaseClient _client;
-  
-  UserService([SupabaseClient? client]) 
-      : _client = client ?? Supabase.instance.client;
-  
+
+  UserService([SupabaseClient? client])
+    : _client = client ?? Supabase.instance.client;
+
   /// Get the current authenticated user's UUID
   static String getCurrentUserId() {
     final user = Supabase.instance.client.auth.currentUser;
@@ -36,7 +36,7 @@ class UserService {
   }
 
   /// Load the current user's profile from the database.
-  /// 
+  ///
   /// This fetches the profile row created by the database trigger.
   /// Throws [UserProfileException] if the profile doesn't exist or on error.
   Future<UserProfile> loadUserProfile() async {
@@ -44,7 +44,7 @@ class UserService {
     if (_cachedProfile != null) {
       return _cachedProfile!;
     }
-    
+
     final user = _client.auth.currentUser;
     if (user == null) {
       throw const UserProfileException(
@@ -55,7 +55,7 @@ class UserService {
 
     try {
       print('👤 DEBUG: Loading user profile for ${user.id}');
-      
+
       final response = await _client
           .from('users')
           .select('auth_user_id, display_name, is_admin')
@@ -72,9 +72,9 @@ class UserService {
       }
 
       print('✅ DEBUG: User profile loaded: ${response['display_name']}');
-      
+
       final profile = UserProfile.fromJson(response, email: user.email);
-      
+
       // Cache the profile
       _cachedProfile = profile;
       _cachedIsAdmin = profile.isAdmin;
@@ -84,11 +84,19 @@ class UserService {
         'display_name': profile.displayName,
         'is_admin': profile.isAdmin,
       };
-      
+
       // Store in cache service
-      _cache.set(CacheKeys.currentUserData, _cachedUserData!, ttl: CacheService.longTTL);
-      _cache.set(CacheKeys.currentUserIsAdmin, profile.isAdmin, ttl: CacheService.longTTL);
-      
+      _cache.set(
+        CacheKeys.currentUserData,
+        _cachedUserData!,
+        ttl: CacheService.longTTL,
+      );
+      _cache.set(
+        CacheKeys.currentUserIsAdmin,
+        profile.isAdmin,
+        ttl: CacheService.longTTL,
+      );
+
       return profile;
     } on PostgrestException catch (e, stackTrace) {
       ErrorHandler.logError('UserService.loadUserProfile', e, stackTrace);
@@ -108,12 +116,10 @@ class UserService {
   }
 
   /// Update the user's profile with the given values.
-  /// 
+  ///
   /// Only updates the provided fields. Pass null to keep current values.
   /// Note: is_admin cannot be updated by the user themselves.
-  Future<UserProfile> updateUserProfile({
-    String? displayName,
-  }) async {
+  Future<UserProfile> updateUserProfile({String? displayName}) async {
     final user = _client.auth.currentUser;
     if (user == null) {
       throw const UserProfileException(
@@ -134,7 +140,7 @@ class UserService {
 
     try {
       print('👤 DEBUG: Updating user profile: $updates');
-      
+
       final response = await _client
           .from('users')
           .update(updates)
@@ -143,9 +149,9 @@ class UserService {
           .single();
 
       print('✅ DEBUG: User profile updated successfully');
-      
+
       final profile = UserProfile.fromJson(response, email: user.email);
-      
+
       // Update cache
       _cachedProfile = profile;
       _cachedUserData = {
@@ -154,19 +160,23 @@ class UserService {
         'display_name': profile.displayName,
         'is_admin': profile.isAdmin,
       };
-      _cache.set(CacheKeys.currentUserData, _cachedUserData!, ttl: CacheService.longTTL);
-      
+      _cache.set(
+        CacheKeys.currentUserData,
+        _cachedUserData!,
+        ttl: CacheService.longTTL,
+      );
+
       return profile;
     } on PostgrestException catch (e, stackTrace) {
       ErrorHandler.logError('UserService.updateUserProfile', e, stackTrace);
-      
+
       if (e.code == '42501') {
         throw const UserProfileException(
           'You do not have permission to update this profile.',
           code: 'UNAUTHORIZED',
         );
       }
-      
+
       throw UserProfileException(
         'Failed to update profile: ${e.message}',
         code: e.code,
@@ -192,7 +202,7 @@ class UserService {
           .select('auth_user_id')
           .eq('auth_user_id', user.id)
           .maybeSingle();
-      
+
       return response != null;
     } catch (e) {
       print('⚠️ DEBUG: Error checking profile existence: $e');
@@ -201,7 +211,7 @@ class UserService {
   }
 
   /// Wait for profile to be created by the trigger (with retries).
-  /// 
+  ///
   /// After signup, there may be a brief delay before the trigger creates
   /// the profile. This method retries a few times with a delay.
   Future<UserProfile?> waitForProfile({
@@ -270,7 +280,9 @@ class UserService {
     }
 
     // Check cache service
-    final cachedData = _cache.get<Map<String, dynamic>>(CacheKeys.currentUserData);
+    final cachedData = _cache.get<Map<String, dynamic>>(
+      CacheKeys.currentUserData,
+    );
     if (cachedData != null) {
       _cachedUserData = cachedData;
       _cachedIsAdmin = cachedData['is_admin'] as bool? ?? false;
@@ -297,7 +309,7 @@ class UserService {
     _cachedIsAdmin = null;
     _cachedUserData = null;
     _cachedProfile = null;
-    
+
     // Clear from cache service
     _cache.remove(CacheKeys.currentUserId);
     _cache.remove(CacheKeys.currentUserIsAdmin);

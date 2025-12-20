@@ -142,10 +142,7 @@ class _PasswordVerificationDialogState
               ? SizedBox(
                   width: spacing.lg,
                   height: spacing.lg,
-                  child: CommonLoader(
-                    size: spacing.lg,
-                    color: colors.surface,
-                  ),
+                  child: CommonLoader(size: spacing.lg, color: colors.surface),
                 )
               : Text(widget.actionButtonText),
         ),
@@ -159,11 +156,7 @@ class WarningItem extends StatelessWidget {
   final String text;
   final bool isRed;
 
-  const WarningItem(
-    this.text, {
-    this.isRed = false,
-    super.key,
-  });
+  const WarningItem(this.text, {this.isRed = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -258,10 +251,7 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
       content: Column(
         mainAxisSize: AppLayout.mainAxisSizeMin,
         children: [
-          Text(
-            widget.description,
-            style: context.text.bodyBold,
-          ),
+          Text(widget.description, style: context.text.bodyBold),
           CommonSpacer.vertical(spacing.md),
           TextField(
             decoration: InputDecoration(

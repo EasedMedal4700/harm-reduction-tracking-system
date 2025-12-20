@@ -1,13 +1,13 @@
 // Bucket Tolerance Breakdown Widget
-// 
+//
 // Created: 2024-03-15
 // Last Modified: 2025-01-23
-// 
+//
 // Purpose:
 // Displays a comprehensive breakdown of tolerance levels across all neurochemical
 // buckets (systems). Shows active status, percentage, progress bars, and metadata
 // for each bucket defined in the tolerance model.
-// 
+//
 // Features:
 // - Displays all neurochemical buckets with tolerance percentages
 // - Color-coded progress bars based on tolerance level (green/yellow/orange/red)
@@ -36,7 +36,7 @@ import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
 /// Modern bucket tolerance breakdown widget using the NEW theme system.
-/// 
+///
 /// Displays all neurochemical buckets with their current tolerance levels,
 /// active states, and metadata. Uses color-coded progress bars for quick
 /// visual assessment of tolerance states across systems.
@@ -97,8 +97,11 @@ class BucketToleranceBreakdown extends ConsumerWidget {
           // HEADER - Section title with analytics icon
           Row(
             children: [
-              Icon(Icons.analytics_outlined,
-                  color: accent.primary, size: context.sizes.iconMd),
+              Icon(
+                Icons.analytics_outlined,
+                color: accent.primary,
+                size: context.sizes.iconMd,
+              ),
               CommonSpacer.horizontal(spacing.sm),
               Text(
                 'Neurochemical Tolerance Breakdown',
@@ -111,136 +114,158 @@ class BucketToleranceBreakdown extends ConsumerWidget {
 
           // BUCKET CARDS - Display each bucket defined in the model
           // Only show buckets that exist in both neuroBuckets and bucketResults
-          ...BucketDefinitions.orderedBuckets.where((bucketType) {
-            return model.neuroBuckets.containsKey(bucketType) &&
-                bucketResults.containsKey(bucketType);
-          }).map((bucketType) {
-            final bucket = model.neuroBuckets[bucketType]!;
-            final result = bucketResults[bucketType]!;
-            final toleranceColor = _getColorForTolerance(result.tolerance, context);
+          ...BucketDefinitions.orderedBuckets
+              .where((bucketType) {
+                return model.neuroBuckets.containsKey(bucketType) &&
+                    bucketResults.containsKey(bucketType);
+              })
+              .map((bucketType) {
+                final bucket = model.neuroBuckets[bucketType]!;
+                final result = bucketResults[bucketType]!;
+                final toleranceColor = _getColorForTolerance(
+                  result.tolerance,
+                  context,
+                );
 
-            return Padding(
-              padding: EdgeInsets.only(bottom: spacing.lg),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(radii.radiusMd),
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text('Bucket details page coming soon'),
-                      duration: const Duration(seconds: 3),
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: EdgeInsets.all(spacing.md),
-                  decoration: BoxDecoration(
-                    color: colors.surfaceVariant,
+                return Padding(
+                  padding: EdgeInsets.only(bottom: spacing.lg),
+                  child: InkWell(
                     borderRadius: BorderRadius.circular(radii.radiusMd),
-                    border: Border.all(
-                      color: colors.border,
-                      width: context.sizes.borderThin,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
-                    children: [
-                      // BUCKET HEADER - Name, description, and status
-                      Row(
-                        mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            'Bucket details page coming soon',
+                          ),
+                          duration: const Duration(seconds: 3),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(spacing.md),
+                      decoration: BoxDecoration(
+                        color: colors.surfaceVariant,
+                        borderRadius: BorderRadius.circular(radii.radiusMd),
+                        border: Border.all(
+                          color: colors.border,
+                          width: context.sizes.borderThin,
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                         children: [
-                          // Bucket name and description
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
-                              children: [
-                                Text(
-                                  _getBucketDisplayName(bucketType),
-                                  style: typography.bodyBold,
+                          // BUCKET HEADER - Name, description, and status
+                          Row(
+                            mainAxisAlignment:
+                                AppLayout.mainAxisAlignmentSpaceBetween,
+                            children: [
+                              // Bucket name and description
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      AppLayout.crossAxisAlignmentStart,
+                                  children: [
+                                    Text(
+                                      _getBucketDisplayName(bucketType),
+                                      style: typography.bodyBold,
+                                    ),
+                                    CommonSpacer.vertical(spacing.xs),
+                                    Text(
+                                      BucketDefinitions.getDescription(
+                                        bucketType,
+                                      ),
+                                      style: typography.caption,
+                                    ),
+                                  ],
                                 ),
-                                CommonSpacer.vertical(spacing.xs),
-                                Text(
-                                  BucketDefinitions.getDescription(bucketType),
-                                  style: typography.caption,
-                                ),
-                              ],
+                              ),
+
+                              // Active badge and tolerance percentage
+                              Row(
+                                children: [
+                                  if (result.isActive)
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: spacing.sm,
+                                        vertical: spacing.xs / 2,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: accent.primary.withValues(
+                                          alpha: 0.15,
+                                        ),
+                                        borderRadius: BorderRadius.circular(
+                                          radii.radiusSm,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        'ACTIVE',
+                                        style: typography.captionBold.copyWith(
+                                          color: accent.primary,
+                                          fontSize:
+                                              context.text.caption.fontSize,
+                                        ),
+                                      ),
+                                    ),
+                                  CommonSpacer.horizontal(spacing.sm),
+
+                                  // Tolerance percentage with color coding
+                                  Text(
+                                    '${(result.tolerance * 100).toStringAsFixed(1)}%',
+                                    style: typography.bodyBold.copyWith(
+                                      color: toleranceColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+
+                          CommonSpacer.vertical(spacing.sm),
+
+                          // PROGRESS BAR - Visual tolerance indicator
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(radii.radiusSm),
+                            child: LinearProgressIndicator(
+                              value: result.tolerance > 1
+                                  ? 1
+                                  : result.tolerance,
+                              minHeight: spacing.sm,
+                              backgroundColor: colors.border.withValues(
+                                alpha: 0.4,
+                              ),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                toleranceColor,
+                              ),
                             ),
                           ),
 
-                          // Active badge and tolerance percentage
-                          Row(
-                            children: [
-                              if (result.isActive)
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: spacing.sm,
-                                    vertical: spacing.xs / 2,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: accent.primary.withValues(alpha: 0.15),
-                                    borderRadius: BorderRadius.circular(radii.radiusSm),
-                                  ),
-                                  child: Text(
-                                    'ACTIVE',
-                                    style: typography.captionBold.copyWith(
-                                      color: accent.primary,
-                                      fontSize: context.text.caption.fontSize,
-                                    ),
-                                  ),
-                                ),
-                              CommonSpacer.horizontal(spacing.sm),
+                          CommonSpacer.vertical(spacing.xs),
 
-                              // Tolerance percentage with color coding
+                          // METADATA - Bucket weight, type, and active level
+                          Row(
+                            mainAxisAlignment:
+                                AppLayout.mainAxisAlignmentSpaceBetween,
+                            children: [
                               Text(
-                                '${(result.tolerance * 100).toStringAsFixed(1)}%',
-                                style: typography.bodyBold.copyWith(
-                                  color: toleranceColor,
+                                'Weight: ${bucket.weight.toStringAsFixed(2)} • Type: ${bucket.toleranceType}',
+                                style: typography.caption,
+                              ),
+                              Text(
+                                'Active: ${(result.activeLevel * 100).toStringAsFixed(1)}%',
+                                style: typography.captionBold.copyWith(
+                                  color: result.isActive
+                                      ? accent.primary
+                                      : colors.textSecondary,
                                 ),
                               ),
                             ],
                           ),
                         ],
                       ),
-
-                      CommonSpacer.vertical(spacing.sm),
-
-                      // PROGRESS BAR - Visual tolerance indicator
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(radii.radiusSm),
-                        child: LinearProgressIndicator(
-                          value: result.tolerance > 1 ? 1 : result.tolerance,
-                          minHeight: spacing.sm,
-                          backgroundColor: colors.border.withValues(alpha: 0.4),
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(toleranceColor),
-                        ),
-                      ),
-
-                      CommonSpacer.vertical(spacing.xs),
-
-                      // METADATA - Bucket weight, type, and active level
-                      Row(
-                        mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
-                        children: [
-                          Text(
-                            'Weight: ${bucket.weight.toStringAsFixed(2)} • Type: ${bucket.toleranceType}',
-                            style: typography.caption,
-                          ),
-                          Text(
-                            'Active: ${(result.activeLevel * 100).toStringAsFixed(1)}%',
-                            style: typography.captionBold.copyWith(
-                              color: result.isActive
-                                  ? accent.primary
-                                  : colors.textSecondary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            );
-          }),
+                );
+              }),
 
           // NOTES - Additional tolerance model notes if present
           if (model.notes != null) ...[
@@ -248,8 +273,11 @@ class BucketToleranceBreakdown extends ConsumerWidget {
             Row(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
-                Icon(Icons.info_outline,
-                    size: context.sizes.iconSm, color: colors.textSecondary),
+                Icon(
+                  Icons.info_outline,
+                  size: context.sizes.iconSm,
+                  color: colors.textSecondary,
+                ),
                 CommonSpacer.horizontal(spacing.sm),
                 Expanded(
                   child: Text(
@@ -260,7 +288,7 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ],
       ),

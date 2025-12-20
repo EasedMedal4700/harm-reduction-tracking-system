@@ -33,19 +33,9 @@ class CacheStatWidget extends StatelessWidget {
 
         SizedBox(height: sp.sm),
 
-        Text(
-          value,
-          style: text.heading3.copyWith(
-            color: c.textPrimary,
-          ),
-        ),
+        Text(value, style: text.heading3.copyWith(color: c.textPrimary)),
 
-        Text(
-          label,
-          style: text.caption.copyWith(
-            color: c.textSecondary,
-          ),
-        ),
+        Text(label, style: text.caption.copyWith(color: c.textSecondary)),
       ],
     );
   }

@@ -13,26 +13,17 @@ class CommonBottomBar extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
 
-  const CommonBottomBar({
-    required this.child,
-    this.padding,
-    super.key,
-  });
+  const CommonBottomBar({required this.child, this.padding, super.key});
 
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    
+
     return Container(
       padding: padding ?? EdgeInsets.all(t.spacing.lg),
       decoration: BoxDecoration(
         color: t.colors.surface,
-        border: Border(
-          top: BorderSide(
-            color: t.colors.border,
-            width: 1,
-          ),
-        ),
+        border: Border(top: BorderSide(color: t.colors.border, width: 1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),

@@ -20,7 +20,7 @@ class WearOSPage extends StatelessWidget {
     final c = context.colors;
     final a = context.accent;
     final sp = context.spacing;
-    
+
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -53,9 +53,7 @@ class WearOSPage extends StatelessWidget {
               CommonSpacer.vertical(sp.md),
               Text(
                 'Connect and sync with your WearOS smartwatch',
-                style: context.text.bodyLarge.copyWith(
-                  color: c.textSecondary,
-                ),
+                style: context.text.bodyLarge.copyWith(color: c.textSecondary),
                 textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.xl),
@@ -65,16 +63,15 @@ class WearOSPage extends StatelessWidget {
                   color: c.surface,
                   borderRadius: BorderRadius.circular(context.shapes.radiusMd),
                   border: Border.all(
-                    color: a.primary.withValues(alpha: context.opacities.medium),
+                    color: a.primary.withValues(
+                      alpha: context.opacities.medium,
+                    ),
                   ),
                 ),
                 child: Row(
                   mainAxisSize: AppLayout.mainAxisSizeMin,
                   children: [
-                    Icon(
-                      Icons.construction,
-                      color: a.primary,
-                    ),
+                    Icon(Icons.construction, color: a.primary),
                     CommonSpacer.horizontal(sp.md),
                     Text(
                       'Coming Soon',

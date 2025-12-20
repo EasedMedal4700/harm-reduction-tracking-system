@@ -33,7 +33,6 @@ class FilterWidget extends StatelessWidget {
   final TimePeriod? selectedPeriod;
   final ValueChanged<TimePeriod>? onPeriodChanged;
 
-
   const FilterWidget({
     super.key,
     required this.uniqueCategories,
@@ -70,149 +69,156 @@ class FilterWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-              // Time Period filter (if provided)
-              if (selectedPeriod != null && onPeriodChanged != null) ...[
-                Text(
-                  'Time Period',
-                  style: t.text.heading4.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: c.textPrimary,
-                  ),
-                ),
-                SizedBox(height: sp.sm),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _PeriodButton(
-                        label: '7 Days',
-                        isSelected: selectedPeriod == TimePeriod.last7Days,
-                        onTap: () => onPeriodChanged!(TimePeriod.last7Days),
-                      ),
-                    ),
-                    SizedBox(width: sp.xs),
-                    Expanded(
-                      child: _PeriodButton(
-                        label: '30 Days',
-                        isSelected: selectedPeriod == TimePeriod.last7Weeks,
-                        onTap: () => onPeriodChanged!(TimePeriod.last7Weeks),
-                      ),
-                    ),
-                    SizedBox(width: sp.xs),
-                    Expanded(
-                      child: _PeriodButton(
-                        label: '90 Days',
-                        isSelected: selectedPeriod == TimePeriod.last7Months,
-                        onTap: () => onPeriodChanged!(TimePeriod.last7Months),
-                      ),
-                    ),
-                    SizedBox(width: sp.xs),
-                    Expanded(
-                      child: _PeriodButton(
-                        label: 'All Time',
-                        isSelected: selectedPeriod == TimePeriod.all,
-                        onTap: () => onPeriodChanged!(TimePeriod.all),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: sp.md),
-              ],
-              // Type filter with buttons
-              Text(
-                'Filter by Type',
-                style: t.text.heading4.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: c.textPrimary,
+        // Time Period filter (if provided)
+        if (selectedPeriod != null && onPeriodChanged != null) ...[
+          Text(
+            'Time Period',
+            style: t.text.heading4.copyWith(
+              fontWeight: FontWeight.w600,
+              color: c.textPrimary,
+            ),
+          ),
+          SizedBox(height: sp.sm),
+          Row(
+            children: [
+              Expanded(
+                child: _PeriodButton(
+                  label: '7 Days',
+                  isSelected: selectedPeriod == TimePeriod.last7Days,
+                  onTap: () => onPeriodChanged!(TimePeriod.last7Days),
                 ),
               ),
-              SizedBox(height: sp.sm),
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  return ToggleButtons(
-                    isSelected: [selectedTypeIndex == 0, selectedTypeIndex == 1, selectedTypeIndex == 2],
-                    onPressed: onTypeChanged,
-                    borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                    constraints: BoxConstraints(
-                      minHeight: 40,
-                      minWidth: (constraints.maxWidth - 20) / 3,
-                    ),
-                    color: c.textSecondary,
-                    selectedColor: c.textPrimary,
-                    fillColor: t.accent.primary.withValues(alpha: 0.2),
-                    borderColor: c.border,
-                    selectedBorderColor: t.accent.primary,
-                    children: const [
-                      Text('All', style: TextStyle(fontSize: 13)),
-                      Text('Medical', style: TextStyle(fontSize: 13)),
-                      Text('Non-Medical', style: TextStyle(fontSize: 13)),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: sp.md),
-              FilterButtons(
-                label: 'Category',
-                options: uniqueCategories,
-                selectedValues: selectedCategories,
-                onChanged: onCategoryChanged,
-                allOptions: uniqueCategories,
-              ),
-              SizedBox(height: sp.md),
-              FilterButtons(
-                label: 'Substance',
-                options: uniqueSubstances,
-                selectedValues: selectedSubstances,
-                onChanged: onSubstanceChanged,
-                allOptions: uniqueSubstances,
-              ),
-              SizedBox(height: sp.md),
-              FilterButtons(
-                label: 'Location',
-                options: uniquePlaces,
-                selectedValues: selectedPlaces,
-                onChanged: onPlaceChanged,
-                allOptions: uniquePlaces,
-              ),
-              SizedBox(height: sp.md),
-              FilterButtons(
-                label: 'Route',
-                options: uniqueRoutes,
-                selectedValues: selectedRoutes,
-                onChanged: onRouteChanged,
-                allOptions: uniqueRoutes,
-              ),
-              SizedBox(height: sp.md),
-              FilterButtons(
-                label: 'Emotions',
-                options: uniqueFeelings,
-                selectedValues: selectedFeelings,
-                onChanged: onFeelingChanged,
-                allOptions: uniqueFeelings,
-              ),
-              SizedBox(height: sp.md),
-              // Craving slider
-              Text(
-                'Craving Intensity',
-                style: t.text.heading4.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: c.textPrimary,
+              SizedBox(width: sp.xs),
+              Expanded(
+                child: _PeriodButton(
+                  label: '30 Days',
+                  isSelected: selectedPeriod == TimePeriod.last7Weeks,
+                  onTap: () => onPeriodChanged!(TimePeriod.last7Weeks),
                 ),
               ),
-              SizedBox(height: sp.sm),
-              RangeSlider(
-                values: RangeValues(minCraving, maxCraving),
-                min: 0,
-                max: 10,
-                divisions: 10,
-                labels: RangeLabels(minCraving.toStringAsFixed(0), maxCraving.toStringAsFixed(0)),
-                activeColor: t.accent.primary,
-                inactiveColor: c.border,
-                onChanged: (values) {
-                  onMinCravingChanged(values.start);
-                  onMaxCravingChanged(values.end);
-                },
+              SizedBox(width: sp.xs),
+              Expanded(
+                child: _PeriodButton(
+                  label: '90 Days',
+                  isSelected: selectedPeriod == TimePeriod.last7Months,
+                  onTap: () => onPeriodChanged!(TimePeriod.last7Months),
+                ),
+              ),
+              SizedBox(width: sp.xs),
+              Expanded(
+                child: _PeriodButton(
+                  label: 'All Time',
+                  isSelected: selectedPeriod == TimePeriod.all,
+                  onTap: () => onPeriodChanged!(TimePeriod.all),
+                ),
               ),
             ],
+          ),
+          SizedBox(height: sp.md),
+        ],
+        // Type filter with buttons
+        Text(
+          'Filter by Type',
+          style: t.text.heading4.copyWith(
+            fontWeight: FontWeight.w600,
+            color: c.textPrimary,
+          ),
+        ),
+        SizedBox(height: sp.sm),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            return ToggleButtons(
+              isSelected: [
+                selectedTypeIndex == 0,
+                selectedTypeIndex == 1,
+                selectedTypeIndex == 2,
+              ],
+              onPressed: onTypeChanged,
+              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+              constraints: BoxConstraints(
+                minHeight: 40,
+                minWidth: (constraints.maxWidth - 20) / 3,
+              ),
+              color: c.textSecondary,
+              selectedColor: c.textPrimary,
+              fillColor: t.accent.primary.withValues(alpha: 0.2),
+              borderColor: c.border,
+              selectedBorderColor: t.accent.primary,
+              children: const [
+                Text('All', style: TextStyle(fontSize: 13)),
+                Text('Medical', style: TextStyle(fontSize: 13)),
+                Text('Non-Medical', style: TextStyle(fontSize: 13)),
+              ],
+            );
+          },
+        ),
+        SizedBox(height: sp.md),
+        FilterButtons(
+          label: 'Category',
+          options: uniqueCategories,
+          selectedValues: selectedCategories,
+          onChanged: onCategoryChanged,
+          allOptions: uniqueCategories,
+        ),
+        SizedBox(height: sp.md),
+        FilterButtons(
+          label: 'Substance',
+          options: uniqueSubstances,
+          selectedValues: selectedSubstances,
+          onChanged: onSubstanceChanged,
+          allOptions: uniqueSubstances,
+        ),
+        SizedBox(height: sp.md),
+        FilterButtons(
+          label: 'Location',
+          options: uniquePlaces,
+          selectedValues: selectedPlaces,
+          onChanged: onPlaceChanged,
+          allOptions: uniquePlaces,
+        ),
+        SizedBox(height: sp.md),
+        FilterButtons(
+          label: 'Route',
+          options: uniqueRoutes,
+          selectedValues: selectedRoutes,
+          onChanged: onRouteChanged,
+          allOptions: uniqueRoutes,
+        ),
+        SizedBox(height: sp.md),
+        FilterButtons(
+          label: 'Emotions',
+          options: uniqueFeelings,
+          selectedValues: selectedFeelings,
+          onChanged: onFeelingChanged,
+          allOptions: uniqueFeelings,
+        ),
+        SizedBox(height: sp.md),
+        // Craving slider
+        Text(
+          'Craving Intensity',
+          style: t.text.heading4.copyWith(
+            fontWeight: FontWeight.w600,
+            color: c.textPrimary,
+          ),
+        ),
+        SizedBox(height: sp.sm),
+        RangeSlider(
+          values: RangeValues(minCraving, maxCraving),
+          min: 0,
+          max: 10,
+          divisions: 10,
+          labels: RangeLabels(
+            minCraving.toStringAsFixed(0),
+            maxCraving.toStringAsFixed(0),
+          ),
+          activeColor: t.accent.primary,
+          inactiveColor: c.border,
+          onChanged: (values) {
+            onMinCravingChanged(values.start);
+            onMaxCravingChanged(values.end);
+          },
+        ),
+      ],
     );
   }
 }
@@ -249,9 +255,7 @@ class _PeriodButton extends StatelessWidget {
                 : c.surface,
             borderRadius: BorderRadius.circular(sh.radiusMd),
             border: Border.all(
-              color: isSelected
-                  ? t.accent.primary
-                  : c.border,
+              color: isSelected ? t.accent.primary : c.border,
               width: isSelected ? 2 : 1,
             ),
           ),
@@ -260,9 +264,7 @@ class _PeriodButton extends StatelessWidget {
               label,
               style: t.text.bodySmall.copyWith(
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected
-                    ? t.accent.primary
-                    : c.textSecondary,
+                color: isSelected ? t.accent.primary : c.textSecondary,
               ),
             ),
           ),
@@ -316,13 +318,23 @@ class FilterButtons extends StatelessWidget {
               const Spacer(),
               TextButton.icon(
                 onPressed: () => onChanged!(allOptions!),
-                icon: Icon(Icons.select_all_rounded, size: 16, color: t.accent.primary),
-                label: Text('Select All', style: TextStyle(fontSize: 12, color: t.accent.primary)),
+                icon: Icon(
+                  Icons.select_all_rounded,
+                  size: 16,
+                  color: t.accent.primary,
+                ),
+                label: Text(
+                  'Select All',
+                  style: TextStyle(fontSize: 12, color: t.accent.primary),
+                ),
                 style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: sp.sm,
+                    vertical: sp.xs,
+                  ),
                 ),
               ),
-            ]
+            ],
           ],
         ),
         SizedBox(height: sp.sm),
@@ -359,9 +371,7 @@ class FilterButtons extends StatelessWidget {
               selectedColor: t.accent.primary.withValues(alpha: 0.2),
               checkmarkColor: t.accent.primary,
               side: BorderSide(
-                color: isSelected 
-                    ? t.accent.primary 
-                    : c.border,
+                color: isSelected ? t.accent.primary : c.border,
                 width: isSelected ? 1.5 : 1,
               ),
               padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),

@@ -11,10 +11,7 @@ import '../../../../common/cards/common_card.dart';
 class TimeOfDayIndicator extends StatelessWidget {
   final String currentTimeOfDay;
 
-  const TimeOfDayIndicator({
-    super.key,
-    required this.currentTimeOfDay,
-  });
+  const TimeOfDayIndicator({super.key, required this.currentTimeOfDay});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +23,20 @@ class TimeOfDayIndicator extends StatelessWidget {
         height: context.sizes.heightXs,
         child: Row(
           children: [
-            _TimeSegment(label: 'Morning', isActive: currentTimeOfDay == 'morning'),
+            _TimeSegment(
+              label: 'Morning',
+              isActive: currentTimeOfDay == 'morning',
+            ),
             VerticalDivider(width: context.sizes.borderThin, color: c.border),
-            _TimeSegment(label: 'Afternoon', isActive: currentTimeOfDay == 'afternoon'),
+            _TimeSegment(
+              label: 'Afternoon',
+              isActive: currentTimeOfDay == 'afternoon',
+            ),
             VerticalDivider(width: context.sizes.borderThin, color: c.border),
-            _TimeSegment(label: 'Evening', isActive: currentTimeOfDay == 'evening'),
+            _TimeSegment(
+              label: 'Evening',
+              isActive: currentTimeOfDay == 'evening',
+            ),
           ],
         ),
       ),
@@ -42,10 +48,7 @@ class _TimeSegment extends StatelessWidget {
   final String label;
   final bool isActive;
 
-  const _TimeSegment({
-    required this.label,
-    required this.isActive,
-  });
+  const _TimeSegment({required this.label, required this.isActive});
 
   @override
   Widget build(BuildContext context) {
@@ -63,12 +66,12 @@ class _TimeSegment extends StatelessWidget {
           label,
           style: text.bodySmall.copyWith(
             color: isActive ? acc.primary : c.textSecondary,
-            fontWeight: isActive ? text.bodyBold.fontWeight : text.body.fontWeight,
+            fontWeight: isActive
+                ? text.bodyBold.fontWeight
+                : text.body.fontWeight,
           ),
         ),
       ),
     );
   }
 }
-
-

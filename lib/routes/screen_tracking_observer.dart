@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../services/error_logging_service.dart';
 
-class ScreenTrackingNavigatorObserver extends RouteObserver<PageRoute<dynamic>> {
+class ScreenTrackingNavigatorObserver
+    extends RouteObserver<PageRoute<dynamic>> {
   void _setCurrentScreen(Route<dynamic>? route) {
     if (route is PageRoute) {
       final name = route.settings.name ?? route.runtimeType.toString();

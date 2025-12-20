@@ -20,7 +20,7 @@ class InteractionsPage extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -41,7 +41,8 @@ class InteractionsPage extends StatelessWidget {
               Icon(
                 Icons.compare_arrows,
                 size: context.sizes.icon2xl + context.spacing.md, // 80.0
-                color: c.warning, // Using warning color for interactions/caution
+                color:
+                    c.warning, // Using warning color for interactions/caution
               ),
               CommonSpacer.vertical(sp.lg),
               Text(
@@ -55,9 +56,7 @@ class InteractionsPage extends StatelessWidget {
               CommonSpacer.vertical(sp.md),
               Text(
                 'Check for potential interactions between substances',
-                style: text.bodyMedium.copyWith(
-                  color: c.textSecondary,
-                ),
+                style: text.bodyMedium.copyWith(color: c.textSecondary),
                 textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.xl),
@@ -81,9 +80,7 @@ class InteractionsPage extends StatelessWidget {
                     CommonSpacer.horizontal(sp.sm),
                     Text(
                       'Coming Soon',
-                      style: text.titleLarge.copyWith(
-                        color: c.warning,
-                      ),
+                      style: text.titleLarge.copyWith(color: c.warning),
                     ),
                   ],
                 ),

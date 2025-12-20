@@ -36,7 +36,7 @@ class SystemOverviewWidget extends ConsumerWidget {
     final spacing = context.spacing;
     final typography = context.text;
     final radii = context.shapes;
-    
+
     final orderedBuckets = BucketDefinitions.orderedBuckets;
 
     // LOADING STATE
@@ -48,9 +48,7 @@ class SystemOverviewWidget extends ConsumerWidget {
           border: Border.all(color: colors.border),
         ),
         padding: EdgeInsets.all(spacing.lg),
-        child: const Center(
-          child: CommonLoader(),
-        ),
+        child: const Center(child: CommonLoader()),
       );
     }
 
@@ -67,9 +65,7 @@ class SystemOverviewWidget extends ConsumerWidget {
           ),
           child: Text(
             'System Tolerance Overview',
-            style: typography.heading3.copyWith(
-              color: colors.textPrimary,
-            ),
+            style: typography.heading3.copyWith(color: colors.textPrimary),
           ),
         ),
 
@@ -85,13 +81,16 @@ class SystemOverviewWidget extends ConsumerWidget {
             separatorBuilder: (_, __) => CommonSpacer.horizontal(spacing.sm),
             itemBuilder: (context, index) {
               final bucket = orderedBuckets[index];
-              final percent =
-                  (data.bucketPercents[bucket] ?? 0.0).clamp(0.0, 100.0);
+              final percent = (data.bucketPercents[bucket] ?? 0.0).clamp(
+                0.0,
+                100.0,
+              );
 
               final state = ToleranceCalculator.classifyState(percent);
 
               final contributions = substanceContributions[bucket];
-              final isActive = contributions != null && contributions.isNotEmpty;
+              final isActive =
+                  contributions != null && contributions.isNotEmpty;
 
               return SystemBucketCard(
                 bucketType: bucket,

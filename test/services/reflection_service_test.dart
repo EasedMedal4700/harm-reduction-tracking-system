@@ -5,7 +5,7 @@ void main() {
   group('ReflectionService', () {
     test('Reflection model has correct defaults', () {
       final reflection = Reflection();
-      
+
       expect(reflection.effectiveness, 5.0);
       expect(reflection.sleepHours, 8.0);
       expect(reflection.sleepQuality, 'Good');
@@ -27,7 +27,7 @@ void main() {
       );
 
       final json = reflection.toJson();
-      
+
       expect(json['effectiveness'], 8);
       expect(json['sleep_hours'], 6.5);
       expect(json['post_use_craving'], 2);
@@ -51,7 +51,7 @@ void main() {
       );
 
       final json = reflection.toJson();
-      
+
       expect(json['next_day_mood'], isNull);
       expect(json['side_effects'], isNull);
       expect(json['coping_strategies'], isNull);

@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -55,11 +54,7 @@ class ActivityCard extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(sh.radiusSm),
             ),
-            child: Icon(
-              icon,
-              color: c.textInverse,
-              size: context.sizes.iconLg,
-            ),
+            child: Icon(icon, color: c.textInverse, size: context.sizes.iconLg),
           ),
 
           CommonSpacer(width: sp.md),
@@ -82,76 +77,67 @@ class ActivityCard extends StatelessWidget {
                       ),
                     ),
 
-                          if (badge != null)
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: sp.sm,
-                                vertical: sp.xs,
-                              ),
-                              decoration: BoxDecoration(
-                                color: accentColor.withValues(alpha: 0.15),
-                                borderRadius:
-                                    BorderRadius.circular(sh.radiusSm),
-                                border: Border.all(
-                                  color: accentColor.withValues(alpha: 0.3),
-                                ),
-                              ),
-                              child: Text(
-                                badge!,
-                                style: text.bodySmall.copyWith(
-                                  color: accentColor,
-                                  fontWeight: text.bodyBold.fontWeight,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-
-                      SizedBox(height: sp.xs),
-
-                      // SUBTITLE
-                      Text(
-                        subtitle,
-                        style: text.bodySmall.copyWith(
-                          color: c.textSecondary,
+                    if (badge != null)
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: sp.sm,
+                          vertical: sp.xs,
                         ),
-                        maxLines: 2,
-                        overflow: AppLayout.textOverflowEllipsis,
-                      ),
-
-                      if (timestamp != null) ...[
-                        SizedBox(height: sp.xs),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.access_time,
-                              size: sp.sm,
-                              color: c.textTertiary,
-                            ),
-                            SizedBox(width: sp.xs),
-                            Text(
-                              _formatTimestamp(timestamp!),
-                              style: text.bodySmall.copyWith(
-                                color: c.textTertiary,
-                              ),
-                            ),
-                          ],
+                        decoration: BoxDecoration(
+                          color: accentColor.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(sh.radiusSm),
+                          border: Border.all(
+                            color: accentColor.withValues(alpha: 0.3),
+                          ),
                         ),
-                      ],
-                    ],
-                  ),
+                        child: Text(
+                          badge!,
+                          style: text.bodySmall.copyWith(
+                            color: accentColor,
+                            fontWeight: text.bodyBold.fontWeight,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
 
-                if (onTap != null) ...[
-                  SizedBox(width: sp.sm),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: sp.md,
-                    color: c.textSecondary,
+                SizedBox(height: sp.xs),
+
+                // SUBTITLE
+                Text(
+                  subtitle,
+                  style: text.bodySmall.copyWith(color: c.textSecondary),
+                  maxLines: 2,
+                  overflow: AppLayout.textOverflowEllipsis,
+                ),
+
+                if (timestamp != null) ...[
+                  SizedBox(height: sp.xs),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.access_time,
+                        size: sp.sm,
+                        color: c.textTertiary,
+                      ),
+                      SizedBox(width: sp.xs),
+                      Text(
+                        _formatTimestamp(timestamp!),
+                        style: text.bodySmall.copyWith(color: c.textTertiary),
+                      ),
+                    ],
                   ),
                 ],
               ],
             ),
+          ),
+
+          if (onTap != null) ...[
+            SizedBox(width: sp.sm),
+            Icon(Icons.arrow_forward_ios, size: sp.md, color: c.textSecondary),
+          ],
+        ],
+      ),
     );
   }
 

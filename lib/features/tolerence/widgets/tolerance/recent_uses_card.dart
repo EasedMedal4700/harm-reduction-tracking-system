@@ -1,13 +1,13 @@
 // Recent Uses Card Widget
-// 
+//
 // Created: 2024-11-15
 // Last Modified: 2025-12-14
-// 
+//
 // Purpose:
 // Displays a list of the most recent substance use events with timestamps and dosages.
 // Shows up to 5 recent entries in a clean, card-based format. Provides empty state
 // when no use events are recorded.
-// 
+//
 // Features:
 // - Displays recent use events with formatted timestamps
 // - Shows dosage information for each entry
@@ -31,13 +31,13 @@ import '../../../../common/layout/common_spacer.dart';
 import '../../../../models/tolerance_model.dart';
 
 /// Card widget that displays a list of recent substance use events
-/// 
+///
 /// Shows up to 5 most recent entries with timestamps and dosage information.
 /// Automatically handles empty states with appropriate messaging.
 class RecentUsesCard extends ConsumerWidget {
   /// List of use log entries to display
   final List<UseLogEntry> useEvents;
-  
+
   /// Optional substance name for contextual empty state message
   final String? substanceName;
 
@@ -54,7 +54,7 @@ class RecentUsesCard extends ConsumerWidget {
     final spacing = context.spacing;
     final typography = context.text;
     final radii = context.shapes;
-    
+
     // Date formatter for displaying timestamps
     final formatter = DateFormat('MMM d · HH:mm');
 
@@ -71,9 +71,7 @@ class RecentUsesCard extends ConsumerWidget {
           substanceName != null
               ? 'No recent use events recorded for $substanceName.'
               : 'No recent use events recorded.',
-          style: typography.bodySmall.copyWith(
-            color: colors.textSecondary,
-          ),
+          style: typography.bodySmall.copyWith(color: colors.textSecondary),
         ),
       );
     }
@@ -93,10 +91,7 @@ class RecentUsesCard extends ConsumerWidget {
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // HEADER
-          Text(
-            'Recent use events',
-            style: typography.heading4,
-          ),
+          Text('Recent use events', style: typography.heading4),
           CommonSpacer.vertical(spacing.md),
 
           // LIST OF EVENTS
@@ -128,4 +123,3 @@ class RecentUsesCard extends ConsumerWidget {
     );
   }
 }
-

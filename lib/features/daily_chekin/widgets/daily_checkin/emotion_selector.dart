@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -36,10 +35,10 @@ class EmotionSelector extends StatelessWidget {
               // Calculate difference to maintain API compatibility
               final oldSet = selectedEmotions.toSet();
               final newSet = newList.toSet();
-              
+
               final added = newSet.difference(oldSet);
               final removed = oldSet.difference(newSet);
-              
+
               if (added.isNotEmpty) {
                 onEmotionToggled(added.first);
               } else if (removed.isNotEmpty) {

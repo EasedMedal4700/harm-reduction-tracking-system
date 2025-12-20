@@ -11,7 +11,7 @@ import 'log_entry_controller.dart';
 /// Riverpod-ready state adapter for Provider
 /// This wraps the pure LogEntryFormData with ChangeNotifier for Provider compatibility
 /// When migrating to Riverpod, this entire file will be replaced with a StateNotifier/Notifier
-/// 
+///
 /// MIGRATION NOTE: Replace this with:
 /// ```
 /// final logEntryProvider = StateNotifierProvider<LogEntryNotifier, LogEntryFormData>((ref) {
@@ -22,8 +22,8 @@ class LogEntryState extends ChangeNotifier {
   LogEntryFormData _data = LogEntryFormData.initial();
   final LogEntryController _controller;
 
-  LogEntryState({LogEntryController? controller}) 
-      : _controller = controller ?? LogEntryController();
+  LogEntryState({LogEntryController? controller})
+    : _controller = controller ?? LogEntryController();
 
   // Expose pure data (Riverpod will use this directly)
   LogEntryFormData get data => _data;

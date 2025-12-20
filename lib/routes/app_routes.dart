@@ -29,17 +29,20 @@ import '../features/manage_profile/change_pin_page.dart';
 
 class AppRoutes {
   static Widget buildHomePage() => const HomePage();
-  static Widget buildLogEntryPage() => const QuickLogEntryPage(); // Change to QuickLogEntryPage
+  static Widget buildLogEntryPage() =>
+      const QuickLogEntryPage(); // Change to QuickLogEntryPage
   static Widget buildAnalyticsPage() => const AnalyticsPage();
   static Widget buildCatalogPage() => const CatalogPage();
   static Widget buildCravingsPage() => const CravingsPage();
   static Widget buildBloodLevelsPage() => const BloodLevelsPage();
-  static Widget buildLibraryPage() => const PersonalLibraryPage(); // Add if implemented
+  static Widget buildLibraryPage() =>
+      const PersonalLibraryPage(); // Add if implemented
   static Widget buildReflectionPage() => ChangeNotifierProvider(
     create: (_) => ReflectionProvider(),
     child: const ReflectionPage(),
   );
-  static Widget buildActivityPage() => const ActivityPage(); // Update to actual class name
+  static Widget buildActivityPage() =>
+      const ActivityPage(); // Update to actual class name
   static Widget buildDailyCheckinPage() => ChangeNotifierProvider(
     create: (_) => DailyCheckinProvider(),
     child: const DailyCheckinScreen(),
@@ -60,6 +63,7 @@ class AppRoutes {
   static Widget buildPinSetupPage() => const PinSetupScreen();
   static Widget buildPinUnlockPage() => const PinUnlockScreen();
   static Widget buildRecoveryKeyPage() => const RecoveryKeyScreen();
-  static Widget buildEncryptionMigrationPage() => const EncryptionMigrationScreen();
+  static Widget buildEncryptionMigrationPage() =>
+      const EncryptionMigrationScreen();
   static Widget buildChangePinPage() => const ChangePinScreen();
 }

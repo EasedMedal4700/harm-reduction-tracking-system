@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -65,7 +64,9 @@ class InsightSummaryCard extends StatelessWidget {
     }
 
     final avg = weeklyAverage.toStringAsFixed(1);
-    final cat = mostUsedCategory.isEmpty ? 'multiple categories' : mostUsedCategory;
+    final cat = mostUsedCategory.isEmpty
+        ? 'multiple categories'
+        : mostUsedCategory;
 
     return 'During $selectedPeriodText, you logged $totalEntries entries with an average of $avg uses per week. Your most frequent category was $cat. Identifying these trends helps support safer and more informed decisions.';
   }

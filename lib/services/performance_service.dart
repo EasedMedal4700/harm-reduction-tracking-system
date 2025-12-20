@@ -16,11 +16,11 @@ class PerformanceService {
     try {
       final prefs = await SharedPreferences.getInstance();
       final dataJson = prefs.getString(_keyPerformanceData);
-      
-      Map<String, dynamic> data = dataJson != null 
+
+      Map<String, dynamic> data = dataJson != null
           ? json.decode(dataJson) as Map<String, dynamic>
           : {};
-      
+
       List<dynamic> samples = data['response_times'] ?? [];
       samples.add({
         'endpoint': endpoint,
@@ -28,12 +28,12 @@ class PerformanceService {
         'cached': fromCache,
         'timestamp': DateTime.now().toIso8601String(),
       });
-      
+
       // Keep only recent samples
       if (samples.length > _maxSamples) {
         samples = samples.sublist(samples.length - _maxSamples);
       }
-      
+
       data['response_times'] = samples;
       await prefs.setString(_keyPerformanceData, json.encode(data));
     } catch (e) {
@@ -49,19 +49,19 @@ class PerformanceService {
     try {
       final prefs = await SharedPreferences.getInstance();
       final dataJson = prefs.getString(_keyCacheStats);
-      
-      Map<String, dynamic> data = dataJson != null 
+
+      Map<String, dynamic> data = dataJson != null
           ? json.decode(dataJson) as Map<String, dynamic>
           : {'hits': 0, 'misses': 0, 'total_requests': 0};
-      
+
       data['total_requests'] = (data['total_requests'] ?? 0) + 1;
-      
+
       if (hit) {
         data['hits'] = (data['hits'] ?? 0) + 1;
       } else {
         data['misses'] = (data['misses'] ?? 0) + 1;
       }
-      
+
       data['last_updated'] = DateTime.now().toIso8601String();
       await prefs.setString(_keyCacheStats, json.encode(data));
     } catch (e) {
@@ -73,33 +73,33 @@ class PerformanceService {
   static Future<Map<String, dynamic>> getStatistics() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      
+
       // Get response time data
       final dataJson = prefs.getString(_keyPerformanceData);
       final cacheJson = prefs.getString(_keyCacheStats);
-      
-      Map<String, dynamic> perfData = dataJson != null 
+
+      Map<String, dynamic> perfData = dataJson != null
           ? json.decode(dataJson) as Map<String, dynamic>
           : {};
-      
-      Map<String, dynamic> cacheData = cacheJson != null 
+
+      Map<String, dynamic> cacheData = cacheJson != null
           ? json.decode(cacheJson) as Map<String, dynamic>
           : {'hits': 0, 'misses': 0, 'total_requests': 0};
-      
+
       List<dynamic> samples = perfData['response_times'] ?? [];
-      
+
       // Calculate average response time
       double avgResponseTime = 0.0;
       double avgCachedTime = 0.0;
       double avgUncachedTime = 0.0;
       int cachedCount = 0;
       int uncachedCount = 0;
-      
+
       if (samples.isNotEmpty) {
         for (var sample in samples) {
           final ms = sample['ms'] ?? 0;
           avgResponseTime += ms;
-          
+
           if (sample['cached'] == true) {
             avgCachedTime += ms;
             cachedCount++;
@@ -108,17 +108,17 @@ class PerformanceService {
             uncachedCount++;
           }
         }
-        
+
         avgResponseTime /= samples.length;
         if (cachedCount > 0) avgCachedTime /= cachedCount;
         if (uncachedCount > 0) avgUncachedTime /= uncachedCount;
       }
-      
+
       // Calculate cache hit rate
       int totalRequests = cacheData['total_requests'] ?? 0;
       int hits = cacheData['hits'] ?? 0;
       double hitRate = totalRequests > 0 ? (hits / totalRequests) * 100 : 0.0;
-      
+
       return {
         'avg_response_time': avgResponseTime,
         'avg_cached_response': avgCachedTime,

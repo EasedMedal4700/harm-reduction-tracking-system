@@ -32,8 +32,7 @@ class IntentionCravingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = context.spacing;
-    final validIntention =
-        intentions.contains(intention) ? intention : null;
+    final validIntention = intentions.contains(intention) ? intention : null;
 
     return CommonCard(
       child: Column(
@@ -102,9 +101,7 @@ class IntentionCravingCard extends StatelessWidget {
         ),
         subtitle: Text(
           "Prescribed or therapeutic use",
-          style: text.bodySmall.copyWith(
-            color: c.textSecondary,
-          ),
+          style: text.bodySmall.copyWith(color: c.textSecondary),
         ),
       ),
     );
@@ -126,9 +123,7 @@ class IntentionCravingCard extends StatelessWidget {
       children: [
         Text(
           "Craving Intensity",
-          style: text.body.copyWith(
-            color: c.textPrimary,
-          ),
+          style: text.body.copyWith(color: c.textPrimary),
         ),
 
         CommonSpacer.vertical(s.sm),
@@ -150,10 +145,7 @@ class IntentionCravingCard extends StatelessWidget {
 
             /// Value indicator box
             Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: s.md,
-                vertical: s.sm,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: s.md, vertical: s.sm),
               decoration: BoxDecoration(
                 color: accent.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(sh.radiusMd),

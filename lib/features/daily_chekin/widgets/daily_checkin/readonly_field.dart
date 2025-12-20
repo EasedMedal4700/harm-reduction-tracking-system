@@ -60,5 +60,3 @@ class ReadOnlyField extends StatelessWidget {
     );
   }
 }
-
-

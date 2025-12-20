@@ -16,10 +16,14 @@ class SecurityManager {
 
   // Storage keys
   static const String _keyLastUnlockTime = 'security_last_unlock_time';
-  static const String _keyLastInteractionTime = 'security_last_interaction_time';
-  static const String _keyBackgroundStartTime = 'security_background_start_time';
-  static const String _keyForegroundTimeout = 'security_foreground_timeout_minutes';
-  static const String _keyBackgroundTimeout = 'security_background_timeout_minutes';
+  static const String _keyLastInteractionTime =
+      'security_last_interaction_time';
+  static const String _keyBackgroundStartTime =
+      'security_background_start_time';
+  static const String _keyForegroundTimeout =
+      'security_foreground_timeout_minutes';
+  static const String _keyBackgroundTimeout =
+      'security_background_timeout_minutes';
 
   // Default timeouts (in minutes)
   static const int defaultForegroundTimeout = 5;
@@ -118,7 +122,7 @@ class SecurityManager {
   /// Check if PIN is required based on both unlock and interaction times
   Future<bool> shouldRequirePin() async {
     final prefs = await _preferences;
-    
+
     // Check if ever unlocked
     final lastUnlock = prefs.getInt(_keyLastUnlockTime);
     if (lastUnlock == null) {
@@ -191,7 +195,9 @@ class SecurityManager {
       if (_isInBackground) {
         // App is still in background after delay, we can consider locking
         // But we don't actually lock until foreground resume check
-        print('📱 [SecurityManager] App confirmed in background for ${_minBackgroundDuration.inSeconds}s');
+        print(
+          '📱 [SecurityManager] App confirmed in background for ${_minBackgroundDuration.inSeconds}s',
+        );
       }
     });
 
@@ -219,7 +225,9 @@ class SecurityManager {
 
     // Guard against concurrent operations
     if (_isLockingOrUnlocking) {
-      print('🔒 [SecurityManager] Skip foreground handling - operation in progress');
+      print(
+        '🔒 [SecurityManager] Skip foreground handling - operation in progress',
+      );
       return;
     }
     _isLockingOrUnlocking = true;
@@ -233,7 +241,9 @@ class SecurityManager {
       }
 
       // Check if user has encryption setup
-      final hasEncryption = await _encryptionService.hasEncryptionSetup(user.id);
+      final hasEncryption = await _encryptionService.hasEncryptionSetup(
+        user.id,
+      );
       if (!hasEncryption) {
         print('🔒 [SecurityManager] No encryption setup, skipping PIN check');
         return;

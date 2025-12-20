@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/utils/error_reporter.dart';
 
 /// Test wrapper that reports test failures to the error database
-/// 
+///
 /// Usage:
 /// ```dart
 /// testWithErrorReporting('my test', () {
@@ -55,30 +55,21 @@ void testWithErrorReporting(
 }
 
 /// Group wrapper that reports group setup/teardown failures
-void groupWithErrorReporting(
-  String description,
-  dynamic Function() body,
-) {
-  group(
-    description,
-    () {
-      try {
-        body();
-      } catch (error, stackTrace) {
-        // Report group setup failure
-        ErrorReporter.instance.reportError(
-          error: error,
-          stackTrace: stackTrace,
-          screenName: 'TestRunner',
-          extraData: {
-            'group_name': description,
-            'is_group_setup_failure': true,
-          },
-        );
-        rethrow;
-      }
-    },
-  );
+void groupWithErrorReporting(String description, dynamic Function() body) {
+  group(description, () {
+    try {
+      body();
+    } catch (error, stackTrace) {
+      // Report group setup failure
+      ErrorReporter.instance.reportError(
+        error: error,
+        stackTrace: stackTrace,
+        screenName: 'TestRunner',
+        extraData: {'group_name': description, 'is_group_setup_failure': true},
+      );
+      rethrow;
+    }
+  });
 }
 
 /// Setup function that reports errors during test setup
@@ -94,10 +85,7 @@ Future<void> setUpWithErrorReporting(
         error: error,
         stackTrace: stackTrace,
         screenName: 'TestRunner',
-        extraData: {
-          'context': context ?? 'setUp',
-          'is_setup_failure': true,
-        },
+        extraData: {'context': context ?? 'setUp', 'is_setup_failure': true},
       );
       rethrow;
     }

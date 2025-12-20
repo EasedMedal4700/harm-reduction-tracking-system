@@ -20,18 +20,22 @@ class AnalyticsService {
           )
           .eq('uuid_user_id', userId);
       final data = response as List<dynamic>;
-      return data.map((json) {
-        try {
-          return LogEntry.fromJson(json);
-        } catch (e, stackTrace) {
-          ErrorHandler.logError(
-            'AnalyticsService.parseLogEntry',
-            e,
-            stackTrace,
-          );
-          return null;
-        }
-      }).where((entry) => entry != null).cast<LogEntry>().toList();
+      return data
+          .map((json) {
+            try {
+              return LogEntry.fromJson(json);
+            } catch (e, stackTrace) {
+              ErrorHandler.logError(
+                'AnalyticsService.parseLogEntry',
+                e,
+                stackTrace,
+              );
+              return null;
+            }
+          })
+          .where((entry) => entry != null)
+          .cast<LogEntry>()
+          .toList();
     } catch (e, stackTrace) {
       ErrorHandler.logError('AnalyticsService.fetchEntries', e, stackTrace);
       rethrow;
@@ -54,7 +58,11 @@ class AnalyticsService {
       final repository = SubstanceRepository();
       return await repository.fetchSubstancesCatalog();
     } catch (e, stackTrace) {
-      ErrorHandler.logError('AnalyticsService.fetchSubstancesCatalog', e, stackTrace);
+      ErrorHandler.logError(
+        'AnalyticsService.fetchSubstancesCatalog',
+        e,
+        stackTrace,
+      );
       rethrow;
     }
   }
@@ -63,7 +71,9 @@ class AnalyticsService {
   Map<String, int> getCategoryCounts(List<LogEntry> entries) {
     final counts = <String, int>{};
     for (final entry in entries) {
-      final category = substanceToCategory[entry.substance.toLowerCase()] ?? 'Placeholder'; // Use lowercase lookup
+      final category =
+          substanceToCategory[entry.substance.toLowerCase()] ??
+          'Placeholder'; // Use lowercase lookup
       counts[category] = (counts[category] ?? 0) + 1;
     }
     return counts;
@@ -74,19 +84,36 @@ class AnalyticsService {
     return counts.entries.reduce((a, b) => a.value > b.value ? a : b);
   }
 
-  void setSubstanceToCategory(Map<String, String> map) { // Add this method
+  void setSubstanceToCategory(Map<String, String> map) {
+    // Add this method
     substanceToCategory = map;
   }
 
-  List<LogEntry> filterEntriesByPeriod(List<LogEntry> entries, TimePeriod period) {
+  List<LogEntry> filterEntriesByPeriod(
+    List<LogEntry> entries,
+    TimePeriod period,
+  ) {
     final now = DateTime.now();
     switch (period) {
       case TimePeriod.last7Days:
-        return entries.where((e) => e.datetime.isAfter(now.subtract(const Duration(days: 7)))).toList();
+        return entries
+            .where(
+              (e) => e.datetime.isAfter(now.subtract(const Duration(days: 7))),
+            )
+            .toList();
       case TimePeriod.last7Weeks:
-        return entries.where((e) => e.datetime.isAfter(now.subtract(const Duration(days: 49)))).toList();
+        return entries
+            .where(
+              (e) => e.datetime.isAfter(now.subtract(const Duration(days: 49))),
+            )
+            .toList();
       case TimePeriod.last7Months:
-        return entries.where((e) => e.datetime.isAfter(now.subtract(const Duration(days: 210)))).toList();
+        return entries
+            .where(
+              (e) =>
+                  e.datetime.isAfter(now.subtract(const Duration(days: 210))),
+            )
+            .toList();
       case TimePeriod.all:
         return entries;
     }
@@ -110,7 +137,10 @@ class AnalyticsService {
   }
 
   /// Compute weekly usage for a substance (returns counts for Mon-Sun)
-  Map<String, int> computeWeeklyUse(List<LogEntry> entries, String substanceName) {
+  Map<String, int> computeWeeklyUse(
+    List<LogEntry> entries,
+    String substanceName,
+  ) {
     final weekdays = {
       'Monday': 0,
       'Tuesday': 0,
@@ -122,22 +152,22 @@ class AnalyticsService {
     };
 
     // Filter entries for this substance
-    final substanceEntries = entries.where(
-      (e) => e.substance.toLowerCase() == substanceName.toLowerCase(),
-    ).toList();
+    final substanceEntries = entries
+        .where((e) => e.substance.toLowerCase() == substanceName.toLowerCase())
+        .toList();
 
     // Count by weekday
     // For non-medical use, day ends at 5am (e.g., 4am Sunday counts as Saturday)
     // For medical use, day ends at midnight (24:00)
     for (final entry in substanceEntries) {
       DateTime adjustedTime = entry.datetime;
-      
+
       // For non-medical use, shift the day cutoff to 5am
       // If time is before 5am, count it as the previous day
       if (!entry.isMedicalPurpose && entry.datetime.hour < 5) {
         adjustedTime = entry.datetime.subtract(const Duration(hours: 5));
       }
-      
+
       final weekday = _getWeekdayName(adjustedTime.weekday);
       weekdays[weekday] = (weekdays[weekday] ?? 0) + 1;
     }
@@ -162,17 +192,15 @@ class AnalyticsService {
   /// Get the day with least activity for a substance (excluding zero days)
   String getLeastActiveDay(List<LogEntry> entries, String substanceName) {
     final weeklyUse = computeWeeklyUse(entries, substanceName);
-    
+
     // Filter out days with zero activity
     final nonZeroDays = weeklyUse.entries.where((e) => e.value > 0).toList();
-    
+
     if (nonZeroDays.isEmpty) {
       return 'None';
     }
 
-    final minEntry = nonZeroDays.reduce(
-      (a, b) => a.value < b.value ? a : b,
-    );
+    final minEntry = nonZeroDays.reduce((a, b) => a.value < b.value ? a : b);
 
     return minEntry.key;
   }

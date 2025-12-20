@@ -35,9 +35,7 @@ class CommonFilterToggle extends StatelessWidget {
         children: [
           Icon(
             Icons.filter_list_rounded,
-            color: showCommonOnly
-                ? accentColor
-                : t.colors.textSecondary,
+            color: showCommonOnly ? accentColor : t.colors.textSecondary,
             size: t.sizes.iconSm,
           ),
           const CommonSpacer.horizontal(16),

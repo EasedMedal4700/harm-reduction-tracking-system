@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -32,8 +31,7 @@ class AdminStatsSection extends StatelessWidget {
 
     // Extract stats safely
     final cacheHitRate = (perfStats['cache_hit_rate'] ?? 0.0).toDouble();
-    final avgResponseTime =
-        (perfStats['avg_response_time'] ?? 0.0).toDouble();
+    final avgResponseTime = (perfStats['avg_response_time'] ?? 0.0).toDouble();
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

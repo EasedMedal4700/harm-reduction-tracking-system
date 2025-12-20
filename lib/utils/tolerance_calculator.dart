@@ -13,7 +13,6 @@ class ToleranceCalculator {
   // Global scaling constant so we can tune the whole system in one place.
   // This is the old hard-coded 0.08, just made explicit.
   static const double _kBaseScaling = 0.08;
-  
 
   /// Map a raw tolerance “load” value (dimensionless) to a 0–100% score.
   ///
@@ -51,16 +50,21 @@ class ToleranceCalculator {
 
     if (debug) {
       // ignore: avoid_print
-      print('📊 Found ${toleranceModels.length} substances with tolerance models');
+      print(
+        '📊 Found ${toleranceModels.length} substances with tolerance models',
+      );
       // ignore: avoid_print
-      print('📊 Found ${useLogs.length} use log entries (${useLogs.isEmpty ? 0 : 30} days)');
+      print(
+        '📊 Found ${useLogs.length} use log entries (${useLogs.isEmpty ? 0 : 30} days)',
+      );
       // ignore: avoid_print
       print('');
     }
 
     for (final entry in logsBySubstance.entries) {
       final slug = entry.key;
-      final logs = entry.value..sort((a, b) => a.timestamp.compareTo(b.timestamp));
+      final logs = entry.value
+        ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
       final model = toleranceModels[slug];
       if (model == null) {
@@ -90,7 +94,9 @@ class ToleranceCalculator {
       for (final e in bucketRawLoads.entries) {
         final pct = loadToPercent(e.value);
         // ignore: avoid_print
-        print('  ${e.key}  ->  ${pct.toStringAsFixed(1)}%  (raw: ${e.value.toStringAsFixed(4)})');
+        print(
+          '  ${e.key}  ->  ${pct.toStringAsFixed(1)}%  (raw: ${e.value.toStringAsFixed(4)})',
+        );
       }
       // ignore: avoid_print
       print('══════════════════════════════════════════════════════════');
@@ -136,8 +142,8 @@ class ToleranceCalculator {
     final durationMult = model.durationMultiplier;
     final activeThreshold =
         (model.activeThreshold <= 0 || model.activeThreshold >= 1)
-            ? 0.05
-            : model.activeThreshold;
+        ? 0.05
+        : model.activeThreshold;
 
     if (debug) {
       // ignore: avoid_print
@@ -200,14 +206,16 @@ class ToleranceCalculator {
         }
 
         // PK active level.
-        final activeLevel =
-            (halfLife > 0) ? math.exp(-hoursSince / halfLife) : 0.0;
+        final activeLevel = (halfLife > 0)
+            ? math.exp(-hoursSince / halfLife)
+            : 0.0;
 
         // Normalized dose vs the "standard" unit for this drug.
         final doseNorm = log.doseUnits / standardUnit;
 
         // Base contribution before long-term decay.
-        final baseContribution = doseNorm *
+        final baseContribution =
+            doseNorm *
             bucket.weight *
             potency *
             gain *
@@ -222,8 +230,7 @@ class ToleranceCalculator {
           // STILL in active window: tolerance does not decay yet.
           decayFactor = 1.0;
         } else {
-          final hoursPastActive =
-              math.max(0.0, hoursSince - activeWindowHours);
+          final hoursPastActive = math.max(0.0, hoursSince - activeWindowHours);
           final daysPastActive = hoursPastActive / 24.0;
           decayFactor = math.exp(-daysPastActive / decayDays);
         }
@@ -233,12 +240,16 @@ class ToleranceCalculator {
 
         if (debug) {
           // ignore: avoid_print
-          print('       └─ doseNorm: ${doseNorm.toStringAsFixed(3)}, '
-              'baseContribution: ${baseContribution.toStringAsFixed(4)}');
+          print(
+            '       └─ doseNorm: ${doseNorm.toStringAsFixed(3)}, '
+            'baseContribution: ${baseContribution.toStringAsFixed(4)}',
+          );
           // ignore: avoid_print
-          print('       └─ decayFactor: ${decayFactor.toStringAsFixed(4)}, '
-              'eventTolNow: ${eventTolNow.toStringAsFixed(4)}, '
-              'total: ${rawTotal.toStringAsFixed(4)}');
+          print(
+            '       └─ decayFactor: ${decayFactor.toStringAsFixed(4)}, '
+            'eventTolNow: ${eventTolNow.toStringAsFixed(4)}, '
+            'total: ${rawTotal.toStringAsFixed(4)}',
+          );
         }
       }
 
@@ -249,12 +260,14 @@ class ToleranceCalculator {
           final pct = loadToPercent(rawTotal);
           // ignore: avoid_print
           print(
-              '     ✅ FINAL TOLERANCE: ${rawTotal.toStringAsFixed(4)} (${pct.toStringAsFixed(1)}%)');
+            '     ✅ FINAL TOLERANCE: ${rawTotal.toStringAsFixed(4)} (${pct.toStringAsFixed(1)}%)',
+          );
           // ignore: avoid_print
           print('  🎯 Bucket Results:');
           // ignore: avoid_print
           print(
-              '    - $bucketName: ${pct.toStringAsFixed(1)}% (raw: ${rawTotal.toStringAsFixed(4)}, active: ${pct > 0})');
+            '    - $bucketName: ${pct.toStringAsFixed(1)}% (raw: ${rawTotal.toStringAsFixed(4)}, active: ${pct > 0})',
+          );
         }
       } else if (debug) {
         // ignore: avoid_print
@@ -298,10 +311,10 @@ class ToleranceCalculator {
 /// Full tolerance result including additional metrics.
 /// Returned by computeToleranceFull().
 class ToleranceResult {
-  final Map<String, double> bucketPercents;     // 0–100%
-  final Map<String, double> bucketRawLoads;     // raw loads
-  final double toleranceScore;                  // combined score
-  final Map<String, double> daysUntilBaseline;  // per bucket
+  final Map<String, double> bucketPercents; // 0–100%
+  final Map<String, double> bucketRawLoads; // raw loads
+  final double toleranceScore; // combined score
+  final Map<String, double> daysUntilBaseline; // per bucket
   final double overallDaysUntilBaseline;
 
   const ToleranceResult({
@@ -314,7 +327,6 @@ class ToleranceResult {
 }
 
 extension ToleranceCalculatorFull on ToleranceCalculator {
-
   /// Computes:
   /// - per-bucket % tolerance
   /// - raw loads
@@ -362,13 +374,15 @@ extension ToleranceCalculatorFull on ToleranceCalculator {
     /// 2️⃣ Convert loads → percentages
     final bucketPercents = {
       for (final entry in rawLoads.entries)
-        entry.key: ToleranceCalculator.loadToPercent(entry.value)
+        entry.key: ToleranceCalculator.loadToPercent(entry.value),
     };
 
     /// 3️⃣ Compute toleranceScore
     /// This is simply the **max bucket percentage**
-    final toleranceScore =
-        bucketPercents.values.fold<double>(0.0, (a, b) => math.max(a, b));
+    final toleranceScore = bucketPercents.values.fold<double>(
+      0.0,
+      (a, b) => math.max(a, b),
+    );
 
     /// 4️⃣ Estimate daysUntilBaseline for each bucket
     final daysUntilBaseline = <String, double>{};

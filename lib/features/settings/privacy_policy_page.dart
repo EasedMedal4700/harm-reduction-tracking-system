@@ -14,9 +14,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
     final t = context.text;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Privacy Policy"),
-      ),
+      appBar: AppBar(title: const Text("Privacy Policy")),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
@@ -24,16 +22,12 @@ class PrivacyPolicyScreen extends StatelessWidget {
           children: [
             Text(
               "SubstanceCheck Privacy Policy",
-              style: t.heading3.copyWith(
-                fontWeight: text.bodyBold.fontWeight,
-              ),
+              style: t.heading3.copyWith(fontWeight: text.bodyBold.fontWeight),
             ),
             CommonSpacer.vertical(sp.xs),
             Text(
               "Last updated: 28 November 2025",
-              style: t.body.copyWith(
-                color: a.primary,
-              ),
+              style: t.body.copyWith(color: a.primary),
             ),
             CommonSpacer.vertical(sp.lg),
             _section(
@@ -232,9 +226,7 @@ Location: Netherlands / EU
       children: [
         Text(
           title,
-          style: t.heading4.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
-          ),
+          style: t.heading4.copyWith(fontWeight: text.bodyBold.fontWeight),
         ),
         if (body != null) ...[
           CommonSpacer.vertical(sp.xs),
@@ -242,19 +234,16 @@ Location: Netherlands / EU
         ],
         if (bulletPoints != null) ...[
           CommonSpacer.vertical(sp.sm),
-          ...bulletPoints.map((b) => Padding(
-                padding: EdgeInsets.only(bottom: sp.xs),
-                child: Text("• $b", style: t.body),
-              )),
+          ...bulletPoints.map(
+            (b) => Padding(
+              padding: EdgeInsets.only(bottom: sp.xs),
+              child: Text("• $b", style: t.body),
+            ),
+          ),
         ],
         if (note != null) ...[
           CommonSpacer.vertical(sp.sm),
-          Text(
-            note,
-            style: t.caption.copyWith(
-              color: a.primary,
-            ),
-          ),
+          Text(note, style: t.caption.copyWith(color: a.primary)),
         ],
         CommonSpacer.vertical(sp.lg),
       ],

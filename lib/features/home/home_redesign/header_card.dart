@@ -66,8 +66,10 @@ class HeaderCard extends StatelessWidget {
             ),
             child: CircleAvatar(
               radius: sp.lg, // Approx 22-24
-              backgroundColor: acc.primary.withValues(alpha: context.opacities.overlay),
-              backgroundImage: profileImageUrl != null 
+              backgroundColor: acc.primary.withValues(
+                alpha: context.opacities.overlay,
+              ),
+              backgroundImage: profileImageUrl != null
                   ? NetworkImage(profileImageUrl!)
                   : null,
               child: profileImageUrl == null

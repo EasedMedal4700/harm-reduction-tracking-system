@@ -67,37 +67,106 @@ class _CommonDrawerState extends State<CommonDrawer> {
 
     // Section 1: Main Navigation (with feature flag keys)
     final List<Map<String, dynamic>> mainPages = [
-      {'icon': Icons.home, 'title': 'Home', 'builder': AppRoutes.buildHomePage, 'flag': FeatureFlags.homePage},
-      {'icon': Icons.bloodtype, 'title': 'Blood Levels', 'builder': AppRoutes.buildBloodLevelsPage, 'flag': FeatureFlags.bloodLevelsPage},
-      {'icon': Icons.directions_run, 'title': 'Activity', 'builder': AppRoutes.buildActivityPage, 'flag': FeatureFlags.activityPage},
-      {'icon': Icons.local_fire_department, 'title': 'Cravings', 'builder': AppRoutes.buildCravingsPage, 'flag': FeatureFlags.cravingsPage},
-      {'icon': Icons.self_improvement, 'title': 'Reflection', 'builder': AppRoutes.buildReflectionPage, 'flag': FeatureFlags.reflectionPage},
+      {
+        'icon': Icons.home,
+        'title': 'Home',
+        'builder': AppRoutes.buildHomePage,
+        'flag': FeatureFlags.homePage,
+      },
+      {
+        'icon': Icons.bloodtype,
+        'title': 'Blood Levels',
+        'builder': AppRoutes.buildBloodLevelsPage,
+        'flag': FeatureFlags.bloodLevelsPage,
+      },
+      {
+        'icon': Icons.directions_run,
+        'title': 'Activity',
+        'builder': AppRoutes.buildActivityPage,
+        'flag': FeatureFlags.activityPage,
+      },
+      {
+        'icon': Icons.local_fire_department,
+        'title': 'Cravings',
+        'builder': AppRoutes.buildCravingsPage,
+        'flag': FeatureFlags.cravingsPage,
+      },
+      {
+        'icon': Icons.self_improvement,
+        'title': 'Reflection',
+        'builder': AppRoutes.buildReflectionPage,
+        'flag': FeatureFlags.reflectionPage,
+      },
     ];
 
     // Section 2: Data & Resources
     final List<Map<String, dynamic>> dataPages = [
-      {'icon': Icons.menu_book, 'title': 'Library', 'builder': AppRoutes.buildLibraryPage, 'flag': FeatureFlags.personalLibraryPage},
-      {'icon': Icons.analytics, 'title': 'Analytics', 'builder': AppRoutes.buildAnalyticsPage, 'flag': FeatureFlags.analyticsPage},
-      {'icon': Icons.inventory, 'title': 'Catalog', 'builder': AppRoutes.buildCatalogPage, 'flag': FeatureFlags.catalogPage},
+      {
+        'icon': Icons.menu_book,
+        'title': 'Library',
+        'builder': AppRoutes.buildLibraryPage,
+        'flag': FeatureFlags.personalLibraryPage,
+      },
+      {
+        'icon': Icons.analytics,
+        'title': 'Analytics',
+        'builder': AppRoutes.buildAnalyticsPage,
+        'flag': FeatureFlags.analyticsPage,
+      },
+      {
+        'icon': Icons.inventory,
+        'title': 'Catalog',
+        'builder': AppRoutes.buildCatalogPage,
+        'flag': FeatureFlags.catalogPage,
+      },
     ];
 
     // Section 3: Advanced Features
     final List<Map<String, dynamic>> advancedPages = [
-      {'icon': Icons.favorite, 'title': 'Physiological', 'builder': AppRoutes.buildPhysiologicalPage, 'flag': FeatureFlags.physiologicalPage},
-      {'icon': Icons.compare_arrows, 'title': 'Interactions', 'builder': AppRoutes.buildInteractionsPage, 'flag': FeatureFlags.interactionsPage},
-      {'icon': Icons.speed, 'title': 'Tolerance', 'builder': AppRoutes.buildToleranceDashboardPage, 'flag': FeatureFlags.toleranceDashboardPage},
-      {'icon': Icons.watch, 'title': 'WearOS', 'builder': AppRoutes.buildWearOSPage, 'flag': FeatureFlags.wearosPage},
+      {
+        'icon': Icons.favorite,
+        'title': 'Physiological',
+        'builder': AppRoutes.buildPhysiologicalPage,
+        'flag': FeatureFlags.physiologicalPage,
+      },
+      {
+        'icon': Icons.compare_arrows,
+        'title': 'Interactions',
+        'builder': AppRoutes.buildInteractionsPage,
+        'flag': FeatureFlags.interactionsPage,
+      },
+      {
+        'icon': Icons.speed,
+        'title': 'Tolerance',
+        'builder': AppRoutes.buildToleranceDashboardPage,
+        'flag': FeatureFlags.toleranceDashboardPage,
+      },
+      {
+        'icon': Icons.watch,
+        'title': 'WearOS',
+        'builder': AppRoutes.buildWearOSPage,
+        'flag': FeatureFlags.wearosPage,
+      },
     ];
 
     return Consumer<FeatureFlagService>(
       builder: (context, flags, _) {
         // Filter pages based on feature flags
-        final filteredMainPages = mainPages.where((p) => 
-          flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin)).toList();
-        final filteredDataPages = dataPages.where((p) => 
-          flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin)).toList();
-        final filteredAdvancedPages = advancedPages.where((p) => 
-          flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin)).toList();
+        final filteredMainPages = mainPages
+            .where(
+              (p) => flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin),
+            )
+            .toList();
+        final filteredDataPages = dataPages
+            .where(
+              (p) => flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin),
+            )
+            .toList();
+        final filteredAdvancedPages = advancedPages
+            .where(
+              (p) => flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin),
+            )
+            .toList();
 
         return Drawer(
           backgroundColor: c.surface,
@@ -105,7 +174,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
             children: [
               // Modern gradient header
               _buildModernHeader(context),
-              
+
               // Use Expanded so the time stays at the bottom
               Expanded(
                 child: ListView(
@@ -113,73 +182,93 @@ class _CommonDrawerState extends State<CommonDrawer> {
                   children: [
                     // Section 1: Main Navigation
                     if (filteredMainPages.isNotEmpty) ...[
-                      ...filteredMainPages.map((page) => _buildMenuItem(context, page)),
+                      ...filteredMainPages.map(
+                        (page) => _buildMenuItem(context, page),
+                      ),
                       _buildSleekDivider(context),
                     ],
-                    
+
                     // Section 2: Data & Resources
                     if (filteredDataPages.isNotEmpty) ...[
-                      ...filteredDataPages.map((page) => _buildMenuItem(context, page)),
+                      ...filteredDataPages.map(
+                        (page) => _buildMenuItem(context, page),
+                      ),
                       _buildSleekDivider(context),
                     ],
-                    
+
                     // Section 3: Advanced Features
                     if (filteredAdvancedPages.isNotEmpty) ...[
-                      ...filteredAdvancedPages.map((page) => _buildMenuItem(context, page)),
+                      ...filteredAdvancedPages.map(
+                        (page) => _buildMenuItem(context, page),
+                      ),
                       _buildSleekDivider(context),
                     ],
-                    
+
                     // Daily Check-In
-                    if (flags.isEnabled(FeatureFlags.dailyCheckin, isAdmin: _isAdmin))
+                    if (flags.isEnabled(
+                      FeatureFlags.dailyCheckin,
+                      isAdmin: _isAdmin,
+                    ))
                       _buildMenuItem(context, {
                         'icon': Icons.mood,
                         'title': 'Daily Check-In',
-                        'builder': AppRoutes.buildDailyCheckinPage
+                        'builder': AppRoutes.buildDailyCheckinPage,
                       }),
-                    
+
                     // Log Entry
-                    if (flags.isEnabled(FeatureFlags.logEntryPage, isAdmin: _isAdmin))
+                    if (flags.isEnabled(
+                      FeatureFlags.logEntryPage,
+                      isAdmin: _isAdmin,
+                    ))
                       _buildMenuItem(context, {
                         'icon': Icons.note_add,
                         'title': 'Log Entry',
-                        'builder': AppRoutes.buildLogEntryPage
+                        'builder': AppRoutes.buildLogEntryPage,
                       }),
-                    
+
                     // Settings (always visible)
                     _buildMenuItem(context, {
                       'icon': Icons.settings,
                       'title': 'Settings',
-                      'builder': AppRoutes.buildSettingsPage
+                      'builder': AppRoutes.buildSettingsPage,
                     }),
-                    
+
                     // Bug Report (always visible)
                     _buildMenuItem(context, {
                       'icon': Icons.report_problem,
                       'title': 'Report a Bug',
-                      'builder': AppRoutes.buildBugReportPage
+                      'builder': AppRoutes.buildBugReportPage,
                     }),
-                    
+
                     // Admin: Feature Flags (admin only)
-                    if (_isAdmin) 
-                      _buildAdminFeatureFlagsItem(context),
+                    if (_isAdmin) _buildAdminFeatureFlagsItem(context),
                   ],
                 ),
               ),
 
               // Live time at the bottom of the drawer
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 16,
+                ),
                 decoration: BoxDecoration(
                   border: Border(top: BorderSide(color: c.divider)),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(_formatDate(_now), style: text.bodyMedium.copyWith(color: c.textSecondary)),
+                    Text(
+                      _formatDate(_now),
+                      style: text.bodyMedium.copyWith(color: c.textSecondary),
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       _formatTime(_now),
-                      style: text.titleMedium.copyWith(fontWeight: FontWeight.w600, color: c.textPrimary),
+                      style: text.titleMedium.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: c.textPrimary,
+                      ),
                     ),
                   ],
                 ),
@@ -195,11 +284,11 @@ class _CommonDrawerState extends State<CommonDrawer> {
     final c = context.colors;
     final accent = context.accent;
     final text = context.text;
-    
+
     final user = Supabase.instance.client.auth.currentUser;
     final email = user?.email ?? 'Guest';
     final username = email.split('@')[0];
-    
+
     return Container(
       height: 180,
       decoration: BoxDecoration(
@@ -256,11 +345,17 @@ class _CommonDrawerState extends State<CommonDrawer> {
 
     return ListTile(
       leading: Icon(page['icon'], color: c.textSecondary),
-      title: Text(page['title'], style: text.bodyMedium.copyWith(color: c.textPrimary)),
+      title: Text(
+        page['title'],
+        style: text.bodyMedium.copyWith(color: c.textPrimary),
+      ),
       onTap: () async {
         Navigator.pop(context);
         // Navigate and wait for result - triggers refresh on return
-        await Navigator.push(context, MaterialPageRoute(builder: (_) => page['builder']()));
+        await Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => page['builder']()),
+        );
         // Trigger rebuild of current page by popping/pushing context
         if (context.mounted) {
           // This causes the calling page to rebuild
@@ -292,12 +387,9 @@ class _CommonDrawerState extends State<CommonDrawer> {
   Widget _buildAdminFeatureFlagsItem(BuildContext context) {
     final c = context.colors;
     final text = context.text;
-    
+
     return ListTile(
-      leading: Icon(
-        Icons.flag,
-        color: c.warning,
-      ),
+      leading: Icon(Icons.flag, color: c.warning),
       title: Text(
         'Feature Flags',
         style: text.bodyMedium.copyWith(

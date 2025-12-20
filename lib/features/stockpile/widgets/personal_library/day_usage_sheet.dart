@@ -132,9 +132,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                             widget.accentColor.withValues(alpha: 0.7),
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(
-                          t.shapes.radiusMd,
-                        ),
+                        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                       ),
                       child: Icon(
                         Icons.calendar_today,
@@ -177,9 +175,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                   ),
                   decoration: BoxDecoration(
                     color: widget.accentColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(
-                      t.shapes.radiusMd,
-                    ),
+                    borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                     border: Border.all(
                       color: widget.accentColor.withValues(alpha: 0.3),
                     ),
@@ -206,9 +202,7 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
             Flexible(
               child: ListView.builder(
                 shrinkWrap: true,
-                padding: EdgeInsets.symmetric(
-                  horizontal: t.spacing.lg,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: t.spacing.lg),
                 itemCount: displayEntries.length,
                 itemBuilder: (context, index) {
                   final entry = displayEntries[index];
@@ -222,13 +216,11 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                     margin: EdgeInsets.only(bottom: t.spacing.xs),
                     padding: EdgeInsets.all(t.spacing.sm),
                     decoration: BoxDecoration(
-                      color: t.colors.background.withValues(alpha: t.isDark ? 0.5 : 1.0),
-                      borderRadius: BorderRadius.circular(
-                        t.shapes.radiusMd,
+                      color: t.colors.background.withValues(
+                        alpha: t.isDark ? 0.5 : 1.0,
                       ),
-                      border: Border.all(
-                        color: t.colors.border,
-                      ),
+                      borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+                      border: Border.all(color: t.colors.border),
                     ),
                     child: Row(
                       children: [
@@ -236,7 +228,8 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                         SizedBox(
                           width: 60,
                           child: Column(
-                            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+                            crossAxisAlignment:
+                                AppLayout.crossAxisAlignmentStart,
                             children: [
                               Text(
                                 DateFormat('HH:mm').format(startTime),
@@ -258,7 +251,8 @@ class _DayUsageSheetState extends State<DayUsageSheet> {
                         // Details
                         Expanded(
                           child: Column(
-                            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+                            crossAxisAlignment:
+                                AppLayout.crossAxisAlignmentStart,
                             children: [
                               Text(
                                 dose,

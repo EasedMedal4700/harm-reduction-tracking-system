@@ -11,10 +11,7 @@ import '../../../../constants/theme/app_theme_extension.dart';
 class AnalyticsFilterCard extends StatefulWidget {
   final Widget filterContent;
 
-  const AnalyticsFilterCard({
-    super.key,
-    required this.filterContent,
-  });
+  const AnalyticsFilterCard({super.key, required this.filterContent});
 
   @override
   State<AnalyticsFilterCard> createState() => _AnalyticsFilterCardState();
@@ -37,7 +34,10 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
           vsync: this,
         );
         _rotationAnimation = Tween<double>(begin: 0, end: 0.5).animate(
-          CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeInOut,
+          ),
         );
         setState(() {}); // Trigger rebuild if needed
       }
@@ -73,7 +73,9 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
         color: c.surface,
         borderRadius: BorderRadius.circular(sp.md),
         border: Border.all(
-          color: _isExpanded ? acc.primary.withValues(alpha: t.opacities.border) : c.border,
+          color: _isExpanded
+              ? acc.primary.withValues(alpha: t.opacities.border)
+              : c.border,
           width: _isExpanded ? 1.4 : t.borders.thin,
         ),
         boxShadow: _isExpanded ? t.cardShadow : [],
@@ -107,7 +109,10 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                     padding: EdgeInsets.all(sp.md),
                     decoration: BoxDecoration(
                       color: acc.primary.withValues(
-                          alpha: _isExpanded ? t.opacities.selected : t.opacities.overlay),
+                        alpha: _isExpanded
+                            ? t.opacities.selected
+                            : t.opacities.overlay,
+                      ),
                       borderRadius: BorderRadius.circular(sp.sm),
                     ),
                     child: Icon(
@@ -140,9 +145,10 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                                   vertical: sp.xs,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: acc.primary.withValues(alpha: t.opacities.low),
-                                  borderRadius:
-                                      BorderRadius.circular(sp.sm),
+                                  color: acc.primary.withValues(
+                                    alpha: t.opacities.low,
+                                  ),
+                                  borderRadius: BorderRadius.circular(sp.sm),
                                 ),
                                 child: Text(
                                   'ACTIVE',
@@ -152,7 +158,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                                   ),
                                 ),
                               ),
-                            ]
+                            ],
                           ],
                         ),
 
@@ -162,9 +168,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
                           _isExpanded
                               ? 'Refine your analytics data'
                               : 'Tap to customize data visibility',
-                          style: text.caption.copyWith(
-                            color: c.textSecondary,
-                          ),
+                          style: text.caption.copyWith(color: c.textSecondary),
                         ),
                       ],
                     ),

@@ -10,7 +10,6 @@ import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Configuration and builders for the metabolism timeline chart.
 class TimelineChartConfig {
-
   /// Builds the titles/labels for the chart axes
   static FlTitlesData buildTitlesData({
     required BuildContext context,
@@ -64,12 +63,16 @@ class TimelineChartConfig {
 
     // Edge markers
     if (hour == -hoursBack) {
-      return Text('-${hoursBack}h',
-          style: text.caption.copyWith(color: c.textSecondary));
+      return Text(
+        '-${hoursBack}h',
+        style: text.caption.copyWith(color: c.textSecondary),
+      );
     }
     if (hour == hoursForward) {
-      return Text('+${hoursForward}h',
-          style: text.caption.copyWith(color: c.textSecondary));
+      return Text(
+        '+${hoursForward}h',
+        style: text.caption.copyWith(color: c.textSecondary),
+      );
     }
 
     // NOW label
@@ -103,15 +106,14 @@ class TimelineChartConfig {
       show: true,
       drawVerticalLine: false,
       horizontalInterval: maxY / 4,
-      getDrawingHorizontalLine: (value) => FlLine(
-        color: c.border.withValues(alpha: 0.25),
-        strokeWidth: b.thin,
-      ),
+      getDrawingHorizontalLine: (value) =>
+          FlLine(color: c.border.withValues(alpha: 0.25), strokeWidth: b.thin),
     );
   }
 
   /// Builds the “NOW” vertical line
-  static ExtraLinesData buildNowLine(BuildContext context) {    final text = context.text;
+  static ExtraLinesData buildNowLine(BuildContext context) {
+    final text = context.text;
     final acc = context.accent;
     final b = context.borders;
     return ExtraLinesData(
@@ -154,9 +156,7 @@ class TimelineChartConfig {
     }
 
     // Fixed 100% scale
-    return maxValue < 100
-        ? 100
-        : (maxValue * 1.3).clamp(100.0, 200.0);
+    return maxValue < 100 ? 100 : (maxValue * 1.3).clamp(100.0, 200.0);
   }
 
   /// Tooltip builder

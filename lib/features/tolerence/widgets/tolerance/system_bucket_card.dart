@@ -1,13 +1,13 @@
 // System Bucket Card Widget
-// 
+//
 // Created: 2024-11-10
 // Last Modified: 2025-12-14
-// 
+//
 // Purpose:
 // Displays a single neurochemical bucket's tolerance state in a compact card format.
 // Shows tolerance percentage, system state, active status, and provides tap interaction.
 // Used in horizontal scrolling lists to show all bucket states at once.
-// 
+//
 // Features:
 // - Visual state indicators with color-coding
 // - Tolerance percentage display
@@ -31,9 +31,8 @@ import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/theme/app_color_palette.dart';
 import '../../../../common/layout/common_spacer.dart';
 
-
 /// Card widget displaying a single neurochemical bucket's system-wide tolerance
-/// 
+///
 /// Visual compact representation of a bucket's current state including:
 /// - Tolerance percentage
 /// - Color-coded system state
@@ -113,7 +112,9 @@ class SystemBucketCard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(radii.radiusMd),
         border: Border.all(
           color: isSelected ? stateColor : colors.border,
-          width: isSelected ? context.sizes.borderRegular : context.sizes.borderThin,
+          width: isSelected
+              ? context.sizes.borderRegular
+              : context.sizes.borderThin,
         ),
         boxShadow: isSelected ? context.cardShadowHovered : context.cardShadow,
       ),
@@ -126,15 +127,17 @@ class SystemBucketCard extends ConsumerWidget {
             mainAxisSize: AppLayout.mainAxisSizeMin,
             children: [
               // Bucket icon with state color
-              Icon(_getBucketIcon(), size: context.sizes.iconMd, color: stateColor),
+              Icon(
+                _getBucketIcon(),
+                size: context.sizes.iconMd,
+                color: stateColor,
+              ),
               CommonSpacer.vertical(spacing.sm),
 
               // Bucket name
               Text(
                 BucketDefinitions.getDisplayName(bucketType),
-                style: typography.bodyBold.copyWith(
-                  color: colors.textPrimary,
-                ),
+                style: typography.bodyBold.copyWith(color: colors.textPrimary),
                 textAlign: AppLayout.textAlignCenter,
                 maxLines: 2,
                 overflow: AppLayout.textOverflowEllipsis,
@@ -145,9 +148,7 @@ class SystemBucketCard extends ConsumerWidget {
               // Tolerance percentage with state color
               Text(
                 '${tolerancePercent.toStringAsFixed(1)}%',
-                style: typography.heading3.copyWith(
-                  color: stateColor,
-                ),
+                style: typography.heading3.copyWith(color: stateColor),
               ),
 
               CommonSpacer.vertical(spacing.sm),
@@ -168,9 +169,7 @@ class SystemBucketCard extends ConsumerWidget {
                 ),
                 child: Text(
                   state.displayName,
-                  style: typography.captionBold.copyWith(
-                    color: stateColor,
-                  ),
+                  style: typography.captionBold.copyWith(color: stateColor),
                 ),
               ),
 
@@ -202,4 +201,3 @@ class SystemBucketCard extends ConsumerWidget {
     );
   }
 }
-

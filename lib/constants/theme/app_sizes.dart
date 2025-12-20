@@ -20,7 +20,7 @@ class AppSizes {
   final double elevationSm = 2.0;
   final double cardElevation = 4.0;
   final double cardElevationHovered = 8.0;
-  
+
   // Common Heights
   final double heightXs = 48.0;
   final double heightSm = 100.0;
@@ -36,12 +36,12 @@ class AppSizes {
   final double labelWidthSm = 80.0;
   final double labelWidthMd = 110.0;
   final double labelWidthLg = 140.0;
-  
+
   // Border Widths
   final double borderThin = 1.0;
   final double borderRegular = 2.0;
   final double borderThick = 3.0;
-  
+
   // Other Dimensions
   final double letterSpacingSm = 0.5;
   final double letterSpacingMd = 1.0;

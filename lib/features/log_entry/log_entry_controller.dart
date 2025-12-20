@@ -26,13 +26,15 @@ class LogEntryController {
     StockpileRepository? stockpileRepo,
     LogEntryService? logEntryService,
     TimezoneService? timezoneService,
-  })  : _substanceRepo = substanceRepo ?? SubstanceRepository(),
-        _stockpileRepo = stockpileRepo ?? StockpileRepository(),
-        _logEntryService = logEntryService ?? LogEntryService(),
-        _timezoneService = timezoneService ?? TimezoneService();
+  }) : _substanceRepo = substanceRepo ?? SubstanceRepository(),
+       _stockpileRepo = stockpileRepo ?? StockpileRepository(),
+       _logEntryService = logEntryService ?? LogEntryService(),
+       _timezoneService = timezoneService ?? TimezoneService();
 
   /// Load substance details for ROA validation
-  Future<Map<String, dynamic>?> loadSubstanceDetails(String substanceName) async {
+  Future<Map<String, dynamic>?> loadSubstanceDetails(
+    String substanceName,
+  ) async {
     if (substanceName.isEmpty) return null;
     return await _substanceRepo.getSubstanceDetails(substanceName);
   }
@@ -72,7 +74,8 @@ class LogEntryController {
   /// Validate ROA with confirmation for unvalidated routes
   ValidationResult validateROA(LogEntryFormData data) {
     if (!isROAValidated(data.route, data.substanceDetails)) {
-      final substanceName = data.substanceDetails?['pretty_name'] ?? data.substance;
+      final substanceName =
+          data.substanceDetails?['pretty_name'] ?? data.substance;
       return ValidationResult.warning(
         'Unvalidated Route',
         'The route "${data.route}" is not validated for $substanceName. Are you sure you want to continue?',
@@ -94,7 +97,9 @@ class LogEntryController {
 
   /// Validate craving required for non-medical detailed mode
   ValidationResult validateCraving(LogEntryFormData data) {
-    if (!data.isMedicalPurpose && !data.isSimpleMode && data.cravingIntensity < 1) {
+    if (!data.isMedicalPurpose &&
+        !data.isSimpleMode &&
+        data.cravingIntensity < 1) {
       return ValidationResult.warning(
         'No Craving Intensity',
         'Are you sure? Craving intensity is 0 for non-medical use.',
@@ -153,7 +158,9 @@ class LogEntryController {
 
       await _stockpileRepo.subtractFromStockpile(data.substance, doseInMg);
 
-      final updatedStockpile = await _stockpileRepo.getStockpile(data.substance);
+      final updatedStockpile = await _stockpileRepo.getStockpile(
+        data.substance,
+      );
       if (updatedStockpile != null) {
         return 'Entry saved! Stockpile updated: -${doseInMg.toStringAsFixed(1)}mg (${updatedStockpile.currentAmountMg.toStringAsFixed(1)}mg remaining)';
       }
@@ -179,10 +186,7 @@ class ValidationResult {
   });
 
   factory ValidationResult.success() {
-    return const ValidationResult._(
-      isValid: true,
-      needsConfirmation: false,
-    );
+    return const ValidationResult._(isValid: true, needsConfirmation: false);
   }
 
   factory ValidationResult.error(String title, String message) {
@@ -209,10 +213,7 @@ class SaveResult {
   final bool isSuccess;
   final String message;
 
-  const SaveResult._({
-    required this.isSuccess,
-    required this.message,
-  });
+  const SaveResult._({required this.isSuccess, required this.message});
 
   factory SaveResult.success({required String message}) {
     return SaveResult._(isSuccess: true, message: message);

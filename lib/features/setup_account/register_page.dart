@@ -46,9 +46,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   }
 
   Future<void> _checkOnboardingStatus() async {
-    final isOnboardingComplete = await _onboardingService.isOnboardingComplete();
-    final isPrivacyAccepted = await _onboardingService.isPrivacyPolicyAccepted();
-    
+    final isOnboardingComplete = await _onboardingService
+        .isOnboardingComplete();
+    final isPrivacyAccepted = await _onboardingService
+        .isPrivacyPolicyAccepted();
+
     if (mounted) {
       setState(() {
         _onboardingComplete = isOnboardingComplete;
@@ -63,11 +65,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
     setState(() => _isSubmitting = true);
 
-    final result = await ref.read(authServiceProvider).register(
-      email: _emailController.text.trim(),
-      password: _passwordController.text,
-      displayName: _displayNameController.text.trim(),
-    );
+    final result = await ref
+        .read(authServiceProvider)
+        .register(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          displayName: _displayNameController.text.trim(),
+        );
 
     if (!mounted) return;
 
@@ -152,11 +156,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           child: Column(
             mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
-              Icon(
-                Icons.policy,
-                size: context.sizes.icon2xl,
-                color: a.primary,
-              ),
+              Icon(Icons.policy, size: context.sizes.icon2xl, color: a.primary),
               CommonSpacer.vertical(sp.lg),
               Text(
                 'Accept Privacy Policy',
@@ -187,9 +187,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Account'),
-      ),
+      appBar: AppBar(title: const Text('Create Account')),
       body: Padding(
         padding: EdgeInsets.all(sp.md),
         child: Form(

@@ -36,10 +36,7 @@ class TimePeriodSelector extends StatelessWidget {
           onTap: () => onPeriodChanged(period),
           child: AnimatedContainer(
             duration: t.animations.fast,
-            padding: EdgeInsets.symmetric(
-              horizontal: sp.lg,
-              vertical: sp.sm,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.sm),
             decoration: BoxDecoration(
               color: isSelected
                   ? acc.primary.withValues(alpha: t.opacities.low)

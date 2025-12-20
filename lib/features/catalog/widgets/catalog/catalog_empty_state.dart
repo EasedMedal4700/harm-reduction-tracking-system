@@ -23,7 +23,9 @@ class CatalogEmptyState extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(t.spacing.xl),
             decoration: BoxDecoration(
-              color: t.colors.surfaceVariant.withValues(alpha: t.opacities.slow),
+              color: t.colors.surfaceVariant.withValues(
+                alpha: t.opacities.slow,
+              ),
               borderRadius: BorderRadius.circular(t.shapes.radiusLg),
             ),
             child: Icon(
@@ -35,16 +37,12 @@ class CatalogEmptyState extends StatelessWidget {
           const CommonSpacer.vertical(24),
           Text(
             'No substances found',
-            style: t.typography.heading3.copyWith(
-              color: t.colors.textPrimary,
-            ),
+            style: t.typography.heading3.copyWith(color: t.colors.textPrimary),
           ),
           const CommonSpacer.vertical(8),
           Text(
             'Try adjusting your search or filters',
-            style: t.typography.body.copyWith(
-              color: t.colors.textSecondary,
-            ),
+            style: t.typography.body.copyWith(color: t.colors.textSecondary),
           ),
         ],
       ),

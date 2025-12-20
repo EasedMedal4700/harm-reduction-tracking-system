@@ -48,7 +48,8 @@ class CommonChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected
               ? accentColor.withValues(alpha: t.isDark ? 0.15 : 0.1)
-              : (unselectedColor ?? t.colors.surfaceVariant.withValues(alpha: 0.5)),
+              : (unselectedColor ??
+                    t.colors.surfaceVariant.withValues(alpha: 0.5)),
           borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           border: Border.all(
             color: isSelected
@@ -62,7 +63,7 @@ class CommonChip extends StatelessWidget {
                     color: accentColor.withValues(alpha: 0.4),
                     blurRadius: 8,
                     spreadRadius: 1,
-                  )
+                  ),
                 ]
               : null,
         ),

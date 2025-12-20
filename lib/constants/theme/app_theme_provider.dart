@@ -13,8 +13,8 @@ class AppThemeProvider extends InheritedWidget {
   }) : super(child: child);
 
   static AppTheme of(BuildContext context) {
-    final provider =
-        context.dependOnInheritedWidgetOfExactType<AppThemeProvider>();
+    final provider = context
+        .dependOnInheritedWidgetOfExactType<AppThemeProvider>();
 
     if (provider == null) {
       throw FlutterError(

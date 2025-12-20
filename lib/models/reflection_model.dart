@@ -98,7 +98,7 @@ class ReflectionModel {
   factory ReflectionModel.fromJson(Map<String, dynamic> json) {
     try {
       ErrorHandler.logDebug('ReflectionModel', 'Parsing reflection from JSON');
-      
+
       List<String> _toList(dynamic v, String fieldName) {
         try {
           if (v == null) {
@@ -106,14 +106,30 @@ class ReflectionModel {
             return [];
           }
           if (v is List) {
-            ErrorHandler.logDebug('ReflectionModel', '$fieldName is List with ${v.length} items: $v');
-            return v.map((e) => e?.toString() ?? '').where((s) => s.isNotEmpty).toList();
+            ErrorHandler.logDebug(
+              'ReflectionModel',
+              '$fieldName is List with ${v.length} items: $v',
+            );
+            return v
+                .map((e) => e?.toString() ?? '')
+                .where((s) => s.isNotEmpty)
+                .toList();
           }
           if (v is String && v.isNotEmpty) {
-            ErrorHandler.logDebug('ReflectionModel', '$fieldName is String: $v');
-            return v.split(',').map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
+            ErrorHandler.logDebug(
+              'ReflectionModel',
+              '$fieldName is String: $v',
+            );
+            return v
+                .split(',')
+                .map((s) => s.trim())
+                .where((s) => s.isNotEmpty)
+                .toList();
           }
-          ErrorHandler.logWarning('ReflectionModel', '$fieldName has unexpected type: ${v.runtimeType}');
+          ErrorHandler.logWarning(
+            'ReflectionModel',
+            '$fieldName has unexpected type: ${v.runtimeType}',
+          );
           return [];
         } catch (e) {
           ErrorHandler.logError('ReflectionModel._toList($fieldName)', e);
@@ -123,8 +139,14 @@ class ReflectionModel {
 
       double _toDouble(dynamic v, String fieldName) {
         final result = double.tryParse(v?.toString() ?? '') ?? 0.0;
-        if (v != null && result == 0.0 && v.toString() != '0' && v.toString() != '0.0') {
-          ErrorHandler.logWarning('ReflectionModel', 'Failed to parse $fieldName as double: $v');
+        if (v != null &&
+            result == 0.0 &&
+            v.toString() != '0' &&
+            v.toString() != '0.0') {
+          ErrorHandler.logWarning(
+            'ReflectionModel',
+            'Failed to parse $fieldName as double: $v',
+          );
         }
         return result;
       }
@@ -132,7 +154,10 @@ class ReflectionModel {
       DateTime _toDate(dynamic v) {
         final result = DateTime.tryParse(v?.toString() ?? '');
         if (result == null && v != null) {
-          ErrorHandler.logWarning('ReflectionModel', 'Failed to parse date: $v, using current time');
+          ErrorHandler.logWarning(
+            'ReflectionModel',
+            'Failed to parse date: $v, using current time',
+          );
           return DateTime.now();
         }
         return result ?? DateTime.now();
@@ -147,19 +172,28 @@ class ReflectionModel {
 
       // Parse selected reflections with priority fallback
       final selectedReflections = _toList(
-        json['selected_reflections'] ?? json['reflections'] ?? json['related_entries'],
-        'selectedReflections'
+        json['selected_reflections'] ??
+            json['reflections'] ??
+            json['related_entries'],
+        'selectedReflections',
       );
 
-      ErrorHandler.logDebug('ReflectionModel', 'Parsed selectedReflections: $selectedReflections (count: ${selectedReflections.length})');
+      ErrorHandler.logDebug(
+        'ReflectionModel',
+        'Parsed selectedReflections: $selectedReflections (count: ${selectedReflections.length})',
+      );
 
       return ReflectionModel(
         id: json['reflection_id']?.toString() ?? json['id']?.toString(),
         notes: json['notes']?.toString(),
         selectedReflections: selectedReflections,
         date: _toDate(json['date'] ?? json['created_at']),
-        hour: int.tryParse(json['hour']?.toString() ?? '') ?? TimeOfDay.now().hour,
-        minute: int.tryParse(json['minute']?.toString() ?? '') ?? TimeOfDay.now().minute,
+        hour:
+            int.tryParse(json['hour']?.toString() ?? '') ??
+            TimeOfDay.now().hour,
+        minute:
+            int.tryParse(json['minute']?.toString() ?? '') ??
+            TimeOfDay.now().minute,
         effectiveness: _toDouble(json['effectiveness'], 'effectiveness'),
         sleepHours: _toDouble(json['sleep_hours'], 'sleep_hours'),
         sleepQuality: json['sleep_quality']?.toString() ?? '',
@@ -168,8 +202,14 @@ class ReflectionModel {
         sideEffects: json['side_effects']?.toString() ?? '',
         postUseCraving: _toDouble(json['post_use_craving'], 'post_use_craving'),
         copingStrategies: json['coping_strategies']?.toString() ?? '',
-        copingEffectiveness: _toDouble(json['coping_effectiveness'], 'coping_effectiveness'),
-        overallSatisfaction: _toDouble(json['overall_satisfaction'], 'overall_satisfaction'),
+        copingEffectiveness: _toDouble(
+          json['coping_effectiveness'],
+          'coping_effectiveness',
+        ),
+        overallSatisfaction: _toDouble(
+          json['overall_satisfaction'],
+          'overall_satisfaction',
+        ),
       );
     } catch (e, stackTrace) {
       ErrorHandler.logError('ReflectionModel.fromJson', e, stackTrace);
@@ -182,21 +222,21 @@ class ReflectionModel {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'notes': notes,
-        'selected_reflections': selectedReflections,
-        'date': date.toIso8601String(),
-        'hour': hour,
-        'minute': minute,
-        'effectiveness': effectiveness,
-        'sleep_hours': sleepHours,
-        'sleep_quality': sleepQuality,
-        'next_day_mood': nextDayMood,
-        'energy_level': energyLevel,
-        'side_effects': sideEffects,
-        'post_use_craving': postUseCraving,
-        'coping_strategies': copingStrategies,
-        'coping_effectiveness': copingEffectiveness,
-        'overall_satisfaction': overallSatisfaction,
-      };
+    'id': id,
+    'notes': notes,
+    'selected_reflections': selectedReflections,
+    'date': date.toIso8601String(),
+    'hour': hour,
+    'minute': minute,
+    'effectiveness': effectiveness,
+    'sleep_hours': sleepHours,
+    'sleep_quality': sleepQuality,
+    'next_day_mood': nextDayMood,
+    'energy_level': energyLevel,
+    'side_effects': sideEffects,
+    'post_use_craving': postUseCraving,
+    'coping_strategies': copingStrategies,
+    'coping_effectiveness': copingEffectiveness,
+    'overall_satisfaction': overallSatisfaction,
+  };
 }

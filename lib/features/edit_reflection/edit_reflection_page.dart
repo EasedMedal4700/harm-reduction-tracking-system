@@ -37,13 +37,18 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
 
   Future<void> _loadFullEntry() async {
     setState(() => _isLoading = true);
-    
+
     try {
-      final id = widget.entry['reflection_id']?.toString() ?? 
-                 widget.entry['id']?.toString() ?? '';
-      
-      ErrorHandler.logDebug('EditReflectionPage', 'Loading reflection with ID: $id');
-      
+      final id =
+          widget.entry['reflection_id']?.toString() ??
+          widget.entry['id']?.toString() ??
+          '';
+
+      ErrorHandler.logDebug(
+        'EditReflectionPage',
+        'Loading reflection with ID: $id',
+      );
+
       if (id.isEmpty) {
         throw ReflectionFetchException(
           'Missing reflection ID',
@@ -52,13 +57,16 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
       }
 
       final fetched = await ReflectionService().fetchReflectionById(id);
-      
+
       if (fetched == null) {
         throw ReflectionNotFoundException(id);
       }
 
-      ErrorHandler.logDebug('EditReflectionPage', 'Loaded reflection - selectedReflections: ${fetched.selectedReflections}, notes length: ${fetched.notes?.length ?? 0}');
-      
+      ErrorHandler.logDebug(
+        'EditReflectionPage',
+        'Loaded reflection - selectedReflections: ${fetched.selectedReflections}, notes length: ${fetched.notes?.length ?? 0}',
+      );
+
       if (mounted) {
         setState(() => _model = fetched);
       }
@@ -93,11 +101,14 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
 
   Future<void> _saveChanges() async {
     if (_isSaving) return; // Prevent double-save
-    
+
     setState(() => _isSaving = true);
-    
+
     try {
-      ErrorHandler.logDebug('EditReflectionPage', 'Saving changes for reflection: ${_model.id}');
+      ErrorHandler.logDebug(
+        'EditReflectionPage',
+        'Saving changes for reflection: ${_model.id}',
+      );
 
       // Validate the model before saving
       ReflectionValidator.validateReflection(_model);
@@ -117,10 +128,16 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
         'overall_satisfaction': _model.overallSatisfaction.round(),
       };
 
-      ErrorHandler.logDebug('EditReflectionPage', 'Update data prepared with ${reflectionData.keys.length} fields');
+      ErrorHandler.logDebug(
+        'EditReflectionPage',
+        'Update data prepared with ${reflectionData.keys.length} fields',
+      );
 
-      await ReflectionService().updateReflection(_model.id ?? '', reflectionData);
-      
+      await ReflectionService().updateReflection(
+        _model.id ?? '',
+        reflectionData,
+      );
+
       if (mounted) {
         ErrorHandler.showSuccessSnackbar(
           context,
@@ -207,38 +224,45 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
   Widget build(BuildContext context) {
     final c = context.colors;
     final a = context.accent;
-    
+
     return Scaffold(
       backgroundColor: c.background,
-      appBar: ReflectionAppBar(
-        isSaving: _isSaving,
-        onSave: _saveChanges,
-      ),
+      appBar: ReflectionAppBar(isSaving: _isSaving, onSave: _saveChanges),
       drawer: const CommonDrawer(),
-      body: _isLoading 
-          ? Center(child: CircularProgressIndicator(color: a.primary)) 
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator(color: a.primary))
           : EditReflectionForm(
               selectedCount: _model.selectedReflections.length,
               effectiveness: _model.effectiveness,
-              onEffectivenessChanged: (value) => _updateModel(effectiveness: value),
+              onEffectivenessChanged: (value) =>
+                  _updateModel(effectiveness: value),
               sleepHours: _model.sleepHours,
               onSleepHoursChanged: (value) => _updateModel(sleepHours: value),
-              sleepQuality: _model.sleepQuality.isEmpty ? 'Good' : _model.sleepQuality,
-              onSleepQualityChanged: (value) => _updateModel(sleepQuality: value),
+              sleepQuality: _model.sleepQuality.isEmpty
+                  ? 'Good'
+                  : _model.sleepQuality,
+              onSleepQualityChanged: (value) =>
+                  _updateModel(sleepQuality: value),
               nextDayMood: _model.nextDayMood,
               onNextDayMoodChanged: (value) => _updateModel(nextDayMood: value),
-              energyLevel: _model.energyLevel.isEmpty ? 'Neutral' : _model.energyLevel,
+              energyLevel: _model.energyLevel.isEmpty
+                  ? 'Neutral'
+                  : _model.energyLevel,
               onEnergyLevelChanged: (value) => _updateModel(energyLevel: value),
               sideEffects: _model.sideEffects,
               onSideEffectsChanged: (value) => _updateModel(sideEffects: value),
               postUseCraving: _model.postUseCraving,
-              onPostUseCravingChanged: (value) => _updateModel(postUseCraving: value),
+              onPostUseCravingChanged: (value) =>
+                  _updateModel(postUseCraving: value),
               copingStrategies: _model.copingStrategies,
-              onCopingStrategiesChanged: (value) => _updateModel(copingStrategies: value),
+              onCopingStrategiesChanged: (value) =>
+                  _updateModel(copingStrategies: value),
               copingEffectiveness: _model.copingEffectiveness,
-              onCopingEffectivenessChanged: (value) => _updateModel(copingEffectiveness: value),
+              onCopingEffectivenessChanged: (value) =>
+                  _updateModel(copingEffectiveness: value),
               overallSatisfaction: _model.overallSatisfaction,
-              onOverallSatisfactionChanged: (value) => _updateModel(overallSatisfaction: value),
+              onOverallSatisfactionChanged: (value) =>
+                  _updateModel(overallSatisfaction: value),
               notes: _model.notes ?? '',
               onNotesChanged: (value) => _updateModel(notes: value),
               onSave: _saveChanges,

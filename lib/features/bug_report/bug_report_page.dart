@@ -23,7 +23,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _stepsController = TextEditingController();
-  
+
   String _severity = 'Medium';
   String _category = 'General';
   bool _isSubmitting = false;
@@ -54,7 +54,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
 
     try {
       final userId = UserService.getCurrentUserId();
-      
+
       await ErrorReporter.instance.reportError(
         error: Exception(_titleController.text),
         stackTrace: StackTrace.current,
@@ -72,7 +72,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
       );
 
       if (!mounted) return;
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text(' Bug report submitted successfully'),
@@ -84,7 +84,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
       Navigator.pop(context);
     } catch (e) {
       if (!mounted) return;
-      
+
       setState(() => _isSubmitting = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -126,11 +126,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
               ),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.info_outline,
-                    color: c.info,
-                    size: t.sizes.iconMd,
-                  ),
+                  Icon(Icons.info_outline, color: c.info, size: t.sizes.iconMd),
                   SizedBox(width: sp.md),
                   Expanded(
                     child: Text(
@@ -192,4 +188,3 @@ class _BugReportScreenState extends State<BugReportScreen> {
     }
   }
 }
-

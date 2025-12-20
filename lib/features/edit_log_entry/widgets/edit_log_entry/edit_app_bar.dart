@@ -12,7 +12,8 @@ import '../../../../common/layout/common_spacer.dart';
 
 /// Riverpod-ready Edit Log Entry AppBar
 /// Accepts data and callback instead of state
-class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
+class EditLogEntryAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
   final LogEntryFormData formData;
   final VoidCallback onDelete;
   final ValueChanged<bool>? onSimpleModeChanged;
@@ -51,9 +52,7 @@ class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget 
             children: [
               Text(
                 'Simple',
-                style: t.text.body.copyWith(
-                  color: c.textSecondary,
-                ),
+                style: t.text.body.copyWith(color: c.textSecondary),
               ),
               CommonSpacer.horizontal(sp.sm),
               Switch(
@@ -71,4 +70,3 @@ class EditLogEntryAppBar extends StatelessWidget implements PreferredSizeWidget 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-

@@ -58,7 +58,10 @@ class ComplexFields extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: context.borders.medium),
+              borderSide: BorderSide(
+                color: acc.primary,
+                width: context.borders.medium,
+              ),
             ),
             filled: true,
             fillColor: c.surface,
@@ -83,7 +86,10 @@ class ComplexFields extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: context.borders.medium),
+              borderSide: BorderSide(
+                color: acc.primary,
+                width: context.borders.medium,
+              ),
             ),
             filled: true,
             fillColor: c.surface,

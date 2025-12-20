@@ -31,7 +31,7 @@ class CommonSearchField<T extends Object> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    
+
     return Autocomplete<T>(
       optionsBuilder: (TextEditingValue textEditingValue) async {
         if (textEditingValue.text.isEmpty) {
@@ -50,16 +50,10 @@ class CommonSearchField<T extends Object> extends StatelessWidget {
             hintStyle: t.text.body.copyWith(
               color: t.colors.textSecondary.withValues(alpha: 0.5),
             ),
-            prefixIcon: Icon(
-              Icons.search,
-              color: t.colors.textSecondary,
-            ),
+            prefixIcon: Icon(Icons.search, color: t.colors.textSecondary),
             suffixIcon: controller.text.isNotEmpty
                 ? IconButton(
-                    icon: Icon(
-                      Icons.clear,
-                      color: t.colors.textSecondary,
-                    ),
+                    icon: Icon(Icons.clear, color: t.colors.textSecondary),
                     onPressed: () {
                       controller.clear();
                       focusNode.requestFocus();
@@ -68,22 +62,15 @@ class CommonSearchField<T extends Object> extends StatelessWidget {
                 : null,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(
-                color: t.colors.border,
-              ),
+              borderSide: BorderSide(color: t.colors.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(
-                color: t.colors.border,
-              ),
+              borderSide: BorderSide(color: t.colors.border),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(
-                color: t.accent.primary,
-                width: 2,
-              ),
+              borderSide: BorderSide(color: t.accent.primary, width: 2),
             ),
             filled: true,
             fillColor: t.colors.surfaceVariant.withValues(alpha: 0.3),
@@ -104,10 +91,7 @@ class CommonSearchField<T extends Object> extends StatelessWidget {
             borderRadius: BorderRadius.circular(t.shapes.radiusMd),
             color: t.colors.surface,
             child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: 200,
-                maxWidth: 400,
-              ),
+              constraints: const BoxConstraints(maxHeight: 200, maxWidth: 400),
               child: ListView.builder(
                 padding: const EdgeInsets.all(8),
                 shrinkWrap: true,

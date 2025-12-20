@@ -59,11 +59,20 @@ void main() {
     test('filterEntriesByPeriod filters relative to now', () {
       final now = DateTime.now();
       final entries = [
-        buildEntry(substance: 'Recent', dateTime: now.subtract(const Duration(days: 3))),
-        buildEntry(substance: 'Old', dateTime: now.subtract(const Duration(days: 20))),
+        buildEntry(
+          substance: 'Recent',
+          dateTime: now.subtract(const Duration(days: 3)),
+        ),
+        buildEntry(
+          substance: 'Old',
+          dateTime: now.subtract(const Duration(days: 20)),
+        ),
       ];
 
-      final filtered = service.filterEntriesByPeriod(entries, TimePeriod.last7Days);
+      final filtered = service.filterEntriesByPeriod(
+        entries,
+        TimePeriod.last7Days,
+      );
 
       expect(filtered.length, 1);
       expect(filtered.first.substance, 'Recent');

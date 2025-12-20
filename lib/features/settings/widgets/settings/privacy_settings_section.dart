@@ -51,7 +51,9 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
   Future<void> _checkEncryptionStatus() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null) {
-      final hasEncryption = await _encryptionService.hasEncryptionSetup(user.id);
+      final hasEncryption = await _encryptionService.hasEncryptionSetup(
+        user.id,
+      );
       if (mounted) {
         setState(() => _hasEncryption = hasEncryption);
       }
@@ -125,7 +127,9 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
             leading: Icon(Icons.lock_reset, size: t.sizes.iconMd),
             trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
             onTap: () async {
-              final result = await Navigator.of(context).pushNamed('/change-pin');
+              final result = await Navigator.of(
+                context,
+              ).pushNamed('/change-pin');
               if (result == true && mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -154,7 +158,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           value: settings.biometricLock,
           onChanged: widget.settingsProvider.setBiometricLock,
         ),
-        
+
         // PIN Timeout Settings Header
         Padding(
           padding: EdgeInsets.fromLTRB(sp.md, sp.md, sp.md, sp.sm),
@@ -166,82 +170,88 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
             ),
           ),
         ),
-        
+
         // Foreground Timeout
         ListTile(
           title: const Text('PIN Timeout (Active)'),
           subtitle: Text(
-            _isLoading 
-                ? 'Loading...' 
+            _isLoading
+                ? 'Loading...'
                 : 'Require PIN after ${_formatDuration(_foregroundTimeout)} of inactivity',
           ),
           leading: Icon(Icons.timer, size: t.sizes.iconMd),
           trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
-          onTap: _isLoading ? null : () => _showTimeoutPicker(
-            title: 'Active Timeout',
-            subtitle: 'Time before PIN is required when app is in use',
-            currentValue: _foregroundTimeout,
-            minValue: 1,
-            maxValue: 60,
-            presets: [1, 2, 5, 10, 15, 30, 60],
-            onChanged: (value) async {
-              await pinTimeoutService.setForegroundTimeout(value);
-              setState(() => _foregroundTimeout = value);
-            },
-          ),
+          onTap: _isLoading
+              ? null
+              : () => _showTimeoutPicker(
+                  title: 'Active Timeout',
+                  subtitle: 'Time before PIN is required when app is in use',
+                  currentValue: _foregroundTimeout,
+                  minValue: 1,
+                  maxValue: 60,
+                  presets: [1, 2, 5, 10, 15, 30, 60],
+                  onChanged: (value) async {
+                    await pinTimeoutService.setForegroundTimeout(value);
+                    setState(() => _foregroundTimeout = value);
+                  },
+                ),
         ),
-        
+
         // Background Timeout
         ListTile(
           title: const Text('PIN Timeout (Background)'),
           subtitle: Text(
-            _isLoading 
-                ? 'Loading...' 
+            _isLoading
+                ? 'Loading...'
                 : 'Require PIN after ${_formatDuration(_backgroundTimeout)} in background',
           ),
           leading: Icon(Icons.phonelink_lock, size: t.sizes.iconMd),
           trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
-          onTap: _isLoading ? null : () => _showTimeoutPicker(
-            title: 'Background Timeout',
-            subtitle: 'Time in background before PIN is required',
-            currentValue: _backgroundTimeout,
-            minValue: 1,
-            maxValue: 1440,
-            presets: [5, 15, 30, 60, 120, 480, 1440],
-            onChanged: (value) async {
-              await pinTimeoutService.setBackgroundTimeout(value);
-              setState(() => _backgroundTimeout = value);
-            },
-          ),
+          onTap: _isLoading
+              ? null
+              : () => _showTimeoutPicker(
+                  title: 'Background Timeout',
+                  subtitle: 'Time in background before PIN is required',
+                  currentValue: _backgroundTimeout,
+                  minValue: 1,
+                  maxValue: 1440,
+                  presets: [5, 15, 30, 60, 120, 480, 1440],
+                  onChanged: (value) async {
+                    await pinTimeoutService.setBackgroundTimeout(value);
+                    setState(() => _backgroundTimeout = value);
+                  },
+                ),
         ),
-        
+
         // Max Session Duration
         ListTile(
           title: const Text('Max Session Duration'),
           subtitle: Text(
-            _isLoading 
-                ? 'Loading...' 
-                : _maxSessionDuration == 0 
-                    ? 'No limit'
-                    : 'Auto-lock after ${_formatDuration(_maxSessionDuration)}',
+            _isLoading
+                ? 'Loading...'
+                : _maxSessionDuration == 0
+                ? 'No limit'
+                : 'Auto-lock after ${_formatDuration(_maxSessionDuration)}',
           ),
           leading: Icon(Icons.lock_clock, size: t.sizes.iconMd),
           trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
-          onTap: _isLoading ? null : () => _showTimeoutPicker(
-            title: 'Max Session Duration',
-            subtitle: 'Auto-lock after this time regardless of activity',
-            currentValue: _maxSessionDuration,
-            minValue: 0,
-            maxValue: 1440,
-            presets: [0, 60, 120, 240, 480, 720, 1440],
-            allowDisable: true,
-            onChanged: (value) async {
-              await pinTimeoutService.setMaxSessionDuration(value);
-              setState(() => _maxSessionDuration = value);
-            },
-          ),
+          onTap: _isLoading
+              ? null
+              : () => _showTimeoutPicker(
+                  title: 'Max Session Duration',
+                  subtitle: 'Auto-lock after this time regardless of activity',
+                  currentValue: _maxSessionDuration,
+                  minValue: 0,
+                  maxValue: 1440,
+                  presets: [0, 60, 120, 240, 480, 720, 1440],
+                  allowDisable: true,
+                  onChanged: (value) async {
+                    await pinTimeoutService.setMaxSessionDuration(value);
+                    setState(() => _maxSessionDuration = value);
+                  },
+                ),
         ),
-        
+
         Divider(color: c.border),
         CommonSwitchTile(
           title: 'Hide in Recent Apps',
@@ -283,14 +293,16 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 ],
               ),
             );
-            
+
             if (confirm == true && mounted) {
               final onboardingSvc = OnboardingService();
               await onboardingSvc.resetHarmNotices();
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('Harm reduction notices will appear again'),
+                    content: const Text(
+                      'Harm reduction notices will appear again',
+                    ),
                     backgroundColor: c.success,
                   ),
                 );
@@ -301,11 +313,15 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
         Divider(color: c.border),
         Listener(
           behavior: HitTestBehavior.translucent,
-          onPointerDown: (event) => debugPrint('🖱 PointerDown on Privacy Policy tile: $event'),
-          onPointerUp: (event) => debugPrint('🖱 PointerUp on Privacy Policy tile: $event'),
+          onPointerDown: (event) =>
+              debugPrint('🖱 PointerDown on Privacy Policy tile: $event'),
+          onPointerUp: (event) =>
+              debugPrint('🖱 PointerUp on Privacy Policy tile: $event'),
           child: InkWell(
             onTap: () {
-              debugPrint('🔔 Privacy Policy tile tapped - calling _openPrivacyPolicy()');
+              debugPrint(
+                '🔔 Privacy Policy tile tapped - calling _openPrivacyPolicy()',
+              );
               // _openPrivacyPolicy();
               Navigator.of(context).pushNamed('/privacy-policy');
             },
@@ -332,8 +348,6 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
       ],
     );
   }
-
-
 }
 
 /// Dialog for picking timeout duration
@@ -392,7 +406,7 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
     final spacing = context.spacing;
     final text = context.text;
     final c = context.colors;
-    
+
     return AlertDialog(
       title: Text(widget.title),
       content: SingleChildScrollView(

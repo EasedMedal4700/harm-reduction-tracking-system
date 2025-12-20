@@ -1,4 +1,4 @@
-﻿import 'package:flutter/painting.dart';
+import 'package:flutter/painting.dart';
 
 /// Shape and radius constants
 class AppShapeConstants {
@@ -11,10 +11,10 @@ class AppShapeConstants {
   static const double radiusXl = 20.0;
   static const double radius2xl = 24.0;
   static const double radiusFull = 999.0;
-  
+
   static const double buttonRadius = 12.0;
   static const double quickActionRadius = 16.0;
-  
+
   // Alignment constants
   static const Alignment alignmentCenter = Alignment.center;
   static const Alignment alignmentTopLeft = Alignment.topLeft;
@@ -25,7 +25,7 @@ class AppShapeConstants {
   static const Alignment alignmentBottomLeft = Alignment.bottomLeft;
   static const Alignment alignmentBottomCenter = Alignment.bottomCenter;
   static const Alignment alignmentBottomRight = Alignment.bottomRight;
-  
+
   // BoxShape constants
   static const BoxShape boxShapeRectangle = BoxShape.rectangle;
   static const BoxShape boxShapeCircle = BoxShape.circle;
@@ -62,7 +62,7 @@ class AppShapes {
   // Aliases
   double get radiusS => radiusSm;
   double get radiusM => radiusMd;
-  
+
   // Alignment getters
   Alignment get alignmentCenter => AppShapeConstants.alignmentCenter;
   Alignment get alignmentTopLeft => AppShapeConstants.alignmentTopLeft;
@@ -71,12 +71,11 @@ class AppShapes {
   Alignment get alignmentCenterLeft => AppShapeConstants.alignmentCenterLeft;
   Alignment get alignmentCenterRight => AppShapeConstants.alignmentCenterRight;
   Alignment get alignmentBottomLeft => AppShapeConstants.alignmentBottomLeft;
-  Alignment get alignmentBottomCenter => AppShapeConstants.alignmentBottomCenter;
+  Alignment get alignmentBottomCenter =>
+      AppShapeConstants.alignmentBottomCenter;
   Alignment get alignmentBottomRight => AppShapeConstants.alignmentBottomRight;
-  
+
   // BoxShape getters
   BoxShape get boxShapeRectangle => AppShapeConstants.boxShapeRectangle;
   BoxShape get boxShapeCircle => AppShapeConstants.boxShapeCircle;
 }
-
-

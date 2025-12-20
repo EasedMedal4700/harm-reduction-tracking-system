@@ -1,4 +1,3 @@
-
 // MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
@@ -28,24 +27,17 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          Text(
-            "Log Entry",
-            style: t.text.heading2,
-          ),
+          Text("Log Entry", style: t.text.heading2),
           Text(
             "Add a new substance record",
-            style: t.text.bodySmall.copyWith(
-              color: t.colors.textSecondary,
-            ),
+            style: t.text.bodySmall.copyWith(color: t.colors.textSecondary),
           ),
         ],
       ),
 
       actions: [
         Padding(
-          padding: EdgeInsets.only(
-            right: t.spacing.lg,
-          ),
+          padding: EdgeInsets.only(right: t.spacing.lg),
           child: Container(
             padding: EdgeInsets.symmetric(
               horizontal: t.spacing.md,
@@ -54,9 +46,7 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
             decoration: BoxDecoration(
               color: t.colors.surfaceVariant,
               borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              border: Border.all(
-                color: t.colors.border,
-              ),
+              border: Border.all(color: t.colors.border),
             ),
             child: Row(
               children: [

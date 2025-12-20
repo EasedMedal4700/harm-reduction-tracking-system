@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -31,7 +30,10 @@ class BucketHeaderCard extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
 
-    final bucketColor = BucketUtils.getColorForTolerance(context, tolerancePercent / 100);
+    final bucketColor = BucketUtils.getColorForTolerance(
+      context,
+      tolerancePercent / 100,
+    );
     final isActive = tolerancePercent > 0.1;
 
     return CommonCard(
@@ -82,10 +84,7 @@ class BucketHeaderCard extends StatelessWidget {
           // ACTIVE badge (theme-aware)
           if (isActive)
             Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: sp.sm,
-                vertical: sp.xs,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),
               decoration: BoxDecoration(
                 color: c.warning.withValues(alpha: 0.18),
                 borderRadius: BorderRadius.circular(sh.radiusSm),
@@ -103,4 +102,3 @@ class BucketHeaderCard extends StatelessWidget {
     );
   }
 }
-

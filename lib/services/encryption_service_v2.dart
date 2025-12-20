@@ -8,7 +8,7 @@ import 'package:local_auth/local_auth.dart';
 import '../utils/error_handler.dart';
 
 /// Zero-Knowledge Encryption Service with PIN/Biometric unlock
-/// 
+///
 /// Architecture:
 /// 1. User sets 6-digit PIN
 /// 2. PIN → PBKDF2 → masterKey (Kpin)
@@ -16,7 +16,7 @@ import '../utils/error_handler.dart';
 /// 4. dataKey encrypted with Kpin → stored in Supabase
 /// 5. Recovery key also generated for backup access
 /// 6. Biometrics encrypt PIN locally (optional)
-/// 
+///
 /// Zero-knowledge guarantee:
 /// - Server never sees PIN, recoveryKey, or dataKey
 /// - All encryption happens client-side
@@ -29,7 +29,7 @@ class EncryptionServiceV2 {
   SupabaseClient get _client => Supabase.instance.client;
   final _secureStorage = const FlutterSecureStorage();
   final _localAuth = LocalAuthentication();
-  
+
   final AesGcm _aesGcm = AesGcm.with256bits();
 
   SecretKey? _dataKey;
@@ -46,9 +46,9 @@ class EncryptionServiceV2 {
   // ============================================================================
 
   /// Setup new encryption secrets for a user
-  /// 
+  ///
   /// Returns: Recovery key (MUST be shown to user and saved securely)
-  /// 
+  ///
   /// Steps:
   /// 1. Generate random 32-byte dataKey
   /// 2. Generate random recovery key (24 chars hex)
@@ -113,7 +113,7 @@ class EncryptionServiceV2 {
   // ============================================================================
 
   /// Unlock encryption with 6-digit PIN
-  /// 
+  ///
   /// Returns: true if PIN correct, false if wrong
   Future<bool> unlockWithPin(String uuidUserId, String pin) async {
     try {
@@ -145,7 +145,7 @@ class EncryptionServiceV2 {
 
       // Try to decrypt dataKey
       final dataKeyBytes = await _decryptDataKey(kPin, encryptedKey);
-      
+
       if (dataKeyBytes == null) {
         // Wrong PIN (MAC error)
         return false;
@@ -175,7 +175,7 @@ class EncryptionServiceV2 {
   // ============================================================================
 
   /// Unlock encryption with recovery key
-  /// 
+  ///
   /// Returns: true if recovery key correct, false if wrong
   Future<bool> unlockWithRecoveryKey(
     String uuidUserId,
@@ -197,12 +197,9 @@ class EncryptionServiceV2 {
         return false;
       }
 
-      final encryptedKeyRecovery =
-          response['encrypted_key_recovery'] as String;
-      final saltRecovery =
-          base64Decode(response['salt_recovery'] as String);
-      final iterationsRecovery =
-          response['kdf_iterations_recovery'] as int;
+      final encryptedKeyRecovery = response['encrypted_key_recovery'] as String;
+      final saltRecovery = base64Decode(response['salt_recovery'] as String);
+      final iterationsRecovery = response['kdf_iterations_recovery'] as int;
 
       // Derive key from recovery key
       final kRec = await _deriveKey(
@@ -213,7 +210,7 @@ class EncryptionServiceV2 {
 
       // Try to decrypt dataKey
       final dataKeyBytes = await _decryptDataKey(kRec, encryptedKeyRecovery);
-      
+
       if (dataKeyBytes == null) {
         // Wrong recovery key (MAC error)
         return false;
@@ -239,10 +236,10 @@ class EncryptionServiceV2 {
   }
 
   /// Reset PIN using recovery key
-  /// 
+  ///
   /// This validates the recovery key, decrypts the dataKey, then re-encrypts
   /// it with the new PIN. The recovery key remains unchanged.
-  /// 
+  ///
   /// Returns: true if successful, false if recovery key is invalid
   Future<bool> resetPinWithRecoveryKey(
     String uuidUserId,
@@ -270,12 +267,9 @@ class EncryptionServiceV2 {
         return false;
       }
 
-      final encryptedKeyRecovery =
-          response['encrypted_key_recovery'] as String;
-      final saltRecovery =
-          base64Decode(response['salt_recovery'] as String);
-      final iterationsRecovery =
-          response['kdf_iterations_recovery'] as int;
+      final encryptedKeyRecovery = response['encrypted_key_recovery'] as String;
+      final saltRecovery = base64Decode(response['salt_recovery'] as String);
+      final iterationsRecovery = response['kdf_iterations_recovery'] as int;
 
       // Derive key from recovery key
       final kRec = await _deriveKey(
@@ -286,7 +280,7 @@ class EncryptionServiceV2 {
 
       // Try to decrypt dataKey with recovery key
       final dataKeyBytes = await _decryptDataKey(kRec, encryptedKeyRecovery);
-      
+
       if (dataKeyBytes == null) {
         // Wrong recovery key (MAC error)
         ErrorHandler.logWarning(
@@ -297,24 +291,27 @@ class EncryptionServiceV2 {
       }
 
       // Recovery key is valid! Now create new PIN encryption
-      
+
       // Generate new salt for PIN
       final newSalt = _randomBytes(16);
       const iterations = 100000;
-      
+
       // Derive key from new PIN
       final kPin = await _deriveKey(newPin, newSalt, iterations);
-      
+
       // Encrypt dataKey with new PIN
       final newEncryptedKey = await _encryptDataKey(kPin, dataKeyBytes);
-      
+
       // Update database with new PIN encryption (keep recovery unchanged)
-      await _client.from('user_keys').update({
-        'encrypted_key': newEncryptedKey,
-        'salt': base64Encode(newSalt),
-        'kdf_iterations': iterations,
-        'updated_at': DateTime.now().toIso8601String(),
-      }).eq('uuid_user_id', uuidUserId);
+      await _client
+          .from('user_keys')
+          .update({
+            'encrypted_key': newEncryptedKey,
+            'salt': base64Encode(newSalt),
+            'kdf_iterations': iterations,
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('uuid_user_id', uuidUserId);
 
       // Set the dataKey in memory (user is now unlocked)
       _dataKey = SecretKey(dataKeyBytes);
@@ -336,13 +333,13 @@ class EncryptionServiceV2 {
   }
 
   /// Change PIN using old PIN (NOT for first-time setup)
-  /// 
+  ///
   /// This validates the old PIN, decrypts the dataKey, then re-encrypts
   /// it with the new PIN. The recovery key remains unchanged.
-  /// 
+  ///
   /// IMPORTANT: This does NOT regenerate the dataKey or recovery key.
   /// All existing encrypted data remains accessible.
-  /// 
+  ///
   /// Returns: true if successful, false if old PIN is invalid
   Future<bool> changePin(
     String uuidUserId,
@@ -385,7 +382,7 @@ class EncryptionServiceV2 {
 
       // Try to decrypt dataKey with old PIN
       final dataKeyBytes = await _decryptDataKey(kOldPin, encryptedKey);
-      
+
       if (dataKeyBytes == null) {
         // Wrong old PIN (MAC error)
         ErrorHandler.logWarning(
@@ -396,25 +393,28 @@ class EncryptionServiceV2 {
       }
 
       // Old PIN is valid! Now create new PIN encryption
-      
+
       // Generate new salt for new PIN
       final newSalt = _randomBytes(16);
       const newIterations = 100000;
-      
+
       // Derive key from new PIN
       final kNewPin = await _deriveKey(newPin, newSalt, newIterations);
-      
+
       // Re-encrypt the SAME dataKey with new PIN
       final newEncryptedKey = await _encryptDataKey(kNewPin, dataKeyBytes);
-      
+
       // Update database with new PIN encryption
       // Recovery key and encrypted_key_recovery remain unchanged!
-      await _client.from('user_keys').update({
-        'encrypted_key': newEncryptedKey,
-        'salt': base64Encode(newSalt),
-        'kdf_iterations': newIterations,
-        'updated_at': DateTime.now().toIso8601String(),
-      }).eq('uuid_user_id', uuidUserId);
+      await _client
+          .from('user_keys')
+          .update({
+            'encrypted_key': newEncryptedKey,
+            'salt': base64Encode(newSalt),
+            'kdf_iterations': newIterations,
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('uuid_user_id', uuidUserId);
 
       // Set the dataKey in memory (user remains unlocked)
       _dataKey = SecretKey(dataKeyBytes);
@@ -476,7 +476,7 @@ class EncryptionServiceV2 {
 
       // Generate random key for encrypting PIN
       final keystoreKey = SecretKey(_randomBytes(32));
-      
+
       // Encrypt PIN with keystoreKey
       final nonce = _aesGcm.newNonce();
       final secretBox = await _aesGcm.encrypt(
@@ -497,10 +497,7 @@ class EncryptionServiceV2 {
         key: _keyEncryptedPin,
         value: jsonEncode(encryptedData),
       );
-      await _secureStorage.write(
-        key: _keyBiometricsEnabled,
-        value: 'true',
-      );
+      await _secureStorage.write(key: _keyBiometricsEnabled, value: 'true');
 
       ErrorHandler.logInfo(
         'EncryptionServiceV2',
@@ -551,15 +548,15 @@ class EncryptionServiceV2 {
       }
 
       // Read encrypted PIN
-      final encryptedPinJson =
-          await _secureStorage.read(key: _keyEncryptedPin);
+      final encryptedPinJson = await _secureStorage.read(key: _keyEncryptedPin);
       if (encryptedPinJson == null) {
         return false;
       }
 
       final encryptedData = jsonDecode(encryptedPinJson);
-      final keystoreKeyBytes =
-          base64Decode(encryptedData['keystore_key'] as String);
+      final keystoreKeyBytes = base64Decode(
+        encryptedData['keystore_key'] as String,
+      );
       final keystoreKey = SecretKey(keystoreKeyBytes);
 
       // Decrypt PIN

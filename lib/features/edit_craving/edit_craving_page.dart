@@ -267,10 +267,7 @@ class _EditCravingPageState extends State<EditCravingPage> {
 
     return Scaffold(
       backgroundColor: c.background,
-      appBar: CravingAppBar(
-        isSaving: _isSaving,
-        onSave: _saveChanges,
-      ),
+      appBar: CravingAppBar(isSaving: _isSaving, onSave: _saveChanges),
       drawer: const CommonDrawer(),
       body: _isLoading
           ? Center(child: CircularProgressIndicator(color: a.primary))

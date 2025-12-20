@@ -32,7 +32,8 @@ class CommonFormCard extends StatelessWidget {
     final effectiveAccentColor = accentColor ?? t.accent.primary;
 
     return Container(
-      margin: margin ??
+      margin:
+          margin ??
           EdgeInsets.only(
             bottom: t.spacing.lg,
             left: t.spacing.lg,
@@ -62,10 +63,7 @@ class CommonFormCard extends StatelessWidget {
               padding: EdgeInsets.all(t.spacing.lg),
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(
-                    color: t.colors.border,
-                    width: 1,
-                  ),
+                  bottom: BorderSide(color: t.colors.border, width: 1),
                 ),
               ),
               child: Row(
@@ -77,11 +75,7 @@ class CommonFormCard extends StatelessWidget {
                         color: effectiveAccentColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                       ),
-                      child: Icon(
-                        icon,
-                        size: 20,
-                        color: effectiveAccentColor,
-                      ),
+                      child: Icon(icon, size: 20, color: effectiveAccentColor),
                     ),
                     SizedBox(width: t.spacing.md),
                   ],

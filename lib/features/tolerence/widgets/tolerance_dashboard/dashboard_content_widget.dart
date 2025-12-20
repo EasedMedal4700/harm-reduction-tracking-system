@@ -37,9 +37,9 @@ class DashboardContentWidget extends ConsumerWidget {
     final spacing = context.spacing;
 
     // EMPTY STATE
-    if (systemTolerance == null || 
-        (systemTolerance!.bucketPercents.isEmpty && 
-         substanceActiveStates.isEmpty)) {
+    if (systemTolerance == null ||
+        (systemTolerance!.bucketPercents.isEmpty &&
+            substanceActiveStates.isEmpty)) {
       return EmptyStateWidget(onAddEntry: onAddEntry);
     }
 
@@ -63,8 +63,10 @@ class DashboardContentWidget extends ConsumerWidget {
           if (selectedBucket != null) ...[
             BucketDetailsWidget(
               bucketType: selectedBucket!,
-              tolerancePercent: systemTolerance?.bucketPercents[selectedBucket!] ?? 0.0,
-              substanceContributions: substanceContributions[selectedBucket!] ?? {},
+              tolerancePercent:
+                  systemTolerance?.bucketPercents[selectedBucket!] ?? 0.0,
+              substanceContributions:
+                  substanceContributions[selectedBucket!] ?? {},
               onClose: () => onBucketSelected(null),
             ),
             CommonSpacer.vertical(spacing.lg),

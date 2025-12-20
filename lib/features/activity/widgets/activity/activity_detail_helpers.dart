@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -35,8 +34,14 @@ class ActivityDetailHelpers {
         accentColor: t.accent.primary,
         details: [
           DetailItem(label: 'Dose', value: entry['dose'] ?? 'Unknown'),
-          DetailItem(label: 'Route', value: entry['consumption'] ?? 'Not specified'),
-          DetailItem(label: 'Location', value: entry['place'] ?? 'Not specified'),
+          DetailItem(
+            label: 'Route',
+            value: entry['consumption'] ?? 'Not specified',
+          ),
+          DetailItem(
+            label: 'Location',
+            value: entry['place'] ?? 'Not specified',
+          ),
           DetailItem(
             label: 'Time',
             value: ActivityHelpers.formatDetailTimestamp(
@@ -52,9 +57,7 @@ class ActivityDetailHelpers {
           Navigator.pop(context);
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (_) => EditDrugUsePage(entry: entry),
-            ),
+            MaterialPageRoute(builder: (_) => EditDrugUsePage(entry: entry)),
           ).then((_) => onUpdate());
         },
         onDelete: () => onDelete(
@@ -87,7 +90,8 @@ class ActivityDetailHelpers {
           details: [
             DetailItem(
               label: 'Intensity',
-              value: '${ActivityHelpers.getIntensityLabel(intensity)} (Level $intensity)',
+              value:
+                  '${ActivityHelpers.getIntensityLabel(intensity)} (Level $intensity)',
             ),
             DetailItem(
               label: 'Trigger',
@@ -99,7 +103,8 @@ class ActivityDetailHelpers {
                 craving['time'] ?? craving['created_at'],
               ),
             ),
-            if (craving['notes'] != null && craving['notes'].toString().isNotEmpty)
+            if (craving['notes'] != null &&
+                craving['notes'].toString().isNotEmpty)
               DetailItem(label: 'Notes', value: craving['notes']),
           ],
           onEdit: () {
@@ -112,7 +117,9 @@ class ActivityDetailHelpers {
             ).then((_) => onUpdate());
           },
           onDelete: () => onDelete(
-            craving['craving_id']?.toString() ?? craving['id']?.toString() ?? '',
+            craving['craving_id']?.toString() ??
+                craving['id']?.toString() ??
+                '',
             'craving',
             'cravings',
           ),
@@ -128,7 +135,6 @@ class ActivityDetailHelpers {
     required Function(String, String, String) onDelete,
     required VoidCallback onUpdate,
   }) {
-
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -144,7 +150,8 @@ class ActivityDetailHelpers {
               reflection['created_at'] ?? reflection['time'],
             ),
           ),
-          if (reflection['notes'] != null && reflection['notes'].toString().isNotEmpty)
+          if (reflection['notes'] != null &&
+              reflection['notes'].toString().isNotEmpty)
             DetailItem(label: 'Notes', value: reflection['notes']),
         ],
         onEdit: () {

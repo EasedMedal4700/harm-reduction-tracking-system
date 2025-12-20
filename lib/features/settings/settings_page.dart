@@ -51,7 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             icon: const Icon(Icons.restore),
             tooltip: 'Reset to defaults',
             onPressed: () => SettingsDialogs.showResetDialog(
-              context, 
+              context,
               context.read<SettingsProvider>(),
             ),
           ),
@@ -70,28 +70,52 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               UISettingsSection(
                 settingsProvider: settingsProvider,
-                onLanguageTap: () => SettingsDialogs.showLanguagePicker(context, settingsProvider),
+                onLanguageTap: () => SettingsDialogs.showLanguagePicker(
+                  context,
+                  settingsProvider,
+                ),
               ),
               NotificationSettingsSection(
                 settingsProvider: settingsProvider,
-                onReminderTimeTap: () => SettingsDialogs.showTimePickerDialog(context, settingsProvider, settings.checkinReminderTime),
+                onReminderTimeTap: () => SettingsDialogs.showTimePickerDialog(
+                  context,
+                  settingsProvider,
+                  settings.checkinReminderTime,
+                ),
               ),
               PrivacySettingsSection(
                 settingsProvider: settingsProvider,
-                onAutoLockTap: () => SettingsDialogs.showAutoLockPicker(context, settingsProvider),
+                onAutoLockTap: () => SettingsDialogs.showAutoLockPicker(
+                  context,
+                  settingsProvider,
+                ),
               ),
               DataSyncSettingsSection(
                 settingsProvider: settingsProvider,
-                onBackupFrequencyTap: () => SettingsDialogs.showBackupFrequencyPicker(context, settingsProvider),
-                onCacheDurationTap: () => SettingsDialogs.showCacheDurationPicker(context, settingsProvider),
+                onBackupFrequencyTap: () =>
+                    SettingsDialogs.showBackupFrequencyPicker(
+                      context,
+                      settingsProvider,
+                    ),
+                onCacheDurationTap: () =>
+                    SettingsDialogs.showCacheDurationPicker(
+                      context,
+                      settingsProvider,
+                    ),
               ),
               EntryPreferencesSection(
                 settingsProvider: settingsProvider,
-                onDoseUnitTap: () => SettingsDialogs.showDoseUnitPicker(context, settingsProvider),
+                onDoseUnitTap: () => SettingsDialogs.showDoseUnitPicker(
+                  context,
+                  settingsProvider,
+                ),
               ),
               DisplaySettingsSection(
                 settingsProvider: settingsProvider,
-                onDateFormatTap: () => SettingsDialogs.showDateFormatPicker(context, settingsProvider),
+                onDateFormatTap: () => SettingsDialogs.showDateFormatPicker(
+                  context,
+                  settingsProvider,
+                ),
               ),
               const AccountManagementSection(),
               AboutSection(packageInfo: _packageInfo),

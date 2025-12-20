@@ -20,10 +20,7 @@ class AnalyticsLoadingState extends StatelessWidget {
     return Center(
       child: Padding(
         padding: EdgeInsets.all(sp.xl),
-        child: CommonLoader(
-          size: context.sizes.iconXl,
-          color: acc.primary,
-        ),
+        child: CommonLoader(size: context.sizes.iconXl, color: acc.primary),
       ),
     );
   }

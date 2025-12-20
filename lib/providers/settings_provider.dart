@@ -35,9 +35,7 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   /// Update a specific setting
-  Future<void> updateSetting(
-    AppSettings Function(AppSettings) updater,
-  ) async {
+  Future<void> updateSetting(AppSettings Function(AppSettings) updater) async {
     final newSettings = updater(_settings);
     await updateSettings(newSettings);
   }

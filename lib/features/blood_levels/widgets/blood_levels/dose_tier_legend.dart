@@ -26,7 +26,7 @@ class DoseTierLegend extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
     final text = context.text;
-    final acc = context.accent;        // <-- NEW
+    final acc = context.accent; // <-- NEW
 
     return CommonCard(
       child: Column(
@@ -40,8 +40,7 @@ class DoseTierLegend extends StatelessWidget {
             final tiers = entry.value;
 
             // Substance color fallback uses accent.primary
-            final substanceColor =
-                substanceColors[substance] ?? acc.primary;
+            final substanceColor = substanceColors[substance] ?? acc.primary;
 
             return Padding(
               padding: EdgeInsets.only(bottom: sp.md),
@@ -83,10 +82,14 @@ class DoseTierLegend extends StatelessWidget {
                           vertical: sp.xs,
                         ),
                         decoration: BoxDecoration(
-                          color: tierColor.withValues(alpha: context.opacities.low),
+                          color: tierColor.withValues(
+                            alpha: context.opacities.low,
+                          ),
                           borderRadius: BorderRadius.circular(sh.radiusSm),
                           border: Border.all(
-                            color: tierColor.withValues(alpha: context.opacities.border),
+                            color: tierColor.withValues(
+                              alpha: context.opacities.border,
+                            ),
                             width: context.borders.thin,
                           ),
                         ),

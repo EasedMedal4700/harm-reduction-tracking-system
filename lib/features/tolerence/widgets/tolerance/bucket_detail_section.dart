@@ -1,5 +1,5 @@
 // Bucket Detail Section Widget
-// 
+//
 // Displays comprehensive details for a selected neurochemical bucket including system
 // tolerance percentage, state indicators, bucket description, and list of contributing
 // substances. Provides tap interaction to view individual substance details.
@@ -19,9 +19,8 @@ import '../../../../constants/theme/app_color_palette.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
-
 /// Detailed view for a selected neurochemical bucket
-/// 
+///
 /// Shows bucket-level tolerance information and breaks down contributions
 /// from individual substances affecting this neurochemical system.
 class BucketDetailSection extends ConsumerWidget {
@@ -73,7 +72,7 @@ class BucketDetailSection extends ConsumerWidget {
     final spacing = context.spacing;
     final typography = context.text;
     final radii = context.shapes;
-    
+
     // Get color based on current system state
     final stateColor = _getStateColor(state, colors);
 
@@ -83,7 +82,10 @@ class BucketDetailSection extends ConsumerWidget {
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: BorderRadius.circular(radii.radiusMd),
-        border: Border.all(color: colors.border, width: context.sizes.borderThin),
+        border: Border.all(
+          color: colors.border,
+          width: context.sizes.borderThin,
+        ),
         boxShadow: context.cardShadow,
       ),
       child: Column(
@@ -92,7 +94,11 @@ class BucketDetailSection extends ConsumerWidget {
           // HEADER with bucket name and tolerance percentage
           Row(
             children: [
-              Icon(Icons.analytics_outlined, color: stateColor, size: context.sizes.iconMd),
+              Icon(
+                Icons.analytics_outlined,
+                color: stateColor,
+                size: context.sizes.iconMd,
+              ),
               CommonSpacer.horizontal(spacing.sm),
               Expanded(
                 child: Text(
@@ -135,10 +141,7 @@ class BucketDetailSection extends ConsumerWidget {
           CommonSpacer.vertical(spacing.md),
 
           // SUBSTANCES SECTION HEADER
-          Text(
-            'Contributing Substances',
-            style: typography.heading4,
-          ),
+          Text('Contributing Substances', style: typography.heading4),
           CommonSpacer.vertical(spacing.sm),
 
           // EMPTY STATE when no substances contribute to this bucket
@@ -152,7 +155,6 @@ class BucketDetailSection extends ConsumerWidget {
                 ),
               ),
             )
-
           // LIST OF SUBSTANCES
           else
             ...substanceContributions.entries.map((entry) {
@@ -170,7 +172,9 @@ class BucketDetailSection extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(radii.radiusSm),
                   border: Border.all(
                     color: isSelected ? context.accent.primary : colors.border,
-                    width: isSelected ? context.sizes.borderRegular : context.sizes.borderThin,
+                    width: isSelected
+                        ? context.sizes.borderRegular
+                        : context.sizes.borderThin,
                   ),
                 ),
                 child: InkWell(
@@ -183,7 +187,8 @@ class BucketDetailSection extends ConsumerWidget {
                         // SUBSTANCE NAME + TEXT
                         Expanded(
                           child: Column(
-                            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+                            crossAxisAlignment:
+                                AppLayout.crossAxisAlignmentStart,
                             children: [
                               // Substance name
                               Text(substanceName, style: typography.bodyBold),
@@ -224,8 +229,12 @@ class BucketDetailSection extends ConsumerWidget {
                               vertical: spacing.xs / 2,
                             ),
                             decoration: BoxDecoration(
-                              color: context.accent.secondary.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(radii.radiusSm),
+                              color: context.accent.secondary.withValues(
+                                alpha: 0.2,
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                radii.radiusSm,
+                              ),
                             ),
                             child: Text(
                               'ACTIVE',
@@ -239,7 +248,11 @@ class BucketDetailSection extends ConsumerWidget {
 
                         CommonSpacer.horizontal(spacing.sm),
                         // Chevron indicating tappable item
-                        Icon(Icons.chevron_right, color: colors.textSecondary, size: context.sizes.iconMd),
+                        Icon(
+                          Icons.chevron_right,
+                          color: colors.textSecondary,
+                          size: context.sizes.iconMd,
+                        ),
                       ],
                     ),
                   ),
@@ -251,4 +264,3 @@ class BucketDetailSection extends ConsumerWidget {
     );
   }
 }
-

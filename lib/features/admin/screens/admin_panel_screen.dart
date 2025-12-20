@@ -125,7 +125,10 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         error: e,
         stackTrace: stackTrace,
         screenName: 'AdminPanelScreen',
-        extraData: {'context': 'toggle_admin', 'target_auth_user_id': authUserId},
+        extraData: {
+          'context': 'toggle_admin',
+          'target_auth_user_id': authUserId,
+        },
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -221,14 +224,16 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       // Clear drug-related cache to force fresh fetch from database
       _cacheService.removePattern('drug_profiles');
       _cacheService.removePattern('drug_use');
-      
+
       if (mounted) {
         setState(() {
           _cacheStats = _cacheService.getStats();
         });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('✓ Cache refreshed - data will reload from database'),
+            content: const Text(
+              '✓ Cache refreshed - data will reload from database',
+            ),
             backgroundColor: context.theme.colors.success,
             duration: context.animations.toast,
           ),
@@ -254,10 +259,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
 
     return Scaffold(
       backgroundColor: c.background,
-      appBar: AdminAppBar(
-        isLoading: _isLoading,
-        onRefresh: _loadData,
-      ),
+      appBar: AdminAppBar(isLoading: _isLoading, onRefresh: _loadData),
       drawer: const CommonDrawer(),
       body: _isLoading
           ? const CommonLoader()

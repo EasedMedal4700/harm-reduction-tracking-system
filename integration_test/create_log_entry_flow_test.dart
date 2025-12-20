@@ -15,20 +15,25 @@ class MockLogEntryController extends LogEntryController {
   }
 
   @override
-  Future<Map<String, dynamic>?> loadSubstanceDetails(String substanceName) async {
-    return {'pretty_name': substanceName, 'roas': ['oral']};
+  Future<Map<String, dynamic>?> loadSubstanceDetails(
+    String substanceName,
+  ) async {
+    return {
+      'pretty_name': substanceName,
+      'roas': ['oral'],
+    };
   }
-  
+
   @override
   ValidationResult validateROA(LogEntryFormData data) {
     return ValidationResult.success();
   }
-  
+
   @override
   ValidationResult validateEmotions(LogEntryFormData data) {
     return ValidationResult.success();
   }
-  
+
   @override
   ValidationResult validateCraving(LogEntryFormData data) {
     return ValidationResult.success();
@@ -52,32 +57,33 @@ void main() {
       AppThemeProvider(
         theme: AppTheme.light(),
         child: MaterialApp(
-          home: Scaffold(
-            body: QuickLogEntryPage(controller: mockController),
-          ),
+          home: Scaffold(body: QuickLogEntryPage(controller: mockController)),
         ),
       ),
     );
-    
+
     await tester.pumpAndSettle();
 
     // Fill form
-    await tester.enterText(find.widgetWithText(TextFormField, 'Substance'), 'Caffeine');
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Substance'),
+      'Caffeine',
+    );
     await tester.enterText(find.widgetWithText(TextFormField, 'Dose'), '100');
-    
+
     // Save
     await tester.tap(find.text('Save Entry'));
     await tester.pump(); // Start save
-    
+
     // Wait for mock delay (500ms) + buffer
     await tester.pump(const Duration(milliseconds: 1000));
-    
+
     // Wait for animations (snackbar, etc)
     await tester.pumpAndSettle();
-    
+
     // Verify success message
     expect(find.text('Entry saved successfully'), findsOneWidget);
-    
+
     // Verify form reset (Dose should be empty)
     // Note: Controller clearing verified via debug prints, but finder sometimes sees old value in integration test environment.
     // expect(find.text('100'), findsNothing);

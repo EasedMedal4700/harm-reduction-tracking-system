@@ -25,7 +25,9 @@ class DrugProfileService {
   // ---------------------------------------------------------------------------
   // ⭐ HIGH-ACCURACY FUZZY SEARCH (RECOMMENDED)
   // ---------------------------------------------------------------------------
-  Future<List<DrugSearchResult>> searchDrugNamesWithAliases(String query) async {
+  Future<List<DrugSearchResult>> searchDrugNamesWithAliases(
+    String query,
+  ) async {
     final q = query.trim().toLowerCase();
     if (q.isEmpty) return [];
 
@@ -57,14 +59,16 @@ class DrugProfileService {
         // canonical scoring
         final canonicalScore = _scoreFuzzyMatch(q, canonical.toLowerCase());
         if (canonicalScore > 0) {
-          scored.add(_ScoredResult(
-            DrugSearchResult(
-              displayName: canonical,
-              canonicalName: canonical,
-              isAlias: false,
+          scored.add(
+            _ScoredResult(
+              DrugSearchResult(
+                displayName: canonical,
+                canonicalName: canonical,
+                isAlias: false,
+              ),
+              canonicalScore,
             ),
-            canonicalScore,
-          ));
+          );
         }
 
         // alias scoring
@@ -74,14 +78,16 @@ class DrugProfileService {
 
           final aliasScore = _scoreFuzzyMatch(q, aliasLower);
           if (aliasScore > 0) {
-            scored.add(_ScoredResult(
-              DrugSearchResult(
-                displayName: '$alias → $canonical',
-                canonicalName: canonical,
-                isAlias: true,
+            scored.add(
+              _ScoredResult(
+                DrugSearchResult(
+                  displayName: '$alias → $canonical',
+                  canonicalName: canonical,
+                  isAlias: true,
+                ),
+                aliasScore + 0.5, // alias boost
               ),
-              aliasScore + 0.5, // alias boost
-            ));
+            );
           }
         }
       }
@@ -197,10 +203,7 @@ int _damerauLevenshtein(String a, String b) {
         matrix[i - 1][j - 1] + cost,
       );
 
-      if (i > 1 &&
-          j > 1 &&
-          a[i - 1] == b[j - 2] &&
-          a[i - 2] == b[j - 1]) {
+      if (i > 1 && j > 1 && a[i - 1] == b[j - 2] && a[i - 2] == b[j - 1]) {
         matrix[i][j] = min(matrix[i][j], matrix[i - 2][j - 2] + cost);
       }
     }

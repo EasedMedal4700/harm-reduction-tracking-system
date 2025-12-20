@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -7,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+
 /// Action button for cache management operations
 class CacheActionButton extends StatelessWidget {
   final String label;
@@ -37,20 +37,14 @@ class CacheActionButton extends StatelessWidget {
         color: color, // stays as user accent color
       ),
 
-      label: Text(
-        label,
-        style: text.button.copyWith(color: color),
-      ),
+      label: Text(label, style: text.button.copyWith(color: color)),
 
       style: ElevatedButton.styleFrom(
         backgroundColor: color.withValues(alpha: context.opacities.veryLow),
         foregroundColor: color,
         shadowColor: c.overlayHeavy,
         elevation: context.sizes.elevationNone,
-        padding: EdgeInsets.symmetric(
-          horizontal: sp.lg,
-          vertical: sp.md,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.md),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(sp.sm),
           side: BorderSide(

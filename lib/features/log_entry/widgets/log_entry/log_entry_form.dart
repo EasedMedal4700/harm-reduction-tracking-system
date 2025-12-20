@@ -19,7 +19,7 @@ import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 class LogEntryForm extends StatelessWidget {
   final GlobalKey<FormState>? formKey;
   final bool isSimpleMode;
-  
+
   // Data
   final double? dose;
   final String? unit;
@@ -59,7 +59,7 @@ class LogEntryForm extends StatelessWidget {
   final ValueChanged<List<String>>? onTriggersChanged;
   final ValueChanged<List<String>>? onBodySignalsChanged;
   final VoidCallback? onSave;
-  
+
   final bool showSaveButton;
 
   const LogEntryForm({
@@ -117,7 +117,7 @@ class LogEntryForm extends StatelessWidget {
       final lower = raw.toLowerCase();
       return routeOptions.contains(lower) ? lower : 'oral';
     }();
-    
+
     return Form(
       key: formKey,
       child: Column(
@@ -167,7 +167,8 @@ class LogEntryForm extends StatelessWidget {
           CommonDropdown<String>(
             value: normalizedRoute,
             items: routeOptions,
-            itemLabel: (v) => v.isEmpty ? v : '${v[0].toUpperCase()}${v.substring(1)}',
+            itemLabel: (v) =>
+                v.isEmpty ? v : '${v[0].toUpperCase()}${v.substring(1)}',
             onChanged: (v) {
               if (v != null && onRouteChanged != null) {
                 onRouteChanged!(v);
@@ -243,7 +244,9 @@ class LogEntryForm extends StatelessWidget {
             // Emotions
             EmotionSelector(
               selectedEmotions: feelings ?? [],
-              availableEmotions: DrugUseCatalog.primaryEmotions.map((e) => e['name']!).toList(),
+              availableEmotions: DrugUseCatalog.primaryEmotions
+                  .map((e) => e['name']!)
+                  .toList(),
               onEmotionToggled: (emotion) {
                 if (onFeelingsChanged != null) {
                   final current = List<String>.from(feelings ?? []);
@@ -292,10 +295,7 @@ class LogEntryForm extends StatelessWidget {
           CommonSpacer.vertical(sp.lg),
 
           if (showSaveButton && onSave != null)
-            CommonPrimaryButton(
-              onPressed: onSave!,
-              label: 'Save Entry',
-            ),
+            CommonPrimaryButton(onPressed: onSave!, label: 'Save Entry'),
         ],
       ),
     );
@@ -303,8 +303,11 @@ class LogEntryForm extends StatelessWidget {
 
   Widget _buildTimeSelector(BuildContext context) {
     final t = context.theme;
-    final time = TimeOfDay(hour: hour ?? TimeOfDay.now().hour, minute: minute ?? TimeOfDay.now().minute);
-    
+    final time = TimeOfDay(
+      hour: hour ?? TimeOfDay.now().hour,
+      minute: minute ?? TimeOfDay.now().minute,
+    );
+
     return InkWell(
       onTap: () async {
         final picked = await showTimePicker(
@@ -323,15 +326,15 @@ class LogEntryForm extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(t.shapes.radiusMd),
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: t.spacing.md, vertical: t.spacing.sm),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: t.spacing.md,
+            vertical: t.spacing.sm,
+          ),
         ),
         child: Row(
           mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: [
-            Text(
-              time.format(context),
-              style: t.text.body,
-            ),
+            Text(time.format(context), style: t.text.body),
             Icon(Icons.access_time, color: t.colors.textSecondary),
           ],
         ),
@@ -345,7 +348,8 @@ class LogEntryForm extends StatelessWidget {
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: feelings!.map((emotion) {
         final secondaryOptions = DrugUseCatalog.secondaryEmotions[emotion];
-        if (secondaryOptions == null || secondaryOptions.isEmpty) return const SizedBox.shrink();
+        if (secondaryOptions == null || secondaryOptions.isEmpty)
+          return const SizedBox.shrink();
 
         return Padding(
           padding: EdgeInsets.only(bottom: t.spacing.md),
@@ -355,7 +359,9 @@ class LogEntryForm extends StatelessWidget {
             selected: secondaryFeelings?[emotion] ?? [],
             onChanged: (selected) {
               if (onSecondaryFeelingsChanged != null) {
-                final current = Map<String, List<String>>.from(secondaryFeelings ?? {});
+                final current = Map<String, List<String>>.from(
+                  secondaryFeelings ?? {},
+                );
                 current[emotion] = selected;
                 onSecondaryFeelingsChanged!(current);
               }

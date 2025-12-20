@@ -7,9 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../services/encryption_service_v2.dart';
 
-
 /// Screen for changing the user's PIN without regenerating encryption keys
-/// 
+///
 /// This screen:
 /// 1. Validates the current PIN
 /// 2. Accepts a new PIN with confirmation
@@ -26,7 +25,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
   final _oldPinController = TextEditingController();
   final _newPinController = TextEditingController();
   final _confirmPinController = TextEditingController();
-  
+
   bool _isLoading = false;
   String? _errorMessage;
   bool _oldPinObscure = true;
@@ -134,9 +133,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
             // Title
             Text(
               'Change Your PIN',
-              style: text.headlineMedium.copyWith(
-                color: c.textPrimary,
-              ),
+              style: text.headlineMedium.copyWith(color: c.textPrimary),
               textAlign: AppLayout.textAlignCenter,
             ),
             SizedBox(height: sp.md),
@@ -144,9 +141,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
             // Description
             Text(
               'Your encrypted data will remain accessible. Only the PIN used to unlock it will change.',
-              style: text.bodyMedium.copyWith(
-                color: c.textSecondary,
-              ),
+              style: text.bodyMedium.copyWith(color: c.textSecondary),
               textAlign: AppLayout.textAlignCenter,
             ),
             SizedBox(height: sp.xl),
@@ -157,18 +152,22 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               decoration: BoxDecoration(
                 color: a.primary.withValues(alpha: context.opacities.overlay),
                 borderRadius: BorderRadius.circular(sh.radiusMd),
-                border: Border.all(color: a.primary.withValues(alpha: context.opacities.medium)),
+                border: Border.all(
+                  color: a.primary.withValues(alpha: context.opacities.medium),
+                ),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline, color: a.primary, size: context.sizes.iconSm),
+                  Icon(
+                    Icons.info_outline,
+                    color: a.primary,
+                    size: context.sizes.iconSm,
+                  ),
                   SizedBox(width: sp.md),
                   Expanded(
                     child: Text(
                       'Your recovery key will not change. Keep using the same one you saved during initial setup.',
-                      style: text.bodySmall.copyWith(
-                        color: a.primary,
-                      ),
+                      style: text.bodySmall.copyWith(color: a.primary),
                     ),
                   ),
                 ],
@@ -182,7 +181,8 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               controller: _oldPinController,
               label: 'Current PIN',
               obscure: _oldPinObscure,
-              onToggleObscure: () => setState(() => _oldPinObscure = !_oldPinObscure),
+              onToggleObscure: () =>
+                  setState(() => _oldPinObscure = !_oldPinObscure),
             ),
             SizedBox(height: sp.lg),
 
@@ -192,7 +192,8 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               controller: _newPinController,
               label: 'New PIN',
               obscure: _newPinObscure,
-              onToggleObscure: () => setState(() => _newPinObscure = !_newPinObscure),
+              onToggleObscure: () =>
+                  setState(() => _newPinObscure = !_newPinObscure),
             ),
             SizedBox(height: sp.lg),
 
@@ -202,7 +203,8 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               controller: _confirmPinController,
               label: 'Confirm New PIN',
               obscure: _confirmPinObscure,
-              onToggleObscure: () => setState(() => _confirmPinObscure = !_confirmPinObscure),
+              onToggleObscure: () =>
+                  setState(() => _confirmPinObscure = !_confirmPinObscure),
             ),
 
             // Error message
@@ -213,11 +215,17 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                 decoration: BoxDecoration(
                   color: c.error.withValues(alpha: context.opacities.overlay),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
-                  border: Border.all(color: c.error.withValues(alpha: context.opacities.medium)),
+                  border: Border.all(
+                    color: c.error.withValues(alpha: context.opacities.medium),
+                  ),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.error_outline, color: c.error, size: context.sizes.iconSm),
+                    Icon(
+                      Icons.error_outline,
+                      color: c.error,
+                      size: context.sizes.iconSm,
+                    ),
                     SizedBox(width: sp.md),
                     Expanded(
                       child: Text(
@@ -251,7 +259,9 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                         height: 24,
                         child: CircularProgressIndicator(
                           strokeWidth: context.borders.medium,
-                          valueColor: AlwaysStoppedAnimation<Color>(c.textInverse),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            c.textInverse,
+                          ),
                         ),
                       )
                     : Text(
@@ -286,9 +296,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
       decoration: BoxDecoration(
         color: c.surface,
         borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(
-          color: c.border,
-        ),
+        border: Border.all(color: c.border),
       ),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -349,25 +357,17 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
           mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
           children: [
-            Icon(
-              Icons.check_circle,
-              size: 100,
-              color: c.success,
-            ),
+            Icon(Icons.check_circle, size: 100, color: c.success),
             CommonSpacer.vertical(sp.xl2),
             Text(
               'PIN Changed Successfully!',
-              style: text.headlineMedium.copyWith(
-                color: c.textPrimary,
-              ),
+              style: text.headlineMedium.copyWith(color: c.textPrimary),
               textAlign: AppLayout.textAlignCenter,
             ),
             CommonSpacer.vertical(sp.lg),
             Text(
               'Your new PIN is now active. Use it the next time you need to unlock your data.',
-              style: text.bodyMedium.copyWith(
-                color: c.textSecondary,
-              ),
+              style: text.bodyMedium.copyWith(color: c.textSecondary),
               textAlign: AppLayout.textAlignCenter,
             ),
             CommonSpacer.vertical(sp.lg),
@@ -422,7 +422,3 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
     );
   }
 }
-
-
-
-

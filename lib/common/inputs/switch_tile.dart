@@ -31,15 +31,13 @@ class CommonSwitchTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.theme;
     final accentColor = t.accent.primary;
-    
+
     return Container(
       decoration: BoxDecoration(
         color: t.colors.surfaceVariant.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(t.shapes.radiusMd),
         border: Border.all(
-          color: highlighted
-              ? accentColor
-              : t.colors.border,
+          color: highlighted ? accentColor : t.colors.border,
           width: highlighted ? 2 : 1,
         ),
       ),
@@ -54,9 +52,7 @@ class CommonSwitchTile extends StatelessWidget {
         subtitle: subtitle != null
             ? Text(
                 subtitle!,
-                style: t.text.bodySmall.copyWith(
-                  color: t.colors.textSecondary,
-                ),
+                style: t.text.bodySmall.copyWith(color: t.colors.textSecondary),
               )
             : null,
         value: value,

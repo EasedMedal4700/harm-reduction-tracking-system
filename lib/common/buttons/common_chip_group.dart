@@ -63,10 +63,7 @@ class CommonChipGroup extends StatelessWidget {
         children: [
           /// Only render header when enabled
           if (showHeader) ...[
-            CommonSectionHeader(
-              title: title,
-              subtitle: subtitle,
-            ),
+            CommonSectionHeader(title: title, subtitle: subtitle),
             CommonSpacer.vertical(t.spacing.md),
           ],
 
@@ -98,7 +95,7 @@ class CommonChipGroup extends StatelessWidget {
                 selectedBorderColor: selectedBorderColor,
               );
             }).toList(),
-          )
+          ),
         ],
       ),
     );

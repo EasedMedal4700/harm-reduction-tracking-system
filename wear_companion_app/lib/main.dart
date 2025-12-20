@@ -99,10 +99,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final cards = sensorConfigs.values
         .map(
-          (config) => SensorCard(
-            config: config,
-            reading: _readings[config.sensorType],
-          ),
+          (config) =>
+              SensorCard(config: config, reading: _readings[config.sensorType]),
         )
         .toList();
 
@@ -115,19 +113,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: [
               Text(
                 'Vitals & Movement',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w600),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 4),
               Text(
                 'Live metrics from your Galaxy Watch',
-                style: Theme.of(context)
-                    .textTheme
-                    .labelMedium
-                    ?.copyWith(color: Colors.white70),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelMedium?.copyWith(color: Colors.white70),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 12),
@@ -140,10 +136,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               if (_errorMessage != null)
                 Text(
                   _errorMessage!,
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelMedium
-                      ?.copyWith(color: Colors.redAccent),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelMedium?.copyWith(color: Colors.redAccent),
                   textAlign: TextAlign.center,
                 ),
               const SizedBox(height: 12),
@@ -165,11 +160,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 }
 
 class SensorCard extends StatelessWidget {
-  const SensorCard({
-    required this.config,
-    this.reading,
-    super.key,
-  });
+  const SensorCard({required this.config, this.reading, super.key});
 
   final SensorConfig config;
   final SensorReading? reading;
@@ -214,7 +205,9 @@ class SensorCard extends StatelessWidget {
                 if (reading?.lastUpdated != null)
                   Text(
                     'Updated ${reading!.timeAgo}',
-                    style: textTheme.labelSmall?.copyWith(color: Colors.white70),
+                    style: textTheme.labelSmall?.copyWith(
+                      color: Colors.white70,
+                    ),
                   ),
               ],
             ),
@@ -234,22 +227,25 @@ class WearSensorController {
   StreamSubscription<dynamic>? _nativeSubscription;
 
   WearSensorController() {
-    _nativeSubscription =
-        _sensorChannel.receiveBroadcastStream().listen((event) {
-      if (event is Map) {
-        _controller.add(SensorSample.fromMap(event.cast<String, dynamic>()));
-      }
-    }, onError: (error) {
-      _controller.addError(error);
-    });
+    _nativeSubscription = _sensorChannel.receiveBroadcastStream().listen(
+      (event) {
+        if (event is Map) {
+          _controller.add(SensorSample.fromMap(event.cast<String, dynamic>()));
+        }
+      },
+      onError: (error) {
+        _controller.addError(error);
+      },
+    );
   }
 
   Stream<SensorSample> get sensorStream => _controller.stream;
 
   Future<bool> requestPermissions() async {
     try {
-      final granted =
-          await _commandChannel.invokeMethod<bool>('requestPermissions');
+      final granted = await _commandChannel.invokeMethod<bool>(
+        'requestPermissions',
+      );
       return granted ?? false;
     } on PlatformException catch (e) {
       _controller.addError(e);

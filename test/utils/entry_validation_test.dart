@@ -6,22 +6,34 @@ void main() {
   group('ValidationUtils', () {
     group('validateRequired', () {
       test('returns error for null value', () {
-        final result = ValidationUtils.validateRequired(null, 'Field is required');
+        final result = ValidationUtils.validateRequired(
+          null,
+          'Field is required',
+        );
         expect(result, 'Field is required');
       });
 
       test('returns error for empty string', () {
-        final result = ValidationUtils.validateRequired('', 'Field is required');
+        final result = ValidationUtils.validateRequired(
+          '',
+          'Field is required',
+        );
         expect(result, 'Field is required');
       });
 
       test('returns error for whitespace-only string', () {
-        final result = ValidationUtils.validateRequired('   ', 'Field is required');
+        final result = ValidationUtils.validateRequired(
+          '   ',
+          'Field is required',
+        );
         expect(result, 'Field is required');
       });
 
       test('returns null for valid string', () {
-        final result = ValidationUtils.validateRequired('Valid input', 'Field is required');
+        final result = ValidationUtils.validateRequired(
+          'Valid input',
+          'Field is required',
+        );
         expect(result, isNull);
       });
     });
@@ -108,7 +120,11 @@ void main() {
       test('validates all catalog substances', () {
         for (final substance in DrugUseCatalog.substances) {
           final result = ValidationUtils.validateSubstance(substance);
-          expect(result, isNull, reason: 'Substance $substance should be valid');
+          expect(
+            result,
+            isNull,
+            reason: 'Substance $substance should be valid',
+          );
         }
       });
     });
@@ -207,7 +223,7 @@ void main() {
         final validRoute = DrugUseCatalog.consumptionMethods.first['name'];
         final uppercaseRoute = validRoute?.toUpperCase();
         final result = ValidationUtils.validateRoute(uppercaseRoute);
-        
+
         if (validRoute != uppercaseRoute) {
           expect(result, 'Invalid route');
         }
@@ -217,7 +233,7 @@ void main() {
         final validFeeling = DrugUseCatalog.primaryEmotions.first['name'];
         final uppercaseFeeling = validFeeling?.toUpperCase();
         final result = ValidationUtils.validateFeeling(uppercaseFeeling);
-        
+
         if (validFeeling != uppercaseFeeling) {
           expect(result, 'Invalid feeling');
         }

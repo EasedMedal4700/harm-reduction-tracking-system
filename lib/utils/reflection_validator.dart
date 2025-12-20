@@ -89,14 +89,14 @@ class ReflectionValidator {
   /// Validate related entries list
   static List<String> validateRelatedEntries(dynamic entries) {
     if (entries == null) return [];
-    
+
     if (entries is List) {
       return entries
           .map((e) => e?.toString() ?? '')
           .where((s) => s.isNotEmpty)
           .toList();
     }
-    
+
     if (entries is String && entries.isNotEmpty) {
       return entries
           .split(',')
@@ -104,7 +104,7 @@ class ReflectionValidator {
           .where((s) => s.isNotEmpty)
           .toList();
     }
-    
+
     return [];
   }
 }

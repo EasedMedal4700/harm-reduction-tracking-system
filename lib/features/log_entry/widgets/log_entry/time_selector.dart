@@ -44,7 +44,11 @@ class TimeSelector extends StatelessWidget {
         child: Row(
           mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
-            Icon(Icons.access_time, size: context.sizes.iconSm, color: acc.primary),
+            Icon(
+              Icons.access_time,
+              size: context.sizes.iconSm,
+              color: acc.primary,
+            ),
             SizedBox(width: sp.sm),
             Text(
               selectedTime.format(context),

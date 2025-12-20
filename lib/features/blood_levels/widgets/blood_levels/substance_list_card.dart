@@ -91,8 +91,7 @@ class SubstanceListCard extends StatelessWidget {
 
           // SUBSTANCE ITEMS
           ...substances.map((substance) {
-            final color =
-                substanceColors[substance.name] ?? acc.primary;
+            final color = substanceColors[substance.name] ?? acc.primary;
 
             return Padding(
               padding: EdgeInsets.only(bottom: sp.md),
@@ -101,7 +100,9 @@ class SubstanceListCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(sh.radiusSm),
-                  border: Border.all(color: color.withValues(alpha: t.opacities.border)),
+                  border: Border.all(
+                    color: color.withValues(alpha: t.opacities.border),
+                  ),
                 ),
                 child: Row(
                   children: [
@@ -123,18 +124,12 @@ class SubstanceListCard extends StatelessWidget {
                         children: [
                           Text(
                             substance.name,
-                            style: text.bodyBold.copyWith(
-                              color: c.textPrimary,
-                            ),
+                            style: text.bodyBold.copyWith(color: c.textPrimary),
                           ),
                           SizedBox(height: sp.xs),
                           Row(
                             children: [
-                              _buildChip(
-                                context,
-                                substance.roa,
-                                color,
-                              ),
+                              _buildChip(context, substance.roa, color),
                               SizedBox(width: sp.sm),
                               _buildChip(
                                 context,
@@ -177,20 +172,12 @@ class SubstanceListCard extends StatelessWidget {
     final text = context.text;
 
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: sp.sm,
-        vertical: sp.xs,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(sh.radiusSm),
       ),
-      child: Text(
-        label,
-        style: text.captionBold.copyWith(
-          color: color,
-        ),
-      ),
+      child: Text(label, style: text.captionBold.copyWith(color: color)),
     );
   }
 

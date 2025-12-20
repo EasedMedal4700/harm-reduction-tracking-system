@@ -23,7 +23,6 @@ import 'widgets/personal_library/day_usage_sheet.dart';
 import 'widgets/personal_library/library_search_bar.dart';
 import 'widgets/personal_library/library_app_bar.dart';
 
-
 import '../../utils/drug_preferences_manager.dart';
 
 class PersonalLibraryPage extends StatefulWidget {
@@ -88,10 +87,12 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
 
   void _calculateSummaryStats() {
     final activeSubstances = _catalog.where((e) => !e.archived).toList();
-    
+
     _totalUses = activeSubstances.fold(0, (sum, e) => sum + e.totalUses);
-    _avgUses = activeSubstances.isEmpty ? 0.0 : _totalUses / activeSubstances.length;
-    
+    _avgUses = activeSubstances.isEmpty
+        ? 0.0
+        : _totalUses / activeSubstances.length;
+
     // Find most used category
     final Map<String, int> categoryCount = {};
     for (final entry in activeSubstances) {
@@ -99,9 +100,11 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
         categoryCount[cat] = (categoryCount[cat] ?? 0) + entry.totalUses;
       }
     }
-    
+
     if (categoryCount.isNotEmpty) {
-      final maxEntry = categoryCount.entries.reduce((a, b) => a.value > b.value ? a : b);
+      final maxEntry = categoryCount.entries.reduce(
+        (a, b) => a.value > b.value ? a : b,
+      );
       _mostUsedCategory = maxEntry.key;
     } else {
       _mostUsedCategory = 'None';
@@ -111,7 +114,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
   Future<void> _toggleFavorite(DrugCatalogEntry entry) async {
     await _service.toggleFavorite(entry);
     if (!mounted) return;
-    
+
     // Reload catalog to get updated entry
     await _loadCatalog();
   }
@@ -124,19 +127,19 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
         notes: entry.notes,
         quantity: entry.quantity,
       );
-      
+
       await DrugPreferencesManager.saveArchived(
         entry.name,
         !entry.archived,
         currentPrefs,
       );
-      
+
       await _loadCatalog();
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to archive: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to archive: $e')));
       }
     }
   }
@@ -156,10 +159,12 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
   }
 
   void _showAddStockpileSheet(DrugCatalogEntry entry) async {
-    final substanceDetails = await _substanceRepo.getSubstanceDetails(entry.name);
-    
+    final substanceDetails = await _substanceRepo.getSubstanceDetails(
+      entry.name,
+    );
+
     if (!mounted) return;
-    
+
     final result = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
@@ -170,13 +175,19 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
         substanceDetails: substanceDetails,
       ),
     );
-    
+
     if (result == true && mounted) {
       setState(() {});
     }
   }
 
-  void _showDayUsageDetails(String substanceName, int weekdayIndex, String dayName, bool isDark, Color accentColor) {
+  void _showDayUsageDetails(
+    String substanceName,
+    int weekdayIndex,
+    String dayName,
+    bool isDark,
+    Color accentColor,
+  ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -195,7 +206,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
     final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-    
+
     return Scaffold(
       backgroundColor: c.background,
       drawer: const CommonDrawer(),
@@ -239,18 +250,22 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
 
           // Content
           if (_loading)
-            const SliverFillRemaining(
-              child: Center(child: CommonLoader()),
-            )
+            const SliverFillRemaining(child: Center(child: CommonLoader()))
           else if (_error != null)
             SliverFillRemaining(
               child: Center(
                 child: Column(
                   mainAxisSize: AppLayout.mainAxisSizeMin,
                   children: [
-                    Text(_error!, style: t.typography.body.copyWith(color: c.error)),
+                    Text(
+                      _error!,
+                      style: t.typography.body.copyWith(color: c.error),
+                    ),
                     CommonSpacer(height: sp.md),
-                    TextButton(onPressed: _loadCatalog, child: const Text('Retry')),
+                    TextButton(
+                      onPressed: _loadCatalog,
+                      child: const Text('Retry'),
+                    ),
                   ],
                 ),
               ),
@@ -259,10 +274,10 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
             SliverFillRemaining(
               child: Center(
                 child: Text(
-                  _showArchived ? 'No substances found' : 'No active substances in your library',
-                  style: t.typography.body.copyWith(
-                    color: c.textSecondary,
-                  ),
+                  _showArchived
+                      ? 'No substances found'
+                      : 'No active substances in your library',
+                  style: t.typography.body.copyWith(color: c.textSecondary),
                 ),
               ),
             )
@@ -270,28 +285,25 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
             SliverPadding(
               padding: EdgeInsets.all(sp.md),
               sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final entry = _filtered[index];
-                    return FutureBuilder<StockpileItem?>(
-                      future: _stockpileRepo.getStockpile(entry.name),
-                      builder: (context, snapshot) {
-                        return SubstanceCard(
-                          entry: entry,
-                          stockpile: snapshot.data,
-                          onTap: () {
-                            // Navigate to details if needed
-                          },
-                          onFavorite: () => _toggleFavorite(entry),
-                          onArchive: () => _toggleArchive(entry),
-                          onManageStockpile: () => _showAddStockpileSheet(entry),
-                          onDayTap: _showDayUsageDetails,
-                        );
-                      },
-                    );
-                  },
-                  childCount: _filtered.length,
-                ),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final entry = _filtered[index];
+                  return FutureBuilder<StockpileItem?>(
+                    future: _stockpileRepo.getStockpile(entry.name),
+                    builder: (context, snapshot) {
+                      return SubstanceCard(
+                        entry: entry,
+                        stockpile: snapshot.data,
+                        onTap: () {
+                          // Navigate to details if needed
+                        },
+                        onFavorite: () => _toggleFavorite(entry),
+                        onArchive: () => _toggleArchive(entry),
+                        onManageStockpile: () => _showAddStockpileSheet(entry),
+                        onDayTap: _showDayUsageDetails,
+                      );
+                    },
+                  );
+                }, childCount: _filtered.length),
               ),
             ),
         ],
@@ -299,7 +311,3 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
     );
   }
 }
-
-
-
-

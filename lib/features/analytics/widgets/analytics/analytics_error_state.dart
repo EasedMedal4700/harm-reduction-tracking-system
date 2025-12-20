@@ -46,9 +46,7 @@ class AnalyticsErrorState extends StatelessWidget {
 
             Text(
               message,
-              style: text.heading3.copyWith(
-                color: c.textPrimary,
-              ),
+              style: text.heading3.copyWith(color: c.textPrimary),
               textAlign: AppLayout.textAlignCenter,
             ),
 
@@ -57,9 +55,7 @@ class AnalyticsErrorState extends StatelessWidget {
               SelectableText(
                 details!,
                 textAlign: AppLayout.textAlignCenter,
-                style: text.bodySmall.copyWith(
-                  color: c.textSecondary,
-                ),
+                style: text.bodySmall.copyWith(color: c.textSecondary),
               ),
             ],
 

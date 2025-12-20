@@ -14,15 +14,12 @@ import '../../../../common/layout/common_spacer.dart';
 class BloodLevelsEmptyState extends StatelessWidget {
   final bool hasActiveFilters;
 
-  const BloodLevelsEmptyState({
-    super.key,
-    this.hasActiveFilters = false,
-  });
+  const BloodLevelsEmptyState({super.key, this.hasActiveFilters = false});
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;    // color palette
-    final text = context.text;   // typography
+    final c = context.colors; // color palette
+    final text = context.text; // typography
 
     return Center(
       child: Column(
@@ -37,18 +34,14 @@ class BloodLevelsEmptyState extends StatelessWidget {
 
           Text(
             'No active substances',
-            style: text.heading4.copyWith(
-              color: c.textSecondary,
-            ),
+            style: text.heading4.copyWith(color: c.textSecondary),
           ),
 
           if (hasActiveFilters) ...[
             const CommonSpacer.vertical(8),
             Text(
               'Try adjusting filters',
-              style: text.bodySmall.copyWith(
-                color: c.textSecondary,
-              ),
+              style: text.bodySmall.copyWith(color: c.textSecondary),
             ),
           ],
         ],

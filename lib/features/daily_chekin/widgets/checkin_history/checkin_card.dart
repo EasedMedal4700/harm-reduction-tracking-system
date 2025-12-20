@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -26,130 +25,146 @@ class CheckinCard extends StatelessWidget {
       child: CommonCard(
         padding: EdgeInsets.all(t.spacing.md),
         child: Column(
-        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
-        children: [
-          // Header with date and time of day
-          Row(
-            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    _getTimeIcon(checkin.timeOfDay),
-                    size: t.sizes.iconSm,
-                    color: t.colors.textSecondary,
+          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+          children: [
+            // Header with date and time of day
+            Row(
+              mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      _getTimeIcon(checkin.timeOfDay),
+                      size: t.sizes.iconSm,
+                      color: t.colors.textSecondary,
+                    ),
+                    CommonSpacer.horizontal(t.spacing.sm),
+                    Text(
+                      _formatDate(checkin.checkinDate),
+                      style: t.text.body.copyWith(
+                        fontWeight: text.bodyBold.fontWeight,
+                        color: t.colors.textPrimary,
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: t.spacing.sm,
+                    vertical: t.spacing.xs,
                   ),
-                  CommonSpacer.horizontal(t.spacing.sm),
-                  Text(
-                    _formatDate(checkin.checkinDate),
-                    style: t.text.body.copyWith(
-                      fontWeight: text.bodyBold.fontWeight,
-                      color: t.colors.textPrimary,
+                  decoration: BoxDecoration(
+                    color: t.colors.surfaceVariant,
+                    borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+                  ),
+                  child: Text(
+                    checkin.timeOfDay.toUpperCase(),
+                    style: t.text.label.copyWith(
+                      fontSize: context.text.caption.fontSize,
+                      color: t.colors.textSecondary,
                     ),
                   ),
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: t.spacing.sm, vertical: t.spacing.xs),
-                decoration: BoxDecoration(
-                  color: t.colors.surfaceVariant,
-                  borderRadius: BorderRadius.circular(t.shapes.radiusSm),
                 ),
-                child: Text(
-                  checkin.timeOfDay.toUpperCase(),
-                  style: t.text.label.copyWith(
-                    fontSize: context.text.caption.fontSize,
+              ],
+            ),
+            const CommonSpacer.vertical(12),
+
+            // Mood
+            Row(
+              children: [
+                Text(
+                  'Mood: ',
+                  style: t.text.body.copyWith(
+                    fontWeight: text.body.fontWeight,
                     color: t.colors.textSecondary,
                   ),
                 ),
-              ),
-            ],
-          ),
-          const CommonSpacer.vertical(12),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: t.spacing.md,
+                    vertical: t.spacing.xs,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _getMoodColor(
+                      checkin.mood,
+                      context,
+                    ).withValues(alpha: t.opacities.selected),
+                    borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+                    border: Border.all(
+                      color: _getMoodColor(
+                        checkin.mood,
+                        context,
+                      ).withValues(alpha: t.opacities.slow),
+                    ),
+                  ),
+                  child: Text(
+                    checkin.mood,
+                    style: t.text.label.copyWith(
+                      fontWeight: text.bodyBold.fontWeight,
+                      color: _getMoodColor(
+                        checkin.mood,
+                        context,
+                      ), // Use the color for text too
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const CommonSpacer.vertical(8),
 
-          // Mood
-          Row(
-            children: [
+            // Emotions
+            if (checkin.emotions.isNotEmpty) ...[
               Text(
-                'Mood: ',
+                'Emotions:',
                 style: t.text.body.copyWith(
                   fontWeight: text.body.fontWeight,
                   color: t.colors.textSecondary,
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: t.spacing.md, vertical: t.spacing.xs),
-                decoration: BoxDecoration(
-                  color: _getMoodColor(checkin.mood, context).withValues(alpha: t.opacities.selected),
-                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                  border: Border.all(
-                    color: _getMoodColor(checkin.mood, context).withValues(alpha: t.opacities.slow),
-                  ),
+              const CommonSpacer.vertical(4),
+              Wrap(
+                spacing: t.spacing.sm,
+                runSpacing: t.spacing.sm,
+                children: checkin.emotions.map((emotion) {
+                  return Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: t.spacing.sm,
+                      vertical: t.spacing.xs,
+                    ),
+                    decoration: BoxDecoration(
+                      color: t.colors.surfaceVariant.withValues(
+                        alpha: t.opacities.slow,
+                      ),
+                      borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+                      border: Border.all(color: t.colors.border),
+                    ),
+                    child: Text(
+                      emotion,
+                      style: t.text.label.copyWith(color: t.colors.textPrimary),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const CommonSpacer.vertical(8),
+            ],
+
+            // Notes
+            if (checkin.notes != null && checkin.notes!.isNotEmpty) ...[
+              Text(
+                'Notes:',
+                style: t.text.body.copyWith(
+                  fontWeight: text.body.fontWeight,
+                  color: t.colors.textSecondary,
                 ),
-                child: Text(
-                  checkin.mood,
-                  style: t.text.label.copyWith(
-                    fontWeight: text.bodyBold.fontWeight,
-                    color: _getMoodColor(checkin.mood, context), // Use the color for text too
-                  ),
-                ),
+              ),
+              const CommonSpacer.vertical(4),
+              Text(
+                checkin.notes!,
+                style: t.text.body.copyWith(color: t.colors.textSecondary),
               ),
             ],
-          ),
-          const CommonSpacer.vertical(8),
-
-          // Emotions
-          if (checkin.emotions.isNotEmpty) ...[
-            Text(
-              'Emotions:',
-              style: t.text.body.copyWith(
-                fontWeight: text.body.fontWeight,
-                color: t.colors.textSecondary,
-              ),
-            ),
-            const CommonSpacer.vertical(4),
-            Wrap(
-              spacing: t.spacing.sm,
-              runSpacing: t.spacing.sm,
-              children: checkin.emotions.map((emotion) {
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: t.spacing.sm, vertical: t.spacing.xs),
-                  decoration: BoxDecoration(
-                    color: t.colors.surfaceVariant.withValues(alpha: t.opacities.slow),
-                    borderRadius: BorderRadius.circular(t.shapes.radiusSm),
-                    border: Border.all(color: t.colors.border),
-                  ),
-                  child: Text(
-                    emotion,
-                    style: t.text.label.copyWith(
-                      color: t.colors.textPrimary,
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-            const CommonSpacer.vertical(8),
           ],
-
-          // Notes
-          if (checkin.notes != null && checkin.notes!.isNotEmpty) ...[
-            Text(
-              'Notes:',
-              style: t.text.body.copyWith(
-                fontWeight: text.body.fontWeight,
-                color: t.colors.textSecondary,
-              ),
-            ),
-            const CommonSpacer.vertical(4),
-            Text(
-              checkin.notes!,
-              style: t.text.body.copyWith(
-                color: t.colors.textSecondary,
-              ),
-            ),
-          ],
-        ],
-      ),
+        ),
       ),
     );
   }

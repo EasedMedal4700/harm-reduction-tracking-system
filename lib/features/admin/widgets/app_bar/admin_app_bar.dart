@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -64,10 +63,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
 
         IconButton(
           icon: isLoading
-              ? CommonLoader(
-                  size: context.sizes.iconSm,
-                  color: c.textPrimary,
-                )
+              ? CommonLoader(size: context.sizes.iconSm, color: c.textPrimary)
               : Icon(Icons.refresh, color: c.textPrimary),
           onPressed: isLoading ? null : onRefresh,
           tooltip: 'Refresh',

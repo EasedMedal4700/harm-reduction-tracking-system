@@ -42,10 +42,7 @@ class CatalogSearchFilters extends StatelessWidget {
       decoration: BoxDecoration(
         color: t.colors.surface,
         border: Border(
-          bottom: BorderSide(
-            color: t.colors.border,
-            width: t.borders.thin,
-          ),
+          bottom: BorderSide(color: t.colors.border, width: t.borders.thin),
         ),
       ),
       child: Column(
@@ -58,7 +55,9 @@ class CatalogSearchFilters extends StatelessWidget {
           ),
           const CommonSpacer.vertical(16),
           CategoryFilterChips(
-            selectedCategory: selectedCategories.isNotEmpty ? selectedCategories.first : null,
+            selectedCategory: selectedCategories.isNotEmpty
+                ? selectedCategories.first
+                : null,
             onCategorySelected: (category) {
               if (category != null) {
                 onCategoryToggled(category);

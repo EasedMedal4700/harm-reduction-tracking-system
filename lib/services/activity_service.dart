@@ -53,7 +53,10 @@ class ActivityService {
           .from('reflections')
           .select('*')
           .eq('uuid_user_id', userId)
-          .order('created_at', ascending: false) // Keep as is, or change to 'time' if needed
+          .order(
+            'created_at',
+            ascending: false,
+          ) // Keep as is, or change to 'time' if needed
           .limit(10);
 
       // Decrypt notes field in reflections
@@ -72,7 +75,11 @@ class ActivityService {
         'reflections': decryptedReflections,
       };
     } catch (e, stackTrace) {
-      ErrorHandler.logError('ActivityService.fetchRecentActivity', e, stackTrace);
+      ErrorHandler.logError(
+        'ActivityService.fetchRecentActivity',
+        e,
+        stackTrace,
+      );
       rethrow;
     }
   }

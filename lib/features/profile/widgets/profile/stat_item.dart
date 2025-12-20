@@ -37,16 +37,11 @@ class StatItem extends StatelessWidget {
           child: Icon(icon, color: accent, size: t.sizes.iconLg),
         ),
         CommonSpacer.vertical(t.spacing.sm),
-        Text(
-          value,
-          style: t.typography.heading3.copyWith(color: accent),
-        ),
+        Text(value, style: t.typography.heading3.copyWith(color: accent)),
         CommonSpacer.vertical(t.spacing.xs),
         Text(
           label,
-          style: t.typography.bodySmall.copyWith(
-            color: t.colors.textSecondary,
-          ),
+          style: t.typography.bodySmall.copyWith(color: t.colors.textSecondary),
           textAlign: AppLayout.textAlignCenter,
         ),
       ],

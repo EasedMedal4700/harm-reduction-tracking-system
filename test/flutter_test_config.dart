@@ -39,7 +39,9 @@ class TestUtils {
     return ProviderScope(
       overrides: providerOverrides,
       child: AppThemeProvider(
-        theme: themeMode == ThemeMode.light ? AppTheme.light() : AppTheme.dark(),
+        theme: themeMode == ThemeMode.light
+            ? AppTheme.light()
+            : AppTheme.dark(),
         child: MaterialApp(
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
@@ -66,7 +68,9 @@ class TestUtils {
     return ProviderScope(
       overrides: providerOverrides,
       child: AppThemeProvider(
-        theme: themeMode == ThemeMode.light ? AppTheme.light() : AppTheme.dark(),
+        theme: themeMode == ThemeMode.light
+            ? AppTheme.light()
+            : AppTheme.dark(),
         child: MaterialApp(
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
@@ -145,8 +149,8 @@ class TestConfig {
 
   /// Test device sizes for responsive testing
   static const Map<String, Size> deviceSizes = {
-    'mobile': Size(375, 667),    // iPhone SE
-    'tablet': Size(768, 1024),   // iPad
+    'mobile': Size(375, 667), // iPhone SE
+    'tablet': Size(768, 1024), // iPad
     'desktop': Size(1920, 1080), // Desktop
   };
 }

@@ -41,10 +41,7 @@ class ErrorHandler {
                 ),
                 child: Text(
                   details,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontFamily: 'monospace',
-                  ),
+                  style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
                 ),
               ),
             ],
@@ -118,19 +115,17 @@ class ErrorHandler {
   }
 
   /// Log error to console and Supabase with severity tracking
-  static void logError(String context, dynamic error, [StackTrace? stackTrace]) {
+  static void logError(
+    String context,
+    dynamic error, [
+    StackTrace? stackTrace,
+  ]) {
     debugPrint('ERROR [$context]: $error');
     if (stackTrace != null) {
       debugPrint('Stack trace: $stackTrace');
     }
 
-    unawaited(
-      _errorReporter.reportWithContext(
-        context,
-        error,
-        stackTrace,
-      ),
-    );
+    unawaited(_errorReporter.reportWithContext(context, error, stackTrace));
   }
 
   /// Log warning to console

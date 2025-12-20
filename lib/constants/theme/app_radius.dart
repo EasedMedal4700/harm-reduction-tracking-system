@@ -1,4 +1,4 @@
-﻿import 'app_shapes.dart';
+import 'app_shapes.dart';
 
 /// Provides global radius tokens.
 ///
@@ -15,5 +15,3 @@ class AppRadius {
   static const double xl2 = AppShapeConstants.radius2xl;
   static const double full = AppShapeConstants.radiusFull;
 }
-
-

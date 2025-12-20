@@ -13,24 +13,19 @@ class AccountDataResult {
   final String? message;
   final String? filePath;
 
-  const AccountDataResult({
-    required this.success,
-    this.message,
-    this.filePath,
-  });
+  const AccountDataResult({required this.success, this.message, this.filePath});
 }
 
 /// Service for managing account data operations (download, delete)
 class AccountDataService {
-  AccountDataService({
-    SupabaseClient? supabase,
-    AuthService? authService,
-  })  : _supabase = supabase ?? Supabase.instance.client,
-        _authService = authService ??
-            AuthService(
-              client: supabase ?? Supabase.instance.client,
-              encryption: EncryptionServiceV2(),
-            );
+  AccountDataService({SupabaseClient? supabase, AuthService? authService})
+    : _supabase = supabase ?? Supabase.instance.client,
+      _authService =
+          authService ??
+          AuthService(
+            client: supabase ?? Supabase.instance.client,
+            encryption: EncryptionServiceV2(),
+          );
 
   final SupabaseClient _supabase;
   final AuthService _authService;
@@ -212,7 +207,8 @@ class AccountDataService {
 
       return const AccountDataResult(
         success: true,
-        message: 'Your account has been deleted. Login credentials remain - '
+        message:
+            'Your account has been deleted. Login credentials remain - '
             'contact support for complete removal.',
       );
     } catch (e) {

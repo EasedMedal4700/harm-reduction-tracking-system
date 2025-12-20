@@ -10,7 +10,8 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 import '../helpers/test_app_wrapper.dart';
 
 /// Mock FeatureFlagService for testing
-class MockFeatureFlagService extends ChangeNotifier implements FeatureFlagService {
+class MockFeatureFlagService extends ChangeNotifier
+    implements FeatureFlagService {
   final Map<String, bool> _flags;
   bool _isLoaded;
   bool _isLoading;
@@ -19,9 +20,9 @@ class MockFeatureFlagService extends ChangeNotifier implements FeatureFlagServic
     Map<String, bool>? flags,
     bool isLoaded = true,
     bool isLoading = false,
-  })  : _flags = flags ?? {},
-        _isLoaded = isLoaded,
-        _isLoading = isLoading;
+  }) : _flags = flags ?? {},
+       _isLoaded = isLoaded,
+       _isLoading = isLoading;
 
   @override
   bool get isLoaded => _isLoaded;
@@ -34,12 +35,14 @@ class MockFeatureFlagService extends ChangeNotifier implements FeatureFlagServic
 
   @override
   List<FeatureFlag> get allFlags => _flags.entries
-      .map((e) => FeatureFlag(
-            id: 0,
-            featureName: e.key,
-            enabled: e.value,
-            updatedAt: DateTime.now(),
-          ))
+      .map(
+        (e) => FeatureFlag(
+          id: 0,
+          featureName: e.key,
+          enabled: e.value,
+          updatedAt: DateTime.now(),
+        ),
+      )
       .toList();
 
   @override
@@ -152,7 +155,9 @@ void main() {
 
     testWidgets('has Go Back button', (tester) async {
       await tester.pumpWidget(
-        wrapWithAppTheme(const FeatureDisabledScreen(featureName: 'test_feature')),
+        wrapWithAppTheme(
+          const FeatureDisabledScreen(featureName: 'test_feature'),
+        ),
       );
 
       expect(find.text('Go Back'), findsOneWidget);
@@ -161,7 +166,9 @@ void main() {
 
     testWidgets('has Go to Home button', (tester) async {
       await tester.pumpWidget(
-        wrapWithAppTheme(const FeatureDisabledScreen(featureName: 'test_feature')),
+        wrapWithAppTheme(
+          const FeatureDisabledScreen(featureName: 'test_feature'),
+        ),
       );
 
       expect(find.text('Go to Home'), findsOneWidget);
@@ -170,14 +177,17 @@ void main() {
 
     testWidgets('displays construction icon', (tester) async {
       await tester.pumpWidget(
-        wrapWithAppTheme(const FeatureDisabledScreen(featureName: 'test_feature')),
+        wrapWithAppTheme(
+          const FeatureDisabledScreen(featureName: 'test_feature'),
+        ),
       );
 
       expect(find.byIcon(Icons.construction_rounded), findsOneWidget);
     });
 
-    testWidgets('formats feature name with underscores correctly', 
-        (tester) async {
+    testWidgets('formats feature name with underscores correctly', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         wrapWithAppTheme(
           const FeatureDisabledScreen(featureName: 'some_long_feature_name'),
@@ -192,8 +202,7 @@ void main() {
   });
 
   group('Feature Flag Cases', () {
-    testWidgets('Case A: enabled=true, not admin - shows page', 
-        (tester) async {
+    testWidgets('Case A: enabled=true, not admin - shows page', (tester) async {
       final mockFlags = MockFeatureFlagService(
         flags: {FeatureFlags.analyticsPage: true},
       );
@@ -215,38 +224,42 @@ void main() {
 
       // Verify gate exists
       expect(find.byType(FeatureGate), findsOneWidget);
-      expect(mockFlags.isEnabled(FeatureFlags.analyticsPage, isAdmin: false), 
-          isTrue);
+      expect(
+        mockFlags.isEnabled(FeatureFlags.analyticsPage, isAdmin: false),
+        isTrue,
+      );
     });
 
-    testWidgets('Case B: enabled=false, not admin - shows disabled', 
-        (tester) async {
+    testWidgets('Case B: enabled=false, not admin - shows disabled', (
+      tester,
+    ) async {
       final mockFlags = MockFeatureFlagService(
         flags: {FeatureFlags.analyticsPage: false},
       );
 
       // Verify the flag behavior
-      expect(mockFlags.isEnabled(FeatureFlags.analyticsPage, isAdmin: false), 
-          isFalse);
+      expect(
+        mockFlags.isEnabled(FeatureFlags.analyticsPage, isAdmin: false),
+        isFalse,
+      );
     });
 
-    testWidgets('Case C: enabled=false, admin - shows page', 
-        (tester) async {
+    testWidgets('Case C: enabled=false, admin - shows page', (tester) async {
       final mockFlags = MockFeatureFlagService(
         flags: {FeatureFlags.analyticsPage: false},
       );
 
       // Admin override should return true
-      expect(mockFlags.isEnabled(FeatureFlags.analyticsPage, isAdmin: true), 
-          isTrue);
+      expect(
+        mockFlags.isEnabled(FeatureFlags.analyticsPage, isAdmin: true),
+        isTrue,
+      );
     });
   });
 
   group('MockFeatureFlagService', () {
     test('isEnabled returns true for admin regardless of flag value', () {
-      final mock = MockFeatureFlagService(
-        flags: {'disabled_feature': false},
-      );
+      final mock = MockFeatureFlagService(flags: {'disabled_feature': false});
 
       expect(mock.isEnabled('disabled_feature', isAdmin: true), isTrue);
       expect(mock.isEnabled('disabled_feature', isAdmin: false), isFalse);
@@ -259,9 +272,7 @@ void main() {
     });
 
     test('updateFlag changes flag value', () async {
-      final mock = MockFeatureFlagService(
-        flags: {'test': true},
-      );
+      final mock = MockFeatureFlagService(flags: {'test': true});
 
       await mock.updateFlag('test', false);
       expect(mock.isEnabled('test', isAdmin: false), isFalse);

@@ -60,9 +60,7 @@ class CategoryFilterChips extends StatelessWidget {
             Icon(
               icon,
               size: t.spacing.lg,
-              color: isSelected
-                  ? accentColor
-                  : t.colors.textSecondary,
+              color: isSelected ? accentColor : t.colors.textSecondary,
             ),
             const CommonSpacer.horizontal(6),
           ],
@@ -73,17 +71,16 @@ class CategoryFilterChips extends StatelessWidget {
       selectedColor: accentColor.withValues(alpha: 0.2),
       backgroundColor: t.colors.surface,
       labelStyle: t.typography.body.copyWith(
-        color: isSelected
-            ? accentColor
-            : t.colors.textSecondary,
-        fontWeight: isSelected ? context.text.bodyBold.fontWeight : FontWeight.normal,
+        color: isSelected ? accentColor : t.colors.textSecondary,
+        fontWeight: isSelected
+            ? context.text.bodyBold.fontWeight
+            : FontWeight.normal,
       ),
-      side: BorderSide(
-        color: isSelected
-            ? accentColor
-            : t.colors.border,
+      side: BorderSide(color: isSelected ? accentColor : t.colors.border),
+      padding: EdgeInsets.symmetric(
+        horizontal: t.spacing.md,
+        vertical: t.spacing.sm,
       ),
-      padding: EdgeInsets.symmetric(horizontal: t.spacing.md, vertical: t.spacing.sm),
     );
   }
 }

@@ -37,7 +37,7 @@ class CommonPrimaryButton extends StatelessWidget {
     final t = context.theme;
     final defaultBgColor = t.accent.primary;
     final defaultTextColor = t.colors.textInverse;
-    
+
     return SizedBox(
       width: width,
       height: height ?? context.sizes.buttonHeightLg,

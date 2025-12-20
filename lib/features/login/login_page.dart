@@ -45,7 +45,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       final session = data.session;
       if (!mounted) return;
 
-      final remember = ref.read(sharedPreferencesProvider).getBool(_rememberMeKey) ?? false;
+      final remember =
+          ref.read(sharedPreferencesProvider).getBool(_rememberMeKey) ?? false;
       if (remember && session != null) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) _navigateToHome();
@@ -56,7 +57,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Future<void> _initializeSessionState() async {
     print('🔄 DEBUG: Initializing session state...');
-    
+
     // Check if onboarding is complete first (for new users)
     final isOnboardingComplete = await onboardingService.isOnboardingComplete();
     if (!isOnboardingComplete && mounted) {
@@ -64,10 +65,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       Navigator.of(context).pushReplacementNamed('/onboarding');
       return;
     }
-    
+
     // Log debug config status
     DebugConfig.instance.logStatus();
-    
+
     final remember = await _readRememberPreference();
     final client = _tryGetSupabaseClient();
     final session = client?.auth.currentSession;
@@ -81,7 +82,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     setState(() => _rememberMe = remember);
 
     // Check for debug auto-login
-    if (DebugConfig.instance.isAutoLoginEnabled && 
+    if (DebugConfig.instance.isAutoLoginEnabled &&
         DebugConfig.instance.hasValidCredentials) {
       print('🔧 DEBUG: Auto-login enabled, attempting automatic login...');
       await _performDebugAutoLogin();
@@ -126,9 +127,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     print('🔑 DEBUG: Password length: ${password.length}');
 
     setState(() => _isLoading = true);
-    
+
     try {
-      final success = await ref.read(authServiceProvider).login(email, password);
+      final success = await ref
+          .read(authServiceProvider)
+          .login(email, password);
       if (!mounted) return;
 
       setState(() => _isLoading = false);
@@ -142,14 +145,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       } else {
         print('❌ DEBUG: Login returned false');
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Invalid credentials, please try again')),
+          const SnackBar(
+            content: Text('Invalid credentials, please try again'),
+          ),
         );
       }
     } catch (e, stackTrace) {
       print('❌ DEBUG: Exception in _handleLogin');
       print('❌ DEBUG: Error: $e');
       print('❌ DEBUG: Stack trace: $stackTrace');
-      
+
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -170,23 +175,25 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   /// Performs automatic login using debug credentials from .env
   Future<void> _performDebugAutoLogin() async {
     if (!mounted) return;
-    
+
     setState(() => _isLoading = true);
-    
+
     try {
       final email = DebugConfig.instance.debugEmail!;
       final password = DebugConfig.instance.debugPassword!;
-      
+
       print('🔧 DEBUG: Auto-logging in as $email');
-      
-      final success = await ref.read(authServiceProvider).login(email, password);
-      
+
+      final success = await ref
+          .read(authServiceProvider)
+          .login(email, password);
+
       if (!mounted) return;
-      
+
       if (success) {
         print('✅ DEBUG: Auto-login successful');
         await _persistRememberPreference(true);
-        
+
         // For debug mode, go directly to home with auto-unlock
         await _checkEncryptionAndNavigateDebug();
       } else {
@@ -213,7 +220,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       // Check if user needs migration
       final migrationService = EncryptionMigrationService();
       final needsMigration = await migrationService.needsMigration(user.id);
-      
+
       if (needsMigration) {
         print('🔐 DEBUG: User needs encryption migration (cannot auto-skip)');
         if (mounted) {
@@ -225,7 +232,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       // Check if user has PIN setup
       final encryptionService = EncryptionServiceV2();
       final hasEncryption = await encryptionService.hasEncryptionSetup(user.id);
-      
+
       if (!hasEncryption) {
         print('🔐 DEBUG: User needs PIN setup (cannot auto-skip)');
         if (mounted) {
@@ -239,12 +246,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       if (pin != null && pin.isNotEmpty) {
         print('🔧 DEBUG: Auto-unlocking with debug PIN');
         final unlocked = await encryptionService.unlockWithPin(user.id, pin);
-        
+
         if (unlocked) {
           if (mounted) {
             await ref.read(appLockControllerProvider.notifier).recordUnlock();
           }
-          
+
           print('✅ DEBUG: Auto-unlock successful, going to home');
           if (mounted) {
             Navigator.pushReplacementNamed(context, '/home_page');
@@ -254,7 +261,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           print('❌ DEBUG: Auto-unlock failed, PIN might be wrong');
         }
       }
-      
+
       // Fall back to PIN unlock screen if auto-unlock fails
       print('🔐 DEBUG: Falling back to PIN unlock screen');
       if (mounted) {
@@ -279,7 +286,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       // Check if user needs migration
       final migrationService = EncryptionMigrationService();
       final needsMigration = await migrationService.needsMigration(user.id);
-      
+
       if (needsMigration) {
         // User has old encryption, needs to migrate
         print('🔐 DEBUG: User needs encryption migration');
@@ -292,7 +299,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       // Check if user has PIN setup
       final encryptionService = EncryptionServiceV2();
       final hasEncryption = await encryptionService.hasEncryptionSetup(user.id);
-      
+
       if (!hasEncryption) {
         // New user, needs to setup PIN
         print('🔐 DEBUG: User needs PIN setup');
@@ -303,9 +310,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       }
 
       // User has PIN setup - check if PIN is required based on timeout
-      final isPinRequired =
-          await ref.read(appLockControllerProvider.notifier).shouldRequirePinNow();
-      
+      final isPinRequired = await ref
+          .read(appLockControllerProvider.notifier)
+          .shouldRequirePinNow();
+
       if (isPinRequired) {
         // PIN timeout expired, need to unlock
         print('🔐 DEBUG: User needs to unlock with PIN (timeout expired)');
@@ -425,18 +433,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               onPressed: _isLoading
                   ? null
                   : () => Navigator.pushNamed(context, '/register'),
-              style: TextButton.styleFrom(
-                foregroundColor: a.primary,
-              ),
+              style: TextButton.styleFrom(foregroundColor: a.primary),
               child: const Text('Create an account'),
             ),
             TextButton(
               onPressed: _isLoading
                   ? null
                   : () => Navigator.pushNamed(context, '/forgot-password'),
-              style: TextButton.styleFrom(
-                foregroundColor: c.textSecondary,
-              ),
+              style: TextButton.styleFrom(foregroundColor: c.textSecondary),
               child: const Text('Forgot Password?'),
             ),
           ],

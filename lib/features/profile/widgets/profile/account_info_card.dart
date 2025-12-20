@@ -17,10 +17,7 @@ import 'info_row.dart';
 class AccountInfoCard extends StatelessWidget {
   final Map<String, dynamic>? userData;
 
-  const AccountInfoCard({
-    super.key,
-    required this.userData,
-  });
+  const AccountInfoCard({super.key, required this.userData});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +28,7 @@ class AccountInfoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          const CommonSectionHeader(
-            title: "Account Information",
-          ),
+          const CommonSectionHeader(title: "Account Information"),
 
           CommonSpacer.vertical(spacing.lg),
 

@@ -4,10 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 // Test-only version of SecurityManager logic to avoid singleton issues
 class TestableSecurityManager {
   static const String _keyLastUnlockTime = 'security_last_unlock_time';
-  static const String _keyLastInteractionTime = 'security_last_interaction_time';
-  static const String _keyBackgroundStartTime = 'security_background_start_time';
-  static const String _keyForegroundTimeout = 'security_foreground_timeout_minutes';
-  static const String _keyBackgroundTimeout = 'security_background_timeout_minutes';
+  static const String _keyLastInteractionTime =
+      'security_last_interaction_time';
+  static const String _keyBackgroundStartTime =
+      'security_background_start_time';
+  static const String _keyForegroundTimeout =
+      'security_foreground_timeout_minutes';
+  static const String _keyBackgroundTimeout =
+      'security_background_timeout_minutes';
 
   static const int defaultForegroundTimeout = 5;
   static const int defaultBackgroundTimeout = 60;
@@ -134,7 +138,7 @@ void main() {
         SharedPreferences.setMockInitialValues({});
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         final timeout = await manager.getForegroundTimeout();
         expect(timeout, equals(5));
       });
@@ -143,7 +147,7 @@ void main() {
         SharedPreferences.setMockInitialValues({});
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         final timeout = await manager.getBackgroundTimeout();
         expect(timeout, equals(60));
       });
@@ -154,9 +158,9 @@ void main() {
         SharedPreferences.setMockInitialValues({});
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         await manager.recordUnlock();
-        
+
         // Should not require PIN immediately after unlock
         final required = await manager.shouldRequirePin();
         expect(required, isFalse);
@@ -165,20 +169,24 @@ void main() {
       test('recordInteraction extends session', () async {
         final now = DateTime.now();
         SharedPreferences.setMockInitialValues({
-          'security_last_unlock_time': now.subtract(const Duration(minutes: 4)).millisecondsSinceEpoch,
-          'security_last_interaction_time': now.subtract(const Duration(minutes: 4)).millisecondsSinceEpoch,
+          'security_last_unlock_time': now
+              .subtract(const Duration(minutes: 4))
+              .millisecondsSinceEpoch,
+          'security_last_interaction_time': now
+              .subtract(const Duration(minutes: 4))
+              .millisecondsSinceEpoch,
         });
-        
+
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         // Should not require PIN (4 min < 5 min timeout)
         var required = await manager.shouldRequirePin();
         expect(required, isFalse);
-        
+
         // Record interaction
         await manager.recordInteraction();
-        
+
         // Should still not require PIN
         required = await manager.shouldRequirePin();
         expect(required, isFalse);
@@ -188,38 +196,49 @@ void main() {
         SharedPreferences.setMockInitialValues({});
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         final required = await manager.shouldRequirePin();
         expect(required, isTrue);
       });
 
-      test('shouldRequirePin returns false within foreground timeout', () async {
-        final now = DateTime.now();
-        SharedPreferences.setMockInitialValues({
-          'security_last_unlock_time': now.subtract(const Duration(minutes: 2)).millisecondsSinceEpoch,
-          'security_last_interaction_time': now.subtract(const Duration(minutes: 2)).millisecondsSinceEpoch,
-          'security_foreground_timeout_minutes': 5,
-        });
-        
-        final manager = TestableSecurityManager();
-        await manager.init();
-        
-        // 2 min < 5 min timeout
-        final required = await manager.shouldRequirePin();
-        expect(required, isFalse);
-      });
+      test(
+        'shouldRequirePin returns false within foreground timeout',
+        () async {
+          final now = DateTime.now();
+          SharedPreferences.setMockInitialValues({
+            'security_last_unlock_time': now
+                .subtract(const Duration(minutes: 2))
+                .millisecondsSinceEpoch,
+            'security_last_interaction_time': now
+                .subtract(const Duration(minutes: 2))
+                .millisecondsSinceEpoch,
+            'security_foreground_timeout_minutes': 5,
+          });
+
+          final manager = TestableSecurityManager();
+          await manager.init();
+
+          // 2 min < 5 min timeout
+          final required = await manager.shouldRequirePin();
+          expect(required, isFalse);
+        },
+      );
 
       test('shouldRequirePin returns true after foreground timeout', () async {
         final now = DateTime.now();
         SharedPreferences.setMockInitialValues({
-          'security_last_unlock_time': now.subtract(const Duration(minutes: 6)).millisecondsSinceEpoch,
-          'security_last_interaction_time': now.subtract(const Duration(minutes: 6)).millisecondsSinceEpoch,
+          'security_last_unlock_time': now
+              .subtract(const Duration(minutes: 6))
+              .millisecondsSinceEpoch,
+          'security_last_interaction_time': now
+              .subtract(const Duration(minutes: 6))
+              .millisecondsSinceEpoch,
           'security_foreground_timeout_minutes': 5,
         });
-        
+
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         // 6 min > 5 min timeout
         final required = await manager.shouldRequirePin();
         expect(required, isTrue);
@@ -229,15 +248,19 @@ void main() {
         final now = DateTime.now();
         SharedPreferences.setMockInitialValues({
           // Unlock was 6 minutes ago (would trigger timeout)
-          'security_last_unlock_time': now.subtract(const Duration(minutes: 6)).millisecondsSinceEpoch,
+          'security_last_unlock_time': now
+              .subtract(const Duration(minutes: 6))
+              .millisecondsSinceEpoch,
           // But interaction was 2 minutes ago (within timeout)
-          'security_last_interaction_time': now.subtract(const Duration(minutes: 2)).millisecondsSinceEpoch,
+          'security_last_interaction_time': now
+              .subtract(const Duration(minutes: 2))
+              .millisecondsSinceEpoch,
           'security_foreground_timeout_minutes': 5,
         });
-        
+
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         // Recent interaction should prevent PIN requirement
         final required = await manager.shouldRequirePin();
         expect(required, isFalse);
@@ -248,52 +271,71 @@ void main() {
       test('shouldRequirePin returns true after background timeout', () async {
         final now = DateTime.now();
         SharedPreferences.setMockInitialValues({
-          'security_last_unlock_time': now.subtract(const Duration(minutes: 70)).millisecondsSinceEpoch,
-          'security_last_interaction_time': now.subtract(const Duration(minutes: 70)).millisecondsSinceEpoch,
-          'security_background_start_time': now.subtract(const Duration(minutes: 65)).millisecondsSinceEpoch,
+          'security_last_unlock_time': now
+              .subtract(const Duration(minutes: 70))
+              .millisecondsSinceEpoch,
+          'security_last_interaction_time': now
+              .subtract(const Duration(minutes: 70))
+              .millisecondsSinceEpoch,
+          'security_background_start_time': now
+              .subtract(const Duration(minutes: 65))
+              .millisecondsSinceEpoch,
           'security_background_timeout_minutes': 60,
           'security_foreground_timeout_minutes': 5,
         });
-        
+
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         // 65 min > 60 min background timeout
         final required = await manager.shouldRequirePin();
         expect(required, isTrue);
       });
 
-      test('shouldRequirePin returns false within background timeout', () async {
-        final now = DateTime.now();
-        SharedPreferences.setMockInitialValues({
-          'security_last_unlock_time': now.subtract(const Duration(minutes: 3)).millisecondsSinceEpoch,
-          'security_last_interaction_time': now.subtract(const Duration(minutes: 3)).millisecondsSinceEpoch,
-          'security_background_start_time': now.subtract(const Duration(minutes: 1)).millisecondsSinceEpoch,
-          'security_foreground_timeout_minutes': 5,
-          'security_background_timeout_minutes': 60,
-        });
-        
-        final manager = TestableSecurityManager();
-        await manager.init();
-        
-        // 3 min < 5 min foreground timeout, 1 min < 60 min background timeout
-        final required = await manager.shouldRequirePin();
-        expect(required, isFalse);
-      });
+      test(
+        'shouldRequirePin returns false within background timeout',
+        () async {
+          final now = DateTime.now();
+          SharedPreferences.setMockInitialValues({
+            'security_last_unlock_time': now
+                .subtract(const Duration(minutes: 3))
+                .millisecondsSinceEpoch,
+            'security_last_interaction_time': now
+                .subtract(const Duration(minutes: 3))
+                .millisecondsSinceEpoch,
+            'security_background_start_time': now
+                .subtract(const Duration(minutes: 1))
+                .millisecondsSinceEpoch,
+            'security_foreground_timeout_minutes': 5,
+            'security_background_timeout_minutes': 60,
+          });
+
+          final manager = TestableSecurityManager();
+          await manager.init();
+
+          // 3 min < 5 min foreground timeout, 1 min < 60 min background timeout
+          final required = await manager.shouldRequirePin();
+          expect(required, isFalse);
+        },
+      );
     });
 
     group('Time Remaining', () {
       test('getTimeRemaining returns positive value after unlock', () async {
         final now = DateTime.now();
         SharedPreferences.setMockInitialValues({
-          'security_last_unlock_time': now.subtract(const Duration(minutes: 2)).millisecondsSinceEpoch,
-          'security_last_interaction_time': now.subtract(const Duration(minutes: 2)).millisecondsSinceEpoch,
+          'security_last_unlock_time': now
+              .subtract(const Duration(minutes: 2))
+              .millisecondsSinceEpoch,
+          'security_last_interaction_time': now
+              .subtract(const Duration(minutes: 2))
+              .millisecondsSinceEpoch,
           'security_foreground_timeout_minutes': 5,
         });
-        
+
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         final remaining = await manager.getTimeRemaining();
         expect(remaining, greaterThan(0));
         // Should be approximately 3 minutes (180 seconds)
@@ -304,14 +346,18 @@ void main() {
       test('getTimeRemaining returns 0 after timeout', () async {
         final now = DateTime.now();
         SharedPreferences.setMockInitialValues({
-          'security_last_unlock_time': now.subtract(const Duration(minutes: 10)).millisecondsSinceEpoch,
-          'security_last_interaction_time': now.subtract(const Duration(minutes: 10)).millisecondsSinceEpoch,
+          'security_last_unlock_time': now
+              .subtract(const Duration(minutes: 10))
+              .millisecondsSinceEpoch,
+          'security_last_interaction_time': now
+              .subtract(const Duration(minutes: 10))
+              .millisecondsSinceEpoch,
           'security_foreground_timeout_minutes': 5,
         });
-        
+
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         final remaining = await manager.getTimeRemaining();
         expect(remaining, equals(0));
       });
@@ -324,17 +370,17 @@ void main() {
           'security_last_unlock_time': now.millisecondsSinceEpoch,
           'security_last_interaction_time': now.millisecondsSinceEpoch,
         });
-        
+
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         // Initially should not require PIN
         var required = await manager.shouldRequirePin();
         expect(required, isFalse);
-        
+
         // Clear state
         await manager.clearState();
-        
+
         // Now should require PIN
         required = await manager.shouldRequirePin();
         expect(required, isTrue);
@@ -346,17 +392,17 @@ void main() {
         SharedPreferences.setMockInitialValues({});
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         // Test minimum
         await manager.setForegroundTimeout(0);
         var timeout = await manager.getForegroundTimeout();
         expect(timeout, equals(1)); // Clamped to min
-        
+
         // Test maximum
         await manager.setForegroundTimeout(999);
         timeout = await manager.getForegroundTimeout();
         expect(timeout, equals(60)); // Clamped to max
-        
+
         // Test valid value
         await manager.setForegroundTimeout(15);
         timeout = await manager.getForegroundTimeout();
@@ -367,17 +413,17 @@ void main() {
         SharedPreferences.setMockInitialValues({});
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         // Test minimum
         await manager.setBackgroundTimeout(0);
         var timeout = await manager.getBackgroundTimeout();
         expect(timeout, equals(1)); // Clamped to min
-        
+
         // Test maximum
         await manager.setBackgroundTimeout(9999);
         timeout = await manager.getBackgroundTimeout();
         expect(timeout, equals(1440)); // Clamped to max (24 hours)
-        
+
         // Test valid value
         await manager.setBackgroundTimeout(120);
         timeout = await manager.getBackgroundTimeout();
@@ -388,10 +434,10 @@ void main() {
         SharedPreferences.setMockInitialValues({});
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         await manager.setForegroundTimeout(10);
         await manager.setBackgroundTimeout(30);
-        
+
         final settings = await manager.getSettings();
         expect(settings['foregroundTimeout'], equals(10));
         expect(settings['backgroundTimeout'], equals(30));
@@ -404,52 +450,74 @@ void main() {
         // Simulate: unlock, use app for 3 min, interaction 30 sec ago, background for 30 sec, resume
         final now = DateTime.now();
         SharedPreferences.setMockInitialValues({
-          'security_last_unlock_time': now.subtract(const Duration(minutes: 3)).millisecondsSinceEpoch,
-          'security_last_interaction_time': now.subtract(const Duration(seconds: 30)).millisecondsSinceEpoch,
+          'security_last_unlock_time': now
+              .subtract(const Duration(minutes: 3))
+              .millisecondsSinceEpoch,
+          'security_last_interaction_time': now
+              .subtract(const Duration(seconds: 30))
+              .millisecondsSinceEpoch,
           'security_foreground_timeout_minutes': 5,
           'security_background_timeout_minutes': 60,
         });
-        
+
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         final required = await manager.shouldRequirePin();
-        expect(required, isFalse, 
-            reason: 'Short background trip with recent interaction should not require PIN');
+        expect(
+          required,
+          isFalse,
+          reason:
+              'Short background trip with recent interaction should not require PIN',
+        );
       });
 
       test('long foreground session with activity stays unlocked', () async {
         // Simulate: unlock 20 min ago, but interaction 2 min ago
         final now = DateTime.now();
         SharedPreferences.setMockInitialValues({
-          'security_last_unlock_time': now.subtract(const Duration(minutes: 20)).millisecondsSinceEpoch,
-          'security_last_interaction_time': now.subtract(const Duration(minutes: 2)).millisecondsSinceEpoch,
+          'security_last_unlock_time': now
+              .subtract(const Duration(minutes: 20))
+              .millisecondsSinceEpoch,
+          'security_last_interaction_time': now
+              .subtract(const Duration(minutes: 2))
+              .millisecondsSinceEpoch,
           'security_foreground_timeout_minutes': 5,
         });
-        
+
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         final required = await manager.shouldRequirePin();
-        expect(required, isFalse, 
-            reason: 'Recent interaction should keep session alive');
+        expect(
+          required,
+          isFalse,
+          reason: 'Recent interaction should keep session alive',
+        );
       });
 
       test('inactive session requires PIN', () async {
         // Simulate: unlock 20 min ago, no activity for 20 min
         final now = DateTime.now();
         SharedPreferences.setMockInitialValues({
-          'security_last_unlock_time': now.subtract(const Duration(minutes: 20)).millisecondsSinceEpoch,
-          'security_last_interaction_time': now.subtract(const Duration(minutes: 20)).millisecondsSinceEpoch,
+          'security_last_unlock_time': now
+              .subtract(const Duration(minutes: 20))
+              .millisecondsSinceEpoch,
+          'security_last_interaction_time': now
+              .subtract(const Duration(minutes: 20))
+              .millisecondsSinceEpoch,
           'security_foreground_timeout_minutes': 5,
         });
-        
+
         final manager = TestableSecurityManager();
         await manager.init();
-        
+
         final required = await manager.shouldRequirePin();
-        expect(required, isTrue, 
-            reason: 'Long inactive session should require PIN');
+        expect(
+          required,
+          isTrue,
+          reason: 'Long inactive session should require PIN',
+        );
       });
     });
   });

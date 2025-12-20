@@ -45,7 +45,7 @@ class CravingDetailsSection extends StatelessWidget {
     final text = context.text;
     final a = context.accent;
     final sp = context.spacing;
-    
+
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
@@ -65,7 +65,7 @@ class CravingDetailsSection extends StatelessWidget {
             ],
           ),
           CommonSpacer.vertical(sp.md),
-          
+
           CommonChipGroup(
             title: 'What were you craving?',
             options: cravingCategories.keys.toList(),
@@ -73,9 +73,9 @@ class CravingDetailsSection extends StatelessWidget {
             onChanged: onCravingsChanged,
             allowMultiple: true,
           ),
-          
+
           CommonSpacer.vertical(sp.lg),
-          
+
           Text(
             'Intensity: ${intensity.round()}/10',
             style: t.typography.body.copyWith(color: c.textPrimary),
@@ -90,9 +90,9 @@ class CravingDetailsSection extends StatelessWidget {
             activeColor: a.primary,
             inactiveColor: c.border,
           ),
-          
+
           CommonSpacer.vertical(sp.md),
-          
+
           CommonDropdown<String>(
             value: location.isEmpty ? null : location,
             hintText: 'Location',
@@ -101,9 +101,9 @@ class CravingDetailsSection extends StatelessWidget {
               if (v != null) onLocationChanged(v);
             },
           ),
-          
+
           const CommonSpacer.vertical(16),
-          
+
           CommonDropdown<String>(
             value: withWho?.isEmpty == true ? null : withWho,
             hintText: 'Who were you with?',
@@ -115,4 +115,3 @@ class CravingDetailsSection extends StatelessWidget {
     );
   }
 }
-

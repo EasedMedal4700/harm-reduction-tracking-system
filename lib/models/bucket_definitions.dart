@@ -100,9 +100,7 @@ class BucketDefinitions {
 
   /// Get all unique bucket types from a list of tolerance models
   /// Returns ordered list based on orderedBuckets
-  static List<String> getAllBucketTypes(
-    Map<String, dynamic> toleranceModels,
-  ) {
+  static List<String> getAllBucketTypes(Map<String, dynamic> toleranceModels) {
     final allBuckets = <String>{};
 
     // Add all canonical buckets first

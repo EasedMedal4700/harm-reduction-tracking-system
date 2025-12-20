@@ -1,15 +1,14 @@
 import 'dart:math';
 
 /// Bucket-specific tolerance calculation formulas.
-/// 
+///
 /// CRITICAL WARNING: These tolerance calculations are NOT medically validated.
-/// The values shown to users are approximations only. They cannot predict 
-/// safety, overdose risk, or health outcomes. The user must use this feature 
+/// The values shown to users are approximations only. They cannot predict
+/// safety, overdose risk, or health outcomes. The user must use this feature
 /// at their own risk. Tolerance does NOT equal safety.
 class BucketToleranceFormulas {
-  
   /// Calculates tolerance for stimulant bucket (dopamine/norepinephrine).
-  /// 
+  ///
   /// LOGARITHMIC GROWTH MODEL:
   /// - Tolerance builds rapidly at first, then plateaus (diminishing returns)
   /// - Formula: tolerance = log(1 + dose) × scaling_factor
@@ -28,22 +27,28 @@ class BucketToleranceFormulas {
     // - Small doses: Rapid tolerance buildup
     // - Large doses: Slower additional buildup (asymptotic)
     // - Prevents explosive unrealistic values
-    
-    final effectiveDose = doseNormalized * potencyMultiplier * weight * durationMultiplier;
-    
+
+    final effectiveDose =
+        doseNormalized * potencyMultiplier * weight * durationMultiplier;
+
     // Logarithmic scaling: log(1 + x) / log(base)
     // Using natural log (ln) normalized to reasonable scale
-    final logTolerance = log(1.0 + effectiveDose * 2.0) / log(3.0); // Base 3 for moderate growth
-    
+    final logTolerance =
+        log(1.0 + effectiveDose * 2.0) / log(3.0); // Base 3 for moderate growth
+
     // Apply gain rate with logarithmic damping
-    final calibrationFactor = 0.15; // Slightly higher than before due to log damping
-    
+    final calibrationFactor =
+        0.15; // Slightly higher than before due to log damping
+
     final result = logTolerance * toleranceGainRate * calibrationFactor;
-    
-    if (result > 0.1) { // Only log significant contributions
-      print('         [STIMULANT FORMULA]: effDose=${effectiveDose.toStringAsFixed(3)}, log=${logTolerance.toStringAsFixed(4)}, result=${result.toStringAsFixed(4)}');
+
+    if (result > 0.1) {
+      // Only log significant contributions
+      print(
+        '         [STIMULANT FORMULA]: effDose=${effectiveDose.toStringAsFixed(3)}, log=${logTolerance.toStringAsFixed(4)}, result=${result.toStringAsFixed(4)}',
+      );
     }
-    
+
     return result;
   }
 
@@ -57,9 +62,11 @@ class BucketToleranceFormulas {
     required double toleranceGainRate,
   }) {
     // LOGARITHMIC GROWTH - strong initial, then diminishing
-    final effectiveDose = doseNormalized * potencyMultiplier * weight * durationMultiplier;
-    final logTolerance = log(1.0 + effectiveDose * 2.5) / log(2.5); // Faster initial growth
-    
+    final effectiveDose =
+        doseNormalized * potencyMultiplier * weight * durationMultiplier;
+    final logTolerance =
+        log(1.0 + effectiveDose * 2.5) / log(2.5); // Faster initial growth
+
     final buildupMultiplier = 0.25; // Stronger buildup with log damping
     return logTolerance * toleranceGainRate * buildupMultiplier;
   }
@@ -74,9 +81,11 @@ class BucketToleranceFormulas {
     required double toleranceGainRate,
   }) {
     // LOGARITHMIC GROWTH - very rapid initial, sharp plateau
-    final effectiveDose = doseNormalized * potencyMultiplier * weight * durationMultiplier;
-    final logTolerance = log(1.0 + effectiveDose * 3.0) / log(2.0); // Very fast initial
-    
+    final effectiveDose =
+        doseNormalized * potencyMultiplier * weight * durationMultiplier;
+    final logTolerance =
+        log(1.0 + effectiveDose * 3.0) / log(2.0); // Very fast initial
+
     final buildupMultiplier = 0.35; // Strong buildup with log damping
     return logTolerance * toleranceGainRate * buildupMultiplier;
   }
@@ -91,10 +100,13 @@ class BucketToleranceFormulas {
     required double toleranceGainRate,
   }) {
     // LOGARITHMIC GROWTH - consistent with other buckets
-    final effectiveDose = doseNormalized * potencyMultiplier * weight * durationMultiplier;
-    final logTolerance = log(1.0 + effectiveDose * 1.5) / log(3.2); // Moderate growth
-    
-    final calibrationFactor = 0.14; // Slower buildup, dangerous withdrawal considerations
+    final effectiveDose =
+        doseNormalized * potencyMultiplier * weight * durationMultiplier;
+    final logTolerance =
+        log(1.0 + effectiveDose * 1.5) / log(3.2); // Moderate growth
+
+    final calibrationFactor =
+        0.14; // Slower buildup, dangerous withdrawal considerations
     return logTolerance * toleranceGainRate * calibrationFactor;
   }
 
@@ -108,9 +120,10 @@ class BucketToleranceFormulas {
     required double toleranceGainRate,
   }) {
     // LOGARITHMIC GROWTH - moderate buildup with rebound
-    final effectiveDose = doseNormalized * potencyMultiplier * weight * durationMultiplier;
+    final effectiveDose =
+        doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance = log(1.0 + effectiveDose * 1.8) / log(2.8);
-    
+
     final reboundMultiplier = 0.20; // Rebound-sensitive with log damping
     return logTolerance * toleranceGainRate * reboundMultiplier;
   }
@@ -125,9 +138,10 @@ class BucketToleranceFormulas {
     required double toleranceGainRate,
   }) {
     // LOGARITHMIC GROWTH - biphasic rapid initial
-    final effectiveDose = doseNormalized * potencyMultiplier * weight * durationMultiplier;
+    final effectiveDose =
+        doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance = log(1.0 + effectiveDose * 2.2) / log(2.6);
-    
+
     final biphasicMultiplier = 0.22; // Rapid initial phase with log damping
     return logTolerance * toleranceGainRate * biphasicMultiplier;
   }
@@ -142,16 +156,18 @@ class BucketToleranceFormulas {
     required double toleranceGainRate,
   }) {
     // LOGARITHMIC GROWTH - very slow buildup
-    final effectiveDose = doseNormalized * potencyMultiplier * weight * durationMultiplier;
-    final logTolerance = log(1.0 + effectiveDose * 1.2) / log(3.5); // Slowest growth
-    
+    final effectiveDose =
+        doseNormalized * potencyMultiplier * weight * durationMultiplier;
+    final logTolerance =
+        log(1.0 + effectiveDose * 1.2) / log(3.5); // Slowest growth
+
     final slowMultiplier = 0.12; // Very slow buildup with log damping
     return logTolerance * toleranceGainRate * slowMultiplier;
   }
 
   /// Calculates tolerance decay multiplier based on tolerance type.
   /// Returns a multiplier for tolerance_decay_days.
-  /// 
+  ///
   /// RECALIBRATED DECAY RATES:
   /// - Stimulant: 1.2× (slightly slower than baseline, ~8-10 days full decay)
   /// - Serotonin psychedelic: 0.4× (very fast, 3-5 days)
@@ -196,7 +212,7 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-      
+
       case 'serotonin_release':
         return calculateSerotoninReleaseTolerance(
           doseNormalized: doseNormalized,
@@ -205,7 +221,7 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-      
+
       case 'serotonin_psychedelic':
         return calculateSerotoninPsychedelicTolerance(
           doseNormalized: doseNormalized,
@@ -214,7 +230,7 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-      
+
       case 'gaba':
         return calculateGabaTolerance(
           doseNormalized: doseNormalized,
@@ -223,7 +239,7 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-      
+
       case 'nmda':
         return calculateNmdaTolerance(
           doseNormalized: doseNormalized,
@@ -232,7 +248,7 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-      
+
       case 'opioid':
         return calculateOpioidTolerance(
           doseNormalized: doseNormalized,
@@ -241,7 +257,7 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-      
+
       case 'cannabinoid':
         return calculateCannabinoidTolerance(
           doseNormalized: doseNormalized,
@@ -250,7 +266,7 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-      
+
       default:
         // Default to stimulant formula
         return calculateStimulantTolerance(

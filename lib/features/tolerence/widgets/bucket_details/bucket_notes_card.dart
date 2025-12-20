@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -15,10 +14,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 class BucketNotesCard extends StatelessWidget {
   final String substanceNotes;
 
-  const BucketNotesCard({
-    super.key,
-    required this.substanceNotes,
-  });
+  const BucketNotesCard({super.key, required this.substanceNotes});
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +52,10 @@ class BucketNotesCard extends StatelessWidget {
           // Notes text
           Text(
             substanceNotes,
-            style: text.bodySmall.copyWith(
-              color: c.textSecondary,
-              height: 1.5,
-            ),
+            style: text.bodySmall.copyWith(color: c.textSecondary, height: 1.5),
           ),
         ],
       ),
     );
   }
 }
-

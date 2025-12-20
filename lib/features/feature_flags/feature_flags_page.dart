@@ -15,7 +15,7 @@ import '../../services/user_service.dart';
 // import '../../common/old_common/drawer_menu.dart'; // Removed legacy drawer
 
 /// Admin screen for managing feature flags.
-/// 
+///
 /// Allows admins to toggle feature flags on/off, which controls
 /// access to various app features for non-admin users.
 class FeatureFlagsScreen extends StatefulWidget {
@@ -39,7 +39,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
 
   Future<void> _checkAdminAndLoad() async {
     final isAdmin = await UserService.isAdmin();
-    
+
     if (!isAdmin) {
       if (mounted) {
         Navigator.of(context).pop();
@@ -65,8 +65,11 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     });
 
     try {
-      final success = await featureFlagService.updateFlag(featureName, newValue);
-      
+      final success = await featureFlagService.updateFlag(
+        featureName,
+        newValue,
+      );
+
       if (!success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -102,10 +105,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     return Scaffold(
       backgroundColor: c.surface,
       appBar: AppBar(
-        title: Text(
-          'Feature Flags',
-          style: text.titleLarge,
-        ),
+        title: Text('Feature Flags', style: text.titleLarge),
         backgroundColor: c.surface,
         elevation: context.sizes.elevationNone,
         iconTheme: IconThemeData(color: c.textPrimary),
@@ -151,23 +151,16 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
-    
+
     return Center(
       child: Padding(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
           mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: c.error,
-            ),
+            Icon(Icons.error_outline, size: 64, color: c.error),
             SizedBox(height: sp.md),
-            Text(
-              'Error Loading Flags',
-              style: text.headlineMedium,
-            ),
+            Text('Error Loading Flags', style: text.headlineMedium),
             SizedBox(height: sp.sm),
             Text(
               _errorMessage ?? 'Unknown error',
@@ -197,16 +190,9 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
         child: Column(
           mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
-            Icon(
-              Icons.flag_outlined,
-              size: 64,
-              color: c.textSecondary,
-            ),
+            Icon(Icons.flag_outlined, size: 64, color: c.textSecondary),
             SizedBox(height: sp.md),
-            Text(
-              'No Feature Flags',
-              style: text.headlineMedium,
-            ),
+            Text('No Feature Flags', style: text.headlineMedium),
             SizedBox(height: sp.sm),
             Text(
               'No feature flags found in the database.',
@@ -229,7 +215,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
         // Info banner
         _buildInfoBanner(context),
         SizedBox(height: sp.md),
-        
+
         // Flag categories
         for (final entry in categories.entries) ...[
           _buildCategoryHeader(context, entry.key),
@@ -252,21 +238,42 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
 
     for (final flag in flags) {
       final name = flag.featureName;
-      if (['home_page', 'activity_page', 'cravings_page', 'reflection_page', 
-           'blood_levels_page', 'log_entry_page', 'daily_checkin', 
-           'checkin_history_page'].contains(name)) {
+      if ([
+        'home_page',
+        'activity_page',
+        'cravings_page',
+        'reflection_page',
+        'blood_levels_page',
+        'log_entry_page',
+        'daily_checkin',
+        'checkin_history_page',
+      ].contains(name)) {
         categories['Core Pages']!.add(flag);
-      } else if (['personal_library_page', 'analytics_page', 'catalog_page']
-          .contains(name)) {
+      } else if ([
+        'personal_library_page',
+        'analytics_page',
+        'catalog_page',
+      ].contains(name)) {
         categories['Data & Resources']!.add(flag);
-      } else if (['physiological_page', 'interactions_page', 
-           'tolerance_dashboard_page', 'wearos_page', 'bucket_details_page']
-          .contains(name)) {
+      } else if ([
+        'physiological_page',
+        'interactions_page',
+        'tolerance_dashboard_page',
+        'wearos_page',
+        'bucket_details_page',
+      ].contains(name)) {
         categories['Advanced Features']!.add(flag);
-      } else if (['login_page', 'register_page', 'onboarding_screen',
-           'pin_setup_screen', 'pin_unlock_screen', 'change_pin_screen',
-           'recovery_key_screen', 'encryption_migration_screen',
-           'privacy_policy_screen'].contains(name)) {
+      } else if ([
+        'login_page',
+        'register_page',
+        'onboarding_screen',
+        'pin_setup_screen',
+        'pin_unlock_screen',
+        'change_pin_screen',
+        'recovery_key_screen',
+        'encryption_migration_screen',
+        'privacy_policy_screen',
+      ].contains(name)) {
         categories['Authentication']!.add(flag);
       } else if (['admin_panel'].contains(name)) {
         categories['Admin']!.add(flag);
@@ -292,24 +299,17 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
       decoration: BoxDecoration(
         color: a.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: a.primary.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: a.primary.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.info_outline,
-            color: a.primary,
-          ),
+          Icon(Icons.info_outline, color: a.primary),
           CommonSpacer.horizontal(sp.md),
           Expanded(
             child: Text(
               'Disabled features will be hidden from regular users. '
               'Admins can always access all features.',
-              style: text.bodySmall.copyWith(
-                color: c.textPrimary,
-              ),
+              style: text.bodySmall.copyWith(color: c.textPrimary),
             ),
           ),
         ],
@@ -345,9 +345,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
       decoration: BoxDecoration(
         color: c.surface,
         borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(
-          color: c.border,
-        ),
+        border: Border.all(color: c.border),
       ),
       child: SwitchListTile(
         title: Text(
@@ -359,13 +357,11 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
         ),
         subtitle: Text(
           flag.featureName,
-          style: text.bodySmall.copyWith(
-            color: c.textSecondary,
-          ),
+          style: text.bodySmall.copyWith(color: c.textSecondary),
         ),
         value: flag.enabled,
-        onChanged: isPending 
-            ? null 
+        onChanged: isPending
+            ? null
             : (value) => _toggleFlag(flag.featureName, value),
         secondary: isPending
             ? SizedBox(
@@ -375,9 +371,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
               )
             : Icon(
                 flag.enabled ? Icons.check_circle : Icons.cancel,
-                color: flag.enabled
-                    ? c.success
-                    : c.textSecondary,
+                color: flag.enabled ? c.success : c.textSecondary,
               ),
         activeTrackColor: a.primary,
         contentPadding: EdgeInsets.symmetric(
@@ -391,4 +385,3 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     );
   }
 }
-

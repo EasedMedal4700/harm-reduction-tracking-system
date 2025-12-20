@@ -58,11 +58,7 @@ class StatsCard extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(sh.radiusSm),
               ),
-              child: Icon(
-                icon,
-                size: sp.md,
-                color: effectiveIconColor,
-              ),
+              child: Icon(icon, size: sp.md, color: effectiveIconColor),
             ),
 
             SizedBox(width: sp.md),
@@ -74,24 +70,18 @@ class StatsCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: text.bodySmall.copyWith(
-                      color: c.textSecondary,
-                    ),
+                    style: text.bodySmall.copyWith(color: c.textSecondary),
                   ),
                   SizedBox(height: sp.xs),
                   Text(
                     value,
-                    style: text.heading3.copyWith(
-                      color: c.textPrimary,
-                    ),
+                    style: text.heading3.copyWith(color: c.textPrimary),
                   ),
                   if (subtitle != null) ...[
                     SizedBox(height: sp.xs),
                     Text(
                       subtitle!,
-                      style: text.caption.copyWith(
-                        color: c.textTertiary,
-                      ),
+                      style: text.caption.copyWith(color: c.textTertiary),
                     ),
                   ],
                 ],
@@ -100,11 +90,7 @@ class StatsCard extends StatelessWidget {
 
             // Arrow if tappable
             if (onTap != null)
-              Icon(
-                Icons.chevron_right,
-                color: c.textTertiary,
-                size: sp.md,
-              ),
+              Icon(Icons.chevron_right, color: c.textTertiary, size: sp.md),
           ],
         ),
       ),
@@ -116,10 +102,7 @@ class StatsCard extends StatelessWidget {
 class ProgressOverviewCard extends StatelessWidget {
   final List<StatsData> stats;
 
-  const ProgressOverviewCard({
-    super.key,
-    required this.stats,
-  });
+  const ProgressOverviewCard({super.key, required this.stats});
 
   @override
   Widget build(BuildContext context) {
@@ -135,10 +118,7 @@ class ProgressOverviewCard extends StatelessWidget {
           // Section header
           Padding(
             padding: EdgeInsets.only(bottom: sp.md),
-            child: Text(
-              'Your Progress',
-              style: text.heading3,
-            ),
+            child: Text('Your Progress', style: text.heading3),
           ),
 
           // Stats cards

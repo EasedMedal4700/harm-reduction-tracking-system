@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -45,109 +44,109 @@ class CacheManagementSection extends StatelessWidget {
       padding: EdgeInsets.all(sp.lg),
       showBorder: false,
       child: Column(
-          crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
-          children: [
-            /// Header
-            Row(
-              children: [
-                Icon(Icons.storage_rounded, color: c.info, size: sp.lg),
-                SizedBox(width: sp.md),
-                Text(
-                  'Cache Management',
-                  style: text.heading3.copyWith(color: c.textPrimary),
-                ),
-              ],
-            ),
-
-            SizedBox(height: sp.lg),
-
-            /// Cache Stats
-            Container(
-              padding: EdgeInsets.all(sp.md),
-              decoration: BoxDecoration(
-                color: c.surfaceVariant,
-                borderRadius: BorderRadius.circular(sp.sm),
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+        children: [
+          /// Header
+          Row(
+            children: [
+              Icon(Icons.storage_rounded, color: c.info, size: sp.lg),
+              SizedBox(width: sp.md),
+              Text(
+                'Cache Management',
+                style: text.heading3.copyWith(color: c.textPrimary),
               ),
-              child: Row(
-                mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceAround,
-                children: [
-                  CacheStatWidget(
-                    label: 'Total',
-                    value: totalEntries.toString(),
-                    icon: Icons.data_usage,
-                    color: c.info,
-                  ),
-                  Container(
-                    width: context.borders.thin,
-                    height: sp.xl3,
-                    color: c.divider,
-                  ),
-                  CacheStatWidget(
-                    label: 'Active',
-                    value: activeEntries.toString(),
-                    icon: Icons.check_circle,
-                    color: c.success,
-                  ),
-                  Container(
-                    width: context.borders.thin,
-                    height: sp.xl3,
-                    color: c.divider,
-                  ),
-                  CacheStatWidget(
-                    label: 'Expired',
-                    value: expiredEntries.toString(),
-                    icon: Icons.warning_amber_rounded,
-                    color: c.warning,
-                  ),
-                ],
-              ),
+            ],
+          ),
+
+          SizedBox(height: sp.lg),
+
+          /// Cache Stats
+          Container(
+            padding: EdgeInsets.all(sp.md),
+            decoration: BoxDecoration(
+              color: c.surfaceVariant,
+              borderRadius: BorderRadius.circular(sp.sm),
             ),
-
-            SizedBox(height: sp.lg),
-
-            /// Cache Actions
-            Wrap(
-              spacing: sp.md,
-              runSpacing: sp.md,
+            child: Row(
+              mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceAround,
               children: [
-                CacheActionButton(
-                  label: 'Clear All Cache',
-                  icon: Icons.delete_sweep,
-                  color: c.error,
-                  onPressed: () => _showClearCacheDialog(
-                    context,
-                    'Clear All Cache',
-                    'This will remove all cached data. Users may experience slower load times temporarily.',
-                    onClearAll,
-                  ),
-                ),
-                CacheActionButton(
-                  label: 'Clear Drug Profiles',
-                  icon: Icons.medication_outlined,
-                  color: c.warning,
-                  onPressed: () => _showClearCacheDialog(
-                    context,
-                    'Clear Drug Profiles',
-                    'This will clear cached drug profile data. It will be reloaded on next access.',
-                    onClearDrugCache,
-                  ),
-                ),
-                CacheActionButton(
-                  label: 'Clear Expired',
-                  icon: Icons.cleaning_services,
+                CacheStatWidget(
+                  label: 'Total',
+                  value: totalEntries.toString(),
+                  icon: Icons.data_usage,
                   color: c.info,
-                  onPressed: onClearExpired,
                 ),
-                CacheActionButton(
-                  label: 'Refresh from DB',
-                  icon: Icons.refresh,
+                Container(
+                  width: context.borders.thin,
+                  height: sp.xl3,
+                  color: c.divider,
+                ),
+                CacheStatWidget(
+                  label: 'Active',
+                  value: activeEntries.toString(),
+                  icon: Icons.check_circle,
                   color: c.success,
-                  onPressed: onRefreshFromDatabase,
+                ),
+                Container(
+                  width: context.borders.thin,
+                  height: sp.xl3,
+                  color: c.divider,
+                ),
+                CacheStatWidget(
+                  label: 'Expired',
+                  value: expiredEntries.toString(),
+                  icon: Icons.warning_amber_rounded,
+                  color: c.warning,
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+
+          SizedBox(height: sp.lg),
+
+          /// Cache Actions
+          Wrap(
+            spacing: sp.md,
+            runSpacing: sp.md,
+            children: [
+              CacheActionButton(
+                label: 'Clear All Cache',
+                icon: Icons.delete_sweep,
+                color: c.error,
+                onPressed: () => _showClearCacheDialog(
+                  context,
+                  'Clear All Cache',
+                  'This will remove all cached data. Users may experience slower load times temporarily.',
+                  onClearAll,
+                ),
+              ),
+              CacheActionButton(
+                label: 'Clear Drug Profiles',
+                icon: Icons.medication_outlined,
+                color: c.warning,
+                onPressed: () => _showClearCacheDialog(
+                  context,
+                  'Clear Drug Profiles',
+                  'This will clear cached drug profile data. It will be reloaded on next access.',
+                  onClearDrugCache,
+                ),
+              ),
+              CacheActionButton(
+                label: 'Clear Expired',
+                icon: Icons.cleaning_services,
+                color: c.info,
+                onPressed: onClearExpired,
+              ),
+              CacheActionButton(
+                label: 'Refresh from DB',
+                icon: Icons.refresh,
+                color: c.success,
+                onPressed: onRefreshFromDatabase,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -169,10 +168,7 @@ class CacheManagementSection extends StatelessWidget {
           borderRadius: BorderRadius.circular(sp.md),
           side: BorderSide(color: c.border),
         ),
-        title: Text(
-          title,
-          style: text.heading4.copyWith(color: c.textPrimary),
-        ),
+        title: Text(title, style: text.heading4.copyWith(color: c.textPrimary)),
         content: Text(
           message,
           style: text.body.copyWith(color: c.textSecondary),

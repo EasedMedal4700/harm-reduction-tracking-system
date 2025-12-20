@@ -1,13 +1,13 @@
 // Tolerance Notes Card Widget
-// 
+//
 // Created: 2024-11-10
 // Last Modified: 2025-12-14
-// 
+//
 // Purpose:
 // Displays additional contextual notes about substance tolerance. Provides a dedicated
 // space for extra information, warnings, or explanations that don't fit in other cards.
 // Automatically hides if no notes are provided.
-// 
+//
 // Features:
 // - Conditionally renders (hidden when notes are empty)
 // - Clean card design matching other tolerance widgets
@@ -26,16 +26,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Card displaying additional notes about the substance tolerance
-/// 
+///
 /// Conditionally rendered widget that shows contextual information when available.
 class ToleranceNotesCard extends ConsumerWidget {
   /// Note text to display
   final String notes;
 
-  const ToleranceNotesCard({
-    required this.notes,
-    super.key,
-  });
+  const ToleranceNotesCard({required this.notes, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,9 +62,7 @@ class ToleranceNotesCard extends ConsumerWidget {
           // Section header
           Text(
             'Notes',
-            style: typography.heading4.copyWith(
-              color: colors.textPrimary,
-            ),
+            style: typography.heading4.copyWith(color: colors.textPrimary),
           ),
           SizedBox(height: spacing.md),
           // Notes content with enhanced readability
@@ -83,4 +78,3 @@ class ToleranceNotesCard extends ConsumerWidget {
     );
   }
 }
-

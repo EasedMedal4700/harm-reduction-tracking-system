@@ -38,22 +38,28 @@ class SubstanceCard extends StatelessWidget {
 
   String _selectPrimaryCategory(List<String> categories) {
     if (categories.isEmpty) return 'Unknown';
-    
-    final filtered = categories.where((cat) =>
-        cat.toLowerCase() != 'tentative' &&
-        cat.toLowerCase() != 'research chemical' &&
-        cat.toLowerCase() != 'habit-forming' &&
-        cat.toLowerCase() != 'common' &&
-        cat.toLowerCase() != 'inactive').toList();
+
+    final filtered = categories
+        .where(
+          (cat) =>
+              cat.toLowerCase() != 'tentative' &&
+              cat.toLowerCase() != 'research chemical' &&
+              cat.toLowerCase() != 'habit-forming' &&
+              cat.toLowerCase() != 'common' &&
+              cat.toLowerCase() != 'inactive',
+        )
+        .toList();
 
     if (filtered.isEmpty) return 'Unknown';
 
     for (final priorityCategory in DrugCategories.categoryPriority) {
-      if (filtered.any((cat) => cat.toLowerCase() == priorityCategory.toLowerCase())) {
+      if (filtered.any(
+        (cat) => cat.toLowerCase() == priorityCategory.toLowerCase(),
+      )) {
         return priorityCategory;
       }
     }
-    
+
     return filtered.first;
   }
 
@@ -63,7 +69,8 @@ class SubstanceCard extends StatelessWidget {
     final t = context.theme;
     final primaryCategory = _selectPrimaryCategory(entry.categories);
     final categoryColor = DrugCategoryColors.colorFor(primaryCategory);
-    final categoryIcon = DrugCategories.categoryIconMap[primaryCategory] ?? Icons.science;
+    final categoryIcon =
+        DrugCategories.categoryIconMap[primaryCategory] ?? Icons.science;
 
     return Container(
       margin: EdgeInsets.only(bottom: t.spacing.md),
@@ -113,7 +120,10 @@ class SubstanceCard extends StatelessWidget {
                     padding: EdgeInsets.all(t.spacing.sm),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [categoryColor, categoryColor.withValues(alpha: 0.7)],
+                        colors: [
+                          categoryColor,
+                          categoryColor.withValues(alpha: 0.7),
+                        ],
                       ),
                       borderRadius: BorderRadius.circular(t.shapes.radiusMd),
                     ),
@@ -147,15 +157,14 @@ class SubstanceCard extends StatelessWidget {
                   IconButton(
                     icon: Icon(
                       entry.favorite ? Icons.favorite : Icons.favorite_border,
-                      color: entry.favorite ? Colors.red : t.colors.textSecondary,
+                      color: entry.favorite
+                          ? Colors.red
+                          : t.colors.textSecondary,
                     ),
                     onPressed: onFavorite,
                   ),
                   PopupMenuButton<String>(
-                    icon: Icon(
-                      Icons.more_vert,
-                      color: t.colors.textSecondary,
-                    ),
+                    icon: Icon(Icons.more_vert, color: t.colors.textSecondary),
                     onSelected: (value) {
                       if (value == 'archive') {
                         onArchive();
@@ -188,25 +197,25 @@ class SubstanceCard extends StatelessWidget {
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 // Stats row
-                  Row(
-                    children: [
-                      _buildStatItem(
-                        'Total Uses',
-                        '${entry.totalUses}',
-                        Icons.bar_chart,
-                        context,
-                      ),
-                      CommonSpacer(width: t.spacing.lg),
-                      _buildStatItem(
-                        'Last Used',
-                        entry.lastUsed != null 
-                            ? DateFormat('MMM d').format(entry.lastUsed!)
-                            : 'Never',
-                        Icons.access_time,
-                        context,
-                      ),
-                    ],
-                  ),                // Stockpile info
+                Row(
+                  children: [
+                    _buildStatItem(
+                      'Total Uses',
+                      '${entry.totalUses}',
+                      Icons.bar_chart,
+                      context,
+                    ),
+                    CommonSpacer(width: t.spacing.lg),
+                    _buildStatItem(
+                      'Last Used',
+                      entry.lastUsed != null
+                          ? DateFormat('MMM d').format(entry.lastUsed!)
+                          : 'Never',
+                      Icons.access_time,
+                      context,
+                    ),
+                  ],
+                ), // Stockpile info
                 if (stockpile != null) ...[
                   CommonSpacer(height: t.spacing.md),
                   InkWell(
@@ -215,17 +224,18 @@ class SubstanceCard extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(t.spacing.sm),
                       decoration: BoxDecoration(
-                        color: t.colors.background.withValues(alpha: t.isDark ? 0.5 : 1.0),
-                        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                        border: Border.all(
-                          color: t.colors.border,
+                        color: t.colors.background.withValues(
+                          alpha: t.isDark ? 0.5 : 1.0,
                         ),
+                        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+                        border: Border.all(color: t.colors.border),
                       ),
                       child: Column(
                         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                         children: [
                           Row(
-                            mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
+                            mainAxisAlignment:
+                                AppLayout.mainAxisAlignmentSpaceBetween,
                             children: [
                               Text(
                                 'Stockpile',
@@ -245,15 +255,15 @@ class SubstanceCard extends StatelessWidget {
                           CommonSpacer(height: t.spacing.xs),
                           // Progress bar
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+                            borderRadius: BorderRadius.circular(
+                              t.shapes.radiusSm,
+                            ),
                             child: LinearProgressIndicator(
                               value: stockpile!.getPercentage() / 100,
                               minHeight: 8,
                               backgroundColor: t.colors.border,
                               valueColor: AlwaysStoppedAnimation<Color>(
-                                stockpile!.isLow()
-                                    ? Colors.red
-                                    : categoryColor,
+                                stockpile!.isLow() ? Colors.red : categoryColor,
                               ),
                             ),
                           ),
@@ -288,18 +298,19 @@ class SubstanceCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatItem(String label, String value, IconData icon, BuildContext context) {
+  Widget _buildStatItem(
+    String label,
+    String value,
+    IconData icon,
+    BuildContext context,
+  ) {
     final t = context.theme;
     final text = context.text;
 
     return Expanded(
       child: Row(
         children: [
-          Icon(
-            icon,
-            size: context.sizes.iconSm,
-            color: t.colors.textSecondary,
-          ),
+          Icon(icon, size: context.sizes.iconSm, color: t.colors.textSecondary),
           CommonSpacer(width: context.spacing.xs),
           Expanded(
             child: Column(
@@ -326,4 +337,3 @@ class SubstanceCard extends StatelessWidget {
     );
   }
 }
-

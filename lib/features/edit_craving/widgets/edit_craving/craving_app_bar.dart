@@ -23,9 +23,12 @@ class CravingAppBar extends StatelessWidget implements PreferredSizeWidget {
     final c = context.colors;
     final a = context.accent;
     final t = context.text;
-    
+
     return AppBar(
-      title: Text('Edit Craving', style: t.titleLarge.copyWith(color: c.textPrimary)),
+      title: Text(
+        'Edit Craving',
+        style: t.titleLarge.copyWith(color: c.textPrimary),
+      ),
       backgroundColor: c.surface,
       foregroundColor: c.textPrimary,
       elevation: context.sizes.elevationNone,
@@ -34,16 +37,17 @@ class CravingAppBar extends StatelessWidget implements PreferredSizeWidget {
           Center(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: context.spacing.md),
-              child: CommonLoader(
-                size: context.sizes.iconSm,
-                color: a.primary,
-              ),
+              child: CommonLoader(size: context.sizes.iconSm, color: a.primary),
             ),
           )
         else
           TextButton.icon(
             onPressed: onSave,
-            icon: Icon(Icons.check, color: a.primary, size: context.sizes.iconMd),
+            icon: Icon(
+              Icons.check,
+              color: a.primary,
+              size: context.sizes.iconMd,
+            ),
             label: Text('Save', style: t.labelLarge.copyWith(color: a.primary)),
           ),
       ],

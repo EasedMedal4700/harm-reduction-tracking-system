@@ -1,13 +1,13 @@
 // Unified Bucket Tolerance Widget
-// 
+//
 // Created: 2024-03-15
 // Last Modified: 2025-01-23
-// 
+//
 // Purpose:
 // Displays comprehensive tolerance information combining system-wide bucket states
 // with substance-specific contributions. Shows per-neurochemical system breakdown
 // with detailed metrics, state classification, and optional debug calculations.
-// 
+//
 // Features:
 // - System-wide tolerance percentages for all neurochemical buckets
 // - Per-substance contribution breakdown for each bucket
@@ -29,20 +29,18 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 
-
 import '../../../../models/bucket_definitions.dart';
 import '../../../../models/tolerance_model.dart';
 import '../../../../utils/tolerance_calculator.dart';
 
 import '../../../../constants/theme/app_theme_extension.dart';
 
-
 /// Unified widget combining system tolerance and substance-specific breakdown.
-/// 
+///
 /// Displays neurochemical bucket states with both:
 /// 1. System-wide tolerance (all substances combined)
 /// 2. Individual substance contribution to each bucket
-/// 
+///
 /// Includes expandable debug mode for calculation transparency.
 class UnifiedBucketToleranceWidget extends StatefulWidget {
   final ToleranceModel toleranceModel;
@@ -138,7 +136,9 @@ class _UnifiedBucketToleranceWidgetState
         color: theme.colors.surface,
         borderRadius: BorderRadius.circular(context.shapes.radiusLg),
         boxShadow: theme.cardShadow,
-        border: theme.isDark ? Border.all(color: theme.accent.primary.withValues(alpha: 0.3)) : null,
+        border: theme.isDark
+            ? Border.all(color: theme.accent.primary.withValues(alpha: 0.3))
+            : null,
       ),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -183,17 +183,22 @@ class _UnifiedBucketToleranceWidgetState
             Container(
               padding: EdgeInsets.all(spacing.sm),
               decoration: BoxDecoration(
-                color: context.accent.warning.withValues(alpha: context.theme.isDark ? 0.15 : 0.10),
-                borderRadius:
-                    BorderRadius.circular(context.shapes.radiusSm),
+                color: context.colors.warning.withValues(
+                  alpha: context.theme.isDark ? 0.15 : 0.10,
+                ),
+                borderRadius: BorderRadius.circular(context.shapes.radiusSm),
                 border: Border.all(
-                  color: context.accent.warning.withValues(alpha: 0.4),
+                  color: context.colors.warning.withValues(alpha: 0.4),
                   width: context.sizes.borderThin,
                 ),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline, size: context.sizes.iconSm, color: context.accent.warning),
+                  Icon(
+                    Icons.info_outline,
+                    size: context.sizes.iconSm,
+                    color: context.colors.warning,
+                  ),
                   SizedBox(width: spacing.sm),
                   Expanded(
                     child: Text(
@@ -211,24 +216,28 @@ class _UnifiedBucketToleranceWidgetState
           SizedBox(height: spacing.lg),
 
           // BUCKET CARDS - Render all buckets defined in this substance's model
-          ...BucketDefinitions.orderedBuckets.where((bucketType) {
-            return widget.toleranceModel.neuroBuckets.containsKey(bucketType);
-          }).map((bucketType) {
-            final bucket = widget.toleranceModel.neuroBuckets[bucketType]!;
-            final percent =
-                widget.toleranceResult.bucketPercents[bucketType] ?? 0.0;
-            final state = ToleranceCalculator.classifyState(percent);
-            final isExpanded = _expandedBucket == bucketType;
+          ...BucketDefinitions.orderedBuckets
+              .where((bucketType) {
+                return widget.toleranceModel.neuroBuckets.containsKey(
+                  bucketType,
+                );
+              })
+              .map((bucketType) {
+                final bucket = widget.toleranceModel.neuroBuckets[bucketType]!;
+                final percent =
+                    widget.toleranceResult.bucketPercents[bucketType] ?? 0.0;
+                final state = ToleranceCalculator.classifyState(percent);
+                final isExpanded = _expandedBucket == bucketType;
 
-            return _buildBucketCard(
-              context: context,
-              bucketType: bucketType,
-              bucket: bucket,
-              bucketPercent: percent,
-              state: state,
-              isExpanded: isExpanded,
-            );
-          }),
+                return _buildBucketCard(
+                  context: context,
+                  bucketType: bucketType,
+                  bucket: bucket,
+                  bucketPercent: percent,
+                  state: state,
+                  isExpanded: isExpanded,
+                );
+              }),
 
           // NOTES - Optional tolerance model notes
           if (widget.toleranceModel.notes.isNotEmpty) ...[
@@ -287,10 +296,7 @@ class _UnifiedBucketToleranceWidgetState
       elevation: context.sizes.elevationNone,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(context.shapes.radiusSm),
-        side: BorderSide(
-          color: colors.border,
-          width: context.sizes.borderThin,
-        ),
+        side: BorderSide(color: colors.border, width: context.sizes.borderThin),
       ),
       child: InkWell(
         onTap: () {
@@ -346,7 +352,8 @@ class _UnifiedBucketToleranceWidgetState
                       decoration: BoxDecoration(
                         color: colors.info.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(
-                            context.shapes.radiusSm),
+                          context.shapes.radiusSm,
+                        ),
                       ),
                       child: Text(
                         'ACTIVE',
@@ -389,12 +396,16 @@ class _UnifiedBucketToleranceWidgetState
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: _getStateColor(state, context)
-                              .withValues(alpha: 0.12),
+                          color: _getStateColor(
+                            state,
+                            context,
+                          ).withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: _getStateColor(state, context)
-                                .withValues(alpha: 0.4),
+                            color: _getStateColor(
+                              state,
+                              context,
+                            ).withValues(alpha: 0.4),
                             width: 0.5,
                           ),
                         ),
@@ -426,8 +437,7 @@ class _UnifiedBucketToleranceWidgetState
                   Text(
                     '${(substanceTolerance * 100).toStringAsFixed(1)}%',
                     style: typography.bodyBold.copyWith(
-                      color:
-                          _getColorForTolerance(substanceTolerance, context),
+                      color: _getColorForTolerance(substanceTolerance, context),
                     ),
                   ),
                 ],
@@ -437,8 +447,7 @@ class _UnifiedBucketToleranceWidgetState
 
               // PROGRESS BAR - Visual indicator of substance contribution
               ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(context.shapes.radiusSm),
+                borderRadius: BorderRadius.circular(context.shapes.radiusSm),
                 child: LinearProgressIndicator(
                   value: substanceTolerance > 1.0 ? 1.0 : substanceTolerance,
                   backgroundColor: colors.border.withValues(alpha: 0.3),
@@ -464,9 +473,7 @@ class _UnifiedBucketToleranceWidgetState
                   Text(
                     'Active: ${isActive ? 'Yes' : 'No'}',
                     style: typography.captionBold.copyWith(
-                      color: isActive
-                          ? colors.info
-                          : colors.textSecondary,
+                      color: isActive ? colors.info : colors.textSecondary,
                     ),
                   ),
                 ],
@@ -521,7 +528,7 @@ class _UnifiedBucketToleranceWidgetState
           Text(
             '🐛 CALCULATION DEBUG',
             style: typography.captionBold.copyWith(
-              color: context.accent.warning,
+              color: context.colors.warning,
             ),
           ),
           SizedBox(height: spacing.sm),
@@ -529,7 +536,10 @@ class _UnifiedBucketToleranceWidgetState
           _debugRow(context, 'Bucket Type', bucketType),
           _debugRow(context, 'Weight', bucket.weight.toStringAsFixed(3)),
           _debugRow(
-              context, 'Tolerance Type', bucket.toleranceType ?? 'unknown'),
+            context,
+            'Tolerance Type',
+            bucket.toleranceType ?? 'unknown',
+          ),
 
           Divider(height: spacing.lg, color: colors.divider),
 
@@ -575,7 +585,7 @@ class _UnifiedBucketToleranceWidgetState
           Text(
             'FORMULA EXPLANATION:',
             style: typography.captionBold.copyWith(
-              color: context.accent.warning,
+              color: context.colors.warning,
             ),
           ),
           SizedBox(height: 4),
@@ -604,11 +614,7 @@ class _UnifiedBucketToleranceWidgetState
   }
 
   /// Builds a single debug row showing label and value.
-  Widget _debugRow(
-    BuildContext context,
-    String label,
-    String value,
-  ) {
+  Widget _debugRow(BuildContext context, String label, String value) {
     final typography = context.text;
     final colors = context.colors;
 
@@ -619,9 +625,7 @@ class _UnifiedBucketToleranceWidgetState
         children: [
           Text(
             '$label:',
-            style: typography.caption.copyWith(
-              color: colors.textSecondary,
-            ),
+            style: typography.caption.copyWith(color: colors.textSecondary),
           ),
           Text(
             value,
@@ -635,6 +639,3 @@ class _UnifiedBucketToleranceWidgetState
     );
   }
 }
-
-
-

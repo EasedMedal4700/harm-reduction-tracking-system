@@ -60,29 +60,72 @@ class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
   Widget build(BuildContext context) {
     // Define all quick actions with their feature flags
     final allActions = [
-      _QuickAction('log_usage', Icons.note_add, 'Log Entry', 
-          widget.onLogEntry, FeatureFlags.logEntryPage),
-      _QuickAction('reflection', Icons.self_improvement, 'Reflection', 
-          widget.onReflection, FeatureFlags.reflectionPage),
-      _QuickAction('analytics', Icons.analytics, 'Analytics', 
-          widget.onAnalytics, FeatureFlags.analyticsPage),
-      _QuickAction('cravings', Icons.local_fire_department, 'Cravings', 
-          widget.onCravings, FeatureFlags.cravingsPage),
-      _QuickAction('activity', Icons.directions_run, 'Activity', 
-          widget.onActivity, FeatureFlags.activityPage),
-      _QuickAction('library', Icons.menu_book, 'Library', 
-          widget.onLibrary, FeatureFlags.personalLibraryPage),
-      _QuickAction('catalog', Icons.inventory, 'Catalog', 
-          widget.onCatalog, FeatureFlags.catalogPage),
-      _QuickAction('blood_levels', Icons.bloodtype, 'Blood Levels', 
-          widget.onBloodLevels, FeatureFlags.bloodLevelsPage),
+      _QuickAction(
+        'log_usage',
+        Icons.note_add,
+        'Log Entry',
+        widget.onLogEntry,
+        FeatureFlags.logEntryPage,
+      ),
+      _QuickAction(
+        'reflection',
+        Icons.self_improvement,
+        'Reflection',
+        widget.onReflection,
+        FeatureFlags.reflectionPage,
+      ),
+      _QuickAction(
+        'analytics',
+        Icons.analytics,
+        'Analytics',
+        widget.onAnalytics,
+        FeatureFlags.analyticsPage,
+      ),
+      _QuickAction(
+        'cravings',
+        Icons.local_fire_department,
+        'Cravings',
+        widget.onCravings,
+        FeatureFlags.cravingsPage,
+      ),
+      _QuickAction(
+        'activity',
+        Icons.directions_run,
+        'Activity',
+        widget.onActivity,
+        FeatureFlags.activityPage,
+      ),
+      _QuickAction(
+        'library',
+        Icons.menu_book,
+        'Library',
+        widget.onLibrary,
+        FeatureFlags.personalLibraryPage,
+      ),
+      _QuickAction(
+        'catalog',
+        Icons.inventory,
+        'Catalog',
+        widget.onCatalog,
+        FeatureFlags.catalogPage,
+      ),
+      _QuickAction(
+        'blood_levels',
+        Icons.bloodtype,
+        'Blood Levels',
+        widget.onBloodLevels,
+        FeatureFlags.bloodLevelsPage,
+      ),
     ];
 
     return Consumer<FeatureFlagService>(
       builder: (context, flags, _) {
         // Filter actions based on feature flags
-        final enabledActions = allActions.where((action) =>
-          flags.isEnabled(action.flagName, isAdmin: _isAdmin)).toList();
+        final enabledActions = allActions
+            .where(
+              (action) => flags.isEnabled(action.flagName, isAdmin: _isAdmin),
+            )
+            .toList();
 
         if (enabledActions.isEmpty) {
           return const SizedBox.shrink();
@@ -95,11 +138,15 @@ class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
           crossAxisSpacing: context.spacing.md,
           mainAxisSpacing: context.spacing.md,
           childAspectRatio: 1.0, // Square aspect ratio
-          children: enabledActions.map((action) => CommonActionCard(
-            icon: action.icon,
-            title: action.label,
-            onTap: action.onTap,
-          )).toList(),
+          children: enabledActions
+              .map(
+                (action) => CommonActionCard(
+                  icon: action.icon,
+                  title: action.label,
+                  onTap: action.onTap,
+                ),
+              )
+              .toList(),
         );
       },
     );
@@ -114,7 +161,11 @@ class _QuickAction {
   final VoidCallback onTap;
   final String flagName;
 
-  const _QuickAction(this.key, this.icon, this.label, this.onTap, this.flagName);
+  const _QuickAction(
+    this.key,
+    this.icon,
+    this.label,
+    this.onTap,
+    this.flagName,
+  );
 }
-
-

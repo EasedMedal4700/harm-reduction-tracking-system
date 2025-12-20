@@ -10,10 +10,7 @@ void main() {
 
       await tester.pumpWidget(
         wrapWithAppTheme(
-          DateSelector(
-            selectedDate: testDate,
-            onDateChanged: (_) {},
-          ),
+          DateSelector(selectedDate: testDate, onDateChanged: (_) {}),
         ),
       );
 
@@ -26,10 +23,7 @@ void main() {
 
       await tester.pumpWidget(
         wrapWithAppTheme(
-          DateSelector(
-            selectedDate: testDate,
-            onDateChanged: (_) {},
-          ),
+          DateSelector(selectedDate: testDate, onDateChanged: (_) {}),
         ),
       );
 
@@ -39,10 +33,7 @@ void main() {
     testWidgets('shows date picker when tapped', (tester) async {
       await tester.pumpWidget(
         wrapWithAppTheme(
-          DateSelector(
-            selectedDate: DateTime.now(),
-            onDateChanged: (_) {},
-          ),
+          DateSelector(selectedDate: DateTime.now(), onDateChanged: (_) {}),
         ),
       );
 
@@ -56,10 +47,7 @@ void main() {
     testWidgets('has calendar icon', (tester) async {
       await tester.pumpWidget(
         wrapWithAppTheme(
-          DateSelector(
-            selectedDate: DateTime.now(),
-            onDateChanged: (_) {},
-          ),
+          DateSelector(selectedDate: DateTime.now(), onDateChanged: (_) {}),
         ),
       );
 

@@ -40,10 +40,10 @@ class FeatureFlag {
 }
 
 /// Service for managing feature flags from Supabase.
-/// 
+///
 /// Loads all flags on app start, caches them in memory, and provides
 /// methods to check if features are enabled. Supports admin override.
-/// 
+///
 /// Usage:
 /// ```dart
 /// await featureFlagService.load();
@@ -57,16 +57,16 @@ class FeatureFlagService extends ChangeNotifier {
   /// Getter for Supabase client (lazy to avoid initialization issues in tests)
   SupabaseClient get _client => Supabase.instance.client;
   final CacheService _cache = CacheService();
-  
+
   /// In-memory cache of all feature flags.
   Map<String, FeatureFlag> _flags = {};
-  
+
   /// Whether flags have been loaded from the database.
   bool _isLoaded = false;
-  
+
   /// Whether a load operation is in progress.
   bool _isLoading = false;
-  
+
   /// Error message if loading failed.
   String? _errorMessage;
 
@@ -76,13 +76,13 @@ class FeatureFlagService extends ChangeNotifier {
 
   /// Returns true if flags have been loaded from the database.
   bool get isLoaded => _isLoaded;
-  
+
   /// Returns true if a load operation is in progress.
   bool get isLoading => _isLoading;
-  
+
   /// Returns error message if loading failed.
   String? get errorMessage => _errorMessage;
-  
+
   /// Returns all loaded feature flags.
   List<FeatureFlag> get allFlags => _flags.values.toList();
 
@@ -91,46 +91,45 @@ class FeatureFlagService extends ChangeNotifier {
   // ============================================================================
 
   /// Load all feature flags from Supabase.
-  /// 
+  ///
   /// Call this on app start. Safe to call multiple times.
   Future<void> load() async {
     if (_isLoading) return;
-    
+
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
-    
+
     try {
       if (kDebugMode) {
         debugPrint('🏴 Loading feature flags from database...');
       }
-      
+
       final response = await _client
           .from('feature_flags')
           .select('id, feature_name, enabled, description, updated_at')
           .order('feature_name');
-      
+
       _flags = {};
       for (final row in response as List<dynamic>) {
         final flag = FeatureFlag.fromJson(row as Map<String, dynamic>);
         _flags[flag.featureName] = flag;
       }
-      
+
       _isLoaded = true;
       if (kDebugMode) {
         debugPrint('✅ Loaded ${_flags.length} feature flags');
       }
-      
+
       // Cache the flags
       _cache.set('feature_flags_loaded', true, ttl: CacheService.longTTL);
-      
     } catch (e, stackTrace) {
       if (kDebugMode) {
         debugPrint('❌ Error loading feature flags: $e');
         debugPrint('$stackTrace');
       }
       _errorMessage = 'Failed to load feature flags: $e';
-      
+
       // On error, default to all features enabled (fail-open)
       _isLoaded = true;
     } finally {
@@ -150,18 +149,18 @@ class FeatureFlagService extends ChangeNotifier {
   // ============================================================================
 
   /// Check if a feature is enabled.
-  /// 
+  ///
   /// Returns true if:
   /// - The feature flag is enabled in the database, OR
   /// - The user is an admin (admin override)
-  /// 
+  ///
   /// If flags haven't loaded yet, defaults to true (fail-open).
   bool isEnabled(String featureName, {required bool isAdmin}) {
     // Admin override: admins can always access all features
     if (isAdmin) {
       return true;
     }
-    
+
     // If flags haven't loaded, default to enabled (fail-open)
     if (!_isLoaded) {
       if (kDebugMode) {
@@ -169,17 +168,19 @@ class FeatureFlagService extends ChangeNotifier {
       }
       return true;
     }
-    
+
     // Check if flag exists
     final flag = _flags[featureName];
     if (flag == null) {
       // Unknown feature, default to enabled
       if (kDebugMode) {
-        debugPrint('⚠️ Unknown feature flag: $featureName, defaulting to enabled');
+        debugPrint(
+          '⚠️ Unknown feature flag: $featureName, defaulting to enabled',
+        );
       }
       return true;
     }
-    
+
     return flag.enabled;
   }
 
@@ -193,14 +194,14 @@ class FeatureFlagService extends ChangeNotifier {
   // ============================================================================
 
   /// Update a feature flag's enabled state (admin only).
-  /// 
+  ///
   /// Updates the database and refreshes the local cache.
   Future<bool> updateFlag(String featureName, bool enabled) async {
     try {
       if (kDebugMode) {
         debugPrint('🏴 Updating feature flag: $featureName = $enabled');
       }
-      
+
       await _client
           .from('feature_flags')
           .update({
@@ -208,14 +209,14 @@ class FeatureFlagService extends ChangeNotifier {
             'updated_at': DateTime.now().toIso8601String(),
           })
           .eq('feature_name', featureName);
-      
+
       // Update local cache
       final existingFlag = _flags[featureName];
       if (existingFlag != null) {
         _flags[featureName] = existingFlag.copyWith(enabled: enabled);
         notifyListeners();
       }
-      
+
       if (kDebugMode) {
         debugPrint('✅ Feature flag updated successfully');
       }

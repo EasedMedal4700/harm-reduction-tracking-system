@@ -152,4 +152,3 @@ class ToleranceService {
     return 0.0;
   }
 }
-

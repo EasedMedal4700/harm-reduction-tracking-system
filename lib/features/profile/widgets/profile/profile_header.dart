@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -13,10 +12,7 @@ import '../../../../constants/theme/app_theme_extension.dart';
 class ProfileHeader extends StatelessWidget {
   final Map<String, dynamic>? userData;
 
-  const ProfileHeader({
-    super.key,
-    required this.userData,
-  });
+  const ProfileHeader({super.key, required this.userData});
 
   @override
   Widget build(BuildContext context) {
@@ -34,31 +30,24 @@ class ProfileHeader extends StatelessWidget {
         // Avatar
         CircleAvatar(
           radius: 50,
-          backgroundColor:
-              isAdmin ? t.accent.secondary : t.accent.primary, // neon admin vs primary
+          backgroundColor: isAdmin
+              ? t.accent.secondary
+              : t.accent.primary, // neon admin vs primary
           child: Text(
             _getInitials(displayName),
-            style: t.typography.heading1.copyWith(
-              color: t.colors.textInverse,
-            ),
+            style: t.typography.heading1.copyWith(color: t.colors.textInverse),
           ),
         ),
 
         CommonSpacer.vertical(spacing.lg),
 
         // Name
-        Text(
-          displayName,
-          style: t.typography.heading3,
-        ),
+        Text(displayName, style: t.typography.heading3),
 
         CommonSpacer.vertical(spacing.sm),
 
         // Email
-        Text(
-          email,
-          style: t.typography.bodySmall,
-        ),
+        Text(email, style: t.typography.bodySmall),
 
         CommonSpacer.vertical(spacing.md),
 

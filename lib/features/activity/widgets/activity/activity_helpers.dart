@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -24,10 +23,10 @@ class ActivityHelpers {
   static Color getCravingColor(int intensity, BuildContext context) {
     final c = context.colors;
 
-    if (intensity <= 2) return c.success;               // green
-    if (intensity <= 4) return c.warning;               // yellow
-    if (intensity <= 7) return c.warning;           // orange (preferred)
-    return c.error;                                     // red
+    if (intensity <= 2) return c.success; // green
+    if (intensity <= 4) return c.warning; // yellow
+    if (intensity <= 7) return c.warning; // orange (preferred)
+    return c.error; // red
   }
 
   /// Formats a timestamp into a friendly, detailed string.

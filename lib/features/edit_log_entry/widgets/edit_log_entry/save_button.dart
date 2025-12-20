@@ -12,10 +12,7 @@ import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 class SaveButton extends StatelessWidget {
   final VoidCallback onSave;
 
-  const SaveButton({
-    super.key,
-    required this.onSave,
-  });
+  const SaveButton({super.key, required this.onSave});
 
   @override
   Widget build(BuildContext context) {
@@ -28,4 +25,3 @@ class SaveButton extends StatelessWidget {
     );
   }
 }
-

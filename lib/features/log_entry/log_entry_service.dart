@@ -22,19 +22,16 @@ class LogEntryService {
     try {
       final supabase = Supabase.instance.client;
       final userId = UserService.getCurrentUserId();
-      
+
       // Encrypt notes field if it's being updated
-      final encryptedData = await _encryption.encryptFields(
-        data,
-        ['notes'],
-      );
-      
+      final encryptedData = await _encryption.encryptFields(data, ['notes']);
+
       await supabase
           .from('drug_use')
           .update(encryptedData)
           .eq('uuid_user_id', userId)
           .eq('use_id', id);
-      
+
       // Invalidate cache for user's entries
       _cache.remove(CacheKeys.recentEntries(userId));
       _cache.remove(CacheKeys.drugEntry(id));
@@ -54,7 +51,7 @@ class LogEntryService {
           .delete()
           .eq('uuid_user_id', userId)
           .eq('use_id', id);
-      
+
       // Invalidate cache for user's entries
       _cache.remove(CacheKeys.recentEntries(userId));
       _cache.remove(CacheKeys.drugEntry(id));
@@ -63,7 +60,7 @@ class LogEntryService {
       ErrorHandler.logError('LogEntryService.deleteLogEntry', e, stackTrace);
       rethrow;
     }
-  }  
+  }
 
   Future<void> saveLogEntry(LogEntry entry) async {
     // Add validation
@@ -74,23 +71,29 @@ class LogEntryService {
     try {
       // Get the auth user ID
       final userId = UserService.getCurrentUserId();
-      
+
       // Encrypt notes field
       final encryptedNotes = await _encryption.encryptTextNullable(entry.notes);
-      
+
       final data = {
         'uuid_user_id': userId,
         'name': entry.substance,
         'dose': '${entry.dosage} ${entry.unit}',
-        'start_time': formatter.format(entry.datetime.toUtc()), // Format as UTC+00
+        'start_time': formatter.format(
+          entry.datetime.toUtc(),
+        ), // Format as UTC+00
         'consumption': entry.route,
-        'intention': (entry.intention == null || entry.intention == '-- Select Intention--')
+        'intention':
+            (entry.intention == null ||
+                entry.intention == '-- Select Intention--')
             ? null
             : entry.intention,
         'craving_0_10': entry.cravingIntensity.toInt(), // Convert double to int
         'medical': entry.isMedicalPurpose.toString(),
         'primary_emotions': entry.feelings,
-        'secondary_emotions': entry.secondaryFeelings.values.expand((list) => list).toList(), // Flatten map to list
+        'secondary_emotions': entry.secondaryFeelings.values
+            .expand((list) => list)
+            .toList(), // Flatten map to list
         'triggers': entry.triggers,
         'people': entry.people,
         'place': entry.location, // Remove default; use as-is
@@ -101,7 +104,7 @@ class LogEntryService {
       };
 
       await Supabase.instance.client.from('drug_use').insert(data);
-      
+
       // Invalidate cache for user's entries
       _cache.remove(CacheKeys.recentEntries(userId));
       _cache.removePattern('drug_entries:user:$userId');
@@ -134,32 +137,40 @@ class LogEntryService {
   Future<List<Map<String, dynamic>>> fetchRecentEntriesRaw() async {
     try {
       final userId = UserService.getCurrentUserId();
-      
+
       // Check cache first
       final cacheKey = CacheKeys.recentEntries(userId);
       final cached = _cache.get<List<Map<String, dynamic>>>(cacheKey);
       if (cached != null) {
         return cached;
       }
-      
+
       final response = await Supabase.instance.client
-        .from('drug_use')
-        .select('use_id, name, dose, start_time, place') // Select key fields
-        .eq('uuid_user_id', userId)
-        .order('start_time', ascending: false)
-        .limit(10);
-      
+          .from('drug_use')
+          .select('use_id, name, dose, start_time, place') // Select key fields
+          .eq('uuid_user_id', userId)
+          .order('start_time', ascending: false)
+          .limit(10);
+
       final results = List<Map<String, dynamic>>.from(response);
-      
+
       // Cache the results
       _cache.set(cacheKey, results, ttl: CacheService.defaultTTL);
-      
+
       return results;
     } on PostgrestException catch (e, stackTrace) {
-      ErrorHandler.logError('LogEntryService.fetchRecentEntriesRaw', e, stackTrace);
+      ErrorHandler.logError(
+        'LogEntryService.fetchRecentEntriesRaw',
+        e,
+        stackTrace,
+      );
       throw Exception('Failed to fetch entries: ${e.message}');
     } catch (e, stackTrace) {
-      ErrorHandler.logError('LogEntryService.fetchRecentEntriesRaw', e, stackTrace);
+      ErrorHandler.logError(
+        'LogEntryService.fetchRecentEntriesRaw',
+        e,
+        stackTrace,
+      );
       throw Exception('Unexpected error: $e');
     }
   }

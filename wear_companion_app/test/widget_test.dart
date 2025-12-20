@@ -13,9 +13,6 @@ void main() {
     await tester.pumpWidget(const WearCompanionApp());
 
     expect(find.text('Vitals & Movement'), findsOneWidget);
-    expect(
-      find.text('Live metrics from your Galaxy Watch'),
-      findsOneWidget,
-    );
+    expect(find.text('Live metrics from your Galaxy Watch'), findsOneWidget);
   });
 }

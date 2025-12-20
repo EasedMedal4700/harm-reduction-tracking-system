@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -12,10 +11,7 @@ import '../../../../common/feedback/common_loader.dart';
 class LoadingOverlay extends StatelessWidget {
   final bool isLoading;
 
-  const LoadingOverlay({
-    super.key,
-    required this.isLoading,
-  });
+  const LoadingOverlay({super.key, required this.isLoading});
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +21,7 @@ class LoadingOverlay extends StatelessWidget {
 
     return Container(
       color: Colors.black.withValues(alpha: context.opacities.slow),
-      child: Center(
-        child: CommonLoader(
-          color: a.primary,
-        ),
-      ),
+      child: Center(child: CommonLoader(color: a.primary)),
     );
   }
 }

@@ -53,7 +53,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
 
     try {
       final amount = double.parse(_amountController.text);
-      
+
       // Convert to mg
       final amountInMg = DrugProfileUtils.convertToMg(
         amount,
@@ -154,13 +154,12 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
             // Amount input
             CommonInputField(
               controller: _amountController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               labelText: 'Amount',
               hintText: 'Enter amount',
-              prefixIcon: Icon(
-                Icons.inventory_2,
-                color: t.accent.primary,
-              ),
+              prefixIcon: Icon(Icons.inventory_2, color: t.accent.primary),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter an amount';

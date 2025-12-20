@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -57,8 +56,7 @@ class ActivityCravingsTab extends StatelessWidget {
         itemBuilder: (context, index) {
           final craving = cravings[index];
 
-          final timestamp =
-              _parseTimestamp(craving['time'] ?? craving['date']);
+          final timestamp = _parseTimestamp(craving['time'] ?? craving['date']);
 
           final intensity = (craving['intensity'] ?? 5).toDouble();
 

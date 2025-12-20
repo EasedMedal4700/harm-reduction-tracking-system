@@ -29,15 +29,15 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
   Map<String, DrugLevel> _levels = {};
   bool _loading = true;
   String? _error;
-  
+
   // Time machine state
   DateTime _selectedTime = DateTime.now();
-  
+
   // Filter state
   final Set<String> _includedDrugs = {};
   final Set<String> _excludedDrugs = {};
   bool _showFilters = false;
-  
+
   // Timeline state
   int _chartHoursBack = 24;
   int _chartHoursForward = 24;
@@ -57,7 +57,9 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
     });
 
     try {
-      final levels = await _service.calculateLevels(referenceTime: _selectedTime);
+      final levels = await _service.calculateLevels(
+        referenceTime: _selectedTime,
+      );
       setState(() {
         _levels = levels;
         _loading = false;
@@ -69,13 +71,13 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
       });
     }
   }
-  
+
   /// Get filtered levels based on include/exclude lists
   Map<String, DrugLevel> _getFilteredLevels() {
     if (_includedDrugs.isEmpty && _excludedDrugs.isEmpty) {
       return _levels;
     }
-    
+
     return Map.fromEntries(
       _levels.entries.where((entry) {
         final drugName = entry.key;
@@ -91,7 +93,7 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
       }),
     );
   }
-  
+
   /// Get list of all drug names from current data
   List<String> _getAvailableDrugs() {
     return _levels.keys.toList()..sort();
@@ -116,7 +118,7 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
       body: _buildBody(),
     );
   }
-  
+
   Future<void> _showTimeMachine() async {
     final date = await showDatePicker(
       context: context,
@@ -124,18 +126,18 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now().add(const Duration(days: 30)),
     );
-    
+
     if (date == null) return;
-    
+
     if (!mounted) return;
-    
+
     final time = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(_selectedTime),
     );
-    
+
     if (time == null) return;
-    
+
     setState(() {
       _selectedTime = DateTime(
         date.year,
@@ -145,7 +147,7 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
         time.minute,
       );
     });
-    
+
     _loadLevels();
   }
 
@@ -155,23 +157,22 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
         // Harm reduction warning banner (dismissible with persistence)
         HarmReductionBanner(
           dismissKey: OnboardingService.bloodLevelsHarmNoticeDismissedKey,
-          message: 'Blood level calculations are mathematical estimates based on '
+          message:
+              'Blood level calculations are mathematical estimates based on '
               'pharmacokinetic models. Actual blood concentrations vary significantly '
               'based on individual metabolism, substance purity, route of administration, '
               'and many other factors. Never use these numbers to make dosing decisions.',
         ),
-        
+
         // Filter panel (collapsible)
         if (_showFilters) _buildFilterPanel(),
-        
+
         // Main content
-        Expanded(
-          child: _buildMainContent(),
-        ),
+        Expanded(child: _buildMainContent()),
       ],
     );
   }
-  
+
   Widget _buildFilterPanel() {
     return FilterPanel(
       availableDrugs: _getAvailableDrugs(),
@@ -205,24 +206,22 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
       },
     );
   }
-  
+
   Widget _buildMainContent() {
     if (_loading) {
       return const BloodLevelsLoadingState();
     }
 
     if (_error != null) {
-      return BloodLevelsErrorState(
-        error: _error!,
-        onRetry: _loadLevels,
-      );
+      return BloodLevelsErrorState(error: _error!, onRetry: _loadLevels);
     }
 
     final filteredLevels = _getFilteredLevels();
-    
+
     if (filteredLevels.isEmpty) {
       return BloodLevelsEmptyState(
-        hasActiveFilters: _includedDrugs.isNotEmpty || _excludedDrugs.isNotEmpty,
+        hasActiveFilters:
+            _includedDrugs.isNotEmpty || _excludedDrugs.isNotEmpty,
       );
     }
 
@@ -236,7 +235,8 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
       referenceTime: _selectedTime,
       onHoursBackChanged: (val) => setState(() => _chartHoursBack = val),
       onHoursForwardChanged: (val) => setState(() => _chartHoursForward = val),
-      onAdaptiveScaleChanged: (val) => setState(() => _chartAdaptiveScale = val),
+      onAdaptiveScaleChanged: (val) =>
+          setState(() => _chartAdaptiveScale = val),
       onPresetSelected: (back, forward) {
         setState(() {
           _chartHoursBack = back;

@@ -6,7 +6,6 @@ import '../../models/bucket_definitions.dart';
 import '../../models/tolerance_model.dart';
 import '../../common/layout/common_spacer.dart';
 
-
 import 'widgets/bucket_details/bucket_header_card.dart';
 import 'widgets/bucket_details/bucket_description_card.dart';
 import 'widgets/bucket_details/bucket_status_card.dart';
@@ -62,9 +61,7 @@ class BucketDetailsPage extends StatelessWidget {
             CommonSpacer.vertical(sp.lg),
 
             // Description
-            BucketDescriptionCard(
-              bucketType: bucketType,
-            ),
+            BucketDescriptionCard(bucketType: bucketType),
             CommonSpacer.vertical(sp.lg),
 
             // Current status
@@ -76,38 +73,26 @@ class BucketDetailsPage extends StatelessWidget {
             CommonSpacer.vertical(sp.lg),
 
             // Decay timeline (visual representation)
-            BucketDecayTimelineCard(
-              tolerancePercent: tolerancePercent,
-            ),
+            BucketDecayTimelineCard(tolerancePercent: tolerancePercent),
             CommonSpacer.vertical(sp.lg),
 
             // Contributing uses
             if (contributingUses.isNotEmpty) ...[
-              BucketContributingUsesCard(
-                contributingUses: contributingUses,
-              ),
+              BucketContributingUsesCard(contributingUses: contributingUses),
               CommonSpacer.vertical(sp.lg),
             ],
 
             // Substance-specific notes
             if (substanceNotes != null && substanceNotes!.isNotEmpty) ...[
-              BucketNotesCard(
-                substanceNotes: substanceNotes!,
-              ),
+              BucketNotesCard(substanceNotes: substanceNotes!),
               CommonSpacer.vertical(sp.lg),
             ],
 
             // Days to baseline
-            BucketBaselineCard(
-              daysToBaseline: daysToBaseline,
-            ),
+            BucketBaselineCard(daysToBaseline: daysToBaseline),
           ],
         ),
       ),
     );
   }
 }
-
-
-
-

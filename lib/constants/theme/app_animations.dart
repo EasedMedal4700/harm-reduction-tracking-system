@@ -8,7 +8,7 @@ class AppAnimations {
   final Duration normal = const Duration(milliseconds: 300);
   final Duration slow = const Duration(milliseconds: 500);
   final Duration toast = const Duration(seconds: 3);
-  
+
   // Additional durations for specific use cases
   final Duration extraFast = const Duration(milliseconds: 100);
   final Duration medium = const Duration(milliseconds: 220);

@@ -1,13 +1,13 @@
 // System Tolerance Breakdown Sheet Widget
-// 
+//
 // Created: 2024-03-15
 // Last Modified: 2025-01-23
-// 
+//
 // Purpose:
 // Displays a bottom sheet showing detailed breakdown of substances contributing
 // to a specific neurochemical bucket's tolerance load. Shows each substance's
 // percentage contribution with visual progress bars.
-// 
+//
 // Features:
 // - Drag handle for swipe-to-dismiss gesture
 // - Bucket header with icon, name, and current tolerance percentage
@@ -101,10 +101,7 @@ class _SystemToleranceBreakdownSheetState
           // DRAG HANDLE - Visual indicator for swipe gesture
           Center(
             child: Container(
-              margin: EdgeInsets.only(
-                top: spacing.md,
-                bottom: spacing.sm,
-              ),
+              margin: EdgeInsets.only(top: spacing.md, bottom: spacing.sm),
               width: 40,
               height: 4,
               decoration: BoxDecoration(
@@ -166,30 +163,30 @@ class _SystemToleranceBreakdownSheetState
                     child: Center(child: CommonLoader()),
                   )
                 : _contributions.isEmpty
-                    // Empty state
-                    ? Padding(
-                        padding: EdgeInsets.all(spacing.xl),
-                        child: Text(
-                          'No recent contributors found.',
-                          style: typography.bodySmall.copyWith(
-                            color: colors.textSecondary,
-                          ),
-                        ),
-                      )
-                    // Contribution list
-                    : ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(spacing.lg),
-                        itemCount: _contributions.length,
-                        separatorBuilder: (_, __) =>
-                            CommonSpacer.vertical(spacing.lg),
-                        itemBuilder: (_, index) {
-                          return _buildContributionRow(
-                            context,
-                            _contributions[index],
-                          );
-                        },
+                // Empty state
+                ? Padding(
+                    padding: EdgeInsets.all(spacing.xl),
+                    child: Text(
+                      'No recent contributors found.',
+                      style: typography.bodySmall.copyWith(
+                        color: colors.textSecondary,
                       ),
+                    ),
+                  )
+                // Contribution list
+                : ListView.separated(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(spacing.lg),
+                    itemCount: _contributions.length,
+                    separatorBuilder: (_, __) =>
+                        CommonSpacer.vertical(spacing.lg),
+                    itemBuilder: (_, index) {
+                      return _buildContributionRow(
+                        context,
+                        _contributions[index],
+                      );
+                    },
+                  ),
           ),
 
           CommonSpacer.vertical(spacing.xl),
@@ -218,9 +215,7 @@ class _SystemToleranceBreakdownSheetState
             children: [
               Text(
                 item.substanceName,
-                style: typography.bodyBold.copyWith(
-                  color: colors.textPrimary,
-                ),
+                style: typography.bodyBold.copyWith(color: colors.textPrimary),
               ),
               CommonSpacer.vertical(spacing.xs),
               ClipRRect(
@@ -244,15 +239,11 @@ class _SystemToleranceBreakdownSheetState
           children: [
             Text(
               '${item.percentContribution.toStringAsFixed(1)}%',
-              style: typography.bodyBold.copyWith(
-                color: colors.textPrimary,
-              ),
+              style: typography.bodyBold.copyWith(color: colors.textPrimary),
             ),
             Text(
               'Impact',
-              style: typography.caption.copyWith(
-                color: colors.textSecondary,
-              ),
+              style: typography.caption.copyWith(color: colors.textSecondary),
             ),
           ],
         ),

@@ -173,10 +173,7 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
         actions: [
           IconButton(
             icon: _isLoading
-                ? CommonLoader(
-                    size: context.sizes.iconSm,
-                    color: c.textPrimary,
-                  )
+                ? CommonLoader(size: context.sizes.iconSm, color: c.textPrimary)
                 : const Icon(Icons.refresh),
             onPressed: _isLoading ? null : _loadData,
             tooltip: 'Refresh',

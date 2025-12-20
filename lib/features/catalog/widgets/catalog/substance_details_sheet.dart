@@ -172,9 +172,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               // Handle
               Center(
                 child: Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: t.spacing.sm,
-                  ),
+                  margin: EdgeInsets.symmetric(vertical: t.spacing.sm),
                   width: 40,
                   height: t.spacing.xs,
                   decoration: BoxDecoration(
@@ -253,9 +251,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
               padding: EdgeInsets.all(t.spacing.sm),
               decoration: BoxDecoration(
                 color: accentColor.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(
-                  t.shapes.radiusMd,
-                ),
+                borderRadius: BorderRadius.circular(t.shapes.radiusMd),
               ),
               child: Icon(
                 DrugCategories.categoryIconMap[categories.firstOrNull] ??
@@ -288,7 +284,9 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: accentColor.withValues(alpha: t.opacities.slow),
+                                color: accentColor.withValues(
+                                  alpha: t.opacities.slow,
+                                ),
                               ),
                               borderRadius: BorderRadius.circular(
                                 t.shapes.radiusSm,
@@ -296,9 +294,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                             ),
                             child: Text(
                               cat,
-                              style: t.text.label.copyWith(
-                                color: accentColor,
-                              ),
+                              style: t.text.label.copyWith(color: accentColor),
                             ),
                           ),
                         )
@@ -346,9 +342,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                 vertical: t.spacing.sm,
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  t.shapes.radiusMd,
-                ),
+                borderRadius: BorderRadius.circular(t.shapes.radiusMd),
               ),
               elevation: context.sizes.elevationSm,
             ),
@@ -434,9 +428,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
         if (summary != null) ...[
           Text(
             'Summary',
-            style: t.text.heading3.copyWith(
-              color: t.colors.textPrimary,
-            ),
+            style: t.text.heading3.copyWith(color: t.colors.textPrimary),
           ),
           CommonSpacer.vertical(t.spacing.sm),
           Text(
@@ -451,9 +443,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
         if (testKits != null) ...[
           Text(
             'Reagent Testing',
-            style: t.text.heading3.copyWith(
-              color: t.colors.textPrimary,
-            ),
+            style: t.text.heading3.copyWith(color: t.colors.textPrimary),
           ),
           CommonSpacer.vertical(t.spacing.sm),
           Container(
@@ -462,9 +452,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
             decoration: BoxDecoration(
               color: t.colors.surface,
               borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              border: Border.all(
-                color: t.colors.border,
-              ),
+              border: Border.all(color: t.colors.border),
             ),
             child: Text(
               testKits.toString(),
@@ -493,10 +481,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
           Expanded(
             child: Text(
               message,
-              style: t.text.body.copyWith(
-                color: t.colors.warning,
-                height: 1.4,
-              ),
+              style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),
             ),
           ),
         ],

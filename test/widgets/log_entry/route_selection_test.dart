@@ -7,12 +7,7 @@ void main() {
   group('RouteSelection Widget', () {
     testWidgets('renders all consumption methods', (tester) async {
       await tester.pumpWidget(
-        wrapWithAppTheme(
-          RouteSelection(
-            route: 'oral',
-            onRouteChanged: (_) {},
-          ),
-        ),
+        wrapWithAppTheme(RouteSelection(route: 'oral', onRouteChanged: (_) {})),
       );
 
       // Check that consumption method chips are displayed
@@ -22,12 +17,7 @@ void main() {
 
     testWidgets('selects initial route', (tester) async {
       await tester.pumpWidget(
-        wrapWithAppTheme(
-          RouteSelection(
-            route: 'oral',
-            onRouteChanged: (_) {},
-          ),
-        ),
+        wrapWithAppTheme(RouteSelection(route: 'oral', onRouteChanged: (_) {})),
       );
 
       final oralChip = tester.widget<ChoiceChip>(
@@ -62,12 +52,7 @@ void main() {
 
     testWidgets('displays emojis for each method', (tester) async {
       await tester.pumpWidget(
-        wrapWithAppTheme(
-          RouteSelection(
-            route: 'oral',
-            onRouteChanged: (_) {},
-          ),
-        ),
+        wrapWithAppTheme(RouteSelection(route: 'oral', onRouteChanged: (_) {})),
       );
 
       // Check that text contains emoji characters (checking for common patterns)
@@ -77,12 +62,7 @@ void main() {
 
     testWidgets('renders as Wrap widget for responsive layout', (tester) async {
       await tester.pumpWidget(
-        wrapWithAppTheme(
-          RouteSelection(
-            route: 'oral',
-            onRouteChanged: (_) {},
-          ),
-        ),
+        wrapWithAppTheme(RouteSelection(route: 'oral', onRouteChanged: (_) {})),
       );
 
       expect(find.byType(Wrap), findsOneWidget);
@@ -90,12 +70,7 @@ void main() {
 
     testWidgets('multiple routes can be displayed', (tester) async {
       await tester.pumpWidget(
-        wrapWithAppTheme(
-          RouteSelection(
-            route: 'oral',
-            onRouteChanged: (_) {},
-          ),
-        ),
+        wrapWithAppTheme(RouteSelection(route: 'oral', onRouteChanged: (_) {})),
       );
 
       // Should have multiple ChoiceChips for different routes
@@ -153,4 +128,3 @@ void main() {
     });
   });
 }
-

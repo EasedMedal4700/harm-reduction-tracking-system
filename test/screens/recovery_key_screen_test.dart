@@ -13,10 +13,10 @@ void main() {
 
       // Check for title
       expect(find.text('Enter Recovery Key'), findsOneWidget);
-      
+
       // Check for continue button
       expect(find.text('Continue'), findsOneWidget);
-      
+
       // Check for back button text
       expect(find.text('Back to PIN Unlock'), findsOneWidget);
     });
@@ -67,7 +67,9 @@ void main() {
       expect(find.byIcon(Icons.visibility), findsOneWidget);
     });
 
-    testWidgets('toggling visibility icon shows/hides recovery key', (tester) async {
+    testWidgets('toggling visibility icon shows/hides recovery key', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         wrapWithAppThemeApp(home: const RecoveryKeyScreen()),
       );
@@ -75,11 +77,11 @@ void main() {
 
       // Initially visibility icon (text obscured)
       expect(find.byIcon(Icons.visibility), findsOneWidget);
-      
+
       // Tap visibility icon
       await tester.tap(find.byIcon(Icons.visibility));
       await tester.pump();
-      
+
       // Now should show visibility_off (text visible)
       expect(find.byIcon(Icons.visibility_off), findsOneWidget);
     });
@@ -95,7 +97,10 @@ void main() {
       await tester.pump();
 
       final textFieldWidget = tester.widget<TextField>(textField);
-      expect(textFieldWidget.controller?.text, equals('abc123def456789012345678'));
+      expect(
+        textFieldWidget.controller?.text,
+        equals('abc123def456789012345678'),
+      );
     });
 
     testWidgets('has info box explaining recovery key format', (tester) async {

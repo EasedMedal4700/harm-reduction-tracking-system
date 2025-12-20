@@ -1,4 +1,3 @@
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -39,8 +38,8 @@ class AdminStatCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
       showBorder: false,
       child: FittedBox(
-          fit: AppLayout.boxFitScaleDown,
-          child: Column(
+        fit: AppLayout.boxFitScaleDown,
+        child: Column(
           mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
             // ICON
@@ -62,9 +61,7 @@ class AdminStatCard extends StatelessWidget {
             // TITLE
             Text(
               title,
-              style: text.caption.copyWith(
-                color: c.textSecondary,
-              ),
+              style: text.caption.copyWith(color: c.textSecondary),
               textAlign: AppLayout.textAlignCenter,
               maxLines: 1,
               overflow: AppLayout.textOverflowEllipsis,
@@ -75,15 +72,13 @@ class AdminStatCard extends StatelessWidget {
 
               Text(
                 subtitle!,
-                style: text.caption.copyWith(
-                  color: c.textTertiary,
-                ),
+                style: text.caption.copyWith(color: c.textTertiary),
                 textAlign: AppLayout.textAlignCenter,
               ),
             ],
           ],
         ),
-        ),
+      ),
     );
   }
 }

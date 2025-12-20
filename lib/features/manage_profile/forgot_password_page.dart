@@ -84,15 +84,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
         title: Text(
           'Reset Password',
-          style: text.headlineSmall.copyWith(
-            color: c.textPrimary,
-          ),
+          style: text.headlineSmall.copyWith(color: c.textPrimary),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(sp.xl),
-          child: _emailSent ? _buildSuccessContent(context) : _buildFormContent(context),
+          child: _emailSent
+              ? _buildSuccessContent(context)
+              : _buildFormContent(context),
         ),
       ),
     );
@@ -129,9 +129,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           // Title
           Text(
             'Forgot your password?',
-            style: text.headlineMedium.copyWith(
-              color: c.textPrimary,
-            ),
+            style: text.headlineMedium.copyWith(color: c.textPrimary),
             textAlign: AppLayout.textAlignCenter,
           ),
           SizedBox(height: sp.md),
@@ -150,9 +148,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             decoration: BoxDecoration(
               color: c.surface,
               borderRadius: BorderRadius.circular(sh.radiusMd),
-              border: Border.all(
-                color: c.border,
-              ),
+              border: Border.all(color: c.border),
             ),
             child: TextFormField(
               controller: _emailController,
@@ -193,7 +189,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: a.primary,
                 foregroundColor: c.textInverse,
-                disabledBackgroundColor: a.primary.withValues(alpha: context.opacities.slow),
+                disabledBackgroundColor: a.primary.withValues(
+                  alpha: context.opacities.slow,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                 ),
@@ -222,9 +220,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
               'Back to Login',
-              style: text.labelLarge.copyWith(
-                color: a.primary,
-              ),
+              style: text.labelLarge.copyWith(color: a.primary),
             ),
           ),
         ],
@@ -261,19 +257,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         // Title
         Text(
           'Check your email',
-          style: text.headlineMedium.copyWith(
-            color: c.textPrimary,
-          ),
+          style: text.headlineMedium.copyWith(color: c.textPrimary),
           textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.md),
         // Description
         Text(
           'We\'ve sent a password reset link to:',
-          style: text.bodyMedium.copyWith(
-            color: c.textSecondary,
-            height: 1.5,
-          ),
+          style: text.bodyMedium.copyWith(color: c.textSecondary, height: 1.5),
           textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.sm),
@@ -308,10 +299,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 child: Text(
                   'Click the link in the email to reset your password. '
                   'The link expires in 24 hours.',
-                  style: text.bodySmall.copyWith(
-                    color: a.primary,
-                    height: 1.4,
-                  ),
+                  style: text.bodySmall.copyWith(color: a.primary, height: 1.4),
                 ),
               ),
             ],
@@ -322,10 +310,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         SizedBox(
           height: 56,
           child: ElevatedButton(
-            onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
-              '/login_page',
-              (route) => false,
-            ),
+            onPressed: () => Navigator.of(
+              context,
+            ).pushNamedAndRemoveUntil('/login_page', (route) => false),
             style: ElevatedButton.styleFrom(
               backgroundColor: a.primary,
               foregroundColor: c.textInverse,
@@ -350,16 +337,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           },
           child: Text(
             'Didn\'t receive the email? Try again',
-            style: text.labelLarge.copyWith(
-              color: c.textSecondary,
-            ),
+            style: text.labelLarge.copyWith(color: c.textSecondary),
           ),
         ),
       ],
     );
   }
 }
-
-
-
-

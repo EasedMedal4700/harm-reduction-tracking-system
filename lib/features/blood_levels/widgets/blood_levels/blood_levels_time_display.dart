@@ -13,10 +13,7 @@ import '../../../../common/layout/common_spacer.dart';
 class BloodLevelsTimeDisplay extends StatelessWidget {
   final DateTime selectedTime;
 
-  const BloodLevelsTimeDisplay({
-    super.key,
-    required this.selectedTime,
-  });
+  const BloodLevelsTimeDisplay({super.key, required this.selectedTime});
 
   @override
   Widget build(BuildContext context) {
