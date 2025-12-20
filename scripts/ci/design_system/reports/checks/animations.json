@@ -1,7 +1,0 @@
-{
-  "check": "animation_constants",
-  "status": "PASS",
-  "blocking_issues": 0,
-  "warning_issues": 35,
-  "files_affected": 19
-}

@@ -1,7 +1,0 @@
-{
-  "check": "colors_and_theme",
-  "status": "FAIL",
-  "blocking_issues": 23,
-  "warning_issues": 0,
-  "files_affected": 13
-}
