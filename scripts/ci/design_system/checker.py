@@ -37,15 +37,15 @@ class DesignSystemChecker:
         """Dynamically load all rule modules"""
         rules = {}
 
-        # Import all rule modules
-        rule_files = [
-            "color_and_theme",
-            "layout_constants", 
-            "animation_constants",
-            "theme_wiring"
-        ]
+        # Auto-discover all rule files in the rules directory
+        if not self.rules_dir.exists():
+            return rules
 
-        for rule_name in rule_files:
+        for rule_file in self.rules_dir.glob("*.py"):
+            if rule_file.name == "__init__.py":
+                continue
+
+            rule_name = rule_file.stem  # Remove .py extension
             try:
                 # Import from rules package
                 module = importlib.import_module(f"rules.{rule_name}")

@@ -1,0 +1,7 @@
+{
+  "check": "typography_check",
+  "status": "FAIL",
+  "blocking_issues": 10,
+  "warning_issues": 71,
+  "files_affected": 38
+}

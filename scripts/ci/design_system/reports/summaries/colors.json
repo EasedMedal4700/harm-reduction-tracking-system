@@ -1,5 +1,5 @@
 {
-  "check": "colors_and_theme",
+  "check": "colors_check",
   "status": "FAIL",
   "blocking_issues": 23,
   "warning_issues": 0,

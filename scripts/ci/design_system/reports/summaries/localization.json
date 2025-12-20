@@ -1,0 +1,7 @@
+{
+  "check": "localization_check",
+  "status": "PASS",
+  "blocking_issues": 0,
+  "warning_issues": 256,
+  "files_affected": 80
+}

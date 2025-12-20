@@ -1,0 +1,7 @@
+{
+  "check": "theme_wiring_check",
+  "status": "PASS",
+  "blocking_issues": 0,
+  "warning_issues": 0,
+  "files_affected": 0
+}

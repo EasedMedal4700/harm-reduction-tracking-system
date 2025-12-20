@@ -1,5 +1,5 @@
 {
-  "check": "animations_constants",
+  "check": "animations_check",
   "status": "PASS",
   "blocking_issues": 0,
   "warning_issues": 35,

@@ -1,5 +1,5 @@
 {
-  "check": "animations_constants",
+  "check": "animations_check",
   "total_issues": 35,
   "issues": [
     {

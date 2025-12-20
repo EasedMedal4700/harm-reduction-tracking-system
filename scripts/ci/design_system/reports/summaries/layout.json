@@ -1,5 +1,5 @@
 {
-  "check": "layout_constants",
+  "check": "layout_check",
   "status": "PASS",
   "blocking_issues": 0,
   "warning_issues": 95,

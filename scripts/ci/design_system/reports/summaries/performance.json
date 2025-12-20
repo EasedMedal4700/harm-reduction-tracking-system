@@ -1,0 +1,7 @@
+{
+  "check": "performance_check",
+  "status": "PASS",
+  "blocking_issues": 0,
+  "warning_issues": 262,
+  "files_affected": 69
+}

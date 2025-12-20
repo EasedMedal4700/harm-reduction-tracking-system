@@ -40,11 +40,19 @@ class ReportWriter:
                 issues_by_rule[issue.rule] = []
             issues_by_rule[issue.rule].append(issue)
 
-        # Write summary files (old format)
+        # Write summary files for all rules
         rule_mappings = {
             "color_and_theme": "colors",
             "layout_constants": "layout",
-            "animation_constants": "animations"
+            "animation_constants": "animations",
+            "typography": "typography",
+            "spacing": "spacing",
+            "accessibility": "accessibility",
+            "localization": "localization",
+            "component_usage": "component_usage",
+            "asset_usage": "asset_usage",
+            "performance": "performance",
+            "theme_wiring": "theme_wiring"
         }
 
         for rule_name, short_name in rule_mappings.items():
@@ -54,7 +62,7 @@ class ReportWriter:
             affected_files = len(set(str(i.file) for i in issues))
 
             summary_data = {
-                "check": f"{short_name}_and_theme" if short_name == "colors" else f"{short_name}_constants",
+                "check": f"{short_name}_check",
                 "status": "FAIL" if blocking_count > 0 else "PASS",
                 "blocking_issues": blocking_count,
                 "warning_issues": warning_count,
@@ -66,11 +74,11 @@ class ReportWriter:
                 json.dump(summary_data, f, indent=2)
             written_files[f"{short_name}_summary"] = summary_file
 
-        # Write detailed files (old format)
+        # Write detailed files for all rules
         for rule_name, short_name in rule_mappings.items():
             issues = issues_by_rule.get(rule_name, [])
 
-            # Convert issues to old format
+            # Convert issues to detailed format
             detailed_issues = []
             for issue in issues:
                 detailed_issues.append({
@@ -82,7 +90,7 @@ class ReportWriter:
                 })
 
             detail_data = {
-                "check": f"{short_name}_and_theme" if short_name == "colors" else f"{short_name}_constants",
+                "check": f"{short_name}_check",
                 "total_issues": len(detailed_issues),
                 "issues": detailed_issues
             }
