@@ -1,0 +1,1371 @@
+{
+  "summary": {
+    "files_scanned": 217,
+    "blocking_issues": 63,
+    "warning_issues": 142
+  },
+  "files": {
+    "lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 336,
+        "snippet": "width: 10,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 337,
+        "snippet": "height: 10,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 387,
+        "snippet": "final d = now.subtract(Duration(days: i * 7));"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 388,
+        "snippet": "final monday = d.subtract(Duration(days: d.weekday - 1));"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 413,
+        "snippet": "final monday = dt.subtract(Duration(days: dt.weekday - 1));"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 449,
+        "snippet": "final d = now.subtract(Duration(days: i * 7));"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 450,
+        "snippet": "final mon = d.subtract(Duration(days: d.weekday - 1));"
+      }
+    ],
+    "lib\\features\\analytics\\widgets\\analytics\\usage_trend_chart.dart": [
+      {
+        "severity": "WARNING",
+        "message": "SizedBox with hardcoded value",
+        "line": 123,
+        "snippet": "SizedBox(width: 6),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 123,
+        "snippet": "SizedBox(width: 6),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 150,
+        "snippet": "final d = now.subtract(Duration(days: 6 - i));"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 154,
+        "snippet": "final base = now.subtract(Duration(days: (6 - i) * 7));"
+      }
+    ],
+    "lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 352,
+        "snippet": "fontSize: 12,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 354,
+        "snippet": "color: Colors.white,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 634,
+        "snippet": "height: 180,"
+      }
+    ],
+    "lib\\features\\blood_levels\\blood_levels_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 124,
+        "snippet": "firstDate: DateTime.now().subtract(const Duration(days: 365)),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 125,
+        "snippet": "lastDate: DateTime.now().add(const Duration(days: 30)),"
+      }
+    ],
+    "lib\\features\\blood_levels\\widgets\\blood_levels\\blood_level_graph.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 99,
+        "snippet": "barWidth: 3,"
+      }
+    ],
+    "lib\\features\\blood_levels\\widgets\\blood_levels\\level_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 210,
+        "snippet": "child: _buildDetailItem(context, 'Duration', '${widget.level.maxDuration.toStringAsFixed(1)}h'),"
+      }
+    ],
+    "lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 181,
+        "snippet": "stepHours: 2.0,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 206,
+        "snippet": "curveSmoothness: 0.3,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 208,
+        "snippet": "barWidth: 2.5,"
+      }
+    ],
+    "lib\\features\\blood_levels\\widgets\\blood_levels\\risk_assessment_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 169,
+        "snippet": "height: 1.35,"
+      }
+    ],
+    "lib\\features\\blood_levels\\widgets\\blood_levels\\timeframe_selector.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 14,
+        "snippet": "hours6('6 Hours', Duration(hours: 6)),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 15,
+        "snippet": "hours12('12 Hours', Duration(hours: 12)),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 16,
+        "snippet": "hours24('24 Hours', Duration(hours: 24)),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 17,
+        "snippet": "hours48('48 Hours', Duration(hours: 48)),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 18,
+        "snippet": "days3('3 Days', Duration(days: 3)),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 19,
+        "snippet": "week('1 Week', Duration(days: 7));"
+      }
+    ],
+    "lib\\features\\catalog\\widgets\\catalog\\animated_substance_list.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 29,
+        "snippet": "duration: Duration(milliseconds: t.animations.normal.inMilliseconds + (index * 30)),"
+      }
+    ],
+    "lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 78,
+        "snippet": "_buildDoseCard(context, 'Heavy', doseData!['Heavy'], Colors.purple),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 166,
+        "snippet": "height: 1.4,"
+      }
+    ],
+    "lib\\features\\catalog\\widgets\\catalog\\substance_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 106,
+        "snippet": "width: 1.5,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 171,
+        "snippet": "Divider(height: 1, color: t.colors.divider),"
+      }
+    ],
+    "lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 178,
+        "snippet": "width: 40,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 396,
+        "snippet": "height: 1.5,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 445,
+        "snippet": "height: 1.6,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 498,
+        "snippet": "height: 1.4,"
+      }
+    ],
+    "lib\\features\\catalog\\widgets\\catalog\\timing_info_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 57,
+        "snippet": "height: 40,"
+      }
+    ],
+    "lib\\features\\daily_chekin\\widgets\\checkin_history\\checkin_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 160,
+        "snippet": "final yesterday = today.subtract(const Duration(days: 1));"
+      }
+    ],
+    "lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 146,
+        "snippet": "duration: const Duration(seconds: 3),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 163,
+        "snippet": "duration: const Duration(seconds: 3),"
+      }
+    ],
+    "lib\\features\\edit_log_entry\\widgets\\edit_log_entry\\loading_overlay.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 27,
+        "snippet": "color: Colors.black.withValues(alpha: context.opacities.slow),"
+      }
+    ],
+    "lib\\features\\feature_flags\\feature_flags_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 163,
+        "snippet": "size: 64,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 202,
+        "snippet": "size: 64,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded visual constant",
+        "line": 374,
+        "snippet": "child: const CircularProgressIndicator(strokeWidth: 2),"
+      }
+    ],
+    "lib\\features\\home\\home_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 53,
+        "snippet": "duration: const Duration(milliseconds: 300),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 186,
+        "snippet": "await Future.delayed(const Duration(milliseconds: 500));"
+      }
+    ],
+    "lib\\features\\home\\home_page_main.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 58,
+        "snippet": "duration: const Duration(milliseconds: 300),"
+      }
+    ],
+    "lib\\features\\home\\home_redesign\\daily_checkin_card.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Brightness",
+        "line": 33,
+        "snippet": "final isDark = Theme.of(context).brightness == Brightness.dark;"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 106,
+        "snippet": "height: 1.2,"
+      }
+    ],
+    "lib\\features\\home\\home_redesign\\quick_action_card.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Brightness",
+        "line": 28,
+        "snippet": "final isDark = Theme.of(context).brightness == Brightness.dark;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 52,
+        "snippet": "color: Colors.black.withValues(alpha: 0.03),"
+      }
+    ],
+    "lib\\features\\home\\home_redesign\\stat_card.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Brightness",
+        "line": 32,
+        "snippet": "final isDark = Theme.of(context).brightness == Brightness.dark;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 53,
+        "snippet": "color: Colors.black.withValues(alpha: 0.03),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "SizedBox with hardcoded value",
+        "line": 106,
+        "snippet": "SizedBox(height: 2),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 106,
+        "snippet": "SizedBox(height: 2),"
+      }
+    ],
+    "lib\\features\\home\\widgets\\home\\quick_actions_grid.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 58,
+        "snippet": "? Border.all(color: t.accent.primary, width: 1)"
+      }
+    ],
+    "lib\\features\\login\\login_page.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 158,
+        "snippet": "backgroundColor: Colors.red,"
+      }
+    ],
+    "lib\\features\\login\\pin_unlock_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 85,
+        "snippet": "await Future.delayed(const Duration(milliseconds: 100));"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 282,
+        "snippet": "size: 100,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 320,
+        "snippet": "color: Colors.black.withValues(alpha: 0.05),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded visual constant",
+        "line": 321,
+        "snippet": "blurRadius: 10,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 392,
+        "snippet": "height: 60,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded visual constant",
+        "line": 408,
+        "snippet": "strokeWidth: 2,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 435,
+        "snippet": "side: BorderSide(color: a.primary, width: 2),"
+      }
+    ],
+    "lib\\features\\log_entry\\log_entry_page.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 257,
+        "snippet": "color: Colors.black.withValues(alpha: context.opacities.slow),"
+      }
+    ],
+    "lib\\features\\log_entry\\widgets\\log_entry\\complex_fields.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 112,
+        "snippet": "borderSide: BorderSide(color: acc.primary, width: 2),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 138,
+        "snippet": "borderSide: BorderSide(color: acc.primary, width: 2),"
+      }
+    ],
+    "lib\\features\\log_entry\\widgets\\log_entry\\date_selector.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 55,
+        "snippet": "fontSize: 16.0,"
+      }
+    ],
+    "lib\\features\\log_entry\\widgets\\log_entry\\feeling_selection.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 17,
+        "snippet": "{'label': 'Great', 'icon': Icons.sentiment_very_satisfied, 'color': Colors.green},"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 18,
+        "snippet": "{'label': 'Good', 'icon': Icons.sentiment_satisfied, 'color': Colors.lightGreen},"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 19,
+        "snippet": "{'label': 'Okay', 'icon': Icons.sentiment_neutral, 'color': Colors.amber},"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 20,
+        "snippet": "{'label': 'Bad', 'icon': Icons.sentiment_dissatisfied, 'color': Colors.orange},"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 21,
+        "snippet": "{'label': 'Awful', 'icon': Icons.sentiment_very_dissatisfied, 'color': Colors.red},"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 38,
+        "snippet": "fontSize: 16.0,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "SizedBox with hardcoded value",
+        "line": 77,
+        "snippet": "SizedBox(height: 4.0),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 77,
+        "snippet": "SizedBox(height: 4.0),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 83,
+        "snippet": "fontSize: 12.0,"
+      }
+    ],
+    "lib\\features\\log_entry\\widgets\\log_entry\\route_selection.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 45,
+        "snippet": "style: const TextStyle(fontSize: 20.0),"
+      }
+    ],
+    "lib\\features\\log_entry\\widgets\\log_entry\\time_selector.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 52,
+        "snippet": "fontSize: 16.0,"
+      }
+    ],
+    "lib\\features\\log_entry\\widgets\\log_entry_page\\log_entry_save_button.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded visual constant",
+        "line": 31,
+        "snippet": "blurRadius: 12,"
+      }
+    ],
+    "lib\\features\\manage_profile\\change_pin_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 250,
+        "snippet": "width: 24,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 251,
+        "snippet": "height: 24,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 354,
+        "snippet": "size: 100,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 399,
+        "snippet": "height: 56,"
+      }
+    ],
+    "lib\\features\\manage_profile\\encryption_migration_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 468,
+        "snippet": "size: 64,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 636,
+        "snippet": "duration: const Duration(seconds: 5),"
+      }
+    ],
+    "lib\\features\\manage_profile\\forgot_password_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 116,
+        "snippet": "width: 100,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 143,
+        "snippet": "height: 1.5,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 203,
+        "snippet": "width: 24,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 204,
+        "snippet": "height: 24,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 248,
+        "snippet": "width: 100,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 275,
+        "snippet": "height: 1.5,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 313,
+        "snippet": "height: 1.4,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 323,
+        "snippet": "height: 56,"
+      }
+    ],
+    "lib\\features\\physiological\\physiological_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 39,
+        "snippet": "size: 80,"
+      }
+    ],
+    "lib\\features\\profile\\profile_screen.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 64,
+        "snippet": "final thirtyDaysAgo = now.subtract(const Duration(days: 30));"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 65,
+        "snippet": "final sevenDaysAgo = now.subtract(const Duration(days: 7));"
+      }
+    ],
+    "lib\\features\\settings\\widgets\\settings\\account_management_section.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 287,
+        "snippet": "duration: const Duration(seconds: 8),"
+      }
+    ],
+    "lib\\features\\settings\\widgets\\settings\\settings_section.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 50,
+        "snippet": "Divider(height: 1, thickness: t.borders.thin, color: c.border),"
+      }
+    ],
+    "lib\\features\\setup_account\\email_confirmed_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 32,
+        "snippet": "height: 120,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 58,
+        "snippet": "height: 1.5,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 120,
+        "snippet": "size: 16.0,"
+      }
+    ],
+    "lib\\features\\setup_account\\onboarding_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 211,
+        "snippet": "height: 120,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded visual constant",
+        "line": 225,
+        "snippet": "blurRadius: 20,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 255,
+        "snippet": "height: 1.4,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 407,
+        "snippet": "color: Colors.blue,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 417,
+        "snippet": "color: Colors.purple,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 427,
+        "snippet": "color: Colors.orange,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 540,
+        "snippet": "height: 1.4,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 714,
+        "snippet": "width: 28,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 715,
+        "snippet": "height: 28,"
+      }
+    ],
+    "lib\\features\\setup_account\\pin_setup_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 114,
+        "snippet": "duration: const Duration(seconds: 3),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 159,
+        "snippet": "size: 80,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 350,
+        "snippet": "size: 80,"
+      }
+    ],
+    "lib\\features\\setup_account\\recovery_key_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 139,
+        "snippet": "duration: const Duration(seconds: 3),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 209,
+        "snippet": "size: 100,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 360,
+        "snippet": "size: 100,"
+      }
+    ],
+    "lib\\features\\setup_account\\set_new_password_page.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 75,
+        "snippet": "backgroundColor: Colors.green,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 126,
+        "snippet": "width: 100,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 208,
+        "snippet": "width: 100,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 236,
+        "snippet": "height: 1.5,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 382,
+        "snippet": "final color = met ? Colors.green : c.textSecondary;"
+      }
+    ],
+    "lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 68,
+        "snippet": "adjustedTime = startTime.subtract(const Duration(hours: 5));"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 111,
+        "snippet": "width: 40,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 112,
+        "snippet": "height: 4,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 141,
+        "snippet": "color: Colors.white,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 237,
+        "snippet": "width: 60,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 314,
+        "snippet": "textColor: Colors.white,"
+      }
+    ],
+    "lib\\features\\stockpile\\widgets\\personal_library\\substance_card.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 122,
+        "snippet": "color: Colors.white,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 150,
+        "snippet": "color: entry.favorite ? Colors.red : t.colors.textSecondary,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 255,
+        "snippet": "? Colors.red"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 272,
+        "snippet": "height: 40,"
+      }
+    ],
+    "lib\\features\\stockpile\\widgets\\personal_library\\weekly_usage_display.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 75,
+        "snippet": "height: 60,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 117,
+        "snippet": "color: Colors.white,"
+      }
+    ],
+    "lib\\features\\tolerence\\tolerance_dashboard_page.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 267,
+        "snippet": "duration: const Duration(milliseconds: 300),"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\system_tolerance_widget.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 80,
+        "snippet": "height: 1,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 114,
+        "snippet": "valueColor = Colors.orangeAccent;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 116,
+        "snippet": "valueColor = Colors.redAccent;"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 173,
+        "snippet": "size: 18,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 200,
+        "snippet": "width: 0.5,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 241,
+        "snippet": "return Colors.greenAccent;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 243,
+        "snippet": "return Colors.lightBlueAccent;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 245,
+        "snippet": "return Colors.orangeAccent;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 247,
+        "snippet": "return Colors.deepOrangeAccent;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 249,
+        "snippet": "return Colors.redAccent;"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\bucket_details\\bucket_decay_timeline_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 81,
+        "snippet": "height: 12,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 99,
+        "snippet": "height: 12,"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\bucket_details\\bucket_description_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 48,
+        "snippet": "height: 1.5,"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\bucket_details\\bucket_notes_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 61,
+        "snippet": "height: 1.5,"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\bucket_details\\bucket_utils.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 48,
+        "snippet": "if (tolerance < 0.25) return Colors.green;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 49,
+        "snippet": "if (tolerance < 0.5) return Colors.yellow.shade700;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 50,
+        "snippet": "if (tolerance < 0.75) return Colors.orange;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 51,
+        "snippet": "return Colors.red;"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance\\bucket_detail_section.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 56,
+        "snippet": "return Colors.deepOrangeAccent;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 65,
+        "snippet": "if (percent < 75) return Colors.orange;"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 86,
+        "snippet": "border: Border.all(color: colors.border, width: 1),"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance\\bucket_tolerance_breakdown.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 59,
+        "snippet": "if (value < 0.75) return Colors.orangeAccent;"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded timing/animation value",
+        "line": 130,
+        "snippet": "duration: const Duration(seconds: 3),"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance\\system_bucket_card.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 70,
+        "snippet": "return Colors.deepOrangeAccent;"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 110,
+        "snippet": "width: 145,"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance\\system_tolerance_breakdown_sheet.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 108,
+        "snippet": "width: 40,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 109,
+        "snippet": "height: 4,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 158,
+        "snippet": "Divider(color: colors.divider, height: 1),"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance\\tolerance_disclaimer.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 65,
+        "snippet": "color: Colors.orange.withValues(alpha: 0.5),"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 77,
+        "snippet": "color: Colors.orange,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 85,
+        "snippet": "color: Colors.orange,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 126,
+        "snippet": "height: 1.5,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 137,
+        "snippet": "color: Colors.red.withValues(alpha: 0.08),"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 140,
+        "snippet": "color: Colors.red.withValues(alpha: 0.35),"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 149,
+        "snippet": "color: Colors.red.shade300,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 151,
+        "snippet": "height: 1.4,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 218,
+        "snippet": "? Colors.amber.withValues(alpha: 0.18)"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 219,
+        "snippet": ": Colors.amber.shade50;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 222,
+        "snippet": "? Colors.amber.shade700"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 223,
+        "snippet": ": Colors.amber.shade300;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 226,
+        "snippet": "? Colors.amber.shade300"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 227,
+        "snippet": ": Colors.amber.shade900;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 230,
+        "snippet": "? Colors.grey.shade300"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 231,
+        "snippet": ": Colors.grey.shade800;"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 239,
+        "snippet": "border: Border.all(color: borderColor, width: 1.5),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 266,
+        "snippet": "height: 1.4,"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance\\tolerance_notes_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 78,
+        "snippet": "height: 1.45,"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance\\tolerance_stats_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 106,
+        "snippet": "height: 80,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "SizedBox with hardcoded value",
+        "line": 172,
+        "snippet": "SizedBox(height: 4),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 172,
+        "snippet": "SizedBox(height: 4),"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance\\tolerance_summary_card.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 82,
+        "snippet": "height: 1.0,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 151,
+        "snippet": "if (tolerance < 70) return Colors.deepOrange;"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart": [
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 93,
+        "snippet": "return Colors.deepOrangeAccent;"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 186,
+        "snippet": "color: Colors.amber.withValues(alpha: context.theme.isDark ? 0.15 : 0.10),"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 190,
+        "snippet": "color: Colors.amber.withValues(alpha: 0.4),"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 196,
+        "snippet": "Icon(Icons.info_outline, size: context.sizes.iconSm, color: Colors.amber),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 253,
+        "snippet": "height: 1.4,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "SizedBox with hardcoded value",
+        "line": 328,
+        "snippet": "SizedBox(height: 2),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 328,
+        "snippet": "SizedBox(height: 2),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 333,
+        "snippet": "height: 1.2,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 398,
+        "snippet": "width: 0.5,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 524,
+        "snippet": "color: Colors.amber,"
+      },
+      {
+        "severity": "BLOCKING",
+        "message": "Hardcoded Flutter color",
+        "line": 578,
+        "snippet": "color: Colors.amber,"
+      },
+      {
+        "severity": "WARNING",
+        "message": "SizedBox with hardcoded value",
+        "line": 581,
+        "snippet": "SizedBox(height: 4),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 581,
+        "snippet": "SizedBox(height: 4),"
+      },
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 598,
+        "snippet": "height: 1.4,"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance_dashboard\\debug_panel_widget.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 49,
+        "snippet": "size: 20.0,"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance_dashboard\\empty_state_widget.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 43,
+        "snippet": "size: 64.0,"
+      }
+    ],
+    "lib\\features\\tolerence\\widgets\\tolerance_dashboard\\system_overview_widget.dart": [
+      {
+        "severity": "WARNING",
+        "message": "Hardcoded size value",
+        "line": 80,
+        "snippet": "height: 140.0,"
+      }
+    ]
+  }
+}
