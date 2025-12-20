@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from dataclasses import dataclass
 from typing import Dict, Any, List
 
@@ -21,7 +22,7 @@ def load_data_sources() -> List[DataSource]:
     """Register and return available data sources."""
     base_dir = os.path.dirname(os.path.abspath(__file__))
     return [
-        DataSource("Design System Report", os.path.join(base_dir, "design_system", "reports", "design_system_report.json")),
+        DataSource("Design System Report", os.path.join(base_dir, "design_system", "reports", "unified_report.json")),
     ]
 
 def render_menu(data_sources: List[DataSource]) -> None:
@@ -41,13 +42,41 @@ def render_summary(data_source: DataSource) -> None:
     if data_source.name == "Design System Report":
         summary = data_source.data.get("summary", {})
         files_scanned = summary.get("files_scanned", 0)
-        blocking_issues = summary.get("blocking_issues", 0)
-        warning_issues = summary.get("warning_issues", 0)
+        blocking_issues = summary.get("blocking", 0)
+        warning_issues = summary.get("warnings", 0)
+        rules_executed = summary.get("rules_executed", 0)
         print(f"Files scanned: {files_scanned}")
+        print(f"Rules executed: {rules_executed}")
         print(f"Blocking issues: {blocking_issues}")
         print(f"Warning issues: {warning_issues}")
+
+        # Show top issues by rule
+        issues = data_source.data.get("issues", [])
+        if issues:
+            print(f"\nTop issues by rule:")
+            rule_counts = {}
+            for issue in issues:
+                rule = issue.get("rule", "unknown")
+                severity = issue.get("severity", "unknown")
+                if rule not in rule_counts:
+                    rule_counts[rule] = {"blocking": 0, "warning": 0}
+                if severity == "BLOCKING":
+                    rule_counts[rule]["blocking"] += 1
+                elif severity == "WARNING":
+                    rule_counts[rule]["warning"] += 1
+
+            for rule, counts in rule_counts.items():
+                print(f"  {rule}: {counts['blocking']} blocking, {counts['warning']} warnings")
     else:
         print("Unknown data source type.")
+
+def safe_input(prompt: str) -> str:
+    """Safe input that handles EOF gracefully."""
+    try:
+        return input(prompt)
+    except EOFError:
+        print("\nInput ended (EOF). Exiting...")
+        sys.exit(0)
 
 def main():
     data_sources = load_data_sources()
@@ -56,7 +85,7 @@ def main():
     while True:
         if active_source is None:
             render_menu(data_sources)
-            choice = input("Enter choice: ").strip().lower()
+            choice = safe_input("Enter choice: ").strip().lower()
             if choice == 'q':
                 break
             try:
@@ -70,7 +99,7 @@ def main():
                 print("Invalid input.")
         else:
             render_summary(active_source)
-            input("\nPress Enter to return to menu...")
+            safe_input("\nPress Enter to return to menu...")
             active_source = None
 
 if __name__ == "__main__":
