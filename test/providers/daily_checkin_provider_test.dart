@@ -3,29 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/models/daily_checkin_model.dart';
 import 'package:mobile_drug_use_app/providers/daily_checkin_provider.dart';
 import 'package:mobile_drug_use_app/services/daily_checkin_service.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'daily_checkin_provider_test.mocks.dart';
 
-// Mock repository for testing
-class MockDailyCheckinRepository extends Mock implements DailyCheckinRepository {
-  @override
-  Future<void> saveCheckin(DailyCheckin checkin) async {}
-
-  @override
-  Future<void> updateCheckin(String id, DailyCheckin checkin) async {}
-
-  @override
-  Future<List<DailyCheckin>> fetchCheckinsByDate(DateTime date) async => [];
-
-  @override
-  Future<List<DailyCheckin>> fetchCheckinsInRange(DateTime startDate, DateTime endDate) async => [];
-
-  @override
-  Future<DailyCheckin?> fetchCheckinByDateAndTime(DateTime date, String timeOfDay) async => null;
-
-  @override
-  Future<void> deleteCheckin(String id) async {}
-}
-
+@GenerateMocks([DailyCheckinRepository])
 void main() {
   late MockDailyCheckinRepository mockRepository;
   late DailyCheckinProvider provider;
@@ -247,7 +229,7 @@ void main() {
     });
 
     test('loadRecentCheckins should handle errors gracefully', () async {
-      when(mockRepository.fetchCheckinsInRange(any<DateTime>(), any<DateTime>()))
+      when(mockRepository.fetchCheckinsInRange(any, any))
           .thenThrow(Exception('Test error'));
 
       await provider.loadRecentCheckins();
@@ -270,7 +252,7 @@ void main() {
         ),
       ];
 
-      when(mockRepository.fetchCheckinsByDate(any<DateTime>()))
+      when(mockRepository.fetchCheckinsByDate(any))
           .thenAnswer((_) async => checkins);
 
       final result = await provider.loadCheckinsForDate(DateTime.now());
@@ -279,7 +261,7 @@ void main() {
     });
 
     test('loadCheckinsForDate should return empty list on error', () async {
-      when(mockRepository.fetchCheckinsByDate(any<DateTime>()))
+      when(mockRepository.fetchCheckinsByDate(any))
           .thenThrow(Exception('Test error'));
 
       final result = await provider.loadCheckinsForDate(DateTime.now());

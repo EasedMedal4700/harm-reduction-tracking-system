@@ -5,12 +5,21 @@ import 'user_service.dart';
 import 'encryption_service_v2.dart';
 
 class ActivityService {
-  final _encryption = EncryptionServiceV2();
+  final SupabaseClient _client;
+  final EncryptionServiceV2 _encryption;
+
+  ActivityService({SupabaseClient? client, EncryptionServiceV2? encryption})
+      : _client = client ?? Supabase.instance.client,
+        _encryption = encryption ?? EncryptionServiceV2();
 
   Future<Map<String, dynamic>> fetchRecentActivity() async {
     try {
-      final supabase = Supabase.instance.client;
-      final userId = UserService.getCurrentUserId();
+      final supabase = _client;
+      final user = supabase.auth.currentUser;
+      if (user == null) {
+        throw StateError('User is not logged in.');
+      }
+      final userId = user.id;
 
       // Fetch recent entries (last 10)
       final entries = await supabase

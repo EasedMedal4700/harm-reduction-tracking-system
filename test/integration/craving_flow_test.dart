@@ -3,7 +3,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:mobile_drug_use_app/models/craving_model.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  // IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Craving CRUD flow integration test', () {
     testWidgets('complete craving lifecycle', (tester) async {

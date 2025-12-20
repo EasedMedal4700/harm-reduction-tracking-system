@@ -7,7 +7,7 @@ import 'package:mobile_drug_use_app/services/encryption_service_v2.dart';
 import 'package:mobile_drug_use_app/services/user_service.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  // IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group(
     'Registration Flow Tests',

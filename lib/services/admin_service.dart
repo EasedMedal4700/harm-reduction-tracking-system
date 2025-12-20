@@ -3,7 +3,10 @@ import '../utils/error_handler.dart';
 import 'performance_service.dart';
 
 class AdminService {
-  final SupabaseClient _client = Supabase.instance.client;
+  AdminService([SupabaseClient? client])
+    : _client = client ?? Supabase.instance.client;
+
+  final SupabaseClient _client;
 
   /// Fetch all users for admin panel
   Future<List<Map<String, dynamic>>> fetchAllUsers() async {
