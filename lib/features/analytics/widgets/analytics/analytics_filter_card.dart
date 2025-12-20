@@ -29,13 +29,19 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _rotationAnimation = Tween<double>(begin: 0, end: 0.5).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
-    );
+    // Defer animation controller initialization until context is available
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _animationController = AnimationController(
+          duration: context.animations.normal,
+          vsync: this,
+        );
+        _rotationAnimation = Tween<double>(begin: 0, end: 0.5).animate(
+          CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+        );
+        setState(() {}); // Trigger rebuild if needed
+      }
+    });
   }
 
   @override

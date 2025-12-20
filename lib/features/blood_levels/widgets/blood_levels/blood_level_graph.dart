@@ -186,7 +186,7 @@ class BloodLevelGraph extends StatelessWidget {
         child: Text(
           '${value.toInt()}%',
           style: TextStyle(
-            fontSize: 11,
+            fontSize: context.text.bodySmall.fontSize,
             color: c.textSecondary,
             fontWeight: text.bodyMedium.fontWeight,
           ),
@@ -208,7 +208,7 @@ class BloodLevelGraph extends StatelessWidget {
         child: Text(
           '${hoursDiff}h',
           style: TextStyle(
-            fontSize: 11,
+            fontSize: context.text.bodySmall.fontSize,
             color: c.textSecondary,
             fontWeight: text.bodyMedium.fontWeight,
           ),

@@ -268,7 +268,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
 
           // ----- Chart -----
           SizedBox(
-            height: 250,
+            height: context.sizes.heightLg,
             child: LineChart(
               LineChartData(
                 gridData: chart_config.TimelineChartConfig.buildGridData(

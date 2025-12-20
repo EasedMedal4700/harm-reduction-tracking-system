@@ -10,34 +10,16 @@
     ]
   },
   "lib\\features\\analytics\\widgets\\analytics\\analytics_filter_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 33,
-        "description": "Duration with hardcoded value",
-        "snippet": "duration: const Duration(milliseconds: 300),"
-      }
-    ]
+    "migrated": true,
+    "issues": []
   },
   "lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 181,
-        "description": "width with hardcoded value",
-        "snippet": "width: 18,"
-      }
-    ]
+    "migrated": true,
+    "issues": []
   },
   "lib\\features\\analytics\\widgets\\analytics\\insight_summary_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 49,
-        "description": "height with hardcoded value",
-        "snippet": "height: 1.55,"
-      }
-    ]
+    "migrated": true,
+    "issues": []
   },
   "lib\\features\\analytics\\widgets\\analytics\\metrics_row.dart": {
     "migrated": false,
@@ -50,139 +32,16 @@
     ]
   },
   "lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 275,
-        "description": "hardcoded Colors",
-        "snippet": "DrugCategoryColors.colorFor(cat),"
-      },
-      {
-        "line": 322,
-        "description": "maxHeight with hardcoded value",
-        "snippet": "constraints: const BoxConstraints(maxHeight: 200),"
-      },
-      {
-        "line": 326,
-        "description": "hardcoded Colors",
-        "snippet": "final color = DrugCategoryColors.colorFor(e.key);"
-      },
-      {
-        "line": 336,
-        "description": "width with hardcoded value",
-        "snippet": "width: 10,"
-      },
-      {
-        "line": 337,
-        "description": "height with hardcoded value",
-        "snippet": "height: 10,"
-      },
-      {
-        "line": 387,
-        "description": "Duration with hardcoded value",
-        "snippet": "final d = now.subtract(Duration(days: i * 7));"
-      },
-      {
-        "line": 388,
-        "description": "Duration with hardcoded value",
-        "snippet": "final monday = d.subtract(Duration(days: d.weekday - 1));"
-      },
-      {
-        "line": 413,
-        "description": "Duration with hardcoded value",
-        "snippet": "final monday = dt.subtract(Duration(days: dt.weekday - 1));"
-      },
-      {
-        "line": 449,
-        "description": "Duration with hardcoded value",
-        "snippet": "final d = now.subtract(Duration(days: i * 7));"
-      },
-      {
-        "line": 450,
-        "description": "Duration with hardcoded value",
-        "snippet": "final mon = d.subtract(Duration(days: d.weekday - 1));"
-      }
-    ]
+    "migrated": true,
+    "issues": []
   },
   "lib\\features\\analytics\\widgets\\analytics\\usage_trend_chart.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 119,
-        "description": "hardcoded Colors",
-        "snippet": "color: DrugCategoryColors.colorFor(cat),"
-      },
-      {
-        "line": 123,
-        "description": "SizedBox with hardcoded size",
-        "snippet": "SizedBox(width: 6),"
-      },
-      {
-        "line": 123,
-        "description": "width with hardcoded value",
-        "snippet": "SizedBox(width: 6),"
-      },
-      {
-        "line": 150,
-        "description": "Duration with hardcoded value",
-        "snippet": "final d = now.subtract(Duration(days: 6 - i));"
-      },
-      {
-        "line": 154,
-        "description": "Duration with hardcoded value",
-        "snippet": "final base = now.subtract(Duration(days: (6 - i) * 7));"
-      },
-      {
-        "line": 210,
-        "description": "hardcoded Colors",
-        "snippet": "DrugCategoryColors.colorFor(cat),"
-      }
-    ]
+    "migrated": true,
+    "issues": []
   },
   "lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 118,
-        "description": "hardcoded Colors",
-        "snippet": "final base = DrugCategoryColors.colorFor(category);"
-      },
-      {
-        "line": 337,
-        "description": "hardcoded Colors",
-        "snippet": "? DrugCategoryColors.colorFor(e.key)"
-      },
-      {
-        "line": 352,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 12,"
-      },
-      {
-        "line": 353,
-        "description": "FontWeight with hardcoded value",
-        "snippet": "fontWeight: FontWeight.w700,"
-      },
-      {
-        "line": 354,
-        "description": "hardcoded Colors",
-        "snippet": "color: Colors.white,"
-      },
-      {
-        "line": 380,
-        "description": "maxHeight with hardcoded value",
-        "snippet": "constraints: const BoxConstraints(maxHeight: 220),"
-      },
-      {
-        "line": 387,
-        "description": "hardcoded Colors",
-        "snippet": "? DrugCategoryColors.colorFor(e.key)"
-      },
-      {
-        "line": 634,
-        "description": "height with hardcoded value",
-        "snippet": "height: 180,"
-      }
-    ]
+    "migrated": true,
+    "issues": []
   },
   "lib\\features\\blood_levels\\blood_levels_page.dart": {
     "migrated": false,
@@ -200,49 +59,16 @@
     ]
   },
   "lib\\features\\blood_levels\\widgets\\blood_levels\\blood_level_graph.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 189,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 11,"
-      },
-      {
-        "line": 211,
-        "description": "fontSize with hardcoded value",
-        "snippet": "fontSize: 11,"
-      }
-    ]
+    "migrated": true,
+    "issues": []
   },
   "lib\\features\\blood_levels\\widgets\\blood_levels\\level_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 276,
-        "description": "hardcoded Colors",
-        "snippet": "return DrugCategoryColors.defaultColor;"
-      },
-      {
-        "line": 278,
-        "description": "hardcoded Colors",
-        "snippet": "return DrugCategoryColors.colorFor(widget.level.categories.first);"
-      }
-    ]
+    "migrated": true,
+    "issues": []
   },
   "lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart": {
-    "migrated": false,
-    "issues": [
-      {
-        "line": 271,
-        "description": "height with hardcoded value",
-        "snippet": "height: 250,"
-      },
-      {
-        "line": 338,
-        "description": "hardcoded Colors",
-        "snippet": "final baseColor = DrugCategoryColors.colorFor(category);"
-      }
-    ]
+    "migrated": true,
+    "issues": []
   },
   "lib\\features\\blood_levels\\widgets\\blood_levels\\risk_assessment_card.dart": {
     "migrated": false,

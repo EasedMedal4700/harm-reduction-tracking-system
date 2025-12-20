@@ -178,7 +178,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
                       BarChartRodData(
                         toY: count.toDouble(),
                         color: barColor,
-                        width: 18,
+                        width: context.spacing.lg,
                       ),
                     ],
                   );

@@ -46,7 +46,7 @@ class InsightSummaryCard extends StatelessWidget {
             _generateInsightText(),
             style: t.typography.body.copyWith(
               color: t.colors.textSecondary,
-              height: 1.55,
+              height: context.borders.medium,
             ),
           ),
         ],
