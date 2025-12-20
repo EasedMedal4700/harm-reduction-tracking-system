@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = (BASE_DIR / ".." / ".." / "..").resolve()
 FEATURES_DIR = PROJECT_ROOT / "lib" / "features"
 
-OUTPUT_FILE = BASE_DIR / "design_system_report.json"
+OUTPUT_FILE = BASE_DIR / "reports" / "design_system_report.json"
 
 # ----------------------------
 # Allowlists (do NOT scan)
