@@ -1,3 +1,7 @@
+# how to run
+
+python scripts/ci/TUI.py
+
 # CI Tools for Flutter Projects
 
 This directory contains various CI and development tools for Flutter projects.
