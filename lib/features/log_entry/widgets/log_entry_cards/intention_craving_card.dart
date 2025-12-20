@@ -31,7 +31,6 @@ class IntentionCravingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
     final s = context.spacing;
     final validIntention =
         intentions.contains(intention) ? intention : null;

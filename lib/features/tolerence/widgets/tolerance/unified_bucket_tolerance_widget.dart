@@ -123,7 +123,6 @@ class _UnifiedBucketToleranceWidgetState
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
     // THEME ACCESS
     final theme = context.theme;
     final colors = context.colors;

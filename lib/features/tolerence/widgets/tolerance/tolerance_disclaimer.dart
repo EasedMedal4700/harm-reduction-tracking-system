@@ -203,7 +203,6 @@ class _CompactToleranceDisclaimerState
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
     // EARLY RETURN - Hide while loading or if dismissed
     if (_isLoading || _isDismissed) return const SizedBox.shrink();
 

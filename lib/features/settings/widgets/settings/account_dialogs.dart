@@ -92,7 +92,6 @@ class _PasswordVerificationDialogState
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
     final spacing = context.spacing;
     final colors = context.colors;
 

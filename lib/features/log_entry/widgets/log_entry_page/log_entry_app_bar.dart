@@ -17,7 +17,6 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
     final t = context.theme;
 
     return AppBar(

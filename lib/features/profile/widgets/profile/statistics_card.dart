@@ -18,7 +18,6 @@ class StatisticsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
     final t = context.theme;
 
     return Container(

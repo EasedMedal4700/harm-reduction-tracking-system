@@ -24,7 +24,6 @@ class EmptyStateWidget extends ConsumerWidget {
     final colors = context.colors;
     final spacing = context.spacing;
     final typography = context.text;
-    final radii = context.shapes;
 
     return Center(
       child: Padding(
