@@ -29,9 +29,9 @@ class DailyCheckinService implements DailyCheckinRepository {
     SupabaseClient? client,
     CacheService? cache,
     String Function()? getUserId,
-  })  : _client = client ?? Supabase.instance.client,
-        _cache = cache ?? CacheService(),
-        _getUserId = getUserId ?? UserService.getCurrentUserId;
+  }) : _client = client ?? Supabase.instance.client,
+       _cache = cache ?? CacheService(),
+       _getUserId = getUserId ?? UserService.getCurrentUserId;
 
   /// Save a new daily check-in to the database
   @override

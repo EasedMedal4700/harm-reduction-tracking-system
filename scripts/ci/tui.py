@@ -53,8 +53,8 @@ def load_data_sources() -> List[DataSource]:
     return data_sources
 
 def render_menu(data_sources: List[DataSource]) -> None:
-    """Render the menu to select a data source."""
-    print("Select a dataset to view:")
+    """Render the menu to select a data source or action."""
+    print("Select an option:")
     print("[1] Design System Report (Overview)")
 
     # Group data sources by type
@@ -78,6 +78,12 @@ def render_menu(data_sources: List[DataSource]) -> None:
         for i, ds in enumerate(details, len(summaries) + 2):
             rule_name = ds.name.replace(" Details", "")
             print(f"[{i}] {rule_name} Details")
+
+    # Add action options
+    next_index = len(summaries) + len(details) + 2
+    print(f"\nActions:")
+    print(f"[{next_index}] Run Dart Format")
+    print(f"[{next_index + 1}] Run Tests")
 
     print("\n[q] Quit")
 
@@ -165,6 +171,39 @@ def render_summary(data_source: DataSource) -> None:
     else:
         print("Unknown data source type.")
 
+def run_dart_format() -> None:
+    """Run dart format on the project."""
+    print("\n--- Running Dart Format ---")
+    project_root = find_project_root()
+    if project_root:
+        print(f"Formatting code in: {project_root}")
+        os.chdir(project_root)
+        os.system("dart format .")
+        print("Format complete.")
+    else:
+        print("Could not find project root.")
+
+def run_tests() -> None:
+    """Run tests on the project."""
+    print("\n--- Running Tests ---")
+    project_root = find_project_root()
+    if project_root:
+        print(f"Running tests in: {project_root}")
+        os.chdir(project_root)
+        os.system("flutter test")
+        print("Tests complete.")
+    else:
+        print("Could not find project root.")
+
+def find_project_root() -> str:
+    """Find the Flutter project root by looking for pubspec.yaml."""
+    current = os.getcwd()
+    while current != os.path.dirname(current):
+        if os.path.exists(os.path.join(current, "pubspec.yaml")):
+            return current
+        current = os.path.dirname(current)
+    return None
+
 def safe_input(prompt: str) -> str:
     """Safe input that handles EOF gracefully."""
     try:
@@ -185,9 +224,20 @@ def main():
                 break
             try:
                 index = int(choice) - 1
+                num_summaries = len([ds for ds in data_sources[1:] if "Summary" in ds.name])
+                num_details = len([ds for ds in data_sources[1:] if "Details" in ds.name])
+                format_index = 1 + num_summaries + num_details
+                test_index = format_index + 1
+
                 if 0 <= index < len(data_sources):
                     active_source = data_sources[index]
                     active_source.load()
+                elif index == format_index:
+                    run_dart_format()
+                    safe_input("\nPress Enter to return to menu...")
+                elif index == test_index:
+                    run_tests()
+                    safe_input("\nPress Enter to return to menu...")
                 else:
                     print("Invalid choice.")
             except ValueError:

@@ -111,37 +111,28 @@ void main() {
       });
 
       test('fromJson handles null values by using defaults', () {
-        final json = {
-          'darkMode': null,
-          'fontSize': null,
-        };
+        final json = {'darkMode': null, 'fontSize': null};
         final settings = AppSettings.fromJson(json);
 
         expect(settings.darkMode, false);
         expect(settings.fontSize, 14.0);
       });
-      
+
       test('fromJson handles numeric type conversions', () {
         final json = {
           'fontSize': 16, // int instead of double
         };
         final settings = AppSettings.fromJson(json);
-        
+
         expect(settings.fontSize, 16.0);
       });
     });
 
     group('CopyWith', () {
       test('creates copy with updated fields', () {
-        const settings = AppSettings(
-          darkMode: false,
-          fontSize: 14.0,
-        );
+        const settings = AppSettings(darkMode: false, fontSize: 14.0);
 
-        final updated = settings.copyWith(
-          darkMode: true,
-          fontSize: 16.0,
-        );
+        final updated = settings.copyWith(darkMode: true, fontSize: 16.0);
 
         expect(updated.darkMode, true);
         expect(updated.fontSize, 16.0);
@@ -150,24 +141,19 @@ void main() {
       });
 
       test('creates copy with no changes if no arguments provided', () {
-        const settings = AppSettings(
-          darkMode: true,
-        );
+        const settings = AppSettings(darkMode: true);
 
         final updated = settings.copyWith();
 
         expect(updated.darkMode, true);
         expect(updated.fontSize, 14.0);
       });
-      
+
       test('preserves values when other fields are updated', () {
-         const settings = AppSettings(
-          darkMode: true,
-          fontSize: 18.0,
-        );
-        
+        const settings = AppSettings(darkMode: true, fontSize: 18.0);
+
         final updated = settings.copyWith(language: 'es');
-        
+
         expect(updated.darkMode, true);
         expect(updated.fontSize, 18.0);
         expect(updated.language, 'es');

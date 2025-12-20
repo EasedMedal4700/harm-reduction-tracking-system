@@ -15,9 +15,9 @@ class CravingService {
     EncryptionServiceV2? encryption,
     SupabaseClient? supabase,
     String Function()? getUserId,
-  })  : _encryption = encryption ?? EncryptionServiceV2(),
-        _supabase = supabase ?? Supabase.instance.client,
-        _getUserId = getUserId ?? UserService.getCurrentUserId;
+  }) : _encryption = encryption ?? EncryptionServiceV2(),
+       _supabase = supabase ?? Supabase.instance.client,
+       _getUserId = getUserId ?? UserService.getCurrentUserId;
 
   Future<void> saveCraving(Craving craving) async {
     // Add validation

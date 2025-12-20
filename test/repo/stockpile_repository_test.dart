@@ -44,7 +44,7 @@ void main() {
 
       test('updates all items list', () async {
         await repository.addToStockpile(substanceId, amount);
-        
+
         final items = await repository.getAllStockpiles();
         expect(items.length, 1);
         expect(items.first.substanceId, substanceId);
@@ -86,11 +86,11 @@ void main() {
         final item = await repository.getStockpile(substanceId);
         expect(item!.substanceId, substanceId);
       });
-      
+
       test('handles corrupted data gracefully', () async {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('stockpile_$substanceId', 'invalid_json');
-        
+
         final item = await repository.getStockpile(substanceId);
         expect(item, isNull);
       });
@@ -111,15 +111,18 @@ void main() {
         expect(items.any((i) => i.substanceId == 'sub1'), isTrue);
         expect(items.any((i) => i.substanceId == 'sub2'), isTrue);
       });
-      
+
       test('filters out items that fail to load', () async {
         await repository.addToStockpile('sub1', 10.0);
-        
+
         // Manually corrupt one item but keep it in the list
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('stockpile_sub2', 'invalid_json');
-        await prefs.setString('stockpile_all_items', jsonEncode(['sub1', 'sub2']));
-        
+        await prefs.setString(
+          'stockpile_all_items',
+          jsonEncode(['sub1', 'sub2']),
+        );
+
         final items = await repository.getAllStockpiles();
         expect(items.length, 1);
         expect(items.first.substanceId, 'sub1');
@@ -148,7 +151,7 @@ void main() {
 
         final items = await repository.getAllStockpiles();
         expect(items, isEmpty);
-        
+
         expect(await repository.getStockpile('sub1'), isNull);
         expect(await repository.getStockpile('sub2'), isNull);
       });
@@ -168,26 +171,26 @@ void main() {
         expect(total, 0.0);
       });
     });
-    
+
     group('getStockpilePercentage', () {
       test('returns 0 if not exists', () async {
         final pct = await repository.getStockpilePercentage('non_existent');
         expect(pct, 0.0);
       });
-      
+
       test('returns percentage from item', () async {
         // We need to know how StockpileItem calculates percentage.
         // Assuming it uses currentAmount / totalAdded * 100 or similar logic inside the model.
         // Since we are testing the repository, we just check it calls the model method.
         // But we can't mock the model easily here since it's a data class.
         // Let's just verify it returns a value.
-        
+
         await repository.addToStockpile(substanceId, 50.0);
         // If totalAdded is 50 and current is 50, percentage should be 100?
         // Or maybe it depends on some "max" value?
         // Let's check the implementation of StockpileItem later if this fails.
         // For now, just ensure it doesn't crash.
-        
+
         final pct = await repository.getStockpilePercentage(substanceId);
         expect(pct, isA<double>());
       });

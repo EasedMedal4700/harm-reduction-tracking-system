@@ -8,7 +8,7 @@ class ToleranceService {
   final SupabaseClient _supabase;
 
   ToleranceService({SupabaseClient? client})
-      : _supabase = client ?? Supabase.instance.client;
+    : _supabase = client ?? Supabase.instance.client;
 
   Future<List<String>> fetchUserSubstances(String userId) async {
     try {
@@ -42,9 +42,7 @@ class ToleranceService {
   }
 
   /// Fetch tolerance model for a specific substance
-  Future<ToleranceModel?> fetchToleranceData(
-    String substanceName,
-  ) async {
+  Future<ToleranceModel?> fetchToleranceData(String substanceName) async {
     if (substanceName.isEmpty) return null;
     try {
       final response = await _supabase

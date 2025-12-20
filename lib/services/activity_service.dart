@@ -9,8 +9,8 @@ class ActivityService {
   final EncryptionServiceV2 _encryption;
 
   ActivityService({SupabaseClient? client, EncryptionServiceV2? encryption})
-      : _client = client ?? Supabase.instance.client,
-        _encryption = encryption ?? EncryptionServiceV2();
+    : _client = client ?? Supabase.instance.client,
+      _encryption = encryption ?? EncryptionServiceV2();
 
   Future<Map<String, dynamic>> fetchRecentActivity() async {
     try {

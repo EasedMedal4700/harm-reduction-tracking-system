@@ -14,8 +14,8 @@ class ErrorLoggingService {
   ErrorLoggingService._({
     DeviceInfoPlugin? deviceInfo,
     Future<PackageInfo> Function()? packageInfoLoader,
-  })  : _deviceInfo = deviceInfo ?? DeviceInfoPlugin(),
-        _packageInfoLoader = packageInfoLoader ?? PackageInfo.fromPlatform;
+  }) : _deviceInfo = deviceInfo ?? DeviceInfoPlugin(),
+       _packageInfoLoader = packageInfoLoader ?? PackageInfo.fromPlatform;
 
   static final ErrorLoggingService instance = ErrorLoggingService._();
 

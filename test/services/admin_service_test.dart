@@ -28,9 +28,12 @@ void main() {
 
   group('AdminService - fetchAllUsers', () {
     test('handles database errors gracefully', () async {
-      when(mockSupabaseClient.from('users')).thenAnswer((_) => mockQueryBuilder);
-      when(mockQueryBuilder.select('auth_user_id, display_name, is_admin'))
-          .thenThrow(Exception('Database error'));
+      when(
+        mockSupabaseClient.from('users'),
+      ).thenAnswer((_) => mockQueryBuilder);
+      when(
+        mockQueryBuilder.select('auth_user_id, display_name, is_admin'),
+      ).thenThrow(Exception('Database error'));
 
       expect(() => adminService.fetchAllUsers(), throwsException);
     });
@@ -38,16 +41,24 @@ void main() {
 
   group('AdminService - getSystemStats', () {
     test('returns system statistics when successful', () async {
-      final fakeEntriesBuilder = FakePostgrestBuilder<List<Map<String, dynamic>>>(
-        List.generate(10, (i) => {'use_id': i})
-      );
-      final fakeActiveUsersBuilder = FakePostgrestBuilder<List<Map<String, dynamic>>>(
-        List.generate(5, (i) => {'uuid_user_id': 'user$i'})
-      );
+      final fakeEntriesBuilder =
+          FakePostgrestBuilder<List<Map<String, dynamic>>>(
+            List.generate(10, (i) => {'use_id': i}),
+          );
+      final fakeActiveUsersBuilder =
+          FakePostgrestBuilder<List<Map<String, dynamic>>>(
+            List.generate(5, (i) => {'uuid_user_id': 'user$i'}),
+          );
 
-      when(mockSupabaseClient.from('drug_use')).thenAnswer((_) => mockQueryBuilder);
-      when(mockQueryBuilder.select('use_id')).thenAnswer((_) => fakeEntriesBuilder);
-      when(mockQueryBuilder.select('uuid_user_id')).thenAnswer((_) => fakeActiveUsersBuilder);
+      when(
+        mockSupabaseClient.from('drug_use'),
+      ).thenAnswer((_) => mockQueryBuilder);
+      when(
+        mockQueryBuilder.select('use_id'),
+      ).thenAnswer((_) => fakeEntriesBuilder);
+      when(
+        mockQueryBuilder.select('uuid_user_id'),
+      ).thenAnswer((_) => fakeActiveUsersBuilder);
 
       final result = await adminService.getSystemStats();
 
@@ -57,8 +68,12 @@ void main() {
     });
 
     test('handles errors gracefully', () async {
-      when(mockSupabaseClient.from('drug_use')).thenAnswer((_) => mockQueryBuilder);
-      when(mockQueryBuilder.select('use_id')).thenThrow(Exception('Database error'));
+      when(
+        mockSupabaseClient.from('drug_use'),
+      ).thenAnswer((_) => mockQueryBuilder);
+      when(
+        mockQueryBuilder.select('use_id'),
+      ).thenThrow(Exception('Database error'));
 
       final result = await adminService.getSystemStats();
 
@@ -70,10 +85,15 @@ void main() {
 
   group('AdminService - promoteUser/demoteUser', () {
     test('promoteUser calls update with correct data', () async {
-      final fakeUpdateBuilder = FakePostgrestBuilder<List<Map<String, dynamic>>>([]);
+      final fakeUpdateBuilder =
+          FakePostgrestBuilder<List<Map<String, dynamic>>>([]);
 
-      when(mockSupabaseClient.from('users')).thenAnswer((_) => mockQueryBuilder);
-      when(mockQueryBuilder.update(captureAny)).thenAnswer((_) => fakeUpdateBuilder);
+      when(
+        mockSupabaseClient.from('users'),
+      ).thenAnswer((_) => mockQueryBuilder);
+      when(
+        mockQueryBuilder.update(captureAny),
+      ).thenAnswer((_) => fakeUpdateBuilder);
 
       await adminService.promoteUser('user1');
 
@@ -81,10 +101,15 @@ void main() {
     });
 
     test('demoteUser calls update with correct data', () async {
-      final fakeUpdateBuilder = FakePostgrestBuilder<List<Map<String, dynamic>>>([]);
+      final fakeUpdateBuilder =
+          FakePostgrestBuilder<List<Map<String, dynamic>>>([]);
 
-      when(mockSupabaseClient.from('users')).thenAnswer((_) => mockQueryBuilder);
-      when(mockQueryBuilder.update(captureAny)).thenAnswer((_) => fakeUpdateBuilder);
+      when(
+        mockSupabaseClient.from('users'),
+      ).thenAnswer((_) => mockQueryBuilder);
+      when(
+        mockQueryBuilder.update(captureAny),
+      ).thenAnswer((_) => fakeUpdateBuilder);
 
       await adminService.demoteUser('user1');
 
@@ -92,8 +117,12 @@ void main() {
     });
 
     test('promoteUser handles errors', () async {
-      when(mockSupabaseClient.from('users')).thenAnswer((_) => mockQueryBuilder);
-      when(mockQueryBuilder.update(captureAny)).thenThrow(Exception('Update failed'));
+      when(
+        mockSupabaseClient.from('users'),
+      ).thenAnswer((_) => mockQueryBuilder);
+      when(
+        mockQueryBuilder.update(captureAny),
+      ).thenThrow(Exception('Update failed'));
 
       expect(() => adminService.promoteUser('user1'), throwsException);
     });
@@ -101,9 +130,12 @@ void main() {
 
   group('AdminService - clearErrorLogs', () {
     test('clears error logs successfully', () async {
-      final fakeDeleteBuilder = FakePostgrestBuilder<List<Map<String, dynamic>>>([]);
+      final fakeDeleteBuilder =
+          FakePostgrestBuilder<List<Map<String, dynamic>>>([]);
 
-      when(mockSupabaseClient.from('error_logs')).thenAnswer((_) => mockQueryBuilder);
+      when(
+        mockSupabaseClient.from('error_logs'),
+      ).thenAnswer((_) => mockQueryBuilder);
       when(mockQueryBuilder.delete()).thenAnswer((_) => fakeDeleteBuilder);
 
       await adminService.clearErrorLogs(deleteAll: true);
@@ -112,16 +144,22 @@ void main() {
     });
 
     test('clearErrorLogs handles errors', () async {
-      when(mockSupabaseClient.from('error_logs')).thenAnswer((_) => mockQueryBuilder);
+      when(
+        mockSupabaseClient.from('error_logs'),
+      ).thenAnswer((_) => mockQueryBuilder);
       when(mockQueryBuilder.delete()).thenThrow(Exception('Delete failed'));
 
-      expect(() => adminService.clearErrorLogs(deleteAll: true), throwsException);
+      expect(
+        () => adminService.clearErrorLogs(deleteAll: true),
+        throwsException,
+      );
     });
   });
 }
 
 // Fake implementation to handle method chaining and await
-class FakePostgrestBuilder<T> extends Fake implements PostgrestFilterBuilder<T>, PostgrestTransformBuilder<T> {
+class FakePostgrestBuilder<T> extends Fake
+    implements PostgrestFilterBuilder<T>, PostgrestTransformBuilder<T> {
   final T _data;
   FakePostgrestBuilder(this._data);
 
@@ -129,10 +167,16 @@ class FakePostgrestBuilder<T> extends Fake implements PostgrestFilterBuilder<T>,
   PostgrestFilterBuilder<T> eq(String column, Object value) => this;
 
   @override
-  PostgrestFilterBuilder<T> not(String column, String operator, Object? value) => this;
+  PostgrestFilterBuilder<T> not(
+    String column,
+    String operator,
+    Object? value,
+  ) => this;
 
   @override
-  PostgrestTransformBuilder<List<Map<String, dynamic>>> select([String columns = '*']) {
+  PostgrestTransformBuilder<List<Map<String, dynamic>>> select([
+    String columns = '*',
+  ]) {
     return this as PostgrestTransformBuilder<List<Map<String, dynamic>>>;
   }
 
@@ -146,27 +190,37 @@ class FakePostgrestBuilder<T> extends Fake implements PostgrestFilterBuilder<T>,
   PostgrestFilterBuilder<T> lt(String column, Object value) => this;
 
   @override
-  PostgrestFilterBuilder<T> or(String filters, {String? referencedTable}) => this;
+  PostgrestFilterBuilder<T> or(String filters, {String? referencedTable}) =>
+      this;
 
   @override
-  PostgrestTransformBuilder<T> order(String column, {bool ascending = true, bool nullsFirst = false, String? referencedTable}) => this;
+  PostgrestTransformBuilder<T> order(
+    String column, {
+    bool ascending = true,
+    bool nullsFirst = false,
+    String? referencedTable,
+  }) => this;
 
   @override
-  PostgrestTransformBuilder<T> limit(int count, {String? referencedTable}) => this;
+  PostgrestTransformBuilder<T> limit(int count, {String? referencedTable}) =>
+      this;
 
   @override
   PostgrestTransformBuilder<Map<String, dynamic>?> maybeSingle() {
-     dynamic singleData;
-     if (_data is List) {
-       singleData = (_data as List).isNotEmpty ? (_data as List).first : null;
-     } else {
-       singleData = _data;
-     }
-     return FakePostgrestBuilder<Map<String, dynamic>?>(singleData);
+    dynamic singleData;
+    if (_data is List) {
+      singleData = (_data as List).isNotEmpty ? (_data as List).first : null;
+    } else {
+      singleData = _data;
+    }
+    return FakePostgrestBuilder<Map<String, dynamic>?>(singleData);
   }
 
   @override
-  Future<R> then<R>(FutureOr<R> Function(T value) onValue, {Function? onError}) async {
+  Future<R> then<R>(
+    FutureOr<R> Function(T value) onValue, {
+    Function? onError,
+  }) async {
     return onValue(_data);
   }
 }

@@ -36,9 +36,18 @@ void main() {
     });
 
     test('should have correct available options', () {
-      expect(provider.availableMoods, containsAll(['Great', 'Good', 'Neutral', 'Struggling', 'Poor']));
-      expect(provider.availableTimesOfDay, containsAll(['morning', 'afternoon', 'evening']));
-      expect(provider.availableEmotions, containsAll(['Happy', 'Calm', 'Energetic', 'Tired', 'Anxious']));
+      expect(
+        provider.availableMoods,
+        containsAll(['Great', 'Good', 'Neutral', 'Struggling', 'Poor']),
+      );
+      expect(
+        provider.availableTimesOfDay,
+        containsAll(['morning', 'afternoon', 'evening']),
+      );
+      expect(
+        provider.availableEmotions,
+        containsAll(['Happy', 'Calm', 'Energetic', 'Tired', 'Anxious']),
+      );
     });
   });
 
@@ -115,61 +124,69 @@ void main() {
       expect(notified, true);
     });
 
-    test('setSelectedTime should update selectedTime and auto-set timeOfDay', () {
-      var notified = false;
-      provider.addListener(() => notified = true);
+    test(
+      'setSelectedTime should update selectedTime and auto-set timeOfDay',
+      () {
+        var notified = false;
+        provider.addListener(() => notified = true);
 
-      // Morning time (before 12)
-      provider.setSelectedTime(const TimeOfDay(hour: 9, minute: 0));
+        // Morning time (before 12)
+        provider.setSelectedTime(const TimeOfDay(hour: 9, minute: 0));
 
-      expect(provider.selectedTime, const TimeOfDay(hour: 9, minute: 0));
-      expect(provider.timeOfDay, 'morning');
-      expect(notified, true);
+        expect(provider.selectedTime, const TimeOfDay(hour: 9, minute: 0));
+        expect(provider.timeOfDay, 'morning');
+        expect(notified, true);
 
-      notified = false;
-      // Afternoon time (12-17)
-      provider.setSelectedTime(const TimeOfDay(hour: 14, minute: 0));
+        notified = false;
+        // Afternoon time (12-17)
+        provider.setSelectedTime(const TimeOfDay(hour: 14, minute: 0));
 
-      expect(provider.timeOfDay, 'afternoon');
-      expect(notified, true);
+        expect(provider.timeOfDay, 'afternoon');
+        expect(notified, true);
 
-      notified = false;
-      // Evening time (after 17)
-      provider.setSelectedTime(const TimeOfDay(hour: 20, minute: 0));
+        notified = false;
+        // Evening time (after 17)
+        provider.setSelectedTime(const TimeOfDay(hour: 20, minute: 0));
 
-      expect(provider.timeOfDay, 'evening');
-      expect(notified, true);
-    });
+        expect(provider.timeOfDay, 'evening');
+        expect(notified, true);
+      },
+    );
   });
 
   group('DailyCheckinProvider - Check Existing Checkin', () {
-    test('checkExistingCheckin should load existing checkin data when found', () async {
-      final existingCheckin = DailyCheckin(
-        id: 'test-id',
-        userId: 'test-user',
-        checkinDate: DateTime.now(),
-        mood: 'Good',
-        emotions: ['Happy', 'Calm'],
-        timeOfDay: 'morning',
-        notes: 'Test notes',
-        createdAt: DateTime.now(),
-      );
+    test(
+      'checkExistingCheckin should load existing checkin data when found',
+      () async {
+        final existingCheckin = DailyCheckin(
+          id: 'test-id',
+          userId: 'test-user',
+          checkinDate: DateTime.now(),
+          mood: 'Good',
+          emotions: ['Happy', 'Calm'],
+          timeOfDay: 'morning',
+          notes: 'Test notes',
+          createdAt: DateTime.now(),
+        );
 
-      when(mockRepository.fetchCheckinByDateAndTime(any, any))
-          .thenAnswer((_) async => existingCheckin);
+        when(
+          mockRepository.fetchCheckinByDateAndTime(any, any),
+        ).thenAnswer((_) async => existingCheckin);
 
-      await provider.checkExistingCheckin();
+        await provider.checkExistingCheckin();
 
-      expect(provider.existingCheckin, existingCheckin);
-      expect(provider.mood, 'Good');
-      expect(provider.emotions, ['Happy', 'Calm']);
-      expect(provider.notes, 'Test notes');
-      expect(provider.isLoading, false);
-    });
+        expect(provider.existingCheckin, existingCheckin);
+        expect(provider.mood, 'Good');
+        expect(provider.emotions, ['Happy', 'Calm']);
+        expect(provider.notes, 'Test notes');
+        expect(provider.isLoading, false);
+      },
+    );
 
     test('checkExistingCheckin should handle no existing checkin', () async {
-      when(mockRepository.fetchCheckinByDateAndTime(any, any))
-          .thenAnswer((_) async => null);
+      when(
+        mockRepository.fetchCheckinByDateAndTime(any, any),
+      ).thenAnswer((_) async => null);
 
       await provider.checkExistingCheckin();
 
@@ -178,8 +195,9 @@ void main() {
     });
 
     test('checkExistingCheckin should handle errors gracefully', () async {
-      when(mockRepository.fetchCheckinByDateAndTime(any, any))
-          .thenThrow(Exception('Test error'));
+      when(
+        mockRepository.fetchCheckinByDateAndTime(any, any),
+      ).thenThrow(Exception('Test error'));
 
       await provider.checkExistingCheckin();
 
@@ -201,7 +219,10 @@ void main() {
       expect(provider.mood, 'Neutral');
       expect(provider.emotions, isEmpty);
       expect(provider.notes, isEmpty);
-      expect(provider.timeOfDay, isNotEmpty); // Should be set to current time of day
+      expect(
+        provider.timeOfDay,
+        isNotEmpty,
+      ); // Should be set to current time of day
       expect(provider.existingCheckin, isNull);
     });
   });
@@ -219,8 +240,9 @@ void main() {
         ),
       ];
 
-      when(mockRepository.fetchCheckinsInRange(any, any))
-          .thenAnswer((_) async => checkins);
+      when(
+        mockRepository.fetchCheckinsInRange(any, any),
+      ).thenAnswer((_) async => checkins);
 
       await provider.loadRecentCheckins();
 
@@ -229,8 +251,9 @@ void main() {
     });
 
     test('loadRecentCheckins should handle errors gracefully', () async {
-      when(mockRepository.fetchCheckinsInRange(any, any))
-          .thenThrow(Exception('Test error'));
+      when(
+        mockRepository.fetchCheckinsInRange(any, any),
+      ).thenThrow(Exception('Test error'));
 
       await provider.loadRecentCheckins();
 
@@ -240,29 +263,34 @@ void main() {
   });
 
   group('DailyCheckinProvider - Load Checkins For Date', () {
-    test('loadCheckinsForDate should return checkins from repository', () async {
-      final checkins = [
-        DailyCheckin(
-          id: '1',
-          userId: 'user1',
-          checkinDate: DateTime.now(),
-          mood: 'Good',
-          emotions: ['Happy'],
-          timeOfDay: 'morning',
-        ),
-      ];
+    test(
+      'loadCheckinsForDate should return checkins from repository',
+      () async {
+        final checkins = [
+          DailyCheckin(
+            id: '1',
+            userId: 'user1',
+            checkinDate: DateTime.now(),
+            mood: 'Good',
+            emotions: ['Happy'],
+            timeOfDay: 'morning',
+          ),
+        ];
 
-      when(mockRepository.fetchCheckinsByDate(any))
-          .thenAnswer((_) async => checkins);
+        when(
+          mockRepository.fetchCheckinsByDate(any),
+        ).thenAnswer((_) async => checkins);
 
-      final result = await provider.loadCheckinsForDate(DateTime.now());
+        final result = await provider.loadCheckinsForDate(DateTime.now());
 
-      expect(result, checkins);
-    });
+        expect(result, checkins);
+      },
+    );
 
     test('loadCheckinsForDate should return empty list on error', () async {
-      when(mockRepository.fetchCheckinsByDate(any))
-          .thenThrow(Exception('Test error'));
+      when(
+        mockRepository.fetchCheckinsByDate(any),
+      ).thenThrow(Exception('Test error'));
 
       final result = await provider.loadCheckinsForDate(DateTime.now());
 

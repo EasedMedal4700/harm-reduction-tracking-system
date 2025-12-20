@@ -7,36 +7,46 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'craving_service_test_mocks.mocks.dart';
 
 // Fake implementation for TransformBuilder (returned by maybeSingle)
-class FakePostgrestTransformBuilder<T> extends Fake implements PostgrestTransformBuilder<T> {
+class FakePostgrestTransformBuilder<T> extends Fake
+    implements PostgrestTransformBuilder<T> {
   final T _data;
   FakePostgrestTransformBuilder(this._data);
 
   @override
-  Future<R> then<R>(FutureOr<R> Function(T value) onValue, {Function? onError}) {
+  Future<R> then<R>(
+    FutureOr<R> Function(T value) onValue, {
+    Function? onError,
+  }) {
     return Future.value(_data).then(onValue, onError: onError);
   }
 }
 
 // Fake implementation for FilterBuilder (returned by select, insert, update)
-class FakePostgrestFilterBuilder extends Fake implements PostgrestFilterBuilder<List<Map<String, dynamic>>> {
+class FakePostgrestFilterBuilder extends Fake
+    implements PostgrestFilterBuilder<List<Map<String, dynamic>>> {
   List<Map<String, dynamic>> _data;
-  
+
   FakePostgrestFilterBuilder([this._data = const []]);
 
   @override
-  PostgrestFilterBuilder<List<Map<String, dynamic>>> eq(String column, dynamic value) {
+  PostgrestFilterBuilder<List<Map<String, dynamic>>> eq(
+    String column,
+    dynamic value,
+  ) {
     return this;
   }
 
   @override
   PostgrestTransformBuilder<Map<String, dynamic>?> maybeSingle() {
     return FakePostgrestTransformBuilder<Map<String, dynamic>?>(
-      _data.isNotEmpty ? _data.first : null
+      _data.isNotEmpty ? _data.first : null,
     );
   }
 
   @override
-  PostgrestTransformBuilder<List<Map<String, dynamic>>> select([String columns = '*']) {
+  PostgrestTransformBuilder<List<Map<String, dynamic>>> select([
+    String columns = '*',
+  ]) {
     return this;
   }
 
@@ -47,7 +57,10 @@ class FakePostgrestFilterBuilder extends Fake implements PostgrestFilterBuilder<
   }
 
   @override
-  Future<R> then<R>(FutureOr<R> Function(List<Map<String, dynamic>> value) onValue, {Function? onError}) {
+  Future<R> then<R>(
+    FutureOr<R> Function(List<Map<String, dynamic>> value) onValue, {
+    Function? onError,
+  }) {
     return Future.value(_data).then(onValue, onError: onError);
   }
 }
@@ -68,7 +81,9 @@ void main() {
 
       // Default stubs
       when(mockSupabase.from(any)).thenAnswer((_) => mockQueryBuilder);
-      when(mockEncryption.encryptText(any)).thenAnswer((i) async => 'encrypted_${i.positionalArguments[0]}');
+      when(
+        mockEncryption.encryptText(any),
+      ).thenAnswer((i) async => 'encrypted_${i.positionalArguments[0]}');
       when(mockEncryption.encryptFields(any, any)).thenAnswer((i) async {
         final data = i.positionalArguments[0] as Map<String, dynamic>;
         final fields = i.positionalArguments[1] as List<String>;
@@ -85,19 +100,23 @@ void main() {
         final fields = i.positionalArguments[1] as List<String>;
         final result = Map<String, dynamic>.from(data);
         for (final field in fields) {
-          if (result.containsKey(field) && result[field].toString().startsWith('encrypted_')) {
-            result[field] = result[field].toString().replaceFirst('encrypted_', '');
+          if (result.containsKey(field) &&
+              result[field].toString().startsWith('encrypted_')) {
+            result[field] = result[field].toString().replaceFirst(
+              'encrypted_',
+              '',
+            );
           }
         }
         return result;
       });
-      
+
       // Stubbing insert/update/select to return our Fake
       // Since PostgrestFilterBuilder implements Future, we must use thenAnswer
       when(mockQueryBuilder.insert(any)).thenAnswer((_) => fakeFilterBuilder);
       when(mockQueryBuilder.update(any)).thenAnswer((_) => fakeFilterBuilder);
       when(mockQueryBuilder.select(any)).thenAnswer((_) => fakeFilterBuilder);
-      
+
       service = CravingService(
         encryption: mockEncryption,
         supabase: mockSupabase,
@@ -126,12 +145,9 @@ void main() {
           timezone: -5.0,
         );
 
-        expect(
-          () => service.saveCraving(craving),
-          throwsA(isA<Exception>()),
-        );
+        expect(() => service.saveCraving(craving), throwsA(isA<Exception>()));
       });
-      
+
       test('throws exception for empty substance', () {
         final craving = Craving(
           cravingId: 'test',
@@ -152,10 +168,7 @@ void main() {
           timezone: -5.0,
         );
 
-        expect(
-          () => service.saveCraving(craving),
-          throwsA(isA<Exception>()),
-        );
+        expect(() => service.saveCraving(craving), throwsA(isA<Exception>()));
       });
     });
 
@@ -186,18 +199,18 @@ void main() {
         // But wait, `insert` in Supabase usually returns the data if `select()` is called.
         // If the code just awaits `insert(...)`, it might expect `List<Map>` or `null`.
         // Our fake returns `List<Map>`.
-        
+
         // Let's see if `saveCraving` uses the result.
         // It probably just awaits it.
-        
+
         // We need to capture the arguments passed to insert.
-        
+
         await service.saveCraving(craving);
 
         verify(mockSupabase.from('cravings')).called(1);
         final captured = verify(mockQueryBuilder.insert(captureAny)).captured;
         final inserted = captured.first as Map<String, dynamic>;
-        
+
         expect(inserted['substance'], 'Cannabis');
         expect(inserted['thoughts'], 'encrypted_My thoughts');
         expect(inserted['action'], 'encrypted_Resisted');
@@ -208,13 +221,15 @@ void main() {
     group('fetchCravingById', () {
       test('returns decrypted craving when found', () async {
         // Setup fake data
-        fakeFilterBuilder._data = [{
-          'craving_id': 'c1',
-          'uuid_user_id': 'test-user-id',
-          'substance': 'Alcohol',
-          'thoughts': 'encrypted_Secret thoughts',
-          'action': 'encrypted_Drank water',
-        }];
+        fakeFilterBuilder._data = [
+          {
+            'craving_id': 'c1',
+            'uuid_user_id': 'test-user-id',
+            'substance': 'Alcohol',
+            'thoughts': 'encrypted_Secret thoughts',
+            'action': 'encrypted_Drank water',
+          },
+        ];
 
         final result = await service.fetchCravingById('c1');
 
@@ -228,25 +243,30 @@ void main() {
 
         expect(
           () => service.fetchCravingById('c1'),
-          throwsA(isA<Exception>().having((e) => e.toString(), 'message', contains('not found'))),
+          throwsA(
+            isA<Exception>().having(
+              (e) => e.toString(),
+              'message',
+              contains('not found'),
+            ),
+          ),
         );
       });
     });
 
     group('updateCraving', () {
       test('encrypts and updates craving', () async {
-        fakeFilterBuilder._data = [{'craving_id': 'c1'}]; 
+        fakeFilterBuilder._data = [
+          {'craving_id': 'c1'},
+        ];
 
-        final data = {
-          'substance': 'Tobacco',
-          'thoughts': 'New thoughts',
-        };
+        final data = {'substance': 'Tobacco', 'thoughts': 'New thoughts'};
 
         await service.updateCraving('c1', data);
 
         final captured = verify(mockQueryBuilder.update(captureAny)).captured;
         final updated = captured.first as Map<String, dynamic>;
-        
+
         expect(updated, isNotNull);
         expect(updated['substance'], 'Tobacco');
         expect(updated['thoughts'], 'encrypted_New thoughts');
@@ -254,4 +274,3 @@ void main() {
     });
   });
 }
-

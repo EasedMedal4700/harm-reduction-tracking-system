@@ -101,18 +101,36 @@ void main() {
     });
 
     test('colorFor returns correct color for valid category', () {
-      expect(DrugCategoryColors.colorFor('psychedelic'), DrugCategoryColors.psychedelic);
-      expect(DrugCategoryColors.colorFor('Psychedelic'), DrugCategoryColors.psychedelic);
-      expect(DrugCategoryColors.colorFor('PSYCHEDELIC'), DrugCategoryColors.psychedelic);
+      expect(
+        DrugCategoryColors.colorFor('psychedelic'),
+        DrugCategoryColors.psychedelic,
+      );
+      expect(
+        DrugCategoryColors.colorFor('Psychedelic'),
+        DrugCategoryColors.psychedelic,
+      );
+      expect(
+        DrugCategoryColors.colorFor('PSYCHEDELIC'),
+        DrugCategoryColors.psychedelic,
+      );
     });
 
     test('colorFor returns defaultColor for invalid category', () {
-      expect(DrugCategoryColors.colorFor('invalid'), DrugCategoryColors.defaultColor);
-      expect(DrugCategoryColors.colorFor(null), DrugCategoryColors.defaultColor);
+      expect(
+        DrugCategoryColors.colorFor('invalid'),
+        DrugCategoryColors.defaultColor,
+      );
+      expect(
+        DrugCategoryColors.colorFor(null),
+        DrugCategoryColors.defaultColor,
+      );
     });
 
     test('colorFor returns correct color for cannabinoid', () {
-      expect(DrugCategoryColors.colorFor('cannabinoid'), DrugCategoryColors.supplement);
+      expect(
+        DrugCategoryColors.colorFor('cannabinoid'),
+        DrugCategoryColors.supplement,
+      );
     });
   });
 }

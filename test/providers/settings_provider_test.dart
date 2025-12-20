@@ -17,7 +17,7 @@ void main() {
     test('initializes with default settings', () async {
       // Wait for initialization
       await Future.delayed(Duration.zero);
-      
+
       expect(provider.isLoading, false);
       expect(provider.settings, isA<AppSettings>());
       expect(provider.settings.darkMode, false);
@@ -42,12 +42,12 @@ void main() {
 
     test('updateSettings updates state and storage', () async {
       await Future.delayed(Duration.zero);
-      
+
       final newSettings = provider.settings.copyWith(darkMode: true);
       await provider.updateSettings(newSettings);
 
       expect(provider.settings.darkMode, true);
-      
+
       // Verify storage
       final stored = await SettingsService.loadSettings();
       expect(stored.darkMode, true);
@@ -55,13 +55,13 @@ void main() {
 
     test('resetToDefaults resets state and storage', () async {
       await Future.delayed(Duration.zero);
-      
+
       await provider.setDarkMode(true);
       expect(provider.settings.darkMode, true);
 
       await provider.resetToDefaults();
       expect(provider.settings.darkMode, false);
-      
+
       final stored = await SettingsService.loadSettings();
       expect(stored.darkMode, false);
     });

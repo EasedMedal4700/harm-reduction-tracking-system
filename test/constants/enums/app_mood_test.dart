@@ -38,7 +38,10 @@ void main() {
     });
 
     test('contains all expected keys', () {
-      expect(moodEmojis.keys, containsAll(['Great', 'Good', 'Neutral', 'Struggling', 'Poor']));
+      expect(
+        moodEmojis.keys,
+        containsAll(['Great', 'Good', 'Neutral', 'Struggling', 'Poor']),
+      );
     });
   });
 }

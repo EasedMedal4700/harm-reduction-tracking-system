@@ -101,7 +101,12 @@ class _UseDistributionController {
     return result;
   }
 
-  Color colorForSubstance(BuildContext context, String substance, int index, int total) {
+  Color colorForSubstance(
+    BuildContext context,
+    String substance,
+    int index,
+    int total,
+  ) {
     final category = substanceToCategory[substance.toLowerCase()] ?? 'Other';
     final base = context.accent.primary;
 
@@ -314,7 +319,12 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
 
       final baseColor = _viewType == DistributionViewType.category
           ? DrugCategoryColors.colorFor(e.key)
-          : _controller.colorForSubstance(context, e.key, index, entries.length);
+          : _controller.colorForSubstance(
+              context,
+              e.key,
+              index,
+              entries.length,
+            );
 
       final color = baseColor.withValues(alpha: isTouched ? 1.0 : 0.85);
       final radius = isTouched ? radiusBase * 1.08 : radiusBase;
