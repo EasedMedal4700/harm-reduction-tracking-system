@@ -7,10 +7,10 @@ from pathlib import Path
 # Paths
 # ----------------------------
 BASE_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = (BASE_DIR / ".." / ".." / "..").resolve()
+PROJECT_ROOT = (BASE_DIR / ".." / ".." / ".." / "..").resolve()
 FEATURES_DIR = PROJECT_ROOT / "lib" / "features"
 
-OUTPUT_FILE = BASE_DIR / "reports" / "design_system_report.json"
+OUTPUT_FILE = BASE_DIR.parent / "reports" / "design_system_report.json"
 
 # ----------------------------
 # Allowlists (do NOT scan)
@@ -109,6 +109,19 @@ def scan_features():
         "files": {},
     }
 
+    file_count = 0
+    ignored_count = 0
+    for root, _, files in os.walk(FEATURES_DIR):
+        for filename in files:
+            if not filename.endswith(".dart"):
+                continue
+            file_count += 1
+
+            file_path = Path(root) / filename
+            if should_ignore_file(file_path):
+                ignored_count += 1
+
+    scanned = 0
     for root, _, files in os.walk(FEATURES_DIR):
         for filename in files:
             if not filename.endswith(".dart"):
@@ -119,18 +132,25 @@ def scan_features():
             if should_ignore_file(file_path):
                 continue
 
-            issues = scan_file(file_path)
+            try:
+                issues = scan_file(file_path)
+                scanned += 1
+                report["summary"]["files_scanned"] += 1
+                if issues:
+                    try:
+                        rel_path = str(file_path.relative_to(PROJECT_ROOT))
+                        report["files"][rel_path] = issues
+                    except ValueError:
+                        # If relative_to fails, use absolute path
+                        report["files"][str(file_path)] = issues
 
-            if issues:
-                report["files"][str(file_path.relative_to(PROJECT_ROOT))] = issues
-
-                for issue in issues:
-                    if issue["severity"] == "BLOCKING":
-                        report["summary"]["blocking_issues"] += 1
-                    elif issue["severity"] == "WARNING":
-                        report["summary"]["warning_issues"] += 1
-
-            report["summary"]["files_scanned"] += 1
+                    for issue in issues:
+                        if issue["severity"] == "BLOCKING":
+                            report["summary"]["blocking_issues"] += 1
+                        elif issue["severity"] == "WARNING":
+                            report["summary"]["warning_issues"] += 1
+            except Exception as e:
+                continue
 
     return report
 
@@ -140,7 +160,17 @@ def scan_features():
 # ----------------------------
 def main():
     report = scan_features()
+
+    # Ensure reports directory exists
+    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+
     OUTPUT_FILE.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+    # Exit with non-zero code if there are blocking issues
+    if report["summary"]["blocking_issues"] > 0:
+        exit(1)
+    else:
+        exit(0)
 
 
 if __name__ == "__main__":
