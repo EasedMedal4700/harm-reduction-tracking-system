@@ -2,20 +2,29 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/services/activity_service.dart';
 
 void main() {
+  late ActivityService activityService;
+
+  setUp(() {
+    activityService = ActivityService();
+  });
+
   group('ActivityService', () {
-    late ActivityService service;
-
-    setUp(() {
-      service = ActivityService();
+    test('can be instantiated', () {
+      expect(activityService, isNotNull);
     });
 
-    test('ActivityService can be instantiated', () {
-      expect(service, isNotNull);
-      expect(service, isA<ActivityService>());
-    });
-
-    test('fetchRecentActivity method exists and has correct signature', () {
-      expect(service.fetchRecentActivity, isA<Function>());
+    test('fetchRecentActivity returns a Future<Map<String, dynamic>>', () async {
+      // This test will fail if not authenticated, but verifies the method signature
+      try {
+        final result = await activityService.fetchRecentActivity();
+        expect(result, isA<Map<String, dynamic>>());
+        expect(result.containsKey('entries'), true);
+        expect(result.containsKey('cravings'), true);
+        expect(result.containsKey('reflections'), true);
+      } catch (e) {
+        // Expected to fail without authentication, but the method should exist and return the right type
+        expect(e, isA<StateError>()); // User not logged in error
+      }
     });
   });
 }
