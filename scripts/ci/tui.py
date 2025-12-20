@@ -26,16 +26,16 @@ def render_main_menu() -> None:
     print()
     print("[q] Quit")
 
-def show_all_summary(results: Dict[str, Tuple[bool, str]]) -> None:
-    """Show unified summary for Run ALL"""
+def show_all_summary(results: Dict[str, Tuple[bool, str, str]]) -> Tuple[str, str, str]:
+    """Show unified summary for Run ALL and return outputs"""
     print("LOCAL CI SUMMARY")
     print("────────────────────────────────")
     print()
 
     # Format results
-    format_success, format_msg = results['format']
-    tests_success, tests_msg = results['tests']
-    design_success, design_msg = results['design']
+    format_success, format_msg, format_output = results['format']
+    tests_success, tests_msg, tests_output = results['tests']
+    design_success, design_msg, design_output = results['design']
 
     print(f"Dart Format:        {format_msg}")
     print(f"Tests:              {tests_msg}")
@@ -68,6 +68,8 @@ def show_all_summary(results: Dict[str, Tuple[bool, str]]) -> None:
     print("[t] View test output")
     print("[d] View design system results")
     print("[q] Back to menu")
+
+    return format_output, tests_output, design_output
 
 def view_design_system_results() -> None:
     """File-first view of design system results"""
@@ -153,7 +155,7 @@ def main():
             break
         elif choice == '1':
             print("\n[1] Run Design System Checks")
-            success, message = run_design_system_checks()
+            success, message, output = run_design_system_checks()
             print(message)
             safe_input("\nPress Enter to continue...")
         elif choice == '2':
@@ -161,18 +163,18 @@ def main():
             view_design_system_results()
         elif choice == '3':
             print("\n[3] Run Dart Format")
-            success, message = run_dart_format()
+            success, message, output = run_dart_format()
             print(message)
             safe_input("\nPress Enter to continue...")
         elif choice == '4':
             print("\n[4] Run Tests")
-            success, message = run_tests()
+            success, message, output = run_tests()
             print(message)
             safe_input("\nPress Enter to continue...")
         elif choice == '5':
             print("\n[5] Run ALL")
             results = run_all_pipeline()
-            show_all_summary(results)
+            format_output, tests_output, design_output = show_all_summary(results)
 
             # Handle sub-menu for viewing individual outputs
             while True:
@@ -180,10 +182,10 @@ def main():
                 if sub_choice == 'q':
                     break
                 elif sub_choice == 'f':
-                    print(f"\nFormat Output:\n{results['format'][1]}")
+                    print(f"\nFormat Output:\n{format_output}")
                     safe_input("\nPress Enter to continue...")
                 elif sub_choice == 't':
-                    print(f"\nTest Output:\n{results['tests'][1]}")
+                    print(f"\nTest Output:\n{tests_output}")
                     safe_input("\nPress Enter to continue...")
                 elif sub_choice == 'd':
                     view_design_system_results()

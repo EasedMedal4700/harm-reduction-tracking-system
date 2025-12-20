@@ -8,8 +8,10 @@ Separated from UI for better maintainability and reusability.
 import json
 import os
 import subprocess
+from datetime import datetime
 from dataclasses import dataclass
 from typing import Dict, Any, Optional, Tuple
+from datetime import datetime
 
 
 @dataclass
@@ -28,6 +30,7 @@ class PipelineStep:
                 cwd=self.cwd or find_project_root(),
                 capture_output=True,
                 text=True,
+                encoding='utf-8',
                 timeout=300  # 5 minute timeout
             )
             return result.returncode == 0, result.stdout + result.stderr
@@ -57,7 +60,7 @@ def load_unified_report() -> Optional[Dict[str, Any]]:
     return None
 
 
-def run_design_system_checks() -> Tuple[bool, str]:
+def run_design_system_checks() -> Tuple[bool, str, str]:
     """Run design system checks and return status"""
     base_dir = os.path.dirname(os.path.abspath(__file__))
     run_py = os.path.join(base_dir, "design_system", "run.py")
@@ -75,39 +78,99 @@ def run_design_system_checks() -> Tuple[bool, str]:
     else:
         status_msg = "Design system checks completed\nUnable to read results"
 
-    return success, status_msg
+    return success, status_msg, output
 
 
-def run_dart_format() -> Tuple[bool, str]:
+def run_dart_format() -> Tuple[bool, str, str]:
     """Run dart format and return status"""
     step = PipelineStep("Dart Format", "dart format --set-exit-if-changed .")
     success, output = step.execute()
 
     if success:
-        return True, "✅ OK"
+        status_msg = "✅ OK"
     else:
-        return False, "❌ Needs formatting"
+        status_msg = "❌ Needs formatting"
+
+    return success, status_msg, output
 
 
-def run_tests() -> Tuple[bool, str]:
+def run_tests() -> Tuple[bool, str, str]:
     """Run flutter tests and return status"""
-    step = PipelineStep("Tests", "flutter test")
+    step = PipelineStep("Tests", "flutter test --machine")
     success, output = step.execute()
 
-    # Try to extract test results from output
-    lines = output.split('\n')
-    for line in reversed(lines):
-        if 'tests passed' in line.lower() or 'tests failed' in line.lower():
-            if 'failed' in line.lower():
-                return False, f"❌ {line.strip()}"
-            else:
-                return True, f"✅ {line.strip()}"
+    # Parse machine-readable output for detailed results
+    failed_tests = []
+    test_names = {}  # testID -> name
+    total_tests = 0
+    passed_tests = 0
 
-    # Fallback
-    return success, "✅ Tests passed" if success else "❌ Tests failed"
+    lines = output.strip().split('\n')
+    for line in lines:
+        if not line.strip():
+            continue
+        try:
+            event = json.loads(line)
+            # Skip if it's a list (some events come as arrays)
+            if not isinstance(event, dict):
+                continue
+                
+            event_type = event.get('type')
+            
+            if event_type == 'testStart':
+                test_id = event.get('test', {}).get('id')
+                test_name = event.get('test', {}).get('name')
+                if test_id and test_name:
+                    test_names[test_id] = test_name
+            
+            elif event_type == 'testDone':
+                total_tests += 1
+                test_id = event.get('testID')
+                result = event.get('result')
+                skipped = event.get('skipped', False)
+                hidden = event.get('hidden', False)
+                
+                if not skipped and not hidden:
+                    if result == 'success':
+                        passed_tests += 1
+                    else:
+                        # This is a failed test
+                        test_name = test_names.get(test_id, f'Test {test_id}')
+                        failed_tests.append({
+                            'id': test_id,
+                            'name': test_name,
+                            'result': result,
+                            'time': event.get('time', 0)
+                        })
+                        
+        except json.JSONDecodeError:
+            # Skip non-JSON lines
+            continue
+
+    # Save failed tests to JSON file
+    if failed_tests:
+        report_path = os.path.join(os.path.dirname(__file__), 'test_report.json')
+        with open(report_path, 'w') as f:
+            json.dump({
+                'summary': {
+                    'total_tests': total_tests,
+                    'passed_tests': passed_tests,
+                    'failed_tests': len(failed_tests),
+                    'timestamp': str(datetime.now())
+                },
+                'failed_tests': failed_tests
+            }, f, indent=2)
+
+    # Create status message
+    if failed_tests:
+        status_msg = f"❌ {len(failed_tests)} test(s) failed"
+    else:
+        status_msg = f"✅ All {total_tests} tests passed"
+
+    return success, status_msg, output
 
 
-def run_all_pipeline() -> Dict[str, Tuple[bool, str]]:
+def run_all_pipeline() -> Dict[str, Tuple[bool, str, str]]:
     """Run all CI steps and return results"""
     results = {}
 
