@@ -2404,7 +2404,7 @@
       "rule": "component_usage",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\wearOS\\wearos_page.dart",
-      "line": 76,
+      "line": 74,
       "message": "Icon without semanticLabel",
       "snippet": "Icon(Icons.construction, color: a.primary),",
       "ignored": false
@@ -5563,7 +5563,7 @@
       "rule": "localization",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\wearOS\\wearos_page.dart",
-      "line": 29,
+      "line": 27,
       "message": "Hardcoded string in Text widget: 'WearOS Companion'",
       "snippet": "title: const Text('WearOS Companion'),",
       "ignored": false
@@ -6130,18 +6130,9 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
-      "line": 355,
+      "line": 365,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.sm),",
-      "ignored": false
-    },
-    {
-      "rule": "performance",
-      "severity": "WARNING",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
-      "line": 387,
-      "message": "Missing const constructor",
-      "snippet": "SizedBox(width: t.spacing.sm),",
       "ignored": false
     },
     {
@@ -6157,7 +6148,16 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
-      "line": 536,
+      "line": 407,
+      "message": "Missing const constructor",
+      "snippet": "SizedBox(width: t.spacing.sm),",
+      "ignored": false
+    },
+    {
+      "rule": "performance",
+      "severity": "WARNING",
+      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
+      "line": 546,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: t.spacing.xs),",
       "ignored": false
@@ -6166,7 +6166,7 @@
       "rule": "performance",
       "severity": "WARNING",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
-      "line": 578,
+      "line": 588,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.xs),",
       "ignored": false

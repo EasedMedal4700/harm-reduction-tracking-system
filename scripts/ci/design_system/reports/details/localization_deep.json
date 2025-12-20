@@ -1790,7 +1790,7 @@
     {
       "severity": "WARNING",
       "message": "Hardcoded string in Text widget: 'WearOS Companion'",
-      "line": 29,
+      "line": 27,
       "snippet": "title: const Text('WearOS Companion'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\wearOS\\wearos_page.dart"
     }

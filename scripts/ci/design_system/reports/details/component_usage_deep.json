@@ -992,7 +992,7 @@
     {
       "severity": "WARNING",
       "message": "Icon without semanticLabel",
-      "line": 76,
+      "line": 74,
       "snippet": "Icon(Icons.construction, color: a.primary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\wearOS\\wearos_page.dart"
     }

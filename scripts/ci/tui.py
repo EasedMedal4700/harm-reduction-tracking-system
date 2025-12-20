@@ -1,208 +1,140 @@
 import json
 import os
 import sys
-from dataclasses import dataclass
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
-@dataclass
-class DataSource:
-    name: str
-    path: str
-    data: Dict[str, Any] = None
+from pipeline import (
+    load_unified_report,
+    run_design_system_checks,
+    run_dart_format,
+    run_tests,
+    run_all_pipeline
+)
 
-    def load(self) -> None:
-        """Load JSON data from the path."""
-        if os.path.exists(self.path):
-            with open(self.path, 'r') as f:
-                self.data = json.load(f)
+def render_main_menu() -> None:
+    """Render the main CI dashboard menu"""
+    print("LOCAL CI DASHBOARD")
+    print("────────────────────────────────")
+    print()
+    print("[1] Run Design System Checks")
+    print("[2] View Design System Results")
+    print()
+    print("[3] Run Dart Format")
+    print("[4] Run Tests")
+    print()
+    print("[5] Run ALL (Format + Tests + Checks)")
+    print()
+    print("[q] Quit")
+
+def show_all_summary(results: Dict[str, Tuple[bool, str]]) -> None:
+    """Show unified summary for Run ALL"""
+    print("LOCAL CI SUMMARY")
+    print("────────────────────────────────")
+    print()
+
+    # Format results
+    format_success, format_msg = results['format']
+    tests_success, tests_msg = results['tests']
+    design_success, design_msg = results['design']
+
+    print(f"Dart Format:        {format_msg}")
+    print(f"Tests:              {tests_msg}")
+
+    # Parse design system results
+    report = load_unified_report()
+    if report and "summary" in report:
+        summary = report["summary"]
+        blocking = summary.get("blocking", 0)
+        warnings = summary.get("warnings", 0)
+        if blocking > 0:
+            design_status = f"❌ BLOCKING ({blocking})"
+        elif warnings > 0:
+            design_status = f"⚠ WARNINGS ({warnings})"
         else:
-            self.data = {}
+            design_status = "✅ OK"
+    else:
+        design_status = "❓ UNKNOWN"
 
-def load_data_sources() -> List[DataSource]:
-    """Register and return available data sources."""
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    design_system_dir = os.path.join(base_dir, "design_system")
-    reports_dir = os.path.join(design_system_dir, "reports")
+    print(f"Design System:      {design_status}")
+    print()
 
-    data_sources = [
-        DataSource("Design System Report", os.path.join(reports_dir, "unified_report.json")),
-    ]
+    # Overall status
+    all_passed = format_success and tests_success and (blocking == 0)
+    overall = "✅ PASS" if all_passed else "❌ FAIL"
+    print(f"Overall Status: {overall}")
+    print()
 
-    # Add summary data sources
-    summaries_dir = os.path.join(reports_dir, "summaries")
-    if os.path.exists(summaries_dir):
-        for filename in os.listdir(summaries_dir):
-            if filename.endswith('.json'):
-                rule_name = filename.replace('.json', '')
-                data_sources.append(DataSource(
-                    f"{rule_name.title()} Summary",
-                    os.path.join(summaries_dir, filename)
-                ))
+    print("[f] View format output")
+    print("[t] View test output")
+    print("[d] View design system results")
+    print("[q] Back to menu")
 
-    # Add detail data sources
-    details_dir = os.path.join(reports_dir, "details")
-    if os.path.exists(details_dir):
-        for filename in os.listdir(details_dir):
-            if filename.endswith('_deep.json'):
-                rule_name = filename.replace('_deep.json', '')
-                data_sources.append(DataSource(
-                    f"{rule_name.title()} Details",
-                    os.path.join(details_dir, filename)
-                ))
-
-    return data_sources
-
-def render_menu(data_sources: List[DataSource]) -> None:
-    """Render the menu to select a data source or action."""
-    print("Select an option:")
-    print("[1] Design System Report (Overview)")
-
-    # Group data sources by type
-    summaries = []
-    details = []
-
-    for ds in data_sources[1:]:  # Skip the first one (unified report)
-        if "Summary" in ds.name:
-            summaries.append(ds)
-        elif "Details" in ds.name:
-            details.append(ds)
-
-    if summaries:
-        print("\nSummaries:")
-        for i, ds in enumerate(summaries, 2):
-            rule_name = ds.name.replace(" Summary", "")
-            print(f"[{i}] {rule_name} Summary")
-
-    if details:
-        print("\nDetails:")
-        for i, ds in enumerate(details, len(summaries) + 2):
-            rule_name = ds.name.replace(" Details", "")
-            print(f"[{i}] {rule_name} Details")
-
-    # Add action options
-    next_index = len(summaries) + len(details) + 2
-    print(f"\nActions:")
-    print(f"[{next_index}] Run Dart Format")
-    print(f"[{next_index + 1}] Run Tests")
-
-    print("\n[q] Quit")
-
-def render_summary(data_source: DataSource) -> None:
-    """Render a summary of the active data source."""
-    if data_source.data is None:
-        print(f"No data loaded for {data_source.name}.")
+def view_design_system_results() -> None:
+    """File-first view of design system results"""
+    report = load_unified_report()
+    if not report:
+        print("No design system results available.")
         return
 
-    print(f"\n--- {data_source.name} ---")
+    issues = report.get("issues", [])
+    if not issues:
+        print("No issues found!")
+        return
 
-    if "Design System Report" in data_source.name:
-        # Unified report
-        summary = data_source.data.get("summary", {})
-        files_scanned = summary.get("files_scanned", 0)
-        blocking_issues = summary.get("blocking", 0)
-        warning_issues = summary.get("warnings", 0)
-        rules_executed = summary.get("rules_executed", 0)
-        print(f"Files scanned: {files_scanned}")
-        print(f"Rules executed: {rules_executed}")
-        print(f"Blocking issues: {blocking_issues}")
-        print(f"Warning issues: {warning_issues}")
+    # Group issues by file
+    files = {}
+    for issue in issues:
+        file_path = issue.get("file", "unknown")
+        if file_path not in files:
+            files[file_path] = []
+        files[file_path].append(issue)
 
-        # Show top issues by rule
-        issues = data_source.data.get("issues", [])
-        if issues:
-            print(f"\nTop issues by rule:")
-            rule_counts = {}
-            for issue in issues:
-                rule = issue.get("rule", "unknown")
-                severity = issue.get("severity", "unknown")
-                if rule not in rule_counts:
-                    rule_counts[rule] = {"blocking": 0, "warning": 0}
-                if severity == "BLOCKING":
-                    rule_counts[rule]["blocking"] += 1
-                elif severity == "WARNING":
-                    rule_counts[rule]["warning"] += 1
+    # Show files with issue counts
+    print("Files with issues:")
+    print()
+    file_list = list(files.keys())
+    for i, file_path in enumerate(file_list, 1):
+        issue_count = len(files[file_path])
+        file_name = os.path.basename(file_path)
+        print(f"[{i}] {file_name} ({issue_count} issues)")
 
-            for rule, counts in rule_counts.items():
-                print(f"  {rule}: {counts['blocking']} blocking, {counts['warning']} warnings")
+    print()
+    print("[b] Back to menu")
 
-    elif "Summary" in data_source.name:
-        # Individual rule summary
-        check = data_source.data.get("check", "unknown")
-        status = data_source.data.get("status", "unknown")
-        blocking = data_source.data.get("blocking_issues", 0)
-        warnings = data_source.data.get("warning_issues", 0)
-        files_affected = data_source.data.get("files_affected", 0)
+    while True:
+        choice = safe_input("Select file or [b] back: ").strip().lower()
+        if choice == 'b':
+            break
 
-        print(f"Check: {check}")
-        print(f"Status: {status}")
-        print(f"Blocking issues: {blocking}")
-        print(f"Warning issues: {warnings}")
-        print(f"Files affected: {files_affected}")
+        try:
+            index = int(choice) - 1
+            if 0 <= index < len(file_list):
+                selected_file = file_list[index]
+                show_file_issues(selected_file, files[selected_file])
+            else:
+                print("Invalid choice.")
+        except ValueError:
+            print("Invalid input.")
 
-    elif "Details" in data_source.name:
-        # Individual rule details
-        check = data_source.data.get("check", "unknown")
-        total_issues = data_source.data.get("total_issues", 0)
-        issues = data_source.data.get("issues", [])
+def show_file_issues(file_path: str, issues: List[Dict[str, Any]]) -> None:
+    """Show issues for a specific file"""
+    print(f"\nIssues in {os.path.basename(file_path)}:")
+    print()
 
-        print(f"Check: {check}")
-        print(f"Total issues: {total_issues}")
+    for i, issue in enumerate(issues, 1):
+        rule = issue.get("rule", "unknown")
+        severity = issue.get("severity", "unknown")
+        line = issue.get("line", 0)
+        message = issue.get("message", "unknown")
+        snippet = issue.get("snippet", "").strip()
 
-        if issues:
-            print(f"\nIssues:")
-            for i, issue in enumerate(issues[:10], 1):  # Show first 10 issues
-                severity = issue.get("severity", "unknown")
-                message = issue.get("message", "unknown")
-                file_path = issue.get("file", "unknown")
-                line = issue.get("line", "unknown")
-                snippet = issue.get("snippet", "").strip()
+        print(f"{i}. [{severity}] {rule}")
+        print(f"   Line {line}: {message}")
+        if snippet:
+            print(f"   Code: {snippet}")
+        print()
 
-                print(f"{i}. [{severity}] {message}")
-                print(f"   File: {os.path.basename(file_path)}:{line}")
-                if snippet:
-                    print(f"   Code: {snippet}")
-                print()
-
-            if len(issues) > 10:
-                print(f"... and {len(issues) - 10} more issues")
-        else:
-            print("No issues found.")
-
-    else:
-        print("Unknown data source type.")
-
-def run_dart_format() -> None:
-    """Run dart format on the project."""
-    print("\n--- Running Dart Format ---")
-    project_root = find_project_root()
-    if project_root:
-        print(f"Formatting code in: {project_root}")
-        os.chdir(project_root)
-        os.system("dart format .")
-        print("Format complete.")
-    else:
-        print("Could not find project root.")
-
-def run_tests() -> None:
-    """Run tests on the project."""
-    print("\n--- Running Tests ---")
-    project_root = find_project_root()
-    if project_root:
-        print(f"Running tests in: {project_root}")
-        os.chdir(project_root)
-        os.system("flutter test")
-        print("Tests complete.")
-    else:
-        print("Could not find project root.")
-
-def find_project_root() -> str:
-    """Find the Flutter project root by looking for pubspec.yaml."""
-    current = os.getcwd()
-    while current != os.path.dirname(current):
-        if os.path.exists(os.path.join(current, "pubspec.yaml")):
-            return current
-        current = os.path.dirname(current)
-    return None
+    safe_input("Press Enter to go back...")
 
 def safe_input(prompt: str) -> str:
     """Safe input that handles EOF gracefully."""
@@ -213,39 +145,52 @@ def safe_input(prompt: str) -> str:
         sys.exit(0)
 
 def main():
-    data_sources = load_data_sources()
-    active_source = None
-
     while True:
-        if active_source is None:
-            render_menu(data_sources)
-            choice = safe_input("Enter choice: ").strip().lower()
-            if choice == 'q':
-                break
-            try:
-                index = int(choice) - 1
-                num_summaries = len([ds for ds in data_sources[1:] if "Summary" in ds.name])
-                num_details = len([ds for ds in data_sources[1:] if "Details" in ds.name])
-                format_index = 1 + num_summaries + num_details
-                test_index = format_index + 1
+        render_main_menu()
+        choice = safe_input("\nSelect option: ").strip().lower()
 
-                if 0 <= index < len(data_sources):
-                    active_source = data_sources[index]
-                    active_source.load()
-                elif index == format_index:
-                    run_dart_format()
-                    safe_input("\nPress Enter to return to menu...")
-                elif index == test_index:
-                    run_tests()
-                    safe_input("\nPress Enter to return to menu...")
+        if choice == 'q':
+            break
+        elif choice == '1':
+            print("\n[1] Run Design System Checks")
+            success, message = run_design_system_checks()
+            print(message)
+            safe_input("\nPress Enter to continue...")
+        elif choice == '2':
+            print("\n[2] View Design System Results")
+            view_design_system_results()
+        elif choice == '3':
+            print("\n[3] Run Dart Format")
+            success, message = run_dart_format()
+            print(message)
+            safe_input("\nPress Enter to continue...")
+        elif choice == '4':
+            print("\n[4] Run Tests")
+            success, message = run_tests()
+            print(message)
+            safe_input("\nPress Enter to continue...")
+        elif choice == '5':
+            print("\n[5] Run ALL")
+            results = run_all_pipeline()
+            show_all_summary(results)
+
+            # Handle sub-menu for viewing individual outputs
+            while True:
+                sub_choice = safe_input("Select option: ").strip().lower()
+                if sub_choice == 'q':
+                    break
+                elif sub_choice == 'f':
+                    print(f"\nFormat Output:\n{results['format'][1]}")
+                    safe_input("\nPress Enter to continue...")
+                elif sub_choice == 't':
+                    print(f"\nTest Output:\n{results['tests'][1]}")
+                    safe_input("\nPress Enter to continue...")
+                elif sub_choice == 'd':
+                    view_design_system_results()
                 else:
                     print("Invalid choice.")
-            except ValueError:
-                print("Invalid input.")
         else:
-            render_summary(active_source)
-            safe_input("\nPress Enter to return to menu...")
-            active_source = None
+            print("Invalid choice.")
 
 if __name__ == "__main__":
     main()
