@@ -1,0 +1,7 @@
+{
+  "check": "layout_constants",
+  "status": "PASS",
+  "blocking_issues": 0,
+  "warning_issues": 95,
+  "files_affected": 42
+}
