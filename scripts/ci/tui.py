@@ -15,13 +15,10 @@ def render_main_menu() -> None:
     """Render the main CI dashboard menu"""
     print("LOCAL CI DASHBOARD")
     print("────────────────────────────────")
-    print()
     print("[1] Run Design System Checks")
     print("[2] View Design System Results")
-    print()
     print("[3] Run Dart Format")
     print("[4] Run Tests")
-    print()
     print("[5] Run ALL (Format + Tests + Checks)")
     print()
     print("[q] Quit")
