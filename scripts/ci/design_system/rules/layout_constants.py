@@ -7,7 +7,7 @@ Detects hardcoded layout values and magic numbers.
 import re
 from pathlib import Path
 from typing import List
-from models import Issue, Severity
+from models import Issue, RuleClass
 
 
 # Allowlists (do NOT scan)
@@ -24,10 +24,10 @@ IGNORE_FILE_PATTERNS = [
 ]
 
 RULES = [
-    # WARNING: magic numbers for layout
-    (r"SizedBox\([^)]*\b\d+\.?\d*\b", "SizedBox with hardcoded value", Severity.WARNING),
-    (r"\b(height|width|size|fontSize|iconSize)\s*:\s*\d+\.?\d*", "Hardcoded size value", Severity.WARNING),
-    (r"\b(elevation|blurRadius|spreadRadius|strokeWidth)\s*:\s*\d+\.?\d*", "Hardcoded visual constant", Severity.WARNING),
+    # DESIGN_SYSTEM: magic numbers for layout
+    (r"SizedBox\([^)]*\b\d+\.?\d*\b", "SizedBox with hardcoded value", RuleClass.DESIGN_SYSTEM),
+    (r"\b(height|width|size|fontSize|iconSize)\s*:\s*\d+\.?\d*", "Hardcoded size value", RuleClass.DESIGN_SYSTEM),
+    (r"\b(elevation|blurRadius|spreadRadius|strokeWidth)\s*:\s*\d+\.?\d*", "Hardcoded visual constant", RuleClass.DESIGN_SYSTEM),
 ]
 
 
@@ -65,7 +65,7 @@ def run(files: List[Path]) -> List[Issue]:
             # Create an error issue for unreadable files
             issues.append(Issue(
                 rule="layout_constants",
-                severity=Severity.WARNING,
+                rule_class=RuleClass.CORRECTNESS,
                 file=file_path,
                 line=0,
                 message=f"Could not read file: {str(e)}",
@@ -75,11 +75,11 @@ def run(files: List[Path]) -> List[Issue]:
             continue
 
         for line_number, line in enumerate(lines, start=1):
-            for pattern, description, severity in RULES:
+            for pattern, description, rule_class in RULES:
                 if re.search(pattern, line):
                     issues.append(Issue(
                         rule="layout_constants",
-                        severity=severity,
+                        rule_class=rule_class,
                         file=file_path,
                         line=line_number,
                         message=description,

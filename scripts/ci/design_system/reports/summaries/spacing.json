@@ -1,7 +1,7 @@
 {
   "check": "spacing_check",
-  "status": "PASS",
-  "blocking_issues": 0,
-  "warning_issues": 5,
+  "status": "FAIL",
+  "blocking_issues": 5,
+  "warning_issues": 0,
   "files_affected": 4
 }

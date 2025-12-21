@@ -6,7 +6,7 @@ Placeholder for future theme wiring checks.
 
 from pathlib import Path
 from typing import List
-from models import Issue, Severity
+from models import Issue, RuleClass
 
 
 def run(files: List[Path]) -> List[Issue]:

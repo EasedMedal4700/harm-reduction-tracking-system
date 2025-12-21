@@ -3,35 +3,35 @@
   "total_issues": 5,
   "issues": [
     {
-      "severity": "WARNING",
+      "severity": "MUST_FIX",
       "message": "SizedBox used for spacing (use theme spacing)",
       "line": 126,
       "snippet": "SizedBox(width: 6),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trend_chart.dart"
     },
     {
-      "severity": "WARNING",
+      "severity": "MUST_FIX",
       "message": "SizedBox used for spacing (use theme spacing)",
       "line": 104,
       "snippet": "SizedBox(height: 2),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\home_redesign\\stat_card.dart"
     },
     {
-      "severity": "WARNING",
+      "severity": "MUST_FIX",
       "message": "SizedBox used for spacing (use theme spacing)",
       "line": 168,
       "snippet": "SizedBox(height: 4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\tolerance_stats_card.dart"
     },
     {
-      "severity": "WARNING",
+      "severity": "MUST_FIX",
       "message": "SizedBox used for spacing (use theme spacing)",
       "line": 335,
       "snippet": "SizedBox(height: 2),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\unified_bucket_tolerance_widget.dart"
     },
     {
-      "severity": "WARNING",
+      "severity": "MUST_FIX",
       "message": "SizedBox used for spacing (use theme spacing)",
       "line": 592,
       "snippet": "SizedBox(height: 4),",

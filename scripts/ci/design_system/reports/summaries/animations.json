@@ -1,7 +1,7 @@
 {
   "check": "animations_check",
-  "status": "PASS",
-  "blocking_issues": 0,
-  "warning_issues": 30,
+  "status": "FAIL",
+  "blocking_issues": 30,
+  "warning_issues": 0,
   "files_affected": 18
 }

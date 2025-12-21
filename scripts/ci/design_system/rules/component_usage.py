@@ -7,7 +7,7 @@ Detects improper component usage patterns and design system violations.
 import re
 from pathlib import Path
 from typing import List
-from models import Issue, Severity
+from models import Issue, RuleClass
 
 
 # Allowlists (do NOT scan)
@@ -26,29 +26,29 @@ IGNORE_FILE_PATTERNS = [
 ]
 
 RULES = [
-    # WARNING: Using Container when SizedBox would be more appropriate
-    (r"Container\s*\(\s*width\s*:\s*\d+\.?\d*\s*,\s*height\s*:\s*\d+\.?\d*\s*\)", "Use SizedBox for fixed dimensions", Severity.WARNING),
+    # DESIGN_SYSTEM: Using Container when SizedBox would be more appropriate
+    (r"Container\s*\(\s*width\s*:\s*\d+\.?\d*\s*,\s*height\s*:\s*\d+\.?\d*\s*\)", "Use SizedBox for fixed dimensions", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Nested Material widgets
-    (r"Material\s*\([^)]*child\s*:\s*Material\s*\(", "Nested Material widgets", Severity.WARNING),
+    # DESIGN_SYSTEM: Nested Material widgets
+    (r"Material\s*\([^)]*child\s*:\s*Material\s*\(", "Nested Material widgets", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Using Column/Row without MainAxisAlignment
-    (r"(Column|Row)\s*\(\s*children\s*:\s*\[", "Column/Row without alignment specified", Severity.WARNING),
+    # DESIGN_SYSTEM: Using Column/Row without MainAxisAlignment
+    (r"(Column|Row)\s*\(\s*children\s*:\s*\[", "Column/Row without alignment specified", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Hardcoded flex values
-    (r"(flex|Flex)\s*:\s*\d+", "Hardcoded flex value", Severity.WARNING),
+    # DESIGN_SYSTEM: Hardcoded flex values
+    (r"(flex|Flex)\s*:\s*\d+", "Hardcoded flex value", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Using Expanded without consideration
-    (r"Expanded\s*\(\s*child\s*:\s*(Container|SizedBox)\s*\(\s*\)", "Expanded with empty container", Severity.WARNING),
+    # DESIGN_SYSTEM: Using Expanded without consideration
+    (r"Expanded\s*\(\s*child\s*:\s*(Container|SizedBox)\s*\(\s*\)", "Expanded with empty container", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Icon without semantic label
-    (r"Icon\s*\([^)]*Icons\.[a-zA-Z_]+[^)]*\)", "Icon without semanticLabel", Severity.WARNING),
+    # DESIGN_SYSTEM: Icon without semantic label
+    (r"Icon\s*\([^)]*Icons\.[a-zA-Z_]+[^)]*\)", "Icon without semanticLabel", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Card without proper elevation
-    (r"Card\s*\(\s*child\s*:", "Card without explicit elevation", Severity.WARNING),
+    # DESIGN_SYSTEM: Card without proper elevation
+    (r"Card\s*\(\s*child\s*:", "Card without explicit elevation", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Using Scaffold in nested widgets
-    (r"Scaffold\s*\([^)]*body\s*:\s*(Column|Row|Container)", "Scaffold with simple layout - consider removing", Severity.WARNING),
+    # DESIGN_SYSTEM: Using Scaffold in nested widgets
+    (r"Scaffold\s*\([^)]*body\s*:\s*(Column|Row|Container)", "Scaffold with simple layout - consider removing", RuleClass.DESIGN_SYSTEM),
 ]
 
 
@@ -86,7 +86,7 @@ def run(files: List[Path]) -> List[Issue]:
             # Create an error issue for unreadable files
             issues.append(Issue(
                 rule="component_usage",
-                severity=Severity.BLOCKING,
+                rule_class=RuleClass.CORRECTNESS,
                 file=file_path,
                 line=0,
                 message=f"Could not read file: {str(e)}",
@@ -96,11 +96,11 @@ def run(files: List[Path]) -> List[Issue]:
             continue
 
         for line_number, line in enumerate(lines, start=1):
-            for pattern, description, severity in RULES:
+            for pattern, description, rule_class in RULES:
                 if re.search(pattern, line):
                     issues.append(Issue(
                         rule="component_usage",
-                        severity=severity,
+                        rule_class=rule_class,
                         file=file_path,
                         line=line_number,
                         message=description,

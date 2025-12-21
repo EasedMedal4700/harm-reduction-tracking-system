@@ -7,7 +7,7 @@ Detects hardcoded typography values and font violations.
 import re
 from pathlib import Path
 from typing import List
-from models import Issue, Severity
+from models import Issue, RuleClass
 
 
 # Allowlists (do NOT scan)
@@ -26,20 +26,20 @@ IGNORE_FILE_PATTERNS = [
 ]
 
 RULES = [
-    # BLOCKING: hardcoded font families
-    (r"fontFamily\s*:\s*['\"][^'\"]*['\"]", "Hardcoded font family", Severity.BLOCKING),
-    (r"FontWeight\.w\d+", "Hardcoded font weight", Severity.BLOCKING),
+    # DESIGN_SYSTEM: hardcoded font families
+    (r"fontFamily\s*:\s*['\"][^'\"]*['\"]", "Hardcoded font family", RuleClass.DESIGN_SYSTEM),
+    (r"FontWeight\.w\d+", "Hardcoded font weight", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: hardcoded font sizes (should use theme)
-    (r"fontSize\s*:\s*\d+\.?\d*", "Hardcoded font size", Severity.WARNING),
-    (r"TextStyle\s*\([^)]*fontSize\s*:\s*\d+\.?\d*", "TextStyle with hardcoded font size", Severity.WARNING),
+    # DESIGN_SYSTEM: hardcoded font sizes (should use theme)
+    (r"fontSize\s*:\s*\d+\.?\d*", "Hardcoded font size", RuleClass.DESIGN_SYSTEM),
+    (r"TextStyle\s*\([^)]*fontSize\s*:\s*\d+\.?\d*", "TextStyle with hardcoded font size", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: hardcoded line heights
-    (r"(height|lineHeight)\s*:\s*\d+\.?\d*", "Hardcoded line height", Severity.WARNING),
-    (r"TextStyle\s*\([^)]*height\s*:\s*\d+\.?\d*", "TextStyle with hardcoded height", Severity.WARNING),
+    # DESIGN_SYSTEM: hardcoded line heights
+    (r"(height|lineHeight)\s*:\s*\d+\.?\d*", "Hardcoded line height", RuleClass.DESIGN_SYSTEM),
+    (r"TextStyle\s*\([^)]*height\s*:\s*\d+\.?\d*", "TextStyle with hardcoded height", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: hardcoded letter spacing
-    (r"letterSpacing\s*:\s*[-]?\d+\.?\d*", "Hardcoded letter spacing", Severity.WARNING),
+    # DESIGN_SYSTEM: hardcoded letter spacing
+    (r"letterSpacing\s*:\s*[-]?\d+\.?\d*", "Hardcoded letter spacing", RuleClass.DESIGN_SYSTEM),
 ]
 
 
@@ -77,7 +77,7 @@ def run(files: List[Path]) -> List[Issue]:
             # Create an error issue for unreadable files
             issues.append(Issue(
                 rule="typography",
-                severity=Severity.BLOCKING,
+                rule_class=RuleClass.CORRECTNESS,
                 file=file_path,
                 line=0,
                 message=f"Could not read file: {str(e)}",
@@ -87,11 +87,11 @@ def run(files: List[Path]) -> List[Issue]:
             continue
 
         for line_number, line in enumerate(lines, start=1):
-            for pattern, description, severity in RULES:
+            for pattern, description, rule_class in RULES:
                 if re.search(pattern, line):
                     issues.append(Issue(
                         rule="typography",
-                        severity=severity,
+                        rule_class=rule_class,
                         file=file_path,
                         line=line_number,
                         message=description,
@@ -103,7 +103,7 @@ def run(files: List[Path]) -> List[Issue]:
     unique_issues = []
     seen = set()
     for issue in issues:
-        key = (issue.rule, issue.severity, issue.file, issue.line, issue.message, issue.snippet)
+        key = (issue.rule, issue.rule_class, issue.file, issue.line, issue.message, issue.snippet)
         if key not in seen:
             seen.add(key)
             unique_issues.append(issue)

@@ -83,8 +83,12 @@ def main():
 
             print(f"\nSummary:")
             print(f"  Files scanned: {report.summary['files_scanned']}")
-            print(f"  Blocking issues: {report.summary['blocking']}")
-            print(f"  Warning issues: {report.summary['warnings']}")
+            print(f"  BLOCK issues: {report.summary['block']}")
+            print(f"  MUST_FIX issues: {report.summary['must_fix']}")
+            print(f"  SHOULD_FIX issues: {report.summary['should_fix']}")
+            print(f"  LOGONLY issues: {report.summary['logonly']}")
+            print(f"  Blocking issues: {report.summary['blocking']}")  # Backward compatibility
+            print(f"  Warning issues: {report.summary['warnings']}")  # Backward compatibility
 
         # Exit with appropriate code
         exit_code = 1 if report.summary['blocking'] > 0 else 0

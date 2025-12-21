@@ -1,7 +1,7 @@
 {
   "check": "typography_check",
-  "status": "PASS",
-  "blocking_issues": 0,
-  "warning_issues": 59,
+  "status": "FAIL",
+  "blocking_issues": 59,
+  "warning_issues": 0,
   "files_affected": 29
 }

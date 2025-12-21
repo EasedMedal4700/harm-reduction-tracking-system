@@ -7,7 +7,7 @@ Detects accessibility violations and missing accessibility features.
 import re
 from pathlib import Path
 from typing import List
-from models import Issue, Severity
+from models import Issue, RuleClass
 
 
 # Allowlists (do NOT scan)
@@ -25,24 +25,24 @@ IGNORE_FILE_PATTERNS = [
 ]
 
 RULES = [
-    # BLOCKING: Images without semantic labels
-    (r"\bImage\s*\([^)]*\)", "Image without semanticLabel for accessibility", Severity.BLOCKING),
-    (r"\bImage\.[a-zA-Z]+\s*\([^)]*\)", "Image without semanticLabel for accessibility", Severity.BLOCKING),
+    # DESIGN_SYSTEM: Images without semantic labels
+    (r"\bImage\s*\([^)]*\)", "Image without semanticLabel for accessibility", RuleClass.DESIGN_SYSTEM),
+    (r"\bImage\.[a-zA-Z]+\s*\([^)]*\)", "Image without semanticLabel for accessibility", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Buttons without semantic labels
-    (r"(ElevatedButton|TextButton|OutlinedButton|IconButton)\s*\([^)]*child\s*:", "Button without semanticLabel", Severity.WARNING),
+    # DESIGN_SYSTEM: Buttons without semantic labels
+    (r"(ElevatedButton|TextButton|OutlinedButton|IconButton)\s*\([^)]*child\s*:", "Button without semanticLabel", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Missing accessibility labels on interactive elements
-    (r"(GestureDetector|InkWell)\s*\([^)]*child\s*:", "Interactive element without semanticLabel", Severity.WARNING),
+    # DESIGN_SYSTEM: Missing accessibility labels on interactive elements
+    (r"(GestureDetector|InkWell)\s*\([^)]*child\s*:", "Interactive element without semanticLabel", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Hardcoded colors that might not meet contrast requirements
-    (r"Color\(0x[0-9a-fA-F]{8}\)", "Hardcoded color - verify contrast ratio", Severity.WARNING),
+    # DESIGN_SYSTEM: Hardcoded colors that might not meet contrast requirements
+    (r"Color\(0x[0-9a-fA-F]{8}\)", "Hardcoded color - verify contrast ratio", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Small touch targets
-    (r"(width|height)\s*:\s*([1-9]|[1-3][0-9]|4[0-3])(\.0*)?", "Potentially small touch target (<44px)", Severity.WARNING),
+    # DESIGN_SYSTEM: Small touch targets
+    (r"(width|height)\s*:\s*([1-9]|[1-3][0-9]|4[0-3])(\.0*)?", "Potentially small touch target (<44px)", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: Missing focus management
-    (r"FocusNode\s*\(\)", "FocusNode created - ensure proper focus management", Severity.WARNING),
+    # DESIGN_SYSTEM: Missing focus management
+    (r"FocusNode\s*\(\)", "FocusNode created - ensure proper focus management", RuleClass.DESIGN_SYSTEM),
 ]
 
 
@@ -80,7 +80,7 @@ def run(files: List[Path]) -> List[Issue]:
             # Create an error issue for unreadable files
             issues.append(Issue(
                 rule="accessibility",
-                severity=Severity.BLOCKING,
+                rule_class=RuleClass.CORRECTNESS,
                 file=file_path,
                 line=0,
                 message=f"Could not read file: {str(e)}",
@@ -90,7 +90,7 @@ def run(files: List[Path]) -> List[Issue]:
             continue
 
         for line_number, line in enumerate(lines, start=1):
-            for pattern, description, severity in RULES:
+            for pattern, description, rule_class in RULES:
                 if re.search(pattern, line):
                     # Special handling for touch target size check
                     if "touch target" in description and re.search(r"(width|height)\s*:\s*([1-9]|[1-3][0-9]|4[0-3])(\.0*)?", line):
@@ -100,7 +100,7 @@ def run(files: List[Path]) -> List[Issue]:
                             if value < 44:  # 44px is the minimum recommended touch target size
                                 issues.append(Issue(
                                     rule="accessibility",
-                                    severity=severity,
+                                    rule_class=rule_class,
                                     file=file_path,
                                     line=line_number,
                                     message=f"{description} - found {value}px",
@@ -110,7 +110,7 @@ def run(files: List[Path]) -> List[Issue]:
                     else:
                         issues.append(Issue(
                             rule="accessibility",
-                            severity=severity,
+                            rule_class=rule_class,
                             file=file_path,
                             line=line_number,
                             message=description,
@@ -122,7 +122,7 @@ def run(files: List[Path]) -> List[Issue]:
     unique_issues = []
     seen = set()
     for issue in issues:
-        key = (issue.rule, issue.severity, issue.file, issue.line, issue.message, issue.snippet)
+        key = (issue.rule, issue.rule_class, issue.file, issue.line, issue.message, issue.snippet)
         if key not in seen:
             seen.add(key)
             unique_issues.append(issue)

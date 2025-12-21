@@ -7,7 +7,7 @@ Detects performance anti-patterns and optimization opportunities.
 import re
 from pathlib import Path
 from typing import List
-from models import Issue, Severity
+from models import Issue, RuleClass
 
 
 # Allowlists (do NOT scan)
@@ -25,29 +25,29 @@ IGNORE_FILE_PATTERNS = [
 ]
 
 RULES = [
-    # WARNING: setState in build method
-    (r"setState\s*\(\s*\(\)\s*=>\s*\{", "setState called in build method", Severity.WARNING),
+    # ARCHITECTURE: setState in build method
+    (r"setState\s*\(\s*\(\)\s*=>\s*\{", "setState called in build method", RuleClass.ARCHITECTURE),
 
-    # WARNING: ListView without proper optimization
-    (r"ListView\s*\(\s*children\s*:\s*\[", "ListView with static children - consider ListView.builder", Severity.WARNING),
+    # ARCHITECTURE: ListView without proper optimization
+    (r"ListView\s*\(\s*children\s*:\s*\[", "ListView with static children - consider ListView.builder", RuleClass.ARCHITECTURE),
 
-    # WARNING: unnecessary rebuilds
-    (r"StatefulWidget.*build.*setState", "Potential unnecessary rebuilds", Severity.WARNING),
+    # ARCHITECTURE: unnecessary rebuilds
+    (r"StatefulWidget.*build.*setState", "Potential unnecessary rebuilds", RuleClass.ARCHITECTURE),
 
-    # WARNING: large widget trees without keys
-    (r"(Column|Row|Stack|Flex)\s*\(\s*children\s*:\s*[^)]*key\s*:", "Large layout without keys for performance", Severity.WARNING),
+    # ARCHITECTURE: large widget trees without keys
+    (r"(Column|Row|Stack|Flex)\s*\(\s*children\s*:\s*[^)]*key\s*:", "Large layout without keys for performance", RuleClass.ARCHITECTURE),
 
-    # WARNING: synchronous network calls
-    (r"await\s+http\.(get|post|put|delete)", "Synchronous network call in async context", Severity.WARNING),
+    # ARCHITECTURE: synchronous network calls
+    (r"await\s+http\.(get|post|put|delete)", "Synchronous network call in async context", RuleClass.ARCHITECTURE),
 
-    # WARNING: heavy computations in build
-    (r"build.*\{[^}]*\b(for|while)\b", "Heavy computation in build method", Severity.WARNING),
+    # ARCHITECTURE: heavy computations in build
+    (r"build.*\{[^}]*\b(for|while)\b", "Heavy computation in build method", RuleClass.ARCHITECTURE),
 
-    # WARNING: missing const constructors
-    (r"(Padding|Container|SizedBox|EdgeInsets)\s*\(\s*[^c]", "Missing const constructor", Severity.WARNING),
+    # ARCHITECTURE: missing const constructors
+    (r"(Padding|Container|SizedBox|EdgeInsets)\s*\(\s*[^c]", "Missing const constructor", RuleClass.ARCHITECTURE),
 
-    # WARNING: large images without caching
-    (r"Image\.network\s*\([^)]*cache", "Network image without caching strategy", Severity.WARNING),
+    # ARCHITECTURE: large images without caching
+    (r"Image\.network\s*\([^)]*cache", "Network image without caching strategy", RuleClass.ARCHITECTURE),
 ]
 
 
@@ -85,7 +85,7 @@ def run(files: List[Path]) -> List[Issue]:
             # Create an error issue for unreadable files
             issues.append(Issue(
                 rule="performance",
-                severity=Severity.BLOCKING,
+                rule_class=RuleClass.CORRECTNESS,
                 file=file_path,
                 line=0,
                 message=f"Could not read file: {str(e)}",
@@ -95,11 +95,11 @@ def run(files: List[Path]) -> List[Issue]:
             continue
 
         for line_number, line in enumerate(lines, start=1):
-            for pattern, description, severity in RULES:
+            for pattern, description, rule_class in RULES:
                 if re.search(pattern, line):
                     issues.append(Issue(
                         rule="performance",
-                        severity=severity,
+                        rule_class=rule_class,
                         file=file_path,
                         line=line_number,
                         message=description,

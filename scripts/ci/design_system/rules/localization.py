@@ -7,7 +7,7 @@ Detects hardcoded strings that should be localized.
 import re
 from pathlib import Path
 from typing import List
-from models import Issue, Severity
+from models import Issue, RuleClass
 
 
 # Allowlists (do NOT scan)
@@ -30,26 +30,26 @@ IGNORE_FILE_PATTERNS = [
 ]
 
 RULES = [
-    # WARNING: hardcoded user-facing strings in Text widgets
-    (r"Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded string in Text widget", Severity.WARNING),
+    # DESIGN_SYSTEM: hardcoded user-facing strings in Text widgets
+    (r"Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded string in Text widget", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: hardcoded strings in button labels
-    (r"(ElevatedButton|TextButton|OutlinedButton)\s*\([^)]*['\"]([^'\"]{3,})['\"]", "Hardcoded button text", Severity.WARNING),
+    # DESIGN_SYSTEM: hardcoded strings in button labels
+    (r"(ElevatedButton|TextButton|OutlinedButton)\s*\([^)]*['\"]([^'\"]{3,})['\"]", "Hardcoded button text", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: hardcoded strings in app bar titles
-    (r"AppBar\s*\([^)]*title\s*:\s*Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded app bar title", Severity.WARNING),
+    # DESIGN_SYSTEM: hardcoded strings in app bar titles
+    (r"AppBar\s*\([^)]*title\s*:\s*Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded app bar title", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: hardcoded placeholder text
-    (r"(hintText|labelText|helperText)\s*:\s*['\"]([^'\"]{3,})['\"]", "Hardcoded form field text", Severity.WARNING),
+    # DESIGN_SYSTEM: hardcoded placeholder text
+    (r"(hintText|labelText|helperText)\s*:\s*['\"]([^'\"]{3,})['\"]", "Hardcoded form field text", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: hardcoded error messages
-    (r"(errorText|errorMessage)\s*:\s*['\"]([^'\"]{3,})['\"]", "Hardcoded error message", Severity.WARNING),
+    # DESIGN_SYSTEM: hardcoded error messages
+    (r"(errorText|errorMessage)\s*:\s*['\"]([^'\"]{3,})['\"]", "Hardcoded error message", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: hardcoded snackbar messages
-    (r"ScaffoldMessenger.*showSnackBar\s*\([^)]*['\"]([^'\"]{5,})['\"]", "Hardcoded snackbar message", Severity.WARNING),
+    # DESIGN_SYSTEM: hardcoded snackbar messages
+    (r"ScaffoldMessenger.*showSnackBar\s*\([^)]*['\"]([^'\"]{5,})['\"]", "Hardcoded snackbar message", RuleClass.DESIGN_SYSTEM),
 
-    # WARNING: hardcoded dialog content
-    (r"(AlertDialog|SimpleDialog)\s*\([^)]*(title|content)\s*:\s*Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded dialog text", Severity.WARNING),
+    # DESIGN_SYSTEM: hardcoded dialog content
+    (r"(AlertDialog|SimpleDialog)\s*\([^)]*(title|content)\s*:\s*Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded dialog text", RuleClass.DESIGN_SYSTEM),
 ]
 
 
@@ -111,7 +111,7 @@ def run(files: List[Path]) -> List[Issue]:
             # Create an error issue for unreadable files
             issues.append(Issue(
                 rule="localization",
-                severity=Severity.BLOCKING,
+                rule_class=RuleClass.CORRECTNESS,
                 file=file_path,
                 line=0,
                 message=f"Could not read file: {str(e)}",
@@ -121,7 +121,7 @@ def run(files: List[Path]) -> List[Issue]:
             continue
 
         for line_number, line in enumerate(lines, start=1):
-            for pattern, description, severity in RULES:
+            for pattern, description, rule_class in RULES:
                 matches = re.finditer(pattern, line)
                 for match in matches:
                     # Extract the actual string content
@@ -136,7 +136,7 @@ def run(files: List[Path]) -> List[Issue]:
 
                     issues.append(Issue(
                         rule="localization",
-                        severity=severity,
+                        rule_class=rule_class,
                         file=file_path,
                         line=line_number,
                         message=f"{description}: '{text_content}'",

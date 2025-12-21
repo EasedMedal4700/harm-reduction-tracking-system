@@ -7,7 +7,7 @@ Detects improper asset usage and hardcoded asset paths.
 import re
 from pathlib import Path
 from typing import List
-from models import Issue, Severity
+from models import Issue, RuleClass
 
 
 # Allowlists (do NOT scan)
@@ -26,24 +26,24 @@ IGNORE_FILE_PATTERNS = [
 ]
 
 RULES = [
-    # BLOCKING: hardcoded asset paths
-    (r"['\"](assets/images/|assets/icons/|images/|icons/)", "Hardcoded asset path", Severity.BLOCKING),
+    # ARCHITECTURE: hardcoded asset paths
+    (r"['\"](assets/images/|assets/icons/|images/|icons/)", "Hardcoded asset path", RuleClass.ARCHITECTURE),
 
-    # WARNING: missing asset loading checks
-    (r"Image\.asset\s*\(\s*['\"]", "Image.asset without error handling", Severity.WARNING),
+    # ARCHITECTURE: missing asset loading checks
+    (r"Image\.asset\s*\(\s*['\"]", "Image.asset without error handling", RuleClass.ARCHITECTURE),
 
-    # WARNING: large images without proper sizing
-    (r"Image\.(asset|network)\s*\([^)]*width\s*:\s*\d{4,}", "Very large image width specified", Severity.WARNING),
-    (r"Image\.(asset|network)\s*\([^)]*height\s*:\s*\d{4,}", "Very large image height specified", Severity.WARNING),
+    # ARCHITECTURE: large images without proper sizing
+    (r"Image\.(asset|network)\s*\([^)]*width\s*:\s*\d{4,}", "Very large image width specified", RuleClass.ARCHITECTURE),
+    (r"Image\.(asset|network)\s*\([^)]*height\s*:\s*\d{4,}", "Very large image height specified", RuleClass.ARCHITECTURE),
 
-    # WARNING: SVG without proper package usage
-    (r"SvgPicture\.(asset|network)\s*\(\s*['\"]", "SVG usage - ensure flutter_svg package", Severity.WARNING),
+    # ARCHITECTURE: SVG without proper package usage
+    (r"SvgPicture\.(asset|network)\s*\(\s*['\"]", "SVG usage - ensure flutter_svg package", RuleClass.ARCHITECTURE),
 
-    # WARNING: font assets without proper declaration
-    (r"fontFamily\s*:\s*['\"]([^'\"]*)\.ttf", "Font asset reference - ensure declared in pubspec.yaml", Severity.WARNING),
+    # ARCHITECTURE: font assets without proper declaration
+    (r"fontFamily\s*:\s*['\"]([^'\"]*)\.ttf", "Font asset reference - ensure declared in pubspec.yaml", RuleClass.ARCHITECTURE),
 
-    # WARNING: missing asset variants
-    (r"Image\.asset\s*\([^)]*\.png", "PNG asset - consider WebP for better compression", Severity.WARNING),
+    # ARCHITECTURE: missing asset variants
+    (r"Image\.asset\s*\([^)]*\.png", "PNG asset - consider WebP for better compression", RuleClass.ARCHITECTURE),
 ]
 
 
@@ -81,7 +81,7 @@ def run(files: List[Path]) -> List[Issue]:
             # Create an error issue for unreadable files
             issues.append(Issue(
                 rule="asset_usage",
-                severity=Severity.BLOCKING,
+                rule_class=RuleClass.CORRECTNESS,
                 file=file_path,
                 line=0,
                 message=f"Could not read file: {str(e)}",
@@ -91,11 +91,11 @@ def run(files: List[Path]) -> List[Issue]:
             continue
 
         for line_number, line in enumerate(lines, start=1):
-            for pattern, description, severity in RULES:
+            for pattern, description, rule_class in RULES:
                 if re.search(pattern, line):
                     issues.append(Issue(
                         rule="asset_usage",
-                        severity=severity,
+                        rule_class=rule_class,
                         file=file_path,
                         line=line_number,
                         message=description,

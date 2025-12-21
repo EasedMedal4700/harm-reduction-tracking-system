@@ -7,9 +7,10 @@ Orchestrates all design system rules and produces unified reports.
 import time
 import importlib
 import os
+import subprocess
 from pathlib import Path
-from typing import List, Dict, Any
-from models import Issue, RuleResult, UnifiedReport, Severity
+from typing import List, Dict, Any, Set
+from models import Issue, RuleResult, UnifiedReport, Severity, RuleClass
 
 
 class DesignSystemChecker:
@@ -19,6 +20,56 @@ class DesignSystemChecker:
         self.project_root = project_root
         self.features_dir = project_root / "lib" / "features"
         self.rules_dir = Path(__file__).parent / "rules"
+        self.modified_files = self.get_modified_files()
+
+    def get_modified_files(self) -> Set[Path]:
+        """Get set of files that are modified or staged in git"""
+        modified = set()
+        try:
+            # Get staged files
+            result = subprocess.run(
+                ["git", "diff", "--cached", "--name-only"],
+                cwd=self.project_root,
+                capture_output=True,
+                text=True,
+                timeout=10
+            )
+            if result.returncode == 0:
+                for line in result.stdout.strip().split('\n'):
+                    if line.strip():
+                        modified.add(self.project_root / line.strip())
+
+            # Get unstaged modified files
+            result = subprocess.run(
+                ["git", "diff", "--name-only"],
+                cwd=self.project_root,
+                capture_output=True,
+                text=True,
+                timeout=10
+            )
+            if result.returncode == 0:
+                for line in result.stdout.strip().split('\n'):
+                    if line.strip():
+                        modified.add(self.project_root / line.strip())
+
+            # Get untracked files
+            result = subprocess.run(
+                ["git", "ls-files", "--others", "--exclude-standard"],
+                cwd=self.project_root,
+                capture_output=True,
+                text=True,
+                timeout=10
+            )
+            if result.returncode == 0:
+                for line in result.stdout.strip().split('\n'):
+                    if line.strip():
+                        modified.add(self.project_root / line.strip())
+
+        except (subprocess.TimeoutExpired, subprocess.CalledProcessError, FileNotFoundError):
+            # If git fails, assume no files are modified
+            pass
+
+        return modified
 
     def discover_dart_files(self) -> List[Path]:
         """Find all Dart files in lib/features/**"""
@@ -70,6 +121,11 @@ class DesignSystemChecker:
                 issues = rule_func(files)
                 execution_time = time.time() - start_time
 
+                # Set severity for each issue based on file modification status
+                for issue in issues:
+                    is_modified = issue.file in self.modified_files
+                    issue.severity = issue.get_severity(is_modified)
+
                 result = RuleResult(
                     rule_name=rule_name,
                     issues=issues,
@@ -82,7 +138,8 @@ class DesignSystemChecker:
                 # Create a result with error information
                 error_issue = Issue(
                     rule=rule_name,
-                    severity=Severity.BLOCKING,
+                    rule_class=RuleClass.CORRECTNESS,  # Errors are correctness issues
+                    severity=Severity.BLOCK,
                     file=Path("unknown"),
                     line=0,
                     message=f"Rule execution failed: {str(e)}",
@@ -102,8 +159,10 @@ class DesignSystemChecker:
     def create_unified_report(self, rule_results: List[RuleResult]) -> UnifiedReport:
         """Merge all rule results into a single unified report"""
         all_issues = []
-        total_blocking = 0
-        total_warnings = 0
+        total_block = 0
+        total_must_fix = 0
+        total_should_fix = 0
+        total_logonly = 0
         total_files = 0
 
         for result in rule_results:
@@ -111,15 +170,23 @@ class DesignSystemChecker:
             total_files = max(total_files, result.files_scanned)
 
             for issue in result.issues:
-                if issue.severity == Severity.BLOCKING:
-                    total_blocking += 1
-                elif issue.severity == Severity.WARNING:
-                    total_warnings += 1
+                if issue.severity == Severity.BLOCK:
+                    total_block += 1
+                elif issue.severity == Severity.MUST_FIX:
+                    total_must_fix += 1
+                elif issue.severity == Severity.SHOULD_FIX:
+                    total_should_fix += 1
+                elif issue.severity == Severity.LOGONLY:
+                    total_logonly += 1
 
         summary = {
             "files_scanned": total_files,
-            "blocking": total_blocking,
-            "warnings": total_warnings,
+            "block": total_block,
+            "must_fix": total_must_fix,
+            "should_fix": total_should_fix,
+            "logonly": total_logonly,
+            "blocking": total_block + total_must_fix,  # Backward compatibility
+            "warnings": total_should_fix + total_logonly,  # Backward compatibility
             "rules_executed": len(rule_results)
         }
 

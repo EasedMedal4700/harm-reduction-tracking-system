@@ -57,8 +57,8 @@ class ReportWriter:
 
         for rule_name, short_name in rule_mappings.items():
             issues = issues_by_rule.get(rule_name, [])
-            blocking_count = sum(1 for i in issues if i.severity == Severity.BLOCKING)
-            warning_count = sum(1 for i in issues if i.severity == Severity.WARNING)
+            blocking_count = sum(1 for i in issues if i.severity in [Severity.BLOCK, Severity.MUST_FIX])
+            warning_count = sum(1 for i in issues if i.severity in [Severity.SHOULD_FIX, Severity.LOGONLY])
             affected_files = len(set(str(i.file) for i in issues))
 
             summary_data = {

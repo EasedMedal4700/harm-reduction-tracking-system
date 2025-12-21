@@ -7,7 +7,7 @@ Detects hardcoded animation and timing values.
 import re
 from pathlib import Path
 from typing import List
-from models import Issue, Severity
+from models import Issue, RuleClass
 
 
 # Allowlists (do NOT scan)
@@ -24,8 +24,8 @@ IGNORE_FILE_PATTERNS = [
 ]
 
 RULES = [
-    # WARNING: magic numbers for animation/timing
-    (r"\b(Duration|curveSmoothness|barWidth|stepHours)\b.*\d+", "Hardcoded timing/animation value", Severity.WARNING),
+    # DESIGN_SYSTEM: magic numbers for animation/timing
+    (r"\b(Duration|curveSmoothness|barWidth|stepHours)\b.*\d+", "Hardcoded timing/animation value", RuleClass.DESIGN_SYSTEM),
 ]
 
 
@@ -63,7 +63,7 @@ def run(files: List[Path]) -> List[Issue]:
             # Create an error issue for unreadable files
             issues.append(Issue(
                 rule="animation_constants",
-                severity=Severity.WARNING,
+                rule_class=RuleClass.CORRECTNESS,
                 file=file_path,
                 line=0,
                 message=f"Could not read file: {str(e)}",
@@ -73,11 +73,11 @@ def run(files: List[Path]) -> List[Issue]:
             continue
 
         for line_number, line in enumerate(lines, start=1):
-            for pattern, description, severity in RULES:
+            for pattern, description, rule_class in RULES:
                 if re.search(pattern, line):
                     issues.append(Issue(
                         rule="animation_constants",
-                        severity=severity,
+                        rule_class=rule_class,
                         file=file_path,
                         line=line_number,
                         message=description,
@@ -89,7 +89,7 @@ def run(files: List[Path]) -> List[Issue]:
     unique_issues = []
     seen = set()
     for issue in issues:
-        key = (issue.rule, issue.severity, issue.file, issue.line, issue.message, issue.snippet)
+        key = (issue.rule, issue.rule_class, issue.file, issue.line, issue.message, issue.snippet)
         if key not in seen:
             seen.add(key)
             unique_issues.append(issue)
