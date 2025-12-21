@@ -43,6 +43,7 @@ This app helps users track their drug use patterns, monitor tolerance buildup, m
 
 - **End-to-End Encryption** - All sensitive free-text data encrypted with AES-256-GCM
 - **Zero-Knowledge PIN System** - 6-digit PIN with biometric unlock and recovery key backup
+- **Zero-Knowledge PIN System** - 6-digit PIN with biometric unlock and recovery key backup
 - **Local-First Storage** - Your data stays on your device and your private database
 - **No Analytics/Tracking** - Zero third-party services or data collection
 - **Account Management** - Full control with data export and account deletion
@@ -54,7 +55,9 @@ This app helps users track their drug use patterns, monitor tolerance buildup, m
 - Flutter SDK ^3.9.2
 - Android Studio or VS Code with Flutter extensions
 - Dart SDK (included with Flutter)
+- Dart SDK (included with Flutter)
 - A Supabase account and project
+- Python 3.8+ (for backend data pipeline - optional)
 - Python 3.8+ (for backend data pipeline - optional)
 
 ### Installation
@@ -135,6 +138,10 @@ flutter build macos --release
 3. **IMPORTANT**: Save your recovery key in a secure location (24-character hex backup)
 4. Optional: Enable biometric unlock (fingerprint/face)
 5. Start by adding your first drug use entry or daily check-in
+2. Set up your 6-digit PIN for encryption
+3. **IMPORTANT**: Save your recovery key in a secure location (24-character hex backup)
+4. Optional: Enable biometric unlock (fingerprint/face)
+5. Start by adding your first drug use entry or daily check-in
 
 ### Daily Workflow
 
@@ -186,6 +193,7 @@ Tolerance is shown as a percentage where:
 
 - **Framework**: Flutter (Dart)
 - **Database**: Supabase (PostgreSQL)
+- **State Management**: Provider pattern (migrating to Riverpod)
 - **State Management**: Provider pattern (migrating to Riverpod)
 - **Encryption**: AES-256-GCM (cryptography package)
 - **Charts**: FL_Chart
@@ -371,6 +379,11 @@ Want to understand the deep technical details? Check out **[TECHNICAL_DEEP_DIVE.
 This is currently a personal project, but contributions are welcome! Please:
 
 1. Fork the repository
+2. Create a feature branch
+3. Follow existing code style and conventions
+4. Add tests for new functionality
+5. Update documentation as needed
+6. Submit a pull request
 2. Create a feature branch
 3. Follow existing code style and conventions
 4. Add tests for new functionality
