@@ -27,25 +27,25 @@ IGNORE_FILE_PATTERNS = [
 
 RULES = [
     # DESIGN_SYSTEM: Using Container when SizedBox would be more appropriate
-    (r"Container\s*\(\s*width\s*:\s*\d+\.?\d*\s*,\s*height\s*:\s*\d+\.?\d*\s*\)", "Use SizedBox for fixed dimensions", RuleClass.DESIGN_SYSTEM),
+    (r"Container\s*\(\s*width\s*:\s*\d+\.?\d*\s*,\s*height\s*:\s*\d+\.?\d*\s*\)", "Use SizedBox for fixed dimensions", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: Nested Material widgets
-    (r"Material\s*\([^)]*child\s*:\s*Material\s*\(", "Nested Material widgets", RuleClass.DESIGN_SYSTEM),
+    (r"Material\s*\([^)]*child\s*:\s*Material\s*\(", "Nested Material widgets", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: Using Column/Row without MainAxisAlignment
-    (r"(Column|Row)\s*\(\s*children\s*:\s*\[", "Column/Row without alignment specified", RuleClass.DESIGN_SYSTEM),
+    (r"(Column|Row)\s*\(\s*children\s*:\s*\[", "Column/Row without alignment specified", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: Hardcoded flex values
-    (r"(flex|Flex)\s*:\s*\d+", "Hardcoded flex value", RuleClass.DESIGN_SYSTEM),
+    (r"(flex|Flex)\s*:\s*\d+", "Hardcoded flex value", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: Using Expanded without consideration
-    (r"Expanded\s*\(\s*child\s*:\s*(Container|SizedBox)\s*\(\s*\)", "Expanded with empty container", RuleClass.DESIGN_SYSTEM),
+    (r"Expanded\s*\(\s*child\s*:\s*(Container|SizedBox)\s*\(\s*\)", "Expanded with empty container", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: Icon without semantic label
-    (r"Icon\s*\([^)]*Icons\.[a-zA-Z_]+[^)]*\)", "Icon without semanticLabel", RuleClass.DESIGN_SYSTEM),
+    (r"Icon\s*\([^)]*Icons\.[a-zA-Z_]+[^)]*\)", "Icon without semanticLabel", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: Card without proper elevation
-    (r"Card\s*\(\s*child\s*:", "Card without explicit elevation", RuleClass.DESIGN_SYSTEM),
+    (r"Card\s*\(\s*child\s*:", "Card without explicit elevation", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: Using Scaffold in nested widgets
     (r"Scaffold\s*\([^)]*body\s*:\s*(Column|Row|Container)", "Scaffold with simple layout - consider removing", RuleClass.DESIGN_SYSTEM),

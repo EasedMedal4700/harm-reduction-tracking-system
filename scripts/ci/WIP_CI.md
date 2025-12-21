@@ -64,3 +64,9 @@
 - [ ] CI fails fast
 - [ ] Editors do not matter
 - [ ] One formatter: Dart SDK
+
+
+
+flutter anlayze add this
+impoirt checker
+code voverage checker no regerssion allowed from past 

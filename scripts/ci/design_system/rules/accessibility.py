@@ -38,8 +38,8 @@ RULES = [
     # DESIGN_SYSTEM: Hardcoded colors that might not meet contrast requirements
     (r"Color\(0x[0-9a-fA-F]{8}\)", "Hardcoded color - verify contrast ratio", RuleClass.DESIGN_SYSTEM),
 
-    # DESIGN_SYSTEM: Small touch targets
-    (r"(width|height)\s*:\s*([1-9]|[1-3][0-9]|4[0-3])(\.0*)?", "Potentially small touch target (<44px)", RuleClass.DESIGN_SYSTEM),
+    # DESIGN_SYSTEM: Small touch targets - DISABLED due to high false positive rate (flags spacing/borders)
+    # (r"\b(width|height)\s*:\s*([1-9]|[1-3][0-9]|4[0-3])(\.0*)?(?!\.?\d)", "Potentially small touch target (<44px)", RuleClass.DESIGN_SYSTEM),
 
     # DESIGN_SYSTEM: Missing focus management
     (r"FocusNode\s*\(\)", "FocusNode created - ensure proper focus management", RuleClass.DESIGN_SYSTEM),
@@ -92,31 +92,15 @@ def run(files: List[Path]) -> List[Issue]:
         for line_number, line in enumerate(lines, start=1):
             for pattern, description, rule_class in RULES:
                 if re.search(pattern, line):
-                    # Special handling for touch target size check
-                    if "touch target" in description and re.search(r"(width|height)\s*:\s*([1-9]|[1-3][0-9]|4[0-3])(\.0*)?", line):
-                        match = re.search(r"(width|height)\s*:\s*([1-9]|[1-3][0-9]|4[0-3])(\.0*)?", line)
-                        if match:
-                            value = float(match.group(2))
-                            if value < 44:  # 44px is the minimum recommended touch target size
-                                issues.append(Issue(
-                                    rule="accessibility",
-                                    rule_class=rule_class,
-                                    file=file_path,
-                                    line=line_number,
-                                    message=f"{description} - found {value}px",
-                                    snippet=line.strip(),
-                                    ignored=False
-                                ))
-                    else:
-                        issues.append(Issue(
-                            rule="accessibility",
-                            rule_class=rule_class,
-                            file=file_path,
-                            line=line_number,
-                            message=description,
-                            snippet=line.strip(),
-                            ignored=False
-                        ))
+                    issues.append(Issue(
+                        rule="accessibility",
+                        rule_class=rule_class,
+                        file=file_path,
+                        line=line_number,
+                        message=description,
+                        snippet=line.strip(),
+                        ignored=False
+                    ))
 
     # Deduplicate identical findings
     unique_issues = []

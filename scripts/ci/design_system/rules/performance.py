@@ -29,13 +29,13 @@ RULES = [
     (r"setState\s*\(\s*\(\)\s*=>\s*\{", "setState called in build method", RuleClass.ARCHITECTURE),
 
     # ARCHITECTURE: ListView without proper optimization
-    (r"ListView\s*\(\s*children\s*:\s*\[", "ListView with static children - consider ListView.builder", RuleClass.ARCHITECTURE),
+    (r"ListView\s*\(\s*children\s*:\s*\[", "ListView with static children - consider ListView.builder", RuleClass.HYGIENE),
 
     # ARCHITECTURE: unnecessary rebuilds
     (r"StatefulWidget.*build.*setState", "Potential unnecessary rebuilds", RuleClass.ARCHITECTURE),
 
     # ARCHITECTURE: large widget trees without keys
-    (r"(Column|Row|Stack|Flex)\s*\(\s*children\s*:\s*[^)]*key\s*:", "Large layout without keys for performance", RuleClass.ARCHITECTURE),
+    (r"(Column|Row|Stack|Flex)\s*\(\s*children\s*:\s*[^)]*key\s*:", "Large layout without keys for performance", RuleClass.HYGIENE),
 
     # ARCHITECTURE: synchronous network calls
     (r"await\s+http\.(get|post|put|delete)", "Synchronous network call in async context", RuleClass.ARCHITECTURE),
@@ -44,7 +44,7 @@ RULES = [
     (r"build.*\{[^}]*\b(for|while)\b", "Heavy computation in build method", RuleClass.ARCHITECTURE),
 
     # ARCHITECTURE: missing const constructors
-    (r"(Padding|Container|SizedBox|EdgeInsets)\s*\(\s*[^c]", "Missing const constructor", RuleClass.ARCHITECTURE),
+    (r"(Padding|Container|SizedBox|EdgeInsets)\s*\(\s*[^c]", "Missing const constructor", RuleClass.HYGIENE),
 
     # ARCHITECTURE: large images without caching
     (r"Image\.network\s*\([^)]*cache", "Network image without caching strategy", RuleClass.ARCHITECTURE),

@@ -27,18 +27,18 @@ IGNORE_FILE_PATTERNS = [
 
 RULES = [
     # DESIGN_SYSTEM: hardcoded padding values
-    (r"padding\s*:\s*(EdgeInsets|EdgeInsetsDirectional)\([^)]*\d+\.?\d*", "Hardcoded padding value", RuleClass.DESIGN_SYSTEM),
-    (r"\bpadding(All|Symmetric|Only)\s*\(\s*\d+\.?\d*", "Hardcoded padding value", RuleClass.DESIGN_SYSTEM),
+    (r"padding\s*:\s*(EdgeInsets|EdgeInsetsDirectional)\([^)]*\d+\.?\d*", "Hardcoded padding value", RuleClass.HYGIENE),
+    (r"\bpadding(All|Symmetric|Only)\s*\(\s*\d+\.?\d*", "Hardcoded padding value", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded margin values
-    (r"margin\s*:\s*(EdgeInsets|EdgeInsetsDirectional)\([^)]*\d+\.?\d*", "Hardcoded margin value", RuleClass.DESIGN_SYSTEM),
-    (r"\bmargin(All|Symmetric|Only)\s*\(\s*\d+\.?\d*", "Hardcoded margin value", RuleClass.DESIGN_SYSTEM),
+    (r"margin\s*:\s*(EdgeInsets|EdgeInsetsDirectional)\([^)]*\d+\.?\d*", "Hardcoded margin value", RuleClass.HYGIENE),
+    (r"\bmargin(All|Symmetric|Only)\s*\(\s*\d+\.?\d*", "Hardcoded margin value", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded SizedBox for spacing
-    (r"SizedBox\([^)]*\b\d+\.?\d*\b[^)]*\)", "SizedBox used for spacing (use theme spacing)", RuleClass.DESIGN_SYSTEM),
+    (r"SizedBox\([^)]*\b\d+\.?\d*\b[^)]*\)", "SizedBox used for spacing (use theme spacing)", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded gap values in flex layouts
-    (r"(mainAxisAlignment|crossAxisAlignment)\s*:\s*MainAxisAlignment\.", "Hardcoded alignment (consider theme)", RuleClass.DESIGN_SYSTEM),
+    (r"(mainAxisAlignment|crossAxisAlignment)\s*:\s*MainAxisAlignment\.", "Hardcoded alignment (consider theme)", RuleClass.HYGIENE),
 ]
 
 

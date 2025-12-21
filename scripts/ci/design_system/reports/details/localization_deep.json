@@ -3,1792 +3,1792 @@
   "total_issues": 256,
   "issues": [
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to load activity: $e'",
       "line": 63,
       "snippet": ").showSnackBar(SnackBar(content: Text('Failed to load activity: $e')));",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\activity\\activity_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Entry deleted successfully'",
       "line": 209,
       "snippet": "content: const Text('Entry deleted successfully'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\activity\\activity_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to delete entry: $e'",
       "line": 219,
       "snippet": "content: Text('Failed to delete entry: $e'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\activity\\activity_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Error loading admin data'",
       "line": 97,
       "snippet": "content: const Text('Error loading admin data'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\admin_panel_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'User demoted from admin'",
       "line": 111,
       "snippet": "const SnackBar(content: Text('User demoted from admin')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\admin_panel_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'User promoted to admin'",
       "line": 118,
       "snippet": "const SnackBar(content: Text('User promoted to admin')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\admin_panel_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to toggle admin status'",
       "line": 136,
       "snippet": "content: const Text('Failed to toggle admin status'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\admin_panel_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: '\u2713 All cache cleared successfully'",
       "line": 153,
       "snippet": "content: const Text('\u2713 All cache cleared successfully'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\admin_panel_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to clear cache'",
       "line": 162,
       "snippet": "content: const Text('Failed to clear cache'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\admin_panel_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: '\u2713 Drug profiles cache cleared'",
       "line": 179,
       "snippet": "content: const Text('\u2713 Drug profiles cache cleared'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\admin_panel_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to clear drug cache'",
       "line": 188,
       "snippet": "content: const Text('Failed to clear drug cache'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\admin_panel_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: '\u2713 Expired cache entries cleared'",
       "line": 205,
       "snippet": "content: const Text('\u2713 Expired cache entries cleared'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\admin_panel_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to clear expired cache'",
       "line": 214,
       "snippet": "content: const Text('Failed to clear expired cache'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\admin_panel_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to refresh from database'",
       "line": 246,
       "snippet": "content: const Text('Failed to refresh from database'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\admin_panel_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Error loading analytics data'",
       "line": 56,
       "snippet": "const SnackBar(content: Text('Error loading analytics data')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\error_analytics_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Add at least one filter or enable delete all.'",
       "line": 98,
       "snippet": "content: Text('Add at least one filter or enable delete all.'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\error_analytics_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Error logs cleaned successfully'",
       "line": 116,
       "snippet": "const SnackBar(content: Text('Error logs cleaned successfully')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\error_analytics_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to clean error logs'",
       "line": 135,
       "snippet": "const SnackBar(content: Text('Failed to clean error logs')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\error_analytics_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Error Analytics'",
       "line": 169,
       "snippet": "title: const Text('Error Analytics'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\screens\\error_analytics_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Older than (days)'",
       "line": 80,
       "snippet": "labelText: 'Older than (days)',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_cleanup_dialog.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'e.g., 30'",
       "line": 81,
       "snippet": "hintText: 'e.g., 30',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_cleanup_dialog.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Platform (optional)'",
       "line": 90,
       "snippet": "hintText: 'Platform (optional)',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_cleanup_dialog.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Screen (optional)'",
       "line": 101,
       "snippet": "hintText: 'Screen (optional)',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\admin\\widgets\\errors\\error_cleanup_dialog.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Export functionality coming soon'",
       "line": 137,
       "snippet": "content: const Text('Export functionality coming soon'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\analytics_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Daily'",
       "line": 243,
       "snippet": "child: Text('Daily'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Weekly'",
       "line": 247,
       "snippet": "child: Text('Weekly'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Monthly'",
       "line": 251,
       "snippet": "child: Text('Monthly'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trends_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Current Status'",
       "line": 76,
       "snippet": "Text('Current Status', style: context.text.caption),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\current_status_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Dose Ranges'",
       "line": 35,
       "snippet": "Text('Dose Ranges', style: text.heading4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\dose_tier_legend.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Filters'",
       "line": 52,
       "snippet": "Text('Filters', style: text.heading4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\filter_panel.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Include Only:'",
       "line": 67,
       "snippet": "Text('Include Only:', style: text.bodyBold),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\filter_panel.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Exclude:'",
       "line": 93,
       "snippet": "Text('Exclude:', style: text.bodyBold),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\filter_panel.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Individual Doses'",
       "line": 172,
       "snippet": "Text('Individual Doses', style: text.bodyBold),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\level_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Risk Assessment'",
       "line": 83,
       "snippet": "Text('Risk Assessment', style: text.heading4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\risk_assessment_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'System Overview'",
       "line": 64,
       "snippet": "Text('System Overview', style: text.heading4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\system_overview_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Timeframe'",
       "line": 66,
       "snippet": "Text('Timeframe', style: text.heading4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\timeframe_selector.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: ' Bug report submitted successfully'",
       "line": 78,
       "snippet": "content: const Text(' Bug report submitted successfully'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\bug_report_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to submit bug report: $e'",
       "line": 91,
       "snippet": "content: Text('Failed to submit bug report: $e'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\bug_report_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Report a Bug'",
       "line": 109,
       "snippet": "title: Text('Report a Bug', style: context.text.titleLarge),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\bug_report_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: ' Bug report submitted successfully'",
       "line": 79,
       "snippet": "content: const Text(' Bug report submitted successfully'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\bug_report_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to submit bug report: $e'",
       "line": 92,
       "snippet": "content: Text('Failed to submit bug report: $e'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\bug_report_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Report a Bug'",
       "line": 110,
       "snippet": "title: Text('Report a Bug', style: context.text.titleLarge),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\bug_report_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Bug Title *'",
       "line": 49,
       "snippet": "labelText: 'Bug Title *',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\widgets\\bug_report\\bug_report_form_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Brief description of the issue'",
       "line": 50,
       "snippet": "hintText: 'Brief description of the issue',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\widgets\\bug_report\\bug_report_form_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Severity'",
       "line": 75,
       "snippet": "hintText: 'Severity',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\widgets\\bug_report\\bug_report_form_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Category'",
       "line": 84,
       "snippet": "hintText: 'Category',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\widgets\\bug_report\\bug_report_form_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Description'",
       "line": 91,
       "snippet": "labelText: 'Description',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\widgets\\bug_report\\bug_report_form_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Detailed explanation of what happened'",
       "line": 92,
       "snippet": "hintText: 'Detailed explanation of what happened',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\widgets\\bug_report\\bug_report_form_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Steps to Reproduce'",
       "line": 104,
       "snippet": "labelText: 'Steps to Reproduce',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\widgets\\bug_report\\bug_report_form_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: '1. Go to screen X\\n2. Click button Y'",
       "line": 105,
       "snippet": "hintText: '1. Go to screen X\\n2. Click button Y',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\widgets\\bug_report\\bug_report_form_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Error loading substances: $e'",
       "line": 59,
       "snippet": "content: Text('Error loading substances: $e'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\catalog_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to add stockpile: ${e.toString()}'",
       "line": 87,
       "snippet": "content: Text('Failed to add stockpile: ${e.toString()}'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\add_stockpile_sheet.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Amount'",
       "line": 160,
       "snippet": "labelText: 'Amount',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\add_stockpile_sheet.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Enter amount'",
       "line": 161,
       "snippet": "hintText: 'Enter amount',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\add_stockpile_sheet.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Unit'",
       "line": 185,
       "snippet": "hintText: 'Unit',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\add_stockpile_sheet.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Search substances...'",
       "line": 27,
       "snippet": "hintText: 'Search substances...',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\catalog_search_bar.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Add to Stockpile'",
       "line": 342,
       "snippet": "label: const Text('Add to Stockpile'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Craving saved!'",
       "line": 86,
       "snippet": "content: const Text('Craving saved!'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Save failed: $e'",
       "line": 96,
       "snippet": "content: Text('Save failed: $e'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Log Craving'",
       "line": 133,
       "snippet": "title: Text('Log Craving', style: t.typography.heading3),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Craving Reflection'",
       "line": 169,
       "snippet": "Text('Craving Reflection', style: t.typography.heading2),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Location'",
       "line": 98,
       "snippet": "hintText: 'Location',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\widgets\\cravings\\craving_details_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Who were you with?'",
       "line": 109,
       "snippet": "hintText: 'Who were you with?',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\widgets\\cravings\\craving_details_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Thoughts'",
       "line": 83,
       "snippet": "labelText: 'Thoughts',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\widgets\\cravings\\emotional_state_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'What are you thinking?'",
       "line": 84,
       "snippet": "hintText: 'What are you thinking?',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\widgets\\cravings\\emotional_state_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'What did you do?'",
       "line": 61,
       "snippet": "labelText: 'What did you do?',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\widgets\\cravings\\outcome_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Describe your actions...'",
       "line": 62,
       "snippet": "hintText: 'Describe your actions...',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\widgets\\cravings\\outcome_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Check-In History'",
       "line": 36,
       "snippet": "title: Text('Check-In History', style: t.typography.heading3),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\daily_chekin\\checkin_history_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Notes (optional)'",
       "line": 31,
       "snippet": "Text('Notes (optional)', style: t.typography.heading4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\daily_chekin\\widgets\\daily_checkin\\notes_input.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Any thoughts or observations?'",
       "line": 35,
       "snippet": "hintText: 'Any thoughts or observations?',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\daily_chekin\\widgets\\daily_checkin\\notes_input.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Simulate Email Confirmation'",
       "line": 79,
       "snippet": "label: const Text('Simulate Email Confirmation'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Simulate Password Reset'",
       "line": 94,
       "snippet": "label: const Text('Simulate Password Reset'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Simulate Supabase Verify URL'",
       "line": 109,
       "snippet": "label: const Text('Simulate Supabase Verify URL'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Simulated: substancecheck://auth'",
       "line": 133,
       "snippet": "content: const Text('Simulated: substancecheck://auth'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Simulated: substancecheck://reset-password'",
       "line": 150,
       "snippet": "content: const Text('Simulated: substancecheck://reset-password'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Choose Verification Type'",
       "line": 166,
       "snippet": "title: const Text('Choose Verification Type'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Email Signup'",
       "line": 172,
       "snippet": "title: const Text('Email Signup'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Password Recovery'",
       "line": 183,
       "snippet": "title: const Text('Password Recovery'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 197,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Save'",
       "line": 51,
       "snippet": "label: Text('Save', style: t.labelLarge.copyWith(color: a.primary)),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_craving\\widgets\\edit_craving\\craving_app_bar.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Delete Entry?'",
       "line": 199,
       "snippet": "title: const Text('Delete Entry?'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'This action cannot be undone.'",
       "line": 200,
       "snippet": "content: const Text('This action cannot be undone.'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 204,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Delete'",
       "line": 209,
       "snippet": "child: const Text('Delete'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 256,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Continue'",
       "line": 260,
       "snippet": "child: const Text('Continue'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Entry deleted successfully'",
       "line": 59,
       "snippet": "content: const Text('Entry deleted successfully'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\widgets\\edit_log_entry\\delete_confirmation_dialog.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to delete entry: $e'",
       "line": 68,
       "snippet": "content: Text('Failed to delete entry: $e'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\widgets\\edit_log_entry\\delete_confirmation_dialog.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Edit Drug Use'",
       "line": 39,
       "snippet": "title: Text('Edit Drug Use', style: t.text.heading3),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\widgets\\edit_log_entry\\edit_app_bar.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Save'",
       "line": 46,
       "snippet": "child: Text('Save', style: t.labelLarge.copyWith(color: a.primary)),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_reflection\\widgets\\edit_reflection\\reflection_app_bar.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Admin access required'",
       "line": 48,
       "snippet": "content: const Text('Admin access required'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to update '",
       "line": 76,
       "snippet": "content: Text('Failed to update \"$featureName\"'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Feature Flags'",
       "line": 108,
       "snippet": "title: Text('Feature Flags', style: text.titleLarge),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Error Loading Flags'",
       "line": 164,
       "snippet": "Text('Error Loading Flags', style: text.headlineMedium),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Retry'",
       "line": 175,
       "snippet": "label: const Text('Retry'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'No Feature Flags'",
       "line": 197,
       "snippet": "Text('No Feature Flags', style: text.headlineMedium),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\feature_flags\\feature_flags_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Check-In Now'",
       "line": 205,
       "snippet": "label: const Text('Check-In Now'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\widgets\\home\\daily_checkin_banner.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Your Progress'",
       "line": 121,
       "snippet": "child: Text('Your Progress', style: text.heading3),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\widgets\\home\\progress_overview_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Quick Actions'",
       "line": 125,
       "snippet": "child: Text('Quick Actions', style: text.heading3),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\widgets\\home\\quick_actions_grid.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Please enter both email and password'",
       "line": 120,
       "snippet": "const SnackBar(content: Text('Please enter both email and password')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\login_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Invalid credentials, please try again'",
       "line": 149,
       "snippet": "content: Text('Invalid credentials, please try again'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\login_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Login error: $e'",
       "line": 162,
       "snippet": "content: Text('Login error: $e'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\login_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Email'",
       "line": 400,
       "snippet": "labelText: 'Email',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\login_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Password'",
       "line": 407,
       "snippet": "labelText: 'Password',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\login_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Create an account'",
       "line": 437,
       "snippet": "child: const Text('Create an account'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\login_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Forgot Password?'",
       "line": 444,
       "snippet": "child: const Text('Forgot Password?'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\login_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf'",
       "line": 336,
       "snippet": "hintText: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 184,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\log_entry_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Continue'",
       "line": 188,
       "snippet": "child: const Text('Continue'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\log_entry_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Route of Administration'",
       "line": 42,
       "snippet": "hintText: 'Route of Administration',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\complex_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Location'",
       "line": 50,
       "snippet": "labelText: 'Location',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\complex_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'People (comma separated)'",
       "line": 78,
       "snippet": "labelText: 'People (comma separated)',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\complex_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Cost'",
       "line": 107,
       "snippet": "labelText: 'Cost',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\complex_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Notes'",
       "line": 133,
       "snippet": "labelText: 'Notes',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\complex_fields.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Dosage ($unit)'",
       "line": 22,
       "snippet": "labelText: 'Dosage ($unit)',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\dosage_input.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Substance'",
       "line": 129,
       "snippet": "labelText: 'Substance',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\log_entry_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Dose'",
       "line": 142,
       "snippet": "labelText: 'Dose',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\log_entry_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Unit'",
       "line": 159,
       "snippet": "hintText: 'Unit',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\log_entry_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Route of Administration'",
       "line": 177,
       "snippet": "hintText: 'Route of Administration',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\log_entry_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Location'",
       "line": 194,
       "snippet": "hintText: 'Location',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\log_entry_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Intention'",
       "line": 217,
       "snippet": "hintText: 'Intention',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\log_entry_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Notes'",
       "line": 292,
       "snippet": "labelText: 'Notes',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\log_entry_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Time'",
       "line": 325,
       "snippet": "labelText: 'Time',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\log_entry_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Substance'",
       "line": 61,
       "snippet": "labelText: 'Substance',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry\\substance_autocomplete.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Log Entry'",
       "line": 30,
       "snippet": "Text(\"Log Entry\", style: t.text.heading2),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\widgets\\log_entry_page\\log_entry_app_bar.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Change PIN'",
       "line": 116,
       "snippet": "title: const Text('Change PIN'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\change_pin_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf'",
       "line": 322,
       "snippet": "hintText: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\change_pin_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'PIN Changed'",
       "line": 349,
       "snippet": "title: const Text('PIN Changed'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\change_pin_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Security Upgrade'",
       "line": 46,
       "snippet": "title: Text('Security Upgrade', style: text.headlineSmall),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: '\u2022\u2022\u2022\u2022\u2022\u2022'",
       "line": 260,
       "snippet": "hintText: '\u2022\u2022\u2022\u2022\u2022\u2022',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: '\u2022\u2022\u2022\u2022\u2022\u2022'",
       "line": 351,
       "snippet": "hintText: '\u2022\u2022\u2022\u2022\u2022\u2022',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Back'",
       "line": 404,
       "snippet": "child: Text('Back', style: TextStyle(color: c.textPrimary)),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Recovery key copied to clipboard'",
       "line": 554,
       "snippet": "content: const Text('Recovery key copied to clipboard'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Migration failed: ${e.toString()}'",
       "line": 641,
       "snippet": "content: Text('Migration failed: ${e.toString()}'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'An error occurred: $e'",
       "line": 62,
       "snippet": "content: Text('An error occurred: $e'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\forgot_password_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Email'",
       "line": 162,
       "snippet": "labelText: 'Email',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\forgot_password_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Error loading profile: $e'",
       "line": 52,
       "snippet": ").showSnackBar(SnackBar(content: Text('Error loading profile: $e')));",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\profile\\profile_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Logout'",
       "line": 97,
       "snippet": "title: const Text('Logout'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\profile\\profile_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Are you sure you want to logout?'",
       "line": 98,
       "snippet": "content: const Text('Are you sure you want to logout?'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\profile\\profile_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 102,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\profile\\profile_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Profile'",
       "line": 132,
       "snippet": "title: const Text('Profile'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\profile\\profile_screen.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Logout'",
       "line": 25,
       "snippet": "label: Text('Logout', style: t.typography.button),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\profile\\widgets\\profile\\logout_button.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Activity Statistics'",
       "line": 30,
       "snippet": "Text('Activity Statistics', style: t.text.heading3),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\profile\\widgets\\profile\\statistics_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to load entries: $e'",
       "line": 43,
       "snippet": "content: Text('Failed to load entries: $e'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\reflection_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Reflection saved successfully!'",
       "line": 165,
       "snippet": "const SnackBar(content: Text('Reflection saved successfully!')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\reflection_provider.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Error saving reflection: $e'",
       "line": 173,
       "snippet": ").showSnackBar(SnackBar(content: Text('Error saving reflection: $e')));",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\reflection_provider.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Sleep Hours'",
       "line": 166,
       "snippet": "labelText: 'Sleep Hours',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\widgets\\reflection\\edit_reflection_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Next Day Mood'",
       "line": 196,
       "snippet": "labelText: 'Next Day Mood',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\widgets\\reflection\\edit_reflection_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Side Effects'",
       "line": 219,
       "snippet": "labelText: 'Side Effects',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\widgets\\reflection\\edit_reflection_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Coping Strategies'",
       "line": 245,
       "snippet": "labelText: 'Coping Strategies',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\widgets\\reflection\\edit_reflection_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Notes'",
       "line": 282,
       "snippet": "labelText: 'Notes',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\widgets\\reflection\\edit_reflection_form.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Select entries to reflect on'",
       "line": 31,
       "snippet": "Text('Select entries to reflect on', style: t.typography.heading2),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\widgets\\reflection\\reflection_selection.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Next Step'",
       "line": 92,
       "snippet": "child: Text('Next Step', style: t.typography.button),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\widgets\\reflection\\reflection_selection.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: '$substance \u2022 $dose'",
       "line": 163,
       "snippet": "Text('$substance \u2022 $dose', style: t.typography.bodyBold),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\widgets\\reflection\\reflection_selection.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Privacy Policy'",
       "line": 17,
       "snippet": "appBar: AppBar(title: const Text(\"Privacy Policy\")),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\privacy_policy_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: '\u2022 $b'",
       "line": 240,
       "snippet": "child: Text(\"\u2022 $b\", style: t.body),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\privacy_policy_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Settings'",
       "line": 48,
       "snippet": "title: const Text('Settings'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\settings_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'App Version'",
       "line": 24,
       "snippet": "title: const Text('App Version'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\about_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Build Number'",
       "line": 28,
       "snippet": "title: const Text('Build Number'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\about_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Terms of Service'",
       "line": 32,
       "snippet": "title: const Text('Terms of Service'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\about_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Licenses'",
       "line": 39,
       "snippet": "title: const Text('Licenses'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\about_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Are You Sure?'",
       "line": 36,
       "snippet": "const Expanded(child: Text('Are You Sure?')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'This will permanently delete:'",
       "line": 43,
       "snippet": "Text('This will permanently delete:', style: context.text.bodyBold),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 90,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Download Data First'",
       "line": 98,
       "snippet": "child: const Text('Download Data First'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Yes, Delete My Data'",
       "line": 109,
       "snippet": "child: const Text('Yes, Delete My Data'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: '\u26a0\ufe0f DELETE ACCOUNT'",
       "line": 164,
       "snippet": "const Expanded(child: Text('\u26a0\ufe0f DELETE ACCOUNT')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 224,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Download Data First'",
       "line": 232,
       "snippet": "child: const Text('Download Data First'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'I Understand, Continue'",
       "line": 243,
       "snippet": "child: const Text('I Understand, Continue'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'FINAL CONFIRMATION'",
       "line": 274,
       "snippet": "const Expanded(child: Text('FINAL CONFIRMATION')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'DELETE MY ACCOUNT'",
       "line": 287,
       "snippet": "hintText: 'DELETE MY ACCOUNT',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 316,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'DELETE MY ACCOUNT FOREVER'",
       "line": 332,
       "snippet": "child: const Text('DELETE MY ACCOUNT FOREVER'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_confirmation_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Password'",
       "line": 110,
       "snippet": "labelText: 'Password',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 133,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 274,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Confirm'",
       "line": 282,
       "snippet": "child: const Text('Confirm'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Download My Data'",
       "line": 70,
       "snippet": "title: const Text('Download My Data'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_management_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Export all your personal information'",
       "line": 71,
       "snippet": "subtitle: const Text('Export all your personal information'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_management_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Delete My Data'",
       "line": 95,
       "snippet": "title: const Text('Delete My Data'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_management_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Remove all your logs and entries'",
       "line": 96,
       "snippet": "subtitle: const Text('Remove all your logs and entries'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_management_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Backup Frequency'",
       "line": 43,
       "snippet": "title: const Text('Backup Frequency'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\data_sync_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cache Duration'",
       "line": 68,
       "snippet": "title: const Text('Cache Duration'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\data_sync_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Date Format'",
       "line": 39,
       "snippet": "title: const Text('Date Format'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\display_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Default Dose Unit'",
       "line": 35,
       "snippet": "title: const Text('Default Dose Unit'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\entry_preferences_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Recent Count'",
       "line": 60,
       "snippet": "title: const Text('Recent Count'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\entry_preferences_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Reminder Time'",
       "line": 47,
       "snippet": "title: const Text('Reminder Time'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\notification_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Change PIN'",
       "line": 125,
       "snippet": "title: const Text('Change PIN'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Update your encryption PIN'",
       "line": 126,
       "snippet": "subtitle: const Text('Update your encryption PIN'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'PIN changed successfully'",
       "line": 136,
       "snippet": "content: const Text('PIN changed successfully'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Setup PIN Encryption'",
       "line": 145,
       "snippet": "title: const Text('Setup PIN Encryption'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Create a PIN for enhanced security'",
       "line": 146,
       "snippet": "subtitle: const Text('Create a PIN for enhanced security'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'PIN Timeout (Active)'",
       "line": 176,
       "snippet": "title: const Text('PIN Timeout (Active)'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'PIN Timeout (Background)'",
       "line": 202,
       "snippet": "title: const Text('PIN Timeout (Background)'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Max Session Duration'",
       "line": 228,
       "snippet": "title: const Text('Max Session Duration'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Reset Harm Reduction Notices'",
       "line": 271,
       "snippet": "title: const Text('Reset Harm Reduction Notices'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Show dismissed warning banners again'",
       "line": 272,
       "snippet": "subtitle: const Text('Show dismissed warning banners again'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Reset Notices'",
       "line": 279,
       "snippet": "title: const Text('Reset Notices'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 287,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Privacy Policy'",
       "line": 329,
       "snippet": "title: const Text('Privacy Policy'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'View our privacy policy'",
       "line": 330,
       "snippet": "subtitle: const Text('View our privacy policy'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Privacy Policy'",
       "line": 337,
       "snippet": "//   title: const Text('Privacy Policy'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'View our privacy policy'",
       "line": 338,
       "snippet": "//   subtitle: const Text('View our privacy policy'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Tapped!'",
       "line": 344,
       "snippet": "//       const SnackBar(content: Text(\"Tapped!\")),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Custom (minutes)'",
       "line": 446,
       "snippet": "labelText: 'Custom (minutes)',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: '${widget.minValue}-${widget.maxValue}'",
       "line": 447,
       "snippet": "hintText: '${widget.minValue}-${widget.maxValue}',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 482,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Select Language'",
       "line": 20,
       "snippet": "title: const Text('Select Language'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\settings_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Auto-lock Duration'",
       "line": 68,
       "snippet": "title: const Text('Auto-lock Duration'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\settings_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Backup Frequency'",
       "line": 93,
       "snippet": "title: const Text('Backup Frequency'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\settings_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cache Duration'",
       "line": 118,
       "snippet": "title: const Text('Cache Duration'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\settings_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Default Dose Unit'",
       "line": 143,
       "snippet": "title: const Text('Default Dose Unit'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\settings_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Date Format'",
       "line": 168,
       "snippet": "title: const Text('Date Format'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\settings_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Reset Settings?'",
       "line": 189,
       "snippet": "title: const Text('Reset Settings?'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\settings_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "line": 196,
       "snippet": "child: const Text('Cancel'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\settings_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Settings reset to defaults'",
       "line": 203,
       "snippet": "const SnackBar(content: Text('Settings reset to defaults')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\settings_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Reset'",
       "line": 206,
       "snippet": "child: const Text('Reset'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\settings_dialogs.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Font Size'",
       "line": 41,
       "snippet": "title: const Text('Font Size'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\ui_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Language'",
       "line": 58,
       "snippet": "title: const Text('Language'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\ui_settings_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Fingerprint unlock enabled'",
       "line": 92,
       "snippet": "content: const Text('Fingerprint unlock enabled'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to enable biometrics: $e'",
       "line": 101,
       "snippet": "content: Text('Failed to enable biometrics: $e'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Recovery key copied to clipboard'",
       "line": 114,
       "snippet": "content: const Text('Recovery key copied to clipboard'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf'",
       "line": 206,
       "snippet": "hintText: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf'",
       "line": 253,
       "snippet": "hintText: '\u25cf \u25cf \u25cf \u25cf \u25cf \u25cf',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Copy to Clipboard'",
       "line": 425,
       "snippet": "label: const Text('Copy to Clipboard'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Enable Fingerprint Unlock (Optional)'",
       "line": 440,
       "snippet": "label: const Text('Enable Fingerprint Unlock (Optional)'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'PIN reset successful!'",
       "line": 138,
       "snippet": "content: const Text('PIN reset successful!'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Enter your 24-character recovery key'",
       "line": 293,
       "snippet": "hintText: 'Enter your 24-character recovery key',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Back to PIN Unlock'",
       "line": 331,
       "snippet": "label: const Text('Back to PIN Unlock'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022'",
       "line": 442,
       "snippet": "hintText: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022'",
       "line": 498,
       "snippet": "hintText: '\u2022 \u2022 \u2022 \u2022 \u2022 \u2022',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Account created! Please log in.'",
       "line": 82,
       "snippet": "const SnackBar(content: Text('Account created! Please log in.')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\register_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Create Account'",
       "line": 102,
       "snippet": "appBar: AppBar(title: const Text('Create Account')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\register_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Create Account'",
       "line": 110,
       "snippet": "appBar: AppBar(title: const Text('Create Account')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\register_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Create Account'",
       "line": 153,
       "snippet": "appBar: AppBar(title: const Text('Create Account')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\register_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Create Account'",
       "line": 190,
       "snippet": "appBar: AppBar(title: const Text('Create Account')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\register_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Email'",
       "line": 199,
       "snippet": "labelText: 'Email',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\register_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Display name (optional)'",
       "line": 215,
       "snippet": "labelText: 'Display name (optional)',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\register_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Password'",
       "line": 220,
       "snippet": "labelText: 'Password',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\register_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Confirm password'",
       "line": 235,
       "snippet": "labelText: 'Confirm password',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\register_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Already have an account? Log in'",
       "line": 258,
       "snippet": "label: const Text('Already have an account? Log in'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\register_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Password updated successfully! Please log in.'",
       "line": 75,
       "snippet": "content: const Text('Password updated successfully! Please log in.'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\set_new_password_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Reset Password'",
       "line": 115,
       "snippet": "title: Text('Reset Password', style: TextStyle(color: c.textPrimary)),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\set_new_password_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'New Password'",
       "line": 281,
       "snippet": "labelText: 'New Password',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\set_new_password_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Confirm Password'",
       "line": 312,
       "snippet": "labelText: 'Confirm Password',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\set_new_password_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to archive: $e'",
       "line": 142,
       "snippet": ").showSnackBar(SnackBar(content: Text('Failed to archive: $e')));",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\stockpile_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Retry'",
       "line": 267,
       "snippet": "child: const Text('Retry'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\stockpile_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Failed to load usage data: $e'",
       "line": 86,
       "snippet": "SnackBar(content: Text('Failed to load usage data: $e')),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Personal Library'",
       "line": 27,
       "snippet": "title: const Text('Personal Library'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\library_app_bar.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded form field text: 'Search by name or category'",
       "line": 32,
       "snippet": "hintText: 'Search by name or category',",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\library_search_bar.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Tolerance dashboard'",
       "line": 222,
       "snippet": "title: const Text('Tolerance dashboard'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\tolerance_dashboard_page.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: '100%'",
       "line": 117,
       "snippet": "Text('100%', style: text.overline.copyWith(color: c.textSecondary)),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\bucket_details\\bucket_decay_timeline_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Contributing Substances'",
       "line": 144,
       "snippet": "Text('Contributing Substances', style: typography.heading4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\bucket_detail_section.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Recent use events'",
       "line": 94,
       "snippet": "Text('Recent use events', style: typography.heading4),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\recent_uses_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'WearOS Companion'",
       "line": 27,
       "snippet": "title: const Text('WearOS Companion'),",

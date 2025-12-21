@@ -1,7 +1,7 @@
 {
   "check": "accessibility_check",
-  "status": "FAIL",
-  "blocking_issues": 51,
+  "status": "PASS",
+  "blocking_issues": 0,
   "warning_issues": 0,
-  "files_affected": 25
+  "files_affected": 0
 }

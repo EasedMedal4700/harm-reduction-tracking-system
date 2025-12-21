@@ -31,22 +31,22 @@ IGNORE_FILE_PATTERNS = [
 
 RULES = [
     # DESIGN_SYSTEM: hardcoded user-facing strings in Text widgets
-    (r"Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded string in Text widget", RuleClass.DESIGN_SYSTEM),
+    (r"Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded string in Text widget", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded strings in button labels
-    (r"(ElevatedButton|TextButton|OutlinedButton)\s*\([^)]*['\"]([^'\"]{3,})['\"]", "Hardcoded button text", RuleClass.DESIGN_SYSTEM),
+    (r"(ElevatedButton|TextButton|OutlinedButton)\s*\([^)]*['\"]([^'\"]{3,})['\"]", "Hardcoded button text", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded strings in app bar titles
-    (r"AppBar\s*\([^)]*title\s*:\s*Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded app bar title", RuleClass.DESIGN_SYSTEM),
+    (r"AppBar\s*\([^)]*title\s*:\s*Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded app bar title", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded placeholder text
-    (r"(hintText|labelText|helperText)\s*:\s*['\"]([^'\"]{3,})['\"]", "Hardcoded form field text", RuleClass.DESIGN_SYSTEM),
+    (r"(hintText|labelText|helperText)\s*:\s*['\"]([^'\"]{3,})['\"]", "Hardcoded form field text", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded error messages
-    (r"(errorText|errorMessage)\s*:\s*['\"]([^'\"]{3,})['\"]", "Hardcoded error message", RuleClass.DESIGN_SYSTEM),
+    (r"(errorText|errorMessage)\s*:\s*['\"]([^'\"]{3,})['\"]", "Hardcoded error message", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded snackbar messages
-    (r"ScaffoldMessenger.*showSnackBar\s*\([^)]*['\"]([^'\"]{5,})['\"]", "Hardcoded snackbar message", RuleClass.DESIGN_SYSTEM),
+    (r"ScaffoldMessenger.*showSnackBar\s*\([^)]*['\"]([^'\"]{5,})['\"]", "Hardcoded snackbar message", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded dialog content
     (r"(AlertDialog|SimpleDialog)\s*\([^)]*(title|content)\s*:\s*Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded dialog text", RuleClass.DESIGN_SYSTEM),

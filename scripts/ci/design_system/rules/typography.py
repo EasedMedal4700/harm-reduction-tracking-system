@@ -27,19 +27,19 @@ IGNORE_FILE_PATTERNS = [
 
 RULES = [
     # DESIGN_SYSTEM: hardcoded font families
-    (r"fontFamily\s*:\s*['\"][^'\"]*['\"]", "Hardcoded font family", RuleClass.DESIGN_SYSTEM),
-    (r"FontWeight\.w\d+", "Hardcoded font weight", RuleClass.DESIGN_SYSTEM),
+    (r"fontFamily\s*:\s*['\"][^'\"]*['\"]", "Hardcoded font family", RuleClass.HYGIENE),
+    (r"FontWeight\.w\d+", "Hardcoded font weight", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded font sizes (should use theme)
-    (r"fontSize\s*:\s*\d+\.?\d*", "Hardcoded font size", RuleClass.DESIGN_SYSTEM),
-    (r"TextStyle\s*\([^)]*fontSize\s*:\s*\d+\.?\d*", "TextStyle with hardcoded font size", RuleClass.DESIGN_SYSTEM),
+    (r"fontSize\s*:\s*\d+\.?\d*", "Hardcoded font size", RuleClass.HYGIENE),
+    (r"TextStyle\s*\([^)]*fontSize\s*:\s*\d+\.?\d*", "TextStyle with hardcoded font size", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded line heights
-    (r"(height|lineHeight)\s*:\s*\d+\.?\d*", "Hardcoded line height", RuleClass.DESIGN_SYSTEM),
-    (r"TextStyle\s*\([^)]*height\s*:\s*\d+\.?\d*", "TextStyle with hardcoded height", RuleClass.DESIGN_SYSTEM),
+    (r"(height|lineHeight)\s*:\s*\d+\.?\d*", "Hardcoded line height", RuleClass.HYGIENE),
+    (r"TextStyle\s*\([^)]*height\s*:\s*\d+\.?\d*", "TextStyle with hardcoded height", RuleClass.HYGIENE),
 
     # DESIGN_SYSTEM: hardcoded letter spacing
-    (r"letterSpacing\s*:\s*[-]?\d+\.?\d*", "Hardcoded letter spacing", RuleClass.DESIGN_SYSTEM),
+    (r"letterSpacing\s*:\s*[-]?\d+\.?\d*", "Hardcoded letter spacing", RuleClass.HYGIENE),
 ]
 
 

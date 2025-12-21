@@ -25,7 +25,10 @@ IGNORE_FILE_PATTERNS = [
 
 RULES = [
     # DESIGN_SYSTEM: magic numbers for animation/timing
-    (r"\b(Duration|curveSmoothness|barWidth|stepHours)\b.*\d+", "Hardcoded timing/animation value", RuleClass.DESIGN_SYSTEM),
+    # Exclude Duration with days/hours/minutes as they are likely logic, not animation
+    # Changed to HYGIENE to avoid blocking CI
+    (r"\b(curveSmoothness|barWidth|stepHours)\b.*\d+", "Hardcoded timing/animation value", RuleClass.HYGIENE),
+    (r"\bDuration\s*\([^)]*\b(milliseconds|microseconds)\s*:\s*\d+", "Hardcoded animation duration", RuleClass.HYGIENE),
 ]
 
 

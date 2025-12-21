@@ -1,216 +1,69 @@
 {
   "check": "animations_check",
-  "total_issues": 30,
+  "total_issues": 9,
   "issues": [
     {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 153,
-      "snippet": "final d = now.subtract(Duration(days: 6 - i));",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trend_chart.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 157,
-      "snippet": "final base = now.subtract(Duration(days: (6 - i) * 7));",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\usage_trend_chart.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 126,
-      "snippet": "firstDate: DateTime.now().subtract(const Duration(days: 365)),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\blood_levels_page.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 127,
-      "snippet": "lastDate: DateTime.now().add(const Duration(days: 30)),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\blood_levels_page.dart"
-    },
-    {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded timing/animation value",
       "line": 100,
       "snippet": "barWidth: 3,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\blood_level_graph.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded timing/animation value",
       "line": 181,
       "snippet": "stepHours: 2.0,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded timing/animation value",
       "line": 206,
       "snippet": "curveSmoothness: 0.3,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart"
     },
     {
-      "severity": "MUST_FIX",
+      "severity": "SHOULD_FIX",
       "message": "Hardcoded timing/animation value",
       "line": 208,
       "snippet": "barWidth: 2.5,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart"
     },
     {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 14,
-      "snippet": "hours6('6 Hours', Duration(hours: 6)),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\timeframe_selector.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 15,
-      "snippet": "hours12('12 Hours', Duration(hours: 12)),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\timeframe_selector.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 16,
-      "snippet": "hours24('24 Hours', Duration(hours: 24)),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\timeframe_selector.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 17,
-      "snippet": "hours48('48 Hours', Duration(hours: 48)),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\timeframe_selector.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 18,
-      "snippet": "days3('3 Days', Duration(days: 3)),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\timeframe_selector.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 19,
-      "snippet": "week('1 Week', Duration(days: 7));",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\timeframe_selector.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 175,
-      "snippet": "final yesterday = today.subtract(const Duration(days: 1));",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\daily_chekin\\widgets\\checkin_history\\checkin_card.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 134,
-      "snippet": "duration: const Duration(seconds: 3),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 151,
-      "snippet": "duration: const Duration(seconds: 3),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\debug\\widgets\\debug\\deep_link_debug_widget.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
+      "severity": "SHOULD_FIX",
+      "message": "Hardcoded animation duration",
       "line": 52,
       "snippet": "duration: const Duration(milliseconds: 300),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\home_page.dart"
     },
     {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
+      "severity": "SHOULD_FIX",
+      "message": "Hardcoded animation duration",
       "line": 186,
       "snippet": "await Future.delayed(const Duration(milliseconds: 500));",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\home_page.dart"
     },
     {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
+      "severity": "SHOULD_FIX",
+      "message": "Hardcoded animation duration",
       "line": 57,
       "snippet": "duration: const Duration(milliseconds: 300),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\home_page_main.dart"
     },
     {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
+      "severity": "SHOULD_FIX",
+      "message": "Hardcoded animation duration",
       "line": 84,
       "snippet": "await Future.delayed(const Duration(milliseconds: 100));",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\pin_unlock_page.dart"
     },
     {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 643,
-      "snippet": "duration: const Duration(seconds: 5),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\encryption_migration_page.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 64,
-      "snippet": "final thirtyDaysAgo = now.subtract(const Duration(days: 30));",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\profile\\profile_screen.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 65,
-      "snippet": "final sevenDaysAgo = now.subtract(const Duration(days: 7));",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\profile\\profile_screen.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 287,
-      "snippet": "duration: const Duration(seconds: 8),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_management_section.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 115,
-      "snippet": "duration: const Duration(seconds: 3),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\pin_setup_page.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 140,
-      "snippet": "duration: const Duration(seconds: 3),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 70,
-      "snippet": "adjustedTime = startTime.subtract(const Duration(hours: 5));",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\stockpile\\widgets\\personal_library\\day_usage_sheet.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
+      "severity": "SHOULD_FIX",
+      "message": "Hardcoded animation duration",
       "line": 277,
       "snippet": "duration: const Duration(milliseconds: 300),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\tolerance_dashboard_page.dart"
-    },
-    {
-      "severity": "MUST_FIX",
-      "message": "Hardcoded timing/animation value",
-      "line": 140,
-      "snippet": "duration: const Duration(seconds: 3),",
-      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\tolerance\\bucket_tolerance_breakdown.dart"
     }
   ]
 }
