@@ -1,7 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../utils/error_handler.dart';
-import 'user_service.dart';
 import 'encryption_service_v2.dart';
 
 class ActivityService {

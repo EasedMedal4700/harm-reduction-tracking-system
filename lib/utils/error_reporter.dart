@@ -244,10 +244,11 @@ class ErrorReporter {
       debugPrint('Screen: ${payload['screen_name']}');
       if (context != null) debugPrint('Context: $context');
       debugPrint('Error: $error');
-      if (stackTrace != null)
+      if (stackTrace != null) {
         debugPrint(
           'Stack: ${stackTrace.toString().split('\n').take(5).join('\n')}',
         );
+      }
       debugPrint('═' * 80);
     } catch (insertError, insertStackTrace) {
       debugPrint('Failed to report error to Supabase: $insertError');

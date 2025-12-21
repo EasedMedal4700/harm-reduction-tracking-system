@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:integration_test/integration_test.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_controller.dart';
 import 'package:mobile_drug_use_app/features/daily_chekin/daily_checkin_page.dart';
@@ -17,7 +16,6 @@ import '../helpers/fake_daily_checkin_repository.dart';
 import '../helpers/fake_reflection_service.dart';
 import 'package:mobile_drug_use_app/features/reflection/reflection_page.dart';
 import 'package:mobile_drug_use_app/features/reflection/reflection_provider.dart';
-import 'package:mobile_drug_use_app/features/craving/cravings_page.dart';
 import '../helpers/fake_craving_service.dart';
 
 import 'package:mobile_drug_use_app/features/edit_log_entry/edit_log_entry_page.dart';

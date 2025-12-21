@@ -15,7 +15,6 @@ import 'widgets/analytics/analytics_layout.dart';
 import '../../common/inputs/filter_widget.dart';
 import '../../constants/data/drug_categories.dart';
 import '../../constants/enums/time_period.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/error_handler.dart';
 import '../../utils/time_period_utils.dart';
 import '../../constants/theme/app_theme_extension.dart';

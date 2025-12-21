@@ -1,8 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile_drug_use_app/services/app_lock_controller.dart';
-import 'package:mobile_drug_use_app/providers/shared_preferences_provider.dart';
 import 'package:mobile_drug_use_app/providers/core_providers.dart';
 
 void main() {

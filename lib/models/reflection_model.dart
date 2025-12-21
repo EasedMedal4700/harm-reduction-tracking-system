@@ -99,7 +99,7 @@ class ReflectionModel {
     try {
       ErrorHandler.logDebug('ReflectionModel', 'Parsing reflection from JSON');
 
-      List<String> _toList(dynamic v, String fieldName) {
+      List<String> toList(dynamic v, String fieldName) {
         try {
           if (v == null) {
             ErrorHandler.logDebug('ReflectionModel', '$fieldName is null');
@@ -137,7 +137,7 @@ class ReflectionModel {
         }
       }
 
-      double _toDouble(dynamic v, String fieldName) {
+      double toDouble(dynamic v, String fieldName) {
         final result = double.tryParse(v?.toString() ?? '') ?? 0.0;
         if (v != null &&
             result == 0.0 &&
@@ -151,7 +151,7 @@ class ReflectionModel {
         return result;
       }
 
-      DateTime _toDate(dynamic v) {
+      DateTime toDate(dynamic v) {
         final result = DateTime.tryParse(v?.toString() ?? '');
         if (result == null && v != null) {
           ErrorHandler.logWarning(
@@ -171,7 +171,7 @@ class ReflectionModel {
       });
 
       // Parse selected reflections with priority fallback
-      final selectedReflections = _toList(
+      final selectedReflections = toList(
         json['selected_reflections'] ??
             json['reflections'] ??
             json['related_entries'],
@@ -187,26 +187,26 @@ class ReflectionModel {
         id: json['reflection_id']?.toString() ?? json['id']?.toString(),
         notes: json['notes']?.toString(),
         selectedReflections: selectedReflections,
-        date: _toDate(json['date'] ?? json['created_at']),
+        date: toDate(json['date'] ?? json['created_at']),
         hour:
             int.tryParse(json['hour']?.toString() ?? '') ??
             TimeOfDay.now().hour,
         minute:
             int.tryParse(json['minute']?.toString() ?? '') ??
             TimeOfDay.now().minute,
-        effectiveness: _toDouble(json['effectiveness'], 'effectiveness'),
-        sleepHours: _toDouble(json['sleep_hours'], 'sleep_hours'),
+        effectiveness: toDouble(json['effectiveness'], 'effectiveness'),
+        sleepHours: toDouble(json['sleep_hours'], 'sleep_hours'),
         sleepQuality: json['sleep_quality']?.toString() ?? '',
         nextDayMood: json['next_day_mood']?.toString() ?? '',
         energyLevel: json['energy_level']?.toString() ?? '',
         sideEffects: json['side_effects']?.toString() ?? '',
-        postUseCraving: _toDouble(json['post_use_craving'], 'post_use_craving'),
+        postUseCraving: toDouble(json['post_use_craving'], 'post_use_craving'),
         copingStrategies: json['coping_strategies']?.toString() ?? '',
-        copingEffectiveness: _toDouble(
+        copingEffectiveness: toDouble(
           json['coping_effectiveness'],
           'coping_effectiveness',
         ),
-        overallSatisfaction: _toDouble(
+        overallSatisfaction: toDouble(
           json['overall_satisfaction'],
           'overall_satisfaction',
         ),

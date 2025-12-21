@@ -9,8 +9,8 @@ class AppThemeProvider extends InheritedWidget {
   const AppThemeProvider({
     super.key,
     required this.theme,
-    required Widget child,
-  }) : super(child: child);
+    required super.child,
+  });
 
   static AppTheme of(BuildContext context) {
     final provider = context

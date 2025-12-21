@@ -3,7 +3,6 @@ import '../models/daily_checkin_model.dart';
 import '../services/user_service.dart';
 import '../utils/error_handler.dart';
 import 'cache_service.dart';
-import 'package:flutter/foundation.dart';
 
 abstract class DailyCheckinRepository {
   Future<void> saveCheckin(DailyCheckin checkin);

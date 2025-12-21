@@ -4,7 +4,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'admin_service_test.mocks.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:postgrest/postgrest.dart';
 import 'dart:async';
 
 @GenerateMocks([SupabaseClient, SupabaseQueryBuilder])

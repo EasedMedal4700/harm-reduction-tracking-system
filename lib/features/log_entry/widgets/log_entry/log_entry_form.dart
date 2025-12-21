@@ -348,8 +348,9 @@ class LogEntryForm extends StatelessWidget {
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: feelings!.map((emotion) {
         final secondaryOptions = DrugUseCatalog.secondaryEmotions[emotion];
-        if (secondaryOptions == null || secondaryOptions.isEmpty)
+        if (secondaryOptions == null || secondaryOptions.isEmpty) {
           return const SizedBox.shrink();
+        }
 
         return Padding(
           padding: EdgeInsets.only(bottom: t.spacing.md),

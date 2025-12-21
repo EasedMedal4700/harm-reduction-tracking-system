@@ -14,7 +14,7 @@ class MockFeatureFlagService extends ChangeNotifier
     implements FeatureFlagService {
   final Map<String, bool> _flags;
   bool _isLoaded;
-  bool _isLoading;
+  final bool _isLoading;
 
   MockFeatureFlagService({
     Map<String, bool>? flags,

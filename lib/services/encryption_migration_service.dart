@@ -4,6 +4,7 @@
 /// with the old EncryptionService (JWT-based). It detects if migration is needed,
 /// prompts the user to create a PIN, and re-encrypts all existing data with the
 /// new EncryptionServiceV2 (PIN-based).
+library;
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'encryption_service.dart'; // Old service

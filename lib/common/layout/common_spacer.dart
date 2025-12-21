@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: No theme dependencies.
 /// Consistent spacing component
+library;
 
 import 'package:flutter/material.dart';
 

@@ -52,7 +52,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
   }
 
   String _formatTime(DateTime dt) {
-    final two = (int n) => n.toString().padLeft(2, '0');
+    String two(int n) => n.toString().padLeft(2, '0');
     return '${two(dt.hour)}:${two(dt.minute)}:${two(dt.second)}';
   }
 

@@ -191,8 +191,12 @@ int _damerauLevenshtein(String a, String b) {
   if (n == 0) return m;
 
   final matrix = List.generate(m + 1, (_) => List<int>.filled(n + 1, 0));
-  for (var i = 0; i <= m; i++) matrix[i][0] = i;
-  for (var j = 0; j <= n; j++) matrix[0][j] = j;
+  for (var i = 0; i <= m; i++) {
+    matrix[i][0] = i;
+  }
+  for (var j = 0; j <= n; j++) {
+    matrix[0][j] = j;
+  }
 
   for (var i = 1; i <= m; i++) {
     for (var j = 1; j <= n; j++) {
