@@ -64,8 +64,11 @@ def run_design_system_checks() -> Tuple[bool, str, str]:
     """Run design system checks and return status"""
     base_dir = os.path.dirname(os.path.abspath(__file__))
     run_py = os.path.join(base_dir, "design_system", "run.py")
-
-    step = PipelineStep("Design System Checks", f"python {run_py} --quiet")
+    
+    # Use virtual environment Python
+    project_root = find_project_root()
+    venv_python = os.path.join(project_root, ".venv", "Scripts", "python.exe")
+    step = PipelineStep("Design System Checks", f'"{venv_python}" {run_py} --quiet')
     success, output = step.execute()
 
     # Parse the report to get summary
