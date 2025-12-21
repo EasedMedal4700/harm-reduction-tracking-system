@@ -20,42 +20,40 @@ class AnalyticsFilterCard extends StatefulWidget {
 class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
     with SingleTickerProviderStateMixin {
   bool _isExpanded = false;
-  late AnimationController _animationController;
-  late Animation<double> _rotationAnimation;
+  AnimationController? _animationController;
+  Animation<double>? _rotationAnimation;
 
   @override
-  void initState() {
-    super.initState();
-    // Defer animation controller initialization until context is available
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        _animationController = AnimationController(
-          duration: context.animations.normal,
-          vsync: this,
-        );
-        _rotationAnimation = Tween<double>(begin: 0, end: 0.5).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: Curves.easeInOut,
-          ),
-        );
-        setState(() {}); // Trigger rebuild if needed
-      }
-    });
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_animationController == null) {
+      _animationController = AnimationController(
+        duration: context.animations.normal,
+        vsync: this,
+      );
+      _rotationAnimation = Tween<double>(begin: 0, end: 0.5).animate(
+        CurvedAnimation(
+          parent: _animationController!,
+          curve: Curves.easeInOut,
+        ),
+      );
+    }
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _animationController?.dispose();
     super.dispose();
   }
 
   void _toggleExpanded() {
     setState(() {
       _isExpanded = !_isExpanded;
-      _isExpanded
-          ? _animationController.forward()
-          : _animationController.reverse();
+      if (_animationController != null) {
+        _isExpanded
+            ? _animationController!.forward()
+            : _animationController!.reverse();
+      }
     });
   }
 
@@ -178,7 +176,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
 
                   // Chevron
                   RotationTransition(
-                    turns: _rotationAnimation,
+                    turns: _rotationAnimation ?? const AlwaysStoppedAnimation(0),
                     child: Container(
                       padding: EdgeInsets.all(sp.xs),
                       decoration: BoxDecoration(

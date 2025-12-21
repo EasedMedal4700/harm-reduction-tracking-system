@@ -5,6 +5,11 @@ import '../../models/reflection_model.dart';
 import 'reflection_service.dart';
 
 class ReflectionProvider extends ChangeNotifier {
+  final ReflectionService _service;
+
+  ReflectionProvider({ReflectionService? service}) 
+      : _service = service ?? ReflectionService();
+
   Reflection _reflection = Reflection();
   final Set<String> _selectedIds = {};
   bool _showForm = false;
@@ -155,10 +160,10 @@ class ReflectionProvider extends ChangeNotifier {
       };
 
       if (entryId.isNotEmpty) {
-        await ReflectionService().updateReflection(entryId, reflectionData);
+        await _service.updateReflection(entryId, reflectionData);
       } else {
         final oldReflection = Reflection();
-        await ReflectionService().saveReflection(oldReflection, []);
+        await _service.saveReflection(oldReflection, []);
       }
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

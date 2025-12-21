@@ -245,6 +245,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   labelText: 'Coping Strategies',
                   onChanged: widget.onCopingStrategiesChanged,
                   maxLines: 2,
+                  minLines: 1,
                 ),
                 CommonSpacer.vertical(t.spacing.lg),
                 _buildSlider(

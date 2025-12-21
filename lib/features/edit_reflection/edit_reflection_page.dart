@@ -17,7 +17,8 @@ import '../../utils/reflection_validator.dart';
 
 class EditReflectionPage extends StatefulWidget {
   final Map<String, dynamic> entry;
-  const EditReflectionPage({super.key, required this.entry});
+  final ReflectionService? reflectionService;
+  const EditReflectionPage({super.key, required this.entry, this.reflectionService});
 
   @override
   State<EditReflectionPage> createState() => _EditReflectionPageState();
@@ -27,10 +28,12 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
   late ReflectionModel _model;
   bool _isSaving = false;
   bool _isLoading = true;
+  late final ReflectionService _reflectionService;
 
   @override
   void initState() {
     super.initState();
+    _reflectionService = widget.reflectionService ?? ReflectionService();
     _model = ReflectionModel.fromJson(widget.entry);
     _loadFullEntry();
   }
@@ -56,7 +59,7 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
         );
       }
 
-      final fetched = await ReflectionService().fetchReflectionById(id);
+      final fetched = await _reflectionService.fetchReflectionById(id);
 
       if (fetched == null) {
         throw ReflectionNotFoundException(id);
@@ -133,7 +136,7 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
         'Update data prepared with ${reflectionData.keys.length} fields',
       );
 
-      await ReflectionService().updateReflection(
+      await _reflectionService.updateReflection(
         _model.id ?? '',
         reflectionData,
       );

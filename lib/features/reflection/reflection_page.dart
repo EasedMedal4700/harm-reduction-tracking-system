@@ -10,20 +10,22 @@ import 'widgets/reflection/reflection_form.dart';
 import 'widgets/reflection/reflection_selection.dart';
 
 class ReflectionPage extends StatefulWidget {
-  const ReflectionPage({super.key});
+  final LogEntryService? logEntryService;
+  const ReflectionPage({super.key, this.logEntryService});
 
   @override
   State<ReflectionPage> createState() => _ReflectionPageState();
 }
 
 class _ReflectionPageState extends State<ReflectionPage> {
-  final LogEntryService _entryService = LogEntryService();
+  late final LogEntryService _entryService;
   List<Map<String, dynamic>> _entries = [];
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    _entryService = widget.logEntryService ?? LogEntryService();
     _loadEntries();
   }
 

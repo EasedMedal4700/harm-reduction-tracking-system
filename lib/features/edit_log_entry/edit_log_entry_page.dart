@@ -20,7 +20,8 @@ import '../../common/buttons/common_primary_button.dart';
 
 class EditDrugUsePage extends StatefulWidget {
   final Map<String, dynamic> entry;
-  const EditDrugUsePage({super.key, required this.entry});
+  final LogEntryController? controller;
+  const EditDrugUsePage({super.key, required this.entry, this.controller});
 
   @override
   State<EditDrugUsePage> createState() => _EditDrugUsePageState();
@@ -31,7 +32,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
   late final LogEntryController _controller;
   late LogEntryFormData _formData;
 
-  late AnimationController _animationController;
+  AnimationController? _animationController;
   late Animation<double> _fadeAnimation;
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _notesCtrl;
@@ -42,7 +43,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
   @override
   void initState() {
     super.initState();
-    _controller = LogEntryController();
+    _controller = widget.controller ?? LogEntryController();
 
     final LogEntry model = LogEntry.fromJson(widget.entry);
     _formData = _convertToFormData(model);
@@ -50,17 +51,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     _notesCtrl = TextEditingController(text: _formData.notes);
     _doseCtrl = TextEditingController(text: _formData.dose.toString());
     _substanceCtrl = TextEditingController(text: _formData.substance);
-
-    _animationController = AnimationController(
-      duration: context.animations.normal,
-      vsync: this,
-    );
-
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
-    );
-
-    _animationController.forward();
 
     _notesCtrl.addListener(() {
       setState(() => _formData = _formData.copyWith(notes: _notesCtrl.text));
@@ -79,6 +69,21 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
 
     // Initial load
     _loadSubstanceDetails(_formData.substance);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_animationController == null) {
+      _animationController = AnimationController(
+        duration: context.animations.normal,
+        vsync: this,
+      );
+      _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: _animationController!, curve: Curves.easeOut),
+      );
+      _animationController!.forward();
+    }
   }
 
   LogEntryFormData _convertToFormData(LogEntry model) {
@@ -110,7 +115,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _animationController?.dispose();
     _notesCtrl.dispose();
     _doseCtrl.dispose();
     _substanceCtrl.dispose();

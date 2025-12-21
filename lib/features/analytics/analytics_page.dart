@@ -19,9 +19,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/error_handler.dart';
 import '../../utils/time_period_utils.dart';
 import '../../constants/theme/app_theme_extension.dart';
+import '../../repo/substance_repository.dart';
 
 class AnalyticsPage extends StatefulWidget {
-  const AnalyticsPage({super.key});
+  final AnalyticsService? analyticsService;
+  final SubstanceRepository? substanceRepository;
+  const AnalyticsPage({super.key, this.analyticsService, this.substanceRepository});
 
   @override
   State<AnalyticsPage> createState() => _AnalyticsPageState();
@@ -30,7 +33,8 @@ class AnalyticsPage extends StatefulWidget {
 class _AnalyticsPageState extends State<AnalyticsPage> {
   List<LogEntry> _entries = [];
   bool _isLoading = true;
-  AnalyticsService? _service;
+  late final AnalyticsService _service;
+  late final SubstanceRepository _substanceRepo;
   TimePeriod _selectedPeriod = TimePeriod.all;
   List<String> _selectedCategories = [];
   int _selectedTypeIndex = 0;
@@ -58,13 +62,11 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     });
 
     try {
-      _service ??= AnalyticsService();
-      final supabase = Supabase.instance.client;
-      final entries = await _service!.fetchEntries();
-      final substanceResponse = await supabase
-          .from('drug_profiles')
-          .select('name, categories');
-      final substanceData = substanceResponse as List<dynamic>;
+      _service = widget.analyticsService ?? AnalyticsService();
+      _substanceRepo = widget.substanceRepository ?? SubstanceRepository();
+      
+      final entries = await _service.fetchEntries();
+      final substanceData = await _substanceRepo.fetchSubstancesCatalog();
       final substanceToCategory = <String, String>{};
 
       for (final item in substanceData) {
@@ -88,7 +90,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         substanceToCategory[(item['name'] as String).toLowerCase()] = category;
       }
 
-      _service!.setSubstanceToCategory(substanceToCategory);
+      _service.setSubstanceToCategory(substanceToCategory);
 
       if (!mounted) return;
       setState(() {
@@ -158,14 +160,6 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       );
     }
 
-    if (_service == null) {
-      return AnalyticsErrorState(
-        message: 'Analytics service is unavailable.',
-        details: _errorDetails,
-        onRetry: _fetchData,
-      );
-    }
-
     return RefreshIndicator(
       onRefresh: _fetchData,
       child: _buildAnalyticsContent(),
@@ -174,13 +168,13 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 
   Widget _buildAnalyticsContent() {
     // Calculate filtered data
-    final periodFilteredEntries = _service!.filterEntriesByPeriod(
+    final periodFilteredEntries = _service.filterEntriesByPeriod(
       _entries,
       _selectedPeriod,
     );
     final categoryTypeFilteredEntries = periodFilteredEntries.where((e) {
       final category =
-          _service!.substanceToCategory[e.substance.toLowerCase()] ??
+          _service.substanceToCategory[e.substance.toLowerCase()] ??
           'Placeholder';
       final matchesCategory =
           _selectedCategories.isEmpty || _selectedCategories.contains(category);
@@ -213,13 +207,13 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     }).toList();
 
     // Calculate metrics
-    final avgPerWeek = _service!.calculateAvgPerWeek(filteredEntries);
-    final categoryCounts = _service!.getCategoryCounts(filteredEntries);
-    final mostUsed = _service!.getMostUsedCategory(categoryCounts);
-    final substanceCounts = _service!.getSubstanceCounts(filteredEntries);
-    final mostUsedSubstance = _service!.getMostUsedSubstance(substanceCounts);
+    final avgPerWeek = _service.calculateAvgPerWeek(filteredEntries);
+    final categoryCounts = _service.getCategoryCounts(filteredEntries);
+    final mostUsed = _service.getMostUsedCategory(categoryCounts);
+    final substanceCounts = _service.getSubstanceCounts(filteredEntries);
+    final mostUsedSubstance = _service.getMostUsedSubstance(substanceCounts);
     final totalEntries = filteredEntries.length;
-    final topCategoryPercent = _service!
+    final topCategoryPercent = _service
         .getTopCategoryPercent(mostUsed.value, totalEntries)
         .toDouble();
     final selectedPeriodText = TimePeriodUtils.getPeriodText(_selectedPeriod);
@@ -232,7 +226,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         periodFilteredEntries
             .map(
               (e) =>
-                  _service!.substanceToCategory[e.substance.toLowerCase()] ??
+                  _service.substanceToCategory[e.substance.toLowerCase()] ??
                   'Placeholder',
             )
             .toSet()
@@ -287,14 +281,14 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       categoryCounts: categoryCounts,
       substanceCounts: substanceCounts,
       filteredEntries: filteredEntries,
-      substanceToCategory: _service!.substanceToCategory,
+      substanceToCategory: _service.substanceToCategory,
       onCategoryTapped: (category) {
         setState(() {
           // Filter logic differs based on context, using simpler approach
           _selectedSubstances = filteredEntries
               .where(
                 (e) =>
-                    (_service!.substanceToCategory[e.substance.toLowerCase()] ??
+                    (_service.substanceToCategory[e.substance.toLowerCase()] ??
                         'Placeholder') ==
                     category,
               )

@@ -22,14 +22,15 @@ import '../../constants/data/craving_consatnts.dart';
 
 class EditCravingPage extends StatefulWidget {
   final Map<String, dynamic> entry;
-  const EditCravingPage({super.key, required this.entry});
+  final CravingService? cravingService;
+  const EditCravingPage({super.key, required this.entry, this.cravingService});
 
   @override
   State<EditCravingPage> createState() => _EditCravingPageState();
 }
 
 class _EditCravingPageState extends State<EditCravingPage> {
-  final CravingService _cravingService = CravingService();
+  late final CravingService _cravingService;
 
   // Form fields
   List<String> selectedCravings = [];
@@ -55,6 +56,7 @@ class _EditCravingPageState extends State<EditCravingPage> {
   @override
   void initState() {
     super.initState();
+    _cravingService = widget.cravingService ?? CravingService();
     _loadCravingData();
   }
 

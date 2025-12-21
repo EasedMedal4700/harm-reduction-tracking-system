@@ -26,6 +26,7 @@ class BloodLevelsContent extends StatelessWidget {
   final ValueChanged<int> onHoursForwardChanged;
   final ValueChanged<bool> onAdaptiveScaleChanged;
   final void Function(int back, int forward) onPresetSelected;
+  final BloodLevelsService? service;
 
   const BloodLevelsContent({
     super.key,
@@ -40,6 +41,7 @@ class BloodLevelsContent extends StatelessWidget {
     required this.onHoursForwardChanged,
     required this.onAdaptiveScaleChanged,
     required this.onPresetSelected,
+    this.service,
   });
 
   @override
@@ -72,6 +74,7 @@ class BloodLevelsContent extends StatelessWidget {
             onHoursForwardChanged: onHoursForwardChanged,
             onAdaptiveScaleChanged: onAdaptiveScaleChanged,
             onPresetSelected: onPresetSelected,
+            service: service,
           ),
           const CommonSpacer.vertical(24),
         ],

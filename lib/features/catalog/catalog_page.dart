@@ -11,15 +11,17 @@ import 'widgets/catalog/catalog_empty_state.dart';
 import 'widgets/catalog/animated_substance_list.dart';
 
 class CatalogPage extends StatefulWidget {
-  const CatalogPage({super.key});
+  final SubstanceRepository? repository;
+  final AnalyticsService? analyticsService;
+  const CatalogPage({super.key, this.repository, this.analyticsService});
 
   @override
   State<CatalogPage> createState() => _CatalogPageState();
 }
 
 class _CatalogPageState extends State<CatalogPage> {
-  final SubstanceRepository _repository = SubstanceRepository();
-  final AnalyticsService _analyticsService = AnalyticsService();
+  late final SubstanceRepository _repository;
+  late final AnalyticsService _analyticsService;
   List<Map<String, dynamic>> _allSubstances = [];
   List<Map<String, dynamic>> _filteredSubstances = [];
   String _searchQuery = '';
@@ -31,6 +33,8 @@ class _CatalogPageState extends State<CatalogPage> {
   @override
   void initState() {
     super.initState();
+    _repository = widget.repository ?? SubstanceRepository();
+    _analyticsService = widget.analyticsService ?? AnalyticsService();
     _loadSubstances();
   }
 

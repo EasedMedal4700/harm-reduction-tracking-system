@@ -25,6 +25,7 @@ class MetabolismTimelineCard extends StatefulWidget {
   final int hoursForward;
   final bool adaptiveScale;
   final DateTime referenceTime;
+  final BloodLevelsService? service;
 
   const MetabolismTimelineCard({
     required this.drugLevels,
@@ -32,6 +33,7 @@ class MetabolismTimelineCard extends StatefulWidget {
     required this.hoursForward,
     required this.adaptiveScale,
     required this.referenceTime,
+    this.service,
     super.key,
   });
 
@@ -64,7 +66,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
     setState(() => _loading = true);
 
     try {
-      final service = BloodLevelsService();
+      final service = widget.service ?? BloodLevelsService();
       final Map<String, List<DoseEntry>> allDoses = {};
 
       final filteredDrugNames = widget.drugLevels

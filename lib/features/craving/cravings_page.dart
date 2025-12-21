@@ -21,7 +21,8 @@ import '../../constants/theme/app_theme_extension.dart';
 import '../../common/buttons/common_primary_button.dart';
 
 class CravingsPage extends StatefulWidget {
-  const CravingsPage({super.key});
+  final CravingService? cravingService;
+  const CravingsPage({super.key, this.cravingService});
 
   @override
   State<CravingsPage> createState() => _CravingsPageState();
@@ -38,7 +39,7 @@ class _CravingsPageState extends State<CravingsPage> {
   List<String> selectedSensations = [];
   String? whatDidYouDo;
   bool actedOnCraving = false;
-  final CravingService _cravingService = CravingService();
+  late final CravingService _cravingService;
   final TimezoneService _timezoneService = TimezoneService();
   bool _isSaving = false;
 
@@ -46,6 +47,12 @@ class _CravingsPageState extends State<CravingsPage> {
   final List<String> emotions = DrugUseCatalog.primaryEmotions
       .map((e) => e['name']!)
       .toList();
+
+  @override
+  void initState() {
+    super.initState();
+    _cravingService = widget.cravingService ?? CravingService();
+  }
 
   Future<void> _save() async {
     setState(() => _isSaving = true);

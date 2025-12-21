@@ -18,14 +18,15 @@ import '../../common/feedback/harm_reduction_banner.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
 class BloodLevelsPage extends StatefulWidget {
-  const BloodLevelsPage({super.key});
+  final BloodLevelsService? service;
+  const BloodLevelsPage({super.key, this.service});
 
   @override
   State<BloodLevelsPage> createState() => _BloodLevelsPageState();
 }
 
 class _BloodLevelsPageState extends State<BloodLevelsPage> {
-  final _service = BloodLevelsService();
+  late final BloodLevelsService _service;
   Map<String, DrugLevel> _levels = {};
   bool _loading = true;
   String? _error;
@@ -47,6 +48,7 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
   @override
   void initState() {
     super.initState();
+    _service = widget.service ?? BloodLevelsService();
     _loadLevels();
   }
 
@@ -243,6 +245,7 @@ class _BloodLevelsPageState extends State<BloodLevelsPage> {
           _chartHoursForward = forward;
         });
       },
+      service: _service,
     );
   }
 }
