@@ -18,7 +18,11 @@ import '../../utils/reflection_validator.dart';
 class EditReflectionPage extends StatefulWidget {
   final Map<String, dynamic> entry;
   final ReflectionService? reflectionService;
-  const EditReflectionPage({super.key, required this.entry, this.reflectionService});
+  const EditReflectionPage({
+    super.key,
+    required this.entry,
+    this.reflectionService,
+  });
 
   @override
   State<EditReflectionPage> createState() => _EditReflectionPageState();

@@ -25,7 +25,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart",
-      "line": 181,
+      "line": 183,
       "message": "Hardcoded timing/animation value",
       "snippet": "stepHours: 2.0,",
       "ignored": false
@@ -35,7 +35,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart",
-      "line": 206,
+      "line": 208,
       "message": "Hardcoded timing/animation value",
       "snippet": "curveSmoothness: 0.3,",
       "ignored": false
@@ -45,7 +45,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart",
-      "line": 208,
+      "line": 210,
       "message": "Hardcoded timing/animation value",
       "snippet": "barWidth: 2.5,",
       "ignored": false
@@ -545,7 +545,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart",
-      "line": 149,
+      "line": 156,
       "message": "Icon without semanticLabel",
       "snippet": ": Icon(Icons.check, color: a.primary),",
       "ignored": false
@@ -1005,7 +1005,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\reflection_page.dart",
-      "line": 75,
+      "line": 77,
       "message": "Icon without semanticLabel",
       "snippet": "icon: Icon(Icons.arrow_back, color: c.textPrimary),",
       "ignored": false
@@ -1795,7 +1795,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\analytics_page.dart",
-      "line": 137,
+      "line": 143,
       "message": "Hardcoded string in Text widget: 'Export functionality coming soon'",
       "snippet": "content: const Text('Export functionality coming soon'),",
       "ignored": false
@@ -2065,7 +2065,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\catalog_page.dart",
-      "line": 59,
+      "line": 63,
       "message": "Hardcoded string in Text widget: 'Error loading substances: $e'",
       "snippet": "content: Text('Error loading substances: $e'),",
       "ignored": false
@@ -2135,7 +2135,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart",
-      "line": 86,
+      "line": 93,
       "message": "Hardcoded string in Text widget: 'Craving saved!'",
       "snippet": "content: const Text('Craving saved!'),",
       "ignored": false
@@ -2145,7 +2145,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart",
-      "line": 96,
+      "line": 103,
       "message": "Hardcoded string in Text widget: 'Save failed: $e'",
       "snippet": "content: Text('Save failed: $e'),",
       "ignored": false
@@ -2155,7 +2155,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart",
-      "line": 133,
+      "line": 140,
       "message": "Hardcoded string in Text widget: 'Log Craving'",
       "snippet": "title: Text('Log Craving', style: t.typography.heading3),",
       "ignored": false
@@ -2165,7 +2165,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart",
-      "line": 169,
+      "line": 176,
       "message": "Hardcoded string in Text widget: 'Craving Reflection'",
       "snippet": "Text('Craving Reflection', style: t.typography.heading2),",
       "ignored": false
@@ -2365,7 +2365,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart",
-      "line": 199,
+      "line": 204,
       "message": "Hardcoded string in Text widget: 'Delete Entry?'",
       "snippet": "title: const Text('Delete Entry?'),",
       "ignored": false
@@ -2375,7 +2375,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart",
-      "line": 200,
+      "line": 205,
       "message": "Hardcoded string in Text widget: 'This action cannot be undone.'",
       "snippet": "content: const Text('This action cannot be undone.'),",
       "ignored": false
@@ -2385,7 +2385,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart",
-      "line": 204,
+      "line": 209,
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "snippet": "child: const Text('Cancel'),",
       "ignored": false
@@ -2395,7 +2395,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart",
-      "line": 209,
+      "line": 214,
       "message": "Hardcoded string in Text widget: 'Delete'",
       "snippet": "child: const Text('Delete'),",
       "ignored": false
@@ -2405,7 +2405,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart",
-      "line": 256,
+      "line": 261,
       "message": "Hardcoded string in Text widget: 'Cancel'",
       "snippet": "child: const Text('Cancel'),",
       "ignored": false
@@ -2415,7 +2415,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart",
-      "line": 260,
+      "line": 265,
       "message": "Hardcoded string in Text widget: 'Continue'",
       "snippet": "child: const Text('Continue'),",
       "ignored": false
@@ -2995,7 +2995,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\reflection_page.dart",
-      "line": 43,
+      "line": 45,
       "message": "Hardcoded string in Text widget: 'Failed to load entries: $e'",
       "snippet": "content: Text('Failed to load entries: $e'),",
       "ignored": false
@@ -3005,7 +3005,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\reflection_provider.dart",
-      "line": 165,
+      "line": 170,
       "message": "Hardcoded string in Text widget: 'Reflection saved successfully!'",
       "snippet": "const SnackBar(content: Text('Reflection saved successfully!')),",
       "ignored": false
@@ -3015,7 +3015,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\reflection_provider.dart",
-      "line": 173,
+      "line": 178,
       "message": "Hardcoded string in Text widget: 'Error saving reflection: $e'",
       "snippet": ").showSnackBar(SnackBar(content: Text('Error saving reflection: $e')));",
       "ignored": false
@@ -3065,7 +3065,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\widgets\\reflection\\edit_reflection_form.dart",
-      "line": 282,
+      "line": 283,
       "message": "Hardcoded form field text: 'Notes'",
       "snippet": "labelText: 'Notes',",
       "ignored": false
@@ -4545,7 +4545,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_filter_card.dart",
-      "line": 125,
+      "line": 120,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: sp.lg),",
       "ignored": false
@@ -4555,7 +4555,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_filter_card.dart",
-      "line": 141,
+      "line": 136,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: sp.sm),",
       "ignored": false
@@ -4565,7 +4565,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_filter_card.dart",
-      "line": 165,
+      "line": 160,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.xs),",
       "ignored": false
@@ -4575,7 +4575,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_filter_card.dart",
-      "line": 177,
+      "line": 172,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: sp.md),",
       "ignored": false
@@ -4955,7 +4955,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart",
-      "line": 256,
+      "line": 258,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: sp.sm),",
       "ignored": false
@@ -4965,7 +4965,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart",
-      "line": 267,
+      "line": 269,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.sm),",
       "ignored": false
@@ -4975,7 +4975,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart",
-      "line": 271,
+      "line": 273,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.md),",
       "ignored": false
@@ -4985,7 +4985,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart",
-      "line": 330,
+      "line": 332,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.md),",
       "ignored": false
@@ -5295,7 +5295,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart",
-      "line": 170,
+      "line": 177,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.sm),",
       "ignored": false
@@ -5305,7 +5305,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart",
-      "line": 216,
+      "line": 223,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: sp.lg),",
       "ignored": false

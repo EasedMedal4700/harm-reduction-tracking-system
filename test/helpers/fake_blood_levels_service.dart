@@ -17,10 +17,12 @@ class FakeBloodLevelsService implements BloodLevelsService {
   }
 
   @override
-  Future<Map<String, DrugLevel>> calculateLevels({DateTime? referenceTime}) async {
+  Future<Map<String, DrugLevel>> calculateLevels({
+    DateTime? referenceTime,
+  }) async {
     return calculateCurrentLevels(referenceTime ?? DateTime.now());
   }
-  
+
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

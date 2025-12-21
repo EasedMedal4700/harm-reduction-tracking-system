@@ -313,7 +313,7 @@
     {
       "severity": "SHOULD_FIX",
       "message": "Icon without semanticLabel",
-      "line": 149,
+      "line": 156,
       "snippet": ": Icon(Icons.check, color: a.primary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart"
     },
@@ -635,7 +635,7 @@
     {
       "severity": "SHOULD_FIX",
       "message": "Icon without semanticLabel",
-      "line": 75,
+      "line": 77,
       "snippet": "icon: Icon(Icons.arrow_back, color: c.textPrimary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\reflection\\reflection_page.dart"
     },

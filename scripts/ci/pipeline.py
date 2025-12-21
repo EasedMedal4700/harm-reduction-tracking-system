@@ -12,6 +12,14 @@ from datetime import datetime
 from dataclasses import dataclass
 from typing import Dict, Any, Optional, Tuple
 from datetime import datetime
+import time
+
+
+def create_progress_bar(percentage, width=20):
+    """Create a text-based progress bar"""
+    filled = int(width * percentage / 100)
+    bar = '█' * filled + '░' * (width - filled)
+    return bar
 
 
 @dataclass
@@ -98,57 +106,135 @@ def run_dart_format() -> Tuple[bool, str, str]:
 
 
 def run_tests() -> Tuple[bool, str, str]:
-    """Run flutter tests and return status"""
-    step = PipelineStep("Tests", "flutter test --machine")
-    success, output = step.execute()
+    """Run flutter tests and return status with progress display"""
+    print("Running Flutter tests...")
+    print("Progress will be shown below. This may take a few minutes.")
+    print()
 
-    # Parse machine-readable output for detailed results
-    failed_tests = []
-    test_names = {}  # testID -> name
-    total_tests = 0
-    passed_tests = 0
+    start_time = time.time()
 
-    lines = output.strip().split('\n')
-    for line in lines:
-        if not line.strip():
-            continue
+    # Check for cached test count
+    cache_file = os.path.join(os.path.dirname(__file__), 'test_count_cache.txt')
+    cached_total = None
+    if os.path.exists(cache_file):
         try:
-            event = json.loads(line)
-            # Skip if it's a list (some events come as arrays)
-            if not isinstance(event, dict):
+            with open(cache_file, 'r') as f:
+                cached_total = int(f.read().strip())
+        except:
+            cached_total = None
+
+    if cached_total:
+        fixed_total = cached_total
+        total_known = True
+        print(f"Using cached test count: {cached_total}")
+    else:
+        fixed_total = 0
+        total_known = False
+
+    # Initial progress display
+    percentage = 0.0 if total_known else 0.0
+    progress_bar = create_progress_bar(percentage)
+    print(f"Progress: [{progress_bar}] {percentage:.1f}% | ⏱️  Elapsed: 0.0s")
+
+    try:
+        # Run flutter test with machine-readable output
+        process = subprocess.Popen(
+            "flutter test --machine",
+            shell=True,
+            cwd=find_project_root(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding='utf-8'
+        )
+
+        # Parse output in real-time
+        failed_tests = []
+        test_names = {}  # testID -> name
+        total_tests = 0
+        passed_tests = 0
+        completed = 0
+        current_test = None
+        output_lines = []
+
+        while True:
+            line = process.stdout.readline()
+            if not line and process.poll() is not None:
+                break
+
+            output_lines.append(line)
+            line = line.strip()
+
+            if not line:
                 continue
-                
-            event_type = event.get('type')
-            
-            if event_type == 'testStart':
-                test_id = event.get('test', {}).get('id')
-                test_name = event.get('test', {}).get('name')
-                if test_id and test_name:
-                    test_names[test_id] = test_name
-            
-            elif event_type == 'testDone':
-                total_tests += 1
-                test_id = event.get('testID')
-                result = event.get('result')
-                skipped = event.get('skipped', False)
-                hidden = event.get('hidden', False)
-                
-                if not skipped and not hidden:
-                    if result == 'success':
-                        passed_tests += 1
-                    else:
-                        # This is a failed test
-                        test_name = test_names.get(test_id, f'Test {test_id}')
-                        failed_tests.append({
-                            'id': test_id,
-                            'name': test_name,
-                            'result': result,
-                            'time': event.get('time', 0)
-                        })
-                        
-        except json.JSONDecodeError:
-            # Skip non-JSON lines
-            continue
+
+            try:
+                event = json.loads(line)
+                if not isinstance(event, dict):
+                    continue
+
+                event_type = event.get('type')
+
+                if event_type == 'testStart':
+                    test_id = event.get('test', {}).get('id')
+                    test_name = event.get('test', {}).get('name')
+                    if test_id and test_name:
+                        test_names[test_id] = test_name
+                        current_test = test_name
+
+                elif event_type == 'testDone':
+                    total_tests += 1
+                    completed += 1
+                    test_id = event.get('testID')
+                    result = event.get('result')
+                    skipped = event.get('skipped', False)
+                    hidden = event.get('hidden', False)
+
+                    # Lock total on first testDone if not cached
+                    if not total_known:
+                        total_known = True
+                        fixed_total = len(test_names)
+
+                    if not skipped and not hidden:
+                        if result == 'success':
+                            passed_tests += 1
+                        else:
+                            test_name = test_names.get(test_id, f'Test {test_id}')
+                            failed_tests.append({
+                                'id': test_id,
+                                'name': test_name,
+                                'result': result,
+                                'time': event.get('time', 0)
+                            })
+
+                    # Update progress on every testDone if total known
+                    if total_known:
+                        percentage = (completed / fixed_total) * 100
+                        elapsed = time.time() - start_time
+                        progress_bar = create_progress_bar(percentage)
+                        print(f"\rProgress: [{progress_bar}] {percentage:.1f}% | ⏱️  Elapsed: {elapsed:.1f}s", end='', flush=True)
+
+                elif event_type == 'done':
+                    break
+
+            except json.JSONDecodeError:
+                continue
+
+        # Wait for process to complete
+        process.wait()
+        success = process.returncode == 0
+
+        elapsed = time.time() - start_time
+        print()  # New line after progress
+        print(f"⏱️  Total time: {elapsed:.1f}s")
+        print()
+
+        # Cache the test count for future runs
+        with open(cache_file, 'w') as f:
+            f.write(str(total_tests))
+
+    except Exception as e:
+        return False, f"❌ Test execution failed: {str(e)}", str(e)
 
     # Save failed tests to JSON file
     if failed_tests:
@@ -170,6 +256,7 @@ def run_tests() -> Tuple[bool, str, str]:
     else:
         status_msg = f"✅ All {total_tests} tests passed"
 
+    output = ''.join(output_lines)
     return success, status_msg, output
 
 

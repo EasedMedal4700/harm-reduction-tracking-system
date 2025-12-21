@@ -32,10 +32,7 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
         vsync: this,
       );
       _rotationAnimation = Tween<double>(begin: 0, end: 0.5).animate(
-        CurvedAnimation(
-          parent: _animationController!,
-          curve: Curves.easeInOut,
-        ),
+        CurvedAnimation(parent: _animationController!, curve: Curves.easeInOut),
       );
     }
   }
@@ -176,7 +173,8 @@ class _AnalyticsFilterCardState extends State<AnalyticsFilterCard>
 
                   // Chevron
                   RotationTransition(
-                    turns: _rotationAnimation ?? const AlwaysStoppedAnimation(0),
+                    turns:
+                        _rotationAnimation ?? const AlwaysStoppedAnimation(0),
                     child: Container(
                       padding: EdgeInsets.all(sp.xs),
                       decoration: BoxDecoration(

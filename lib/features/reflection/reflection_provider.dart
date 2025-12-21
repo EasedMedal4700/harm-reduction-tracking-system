@@ -7,8 +7,8 @@ import 'reflection_service.dart';
 class ReflectionProvider extends ChangeNotifier {
   final ReflectionService _service;
 
-  ReflectionProvider({ReflectionService? service}) 
-      : _service = service ?? ReflectionService();
+  ReflectionProvider({ReflectionService? service})
+    : _service = service ?? ReflectionService();
 
   Reflection _reflection = Reflection();
   final Set<String> _selectedIds = {};

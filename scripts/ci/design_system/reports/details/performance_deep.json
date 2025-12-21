@@ -299,28 +299,28 @@
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 125,
+      "line": 120,
       "snippet": "SizedBox(width: sp.lg),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_filter_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 141,
+      "line": 136,
       "snippet": "SizedBox(width: sp.sm),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_filter_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 165,
+      "line": 160,
       "snippet": "SizedBox(height: sp.xs),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_filter_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 177,
+      "line": 172,
       "snippet": "SizedBox(width: sp.md),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_filter_card.dart"
     },
@@ -586,28 +586,28 @@
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 256,
+      "line": 258,
       "snippet": "SizedBox(width: sp.sm),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 267,
+      "line": 269,
       "snippet": "SizedBox(height: sp.sm),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 271,
+      "line": 273,
       "snippet": "SizedBox(height: sp.md),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 330,
+      "line": 332,
       "snippet": "SizedBox(height: sp.md),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart"
     },
@@ -824,14 +824,14 @@
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 170,
+      "line": 177,
       "snippet": "SizedBox(height: sp.sm),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 216,
+      "line": 223,
       "snippet": "SizedBox(height: sp.lg),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\craving\\cravings_page.dart"
     },

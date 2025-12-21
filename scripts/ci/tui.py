@@ -154,6 +154,9 @@ def main():
             print("\n[1] Run Design System Checks")
             success, message, output = run_design_system_checks()
             print(message)
+            if output.strip():
+                print("\nOutput:")
+                print(output)
             safe_input("\nPress Enter to continue...")
         elif choice == '2':
             print("\n[2] View Design System Results")
@@ -162,14 +165,21 @@ def main():
             print("\n[3] Run Dart Format")
             success, message, output = run_dart_format()
             print(message)
+            if output.strip():
+                print("\nOutput:")
+                print(output)
             safe_input("\nPress Enter to continue...")
         elif choice == '4':
             print("\n[4] Run Tests")
             success, message, output = run_tests()
             print(message)
+            if output.strip():
+                print("\nOutput:")
+                print(output)
             safe_input("\nPress Enter to continue...")
         elif choice == '5':
             print("\n[5] Run ALL")
+            print("Running all checks...")
             results = run_all_pipeline()
             format_output, tests_output, design_output = show_all_summary(results)
 

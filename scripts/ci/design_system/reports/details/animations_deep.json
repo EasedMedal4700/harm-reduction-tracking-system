@@ -12,21 +12,21 @@
     {
       "severity": "SHOULD_FIX",
       "message": "Hardcoded timing/animation value",
-      "line": 181,
+      "line": 183,
       "snippet": "stepHours: 2.0,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Hardcoded timing/animation value",
-      "line": 206,
+      "line": 208,
       "snippet": "curveSmoothness: 0.3,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Hardcoded timing/animation value",
-      "line": 208,
+      "line": 210,
       "snippet": "barWidth: 2.5,",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart"
     },

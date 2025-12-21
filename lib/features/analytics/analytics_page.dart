@@ -24,7 +24,11 @@ import '../../repo/substance_repository.dart';
 class AnalyticsPage extends StatefulWidget {
   final AnalyticsService? analyticsService;
   final SubstanceRepository? substanceRepository;
-  const AnalyticsPage({super.key, this.analyticsService, this.substanceRepository});
+  const AnalyticsPage({
+    super.key,
+    this.analyticsService,
+    this.substanceRepository,
+  });
 
   @override
   State<AnalyticsPage> createState() => _AnalyticsPageState();
@@ -64,7 +68,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     try {
       _service = widget.analyticsService ?? AnalyticsService();
       _substanceRepo = widget.substanceRepository ?? SubstanceRepository();
-      
+
       final entries = await _service.fetchEntries();
       final substanceData = await _substanceRepo.fetchSubstancesCatalog();
       final substanceToCategory = <String, String>{};

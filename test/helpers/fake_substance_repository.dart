@@ -2,11 +2,15 @@ import 'package:mobile_drug_use_app/repo/substance_repository.dart';
 
 class FakeSubstanceRepository implements SubstanceRepository {
   @override
-  Future<Map<String, dynamic>?> getSubstanceDetails(String substanceName) async {
+  Future<Map<String, dynamic>?> getSubstanceDetails(
+    String substanceName,
+  ) async {
     if (substanceName.toLowerCase() == 'dexedrine') {
       return {
         'name': 'Dexedrine',
-        'formatted_dose': {'oral': {'common': 10}},
+        'formatted_dose': {
+          'oral': {'common': 10},
+        },
         'roas': ['oral', 'insufflated'],
       };
     }
@@ -42,7 +46,7 @@ class FakeSubstanceRepository implements SubstanceRepository {
   bool isROAValid(String roa, Map<String, dynamic>? substanceDetails) {
     return true;
   }
-  
+
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

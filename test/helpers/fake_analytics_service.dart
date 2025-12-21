@@ -26,7 +26,10 @@ class FakeAnalyticsService implements AnalyticsService {
   }
 
   @override
-  List<LogEntry> filterEntriesByPeriod(List<LogEntry> entries, TimePeriod period) {
+  List<LogEntry> filterEntriesByPeriod(
+    List<LogEntry> entries,
+    TimePeriod period,
+  ) {
     return entries;
   }
 
@@ -67,7 +70,7 @@ class FakeAnalyticsService implements AnalyticsService {
   int getTopCategoryPercent(int topCount, int totalCount) {
     return 50;
   }
-  
+
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

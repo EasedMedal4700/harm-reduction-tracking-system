@@ -6,7 +6,7 @@ class FakeCravingService implements CravingService {
   Future<void> saveCraving(Craving craving) async {
     // Simulate save
   }
-  
+
   @override
   Future<Map<String, dynamic>?> fetchCravingById(String id) async {
     return {
@@ -22,7 +22,7 @@ class FakeCravingService implements CravingService {
   Future<void> updateCraving(String id, Map<String, dynamic> data) async {
     // Simulate update
   }
-  
+
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

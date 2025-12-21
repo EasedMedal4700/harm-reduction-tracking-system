@@ -3,15 +3,18 @@ import 'package:mobile_drug_use_app/models/reflection_model.dart';
 
 class FakeReflectionService implements ReflectionService {
   @override
-  Future<void> saveReflection(Reflection reflection, List<int> relatedEntries) async {
+  Future<void> saveReflection(
+    Reflection reflection,
+    List<int> relatedEntries,
+  ) async {
     // Simulate save
   }
-  
+
   @override
   Future<void> updateReflection(String id, Map<String, dynamic> data) async {
     // Simulate update
   }
-  
+
   @override
   Future<ReflectionModel?> fetchReflectionById(String id) async {
     return ReflectionModel(
@@ -27,7 +30,7 @@ class FakeReflectionService implements ReflectionService {
       postUseCraving: 5.0,
     );
   }
-  
+
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

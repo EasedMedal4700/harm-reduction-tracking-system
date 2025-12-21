@@ -45,7 +45,7 @@ void main() {
 
     setUp(() async {
       SharedPreferences.setMockInitialValues({});
-      
+
       fakeLogEntryService = FakeLogEntryService();
       fakeSubstanceRepo = FakeSubstanceRepository();
       logEntryController = LogEntryController(
@@ -74,7 +74,10 @@ void main() {
       expect(find.text('Dose'), findsOneWidget);
 
       // Fill in Substance
-      await tester.enterText(find.widgetWithText(TextFormField, 'Substance'), 'Dexedrine');
+      await tester.enterText(
+        find.widgetWithText(TextFormField, 'Substance'),
+        'Dexedrine',
+      );
       await tester.pumpAndSettle();
 
       // Fill in Dose
@@ -96,7 +99,7 @@ void main() {
         // Fallback if text is different
         await tester.tap(find.byType(ElevatedButton)); // Assuming it's a button
       }
-      
+
       await tester.pumpAndSettle();
 
       // Verify success (maybe a snackbar or navigation pop)
@@ -107,7 +110,8 @@ void main() {
       await tester.pumpWidget(
         createEnhancedTestWrapper(
           child: ChangeNotifierProvider<DailyCheckinProvider>(
-            create: (_) => DailyCheckinProvider(repository: fakeDailyCheckinRepo),
+            create: (_) =>
+                DailyCheckinProvider(repository: fakeDailyCheckinRepo),
             child: const DailyCheckinScreen(),
           ),
         ),
@@ -151,12 +155,14 @@ void main() {
         ),
       );
       await tester.pump();
-      await tester.pump(const Duration(seconds: 1)); // Allow time for async load
+      await tester.pump(
+        const Duration(seconds: 1),
+      ); // Allow time for async load
       await tester.pump();
 
       // Verify initial state (Selection Screen)
       expect(find.text('Select entries to reflect on'), findsOneWidget);
-      
+
       // TODO: Fix _FocusInheritedScope assertion crash during interaction
       /*
       // Select an entry
@@ -182,7 +188,6 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
       */
 
-      
       // Verify success
       expect(find.text('Reflection saved successfully!'), findsOneWidget);
     }, skip: true);
@@ -200,15 +205,18 @@ void main() {
 
       // Verify initial state
       expect(find.text('DRUG USE ANALYTICS'), findsOneWidget);
-      
+
       // Change filter (e.g., Time Period)
       // Assuming there is a filter widget or dropdown.
       // Let's look for "All Time" or similar default.
       // And try to change it to "Last 7 Days".
-      
+
       // If we can't find specific UI elements easily without reading more files,
       // we can just verify the page loads with data.
-      expect(find.text('Dexedrine'), findsAtLeastNWidgets(1)); // Should show the entry
+      expect(
+        find.text('Dexedrine'),
+        findsAtLeastNWidgets(1),
+      ); // Should show the entry
     });
 
     testWidgets('Edit Flows - Edit Log Entry', (tester) async {
@@ -226,10 +234,7 @@ void main() {
 
       await tester.pumpWidget(
         createEnhancedTestWrapper(
-          child: EditDrugUsePage(
-            entry: entry,
-            controller: logEntryController,
-          ),
+          child: EditDrugUsePage(entry: entry, controller: logEntryController),
         ),
       );
       await tester.pumpAndSettle();
@@ -269,7 +274,7 @@ void main() {
 
       // Verify page loads
       expect(find.text('Edit Reflection'), findsOneWidget);
-      
+
       // Change Notes
       // Assuming there is a notes field.
       // await tester.enterText(find.widgetWithText(TextFormField, 'Notes'), 'New notes');
@@ -301,7 +306,7 @@ void main() {
 
       // Verify initial state
       expect(find.text('Blood Levels'), findsOneWidget);
-      
+
       // Check if Dexedrine level is displayed
       // Assuming BloodLevelsContent displays the substance name
       expect(find.text('DEXEDRINE'), findsOneWidget);
@@ -320,14 +325,20 @@ void main() {
 
       // Verify initial state
       expect(find.text('Substance Catalog'), findsOneWidget);
-      
+
       // Search for Dexedrine
       await tester.enterText(find.byType(TextField), 'Dexedrine');
       await tester.pumpAndSettle();
 
       // Verify Dexedrine is in the list
-      expect(find.descendant(of: find.byType(ListView), matching: find.text('Dexedrine')), findsOneWidget);
-      
+      expect(
+        find.descendant(
+          of: find.byType(ListView),
+          matching: find.text('Dexedrine'),
+        ),
+        findsOneWidget,
+      );
+
       // Verify Caffeine is NOT in the list (filtered out)
       expect(find.text('Caffeine'), findsNothing);
     });
@@ -348,8 +359,9 @@ void main() {
       Supabase.instance.client.auth.stopAutoRefresh();
 
       // Mock PackageInfo to avoid MissingPluginException
-      const MethodChannel('dev.fluttercommunity.plus/package_info')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
+      const MethodChannel(
+        'dev.fluttercommunity.plus/package_info',
+      ).setMockMethodCallHandler((MethodCall methodCall) async {
         if (methodCall.method == 'getAll') {
           return <String, dynamic>{
             'appName': 'Test App',
@@ -377,14 +389,14 @@ void main() {
       // Find Dark Mode toggle in UISettingsSection
       // It might be inside a scrollable list, so we ensure it's visible
       final darkModeFinder = find.text('Dark Mode');
-      
+
       // Scroll until visible if needed (though usually at top)
       await tester.scrollUntilVisible(
         darkModeFinder,
         500.0,
         scrollable: find.byType(Scrollable).first,
       );
-      
+
       expect(darkModeFinder, findsOneWidget);
 
       // Tap to toggle
