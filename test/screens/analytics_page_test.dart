@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/features/analytics/analytics_page.dart';
-import 'package:mobile_drug_use_app/services/analytics_service.dart';
+import 'package:mobile_drug_use_app/features/analytics/services/analytics_service.dart';
 import 'package:mobile_drug_use_app/repo/substance_repository.dart';
 import 'package:mobile_drug_use_app/models/log_entry_model.dart';
 import '../helpers/test_app_wrapper.dart';

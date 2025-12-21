@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../repo/substance_repository.dart';
-import '../../services/analytics_service.dart';
+import '../analytics/services/analytics_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
 import 'widgets/catalog/add_stockpile_sheet.dart';

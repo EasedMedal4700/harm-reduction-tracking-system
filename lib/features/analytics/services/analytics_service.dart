@@ -1,10 +1,10 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../constants/enums/time_period.dart';
-import '../models/log_entry_model.dart';
-import '../repo/substance_repository.dart';
-import '../services/user_service.dart';
-import '../utils/error_handler.dart';
+import '../../../constants/enums/time_period.dart';
+import '../../../models/log_entry_model.dart';
+import '../../../repo/substance_repository.dart';
+import '../../../services/user_service.dart';
+import '../../../utils/error_handler.dart';
 
 class AnalyticsService {
   Map<String, String> substanceToCategory = {};
@@ -224,6 +224,53 @@ class AnalyticsService {
         return 'Sunday';
       default:
         return 'Unknown';
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchAnalyticsData(TimePeriod period) async {
+    try {
+      // Fetch all entries
+      final allEntries = await fetchEntries();
+
+      // Filter by period
+      final filteredEntries = filterEntriesByPeriod(allEntries, period);
+
+      // Fetch substance catalog and set category map
+      final catalog = await fetchSubstancesCatalog();
+      final substanceToCategoryMap = {
+        for (var item in catalog) item['name'].toLowerCase(): item['category'],
+      };
+      setSubstanceToCategory(substanceToCategory);
+
+      // Compute metrics
+      final substanceCounts = getSubstanceCounts(filteredEntries);
+      final categoryCounts = getCategoryCounts(filteredEntries);
+      final mostUsedSubstance = getMostUsedSubstance(substanceCounts);
+      final mostUsedCategory = getMostUsedCategory(categoryCounts);
+      final avgPerWeek = calculateAvgPerWeek(filteredEntries);
+      final topCategoryPercent = getTopCategoryPercent(
+        mostUsedCategory.value,
+        filteredEntries.length,
+      );
+
+      // Return computed data
+      return {
+        'totalEntries': filteredEntries.length,
+        'avgPerWeek': avgPerWeek,
+        'mostUsedSubstance': mostUsedSubstance.key,
+        'mostUsedCategory': mostUsedCategory.key,
+        'topCategoryPercent': topCategoryPercent,
+        'substanceCounts': substanceCounts,
+        'categoryCounts': categoryCounts,
+        // Add more fields as needed for charts/widgets
+      };
+    } catch (e, stackTrace) {
+      ErrorHandler.logError(
+        'AnalyticsService.fetchAnalyticsData',
+        e,
+        stackTrace,
+      );
+      rethrow;
     }
   }
 }

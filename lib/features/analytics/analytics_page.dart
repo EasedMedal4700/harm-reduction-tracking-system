@@ -5,7 +5,7 @@
 // Notes: Analytics page. Uses common components and theme.
 
 import 'package:flutter/material.dart';
-import '../../services/analytics_service.dart';
+import 'services/analytics_service.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../models/log_entry_model.dart';
 import 'widgets/analytics/analytics_app_bar.dart';

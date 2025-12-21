@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/constants/enums/time_period.dart';
 import 'package:mobile_drug_use_app/models/log_entry_model.dart';
-import 'package:mobile_drug_use_app/services/analytics_service.dart';
+import 'package:mobile_drug_use_app/features/analytics/services/analytics_service.dart';
 
 void main() {
   LogEntry buildEntry({
