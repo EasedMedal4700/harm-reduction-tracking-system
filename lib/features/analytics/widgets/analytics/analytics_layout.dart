@@ -129,7 +129,6 @@ class AnalyticsLayout extends StatelessWidget {
                 substanceCounts: substanceCounts,
                 filteredEntries: filteredEntries,
                 substanceToCategory: substanceToCategory,
-                onCategoryTapped: onCategoryTapped,
               ),
               CommonSpacer.vertical(t.spacing.lg),
 
@@ -180,7 +179,6 @@ class AnalyticsLayout extends StatelessWidget {
           substanceCounts: substanceCounts,
           filteredEntries: filteredEntries,
           substanceToCategory: substanceToCategory,
-          onCategoryTapped: onCategoryTapped,
         ),
         CommonSpacer.vertical(t.spacing.lg),
 

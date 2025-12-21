@@ -271,28 +271,28 @@
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 162,
+      "line": 179,
       "snippet": "SizedBox(height: t.spacing.lg),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_content.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 188,
+      "line": 205,
       "snippet": "SizedBox(height: t.spacing.lg),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_content.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 201,
+      "line": 218,
       "snippet": "SizedBox(height: t.spacing.lg),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_content.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 209,
+      "line": 225,
       "snippet": "SizedBox(height: t.spacing.lg),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_content.dart"
     },
@@ -327,8 +327,8 @@
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 124,
-      "snippet": "SizedBox(width: t.spacing.sm),",
+      "line": 294,
+      "snippet": "SizedBox(width: context.theme.spacing.sm),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart"
     },
     {
@@ -439,35 +439,35 @@
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 365,
+      "line": 362,
       "snippet": "SizedBox(height: t.spacing.sm),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 397,
+      "line": 394,
       "snippet": "SizedBox(width: t.spacing.sm),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 407,
+      "line": 404,
       "snippet": "SizedBox(width: t.spacing.sm),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 546,
+      "line": 543,
       "snippet": "SizedBox(width: t.spacing.xs),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart"
     },
     {
       "severity": "SHOULD_FIX",
       "message": "Missing const constructor",
-      "line": 588,
+      "line": 585,
       "snippet": "SizedBox(height: t.spacing.xs),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart"
     },

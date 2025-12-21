@@ -144,24 +144,26 @@ void main() {
 
       // Should show analytics title
       expect(find.text('DRUG USE ANALYTICS'), findsOneWidget);
-      
+
       // Should show total entries
       expect(find.textContaining('4'), findsAtLeastNWidgets(1));
     });
 
     testWidgets('displays loading state initially', (tester) async {
       await tester.pumpWidget(createTestWidget());
-      
+
       // Should show loading indicator before data loads
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      
+
       await tester.pumpAndSettle();
-      
+
       // Should not show loading indicator after data loads
       expect(find.byType(CircularProgressIndicator), findsNothing);
     });
 
-    testWidgets('can zoom into a category by tapping pie chart', (tester) async {
+    testWidgets('can zoom into a category by tapping pie chart', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
@@ -169,18 +171,20 @@ void main() {
       // The actual zoom behavior would need to be tested through widget interactions
       // For now, we verify the page loads with all categories visible
       expect(find.text('DRUG USE ANALYTICS'), findsOneWidget);
-      
+
       // Verify we can see total entries (should show all 4)
       expect(find.textContaining('4'), findsAtLeastNWidgets(1));
     });
 
-    testWidgets('can zoom out from a category by tapping again', (tester) async {
+    testWidgets('can zoom out from a category by tapping again', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
       // Verify the analytics page is showing data
       expect(find.text('DRUG USE ANALYTICS'), findsOneWidget);
-      
+
       // The zoom toggle functionality is handled by the onCategoryTapped callback
       // This test verifies the page structure is in place
       expect(find.byType(AnalyticsPage), findsOneWidget);
@@ -192,8 +196,8 @@ void main() {
 
       // Verify multiple categories are available in the data
       expect(find.text('DRUG USE ANALYTICS'), findsOneWidget);
-      
-      // With 4 different substances from different categories, 
+
+      // With 4 different substances from different categories,
       // the analytics should display category distribution
       expect(find.byType(AnalyticsPage), findsOneWidget);
     });
@@ -204,7 +208,7 @@ void main() {
 
       // Verify the filter widget is present
       expect(find.byType(AnalyticsPage), findsOneWidget);
-      
+
       // The actual filter interactions would be tested through FilterWidget tests
       // This verifies the page structure supports filtering
       expect(find.text('DRUG USE ANALYTICS'), findsOneWidget);
@@ -216,7 +220,7 @@ void main() {
 
       // Verify the analytics page loads
       expect(find.text('DRUG USE ANALYTICS'), findsOneWidget);
-      
+
       // Multiple filters capability is verified through the FilterWidget presence
       expect(find.byType(AnalyticsPage), findsOneWidget);
     });
@@ -230,7 +234,9 @@ void main() {
       expect(find.textContaining('4'), findsAtLeastNWidgets(1));
     });
 
-    testWidgets('zoom state persists during other interactions', (tester) async {
+    testWidgets('zoom state persists during other interactions', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
@@ -263,19 +269,21 @@ void main() {
 
       // Verify the analytics page displays data
       expect(find.text('DRUG USE ANALYTICS'), findsOneWidget);
-      
+
       // The craving filter functionality is part of the FilterWidget
       // This verifies the structure is in place
       expect(find.byType(AnalyticsPage), findsOneWidget);
     });
 
-    testWidgets('type filter (medical/recreational) works correctly', (tester) async {
+    testWidgets('type filter (medical/recreational) works correctly', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
       // Verify page loads and displays data
       expect(find.text('DRUG USE ANALYTICS'), findsOneWidget);
-      
+
       // The type filter is part of the FilterWidget
       // Our test data includes both medical (Adderall) and recreational entries
       expect(find.byType(AnalyticsPage), findsOneWidget);

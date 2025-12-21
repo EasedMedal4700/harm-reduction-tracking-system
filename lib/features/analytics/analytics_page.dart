@@ -20,6 +20,7 @@ import '../../utils/error_handler.dart';
 import '../../utils/time_period_utils.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../repo/substance_repository.dart';
+import '../../../../common/logging/app_log.dart';
 
 class AnalyticsPage extends StatefulWidget {
   final AnalyticsService? analyticsService;
@@ -54,11 +55,16 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   @override
   void initState() {
     super.initState();
+    log.i('[LIFECYCLE] AnalyticsPage initState');
     _fetchData();
   }
 
   Future<void> _fetchData() async {
-    if (!mounted) return;
+    if (!mounted) {
+      log.w('[DATA] _fetchData called but not mounted');
+      return;
+    }
+    log.i('[DATA] _fetchData starting');
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -69,6 +75,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       _service = widget.analyticsService ?? AnalyticsService();
       _substanceRepo = widget.substanceRepository ?? SubstanceRepository();
 
+      log.d('[DATA] Fetching entries and substance catalog');
       final entries = await _service.fetchEntries();
       final substanceData = await _substanceRepo.fetchSubstancesCatalog();
       final substanceToCategory = <String, String>{};
@@ -96,16 +103,23 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 
       _service.setSubstanceToCategory(substanceToCategory);
 
-      if (!mounted) return;
+      if (!mounted) {
+        log.w('[DATA] _fetchData completed but not mounted');
+        return;
+      }
       setState(() {
         _entries = entries;
         _isLoading = false;
       });
+      log.i(
+        '[DATA] _fetchData completed successfully: ${entries.length} entries loaded',
+      );
       ErrorHandler.logInfo(
         'AnalyticsPage._fetchData',
         'Loaded ${entries.length} entries',
       );
     } catch (e, stackTrace) {
+      log.e('[DATA] _fetchData failed: $e');
       ErrorHandler.logError('AnalyticsPage._fetchData', e, stackTrace);
       if (!mounted) return;
       setState(() {
@@ -127,16 +141,20 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
+    log.d(
+      '[BUILD] AnalyticsPage build (isLoading: $_isLoading, hasError: ${_errorMessage != null}, entries: ${_entries.length})',
+    );
 
     return Scaffold(
       backgroundColor: c.background,
       appBar: AnalyticsAppBar(
         selectedPeriod: _selectedPeriod,
         onPeriodChanged: (period) {
-          print('📊 DEBUG: Period changed in AppBar to: ${period.toString()}');
+          log.i('[UI] Period changed in AppBar to: ${period.toString()}');
           setState(() => _selectedPeriod = period);
         },
         onExport: () {
+          log.i('[UI] Export button pressed');
           // TODO: Implement export functionality
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -152,11 +170,16 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   }
 
   Widget _buildBody() {
+    log.d(
+      '[BUILD] _buildBody (isLoading: $_isLoading, hasError: ${_errorMessage != null})',
+    );
     if (_isLoading) {
+      log.d('[BUILD] Showing loading state');
       return const AnalyticsLoadingState();
     }
 
     if (_errorMessage != null) {
+      log.d('[BUILD] Showing error state');
       return AnalyticsErrorState(
         message: _errorMessage!,
         details: _errorDetails,
@@ -164,6 +187,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       );
     }
 
+    log.d('[BUILD] Showing analytics content');
     return RefreshIndicator(
       onRefresh: _fetchData,
       child: _buildAnalyticsContent(),
@@ -171,11 +195,15 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   }
 
   Widget _buildAnalyticsContent() {
+    log.d(
+      '[BUILD] _buildAnalyticsContent starting (entries: ${_entries.length}, period: $_selectedPeriod)',
+    );
     // Calculate filtered data
     final periodFilteredEntries = _service.filterEntriesByPeriod(
       _entries,
       _selectedPeriod,
     );
+    log.d('[DATA] Period filtered entries: ${periodFilteredEntries.length}');
     final categoryTypeFilteredEntries = periodFilteredEntries.where((e) {
       final category =
           _service.substanceToCategory[e.substance.toLowerCase()] ??
@@ -188,6 +216,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
           (_selectedTypeIndex == 2 && !e.isMedicalPurpose);
       return matchesCategory && matchesType;
     }).toList();
+    log.d(
+      '[DATA] Category/type filtered entries: ${categoryTypeFilteredEntries.length}',
+    );
 
     final filteredEntries = categoryTypeFilteredEntries.where((e) {
       final matchesSubstance =
@@ -209,6 +240,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
           matchesFeeling &&
           matchesCraving;
     }).toList();
+    log.d('[DATA] Fully filtered entries: ${filteredEntries.length}');
 
     // Calculate metrics
     final avgPerWeek = _service.calculateAvgPerWeek(filteredEntries);
@@ -221,6 +253,10 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         .getTopCategoryPercent(mostUsed.value, totalEntries)
         .toDouble();
     final selectedPeriodText = TimePeriodUtils.getPeriodText(_selectedPeriod);
+
+    log.d(
+      '[METRICS] Total entries: $totalEntries, avg/week: $avgPerWeek, most used category: ${mostUsed.key} (${mostUsed.value}), most used substance: ${mostUsedSubstance.key} (${mostUsedSubstance.value})',
+    );
 
     // Get unique values for filters
     final uniqueSubstances =
@@ -244,35 +280,60 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         periodFilteredEntries.expand((e) => e.feelings).toSet().toList()
           ..sort();
 
+    log.d(
+      '[FILTERS] Unique substances: ${uniqueSubstances.length}, categories: ${uniqueCategories.length}, places: ${uniquePlaces.length}, routes: ${uniqueRoutes.length}, feelings: ${uniqueFeelings.length}',
+    );
+
     return AnalyticsLayout(
       filterContent: FilterWidget(
         uniqueCategories: uniqueCategories,
         uniqueSubstances: uniqueSubstances,
         selectedCategories: _selectedCategories,
-        onCategoryChanged: (categories) =>
-            setState(() => _selectedCategories = categories),
+        onCategoryChanged: (categories) {
+          log.i('[FILTER] Categories changed: $categories');
+          setState(() => _selectedCategories = categories);
+        },
         selectedSubstances: _selectedSubstances,
-        onSubstanceChanged: (substances) =>
-            setState(() => _selectedSubstances = substances),
+        onSubstanceChanged: (substances) {
+          log.i('[FILTER] Substances changed: $substances');
+          setState(() => _selectedSubstances = substances);
+        },
         selectedTypeIndex: _selectedTypeIndex,
-        onTypeChanged: (index) => setState(() => _selectedTypeIndex = index),
+        onTypeChanged: (index) {
+          log.i('[FILTER] Type index changed: $index');
+          setState(() => _selectedTypeIndex = index);
+        },
         uniquePlaces: uniquePlaces,
         selectedPlaces: _selectedPlaces,
-        onPlaceChanged: (places) => setState(() => _selectedPlaces = places),
+        onPlaceChanged: (places) {
+          log.i('[FILTER] Places changed: $places');
+          setState(() => _selectedPlaces = places);
+        },
         uniqueRoutes: uniqueRoutes,
         selectedRoutes: _selectedRoutes,
-        onRouteChanged: (routes) => setState(() => _selectedRoutes = routes),
+        onRouteChanged: (routes) {
+          log.i('[FILTER] Routes changed: $routes');
+          setState(() => _selectedRoutes = routes);
+        },
         uniqueFeelings: uniqueFeelings,
         selectedFeelings: _selectedFeelings,
-        onFeelingChanged: (feelings) =>
-            setState(() => _selectedFeelings = feelings),
+        onFeelingChanged: (feelings) {
+          log.i('[FILTER] Feelings changed: $feelings');
+          setState(() => _selectedFeelings = feelings);
+        },
         minCraving: _minCraving,
         maxCraving: _maxCraving,
-        onMinCravingChanged: (value) => setState(() => _minCraving = value),
-        onMaxCravingChanged: (value) => setState(() => _maxCraving = value),
+        onMinCravingChanged: (value) {
+          log.i('[FILTER] Min craving changed: $value');
+          setState(() => _minCraving = value);
+        },
+        onMaxCravingChanged: (value) {
+          log.i('[FILTER] Max craving changed: $value');
+          setState(() => _maxCraving = value);
+        },
         selectedPeriod: _selectedPeriod,
         onPeriodChanged: (period) {
-          print('📊 DEBUG: Period changed in filter to: ${period.toString()}');
+          log.i('[FILTER] Period changed in filter: ${period.toString()}');
           setState(() => _selectedPeriod = period);
         },
       ),
@@ -287,6 +348,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       filteredEntries: filteredEntries,
       substanceToCategory: _service.substanceToCategory,
       onCategoryTapped: (category) {
+        log.i('[UI] Category tapped: $category');
         setState(() {
           // Toggle zoom behavior: if already filtered to this category, zoom out
           final currentCategorySubstances = filteredEntries
@@ -299,21 +361,31 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
               .map((e) => e.substance)
               .toSet()
               .toList();
-          
+
+          log.d('[UI] Category substances: $currentCategorySubstances');
+          log.d('[UI] Current selected substances: $_selectedSubstances');
+
           // Check if we're already zoomed into this category
-          final isAlreadyZoomed = _selectedSubstances.isNotEmpty &&
+          final isAlreadyZoomed =
+              _selectedSubstances.isNotEmpty &&
               _selectedSubstances.every(
                 (s) => currentCategorySubstances.contains(s),
               ) &&
               currentCategorySubstances.every(
                 (s) => _selectedSubstances.contains(s),
               );
-          
+
+          log.d('[UI] Is already zoomed: $isAlreadyZoomed');
+
           if (isAlreadyZoomed) {
             // Zoom out: clear filter to show all categories
+            log.i('[UI] Zooming out from category $category');
             _selectedSubstances = [];
           } else {
             // Zoom in: filter to this category's substances
+            log.i(
+              '[UI] Zooming into category $category with substances: $currentCategorySubstances',
+            );
             _selectedSubstances = currentCategorySubstances;
           }
         });

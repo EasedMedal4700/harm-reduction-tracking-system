@@ -20,7 +20,6 @@ class UseDistributionCard extends StatefulWidget {
   final Map<String, int> substanceCounts;
   final List<LogEntry> filteredEntries;
   final Map<String, String> substanceToCategory;
-  final void Function(String category)? onCategoryTapped;
 
   const UseDistributionCard({
     super.key,
@@ -28,7 +27,6 @@ class UseDistributionCard extends StatefulWidget {
     required this.substanceCounts,
     required this.filteredEntries,
     required this.substanceToCategory,
-    this.onCategoryTapped,
   });
 
   @override
@@ -286,7 +284,6 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                           _viewType = DistributionViewType.substance;
                           _touchedIndex = -1;
                         });
-                        widget.onCategoryTapped?.call(category);
                       }
                     },
                   ),

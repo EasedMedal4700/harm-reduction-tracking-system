@@ -1,6 +1,6 @@
 {
   "check": "localization_check",
-  "total_issues": 256,
+  "total_issues": 258,
   "issues": [
     {
       "severity": "SHOULD_FIX",
@@ -166,9 +166,23 @@
     {
       "severity": "SHOULD_FIX",
       "message": "Hardcoded string in Text widget: 'Export functionality coming soon'",
-      "line": 143,
+      "line": 161,
       "snippet": "content: const Text('Export functionality coming soon'),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\analytics_page.dart"
+    },
+    {
+      "severity": "SHOULD_FIX",
+      "message": "Hardcoded string in Text widget: '${e.key} (${e.value})'",
+      "line": 295,
+      "snippet": "Text('${e.key} (${e.value})', style: context.theme.typography.body),",
+      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart"
+    },
+    {
+      "severity": "SHOULD_FIX",
+      "message": "Hardcoded string in Text widget: '$selected Substances'",
+      "line": 326,
+      "snippet": "Text('$selected Substances', style: context.theme.typography.heading3),",
+      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart"
     },
     {
       "severity": "SHOULD_FIX",

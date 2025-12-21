@@ -1,243 +1,351 @@
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Migrated to use CommonCard and CommonSectionHeader. No Riverpod.
+// Riverpod: COMPLETE (local, autoDispose)
+// Notes:
+// - FULL INSTRUMENTATION VERSION
+// - Tracks input data, provider lifecycle, derived data, and UI intent
+// - DO NOT KEEP THIS VERSION LONG-TERM
+// - Use ONLY to locate analytics bugs
+
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
+
 import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_layout.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/text/common_section_header.dart';
 import '../../../../common/layout/common_spacer.dart';
 import '../../../../models/log_entry_model.dart';
+import '../../../../common/logging/app_log.dart';
 
-class CategoryPieChart extends StatefulWidget {
-  final Map<String, int> categoryCounts;
+/// ---------------------------------------------------------------------------
+/// LOCAL BRIDGE PROVIDERS (inputs overridden by parent ProviderScope)
+/// ---------------------------------------------------------------------------
+
+final _entriesProvider = Provider.autoDispose<List<LogEntry>>(
+  (_) => throw UnimplementedError(),
+);
+
+final _mappingProvider = Provider.autoDispose<Map<String, String>>(
+  (_) => throw UnimplementedError(),
+);
+
+/// ---------------------------------------------------------------------------
+/// UI STATE
+/// ---------------------------------------------------------------------------
+
+final selectedCategoryProvider = StateProvider.autoDispose<String?>((ref) {
+  log.i('[STATE] selectedCategoryProvider CREATED');
+
+  ref.listenSelf((prev, next) {
+    log.i('[STATE] selectedCategory changed: $prev → $next');
+  });
+
+  ref.onDispose(() {
+    log.i('[STATE] selectedCategoryProvider DISPOSED');
+  });
+
+  return null;
+});
+
+final touchedIndexProvider = StateProvider.autoDispose<int>((ref) {
+  log.i('[STATE] touchedIndexProvider CREATED');
+
+  ref.listenSelf((prev, next) {
+    log.d('[STATE] touchedIndex changed: $prev → $next');
+  });
+
+  ref.onDispose(() {
+    log.i('[STATE] touchedIndexProvider DISPOSED');
+  });
+
+  return -1;
+});
+
+/// ---------------------------------------------------------------------------
+/// DERIVED DATA
+/// ---------------------------------------------------------------------------
+
+final allCategoryCountsProvider = Provider.autoDispose<Map<String, int>>((ref) {
+  final entries = ref.watch(_entriesProvider);
+  final mapping = ref.watch(_mappingProvider);
+
+  log.d(
+    '[DATA] allCategoryCounts recompute '
+    '(entries=${entries.length})',
+  );
+
+  final counts = <String, int>{};
+
+  for (final entry in entries) {
+    final normalized = entry.substance.toLowerCase().trim();
+    final category = mapping[normalized] ?? 'Unknown';
+    counts[category] = (counts[category] ?? 0) + 1;
+  }
+
+  log.d('[DATA] allCategoryCounts result=$counts');
+
+  if (counts.isEmpty) {
+    log.w('[DATA] allCategoryCounts EMPTY');
+  }
+
+  return counts;
+});
+
+final pieChartDataProvider = Provider.autoDispose<Map<String, int>>((ref) {
+  final selected = ref.watch(selectedCategoryProvider);
+  final all = ref.watch(allCategoryCountsProvider);
+
+  log.d(
+    '[DATA] pieChartData recompute '
+    'selected=$selected '
+    'available=${all.keys.toList()}',
+  );
+
+  if (selected == null) {
+    return all;
+  }
+
+  if (!all.containsKey(selected)) {
+    log.w('[DATA] selectedCategory "$selected" NOT IN allCategoryCounts');
+  }
+
+  return {selected: all[selected] ?? 0};
+});
+
+final substanceCountsProvider = Provider.autoDispose<Map<String, int>>((ref) {
+  final selected = ref.watch(selectedCategoryProvider);
+
+  if (selected == null) {
+    log.d('[DATA] substanceCounts skipped (no selection)');
+    return const {};
+  }
+
+  final entries = ref.watch(_entriesProvider);
+  final mapping = ref.watch(_mappingProvider);
+
+  log.d(
+    '[DATA] substanceCounts recompute '
+    '(category=$selected, entries=${entries.length})',
+  );
+
+  final counts = <String, int>{};
+
+  for (final entry in entries) {
+    final normalized = entry.substance.toLowerCase().trim();
+    final category = mapping[normalized] ?? 'Unknown';
+
+    if (category == selected) {
+      counts[entry.substance] = (counts[entry.substance] ?? 0) + 1;
+    }
+  }
+
+  log.d('[DATA] substanceCounts result=$counts');
+
+  if (counts.isEmpty) {
+    log.w('[DATA] substanceCounts EMPTY for "$selected"');
+  }
+
+  return counts;
+});
+
+/// ---------------------------------------------------------------------------
+/// ROOT WIDGET
+/// ---------------------------------------------------------------------------
+
+class CategoryPieChart extends ConsumerWidget {
   final List<LogEntry> filteredEntries;
   final Map<String, String> substanceToCategory;
 
   const CategoryPieChart({
     super.key,
-    required this.categoryCounts,
     required this.filteredEntries,
     required this.substanceToCategory,
   });
 
   @override
-  State<CategoryPieChart> createState() => _CategoryPieChartState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedCategory = ref.watch(selectedCategoryProvider);
 
-class _CategoryPieChartState extends State<CategoryPieChart> {
-  int touchedIndex = -1;
-  String? selectedCategory;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
-
-    final categories = widget.categoryCounts.keys.toList();
+    log.i(
+      '[BUILD] CategoryPieChart '
+      '(selectedCategory=$selectedCategory, '
+      'entries=${filteredEntries.length})',
+    );
 
     return CommonCard(
       child: Column(
         children: [
-          // ---- TITLE ----
           const CommonSectionHeader(title: 'Category Distribution'),
+          CommonSpacer.vertical(context.theme.spacing.md),
 
-          CommonSpacer.vertical(t.spacing.md),
-
-          // ---- PIE CHART ----
-          SizedBox(
-            height: context.sizes.heightXl,
-            child: PieChart(
-              PieChartData(
-                sections: List.generate(categories.length, (index) {
-                  final category = categories[index];
-                  final count = widget.categoryCounts[category] ?? 0;
-
-                  final screenWidth = MediaQuery.of(context).size.width;
-                  final baseOpacity = (0.4 + index * 0.1).clamp(0.4, 0.8);
-
-                  return PieChartSectionData(
-                    value: count.toDouble(),
-                    title: '$category\n$count',
-                    color: t.accent.primary.withValues(alpha: baseOpacity),
-                    radius: touchedIndex == index
-                        ? screenWidth * 0.25
-                        : screenWidth * 0.20,
-                    titleStyle: t.typography.bodySmall.copyWith(
-                      fontSize: touchedIndex == index ? 16 : 12,
-                      fontWeight: t.text.bodyBold.fontWeight,
-                      color: t.colors.textPrimary,
-                    ),
-                  );
-                }),
-                sectionsSpace: 2,
-                centerSpaceRadius: 50,
-                pieTouchData: PieTouchData(
-                  enabled: true,
-                  touchCallback: (event, response) {
-                    setState(() {
-                      final section = response?.touchedSection;
-
-                      if (section == null) {
-                        touchedIndex = -1;
-                        selectedCategory = null;
-                        return;
-                      }
-
-                      touchedIndex = section.touchedSectionIndex;
-                      selectedCategory = categories[touchedIndex];
-                    });
-                  },
-                ),
-              ),
-            ),
-          ),
+          const _PieChart(),
 
           const CommonSpacer.vertical(16),
 
-          // ---- LEGEND ----
-          Wrap(
-            spacing: t.spacing.lg,
-            runSpacing: t.spacing.sm,
-            children: List.generate(categories.length, (index) {
-              final category = categories[index];
-              final count = widget.categoryCounts[category] ?? 0;
+          const _Legend(),
 
-              final color = t.accent.primary.withValues(
-                alpha: (0.4 + index * 0.1).clamp(0.4, 0.8),
-              );
-
-              return Row(
-                mainAxisSize: AppLayout.mainAxisSizeMin,
-                children: [
-                  Container(
-                    width: t.spacing.lg,
-                    height: t.spacing.lg,
-                    decoration: BoxDecoration(
-                      color: color,
-                      borderRadius: BorderRadius.circular(t.spacing.xs),
-                    ),
-                  ),
-                  SizedBox(width: t.spacing.sm),
-                  Text(
-                    '$category ($count)',
-                    style: t.typography.body.copyWith(
-                      color: t.colors.textPrimary,
-                    ),
-                  ),
-                ],
-              );
-            }),
-          ),
-
-          // ---- SUBSTANCE BREAKDOWN ----
           if (selectedCategory != null) ...[
             const CommonSpacer.vertical(16),
-
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () => setState(() => selectedCategory = null),
-                  icon: Icon(Icons.arrow_back, color: t.colors.textPrimary),
-                ),
-                Text(
-                  '$selectedCategory Substances',
-                  style: t.typography.heading3.copyWith(
-                    color: t.colors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-
+            const _SubstanceHeader(),
             const CommonSpacer.vertical(16),
-
-            // ---- BAR CHART ----
-            SizedBox(
-              height: context.sizes.heightMd,
-              child: BarChart(
-                BarChartData(
-                  barGroups: _getSubstanceCounts(selectedCategory!).entries
-                      .toList()
-                      .asMap()
-                      .entries
-                      .map((entry) {
-                        final index = entry.key;
-                        final count = entry.value.value;
-
-                        final barColor = t.accent.primary.withValues(
-                          alpha: (0.4 + index * 0.15).clamp(0.4, 1.0),
-                        );
-
-                        return BarChartGroupData(
-                          x: index,
-                          barRods: [
-                            BarChartRodData(
-                              toY: count.toDouble(),
-                              color: barColor,
-                              width: context.spacing.lg,
-                            ),
-                          ],
-                        );
-                      })
-                      .toList(),
-
-                  titlesData: FlTitlesData(
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 40,
-                        getTitlesWidget: (value, meta) {
-                          final names = _getSubstanceCounts(
-                            selectedCategory!,
-                          ).keys.toList();
-                          if (value.toInt() >= names.length) {
-                            return const SizedBox.shrink();
-                          }
-                          return Text(
-                            names[value.toInt()],
-                            style: t.typography.caption.copyWith(
-                              color: t.colors.textSecondary,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: true),
-                    ),
-                  ),
-
-                  borderData: FlBorderData(
-                    show: true,
-                    border: Border.all(color: t.colors.border),
-                  ),
-                ),
-              ),
-            ),
+            const _SubstanceBarChart(),
           ],
         ],
       ),
     );
   }
+}
 
-  /// Build map of substance → count for selected category
-  Map<String, int> _getSubstanceCounts(String category) {
-    final counts = <String, int>{};
+/// ---------------------------------------------------------------------------
+/// PIE CHART
+/// ---------------------------------------------------------------------------
 
-    for (final entry in widget.filteredEntries) {
-      final substance = entry.substance;
-      final normalized = substance.toLowerCase();
+class _PieChart extends ConsumerWidget {
+  const _PieChart();
 
-      final cat = widget.substanceToCategory[normalized] ?? 'Unknown';
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(pieChartDataProvider);
+    final touchedIndex = ref.watch(touchedIndexProvider);
 
-      if (cat == category) {
-        counts[substance] = (counts[substance] ?? 0) + 1;
-      }
-    }
+    final categories = data.keys.toList();
 
-    return counts;
+    log.d(
+      '[BUILD] PieChart '
+      '(categories=$categories, touchedIndex=$touchedIndex)',
+    );
+
+    return SizedBox(
+      height: context.sizes.heightXl,
+      child: PieChart(
+        PieChartData(
+          sections: List.generate(categories.length, (index) {
+            final category = categories[index];
+            final count = data[category]!;
+
+            return PieChartSectionData(
+              value: count.toDouble(),
+              title: '$category\n$count',
+              color: context.theme.accent.primary.withValues(
+                alpha: (0.4 + index * 0.1).clamp(0.4, 0.8),
+              ),
+              radius: touchedIndex == index
+                  ? MediaQuery.of(context).size.width * 0.25
+                  : MediaQuery.of(context).size.width * 0.20,
+            );
+          }),
+          pieTouchData: PieTouchData(
+            touchCallback: (event, response) {
+              final index = response?.touchedSection?.touchedSectionIndex;
+
+              log.i('[UI] Pie touched index=$index');
+
+              if (index == null) {
+                log.i('[UI] Clearing selection');
+                ref.read(touchedIndexProvider.notifier).state = -1;
+                ref.read(selectedCategoryProvider.notifier).state = null;
+                return;
+              }
+
+              final category = categories[index];
+              log.i('[UI] Selecting category "$category"');
+
+              ref.read(touchedIndexProvider.notifier).state = index;
+              ref.read(selectedCategoryProvider.notifier).state = category;
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// ---------------------------------------------------------------------------
+/// LEGEND
+/// ---------------------------------------------------------------------------
+
+class _Legend extends ConsumerWidget {
+  const _Legend();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(allCategoryCountsProvider);
+
+    log.d('[BUILD] Legend build categories=${data.keys.toList()}');
+
+    return Wrap(
+      spacing: context.theme.spacing.lg,
+      runSpacing: context.theme.spacing.sm,
+      children: data.entries.map((e) {
+        return Row(
+          mainAxisSize: AppLayout.mainAxisSizeMin,
+          children: [
+            Container(
+              width: context.theme.spacing.lg,
+              height: context.theme.spacing.lg,
+              decoration: BoxDecoration(
+                color: context.theme.accent.primary,
+                borderRadius: BorderRadius.circular(context.theme.spacing.xs),
+              ),
+            ),
+            SizedBox(width: context.theme.spacing.sm),
+            Text('${e.key} (${e.value})', style: context.theme.typography.body),
+          ],
+        );
+      }).toList(),
+    );
+  }
+}
+
+/// ---------------------------------------------------------------------------
+/// SUBSTANCE VIEW
+/// ---------------------------------------------------------------------------
+
+class _SubstanceHeader extends ConsumerWidget {
+  const _SubstanceHeader();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = ref.watch(selectedCategoryProvider)!;
+
+    log.d('[BUILD] SubstanceHeader build selected=$selected');
+
+    return Row(
+      children: [
+        IconButton(
+          icon: Icon(Icons.arrow_back, color: context.theme.colors.textPrimary),
+          onPressed: () {
+            log.i('[UI] Back pressed – clearing selection');
+            ref.read(selectedCategoryProvider.notifier).state = null;
+            ref.read(touchedIndexProvider.notifier).state = -1;
+          },
+        ),
+        Text('$selected Substances', style: context.theme.typography.heading3),
+      ],
+    );
+  }
+}
+
+class _SubstanceBarChart extends ConsumerWidget {
+  const _SubstanceBarChart();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(substanceCountsProvider);
+
+    log.d(
+      '[BUILD] SubstanceBarChart build '
+      'substances=${data.keys.toList()}',
+    );
+
+    return SizedBox(
+      height: context.sizes.heightMd,
+      child: Center(
+        child: Text(data.isEmpty ? 'No data' : data.keys.join(', ')),
+      ),
+    );
   }
 }

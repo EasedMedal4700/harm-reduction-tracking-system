@@ -3,10 +3,10 @@
     "files_scanned": 219,
     "block": 0,
     "must_fix": 0,
-    "should_fix": 737,
+    "should_fix": 739,
     "logonly": 0,
     "blocking": 0,
-    "warnings": 737,
+    "warnings": 739,
     "rules_executed": 11
   },
   "issues": [
@@ -245,9 +245,9 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart",
-      "line": 144,
+      "line": 319,
       "message": "Icon without semanticLabel",
-      "snippet": "icon: Icon(Icons.arrow_back, color: t.colors.textPrimary),",
+      "snippet": "icon: Icon(Icons.arrow_back, color: context.theme.colors.textPrimary),",
       "ignored": false
     },
     {
@@ -1795,9 +1795,29 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\analytics_page.dart",
-      "line": 143,
+      "line": 161,
       "message": "Hardcoded string in Text widget: 'Export functionality coming soon'",
       "snippet": "content: const Text('Export functionality coming soon'),",
+      "ignored": false
+    },
+    {
+      "rule": "localization",
+      "rule_class": "Hygiene",
+      "severity": "SHOULD_FIX",
+      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart",
+      "line": 295,
+      "message": "Hardcoded string in Text widget: '${e.key} (${e.value})'",
+      "snippet": "Text('${e.key} (${e.value})', style: context.theme.typography.body),",
+      "ignored": false
+    },
+    {
+      "rule": "localization",
+      "rule_class": "Hygiene",
+      "severity": "SHOULD_FIX",
+      "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart",
+      "line": 326,
+      "message": "Hardcoded string in Text widget: '$selected Substances'",
+      "snippet": "Text('$selected Substances', style: context.theme.typography.heading3),",
       "ignored": false
     },
     {
@@ -4505,7 +4525,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_content.dart",
-      "line": 162,
+      "line": 179,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.lg),",
       "ignored": false
@@ -4515,7 +4535,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_content.dart",
-      "line": 188,
+      "line": 205,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.lg),",
       "ignored": false
@@ -4525,7 +4545,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_content.dart",
-      "line": 201,
+      "line": 218,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.lg),",
       "ignored": false
@@ -4535,7 +4555,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\analytics_content.dart",
-      "line": 209,
+      "line": 225,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.lg),",
       "ignored": false
@@ -4585,9 +4605,9 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart",
-      "line": 124,
+      "line": 294,
       "message": "Missing const constructor",
-      "snippet": "SizedBox(width: t.spacing.sm),",
+      "snippet": "SizedBox(width: context.theme.spacing.sm),",
       "ignored": false
     },
     {
@@ -4745,7 +4765,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
-      "line": 365,
+      "line": 362,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.sm),",
       "ignored": false
@@ -4755,7 +4775,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
-      "line": 397,
+      "line": 394,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: t.spacing.sm),",
       "ignored": false
@@ -4765,7 +4785,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
-      "line": 407,
+      "line": 404,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: t.spacing.sm),",
       "ignored": false
@@ -4775,7 +4795,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
-      "line": 546,
+      "line": 543,
       "message": "Missing const constructor",
       "snippet": "SizedBox(width: t.spacing.xs),",
       "ignored": false
@@ -4785,7 +4805,7 @@
       "rule_class": "Hygiene",
       "severity": "SHOULD_FIX",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
-      "line": 588,
+      "line": 585,
       "message": "Missing const constructor",
       "snippet": "SizedBox(height: t.spacing.xs),",
       "ignored": false

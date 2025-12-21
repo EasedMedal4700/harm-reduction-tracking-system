@@ -103,8 +103,8 @@
     {
       "severity": "SHOULD_FIX",
       "message": "Icon without semanticLabel",
-      "line": 144,
-      "snippet": "icon: Icon(Icons.arrow_back, color: t.colors.textPrimary),",
+      "line": 319,
+      "snippet": "icon: Icon(Icons.arrow_back, color: context.theme.colors.textPrimary),",
       "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart"
     },
     {
