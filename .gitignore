@@ -112,4 +112,5 @@ data/scraped/raw*.json
 
 
 # Design system CI reports (generated files)
-scripts/ci/design_system/reports/
+scripts/ci/design_system/reports/*
+**/reports/
