@@ -288,8 +288,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       substanceToCategory: _service.substanceToCategory,
       onCategoryTapped: (category) {
         setState(() {
-          // Filter logic differs based on context, using simpler approach
-          _selectedSubstances = filteredEntries
+          // Toggle zoom behavior: if already filtered to this category, zoom out
+          final currentCategorySubstances = filteredEntries
               .where(
                 (e) =>
                     (_service.substanceToCategory[e.substance.toLowerCase()] ??
@@ -299,6 +299,23 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
               .map((e) => e.substance)
               .toSet()
               .toList();
+          
+          // Check if we're already zoomed into this category
+          final isAlreadyZoomed = _selectedSubstances.isNotEmpty &&
+              _selectedSubstances.every(
+                (s) => currentCategorySubstances.contains(s),
+              ) &&
+              currentCategorySubstances.every(
+                (s) => _selectedSubstances.contains(s),
+              );
+          
+          if (isAlreadyZoomed) {
+            // Zoom out: clear filter to show all categories
+            _selectedSubstances = [];
+          } else {
+            // Zoom in: filter to this category's substances
+            _selectedSubstances = currentCategorySubstances;
+          }
         });
       },
       period: _selectedPeriod,
