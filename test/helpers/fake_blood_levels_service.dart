@@ -1,4 +1,4 @@
-import 'package:mobile_drug_use_app/services/blood_levels_service.dart';
+import 'package:mobile_drug_use_app/features/blood_levels/services/blood_levels_service.dart';
 
 class FakeBloodLevelsService implements BloodLevelsService {
   @override

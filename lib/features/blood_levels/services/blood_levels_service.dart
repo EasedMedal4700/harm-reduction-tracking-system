@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../utils/error_handler.dart';
-import 'user_service.dart';
+import '../../../utils/error_handler.dart';
+import '../../../services/user_service.dart';
 
 /// Service for calculating drug blood levels and metabolism
 class BloodLevelsService {

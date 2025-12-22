@@ -5,7 +5,7 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 
 import 'package:flutter/material.dart';
-import '../../../../services/blood_levels_service.dart';
+import '../../services/blood_levels_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/layout/common_spacer.dart';

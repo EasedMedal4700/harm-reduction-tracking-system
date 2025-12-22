@@ -1,6 +1,6 @@
 import 'dart:math';
 import '../models/curve_point.dart';
-import '../services/blood_levels_service.dart';
+import '../features/blood_levels/services/blood_levels_service.dart';
 import '../utils/drug_profile_utils.dart';
 
 /// Service for calculating pharmacokinetic decay curves

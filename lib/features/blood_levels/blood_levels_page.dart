@@ -5,7 +5,7 @@
 // Notes: Page structure migrated.
 
 import 'package:flutter/material.dart';
-import '../../services/blood_levels_service.dart';
+import 'services/blood_levels_service.dart';
 import '../../services/onboarding_service.dart';
 import 'widgets/blood_levels/filter_panel.dart';
 import 'widgets/blood_levels/blood_levels_app_bar.dart';

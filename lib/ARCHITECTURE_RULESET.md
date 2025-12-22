@@ -7,6 +7,8 @@ Any new file, refactor, or feature change must comply.
 
 Violations must be explicitly called out.
 
+## 0. make sure to add enoguh comments everywhere 
+
 ## 1. Enforcement & Feedback Policy
 
 ### 1.1 Brutal Honesty Scale
