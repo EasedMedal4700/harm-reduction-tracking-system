@@ -8,15 +8,9 @@ class AppSurfaces {
   /// Header surface used on auth-related screens
   final BoxDecoration authHeader;
 
-  const AppSurfaces({
-    required this.authHeader,
-  });
+  const AppSurfaces({required this.authHeader});
 
   factory AppSurfaces.fromAccent(AccentColors accent) {
-    return AppSurfaces(
-      authHeader: BoxDecoration(
-        gradient: accent.gradient,
-      ),
-    );
+    return AppSurfaces(authHeader: BoxDecoration(gradient: accent.gradient));
   }
 }

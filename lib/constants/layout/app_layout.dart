@@ -65,5 +65,4 @@ class AppLayout {
   // Auth & form layout constraints
   static const double authCardMaxWidth = 420;
   static const double authHeaderHeight = 40;
-
 }

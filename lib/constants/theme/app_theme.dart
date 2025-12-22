@@ -53,7 +53,7 @@ class AppTheme {
     shapes = AppShapes.defaults();
 
     surfaces = AppSurfaces.fromAccent(accent);
-  
+
     if (isDark) {
       cardShadow = DarkShadows.card;
       cardShadowHovered = DarkShadows.cardHovered;

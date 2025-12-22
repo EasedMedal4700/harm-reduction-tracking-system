@@ -21,7 +21,7 @@ import 'features/admin/screens/admin_panel_screen.dart';
 import 'features/analytics/analytics_page.dart';
 import 'features/blood_levels/blood_levels_page.dart';
 import 'features/catalog/catalog_page.dart';
-import 'features/manage_profile/change_pin_page.dart';
+import 'features/manage_profile/change_pin/change_pin_page.dart';
 import 'features/daily_chekin/checkin_history_page.dart';
 import 'features/craving/cravings_page.dart';
 import 'features/daily_chekin/daily_checkin_page.dart';
@@ -253,7 +253,7 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
                 '/recovery-key': (_) => const RecoveryKeyScreen(),
                 '/encryption-migration': (_) =>
                     const EncryptionMigrationScreen(),
-                '/change-pin': (_) => const ChangePinScreen(),
+                '/change-pin': (_) => const ChangePinPage(),
                 '/forgot-password': (_) => const ForgotPasswordPage(),
                 '/set-new-password': (_) => const SetNewPasswordPage(),
                 '/email-confirmed': (_) => const EmailConfirmedPage(),

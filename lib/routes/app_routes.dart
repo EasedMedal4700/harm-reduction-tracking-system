@@ -25,7 +25,7 @@ import '../features/setup_account/pin_setup_page.dart';
 import '../features/login/pin_unlock/pages/pin_unlock_page.dart';
 import '../features/setup_account/recovery_key_page.dart';
 import '../features/manage_profile/encryption_migration_page.dart';
-import '../features/manage_profile/change_pin_page.dart';
+import '../features/manage_profile/change_pin/change_pin_page.dart';
 
 class AppRoutes {
   static Widget buildHomePage() => const HomePage();
@@ -65,5 +65,5 @@ class AppRoutes {
   static Widget buildRecoveryKeyPage() => const RecoveryKeyScreen();
   static Widget buildEncryptionMigrationPage() =>
       const EncryptionMigrationScreen();
-  static Widget buildChangePinPage() => const ChangePinScreen();
+  static Widget buildChangePinPage() => const ChangePinPage();
 }
