@@ -24,7 +24,7 @@
 // Notes: Fully modernized with granular theme API and ConsumerWidget.
 
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../services/onboarding_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';

@@ -6,7 +6,7 @@
 
 // ignore_for_file: deprecated_member_use
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../constants/data/craving_consatnts.dart';

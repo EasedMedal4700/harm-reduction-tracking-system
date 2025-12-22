@@ -11,6 +11,8 @@ import 'app_animations.dart';
 import 'app_sizes.dart';
 import 'app_opacities.dart';
 import 'app_borders.dart';
+import '../layout/app_layout.dart';
+import 'app_surfaces.dart';
 
 /// Composed application theme.
 /// Responsible ONLY for assembling theme parts and exposing ThemeData.
@@ -28,6 +30,8 @@ class AppTheme {
   late final List<BoxShadow> cardShadow;
   late final List<BoxShadow> cardShadowHovered;
   late final List<BoxShadow> buttonShadow;
+
+  late final AppSurfaces surfaces;
 
   // New theme constants
   final AppAnimations animations = const AppAnimations();
@@ -48,6 +52,8 @@ class AppTheme {
     typography = AppTypography.getTextStyles(fontSize, isDark);
     shapes = AppShapes.defaults();
 
+    surfaces = AppSurfaces.fromAccent(accent);
+  
     if (isDark) {
       cardShadow = DarkShadows.card;
       cardShadowHovered = DarkShadows.cardHovered;

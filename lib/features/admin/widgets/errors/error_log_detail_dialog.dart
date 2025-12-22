@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Fully theme-based, correct typography & colors.
 import 'dart:convert';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';

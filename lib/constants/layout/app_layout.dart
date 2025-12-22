@@ -61,4 +61,9 @@ class AppLayout {
   static const boxFitFitHeight = BoxFit.fitHeight;
   static const boxFitNone = BoxFit.none;
   static const boxFitScaleDown = BoxFit.scaleDown;
+
+  // Auth & form layout constraints
+  static const double authCardMaxWidth = 420;
+  static const double authHeaderHeight = 40;
+
 }

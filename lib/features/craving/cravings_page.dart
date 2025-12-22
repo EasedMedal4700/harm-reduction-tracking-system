@@ -5,7 +5,7 @@
 // Notes: Page for logging cravings. Uses CommonPrimaryButton. No hardcoded values.
 
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../constants/data/body_and_mind_catalog.dart';
 import '../../constants/data/drug_use_catalog.dart';

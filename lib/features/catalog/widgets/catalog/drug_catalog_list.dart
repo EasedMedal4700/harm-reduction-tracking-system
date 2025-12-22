@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and AppTheme.
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:intl/intl.dart';
 import '../../../../models/drug_catalog_entry.dart';
 import '../../../../constants/theme/app_theme_extension.dart';

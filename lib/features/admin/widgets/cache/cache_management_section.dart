@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';

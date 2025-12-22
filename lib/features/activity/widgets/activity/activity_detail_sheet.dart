@@ -6,7 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_outlined_button.dart';
 import '../../../../common/layout/common_spacer.dart';

@@ -5,7 +5,7 @@
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../providers/settings_provider.dart';
 
 class SettingsDialogs {

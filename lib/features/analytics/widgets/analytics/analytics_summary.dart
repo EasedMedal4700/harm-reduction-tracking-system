@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Modernized summary card using CommonCard & unified typography. No Riverpod.
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 import '../../../../common/cards/common_card.dart';

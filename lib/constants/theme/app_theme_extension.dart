@@ -11,7 +11,7 @@ import 'app_animations.dart';
 import 'app_sizes.dart';
 import 'app_opacities.dart';
 import 'app_borders.dart';
-import 'app_layout.dart';
+import 'app_surfaces.dart';
 
 /// Context-based access to the active AppTheme.
 /// This is the ONLY approved way for widgets to access theme values.
@@ -31,9 +31,11 @@ extension AppThemeX on BuildContext {
   AppSizes get sizes => theme.sizes;
   AppOpacities get opacities => theme.opacities;
   AppBorders get borders => theme.borders;
-  AppLayout get layout => AppLayout();
 
-  /// Shadows (auto-handled per theme)
+  /// Visuals
+  AppSurfaces get surfaces => theme.surfaces;
+
+  /// Shadows
   List<BoxShadow> get cardShadow => theme.cardShadow;
   List<BoxShadow> get cardShadowHovered => theme.cardShadowHovered;
   List<BoxShadow> get buttonShadow => theme.buttonShadow;

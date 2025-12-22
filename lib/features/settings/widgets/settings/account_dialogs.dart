@@ -5,7 +5,7 @@
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
 
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';

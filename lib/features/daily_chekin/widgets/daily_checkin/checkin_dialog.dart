@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Migrated to use local widgets which are now standardized.
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/daily_checkin_provider.dart';
 import '../../../../constants/theme/app_theme_extension.dart';

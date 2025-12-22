@@ -5,7 +5,7 @@
 // Notes: Fully theme-compliant. No hardcoded values.
 
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 

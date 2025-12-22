@@ -27,7 +27,7 @@
 // Notes: StatefulWidget kept for expand/collapse state. Fully modernized theme API.
 
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 
 import '../../../../models/bucket_definitions.dart';
 import '../../../../models/tolerance_model.dart';

@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Fully theme-compliant Severity Badge.
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
 /// Severity badge for error logs

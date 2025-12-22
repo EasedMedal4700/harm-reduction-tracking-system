@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Converted to CommonCard layout + cleaned architecture. No Riverpod.
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../../../../constants/enums/time_period.dart';

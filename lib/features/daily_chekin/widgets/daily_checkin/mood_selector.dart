@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and AppTheme. Kept custom slider logic.
 import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/enums/app_mood.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/theme/app_color_palette.dart';
