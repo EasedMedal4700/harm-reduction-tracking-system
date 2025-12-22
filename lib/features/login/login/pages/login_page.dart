@@ -49,6 +49,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       appBar: AppBar(
         title: Text('Login', style: t.headlineSmall),
         backgroundColor: c.surface,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: EdgeInsets.all(sp.lg),
