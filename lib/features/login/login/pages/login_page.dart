@@ -12,10 +12,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 
-import '../../../common/inputs/input_field.dart';
-import '../../../common/buttons/common_primary_button.dart';
-import '../../../common/layout/common_spacer.dart';
-import '../providers/login_controller.dart';
+import '../../../../common/inputs/input_field.dart';
+import '../../../../common/buttons/common_primary_button.dart';
+import '../../../../common/layout/common_spacer.dart';
+import '../controller/login_controller.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -42,7 +42,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final c = context.colors;
     final t = context.text;
     final sp = context.spacing;
-    final a = context.accent;
 
     return Scaffold(
       backgroundColor: c.background,
