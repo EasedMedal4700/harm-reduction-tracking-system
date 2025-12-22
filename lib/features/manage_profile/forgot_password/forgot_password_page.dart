@@ -1,25 +1,31 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED (TODO: replace Navigator calls)
+// Models: FREEZED
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: UI-only forgot password screen. Emits intent to controller.
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../common/layout/common_spacer.dart';
+import '../../../common/layout/common_spacer.dart';
 
-/// Page for requesting a password reset email.
-///
-/// Users enter their email address and receive a reset link via email.
-/// The link redirects to [SetNewPasswordPage] using deep linking.
-class ForgotPasswordPage extends StatefulWidget {
+import 'forgot_password_controller.dart';
+import 'forgot_password_state.dart';
+
+class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
 
   @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  ConsumerState<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  bool _isSubmitting = false;
-  bool _emailSent = false;
 
   @override
   void dispose() {
@@ -27,78 +33,86 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     super.dispose();
   }
 
-  Future<void> _handleSubmit() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() => _isSubmitting = true);
-
-    try {
-      await Supabase.instance.client.auth.resetPasswordForEmail(
-        _emailController.text.trim(),
-        redirectTo: 'substancecheck://reset-password',
-      );
-
-      if (mounted) {
-        setState(() {
-          _isSubmitting = false;
-          _emailSent = true;
-        });
-      }
-    } on AuthException catch (e) {
-      if (mounted) {
-        setState(() => _isSubmitting = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.message),
-            backgroundColor: context.colors.error,
-          ),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _isSubmitting = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('An error occurred: $e'),
-            backgroundColor: context.colors.error,
-          ),
-        );
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final c = context.colors;
-    final sp = context.spacing;
+    final state = ref.watch(forgotPasswordControllerProvider);
+    final controller = ref.read(forgotPasswordControllerProvider.notifier);
+
+    // Listen for error side-effects
+    ref.listen<ForgotPasswordState>(forgotPasswordControllerProvider, (
+      previous,
+      next,
+    ) {
+      if (next.status == ForgotPasswordStatus.error &&
+          next.errorMessage != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(next.errorMessage!),
+            backgroundColor: context.colors.error,
+          ),
+        );
+      }
+    });
 
     return Scaffold(
-      backgroundColor: c.background,
+      backgroundColor: context.colors.background,
       appBar: AppBar(
         backgroundColor: context.colors.transparent,
         elevation: context.sizes.elevationNone,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: c.textPrimary),
+          icon: Icon(Icons.arrow_back, color: context.colors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(
-          'Reset Password',
-          style: text.headlineSmall.copyWith(color: c.textPrimary),
-        ),
+        title: Text('Reset Password', style: context.text.headlineSmall),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(sp.xl),
-          child: _emailSent
-              ? _buildSuccessContent(context)
-              : _buildFormContent(context),
+          padding: EdgeInsets.all(context.spacing.xl),
+          child: state.status == ForgotPasswordStatus.success
+              ? _SuccessContent(
+                  email: state.email ?? '',
+                  onTryAgain: controller.reset,
+                  onBackToLogin: () {
+                    Navigator.of(
+                      context,
+                    ).pushNamedAndRemoveUntil('/login_page', (route) => false);
+                  },
+                )
+              : _FormContent(
+                  formKey: _formKey,
+                  emailController: _emailController,
+                  isSubmitting: state.status == ForgotPasswordStatus.submitting,
+                  onSubmit: () {
+                    if (_formKey.currentState!.validate()) {
+                      controller.sendResetEmail(_emailController.text.trim());
+                    }
+                  },
+                ),
         ),
       ),
     );
   }
+}
 
-  Widget _buildFormContent(BuildContext context) {
+/// ---------------------------------------------------------------------------
+/// Form content
+/// ---------------------------------------------------------------------------
+
+class _FormContent extends StatelessWidget {
+  const _FormContent({
+    required this.formKey,
+    required this.emailController,
+    required this.isSubmitting,
+    required this.onSubmit,
+  });
+
+  final GlobalKey<FormState> formKey;
+  final TextEditingController emailController;
+  final bool isSubmitting;
+  final VoidCallback onSubmit;
+
+  @override
+  Widget build(BuildContext context) {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
@@ -106,15 +120,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     final a = context.accent;
 
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
         children: [
           SizedBox(height: sp.xl2),
+
           // Icon
           Container(
-            width: 100,
-            height: context.sizes.heightSm,
+            width: context.sizes.icon2xl,
+            height: context.sizes.icon2xl,
             decoration: BoxDecoration(
               color: a.primary.withValues(alpha: context.opacities.overlay),
               shape: context.shapes.boxShapeCircle,
@@ -125,25 +140,26 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               color: a.primary,
             ),
           ),
+
           SizedBox(height: sp.xl2),
-          // Title
+
           Text(
             'Forgot your password?',
             style: text.headlineMedium.copyWith(color: c.textPrimary),
             textAlign: AppLayout.textAlignCenter,
           ),
+
           SizedBox(height: sp.md),
-          // Description
+
           Text(
             'Enter your email address and we\'ll send you a link to reset your password.',
-            style: text.bodyMedium.copyWith(
-              color: c.textSecondary,
-              height: 1.5,
-            ),
+            style: text.bodyMedium.copyWith(color: c.textSecondary),
             textAlign: AppLayout.textAlignCenter,
           ),
+
           SizedBox(height: sp.xl2),
-          // Email field
+
+          // Email input
           Container(
             decoration: BoxDecoration(
               color: c.surface,
@@ -151,12 +167,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               border: Border.all(color: c.border),
             ),
             child: TextFormField(
-              controller: _emailController,
-              enabled: !_isSubmitting,
+              controller: emailController,
+              enabled: !isSubmitting,
               keyboardType: TextInputType.emailAddress,
               autocorrect: false,
               textInputAction: TextInputAction.done,
-              onFieldSubmitted: (_) => _handleSubmit(),
+              onFieldSubmitted: (_) => onSubmit(),
               style: TextStyle(color: c.textPrimary),
               decoration: InputDecoration(
                 labelText: 'Email',
@@ -172,20 +188,24 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 if (value == null || value.trim().isEmpty) {
                   return 'Please enter your email';
                 }
+
                 final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
                 if (!emailRegex.hasMatch(value.trim())) {
                   return 'Please enter a valid email';
                 }
+
                 return null;
               },
             ),
           ),
+
           SizedBox(height: sp.xl),
+
           // Submit button
           SizedBox(
             height: context.sizes.buttonHeightLg,
             child: ElevatedButton(
-              onPressed: _isSubmitting ? null : _handleSubmit,
+              onPressed: isSubmitting ? null : onSubmit,
               style: ElevatedButton.styleFrom(
                 backgroundColor: a.primary,
                 foregroundColor: c.textInverse,
@@ -196,10 +216,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                 ),
               ),
-              child: _isSubmitting
+              child: isSubmitting
                   ? SizedBox(
-                      width: 24,
-                      height: 24,
+                      width: context.sizes.iconMd,
+                      height: context.sizes.iconMd,
                       child: CircularProgressIndicator(
                         strokeWidth: context.borders.medium,
                         color: c.textInverse,
@@ -214,8 +234,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ),
             ),
           ),
+
           SizedBox(height: sp.lg),
-          // Back to login
+
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
@@ -227,8 +248,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       ),
     );
   }
+}
 
-  Widget _buildSuccessContent(BuildContext context) {
+/// ---------------------------------------------------------------------------
+/// Success content
+/// ---------------------------------------------------------------------------
+
+class _SuccessContent extends StatelessWidget {
+  const _SuccessContent({
+    required this.email,
+    required this.onTryAgain,
+    required this.onBackToLogin,
+  });
+
+  final String email;
+  final VoidCallback onTryAgain;
+  final VoidCallback onBackToLogin;
+
+  @override
+  Widget build(BuildContext context) {
     final text = context.text;
     final c = context.colors;
     final sp = context.spacing;
@@ -238,11 +276,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
       children: [
-        SizedBox(height: sp.xl2), // Approximate space48
+        SizedBox(height: sp.xl2),
+
         // Success icon
         Container(
-          width: 100,
-          height: context.sizes.heightSm,
+          width: context.sizes.icon2xl,
+          height: context.sizes.icon2xl,
           decoration: BoxDecoration(
             color: c.success.withValues(alpha: context.opacities.overlay),
             shape: context.shapes.boxShapeCircle,
@@ -253,31 +292,36 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             color: c.success,
           ),
         ),
+
         CommonSpacer.vertical(sp.xl2),
-        // Title
+
         Text(
           'Check your email',
           style: text.headlineMedium.copyWith(color: c.textPrimary),
           textAlign: AppLayout.textAlignCenter,
         ),
+
         CommonSpacer.vertical(sp.md),
-        // Description
+
         Text(
           'We\'ve sent a password reset link to:',
-          style: text.bodyMedium.copyWith(color: c.textSecondary, height: 1.5),
+          style: text.bodyMedium.copyWith(color: c.textSecondary),
           textAlign: AppLayout.textAlignCenter,
         ),
+
         CommonSpacer.vertical(sp.sm),
+
         Text(
-          _emailController.text.trim(),
+          email,
           style: text.bodyMedium.copyWith(
             fontWeight: text.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
           textAlign: AppLayout.textAlignCenter,
         ),
+
         CommonSpacer.vertical(sp.xl),
-        // Info box
+
         Container(
           padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
@@ -299,20 +343,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 child: Text(
                   'Click the link in the email to reset your password. '
                   'The link expires in 24 hours.',
-                  style: text.bodySmall.copyWith(color: a.primary, height: 1.4),
+                  style: text.bodySmall.copyWith(color: a.primary),
                 ),
               ),
             ],
           ),
         ),
+
         CommonSpacer.vertical(sp.xl2),
-        // Back to login button
+
         SizedBox(
-          height: 56,
+          height: context.sizes.buttonHeightLg,
           child: ElevatedButton(
-            onPressed: () => Navigator.of(
-              context,
-            ).pushNamedAndRemoveUntil('/login_page', (route) => false),
+            onPressed: onBackToLogin,
             style: ElevatedButton.styleFrom(
               backgroundColor: a.primary,
               foregroundColor: c.textInverse,
@@ -329,12 +372,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ),
           ),
         ),
+
         CommonSpacer.vertical(sp.lg),
-        // Resend link
+
         TextButton(
-          onPressed: () {
-            setState(() => _emailSent = false);
-          },
+          onPressed: onTryAgain,
           child: Text(
             'Didn\'t receive the email? Try again',
             style: text.labelLarge.copyWith(color: c.textSecondary),

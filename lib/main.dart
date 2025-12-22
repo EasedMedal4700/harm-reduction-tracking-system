@@ -25,7 +25,7 @@ import 'features/manage_profile/change_pin/change_pin_page.dart';
 import 'features/daily_chekin/checkin_history_page.dart';
 import 'features/craving/cravings_page.dart';
 import 'features/daily_chekin/daily_checkin_page.dart';
-import 'features/manage_profile/encryption_migration_page.dart';
+import 'legacy/encryption_migration_page.dart';
 import 'features/home/home_page_main.dart';
 import 'features/log_entry/log_entry_page.dart';
 import 'features/login/login/pages/login_page.dart';
@@ -40,7 +40,7 @@ import 'features/tolerence/tolerance_dashboard_page.dart';
 import 'features/setup_account/onboarding_page.dart';
 import 'features/settings/privacy_policy_page.dart';
 import 'features/feature_flags/feature_flags_page.dart';
-import 'features/manage_profile/forgot_password_page.dart';
+import 'features/manage_profile/forgot_password/forgot_password_page.dart';
 import 'features/setup_account/set_new_password_page.dart';
 import 'features/setup_account/email_confirmed_page.dart';
 

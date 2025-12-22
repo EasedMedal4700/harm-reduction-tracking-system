@@ -1,17 +1,27 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: LEGACY
+// Models: LEGACY
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: One-time encryption migration screen.
+//        All users migrated as of YYYY-MM-DD.
+//        This file is intentionally frozen.
+
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_typography.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-import '../../common/layout/common_spacer.dart';
+import '../common/layout/common_spacer.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../providers/core_providers.dart';
-import '../../services/encryption_migration_service.dart';
-import '../../utils/error_handler.dart';
-import '../../states/migration_step_controller.dart';
+import '../providers/core_providers.dart';
+import '../services/encryption_migration_service.dart';
+import '../utils/error_handler.dart';
+import '../states/migration_step_controller.dart';
 
 class EncryptionMigrationScreen extends ConsumerStatefulWidget {
   const EncryptionMigrationScreen({super.key});

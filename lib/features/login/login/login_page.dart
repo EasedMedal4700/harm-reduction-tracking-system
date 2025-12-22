@@ -1,6 +1,6 @@
 // MIGRATION:
 // State: MODERN
-// Navigation: CENTRALIZED
+// Navigation: CENTRALIZED (TODO: replace Navigator calls)
 // Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -12,10 +12,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 
-import '../../../../common/inputs/input_field.dart';
-import '../../../../common/buttons/common_primary_button.dart';
-import '../../../../common/layout/common_spacer.dart';
-import '../controller/login_controller.dart';
+import '../../../common/inputs/input_field.dart';
+import '../../../common/buttons/common_primary_button.dart';
+import '../../../common/layout/common_spacer.dart';
+import 'login_controller.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -52,7 +52,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         child: SingleChildScrollView(
           padding: EdgeInsets.all(sp.lg),
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: AppLayout.authCardMaxWidth),
+            constraints: BoxConstraints(
+              maxWidth: AppLayout.authCardMaxWidth,
+            ),
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: c.surface,
@@ -62,7 +64,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Subtle header
+                  // Header strip
                   Container(
                     height: AppLayout.authHeaderHeight,
                     decoration: surfaces.authHeader.copyWith(
@@ -77,20 +79,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        // Title
                         Text(
                           'Welcome back',
                           style: t.headlineMedium,
                           textAlign: TextAlign.center,
                         ),
-                        CommonSpacer.vertical(sp.xl),
+
+                        CommonSpacer.vertical(sp.sm),
+
                         Text(
                           'Sign in to continue',
-                          style: t.bodyMedium.copyWith(color: c.textSecondary),
+                          style: t.bodyMedium.copyWith(
+                            color: c.textSecondary,
+                          ),
                           textAlign: TextAlign.center,
                         ),
 
                         CommonSpacer.vertical(sp.xl),
 
+                        // Email
                         CommonInputField(
                           controller: emailController,
                           labelText: 'Email',
@@ -99,6 +107,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                         CommonSpacer.vertical(sp.md),
 
+                        // Password
                         CommonInputField(
                           controller: passwordController,
                           labelText: 'Password',
@@ -107,17 +116,43 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                         CommonSpacer.vertical(sp.sm),
 
+                        // Forgot password
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              // TODO(navigation): replace with NavigationService
+                              Navigator.of(context)
+                                  .pushNamed('/forgot_password');
+                            },
+                            child: Text(
+                              'Forgot password?',
+                              style: t.labelLarge.copyWith(
+                                color: c.textSecondary,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        CommonSpacer.vertical(sp.sm),
+
+                        // Remember me
                         CheckboxListTile(
                           value: state.rememberMe,
                           contentPadding: EdgeInsets.zero,
-                          title: Text('Keep me logged in', style: t.bodyMedium),
-                          controlAffinity: ListTileControlAffinity.leading,
+                          title: Text(
+                            'Keep me logged in',
+                            style: t.bodyMedium,
+                          ),
+                          controlAffinity:
+                              ListTileControlAffinity.leading,
                           onChanged: (v) =>
                               controller.toggleRememberMe(v ?? false),
                         ),
 
                         CommonSpacer.vertical(sp.lg),
 
+                        // Primary CTA
                         CommonPrimaryButton(
                           isLoading: state.isLoading,
                           label: 'Sign in',
@@ -127,14 +162,44 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                         ),
 
+                        // Error message
                         if (state.errorMessage != null) ...[
                           CommonSpacer.vertical(sp.md),
                           Text(
                             state.errorMessage!,
-                            style: t.bodyMedium.copyWith(color: c.error),
+                            style: t.bodyMedium.copyWith(
+                              color: c.error,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                         ],
+
+                        CommonSpacer.vertical(sp.lg),
+
+                        // Sign up
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Don’t have an account?',
+                              style: t.bodyMedium.copyWith(
+                                color: c.textSecondary,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                // TODO(navigation): replace with NavigationService
+                                Navigator.of(context).pushNamed('/signup');
+                              },
+                              child: Text(
+                                'Sign up',
+                                style: t.labelLarge.copyWith(
+                                  color: context.accent.primary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),

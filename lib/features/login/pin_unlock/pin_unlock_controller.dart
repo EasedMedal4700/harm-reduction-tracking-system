@@ -10,13 +10,13 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../providers/navigation_provider.dart';
-import '../../../../services/navigation_service.dart';
-import '../../../../providers/core_providers.dart';
-import '../../../../services/encryption_service_v2.dart';
-import '../../../../services/debug_config.dart';
+import '../../../providers/navigation_provider.dart';
+import '../../../services/navigation_service.dart';
+import '../../../providers/core_providers.dart';
+import '../../../services/encryption_service_v2.dart';
+import '../../../services/debug_config.dart';
 
-import '../state/pin_unlock_state.dart';
+import 'pin_unlock_state.dart';
 
 final pinUnlockControllerProvider =
     StateNotifierProvider<PinUnlockController, PinUnlockState>(

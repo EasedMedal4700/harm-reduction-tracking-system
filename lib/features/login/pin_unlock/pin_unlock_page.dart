@@ -10,11 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../constants/layout/app_layout.dart';
-import '../../../../common/layout/common_spacer.dart';
+import '../../../constants/theme/app_theme_extension.dart';
+import '../../../constants/layout/app_layout.dart';
+import '../../../common/layout/common_spacer.dart';
 
-import '../controller/pin_unlock_controller.dart';
+import 'pin_unlock_controller.dart';
 
 class PinUnlockScreen extends ConsumerStatefulWidget {
   const PinUnlockScreen({super.key});

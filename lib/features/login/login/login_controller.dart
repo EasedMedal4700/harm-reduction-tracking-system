@@ -11,11 +11,11 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../providers/core_providers.dart';
-import '../../../../services/debug_config.dart';
-import '../../../../services/onboarding_service.dart';
-import '../../services/post_login_router.dart';
-import '../state/login_state.dart';
+import '../../../providers/core_providers.dart';
+import '../../../services/debug_config.dart';
+import '../../../services/onboarding_service.dart';
+import '../services/post_login_router.dart';
+import 'login_state.dart';
 
 /// Provider wiring owns lifecycle.
 /// UI MUST NOT call init().
