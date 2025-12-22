@@ -25,9 +25,7 @@ void main() {
     when(mockSupabase.auth).thenReturn(mockAuth);
 
     container = ProviderContainer(
-      overrides: [
-        supabaseClientProvider.overrideWithValue(mockSupabase),
-      ],
+      overrides: [supabaseClientProvider.overrideWithValue(mockSupabase)],
     );
   });
 
@@ -45,12 +43,16 @@ void main() {
     });
 
     test('sendResetEmail succeeds with valid email', () async {
-      when(mockAuth.resetPasswordForEmail(
-        'test@test.com',
-        redirectTo: 'substancecheck://reset-password',
-      )).thenAnswer((_) async => null);
+      when(
+        mockAuth.resetPasswordForEmail(
+          'test@test.com',
+          redirectTo: 'substancecheck://reset-password',
+        ),
+      ).thenAnswer((_) async => null);
 
-      final notifier = container.read(forgotPasswordControllerProvider.notifier);
+      final notifier = container.read(
+        forgotPasswordControllerProvider.notifier,
+      );
       await notifier.sendResetEmail('test@test.com');
 
       final state = container.read(forgotPasswordControllerProvider);
@@ -60,12 +62,13 @@ void main() {
     });
 
     test('sendResetEmail handles errors', () async {
-      when(mockAuth.resetPasswordForEmail(
-        any,
-        redirectTo: anyNamed('redirectTo'),
-      )).thenThrow(Exception('Email not found'));
+      when(
+        mockAuth.resetPasswordForEmail(any, redirectTo: anyNamed('redirectTo')),
+      ).thenThrow(Exception('Email not found'));
 
-      final notifier = container.read(forgotPasswordControllerProvider.notifier);
+      final notifier = container.read(
+        forgotPasswordControllerProvider.notifier,
+      );
       await notifier.sendResetEmail('invalid@test.com');
 
       final state = container.read(forgotPasswordControllerProvider);
@@ -75,22 +78,22 @@ void main() {
 
     test('sendResetEmail clears previous error', () async {
       // First call fails
-      when(mockAuth.resetPasswordForEmail(
-        any,
-        redirectTo: anyNamed('redirectTo'),
-      )).thenThrow(Exception('Error'));
+      when(
+        mockAuth.resetPasswordForEmail(any, redirectTo: anyNamed('redirectTo')),
+      ).thenThrow(Exception('Error'));
 
-      final notifier = container.read(forgotPasswordControllerProvider.notifier);
+      final notifier = container.read(
+        forgotPasswordControllerProvider.notifier,
+      );
       await notifier.sendResetEmail('test@test.com');
 
       var state = container.read(forgotPasswordControllerProvider);
       expect(state.errorMessage, isNotNull);
 
       // Second call succeeds
-      when(mockAuth.resetPasswordForEmail(
-        any,
-        redirectTo: anyNamed('redirectTo'),
-      )).thenAnswer((_) async => null);
+      when(
+        mockAuth.resetPasswordForEmail(any, redirectTo: anyNamed('redirectTo')),
+      ).thenAnswer((_) async => null);
 
       await notifier.sendResetEmail('test@test.com');
 
@@ -99,12 +102,13 @@ void main() {
     });
 
     test('reset returns to initial state', () async {
-      when(mockAuth.resetPasswordForEmail(
-        any,
-        redirectTo: anyNamed('redirectTo'),
-      )).thenAnswer((_) async => null);
+      when(
+        mockAuth.resetPasswordForEmail(any, redirectTo: anyNamed('redirectTo')),
+      ).thenAnswer((_) async => null);
 
-      final notifier = container.read(forgotPasswordControllerProvider.notifier);
+      final notifier = container.read(
+        forgotPasswordControllerProvider.notifier,
+      );
       await notifier.sendResetEmail('test@test.com');
 
       var state = container.read(forgotPasswordControllerProvider);

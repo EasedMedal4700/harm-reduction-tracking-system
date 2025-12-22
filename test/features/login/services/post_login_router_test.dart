@@ -43,17 +43,18 @@ void main() {
     when(mockUser.id).thenReturn('test-user-id');
 
     // Default mocks
-    when(mockMigrationService.needsMigration(any))
-        .thenAnswer((_) async => false);
-    when(mockEncryptionService.hasEncryptionSetup(any))
-        .thenAnswer((_) async => true);
-    when(mockAppLockController.shouldRequirePinNow())
-        .thenAnswer((_) async => false);
+    when(
+      mockMigrationService.needsMigration(any),
+    ).thenAnswer((_) async => false);
+    when(
+      mockEncryptionService.hasEncryptionSetup(any),
+    ).thenAnswer((_) async => true);
+    when(
+      mockAppLockController.shouldRequirePinNow(),
+    ).thenAnswer((_) async => false);
 
     container = ProviderContainer(
-      overrides: [
-        navigationProvider.overrideWithValue(mockNavigation),
-      ],
+      overrides: [navigationProvider.overrideWithValue(mockNavigation)],
     );
   });
 
@@ -77,8 +78,9 @@ void main() {
 
   group('PostLoginRouter - Migration Check', () {
     test('routes to encryption migration when needed', () async {
-      when(mockMigrationService.needsMigration('test-user-id'))
-          .thenAnswer((_) async => true);
+      when(
+        mockMigrationService.needsMigration('test-user-id'),
+      ).thenAnswer((_) async => true);
 
       final router = createRouter();
       // Note: This test requires Supabase mock setup
@@ -87,8 +89,9 @@ void main() {
     });
 
     test('skips migration when not needed', () async {
-      when(mockMigrationService.needsMigration('test-user-id'))
-          .thenAnswer((_) async => false);
+      when(
+        mockMigrationService.needsMigration('test-user-id'),
+      ).thenAnswer((_) async => false);
 
       final router = createRouter();
       // Continues to next check instead of migration
@@ -97,8 +100,9 @@ void main() {
 
   group('PostLoginRouter - Encryption Setup', () {
     test('routes to PIN setup when encryption not configured', () async {
-      when(mockEncryptionService.hasEncryptionSetup('test-user-id'))
-          .thenAnswer((_) async => false);
+      when(
+        mockEncryptionService.hasEncryptionSetup('test-user-id'),
+      ).thenAnswer((_) async => false);
 
       final router = createRouter();
       // Note: This test requires Supabase mock setup
@@ -107,8 +111,9 @@ void main() {
     });
 
     test('skips PIN setup when encryption exists', () async {
-      when(mockEncryptionService.hasEncryptionSetup('test-user-id'))
-          .thenAnswer((_) async => true);
+      when(
+        mockEncryptionService.hasEncryptionSetup('test-user-id'),
+      ).thenAnswer((_) async => true);
 
       final router = createRouter();
       // Continues to next check
@@ -117,8 +122,9 @@ void main() {
 
   group('PostLoginRouter - PIN Unlock', () {
     test('routes to PIN unlock when required and not debug', () async {
-      when(mockAppLockController.shouldRequirePinNow())
-          .thenAnswer((_) async => true);
+      when(
+        mockAppLockController.shouldRequirePinNow(),
+      ).thenAnswer((_) async => true);
 
       final router = createRouter();
       // Note: This test requires Supabase mock setup
@@ -127,8 +133,9 @@ void main() {
     });
 
     test('skips PIN unlock when debug is true', () async {
-      when(mockAppLockController.shouldRequirePinNow())
-          .thenAnswer((_) async => true);
+      when(
+        mockAppLockController.shouldRequirePinNow(),
+      ).thenAnswer((_) async => true);
 
       final router = createRouter();
       // Note: This test requires Supabase mock setup
@@ -137,8 +144,9 @@ void main() {
     });
 
     test('skips PIN unlock when not required', () async {
-      when(mockAppLockController.shouldRequirePinNow())
-          .thenAnswer((_) async => false);
+      when(
+        mockAppLockController.shouldRequirePinNow(),
+      ).thenAnswer((_) async => false);
 
       final router = createRouter();
       // Routes to home

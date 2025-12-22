@@ -39,7 +39,10 @@ void main() {
     });
 
     test('copyWith can clear nullable fields', () {
-      const state = ForgotPasswordState(email: 'test@test.com', errorMessage: 'Error');
+      const state = ForgotPasswordState(
+        email: 'test@test.com',
+        errorMessage: 'Error',
+      );
       final cleared = state.copyWith(email: null, errorMessage: null);
 
       expect(cleared.email, null);
@@ -47,9 +50,18 @@ void main() {
     });
 
     test('equality works correctly', () {
-      const state1 = ForgotPasswordState(status: ForgotPasswordStatus.success, email: 'test@test.com');
-      const state2 = ForgotPasswordState(status: ForgotPasswordStatus.success, email: 'test@test.com');
-      const state3 = ForgotPasswordState(status: ForgotPasswordStatus.error, email: 'test@test.com');
+      const state1 = ForgotPasswordState(
+        status: ForgotPasswordStatus.success,
+        email: 'test@test.com',
+      );
+      const state2 = ForgotPasswordState(
+        status: ForgotPasswordStatus.success,
+        email: 'test@test.com',
+      );
+      const state3 = ForgotPasswordState(
+        status: ForgotPasswordStatus.error,
+        email: 'test@test.com',
+      );
 
       expect(state1, state2);
       expect(state1, isNot(state3));
@@ -66,8 +78,14 @@ void main() {
   group('ForgotPasswordStatus', () {
     test('has all expected values', () {
       expect(ForgotPasswordStatus.values, contains(ForgotPasswordStatus.idle));
-      expect(ForgotPasswordStatus.values, contains(ForgotPasswordStatus.submitting));
-      expect(ForgotPasswordStatus.values, contains(ForgotPasswordStatus.success));
+      expect(
+        ForgotPasswordStatus.values,
+        contains(ForgotPasswordStatus.submitting),
+      );
+      expect(
+        ForgotPasswordStatus.values,
+        contains(ForgotPasswordStatus.success),
+      );
       expect(ForgotPasswordStatus.values, contains(ForgotPasswordStatus.error));
     });
 

@@ -28,10 +28,7 @@ void main() {
 
     test('copyWith updates only specified fields', () {
       const state = ChangePinState();
-      final updated = state.copyWith(
-        isLoading: true,
-        success: true,
-      );
+      final updated = state.copyWith(isLoading: true, success: true);
 
       expect(updated.isLoading, true);
       expect(updated.success, true);

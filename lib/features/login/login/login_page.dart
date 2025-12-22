@@ -52,9 +52,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         child: SingleChildScrollView(
           padding: EdgeInsets.all(sp.lg),
           child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: AppLayout.authCardMaxWidth,
-            ),
+            constraints: BoxConstraints(maxWidth: AppLayout.authCardMaxWidth),
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: c.surface,
@@ -90,9 +88,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                         Text(
                           'Sign in to continue',
-                          style: t.bodyMedium.copyWith(
-                            color: c.textSecondary,
-                          ),
+                          style: t.bodyMedium.copyWith(color: c.textSecondary),
                           textAlign: TextAlign.center,
                         ),
 
@@ -122,8 +118,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           child: TextButton(
                             onPressed: () {
                               // TODO(navigation): replace with NavigationService
-                              Navigator.of(context)
-                                  .pushNamed('/forgot_password');
+                              Navigator.of(
+                                context,
+                              ).pushNamed('/forgot_password');
                             },
                             child: Text(
                               'Forgot password?',
@@ -140,12 +137,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         CheckboxListTile(
                           value: state.rememberMe,
                           contentPadding: EdgeInsets.zero,
-                          title: Text(
-                            'Keep me logged in',
-                            style: t.bodyMedium,
-                          ),
-                          controlAffinity:
-                              ListTileControlAffinity.leading,
+                          title: Text('Keep me logged in', style: t.bodyMedium),
+                          controlAffinity: ListTileControlAffinity.leading,
                           onChanged: (v) =>
                               controller.toggleRememberMe(v ?? false),
                         ),
@@ -167,9 +160,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           CommonSpacer.vertical(sp.md),
                           Text(
                             state.errorMessage!,
-                            style: t.bodyMedium.copyWith(
-                              color: c.error,
-                            ),
+                            style: t.bodyMedium.copyWith(color: c.error),
                             textAlign: TextAlign.center,
                           ),
                         ],

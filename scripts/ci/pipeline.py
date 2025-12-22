@@ -137,9 +137,9 @@ def run_tests() -> Tuple[bool, str, str]:
     print(f"Progress: [{progress_bar}] {percentage:.1f}% | ⏱️  Elapsed: 0.0s")
 
     try:
-        # Run flutter test with machine-readable output
+        # Run flutter test with machine-readable output and coverage
         process = subprocess.Popen(
-            "flutter test --machine",
+            "flutter test --machine --coverage",
             shell=True,
             cwd=find_project_root(),
             stdout=subprocess.PIPE,
@@ -260,6 +260,78 @@ def run_tests() -> Tuple[bool, str, str]:
     return success, status_msg, output
 
 
+def run_dart_analyze() -> Tuple[bool, str, str]:
+    """Run dart analyze and return status"""
+    print("Running Dart Analyze...")
+    # Run with --format=json to get machine readable output, but also capture standard output for display
+    step = PipelineStep("Dart Analyze", "dart analyze --format=json")
+    success, json_output = step.execute()
+    
+    # Also run human readable for display if needed, or parse JSON
+    # For simplicity, let's save the JSON report
+    if json_output.strip():
+        try:
+            # dart analyze outputs JSON objects, one per line or a list? 
+            # Actually dart analyze --format=json outputs a JSON object.
+            # But sometimes it has preamble.
+            # Let's just save the raw output to a file.
+            report_path = os.path.join(os.path.dirname(__file__), 'analyze_report.json')
+            with open(report_path, 'w') as f:
+                f.write(json_output)
+        except:
+            pass
+
+    if success:
+        status_msg = "✅ No issues found"
+    else:
+        # Count issues from JSON if possible, otherwise generic
+        status_msg = "❌ Analysis issues found"
+
+    return success, status_msg, json_output
+
+
+def run_import_check() -> Tuple[bool, str, str]:
+    """Run import checker script"""
+    print("Running Import Check...")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.join(base_dir, "check_imports.py")
+    
+    # Use virtual environment Python
+    project_root = find_project_root()
+    venv_python = os.path.join(project_root, ".venv", "Scripts", "python.exe")
+    
+    step = PipelineStep("Import Check", f'"{venv_python}" "{script_path}"')
+    success, output = step.execute()
+    
+    if success:
+        status_msg = "✅ Imports OK"
+    else:
+        status_msg = "❌ Import violations found"
+        
+    return success, status_msg, output
+
+
+def run_coverage_check() -> Tuple[bool, str, str]:
+    """Run coverage regression check"""
+    print("Running Coverage Check...")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.join(base_dir, "check_coverage.py")
+    
+    # Use virtual environment Python
+    project_root = find_project_root()
+    venv_python = os.path.join(project_root, ".venv", "Scripts", "python.exe")
+    
+    step = PipelineStep("Coverage Check", f'"{venv_python}" "{script_path}"')
+    success, output = step.execute()
+    
+    if success:
+        status_msg = "✅ Coverage OK"
+    else:
+        status_msg = "❌ Coverage regression"
+        
+    return success, status_msg, output
+
+
 def run_all_pipeline() -> Dict[str, Tuple[bool, str, str]]:
     """Run all CI steps and return results"""
     results = {}
@@ -273,14 +345,32 @@ def run_all_pipeline() -> Dict[str, Tuple[bool, str, str]]:
     print(f"   {results['format'][1]}")
     print()
 
-    # 2. Tests
-    print("2. Running Tests...")
+    # 2. Dart Analyze
+    print("2. Running Dart Analyze...")
+    results['analyze'] = run_dart_analyze()
+    print(f"   {results['analyze'][1]}")
+    print()
+
+    # 3. Tests (includes coverage generation)
+    print("3. Running Tests...")
     results['tests'] = run_tests()
     print(f"   {results['tests'][1]}")
     print()
 
-    # 3. Design System Checks
-    print("3. Running Design System Checks...")
+    # 4. Coverage Check
+    print("4. Checking Coverage Regression...")
+    results['coverage'] = run_coverage_check()
+    print(f"   {results['coverage'][1]}")
+    print()
+
+    # 5. Import Check
+    print("5. Checking Imports...")
+    results['imports'] = run_import_check()
+    print(f"   {results['imports'][1]}")
+    print()
+
+    # 6. Design System Checks
+    print("6. Running Design System Checks...")
     results['design'] = run_design_system_checks()
     print(f"   {results['design'][1]}")
     print()

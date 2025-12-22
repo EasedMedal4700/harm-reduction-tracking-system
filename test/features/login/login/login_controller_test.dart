@@ -16,7 +16,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'login_controller_test.mocks.dart';
 
-@GenerateMocks([AuthService, PostLoginRouter, OnboardingService, SupabaseClient, GoTrueClient, Stream])
+@GenerateMocks([
+  AuthService,
+  PostLoginRouter,
+  OnboardingService,
+  SupabaseClient,
+  GoTrueClient,
+  Stream,
+])
 void main() {
   late ProviderContainer container;
   late MockAuthService mockAuthService;
@@ -31,8 +38,9 @@ void main() {
     mockRouter = MockPostLoginRouter();
     mockOnboardingService = MockOnboardingService();
 
-    when(mockOnboardingService.isOnboardingComplete())
-        .thenAnswer((_) async => true);
+    when(
+      mockOnboardingService.isOnboardingComplete(),
+    ).thenAnswer((_) async => true);
 
     container = ProviderContainer(
       overrides: [
@@ -88,8 +96,9 @@ void main() {
 
   group('LoginController - Login Flow', () {
     test('submitLogin succeeds with valid credentials', () async {
-      when(mockAuthService.login('test@test.com', 'password123'))
-          .thenAnswer((_) async => true);
+      when(
+        mockAuthService.login('test@test.com', 'password123'),
+      ).thenAnswer((_) async => true);
 
       final notifier = container.read(loginControllerProvider.notifier);
       await notifier.submitLogin(
@@ -107,8 +116,9 @@ void main() {
     });
 
     test('submitLogin fails with invalid credentials', () async {
-      when(mockAuthService.login('wrong@test.com', 'wrongpass'))
-          .thenAnswer((_) async => false);
+      when(
+        mockAuthService.login('wrong@test.com', 'wrongpass'),
+      ).thenAnswer((_) async => false);
 
       final notifier = container.read(loginControllerProvider.notifier);
       await notifier.submitLogin(
@@ -180,10 +190,7 @@ void main() {
       final notifier = container.read(loginControllerProvider.notifier);
       notifier.toggleRememberMe(true);
 
-      await notifier.submitLogin(
-        email: 'test@test.com',
-        password: 'password',
-      );
+      await notifier.submitLogin(email: 'test@test.com', password: 'password');
 
       final prefs = await SharedPreferences.getInstance();
       expect(prefs.getBool('remember_me'), true);
@@ -195,10 +202,7 @@ void main() {
       final notifier = container.read(loginControllerProvider.notifier);
       notifier.toggleRememberMe(false);
 
-      await notifier.submitLogin(
-        email: 'test@test.com',
-        password: 'password',
-      );
+      await notifier.submitLogin(email: 'test@test.com', password: 'password');
 
       final prefs = await SharedPreferences.getInstance();
       expect(prefs.getBool('remember_me'), false);
@@ -211,15 +215,9 @@ void main() {
 
       final notifier = container.read(loginControllerProvider.notifier);
 
-      await notifier.submitLogin(
-        email: 'test@test.com',
-        password: 'password',
-      );
+      await notifier.submitLogin(email: 'test@test.com', password: 'password');
 
-      await notifier.submitLogin(
-        email: 'test@test.com',
-        password: 'password',
-      );
+      await notifier.submitLogin(email: 'test@test.com', password: 'password');
 
       // Should only navigate once
       verify(mockRouter.routeAfterLogin(debug: false)).called(1);

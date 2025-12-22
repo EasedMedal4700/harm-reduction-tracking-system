@@ -1,13 +1,16 @@
 import json
 import os
 import sys
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
 
 from pipeline import (
     load_unified_report,
     run_design_system_checks,
     run_dart_format,
+    run_dart_analyze,
     run_tests,
+    run_import_check,
+    run_coverage_check,
     run_all_pipeline
 )
 
@@ -18,27 +21,38 @@ def render_main_menu() -> None:
     print("[1] Run Design System Checks")
     print("[2] View Design System Results")
     print("[3] Run Dart Format")
-    print("[4] Run Tests")
-    print("[5] Run ALL (Format + Tests + Checks)")
+    print("[4] Run Dart Analyze")
+    print("[5] Run Tests")
+    print("[6] Run Import Check")
+    print("[7] Run Coverage Check")
+    print("[8] Run ALL (Format + Analyze + Tests + Checks)")
     print()
     print("[q] Quit")
 
-def show_all_summary(results: Dict[str, Tuple[bool, str, str]]) -> Tuple[str, str, str]:
-    """Show unified summary for Run ALL and return outputs"""
+def show_all_summary(results: Dict[str, Tuple[bool, str, str]]) -> Dict[str, str]:
+    """Show unified summary for Run ALL and return outputs map"""
     print("LOCAL CI SUMMARY")
     print("────────────────────────────────")
     print()
 
     # Format results
     format_success, format_msg, format_output = results['format']
+    analyze_success, analyze_msg, analyze_output = results['analyze']
     tests_success, tests_msg, tests_output = results['tests']
+    imports_success, imports_msg, imports_output = results['imports']
+    coverage_success, coverage_msg, coverage_output = results['coverage']
     design_success, design_msg, design_output = results['design']
 
     print(f"Dart Format:        {format_msg}")
+    print(f"Dart Analyze:       {analyze_msg}")
     print(f"Tests:              {tests_msg}")
+    print(f"Import Check:       {imports_msg}")
+    print(f"Coverage Check:     {coverage_msg}")
 
     # Parse design system results
     report = load_unified_report()
+    blocking = 0
+    warnings = 0
     if report and "summary" in report:
         summary = report["summary"]
         blocking = summary.get("blocking", 0)
@@ -56,17 +70,28 @@ def show_all_summary(results: Dict[str, Tuple[bool, str, str]]) -> Tuple[str, st
     print()
 
     # Overall status
-    all_passed = format_success and tests_success and (blocking == 0)
+    all_passed = (format_success and analyze_success and tests_success and 
+                  imports_success and coverage_success and (blocking == 0))
     overall = "✅ PASS" if all_passed else "❌ FAIL"
     print(f"Overall Status: {overall}")
     print()
 
     print("[f] View format output")
+    print("[a] View analyze output")
     print("[t] View test output")
+    print("[i] View import check output")
+    print("[c] View coverage check output")
     print("[d] View design system results")
     print("[q] Back to menu")
 
-    return format_output, tests_output, design_output
+    return {
+        'f': format_output,
+        'a': analyze_output,
+        't': tests_output,
+        'i': imports_output,
+        'c': coverage_output,
+        'd': design_output
+    }
 
 def view_design_system_results() -> None:
     """File-first view of design system results"""
@@ -170,32 +195,53 @@ def main():
                 print(output)
             safe_input("\nPress Enter to continue...")
         elif choice == '4':
-            print("\n[4] Run Tests")
-            success, message, output = run_tests()
+            print("\n[4] Run Dart Analyze")
+            success, message, output = run_dart_analyze()
             print(message)
             if output.strip():
                 print("\nOutput:")
                 print(output)
             safe_input("\nPress Enter to continue...")
         elif choice == '5':
-            print("\n[5] Run ALL")
+            print("\n[5] Run Tests")
+            success, message, output = run_tests()
+            print(message)
+            if output.strip():
+                print("\nOutput:")
+                print(output)
+            safe_input("\nPress Enter to continue...")
+        elif choice == '6':
+            print("\n[6] Run Import Check")
+            success, message, output = run_import_check()
+            print(message)
+            if output.strip():
+                print("\nOutput:")
+                print(output)
+            safe_input("\nPress Enter to continue...")
+        elif choice == '7':
+            print("\n[7] Run Coverage Check")
+            success, message, output = run_coverage_check()
+            print(message)
+            if output.strip():
+                print("\nOutput:")
+                print(output)
+            safe_input("\nPress Enter to continue...")
+        elif choice == '8':
+            print("\n[8] Run ALL")
             print("Running all checks...")
             results = run_all_pipeline()
-            format_output, tests_output, design_output = show_all_summary(results)
+            outputs = show_all_summary(results)
 
             # Handle sub-menu for viewing individual outputs
             while True:
                 sub_choice = safe_input("Select option: ").strip().lower()
                 if sub_choice == 'q':
                     break
-                elif sub_choice == 'f':
-                    print(f"\nFormat Output:\n{format_output}")
-                    safe_input("\nPress Enter to continue...")
-                elif sub_choice == 't':
-                    print(f"\nTest Output:\n{tests_output}")
-                    safe_input("\nPress Enter to continue...")
                 elif sub_choice == 'd':
                     view_design_system_results()
+                elif sub_choice in outputs:
+                    print(f"\nOutput:\n{outputs[sub_choice]}")
+                    safe_input("\nPress Enter to continue...")
                 else:
                     print("Invalid choice.")
         else:
