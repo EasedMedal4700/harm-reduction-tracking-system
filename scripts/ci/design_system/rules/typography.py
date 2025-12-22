@@ -1,7 +1,9 @@
 """
-Typography Rule - Design System Checker v1.0
+Typography Rule - Design System Checker v1.1
 
-Detects hardcoded typography values and font violations.
+Detects hardcoded typography values that should be sourced from the
+design system (text styles, font tokens, and semantic typography).
+Severity: HYGIENE (non-blocking).
 """
 
 import re
@@ -10,11 +12,13 @@ from typing import List
 from models import Issue, RuleClass
 
 
-# Allowlists (do NOT scan)
+# -----------------------------------------------------------------------------
+# Allowlists (trusted sources)
+# -----------------------------------------------------------------------------
 IGNORE_PATH_KEYWORDS = [
     "/theme/",
     "/constants/theme/",
-    "/common/",
+    "/common/",  # Common text widgets/styles are trusted
 ]
 
 IGNORE_FILE_PATTERNS = [
@@ -25,39 +29,91 @@ IGNORE_FILE_PATTERNS = [
     r".*fonts.*\.dart$",
 ]
 
+
+# -----------------------------------------------------------------------------
+# Rules
+# -----------------------------------------------------------------------------
 RULES = [
-    # DESIGN_SYSTEM: hardcoded font families
-    (r"fontFamily\s*:\s*['\"][^'\"]*['\"]", "Hardcoded font family", RuleClass.HYGIENE),
-    (r"FontWeight\.w\d+", "Hardcoded font weight", RuleClass.HYGIENE),
+    # -------------------------------------------------------------------------
+    # HYGIENE: Hardcoded font family
+    # -------------------------------------------------------------------------
+    (
+        r"\bfontFamily\s*:\s*['\"][^'\"]+['\"]",
+        "Hardcoded font family - use design system typography tokens",
+        RuleClass.HYGIENE,
+    ),
 
-    # DESIGN_SYSTEM: hardcoded font sizes (should use theme)
-    (r"fontSize\s*:\s*\d+\.?\d*", "Hardcoded font size", RuleClass.HYGIENE),
-    (r"TextStyle\s*\([^)]*fontSize\s*:\s*\d+\.?\d*", "TextStyle with hardcoded font size", RuleClass.HYGIENE),
+    # -------------------------------------------------------------------------
+    # HYGIENE: Hardcoded font weight (numeric or enum)
+    # -------------------------------------------------------------------------
+    (
+        r"\bFontWeight\.w\d+\b",
+        "Hardcoded font weight - use semantic text styles",
+        RuleClass.HYGIENE,
+    ),
 
-    # DESIGN_SYSTEM: hardcoded line heights
-    (r"(height|lineHeight)\s*:\s*\d+\.?\d*", "Hardcoded line height", RuleClass.HYGIENE),
-    (r"TextStyle\s*\([^)]*height\s*:\s*\d+\.?\d*", "TextStyle with hardcoded height", RuleClass.HYGIENE),
+    # -------------------------------------------------------------------------
+    # HYGIENE: Hardcoded font size
+    # -------------------------------------------------------------------------
+    (
+        r"\bfontSize\s*:\s*\d+\.?\d*",
+        "Hardcoded font size - use semantic text styles",
+        RuleClass.HYGIENE,
+    ),
 
-    # DESIGN_SYSTEM: hardcoded letter spacing
-    (r"letterSpacing\s*:\s*[-]?\d+\.?\d*", "Hardcoded letter spacing", RuleClass.HYGIENE),
+    # -------------------------------------------------------------------------
+    # HYGIENE: Hardcoded line height / height multiplier
+    # -------------------------------------------------------------------------
+    (
+        r"\b(height|lineHeight)\s*:\s*\d+\.?\d*",
+        "Hardcoded line height - use semantic text styles",
+        RuleClass.HYGIENE,
+    ),
+
+    # -------------------------------------------------------------------------
+    # HYGIENE: Hardcoded letter spacing
+    # -------------------------------------------------------------------------
+    (
+        r"\bletterSpacing\s*:\s*-?\d+\.?\d*",
+        "Hardcoded letter spacing - use semantic text styles",
+        RuleClass.HYGIENE,
+    ),
+
+    # -------------------------------------------------------------------------
+    # HYGIENE: Inline TextStyle usage (encourage theme usage)
+    # -------------------------------------------------------------------------
+    (
+        r"\bTextStyle\s*\(",
+        "Inline TextStyle detected - prefer theme or common text styles",
+        RuleClass.HYGIENE,
+    ),
 ]
 
 
+# -----------------------------------------------------------------------------
+# Helpers
+# -----------------------------------------------------------------------------
 def should_ignore_file(path: Path) -> bool:
-    """Check if file should be ignored based on path or name patterns"""
+    """Check if file should be ignored based on path or filename patterns."""
     path_str = str(path).replace("\\", "/")
+
     for keyword in IGNORE_PATH_KEYWORDS:
         if keyword in path_str:
             return True
+
     for pattern in IGNORE_FILE_PATTERNS:
         if re.match(pattern, path.name):
             return True
+
     return False
 
 
+# -----------------------------------------------------------------------------
+# Rule runner
+# -----------------------------------------------------------------------------
 def run(files: List[Path]) -> List[Issue]:
     """
-    Run typography checks on the given files.
+    Run typography checks on the given Dart files.
 
     Args:
         files: List of Dart files to check
@@ -65,7 +121,7 @@ def run(files: List[Path]) -> List[Issue]:
     Returns:
         List of Issue objects for violations found
     """
-    issues = []
+    issues: List[Issue] = []
 
     for file_path in files:
         if should_ignore_file(file_path):
@@ -74,36 +130,49 @@ def run(files: List[Path]) -> List[Issue]:
         try:
             lines = file_path.read_text(encoding="utf-8").splitlines()
         except Exception as e:
-            # Create an error issue for unreadable files
-            issues.append(Issue(
-                rule="typography",
-                rule_class=RuleClass.CORRECTNESS,
-                file=file_path,
-                line=0,
-                message=f"Could not read file: {str(e)}",
-                snippet="",
-                ignored=False
-            ))
+            issues.append(
+                Issue(
+                    rule="typography",
+                    rule_class=RuleClass.CORRECTNESS,
+                    file=file_path,
+                    line=0,
+                    message=f"Could not read file: {str(e)}",
+                    snippet="",
+                    ignored=False,
+                )
+            )
             continue
 
         for line_number, line in enumerate(lines, start=1):
             for pattern, description, rule_class in RULES:
                 if re.search(pattern, line):
-                    issues.append(Issue(
-                        rule="typography",
-                        rule_class=rule_class,
-                        file=file_path,
-                        line=line_number,
-                        message=description,
-                        snippet=line.strip(),
-                        ignored=False
-                    ))
+                    issues.append(
+                        Issue(
+                            rule="typography",
+                            rule_class=rule_class,
+                            file=file_path,
+                            line=line_number,
+                            message=description,
+                            snippet=line.strip(),
+                            ignored=False,
+                        )
+                    )
 
+    # -------------------------------------------------------------------------
     # Deduplicate identical findings
-    unique_issues = []
+    # -------------------------------------------------------------------------
+    unique_issues: List[Issue] = []
     seen = set()
+
     for issue in issues:
-        key = (issue.rule, issue.rule_class, issue.file, issue.line, issue.message, issue.snippet)
+        key = (
+            issue.rule,
+            issue.rule_class,
+            issue.file,
+            issue.line,
+            issue.message,
+            issue.snippet,
+        )
         if key not in seen:
             seen.add(key)
             unique_issues.append(issue)

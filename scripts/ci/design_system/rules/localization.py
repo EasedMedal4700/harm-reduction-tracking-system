@@ -1,7 +1,8 @@
 """
-Localization Rule - Design System Checker v1.0
+Localization Rule - Design System Checker v1.1
 
-Detects hardcoded strings that should be localized.
+Detects hardcoded user-facing strings that should be localized.
+Focuses on UI text while avoiding configuration, keys, and constants.
 """
 
 import re
@@ -10,12 +11,14 @@ from typing import List
 from models import Issue, RuleClass
 
 
-# Allowlists (do NOT scan)
+# -----------------------------------------------------------------------------
+# Allowlists (trusted / non-UI sources)
+# -----------------------------------------------------------------------------
 IGNORE_PATH_KEYWORDS = [
     "/theme/",
     "/constants/theme/",
     "/common/",
-    "/l10n/",  # Localization files
+    "/l10n/",
     "/localization/",
 ]
 
@@ -29,77 +32,105 @@ IGNORE_FILE_PATTERNS = [
     r".*translations.*\.dart$",
 ]
 
+
+# -----------------------------------------------------------------------------
+# Rules
+# -----------------------------------------------------------------------------
 RULES = [
-    # DESIGN_SYSTEM: hardcoded user-facing strings in Text widgets
-    (r"Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded string in Text widget", RuleClass.HYGIENE),
+    # Text widgets
+    (
+        r"Text\s*\(\s*['\"]([^'\"]{3,})['\"]",
+        "Hardcoded string in Text widget",
+        RuleClass.HYGIENE,
+    ),
 
-    # DESIGN_SYSTEM: hardcoded strings in button labels
-    (r"(ElevatedButton|TextButton|OutlinedButton)\s*\([^)]*['\"]([^'\"]{3,})['\"]", "Hardcoded button text", RuleClass.HYGIENE),
+    # Button labels
+    (
+        r"(ElevatedButton|TextButton|OutlinedButton)\s*\([^)]*Text\s*\(\s*['\"]([^'\"]{3,})['\"]",
+        "Hardcoded button text",
+        RuleClass.HYGIENE,
+    ),
 
-    # DESIGN_SYSTEM: hardcoded strings in app bar titles
-    (r"AppBar\s*\([^)]*title\s*:\s*Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded app bar title", RuleClass.HYGIENE),
+    # AppBar titles
+    (
+        r"AppBar\s*\([^)]*title\s*:\s*Text\s*\(\s*['\"]([^'\"]{3,})['\"]",
+        "Hardcoded AppBar title",
+        RuleClass.HYGIENE,
+    ),
 
-    # DESIGN_SYSTEM: hardcoded placeholder text
-    (r"(hintText|labelText|helperText)\s*:\s*['\"]([^'\"]{3,})['\"]", "Hardcoded form field text", RuleClass.HYGIENE),
+    # Form field text
+    (
+        r"\b(hintText|labelText|helperText)\s*:\s*['\"]([^'\"]{3,})['\"]",
+        "Hardcoded form field text",
+        RuleClass.HYGIENE,
+    ),
 
-    # DESIGN_SYSTEM: hardcoded error messages
-    (r"(errorText|errorMessage)\s*:\s*['\"]([^'\"]{3,})['\"]", "Hardcoded error message", RuleClass.HYGIENE),
+    # Error messages
+    (
+        r"\b(errorText|errorMessage)\s*:\s*['\"]([^'\"]{3,})['\"]",
+        "Hardcoded error message",
+        RuleClass.HYGIENE,
+    ),
 
-    # DESIGN_SYSTEM: hardcoded snackbar messages
-    (r"ScaffoldMessenger.*showSnackBar\s*\([^)]*['\"]([^'\"]{5,})['\"]", "Hardcoded snackbar message", RuleClass.HYGIENE),
+    # Snackbars / toasts
+    (
+        r"showSnackBar\s*\([^)]*Text\s*\(\s*['\"]([^'\"]{5,})['\"]",
+        "Hardcoded snackbar message",
+        RuleClass.HYGIENE,
+    ),
 
-    # DESIGN_SYSTEM: hardcoded dialog content
-    (r"(AlertDialog|SimpleDialog)\s*\([^)]*(title|content)\s*:\s*Text\s*\(\s*['\"]([^'\"]{3,})['\"]", "Hardcoded dialog text", RuleClass.DESIGN_SYSTEM),
+    # Dialog content (more user-visible → stricter)
+    (
+        r"(AlertDialog|SimpleDialog)\s*\([^)]*(title|content)\s*:\s*Text\s*\(\s*['\"]([^'\"]{3,})['\"]",
+        "Hardcoded dialog text",
+        RuleClass.DESIGN_SYSTEM,
+    ),
 ]
 
 
+# -----------------------------------------------------------------------------
+# Helpers
+# -----------------------------------------------------------------------------
 def should_ignore_file(path: Path) -> bool:
-    """Check if file should be ignored based on path or name patterns"""
     path_str = str(path).replace("\\", "/")
+
     for keyword in IGNORE_PATH_KEYWORDS:
         if keyword in path_str:
             return True
+
     for pattern in IGNORE_FILE_PATTERNS:
         if re.match(pattern, path.name):
             return True
+
     return False
 
 
-def _is_likely_code_or_config(text: str) -> bool:
-    """Check if text is likely code/configuration rather than user-facing text"""
-    # Skip very short strings (likely constants, keys, etc.)
-    if len(text) < 3:
+def _is_likely_non_user_text(text: str) -> bool:
+    """Filter out constants, keys, and non-user-facing strings."""
+    if len(text.strip()) < 3:
         return True
 
-    # Skip strings that look like code (contain common programming patterns)
-    code_patterns = [
-        r'^[A-Z_]+$',  # ALL_CAPS constants
-        r'^[a-z_]+$',  # snake_case variables
-        r'^[a-zA-Z]+\.[a-zA-Z]+$',  # Class.property
-        r'^\d+$',  # Numbers
-        r'^#[0-9a-fA-F]+$',  # Hex colors
-        r'^https?://',  # URLs
-        r'^[a-zA-Z]{1,3}$',  # Very short abbreviations
+    non_user_patterns = [
+        r'^[A-Z0-9_]+$',           # CONSTANT_KEYS
+        r'^[a-z0-9_]+$',           # snake_case keys
+        r'^[a-zA-Z]+\.[a-zA-Z]+$', # object.property
+        r'^\d+$',                  # numbers
+        r'^#[0-9a-fA-F]+$',        # hex
+        r'^https?://',             # URLs
     ]
 
-    for pattern in code_patterns:
+    for pattern in non_user_patterns:
         if re.match(pattern, text):
             return True
 
     return False
 
 
+# -----------------------------------------------------------------------------
+# Rule runner
+# -----------------------------------------------------------------------------
 def run(files: List[Path]) -> List[Issue]:
-    """
-    Run localization checks on the given files.
-
-    Args:
-        files: List of Dart files to check
-
-    Returns:
-        List of Issue objects for violations found
-    """
-    issues = []
+    issues: List[Issue] = []
 
     for file_path in files:
         if should_ignore_file(file_path):
@@ -108,47 +139,52 @@ def run(files: List[Path]) -> List[Issue]:
         try:
             lines = file_path.read_text(encoding="utf-8").splitlines()
         except Exception as e:
-            # Create an error issue for unreadable files
-            issues.append(Issue(
-                rule="localization",
-                rule_class=RuleClass.CORRECTNESS,
-                file=file_path,
-                line=0,
-                message=f"Could not read file: {str(e)}",
-                snippet="",
-                ignored=False
-            ))
+            issues.append(
+                Issue(
+                    rule="localization",
+                    rule_class=RuleClass.CORRECTNESS,
+                    file=file_path,
+                    line=0,
+                    message=f"Could not read file: {str(e)}",
+                    snippet="",
+                    ignored=False,
+                )
+            )
             continue
 
         for line_number, line in enumerate(lines, start=1):
             for pattern, description, rule_class in RULES:
-                matches = re.finditer(pattern, line)
-                for match in matches:
-                    # Extract the actual string content
-                    if len(match.groups()) > 1:
-                        text_content = match.group(2) if len(match.groups()) > 1 else match.group(1)
-                    else:
-                        text_content = match.group(1)
+                for match in re.finditer(pattern, line):
+                    text_value = match.groups()[-1]
 
-                    # Skip if it looks like code/configuration
-                    if _is_likely_code_or_config(text_content):
+                    if _is_likely_non_user_text(text_value):
                         continue
 
-                    issues.append(Issue(
-                        rule="localization",
-                        rule_class=rule_class,
-                        file=file_path,
-                        line=line_number,
-                        message=f"{description}: '{text_content}'",
-                        snippet=line.strip(),
-                        ignored=False
-                    ))
+                    issues.append(
+                        Issue(
+                            rule="localization",
+                            rule_class=rule_class,
+                            file=file_path,
+                            line=line_number,
+                            message=f"{description}: '{text_value}'",
+                            snippet=line.strip(),
+                            ignored=False,
+                        )
+                    )
 
-    # Deduplicate identical findings
+    # Deduplicate
     unique_issues = []
     seen = set()
+
     for issue in issues:
-        key = (issue.rule, issue.severity, issue.file, issue.line, issue.message, issue.snippet)
+        key = (
+            issue.rule,
+            issue.rule_class,
+            issue.file,
+            issue.line,
+            issue.message,
+            issue.snippet,
+        )
         if key not in seen:
             seen.add(key)
             unique_issues.append(issue)
