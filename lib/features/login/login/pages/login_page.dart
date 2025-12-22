@@ -16,6 +16,7 @@ import '../../../../common/inputs/input_field.dart';
 import '../../../../common/buttons/common_primary_button.dart';
 import '../../../../common/layout/common_spacer.dart';
 import '../controller/login_controller.dart';
+import '../state/login_state.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -29,9 +30,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final passwordController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    ref.read(loginControllerProvider.notifier).init();
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override

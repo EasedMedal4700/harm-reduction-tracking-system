@@ -17,10 +17,15 @@ import '../../../../services/onboarding_service.dart';
 import '../../services/post_login_router.dart';
 import '../state/login_state.dart';
 
+/// Provider wiring owns lifecycle.
+/// UI MUST NOT call init().
 final loginControllerProvider =
-    StateNotifierProvider<LoginController, LoginState>(
-      (ref) => LoginController(ref),
-    );
+    StateNotifierProvider<LoginController, LoginState>((ref) {
+      final controller = LoginController(ref);
+      controller.init();
+      ref.onDispose(controller.dispose);
+      return controller;
+    });
 
 class LoginController extends StateNotifier<LoginState> {
   LoginController(this._ref) : super(const LoginState());
@@ -29,6 +34,10 @@ class LoginController extends StateNotifier<LoginState> {
   static const _rememberMeKey = 'remember_me';
 
   StreamSubscription<AuthState>? _authSub;
+
+  // ---------------------------------------------------------------------------
+  // Lifecycle
+  // ---------------------------------------------------------------------------
 
   void init() {
     _listenForRestoredSession();
@@ -47,21 +56,27 @@ class LoginController extends StateNotifier<LoginState> {
     final client = Supabase.instance.client;
 
     _authSub = client.auth.onAuthStateChange.listen((data) async {
+      if (state.hasNavigated) return;
+
       final remember = await _readRememberMe();
       if (remember && data.session != null) {
-        _routeAfterLogin(debug: false);
+        _navigateOnce(debug: false);
       }
     });
   }
 
   Future<void> _initializeSession() async {
+    // Onboarding always has priority
     if (!await onboardingService.isOnboardingComplete()) {
       _ref.read(postLoginRouterProvider).goToOnboarding();
       return;
     }
 
-    state = state.copyWith(rememberMe: await _readRememberMe());
+    final remember = await _readRememberMe();
 
+    state = state.copyWith(rememberMe: remember, isInitialized: true);
+
+    // Debug auto-login (dev only)
     if (DebugConfig.instance.isAutoLoginEnabled &&
         DebugConfig.instance.hasValidCredentials) {
       await _performDebugAutoLogin();
@@ -93,7 +108,7 @@ class LoginController extends StateNotifier<LoginState> {
     }
 
     await _persistRememberMe(state.rememberMe);
-    _routeAfterLogin(debug: false);
+    _navigateOnce(debug: false);
   }
 
   void toggleRememberMe(bool value) {
@@ -118,17 +133,24 @@ class LoginController extends StateNotifier<LoginState> {
 
     if (success) {
       await _persistRememberMe(true);
-      _routeAfterLogin(debug: true);
+      _navigateOnce(debug: true);
     }
   }
 
   // ---------------------------------------------------------------------------
-  // Helpers
+  // Navigation (guarded)
   // ---------------------------------------------------------------------------
 
-  void _routeAfterLogin({required bool debug}) {
+  void _navigateOnce({required bool debug}) {
+    if (state.hasNavigated) return;
+
+    state = state.copyWith(hasNavigated: true);
     _ref.read(postLoginRouterProvider).routeAfterLogin(debug: debug);
   }
+
+  // ---------------------------------------------------------------------------
+  // Persistence helpers
+  // ---------------------------------------------------------------------------
 
   Future<bool> _readRememberMe() async {
     return _ref.read(sharedPreferencesProvider).getBool(_rememberMeKey) ??

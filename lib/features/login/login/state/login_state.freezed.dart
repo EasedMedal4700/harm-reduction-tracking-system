@@ -19,6 +19,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$LoginState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get rememberMe => throw _privateConstructorUsedError;
+  bool get isInitialized => throw _privateConstructorUsedError;
+  bool get hasNavigated => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of LoginState
@@ -35,7 +37,13 @@ abstract class $LoginStateCopyWith<$Res> {
     $Res Function(LoginState) then,
   ) = _$LoginStateCopyWithImpl<$Res, LoginState>;
   @useResult
-  $Res call({bool isLoading, bool rememberMe, String? errorMessage});
+  $Res call({
+    bool isLoading,
+    bool rememberMe,
+    bool isInitialized,
+    bool hasNavigated,
+    String? errorMessage,
+  });
 }
 
 /// @nodoc
@@ -55,6 +63,8 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
   $Res call({
     Object? isLoading = null,
     Object? rememberMe = null,
+    Object? isInitialized = null,
+    Object? hasNavigated = null,
     Object? errorMessage = freezed,
   }) {
     return _then(
@@ -66,6 +76,14 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
             rememberMe: null == rememberMe
                 ? _value.rememberMe
                 : rememberMe // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isInitialized: null == isInitialized
+                ? _value.isInitialized
+                : isInitialized // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            hasNavigated: null == hasNavigated
+                ? _value.hasNavigated
+                : hasNavigated // ignore: cast_nullable_to_non_nullable
                       as bool,
             errorMessage: freezed == errorMessage
                 ? _value.errorMessage
@@ -86,7 +104,13 @@ abstract class _$$LoginStateImplCopyWith<$Res>
   ) = __$$LoginStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, bool rememberMe, String? errorMessage});
+  $Res call({
+    bool isLoading,
+    bool rememberMe,
+    bool isInitialized,
+    bool hasNavigated,
+    String? errorMessage,
+  });
 }
 
 /// @nodoc
@@ -105,6 +129,8 @@ class __$$LoginStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? rememberMe = null,
+    Object? isInitialized = null,
+    Object? hasNavigated = null,
     Object? errorMessage = freezed,
   }) {
     return _then(
@@ -116,6 +142,14 @@ class __$$LoginStateImplCopyWithImpl<$Res>
         rememberMe: null == rememberMe
             ? _value.rememberMe
             : rememberMe // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isInitialized: null == isInitialized
+            ? _value.isInitialized
+            : isInitialized // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        hasNavigated: null == hasNavigated
+            ? _value.hasNavigated
+            : hasNavigated // ignore: cast_nullable_to_non_nullable
                   as bool,
         errorMessage: freezed == errorMessage
             ? _value.errorMessage
@@ -132,6 +166,8 @@ class _$LoginStateImpl implements _LoginState {
   const _$LoginStateImpl({
     this.isLoading = false,
     this.rememberMe = false,
+    this.isInitialized = false,
+    this.hasNavigated = false,
     this.errorMessage,
   });
 
@@ -142,11 +178,17 @@ class _$LoginStateImpl implements _LoginState {
   @JsonKey()
   final bool rememberMe;
   @override
+  @JsonKey()
+  final bool isInitialized;
+  @override
+  @JsonKey()
+  final bool hasNavigated;
+  @override
   final String? errorMessage;
 
   @override
   String toString() {
-    return 'LoginState(isLoading: $isLoading, rememberMe: $rememberMe, errorMessage: $errorMessage)';
+    return 'LoginState(isLoading: $isLoading, rememberMe: $rememberMe, isInitialized: $isInitialized, hasNavigated: $hasNavigated, errorMessage: $errorMessage)';
   }
 
   @override
@@ -158,13 +200,23 @@ class _$LoginStateImpl implements _LoginState {
                 other.isLoading == isLoading) &&
             (identical(other.rememberMe, rememberMe) ||
                 other.rememberMe == rememberMe) &&
+            (identical(other.isInitialized, isInitialized) ||
+                other.isInitialized == isInitialized) &&
+            (identical(other.hasNavigated, hasNavigated) ||
+                other.hasNavigated == hasNavigated) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, rememberMe, errorMessage);
+  int get hashCode => Object.hash(
+    runtimeType,
+    isLoading,
+    rememberMe,
+    isInitialized,
+    hasNavigated,
+    errorMessage,
+  );
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
@@ -179,6 +231,8 @@ abstract class _LoginState implements LoginState {
   const factory _LoginState({
     final bool isLoading,
     final bool rememberMe,
+    final bool isInitialized,
+    final bool hasNavigated,
     final String? errorMessage,
   }) = _$LoginStateImpl;
 
@@ -186,6 +240,10 @@ abstract class _LoginState implements LoginState {
   bool get isLoading;
   @override
   bool get rememberMe;
+  @override
+  bool get isInitialized;
+  @override
+  bool get hasNavigated;
   @override
   String? get errorMessage;
 

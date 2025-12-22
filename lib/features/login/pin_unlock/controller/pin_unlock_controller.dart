@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../providers/navigation_provider.dart';
+import '../../../../services/navigation_service.dart';
 import '../../../../providers/core_providers.dart';
 import '../../../../services/encryption_service_v2.dart';
 import '../../../../services/debug_config.dart';
@@ -19,17 +20,15 @@ import '../state/pin_unlock_state.dart';
 
 final pinUnlockControllerProvider =
     StateNotifierProvider<PinUnlockController, PinUnlockState>(
-  (ref) => PinUnlockController(ref),
-);
+      (ref) => PinUnlockController(ref),
+    );
 
 class PinUnlockController extends StateNotifier<PinUnlockState> {
   PinUnlockController(this._ref) : super(const PinUnlockState());
 
   final Ref _ref;
-  EncryptionServiceV2 get _encryption =>
-      _ref.read(encryptionServiceProvider);
-  NavigationService get _nav =>
-      _ref.read(navigationProvider);
+  EncryptionServiceV2 get _encryption => _ref.read(encryptionServiceProvider);
+  NavigationService get _nav => _ref.read(navigationProvider);
 
   // ---------------------------
   // Lifecycle
@@ -74,10 +73,7 @@ class PinUnlockController extends StateNotifier<PinUnlockState> {
     final success = await _encryption.unlockWithPin(user.id, pin);
 
     if (!success) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: 'Incorrect PIN',
-      );
+      state = state.copyWith(isLoading: false, errorMessage: 'Incorrect PIN');
       return;
     }
 

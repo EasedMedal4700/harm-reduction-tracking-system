@@ -50,9 +50,7 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
     final sp = context.spacing;
 
     if (state.isCheckingAuth) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
@@ -73,21 +71,26 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
 
             if (state.errorMessage != null) ...[
               CommonSpacer.vertical(sp.md),
-              Text(state.errorMessage!, style: t.bodyMedium.copyWith(color: c.error)),
+              Text(
+                state.errorMessage!,
+                style: t.bodyMedium.copyWith(color: c.error),
+              ),
             ],
 
             CommonSpacer.vertical(sp.lg),
 
             ElevatedButton(
-              onPressed:
-                  state.isLoading ? null : () => controller.submitPin(_pinController.text),
+              onPressed: state.isLoading
+                  ? null
+                  : () => controller.submitPin(_pinController.text),
               child: const Text('Unlock'),
             ),
 
             if (state.biometricsAvailable)
               TextButton(
-                onPressed:
-                    state.isLoading ? null : controller.unlockWithBiometrics,
+                onPressed: state.isLoading
+                    ? null
+                    : controller.unlockWithBiometrics,
                 child: const Text('Use biometrics'),
               ),
 

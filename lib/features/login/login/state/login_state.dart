@@ -15,6 +15,8 @@ class LoginState with _$LoginState {
   const factory LoginState({
     @Default(false) bool isLoading,
     @Default(false) bool rememberMe,
+    @Default(false) bool isInitialized,
+    @Default(false) bool hasNavigated,
     String? errorMessage,
   }) = _LoginState;
 }
