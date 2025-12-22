@@ -28,12 +28,15 @@ dependencies:
   local_auth: ^2.3.0  # For biometric authentication
   url_launcher: ^6.1.10  # Add other dependencies as needed
   app_links: ^6.3.3  # For deep link handling (email confirmation, password reset)
+  freezed_annotation: ^2.4.1
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.4.4  # For mocking
   build_runner: ^2.4.6  # To generate mocks
+  freezed: ^2.4.6
   flutter_lints: ^5.0.0
   integration_test:
     sdk: flutter

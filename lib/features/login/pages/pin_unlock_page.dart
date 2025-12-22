@@ -10,15 +10,15 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
-import '../../common/layout/common_spacer.dart';
+import '../../../common/layout/common_spacer.dart';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../providers/core_providers.dart';
-import '../../services/encryption_service_v2.dart';
-import '../../services/debug_config.dart';
+import '../../../providers/core_providers.dart';
+import '../../../services/encryption_service_v2.dart';
+import '../../../services/debug_config.dart';
 
 /// Screen for unlocking with PIN or biometrics
 class PinUnlockScreen extends ConsumerStatefulWidget {

@@ -22,7 +22,7 @@ import '../features/interactions/interactions_page.dart';
 import '../features/wearOS/wearos_page.dart';
 import '../features/bug_report/bug_report_page.dart';
 import '../features/setup_account/pin_setup_page.dart';
-import '../features/login/pin_unlock_page.dart';
+import '../features/login/pages/pin_unlock_page.dart';
 import '../features/setup_account/recovery_key_page.dart';
 import '../features/manage_profile/encryption_migration_page.dart';
 import '../features/manage_profile/change_pin_page.dart';

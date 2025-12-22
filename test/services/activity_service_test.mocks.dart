@@ -23,7 +23,6 @@ import 'package:supabase/supabase.dart' as _i2;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
-// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeFunctionsClient_0 extends _i1.SmartFake
     implements _i2.FunctionsClient {
@@ -78,74 +77,46 @@ class _FakeRealtimeChannel_8 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
-class _FakeSupabaseStreamFilterBuilder_9 extends _i1.SmartFake
-    implements _i2.SupabaseStreamFilterBuilder {
-  _FakeSupabaseStreamFilterBuilder_9(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakePostgrestQueryBuilder_10<T> extends _i1.SmartFake
-    implements _i2.PostgrestQueryBuilder<T> {
-  _FakePostgrestQueryBuilder_10(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakePostgrestBuilder_11<T, S, R> extends _i1.SmartFake
-    implements _i2.PostgrestBuilder<T, S, R> {
-  _FakePostgrestBuilder_11(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeUri_12 extends _i1.SmartFake implements Uri {
-  _FakeUri_12(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeFuture_13<T> extends _i1.SmartFake implements _i3.Future<T> {
-  _FakeFuture_13(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeGoTrueAdminApi_14 extends _i1.SmartFake
+class _FakeGoTrueAdminApi_9 extends _i1.SmartFake
     implements _i2.GoTrueAdminApi {
-  _FakeGoTrueAdminApi_14(Object parent, Invocation parentInvocation)
+  _FakeGoTrueAdminApi_9(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeGoTrueMFAApi_15 extends _i1.SmartFake implements _i2.GoTrueMFAApi {
-  _FakeGoTrueMFAApi_15(Object parent, Invocation parentInvocation)
+class _FakeGoTrueMFAApi_10 extends _i1.SmartFake implements _i2.GoTrueMFAApi {
+  _FakeGoTrueMFAApi_10(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeAuthResponse_16 extends _i1.SmartFake implements _i2.AuthResponse {
-  _FakeAuthResponse_16(Object parent, Invocation parentInvocation)
+class _FakeAuthResponse_11 extends _i1.SmartFake implements _i2.AuthResponse {
+  _FakeAuthResponse_11(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeOAuthResponse_17 extends _i1.SmartFake implements _i2.OAuthResponse {
-  _FakeOAuthResponse_17(Object parent, Invocation parentInvocation)
+class _FakeOAuthResponse_12 extends _i1.SmartFake implements _i2.OAuthResponse {
+  _FakeOAuthResponse_12(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeAuthSessionUrlResponse_18 extends _i1.SmartFake
+class _FakeAuthSessionUrlResponse_13 extends _i1.SmartFake
     implements _i2.AuthSessionUrlResponse {
-  _FakeAuthSessionUrlResponse_18(Object parent, Invocation parentInvocation)
+  _FakeAuthSessionUrlResponse_13(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeResendResponse_19 extends _i1.SmartFake
+class _FakeResendResponse_14 extends _i1.SmartFake
     implements _i2.ResendResponse {
-  _FakeResendResponse_19(Object parent, Invocation parentInvocation)
+  _FakeResendResponse_14(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeUserResponse_20 extends _i1.SmartFake implements _i2.UserResponse {
-  _FakeUserResponse_20(Object parent, Invocation parentInvocation)
+class _FakeUserResponse_15 extends _i1.SmartFake implements _i2.UserResponse {
+  _FakeUserResponse_15(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeObject_21 extends _i1.SmartFake implements Object {
-  _FakeObject_21(Object parent, Invocation parentInvocation)
+class _FakeObject_16 extends _i1.SmartFake implements Object {
+  _FakeObject_16(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -215,26 +186,26 @@ class MockSupabaseClient extends _i1.Mock implements _i2.SupabaseClient {
           as _i2.GoTrueClient);
 
   @override
-  set functions(_i2.FunctionsClient? value) => super.noSuchMethod(
-    Invocation.setter(#functions, value),
+  set functions(_i2.FunctionsClient? _functions) => super.noSuchMethod(
+    Invocation.setter(#functions, _functions),
     returnValueForMissingStub: null,
   );
 
   @override
-  set storage(_i2.SupabaseStorageClient? value) => super.noSuchMethod(
-    Invocation.setter(#storage, value),
+  set storage(_i2.SupabaseStorageClient? _storage) => super.noSuchMethod(
+    Invocation.setter(#storage, _storage),
     returnValueForMissingStub: null,
   );
 
   @override
-  set realtime(_i2.RealtimeClient? value) => super.noSuchMethod(
-    Invocation.setter(#realtime, value),
+  set realtime(_i2.RealtimeClient? _realtime) => super.noSuchMethod(
+    Invocation.setter(#realtime, _realtime),
     returnValueForMissingStub: null,
   );
 
   @override
-  set rest(_i2.PostgrestClient? value) => super.noSuchMethod(
-    Invocation.setter(#rest, value),
+  set rest(_i2.PostgrestClient? _rest) => super.noSuchMethod(
+    Invocation.setter(#rest, _rest),
     returnValueForMissingStub: null,
   );
 
@@ -334,236 +305,6 @@ class MockSupabaseClient extends _i1.Mock implements _i2.SupabaseClient {
           as _i3.Future<void>);
 }
 
-/// A class which mocks [SupabaseQueryBuilder].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockSupabaseQueryBuilder extends _i1.Mock
-    implements _i2.SupabaseQueryBuilder {
-  MockSupabaseQueryBuilder() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i2.SupabaseStreamFilterBuilder stream({required List<String>? primaryKey}) =>
-      (super.noSuchMethod(
-            Invocation.method(#stream, [], {#primaryKey: primaryKey}),
-            returnValue: _FakeSupabaseStreamFilterBuilder_9(
-              this,
-              Invocation.method(#stream, [], {#primaryKey: primaryKey}),
-            ),
-          )
-          as _i2.SupabaseStreamFilterBuilder);
-
-  @override
-  _i2.PostgrestFilterBuilder<List<Map<String, dynamic>>> select([
-    String? columns = '*',
-  ]) =>
-      (super.noSuchMethod(
-            Invocation.method(#select, [columns]),
-            returnValue:
-                _FakePostgrestFilterBuilder_7<List<Map<String, dynamic>>>(
-                  this,
-                  Invocation.method(#select, [columns]),
-                ),
-          )
-          as _i2.PostgrestFilterBuilder<List<Map<String, dynamic>>>);
-
-  @override
-  _i2.PostgrestFilterBuilder<dynamic> insert(
-    Object? values, {
-    bool? defaultToNull = true,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(
-              #insert,
-              [values],
-              {#defaultToNull: defaultToNull},
-            ),
-            returnValue: _FakePostgrestFilterBuilder_7<dynamic>(
-              this,
-              Invocation.method(
-                #insert,
-                [values],
-                {#defaultToNull: defaultToNull},
-              ),
-            ),
-          )
-          as _i2.PostgrestFilterBuilder<dynamic>);
-
-  @override
-  _i2.PostgrestFilterBuilder<dynamic> upsert(
-    Object? values, {
-    String? onConflict,
-    bool? ignoreDuplicates = false,
-    bool? defaultToNull = true,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(
-              #upsert,
-              [values],
-              {
-                #onConflict: onConflict,
-                #ignoreDuplicates: ignoreDuplicates,
-                #defaultToNull: defaultToNull,
-              },
-            ),
-            returnValue: _FakePostgrestFilterBuilder_7<dynamic>(
-              this,
-              Invocation.method(
-                #upsert,
-                [values],
-                {
-                  #onConflict: onConflict,
-                  #ignoreDuplicates: ignoreDuplicates,
-                  #defaultToNull: defaultToNull,
-                },
-              ),
-            ),
-          )
-          as _i2.PostgrestFilterBuilder<dynamic>);
-
-  @override
-  _i2.PostgrestFilterBuilder<dynamic> update(Map<dynamic, dynamic>? values) =>
-      (super.noSuchMethod(
-            Invocation.method(#update, [values]),
-            returnValue: _FakePostgrestFilterBuilder_7<dynamic>(
-              this,
-              Invocation.method(#update, [values]),
-            ),
-          )
-          as _i2.PostgrestFilterBuilder<dynamic>);
-
-  @override
-  _i2.PostgrestFilterBuilder<dynamic> delete() =>
-      (super.noSuchMethod(
-            Invocation.method(#delete, []),
-            returnValue: _FakePostgrestFilterBuilder_7<dynamic>(
-              this,
-              Invocation.method(#delete, []),
-            ),
-          )
-          as _i2.PostgrestFilterBuilder<dynamic>);
-
-  @override
-  _i2.PostgrestFilterBuilder<int> count([
-    _i2.CountOption? option = _i2.CountOption.exact,
-  ]) =>
-      (super.noSuchMethod(
-            Invocation.method(#count, [option]),
-            returnValue: _FakePostgrestFilterBuilder_7<int>(
-              this,
-              Invocation.method(#count, [option]),
-            ),
-          )
-          as _i2.PostgrestFilterBuilder<int>);
-
-  @override
-  _i2.PostgrestQueryBuilder<dynamic> setHeader(String? key, String? value) =>
-      (super.noSuchMethod(
-            Invocation.method(#setHeader, [key, value]),
-            returnValue: _FakePostgrestQueryBuilder_10<dynamic>(
-              this,
-              Invocation.method(#setHeader, [key, value]),
-            ),
-          )
-          as _i2.PostgrestQueryBuilder<dynamic>);
-
-  @override
-  _i2.PostgrestBuilder<U, U, dynamic> withConverter<U>(
-    _i2.PostgrestConverter<U, dynamic>? converter,
-  ) =>
-      (super.noSuchMethod(
-            Invocation.method(#withConverter, [converter]),
-            returnValue: _FakePostgrestBuilder_11<U, U, dynamic>(
-              this,
-              Invocation.method(#withConverter, [converter]),
-            ),
-          )
-          as _i2.PostgrestBuilder<U, U, dynamic>);
-
-  @override
-  Uri appendSearchParams(String? key, String? value, [Uri? url]) =>
-      (super.noSuchMethod(
-            Invocation.method(#appendSearchParams, [key, value, url]),
-            returnValue: _FakeUri_12(
-              this,
-              Invocation.method(#appendSearchParams, [key, value, url]),
-            ),
-          )
-          as Uri);
-
-  @override
-  Uri overrideSearchParams(String? key, String? value) =>
-      (super.noSuchMethod(
-            Invocation.method(#overrideSearchParams, [key, value]),
-            returnValue: _FakeUri_12(
-              this,
-              Invocation.method(#overrideSearchParams, [key, value]),
-            ),
-          )
-          as Uri);
-
-  @override
-  _i3.Stream<dynamic> asStream() =>
-      (super.noSuchMethod(
-            Invocation.method(#asStream, []),
-            returnValue: _i3.Stream<dynamic>.empty(),
-          )
-          as _i3.Stream<dynamic>);
-
-  @override
-  _i3.Future<dynamic> catchError(
-    Function? onError, {
-    bool Function(Object)? test,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(#catchError, [onError], {#test: test}),
-            returnValue: _i3.Future<dynamic>.value(),
-          )
-          as _i3.Future<dynamic>);
-
-  @override
-  _i3.Future<U> then<U>(
-    _i3.FutureOr<U> Function(dynamic)? onValue, {
-    Function? onError,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(#then, [onValue], {#onError: onError}),
-            returnValue:
-                _i4.ifNotNull(
-                  _i4.dummyValueOrNull<U>(
-                    this,
-                    Invocation.method(#then, [onValue], {#onError: onError}),
-                  ),
-                  (U v) => _i3.Future<U>.value(v),
-                ) ??
-                _FakeFuture_13<U>(
-                  this,
-                  Invocation.method(#then, [onValue], {#onError: onError}),
-                ),
-          )
-          as _i3.Future<U>);
-
-  @override
-  _i3.Future<dynamic> timeout(
-    Duration? timeLimit, {
-    _i3.FutureOr<dynamic> Function()? onTimeout,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(#timeout, [timeLimit], {#onTimeout: onTimeout}),
-            returnValue: _i3.Future<dynamic>.value(),
-          )
-          as _i3.Future<dynamic>);
-
-  @override
-  _i3.Future<dynamic> whenComplete(_i3.FutureOr<void> Function()? action) =>
-      (super.noSuchMethod(
-            Invocation.method(#whenComplete, [action]),
-            returnValue: _i3.Future<dynamic>.value(),
-          )
-          as _i3.Future<dynamic>);
-}
-
 /// A class which mocks [GoTrueClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -576,10 +317,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
   _i2.GoTrueAdminApi get admin =>
       (super.noSuchMethod(
             Invocation.getter(#admin),
-            returnValue: _FakeGoTrueAdminApi_14(
-              this,
-              Invocation.getter(#admin),
-            ),
+            returnValue: _FakeGoTrueAdminApi_9(this, Invocation.getter(#admin)),
           )
           as _i2.GoTrueAdminApi);
 
@@ -587,7 +325,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
   _i2.GoTrueMFAApi get mfa =>
       (super.noSuchMethod(
             Invocation.getter(#mfa),
-            returnValue: _FakeGoTrueMFAApi_15(this, Invocation.getter(#mfa)),
+            returnValue: _FakeGoTrueMFAApi_10(this, Invocation.getter(#mfa)),
           )
           as _i2.GoTrueMFAApi);
 
@@ -616,14 +354,14 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
           as Map<String, String>);
 
   @override
-  set admin(_i2.GoTrueAdminApi? value) => super.noSuchMethod(
-    Invocation.setter(#admin, value),
+  set admin(_i2.GoTrueAdminApi? _admin) => super.noSuchMethod(
+    Invocation.setter(#admin, _admin),
     returnValueForMissingStub: null,
   );
 
   @override
-  set mfa(_i2.GoTrueMFAApi? value) => super.noSuchMethod(
-    Invocation.setter(#mfa, value),
+  set mfa(_i2.GoTrueMFAApi? _mfa) => super.noSuchMethod(
+    Invocation.setter(#mfa, _mfa),
     returnValueForMissingStub: null,
   );
 
@@ -638,7 +376,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
               #captchaToken: captchaToken,
             }),
             returnValue: _i3.Future<_i2.AuthResponse>.value(
-              _FakeAuthResponse_16(
+              _FakeAuthResponse_11(
                 this,
                 Invocation.method(#signInAnonymously, [], {
                   #data: data,
@@ -670,7 +408,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
               #channel: channel,
             }),
             returnValue: _i3.Future<_i2.AuthResponse>.value(
-              _FakeAuthResponse_16(
+              _FakeAuthResponse_11(
                 this,
                 Invocation.method(#signUp, [], {
                   #email: email,
@@ -701,7 +439,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
               #captchaToken: captchaToken,
             }),
             returnValue: _i3.Future<_i2.AuthResponse>.value(
-              _FakeAuthResponse_16(
+              _FakeAuthResponse_11(
                 this,
                 Invocation.method(#signInWithPassword, [], {
                   #email: email,
@@ -729,7 +467,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
               #queryParams: queryParams,
             }),
             returnValue: _i3.Future<_i2.OAuthResponse>.value(
-              _FakeOAuthResponse_17(
+              _FakeOAuthResponse_12(
                 this,
                 Invocation.method(#getOAuthSignInUrl, [], {
                   #provider: provider,
@@ -749,7 +487,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
       (super.noSuchMethod(
             Invocation.method(#exchangeCodeForSession, [authCode]),
             returnValue: _i3.Future<_i2.AuthSessionUrlResponse>.value(
-              _FakeAuthSessionUrlResponse_18(
+              _FakeAuthSessionUrlResponse_13(
                 this,
                 Invocation.method(#exchangeCodeForSession, [authCode]),
               ),
@@ -774,7 +512,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
               #captchaToken: captchaToken,
             }),
             returnValue: _i3.Future<_i2.AuthResponse>.value(
-              _FakeAuthResponse_16(
+              _FakeAuthResponse_11(
                 this,
                 Invocation.method(#signInWithIdToken, [], {
                   #provider: provider,
@@ -834,7 +572,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
               #tokenHash: tokenHash,
             }),
             returnValue: _i3.Future<_i2.AuthResponse>.value(
-              _FakeAuthResponse_16(
+              _FakeAuthResponse_11(
                 this,
                 Invocation.method(#verifyOTP, [], {
                   #email: email,
@@ -883,7 +621,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
       (super.noSuchMethod(
             Invocation.method(#refreshSession, [refreshToken]),
             returnValue: _i3.Future<_i2.AuthResponse>.value(
-              _FakeAuthResponse_16(
+              _FakeAuthResponse_11(
                 this,
                 Invocation.method(#refreshSession, [refreshToken]),
               ),
@@ -917,7 +655,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
               #captchaToken: captchaToken,
             }),
             returnValue: _i3.Future<_i2.ResendResponse>.value(
-              _FakeResendResponse_19(
+              _FakeResendResponse_14(
                 this,
                 Invocation.method(#resend, [], {
                   #email: email,
@@ -936,7 +674,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
       (super.noSuchMethod(
             Invocation.method(#getUser, [jwt]),
             returnValue: _i3.Future<_i2.UserResponse>.value(
-              _FakeUserResponse_20(this, Invocation.method(#getUser, [jwt])),
+              _FakeUserResponse_15(this, Invocation.method(#getUser, [jwt])),
             ),
           )
           as _i3.Future<_i2.UserResponse>);
@@ -953,7 +691,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
               {#emailRedirectTo: emailRedirectTo},
             ),
             returnValue: _i3.Future<_i2.UserResponse>.value(
-              _FakeUserResponse_20(
+              _FakeUserResponse_15(
                 this,
                 Invocation.method(
                   #updateUser,
@@ -970,7 +708,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
       (super.noSuchMethod(
             Invocation.method(#setSession, [refreshToken]),
             returnValue: _i3.Future<_i2.AuthResponse>.value(
-              _FakeAuthResponse_16(
+              _FakeAuthResponse_11(
                 this,
                 Invocation.method(#setSession, [refreshToken]),
               ),
@@ -990,7 +728,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
               {#storeSession: storeSession},
             ),
             returnValue: _i3.Future<_i2.AuthSessionUrlResponse>.value(
-              _FakeAuthSessionUrlResponse_18(
+              _FakeAuthSessionUrlResponse_13(
                 this,
                 Invocation.method(
                   #getSessionFromUrl,
@@ -1057,7 +795,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
               #captchaToken: captchaToken,
             }),
             returnValue: _i3.Future<_i2.AuthResponse>.value(
-              _FakeAuthResponse_16(
+              _FakeAuthResponse_11(
                 this,
                 Invocation.method(#linkIdentityWithIdToken, [], {
                   #provider: provider,
@@ -1089,7 +827,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
               },
             ),
             returnValue: _i3.Future<_i2.OAuthResponse>.value(
-              _FakeOAuthResponse_17(
+              _FakeOAuthResponse_12(
                 this,
                 Invocation.method(
                   #getLinkIdentityUrl,
@@ -1128,7 +866,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
       (super.noSuchMethod(
             Invocation.method(#recoverSession, [jsonStr]),
             returnValue: _i3.Future<_i2.AuthResponse>.value(
-              _FakeAuthResponse_16(
+              _FakeAuthResponse_11(
                 this,
                 Invocation.method(#recoverSession, [jsonStr]),
               ),
@@ -1172,7 +910,7 @@ class MockGoTrueClient extends _i1.Mock implements _i2.GoTrueClient {
   Object notifyException(Object? exception, [StackTrace? stackTrace]) =>
       (super.noSuchMethod(
             Invocation.method(#notifyException, [exception, stackTrace]),
-            returnValue: _FakeObject_21(
+            returnValue: _FakeObject_16(
               this,
               Invocation.method(#notifyException, [exception, stackTrace]),
             ),

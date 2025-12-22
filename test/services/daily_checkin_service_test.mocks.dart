@@ -23,7 +23,6 @@ import 'package:supabase/supabase.dart' as _i2;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
-// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeFunctionsClient_0 extends _i1.SmartFake
     implements _i2.FunctionsClient {
@@ -172,26 +171,26 @@ class MockSupabaseClient extends _i1.Mock implements _i2.SupabaseClient {
           as _i2.GoTrueClient);
 
   @override
-  set functions(_i2.FunctionsClient? value) => super.noSuchMethod(
-    Invocation.setter(#functions, value),
+  set functions(_i2.FunctionsClient? _functions) => super.noSuchMethod(
+    Invocation.setter(#functions, _functions),
     returnValueForMissingStub: null,
   );
 
   @override
-  set storage(_i2.SupabaseStorageClient? value) => super.noSuchMethod(
-    Invocation.setter(#storage, value),
+  set storage(_i2.SupabaseStorageClient? _storage) => super.noSuchMethod(
+    Invocation.setter(#storage, _storage),
     returnValueForMissingStub: null,
   );
 
   @override
-  set realtime(_i2.RealtimeClient? value) => super.noSuchMethod(
-    Invocation.setter(#realtime, value),
+  set realtime(_i2.RealtimeClient? _realtime) => super.noSuchMethod(
+    Invocation.setter(#realtime, _realtime),
     returnValueForMissingStub: null,
   );
 
   @override
-  set rest(_i2.PostgrestClient? value) => super.noSuchMethod(
-    Invocation.setter(#rest, value),
+  set rest(_i2.PostgrestClient? _rest) => super.noSuchMethod(
+    Invocation.setter(#rest, _rest),
     returnValueForMissingStub: null,
   );
 
