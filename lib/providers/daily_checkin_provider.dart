@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/daily_checkin_model.dart';
-import '../services/daily_checkin_service.dart';
+import '../features/daily_chekin/services/daily_checkin_service.dart';
 
 class DailyCheckinProvider extends ChangeNotifier {
   DailyCheckinProvider({DailyCheckinRepository? repository})

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../common/layout/common_drawer.dart';
-import '../../../services/admin_service.dart';
+import '../services/admin_service.dart';
 import '../../../services/cache_service.dart';
 import '../../../services/performance_service.dart';
 import '../../../utils/error_reporter.dart';

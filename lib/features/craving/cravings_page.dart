@@ -14,7 +14,7 @@ import 'widgets/cravings/emotional_state_section.dart';
 import 'widgets/cravings/body_mind_signals_section.dart';
 import 'widgets/cravings/outcome_section.dart';
 import '../../models/craving_model.dart';
-import '../../services/craving_service.dart';
+import 'services/craving_service.dart';
 import '../../services/timezone_service.dart';
 import '../../services/user_service.dart';
 import '../../constants/theme/app_theme_extension.dart';

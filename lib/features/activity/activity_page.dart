@@ -15,7 +15,7 @@ import 'widgets/activity/activity_reflections_tab.dart';
 import 'widgets/activity/activity_delete_dialog.dart';
 import 'widgets/activity/activity_detail_helpers.dart';
 import 'widgets/activity/activity_helpers.dart';
-import '../../services/activity_service.dart';
+import 'services/activity_service.dart';
 import '../../services/user_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
 

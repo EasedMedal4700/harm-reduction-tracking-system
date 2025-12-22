@@ -1,11 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../models/drug_catalog_entry.dart';
-import '../utils/error_handler.dart';
-import '../utils/drug_stats_calculator.dart';
-import '../utils/drug_preferences_manager.dart';
-import '../utils/drug_data_parser.dart';
-import 'user_service.dart';
+import '../../../models/drug_catalog_entry.dart';
+import '../../../utils/error_handler.dart';
+import '../../../utils/drug_stats_calculator.dart';
+import '../../../utils/drug_preferences_manager.dart';
+import '../../../utils/drug_data_parser.dart';
+import '../../../services/user_service.dart';
 
 class PersonalLibraryService {
   Future<List<DrugCatalogEntry>> fetchCatalog() async {

@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
-import '../../../services/admin_service.dart';
+import '../services/admin_service.dart';
 import '../../../utils/error_reporter.dart';
 import '../widgets/errors/error_analytics_section.dart';
 import '../widgets/errors/error_cleanup_dialog.dart';

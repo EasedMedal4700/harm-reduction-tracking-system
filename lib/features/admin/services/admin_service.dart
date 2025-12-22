@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../utils/error_handler.dart';
-import 'performance_service.dart';
+import '../../../utils/error_handler.dart';
+import '../../../services/performance_service.dart';
 
 class AdminService {
   AdminService([SupabaseClient? client])

@@ -13,7 +13,7 @@ import '../../../../common/cards/common_card.dart';
 import '../../../../common/text/common_section_header.dart';
 import '../../../../common/layout/common_spacer.dart';
 
-import '../../../../services/pharmacokinetics_service.dart';
+import '../../services/pharmacokinetics_service.dart';
 
 class BloodLevelGraph extends StatelessWidget {
   final Map<String, List<PKPoint>> substanceCurves;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../services/onboarding_service.dart';
+import '../../services/onboarding_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
 // MIGRATION

@@ -9,7 +9,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 
 import '../../../models/tolerance_model.dart';
 import '../../../models/bucket_definitions.dart';
-import '../../../services/tolerance_engine_service.dart';
+import '../services/tolerance_engine_service.dart';
 import '../../../services/user_service.dart';
 
 import '../../../constants/theme/app_theme_extension.dart';

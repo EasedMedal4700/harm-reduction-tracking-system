@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/services/decay_service.dart';
+import 'package:mobile_drug_use_app/features/blood_levels/services/decay_service.dart';
 import 'package:mobile_drug_use_app/features/blood_levels/services/blood_levels_service.dart';
 
 void main() {

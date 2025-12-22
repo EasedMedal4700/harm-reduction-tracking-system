@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/services/tolerance_service.dart';
+import 'package:mobile_drug_use_app/features/tolerence/services/tolerance_service.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

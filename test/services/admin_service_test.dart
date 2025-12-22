@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/services/admin_service.dart';
+import 'package:mobile_drug_use_app/features/admin/services/admin_service.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'admin_service_test.mocks.dart';

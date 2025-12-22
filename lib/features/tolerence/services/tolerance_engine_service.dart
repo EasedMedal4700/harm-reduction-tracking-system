@@ -1,8 +1,8 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../models/tolerance_model.dart';
-import '../utils/tolerance_calculator.dart';
+import '../../../models/tolerance_model.dart';
+import '../../../utils/tolerance_calculator.dart';
 import 'dart:math' as math;
-import '../utils/error_handler.dart';
+import '../../../utils/error_handler.dart';
 
 /// Service for tolerance calculation engine
 /// Handles fetching tolerance models and computing bucket tolerances

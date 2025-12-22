@@ -6,7 +6,7 @@
 import 'dart:async' as _i3;
 
 import 'package:mobile_drug_use_app/models/daily_checkin_model.dart' as _i4;
-import 'package:mobile_drug_use_app/services/daily_checkin_service.dart' as _i2;
+import 'package:mobile_drug_use_app/features/daily_chekin/services/daily_checkin_service.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint

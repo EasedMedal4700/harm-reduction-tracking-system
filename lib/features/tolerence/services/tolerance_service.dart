@@ -1,7 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../models/tolerance_model.dart';
-import '../utils/error_handler.dart';
+import '../../../models/tolerance_model.dart';
+import '../../../utils/error_handler.dart';
 
 /// Service for fetching tolerance calculation data from Supabase
 class ToleranceService {

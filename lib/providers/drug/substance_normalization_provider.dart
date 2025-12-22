@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../services/drug_profile_service.dart';
+import '../../features/catalog/services/drug_profile_service.dart';
 
 final substanceSearchProvider = FutureProvider.family((
   ref,

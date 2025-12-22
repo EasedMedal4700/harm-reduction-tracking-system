@@ -1,9 +1,9 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
-import '../models/craving_model.dart';
-import '../utils/error_handler.dart';
-import '../services/user_service.dart';
-import '../services/encryption_service_v2.dart';
+import '../../../models/craving_model.dart';
+import '../../../utils/error_handler.dart';
+import '../../../services/user_service.dart';
+import '../../../services/encryption_service_v2.dart';
 
 class CravingService {
   final _uuid = const Uuid();

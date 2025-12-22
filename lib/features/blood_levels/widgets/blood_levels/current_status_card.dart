@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../services/pharmacokinetics_service.dart';
+import '../../services/pharmacokinetics_service.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/layout/common_spacer.dart';
 

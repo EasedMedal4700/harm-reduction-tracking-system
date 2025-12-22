@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:mobile_drug_use_app/services/activity_service.dart';
+import 'package:mobile_drug_use_app/features/activity/services/activity_service.dart';
 import 'package:mobile_drug_use_app/services/encryption_service_v2.dart';
 import 'dart:async';
 

@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../utils/error_handler.dart';
-import 'cache_service.dart';
+import '../../../utils/error_handler.dart';
+import '../../../services/cache_service.dart';
 import 'dart:math';
 
 /// Result of a drug name search with normalization info

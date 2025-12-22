@@ -12,7 +12,7 @@ import 'package:fl_chart/fl_chart.dart';
 
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../services/blood_levels_service.dart';
-import '../../../../services/decay_service.dart';
+import '../../services/decay_service.dart';
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../common/cards/common_card.dart';
 import 'timeline_chart_config.dart' as chart_config;

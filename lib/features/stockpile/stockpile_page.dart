@@ -9,7 +9,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/drug_catalog_entry.dart';
-import '../../services/personal_library_service.dart';
+import 'services/personal_library_service.dart';
 import '../../repo/stockpile_repository.dart';
 import '../../repo/substance_repository.dart';
 import '../../models/stockpile_item.dart';

@@ -1,11 +1,11 @@
 // filepath: c:\Users\user\Desktop\Power BI\mobile_drug_use_app\lib\services\reflection_service.dart
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../models/reflection_model.dart';
-import '../../services/user_service.dart';
-import '../../utils/error_handler.dart';
-import '../features/reflection/reflection_exceptions.dart';
-import '../../utils/reflection_validator.dart';
-import '../../services/encryption_service_v2.dart';
+import '../../../../models/reflection_model.dart';
+import '../../../services/user_service.dart';
+import '../../../../utils/error_handler.dart';
+import '../reflection_exceptions.dart';
+import '../../../../utils/reflection_validator.dart';
+import '../../../services/encryption_service_v2.dart';
 
 class ReflectionService {
   final _encryption = EncryptionServiceV2();

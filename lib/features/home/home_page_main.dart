@@ -18,7 +18,7 @@ import 'home_page/home_progress_stats.dart';
 import 'home_page/home_navigation_methods.dart';
 import '../../providers/daily_checkin_provider.dart';
 
-import '../../services/daily_checkin_service.dart';
+import '../daily_chekin/services/daily_checkin_service.dart';
 import '../../services/user_service.dart';
 import '../../services/encryption_service_v2.dart';
 import '../profile/profile_screen.dart';
