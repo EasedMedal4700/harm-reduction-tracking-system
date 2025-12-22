@@ -1,140 +1,140 @@
-// // MIGRATION:
-// // State: MODERN
-// // Navigation: CENTRALIZED
-// // Models: FREEZED
-// // Theme: N/A
-// // Common: N/A
-// // Notes: Handles PIN unlock, biometrics, debug auto-unlock, and auth checks.
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: FREEZED
+// Theme: N/A
+// Common: N/A
+// Notes: Owns PIN unlock flow, auth checks, encryption, and navigation.
 
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:async';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-// import '../services/post_login_router.dart';
-// import '../../services/encryption_service_v2.dart';
-// import '../../services/debug_config.dart';
-// import '../../providers/core_providers.dart';
-// import 'pin_unlock_state.dart';
+import '../../../../providers/navigation_provider.dart';
+import '../../../../providers/core_providers.dart';
+import '../../../../services/encryption_service_v2.dart';
+import '../../../../services/debug_config.dart';
 
-// final pinUnlockControllerProvider =
-//     StateNotifierProvider<PinUnlockController, PinUnlockState>(
-//   (ref) => PinUnlockController(
-//     ref,
-//     encryptionService: ref.read(encryptionServiceProvider),
-//     postLoginRouter: ref.read(postLoginRouterProvider),
-//   ),
-// );
+import '../state/pin_unlock_state.dart';
 
-// class PinUnlockController extends StateNotifier<PinUnlockState> {
-//   PinUnlockController(
-//     this.ref, {
-//     required EncryptionServiceV2 encryptionService,
-//     required PostLoginRouter postLoginRouter,
-//   })  : _encryptionService = encryptionService,
-//         _postLoginRouter = postLoginRouter,
-//         super(const PinUnlockState());
+final pinUnlockControllerProvider =
+    StateNotifierProvider<PinUnlockController, PinUnlockState>(
+  (ref) => PinUnlockController(ref),
+);
 
-//   final Ref ref;
-//   final EncryptionServiceV2 _encryptionService;
-//   final PostLoginRouter _postLoginRouter;
+class PinUnlockController extends StateNotifier<PinUnlockState> {
+  PinUnlockController(this._ref) : super(const PinUnlockState());
 
-//   /// Called once when screen is shown
-//   Future<void> initialize() async {
-//     try {
-//       final user = Supabase.instance.client.auth.currentUser;
-//       if (user == null) {
-//         _postLoginRouter.toLogin();
-//         return;
-//       }
+  final Ref _ref;
+  EncryptionServiceV2 get _encryption =>
+      _ref.read(encryptionServiceProvider);
+  NavigationService get _nav =>
+      _ref.read(navigationProvider);
 
-//       final biometrics = await _encryptionService.isBiometricsEnabled();
+  // ---------------------------
+  // Lifecycle
+  // ---------------------------
 
-//       state = state.copyWith(
-//         isCheckingAuth: false,
-//         biometricsAvailable: biometrics,
-//       );
+  Future<void> onInit() async {
+    final user = Supabase.instance.client.auth.currentUser;
 
-//       await _tryDebugAutoUnlock(user.id);
-//     } catch (e) {
-//       _postLoginRouter.toLogin();
-//     }
-//   }
+    if (user == null) {
+      _nav.replace('/login_page');
+      return;
+    }
 
-//   Future<void> unlockWithPin(String pin) async {
-//     if (pin.length != 6) {
-//       state = state.copyWith(errorMessage: 'PIN must be exactly 6 digits');
-//       return;
-//     }
+    final biometrics = await _encryption.isBiometricsEnabled();
 
-//     state = state.copyWith(isLoading: true, errorMessage: null);
+    state = state.copyWith(
+      isCheckingAuth: false,
+      biometricsAvailable: biometrics,
+    );
 
-//     try {
-//       final user = Supabase.instance.client.auth.currentUser;
-//       if (user == null) {
-//         _postLoginRouter.toLogin();
-//         return;
-//       }
+    await _tryDebugAutoUnlock(user.id);
+  }
 
-//       final success = await _encryptionService.unlockWithPin(user.id, pin);
+  // ---------------------------
+  // Actions
+  // ---------------------------
 
-//       if (!success) {
-//         state = state.copyWith(
-//           isLoading: false,
-//           errorMessage: 'Incorrect PIN. Please try again.',
-//         );
-//         return;
-//       }
+  Future<void> submitPin(String pin) async {
+    if (pin.length != 6) {
+      state = state.copyWith(errorMessage: 'PIN must be 6 digits');
+      return;
+    }
 
-//       await ref.read(appLockControllerProvider.notifier).recordUnlock();
-//       _postLoginRouter.toHome();
-//     } catch (e) {
-//       state = state.copyWith(
-//         isLoading: false,
-//         errorMessage: 'Unlock failed. Please try again.',
-//       );
-//     }
-//   }
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) {
+      _nav.replace('/login_page');
+      return;
+    }
 
-//   Future<void> unlockWithBiometrics() async {
-//     state = state.copyWith(isLoading: true, errorMessage: null);
+    state = state.copyWith(isLoading: true, errorMessage: null);
 
-//     try {
-//       final user = Supabase.instance.client.auth.currentUser;
-//       if (user == null) {
-//         _postLoginRouter.toLogin();
-//         return;
-//       }
+    final success = await _encryption.unlockWithPin(user.id, pin);
 
-//       final success =
-//           await _encryptionService.unlockWithBiometrics(user.id);
+    if (!success) {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: 'Incorrect PIN',
+      );
+      return;
+    }
 
-//       if (!success) {
-//         state = state.copyWith(
-//           isLoading: false,
-//           errorMessage: 'Biometric authentication failed.',
-//         );
-//         return;
-//       }
+    await _ref.read(appLockControllerProvider.notifier).recordUnlock();
+    _nav.replace('/home_page');
+  }
 
-//       await ref.read(appLockControllerProvider.notifier).recordUnlock();
-//       _postLoginRouter.toHome();
-//     } catch (_) {
-//       state = state.copyWith(
-//         isLoading: false,
-//         errorMessage: 'Biometric unlock failed.',
-//       );
-//     }
-//   }
+  Future<void> unlockWithBiometrics() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) {
+      _nav.replace('/login_page');
+      return;
+    }
 
-//   Future<void> _tryDebugAutoUnlock(String userId) async {
-//     if (!DebugConfig.instance.isAutoLoginEnabled) return;
+    state = state.copyWith(isLoading: true, errorMessage: null);
 
-//     final pin = DebugConfig.instance.debugPin;
-//     if (pin == null || pin.isEmpty) return;
+    final success = await _encryption.unlockWithBiometrics(user.id);
 
-//     final success = await _encryptionService.unlockWithPin(userId, pin);
-//     if (success) {
-//       await ref.read(appLockControllerProvider.notifier).recordUnlock();
-//       _postLoginRouter.toHome();
-//     }
-//   }
-// }
+    if (!success) {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: 'Biometric authentication failed',
+      );
+      return;
+    }
+
+    await _ref.read(appLockControllerProvider.notifier).recordUnlock();
+    _nav.replace('/home_page');
+  }
+
+  void togglePinVisibility() {
+    state = state.copyWith(pinObscured: !state.pinObscured);
+  }
+
+  void openRecoveryKey() {
+    _nav.push('/recovery-key');
+  }
+
+  // ---------------------------
+  // Debug
+  // ---------------------------
+
+  Future<void> _tryDebugAutoUnlock(String userId) async {
+    if (!DebugConfig.instance.isAutoLoginEnabled) return;
+
+    final pin = DebugConfig.instance.debugPin;
+    if (pin == null || pin.isEmpty) return;
+
+    state = state.copyWith(isLoading: true);
+
+    final success = await _encryption.unlockWithPin(userId, pin);
+    if (!success) {
+      state = state.copyWith(isLoading: false);
+      return;
+    }
+
+    await _ref.read(appLockControllerProvider.notifier).recordUnlock();
+    _nav.replace('/home_page');
+  }
+}
