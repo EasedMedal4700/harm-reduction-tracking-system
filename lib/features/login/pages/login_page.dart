@@ -55,10 +55,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         child: Column(
           mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
-            CommonInputField(
-              controller: emailController,
-              labelText: 'Email',
-            ),
+            CommonInputField(controller: emailController, labelText: 'Email'),
             CommonSpacer.vertical(sp.md),
             CommonInputField(
               controller: passwordController,

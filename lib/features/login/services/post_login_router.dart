@@ -12,6 +12,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../services/encryption_migration_service.dart';
 import '../../../services/encryption_service_v2.dart';
 import '../../../providers/core_providers.dart';
+import '../../../providers/navigation_provider.dart';
 
 final postLoginRouterProvider = Provider<PostLoginRouter>(
   (ref) => PostLoginRouter(ref),
@@ -55,21 +56,16 @@ class PostLoginRouter {
   // Routes (temporary, GoRouter-ready)
   // ---------------------------------------------------------------------------
 
-  void goToHome() =>
-      _ref.read(navigationProvider).replace('/home_page');
+  void goToHome() => _ref.read(navigationProvider).replace('/home_page');
 
-  void goToLogin() =>
-      _ref.read(navigationProvider).replace('/login_page');
+  void goToLogin() => _ref.read(navigationProvider).replace('/login_page');
 
-  void goToPinSetup() =>
-      _ref.read(navigationProvider).replace('/pin-setup');
+  void goToPinSetup() => _ref.read(navigationProvider).replace('/pin-setup');
 
-  void goToPinUnlock() =>
-      _ref.read(navigationProvider).replace('/pin-unlock');
+  void goToPinUnlock() => _ref.read(navigationProvider).replace('/pin-unlock');
 
   void goToEncryptionMigration() =>
       _ref.read(navigationProvider).replace('/encryption-migration');
 
-  void goToOnboarding() =>
-      _ref.read(navigationProvider).replace('/onboarding');
+  void goToOnboarding() => _ref.read(navigationProvider).replace('/onboarding');
 }

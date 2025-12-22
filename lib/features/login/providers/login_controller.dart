@@ -19,8 +19,8 @@ import 'login_state.dart';
 
 final loginControllerProvider =
     StateNotifierProvider<LoginController, LoginState>(
-  (ref) => LoginController(ref),
-);
+      (ref) => LoginController(ref),
+    );
 
 class LoginController extends StateNotifier<LoginState> {
   LoginController(this._ref) : super(const LoginState());
@@ -83,8 +83,7 @@ class LoginController extends StateNotifier<LoginState> {
 
     state = state.copyWith(isLoading: true, errorMessage: null);
 
-    final success =
-        await _ref.read(authServiceProvider).login(email, password);
+    final success = await _ref.read(authServiceProvider).login(email, password);
 
     state = state.copyWith(isLoading: false);
 
@@ -108,7 +107,9 @@ class LoginController extends StateNotifier<LoginState> {
   Future<void> _performDebugAutoLogin() async {
     state = state.copyWith(isLoading: true);
 
-    final success = await _ref.read(authServiceProvider).login(
+    final success = await _ref
+        .read(authServiceProvider)
+        .login(
           DebugConfig.instance.debugEmail!,
           DebugConfig.instance.debugPassword!,
         );
@@ -130,15 +131,11 @@ class LoginController extends StateNotifier<LoginState> {
   }
 
   Future<bool> _readRememberMe() async {
-    return _ref
-            .read(sharedPreferencesProvider)
-            .getBool(_rememberMeKey) ??
+    return _ref.read(sharedPreferencesProvider).getBool(_rememberMeKey) ??
         false;
   }
 
   Future<void> _persistRememberMe(bool value) async {
-    await _ref
-        .read(sharedPreferencesProvider)
-        .setBool(_rememberMeKey, value);
+    await _ref.read(sharedPreferencesProvider).setBool(_rememberMeKey, value);
   }
 }

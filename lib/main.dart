@@ -12,6 +12,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'providers/daily_checkin_provider.dart';
 import 'providers/settings_provider.dart';
 import 'routes/screen_tracking_observer.dart';
+import 'providers/navigation_provider.dart';
+import 'services/navigation_service.dart';
 
 import 'constants/theme/app_theme_provider.dart';
 
@@ -227,11 +229,11 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
       child: Consumer<SettingsProvider>(
         builder: (context, settingsProvider, _) {
           final appTheme = AppTheme.fromSettings(settingsProvider.settings);
-
+          final navigationService = ref.read(navigationProvider);
           return AppThemeProvider(
             theme: appTheme,
             child: MaterialApp(
-              navigatorKey: navigatorKey,
+              navigatorKey: navigationService.navigatorKey,
               debugShowCheckedModeBanner: false,
               theme: AppTheme.light().themeData,
               darkTheme: AppTheme.dark().themeData,

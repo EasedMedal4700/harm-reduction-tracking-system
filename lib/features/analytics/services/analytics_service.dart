@@ -241,7 +241,7 @@ class AnalyticsService {
       //   for (var item in catalog) item['name'].toLowerCase(): item['category'],
       // };
       setSubstanceToCategory(substanceToCategory);
-  
+
       // Compute metrics
       final substanceCounts = getSubstanceCounts(filteredEntries);
       final categoryCounts = getCategoryCounts(filteredEntries);
