@@ -16,7 +16,6 @@ import '../../../../common/inputs/input_field.dart';
 import '../../../../common/buttons/common_primary_button.dart';
 import '../../../../common/layout/common_spacer.dart';
 import '../controller/login_controller.dart';
-import '../state/login_state.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
