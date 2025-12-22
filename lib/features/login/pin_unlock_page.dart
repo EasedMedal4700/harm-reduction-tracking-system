@@ -1,3 +1,12 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: LEGACY
+// Models: LEGACY
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: PIN unlock screen still widget-driven. Business logic, navigation,
+//        encryption, and auth checks must be moved to Riverpod controllers.
+
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_layout.dart';
 import 'package:flutter/material.dart';
