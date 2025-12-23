@@ -34,8 +34,8 @@ void main() {
 
   setUp(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
-    SharedPreferences.setMockInitialValues({});
-
+    SharedPreferences.setMockInitialValues({'remember_me': true});
+    
     mockAuthService = MockAuthService();
     mockRouter = MockPostLoginRouter();
     mockOnboardingService = MockOnboardingService();

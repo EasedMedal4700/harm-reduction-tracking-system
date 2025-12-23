@@ -133,7 +133,9 @@ class _PasswordVerificationDialogState
           enabled: !_isVerifying,
           label: _isVerifying ? 'Verifying password' : 'Cancel',
           child: TextButton(
-            onPressed: _isVerifying ? null : () => Navigator.pop(context),
+            onPressed: () {
+              if (!_isVerifying) Navigator.pop(context);
+            },
             child: const Text('Cancel'),
           ),
         ),
@@ -142,7 +144,9 @@ class _PasswordVerificationDialogState
           enabled: !_isVerifying,
           label: _isVerifying ? 'Verifying password' : widget.actionButtonText,
           child: ElevatedButton(
-            onPressed: _isVerifying ? null : _verify,
+            onPressed: () {
+              if (!_isVerifying) _verify();
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: widget.actionButtonColor,
               foregroundColor: colors.surface,

@@ -209,7 +209,9 @@ class _FormContent extends StatelessWidget {
               enabled: !isSubmitting,
               label: isSubmitting ? 'Sending reset link' : 'Send Reset Link',
               child: ElevatedButton(
-                onPressed: isSubmitting ? null : onSubmit,
+                onPressed: () {
+                  if (!isSubmitting) onSubmit();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: a.primary,
                   foregroundColor: c.textInverse,

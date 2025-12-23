@@ -104,7 +104,9 @@ class DailyCheckinCard extends StatelessWidget {
               enabled: !isCompleted,
               label: isCompleted ? 'Check-in completed' : 'Start check-in',
               child: ElevatedButton.icon(
-                onPressed: isCompleted ? null : onTap,
+                onPressed: () {
+                  if (!isCompleted) onTap();
+                },
                 icon: Icon(
                   isCompleted
                       ? Icons.check_circle_outline

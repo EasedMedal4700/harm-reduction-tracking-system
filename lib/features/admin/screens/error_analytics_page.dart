@@ -182,7 +182,9 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
                       color: c.textPrimary,
                     )
                   : const Icon(Icons.refresh),
-              onPressed: _isLoading ? null : _loadData,
+              onPressed: () {
+                if (!_isLoading) _loadData();
+              },
               tooltip: 'Refresh',
             ),
           ),

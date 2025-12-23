@@ -69,7 +69,9 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
             icon: isLoading
                 ? CommonLoader(size: context.sizes.iconSm, color: c.textPrimary)
                 : Icon(Icons.refresh, color: c.textPrimary),
-            onPressed: isLoading ? null : onRefresh,
+            onPressed: () {
+              if (!isLoading) onRefresh();
+            },
             tooltip: 'Refresh',
           ),
         ),

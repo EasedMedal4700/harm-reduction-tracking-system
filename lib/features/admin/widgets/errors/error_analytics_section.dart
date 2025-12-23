@@ -76,7 +76,9 @@ class ErrorAnalyticsSection extends StatelessWidget {
                 enabled: !isClearingErrors,
                 label: isClearingErrors ? 'Clearing logs' : 'Clean Logs',
                 child: TextButton.icon(
-                  onPressed: isClearingErrors ? null : onCleanLogs,
+                  onPressed: () {
+                    if (!isClearingErrors) onCleanLogs();
+                  },
                   icon: const Icon(Icons.cleaning_services_outlined),
                   label: Text(
                     'Clean Logs',

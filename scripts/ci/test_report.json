@@ -3,26 +3,26 @@
     "total_tests": 945,
     "passed_tests": 859,
     "failed_tests": 3,
-    "timestamp": "2025-12-23 18:53:09.182613"
+    "timestamp": "2025-12-23 21:20:52.462670"
   },
   "failed_tests": [
     {
       "id": 132,
       "name": "LoginController - Initialization restores rememberMe from SharedPreferences",
       "result": "failure",
-      "time": 5229
+      "time": 5131
     },
     {
       "id": 185,
       "name": "PostLoginRouter - No User routes to login when user is null",
       "result": "error",
-      "time": 6576
+      "time": 6502
     },
     {
-      "id": 213,
+      "id": 212,
       "name": "PostLoginRouter - Provider provider creates new instance each time",
       "result": "failure",
-      "time": 6650
+      "time": 6592
     }
   ]
 }

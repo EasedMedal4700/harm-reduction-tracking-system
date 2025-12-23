@@ -147,7 +147,9 @@ class _CravingsPageState extends State<CravingsPage> {
             enabled: !_isSaving,
             label: _isSaving ? 'Saving craving' : 'Save craving',
             child: TextButton.icon(
-              onPressed: _isSaving ? null : _save,
+              onPressed: () {
+                if (!_isSaving) _save();
+              },
               icon: _isSaving
                   ? SizedBox(
                       width: t.spacing.lg,
