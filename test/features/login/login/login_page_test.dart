@@ -7,34 +7,73 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/features/login/login/login_controller.dart';
 import 'package:mobile_drug_use_app/features/login/login/login_page.dart';
 import 'package:mobile_drug_use_app/features/login/login/login_state.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 
-import 'login_page_test.mocks.dart';
+// Fake implementation of LoginController to avoid StateNotifier mocking issues
+class FakeLoginController extends StateNotifier<LoginState>
+    implements LoginController {
+  FakeLoginController() : super(const LoginState());
 
-@GenerateMocks([LoginController])
+  // Tracking calls for verification
+  String? lastEmail;
+  String? lastPassword;
+  bool? lastRememberMe;
+
+  @override
+  // ignore: unused_element
+  Ref get _ref => throw UnimplementedError();
+
+  @override
+  Future<void> init() async {}
+
+  @override
+  Future<void> submitLogin({
+    required String email,
+    required String password,
+  }) async {
+    lastEmail = email;
+    lastPassword = password;
+  }
+
+  @override
+  void toggleRememberMe(bool value) {
+    lastRememberMe = value;
+    state = state.copyWith(rememberMe: value);
+  }
+
+  // Helper to set state directly for testing
+  void setState(LoginState newState) {
+    state = newState;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+}
+
 void main() {
-  late MockLoginController mockController;
+  late FakeLoginController fakeController;
 
   setUp(() {
-    mockController = MockLoginController();
-    when(mockController.state).thenReturn(const LoginState());
-    when(mockController.stream).thenAnswer((_) => Stream.value(const LoginState()));
+    fakeController = FakeLoginController();
   });
 
   Widget createTestWidget(LoginState state) {
-    when(mockController.state).thenReturn(state);
+    fakeController.setState(state);
 
     return ProviderScope(
       overrides: [
-        loginControllerProvider.overrideWith((ref) => mockController),
+        loginControllerProvider.overrideWith((ref) => fakeController),
       ],
       child: AppThemeProvider(
+        theme: AppTheme.light(fontSize: 1.0, compactMode: false),
         child: MaterialApp(
           home: const LoginPage(),
           routes: {
-            '/forgot_password': (context) => const Scaffold(body: Text('Forgot Password')),
+            '/forgot_password': (context) =>
+                const Scaffold(body: Text('Forgot Password')),
             '/signup': (context) => const Scaffold(body: Text('Sign Up')),
           },
         ),
@@ -53,7 +92,7 @@ void main() {
       expect(find.text('Forgot password?'), findsOneWidget);
       expect(find.text('Keep me logged in'), findsOneWidget);
       expect(find.text('Sign in'), findsOneWidget);
-      expect(find.text('Don't have an account?'), findsOneWidget);
+      expect(find.text("Don’t have an account?"), findsOneWidget);
       expect(find.text('Sign up'), findsOneWidget);
     });
 
@@ -126,10 +165,8 @@ void main() {
       await tester.tap(find.text('Sign in'));
       await tester.pumpAndSettle();
 
-      verify(mockController.submitLogin(
-        email: 'test@test.com',
-        password: 'password',
-      )).called(1);
+      expect(fakeController.lastEmail, 'test@test.com');
+      expect(fakeController.lastPassword, 'password');
     });
 
     testWidgets('remember me checkbox toggles state', (tester) async {
@@ -141,7 +178,7 @@ void main() {
       await tester.tap(checkbox);
       await tester.pumpAndSettle();
 
-      verify(mockController.toggleRememberMe(true)).called(1);
+      expect(fakeController.lastRememberMe, true);
     });
 
     testWidgets('forgot password button navigates', (tester) async {
@@ -164,10 +201,12 @@ void main() {
   });
 
   group('LoginPage - Loading State', () {
-    testWidgets('shows loading indicator when isLoading is true', (tester) async {
+    testWidgets('shows loading indicator when isLoading is true', (
+      tester,
+    ) async {
       const loadingState = LoginState(isLoading: true);
       await tester.pumpWidget(createTestWidget(loadingState));
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
@@ -175,14 +214,12 @@ void main() {
     testWidgets('disables button when loading', (tester) async {
       const loadingState = LoginState(isLoading: true);
       await tester.pumpWidget(createTestWidget(loadingState));
-      await tester.pumpAndSettle();
+      await tester.pump();
 
-      final signInButton = find.ancestor(
-        of: find.text('Sign in'),
-        matching: find.byType(ElevatedButton),
-      );
+      final buttonFinder = find.byType(ElevatedButton);
+      expect(buttonFinder, findsOneWidget);
 
-      final button = tester.widget<ElevatedButton>(signInButton);
+      final button = tester.widget<ElevatedButton>(buttonFinder);
       expect(button.onPressed, null);
     });
   });
@@ -214,10 +251,7 @@ void main() {
     testWidgets('has correct semantics for screen readers', (tester) async {
       await tester.pumpWidget(createTestWidget(const LoginState()));
 
-      expect(
-        find.bySemanticsLabel('Email'),
-        findsWidgets,
-      );
+      expect(find.bySemanticsLabel('Email'), findsWidgets);
     });
 
     testWidgets('buttons are tappable with sufficient size', (tester) async {
@@ -230,7 +264,8 @@ void main() {
         ),
       );
 
-      expect(signInButton.height, greaterThanOrEqualTo(44.0));
+      expect(signInButton.width, greaterThanOrEqualTo(48.0));
+      expect(signInButton.height, greaterThanOrEqualTo(48.0));
     });
   });
 }

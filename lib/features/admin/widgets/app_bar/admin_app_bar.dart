@@ -61,12 +61,17 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
           tooltip: 'Error Analytics',
         ),
 
-        IconButton(
-          icon: isLoading
-              ? CommonLoader(size: context.sizes.iconSm, color: c.textPrimary)
-              : Icon(Icons.refresh, color: c.textPrimary),
-          onPressed: isLoading ? null : onRefresh,
-          tooltip: 'Refresh',
+        Semantics(
+          button: true,
+          enabled: !isLoading,
+          label: isLoading ? 'Loading' : 'Refresh',
+          child: IconButton(
+            icon: isLoading
+                ? CommonLoader(size: context.sizes.iconSm, color: c.textPrimary)
+                : Icon(Icons.refresh, color: c.textPrimary),
+            onPressed: isLoading ? null : onRefresh,
+            tooltip: 'Refresh',
+          ),
         ),
 
         SizedBox(width: sp.xs),

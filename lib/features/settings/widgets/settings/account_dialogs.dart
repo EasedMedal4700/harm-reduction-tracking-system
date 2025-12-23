@@ -128,23 +128,36 @@ class _PasswordVerificationDialogState
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: _isVerifying ? null : () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: _isVerifying ? null : _verify,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: widget.actionButtonColor,
-            foregroundColor: colors.surface,
+        Semantics(
+          button: true,
+          enabled: !_isVerifying,
+          label: _isVerifying ? 'Verifying password' : 'Cancel',
+          child: TextButton(
+            onPressed: _isVerifying ? null : () => Navigator.pop(context),
+            child: const Text('Cancel'),
           ),
-          child: _isVerifying
-              ? SizedBox(
-                  width: spacing.lg,
-                  height: spacing.lg,
-                  child: CommonLoader(size: spacing.lg, color: colors.surface),
-                )
-              : Text(widget.actionButtonText),
+        ),
+        Semantics(
+          button: true,
+          enabled: !_isVerifying,
+          label: _isVerifying ? 'Verifying password' : widget.actionButtonText,
+          child: ElevatedButton(
+            onPressed: _isVerifying ? null : _verify,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: widget.actionButtonColor,
+              foregroundColor: colors.surface,
+            ),
+            child: _isVerifying
+                ? SizedBox(
+                    width: spacing.lg,
+                    height: spacing.lg,
+                    child: CommonLoader(
+                      size: spacing.lg,
+                      color: colors.surface,
+                    ),
+                  )
+                : Text(widget.actionButtonText),
+          ),
         ),
       ],
     );
@@ -273,13 +286,20 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
           onPressed: () => Navigator.pop(context),
           child: const Text('Cancel'),
         ),
-        ElevatedButton(
-          onPressed: _userConfirmed ? widget.onConfirmed : null,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: widget.buttonColor ?? colors.error,
-            foregroundColor: colors.surface,
+        Semantics(
+          button: true,
+          enabled: _userConfirmed,
+          label: _userConfirmed
+              ? 'Confirm action'
+              : 'Type confirmation text to enable',
+          child: ElevatedButton(
+            onPressed: _userConfirmed ? widget.onConfirmed : null,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: widget.buttonColor ?? colors.error,
+              foregroundColor: colors.surface,
+            ),
+            child: const Text('Confirm'),
           ),
-          child: const Text('Confirm'),
         ),
       ],
     );

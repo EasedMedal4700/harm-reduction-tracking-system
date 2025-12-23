@@ -99,38 +99,45 @@ class DailyCheckinCard extends StatelessWidget {
           // Action button with status indicator
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: isCompleted ? null : onTap,
-              icon: Icon(
-                isCompleted
-                    ? Icons.check_circle_outline
-                    : Icons.add_circle_outline,
-                size: context.sizes.iconSm,
-              ),
-              label: Text(
-                _getButtonText(),
-                style: t.typography.button.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
-                  height: 1.2,
+            child: Semantics(
+              button: true,
+              enabled: !isCompleted,
+              label: isCompleted ? 'Check-in completed' : 'Start check-in',
+              child: ElevatedButton.icon(
+                onPressed: isCompleted ? null : onTap,
+                icon: Icon(
+                  isCompleted
+                      ? Icons.check_circle_outline
+                      : Icons.add_circle_outline,
+                  size: context.sizes.iconSm,
                 ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isCompleted
-                    ? (isDark ? c.surface : c.surface) // Simplified for theme
-                    : accentColor,
-                foregroundColor: isCompleted ? c.textSecondary : c.textInverse,
-                elevation: isCompleted
-                    ? context.sizes.elevationNone
-                    : context.sizes.cardElevation,
-                padding: EdgeInsets.symmetric(
-                  vertical: sp.md,
-                  horizontal: sp.md,
+                label: Text(
+                  _getButtonText(),
+                  style: t.typography.button.copyWith(
+                    fontWeight: text.bodyBold.fontWeight,
+                    height: 1.2,
+                  ),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(sh.radiusMd),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isCompleted
+                      ? (isDark ? c.surface : c.surface) // Simplified for theme
+                      : accentColor,
+                  foregroundColor: isCompleted
+                      ? c.textSecondary
+                      : c.textInverse,
+                  elevation: isCompleted
+                      ? context.sizes.elevationNone
+                      : context.sizes.cardElevation,
+                  padding: EdgeInsets.symmetric(
+                    vertical: sp.md,
+                    horizontal: sp.md,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
+                  ),
+                  disabledBackgroundColor: c.surface,
+                  disabledForegroundColor: c.textSecondary,
                 ),
-                disabledBackgroundColor: c.surface,
-                disabledForegroundColor: c.textSecondary,
               ),
             ),
           ),

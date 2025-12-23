@@ -11,7 +11,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../providers/core_providers.dart';
+import 'package:mobile_drug_use_app/providers/core_providers.dart';
 import '../../../services/debug_config.dart';
 import '../../../services/onboarding_service.dart';
 import '../services/post_login_router.dart';
@@ -53,7 +53,7 @@ class LoginController extends StateNotifier<LoginState> {
   // ---------------------------------------------------------------------------
 
   void _listenForRestoredSession() {
-    final client = Supabase.instance.client;
+    final client = _ref.read(supabaseClientProvider);
 
     _authSub = client.auth.onAuthStateChange.listen((data) async {
       if (state.hasNavigated) return;

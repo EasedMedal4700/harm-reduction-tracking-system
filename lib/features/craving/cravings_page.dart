@@ -142,21 +142,26 @@ class _CravingsPageState extends State<CravingsPage> {
         foregroundColor: c.textPrimary,
         elevation: t.sizes.elevationNone,
         actions: [
-          TextButton.icon(
-            onPressed: _isSaving ? null : _save,
-            icon: _isSaving
-                ? SizedBox(
-                    width: t.spacing.lg,
-                    height: t.spacing.lg,
-                    child: CircularProgressIndicator(
-                      strokeWidth: t.borders.medium,
-                      color: a.primary,
-                    ),
-                  )
-                : Icon(Icons.check, color: a.primary),
-            label: Text(
-              _isSaving ? 'Saving...' : 'Save',
-              style: t.typography.labelLarge.copyWith(color: a.primary),
+          Semantics(
+            button: true,
+            enabled: !_isSaving,
+            label: _isSaving ? 'Saving craving' : 'Save craving',
+            child: TextButton.icon(
+              onPressed: _isSaving ? null : _save,
+              icon: _isSaving
+                  ? SizedBox(
+                      width: t.spacing.lg,
+                      height: t.spacing.lg,
+                      child: CircularProgressIndicator(
+                        strokeWidth: t.borders.medium,
+                        color: a.primary,
+                      ),
+                    )
+                  : Icon(Icons.check, color: a.primary),
+              label: Text(
+                _isSaving ? 'Saving...' : 'Save',
+                style: t.typography.labelLarge.copyWith(color: a.primary),
+              ),
             ),
           ),
         ],

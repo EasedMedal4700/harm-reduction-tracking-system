@@ -1,14 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
+import 'package:mobile_drug_use_app/features/log_entry/log_entry_controller.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
+import 'log_entry_page_test.mocks.dart';
 
+@GenerateMocks([LogEntryController])
 void main() {
+  late MockLogEntryController mockController;
+
+  setUp(() {
+    mockController = MockLogEntryController();
+
+    // Stub common methods
+    when(
+      mockController.loadSubstanceDetails(any),
+    ).thenAnswer((_) async => null);
+    when(
+      mockController.getAvailableROAs(any),
+    ).thenReturn(['Oral', 'Insufflated']);
+    when(mockController.isROAValidated(any, any)).thenReturn(true);
+  });
+
   Widget createWidgetUnderTest() {
     return AppThemeProvider(
       theme: AppTheme.light(),
-      child: const MaterialApp(home: QuickLogEntryPage()),
+      child: MaterialApp(home: QuickLogEntryPage(controller: mockController)),
     );
   }
 

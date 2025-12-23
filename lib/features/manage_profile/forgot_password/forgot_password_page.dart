@@ -204,34 +204,39 @@ class _FormContent extends StatelessWidget {
           // Submit button
           SizedBox(
             height: context.sizes.buttonHeightLg,
-            child: ElevatedButton(
-              onPressed: isSubmitting ? null : onSubmit,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: a.primary,
-                foregroundColor: c.textInverse,
-                disabledBackgroundColor: a.primary.withValues(
-                  alpha: context.opacities.slow,
+            child: Semantics(
+              button: true,
+              enabled: !isSubmitting,
+              label: isSubmitting ? 'Sending reset link' : 'Send Reset Link',
+              child: ElevatedButton(
+                onPressed: isSubmitting ? null : onSubmit,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: a.primary,
+                  foregroundColor: c.textInverse,
+                  disabledBackgroundColor: a.primary.withValues(
+                    alpha: context.opacities.slow,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
+                  ),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(sh.radiusMd),
-                ),
+                child: isSubmitting
+                    ? SizedBox(
+                        width: context.sizes.iconMd,
+                        height: context.sizes.iconMd,
+                        child: CircularProgressIndicator(
+                          strokeWidth: context.borders.medium,
+                          color: c.textInverse,
+                        ),
+                      )
+                    : Text(
+                        'Send Reset Link',
+                        style: text.labelLarge.copyWith(
+                          fontWeight: text.bodyBold.fontWeight,
+                          color: c.textInverse,
+                        ),
+                      ),
               ),
-              child: isSubmitting
-                  ? SizedBox(
-                      width: context.sizes.iconMd,
-                      height: context.sizes.iconMd,
-                      child: CircularProgressIndicator(
-                        strokeWidth: context.borders.medium,
-                        color: c.textInverse,
-                      ),
-                    )
-                  : Text(
-                      'Send Reset Link',
-                      style: text.labelLarge.copyWith(
-                        fontWeight: text.bodyBold.fontWeight,
-                        color: c.textInverse,
-                      ),
-                    ),
             ),
           ),
 

@@ -71,12 +71,17 @@ class ErrorAnalyticsSection extends StatelessWidget {
                 style: text.heading3.copyWith(color: c.textPrimary),
               ),
               const Spacer(),
-              TextButton.icon(
-                onPressed: isClearingErrors ? null : onCleanLogs,
-                icon: const Icon(Icons.cleaning_services_outlined),
-                label: Text(
-                  'Clean Logs',
-                  style: text.button.copyWith(color: c.textPrimary),
+              Semantics(
+                button: true,
+                enabled: !isClearingErrors,
+                label: isClearingErrors ? 'Clearing logs' : 'Clean Logs',
+                child: TextButton.icon(
+                  onPressed: isClearingErrors ? null : onCleanLogs,
+                  icon: const Icon(Icons.cleaning_services_outlined),
+                  label: Text(
+                    'Clean Logs',
+                    style: text.button.copyWith(color: c.textPrimary),
+                  ),
                 ),
               ),
             ],

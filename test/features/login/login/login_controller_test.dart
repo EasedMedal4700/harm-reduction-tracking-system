@@ -29,6 +29,8 @@ void main() {
   late MockAuthService mockAuthService;
   late MockPostLoginRouter mockRouter;
   late MockOnboardingService mockOnboardingService;
+  late MockSupabaseClient mockSupabaseClient;
+  late MockGoTrueClient mockGoTrueClient;
 
   setUp(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
@@ -37,18 +39,29 @@ void main() {
     mockAuthService = MockAuthService();
     mockRouter = MockPostLoginRouter();
     mockOnboardingService = MockOnboardingService();
+    mockSupabaseClient = MockSupabaseClient();
+    mockGoTrueClient = MockGoTrueClient();
 
+    // Workaround for Supabase.instance assertion
+    try {
+      await Supabase.initialize(url: 'https://example.com', anonKey: 'dummy');
+    } catch (_) {}
+
+    when(mockSupabaseClient.auth).thenReturn(mockGoTrueClient);
     when(
-      mockOnboardingService.isOnboardingComplete(),
-    ).thenAnswer((_) async => true);
+      mockGoTrueClient.onAuthStateChange,
+    ).thenAnswer((_) => const Stream.empty());
+
+    // Set onboarding complete in SharedPreferences so LoginController proceeds
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding_complete', true);
 
     container = ProviderContainer(
       overrides: [
         authServiceProvider.overrideWithValue(mockAuthService),
         postLoginRouterProvider.overrideWithValue(mockRouter),
-        sharedPreferencesProvider.overrideWithValue(
-          await SharedPreferences.getInstance(),
-        ),
+        supabaseClientProvider.overrideWith((ref) => mockSupabaseClient),
+        sharedPreferencesProvider.overrideWithValue(prefs),
       ],
     );
   });
@@ -82,11 +95,12 @@ void main() {
         overrides: [
           authServiceProvider.overrideWithValue(mockAuthService),
           postLoginRouterProvider.overrideWithValue(mockRouter),
+          supabaseClientProvider.overrideWith((ref) => mockSupabaseClient),
           sharedPreferencesProvider.overrideWithValue(prefs),
         ],
       );
 
-      await Future.delayed(const Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 500));
       final state = newContainer.read(loginControllerProvider);
 
       expect(state.rememberMe, true);

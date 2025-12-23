@@ -171,12 +171,20 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
         foregroundColor: c.textPrimary,
         elevation: context.sizes.elevationNone,
         actions: [
-          IconButton(
-            icon: _isLoading
-                ? CommonLoader(size: context.sizes.iconSm, color: c.textPrimary)
-                : const Icon(Icons.refresh),
-            onPressed: _isLoading ? null : _loadData,
-            tooltip: 'Refresh',
+          Semantics(
+            button: true,
+            enabled: !_isLoading,
+            label: _isLoading ? 'Loading data' : 'Refresh data',
+            child: IconButton(
+              icon: _isLoading
+                  ? CommonLoader(
+                      size: context.sizes.iconSm,
+                      color: c.textPrimary,
+                    )
+                  : const Icon(Icons.refresh),
+              onPressed: _isLoading ? null : _loadData,
+              tooltip: 'Refresh',
+            ),
           ),
         ],
       ),
