@@ -40,8 +40,7 @@ class PostLoginRouter {
       return;
     }
 
-    if (!debug &&
-      await _ref.read(appLockRequirePinProvider)()) {
+    if (!debug && await _ref.read(appLockRequirePinProvider)()) {
       goToPinUnlock();
       return;
     }

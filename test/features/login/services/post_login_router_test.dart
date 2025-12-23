@@ -66,7 +66,10 @@ void main() {
     when(mockAuth.currentUser).thenReturn(mockUser);
     // Initialize Supabase SDK to avoid Supabase.instance assertion when code calls Supabase.instance
     try {
-      await Supabase.initialize(url: 'https://example.supabase.co', anonKey: 'test-key');
+      await Supabase.initialize(
+        url: 'https://example.supabase.co',
+        anonKey: 'test-key',
+      );
     } catch (_) {}
 
     container = ProviderContainer(
@@ -75,10 +78,14 @@ void main() {
         // override supabase client so tests don't hit Supabase.instance
         supabaseClientProvider.overrideWithValue(mockSupabaseClient),
         // override the services used by router
-        encryptionMigrationServiceProvider.overrideWithValue(mockMigrationService),
+        encryptionMigrationServiceProvider.overrideWithValue(
+          mockMigrationService,
+        ),
         encryptionServiceProvider.overrideWithValue(mockEncryptionService),
         // override the app-lock check helper so tests can control PIN requirement
-        appLockRequirePinProvider.overrideWithValue(() async => mockAppLockController.shouldRequirePinNow()),
+        appLockRequirePinProvider.overrideWithValue(
+          () async => mockAppLockController.shouldRequirePinNow(),
+        ),
       ],
     );
   });

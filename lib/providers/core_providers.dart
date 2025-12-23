@@ -16,13 +16,16 @@ final encryptionServiceProvider = Provider<EncryptionServiceV2>((ref) {
   return EncryptionServiceV2();
 });
 
-final encryptionMigrationServiceProvider = Provider<EncryptionMigrationService>((ref) {
-  return EncryptionMigrationService();
-});
+final encryptionMigrationServiceProvider = Provider<EncryptionMigrationService>(
+  (ref) {
+    return EncryptionMigrationService();
+  },
+);
 
 // Provider wrapper to allow tests to override the app-lock "require PIN" check
 final appLockRequirePinProvider = Provider<Future<bool> Function()>((ref) {
-  return () async => ref.read(appLockControllerProvider.notifier).shouldRequirePinNow();
+  return () async =>
+      ref.read(appLockControllerProvider.notifier).shouldRequirePinNow();
 });
 
 final authServiceProvider = Provider<AuthService>((ref) {

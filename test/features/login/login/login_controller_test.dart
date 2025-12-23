@@ -35,7 +35,7 @@ void main() {
   setUp(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
     SharedPreferences.setMockInitialValues({'remember_me': true});
-    
+
     mockAuthService = MockAuthService();
     mockRouter = MockPostLoginRouter();
     mockOnboardingService = MockOnboardingService();
@@ -88,18 +88,28 @@ void main() {
     });
 
     test('restores rememberMe from SharedPreferences', () async {
+      // Ensure mock shared preferences contain both onboarding and remember_me keys
+      SharedPreferences.setMockInitialValues({
+        'remember_me': true,
+        'onboarding_complete': true,
+      });
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('remember_me', true);
+      // mark onboarding complete so controller initialization runs past onboarding check
+      await prefs.setBool('onboarding_complete', true);
 
       final newContainer = ProviderContainer(
         overrides: [
           authServiceProvider.overrideWithValue(mockAuthService),
           postLoginRouterProvider.overrideWithValue(mockRouter),
           supabaseClientProvider.overrideWith((ref) => mockSupabaseClient),
+          // ensure onboarding is marked complete so initialization proceeds
           sharedPreferencesProvider.overrideWithValue(prefs),
         ],
       );
 
+      // ensure async initialization completes (call init again to be deterministic)
+      newContainer.read(loginControllerProvider.notifier).init();
       await Future.delayed(const Duration(milliseconds: 500));
       final state = newContainer.read(loginControllerProvider);
 
