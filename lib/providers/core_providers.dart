@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/app_lock_controller.dart';
 import '../services/auth_service.dart';
 import '../services/encryption_service_v2.dart';
+import '../services/encryption_migration_service.dart';
 
 export 'shared_preferences_provider.dart';
 
@@ -13,6 +14,15 @@ final supabaseClientProvider = Provider<SupabaseClient>((ref) {
 
 final encryptionServiceProvider = Provider<EncryptionServiceV2>((ref) {
   return EncryptionServiceV2();
+});
+
+final encryptionMigrationServiceProvider = Provider<EncryptionMigrationService>((ref) {
+  return EncryptionMigrationService();
+});
+
+// Provider wrapper to allow tests to override the app-lock "require PIN" check
+final appLockRequirePinProvider = Provider<Future<bool> Function()>((ref) {
+  return () async => ref.read(appLockControllerProvider.notifier).shouldRequirePinNow();
 });
 
 final authServiceProvider = Provider<AuthService>((ref) {

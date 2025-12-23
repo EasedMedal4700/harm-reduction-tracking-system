@@ -13,6 +13,7 @@ import 'package:mobile_drug_use_app/services/navigation_service.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'post_login_router_test.mocks.dart';
 
@@ -35,7 +36,10 @@ void main() {
   late MockSupabaseClient mockSupabaseClient;
   late MockGoTrueClient mockAuth;
 
-  setUp(() {
+  setUp(() async {
+    // Ensure Flutter bindings and mock shared preferences for plugin calls
+    TestWidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences.setMockInitialValues({});
     mockNavigation = MockNavigationService();
     mockMigrationService = MockEncryptionMigrationService();
     mockEncryptionService = MockEncryptionServiceV2();
@@ -60,6 +64,10 @@ void main() {
     // Default Supabase auth returns a user; tests override as needed
     when(mockSupabaseClient.auth).thenReturn(mockAuth);
     when(mockAuth.currentUser).thenReturn(mockUser);
+    // Initialize Supabase SDK to avoid Supabase.instance assertion when code calls Supabase.instance
+    try {
+      await Supabase.initialize(url: 'https://example.supabase.co', anonKey: 'test-key');
+    } catch (_) {}
 
     container = ProviderContainer(
       overrides: [
@@ -68,8 +76,9 @@ void main() {
         supabaseClientProvider.overrideWithValue(mockSupabaseClient),
         // override the services used by router
         encryptionMigrationServiceProvider.overrideWithValue(mockMigrationService),
-        encryptionServiceV2Provider.overrideWithValue(mockEncryptionService),
-        appLockControllerProvider.overrideWithValue(mockAppLockController),
+        encryptionServiceProvider.overrideWithValue(mockEncryptionService),
+        // override the app-lock check helper so tests can control PIN requirement
+        appLockRequirePinProvider.overrideWithValue(() async => mockAppLockController.shouldRequirePinNow()),
       ],
     );
   });
@@ -240,11 +249,9 @@ void main() {
 
     test('provider creates new instance each time', () {
       final router1 = container.read(postLoginRouterProvider);
-      final router2 = container.read(post_loginRouterProvider);
+      final router2 = container.read(postLoginRouterProvider);
 
       // Current implementation returns the same instance; assert identity.
-      // If you intend the provider to produce a new instance each read, change the provider implementation
-      // and restore the original assertion (isNot(same(...))).
       expect(router1, same(router2));
     });
   });

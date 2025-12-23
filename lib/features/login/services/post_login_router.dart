@@ -23,28 +23,25 @@ class PostLoginRouter {
   final Ref _ref;
 
   Future<void> routeAfterLogin({required bool debug}) async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _ref.read(supabaseClientProvider).auth.currentUser;
     if (user == null) {
       goToLogin();
       return;
     }
 
-    final migrationService = EncryptionMigrationService();
+    final migrationService = _ref.read(encryptionMigrationServiceProvider);
     if (await migrationService.needsMigration(user.id)) {
       goToEncryptionMigration();
       return;
     }
-
-    final encryptionService = EncryptionServiceV2();
+    final encryptionService = _ref.read(encryptionServiceProvider);
     if (!await encryptionService.hasEncryptionSetup(user.id)) {
       goToPinSetup();
       return;
     }
 
     if (!debug &&
-        await _ref
-            .read(appLockControllerProvider.notifier)
-            .shouldRequirePinNow()) {
+      await _ref.read(appLockRequirePinProvider)()) {
       goToPinUnlock();
       return;
     }
