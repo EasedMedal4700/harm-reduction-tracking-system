@@ -134,7 +134,6 @@ def run_tests() -> Tuple[bool, str, str]:
     # Initial progress display
     percentage = 0.0 if total_known else 0.0
     progress_bar = create_progress_bar(percentage)
-    print(f"Progress: [{progress_bar}] {percentage:.1f}% | ⏱️  Elapsed: 0.0s")
 
     try:
         # Run flutter test with machine-readable output and coverage
