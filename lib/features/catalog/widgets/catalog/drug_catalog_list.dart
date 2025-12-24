@@ -14,32 +14,29 @@ import '../../../../common/layout/common_spacer.dart';
 class DrugCatalogList extends StatelessWidget {
   final List<DrugCatalogEntry> entries;
   final Function(DrugCatalogEntry) onToggleFavorite;
-
   const DrugCatalogList({
     super.key,
     required this.entries,
     required this.onToggleFavorite,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     if (entries.isEmpty) {
       return Center(
         child: Text(
           'No drugs found.',
-          style: t.typography.bodyMedium.copyWith(
-            color: t.colors.textSecondary,
+          style: th.typography.bodyMedium.copyWith(
+            color: th.colors.textSecondary,
           ),
         ),
       );
     }
-
     return ListView.separated(
-      padding: EdgeInsets.all(t.spacing.md),
+      padding: EdgeInsets.all(th.spacing.md),
       itemCount: entries.length,
-      separatorBuilder: (context, index) => CommonSpacer.vertical(t.spacing.md),
+      separatorBuilder: (context, index) =>
+          CommonSpacer.vertical(th.spacing.md),
       itemBuilder: (context, index) {
         final drug = entries[index];
         return DrugCatalogTile(
@@ -54,13 +51,11 @@ class DrugCatalogList extends StatelessWidget {
 class DrugCatalogTile extends StatelessWidget {
   final DrugCatalogEntry drug;
   final VoidCallback onToggleFavorite;
-
   const DrugCatalogTile({
     super.key,
     required this.drug,
     required this.onToggleFavorite,
   });
-
   String _formatDate(DateTime? date) {
     if (date == null) return 'Unknown';
     final formatter = DateFormat('yyyy-MM-dd HH:mm');
@@ -69,24 +64,24 @@ class DrugCatalogTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final c = context.colors;
-    final text = context.text;
+    final th = context.theme;
 
+    final c = context.colors;
+    final tx = context.text;
     return CommonCard(
       child: Padding(
-        padding: EdgeInsets.all(t.spacing.md),
+        padding: EdgeInsets.all(th.spacing.md),
         child: Column(
           crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             Row(
               mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
-                Expanded(child: Text(drug.name, style: text.heading4)),
+                Expanded(child: Text(drug.name, style: tx.heading4)),
                 IconButton(
                   icon: Icon(
                     drug.favorite ? Icons.star : Icons.star_border,
-                    color: drug.favorite ? t.accent.primary : c.textSecondary,
+                    color: drug.favorite ? th.accent.primary : c.textSecondary,
                   ),
                   onPressed: onToggleFavorite,
                 ),
@@ -118,9 +113,11 @@ class DrugCatalogTile extends StatelessWidget {
   }
 
   Widget _buildInfoRow(BuildContext context, String label, String value) {
-    final t = context.theme;
+    final th = context.theme;
+    final tx = context.text;
+
     return Padding(
-      padding: EdgeInsets.only(bottom: t.spacing.xs),
+      padding: EdgeInsets.only(bottom: th.spacing.xs),
       child: Row(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
@@ -128,17 +125,17 @@ class DrugCatalogTile extends StatelessWidget {
             width: context.sizes.cardWidthSm,
             child: Text(
               label,
-              style: t.typography.bodySmall.copyWith(
-                color: t.colors.textSecondary,
-                fontWeight: context.text.bodyBold.fontWeight,
+              style: th.typography.bodySmall.copyWith(
+                color: th.colors.textSecondary,
+                fontWeight: tx.bodyBold.fontWeight,
               ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: t.typography.bodySmall.copyWith(
-                color: t.colors.textPrimary,
+              style: th.typography.bodySmall.copyWith(
+                color: th.colors.textPrimary,
               ),
             ),
           ),

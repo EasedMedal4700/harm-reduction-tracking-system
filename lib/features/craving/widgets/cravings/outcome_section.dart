@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard, CommonInputField, and CommonSwitchTile.
-
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ class OutcomeSection extends StatelessWidget {
   final ValueChanged<String> onWhatDidYouDoChanged;
   final bool actedOnCraving;
   final ValueChanged<bool> onActedOnCravingChanged;
-
   const OutcomeSection({
     super.key,
     required this.whatDidYouDo,
@@ -25,15 +23,13 @@ class OutcomeSection extends StatelessWidget {
     required this.actedOnCraving,
     required this.onActedOnCravingChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
-    final text = context.text;
-    final a = context.accent;
+    final tx = context.text;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
@@ -41,19 +37,18 @@ class OutcomeSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.flag, color: a.primary, size: t.sizes.iconMd),
+              Icon(Icons.flag, color: ac.primary, size: th.sizes.iconMd),
               CommonSpacer.horizontal(sp.sm),
               Text(
                 'Outcome',
-                style: t.typography.heading4.copyWith(
+                style: th.typography.heading4.copyWith(
                   color: c.textPrimary,
-                  fontWeight: text.bodyBold.fontWeight,
+                  fontWeight: tx.bodyBold.fontWeight,
                 ),
               ),
             ],
           ),
           CommonSpacer.vertical(sp.md),
-
           CommonInputField(
             initialValue: whatDidYouDo,
             onChanged: onWhatDidYouDoChanged,
@@ -61,9 +56,7 @@ class OutcomeSection extends StatelessWidget {
             labelText: 'What did you do?',
             hintText: 'Describe your actions...',
           ),
-
           CommonSpacer.vertical(sp.md),
-
           CommonSwitchTile(
             title: 'Acted on craving?',
             value: actedOnCraving,

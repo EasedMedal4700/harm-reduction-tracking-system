@@ -12,7 +12,6 @@ import '../../common/inputs/input_field.dart';
 /// After successfully updating the password, users are redirected to login.
 class SetNewPasswordPage extends StatefulWidget {
   const SetNewPasswordPage({super.key});
-
   @override
   State<SetNewPasswordPage> createState() => _SetNewPasswordPageState();
 }
@@ -25,7 +24,6 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   String? _errorMessage;
-
   @override
   void initState() {
     super.initState();
@@ -54,29 +52,23 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
 
   Future<void> _handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
-
     setState(() {
       _isSubmitting = true;
       _errorMessage = null;
     });
-
     try {
       await Supabase.instance.client.auth.updateUser(
         UserAttributes(password: _passwordController.text),
       );
-
       // Sign out to clear the recovery session
       await Supabase.instance.client.auth.signOut();
-
       if (!mounted) return;
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Password updated successfully! Please log in.'),
-          backgroundColor: context.colors.success,
+          backgroundColor: c.success,
         ),
       );
-
       Navigator.of(
         context,
       ).pushNamedAndRemoveUntil('/login_page', (route) => false);
@@ -100,17 +92,16 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final a = context.accent;
-    final text = context.text;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
-
     // Show error state if no session
     if (_errorMessage != null &&
         Supabase.instance.client.auth.currentSession == null) {
       return Scaffold(
         backgroundColor: c.background,
         appBar: AppBar(
-          backgroundColor: context.colors.transparent,
+          backgroundColor: c.transparent,
           elevation: context.sizes.elevationNone,
           title: Text('Reset Password', style: TextStyle(color: c.textPrimary)),
         ),
@@ -136,15 +127,15 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                 CommonSpacer.vertical(sp.lg),
                 Text(
                   'Link Expired',
-                  style: text.headlineMedium.copyWith(
-                    fontWeight: text.bodyBold.fontWeight,
+                  style: tx.headlineMedium.copyWith(
+                    fontWeight: tx.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
                 ),
                 CommonSpacer.vertical(sp.sm),
                 Text(
                   _errorMessage!,
-                  style: text.bodyMedium.copyWith(color: c.textSecondary),
+                  style: tx.bodyMedium.copyWith(color: c.textSecondary),
                   textAlign: AppLayout.textAlignCenter,
                 ),
                 CommonSpacer.vertical(sp.xl),
@@ -160,7 +151,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   ).pushNamedAndRemoveUntil('/login_page', (route) => false),
                   child: Text(
                     'Back to Login',
-                    style: TextStyle(color: a.primary),
+                    style: TextStyle(color: ac.primary),
                   ),
                 ),
               ],
@@ -169,11 +160,10 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
         ),
       );
     }
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
-        backgroundColor: context.colors.transparent,
+        backgroundColor: c.transparent,
         elevation: context.sizes.elevationNone,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: c.textPrimary),
@@ -185,7 +175,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
           'Set New Password',
           style: TextStyle(
             color: c.textPrimary,
-            fontWeight: text.bodyBold.fontWeight,
+            fontWeight: tx.bodyBold.fontWeight,
           ),
         ),
       ),
@@ -203,7 +193,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   width: 100,
                   height: context.sizes.heightSm,
                   decoration: BoxDecoration(
-                    color: a.primary.withValues(
+                    color: ac.primary.withValues(
                       alpha: context.opacities.overlay,
                     ),
                     shape: context.shapes.boxShapeCircle,
@@ -211,15 +201,15 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   child: Icon(
                     Icons.lock_outline_rounded,
                     size: context.sizes.iconXl,
-                    color: a.primary,
+                    color: ac.primary,
                   ),
                 ),
                 CommonSpacer.vertical(sp.xl),
                 // Title
                 Text(
                   'Create a new password',
-                  style: text.headlineMedium.copyWith(
-                    fontWeight: text.bodyBold.fontWeight,
+                  style: tx.headlineMedium.copyWith(
+                    fontWeight: tx.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
                   textAlign: AppLayout.textAlignCenter,
@@ -228,7 +218,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                 // Description
                 Text(
                   'Your new password must be different from your previous password.',
-                  style: text.bodyMedium.copyWith(
+                  style: tx.bodyMedium.copyWith(
                     color: c.textSecondary,
                     height: 1.5,
                   ),
@@ -265,7 +255,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                             _errorMessage!,
                             style: TextStyle(
                               color: c.error,
-                              fontSize: context.text.bodySmall.fontSize,
+                              fontSize: tx.bodySmall.fontSize,
                             ),
                           ),
                         ),
@@ -349,7 +339,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                 Container(
                   padding: EdgeInsets.all(sp.md),
                   decoration: BoxDecoration(
-                    color: a.primary.withValues(alpha: 0.05),
+                    color: ac.primary.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(
                       context.shapes.radiusMd,
                     ),
@@ -359,8 +349,8 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                     children: [
                       Text(
                         'Password requirements:',
-                        style: text.bodySmall.copyWith(
-                          fontWeight: text.bodyBold.fontWeight,
+                        style: tx.bodySmall.copyWith(
+                          fontWeight: tx.bodyBold.fontWeight,
                           color: c.textPrimary,
                         ),
                       ),
@@ -390,10 +380,10 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
 
   Widget _buildRequirement(BuildContext context, String text, bool met) {
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
-    final textStyle = context.text;
-    final color = met ? c.success : c.textSecondary;
 
+    final color = met ? c.success : c.textSecondary;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: sp.xs),
       child: Row(
@@ -404,7 +394,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
             color: color,
           ),
           CommonSpacer.horizontal(sp.xs),
-          Text(text, style: textStyle.bodySmall.copyWith(color: color)),
+          Text(text, style: tx.bodySmall.copyWith(color: color)),
         ],
       ),
     );

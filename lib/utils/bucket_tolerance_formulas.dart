@@ -28,28 +28,22 @@ class BucketToleranceFormulas {
     // - Small doses: Rapid tolerance buildup
     // - Large doses: Slower additional buildup (asymptotic)
     // - Prevents explosive unrealistic values
-
     final effectiveDose =
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
-
     // Logarithmic scaling: log(1 + x) / log(base)
     // Using natural log (ln) normalized to reasonable scale
     final logTolerance =
         log(1.0 + effectiveDose * 2.0) / log(3.0); // Base 3 for moderate growth
-
     // Apply gain rate with logarithmic damping
     final calibrationFactor =
         0.15; // Slightly higher than before due to log damping
-
     final result = logTolerance * toleranceGainRate * calibrationFactor;
-
     if (result > 0.1) {
       // Only log significant contributions
       AppLog.d(
         '         [STIMULANT FORMULA]: effDose=${effectiveDose.toStringAsFixed(3)}, log=${logTolerance.toStringAsFixed(4)}, result=${result.toStringAsFixed(4)}',
       );
     }
-
     return result;
   }
 
@@ -67,7 +61,6 @@ class BucketToleranceFormulas {
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance =
         log(1.0 + effectiveDose * 2.5) / log(2.5); // Faster initial growth
-
     final buildupMultiplier = 0.25; // Stronger buildup with log damping
     return logTolerance * toleranceGainRate * buildupMultiplier;
   }
@@ -86,7 +79,6 @@ class BucketToleranceFormulas {
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance =
         log(1.0 + effectiveDose * 3.0) / log(2.0); // Very fast initial
-
     final buildupMultiplier = 0.35; // Strong buildup with log damping
     return logTolerance * toleranceGainRate * buildupMultiplier;
   }
@@ -105,7 +97,6 @@ class BucketToleranceFormulas {
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance =
         log(1.0 + effectiveDose * 1.5) / log(4.0); // Slower growth
-
     final buildupMultiplier = 0.20; // Moderate buildup with log damping
     return logTolerance * toleranceGainRate * buildupMultiplier;
   }
@@ -124,7 +115,6 @@ class BucketToleranceFormulas {
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance =
         log(1.0 + effectiveDose * 2.0) / log(3.0); // Moderate growth
-
     final buildupMultiplier = 0.25; // Moderate buildup with log damping
     return logTolerance * toleranceGainRate * buildupMultiplier;
   }
@@ -143,7 +133,6 @@ class BucketToleranceFormulas {
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance =
         log(1.0 + effectiveDose * 1.5) / log(3.5); // Slower growth
-
     final buildupMultiplier = 0.20; // Moderate buildup with log damping
     return logTolerance * toleranceGainRate * buildupMultiplier;
   }
@@ -162,7 +151,6 @@ class BucketToleranceFormulas {
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance =
         log(1.0 + effectiveDose * 2.5) / log(2.5); // Fast growth
-
     final buildupMultiplier = 0.30; // Strong buildup with log damping
     return logTolerance * toleranceGainRate * buildupMultiplier;
   }
@@ -181,7 +169,6 @@ class BucketToleranceFormulas {
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance =
         log(1.0 + effectiveDose * 2.0) / log(3.0); // Moderate growth
-
     final buildupMultiplier = 0.25; // Moderate buildup with log damping
     return logTolerance * toleranceGainRate * buildupMultiplier;
   }
@@ -200,7 +187,6 @@ class BucketToleranceFormulas {
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance =
         log(1.0 + effectiveDose * 1.5) / log(3.5); // Slower growth
-
     final buildupMultiplier = 0.20; // Moderate buildup with log damping
     return logTolerance * toleranceGainRate * buildupMultiplier;
   }

@@ -36,7 +36,6 @@ class EditReflectionForm extends StatefulWidget {
   final String notes;
   final ValueChanged<String> onNotesChanged;
   final VoidCallback onSave;
-
   const EditReflectionForm({
     super.key,
     required this.selectedCount,
@@ -64,7 +63,6 @@ class EditReflectionForm extends StatefulWidget {
     required this.onNotesChanged,
     required this.onSave,
   });
-
   @override
   State<EditReflectionForm> createState() => _EditReflectionFormState();
 }
@@ -75,7 +73,6 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
   late TextEditingController _sideEffectsController;
   late TextEditingController _copingStrategiesController;
   late TextEditingController _notesController;
-
   @override
   void initState() {
     super.initState();
@@ -124,24 +121,22 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return SingleChildScrollView(
-      padding: EdgeInsets.all(t.spacing.lg),
+      padding: EdgeInsets.all(th.spacing.lg),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Reflecting on ${widget.selectedCount} selected entries',
-            style: t.typography.heading2,
+            style: th.typography.heading2,
           ),
-          CommonSpacer.vertical(t.spacing.lg),
-
+          CommonSpacer.vertical(th.spacing.lg),
           // Effectiveness Section
           CommonFormCard(
             title: 'Effectiveness',
             icon: Icons.star,
-            accentColor: t.colors.info,
+            accentColor: th.colors.info,
             child: _buildSlider(
               context,
               'Effectiveness Rating',
@@ -151,13 +146,12 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               maxLabel: 'Highly Effective',
             ),
           ),
-          CommonSpacer.vertical(t.spacing.lg),
-
+          CommonSpacer.vertical(th.spacing.lg),
           // Sleep Section
           CommonFormCard(
             title: 'Sleep',
             icon: Icons.bedtime,
-            accentColor: t.accent.primary,
+            accentColor: th.accent.primary,
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
@@ -170,7 +164,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                     widget.onSleepHoursChanged(parsed);
                   },
                 ),
-                CommonSpacer.vertical(t.spacing.lg),
+                CommonSpacer.vertical(th.spacing.lg),
                 _buildDropdown(
                   context,
                   'Sleep Quality',
@@ -181,13 +175,12 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               ],
             ),
           ),
-          CommonSpacer.vertical(t.spacing.lg),
-
+          CommonSpacer.vertical(th.spacing.lg),
           // Mood & Energy Section
           CommonFormCard(
             title: 'Mood & Energy',
             icon: Icons.psychology,
-            accentColor: t.colors.warning,
+            accentColor: th.colors.warning,
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
@@ -196,7 +189,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   labelText: 'Next Day Mood',
                   onChanged: widget.onNextDayMoodChanged,
                 ),
-                CommonSpacer.vertical(t.spacing.lg),
+                CommonSpacer.vertical(th.spacing.lg),
                 _buildDropdown(
                   context,
                   'Energy Level',
@@ -207,13 +200,12 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               ],
             ),
           ),
-          CommonSpacer.vertical(t.spacing.lg),
-
+          CommonSpacer.vertical(th.spacing.lg),
           // Side Effects Section
           CommonFormCard(
             title: 'Side Effects',
             icon: Icons.warning_amber,
-            accentColor: t.accent.secondary,
+            accentColor: th.accent.secondary,
             child: CommonTextarea(
               controller: _sideEffectsController,
               labelText: 'Side Effects',
@@ -221,13 +213,12 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               maxLines: 3,
             ),
           ),
-          CommonSpacer.vertical(t.spacing.lg),
-
+          CommonSpacer.vertical(th.spacing.lg),
           // Cravings & Coping Section
           CommonFormCard(
             title: 'Cravings & Coping',
             icon: Icons.psychology_outlined,
-            accentColor: t.colors.success,
+            accentColor: th.colors.success,
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
@@ -239,7 +230,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   minLabel: 'None',
                   maxLabel: 'Intense',
                 ),
-                CommonSpacer.vertical(t.spacing.lg),
+                CommonSpacer.vertical(th.spacing.lg),
                 CommonTextarea(
                   controller: _copingStrategiesController,
                   labelText: 'Coping Strategies',
@@ -247,7 +238,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   maxLines: 2,
                   minLines: 1,
                 ),
-                CommonSpacer.vertical(t.spacing.lg),
+                CommonSpacer.vertical(th.spacing.lg),
                 _buildSlider(
                   context,
                   'Coping Effectiveness',
@@ -259,13 +250,12 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               ],
             ),
           ),
-          CommonSpacer.vertical(t.spacing.lg),
-
+          CommonSpacer.vertical(th.spacing.lg),
           // Overall & Notes Section
           CommonFormCard(
             title: 'Overall',
             icon: Icons.assessment,
-            accentColor: t.accent.secondary,
+            accentColor: th.accent.secondary,
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
@@ -277,7 +267,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   minLabel: 'Dissatisfied',
                   maxLabel: 'Very Satisfied',
                 ),
-                CommonSpacer.vertical(t.spacing.lg),
+                CommonSpacer.vertical(th.spacing.lg),
                 CommonTextarea(
                   controller: _notesController,
                   labelText: 'Notes',
@@ -287,14 +277,13 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
               ],
             ),
           ),
-          CommonSpacer.vertical(t.spacing.xl),
-
+          CommonSpacer.vertical(th.spacing.xl),
           // Save Button
           CommonPrimaryButton(
             onPressed: widget.onSave,
             label: 'Save Changes',
             icon: Icons.save,
-            backgroundColor: t.colors.info,
+            backgroundColor: th.colors.info,
           ),
         ],
       ),
@@ -309,9 +298,9 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
     String? minLabel,
     String? maxLabel,
   }) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
 
+    final tx = context.text;
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
@@ -320,13 +309,13 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           children: [
             Text(
               label,
-              style: t.typography.bodySmall.copyWith(
-                fontWeight: text.bodyBold.fontWeight,
+              style: th.typography.bodySmall.copyWith(
+                fontWeight: tx.bodyBold.fontWeight,
               ),
             ),
             Text(
               value.round().toString(),
-              style: t.typography.heading3.copyWith(color: t.accent.primary),
+              style: th.typography.heading3.copyWith(color: th.accent.primary),
             ),
           ],
         ),
@@ -336,16 +325,16 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
           max: 10,
           divisions: 9,
           onChanged: onChanged,
-          activeColor: t.accent.primary,
+          activeColor: th.accent.primary,
         ),
         if (minLabel != null && maxLabel != null)
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: t.spacing.sm),
+            padding: EdgeInsets.symmetric(horizontal: th.spacing.sm),
             child: Row(
               mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
-                Text(minLabel, style: t.typography.caption),
-                Text(maxLabel, style: t.typography.caption),
+                Text(minLabel, style: th.typography.caption),
+                Text(maxLabel, style: th.typography.caption),
               ],
             ),
           ),
@@ -360,20 +349,20 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
     List<String> items,
     ValueChanged<String> onChanged,
   ) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
+    final tx = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           label,
-          style: t.typography.bodySmall.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
-            color: t.colors.textSecondary,
+          style: th.typography.bodySmall.copyWith(
+            fontWeight: tx.bodyBold.fontWeight,
+            color: th.colors.textSecondary,
           ),
         ),
-        CommonSpacer.vertical(t.spacing.sm),
+        CommonSpacer.vertical(th.spacing.sm),
         CommonDropdown<String>(
           value: items.contains(value) ? value : items.first,
           items: items,

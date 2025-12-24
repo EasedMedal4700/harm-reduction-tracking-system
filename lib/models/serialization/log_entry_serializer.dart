@@ -24,7 +24,6 @@ class LogEntrySerializer {
     final diffMin = ParsingUtils.parseInt(
       json['time_difference'] ?? json['time_diff'] ?? json['tz_offset_minutes'],
     );
-
     return LogEntry(
       id: json['use_id']?.toString() ?? json['id']?.toString(),
       substance:
@@ -100,7 +99,6 @@ class LogEntrySerializer {
   ) {
     double dosage = 0.0;
     String unit = '';
-
     if (json['dosage'] != null) {
       dosage = ParsingUtils.parseDouble(json['dosage']);
       unit = json['unit']?.toString() ?? '';
@@ -114,7 +112,6 @@ class LogEntrySerializer {
       }
       unit = unit.isEmpty ? (json['unit']?.toString() ?? '') : unit;
     }
-
     return (dosage: dosage, unit: unit);
   }
 
@@ -127,7 +124,6 @@ class LogEntrySerializer {
   static DateTime _parseDatetime(Map<String, dynamic> json) {
     DateTime dt = DateTime.now();
     final startRaw = json['start_time'] ?? json['time'] ?? json['created_at'];
-
     if (startRaw != null) {
       try {
         dt = DateTime.parse(startRaw.toString());
@@ -135,7 +131,6 @@ class LogEntrySerializer {
         // Keep default DateTime.now() if parsing fails
       }
     }
-
     // Apply time difference
     final diffMin = ParsingUtils.parseInt(
       json['time_difference'] ?? json['time_diff'] ?? json['tz_offset_minutes'],
@@ -143,7 +138,6 @@ class LogEntrySerializer {
     if (diffMin != 0) {
       dt = dt.add(Duration(minutes: diffMin));
     }
-
     // Apply timezone offset
     final tzOffset = ParsingUtils.parseTimezone(
       json['timezone'] ?? json['tz'] ?? json['time_zone'],
@@ -151,7 +145,6 @@ class LogEntrySerializer {
     if (tzOffset != 0.0) {
       dt = dt.add(Duration(minutes: (tzOffset * 60).round()));
     }
-
     return dt;
   }
 

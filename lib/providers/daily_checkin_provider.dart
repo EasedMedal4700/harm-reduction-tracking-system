@@ -6,9 +6,7 @@ import '../common/logging/app_log.dart';
 class DailyCheckinProvider extends ChangeNotifier {
   DailyCheckinProvider({DailyCheckinRepository? repository})
     : _repository = repository ?? DailyCheckinService();
-
   final DailyCheckinRepository _repository;
-
   // Current check-in being edited
   String _mood = 'Neutral';
   List<String> _emotions = [];
@@ -16,17 +14,13 @@ class DailyCheckinProvider extends ChangeNotifier {
   String _notes = '';
   DateTime _selectedDate = DateTime.now();
   TimeOfDay? _selectedTime;
-
   // Existing check-in (if editing)
   DailyCheckin? _existingCheckin;
-
   // Loading states
   bool _isSaving = false;
   bool _isLoading = false;
-
   // History
   List<DailyCheckin> _recentCheckins = [];
-
   // Getters
   String get mood => _mood;
   List<String> get emotions => _emotions;
@@ -38,7 +32,6 @@ class DailyCheckinProvider extends ChangeNotifier {
   bool get isSaving => _isSaving;
   bool get isLoading => _isLoading;
   List<DailyCheckin> get recentCheckins => _recentCheckins;
-
   // Available options
   final List<String> availableMoods = [
     'Great',
@@ -47,9 +40,7 @@ class DailyCheckinProvider extends ChangeNotifier {
     'Struggling',
     'Poor',
   ];
-
   final List<String> availableTimesOfDay = ['morning', 'afternoon', 'evening'];
-
   // Available emotions (can be expanded)
   final List<String> availableEmotions = [
     'Happy',
@@ -65,7 +56,6 @@ class DailyCheckinProvider extends ChangeNotifier {
     'Overwhelmed',
     'Peaceful',
   ];
-
   // Setters
   void setMood(String value) {
     _mood = value;
@@ -103,7 +93,6 @@ class DailyCheckinProvider extends ChangeNotifier {
 
   void setSelectedTime(TimeOfDay value) {
     _selectedTime = value;
-
     // Auto-update time of day
     if (value.hour < 12) {
       _timeOfDay = 'morning';
@@ -112,7 +101,6 @@ class DailyCheckinProvider extends ChangeNotifier {
     } else {
       _timeOfDay = 'evening';
     }
-
     notifyListeners();
   }
 
@@ -121,12 +109,10 @@ class DailyCheckinProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       notifyListeners();
-
       _existingCheckin = await _repository.fetchCheckinByDateAndTime(
         _selectedDate,
         _timeOfDay,
       );
-
       if (_existingCheckin != null) {
         // Load existing data
         _mood = _existingCheckin!.mood;
@@ -158,11 +144,9 @@ class DailyCheckinProvider extends ChangeNotifier {
       }
       return;
     }
-
     try {
       _isSaving = true;
       notifyListeners();
-
       final checkin = DailyCheckin(
         id: null,
         userId: '', // Will be set by the service
@@ -172,7 +156,6 @@ class DailyCheckinProvider extends ChangeNotifier {
         timeOfDay: _timeOfDay,
         notes: _notes.isEmpty ? null : _notes,
       );
-
       // Create new check-in only
       await _repository.saveCheckin(checkin);
       if (context.mounted) {
@@ -180,13 +163,10 @@ class DailyCheckinProvider extends ChangeNotifier {
           const SnackBar(content: Text('Check-in saved successfully!')),
         );
       }
-
       // Refresh recent check-ins
       await loadRecentCheckins();
-
       // Reload to check existing again
       await checkExistingCheckin();
-
       if (context.mounted) {
         Navigator.pop(context);
       }
@@ -207,10 +187,8 @@ class DailyCheckinProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       notifyListeners();
-
       final endDate = DateTime.now();
       final startDate = endDate.subtract(const Duration(days: 7));
-
       _recentCheckins = await _repository.fetchCheckinsInRange(
         startDate,
         endDate,

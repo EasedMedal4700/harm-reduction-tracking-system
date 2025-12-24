@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +17,6 @@ class BucketDetailsWidget extends ConsumerWidget {
   final double tolerancePercent;
   final Map<String, double> substanceContributions;
   final VoidCallback onClose;
-
   const BucketDetailsWidget({
     super.key,
     required this.bucketType,
@@ -26,28 +24,25 @@ class BucketDetailsWidget extends ConsumerWidget {
     required this.substanceContributions,
     required this.onClose,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
-
+    final c = context.colors;
+    final sp = context.spacing;
+    final tx = context.text;
+    final sh = context.shapes;
     final bucketName = BucketDefinitions.getDisplayName(bucketType);
     final state = ToleranceCalculator.classifyState(tolerancePercent);
     final stateColor = BucketUtils.toleranceColor(
       context,
       tolerancePercent / 100.0,
     );
-
     return Container(
       decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(radii.radiusMd),
-        border: Border.all(color: colors.border),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(color: c.border),
       ),
-      padding: EdgeInsets.all(spacing.lg),
+      padding: EdgeInsets.all(sp.lg),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         mainAxisSize: AppLayout.mainAxisSizeMin,
@@ -60,32 +55,28 @@ class BucketDetailsWidget extends ConsumerWidget {
                 color: context.accent.primary,
                 size: context.sizes.iconMd,
               ),
-              CommonSpacer.horizontal(spacing.sm),
+              CommonSpacer.horizontal(sp.sm),
               Expanded(
                 child: Text(
                   bucketName,
-                  style: typography.heading3.copyWith(
-                    color: colors.textPrimary,
-                  ),
+                  style: tx.heading3.copyWith(color: c.textPrimary),
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.close, color: colors.textSecondary),
+                icon: Icon(Icons.close, color: c.textSecondary),
                 onPressed: onClose,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
               ),
             ],
           ),
-
-          CommonSpacer.vertical(spacing.md),
-
+          CommonSpacer.vertical(sp.md),
           // TOLERANCE LEVEL
           Container(
-            padding: EdgeInsets.all(spacing.md),
+            padding: EdgeInsets.all(sp.md),
             decoration: BoxDecoration(
-              color: colors.surfaceVariant,
-              borderRadius: BorderRadius.circular(radii.radiusSm),
+              color: c.surfaceVariant,
+              borderRadius: BorderRadius.circular(sh.radiusSm),
               border: Border.all(color: stateColor.withValues(alpha: 0.3)),
             ),
             child: Row(
@@ -96,16 +87,14 @@ class BucketDetailsWidget extends ConsumerWidget {
                     children: [
                       Text(
                         'Tolerance Level',
-                        style: typography.bodySmall.copyWith(
-                          color: colors.textSecondary,
-                        ),
+                        style: tx.bodySmall.copyWith(color: c.textSecondary),
                       ),
-                      CommonSpacer.vertical(spacing.xs),
+                      CommonSpacer.vertical(sp.xs),
                       Text(
                         '${tolerancePercent.toStringAsFixed(1)}%',
-                        style: typography.heading2.copyWith(
+                        style: tx.heading2.copyWith(
                           color: stateColor,
-                          fontWeight: context.text.bodyBold.fontWeight,
+                          fontWeight: tx.bodyBold.fontWeight,
                         ),
                       ),
                     ],
@@ -113,45 +102,41 @@ class BucketDetailsWidget extends ConsumerWidget {
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: spacing.sm,
-                    vertical: spacing.xs,
+                    horizontal: sp.sm,
+                    vertical: sp.xs,
                   ),
                   decoration: BoxDecoration(
                     color: stateColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(radii.radiusXs),
+                    borderRadius: BorderRadius.circular(sh.radiusXs),
                   ),
                   child: Text(
                     state.name.toUpperCase(),
-                    style: typography.label.copyWith(
+                    style: tx.label.copyWith(
                       color: stateColor,
-                      fontWeight: context.text.bodyBold.fontWeight,
+                      fontWeight: tx.bodyBold.fontWeight,
                     ),
                   ),
                 ),
               ],
             ),
           ),
-
-          CommonSpacer.vertical(spacing.lg),
-
+          CommonSpacer.vertical(sp.lg),
           // SUBSTANCE CONTRIBUTIONS
           Text(
             'Active Substances',
-            style: typography.bodyLarge.copyWith(
-              color: colors.textPrimary,
-              fontWeight: context.text.bodyBold.fontWeight,
+            style: tx.bodyLarge.copyWith(
+              color: c.textPrimary,
+              fontWeight: tx.bodyBold.fontWeight,
             ),
           ),
-
-          CommonSpacer.vertical(spacing.sm),
-
+          CommonSpacer.vertical(sp.sm),
           if (substanceContributions.isEmpty)
             Padding(
-              padding: EdgeInsets.all(spacing.md),
+              padding: EdgeInsets.all(sp.md),
               child: Text(
                 'No active substances in this system',
-                style: typography.body.copyWith(
-                  color: colors.textSecondary,
+                style: tx.body.copyWith(
+                  color: c.textSecondary,
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -160,7 +145,7 @@ class BucketDetailsWidget extends ConsumerWidget {
             ...substanceContributions.entries.map((entry) {
               final percentage = (entry.value * 100).clamp(0.0, 100.0);
               return Padding(
-                padding: EdgeInsets.only(bottom: spacing.sm),
+                padding: EdgeInsets.only(bottom: sp.sm),
                 child: _SubstanceContributionRow(
                   substanceName: entry.key,
                   percentage: percentage,
@@ -176,24 +161,22 @@ class BucketDetailsWidget extends ConsumerWidget {
 class _SubstanceContributionRow extends ConsumerWidget {
   final String substanceName;
   final double percentage;
-
   const _SubstanceContributionRow({
     required this.substanceName,
     required this.percentage,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
+    final c = context.colors;
+    final tx = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return Container(
-      padding: EdgeInsets.all(spacing.sm),
+      padding: EdgeInsets.all(sp.sm),
       decoration: BoxDecoration(
-        color: colors.surfaceVariant,
-        borderRadius: BorderRadius.circular(radii.radiusSm),
+        color: c.surfaceVariant,
+        borderRadius: BorderRadius.circular(sh.radiusSm),
       ),
       child: Row(
         children: [
@@ -203,14 +186,14 @@ class _SubstanceContributionRow extends ConsumerWidget {
               children: [
                 Text(
                   substanceName,
-                  style: typography.body.copyWith(color: colors.textPrimary),
+                  style: tx.body.copyWith(color: c.textPrimary),
                 ),
-                CommonSpacer.vertical(spacing.xs),
+                CommonSpacer.vertical(sp.xs),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(radii.radiusXs),
+                  borderRadius: BorderRadius.circular(sh.radiusXs),
                   child: LinearProgressIndicator(
                     value: percentage / 100.0,
-                    backgroundColor: colors.border,
+                    backgroundColor: c.border,
                     valueColor: AlwaysStoppedAnimation<Color>(
                       context.accent.primary,
                     ),
@@ -220,12 +203,12 @@ class _SubstanceContributionRow extends ConsumerWidget {
               ],
             ),
           ),
-          CommonSpacer.horizontal(spacing.sm),
+          CommonSpacer.horizontal(sp.sm),
           Text(
             '${percentage.toStringAsFixed(0)}%',
-            style: typography.body.copyWith(
-              color: colors.textPrimary,
-              fontWeight: context.text.bodyBold.fontWeight,
+            style: tx.body.copyWith(
+              color: c.textPrimary,
+              fontWeight: tx.bodyBold.fontWeight,
             ),
           ),
         ],

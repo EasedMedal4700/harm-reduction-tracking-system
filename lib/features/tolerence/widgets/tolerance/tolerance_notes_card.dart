@@ -13,13 +13,11 @@
 // - Clean card design matching other tolerance widgets
 // - Proper text formatting with line height for readability
 // - Theme-aware styling
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,47 +29,37 @@ import '../../../../constants/theme/app_theme_extension.dart';
 class ToleranceNotesCard extends ConsumerWidget {
   /// Note text to display
   final String notes;
-
   const ToleranceNotesCard({required this.notes, super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Hide widget if no notes provided
     if (notes.isEmpty) {
       return const SizedBox.shrink();
     }
-
     // Access theme components through context extensions
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
-
+    final c = context.colors;
+    final sp = context.spacing;
+    final tx = context.text;
+    final sh = context.shapes;
     return Container(
       decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(radii.radiusMd),
-        border: Border.all(color: colors.border),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(color: c.border),
         boxShadow: context.cardShadow,
       ),
-      padding: EdgeInsets.all(spacing.lg),
+      padding: EdgeInsets.all(sp.lg),
       margin: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // Section header
-          Text(
-            'Notes',
-            style: typography.heading4.copyWith(color: colors.textPrimary),
-          ),
-          SizedBox(height: spacing.md),
+          Text('Notes', style: tx.heading4.copyWith(color: c.textPrimary)),
+          SizedBox(height: sp.md),
           // Notes content with enhanced readability
           Text(
             notes,
-            style: typography.body.copyWith(
-              color: colors.textSecondary,
-              height: 1.45,
-            ),
+            style: tx.body.copyWith(color: c.textSecondary, height: 1.45),
           ),
         ],
       ),

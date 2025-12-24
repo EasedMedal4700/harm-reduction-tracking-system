@@ -6,13 +6,11 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 class TimeSelector extends StatelessWidget {
   final TimeOfDay selectedTime;
   final ValueChanged<TimeOfDay> onTimeChanged;
-
   const TimeSelector({
     super.key,
     required this.selectedTime,
     required this.onTimeChanged,
   });
-
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
@@ -26,11 +24,10 @@ class TimeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
-    final acc = context.accent;
+    final tx = context.text;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-
     return InkWell(
       onTap: () => _selectTime(context),
       borderRadius: BorderRadius.circular(sh.radiusMd),
@@ -47,14 +44,14 @@ class TimeSelector extends StatelessWidget {
             Icon(
               Icons.access_time,
               size: context.sizes.iconSm,
-              color: acc.primary,
+              color: ac.primary,
             ),
             SizedBox(width: sp.sm),
             Text(
               selectedTime.format(context),
               style: TextStyle(
                 fontSize: 16.0,
-                fontWeight: text.bodyMedium.fontWeight,
+                fontWeight: tx.bodyMedium.fontWeight,
                 color: c.textPrimary,
               ),
             ),

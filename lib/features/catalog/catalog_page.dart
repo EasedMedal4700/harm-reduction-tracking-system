@@ -14,7 +14,6 @@ class CatalogPage extends StatefulWidget {
   final SubstanceRepository? repository;
   final AnalyticsService? analyticsService;
   const CatalogPage({super.key, this.repository, this.analyticsService});
-
   @override
   State<CatalogPage> createState() => _CatalogPageState();
 }
@@ -29,7 +28,6 @@ class _CatalogPageState extends State<CatalogPage> {
   final List<String> _selectedCategories = [];
   bool _isLoading = true;
   final TextEditingController _searchController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -61,7 +59,7 @@ class _CatalogPageState extends State<CatalogPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error loading substances: $e'),
-            backgroundColor: context.theme.colors.error,
+            backgroundColor: th.colors.error,
           ),
         );
       }
@@ -84,19 +82,16 @@ class _CatalogPageState extends State<CatalogPage> {
                 ?.map((e) => e.toString())
                 .toList() ??
             [];
-
         // Search filter
         final query = _searchQuery.toLowerCase();
         final matchesSearch =
             query.isEmpty ||
             name.contains(query) ||
             aliases.any((alias) => alias.contains(query));
-
         // Category filter
         final matchesCategory =
             _selectedCategories.isEmpty ||
             categories.any((cat) => _selectedCategories.contains(cat));
-
         // Common only filter (simplified logic for now, assuming 'common' property or similar if available, otherwise ignored or based on categories)
         // For now, let's assume if showCommonOnly is true, we might filter by some property if it existed.
         // Since the original code didn't seem to have a specific 'common' flag logic visible in the snippet, I'll leave it as true for now or implement if I find the logic.
@@ -106,7 +101,6 @@ class _CatalogPageState extends State<CatalogPage> {
         // I'll assume for now it's just a placeholder or I should check `drug_profiles.txt` or similar.
         // For now, I will just ignore `matchesCommon` logic or set it to true to avoid filtering out everything.
         final matchesCommon = true;
-
         return matchesSearch && matchesCategory && matchesCommon;
       }).toList();
     });
@@ -114,19 +108,19 @@ class _CatalogPageState extends State<CatalogPage> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     if (_isLoading) {
       return Scaffold(
-        backgroundColor: t.colors.background,
+        backgroundColor: th.colors.background,
         appBar: const CatalogAppBar(),
         drawer: const CommonDrawer(),
-        body: Center(child: CircularProgressIndicator(color: t.accent.primary)),
+        body: Center(
+          child: CircularProgressIndicator(color: th.accent.primary),
+        ),
       );
     }
-
     return Scaffold(
-      backgroundColor: t.colors.background,
+      backgroundColor: th.colors.background,
       appBar: const CatalogAppBar(),
       drawer: const CommonDrawer(),
       body: Column(
@@ -195,7 +189,6 @@ class _CatalogPageState extends State<CatalogPage> {
         substanceDetails: substance,
       ),
     );
-
     // Refresh the list if stockpile was added
     if (result == true && mounted) {
       setState(() {});
@@ -208,18 +201,15 @@ class _CatalogPageState extends State<CatalogPage> {
       if (entries.isEmpty) {
         return null;
       }
-
       // Filter entries for this substance
       final substanceEntries = entries
           .where(
             (e) => e.substance.toLowerCase() == substanceName.toLowerCase(),
           )
           .toList();
-
       if (substanceEntries.isEmpty) {
         return null;
       }
-
       final mostActive = _analyticsService.getMostActiveDay(
         substanceEntries,
         substanceName,
@@ -231,7 +221,6 @@ class _CatalogPageState extends State<CatalogPage> {
   }
 
   void _showSubstanceDetails(Map<String, dynamic> substance) {
-    final c = context.colors;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

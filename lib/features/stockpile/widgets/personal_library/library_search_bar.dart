@@ -11,26 +11,23 @@ class LibrarySearchBar extends StatelessWidget {
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
   final VoidCallback onClear;
-
   const LibrarySearchBar({
     super.key,
     required this.controller,
     required this.onChanged,
     required this.onClear,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return Container(
-      padding: EdgeInsets.all(t.spacing.md),
-      color: t.colors.surface,
+      padding: EdgeInsets.all(th.spacing.md),
+      color: th.colors.surface,
       child: CommonInputField(
         controller: controller,
         onChanged: onChanged,
         hintText: 'Search by name or category',
-        prefixIcon: Icon(Icons.search, color: t.colors.textSecondary),
+        prefixIcon: Icon(Icons.search, color: th.colors.textSecondary),
         suffixIcon: controller.text.isNotEmpty
             ? IconButton(icon: const Icon(Icons.clear), onPressed: onClear)
             : null,

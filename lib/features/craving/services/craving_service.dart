@@ -10,7 +10,6 @@ class CravingService {
   final EncryptionServiceV2 _encryption;
   final SupabaseClient _supabase;
   final String Function() _getUserId;
-
   CravingService({
     EncryptionServiceV2? encryption,
     SupabaseClient? supabase,
@@ -18,7 +17,6 @@ class CravingService {
   }) : _encryption = encryption ?? EncryptionServiceV2(),
        _supabase = supabase ?? Supabase.instance.client,
        _getUserId = getUserId ?? UserService.getCurrentUserId;
-
   Future<void> saveCraving(Craving craving) async {
     // Add validation
     if (craving.intensity <= 0) {
@@ -32,15 +30,12 @@ class CravingService {
     if (craving.location == 'Select a location') {
       throw Exception('Please select a valid location');
     }
-
     try {
       final userId = _getUserId();
-
       // Encrypt sensitive free-text fields
       final encryptedAction = await _encryption.encryptText(craving.action);
       final encryptedThoughts = await _encryption.encryptText(craving.thoughts);
       // Note: cravings table doesn't have a notes field, but keeping this for future compatibility
-
       final data = {
         'craving_id': _uuid.v4(),
         'uuid_user_id': userId,
@@ -96,22 +91,17 @@ class CravingService {
         'CravingService',
         'Fetching craving by ID: $cravingId',
       );
-
       if (cravingId.isEmpty) {
         throw Exception('Invalid craving ID: ID cannot be empty');
       }
-
       final userId = _getUserId();
-
       final result = await _supabase
           .from('cravings')
           .select('*')
           .eq('craving_id', cravingId)
           .eq('uuid_user_id', userId)
           .maybeSingle();
-
       ErrorHandler.logDebug('CravingService', 'Raw DB result: $result');
-
       if (result == null) {
         ErrorHandler.logWarning(
           'CravingService',
@@ -119,13 +109,11 @@ class CravingService {
         );
         throw Exception('Craving not found with ID: $cravingId');
       }
-
       // Decrypt sensitive fields
       final decryptedResult = await _encryption.decryptFields(result, [
         'action',
         'thoughts',
       ]);
-
       ErrorHandler.logInfo(
         'CravingService',
         'Craving fetched successfully: $cravingId',
@@ -146,11 +134,9 @@ class CravingService {
         'CravingService',
         'Updating craving $cravingId with ${data.keys.length} fields',
       );
-
       if (cravingId.isEmpty) {
         throw Exception('Invalid craving ID: ID cannot be empty');
       }
-
       // Validate required fields
       if (data['intensity'] != null && (data['intensity'] <= 0)) {
         throw Exception('Intensity must be higher than 0');
@@ -164,28 +150,23 @@ class CravingService {
       if (data['location'] != null && data['location'] == 'Select a location') {
         throw Exception('Please select a valid location');
       }
-
       final userId = _getUserId();
-
       // Encrypt sensitive fields if they are being updated
       final encryptedData = await _encryption.encryptFields(data, [
         'action',
         'thoughts',
       ]);
-
       final response = await _supabase
           .from('cravings')
           .update(encryptedData)
           .eq('craving_id', cravingId)
           .eq('uuid_user_id', userId)
           .select();
-
       if (response.isEmpty) {
         throw Exception(
           'Craving not found or you do not have permission to edit it',
         );
       }
-
       ErrorHandler.logInfo(
         'CravingService',
         'Craving updated successfully: $cravingId',

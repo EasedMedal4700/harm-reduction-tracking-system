@@ -1,6 +1,5 @@
 class MigrationStepController {
   int currentStep = 1;
-
   void goTo(int step) {
     currentStep = step;
   }

@@ -5,10 +5,8 @@
 // Theme: N/A
 // Common: N/A
 // Notes: Owns Change PIN orchestration, validation, encryption, and navigation intent.
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../../services/encryption_service_v2.dart';
 import '../../../services/navigation_service.dart';
 import '../../../providers/encryption_providers.dart';
@@ -41,7 +39,6 @@ class ChangePinController extends StateNotifier<ChangePinState> {
   }) : _encryptionService = encryptionService,
        _navigationService = navigationService,
        super(const ChangePinState());
-
   final EncryptionServiceV2 _encryptionService;
   final NavigationService _navigationService;
 
@@ -56,25 +53,20 @@ class ChangePinController extends StateNotifier<ChangePinState> {
   }) async {
     // Reset previous error
     state = state.copyWith(isLoading: true, errorMessage: null);
-
     try {
       _validatePins(oldPin: oldPin, newPin: newPin, confirmPin: confirmPin);
-
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) {
         throw Exception('Not authenticated');
       }
-
       final success = await _encryptionService.changePin(
         user.id,
         oldPin,
         newPin,
       );
-
       if (!success) {
         throw Exception('Current PIN is incorrect');
       }
-
       // Success state
       state = state.copyWith(isLoading: false, success: true);
     } catch (e) {
@@ -93,7 +85,6 @@ class ChangePinController extends StateNotifier<ChangePinState> {
   // ---------------------------------------------------------------------------
   // Internal helpers
   // ---------------------------------------------------------------------------
-
   void _validatePins({
     required String oldPin,
     required String newPin,

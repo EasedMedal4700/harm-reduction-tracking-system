@@ -9,22 +9,19 @@ class SettingsSection extends StatelessWidget {
   final String title;
   final IconData icon;
   final List<Widget> children;
-
   const SettingsSection({
     required this.title,
     required this.icon,
     required this.children,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
+    final tx = context.text;
+    final th = context.theme;
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
       child: CommonCard(
@@ -35,19 +32,19 @@ class SettingsSection extends StatelessWidget {
               padding: EdgeInsets.all(sp.md),
               child: Row(
                 children: [
-                  Icon(icon, color: a.primary, size: t.sizes.iconMd),
+                  Icon(icon, color: ac.primary, size: th.sizes.iconMd),
                   CommonSpacer.horizontal(sp.sm),
                   Text(
                     title,
-                    style: t.typography.heading4.copyWith(
+                    style: th.typography.heading4.copyWith(
                       color: c.textPrimary,
-                      fontWeight: text.bodyBold.fontWeight,
+                      fontWeight: tx.bodyBold.fontWeight,
                     ),
                   ),
                 ],
               ),
             ),
-            Divider(height: 1, thickness: t.borders.thin, color: c.border),
+            Divider(height: 1, thickness: th.borders.thin, color: c.border),
             ...children,
           ],
         ),

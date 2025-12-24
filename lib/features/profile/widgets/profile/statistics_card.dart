@@ -10,26 +10,22 @@ import 'stat_item.dart';
 
 class StatisticsCard extends StatelessWidget {
   final Map<String, int> statistics;
-
   const StatisticsCard({super.key, required this.statistics});
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return Container(
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-        boxShadow: t.cardShadow,
+        color: th.colors.surface,
+        borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+        boxShadow: th.cardShadow,
       ),
-      padding: EdgeInsets.all(t.spacing.lg),
+      padding: EdgeInsets.all(th.spacing.lg),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          Text('Activity Statistics', style: t.text.heading3),
-          SizedBox(height: t.spacing.lg),
-
+          Text('Activity Statistics', style: th.text.heading3),
+          SizedBox(height: th.spacing.lg),
           Row(
             mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceAround,
             children: [
@@ -37,19 +33,19 @@ class StatisticsCard extends StatelessWidget {
                 icon: Icons.medication,
                 label: 'Total Entries',
                 value: statistics['total_entries'].toString(),
-                accent: t.accent.primary, // Accent from theme
+                accent: th.accent.primary, // Accent from theme
               ),
               StatItem(
                 icon: Icons.calendar_today,
                 label: 'Last 7 Days',
                 value: statistics['last_7_days'].toString(),
-                accent: t.colors.success, // Green from palette
+                accent: th.colors.success, // Green from palette
               ),
               StatItem(
                 icon: Icons.calendar_month,
                 label: 'Last 30 Days',
                 value: statistics['last_30_days'].toString(),
-                accent: t.colors.warning, // Orange from palette
+                accent: th.colors.warning, // Orange from palette
               ),
             ],
           ),

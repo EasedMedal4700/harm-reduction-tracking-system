@@ -3,12 +3,10 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonChipGroup.
-
 // ignore_for_file: deprecated_member_use
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../constants/data/craving_consatnts.dart';
 import '../../../../constants/data/drug_use_catalog.dart';
 import '../../../../common/cards/common_card.dart';
@@ -25,7 +23,6 @@ class CravingDetailsSection extends StatelessWidget {
   final ValueChanged<String?> onLocationChanged;
   final String? withWho;
   final ValueChanged<String?> onWithWhoChanged;
-
   const CravingDetailsSection({
     super.key,
     required this.selectedCravings,
@@ -37,15 +34,13 @@ class CravingDetailsSection extends StatelessWidget {
     required this.withWho,
     required this.onWithWhoChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
-    final text = context.text;
-    final a = context.accent;
+    final tx = context.text;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
@@ -53,19 +48,18 @@ class CravingDetailsSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.psychology, color: a.primary, size: t.sizes.iconMd),
+              Icon(Icons.psychology, color: ac.primary, size: th.sizes.iconMd),
               CommonSpacer.horizontal(sp.sm),
               Text(
                 'Craving Details',
-                style: t.typography.heading4.copyWith(
+                style: th.typography.heading4.copyWith(
                   color: c.textPrimary,
-                  fontWeight: text.bodyBold.fontWeight,
+                  fontWeight: tx.bodyBold.fontWeight,
                 ),
               ),
             ],
           ),
           CommonSpacer.vertical(sp.md),
-
           CommonChipGroup(
             title: 'What were you craving?',
             options: cravingCategories.keys.toList(),
@@ -73,12 +67,10 @@ class CravingDetailsSection extends StatelessWidget {
             onChanged: onCravingsChanged,
             allowMultiple: true,
           ),
-
           CommonSpacer.vertical(sp.lg),
-
           Text(
             'Intensity: ${intensity.round()}/10',
-            style: t.typography.body.copyWith(color: c.textPrimary),
+            style: th.typography.body.copyWith(color: c.textPrimary),
           ),
           Slider(
             value: intensity,
@@ -87,12 +79,10 @@ class CravingDetailsSection extends StatelessWidget {
             divisions: 10,
             label: intensity.round().toString(),
             onChanged: onIntensityChanged,
-            activeColor: a.primary,
+            activeColor: ac.primary,
             inactiveColor: c.border,
           ),
-
           CommonSpacer.vertical(sp.md),
-
           CommonDropdown<String>(
             value: location.isEmpty ? null : location,
             hintText: 'Location',
@@ -101,9 +91,7 @@ class CravingDetailsSection extends StatelessWidget {
               if (v != null) onLocationChanged(v);
             },
           ),
-
           const CommonSpacer.vertical(16),
-
           CommonDropdown<String>(
             value: withWho?.isEmpty == true ? null : withWho,
             hintText: 'Who were you with?',

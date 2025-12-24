@@ -2,11 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_spacer.dart';
-
 import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../providers/core_providers.dart';
 import '../../common/layout/common_drawer.dart';
 import 'widgets/profile/profile_header.dart';
@@ -18,7 +15,6 @@ import '../log_entry/log_entry_service.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
-
   @override
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -27,7 +23,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Map<String, dynamic>? _userData;
   Map<String, int>? _statistics;
   bool _isLoading = true;
-
   @override
   void initState() {
     super.initState();
@@ -58,15 +53,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     try {
       final logService = LogEntryService();
       final entries = await logService.fetchRecentEntriesRaw();
-
       // Calculate statistics from entries
       final now = DateTime.now();
       final thirtyDaysAgo = now.subtract(const Duration(days: 30));
       final sevenDaysAgo = now.subtract(const Duration(days: 7));
-
       int last7Days = 0;
       int last30Days = 0;
-
       for (var entry in entries) {
         final timestamp = DateTime.parse(entry['timestamp'] as String);
         if (timestamp.isAfter(sevenDaysAgo)) {
@@ -76,7 +68,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           last30Days++;
         }
       }
-
       return {
         'total_entries': entries.length,
         'last_7_days': last7Days,
@@ -92,7 +83,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       context: context,
       builder: (context) {
         final c = context.colors;
-        final t = context.text;
+        final tx = context.text;
         return AlertDialog(
           title: const Text('Logout'),
           content: const Text('Are you sure you want to logout?'),
@@ -106,14 +97,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               style: ElevatedButton.styleFrom(backgroundColor: c.error),
               child: Text(
                 'Logout',
-                style: t.labelLarge.copyWith(color: c.textInverse),
+                style: tx.labelLarge.copyWith(color: c.textInverse),
               ),
             ),
           ],
         );
       },
     );
-
     if (confirmed == true) {
       await ref.read(authServiceProvider).logout();
       unawaited(ref.read(appLockControllerProvider.notifier).clear());
@@ -126,7 +116,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),

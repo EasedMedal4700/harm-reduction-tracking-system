@@ -11,7 +11,6 @@ class DrugCatalogEntry {
     required this.notes,
     required this.quantity,
   });
-
   final String name;
   final List<String> categories;
   final int totalUses;
@@ -22,7 +21,6 @@ class DrugCatalogEntry {
   final bool archived;
   final String notes;
   final num quantity;
-
   DrugCatalogEntry copyWith({bool? favorite, bool? archived}) {
     return DrugCatalogEntry(
       name: name,
@@ -45,7 +43,6 @@ class WeekdayUsage {
     required this.mostActive,
     required this.leastActive,
   });
-
   final List<int> counts;
   final int mostActive;
   final int leastActive;
@@ -58,7 +55,6 @@ class LocalPrefs {
     required this.notes,
     required this.quantity,
   });
-
   final bool favorite;
   final bool archived;
   final String notes;

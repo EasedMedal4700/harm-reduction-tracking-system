@@ -1,15 +1,12 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../../models/tolerance_model.dart';
 import '../../../utils/error_handler.dart';
 
 /// Service for fetching tolerance calculation data from Supabase
 class ToleranceService {
   final SupabaseClient _supabase;
-
   ToleranceService({SupabaseClient? client})
     : _supabase = client ?? Supabase.instance.client;
-
   Future<List<String>> fetchUserSubstances(String userId) async {
     try {
       final response = await _supabase
@@ -17,7 +14,6 @@ class ToleranceService {
           .select('name')
           .eq('uuid_user_id', userId)
           .not('name', 'is', null);
-
       final names = <String>{};
       for (final row in response as List) {
         final name = (row['name'] as String?)?.trim();
@@ -50,7 +46,6 @@ class ToleranceService {
           .select('tolerance_model, properties')
           .or('name.ilike.$substanceName,pretty_name.ilike.$substanceName')
           .maybeSingle();
-
       if (response == null) {
         ErrorHandler.logInfo(
           'ToleranceService',
@@ -58,16 +53,13 @@ class ToleranceService {
         );
         return null;
       }
-
       // First check tolerance_model column
       var toleranceJson = response['tolerance_model'] as Map<String, dynamic>?;
-
       // Fallback to properties.tolerance_data for backward compatibility
       if (toleranceJson == null) {
         final properties = response['properties'] as Map<String, dynamic>?;
         toleranceJson = properties?['tolerance_data'] as Map<String, dynamic>?;
       }
-
       if (toleranceJson == null) {
         ErrorHandler.logInfo(
           'ToleranceService',
@@ -75,7 +67,6 @@ class ToleranceService {
         );
         return null;
       }
-
       return ToleranceModel.fromJson(toleranceJson);
     } on PostgrestException catch (e, stackTrace) {
       ErrorHandler.logError(
@@ -103,7 +94,6 @@ class ToleranceService {
     if (substanceName.isEmpty) return [];
     try {
       final cutoffDate = DateTime.now().subtract(Duration(days: daysBack));
-
       final response = await _supabase
           .from('drug_use')
           .select('start_time, dose, name')
@@ -111,7 +101,6 @@ class ToleranceService {
           .ilike('name', substanceName) // Case insensitive match
           .gte('start_time', cutoffDate.toIso8601String())
           .order('start_time', ascending: false);
-
       final events = <UseEvent>[];
       for (final row in response as List) {
         final timestampString = row['start_time'] as String?;
@@ -121,10 +110,8 @@ class ToleranceService {
         if (timestamp == null) {
           continue;
         }
-
         final rawDose = row['dose'];
         final dose = _parseDose(rawDose);
-
         events.add(
           UseEvent(
             timestamp: timestamp,
@@ -133,7 +120,6 @@ class ToleranceService {
           ),
         );
       }
-
       return events;
     } catch (e, stackTrace) {
       ErrorHandler.logError('ToleranceService.fetchUseEvents', e, stackTrace);

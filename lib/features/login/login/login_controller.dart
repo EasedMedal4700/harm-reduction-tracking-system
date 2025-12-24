@@ -5,12 +5,9 @@
 // Theme: N/A
 // Common: N/A
 // Notes: Owns login orchestration, session restore, debug auto-login.
-
 import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'package:mobile_drug_use_app/providers/core_providers.dart';
 import '../../../services/debug_config.dart';
 import '../../../services/onboarding_service.dart';
@@ -29,16 +26,12 @@ final loginControllerProvider =
 
 class LoginController extends StateNotifier<LoginState> {
   LoginController(this._ref) : super(const LoginState());
-
   final Ref _ref;
   static const _rememberMeKey = 'remember_me';
-
   StreamSubscription<AuthState>? _authSub;
-
   // ---------------------------------------------------------------------------
   // Lifecycle
   // ---------------------------------------------------------------------------
-
   void init() {
     _listenForRestoredSession();
     _initializeSession();
@@ -51,13 +44,10 @@ class LoginController extends StateNotifier<LoginState> {
   // ---------------------------------------------------------------------------
   // Session restore
   // ---------------------------------------------------------------------------
-
   void _listenForRestoredSession() {
     final client = _ref.read(supabaseClientProvider);
-
     _authSub = client.auth.onAuthStateChange.listen((data) async {
       if (state.hasNavigated) return;
-
       final remember = await _readRememberMe();
       if (remember && data.session != null) {
         _navigateOnce(debug: false);
@@ -71,11 +61,8 @@ class LoginController extends StateNotifier<LoginState> {
       _ref.read(postLoginRouterProvider).goToOnboarding();
       return;
     }
-
     final remember = await _readRememberMe();
-
     state = state.copyWith(rememberMe: remember, isInitialized: true);
-
     // Debug auto-login (dev only)
     if (DebugConfig.instance.isAutoLoginEnabled &&
         DebugConfig.instance.hasValidCredentials) {
@@ -86,7 +73,6 @@ class LoginController extends StateNotifier<LoginState> {
   // ---------------------------------------------------------------------------
   // Login
   // ---------------------------------------------------------------------------
-
   Future<void> submitLogin({
     required String email,
     required String password,
@@ -95,18 +81,13 @@ class LoginController extends StateNotifier<LoginState> {
       state = state.copyWith(errorMessage: 'Email and password required');
       return;
     }
-
     state = state.copyWith(isLoading: true, errorMessage: null);
-
     final success = await _ref.read(authServiceProvider).login(email, password);
-
     state = state.copyWith(isLoading: false);
-
     if (!success) {
       state = state.copyWith(errorMessage: 'Invalid credentials');
       return;
     }
-
     await _persistRememberMe(state.rememberMe);
     _navigateOnce(debug: false);
   }
@@ -118,19 +99,15 @@ class LoginController extends StateNotifier<LoginState> {
   // ---------------------------------------------------------------------------
   // Debug
   // ---------------------------------------------------------------------------
-
   Future<void> _performDebugAutoLogin() async {
     state = state.copyWith(isLoading: true);
-
     final success = await _ref
         .read(authServiceProvider)
         .login(
           DebugConfig.instance.debugEmail!,
           DebugConfig.instance.debugPassword!,
         );
-
     state = state.copyWith(isLoading: false);
-
     if (success) {
       await _persistRememberMe(true);
       _navigateOnce(debug: true);
@@ -140,10 +117,8 @@ class LoginController extends StateNotifier<LoginState> {
   // ---------------------------------------------------------------------------
   // Navigation (guarded)
   // ---------------------------------------------------------------------------
-
   void _navigateOnce({required bool debug}) {
     if (state.hasNavigated) return;
-
     state = state.copyWith(hasNavigated: true);
     _ref.read(postLoginRouterProvider).routeAfterLogin(debug: debug);
   }
@@ -151,7 +126,6 @@ class LoginController extends StateNotifier<LoginState> {
   // ---------------------------------------------------------------------------
   // Persistence helpers
   // ---------------------------------------------------------------------------
-
   Future<bool> _readRememberMe() async {
     return _ref.read(sharedPreferencesProvider).getBool(_rememberMeKey) ??
         false;

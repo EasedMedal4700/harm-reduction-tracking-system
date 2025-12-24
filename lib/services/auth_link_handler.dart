@@ -16,11 +16,9 @@ import '../common/logging/app_log.dart';
 class AuthLinkHandler {
   AuthLinkHandler._();
   static final AuthLinkHandler instance = AuthLinkHandler._();
-
   final AppLinks _appLinks = AppLinks();
   StreamSubscription<Uri>? _linkSubscription;
   GlobalKey<NavigatorState>? _navigatorKey;
-
   // Track handled links to prevent double-handling
   final Set<String> _handledLinks = {};
 
@@ -70,37 +68,31 @@ class AuthLinkHandler {
   /// Process an incoming deep link URI.
   void _handleDeepLink(Uri uri) {
     final linkKey = uri.toString();
-
     // Prevent double-handling
     if (_handledLinks.contains(linkKey)) {
       AppLog.w('⚠️ AuthLinkHandler: Link already handled: $linkKey');
       return;
     }
     _handledLinks.add(linkKey);
-
     // Clean up old links after 60 seconds to prevent memory leak
     Future.delayed(const Duration(seconds: 60), () {
       _handledLinks.remove(linkKey);
     });
-
     AppLog.d('🔗 AuthLinkHandler: Handling deep link: $uri');
     AppLog.d('🔗 AuthLinkHandler: Scheme: ${uri.scheme}');
     AppLog.d('🔗 AuthLinkHandler: Host: ${uri.host}');
     AppLog.d('🔗 AuthLinkHandler: Path: ${uri.path}');
     AppLog.d('🔗 AuthLinkHandler: Query: ${uri.queryParameters}');
-
     // Handle substancecheck:// scheme
     if (uri.scheme == 'substancecheck') {
       _handleSubstanceCheckLink(uri);
       return;
     }
-
     // Handle HTTPS links (Supabase verification redirects)
     if (uri.scheme == 'https' || uri.scheme == 'http') {
       _handleHttpsLink(uri);
       return;
     }
-
     AppLog.w('⚠️ AuthLinkHandler: Unknown scheme: ${uri.scheme}');
   }
 
@@ -112,13 +104,11 @@ class AuthLinkHandler {
         AppLog.d('✅ AuthLinkHandler: Email confirmation link detected');
         _navigateToEmailConfirmed();
         break;
-
       case 'reset-password':
         // Password reset flow
         AppLog.d('🔑 AuthLinkHandler: Password reset link detected');
         _handlePasswordReset(uri);
         break;
-
       default:
         AppLog.w('⚠️ AuthLinkHandler: Unknown host: ${uri.host}');
     }
@@ -129,26 +119,21 @@ class AuthLinkHandler {
     // Supabase verification URLs look like:
     // https://<project>.supabase.co/auth/v1/verify?token=XYZ&type=signup&redirect_to=substancecheck://auth
     // https://<project>.supabase.co/auth/v1/verify?token=XYZ&type=recovery&redirect_to=substancecheck://reset-password
-
     final path = uri.path;
     final queryParams = uri.queryParameters;
-
     AppLog.d('🔗 AuthLinkHandler: HTTPS link path: $path');
     AppLog.d('🔗 AuthLinkHandler: Query params: $queryParams');
-
     // Check for Supabase auth verification path
     if (path.contains('/auth/v1/verify') || path.contains('/verify')) {
       final type = queryParams['type'];
       final token = queryParams['token'];
       final accessToken = queryParams['access_token'];
       final refreshToken = queryParams['refresh_token'];
-
       AppLog.d('🔗 AuthLinkHandler: Verification type: $type');
       AppLog.d('🔗 AuthLinkHandler: Token exists: ${token != null}');
       AppLog.d(
         '🔗 AuthLinkHandler: Access token exists: ${accessToken != null}',
       );
-
       switch (type) {
         case 'signup':
         case 'email':
@@ -157,7 +142,6 @@ class AuthLinkHandler {
           AppLog.d('✅ AuthLinkHandler: Email verification successful');
           _navigateToEmailConfirmed();
           break;
-
         case 'recovery':
         case 'magiclink':
           // Password recovery
@@ -172,7 +156,6 @@ class AuthLinkHandler {
             _navigateToSetNewPassword();
           }
           break;
-
         default:
           AppLog.w('⚠️ AuthLinkHandler: Unknown verification type: $type');
       }
@@ -189,13 +172,10 @@ class AuthLinkHandler {
   void _handleUrlFragment(String fragment) {
     // Parse fragment like: access_token=XXX&refresh_token=YYY&type=recovery
     final params = Uri.splitQueryString(fragment);
-
     AppLog.d('🔗 AuthLinkHandler: Fragment params: $params');
-
     final type = params['type'];
     final accessToken = params['access_token'];
     final refreshToken = params['refresh_token'];
-
     if (accessToken != null) {
       if (type == 'recovery') {
         _setSessionAndNavigateToResetPassword(accessToken, refreshToken);
@@ -210,7 +190,6 @@ class AuthLinkHandler {
     final queryParams = uri.queryParameters;
     final accessToken = queryParams['access_token'];
     final refreshToken = queryParams['refresh_token'];
-
     if (accessToken != null) {
       _setSessionAndNavigateToResetPassword(accessToken, refreshToken);
     } else {
@@ -227,7 +206,6 @@ class AuthLinkHandler {
         token: token,
         type: OtpType.recovery,
       );
-
       if (response.session != null) {
         AppLog.d('✅ AuthLinkHandler: Recovery token verified');
         _navigateToSetNewPassword();

@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonPrimaryButton.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -14,37 +13,30 @@ import '../../../../common/layout/common_spacer.dart';
 class BloodLevelsErrorState extends StatelessWidget {
   final String error;
   final VoidCallback onRetry;
-
   const BloodLevelsErrorState({
     super.key,
     required this.error,
     required this.onRetry,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-
     return Center(
       child: Padding(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
           mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
-            Icon(Icons.error_outline, size: t.sizes.icon2xl, color: c.error),
-
+            Icon(Icons.error_outline, size: th.sizes.icon2xl, color: c.error),
             SizedBox(height: sp.lg),
-
             Text(
               error,
-              style: t.typography.body.copyWith(color: c.textPrimary),
+              style: th.typography.body.copyWith(color: c.textPrimary),
               textAlign: AppLayout.textAlignCenter,
             ),
-
-            CommonSpacer.vertical(t.spacing.xl),
-
+            CommonSpacer.vertical(th.spacing.xl),
             CommonPrimaryButton(
               label: 'Retry',
               onPressed: onRetry,

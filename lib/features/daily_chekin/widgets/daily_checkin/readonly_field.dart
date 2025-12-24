@@ -1,6 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -14,21 +13,18 @@ class ReadOnlyField extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
-
   const ReadOnlyField({
     super.key,
     required this.icon,
     required this.label,
     required this.value,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-    final s = context.sizes;
-
+    final tx = context.text;
+    final sz = context.sizes;
     return CommonCard(
       padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.md),
       child: Column(
@@ -36,13 +32,13 @@ class ReadOnlyField extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, size: s.iconSm, color: c.textSecondary),
+              Icon(icon, size: sz.iconSm, color: c.textSecondary),
               CommonSpacer.horizontal(sp.sm),
               Text(
                 label,
-                style: text.bodySmall.copyWith(
+                style: tx.bodySmall.copyWith(
                   color: c.textSecondary,
-                  fontWeight: text.bodyMedium.fontWeight,
+                  fontWeight: tx.bodyMedium.fontWeight,
                 ),
               ),
             ],
@@ -50,9 +46,9 @@ class ReadOnlyField extends StatelessWidget {
           CommonSpacer.vertical(sp.xs),
           Text(
             value,
-            style: text.body.copyWith(
+            style: tx.body.copyWith(
               color: c.textPrimary,
-              fontWeight: text.bodyBold.fontWeight,
+              fontWeight: tx.bodyBold.fontWeight,
             ),
           ),
         ],

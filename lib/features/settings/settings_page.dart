@@ -17,14 +17,12 @@ import 'widgets/settings/settings_dialogs.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
-
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
   PackageInfo? _packageInfo;
-
   @override
   void initState() {
     super.initState();
@@ -40,9 +38,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -61,11 +58,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: Consumer<SettingsProvider>(
         builder: (context, settingsProvider, child) {
           if (settingsProvider.isLoading) {
-            return Center(child: CircularProgressIndicator(color: a.primary));
+            return Center(child: CircularProgressIndicator(color: ac.primary));
           }
-
           final settings = settingsProvider.settings;
-
           return ListView(
             children: [
               UISettingsSection(

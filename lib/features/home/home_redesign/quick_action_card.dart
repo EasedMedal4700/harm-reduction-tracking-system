@@ -9,7 +9,6 @@ class QuickActionCard extends StatelessWidget {
   final IconData icon;
   final Color? color;
   final VoidCallback onTap;
-
   const QuickActionCard({
     required this.title,
     required this.icon,
@@ -17,20 +16,17 @@ class QuickActionCard extends StatelessWidget {
     this.color,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
-    final acc = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
     final isDark = context.theme.isDark;
-
-    final cardColor = color ?? acc.primary;
-
+    final cardColor = color ?? ac.primary;
     return Material(
-      color: context.colors.transparent,
+      color: c.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(sh.radiusMd),
@@ -47,7 +43,7 @@ class QuickActionCard extends StatelessWidget {
                 ? null
                 : [
                     BoxShadow(
-                      color: context.colors.textPrimary.withValues(alpha: 0.03),
+                      color: c.textPrimary.withValues(alpha: 0.03),
                       blurRadius: context.sizes.blurRadiusSm,
                       offset: const Offset(0, 2),
                     ),
@@ -60,7 +56,7 @@ class QuickActionCard extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: cardColor.withValues(alpha: 0.1),
-                  shape: context.shapes.boxShapeCircle,
+                  shape: sh.boxShapeCircle,
                 ),
                 child: Icon(icon, color: cardColor, size: context.sizes.iconMd),
               ),
@@ -69,8 +65,8 @@ class QuickActionCard extends StatelessWidget {
                 title,
                 textAlign: AppLayout.textAlignCenter,
                 style: TextStyle(
-                  fontSize: context.text.label.fontSize,
-                  fontWeight: text.bodyBold.fontWeight,
+                  fontSize: tx.label.fontSize,
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
                 maxLines: 2,

@@ -8,20 +8,16 @@ class DrugProfileUtils {
   /// - Single values: "4 hours"
   static double extractMaxDuration(dynamic formattedDuration) {
     if (formattedDuration == null) return 8.0; // Default 8 hours
-
     try {
       if (formattedDuration is num) {
         return formattedDuration.toDouble();
       }
-
       if (formattedDuration is String) {
         return _parseMaxFromString(formattedDuration, defaultHours: 8.0);
       }
-
       // Handle map format (e.g., {"Oral": "4-6 hours", "_unit": "hours"})
       if (formattedDuration is Map) {
         final data = formattedDuration as Map<String, dynamic>;
-
         // Try common routes in order of preference
         const routes = ['Oral', 'Insufflated', 'IV', 'IM', 'Rectal', 'value'];
         for (final route in routes) {
@@ -34,7 +30,6 @@ class DrugProfileUtils {
           }
         }
       }
-
       return 8.0;
     } catch (e) {
       return 8.0;
@@ -44,19 +39,15 @@ class DrugProfileUtils {
   /// Extract maximum aftereffects duration
   static double extractMaxAftereffects(dynamic formattedAftereffects) {
     if (formattedAftereffects == null) return 2.0; // Default 2 hours
-
     try {
       if (formattedAftereffects is num) {
         return formattedAftereffects.toDouble();
       }
-
       if (formattedAftereffects is String) {
         return _parseMaxFromString(formattedAftereffects, defaultHours: 2.0);
       }
-
       if (formattedAftereffects is Map) {
         final data = formattedAftereffects as Map<String, dynamic>;
-
         const routes = ['Oral', 'Insufflated', 'IV', 'IM', 'Rectal', 'value'];
         for (final route in routes) {
           if (data.containsKey(route)) {
@@ -68,7 +59,6 @@ class DrugProfileUtils {
           }
         }
       }
-
       return 2.0;
     } catch (e) {
       return 2.0;
@@ -81,23 +71,18 @@ class DrugProfileUtils {
     required double defaultHours,
   }) {
     final cleaned = str.toLowerCase().trim();
-
     // Check if it contains time units
     final isMinutes = cleaned.contains('min');
     final isHours = cleaned.contains('hour') || cleaned.contains('hr');
-
     // Extract numbers using regex
     final numbers = RegExp(r'(\d+(?:\.\d+)?)')
         .allMatches(cleaned)
         .map((m) => double.tryParse(m.group(0) ?? '') ?? 0.0)
         .where((n) => n > 0)
         .toList();
-
     if (numbers.isEmpty) return defaultHours;
-
     // Take the maximum value from range
     final maxValue = numbers.reduce((a, b) => a > b ? a : b);
-
     // Convert to hours
     if (isMinutes) {
       return maxValue / 60.0;
@@ -114,11 +99,9 @@ class DrugProfileUtils {
   /// The "strong" value (index 3) is used as 100% baseline for intensity
   static List<double>? getDosageThresholds(Map<String, dynamic>? drugProfile) {
     if (drugProfile == null) return null;
-
     final formattedDose =
         drugProfile['formatted_dose'] as Map<String, dynamic>?;
     if (formattedDose == null) return null;
-
     // Try different administration routes (Oral preferred)
     final routePreference = [
       'Oral',
@@ -128,12 +111,10 @@ class DrugProfileUtils {
       'IV',
       'value',
     ];
-
     for (final route in routePreference) {
       if (formattedDose.containsKey(route)) {
         final routeData = formattedDose[route];
         if (routeData is! Map<String, dynamic>) continue;
-
         // Helper to find value with case-insensitive key
         double? findValue(String key) {
           final entry = routeData.entries.firstWhere(
@@ -149,7 +130,6 @@ class DrugProfileUtils {
         final common = findValue('common');
         final strong = findValue('strong');
         final heavy = findValue('heavy');
-
         if (strong != null && strong > 0) {
           return [
             threshold ?? 0.0,
@@ -161,7 +141,6 @@ class DrugProfileUtils {
         }
       }
     }
-
     return null;
   }
 
@@ -170,18 +149,14 @@ class DrugProfileUtils {
   static double? _parseDoseValue(dynamic value, {bool useUpperBound = false}) {
     if (value == null) return null;
     if (value is num) return value.toDouble();
-
     final valueStr = value.toString();
     final doseRegExp = RegExp(r'(\d+(?:\.\d+)?)');
     final matches = doseRegExp.allMatches(valueStr).toList();
-
     if (matches.isEmpty) return null;
-
     if (useUpperBound && matches.length > 1) {
       // Return the last number found (usually the upper bound)
       return double.tryParse(matches.last.group(1)!);
     }
-
     // Return the first number found
     return double.tryParse(matches.first.group(1)!);
   }
@@ -206,7 +181,6 @@ class DrugProfileUtils {
       'bromazolam': [0.5, 1.0, 2.0, 4.0, 6.0],
       '2-fdck': [10.0, 30.0, 75.0, 150.0, 250.0],
     };
-
     return knownThresholds[drugName.toLowerCase()];
   }
 
@@ -223,22 +197,18 @@ class DrugProfileUtils {
     Map<String, dynamic>? drugProfile,
   ) {
     final unitLower = unit.toLowerCase();
-
     // Direct mg - no conversion needed
     if (unitLower == 'mg') {
       return value;
     }
-
     // Grams to milligrams
     if (unitLower == 'g') {
       return value * 1000;
     }
-
     // Micrograms to milligrams
     if (unitLower == 'μg' || unitLower == 'ug' || unitLower == 'mcg') {
       return value / 1000;
     }
-
     // Pills/tablets - try to extract mg per pill from profile
     if (unitLower == 'pill' ||
         unitLower == 'pills' ||
@@ -251,13 +221,11 @@ class DrugProfileUtils {
       // If no profile data, return as-is (can't convert)
       return value;
     }
-
     // ML - no conversion without density data
     if (unitLower == 'ml') {
       // Could add mg/ml lookup in future, for now return as-is
       return value;
     }
-
     // Unknown unit - return as-is
     return value;
   }
@@ -265,38 +233,31 @@ class DrugProfileUtils {
   /// Extract mg per pill/tablet from drug profile's formatted_dose
   static double? _extractMgPerPill(Map<String, dynamic>? drugProfile) {
     if (drugProfile == null) return null;
-
     final formattedDose =
         drugProfile['formatted_dose'] as Map<String, dynamic>?;
     if (formattedDose == null) return null;
-
     // Try to find "common" dose as baseline for pill strength
     const routes = ['Oral', 'Insufflated', 'Sublingual', 'Rectal'];
-
     for (final route in routes) {
       if (formattedDose.containsKey(route)) {
         final routeData = formattedDose[route];
         if (routeData is! Map<String, dynamic>) continue;
-
         // Try "common" dose first (most typical pill strength)
         final common = _parseDoseValue(routeData['common']);
         if (common != null && common > 0) {
           return common;
         }
-
         // Fallback to "light" or "strong"
         final light = _parseDoseValue(routeData['light']);
         if (light != null && light > 0) {
           return light;
         }
-
         final strong = _parseDoseValue(routeData['strong']);
         if (strong != null && strong > 0) {
           return strong;
         }
       }
     }
-
     return null;
   }
 

@@ -1,16 +1,13 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../../utils/error_handler.dart';
 import '../../../services/encryption_service_v2.dart';
 
 class ActivityService {
   final SupabaseClient _client;
   final EncryptionServiceV2 _encryption;
-
   ActivityService({SupabaseClient? client, EncryptionServiceV2? encryption})
     : _client = client ?? Supabase.instance.client,
       _encryption = encryption ?? EncryptionServiceV2();
-
   Future<Map<String, dynamic>> fetchRecentActivity() async {
     try {
       final supabase = _client;
@@ -19,7 +16,6 @@ class ActivityService {
         throw StateError('User is not logged in.');
       }
       final userId = user.id;
-
       // Fetch recent entries (last 10)
       final entries = await supabase
           .from('drug_use')
@@ -27,7 +23,6 @@ class ActivityService {
           .eq('uuid_user_id', userId)
           .order('start_time', ascending: false)
           .limit(10);
-
       // Decrypt notes field in drug_use entries
       final decryptedEntries = await Future.wait(
         (entries as List).map((entry) async {
@@ -37,7 +32,6 @@ class ActivityService {
           );
         }),
       );
-
       // Fetch recent cravings (last 10)
       final cravings = await supabase
           .from('cravings')
@@ -45,7 +39,6 @@ class ActivityService {
           .eq('uuid_user_id', userId)
           .order('time', ascending: false) // Change to 'time'
           .limit(10);
-
       // Decrypt action and thoughts fields in cravings
       final decryptedCravings = await Future.wait(
         (cravings as List).map((craving) async {
@@ -55,7 +48,6 @@ class ActivityService {
           );
         }),
       );
-
       // Fetch recent reflections (last 10)
       final reflections = await supabase
           .from('reflections')
@@ -66,7 +58,6 @@ class ActivityService {
             ascending: false,
           ) // Keep as is, or change to 'time' if needed
           .limit(10);
-
       // Decrypt notes field in reflections
       final decryptedReflections = await Future.wait(
         (reflections as List).map((reflection) async {
@@ -76,7 +67,6 @@ class ActivityService {
           );
         }),
       );
-
       return {
         'entries': decryptedEntries,
         'cravings': decryptedCravings,

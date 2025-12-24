@@ -7,7 +7,6 @@ class ValidationUtils {
       'Dosage must be a positive number between 0.01 and 1000';
   static const String emptySubstanceError = 'Please enter a substance';
   static const String unrecognizedSubstanceError = 'Substance not recognized';
-
   // Lazy-loaded set for efficiency (initialized on first use)
   static Set<String>? _substancesSet;
   static Set<String> get _getSubstancesSet {
@@ -28,7 +27,6 @@ class ValidationUtils {
     final trimmed = value?.trim();
     final requiredError = validateRequired(trimmed, emptyDosageError);
     if (requiredError != null) return requiredError;
-
     final num = double.tryParse(trimmed!);
     if (num == null || num <= 0 || num > 1000) {
       return invalidDosageError;
@@ -41,7 +39,6 @@ class ValidationUtils {
     final trimmed = value?.trim();
     final requiredError = validateRequired(trimmed, emptySubstanceError);
     if (requiredError != null) return requiredError;
-
     if (!_getSubstancesSet.contains(trimmed)) {
       return unrecognizedSubstanceError;
     }
@@ -58,7 +55,6 @@ class ValidationUtils {
     final trimmed = value?.trim();
     final requiredError = validateRequired(trimmed, 'Please select a route');
     if (requiredError != null) return requiredError;
-
     if (!DrugUseCatalog.consumptionMethods.any(
       (method) => method['name'] == trimmed,
     )) {
@@ -72,7 +68,6 @@ class ValidationUtils {
     final trimmed = value?.trim();
     final requiredError = validateRequired(trimmed, 'Please select a feeling');
     if (requiredError != null) return requiredError;
-
     if (!DrugUseCatalog.primaryEmotions.any(
       (emotion) => emotion['name'] == trimmed,
     )) {

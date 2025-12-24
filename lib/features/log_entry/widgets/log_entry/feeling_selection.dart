@@ -6,21 +6,18 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 class FeelingSelection extends StatelessWidget {
   final String? selectedFeeling;
   final ValueChanged<String> onFeelingSelected;
-
   const FeelingSelection({
     super.key,
     required this.selectedFeeling,
     required this.onFeelingSelected,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     // acc unused
     final sp = context.spacing;
     final sh = context.shapes;
-
     final feelings = [
       {
         'label': 'Great',
@@ -44,14 +41,13 @@ class FeelingSelection extends StatelessWidget {
         'color': c.error,
       },
     ];
-
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           'How are you feeling?',
-          style: text.bodyLarge.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
+          style: tx.bodyLarge.copyWith(
+            fontWeight: tx.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
         ),
@@ -62,7 +58,6 @@ class FeelingSelection extends StatelessWidget {
             children: feelings.map((feeling) {
               final isSelected = selectedFeeling == feeling['label'];
               final color = feeling['color'] as Color;
-
               return Padding(
                 padding: EdgeInsets.only(right: sp.sm),
                 child: InkWell(
@@ -96,11 +91,11 @@ class FeelingSelection extends StatelessWidget {
                         SizedBox(height: sp.xs),
                         Text(
                           feeling['label'] as String,
-                          style: text.bodySmall.copyWith(
+                          style: tx.bodySmall.copyWith(
                             color: isSelected ? color : c.textSecondary,
                             fontWeight: isSelected
-                                ? text.bodyBold.fontWeight
-                                : text.body.fontWeight,
+                                ? tx.bodyBold.fontWeight
+                                : tx.body.fontWeight,
                           ),
                         ),
                       ],

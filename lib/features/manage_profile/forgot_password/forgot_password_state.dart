@@ -5,9 +5,7 @@
 // Theme: N/A
 // Common: N/A
 // Notes: Immutable state for forgot password flow.
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'forgot_password_state.freezed.dart';
 
 enum ForgotPasswordStatus { idle, submitting, success, error }

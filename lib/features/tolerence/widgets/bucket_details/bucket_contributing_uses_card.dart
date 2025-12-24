@@ -14,32 +14,26 @@ import 'bucket_utils.dart';
 /// Card listing recent uses that contribute to current tolerance
 class BucketContributingUsesCard extends StatelessWidget {
   final List<UseLogEntry> contributingUses;
-
   const BucketContributingUsesCard({super.key, required this.contributingUses});
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
-
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Contributing Uses',
-            style: text.body.copyWith(
-              fontWeight: text.bodyBold.fontWeight,
+            style: tx.body.copyWith(
+              fontWeight: tx.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),
-
           CommonSpacer.vertical(sp.sm),
-
           ...contributingUses.take(10).map((use) {
             final timeAgo = DateTime.now().difference(use.timestamp);
-
             return Padding(
               padding: EdgeInsets.only(bottom: sp.xs),
               child: Row(
@@ -47,12 +41,12 @@ class BucketContributingUsesCard extends StatelessWidget {
                 children: [
                   Text(
                     BucketUtils.formatTimeAgo(timeAgo),
-                    style: text.bodySmall.copyWith(color: c.textSecondary),
+                    style: tx.bodySmall.copyWith(color: c.textSecondary),
                   ),
                   Text(
                     '${use.doseUnits.toStringAsFixed(1)} units',
-                    style: text.bodySmall.copyWith(
-                      fontWeight: text.bodyBold.fontWeight,
+                    style: tx.bodySmall.copyWith(
+                      fontWeight: tx.bodyBold.fontWeight,
                       color: c.textPrimary,
                     ),
                   ),
@@ -60,11 +54,10 @@ class BucketContributingUsesCard extends StatelessWidget {
               ),
             );
           }),
-
           if (contributingUses.length > 10)
             Text(
               '...and ${contributingUses.length - 10} more',
-              style: text.overline.copyWith(
+              style: tx.overline.copyWith(
                 color: c.textSecondary,
                 fontStyle: FontStyle.italic,
               ),

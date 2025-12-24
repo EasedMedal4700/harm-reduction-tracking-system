@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSpacer.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -15,30 +14,24 @@ import '../../../../common/layout/common_spacer.dart';
 /// Expandable card displaying drug level information
 class LevelCard extends StatefulWidget {
   final DrugLevel level;
-
   const LevelCard({required this.level, super.key});
-
   @override
   State<LevelCard> createState() => _LevelCardState();
 }
 
 class _LevelCardState extends State<LevelCard> {
   bool _expanded = false;
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-
     final percentage = widget.level.percentage;
     final status = widget.level.status;
-
     final categoryColor = _getColorForCategory();
     final timeAgo = DateTime.now().difference(widget.level.lastUse);
     final remainingMg = widget.level.totalRemaining;
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
       child: CommonCard(
@@ -49,9 +42,7 @@ class _LevelCardState extends State<LevelCard> {
           crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             _buildHeaderRow(context, categoryColor, status),
-
             CommonSpacer.vertical(sp.lg),
-
             // Progress bar
             ClipRRect(
               borderRadius: BorderRadius.circular(sh.radiusSm),
@@ -62,9 +53,7 @@ class _LevelCardState extends State<LevelCard> {
                 minHeight: sp.sm,
               ),
             ),
-
             CommonSpacer.vertical(sp.lg),
-
             // Summary row
             Row(
               mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
@@ -87,7 +76,6 @@ class _LevelCardState extends State<LevelCard> {
                 ),
               ],
             ),
-
             if (_expanded) ...[
               const CommonSpacer.vertical(24),
               Divider(color: c.divider),
@@ -106,8 +94,8 @@ class _LevelCardState extends State<LevelCard> {
     Color categoryColor,
     String status,
   ) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -121,17 +109,16 @@ class _LevelCardState extends State<LevelCard> {
             children: [
               Text(
                 widget.level.drugName.toUpperCase(),
-                style: text.heading4.copyWith(color: categoryColor),
+                style: tx.heading4.copyWith(color: categoryColor),
               ),
               if (widget.level.categories.isNotEmpty)
                 Text(
                   widget.level.categories.first,
-                  style: text.caption.copyWith(color: c.textSecondary),
+                  style: tx.caption.copyWith(color: c.textSecondary),
                 ),
             ],
           ),
         ),
-
         Row(
           children: [
             Container(
@@ -143,9 +130,7 @@ class _LevelCardState extends State<LevelCard> {
               ),
               child: Text(
                 status,
-                style: text.captionBold.copyWith(
-                  color: _getStatusColor(status),
-                ),
+                style: tx.captionBold.copyWith(color: _getStatusColor(status)),
               ),
             ),
             SizedBox(width: sp.sm),
@@ -161,25 +146,24 @@ class _LevelCardState extends State<LevelCard> {
 
   // EXPANDED CONTENT
   Widget _buildExpandedContent(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
-        Text('Individual Doses', style: text.bodyBold),
+        Text('Individual Doses', style: tx.bodyBold),
         SizedBox(height: sp.sm),
-
         ...widget.level.doses.map(
           (dose) => Padding(
             padding: EdgeInsets.symmetric(vertical: sp.xs),
             child: Row(
               children: [
                 Container(
-                  width: context.spacing.xs,
-                  height: context.spacing.xl,
+                  width: sp.xs,
+                  height: sp.xl,
                   decoration: BoxDecoration(
                     color: _getColorForCategory(),
                     borderRadius: BorderRadius.circular(sh.radiusXs),
@@ -193,12 +177,12 @@ class _LevelCardState extends State<LevelCard> {
                       Text(
                         '${dose.dose.toStringAsFixed(1)}mg → '
                         '${dose.remaining.toStringAsFixed(1)}mg remaining',
-                        style: text.body,
+                        style: tx.body,
                       ),
                       Text(
                         '${_formatTimeAgo(DateTime.now().difference(dose.startTime))} '
                         '(${dose.percentRemaining.toStringAsFixed(0)}%)',
-                        style: text.caption.copyWith(color: c.textSecondary),
+                        style: tx.caption.copyWith(color: c.textSecondary),
                       ),
                     ],
                   ),
@@ -207,9 +191,7 @@ class _LevelCardState extends State<LevelCard> {
             ),
           ),
         ),
-
         SizedBox(height: sp.md),
-
         Row(
           children: [
             Expanded(
@@ -229,9 +211,7 @@ class _LevelCardState extends State<LevelCard> {
             ),
           ],
         ),
-
         SizedBox(height: sp.sm),
-
         Row(
           children: [
             Expanded(
@@ -258,7 +238,7 @@ class _LevelCardState extends State<LevelCard> {
   // DETAIL BOX
   Widget _buildDetailItem(BuildContext context, String label, String value) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -272,9 +252,9 @@ class _LevelCardState extends State<LevelCard> {
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          Text(label, style: text.caption.copyWith(color: c.textSecondary)),
+          Text(label, style: tx.caption.copyWith(color: c.textSecondary)),
           SizedBox(height: sp.xs),
-          Text(value, style: text.bodyBold),
+          Text(value, style: tx.bodyBold),
         ],
       ),
     );
@@ -282,16 +262,16 @@ class _LevelCardState extends State<LevelCard> {
 
   // SUMMARY LABELS
   Widget _buildInfoColumn(BuildContext context, String label, String value) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
-        Text(label, style: text.caption.copyWith(color: c.textSecondary)),
+        Text(label, style: tx.caption.copyWith(color: c.textSecondary)),
         SizedBox(height: sp.xs),
-        Text(value, style: text.bodyBold),
+        Text(value, style: tx.bodyBold),
       ],
     );
   }
@@ -306,7 +286,6 @@ class _LevelCardState extends State<LevelCard> {
 
   // STATUS COLOR
   Color _getStatusColor(String status) {
-    final c = context.colors;
     switch (status) {
       case 'HIGH':
         return c.error;

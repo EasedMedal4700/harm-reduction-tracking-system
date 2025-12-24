@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Page for logging drug use. No hardcoded values.
-
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +16,6 @@ import 'log_entry_controller.dart';
 class QuickLogEntryPage extends StatefulWidget {
   final LogEntryController? controller;
   const QuickLogEntryPage({super.key, this.controller});
-
   @override
   State<QuickLogEntryPage> createState() => _QuickLogEntryPageState();
 }
@@ -26,7 +24,6 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
     with SingleTickerProviderStateMixin {
   late final LogEntryState _state;
   late final LogEntryController _controller;
-
   AnimationController? _animationController;
   late Animation<double> _fadeAnimation;
   final _formKey = GlobalKey<FormState>();
@@ -34,16 +31,13 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   final _doseCtrl = TextEditingController();
   final _substanceCtrl = TextEditingController();
   bool _isSaving = false;
-
   @override
   void initState() {
     super.initState();
     _controller = widget.controller ?? LogEntryController();
     _state = LogEntryState(controller: _controller);
-
     // AnimationController will be initialized in didChangeDependencies
     // to safely access Theme context.
-
     _notesCtrl.addListener(() => _state.setNotes(_notesCtrl.text));
     _doseCtrl.addListener(() {
       final value = double.tryParse(_doseCtrl.text);
@@ -55,17 +49,14 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     if (_animationController == null) {
       _animationController = AnimationController(
         duration: context.animations.normal,
         vsync: this,
       );
-
       _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(parent: _animationController!, curve: Curves.easeOut),
       );
-
       _animationController!.forward();
     }
   }
@@ -84,7 +75,6 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       _showSnackBar('Please fix validation errors before saving.');
       return;
     }
-
     // Run validations
     final substanceValidation = await _controller.validateSubstance(
       _state.data,
@@ -96,7 +86,6 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       );
       return;
     }
-
     final roaValidation = _controller.validateROA(_state.data);
     if (roaValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
@@ -105,7 +94,6 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       );
       if (!confirmed) return;
     }
-
     final emotionsValidation = _controller.validateEmotions(_state.data);
     if (emotionsValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
@@ -114,7 +102,6 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       );
       if (!confirmed) return;
     }
-
     final cravingValidation = _controller.validateCraving(_state.data);
     if (cravingValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
@@ -123,14 +110,10 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       );
       if (!confirmed) return;
     }
-
     // Save
     setState(() => _isSaving = true);
-
     final result = await _controller.saveLogEntry(_state.data);
-
     setState(() => _isSaving = false);
-
     if (result.isSuccess) {
       _showSnackBar(result.message, duration: context.animations.longSnackbar);
       _resetForm();
@@ -197,7 +180,6 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-
     return ChangeNotifierProvider<LogEntryState>.value(
       value: _state,
       child: Consumer<LogEntryState>(
@@ -256,10 +238,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
                   ),
                 ),
                 if (_isSaving)
-                  Container(
-                    color: context.colors.overlayHeavy,
-                    child: const CommonLoader(),
-                  ),
+                  Container(color: c.overlayHeavy, child: const CommonLoader()),
               ],
             ),
           );

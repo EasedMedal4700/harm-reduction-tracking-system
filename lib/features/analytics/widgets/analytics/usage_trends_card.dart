@@ -6,7 +6,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:fl_chart/fl_chart.dart';
-
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/enums/time_period.dart';
 import '../../../../constants/data/drug_categories.dart';
@@ -24,21 +23,18 @@ class UsageTrendsCard extends StatefulWidget {
   final List<LogEntry> filteredEntries;
   final TimePeriod period;
   final Map<String, String> substanceToCategory;
-
   const UsageTrendsCard({
     super.key,
     required this.filteredEntries,
     required this.period,
     required this.substanceToCategory,
   });
-
   @override
   State<UsageTrendsCard> createState() => _UsageTrendsCardState();
 }
 
 class _UsageTrendsCardState extends State<UsageTrendsCard> {
   TrendGranularity _granularity = TrendGranularity.daily;
-
   String _getTrendPeriodLabel() {
     switch (_granularity) {
       case TrendGranularity.daily:
@@ -52,13 +48,11 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
-
     final trendData = _generateTrendData();
     final sortedKeys = _getSortedKeys();
     final trendPercent = _calculateTrendPercent(trendData);
-
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -88,7 +82,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                   '${trendPercent.abs().toStringAsFixed(0)}% '
                   '${trendPercent > 0 ? "increase" : "decrease"} '
                   'this ${_getTrendPeriodLabel()}',
-                  style: text.caption.copyWith(color: c.textSecondary),
+                  style: tx.caption.copyWith(color: c.textSecondary),
                 ),
               ],
             ),
@@ -103,7 +97,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                 ? Center(
                     child: Text(
                       'No data available for this period',
-                      style: text.bodySmall.copyWith(color: c.textSecondary),
+                      style: tx.bodySmall.copyWith(color: c.textSecondary),
                     ),
                   )
                 : BarChart(
@@ -125,7 +119,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                                 padding: EdgeInsets.only(right: sp.xs),
                                 child: Text(
                                   value.toInt().toString(),
-                                  style: text.caption.copyWith(
+                                  style: tx.caption.copyWith(
                                     color: c.textTertiary,
                                   ),
                                 ),
@@ -147,7 +141,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                                 padding: EdgeInsets.only(top: sp.xs),
                                 child: Text(
                                   label,
-                                  style: text.caption.copyWith(
+                                  style: tx.caption.copyWith(
                                     color: c.textTertiary,
                                   ),
                                 ),
@@ -179,17 +173,16 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                                 _getXLabel(group.x, sortedKeys).isEmpty
                                 ? 'Period ${group.x + 1}'
                                 : _getXLabel(group.x, sortedKeys);
-
                             return BarTooltipItem(
                               '$label\n',
-                              text.bodySmall.copyWith(
+                              tx.bodySmall.copyWith(
                                 color: c.textPrimary,
-                                fontWeight: text.bodyBold.fontWeight,
+                                fontWeight: tx.bodyBold.fontWeight,
                               ),
                               children: [
                                 TextSpan(
                                   text: '$total uses',
-                                  style: text.caption.copyWith(
+                                  style: tx.caption.copyWith(
                                     color: c.textSecondary,
                                   ),
                                 ),
@@ -201,7 +194,6 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                     ),
                   ),
           ),
-
           SizedBox(height: sp.lg),
 
           /// LEGEND
@@ -275,14 +267,11 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
             .indexOf(a)
             .compareTo(DrugCategories.categoryPriority.indexOf(b)),
       );
-
     double cumulative = 0;
     final items = <BarChartRodStackItem>[];
-
     for (final cat in sortedCats) {
       final count = categoryCounts[cat] ?? 0;
       if (count <= 0) continue;
-
       items.add(
         BarChartRodStackItem(
           cumulative,
@@ -292,12 +281,11 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
       );
       cumulative += count;
     }
-
     return BarChartRodData(
       toY: cumulative == 0 ? 0.1 : cumulative,
       rodStackItems: items,
       width: context.sizes.iconSm,
-      borderRadius: BorderRadius.circular(context.spacing.xs),
+      borderRadius: BorderRadius.circular(sp.xs),
     );
   }
 
@@ -306,8 +294,8 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
   // ---------------------------------------------------------------------------
   Widget _buildLegend(BuildContext context, List<Map<String, int>> data) {
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
-    final text = context.text;
 
     final totals = <String, int>{};
     for (final bucket in data) {
@@ -315,21 +303,18 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
         totals[cat] = (totals[cat] ?? 0) + count;
       });
     }
-
     if (totals.isEmpty) return const SizedBox.shrink();
-
     final sum = totals.values.fold<int>(0, (s, v) => s + v);
     final sorted = totals.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
-
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           'Category breakdown',
-          style: text.bodySmall.copyWith(
+          style: tx.bodySmall.copyWith(
             color: c.textSecondary,
-            fontWeight: text.bodyBold.fontWeight,
+            fontWeight: tx.bodyBold.fontWeight,
           ),
         ),
         SizedBox(height: sp.sm),
@@ -342,7 +327,6 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                 final pct = sum == 0
                     ? '0%'
                     : '${((e.value / sum) * 100).round()}%';
-
                 return Padding(
                   padding: EdgeInsets.symmetric(vertical: sp.xs / 2),
                   child: Row(
@@ -361,14 +345,14 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
                       Expanded(
                         child: Text(
                           e.key,
-                          style: text.bodySmall.copyWith(color: c.textPrimary),
+                          style: tx.bodySmall.copyWith(color: c.textPrimary),
                           overflow: AppLayout.textOverflowEllipsis,
                         ),
                       ),
                       SizedBox(width: sp.sm),
                       Text(
                         '$pct · ${e.value}',
-                        style: text.caption.copyWith(color: c.textSecondary),
+                        style: tx.caption.copyWith(color: c.textSecondary),
                       ),
                     ],
                   ),
@@ -388,7 +372,6 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
     final now = DateTime.now();
     final grouped = <DateTime, Map<String, int>>{};
     final units = <DateTime>[];
-
     switch (_granularity) {
       case TrendGranularity.daily:
         for (int i = 6; i >= 0; i--) {
@@ -398,7 +381,6 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
           grouped[key] = {};
         }
         break;
-
       case TrendGranularity.weekly:
         for (int i = 6; i >= 0; i--) {
           final d = now.subtract(Duration(days: i * _daysInWeek));
@@ -408,7 +390,6 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
           grouped[key] = {};
         }
         break;
-
       case TrendGranularity.monthly:
         for (int i = 6; i >= 0; i--) {
           final d = DateTime(now.year, now.month - i, 1);
@@ -417,11 +398,9 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
         }
         break;
     }
-
     for (final entry in widget.filteredEntries) {
       final dt = entry.datetime;
       late DateTime key;
-
       switch (_granularity) {
         case TrendGranularity.daily:
           key = DateTime(dt.year, dt.month, dt.day);
@@ -434,15 +413,11 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
           key = DateTime(dt.year, dt.month, 1);
           break;
       }
-
       if (!grouped.containsKey(key)) continue;
-
       final cat =
           widget.substanceToCategory[entry.substance.toLowerCase()] ?? 'Other';
-
       grouped[key]![cat] = (grouped[key]![cat] ?? 0) + 1;
     }
-
     return units.map((d) => grouped[d] ?? {}).toList();
   }
 
@@ -452,7 +427,6 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
   List<DateTime> _getSortedKeys() {
     final now = DateTime.now();
     final list = <DateTime>[];
-
     switch (_granularity) {
       case TrendGranularity.daily:
         for (int i = 6; i >= 0; i--) {
@@ -460,7 +434,6 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
           list.add(DateTime(d.year, d.month, d.day));
         }
         break;
-
       case TrendGranularity.weekly:
         for (int i = 6; i >= 0; i--) {
           final d = now.subtract(Duration(days: i * _daysInWeek));
@@ -468,21 +441,18 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
           list.add(DateTime(mon.year, mon.month, mon.day));
         }
         break;
-
       case TrendGranularity.monthly:
         for (int i = 6; i >= 0; i--) {
           list.add(DateTime(now.year, now.month - i, 1));
         }
         break;
     }
-
     return list;
   }
 
   String _getXLabel(int index, List<DateTime> keys) {
     if (index < 0 || index >= keys.length) return '';
     final d = keys[index];
-
     switch (_granularity) {
       case TrendGranularity.daily:
         return '${d.day}/${d.month}';
@@ -498,38 +468,29 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
   // ---------------------------------------------------------------------------
   double? _calculateTrendPercent(List<Map<String, int>> data) {
     if (data.length < 2) return null;
-
     int sumAt(int i) => data[i].values.fold<int>(0, (s, v) => s + v);
-
     final prev = sumAt(data.length - 2);
     final curr = sumAt(data.length - 1);
-
     if (prev == 0) return null;
-
     return ((curr - prev) / prev) * 100;
   }
 
   double _calculateGridInterval(List<Map<String, int>> data) {
     if (data.isEmpty) return 1;
     double maxVal = 0;
-
     for (final bucket in data) {
       final s = bucket.values.fold<double>(0, (sum, v) => sum + v);
       if (s > maxVal) maxVal = s;
     }
-
     if (maxVal <= 0) return 1;
-
     final lines = 8;
     double step = (maxVal / lines).ceilToDouble();
-
     if (step <= 1) return 1;
     if (step <= 2) return 2;
     if (step <= 5) return 5;
     if (step <= 10) return 10;
     if (step <= 20) return 20;
     if (step <= 50) return 50;
-
     return (step / 10).ceil() * 10;
   }
 }

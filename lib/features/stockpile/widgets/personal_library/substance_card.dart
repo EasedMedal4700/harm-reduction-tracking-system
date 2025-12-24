@@ -2,14 +2,12 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 import '../../../../common/buttons/common_outlined_button.dart';
-
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../models/drug_catalog_entry.dart';
 import '../../../../models/stockpile_item.dart';
@@ -25,7 +23,6 @@ class SubstanceCard extends StatelessWidget {
   final VoidCallback onArchive;
   final VoidCallback onManageStockpile;
   final Function(String, int, String, bool, Color) onDayTap;
-
   const SubstanceCard({
     super.key,
     required this.entry,
@@ -36,10 +33,8 @@ class SubstanceCard extends StatelessWidget {
     required this.onManageStockpile,
     required this.onDayTap,
   });
-
   String _selectPrimaryCategory(List<String> categories) {
     if (categories.isEmpty) return 'Unknown';
-
     final filtered = categories
         .where(
           (cat) =>
@@ -50,9 +45,7 @@ class SubstanceCard extends StatelessWidget {
               cat.toLowerCase() != 'inactive',
         )
         .toList();
-
     if (filtered.isEmpty) return 'Unknown';
-
     for (final priorityCategory in DrugCategories.categoryPriority) {
       if (filtered.any(
         (cat) => cat.toLowerCase() == priorityCategory.toLowerCase(),
@@ -60,32 +53,30 @@ class SubstanceCard extends StatelessWidget {
         return priorityCategory;
       }
     }
-
     return filtered.first;
   }
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
+    final tx = context.text;
+    final th = context.theme;
     final primaryCategory = _selectPrimaryCategory(entry.categories);
     final categoryColor = DrugCategoryColors.colorFor(primaryCategory);
     final categoryIcon =
         DrugCategories.categoryIconMap[primaryCategory] ?? Icons.science;
-
     return Container(
-      margin: EdgeInsets.only(bottom: t.spacing.md),
+      margin: EdgeInsets.only(bottom: th.spacing.md),
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        color: th.colors.surface,
+        borderRadius: BorderRadius.circular(th.shapes.radiusLg),
         border: Border.all(
-          color: categoryColor.withValues(alpha: t.isDark ? 0.3 : 0.2),
+          color: categoryColor.withValues(alpha: th.isDark ? 0.3 : 0.2),
         ),
-        boxShadow: t.isDark
+        boxShadow: th.isDark
             ? null
             : [
                 BoxShadow(
-                  color: t.colors.textPrimary.withValues(alpha: 0.05),
+                  color: th.colors.textPrimary.withValues(alpha: 0.05),
                   blurRadius: context.sizes.blurRadiusMd,
                   offset: const Offset(0, 2),
                 ),
@@ -98,10 +89,10 @@ class SubstanceCard extends StatelessWidget {
           InkWell(
             onTap: onTap,
             borderRadius: BorderRadius.vertical(
-              top: Radius.circular(t.shapes.radiusLg),
+              top: Radius.circular(th.shapes.radiusLg),
             ),
             child: Container(
-              padding: EdgeInsets.all(t.spacing.md),
+              padding: EdgeInsets.all(th.spacing.md),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -112,13 +103,13 @@ class SubstanceCard extends StatelessWidget {
                   end: context.shapes.alignmentBottomRight,
                 ),
                 borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(t.shapes.radiusLg),
+                  top: Radius.circular(th.shapes.radiusLg),
                 ),
               ),
               child: Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(t.spacing.sm),
+                    padding: EdgeInsets.all(th.spacing.sm),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -126,30 +117,32 @@ class SubstanceCard extends StatelessWidget {
                           categoryColor.withValues(alpha: 0.7),
                         ],
                       ),
-                      borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+                      borderRadius: BorderRadius.circular(th.shapes.radiusMd),
                     ),
                     child: Icon(
                       categoryIcon,
-                      color: t.isDark ? t.colors.textPrimary : t.colors.surface,
-                      size: t.sizes.iconMd,
+                      color: th.isDark
+                          ? th.colors.textPrimary
+                          : th.colors.surface,
+                      size: th.sizes.iconMd,
                     ),
                   ),
-                  CommonSpacer(width: t.spacing.sm),
+                  CommonSpacer(width: th.spacing.sm),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                       children: [
                         Text(
                           entry.name,
-                          style: t.typography.heading3.copyWith(
-                            fontWeight: text.bodyBold.fontWeight,
+                          style: th.typography.heading3.copyWith(
+                            fontWeight: tx.bodyBold.fontWeight,
                           ),
                         ),
                         Text(
                           primaryCategory,
-                          style: t.typography.bodySmall.copyWith(
+                          style: th.typography.bodySmall.copyWith(
                             color: categoryColor,
-                            fontWeight: text.bodyBold.fontWeight,
+                            fontWeight: tx.bodyBold.fontWeight,
                           ),
                         ),
                       ],
@@ -159,13 +152,13 @@ class SubstanceCard extends StatelessWidget {
                     icon: Icon(
                       entry.favorite ? Icons.favorite : Icons.favorite_border,
                       color: entry.favorite
-                          ? t.colors.error
-                          : t.colors.textSecondary,
+                          ? th.colors.error
+                          : th.colors.textSecondary,
                     ),
                     onPressed: onFavorite,
                   ),
                   PopupMenuButton<String>(
-                    icon: Icon(Icons.more_vert, color: t.colors.textSecondary),
+                    icon: Icon(Icons.more_vert, color: th.colors.textSecondary),
                     onSelected: (value) {
                       if (value == 'archive') {
                         onArchive();
@@ -178,9 +171,9 @@ class SubstanceCard extends StatelessWidget {
                           children: [
                             Icon(
                               entry.archived ? Icons.unarchive : Icons.archive,
-                              size: t.sizes.iconSm,
+                              size: th.sizes.iconSm,
                             ),
-                            CommonSpacer(width: t.spacing.xs),
+                            CommonSpacer(width: th.spacing.xs),
                             Text(entry.archived ? 'Unarchive' : 'Archive'),
                           ],
                         ),
@@ -191,9 +184,8 @@ class SubstanceCard extends StatelessWidget {
               ),
             ),
           ),
-
           Padding(
-            padding: EdgeInsets.all(t.spacing.md),
+            padding: EdgeInsets.all(th.spacing.md),
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
@@ -206,7 +198,7 @@ class SubstanceCard extends StatelessWidget {
                       Icons.bar_chart,
                       context,
                     ),
-                    CommonSpacer(width: t.spacing.lg),
+                    CommonSpacer(width: th.spacing.lg),
                     _buildStatItem(
                       'Last Used',
                       entry.lastUsed != null
@@ -218,18 +210,18 @@ class SubstanceCard extends StatelessWidget {
                   ],
                 ), // Stockpile info
                 if (stockpile != null) ...[
-                  CommonSpacer(height: t.spacing.md),
+                  CommonSpacer(height: th.spacing.md),
                   InkWell(
                     onTap: onManageStockpile,
-                    borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+                    borderRadius: BorderRadius.circular(th.shapes.radiusMd),
                     child: Container(
-                      padding: EdgeInsets.all(t.spacing.sm),
+                      padding: EdgeInsets.all(th.spacing.sm),
                       decoration: BoxDecoration(
-                        color: t.colors.background.withValues(
-                          alpha: t.isDark ? 0.5 : 1.0,
+                        color: th.colors.background.withValues(
+                          alpha: th.isDark ? 0.5 : 1.0,
                         ),
-                        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-                        border: Border.all(color: t.colors.border),
+                        borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+                        border: Border.all(color: th.colors.border),
                       ),
                       child: Column(
                         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -240,32 +232,32 @@ class SubstanceCard extends StatelessWidget {
                             children: [
                               Text(
                                 'Stockpile',
-                                style: t.typography.bodySmall.copyWith(
-                                  fontWeight: text.bodyBold.fontWeight,
+                                style: th.typography.bodySmall.copyWith(
+                                  fontWeight: tx.bodyBold.fontWeight,
                                 ),
                               ),
                               Text(
                                 '${stockpile!.currentAmountMg.toStringAsFixed(1)} mg',
-                                style: t.typography.body.copyWith(
-                                  fontWeight: text.bodyBold.fontWeight,
+                                style: th.typography.body.copyWith(
+                                  fontWeight: tx.bodyBold.fontWeight,
                                   color: categoryColor,
                                 ),
                               ),
                             ],
                           ),
-                          CommonSpacer(height: t.spacing.xs),
+                          CommonSpacer(height: th.spacing.xs),
                           // Progress bar
                           ClipRRect(
                             borderRadius: BorderRadius.circular(
-                              t.shapes.radiusSm,
+                              th.shapes.radiusSm,
                             ),
                             child: LinearProgressIndicator(
                               value: stockpile!.getPercentage() / 100,
                               minHeight: 8,
-                              backgroundColor: t.colors.border,
+                              backgroundColor: th.colors.border,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 stockpile!.isLow()
-                                    ? t.colors.error
+                                    ? th.colors.error
                                     : categoryColor,
                               ),
                             ),
@@ -275,7 +267,7 @@ class SubstanceCard extends StatelessWidget {
                     ),
                   ),
                 ] else ...[
-                  CommonSpacer(height: t.spacing.sm),
+                  CommonSpacer(height: th.spacing.sm),
                   CommonOutlinedButton(
                     onPressed: onManageStockpile,
                     icon: Icons.add,
@@ -285,9 +277,8 @@ class SubstanceCard extends StatelessWidget {
                     height: _buttonHeight,
                   ),
                 ],
-
                 // Weekly usage display
-                CommonSpacer(height: t.spacing.md),
+                CommonSpacer(height: th.spacing.md),
                 WeeklyUsageDisplay(
                   entry: entry,
                   categoryColor: categoryColor,
@@ -307,13 +298,17 @@ class SubstanceCard extends StatelessWidget {
     IconData icon,
     BuildContext context,
   ) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
+    final tx = context.text;
 
     return Expanded(
       child: Row(
         children: [
-          Icon(icon, size: context.sizes.iconSm, color: t.colors.textSecondary),
+          Icon(
+            icon,
+            size: context.sizes.iconSm,
+            color: th.colors.textSecondary,
+          ),
           CommonSpacer(width: context.spacing.xs),
           Expanded(
             child: Column(
@@ -321,14 +316,14 @@ class SubstanceCard extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: t.typography.caption.copyWith(
-                    color: t.colors.textSecondary,
+                  style: th.typography.caption.copyWith(
+                    color: th.colors.textSecondary,
                   ),
                 ),
                 Text(
                   value,
-                  style: t.typography.body.copyWith(
-                    fontWeight: text.bodyBold.fontWeight,
+                  style: th.typography.body.copyWith(
+                    fontWeight: tx.bodyBold.fontWeight,
                   ),
                   overflow: AppLayout.textOverflowEllipsis,
                 ),

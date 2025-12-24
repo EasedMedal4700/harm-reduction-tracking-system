@@ -17,12 +17,10 @@ class BucketToleranceService {
           .select('tolerance_model')
           .eq('slug', substance.toLowerCase())
           .maybeSingle();
-
       if (response == null || response['tolerance_model'] == null) {
         AppLog.w('No tolerance model found for $substance in drug_profiles');
         return null;
       }
-
       // Extract tolerance_model JSONB and parse it
       final toleranceModelJson =
           response['tolerance_model'] as Map<String, dynamic>;
@@ -49,7 +47,6 @@ class BucketToleranceService {
       'bromazolam': 1.0, // 1mg standard
       'mdpv': 5.0, // 5mg common dose
     };
-
     return defaults[substance.toLowerCase()] ?? 10.0; // Default 10mg if unknown
   }
 
@@ -61,7 +58,6 @@ class BucketToleranceService {
   }) async {
     try {
       final cutoffDate = DateTime.now().subtract(Duration(days: daysBack));
-
       final response = await _supabase
           .from('log_entries')
           .select('timestamp, dose_mg, substance')
@@ -69,13 +65,11 @@ class BucketToleranceService {
           .eq('substance', substance)
           .gte('timestamp', cutoffDate.toIso8601String())
           .order('timestamp', ascending: true);
-
       final events = <UseEvent>[];
       for (final row in response as List) {
         final timestamp = DateTime.parse(row['timestamp'] as String);
         final doseMg = (row['dose_mg'] as num?)?.toDouble() ?? 0.0;
         final substanceName = row['substance'] as String;
-
         events.add(
           UseEvent(
             timestamp: timestamp,
@@ -84,7 +78,6 @@ class BucketToleranceService {
           ),
         );
       }
-
       return events;
     } catch (e) {
       AppLog.e('Error fetching use events: $e');
@@ -107,17 +100,14 @@ class BucketToleranceService {
           'buckets': <String, BucketToleranceResult>{},
         };
       }
-
       // Fetch standard unit for dose normalization
       final standardUnitMg = await fetchStandardUnitMg(substance);
-
       // Fetch use events
       final useEvents = await fetchUseEvents(
         userId: userId,
         substance: substance,
         daysBack: 90,
       );
-
       if (useEvents.isEmpty) {
         return {
           'tolerance': 0.0,
@@ -125,7 +115,6 @@ class BucketToleranceService {
           'model': model,
         };
       }
-
       // Calculate bucket tolerances
       final bucketResults =
           BucketToleranceCalculator.calculateSubstanceTolerance(
@@ -134,13 +123,11 @@ class BucketToleranceService {
             standardUnitMg: standardUnitMg,
             currentTime: DateTime.now(),
           );
-
       // Calculate overall tolerance
       final overallTolerance =
           BucketToleranceCalculator.calculateOverallSubstanceTolerance(
             bucketResults: bucketResults,
           );
-
       return {
         'tolerance': overallTolerance,
         'buckets': bucketResults,
@@ -171,39 +158,32 @@ class BucketToleranceService {
             'timestamp',
             DateTime.now().subtract(const Duration(days: 90)).toIso8601String(),
           );
-
       final uniqueSubstances = (substancesResponse as List)
           .map((row) => row['substance'] as String)
           .toSet()
           .toList();
-
       // Calculate tolerance for each substance
       final allSubstanceResults =
           <String, Map<String, BucketToleranceResult>>{};
-
       for (final substance in uniqueSubstances) {
         final result = await calculateSubstanceTolerance(
           userId: userId,
           substance: substance,
         );
-
         if (result['buckets'] != null) {
           allSubstanceResults[substance] =
               result['buckets'] as Map<String, BucketToleranceResult>;
         }
       }
-
       // Calculate system tolerance (cross-tolerance)
       final systemBucketTolerances =
           BucketToleranceCalculator.calculateSystemTolerance(
             allSubstanceResults: allSubstanceResults,
           );
-
       final overallSystemTolerance =
           BucketToleranceCalculator.calculateOverallSystemTolerance(
             systemBucketTolerances: systemBucketTolerances,
           );
-
       return {
         'overallTolerance': overallSystemTolerance,
         'bucketTolerances': systemBucketTolerances,

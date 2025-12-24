@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSpacer.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -13,24 +12,20 @@ import '../../../../common/layout/common_spacer.dart';
 class SubstanceListCard extends StatelessWidget {
   final List<SubstanceInfo> substances;
   final Map<String, Color> substanceColors;
-
   const SubstanceListCard({
     super.key,
     required this.substances,
     required this.substanceColors,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final acc = context.accent;
-
-    final accentColor = acc.primary;
-
+    final ac = context.accent;
+    final accentColor = ac.primary;
     // --------------------------
     // EMPTY STATE
     // --------------------------
@@ -42,20 +37,19 @@ class SubstanceListCard extends StatelessWidget {
             children: [
               Icon(
                 Icons.medical_information_outlined,
-                size: t.sizes.iconXl,
+                size: th.sizes.iconXl,
                 color: c.textTertiary,
               ),
               const CommonSpacer.vertical(16),
               Text(
                 'No substances in timeframe',
-                style: text.body.copyWith(color: c.textSecondary),
+                style: tx.body.copyWith(color: c.textSecondary),
               ),
             ],
           ),
         ),
       );
     }
-
     // --------------------------
     // SUBSTANCE LIST CARD
     // --------------------------
@@ -75,24 +69,21 @@ class SubstanceListCard extends StatelessWidget {
                 ),
                 child: Icon(
                   Icons.medication,
-                  size: t.sizes.iconSm,
+                  size: th.sizes.iconSm,
                   color: accentColor,
                 ),
               ),
               const CommonSpacer.horizontal(16),
               Text(
                 'Active Substances (${substances.length})',
-                style: text.heading4.copyWith(color: c.textPrimary),
+                style: tx.heading4.copyWith(color: c.textPrimary),
               ),
             ],
           ),
-
           const CommonSpacer.vertical(24),
-
           // SUBSTANCE ITEMS
           ...substances.map((substance) {
-            final color = substanceColors[substance.name] ?? acc.primary;
-
+            final color = substanceColors[substance.name] ?? ac.primary;
             return Padding(
               padding: EdgeInsets.only(bottom: sp.md),
               child: Container(
@@ -101,7 +92,7 @@ class SubstanceListCard extends StatelessWidget {
                   color: color.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(sh.radiusSm),
                   border: Border.all(
-                    color: color.withValues(alpha: t.opacities.border),
+                    color: color.withValues(alpha: th.opacities.border),
                   ),
                 ),
                 child: Row(
@@ -116,7 +107,6 @@ class SubstanceListCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: sp.md),
-
                     // MAIN CONTENT
                     Expanded(
                       child: Column(
@@ -124,7 +114,7 @@ class SubstanceListCard extends StatelessWidget {
                         children: [
                           Text(
                             substance.name,
-                            style: text.bodyBold.copyWith(color: c.textPrimary),
+                            style: tx.bodyBold.copyWith(color: c.textPrimary),
                           ),
                           SizedBox(height: sp.xs),
                           Row(
@@ -141,18 +131,17 @@ class SubstanceListCard extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     // TIME AGO
                     Column(
                       crossAxisAlignment: AppLayout.crossAxisAlignmentEnd,
                       children: [
                         Text(
                           _formatTimeDiff(substance.timeSinceUse),
-                          style: text.captionBold.copyWith(color: color),
+                          style: tx.captionBold.copyWith(color: color),
                         ),
                         Text(
                           'ago',
-                          style: text.caption.copyWith(color: c.textTertiary),
+                          style: tx.caption.copyWith(color: c.textTertiary),
                         ),
                       ],
                     ),
@@ -167,9 +156,9 @@ class SubstanceListCard extends StatelessWidget {
   }
 
   Widget _buildChip(BuildContext context, String label, Color color) {
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),
@@ -177,7 +166,7 @@ class SubstanceListCard extends StatelessWidget {
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(sh.radiusSm),
       ),
-      child: Text(label, style: text.captionBold.copyWith(color: color)),
+      child: Text(label, style: tx.captionBold.copyWith(color: color)),
     );
   }
 
@@ -197,7 +186,6 @@ class SubstanceInfo {
   final String roa;
   final double dose;
   final Duration timeSinceUse;
-
   SubstanceInfo({
     required this.name,
     required this.roa,

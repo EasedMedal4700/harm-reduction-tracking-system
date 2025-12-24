@@ -13,7 +13,6 @@ class AccountDataResult {
   final bool success;
   final String? message;
   final String? filePath;
-
   const AccountDataResult({required this.success, this.message, this.filePath});
 }
 
@@ -27,7 +26,6 @@ class AccountDataService {
             client: supabase ?? Supabase.instance.client,
             encryption: EncryptionServiceV2(),
           );
-
   final SupabaseClient _supabase;
   final AuthService _authService;
 
@@ -37,13 +35,11 @@ class AccountDataService {
       AppLog.i('\n=== DOWNLOAD USER DATA STARTED ===');
       final userId = UserService.getCurrentUserId();
       AppLog.i('[1/7] User ID: $userId');
-
       // Create data structure
       final userData = <String, dynamic>{
         'export_date': DateTime.now().toIso8601String(),
         'uuid_user_id': userId,
       };
-
       // Fetch drug use logs
       AppLog.i('[2/7] Fetching drug use logs...');
       final drugUseLogs = await _supabase
@@ -52,7 +48,6 @@ class AccountDataService {
           .eq('uuid_user_id', userId);
       userData['drug_use_logs'] = drugUseLogs;
       AppLog.i('[2/7] ✓ Found ${(drugUseLogs as List).length} entries');
-
       // Fetch reflections
       AppLog.i('[3/7] Fetching reflections...');
       try {
@@ -66,7 +61,6 @@ class AccountDataService {
         userData['reflections'] = [];
         AppLog.w('[3/7] ⚠ Warning: $e');
       }
-
       // Fetch cravings
       AppLog.i('[4/7] Fetching cravings...');
       try {
@@ -80,7 +74,6 @@ class AccountDataService {
         userData['cravings'] = [];
         AppLog.w('[4/7] ⚠ Warning: $e');
       }
-
       // Fetch stockpile
       AppLog.i('[5/7] Fetching stockpile...');
       try {
@@ -94,7 +87,6 @@ class AccountDataService {
         userData['stockpile'] = [];
         AppLog.w('[5/7] ⚠ Warning: $e');
       }
-
       // Convert to JSON and save
       AppLog.i('[6/7] Saving file...');
       final jsonString = const JsonEncoder.withIndent('  ').convert(userData);
@@ -104,7 +96,6 @@ class AccountDataService {
       );
       await file.writeAsString(jsonString);
       AppLog.i('[6/7] ✓ File saved: ${file.path}');
-
       // Share the file
       AppLog.i('[7/7] Sharing file...');
       await Share.shareXFiles(
@@ -113,7 +104,6 @@ class AccountDataService {
         text: 'Your personal data export from the app',
       );
       AppLog.i('[7/7] ✓ DOWNLOAD COMPLETE\n');
-
       return AccountDataResult(
         success: true,
         message: 'Data exported successfully!',
@@ -134,12 +124,10 @@ class AccountDataService {
       AppLog.i('\n=== DELETE USER DATA STARTED ===');
       final userId = UserService.getCurrentUserId();
       AppLog.i('[1/5] User ID: $userId');
-
       // Delete drug_use
       AppLog.i('[2/5] Deleting drug_use...');
       await _supabase.from('drug_use').delete().eq('uuid_user_id', userId);
       AppLog.i('[2/5] ✓ Complete');
-
       // Delete reflections
       AppLog.i('[3/5] Deleting reflections...');
       try {
@@ -148,7 +136,6 @@ class AccountDataService {
       } catch (e) {
         AppLog.w('[3/5] ⚠ Warning: $e');
       }
-
       // Delete cravings
       AppLog.i('[4/5] Deleting cravings...');
       try {
@@ -157,7 +144,6 @@ class AccountDataService {
       } catch (e) {
         AppLog.w('[4/5] ⚠ Warning: $e');
       }
-
       // Delete stockpile
       AppLog.i('[5/5] Deleting stockpile...');
       try {
@@ -166,7 +152,6 @@ class AccountDataService {
       } catch (e) {
         AppLog.w('[5/5] ⚠ Warning: $e');
       }
-
       AppLog.i('✓ DELETE DATA COMPLETE\n');
       return const AccountDataResult(
         success: true,
@@ -187,11 +172,9 @@ class AccountDataService {
       AppLog.i('\n=== DELETE ACCOUNT STARTED ===');
       final userId = UserService.getCurrentUserId();
       AppLog.i('[1/7] User ID: $userId');
-
       // Delete all data first
       AppLog.i('[2/7] Deleting all user data...');
       await deleteUserData();
-
       // Delete user record
       AppLog.i('[6/7] Deleting user record...');
       try {
@@ -200,12 +183,10 @@ class AccountDataService {
       } catch (e) {
         AppLog.e('[6/7] ✗ Failed: $e');
       }
-
       // Sign out
       AppLog.i('[7/7] Signing out...');
       await _authService.logout();
       AppLog.i('[7/7] ✓ ACCOUNT DELETION COMPLETE\n');
-
       return const AccountDataResult(
         success: true,
         message:
@@ -226,7 +207,6 @@ class AccountDataService {
     try {
       final email = _supabase.auth.currentUser?.email;
       if (email == null) return false;
-
       final response = await _supabase.auth.signInWithPassword(
         email: email,
         password: password,

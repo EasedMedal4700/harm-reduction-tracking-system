@@ -1,7 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import '../../common/layout/common_drawer.dart';
 import 'widgets/daily_checkin/readonly_field.dart';
@@ -15,14 +14,12 @@ import '../../providers/daily_checkin_provider.dart';
 
 class DailyCheckinScreen extends StatefulWidget {
   const DailyCheckinScreen({super.key});
-
   @override
   State<DailyCheckinScreen> createState() => _DailyCheckinScreenState();
 }
 
 class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
   final TextEditingController _notesController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -42,20 +39,19 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
         title: Text(
           'Daily Check-In',
-          style: t.typography.heading3.copyWith(color: c.textPrimary),
+          style: th.typography.heading3.copyWith(color: c.textPrimary),
         ),
         backgroundColor: c.surface,
-        elevation: t.sizes.elevationNone,
+        elevation: th.sizes.elevationNone,
         centerTitle: true,
         iconTheme: IconThemeData(color: c.textPrimary),
         actions: [
@@ -70,7 +66,7 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
       ),
       drawer: const CommonDrawer(),
       body: RefreshIndicator(
-        color: a.primary,
+        color: ac.primary,
         backgroundColor: c.surface,
         onRefresh: () async {
           final provider = context.read<DailyCheckinProvider>();
@@ -81,11 +77,10 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
             if (provider.isLoading) {
               return Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(a.primary),
+                  valueColor: AlwaysStoppedAnimation<Color>(ac.primary),
                 ),
               );
             }
-
             return SingleChildScrollView(
               padding: EdgeInsets.all(sp.lg),
               child: Column(
@@ -114,17 +109,14 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
                     ],
                   ),
                   SizedBox(height: sp.xl),
-
                   // Time of Day Indicator (Full Width)
                   TimeOfDayIndicator(currentTimeOfDay: provider.timeOfDay),
                   SizedBox(height: sp.xl),
-
                   // Existing check-in notice
                   if (provider.existingCheckin != null) ...[
                     const ExistingCheckinNotice(),
                     SizedBox(height: sp.xl),
                   ],
-
                   // Mood Selection
                   MoodSelector(
                     selectedMood: provider.mood,
@@ -132,7 +124,6 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
                     onMoodSelected: provider.setMood,
                   ),
                   SizedBox(height: sp.xl2),
-
                   // Emotions Selection
                   EmotionSelector(
                     selectedEmotions: provider.emotions,
@@ -140,14 +131,12 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
                     onEmotionToggled: provider.toggleEmotion,
                   ),
                   SizedBox(height: sp.xl2),
-
                   // Notes
                   NotesInput(
                     controller: _notesController,
                     onChanged: provider.setNotes,
                   ),
                   SizedBox(height: sp.xl2),
-
                   // Save Button
                   SaveButton(
                     isSaving: provider.isSaving,

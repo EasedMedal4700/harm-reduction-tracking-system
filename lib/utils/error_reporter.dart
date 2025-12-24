@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../common/logging/app_log.dart';
-
 import '../services/error_logging_service.dart';
 
 /// Error severity levels
@@ -20,11 +18,9 @@ enum ErrorSeverity {
 /// Centralized error reporter with severity mapping and error code generation
 class ErrorReporter {
   ErrorReporter._();
-
   static final ErrorReporter instance = ErrorReporter._();
   static final ErrorLoggingService _loggingService =
       ErrorLoggingService.instance;
-
   SupabaseClient? get _client {
     try {
       return Supabase.instance.client;
@@ -37,7 +33,6 @@ class ErrorReporter {
   /// Map an error to a severity level
   static ErrorSeverity mapSeverity(dynamic error, StackTrace? stackTrace) {
     final errorString = error.toString().toLowerCase();
-
     // Critical errors - app-breaking issues
     if (errorString.contains('null') && errorString.contains('subtype')) {
       return ErrorSeverity.critical;
@@ -54,7 +49,6 @@ class ErrorReporter {
     if (errorString.contains('no element')) {
       return ErrorSeverity.critical;
     }
-
     // High severity - major functionality broken
     if (errorString.contains('connection') || errorString.contains('timeout')) {
       return ErrorSeverity.high;
@@ -73,7 +67,6 @@ class ErrorReporter {
     if (error is PostgrestException) {
       return ErrorSeverity.high;
     }
-
     // Medium severity - feature degradation
     if (errorString.contains('format') && errorString.contains('exception')) {
       return ErrorSeverity.medium;
@@ -90,7 +83,6 @@ class ErrorReporter {
     if (error is FormatException || error is TypeError) {
       return ErrorSeverity.medium;
     }
-
     // Low severity - minor issues, user can continue
     if (errorString.contains('warning')) {
       return ErrorSeverity.low;
@@ -106,7 +98,6 @@ class ErrorReporter {
         errorString.contains('overflowed')) {
       return ErrorSeverity.low;
     }
-
     // Default to medium if unable to classify
     return ErrorSeverity.medium;
   }
@@ -115,7 +106,6 @@ class ErrorReporter {
   static String generateErrorCode(dynamic error) {
     final errorString = error.toString().toLowerCase();
     final errorType = error.runtimeType.toString().toUpperCase();
-
     // Type-based codes
     if (error is PostgrestException) {
       return 'DB_${error.code ?? 'ERROR'}';
@@ -138,7 +128,6 @@ class ErrorReporter {
     if (error is TimeoutException) {
       return 'TIMEOUT';
     }
-
     // String pattern-based codes
     if (errorString.contains('null') && errorString.contains('subtype')) {
       return 'NULL_CAST';
@@ -187,7 +176,6 @@ class ErrorReporter {
         errorString.contains('overflowed')) {
       return 'UI_OVERFLOW';
     }
-
     // Fallback to generic type-based code
     return errorType.isEmpty ? 'UNKNOWN_ERROR' : errorType;
   }
@@ -205,13 +193,10 @@ class ErrorReporter {
     // Calculate severity and error code
     final severity = forceSeverity ?? mapSeverity(error, stackTrace);
     final errorCode = forceErrorCode ?? generateErrorCode(error);
-
     // Get current user (if Supabase is initialized)
     final userId = _client?.auth.currentUser?.id;
-
     // Get app and device info from ErrorLoggingService
     await _loggingService.init();
-
     // Build payload
     final payload = <String, dynamic>{
       'uuid_user_id': userId,
@@ -231,13 +216,11 @@ class ErrorReporter {
       },
       'created_at': DateTime.now().toIso8601String(),
     };
-
     try {
       // Only insert to database if Supabase is initialized
       if (_client != null) {
         await _client!.from('error_logs').insert(payload);
       }
-
       AppLog.e('═' * 80);
       AppLog.e('ERROR REPORTED: [$errorCode] ${severity.value.toUpperCase()}');
       AppLog.e('Screen: ${payload['screen_name']}');

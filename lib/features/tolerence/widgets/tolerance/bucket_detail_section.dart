@@ -3,13 +3,11 @@
 // Displays comprehensive details for a selected neurochemical bucket including system
 // tolerance percentage, state indicators, bucket description, and list of contributing
 // substances. Provides tap interaction to view individual substance details.
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,7 +29,6 @@ class BucketDetailSection extends ConsumerWidget {
   final Map<String, bool> substanceActiveStates;
   final String? selectedSubstance;
   final Function(String) onSubstanceSelected;
-
   const BucketDetailSection({
     super.key,
     required this.bucketType,
@@ -42,7 +39,6 @@ class BucketDetailSection extends ConsumerWidget {
     this.selectedSubstance,
     required this.onSubstanceSelected,
   });
-
   Color _getStateColor(ToleranceSystemState state, ColorPalette c) {
     switch (state) {
       case ToleranceSystemState.recovered:
@@ -68,24 +64,19 @@ class BucketDetailSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Access theme components through context extensions
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
-
+    final c = context.colors;
+    final sp = context.spacing;
+    final tx = context.text;
+    final sh = context.shapes;
     // Get color based on current system state
-    final stateColor = _getStateColor(state, colors);
-
+    final stateColor = _getStateColor(state, c);
     return Container(
-      margin: EdgeInsets.all(spacing.md),
-      padding: EdgeInsets.all(spacing.md),
+      margin: EdgeInsets.all(sp.md),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(radii.radiusMd),
-        border: Border.all(
-          color: colors.border,
-          width: context.sizes.borderThin,
-        ),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(color: c.border, width: context.sizes.borderThin),
         boxShadow: context.cardShadow,
       ),
       child: Column(
@@ -99,22 +90,22 @@ class BucketDetailSection extends ConsumerWidget {
                 color: stateColor,
                 size: context.sizes.iconMd,
               ),
-              CommonSpacer.horizontal(spacing.sm),
+              CommonSpacer.horizontal(sp.sm),
               Expanded(
                 child: Text(
                   '${BucketDefinitions.getDisplayName(bucketType)} Tolerance',
-                  style: typography.heading3,
+                  style: tx.heading3,
                 ),
               ),
               // Tolerance percentage badge
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: spacing.sm,
-                  vertical: spacing.xs,
+                  horizontal: sp.sm,
+                  vertical: sp.xs,
                 ),
                 decoration: BoxDecoration(
                   color: stateColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(radii.radiusLg),
+                  borderRadius: BorderRadius.circular(sh.radiusLg),
                   border: Border.all(
                     color: stateColor.withValues(alpha: 0.3),
                     width: context.sizes.borderThin,
@@ -122,37 +113,30 @@ class BucketDetailSection extends ConsumerWidget {
                 ),
                 child: Text(
                   '${systemTolerancePercent.toStringAsFixed(1)}%',
-                  style: typography.bodyBold.copyWith(color: stateColor),
+                  style: tx.bodyBold.copyWith(color: stateColor),
                 ),
               ),
             ],
           ),
-
-          CommonSpacer.vertical(spacing.md),
-
+          CommonSpacer.vertical(sp.md),
           // BUCKET DESCRIPTION
           Text(
             BucketDefinitions.getDescription(bucketType),
-            style: typography.bodySmall,
+            style: tx.bodySmall,
           ),
-
-          CommonSpacer.vertical(spacing.md),
-          Divider(color: colors.divider),
-          CommonSpacer.vertical(spacing.md),
-
+          CommonSpacer.vertical(sp.md),
+          Divider(color: c.divider),
+          CommonSpacer.vertical(sp.md),
           // SUBSTANCES SECTION HEADER
-          Text('Contributing Substances', style: typography.heading4),
-          CommonSpacer.vertical(spacing.sm),
-
+          Text('Contributing Substances', style: tx.heading4),
+          CommonSpacer.vertical(sp.sm),
           // EMPTY STATE when no substances contribute to this bucket
           if (substanceContributions.isEmpty)
             Padding(
-              padding: EdgeInsets.symmetric(vertical: spacing.md),
+              padding: EdgeInsets.symmetric(vertical: sp.md),
               child: Text(
                 'No active substances for this bucket',
-                style: typography.bodySmall.copyWith(
-                  fontStyle: FontStyle.italic,
-                ),
+                style: tx.bodySmall.copyWith(fontStyle: FontStyle.italic),
               ),
             )
           // LIST OF SUBSTANCES
@@ -162,26 +146,24 @@ class BucketDetailSection extends ConsumerWidget {
               final contribution = entry.value;
               final isActive = substanceActiveStates[substanceName] ?? false;
               final isSelected = selectedSubstance == substanceName;
-
-              final tolColor = _getToleranceColor(contribution, colors);
-
+              final tolColor = _getToleranceColor(contribution, c);
               return Container(
-                margin: EdgeInsets.only(bottom: spacing.sm),
+                margin: EdgeInsets.only(bottom: sp.sm),
                 decoration: BoxDecoration(
-                  color: colors.surface,
-                  borderRadius: BorderRadius.circular(radii.radiusSm),
+                  color: c.surface,
+                  borderRadius: BorderRadius.circular(sh.radiusSm),
                   border: Border.all(
-                    color: isSelected ? context.accent.primary : colors.border,
+                    color: isSelected ? context.accent.primary : c.border,
                     width: isSelected
                         ? context.sizes.borderRegular
                         : context.sizes.borderThin,
                   ),
                 ),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(radii.radiusSm),
+                  borderRadius: BorderRadius.circular(sh.radiusSm),
                   onTap: () => onSubstanceSelected(substanceName),
                   child: Padding(
-                    padding: EdgeInsets.all(spacing.sm),
+                    padding: EdgeInsets.all(sp.sm),
                     child: Row(
                       children: [
                         // SUBSTANCE NAME + TEXT
@@ -191,66 +173,59 @@ class BucketDetailSection extends ConsumerWidget {
                                 AppLayout.crossAxisAlignmentStart,
                             children: [
                               // Substance name
-                              Text(substanceName, style: typography.bodyBold),
-                              CommonSpacer.vertical(spacing.xs / 2),
+                              Text(substanceName, style: tx.bodyBold),
+                              CommonSpacer.vertical(sp.xs / 2),
                               // Contribution percentage label
                               Text(
                                 'Contribution: ${contribution.toStringAsFixed(1)}%',
-                                style: typography.caption,
+                                style: tx.caption,
                               ),
                             ],
                           ),
                         ),
-
                         // Contribution percentage badge with color coding
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: spacing.xs,
-                            vertical: spacing.xs / 2,
+                            horizontal: sp.xs,
+                            vertical: sp.xs / 2,
                           ),
                           decoration: BoxDecoration(
                             color: tolColor.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(radii.radiusMd),
+                            borderRadius: BorderRadius.circular(sh.radiusMd),
                           ),
                           child: Text(
                             '${contribution.toStringAsFixed(1)}%',
-                            style: typography.captionBold.copyWith(
-                              color: tolColor,
-                            ),
+                            style: tx.captionBold.copyWith(color: tolColor),
                           ),
                         ),
-
                         // ACTIVE indicator badge (shown when substance is currently active)
                         if (isActive) ...[
-                          CommonSpacer.horizontal(spacing.sm),
+                          CommonSpacer.horizontal(sp.sm),
                           Container(
                             padding: EdgeInsets.symmetric(
-                              horizontal: spacing.xs,
-                              vertical: spacing.xs / 2,
+                              horizontal: sp.xs,
+                              vertical: sp.xs / 2,
                             ),
                             decoration: BoxDecoration(
                               color: context.accent.secondary.withValues(
                                 alpha: 0.2,
                               ),
-                              borderRadius: BorderRadius.circular(
-                                radii.radiusSm,
-                              ),
+                              borderRadius: BorderRadius.circular(sh.radiusSm),
                             ),
                             child: Text(
                               'ACTIVE',
-                              style: typography.captionBold.copyWith(
+                              style: tx.captionBold.copyWith(
                                 color: context.accent.secondary,
-                                fontSize: context.text.caption.fontSize,
+                                fontSize: tx.caption.fontSize,
                               ),
                             ),
                           ),
                         ],
-
-                        CommonSpacer.horizontal(spacing.sm),
+                        CommonSpacer.horizontal(sp.sm),
                         // Chevron indicating tappable item
                         Icon(
                           Icons.chevron_right,
-                          color: colors.textSecondary,
+                          color: c.textSecondary,
                           size: context.sizes.iconMd,
                         ),
                       ],

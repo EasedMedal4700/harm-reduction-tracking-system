@@ -3,17 +3,14 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSectionHeader. No Riverpod.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/data/graph_constants.dart';
-
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/text/common_section_header.dart';
 import '../../../../common/layout/common_spacer.dart';
-
 import '../../services/pharmacokinetics_service.dart';
 
 class BloodLevelGraph extends StatelessWidget {
@@ -22,7 +19,6 @@ class BloodLevelGraph extends StatelessWidget {
   final DateTime startTime;
   final DateTime endTime;
   final Map<String, Map<DoseTier, DoseRange>> substanceTiers;
-
   const BloodLevelGraph({
     super.key,
     required this.substanceCurves,
@@ -31,17 +27,16 @@ class BloodLevelGraph extends StatelessWidget {
     required this.endTime,
     required this.substanceTiers,
   });
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final sp = context.spacing;
+    final tx = context.text;
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           const CommonSectionHeader(title: 'Blood Level Curves'),
-          CommonSpacer.vertical(context.spacing.xl),
-
+          CommonSpacer.vertical(sp.xl),
           SizedBox(
             height: context.sizes.heightLg,
             child: substanceCurves.isEmpty
@@ -54,10 +49,10 @@ class BloodLevelGraph extends StatelessWidget {
   }
 
   Widget _buildEmptyState(BuildContext context) {
-    final text = context.text;
-    final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
 
+    final c = context.colors;
     return Center(
       child: Column(
         mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
@@ -70,7 +65,7 @@ class BloodLevelGraph extends StatelessWidget {
           SizedBox(height: sp.lg),
           Text(
             'No active substances in selected timeframe',
-            style: text.body.copyWith(color: c.textSecondary),
+            style: tx.body.copyWith(color: c.textSecondary),
             textAlign: AppLayout.textAlignCenter,
           ),
         ],
@@ -79,14 +74,13 @@ class BloodLevelGraph extends StatelessWidget {
   }
 
   Widget _buildChart(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
 
     final lines = substanceCurves.entries.map((entry) {
       final substance = entry.key;
       final points = entry.value;
       final color = substanceColors[substance] ?? context.accent.primary;
-
       return LineChartBarData(
         spots: points
             .map(
@@ -107,7 +101,6 @@ class BloodLevelGraph extends StatelessWidget {
         ),
       );
     }).toList();
-
     return LineChart(
       LineChartData(
         lineBarsData: lines,
@@ -166,8 +159,8 @@ class BloodLevelGraph extends StatelessWidget {
                   '$substance\n${spot.y.toStringAsFixed(1)}%',
                   TextStyle(
                     color: c.textPrimary,
-                    fontWeight: text.bodyBold.fontWeight,
-                    fontSize: context.text.label.fontSize,
+                    fontWeight: tx.bodyBold.fontWeight,
+                    fontSize: tx.label.fontSize,
                   ),
                 );
               }).toList();
@@ -180,17 +173,18 @@ class BloodLevelGraph extends StatelessWidget {
 
   Widget _buildLeftTitle(double value, TitleMeta meta, BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
+    final sp = context.spacing;
 
     if (value == 0 || value == 100) {
       return Padding(
-        padding: EdgeInsets.only(right: context.spacing.sm),
+        padding: EdgeInsets.only(right: sp.sm),
         child: Text(
           '${value.toInt()}%',
           style: TextStyle(
-            fontSize: context.text.bodySmall.fontSize,
+            fontSize: tx.bodySmall.fontSize,
             color: c.textSecondary,
-            fontWeight: text.bodyMedium.fontWeight,
+            fontWeight: tx.bodyMedium.fontWeight,
           ),
         ),
       );
@@ -200,19 +194,20 @@ class BloodLevelGraph extends StatelessWidget {
 
   Widget _buildBottomTitle(double value, TitleMeta meta, BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
+    final sp = context.spacing;
+
     final date = DateTime.fromMillisecondsSinceEpoch(value.toInt());
     final hoursDiff = date.difference(startTime).inHours;
-
     if (hoursDiff % 6 == 0) {
       return Padding(
-        padding: EdgeInsets.only(top: context.spacing.sm),
+        padding: EdgeInsets.only(top: sp.sm),
         child: Text(
           '${hoursDiff}h',
           style: TextStyle(
-            fontSize: context.text.bodySmall.fontSize,
+            fontSize: tx.bodySmall.fontSize,
             color: c.textSecondary,
-            fontWeight: text.bodyMedium.fontWeight,
+            fontWeight: tx.bodyMedium.fontWeight,
           ),
         ),
       );

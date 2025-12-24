@@ -7,7 +7,6 @@ class DrugDataParser {
     if (raw is List) {
       return raw.map((item) => item.toString()).toList();
     }
-
     if (raw is String && raw.isNotEmpty) {
       try {
         final decoded = jsonDecode(raw);
@@ -18,7 +17,6 @@ class DrugDataParser {
         return [raw];
       }
     }
-
     return const ['Unknown'];
   }
 

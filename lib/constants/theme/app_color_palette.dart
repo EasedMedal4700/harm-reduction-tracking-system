@@ -8,21 +8,17 @@ class ColorPalette {
   final Color surfaceVariant;
   final Color border;
   final Color divider;
-
   final Color textPrimary;
   final Color textSecondary;
   final Color textTertiary;
   final Color textInverse;
-
   final Color success;
   final Color warning;
   final Color error;
   final Color info;
-
   final Color overlay;
   final Color overlayHeavy;
   final Color transparent = const Color(0x00000000);
-
   const ColorPalette({
     required this.background,
     required this.surface,
@@ -40,7 +36,6 @@ class ColorPalette {
     required this.overlay,
     required this.overlayHeavy,
   });
-
   factory ColorPalette.light() => const ColorPalette(
     background: AppColorsLight.background,
     surface: AppColorsLight.surface,
@@ -58,7 +53,6 @@ class ColorPalette {
     overlay: AppColorsLight.overlay,
     overlayHeavy: AppColorsLight.overlayHeavy,
   );
-
   factory ColorPalette.dark() => const ColorPalette(
     background: AppColorsDark.background,
     surface: AppColorsDark.surface,

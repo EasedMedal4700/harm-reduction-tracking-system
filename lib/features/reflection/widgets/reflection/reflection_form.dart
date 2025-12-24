@@ -30,7 +30,6 @@ class ReflectionForm extends StatelessWidget {
   final ValueChanged<double> onOverallSatisfactionChanged;
   final String notes;
   final ValueChanged<String> onNotesChanged;
-
   const ReflectionForm({
     super.key,
     required this.selectedCount,
@@ -57,27 +56,24 @@ class ReflectionForm extends StatelessWidget {
     required this.notes,
     required this.onNotesChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return SingleChildScrollView(
-      padding: EdgeInsets.all(t.spacing.lg),
+      padding: EdgeInsets.all(th.spacing.lg),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Reflecting on $selectedCount entries',
-            style: t.typography.heading2,
+            style: th.typography.heading2,
           ),
-          CommonSpacer.vertical(t.spacing.sm),
+          CommonSpacer.vertical(th.spacing.sm),
           Text(
             'Take a moment to analyze how these experiences affected you.',
-            style: t.typography.body.copyWith(color: t.colors.textSecondary),
+            style: th.typography.body.copyWith(color: th.colors.textSecondary),
           ),
-          CommonSpacer.vertical(t.spacing.xl),
-
+          CommonSpacer.vertical(th.spacing.xl),
           // 1. Core Experience
           _buildSectionCard(context, 'Core Experience', Icons.stars, [
             _buildSlider(
@@ -88,7 +84,7 @@ class ReflectionForm extends StatelessWidget {
               minLabel: 'Ineffective',
               maxLabel: 'Highly Effective',
             ),
-            CommonSpacer.vertical(t.spacing.md),
+            CommonSpacer.vertical(th.spacing.md),
             _buildSlider(
               context,
               'Overall Satisfaction',
@@ -98,8 +94,7 @@ class ReflectionForm extends StatelessWidget {
               maxLabel: 'Very Satisfied',
             ),
           ]),
-          CommonSpacer.vertical(t.spacing.lg),
-
+          CommonSpacer.vertical(th.spacing.lg),
           // 2. Sleep & Recovery
           _buildSectionCard(context, 'Sleep & Recovery', Icons.bedtime, [
             Row(
@@ -112,7 +107,7 @@ class ReflectionForm extends StatelessWidget {
                     onSleepHoursChanged,
                   ),
                 ),
-                CommonSpacer.horizontal(t.spacing.md),
+                CommonSpacer.horizontal(th.spacing.md),
                 Expanded(
                   child: _buildDropdown(
                     context,
@@ -124,7 +119,7 @@ class ReflectionForm extends StatelessWidget {
                 ),
               ],
             ),
-            CommonSpacer.vertical(t.spacing.md),
+            CommonSpacer.vertical(th.spacing.md),
             Row(
               children: [
                 Expanded(
@@ -136,7 +131,7 @@ class ReflectionForm extends StatelessWidget {
                     'Great',
                   ], onNextDayMoodChanged),
                 ),
-                CommonSpacer.horizontal(t.spacing.md),
+                CommonSpacer.horizontal(th.spacing.md),
                 Expanded(
                   child: _buildDropdown(context, 'Energy Level', energyLevel, [
                     'Low',
@@ -147,8 +142,7 @@ class ReflectionForm extends StatelessWidget {
               ],
             ),
           ]),
-          CommonSpacer.vertical(t.spacing.lg),
-
+          CommonSpacer.vertical(th.spacing.lg),
           // 3. Side Effects & Cravings
           _buildSectionCard(
             context,
@@ -162,7 +156,7 @@ class ReflectionForm extends StatelessWidget {
                 onSideEffectsChanged,
                 hint: 'Headache, nausea, anxiety...',
               ),
-              CommonSpacer.vertical(t.spacing.md),
+              CommonSpacer.vertical(th.spacing.md),
               _buildSlider(
                 context,
                 'Post-Use Craving',
@@ -173,8 +167,7 @@ class ReflectionForm extends StatelessWidget {
               ),
             ],
           ),
-          CommonSpacer.vertical(t.spacing.lg),
-
+          CommonSpacer.vertical(th.spacing.lg),
           // 4. Coping & Notes
           _buildSectionCard(context, 'Coping & Notes', Icons.psychology, [
             _buildTextInput(
@@ -184,7 +177,7 @@ class ReflectionForm extends StatelessWidget {
               onCopingStrategiesChanged,
               hint: 'Meditation, exercise, talking to a friend...',
             ),
-            CommonSpacer.vertical(t.spacing.md),
+            CommonSpacer.vertical(th.spacing.md),
             _buildSlider(
               context,
               'Coping Effectiveness',
@@ -193,7 +186,7 @@ class ReflectionForm extends StatelessWidget {
               minLabel: 'Not Helpful',
               maxLabel: 'Very Helpful',
             ),
-            CommonSpacer.vertical(t.spacing.md),
+            CommonSpacer.vertical(th.spacing.md),
             _buildTextInput(
               context,
               'Additional Notes',
@@ -203,7 +196,7 @@ class ReflectionForm extends StatelessWidget {
               hint: 'Any other thoughts or observations...',
             ),
           ]),
-          CommonSpacer.vertical(t.spacing.xl3),
+          CommonSpacer.vertical(th.spacing.xl3),
         ],
       ),
     );
@@ -215,27 +208,27 @@ class ReflectionForm extends StatelessWidget {
     IconData icon,
     List<Widget> children,
   ) {
-    final t = context.theme;
+    final th = context.theme;
 
     return Container(
-      padding: EdgeInsets.all(t.spacing.lg),
+      padding: EdgeInsets.all(th.spacing.lg),
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-        boxShadow: t.cardShadow,
-        border: Border.all(color: t.colors.border),
+        color: th.colors.surface,
+        borderRadius: BorderRadius.circular(th.shapes.radiusLg),
+        boxShadow: th.cardShadow,
+        border: Border.all(color: th.colors.border),
       ),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Row(
             children: [
-              Icon(icon, color: t.accent.primary, size: t.sizes.iconSm),
-              CommonSpacer.horizontal(t.spacing.sm),
-              Text(title, style: t.typography.heading3),
+              Icon(icon, color: th.accent.primary, size: th.sizes.iconSm),
+              CommonSpacer.horizontal(th.spacing.sm),
+              Text(title, style: th.typography.heading3),
             ],
           ),
-          CommonSpacer.vertical(t.spacing.lg),
+          CommonSpacer.vertical(th.spacing.lg),
           ...children,
         ],
       ),
@@ -250,9 +243,9 @@ class ReflectionForm extends StatelessWidget {
     String? minLabel,
     String? maxLabel,
   }) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
 
+    final tx = context.text;
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
@@ -261,22 +254,22 @@ class ReflectionForm extends StatelessWidget {
           children: [
             Text(
               label,
-              style: t.typography.bodySmall.copyWith(
-                fontWeight: text.bodyBold.fontWeight,
+              style: th.typography.bodySmall.copyWith(
+                fontWeight: tx.bodyBold.fontWeight,
               ),
             ),
             Text(
               value.round().toString(),
-              style: t.typography.heading3.copyWith(color: t.accent.primary),
+              style: th.typography.heading3.copyWith(color: th.accent.primary),
             ),
           ],
         ),
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
-            activeTrackColor: t.accent.primary,
-            inactiveTrackColor: t.accent.primary.withValues(alpha: 0.2),
-            thumbColor: t.accent.primary,
-            overlayColor: t.accent.primary.withValues(alpha: 0.1),
+            activeTrackColor: th.accent.primary,
+            inactiveTrackColor: th.accent.primary.withValues(alpha: 0.2),
+            thumbColor: th.accent.primary,
+            overlayColor: th.accent.primary.withValues(alpha: 0.1),
             trackHeight: 4,
           ),
           child: Slider(
@@ -289,12 +282,12 @@ class ReflectionForm extends StatelessWidget {
         ),
         if (minLabel != null && maxLabel != null)
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: t.spacing.sm),
+            padding: EdgeInsets.symmetric(horizontal: th.spacing.sm),
             child: Row(
               mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
-                Text(minLabel, style: t.typography.caption),
-                Text(maxLabel, style: t.typography.caption),
+                Text(minLabel, style: th.typography.caption),
+                Text(maxLabel, style: th.typography.caption),
               ],
             ),
           ),
@@ -310,45 +303,45 @@ class ReflectionForm extends StatelessWidget {
     int maxLines = 1,
     String? hint,
   }) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
+    final tx = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           label,
-          style: t.typography.bodySmall.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
-            color: t.colors.textSecondary,
+          style: th.typography.bodySmall.copyWith(
+            fontWeight: tx.bodyBold.fontWeight,
+            color: th.colors.textSecondary,
           ),
         ),
-        SizedBox(height: t.spacing.sm),
+        SizedBox(height: th.spacing.sm),
         TextFormField(
           initialValue: value,
           onChanged: onChanged,
           maxLines: maxLines,
-          style: t.typography.body,
+          style: th.typography.body,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: t.typography.body.copyWith(
-              color: t.colors.textSecondary.withValues(alpha: 0.5),
+            hintStyle: th.typography.body.copyWith(
+              color: th.colors.textSecondary.withValues(alpha: 0.5),
             ),
-            contentPadding: EdgeInsets.all(t.spacing.md),
+            contentPadding: EdgeInsets.all(th.spacing.md),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(color: t.colors.border),
+              borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+              borderSide: BorderSide(color: th.colors.border),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(color: t.colors.border),
+              borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+              borderSide: BorderSide(color: th.colors.border),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(color: t.accent.primary),
+              borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+              borderSide: BorderSide(color: th.accent.primary),
             ),
             filled: true,
-            fillColor: t.colors.surfaceVariant,
+            fillColor: th.colors.surfaceVariant,
           ),
         ),
       ],
@@ -361,41 +354,41 @@ class ReflectionForm extends StatelessWidget {
     double value,
     ValueChanged<double> onChanged,
   ) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
+    final tx = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           label,
-          style: t.typography.bodySmall.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
-            color: t.colors.textSecondary,
+          style: th.typography.bodySmall.copyWith(
+            fontWeight: tx.bodyBold.fontWeight,
+            color: th.colors.textSecondary,
           ),
         ),
-        SizedBox(height: t.spacing.sm),
+        SizedBox(height: th.spacing.sm),
         TextFormField(
           initialValue: value.toString(),
           keyboardType: TextInputType.number,
           onChanged: (val) => onChanged(double.tryParse(val) ?? 0),
-          style: t.typography.body,
+          style: th.typography.body,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(t.spacing.md),
+            contentPadding: EdgeInsets.all(th.spacing.md),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(color: t.colors.border),
+              borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+              borderSide: BorderSide(color: th.colors.border),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(color: t.colors.border),
+              borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+              borderSide: BorderSide(color: th.colors.border),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              borderSide: BorderSide(color: t.accent.primary),
+              borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+              borderSide: BorderSide(color: th.accent.primary),
             ),
             filled: true,
-            fillColor: t.colors.surfaceVariant,
+            fillColor: th.colors.surfaceVariant,
           ),
         ),
       ],
@@ -409,20 +402,20 @@ class ReflectionForm extends StatelessWidget {
     List<String> items,
     ValueChanged<String> onChanged,
   ) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
+    final tx = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           label,
-          style: t.typography.bodySmall.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
-            color: t.colors.textSecondary,
+          style: th.typography.bodySmall.copyWith(
+            fontWeight: tx.bodyBold.fontWeight,
+            color: th.colors.textSecondary,
           ),
         ),
-        SizedBox(height: t.spacing.sm),
+        SizedBox(height: th.spacing.sm),
         CommonDropdown<String>(
           value: items.contains(value) ? value : items.first,
           items: items,

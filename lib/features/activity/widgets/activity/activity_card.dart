@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Reusable card for activity items. Fully theme-compliant. No hardcoded values.
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -19,7 +18,6 @@ class ActivityCard extends StatelessWidget {
   final Color accentColor;
   final VoidCallback? onTap;
   final String? badge;
-
   const ActivityCard({
     super.key,
     required this.title,
@@ -30,14 +28,12 @@ class ActivityCard extends StatelessWidget {
     this.onTap,
     this.badge,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-
+    final tx = context.text;
     return CommonCard(
       onTap: onTap,
       child: Row(
@@ -56,9 +52,7 @@ class ActivityCard extends StatelessWidget {
             ),
             child: Icon(icon, color: c.textInverse, size: context.sizes.iconLg),
           ),
-
           CommonSpacer(width: sp.md),
-
           // CONTENT
           Expanded(
             child: Column(
@@ -70,13 +64,12 @@ class ActivityCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         title,
-                        style: text.bodyLarge.copyWith(
-                          fontWeight: text.bodyBold.fontWeight,
+                        style: tx.bodyLarge.copyWith(
+                          fontWeight: tx.bodyBold.fontWeight,
                           color: c.textPrimary,
                         ),
                       ),
                     ),
-
                     if (badge != null)
                       Container(
                         padding: EdgeInsets.symmetric(
@@ -92,25 +85,22 @@ class ActivityCard extends StatelessWidget {
                         ),
                         child: Text(
                           badge!,
-                          style: text.bodySmall.copyWith(
+                          style: tx.bodySmall.copyWith(
                             color: accentColor,
-                            fontWeight: text.bodyBold.fontWeight,
+                            fontWeight: tx.bodyBold.fontWeight,
                           ),
                         ),
                       ),
                   ],
                 ),
-
                 SizedBox(height: sp.xs),
-
                 // SUBTITLE
                 Text(
                   subtitle,
-                  style: text.bodySmall.copyWith(color: c.textSecondary),
+                  style: tx.bodySmall.copyWith(color: c.textSecondary),
                   maxLines: 2,
                   overflow: AppLayout.textOverflowEllipsis,
                 ),
-
                 if (timestamp != null) ...[
                   SizedBox(height: sp.xs),
                   Row(
@@ -123,7 +113,7 @@ class ActivityCard extends StatelessWidget {
                       SizedBox(width: sp.xs),
                       Text(
                         _formatTimestamp(timestamp!),
-                        style: text.bodySmall.copyWith(color: c.textTertiary),
+                        style: tx.bodySmall.copyWith(color: c.textTertiary),
                       ),
                     ],
                   ),
@@ -131,7 +121,6 @@ class ActivityCard extends StatelessWidget {
               ],
             ),
           ),
-
           if (onTap != null) ...[
             SizedBox(width: sp.sm),
             Icon(
@@ -149,12 +138,10 @@ class ActivityCard extends StatelessWidget {
   String _formatTimestamp(DateTime dt) {
     final now = DateTime.now();
     final diff = now.difference(dt);
-
     if (diff.inMinutes < 1) return 'Just now';
     if (diff.inHours < 1) return '${diff.inMinutes}m ago';
     if (diff.inHours < 24) return '${diff.inHours}h ago';
     if (diff.inDays < 7) return '${diff.inDays}d ago';
-
     return DateFormat('MMM d, y').format(dt);
   }
 }

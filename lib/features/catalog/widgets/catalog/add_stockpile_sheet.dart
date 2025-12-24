@@ -2,7 +2,6 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../repo/stockpile_repository.dart';
@@ -17,14 +16,12 @@ class AddStockpileSheet extends StatefulWidget {
   final String substanceId;
   final String substanceName;
   final Map<String, dynamic>? substanceDetails;
-
   const AddStockpileSheet({
     super.key,
     required this.substanceId,
     required this.substanceName,
     this.substanceDetails,
   });
-
   @override
   State<AddStockpileSheet> createState() => _AddStockpileSheetState();
 }
@@ -34,11 +31,8 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
   final _amountController = TextEditingController();
   String _selectedUnit = 'mg';
   bool _isSaving = false;
-
   final _stockpileRepo = StockpileRepository();
-
   final List<String> _units = ['mg', 'g', 'pill', 'ml'];
-
   @override
   void dispose() {
     _amountController.dispose();
@@ -47,27 +41,22 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
 
   Future<void> _saveStockpile() async {
     if (!_formKey.currentState!.validate()) return;
-
     setState(() => _isSaving = true);
-    final t = context.theme;
-
+    final th = context.theme;
     try {
       final amount = double.parse(_amountController.text);
-
       // Convert to mg
       final amountInMg = DrugProfileUtils.convertToMg(
         amount,
         _selectedUnit,
         widget.substanceDetails,
       );
-
       // Add to stockpile (unitMg is named parameter)
       await _stockpileRepo.addToStockpile(
         widget.substanceId,
         amountInMg,
         unitMg: 1.0, // Already converted to mg, so 1mg = 1mg
       );
-
       if (mounted) {
         Navigator.pop(context, true); // Return true to indicate success
         ScaffoldMessenger.of(context).showSnackBar(
@@ -75,8 +64,8 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
             content: Text(
               'Added ${amount.toStringAsFixed(1)}$_selectedUnit (${amountInMg.toStringAsFixed(1)}mg) to ${widget.substanceName} stockpile',
             ),
-            backgroundColor: t.colors.success,
-            duration: t.animations.toast,
+            backgroundColor: th.colors.success,
+            duration: th.animations.toast,
           ),
         );
       }
@@ -85,7 +74,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to add stockpile: ${e.toString()}'),
-            backgroundColor: t.colors.error,
+            backgroundColor: th.colors.error,
           ),
         );
       }
@@ -98,20 +87,20 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
 
     return Container(
       decoration: BoxDecoration(
-        color: t.colors.surface,
+        color: th.colors.surface,
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(t.shapes.radiusXl),
+          top: Radius.circular(th.shapes.radiusXl),
         ),
       ),
       padding: EdgeInsets.only(
-        left: t.spacing.lg,
-        right: t.spacing.lg,
-        top: t.spacing.lg,
-        bottom: MediaQuery.of(context).viewInsets.bottom + t.spacing.lg,
+        left: th.spacing.lg,
+        right: th.spacing.lg,
+        top: th.spacing.lg,
+        bottom: MediaQuery.of(context).viewInsets.bottom + th.spacing.lg,
       ),
       child: Form(
         key: _formKey,
@@ -128,15 +117,15 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                     children: [
                       Text(
                         'Add to Stockpile',
-                        style: t.typography.heading3.copyWith(
-                          color: t.colors.textPrimary,
+                        style: th.typography.heading3.copyWith(
+                          color: th.colors.textPrimary,
                         ),
                       ),
                       const CommonSpacer.vertical(4),
                       Text(
                         widget.substanceName,
-                        style: t.typography.body.copyWith(
-                          color: t.colors.textSecondary,
+                        style: th.typography.body.copyWith(
+                          color: th.colors.textSecondary,
                         ),
                       ),
                     ],
@@ -145,12 +134,11 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
                 IconButton(
                   icon: const Icon(Icons.close),
                   onPressed: () => Navigator.pop(context),
-                  color: t.colors.textSecondary,
+                  color: th.colors.textSecondary,
                 ),
               ],
             ),
             const CommonSpacer.vertical(24),
-
             // Amount input
             CommonInputField(
               controller: _amountController,
@@ -159,7 +147,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
               ),
               labelText: 'Amount',
               hintText: 'Enter amount',
-              prefixIcon: Icon(Icons.inventory_2, color: t.accent.primary),
+              prefixIcon: Icon(Icons.inventory_2, color: th.accent.primary),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter an amount';
@@ -172,7 +160,6 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
               },
             ),
             const CommonSpacer.vertical(16),
-
             // Unit dropdown
             CommonDropdown<String>(
               value: _selectedUnit,
@@ -184,8 +171,7 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
               },
               hintText: 'Unit',
             ),
-            CommonSpacer(height: t.spacing.xl),
-
+            CommonSpacer(height: th.spacing.xl),
             // Save button
             CommonPrimaryButton(
               onPressed: _saveStockpile,

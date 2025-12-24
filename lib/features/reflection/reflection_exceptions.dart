@@ -4,9 +4,7 @@ class ReflectionException implements Exception {
   final String message;
   final String? details;
   final dynamic originalError;
-
   ReflectionException(this.message, {this.details, this.originalError});
-
   @override
   String toString() {
     if (details != null) {
@@ -18,7 +16,6 @@ class ReflectionException implements Exception {
 
 class ReflectionNotFoundException extends ReflectionException {
   final String reflectionId;
-
   ReflectionNotFoundException(this.reflectionId)
     : super(
         'Reflection not found',
@@ -28,7 +25,6 @@ class ReflectionNotFoundException extends ReflectionException {
 
 class ReflectionValidationException extends ReflectionException {
   final Map<String, String> validationErrors;
-
   ReflectionValidationException(this.validationErrors)
     : super(
         'Validation failed',
@@ -48,7 +44,6 @@ class ReflectionFetchException extends ReflectionException {
 
 class ReflectionParseException extends ReflectionException {
   final Map<String, dynamic>? rawData;
-
   ReflectionParseException(super.message, {this.rawData, super.details});
 }
 

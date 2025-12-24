@@ -6,7 +6,6 @@ import 'dart:developer' as developer;
 /// IMPORTANT: Set DEBUG_AUTO_LOGIN=false in .env before releasing to production!
 class DebugConfig {
   static DebugConfig? _instance;
-
   static DebugConfig get instance {
     _instance ??= DebugConfig._();
     return _instance!;

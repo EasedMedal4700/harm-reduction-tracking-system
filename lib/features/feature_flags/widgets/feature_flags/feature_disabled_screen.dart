@@ -9,7 +9,6 @@ import '../../../../common/buttons/common_outlined_button.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully migrated to AppThemeExtension and Common buttons.
-
 /// A screen displayed when a feature is currently disabled.
 /// Shows a friendly message and provides navigation options.
 class FeatureDisabledScreen extends StatelessWidget {
@@ -18,7 +17,6 @@ class FeatureDisabledScreen extends StatelessWidget {
 
   /// Optional custom message to display
   final String? customMessage;
-
   const FeatureDisabledScreen({
     super.key,
     required this.featureName,
@@ -42,17 +40,15 @@ class FeatureDisabledScreen extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-    final acc = context.accent;
-
+    final tx = context.text;
+    final ac = context.accent;
     final formattedName = _formatFeatureName(featureName);
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
         backgroundColor: c.surface,
         elevation: context.sizes.elevationNone,
-        title: Text(formattedName, style: text.titleLarge),
+        title: Text(formattedName, style: tx.titleLarge),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           color: c.textPrimary,
@@ -72,46 +68,39 @@ class FeatureDisabledScreen extends StatelessWidget {
             crossAxisAlignment: AppLayout.crossAxisAlignmentCenter,
             children: [
               SizedBox(height: sp.xl),
-
               // Icon
               Container(
                 width: sp.xl * 2,
                 height: sp.xl * 2,
                 decoration: BoxDecoration(
-                  color: acc.primary.withValues(
+                  color: ac.primary.withValues(
                     alpha: context.opacities.veryLow,
                   ),
-                  shape: context.shapes.boxShapeCircle,
+                  shape: sh.boxShapeCircle,
                 ),
                 child: Icon(
                   Icons.construction_rounded,
                   size: sp.xl,
-                  color: acc.primary,
+                  color: ac.primary,
                 ),
               ),
-
               SizedBox(height: sp.lg),
-
               // Title
               Text(
                 'Feature Temporarily Unavailable',
-                style: text.heading3.copyWith(color: c.textPrimary),
+                style: tx.heading3.copyWith(color: c.textPrimary),
                 textAlign: AppLayout.textAlignCenter,
               ),
-
               SizedBox(height: sp.md),
-
               // Description
               Text(
                 customMessage ??
                     'The $formattedName feature is currently undergoing maintenance. '
                         'Please check back later.',
-                style: text.body.copyWith(color: c.textSecondary),
+                style: tx.body.copyWith(color: c.textSecondary),
                 textAlign: AppLayout.textAlignCenter,
               ),
-
               SizedBox(height: sp.xl),
-
               // Go Home button
               CommonPrimaryButton(
                 onPressed: () {
@@ -123,9 +112,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                 label: 'Go to Home',
                 width: double.infinity,
               ),
-
               SizedBox(height: sp.sm),
-
               // Back button
               CommonOutlinedButton(
                 onPressed: () {
@@ -139,9 +126,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                 label: 'Go Back',
                 width: double.infinity,
               ),
-
               SizedBox(height: sp.lg),
-
               // Info card
               Container(
                 padding: EdgeInsets.all(sp.md),
@@ -163,7 +148,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                       child: Text(
                         'This feature will be available again soon. '
                         'Thank you for your patience.',
-                        style: text.bodySmall.copyWith(color: c.info),
+                        style: tx.bodySmall.copyWith(color: c.info),
                       ),
                     ),
                   ],

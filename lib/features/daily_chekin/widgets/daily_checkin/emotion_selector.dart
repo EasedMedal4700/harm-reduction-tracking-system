@@ -12,14 +12,12 @@ class EmotionSelector extends StatelessWidget {
   final List<String> selectedEmotions;
   final List<String> availableEmotions;
   final Function(String) onEmotionToggled;
-
   const EmotionSelector({
     super.key,
     required this.selectedEmotions,
     required this.availableEmotions,
     required this.onEmotionToggled,
   });
-
   @override
   Widget build(BuildContext context) {
     return CommonCard(
@@ -35,10 +33,8 @@ class EmotionSelector extends StatelessWidget {
               // Calculate difference to maintain API compatibility
               final oldSet = selectedEmotions.toSet();
               final newSet = newList.toSet();
-
               final added = newSet.difference(oldSet);
               final removed = oldSet.difference(newSet);
-
               if (added.isNotEmpty) {
                 onEmotionToggled(added.first);
               } else if (removed.isNotEmpty) {

@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 import '../models/tolerance_model.dart';
 import '../common/logging/app_log.dart';
 
@@ -39,16 +38,13 @@ class ToleranceCalculator {
     bool debug = false,
   }) {
     final now = DateTime.now();
-
     // Accumulate raw loads per bucket (not yet converted to %).
     final bucketRawLoads = <String, double>{};
-
     // Group logs per substance so debug output is nicer.
     final logsBySubstance = <String, List<UseLogEntry>>{};
     for (final log in useLogs) {
       logsBySubstance.putIfAbsent(log.substanceSlug, () => []).add(log);
     }
-
     if (debug) {
       // ignore: avoid_print
       AppLog.d(
@@ -61,18 +57,15 @@ class ToleranceCalculator {
       // ignore: avoid_print
       AppLog.d('');
     }
-
     for (final entry in logsBySubstance.entries) {
       final slug = entry.key;
       final logs = entry.value
         ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
-
       final model = toleranceModels[slug];
       if (model == null) {
         // Substance not configured for tolerance => skip.
         continue;
       }
-
       final perBucketLoads = _computeRawLoadsForSubstance(
         slug: slug,
         logs: logs,
@@ -80,13 +73,11 @@ class ToleranceCalculator {
         now: now,
         debug: debug,
       );
-
       // Add into global per-bucket totals.
       perBucketLoads.forEach((bucket, raw) {
         bucketRawLoads[bucket] = (bucketRawLoads[bucket] ?? 0.0) + raw;
       });
     }
-
     if (debug) {
       // ignore: avoid_print
       AppLog.d('══════════════════════════════════════════════════════════');
@@ -104,18 +95,15 @@ class ToleranceCalculator {
       // ignore: avoid_print
       AppLog.d('');
     }
-
     // Convert raw loads to percentages for the UI and state logic.
     final bucketPercents = <String, double>{};
     bucketRawLoads.forEach((bucket, raw) {
       bucketPercents[bucket] = loadToPercent(raw);
     });
-
     // Make sure all canonical buckets exist in the map.
     for (final bucket in kToleranceBuckets) {
       bucketPercents.putIfAbsent(bucket, () => 0.0);
     }
-
     return bucketPercents;
   }
 
@@ -130,11 +118,9 @@ class ToleranceCalculator {
     bool debug = false,
   }) {
     final result = <String, double>{};
-
     if (model.neuroBuckets.isEmpty) {
       return result;
     }
-
     final halfLife = model.halfLifeHours;
     final decayDays = model.toleranceDecayDays;
     final standardUnit = model.standardUnitMg > 0 ? model.standardUnitMg : 10.0;
@@ -145,7 +131,6 @@ class ToleranceCalculator {
         (model.activeThreshold <= 0 || model.activeThreshold >= 1)
         ? 0.05
         : model.activeThreshold;
-
     if (debug) {
       // ignore: avoid_print
       AppLog.d('─────────────────────────────────────────────────────────');
@@ -167,19 +152,15 @@ class ToleranceCalculator {
       // ignore: avoid_print
       AppLog.d('  📏 Standard unit: ${standardUnit.toStringAsFixed(1)}mg');
     }
-
     // Pre-calc active window (when "no decay yet") in hours.
     final activeWindowHours = (halfLife > 0)
         ? -halfLife * math.log(activeThreshold)
         : 0.0;
-
     // For each bucket this substance touches, accumulate raw load from all events.
     for (final bucketEntry in model.neuroBuckets.entries) {
       final bucketName = bucketEntry.key;
       final bucket = bucketEntry.value;
-
       double rawTotal = 0.0;
-
       if (debug) {
         // ignore: avoid_print
         AppLog.d('  🔍 DETAILED CALCULATION FOR BUCKET: $bucketName');
@@ -198,22 +179,18 @@ class ToleranceCalculator {
         // ignore: avoid_print
         AppLog.d('     Processing ${logs.length} events:');
       }
-
       for (final log in logs) {
         final hoursSince = now.difference(log.timestamp).inMinutes / 60.0;
         if (hoursSince < 0) {
           // Event in the future -> ignore.
           continue;
         }
-
         // PK active level.
         final activeLevel = (halfLife > 0)
             ? math.exp(-hoursSince / halfLife)
             : 0.0;
-
         // Normalized dose vs the "standard" unit for this drug.
         final doseNorm = log.doseUnits / standardUnit;
-
         // Base contribution before long-term decay.
         final baseContribution =
             doseNorm *
@@ -222,7 +199,6 @@ class ToleranceCalculator {
             gain *
             _kBaseScaling *
             durationMult;
-
         // Long-term decay factor for tolerance.
         double decayFactor;
         if (halfLife <= 0 || decayDays <= 0) {
@@ -235,10 +211,8 @@ class ToleranceCalculator {
           final daysPastActive = hoursPastActive / 24.0;
           decayFactor = math.exp(-daysPastActive / decayDays);
         }
-
         final eventTolNow = baseContribution * decayFactor;
         rawTotal += eventTolNow;
-
         if (debug) {
           // ignore: avoid_print
           AppLog.d(
@@ -253,10 +227,8 @@ class ToleranceCalculator {
           );
         }
       }
-
       if (rawTotal > 0) {
         result[bucketName] = rawTotal;
-
         if (debug) {
           final pct = loadToPercent(rawTotal);
           // ignore: avoid_print
@@ -275,7 +247,6 @@ class ToleranceCalculator {
         AppLog.d('     ✅ FINAL TOLERANCE: 0.0000 (0.0%)');
       }
     }
-
     return result;
   }
 
@@ -284,13 +255,11 @@ class ToleranceCalculator {
     required Map<String, double> tolerances,
   }) {
     final states = <String, ToleranceSystemState>{};
-
     for (final entry in tolerances.entries) {
       final pct = entry.value;
       final state = classifyState(pct);
       states[entry.key] = state;
     }
-
     return states;
   }
 
@@ -317,7 +286,6 @@ class ToleranceResult {
   final double toleranceScore; // combined score
   final Map<String, double> daysUntilBaseline; // per bucket
   final double overallDaysUntilBaseline;
-
   const ToleranceResult({
     required this.bucketPercents,
     required this.bucketRawLoads,
@@ -344,16 +312,13 @@ extension ToleranceCalculatorFull on ToleranceCalculator {
     /// 1️⃣ Compute raw loads using original function
     final rawLoads = <String, double>{};
     final logsBySubstance = <String, List<UseLogEntry>>{};
-
     for (final log in useLogs) {
       logsBySubstance.putIfAbsent(log.substanceSlug, () => []).add(log);
     }
-
     for (final entry in logsBySubstance.entries) {
       final slug = entry.key;
       final model = toleranceModels[slug];
       if (model == null) continue;
-
       final bucketLoads = ToleranceCalculator._computeRawLoadsForSubstance(
         slug: slug,
         logs: entry.value,
@@ -361,12 +326,10 @@ extension ToleranceCalculatorFull on ToleranceCalculator {
         now: now,
         debug: debug,
       );
-
       bucketLoads.forEach((bucket, value) {
         rawLoads[bucket] = (rawLoads[bucket] ?? 0.0) + value;
       });
     }
-
     // Ensure all buckets exist
     for (final bucket in kToleranceBuckets) {
       rawLoads.putIfAbsent(bucket, () => 0.0);
@@ -387,42 +350,33 @@ extension ToleranceCalculatorFull on ToleranceCalculator {
 
     /// 4️⃣ Estimate daysUntilBaseline for each bucket
     final daysUntilBaseline = <String, double>{};
-
     for (final bucket in rawLoads.keys) {
       final load = rawLoads[bucket] ?? 0.0;
-
       // If no load → already recovered
       if (load <= 0.0001) {
         daysUntilBaseline[bucket] = 0.0;
         continue;
       }
-
       // Find dominant substance parameters that affect this bucket
       double? effectiveDecayDays;
-
       for (final entry in logsBySubstance.entries) {
         final slug = entry.key;
         final model = toleranceModels[slug];
         if (model == null) continue;
-
         if (!model.neuroBuckets.containsKey(bucket)) continue;
-
         // Use the **slowest** decayDays (biggest value)
         effectiveDecayDays = math.max(
           effectiveDecayDays ?? 0.0,
           model.toleranceDecayDays,
         );
       }
-
       if (effectiveDecayDays == null || effectiveDecayDays <= 0) {
         daysUntilBaseline[bucket] = 0.0;
         continue;
       }
-
       // Solve: load * exp(-t/decayDays) < 1% (arbitrary baseline)
       final threshold = 0.01; // raw load < 0.01
       final t = -effectiveDecayDays * math.log(threshold / load);
-
       daysUntilBaseline[bucket] = t.isFinite ? t : 0.0;
     }
 
@@ -431,7 +385,6 @@ extension ToleranceCalculatorFull on ToleranceCalculator {
       0.0,
       (a, b) => math.max(a, b),
     );
-
     return ToleranceResult(
       bucketPercents: bucketPercents,
       bucketRawLoads: rawLoads,

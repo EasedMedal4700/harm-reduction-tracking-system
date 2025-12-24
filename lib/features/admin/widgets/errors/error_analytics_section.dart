@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-based, no deprecated typography or colors.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +16,6 @@ class ErrorAnalyticsSection extends StatelessWidget {
   final bool isClearingErrors;
   final VoidCallback onCleanLogs;
   final Function(Map<String, dynamic>) onShowLogDetails;
-
   const ErrorAnalyticsSection({
     required this.errorAnalytics,
     required this.isClearingErrors,
@@ -25,7 +23,6 @@ class ErrorAnalyticsSection extends StatelessWidget {
     required this.onShowLogDetails,
     super.key,
   });
-
   List<Map<String, dynamic>> _getBreakdown(String key) {
     final raw = errorAnalytics[key];
     if (raw is List) {
@@ -40,20 +37,17 @@ class ErrorAnalyticsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-
     final totalErrors = errorAnalytics['total_errors'] ?? 0;
     final last24h = errorAnalytics['last_24h'] ?? 0;
-
     final platformBreakdown = _getBreakdown('platform_breakdown');
     final screenBreakdown = _getBreakdown('screen_breakdown');
     final messageBreakdown = _getBreakdown('message_breakdown');
     final severityBreakdown = _getBreakdown('severity_breakdown');
     final errorCodeBreakdown = _getBreakdown('error_code_breakdown');
     final recentLogs = _getBreakdown('recent_logs');
-
     return CommonCard(
       borderRadius: sh.radiusMd,
       padding: EdgeInsets.all(sp.lg),
@@ -68,7 +62,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
               SizedBox(width: sp.sm),
               Text(
                 'Error Monitoring',
-                style: text.heading3.copyWith(color: c.textPrimary),
+                style: tx.heading3.copyWith(color: c.textPrimary),
               ),
               const Spacer(),
               Semantics(
@@ -82,13 +76,12 @@ class ErrorAnalyticsSection extends StatelessWidget {
                   icon: const Icon(Icons.cleaning_services_outlined),
                   label: Text(
                     'Clean Logs',
-                    style: text.button.copyWith(color: c.textPrimary),
+                    style: tx.button.copyWith(color: c.textPrimary),
                   ),
                 ),
               ),
             ],
           ),
-
           SizedBox(height: sp.md),
 
           /// STAT CHIPS
@@ -119,7 +112,6 @@ class ErrorAnalyticsSection extends StatelessWidget {
               ),
             ],
           ),
-
           SizedBox(height: sp.lg),
 
           /// BREAKDOWN SECTIONS
@@ -164,20 +156,18 @@ class ErrorAnalyticsSection extends StatelessWidget {
               labelKey: 'error_code',
               countKey: 'count',
             ),
-
           SizedBox(height: sp.lg),
 
           /// RECENT LOGS
           Text(
             'Recent Events',
-            style: text.heading4.copyWith(color: c.textPrimary),
+            style: tx.heading4.copyWith(color: c.textPrimary),
           ),
           SizedBox(height: sp.sm),
-
           if (recentLogs.isEmpty)
             Text(
               'No recent error logs available.',
-              style: text.bodySmall.copyWith(color: c.textSecondary),
+              style: tx.bodySmall.copyWith(color: c.textSecondary),
             )
           else
             Column(
@@ -188,14 +178,11 @@ class ErrorAnalyticsSection extends StatelessWidget {
                     : createdRaw is DateTime
                     ? createdRaw
                     : null;
-
                 final timestamp = createdAt != null
                     ? DateFormat('MMM dd, HH:mm').format(createdAt)
                     : 'Unknown time';
-
                 final severity = log['severity']?.toString() ?? 'medium';
                 final errorCode = log['error_code']?.toString() ?? '';
-
                 return ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: SeverityBadge(severity: severity, compact: true),
@@ -214,8 +201,8 @@ class ErrorAnalyticsSection extends StatelessWidget {
                           ),
                           child: Text(
                             errorCode,
-                            style: text.overline.copyWith(
-                              fontWeight: text.bodyBold.fontWeight,
+                            style: tx.overline.copyWith(
+                              fontWeight: tx.bodyBold.fontWeight,
                               color: c.textPrimary,
                             ),
                           ),
@@ -227,7 +214,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                           log['error_message'] ?? 'Unknown error',
                           overflow: AppLayout.textOverflowEllipsis,
                           maxLines: 2,
-                          style: text.body.copyWith(color: c.textPrimary),
+                          style: tx.body.copyWith(color: c.textPrimary),
                         ),
                       ),
                     ],
@@ -236,7 +223,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                     '${log['platform'] ?? 'unknown'} • '
                     '${log['screen_name'] ?? 'Unknown screen'}\n'
                     '$timestamp',
-                    style: text.caption.copyWith(color: c.textSecondary),
+                    style: tx.caption.copyWith(color: c.textSecondary),
                   ),
                   trailing: Column(
                     mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
@@ -244,7 +231,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                       Icon(Icons.devices, color: c.textSecondary),
                       Text(
                         log['device_model'] ?? 'unavailable',
-                        style: text.caption.copyWith(color: c.textSecondary),
+                        style: tx.caption.copyWith(color: c.textSecondary),
                       ),
                     ],
                   ),
@@ -263,10 +250,10 @@ class ErrorAnalyticsSection extends StatelessWidget {
     required IconData icon,
     required Color color,
   }) {
+    final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-    final c = context.colors;
 
     return Container(
       width: context.sizes.cardWidthMd,
@@ -280,8 +267,8 @@ class ErrorAnalyticsSection extends StatelessWidget {
         children: [
           Icon(icon, color: color),
           SizedBox(height: sp.sm),
-          Text(value, style: text.heading3.copyWith(color: c.textPrimary)),
-          Text(label, style: text.bodySmall.copyWith(color: c.textSecondary)),
+          Text(value, style: tx.heading3.copyWith(color: c.textPrimary)),
+          Text(label, style: tx.bodySmall.copyWith(color: c.textSecondary)),
         ],
       ),
     );
@@ -296,15 +283,14 @@ class ErrorAnalyticsSection extends StatelessWidget {
     bool useSeverityBadge = false,
   }) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
-        Text(title, style: text.bodyBold.copyWith(color: c.textPrimary)),
+        Text(title, style: tx.bodyBold.copyWith(color: c.textPrimary)),
         SizedBox(height: sp.sm),
-
         ...data
             .take(5)
             .map(
@@ -322,18 +308,17 @@ class ErrorAnalyticsSection extends StatelessWidget {
                           : Text(
                               item[labelKey]?.toString() ?? 'Unknown',
                               overflow: AppLayout.textOverflowEllipsis,
-                              style: text.body.copyWith(color: c.textPrimary),
+                              style: tx.body.copyWith(color: c.textPrimary),
                             ),
                     ),
                     Text(
                       '${item[countKey] ?? 0} hits',
-                      style: text.bodyBold.copyWith(color: c.textSecondary),
+                      style: tx.bodyBold.copyWith(color: c.textSecondary),
                     ),
                   ],
                 ),
               ),
             ),
-
         SizedBox(height: sp.lg),
       ],
     );

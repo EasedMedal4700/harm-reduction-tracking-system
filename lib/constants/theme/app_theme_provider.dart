@@ -5,24 +5,20 @@ import 'app_theme.dart';
 /// Similar to MediaQuery, Theme.of(context), etc.
 class AppThemeProvider extends InheritedWidget {
   final AppTheme theme;
-
   const AppThemeProvider({
     super.key,
     required this.theme,
     required super.child,
   });
-
   static AppTheme of(BuildContext context) {
     final provider = context
         .dependOnInheritedWidgetOfExactType<AppThemeProvider>();
-
     if (provider == null) {
       throw FlutterError(
         'AppThemeProvider.of(context) called with no AppThemeProvider in the widget tree.\n'
         'Wrap your MaterialApp (or root widget) with AppThemeProvider.',
       );
     }
-
     return provider.theme;
   }
 

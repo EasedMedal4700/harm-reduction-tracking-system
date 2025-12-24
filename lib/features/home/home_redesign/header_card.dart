@@ -13,7 +13,6 @@ class HeaderCard extends StatelessWidget {
   final String greeting;
   final VoidCallback onProfileTap;
   final String? profileImageUrl;
-
   const HeaderCard({
     required this.userName,
     required this.greeting,
@@ -21,15 +20,13 @@ class HeaderCard extends StatelessWidget {
     this.profileImageUrl,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
-    final t = context.theme;
-    final acc = context.accent;
+    final tx = context.text;
+    final th = context.theme;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return Row(
       mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
       children: [
@@ -38,15 +35,15 @@ class HeaderCard extends StatelessWidget {
           children: [
             Text(
               greeting,
-              style: t.typography.bodySmall.copyWith(
+              style: th.typography.bodySmall.copyWith(
                 color: c.textSecondary,
-                fontWeight: text.bodyMedium.fontWeight,
+                fontWeight: tx.bodyMedium.fontWeight,
               ),
             ),
             CommonSpacer.vertical(sp.xs),
             Text(
               userName,
-              style: t.typography.heading2.copyWith(
+              style: th.typography.heading2.copyWith(
                 color: c.textPrimary,
                 letterSpacing: -0.5,
               ),
@@ -63,22 +60,20 @@ class HeaderCard extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: context.shapes.boxShapeCircle,
                 border: Border.all(
-                  color: acc.primary.withValues(
-                    alpha: context.opacities.medium,
-                  ),
+                  color: ac.primary.withValues(alpha: context.opacities.medium),
                   width: context.borders.thin,
                 ),
               ),
               child: CircleAvatar(
                 radius: sp.lg, // Approx 22-24
-                backgroundColor: acc.primary.withValues(
+                backgroundColor: ac.primary.withValues(
                   alpha: context.opacities.overlay,
                 ),
                 backgroundImage: profileImageUrl != null
                     ? NetworkImage(profileImageUrl!)
                     : null,
                 child: profileImageUrl == null
-                    ? Icon(Icons.person, color: acc.primary)
+                    ? Icon(Icons.person, color: ac.primary)
                     : null,
               ),
             ),

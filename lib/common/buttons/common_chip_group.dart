@@ -10,19 +10,15 @@ import 'common_chip.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-
 /// A reusable chip group for multi- or single-select lists.
 /// Optional header (title + subtitle).
 /// If [showHeader] is false, NO header and NO header spacing is rendered.
 class CommonChipGroup extends StatelessWidget {
   final String title;
   final String? subtitle;
-
   final List<String> options;
   final List<String> selected;
-
   final ValueChanged<List<String>> onChanged;
-
   final bool allowMultiple;
   final bool showGlow;
 
@@ -33,58 +29,48 @@ class CommonChipGroup extends StatelessWidget {
   final Color? selectedColor;
   final Color? unselectedColor;
   final Color? selectedBorderColor;
-
   const CommonChipGroup({
     super.key,
     required this.title,
     this.subtitle,
-
     required this.options,
     required this.selected,
     required this.onChanged,
-
     this.allowMultiple = true,
     this.showGlow = true,
-
     this.selectedColor,
     this.unselectedColor,
     this.selectedBorderColor,
-
     this.showHeader = true, // Default: show header like normal cards
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     return CommonCard(
-      padding: EdgeInsets.all(t.spacing.cardPadding),
+      padding: EdgeInsets.all(th.spacing.cardPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /// Only render header when enabled
           if (showHeader) ...[
             CommonSectionHeader(title: title, subtitle: subtitle),
-            CommonSpacer.vertical(t.spacing.md),
+            CommonSpacer.vertical(th.spacing.md),
           ],
-
           Wrap(
-            spacing: t.spacing.sm,
-            runSpacing: t.spacing.sm,
+            spacing: th.spacing.sm,
+            runSpacing: th.spacing.sm,
             children: options.map((value) {
               final isSelected = selected.contains(value);
-
               return CommonChip(
                 label: value,
                 isSelected: isSelected,
                 onTap: () {
                   List<String> updated = List.from(selected);
-
                   if (allowMultiple) {
                     isSelected ? updated.remove(value) : updated.add(value);
                   } else {
                     updated = [value];
                   }
-
                   onChanged(updated);
                 },
                 emoji: null,

@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -15,20 +14,17 @@ class AdminUserList extends StatelessWidget {
   final List<Map<String, dynamic>> users;
   final Function(String, bool) onToggleAdmin;
   final VoidCallback onRefresh;
-
   const AdminUserList({
     required this.users,
     required this.onToggleAdmin,
     required this.onRefresh,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-
+    final tx = context.text;
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
@@ -38,7 +34,7 @@ class AdminUserList extends StatelessWidget {
           children: [
             Text(
               'User Management',
-              style: text.heading3.copyWith(color: c.textPrimary),
+              style: tx.heading3.copyWith(color: c.textPrimary),
             ),
             CommonIconButton(
               icon: Icons.refresh,
@@ -47,16 +43,14 @@ class AdminUserList extends StatelessWidget {
             ),
           ],
         ),
-
         SizedBox(height: sp.lg),
-
         if (users.isEmpty)
           Center(
             child: Padding(
               padding: EdgeInsets.all(sp.xl),
               child: Text(
                 'No users found',
-                style: text.body.copyWith(color: c.textSecondary),
+                style: tx.body.copyWith(color: c.textSecondary),
               ),
             ),
           )

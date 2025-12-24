@@ -6,12 +6,10 @@ import 'package:mobile_drug_use_app/constants/enums/time_period.dart';
 final analyticsServiceProvider = Provider<AnalyticsService>(
   (ref) => AnalyticsService(),
 );
-
 // State for selected time period
 final selectedTimePeriodProvider = StateProvider<TimePeriod>(
   (ref) => TimePeriod.last7Weeks,
 );
-
 // Async provider for analytics data (fetches entries, computes metrics)
 final analyticsDataProvider = FutureProvider<Map<String, dynamic>>((ref) async {
   final service = ref.watch(analyticsServiceProvider);
@@ -26,7 +24,6 @@ final analyticsDataProvider = FutureProvider<Map<String, dynamic>>((ref) async {
     ); // Basic error handling
   }
 });
-
 // Provider for filters (e.g., substances, places)
 final analyticsFiltersProvider =
     StateNotifierProvider<AnalyticsFiltersNotifier, Map<String, List<String>>>(
@@ -36,7 +33,6 @@ final analyticsFiltersProvider =
 class AnalyticsFiltersNotifier
     extends StateNotifier<Map<String, List<String>>> {
   AnalyticsFiltersNotifier() : super({'substances': [], 'places': []});
-
   void updateSubstances(List<String> substances) {
     state = {...state, 'substances': substances};
   }

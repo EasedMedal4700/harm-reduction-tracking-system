@@ -2,12 +2,10 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
-
 import '../../../../constants/data/drug_categories.dart';
 
 class SummaryStatsBanner extends StatelessWidget {
@@ -15,7 +13,6 @@ class SummaryStatsBanner extends StatelessWidget {
   final int activeSubstances;
   final double avgUses;
   final String mostUsedCategory;
-
   const SummaryStatsBanner({
     super.key,
     required this.totalUses,
@@ -23,25 +20,23 @@ class SummaryStatsBanner extends StatelessWidget {
     required this.avgUses,
     required this.mostUsedCategory,
   });
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
-
+    final tx = context.text;
+    final th = context.theme;
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(t.spacing.md),
+      padding: EdgeInsets.all(th.spacing.md),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            t.colors.surface,
-            t.colors.surface.withValues(alpha: t.isDark ? 0.8 : 0.9),
+            th.colors.surface,
+            th.colors.surface.withValues(alpha: th.isDark ? 0.8 : 0.9),
           ],
           begin: context.shapes.alignmentTopLeft,
           end: context.shapes.alignmentBottomRight,
         ),
-        border: Border(bottom: BorderSide(color: t.colors.border)),
+        border: Border(bottom: BorderSide(color: th.colors.border)),
       ),
       child: Column(
         children: [
@@ -68,29 +63,29 @@ class SummaryStatsBanner extends StatelessWidget {
               ),
             ],
           ),
-          CommonSpacer.vertical(t.spacing.sm),
+          CommonSpacer.vertical(th.spacing.sm),
           Container(
             padding: EdgeInsets.symmetric(
-              horizontal: t.spacing.sm,
-              vertical: t.spacing.xs,
+              horizontal: th.spacing.sm,
+              vertical: th.spacing.xs,
             ),
             decoration: BoxDecoration(
-              color: t.colors.border.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+              color: th.colors.border.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(th.shapes.radiusMd),
             ),
             child: Row(
               mainAxisSize: AppLayout.mainAxisSizeMin,
               children: [
                 Icon(
                   Icons.star,
-                  size: t.sizes.iconSm,
+                  size: th.sizes.iconSm,
                   color: DrugCategoryColors.colorFor(mostUsedCategory),
                 ),
-                CommonSpacer.horizontal(t.spacing.xs),
+                CommonSpacer.horizontal(th.spacing.xs),
                 Text(
                   'Most Used Category: $mostUsedCategory',
-                  style: t.typography.bodySmall.copyWith(
-                    fontWeight: text.bodyBold.fontWeight,
+                  style: th.typography.bodySmall.copyWith(
+                    fontWeight: tx.bodyBold.fontWeight,
                   ),
                 ),
               ],
@@ -107,22 +102,22 @@ class SummaryStatsBanner extends StatelessWidget {
     IconData icon,
     BuildContext context,
   ) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
+    final tx = context.text;
 
     return Column(
       children: [
-        Icon(icon, size: context.sizes.iconMd, color: t.accent.primary),
+        Icon(icon, size: context.sizes.iconMd, color: th.accent.primary),
         CommonSpacer.vertical(context.spacing.xs / 2),
         Text(
           value,
-          style: t.typography.heading3.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
+          style: th.typography.heading3.copyWith(
+            fontWeight: tx.bodyBold.fontWeight,
           ),
         ),
         Text(
           label,
-          style: t.typography.caption.copyWith(color: t.colors.textSecondary),
+          style: th.typography.caption.copyWith(color: th.colors.textSecondary),
         ),
       ],
     );

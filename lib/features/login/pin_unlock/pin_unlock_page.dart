@@ -5,27 +5,22 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: UI-only PIN unlock screen.
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../constants/layout/app_layout.dart';
 import '../../../common/layout/common_spacer.dart';
-
 import 'pin_unlock_controller.dart';
 
 class PinUnlockScreen extends ConsumerStatefulWidget {
   const PinUnlockScreen({super.key});
-
   @override
   ConsumerState<PinUnlockScreen> createState() => _PinUnlockScreenState();
 }
 
 class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
   final _pinController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -44,15 +39,12 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(pinUnlockControllerProvider);
     final controller = ref.read(pinUnlockControllerProvider.notifier);
-
     final c = context.colors;
-    final t = context.text;
+    final tx = context.text;
     final sp = context.spacing;
-
     if (state.isCheckingAuth) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
-
     return Scaffold(
       backgroundColor: c.background,
       body: Padding(
@@ -68,24 +60,20 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               onSubmitted: controller.submitPin,
             ),
-
             if (state.errorMessage != null) ...[
               CommonSpacer.vertical(sp.md),
               Text(
                 state.errorMessage!,
-                style: t.bodyMedium.copyWith(color: c.error),
+                style: tx.bodyMedium.copyWith(color: c.error),
               ),
             ],
-
             CommonSpacer.vertical(sp.lg),
-
             ElevatedButton(
               onPressed: state.isLoading
                   ? null
                   : () => controller.submitPin(_pinController.text),
               child: const Text('Unlock'),
             ),
-
             if (state.biometricsAvailable)
               TextButton(
                 onPressed: state.isLoading
@@ -93,7 +81,6 @@ class _PinUnlockScreenState extends ConsumerState<PinUnlockScreen> {
                     : controller.unlockWithBiometrics,
                 child: const Text('Use biometrics'),
               ),
-
             TextButton(
               onPressed: controller.openRecoveryKey,
               child: const Text('Forgot PIN?'),

@@ -15,7 +15,6 @@ class UserProfile {
 
   /// Email from auth.users (not stored in public.users)
   final String? email;
-
   const UserProfile({
     required this.authUserId,
     required this.displayName,
@@ -80,9 +79,7 @@ class UserProfileException implements Exception {
   final String message;
   final String? code;
   final dynamic originalError;
-
   const UserProfileException(this.message, {this.code, this.originalError});
-
   @override
   String toString() => 'UserProfileException: $message (code: $code)';
 

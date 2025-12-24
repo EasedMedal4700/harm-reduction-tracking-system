@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +20,6 @@ class DashboardContentWidget extends ConsumerWidget {
   final String? selectedBucket;
   final Function(String?) onBucketSelected;
   final VoidCallback? onAddEntry;
-
   const DashboardContentWidget({
     super.key,
     required this.systemTolerance,
@@ -31,20 +29,17 @@ class DashboardContentWidget extends ConsumerWidget {
     required this.onBucketSelected,
     this.onAddEntry,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final spacing = context.spacing;
-
+    final sp = context.spacing;
     // EMPTY STATE
     if (systemTolerance == null ||
         (systemTolerance!.bucketPercents.isEmpty &&
             substanceActiveStates.isEmpty)) {
       return EmptyStateWidget(onAddEntry: onAddEntry);
     }
-
     return SingleChildScrollView(
-      padding: EdgeInsets.all(spacing.md),
+      padding: EdgeInsets.all(sp.md),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
@@ -56,9 +51,7 @@ class DashboardContentWidget extends ConsumerWidget {
             selectedBucket: selectedBucket,
             onBucketSelected: (bucket) => onBucketSelected(bucket),
           ),
-
-          CommonSpacer.vertical(spacing.lg),
-
+          CommonSpacer.vertical(sp.lg),
           // BUCKET DETAILS (if selected)
           if (selectedBucket != null) ...[
             BucketDetailsWidget(
@@ -69,9 +62,8 @@ class DashboardContentWidget extends ConsumerWidget {
                   substanceContributions[selectedBucket!] ?? {},
               onClose: () => onBucketSelected(null),
             ),
-            CommonSpacer.vertical(spacing.lg),
+            CommonSpacer.vertical(sp.lg),
           ],
-
           // HELPFUL TIP
           _HelpfulTipCard(),
         ],
@@ -82,46 +74,43 @@ class DashboardContentWidget extends ConsumerWidget {
 
 class _HelpfulTipCard extends ConsumerWidget {
   const _HelpfulTipCard();
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
+    final sp = context.spacing;
 
+    final c = context.colors;
+    final tx = context.text;
+    final sh = context.shapes;
     return Container(
-      padding: EdgeInsets.all(spacing.md),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: colors.info.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(radii.radiusSm),
-        border: Border.all(color: colors.info.withValues(alpha: 0.3)),
+        color: c.info.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(sh.radiusSm),
+        border: Border.all(color: c.info.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
           Icon(
             Icons.lightbulb_outline,
-            color: colors.info,
+            color: c.info,
             size: context.sizes.iconMd,
           ),
-          CommonSpacer.horizontal(spacing.sm),
+          CommonSpacer.horizontal(sp.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(
                   'About Tolerance Systems',
-                  style: typography.body.copyWith(
-                    color: colors.textPrimary,
-                    fontWeight: context.text.bodyBold.fontWeight,
+                  style: tx.body.copyWith(
+                    color: c.textPrimary,
+                    fontWeight: tx.bodyBold.fontWeight,
                   ),
                 ),
-                CommonSpacer.vertical(spacing.xs),
+                CommonSpacer.vertical(sp.xs),
                 Text(
                   'Different substances affect different neurotransmitter systems. Understanding cross-tolerance helps you make safer choices.',
-                  style: typography.bodySmall.copyWith(
-                    color: colors.textSecondary,
-                  ),
+                  style: tx.bodySmall.copyWith(color: c.textSecondary),
                 ),
               ],
             ),

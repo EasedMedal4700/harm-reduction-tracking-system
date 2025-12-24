@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Analytics page. Uses common components and theme.
-
 import 'package:flutter/material.dart';
 import 'services/analytics_service.dart';
 import '../../common/layout/common_drawer.dart';
@@ -38,7 +37,6 @@ class AnalyticsPage extends StatefulWidget {
     this.analyticsService,
     this.substanceRepository,
   });
-
   @override
   State<AnalyticsPage> createState() => _AnalyticsPageState();
 }
@@ -59,7 +57,6 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   double _maxCraving = 10;
   String? _errorMessage;
   String? _errorDetails;
-
   @override
   void initState() {
     super.initState();
@@ -78,16 +75,13 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       _errorMessage = null;
       _errorDetails = null;
     });
-
     try {
       _service = widget.analyticsService ?? AnalyticsService();
       _substanceRepo = widget.substanceRepository ?? SubstanceRepository();
-
       log.d('[DATA] Fetching entries and substance catalog');
       final entries = await _service.fetchEntries();
       final substanceData = await _substanceRepo.fetchSubstancesCatalog();
       final substanceToCategory = <String, String>{};
-
       for (final item in substanceData) {
         final categories =
             (item['categories'] as List<dynamic>?)
@@ -108,9 +102,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
             : 'Placeholder';
         substanceToCategory[(item['name'] as String).toLowerCase()] = category;
       }
-
       _service.setSubstanceToCategory(substanceToCategory);
-
       if (!mounted) {
         log.w('[DATA] _fetchData completed but not mounted');
         return;
@@ -152,7 +144,6 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     log.d(
       '[BUILD] AnalyticsPage build (isLoading: $_isLoading, hasError: ${_errorMessage != null}, entries: ${_entries.length})',
     );
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AnalyticsAppBar(
@@ -185,7 +176,6 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       log.d('[BUILD] Showing loading state');
       return const AnalyticsLoadingState();
     }
-
     if (_errorMessage != null) {
       log.d('[BUILD] Showing error state');
       return AnalyticsErrorState(
@@ -194,7 +184,6 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         onRetry: _fetchData,
       );
     }
-
     log.d('[BUILD] Showing analytics content');
     return RefreshIndicator(
       onRefresh: _fetchData,
@@ -227,7 +216,6 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     log.d(
       '[DATA] Category/type filtered entries: ${categoryTypeFilteredEntries.length}',
     );
-
     final filteredEntries = categoryTypeFilteredEntries.where((e) {
       final matchesSubstance =
           _selectedSubstances.isEmpty ||
@@ -249,7 +237,6 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
           matchesCraving;
     }).toList();
     log.d('[DATA] Fully filtered entries: ${filteredEntries.length}');
-
     // Calculate metrics
     final avgPerWeek = _service.calculateAvgPerWeek(filteredEntries);
     final categoryCounts = _service.getCategoryCounts(filteredEntries);
@@ -261,11 +248,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         .getTopCategoryPercent(mostUsed.value, totalEntries)
         .toDouble();
     final selectedPeriodText = TimePeriodUtils.getPeriodText(_selectedPeriod);
-
     log.d(
       '[METRICS] Total entries: $totalEntries, avg/week: $avgPerWeek, most used category: ${mostUsed.key} (${mostUsed.value}), most used substance: ${mostUsedSubstance.key} (${mostUsedSubstance.value})',
     );
-
     // Get unique values for filters
     final uniqueSubstances =
         categoryTypeFilteredEntries.map((e) => e.substance).toSet().toList()
@@ -287,11 +272,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     final uniqueFeelings =
         periodFilteredEntries.expand((e) => e.feelings).toSet().toList()
           ..sort();
-
     log.d(
       '[FILTERS] Unique substances: ${uniqueSubstances.length}, categories: ${uniqueCategories.length}, places: ${uniquePlaces.length}, routes: ${uniqueRoutes.length}, feelings: ${uniqueFeelings.length}',
     );
-
     return AnalyticsLayout(
       filterContent: FilterWidget(
         uniqueCategories: uniqueCategories,
@@ -369,10 +352,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
               .map((e) => e.substance)
               .toSet()
               .toList();
-
           log.d('[UI] Category substances: $currentCategorySubstances');
           log.d('[UI] Current selected substances: $_selectedSubstances');
-
           // Check if we're already zoomed into this category
           final isAlreadyZoomed =
               _selectedSubstances.isNotEmpty &&
@@ -382,9 +363,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
               currentCategorySubstances.every(
                 (s) => _selectedSubstances.contains(s),
               );
-
           log.d('[UI] Is already zoomed: $isAlreadyZoomed');
-
           if (isAlreadyZoomed) {
             // Zoom out: clear filter to show all categories
             log.i('[UI] Zooming out from category $category');

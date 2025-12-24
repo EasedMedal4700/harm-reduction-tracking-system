@@ -6,7 +6,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
-
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/text/common_section_header.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -20,7 +19,6 @@ class AnalyticsSummary extends StatelessWidget {
   final String mostUsedSubstance;
   final int mostUsedSubstanceCount;
   final int topCategoryPercent;
-
   const AnalyticsSummary({
     super.key,
     required this.totalEntries,
@@ -32,7 +30,6 @@ class AnalyticsSummary extends StatelessWidget {
     required this.mostUsedSubstanceCount,
     required this.topCategoryPercent,
   });
-
   @override
   Widget build(BuildContext context) {
     return CommonCard(
@@ -43,26 +40,21 @@ class AnalyticsSummary extends StatelessWidget {
             title: 'Analytics Summary',
             subtitle: selectedPeriodText,
           ),
-
           const CommonSpacer.vertical(16),
-
           _buildMetric(context, label: 'Total Entries', value: '$totalEntries'),
           const CommonSpacer.vertical(8),
-
           _buildMetric(
             context,
             label: 'Average per Week',
             value: avgPerWeek.toStringAsFixed(1),
           ),
           const CommonSpacer.vertical(8),
-
           _buildMetric(
             context,
             label: 'Most Used Substance',
             value: '$mostUsedSubstance ($mostUsedSubstanceCount)',
           ),
           const CommonSpacer.vertical(8),
-
           _buildMetric(
             context,
             label: 'Top Category',
@@ -78,18 +70,17 @@ class AnalyticsSummary extends StatelessWidget {
     required String label,
     required String value,
   }) {
-    final t = context.theme;
-
+    final th = context.theme;
     return Row(
       mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
       children: [
         Text(
           label,
-          style: t.typography.body.copyWith(color: t.colors.textSecondary),
+          style: th.typography.body.copyWith(color: th.colors.textSecondary),
         ),
         Text(
           value,
-          style: t.typography.bodyBold.copyWith(color: t.colors.textPrimary),
+          style: th.typography.bodyBold.copyWith(color: th.colors.textPrimary),
         ),
       ],
     );

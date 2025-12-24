@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-compliant.
-
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../models/log_entry_model.dart';
@@ -37,7 +36,6 @@ class AnalyticsContent extends StatelessWidget {
   final double maxCraving;
   final ValueChanged<double> onMinCravingChanged;
   final ValueChanged<double> onMaxCravingChanged;
-
   const AnalyticsContent({
     super.key,
     required this.entries,
@@ -61,57 +59,45 @@ class AnalyticsContent extends StatelessWidget {
     required this.maxCraving,
     required this.onMaxCravingChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     AppLog.d(
       '[BUILD] AnalyticsContent build (entries: ${entries.length}, period: $selectedPeriod)',
     );
-
     final periodFilteredEntries = service.filterEntriesByPeriod(
       entries,
       selectedPeriod,
     );
     AppLog.d('[DATA] Period filtered entries: ${periodFilteredEntries.length}');
-
     final categoryTypeFilteredEntries = periodFilteredEntries.where((e) {
       final category =
           service.substanceToCategory[e.substance.toLowerCase()] ??
           'Placeholder';
-
       final matchesCategory =
           selectedCategories.isEmpty || selectedCategories.contains(category);
-
       final matchesType =
           selectedTypeIndex == 0 ||
           (selectedTypeIndex == 1 && e.isMedicalPurpose) ||
           (selectedTypeIndex == 2 && !e.isMedicalPurpose);
-
       return matchesCategory && matchesType;
     }).toList();
     AppLog.d(
       '[DATA] Category/type filtered entries: ${categoryTypeFilteredEntries.length}',
     );
-
     final filteredEntries = categoryTypeFilteredEntries.where((e) {
       final matchesSubstance =
           selectedSubstances.isEmpty ||
           selectedSubstances.contains(e.substance);
-
       final matchesPlace =
           selectedPlaces.isEmpty || selectedPlaces.contains(e.location);
-
       final matchesRoute =
           selectedRoutes.isEmpty || selectedRoutes.contains(e.route);
-
       final matchesFeeling =
           selectedFeelings.isEmpty ||
           e.feelings.any((f) => selectedFeelings.contains(f));
-
       final matchesCraving =
           e.cravingIntensity >= minCraving && e.cravingIntensity <= maxCraving;
-
       return matchesSubstance &&
           matchesPlace &&
           matchesRoute &&
@@ -119,29 +105,23 @@ class AnalyticsContent extends StatelessWidget {
           matchesCraving;
     }).toList();
     AppLog.d('[DATA] Fully filtered entries: ${filteredEntries.length}');
-
     final avgPerWeek = service.calculateAvgPerWeek(filteredEntries);
     final categoryCounts = service.getCategoryCounts(filteredEntries);
     final mostUsed = service.getMostUsedCategory(categoryCounts);
     final substanceCounts = service.getSubstanceCounts(filteredEntries);
     final mostUsedSubstance = service.getMostUsedSubstance(substanceCounts);
-
     final totalEntries = filteredEntries.length;
     final topCategoryPercent = service.getTopCategoryPercent(
       mostUsed.value,
       totalEntries,
     );
-
     AppLog.d(
       '[METRICS] Total entries: $totalEntries, avg/week: $avgPerWeek, most used category: ${mostUsed.key} (${mostUsed.value}), most used substance: ${mostUsedSubstance.key} (${mostUsedSubstance.value})',
     );
-
     final selectedPeriodText = _getSelectedPeriodText();
-
     final uniqueSubstances =
         categoryTypeFilteredEntries.map((e) => e.substance).toSet().toList()
           ..sort();
-
     final uniqueCategories =
         periodFilteredEntries
             .map(
@@ -152,23 +132,18 @@ class AnalyticsContent extends StatelessWidget {
             .toSet()
             .toList()
           ..sort();
-
     final uniquePlaces =
         periodFilteredEntries.map((e) => e.location).toSet().toList()..sort();
-
     final uniqueRoutes =
         periodFilteredEntries.map((e) => e.route).toSet().toList()..sort();
-
     final uniqueFeelings =
         periodFilteredEntries.expand((e) => e.feelings).toSet().toList()
           ..sort();
-
     AppLog.d(
       '[FILTERS] Unique substances: ${uniqueSubstances.length}, categories: ${uniqueCategories.length}, places: ${uniquePlaces.length}, routes: ${uniqueRoutes.length}, feelings: ${uniqueFeelings.length}',
     );
-
     return Padding(
-      padding: EdgeInsets.all(t.spacing.lg),
+      padding: EdgeInsets.all(th.spacing.lg),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -176,8 +151,7 @@ class AnalyticsContent extends StatelessWidget {
               selectedPeriod: selectedPeriod,
               onPeriodChanged: onPeriodChanged,
             ),
-            SizedBox(height: t.spacing.lg),
-
+            SizedBox(height: th.spacing.lg),
             FilterWidget(
               uniqueCategories: uniqueCategories,
               uniqueSubstances: uniqueSubstances,
@@ -201,9 +175,7 @@ class AnalyticsContent extends StatelessWidget {
               onMinCravingChanged: onMinCravingChanged,
               onMaxCravingChanged: onMaxCravingChanged,
             ),
-
-            SizedBox(height: t.spacing.lg),
-
+            SizedBox(height: th.spacing.lg),
             AnalyticsSummary(
               totalEntries: totalEntries,
               avgPerWeek: avgPerWeek,
@@ -214,16 +186,12 @@ class AnalyticsContent extends StatelessWidget {
               mostUsedSubstanceCount: mostUsedSubstance.value,
               topCategoryPercent: topCategoryPercent,
             ),
-
-            SizedBox(height: t.spacing.lg),
-
+            SizedBox(height: th.spacing.lg),
             CategoryPieChart(
               filteredEntries: filteredEntries,
               substanceToCategory: service.substanceToCategory,
             ),
-
-            SizedBox(height: t.spacing.lg),
-
+            SizedBox(height: th.spacing.lg),
             UsageTrendChart(
               filteredEntries: filteredEntries,
               period: selectedPeriod,

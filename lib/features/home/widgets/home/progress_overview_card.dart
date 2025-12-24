@@ -7,7 +7,6 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully migrated to AppThemeExtension. AppTheme parameters removed.
-
 /// Stats card showing key metrics
 class StatsCard extends StatelessWidget {
   final String title;
@@ -16,7 +15,6 @@ class StatsCard extends StatelessWidget {
   final IconData icon;
   final Color? iconColor;
   final VoidCallback? onTap;
-
   const StatsCard({
     super.key,
     required this.title,
@@ -26,17 +24,14 @@ class StatsCard extends StatelessWidget {
     this.iconColor,
     this.onTap,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-
-    final effectiveIconColor = iconColor ?? t.accent.primary;
-
+    final tx = context.text;
+    final effectiveIconColor = iconColor ?? th.accent.primary;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(sh.radiusMd),
@@ -45,7 +40,7 @@ class StatsCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: c.surface,
           borderRadius: BorderRadius.circular(sh.radiusMd),
-          boxShadow: t.cardShadow,
+          boxShadow: th.cardShadow,
         ),
         child: Row(
           children: [
@@ -54,15 +49,13 @@ class StatsCard extends StatelessWidget {
               padding: EdgeInsets.all(sp.sm),
               decoration: BoxDecoration(
                 color: effectiveIconColor.withValues(
-                  alpha: t.isDark ? 0.2 : 0.1,
+                  alpha: th.isDark ? 0.2 : 0.1,
                 ),
                 borderRadius: BorderRadius.circular(sh.radiusSm),
               ),
               child: Icon(icon, size: sp.md, color: effectiveIconColor),
             ),
-
             SizedBox(width: sp.md),
-
             // Content
             Expanded(
               child: Column(
@@ -70,24 +63,23 @@ class StatsCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: text.bodySmall.copyWith(color: c.textSecondary),
+                    style: tx.bodySmall.copyWith(color: c.textSecondary),
                   ),
                   SizedBox(height: sp.xs),
                   Text(
                     value,
-                    style: text.heading3.copyWith(color: c.textPrimary),
+                    style: tx.heading3.copyWith(color: c.textPrimary),
                   ),
                   if (subtitle != null) ...[
                     SizedBox(height: sp.xs),
                     Text(
                       subtitle!,
-                      style: text.caption.copyWith(color: c.textTertiary),
+                      style: tx.caption.copyWith(color: c.textTertiary),
                     ),
                   ],
                 ],
               ),
             ),
-
             // Arrow if tappable
             if (onTap != null)
               Icon(Icons.chevron_right, color: c.textTertiary, size: sp.md),
@@ -101,14 +93,11 @@ class StatsCard extends StatelessWidget {
 /// Progress overview card
 class ProgressOverviewCard extends StatelessWidget {
   final List<StatsData> stats;
-
   const ProgressOverviewCard({super.key, required this.stats});
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final tx = context.text;
     final sp = context.spacing;
-    final text = context.text;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: sp.lg),
@@ -118,9 +107,8 @@ class ProgressOverviewCard extends StatelessWidget {
           // Section header
           Padding(
             padding: EdgeInsets.only(bottom: sp.md),
-            child: Text('Your Progress', style: text.heading3),
+            child: Text('Your Progress', style: tx.heading3),
           ),
-
           // Stats cards
           ListView.separated(
             shrinkWrap: true,
@@ -153,7 +141,6 @@ class StatsData {
   final IconData icon;
   final Color? color;
   final VoidCallback? onTap;
-
   const StatsData({
     required this.title,
     required this.value,

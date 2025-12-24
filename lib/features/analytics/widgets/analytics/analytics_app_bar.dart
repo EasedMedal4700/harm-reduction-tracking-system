@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -15,25 +14,21 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final TimePeriod selectedPeriod;
   final ValueChanged<TimePeriod> onPeriodChanged;
   final VoidCallback? onExport;
-
   const AnalyticsAppBar({
     super.key,
     required this.selectedPeriod,
     required this.onPeriodChanged,
     this.onExport,
   });
-
   @override
   Size get preferredSize => const Size.fromHeight(110);
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
-    final acc = context.accent;
-    final theme = context.theme;
-
+    final ac = context.accent;
+    final th = context.theme;
     return Container(
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top + sp.md,
@@ -60,23 +55,22 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(sp.sm),
-                    boxShadow: theme.cardShadow,
+                    boxShadow: th.cardShadow,
                   ),
                   child: CommonIconButton(
                     icon: Icons.menu,
-                    color: acc.primary,
+                    color: ac.primary,
                     size: context.sizes.iconMd,
                     onPressed: () => Scaffold.of(context).openDrawer(),
                   ),
                 ),
-
                 CommonSpacer.horizontal(sp.md),
 
                 /// Title
                 Expanded(
                   child: Text(
                     'DRUG USE ANALYTICS',
-                    style: text.heading3.copyWith(
+                    style: tx.heading3.copyWith(
                       color: c.textPrimary,
                       letterSpacing: context.sizes.letterSpacingMd,
                     ),
@@ -89,24 +83,23 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(sp.sm),
-                    boxShadow: theme.cardShadow,
+                    boxShadow: th.cardShadow,
                   ),
                   child: CommonIconButton(
                     icon: Icons.file_download_outlined,
-                    color: acc.primary,
+                    color: ac.primary,
                     size: context.sizes.iconMd,
                     onPressed: onExport,
                   ),
                 ),
               ],
             ),
-
             CommonSpacer.vertical(sp.sm),
 
             /// Subtitle
             Text(
               'Analyze your pharmacological activity',
-              style: text.caption.copyWith(color: c.textSecondary),
+              style: tx.caption.copyWith(color: c.textSecondary),
               maxLines: 1,
               overflow: AppLayout.textOverflowEllipsis,
             ),

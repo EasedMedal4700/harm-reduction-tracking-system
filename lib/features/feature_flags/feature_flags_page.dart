@@ -3,7 +3,6 @@ import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_spacer.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -12,15 +11,14 @@ import '../../common/layout/common_spacer.dart';
 import '../../constants/config/feature_flags.dart';
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';
-// import '../../common/old_common/drawer_menu.dart'; // Removed legacy drawer
 
+// import '../../common/old_common/drawer_menu.dart'; // Removed legacy drawer
 /// Admin screen for managing feature flags.
 ///
 /// Allows admins to toggle feature flags on/off, which controls
 /// access to various app features for non-admin users.
 class FeatureFlagsScreen extends StatefulWidget {
   const FeatureFlagsScreen({super.key});
-
   @override
   State<FeatureFlagsScreen> createState() => _FeatureFlagsScreenState();
 }
@@ -30,7 +28,6 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
   bool _isAdmin = false;
   String? _errorMessage;
   final Map<String, bool> _pendingUpdates = {};
-
   @override
   void initState() {
     super.initState();
@@ -39,20 +36,18 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
 
   Future<void> _checkAdminAndLoad() async {
     final isAdmin = await UserService.isAdmin();
-
     if (!isAdmin) {
       if (mounted) {
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Admin access required'),
-            backgroundColor: context.colors.error,
+            backgroundColor: c.error,
           ),
         );
       }
       return;
     }
-
     setState(() {
       _isAdmin = isAdmin;
       _isLoading = false;
@@ -63,18 +58,16 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     setState(() {
       _pendingUpdates[featureName] = true;
     });
-
     try {
       final success = await featureFlagService.updateFlag(
         featureName,
         newValue,
       );
-
       if (!success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to update "$featureName"'),
-            backgroundColor: context.colors.error,
+            backgroundColor: c.error,
           ),
         );
       }
@@ -95,19 +88,18 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final sz = context.sizes;
     final c = context.colors;
-    final text = context.text;
-
+    final tx = context.text;
     if (!_isAdmin && !_isLoading) {
       return const SizedBox.shrink();
     }
-
     return Scaffold(
       backgroundColor: c.surface,
       appBar: AppBar(
-        title: Text('Feature Flags', style: text.titleLarge),
+        title: Text('Feature Flags', style: tx.titleLarge),
         backgroundColor: c.surface,
-        elevation: context.sizes.elevationNone,
+        elevation: sz.elevationNone,
         iconTheme: IconThemeData(color: c.textPrimary),
         actions: [
           IconButton(
@@ -126,46 +118,42 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-
     if (_errorMessage != null) {
       return _buildErrorState(context);
     }
-
     return Consumer<FeatureFlagService>(
       builder: (context, flags, _) {
         if (flags.isLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         final allFlags = flags.allFlags;
         if (allFlags.isEmpty) {
           return _buildEmptyState(context);
         }
-
         return _buildFlagsList(context, allFlags);
       },
     );
   }
 
   Widget _buildErrorState(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
-    final sp = context.spacing;
-    final s = context.sizes;
+    final tx = context.text;
+    final sz = context.sizes;
 
+    final sp = context.spacing;
     return Center(
       child: Padding(
         padding: EdgeInsets.all(sp.lg),
         child: Column(
           mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
-            Icon(Icons.error_outline, size: s.icon2xl, color: c.error),
+            Icon(Icons.error_outline, size: sz.icon2xl, color: c.error),
             SizedBox(height: sp.md),
-            Text('Error Loading Flags', style: text.headlineMedium),
+            Text('Error Loading Flags', style: tx.headlineMedium),
             SizedBox(height: sp.sm),
             Text(
               _errorMessage ?? 'Unknown error',
-              style: text.bodyMedium.copyWith(color: c.textSecondary),
+              style: tx.bodyMedium.copyWith(color: c.textSecondary),
               textAlign: AppLayout.textAlignCenter,
             ),
             SizedBox(height: sp.lg),
@@ -181,10 +169,10 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
   }
 
   Widget _buildEmptyState(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
-    final s = context.sizes;
+    final sz = context.sizes;
 
     return Center(
       child: Padding(
@@ -192,13 +180,13 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
         child: Column(
           mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
-            Icon(Icons.flag_outlined, size: s.icon2xl, color: c.textSecondary),
+            Icon(Icons.flag_outlined, size: sz.icon2xl, color: c.textSecondary),
             SizedBox(height: sp.md),
-            Text('No Feature Flags', style: text.headlineMedium),
+            Text('No Feature Flags', style: tx.headlineMedium),
             SizedBox(height: sp.sm),
             Text(
               'No feature flags found in the database.',
-              style: text.bodyMedium.copyWith(color: c.textSecondary),
+              style: tx.bodyMedium.copyWith(color: c.textSecondary),
             ),
           ],
         ),
@@ -208,16 +196,15 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
 
   Widget _buildFlagsList(BuildContext context, List<FeatureFlag> flags) {
     final sp = context.spacing;
+
     // Group flags by category
     final categories = _categorizeFlags(flags);
-
     return ListView(
       padding: EdgeInsets.all(sp.md),
       children: [
         // Info banner
         _buildInfoBanner(context),
         SizedBox(height: sp.md),
-
         // Flag categories
         for (final entry in categories.entries) ...[
           _buildCategoryHeader(context, entry.key),
@@ -237,7 +224,6 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
       'Authentication': [],
       'Admin': [],
     };
-
     for (final flag in flags) {
       final name = flag.featureName;
       if ([
@@ -284,34 +270,33 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
         categories['Core Pages']!.add(flag);
       }
     }
-
     // Remove empty categories
     categories.removeWhere((key, value) => value.isEmpty);
     return categories;
   }
 
   Widget _buildInfoBanner(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
-    final a = context.accent;
 
+    final ac = context.accent;
     return Container(
       padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: a.primary.withValues(alpha: 0.1),
+        color: ac.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: a.primary.withValues(alpha: 0.3)),
+        border: Border.all(color: ac.primary.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
-          Icon(Icons.info_outline, color: a.primary),
+          Icon(Icons.info_outline, color: ac.primary),
           CommonSpacer.horizontal(sp.md),
           Expanded(
             child: Text(
               'Disabled features will be hidden from regular users. '
               'Admins can always access all features.',
-              style: text.bodySmall.copyWith(color: c.textPrimary),
+              style: tx.bodySmall.copyWith(color: c.textPrimary),
             ),
           ),
         ],
@@ -321,11 +306,12 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
 
   Widget _buildCategoryHeader(BuildContext context, String category) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
+
     return Text(
       category,
-      style: text.titleMedium.copyWith(
-        fontWeight: text.bodyBold.fontWeight,
+      style: tx.titleMedium.copyWith(
+        fontWeight: tx.bodyBold.fontWeight,
         color: c.textPrimary,
       ),
     );
@@ -333,15 +319,14 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
 
   Widget _buildFlagTile(BuildContext context, FeatureFlag flag) {
     final c = context.colors;
-    final a = context.accent;
-    final text = context.text;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
-    final sh = context.shapes;
-    final s = context.sizes;
+    final sz = context.sizes;
 
+    final sh = context.shapes;
     final isPending = _pendingUpdates.containsKey(flag.featureName);
     final displayName = FeatureFlags.getDisplayName(flag.featureName);
-
     return Container(
       margin: EdgeInsets.only(bottom: sp.sm),
       decoration: BoxDecoration(
@@ -352,14 +337,14 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
       child: SwitchListTile(
         title: Text(
           displayName,
-          style: text.bodyMedium.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
+          style: tx.bodyMedium.copyWith(
+            fontWeight: tx.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
         ),
         subtitle: Text(
           flag.featureName,
-          style: text.bodySmall.copyWith(color: c.textSecondary),
+          style: tx.bodySmall.copyWith(color: c.textSecondary),
         ),
         value: flag.enabled,
         onChanged: isPending
@@ -367,15 +352,15 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
             : (value) => _toggleFlag(flag.featureName, value),
         secondary: isPending
             ? SizedBox(
-                width: s.iconMd,
-                height: s.iconMd,
-                child: CircularProgressIndicator(strokeWidth: s.borderRegular),
+                width: sz.iconMd,
+                height: sz.iconMd,
+                child: CircularProgressIndicator(strokeWidth: sz.borderRegular),
               )
             : Icon(
                 flag.enabled ? Icons.check_circle : Icons.cancel,
                 color: flag.enabled ? c.success : c.textSecondary,
               ),
-        activeTrackColor: a.primary,
+        activeTrackColor: ac.primary,
         contentPadding: EdgeInsets.symmetric(
           horizontal: sp.md,
           vertical: sp.xs,

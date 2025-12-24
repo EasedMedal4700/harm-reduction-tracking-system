@@ -7,60 +7,55 @@ import '../../../../common/layout/common_spacer.dart';
 class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isSimpleMode;
   final ValueChanged<bool> onSimpleModeChanged;
-
   const LogEntryAppBar({
     super.key,
     required this.isSimpleMode,
     required this.onSimpleModeChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return AppBar(
-      elevation: t.sizes.elevationNone,
-      backgroundColor: t.colors.surface,
-      foregroundColor: t.colors.textPrimary,
+      elevation: th.sizes.elevationNone,
+      backgroundColor: th.colors.surface,
+      foregroundColor: th.colors.textPrimary,
       centerTitle: false,
-
       title: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          Text("Log Entry", style: t.text.heading2),
+          Text("Log Entry", style: th.text.heading2),
           Text(
             "Add a new substance record",
-            style: t.text.bodySmall.copyWith(color: t.colors.textSecondary),
+            style: th.text.bodySmall.copyWith(color: th.colors.textSecondary),
           ),
         ],
       ),
-
       actions: [
         Padding(
-          padding: EdgeInsets.only(right: t.spacing.lg),
+          padding: EdgeInsets.only(right: th.spacing.lg),
           child: Container(
             padding: EdgeInsets.symmetric(
-              horizontal: t.spacing.md,
-              vertical: t.spacing.xs,
+              horizontal: th.spacing.md,
+              vertical: th.spacing.xs,
             ),
             decoration: BoxDecoration(
-              color: t.colors.surfaceVariant,
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-              border: Border.all(color: t.colors.border),
+              color: th.colors.surfaceVariant,
+              borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+              border: Border.all(color: th.colors.border),
             ),
             child: Row(
               children: [
                 Text(
                   "Simple",
-                  style: t.typography.bodySmall.copyWith(
-                    color: t.colors.textSecondary,
+                  style: th.typography.bodySmall.copyWith(
+                    color: th.colors.textSecondary,
                   ),
                 ),
-                CommonSpacer.horizontal(t.spacing.sm),
+                CommonSpacer.horizontal(th.spacing.sm),
                 Switch(
                   value: isSimpleMode,
                   onChanged: onSimpleModeChanged,
-                  activeTrackColor: t.colors.info,
+                  activeTrackColor: th.colors.info,
                 ),
               ],
             ),

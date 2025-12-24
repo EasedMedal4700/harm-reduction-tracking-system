@@ -1,11 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import '../common/logging/app_log.dart';
-
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_typography.dart';
-
 import 'error_reporter.dart';
 
 /// Central error handler for the application with automatic DB reporting.
@@ -131,7 +128,6 @@ class ErrorHandler {
     if (stackTrace != null) {
       AppLog.e('Stack trace: $stackTrace');
     }
-
     unawaited(_errorReporter.reportWithContext(context, error, stackTrace));
   }
 

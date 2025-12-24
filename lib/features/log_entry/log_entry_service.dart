@@ -3,10 +3,8 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Service for log entry operations.
-
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../models/log_entry_model.dart';
 import '../../services/user_service.dart'; // For user_id
 import '../../utils/error_handler.dart';
@@ -17,21 +15,17 @@ class LogEntryService {
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   final _cache = CacheService();
   final _encryption = EncryptionServiceV2();
-
   Future<void> updateLogEntry(String id, Map<String, dynamic> data) async {
     try {
       final supabase = Supabase.instance.client;
       final userId = UserService.getCurrentUserId();
-
       // Encrypt notes field if it's being updated
       final encryptedData = await _encryption.encryptFields(data, ['notes']);
-
       await supabase
           .from('drug_use')
           .update(encryptedData)
           .eq('uuid_user_id', userId)
           .eq('use_id', id);
-
       // Invalidate cache for user's entries
       _cache.remove(CacheKeys.recentEntries(userId));
       _cache.remove(CacheKeys.drugEntry(id));
@@ -51,7 +45,6 @@ class LogEntryService {
           .delete()
           .eq('uuid_user_id', userId)
           .eq('use_id', id);
-
       // Invalidate cache for user's entries
       _cache.remove(CacheKeys.recentEntries(userId));
       _cache.remove(CacheKeys.drugEntry(id));
@@ -67,14 +60,11 @@ class LogEntryService {
     if (entry.location == 'Select a location') {
       throw Exception('Please select a valid location');
     }
-
     try {
       // Get the auth user ID
       final userId = UserService.getCurrentUserId();
-
       // Encrypt notes field
       final encryptedNotes = await _encryption.encryptTextNullable(entry.notes);
-
       final data = {
         'uuid_user_id': userId,
         'name': entry.substance,
@@ -102,9 +92,7 @@ class LogEntryService {
         'linked_craving_ids': '{}',
         'timezone': entry.timezoneOffset.toString(),
       };
-
       await Supabase.instance.client.from('drug_use').insert(data);
-
       // Invalidate cache for user's entries
       _cache.remove(CacheKeys.recentEntries(userId));
       _cache.removePattern('drug_entries:user:$userId');
@@ -137,26 +125,21 @@ class LogEntryService {
   Future<List<Map<String, dynamic>>> fetchRecentEntriesRaw() async {
     try {
       final userId = UserService.getCurrentUserId();
-
       // Check cache first
       final cacheKey = CacheKeys.recentEntries(userId);
       final cached = _cache.get<List<Map<String, dynamic>>>(cacheKey);
       if (cached != null) {
         return cached;
       }
-
       final response = await Supabase.instance.client
           .from('drug_use')
           .select('use_id, name, dose, start_time, place') // Select key fields
           .eq('uuid_user_id', userId)
           .order('start_time', ascending: false)
           .limit(10);
-
       final results = List<Map<String, dynamic>>.from(response);
-
       // Cache the results
       _cache.set(cacheKey, results, ttl: CacheService.defaultTTL);
-
       return results;
     } on PostgrestException catch (e, stackTrace) {
       ErrorHandler.logError(

@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Page for editing cravings. No hardcoded values.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -24,14 +23,12 @@ class EditCravingPage extends StatefulWidget {
   final Map<String, dynamic> entry;
   final CravingService? cravingService;
   const EditCravingPage({super.key, required this.entry, this.cravingService});
-
   @override
   State<EditCravingPage> createState() => _EditCravingPageState();
 }
 
 class _EditCravingPageState extends State<EditCravingPage> {
   late final CravingService _cravingService;
-
   // Form fields
   List<String> selectedCravings = [];
   double intensity = 5.0;
@@ -43,16 +40,13 @@ class _EditCravingPageState extends State<EditCravingPage> {
   List<String> selectedSensations = [];
   String whatDidYouDo = '';
   bool actedOnCraving = false;
-
   bool _isLoading = true;
   bool _isSaving = false;
   String? _cravingId;
-
   final List<String> sensations = physicalSensations;
   final List<String> emotions = DrugUseCatalog.primaryEmotions
       .map((e) => e['name']!)
       .toList();
-
   @override
   void initState() {
     super.initState();
@@ -62,25 +56,19 @@ class _EditCravingPageState extends State<EditCravingPage> {
 
   Future<void> _loadCravingData() async {
     setState(() => _isLoading = true);
-
     try {
       _cravingId = widget.entry['craving_id']?.toString();
-
       if (_cravingId == null || _cravingId!.isEmpty) {
         throw Exception('Missing craving ID');
       }
-
       ErrorHandler.logDebug(
         'EditCravingPage',
         'Loading craving with ID: $_cravingId',
       );
-
       final data = await _cravingService.fetchCravingById(_cravingId!);
-
       if (data == null) {
         throw Exception('Craving not found');
       }
-
       // Parse and populate form fields
       setState(() {
         // Parse substance(s) - DB uses semicolon-separated with full emoji names
@@ -93,7 +81,6 @@ class _EditCravingPageState extends State<EditCravingPage> {
               .split(';')
               .map((s) => s.trim())
               .where((s) => s.isNotEmpty);
-
           // Map DB values (singular) to UI keys (plural + emoji)
           selectedCravings = parsedList.map((s) {
             for (var entry in cravingCategories.entries) {
@@ -101,16 +88,13 @@ class _EditCravingPageState extends State<EditCravingPage> {
             }
             return s;
           }).toList();
-
           ErrorHandler.logDebug(
             'EditCravingPage',
             'Parsed substances from DB: $selectedCravings',
           );
         }
-
         intensity =
             double.tryParse(data['intensity']?.toString() ?? '5.0') ?? 5.0;
-
         // Validate location against allowed values
         final dbLocation = data['location']?.toString() ?? 'Select a location';
         if (DrugUseCatalog.locations.contains(dbLocation)) {
@@ -123,7 +107,6 @@ class _EditCravingPageState extends State<EditCravingPage> {
           );
           location = 'Other';
         }
-
         // Validate "who were you with" against allowed values
         final dbWithWho = data['people']?.toString() ?? '';
         const validWithWhoOptions = ['Alone', 'Friends', 'Family', 'Other'];
@@ -137,10 +120,8 @@ class _EditCravingPageState extends State<EditCravingPage> {
         } else {
           withWho = dbWithWho;
         }
-
         thoughts = data['thoughts']?.toString() ?? '';
         whatDidYouDo = data['activity']?.toString() ?? '';
-
         // Parse body sensations
         final sensationsStr = data['body_sensations']?.toString() ?? '';
         selectedSensations = sensationsStr.isEmpty
@@ -150,7 +131,6 @@ class _EditCravingPageState extends State<EditCravingPage> {
                   .map((s) => s.trim())
                   .where((s) => s.isNotEmpty)
                   .toList();
-
         // Parse emotions
         final primaryStr = data['primary_emotion']?.toString() ?? '';
         primaryEmotions = primaryStr.isEmpty
@@ -160,18 +140,15 @@ class _EditCravingPageState extends State<EditCravingPage> {
                   .map((s) => s.trim())
                   .where((s) => s.isNotEmpty)
                   .toList();
-
         // Parse secondary emotions
         // Note: DB stores secondary emotions as flat comma-separated list,
         // but UI expects map structure. For now, initialize empty map.
         // Secondary emotions can be re-selected in the UI.
         secondaryEmotions = {};
-
         // Parse action
         final actionStr = data['action']?.toString() ?? '';
         actedOnCraving = actionStr.toLowerCase() == 'acted';
       });
-
       ErrorHandler.logDebug(
         'EditCravingPage',
         'Craving loaded - substance: $selectedCravings, intensity: $intensity',
@@ -196,25 +173,20 @@ class _EditCravingPageState extends State<EditCravingPage> {
 
   Future<void> _saveChanges() async {
     if (_isSaving) return;
-
     setState(() => _isSaving = true);
-
     try {
       ErrorHandler.logDebug(
         'EditCravingPage',
         'Saving changes for craving: $_cravingId',
       );
-
       // Map UI keys back to DB values
       final substancesToSave = selectedCravings.map((s) {
         return cravingCategories[s] ?? s;
       }).toList();
-
       // Flatten secondary emotions
       final allSecondary = secondaryEmotions.values
           .expand((list) => list)
           .toList();
-
       final updateData = {
         'substance': substancesToSave.isNotEmpty
             ? substancesToSave.join('; ')
@@ -233,9 +205,7 @@ class _EditCravingPageState extends State<EditCravingPage> {
             : null,
         'action': actedOnCraving ? 'Acted' : 'Resisted',
       };
-
       await _cravingService.updateCraving(_cravingId!, updateData);
-
       if (mounted) {
         ErrorHandler.showSuccessSnackbar(
           context,
@@ -264,15 +234,14 @@ class _EditCravingPageState extends State<EditCravingPage> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: CravingAppBar(isSaving: _isSaving, onSave: _saveChanges),
       drawer: const CommonDrawer(),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator(color: a.primary))
+          ? Center(child: CircularProgressIndicator(color: ac.primary))
           : SingleChildScrollView(
               padding: EdgeInsets.all(sp.md),
               child: Column(

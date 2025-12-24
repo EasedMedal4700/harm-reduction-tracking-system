@@ -21,10 +21,8 @@ class ToleranceEngineService {
       fetchAllToleranceModels(),
       fetchUseLogs(userId: userId, daysBack: daysBack),
     ]);
-
     final toleranceModels = results[0] as Map<String, ToleranceModel>;
     final useLogs = results[1] as List<UseLogEntry>;
-
     if (toleranceModels.isEmpty || useLogs.isEmpty) {
       // Return an empty result with all buckets at 0.
       final emptyPercents = <String, double>{
@@ -38,7 +36,6 @@ class ToleranceEngineService {
         overallDaysUntilBaseline: 0.0,
       );
     }
-
     return ToleranceCalculatorFull.computeToleranceFull(
       useLogs: useLogs,
       toleranceModels: toleranceModels,
@@ -54,13 +51,10 @@ class ToleranceEngineService {
           .from('drug_profiles')
           .select('slug, tolerance_model')
           .not('tolerance_model', 'is', null);
-
       final models = <String, ToleranceModel>{};
-
       for (final row in response as List) {
         final slug = row['slug'] as String?;
         final toleranceJson = row['tolerance_model'] as Map<String, dynamic>?;
-
         if (slug != null && toleranceJson != null) {
           try {
             models[slug] = ToleranceModel.fromJson(toleranceJson);
@@ -73,12 +67,10 @@ class ToleranceEngineService {
           }
         }
       }
-
       ErrorHandler.logInfo(
         'ToleranceEngineService',
         'Loaded ${models.length} tolerance models',
       );
-
       return models;
     } catch (e, stackTrace) {
       ErrorHandler.logError(
@@ -98,21 +90,17 @@ class ToleranceEngineService {
   }) async {
     try {
       final cutoffDate = DateTime.now().subtract(Duration(days: daysBack));
-
       final response = await _supabase
           .from('drug_use')
           .select('name, start_time, dose')
           .eq('uuid_user_id', userId)
           .gte('start_time', cutoffDate.toIso8601String())
           .order('start_time', ascending: false);
-
       final logs = <UseLogEntry>[];
-
       // Build mapping from profile name/pretty_name to slug once
       final profilesResp = await _supabase
           .from('drug_profiles')
           .select('slug, name, pretty_name');
-
       final nameToSlug = <String, String>{};
       for (final r in profilesResp as List) {
         final slugVal = (r['slug'] as String?)?.trim();
@@ -122,22 +110,16 @@ class ToleranceEngineService {
         if (rawName != null) nameToSlug[rawName.toLowerCase()] = slugVal;
         if (pretty != null) nameToSlug[pretty.toLowerCase()] = slugVal;
       }
-
       for (final row in response as List) {
         final name = (row['name'] as String?)?.trim();
         final timestampString = row['start_time'] as String?;
         final rawDose = row['dose'];
-
         if (name == null || timestampString == null) continue;
-
         final timestamp = DateTime.tryParse(timestampString);
         if (timestamp == null) continue;
-
         final doseUnits = _parseDose(rawDose);
-
         // Attempt to map the recorded name to a slug if we have a mapping.
         final mappedSlug = nameToSlug[name.toLowerCase()] ?? name;
-
         logs.add(
           UseLogEntry(
             substanceSlug: mappedSlug,
@@ -146,12 +128,10 @@ class ToleranceEngineService {
           ),
         );
       }
-
       ErrorHandler.logInfo(
         'ToleranceEngineService',
         'Loaded ${logs.length} use logs for user $userId',
       );
-
       return logs;
     } catch (e, stackTrace) {
       ErrorHandler.logError(
@@ -175,10 +155,8 @@ class ToleranceEngineService {
         fetchAllToleranceModels(),
         fetchUseLogs(userId: userId, daysBack: daysBack),
       ]);
-
       final toleranceModels = results[0] as Map<String, ToleranceModel>;
       final useLogs = results[1] as List<UseLogEntry>;
-
       if (toleranceModels.isEmpty) {
         ErrorHandler.logInfo(
           'ToleranceEngineService',
@@ -186,7 +164,6 @@ class ToleranceEngineService {
         );
         return _emptyBuckets();
       }
-
       if (useLogs.isEmpty) {
         ErrorHandler.logInfo(
           'ToleranceEngineService',
@@ -194,21 +171,17 @@ class ToleranceEngineService {
         );
         return _emptyBuckets();
       }
-
       // Compute full tolerance and extract bucket percents. This ensures
       // all call sites stay consistent with the unified engine.
       final full = ToleranceCalculatorFull.computeToleranceFull(
         useLogs: useLogs,
         toleranceModels: toleranceModels,
       );
-
       final tolerances = full.bucketPercents;
-
       ErrorHandler.logInfo(
         'ToleranceEngineService',
         'Computed tolerances: $tolerances',
       );
-
       return tolerances;
     } catch (e, stackTrace) {
       ErrorHandler.logError(
@@ -229,7 +202,6 @@ class ToleranceEngineService {
       userId: userId,
       daysBack: daysBack,
     );
-
     return ToleranceCalculator.computeAllBucketStates(tolerances: tolerances);
   }
 
@@ -250,61 +222,47 @@ class ToleranceEngineService {
         fetchAllToleranceModels(),
         fetchUseLogs(userId: userId, daysBack: daysBack),
       ]);
-
       final toleranceModels = results[0] as Map<String, ToleranceModel>;
       final useLogs = results[1] as List<UseLogEntry>;
-
       if (useLogs.isEmpty) return {};
-
       final now = DateTime.now();
       final map = <String, double>{};
-
       // Group logs by slug
       final grouped = <String, List<UseLogEntry>>{};
       for (final log in useLogs) {
         grouped.putIfAbsent(log.substanceSlug, () => []).add(log);
       }
-
       for (final entry in grouped.entries) {
         final slug = entry.key;
         final logs = entry.value;
-
         final model = toleranceModels[slug];
         if (model == null) {
           map[slug] = 0.0;
           continue;
         }
-
         // Sum of weights across neuro buckets
         final weightSum = model.neuroBuckets.values.fold<double>(
           0.0,
           (s, b) => s + b.weight,
         );
-
         if (weightSum <= 0 || model.standardUnitMg <= 0) {
           map[slug] = 0.0;
           continue;
         }
-
         final halfLife = model.halfLifeHours;
         final decayDays = model.toleranceDecayDays;
         final activeThreshold = model.activeThreshold;
-
         double rawLoad = 0.0;
-
         for (final logEntry in logs) {
           final hoursSince =
               now.difference(logEntry.timestamp).inMinutes / 60.0;
           if (hoursSince < 0) continue;
-
           // Active level (PK decay)
           final activeLevel = halfLife > 0
               ? math.exp(-hoursSince / halfLife)
               : 0.0;
-
           // Dose normalized to standard unit
           final doseNorm = logEntry.doseUnits / model.standardUnitMg;
-
           // Base contribution similar to main engine:
           // base = doseNorm * weightSum * potency * gainRate * 0.08 * durationMultiplier
           final baseContribution =
@@ -314,7 +272,6 @@ class ToleranceEngineService {
               model.toleranceGainRate *
               0.08 *
               model.durationMultiplier;
-
           double decayFactor;
           if (halfLife <= 0 || decayDays <= 0) {
             decayFactor = 0.0;
@@ -332,20 +289,16 @@ class ToleranceEngineService {
               decayFactor = math.exp(-daysPastActive / decayDays);
             }
           }
-
           final eventLoad = baseContribution * decayFactor;
           rawLoad += eventLoad;
         }
-
         final percent = ToleranceCalculator.loadToPercent(rawLoad);
         map[slug] = percent;
       }
-
       // Sort map by percent desc
       final sorted = Map.fromEntries(
         map.entries.toList()..sort((a, b) => b.value.compareTo(a.value)),
       );
-
       return sorted;
     } catch (e, stackTrace) {
       ErrorHandler.logError(
@@ -366,11 +319,9 @@ class ToleranceEngineService {
       userId: userId,
       daysBack: daysBack,
     );
-
     final states = ToleranceCalculator.computeAllBucketStates(
       tolerances: tolerances,
     );
-
     return ToleranceReport(
       tolerances: tolerances,
       states: states,
@@ -406,11 +357,9 @@ class ToleranceEngineService {
         fetchUseLogs(userId: userId, daysBack: daysBack),
         _supabase.from('drug_profiles').select('slug, pretty_name, name'),
       ]);
-
       final toleranceModels = results[0] as Map<String, ToleranceModel>;
       final useLogs = results[1] as List<UseLogEntry>;
       final profilesData = results[2] as List<dynamic>;
-
       // Build slug -> pretty name map
       final slugToName = <String, String>{};
       for (final row in profilesData) {
@@ -421,35 +370,25 @@ class ToleranceEngineService {
           slugToName[slug] = pretty ?? name ?? slug;
         }
       }
-
       if (useLogs.isEmpty) return [];
-
       final now = DateTime.now();
       final contributions = <String, double>{};
       double totalRawLoad = 0.0;
-
       // Calculate raw load per substance for this bucket
       for (final log in useLogs) {
         final model = toleranceModels[log.substanceSlug];
         if (model == null) continue;
-
         final neuroBucket = model.neuroBuckets[bucketName];
         if (neuroBucket == null) continue;
-
         final halfLife = model.halfLifeHours;
         final decayDays = model.toleranceDecayDays;
         final activeThreshold = model.activeThreshold;
-
         if (halfLife <= 0 || model.standardUnitMg <= 0) continue;
-
         final hoursSince = now.difference(log.timestamp).inMinutes / 60.0;
         if (hoursSince < 0) continue;
-
         final activeLevel = math.exp(-hoursSince / halfLife); // PK active level
-
         // Normalize dose
         final doseNorm = log.doseUnits / model.standardUnitMg;
-
         // Base contribution as in main model
         final baseContribution =
             doseNorm *
@@ -458,7 +397,6 @@ class ToleranceEngineService {
             model.toleranceGainRate *
             0.08 *
             model.durationMultiplier;
-
         double decayFactor;
         if (decayDays <= 0) {
           decayFactor = 0.0;
@@ -475,24 +413,18 @@ class ToleranceEngineService {
             decayFactor = math.exp(-daysPastActive / decayDays);
           }
         }
-
         final load = baseContribution * decayFactor;
-
         contributions[log.substanceSlug] =
             (contributions[log.substanceSlug] ?? 0.0) + load;
         totalRawLoad += load;
       }
-
       if (totalRawLoad <= 0) return [];
-
       // Convert to list of contribution objects
       final result = <ToleranceContribution>[];
-
       for (final entry in contributions.entries) {
         final slug = entry.key;
         final rawLoad = entry.value;
         final percentContribution = (rawLoad / totalRawLoad) * 100;
-
         result.add(
           ToleranceContribution(
             substanceName: slugToName[slug] ?? slug,
@@ -501,10 +433,8 @@ class ToleranceEngineService {
           ),
         );
       }
-
       // Sort by contribution descending
       result.sort((a, b) => b.rawLoad.compareTo(a.rawLoad));
-
       return result;
     } catch (e, stackTrace) {
       ErrorHandler.logError(
@@ -535,7 +465,6 @@ class ToleranceContribution {
   final String substanceName;
   final double percentContribution; // 0-100% of the total load
   final double rawLoad; // The actual load value
-
   const ToleranceContribution({
     required this.substanceName,
     required this.percentContribution,
@@ -548,7 +477,6 @@ class ToleranceReport {
   final Map<String, double> tolerances;
   final Map<String, ToleranceSystemState> states;
   final DateTime timestamp;
-
   const ToleranceReport({
     required this.tolerances,
     required this.states,
@@ -577,11 +505,9 @@ class ToleranceReport {
       ToleranceSystemState.highStrain: 0,
       ToleranceSystemState.depleted: 0,
     };
-
     for (final state in states.values) {
       counts[state] = (counts[state] ?? 0) + 1;
     }
-
     return counts;
   }
 

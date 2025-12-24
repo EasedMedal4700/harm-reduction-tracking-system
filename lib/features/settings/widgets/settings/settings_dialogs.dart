@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../providers/settings_provider.dart';
@@ -44,12 +43,10 @@ class SettingsDialogs {
       hour: int.parse(parts[0]),
       minute: int.parse(parts[1]),
     );
-
     final time = await showTimePicker(
       context: context,
       initialTime: initialTime,
     );
-
     if (time != null) {
       final timeString =
           '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';

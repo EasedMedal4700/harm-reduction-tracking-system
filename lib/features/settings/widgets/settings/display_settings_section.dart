@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
-
 import 'package:flutter/material.dart';
 import '../../../../providers/settings_provider.dart';
 import 'settings_section.dart';
@@ -14,18 +13,15 @@ import '../../../../constants/theme/app_theme_extension.dart';
 class DisplaySettingsSection extends StatelessWidget {
   final SettingsProvider settingsProvider;
   final VoidCallback onDateFormatTap;
-
   const DisplaySettingsSection({
     required this.settingsProvider,
     required this.onDateFormatTap,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     final settings = settingsProvider.settings;
-    final t = context.theme;
-
+    final th = context.theme;
     return SettingsSection(
       title: 'Display',
       icon: Icons.display_settings,
@@ -38,7 +34,7 @@ class DisplaySettingsSection extends StatelessWidget {
         ListTile(
           title: const Text('Date Format'),
           subtitle: Text(settings.dateFormat),
-          trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
+          trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
           onTap: onDateFormatTap,
         ),
         CommonSwitchTile(

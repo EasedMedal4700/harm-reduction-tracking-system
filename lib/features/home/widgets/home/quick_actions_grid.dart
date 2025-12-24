@@ -7,14 +7,12 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully migrated to AppThemeExtension. AppTheme parameters removed.
-
 /// Quick action tile for the home grid
 class QuickActionTile extends StatefulWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
   final Color? customColor;
-
   const QuickActionTile({
     super.key,
     required this.icon,
@@ -22,24 +20,20 @@ class QuickActionTile extends StatefulWidget {
     required this.onTap,
     this.customColor,
   });
-
   @override
   State<QuickActionTile> createState() => _QuickActionTileState();
 }
 
 class _QuickActionTileState extends State<QuickActionTile> {
   bool _hovered = false;
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
-
-    final effectiveColor = widget.customColor ?? t.accent.primary;
-
+    final tx = context.text;
+    final effectiveColor = widget.customColor ?? th.accent.primary;
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
@@ -53,9 +47,9 @@ class _QuickActionTileState extends State<QuickActionTile> {
           decoration: BoxDecoration(
             color: c.surface,
             borderRadius: BorderRadius.circular(sh.radiusMd),
-            boxShadow: t.cardShadow,
-            border: t.isDark && _hovered
-                ? Border.all(color: t.accent.primary, width: 1)
+            boxShadow: th.cardShadow,
+            border: th.isDark && _hovered
+                ? Border.all(color: th.accent.primary, width: 1)
                 : null,
           ),
           child: Column(
@@ -66,12 +60,14 @@ class _QuickActionTileState extends State<QuickActionTile> {
                 duration: context.animations.fast,
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: effectiveColor.withValues(alpha: t.isDark ? 0.2 : 0.1),
+                  color: effectiveColor.withValues(
+                    alpha: th.isDark ? 0.2 : 0.1,
+                  ),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
-                  boxShadow: _hovered && t.isDark
+                  boxShadow: _hovered && th.isDark
                       ? [
                           BoxShadow(
-                            color: t.accent.primary.withValues(alpha: 0.3),
+                            color: th.accent.primary.withValues(alpha: 0.3),
                             blurRadius: context.sizes.blurRadiusMd,
                             spreadRadius: context.sizes.spreadRadiusMd,
                           ),
@@ -80,14 +76,12 @@ class _QuickActionTileState extends State<QuickActionTile> {
                 ),
                 child: Icon(widget.icon, size: sp.lg, color: effectiveColor),
               ),
-
               SizedBox(height: sp.sm),
-
               // Label
               Text(
                 widget.label,
-                style: text.bodySmall.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.bodySmall.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
                 textAlign: AppLayout.textAlignCenter,
@@ -105,14 +99,11 @@ class _QuickActionTileState extends State<QuickActionTile> {
 /// Grid of quick action tiles
 class QuickActionsGrid extends StatelessWidget {
   final List<QuickActionData> actions;
-
   const QuickActionsGrid({super.key, required this.actions});
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final tx = context.text;
     final sp = context.spacing;
-    final text = context.text;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: sp.lg),
@@ -122,9 +113,8 @@ class QuickActionsGrid extends StatelessWidget {
           // Section header
           Padding(
             padding: EdgeInsets.only(bottom: sp.md),
-            child: Text('Quick Actions', style: text.heading3),
+            child: Text('Quick Actions', style: tx.heading3),
           ),
-
           // Grid
           GridView.builder(
             shrinkWrap: true,
@@ -158,7 +148,6 @@ class QuickActionData {
   final String label;
   final VoidCallback onTap;
   final Color? color;
-
   const QuickActionData({
     required this.icon,
     required this.label,

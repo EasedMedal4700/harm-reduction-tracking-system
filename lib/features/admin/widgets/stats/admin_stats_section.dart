@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -14,42 +13,32 @@ class AdminStatsSection extends StatelessWidget {
   final Map<String, dynamic> stats;
   final Map<String, dynamic> perfStats;
   final Map<String, dynamic> cacheStats;
-
   const AdminStatsSection({
     required this.stats,
     required this.perfStats,
     required this.cacheStats,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-
+    final tx = context.text;
     // Extract stats safely
     final cacheHitRate = (perfStats['cache_hit_rate'] ?? 0.0).toDouble();
     final avgResponseTime = (perfStats['avg_response_time'] ?? 0.0).toDouble();
-
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         // Header
-        Text(
-          'Quick Stats',
-          style: text.heading3.copyWith(color: c.textPrimary),
-        ),
-
+        Text('Quick Stats', style: tx.heading3.copyWith(color: c.textPrimary)),
         SizedBox(height: sp.lg),
-
         LayoutBuilder(
           builder: (context, constraints) {
             final isNarrow = constraints.maxWidth < 500;
             final crossAxisCount = isNarrow ? 1 : 2;
             final aspectRatio = isNarrow ? 3.5 : 1.6;
-
             return GridView.count(
               crossAxisCount: crossAxisCount,
               shrinkWrap: true,
@@ -81,7 +70,7 @@ class AdminStatsSection extends StatelessWidget {
                   title: 'Avg Response',
                   value: '${avgResponseTime.toStringAsFixed(0)}ms',
                   icon: Icons.speed,
-                  color: t.accent.secondary, // replaced purple
+                  color: th.accent.secondary, // replaced purple
                   subtitle: '${perfStats['total_samples'] ?? 0} samples',
                 ),
               ],

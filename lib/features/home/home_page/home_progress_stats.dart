@@ -1,5 +1,4 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -11,7 +10,6 @@ import '../../../../common/layout/common_spacer.dart';
 
 class HomeProgressStats extends StatelessWidget {
   const HomeProgressStats({super.key});
-
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;

@@ -2,13 +2,10 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_typography.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-
 import 'dart:async';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../providers/core_providers.dart';
 import '../../services/encryption_service_v2.dart';
 import '../../common/layout/common_spacer.dart';
@@ -17,7 +14,6 @@ import '../../common/buttons/common_primary_button.dart';
 /// Screen for setting up PIN-based encryption
 class PinSetupScreen extends ConsumerStatefulWidget {
   const PinSetupScreen({super.key});
-
   @override
   ConsumerState<PinSetupScreen> createState() => _PinSetupScreenState();
 }
@@ -26,14 +22,12 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
   final _encryptionService = EncryptionServiceV2();
   final _pin1Controller = TextEditingController();
   final _pin2Controller = TextEditingController();
-
   bool _isLoading = false;
   bool _showRecoveryKey = false;
   String? _recoveryKey;
   String? _errorMessage;
   bool _pin1Obscure = true;
   bool _pin2Obscure = true;
-
   @override
   void dispose() {
     _pin1Controller.dispose();
@@ -46,11 +40,9 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
       _isLoading = true;
       _errorMessage = null;
     });
-
     try {
       final pin1 = _pin1Controller.text;
       final pin2 = _pin2Controller.text;
-
       // Validation
       if (pin1.length != 6) {
         throw Exception('PIN must be exactly 6 digits');
@@ -58,18 +50,15 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
       if (pin1 != pin2) {
         throw Exception('PINs do not match');
       }
-
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) {
         throw Exception('No authenticated user');
       }
-
       // Setup encryption
       final recoveryKey = await _encryptionService.setupNewSecrets(
         user.id,
         pin1,
       );
-
       setState(() {
         _recoveryKey = recoveryKey;
         _showRecoveryKey = true;
@@ -90,7 +79,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Fingerprint unlock enabled'),
-            backgroundColor: context.colors.success,
+            backgroundColor: c.success,
           ),
         );
       }
@@ -99,7 +88,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to enable biometrics: $e'),
-            backgroundColor: context.colors.error,
+            backgroundColor: c.error,
           ),
         );
       }
@@ -125,17 +114,14 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.text;
-
     if (_showRecoveryKey) {
       return _buildRecoveryKeyView(context);
     }
-
     return PopScope(
       canPop: false, // Prevent back navigation - user must complete PIN setup
       child: Scaffold(
@@ -143,7 +129,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
         appBar: AppBar(
           title: Text(
             'Setup Encryption',
-            style: t.heading3.copyWith(color: c.textPrimary),
+            style: tx.heading3.copyWith(color: c.textPrimary),
           ),
           backgroundColor: c.surface,
           elevation: context.sizes.elevationNone,
@@ -155,28 +141,25 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
             crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
             children: [
               // Icon
-              Icon(Icons.lock_outline, size: 80, color: a.primary),
+              Icon(Icons.lock_outline, size: 80, color: ac.primary),
               CommonSpacer.vertical(sp.xl),
-
               // Title
               Text(
                 'Create Your PIN',
-                style: t.heading2.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.heading2.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
                 textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.sm),
-
               // Description
               Text(
                 'Your PIN encrypts all sensitive data. Choose a 6-digit PIN you can remember.',
-                style: t.body.copyWith(color: c.textSecondary),
+                style: tx.body.copyWith(color: c.textSecondary),
                 textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.xl2),
-
               // PIN 1
               Container(
                 padding: EdgeInsets.all(sp.lg),
@@ -190,7 +173,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                   children: [
                     Text(
                       'Enter PIN',
-                      style: t.labelLarge.copyWith(color: c.textPrimary),
+                      style: tx.labelLarge.copyWith(color: c.textPrimary),
                     ),
                     CommonSpacer.vertical(sp.sm),
                     TextField(
@@ -198,7 +181,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                       obscureText: _pin1Obscure,
                       keyboardType: TextInputType.number,
                       maxLength: 6,
-                      style: t.heading3.copyWith(
+                      style: tx.heading3.copyWith(
                         letterSpacing: 8,
                         color: c.textPrimary,
                       ),
@@ -223,7 +206,6 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                 ),
               ),
               CommonSpacer.vertical(sp.lg),
-
               // PIN 2
               Container(
                 padding: EdgeInsets.all(sp.lg),
@@ -237,7 +219,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                   children: [
                     Text(
                       'Confirm PIN',
-                      style: t.labelLarge.copyWith(color: c.textPrimary),
+                      style: tx.labelLarge.copyWith(color: c.textPrimary),
                     ),
                     CommonSpacer.vertical(sp.sm),
                     TextField(
@@ -245,7 +227,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                       obscureText: _pin2Obscure,
                       keyboardType: TextInputType.number,
                       maxLength: 6,
-                      style: t.heading3.copyWith(
+                      style: tx.heading3.copyWith(
                         letterSpacing: 8,
                         color: c.textPrimary,
                       ),
@@ -269,7 +251,6 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                   ],
                 ),
               ),
-
               // Error message
               if (_errorMessage != null) ...[
                 CommonSpacer.vertical(sp.md),
@@ -295,16 +276,14 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                       Expanded(
                         child: Text(
                           _errorMessage!,
-                          style: t.body.copyWith(color: c.error),
+                          style: tx.body.copyWith(color: c.error),
                         ),
                       ),
                     ],
                   ),
                 ),
               ],
-
               CommonSpacer.vertical(sp.xl2),
-
               // Setup button
               CommonPrimaryButton(
                 onPressed: _setupEncryption,
@@ -320,12 +299,11 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
   }
 
   Widget _buildRecoveryKeyView(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final a = context.accent;
-    final t = context.text;
 
     return PopScope(
       canPop: false, // Prevent back navigation - user must save recovery key
@@ -334,7 +312,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
         appBar: AppBar(
           title: Text(
             'Recovery Key',
-            style: t.heading3.copyWith(color: c.textPrimary),
+            style: tx.heading3.copyWith(color: c.textPrimary),
           ),
           backgroundColor: c.surface,
           elevation: context.sizes.elevationNone,
@@ -348,18 +326,16 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
               // Icon
               Icon(Icons.key, size: 80, color: c.warning),
               CommonSpacer.vertical(sp.xl),
-
               // Title
               Text(
                 'Save Your Recovery Key',
-                style: t.heading2.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.heading2.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
                 textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.sm),
-
               // Warning
               Container(
                 padding: EdgeInsets.all(sp.md),
@@ -377,8 +353,8 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                         Expanded(
                           child: Text(
                             'IMPORTANT: Save this key securely',
-                            style: t.heading4.copyWith(
-                              fontWeight: text.bodyBold.fontWeight,
+                            style: tx.heading4.copyWith(
+                              fontWeight: tx.bodyBold.fontWeight,
                               color: c.textPrimary,
                             ),
                           ),
@@ -388,13 +364,12 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                     CommonSpacer.vertical(sp.xs),
                     Text(
                       'If you forget your PIN, this recovery key is the ONLY way to access your encrypted data. Write it down and store it somewhere safe.',
-                      style: t.body.copyWith(color: c.textSecondary),
+                      style: tx.body.copyWith(color: c.textSecondary),
                     ),
                   ],
                 ),
               ),
               CommonSpacer.vertical(sp.xl),
-
               // Recovery key
               Container(
                 padding: EdgeInsets.all(sp.lg),
@@ -402,7 +377,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                   color: c.surface,
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(
-                    color: a.primary,
+                    color: ac.primary,
                     width: context.sizes.borderRegular,
                   ),
                 ),
@@ -410,10 +385,10 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                   children: [
                     SelectableText(
                       _recoveryKey ?? '',
-                      style: t.heading3.copyWith(
-                        fontWeight: text.bodyBold.fontWeight,
+                      style: tx.heading3.copyWith(
+                        fontWeight: tx.bodyBold.fontWeight,
                         letterSpacing: 2,
-                        color: a.primary,
+                        color: ac.primary,
                         fontFamily: AppTypographyConstants.fontFamilyMonospace,
                       ),
                       textAlign: AppLayout.textAlignCenter,
@@ -424,15 +399,14 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                       icon: const Icon(Icons.copy),
                       label: const Text('Copy to Clipboard'),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: a.primary,
-                        side: BorderSide(color: a.primary),
+                        foregroundColor: ac.primary,
+                        side: BorderSide(color: ac.primary),
                       ),
                     ),
                   ],
                 ),
               ),
               CommonSpacer.vertical(sp.xl2),
-
               // Enable biometrics option
               OutlinedButton.icon(
                 onPressed: _enableBiometrics,
@@ -440,12 +414,11 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                 label: const Text('Enable Fingerprint Unlock (Optional)'),
                 style: OutlinedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: sp.md),
-                  foregroundColor: a.primary,
-                  side: BorderSide(color: a.primary),
+                  foregroundColor: ac.primary,
+                  side: BorderSide(color: ac.primary),
                 ),
               ),
               CommonSpacer.vertical(sp.md),
-
               // Finish button
               CommonPrimaryButton(
                 onPressed: _finishSetup,

@@ -15,13 +15,11 @@
 // - Selection highlighting
 // - Icon representation for each bucket type
 // - Tap-to-select interaction
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,7 +43,6 @@ class SystemBucketCard extends ConsumerWidget {
   final bool isActive;
   final bool isSelected;
   final VoidCallback onTap;
-
   const SystemBucketCard({
     super.key,
     required this.bucketType,
@@ -55,7 +52,6 @@ class SystemBucketCard extends ConsumerWidget {
     required this.isSelected,
     required this.onTap,
   });
-
   // NEW: State → color
   Color _getStateColor(ToleranceSystemState state, ColorPalette c) {
     switch (state) {
@@ -98,20 +94,18 @@ class SystemBucketCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Access theme components through context extensions
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
-
-    final stateColor = _getStateColor(state, colors);
-
+    final c = context.colors;
+    final sp = context.spacing;
+    final tx = context.text;
+    final sh = context.shapes;
+    final stateColor = _getStateColor(state, c);
     return Container(
       width: context.sizes.cardWidthMd,
       decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(radii.radiusMd),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
         border: Border.all(
-          color: isSelected ? stateColor : colors.border,
+          color: isSelected ? stateColor : c.border,
           width: isSelected
               ? context.sizes.borderRegular
               : context.sizes.borderThin,
@@ -120,9 +114,9 @@ class SystemBucketCard extends ConsumerWidget {
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(radii.radiusMd),
+        borderRadius: BorderRadius.circular(sh.radiusMd),
         child: Padding(
-          padding: EdgeInsets.all(spacing.sm),
+          padding: EdgeInsets.all(sp.sm),
           child: Column(
             mainAxisSize: AppLayout.mainAxisSizeMin,
             children: [
@@ -132,36 +126,31 @@ class SystemBucketCard extends ConsumerWidget {
                 size: context.sizes.iconMd,
                 color: stateColor,
               ),
-              CommonSpacer.vertical(spacing.sm),
-
+              CommonSpacer.vertical(sp.sm),
               // Bucket name
               Text(
                 BucketDefinitions.getDisplayName(bucketType),
-                style: typography.bodyBold.copyWith(color: colors.textPrimary),
+                style: tx.bodyBold.copyWith(color: c.textPrimary),
                 textAlign: AppLayout.textAlignCenter,
                 maxLines: 2,
                 overflow: AppLayout.textOverflowEllipsis,
               ),
-
-              CommonSpacer.vertical(spacing.sm),
-
+              CommonSpacer.vertical(sp.sm),
               // Tolerance percentage with state color
               Text(
                 '${tolerancePercent.toStringAsFixed(1)}%',
-                style: typography.heading3.copyWith(color: stateColor),
+                style: tx.heading3.copyWith(color: stateColor),
               ),
-
-              CommonSpacer.vertical(spacing.sm),
-
+              CommonSpacer.vertical(sp.sm),
               // Status badge showing current system state
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: spacing.sm,
-                  vertical: spacing.xs,
+                  horizontal: sp.sm,
+                  vertical: sp.xs,
                 ),
                 decoration: BoxDecoration(
                   color: stateColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(radii.radiusMd),
+                  borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(
                     color: stateColor.withValues(alpha: 0.35),
                     width: context.sizes.borderThin,
@@ -169,27 +158,26 @@ class SystemBucketCard extends ConsumerWidget {
                 ),
                 child: Text(
                   state.displayName,
-                  style: typography.captionBold.copyWith(color: stateColor),
+                  style: tx.captionBold.copyWith(color: stateColor),
                 ),
               ),
-
               // Active indicator badge (shown when substances are actively affecting this bucket)
               if (isActive) ...[
-                CommonSpacer.vertical(spacing.xs),
+                CommonSpacer.vertical(sp.xs),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: spacing.sm,
-                    vertical: spacing.xs / 2,
+                    horizontal: sp.sm,
+                    vertical: sp.xs / 2,
                   ),
                   decoration: BoxDecoration(
-                    color: colors.info.withValues(alpha: 0.18),
-                    borderRadius: BorderRadius.circular(radii.radiusSm),
+                    color: c.info.withValues(alpha: 0.18),
+                    borderRadius: BorderRadius.circular(sh.radiusSm),
                   ),
                   child: Text(
                     'ACTIVE',
-                    style: typography.captionBold.copyWith(
-                      color: colors.info,
-                      fontSize: context.text.caption.fontSize,
+                    style: tx.captionBold.copyWith(
+                      color: c.info,
+                      fontSize: tx.caption.fontSize,
                     ),
                   ),
                 ),

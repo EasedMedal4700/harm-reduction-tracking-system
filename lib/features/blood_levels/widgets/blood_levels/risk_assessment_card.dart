@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSpacer.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../services/blood_levels_service.dart';
@@ -13,16 +12,13 @@ import '../../../../common/cards/common_card.dart';
 /// Risk assessment card with gradient indicator
 class RiskAssessmentCard extends StatelessWidget {
   final Map<String, DrugLevel> levels;
-
   const RiskAssessmentCard({super.key, required this.levels});
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-
     // ----------------------------
     // RISK EVALUATION LOGIC
     // ----------------------------
@@ -30,17 +26,14 @@ class RiskAssessmentCard extends StatelessWidget {
     final moderateRisk = levels.values
         .where((l) => l.percentage > 10 && l.percentage <= 20)
         .length;
-
     final totalDose = levels.values.fold<double>(
       0.0,
       (sum, l) => sum + l.totalRemaining,
     );
-
     String riskLevel;
     Color riskColor;
     String warningMessage;
     double riskPosition;
-
     if (highRisk > 0) {
       riskLevel = 'HIGH';
       riskColor = c.error;
@@ -64,7 +57,6 @@ class RiskAssessmentCard extends StatelessWidget {
       warningMessage = 'System clear. No active substances detected.';
       riskPosition = 0.0;
     }
-
     // ----------------------------
     // UI
     // ----------------------------
@@ -79,7 +71,7 @@ class RiskAssessmentCard extends StatelessWidget {
             // HEADER
             Row(
               children: [
-                Text('Risk Assessment', style: text.heading4),
+                Text('Risk Assessment', style: tx.heading4),
                 const Spacer(),
                 Container(
                   padding: EdgeInsets.symmetric(
@@ -97,7 +89,7 @@ class RiskAssessmentCard extends StatelessWidget {
                   ),
                   child: Text(
                     riskLevel,
-                    style: text.bodyBold.copyWith(
+                    style: tx.bodyBold.copyWith(
                       color: riskColor,
                       letterSpacing: context.sizes.letterSpacingMd,
                     ),
@@ -105,12 +97,10 @@ class RiskAssessmentCard extends StatelessWidget {
                 ),
               ],
             ),
-
             SizedBox(height: sp.lg),
-
             // RISK GRADIENT BAR
             Container(
-              height: context.spacing.md,
+              height: sp.md,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(sh.radiusMd),
                 gradient: LinearGradient(
@@ -131,7 +121,7 @@ class RiskAssessmentCard extends StatelessWidget {
                       height: context.sizes.iconSm,
                       decoration: BoxDecoration(
                         color: riskColor,
-                        shape: context.shapes.boxShapeCircle,
+                        shape: sh.boxShapeCircle,
                         border: Border.all(
                           width: context.borders.medium,
                           color: c.surface,
@@ -151,23 +141,19 @@ class RiskAssessmentCard extends StatelessWidget {
                 ],
               ),
             ),
-
             SizedBox(height: sp.sm),
-
             Row(
               mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
-                Text('LOW', style: text.captionBold.copyWith(color: c.success)),
-                Text('HIGH', style: text.captionBold.copyWith(color: c.error)),
+                Text('LOW', style: tx.captionBold.copyWith(color: c.success)),
+                Text('HIGH', style: tx.captionBold.copyWith(color: c.error)),
               ],
             ),
-
             SizedBox(height: sp.md),
-
             // WARNING MESSAGE
             Text(
               warningMessage,
-              style: text.bodySmall.copyWith(
+              style: tx.bodySmall.copyWith(
                 color: c.textSecondary,
                 height: 1.35,
               ),

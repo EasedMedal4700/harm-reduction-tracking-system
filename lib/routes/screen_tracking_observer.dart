@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../services/error_logging_service.dart';
 
 class ScreenTrackingNavigatorObserver

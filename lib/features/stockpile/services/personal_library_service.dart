@@ -11,11 +11,9 @@ class PersonalLibraryService {
   Future<List<DrugCatalogEntry>> fetchCatalog() async {
     try {
       ErrorHandler.logDebug('PersonalLibraryService', 'Fetching drug catalog');
-
       final profiles = await _loadDrugProfiles();
       final entries = await _loadDatabaseEntries();
       final prefs = await SharedPreferences.getInstance();
-
       final Map<String, List<Map<String, dynamic>>> grouped = {};
       for (final entry in entries) {
         final name = (entry['name'] as String?)?.trim();
@@ -25,7 +23,6 @@ class PersonalLibraryService {
             .putIfAbsent(DrugDataParser.normalizeName(name), () => [])
             .add(entry);
       }
-
       final List<DrugCatalogEntry> catalog = [];
       grouped.forEach((normalizedName, entryList) {
         final categories = profiles[normalizedName] ?? const ['Unknown'];
@@ -38,17 +35,14 @@ class PersonalLibraryService {
           mostActive: weekdayData['mostActive'],
           leastActive: weekdayData['leastActive'],
         );
-
         // Use Title Case for the canonical display name
         // We use the name from the most recent entry to determine the base string, but force Title Case
         final rawName = entryList.first['name'] as String;
         final displayName = DrugDataParser.toTitleCase(rawName);
-
         final local = DrugPreferencesManager.readPreferences(
           prefs,
           displayName,
         );
-
         catalog.add(
           DrugCatalogEntry(
             name: displayName,
@@ -64,12 +58,10 @@ class PersonalLibraryService {
           ),
         );
       });
-
       catalog.sort(
         (a, b) => (b.lastUsed ?? DateTime.fromMillisecondsSinceEpoch(0))
             .compareTo(a.lastUsed ?? DateTime.fromMillisecondsSinceEpoch(0)),
       );
-
       ErrorHandler.logInfo(
         'PersonalLibraryService',
         'Loaded ${catalog.length} drug entries',
@@ -91,7 +83,6 @@ class PersonalLibraryService {
         'PersonalLibraryService',
         'Toggling favorite for ${entry.name}',
       );
-
       final updatedFavorite = !entry.favorite;
       final currentPrefs = LocalPrefs(
         favorite: entry.favorite,
@@ -99,13 +90,11 @@ class PersonalLibraryService {
         notes: entry.notes,
         quantity: entry.quantity,
       );
-
       await DrugPreferencesManager.saveFavorite(
         entry.name,
         updatedFavorite,
         currentPrefs,
       );
-
       ErrorHandler.logInfo(
         'PersonalLibraryService',
         'Favorite toggled for ${entry.name}: $updatedFavorite',
@@ -142,7 +131,6 @@ class PersonalLibraryService {
       final response = await Supabase.instance.client
           .from('drug_profiles')
           .select('name, categories');
-
       for (final row in (response as List<dynamic>)) {
         final data = row as Map<String, dynamic>;
         final name = (data['name'] as String?)?.trim();
@@ -150,7 +138,6 @@ class PersonalLibraryService {
         profiles[DrugDataParser.normalizeName(name)] =
             DrugDataParser.parseCategories(data['categories']);
       }
-
       if (profiles.isNotEmpty) {
         return profiles;
       }
@@ -161,7 +148,6 @@ class PersonalLibraryService {
         stackTrace,
       );
     }
-
     return {
       'methylphenidate': ['Stimulant'],
       'cannabis': ['Cannabinoid'],
@@ -177,7 +163,6 @@ class PersonalLibraryService {
           .select('name, start_time, dose')
           .eq('uuid_user_id', userId)
           .order('start_time', ascending: false);
-
       return (response as List<dynamic>)
           .map(
             (item) => Map<String, dynamic>.from(item as Map<String, dynamic>),

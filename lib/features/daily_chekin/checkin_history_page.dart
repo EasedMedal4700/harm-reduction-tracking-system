@@ -8,7 +8,6 @@ import '../../constants/theme/app_theme_extension.dart';
 
 class CheckinHistoryScreen extends StatefulWidget {
   const CheckinHistoryScreen({super.key});
-
   @override
   State<CheckinHistoryScreen> createState() => _CheckinHistoryScreenState();
 }
@@ -25,26 +24,24 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
-        title: Text('Check-In History', style: t.typography.heading3),
+        title: Text('Check-In History', style: th.typography.heading3),
         backgroundColor: c.surface,
-        elevation: t.sizes.elevationNone,
+        elevation: th.sizes.elevationNone,
         iconTheme: IconThemeData(color: c.textPrimary),
       ),
       drawer: const CommonDrawer(),
       body: Consumer<DailyCheckinProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
-            return Center(child: CircularProgressIndicator(color: a.primary));
+            return Center(child: CircularProgressIndicator(color: ac.primary));
           }
-
           if (provider.recentCheckins.isEmpty) {
             return Center(
               child: Column(
@@ -58,20 +55,19 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
                   SizedBox(height: sp.lg),
                   Text(
                     'No check-ins yet',
-                    style: t.typography.heading3.copyWith(
+                    style: th.typography.heading3.copyWith(
                       color: c.textSecondary,
                     ),
                   ),
                   SizedBox(height: sp.sm),
                   Text(
                     'Start tracking your daily mood!',
-                    style: t.typography.body.copyWith(color: c.textSecondary),
+                    style: th.typography.body.copyWith(color: c.textSecondary),
                   ),
                 ],
               ),
             );
           }
-
           return ListView.builder(
             padding: EdgeInsets.all(sp.lg),
             itemCount: provider.recentCheckins.length,

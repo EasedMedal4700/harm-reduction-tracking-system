@@ -5,9 +5,7 @@
 // Theme: N/A
 // Common: N/A
 // Notes: Immutable state for PIN unlock flow.
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'pin_unlock_state.freezed.dart';
 
 @freezed

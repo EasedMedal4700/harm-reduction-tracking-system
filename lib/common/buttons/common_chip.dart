@@ -6,7 +6,6 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-
 /// Selectable chip component for emotions, triggers, body signals
 class CommonChip extends StatelessWidget {
   final String label;
@@ -18,7 +17,6 @@ class CommonChip extends StatelessWidget {
   final String? emoji;
   final IconData? icon;
   final bool showGlow;
-
   const CommonChip({
     required this.label,
     required this.isSelected,
@@ -31,30 +29,28 @@ class CommonChip extends StatelessWidget {
     this.showGlow = false,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final accentColor = selectedColor ?? t.accent.primary;
-
+    final th = context.theme;
+    final accentColor = selectedColor ?? th.accent.primary;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: EdgeInsets.symmetric(
-          horizontal: t.spacing.md,
-          vertical: t.spacing.sm,
+          horizontal: th.spacing.md,
+          vertical: th.spacing.sm,
         ),
         decoration: BoxDecoration(
           color: isSelected
-              ? accentColor.withValues(alpha: t.isDark ? 0.15 : 0.1)
+              ? accentColor.withValues(alpha: th.isDark ? 0.15 : 0.1)
               : (unselectedColor ??
-                    t.colors.surfaceVariant.withValues(alpha: 0.5)),
-          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+                    th.colors.surfaceVariant.withValues(alpha: 0.5)),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
           border: Border.all(
             color: isSelected
                 ? (selectedBorderColor ?? accentColor)
-                : t.colors.border,
+                : th.colors.border,
             width: isSelected ? 2 : 1,
           ),
           boxShadow: isSelected && showGlow
@@ -72,25 +68,25 @@ class CommonChip extends StatelessWidget {
           children: [
             if (emoji != null) ...[
               Text(emoji!, style: const TextStyle(fontSize: 16)),
-              SizedBox(width: t.spacing.sm),
+              SizedBox(width: th.spacing.sm),
             ],
             if (icon != null) ...[
               Icon(
                 icon,
                 size: 16,
                 color: isSelected
-                    ? t.colors.textPrimary
-                    : t.colors.textSecondary,
+                    ? th.colors.textPrimary
+                    : th.colors.textSecondary,
               ),
-              SizedBox(width: t.spacing.sm),
+              SizedBox(width: th.spacing.sm),
             ],
             Text(
               label,
-              style: t.text.bodySmall.copyWith(
+              style: th.text.bodySmall.copyWith(
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 color: isSelected
-                    ? t.colors.textPrimary
-                    : t.colors.textSecondary,
+                    ? th.colors.textPrimary
+                    : th.colors.textSecondary,
               ),
             ),
           ],

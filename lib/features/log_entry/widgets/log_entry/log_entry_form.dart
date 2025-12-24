@@ -19,7 +19,6 @@ import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 class LogEntryForm extends StatelessWidget {
   final GlobalKey<FormState>? formKey;
   final bool isSimpleMode;
-
   // Data
   final double? dose;
   final String? unit;
@@ -36,12 +35,10 @@ class LogEntryForm extends StatelessWidget {
   final String? intention;
   final List<String>? selectedTriggers;
   final List<String>? selectedBodySignals;
-
   // Controllers
   final TextEditingController? notesCtrl;
   final TextEditingController? doseCtrl;
   final TextEditingController? substanceCtrl;
-
   // Callbacks
   final ValueChanged<double>? onDoseChanged;
   final ValueChanged<String>? onUnitChanged;
@@ -59,9 +56,7 @@ class LogEntryForm extends StatelessWidget {
   final ValueChanged<List<String>>? onTriggersChanged;
   final ValueChanged<List<String>>? onBodySignalsChanged;
   final VoidCallback? onSave;
-
   final bool showSaveButton;
-
   const LogEntryForm({
     super.key,
     this.formKey,
@@ -102,22 +97,18 @@ class LogEntryForm extends StatelessWidget {
     this.onSave,
     this.showSaveButton = true,
   });
-
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
-
     final routeOptions = DrugUseCatalog.consumptionMethods
         .map((m) => m['name']!)
         .toList(growable: false);
-
     final normalizedRoute = () {
       final raw = route;
       if (raw == null || raw.trim().isEmpty) return 'oral';
       final lower = raw.toLowerCase();
       return routeOptions.contains(lower) ? lower : 'oral';
     }();
-
     return Form(
       key: formKey,
       child: Column(
@@ -131,7 +122,6 @@ class LogEntryForm extends StatelessWidget {
             validator: (v) => v == null || v.isEmpty ? 'Required' : null,
           ),
           CommonSpacer.vertical(sp.md),
-
           // Dose & Unit
           Row(
             children: [
@@ -162,7 +152,6 @@ class LogEntryForm extends StatelessWidget {
             ],
           ),
           CommonSpacer.vertical(sp.md),
-
           // Route
           CommonDropdown<String>(
             value: normalizedRoute,
@@ -177,11 +166,9 @@ class LogEntryForm extends StatelessWidget {
             hintText: 'Route of Administration',
           ),
           CommonSpacer.vertical(sp.md),
-
           // Time Selector
           _buildTimeSelector(context),
           CommonSpacer.vertical(sp.md),
-
           // Location
           CommonDropdown<String>(
             value: location ?? DrugUseCatalog.locations.first,
@@ -194,7 +181,6 @@ class LogEntryForm extends StatelessWidget {
             hintText: 'Location',
           ),
           CommonSpacer.vertical(sp.md),
-
           // Medical Purpose
           CommonSwitchTile(
             title: 'Medical Purpose',
@@ -202,7 +188,6 @@ class LogEntryForm extends StatelessWidget {
             onChanged: (v) => onMedicalPurposeChanged?.call(v),
           ),
           CommonSpacer.vertical(sp.md),
-
           // Complex Mode Inputs
           if (!isSimpleMode) ...[
             // Intention
@@ -217,7 +202,6 @@ class LogEntryForm extends StatelessWidget {
               hintText: 'Intention',
             ),
             CommonSpacer.vertical(sp.md),
-
             // Craving Intensity
             CommonCard(
               padding: EdgeInsets.all(sp.cardPadding),
@@ -240,7 +224,6 @@ class LogEntryForm extends StatelessWidget {
               ),
             ),
             CommonSpacer.vertical(sp.md),
-
             // Emotions
             EmotionSelector(
               selectedEmotions: feelings ?? [],
@@ -260,11 +243,9 @@ class LogEntryForm extends StatelessWidget {
               },
             ),
             CommonSpacer.vertical(sp.md),
-
             // Secondary Emotions
             if (feelings != null && feelings!.isNotEmpty)
               _buildSecondaryEmotions(context),
-
             // Triggers
             CommonChipGroup(
               title: 'Triggers',
@@ -274,7 +255,6 @@ class LogEntryForm extends StatelessWidget {
               onChanged: (v) => onTriggersChanged?.call(v),
             ),
             CommonSpacer.vertical(sp.md),
-
             // Body Signals
             CommonChipGroup(
               title: 'Body Signals',
@@ -285,7 +265,6 @@ class LogEntryForm extends StatelessWidget {
             ),
             CommonSpacer.vertical(sp.md),
           ],
-
           // Notes
           CommonTextarea(
             controller: notesCtrl,
@@ -293,7 +272,6 @@ class LogEntryForm extends StatelessWidget {
             maxLines: 3,
           ),
           CommonSpacer.vertical(sp.lg),
-
           if (showSaveButton && onSave != null)
             CommonPrimaryButton(onPressed: onSave!, label: 'Save Entry'),
         ],
@@ -302,12 +280,11 @@ class LogEntryForm extends StatelessWidget {
   }
 
   Widget _buildTimeSelector(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final time = TimeOfDay(
       hour: hour ?? TimeOfDay.now().hour,
       minute: minute ?? TimeOfDay.now().minute,
     );
-
     return InkWell(
       onTap: () async {
         final picked = await showTimePicker(
@@ -319,23 +296,23 @@ class LogEntryForm extends StatelessWidget {
           onMinuteChanged?.call(picked.minute);
         }
       },
-      borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+      borderRadius: BorderRadius.circular(th.shapes.radiusMd),
       child: InputDecorator(
         decoration: InputDecoration(
           labelText: 'Time',
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+            borderRadius: BorderRadius.circular(th.shapes.radiusMd),
           ),
           contentPadding: EdgeInsets.symmetric(
-            horizontal: t.spacing.md,
-            vertical: t.spacing.sm,
+            horizontal: th.spacing.md,
+            vertical: th.spacing.sm,
           ),
         ),
         child: Row(
           mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: [
-            Text(time.format(context), style: t.text.body),
-            Icon(Icons.access_time, color: t.colors.textSecondary),
+            Text(time.format(context), style: th.text.body),
+            Icon(Icons.access_time, color: th.colors.textSecondary),
           ],
         ),
       ),
@@ -343,7 +320,8 @@ class LogEntryForm extends StatelessWidget {
   }
 
   Widget _buildSecondaryEmotions(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
+
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: feelings!.map((emotion) {
@@ -351,9 +329,8 @@ class LogEntryForm extends StatelessWidget {
         if (secondaryOptions == null || secondaryOptions.isEmpty) {
           return const SizedBox.shrink();
         }
-
         return Padding(
-          padding: EdgeInsets.only(bottom: t.spacing.md),
+          padding: EdgeInsets.only(bottom: th.spacing.md),
           child: CommonChipGroup(
             title: '$emotion Details',
             options: secondaryOptions,

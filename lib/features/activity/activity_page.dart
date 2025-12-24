@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Main activity page with tabs. Uses AppThemeExtension. No hardcoded values.
-
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../common/layout/common_drawer.dart';
@@ -22,7 +21,6 @@ import 'package:mobile_drug_use_app/constants/strings/app_strings.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});
-
   @override
   State<ActivityPage> createState() => _ActivityPageState();
 }
@@ -33,7 +31,6 @@ class _ActivityPageState extends State<ActivityPage>
   Map<String, dynamic> _activity = {};
   bool _isLoading = true;
   late TabController _tabController;
-
   @override
   void initState() {
     super.initState();
@@ -68,30 +65,29 @@ class _ActivityPageState extends State<ActivityPage>
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return Scaffold(
-      backgroundColor: t.colors.background,
+      backgroundColor: th.colors.background,
       appBar: AppBar(
         title: Text(
           'Recent Activity',
-          style: t.typography.heading3.copyWith(color: t.colors.textPrimary),
+          style: th.typography.heading3.copyWith(color: th.colors.textPrimary),
         ),
-        backgroundColor: t.colors.surface,
-        elevation: t.sizes.elevationNone,
+        backgroundColor: th.colors.surface,
+        elevation: th.sizes.elevationNone,
         actions: [
           CommonIconButton(
             icon: Icons.refresh,
             onPressed: _fetchActivity,
             tooltip: 'Refresh',
-            color: t.colors.textPrimary,
+            color: th.colors.textPrimary,
           ),
         ],
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: t.accent.primary,
-          labelColor: t.colors.textPrimary,
-          unselectedLabelColor: t.colors.textSecondary,
+          indicatorColor: th.accent.primary,
+          labelColor: th.colors.textPrimary,
+          unselectedLabelColor: th.colors.textSecondary,
           tabs: [
             Tab(
               icon: Icon(
@@ -193,7 +189,6 @@ class _ActivityPageState extends State<ActivityPage>
     required String serviceName,
   }) async {
     final confirmed = await ActivityDeleteDialog.show(context, entryType);
-
     if (confirmed && context.mounted) {
       Navigator.pop(context); // Close bottom sheet
       await _deleteEntry(context, entryId, serviceName);
@@ -209,18 +204,16 @@ class _ActivityPageState extends State<ActivityPage>
       final supabase = Supabase.instance.client;
       final userId = UserService.getCurrentUserId();
       final idColumn = ActivityHelpers.getIdColumn(serviceName);
-
       await supabase
           .from(serviceName)
           .delete()
           .eq('uuid_user_id', userId)
           .eq(idColumn, entryId);
-
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(AppStrings.entryDeletedSuccess),
-            backgroundColor: context.theme.colors.success,
+            backgroundColor: th.colors.success,
           ),
         );
         _fetchActivity();
@@ -230,7 +223,7 @@ class _ActivityPageState extends State<ActivityPage>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('${AppStrings.errorDeletingEntry}$e'),
-            backgroundColor: context.theme.colors.error,
+            backgroundColor: th.colors.error,
           ),
         );
       }

@@ -8,7 +8,6 @@ class CommonStatCard extends StatelessWidget {
   final IconData icon;
   final Color? color;
   final VoidCallback? onTap;
-
   const CommonStatCard({
     required this.title,
     required this.value,
@@ -18,17 +17,14 @@ class CommonStatCard extends StatelessWidget {
     this.onTap,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final acc = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.text;
-
-    final cardColor = color ?? acc.primary;
-
+    final tx = context.text;
+    final cardColor = color ?? ac.primary;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -69,7 +65,7 @@ class CommonStatCard extends StatelessWidget {
             SizedBox(height: sp.md),
             Text(
               value,
-              style: t.heading3.copyWith(
+              style: tx.heading3.copyWith(
                 color: c.textPrimary,
                 fontWeight: FontWeight.bold,
               ),
@@ -77,7 +73,7 @@ class CommonStatCard extends StatelessWidget {
             SizedBox(height: sp.xs),
             Text(
               title,
-              style: t.caption.copyWith(
+              style: tx.caption.copyWith(
                 color: c.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
@@ -88,7 +84,7 @@ class CommonStatCard extends StatelessWidget {
               SizedBox(height: sp.xs),
               Text(
                 subtitle!,
-                style: t.caption.copyWith(
+                style: tx.caption.copyWith(
                   fontSize: 10, // Small caption
                   color: c.textSecondary.withValues(alpha: 0.7),
                 ),

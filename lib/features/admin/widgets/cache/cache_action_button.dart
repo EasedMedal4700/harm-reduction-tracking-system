@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully theme-based. No hardcoded values.
-
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 
@@ -13,7 +12,6 @@ class CacheActionButton extends StatelessWidget {
   final IconData icon;
   final Color color;
   final VoidCallback onPressed;
-
   const CacheActionButton({
     super.key,
     required this.label,
@@ -21,24 +19,19 @@ class CacheActionButton extends StatelessWidget {
     required this.color,
     required this.onPressed,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-
+    final tx = context.text;
     return ElevatedButton.icon(
       onPressed: onPressed,
-
       icon: Icon(
         icon,
         size: context.sizes.iconSm,
         color: color, // stays as user accent color
       ),
-
-      label: Text(label, style: text.button.copyWith(color: color)),
-
+      label: Text(label, style: tx.button.copyWith(color: color)),
       style: ElevatedButton.styleFrom(
         backgroundColor: color.withValues(alpha: context.opacities.veryLow),
         foregroundColor: color,

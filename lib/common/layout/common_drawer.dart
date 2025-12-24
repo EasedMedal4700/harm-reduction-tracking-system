@@ -13,10 +13,8 @@ import '../../services/user_service.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Replaces old_common/drawer_menu.dart. Fully themed.
-
 class CommonDrawer extends StatefulWidget {
   const CommonDrawer({super.key});
-
   @override
   State<CommonDrawer> createState() => _CommonDrawerState();
 }
@@ -25,7 +23,6 @@ class _CommonDrawerState extends State<CommonDrawer> {
   late Timer _timer;
   DateTime _now = DateTime.now();
   bool _isAdmin = false;
-
   @override
   void initState() {
     super.initState();
@@ -63,8 +60,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
-
+    final tx = context.text;
     // Section 1: Main Navigation (with feature flag keys)
     final List<Map<String, dynamic>> mainPages = [
       {
@@ -98,7 +94,6 @@ class _CommonDrawerState extends State<CommonDrawer> {
         'flag': FeatureFlags.reflectionPage,
       },
     ];
-
     // Section 2: Data & Resources
     final List<Map<String, dynamic>> dataPages = [
       {
@@ -120,7 +115,6 @@ class _CommonDrawerState extends State<CommonDrawer> {
         'flag': FeatureFlags.catalogPage,
       },
     ];
-
     // Section 3: Advanced Features
     final List<Map<String, dynamic>> advancedPages = [
       {
@@ -148,7 +142,6 @@ class _CommonDrawerState extends State<CommonDrawer> {
         'flag': FeatureFlags.wearosPage,
       },
     ];
-
     return Consumer<FeatureFlagService>(
       builder: (context, flags, _) {
         // Filter pages based on feature flags
@@ -167,14 +160,12 @@ class _CommonDrawerState extends State<CommonDrawer> {
               (p) => flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin),
             )
             .toList();
-
         return Drawer(
           backgroundColor: c.surface,
           child: Column(
             children: [
               // Modern gradient header
               _buildModernHeader(context),
-
               // Use Expanded so the time stays at the bottom
               Expanded(
                 child: ListView(
@@ -187,7 +178,6 @@ class _CommonDrawerState extends State<CommonDrawer> {
                       ),
                       _buildSleekDivider(context),
                     ],
-
                     // Section 2: Data & Resources
                     if (filteredDataPages.isNotEmpty) ...[
                       ...filteredDataPages.map(
@@ -195,7 +185,6 @@ class _CommonDrawerState extends State<CommonDrawer> {
                       ),
                       _buildSleekDivider(context),
                     ],
-
                     // Section 3: Advanced Features
                     if (filteredAdvancedPages.isNotEmpty) ...[
                       ...filteredAdvancedPages.map(
@@ -203,7 +192,6 @@ class _CommonDrawerState extends State<CommonDrawer> {
                       ),
                       _buildSleekDivider(context),
                     ],
-
                     // Daily Check-In
                     if (flags.isEnabled(
                       FeatureFlags.dailyCheckin,
@@ -214,7 +202,6 @@ class _CommonDrawerState extends State<CommonDrawer> {
                         'title': 'Daily Check-In',
                         'builder': AppRoutes.buildDailyCheckinPage,
                       }),
-
                     // Log Entry
                     if (flags.isEnabled(
                       FeatureFlags.logEntryPage,
@@ -225,27 +212,23 @@ class _CommonDrawerState extends State<CommonDrawer> {
                         'title': 'Log Entry',
                         'builder': AppRoutes.buildLogEntryPage,
                       }),
-
                     // Settings (always visible)
                     _buildMenuItem(context, {
                       'icon': Icons.settings,
                       'title': 'Settings',
                       'builder': AppRoutes.buildSettingsPage,
                     }),
-
                     // Bug Report (always visible)
                     _buildMenuItem(context, {
                       'icon': Icons.report_problem,
                       'title': 'Report a Bug',
                       'builder': AppRoutes.buildBugReportPage,
                     }),
-
                     // Admin: Feature Flags (admin only)
                     if (_isAdmin) _buildAdminFeatureFlagsItem(context),
                   ],
                 ),
               ),
-
               // Live time at the bottom of the drawer
               Container(
                 padding: const EdgeInsets.symmetric(
@@ -260,12 +243,12 @@ class _CommonDrawerState extends State<CommonDrawer> {
                   children: [
                     Text(
                       _formatDate(_now),
-                      style: text.bodyMedium.copyWith(color: c.textSecondary),
+                      style: tx.bodyMedium.copyWith(color: c.textSecondary),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       _formatTime(_now),
-                      style: text.titleMedium.copyWith(
+                      style: tx.titleMedium.copyWith(
                         fontWeight: FontWeight.w600,
                         color: c.textPrimary,
                       ),
@@ -282,20 +265,19 @@ class _CommonDrawerState extends State<CommonDrawer> {
 
   Widget _buildModernHeader(BuildContext context) {
     final c = context.colors;
-    final accent = context.accent;
-    final text = context.text;
+    final tx = context.text;
 
+    final ac = context.accent;
     final user = Supabase.instance.client.auth.currentUser;
     final email = user?.email ?? 'Guest';
     final username = email.split('@')[0];
-
     return Container(
       height: 180,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [accent.primary, accent.primaryVariant],
+          colors: [ac.primary, ac.primaryVariant],
         ),
       ),
       child: SafeArea(
@@ -310,7 +292,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 backgroundColor: c.surface.withValues(alpha: 0.2),
                 child: Text(
                   username.isNotEmpty ? username[0].toUpperCase() : '?',
-                  style: text.headlineMedium.copyWith(
+                  style: tx.headlineMedium.copyWith(
                     fontWeight: FontWeight.bold,
                     color: c.textInverse,
                   ),
@@ -319,7 +301,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
               const SizedBox(height: 12),
               Text(
                 username,
-                style: text.titleLarge.copyWith(
+                style: tx.titleLarge.copyWith(
                   fontWeight: FontWeight.bold,
                   color: c.textInverse,
                 ),
@@ -327,7 +309,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
               const SizedBox(height: 4),
               Text(
                 email,
-                style: text.bodySmall.copyWith(
+                style: tx.bodySmall.copyWith(
                   color: c.textInverse.withValues(alpha: 0.8),
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -341,13 +323,13 @@ class _CommonDrawerState extends State<CommonDrawer> {
 
   Widget _buildMenuItem(BuildContext context, Map<String, dynamic> page) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
 
     return ListTile(
       leading: Icon(page['icon'], color: c.textSecondary),
       title: Text(
         page['title'],
-        style: text.bodyMedium.copyWith(color: c.textPrimary),
+        style: tx.bodyMedium.copyWith(color: c.textPrimary),
       ),
       onTap: () async {
         Navigator.pop(context);
@@ -367,6 +349,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
 
   Widget _buildSleekDivider(BuildContext context) {
     final c = context.colors;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Container(
@@ -386,13 +369,13 @@ class _CommonDrawerState extends State<CommonDrawer> {
 
   Widget _buildAdminFeatureFlagsItem(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
 
     return ListTile(
       leading: Icon(Icons.flag, color: c.warning),
       title: Text(
         'Feature Flags',
-        style: text.bodyMedium.copyWith(
+        style: tx.bodyMedium.copyWith(
           color: c.warning,
           fontWeight: FontWeight.w500,
         ),
@@ -405,7 +388,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
         ),
         child: Text(
           'Admin',
-          style: text.labelSmall.copyWith(
+          style: tx.labelSmall.copyWith(
             fontWeight: FontWeight.bold,
             color: c.warning,
           ),

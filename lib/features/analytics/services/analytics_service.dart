@@ -1,5 +1,4 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../../constants/enums/time_period.dart';
 import '../../../models/log_entry_model.dart';
 import '../../../repo/substance_repository.dart';
@@ -8,7 +7,6 @@ import '../../../utils/error_handler.dart';
 
 class AnalyticsService {
   Map<String, String> substanceToCategory = {};
-
   Future<List<LogEntry>> fetchEntries() async {
     try {
       final supabase = Supabase.instance.client;
@@ -150,28 +148,23 @@ class AnalyticsService {
       'Saturday': 0,
       'Sunday': 0,
     };
-
     // Filter entries for this substance
     final substanceEntries = entries
         .where((e) => e.substance.toLowerCase() == substanceName.toLowerCase())
         .toList();
-
     // Count by weekday
     // For non-medical use, day ends at 5am (e.g., 4am Sunday counts as Saturday)
     // For medical use, day ends at midnight (24:00)
     for (final entry in substanceEntries) {
       DateTime adjustedTime = entry.datetime;
-
       // For non-medical use, shift the day cutoff to 5am
       // If time is before 5am, count it as the previous day
       if (!entry.isMedicalPurpose && entry.datetime.hour < 5) {
         adjustedTime = entry.datetime.subtract(const Duration(hours: 5));
       }
-
       final weekday = _getWeekdayName(adjustedTime.weekday);
       weekdays[weekday] = (weekdays[weekday] ?? 0) + 1;
     }
-
     return weekdays;
   }
 
@@ -181,27 +174,21 @@ class AnalyticsService {
     if (weeklyUse.values.every((count) => count == 0)) {
       return 'None';
     }
-
     final maxEntry = weeklyUse.entries.reduce(
       (a, b) => a.value > b.value ? a : b,
     );
-
     return maxEntry.value > 0 ? maxEntry.key : 'None';
   }
 
   /// Get the day with least activity for a substance (excluding zero days)
   String getLeastActiveDay(List<LogEntry> entries, String substanceName) {
     final weeklyUse = computeWeeklyUse(entries, substanceName);
-
     // Filter out days with zero activity
     final nonZeroDays = weeklyUse.entries.where((e) => e.value > 0).toList();
-
     if (nonZeroDays.isEmpty) {
       return 'None';
     }
-
     final minEntry = nonZeroDays.reduce((a, b) => a.value < b.value ? a : b);
-
     return minEntry.key;
   }
 
@@ -231,17 +218,14 @@ class AnalyticsService {
     try {
       // Fetch all entries
       final allEntries = await fetchEntries();
-
       // Filter by period
       final filteredEntries = filterEntriesByPeriod(allEntries, period);
-
       // Fetch substance catalog and set category map
       final catalog = await fetchSubstancesCatalog();
       // final substanceToCategoryMap = {
       //   for (var item in catalog) item['name'].toLowerCase(): item['category'],
       // };
       setSubstanceToCategory(substanceToCategory);
-
       // Compute metrics
       final substanceCounts = getSubstanceCounts(filteredEntries);
       final categoryCounts = getCategoryCounts(filteredEntries);
@@ -252,7 +236,6 @@ class AnalyticsService {
         mostUsedCategory.value,
         filteredEntries.length,
       );
-
       // Return computed data
       return {
         'totalEntries': filteredEntries.length,

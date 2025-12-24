@@ -3,19 +3,16 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Theme alignment & structural cleanup. Not fully migrated or Riverpod integrated.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
-
 import 'analytics_filter_card.dart';
 import 'metrics_row.dart';
 import 'insight_summary_card.dart';
 import 'recent_activity_list.dart';
 import 'use_distribution_card.dart';
 import 'usage_trends_card.dart';
-
 import '../../../../models/log_entry_model.dart';
 import '../../../../constants/enums/time_period.dart';
 
@@ -33,26 +30,20 @@ import '../../../../constants/enums/time_period.dart';
 ///    - analytics_layout_desktop.dart
 class AnalyticsLayout extends StatelessWidget {
   final Widget filterContent;
-
   final int totalEntries;
   final String mostUsedSubstance;
   final int mostUsedCount;
   final double weeklyAverage;
   final String topCategory;
   final double topCategoryPercent;
-
   final Map<String, int> categoryCounts;
   final Map<String, int> substanceCounts;
-
   final List<LogEntry> filteredEntries;
   final Map<String, String> substanceToCategory;
-
   final Function(String) onCategoryTapped;
-
   final TimePeriod period;
   final String selectedPeriodText;
   final String mostUsedCategory;
-
   const AnalyticsLayout({
     super.key,
     required this.filterContent,
@@ -71,23 +62,20 @@ class AnalyticsLayout extends StatelessWidget {
     required this.selectedPeriodText,
     required this.mostUsedCategory,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWideScreen = constraints.maxWidth >= 900;
-
         return SingleChildScrollView(
-          padding: EdgeInsets.all(t.spacing.lg),
+          padding: EdgeInsets.all(th.spacing.lg),
           child: Column(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               /// 🔹 Filters
               AnalyticsFilterCard(filterContent: filterContent),
-              CommonSpacer.vertical(t.spacing.lg),
+              CommonSpacer.vertical(th.spacing.lg),
 
               /// 🔹 Metrics at the top (always full-width)
               MetricsRow(
@@ -98,7 +86,7 @@ class AnalyticsLayout extends StatelessWidget {
                 topCategory: topCategory,
                 topCategoryPercent: topCategoryPercent,
               ),
-              CommonSpacer.vertical(t.spacing.lg),
+              CommonSpacer.vertical(th.spacing.lg),
 
               /// 🔹 Main responsive content
               isWideScreen
@@ -115,7 +103,7 @@ class AnalyticsLayout extends StatelessWidget {
   // DESKTOP/TABLET LAYOUT (2-columns)
   // ---------------------------------------------------------------------------
   Widget _buildWideLayout(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
 
     return Row(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -130,8 +118,7 @@ class AnalyticsLayout extends StatelessWidget {
                 filteredEntries: filteredEntries,
                 substanceToCategory: substanceToCategory,
               ),
-              CommonSpacer.vertical(t.spacing.lg),
-
+              CommonSpacer.vertical(th.spacing.lg),
               InsightSummaryCard(
                 totalEntries: totalEntries,
                 mostUsedCategory: mostUsedCategory,
@@ -141,8 +128,7 @@ class AnalyticsLayout extends StatelessWidget {
             ],
           ),
         ),
-
-        CommonSpacer.horizontal(t.spacing.lg),
+        CommonSpacer.horizontal(th.spacing.lg),
 
         /// RIGHT COLUMN
         Expanded(
@@ -153,8 +139,7 @@ class AnalyticsLayout extends StatelessWidget {
                 period: period,
                 substanceToCategory: substanceToCategory,
               ),
-              CommonSpacer.vertical(t.spacing.lg),
-
+              CommonSpacer.vertical(th.spacing.lg),
               RecentActivityList(
                 entries: filteredEntries,
                 substanceToCategory: substanceToCategory,
@@ -170,7 +155,7 @@ class AnalyticsLayout extends StatelessWidget {
   // MOBILE LAYOUT (single column)
   // ---------------------------------------------------------------------------
   Widget _buildNarrowLayout(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
 
     return Column(
       children: [
@@ -180,23 +165,20 @@ class AnalyticsLayout extends StatelessWidget {
           filteredEntries: filteredEntries,
           substanceToCategory: substanceToCategory,
         ),
-        CommonSpacer.vertical(t.spacing.lg),
-
+        CommonSpacer.vertical(th.spacing.lg),
         UsageTrendsCard(
           filteredEntries: filteredEntries,
           period: period,
           substanceToCategory: substanceToCategory,
         ),
-        CommonSpacer.vertical(t.spacing.lg),
-
+        CommonSpacer.vertical(th.spacing.lg),
         InsightSummaryCard(
           totalEntries: totalEntries,
           mostUsedCategory: mostUsedCategory,
           weeklyAverage: weeklyAverage,
           selectedPeriodText: selectedPeriodText,
         ),
-        CommonSpacer.vertical(t.spacing.lg),
-
+        CommonSpacer.vertical(th.spacing.lg),
         RecentActivityList(
           entries: filteredEntries,
           substanceToCategory: substanceToCategory,

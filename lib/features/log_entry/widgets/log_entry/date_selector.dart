@@ -7,13 +7,11 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 class DateSelector extends StatelessWidget {
   final DateTime selectedDate;
   final ValueChanged<DateTime> onDateChanged;
-
   const DateSelector({
     super.key,
     required this.selectedDate,
     required this.onDateChanged,
   });
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -29,11 +27,10 @@ class DateSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
-    final acc = context.accent;
+    final tx = context.text;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-
     return InkWell(
       onTap: () => _selectDate(context),
       borderRadius: BorderRadius.circular(sh.radiusMd),
@@ -50,14 +47,14 @@ class DateSelector extends StatelessWidget {
             Icon(
               Icons.calendar_today,
               size: context.sizes.iconSm,
-              color: acc.primary,
+              color: ac.primary,
             ),
             SizedBox(width: sp.sm),
             Text(
               DateFormat('MMM d, y').format(selectedDate),
               style: TextStyle(
                 fontSize: 16.0,
-                fontWeight: text.bodyMedium.fontWeight,
+                fontWeight: tx.bodyMedium.fontWeight,
                 color: c.textPrimary,
               ),
             ),

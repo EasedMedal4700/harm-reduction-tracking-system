@@ -3,11 +3,9 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
-
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../providers/settings_provider.dart';
 import '../../../../services/pin_timeout_service.dart';
@@ -24,13 +22,11 @@ import '../../../../common/logging/app_log.dart';
 class PrivacySettingsSection extends StatefulWidget {
   final SettingsProvider settingsProvider;
   final VoidCallback onAutoLockTap;
-
   const PrivacySettingsSection({
     required this.settingsProvider,
     required this.onAutoLockTap,
     super.key,
   });
-
   @override
   State<PrivacySettingsSection> createState() => _PrivacySettingsSectionState();
 }
@@ -42,7 +38,6 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
   int _maxSessionDuration = PinTimeoutService.defaultMaxSessionDuration;
   bool _isLoading = true;
   bool _hasEncryption = false;
-
   @override
   void initState() {
     super.initState();
@@ -112,11 +107,11 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
 
   @override
   Widget build(BuildContext context) {
+    final tx = context.text;
     final settings = widget.settingsProvider.settings;
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-
     return SettingsSection(
       title: 'Privacy & Security',
       icon: Icons.lock,
@@ -126,8 +121,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           ListTile(
             title: const Text('Change PIN'),
             subtitle: const Text('Update your encryption PIN'),
-            leading: Icon(Icons.lock_reset, size: t.sizes.iconMd),
-            trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
+            leading: Icon(Icons.lock_reset, size: th.sizes.iconMd),
+            trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
             onTap: () async {
               final result = await Navigator.of(
                 context,
@@ -146,8 +141,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           ListTile(
             title: const Text('Setup PIN Encryption'),
             subtitle: const Text('Create a PIN for enhanced security'),
-            leading: Icon(Icons.security, size: t.sizes.iconMd),
-            trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
+            leading: Icon(Icons.security, size: th.sizes.iconMd),
+            trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
             onTap: () {
               Navigator.of(context).pushNamed('/pin-setup');
             },
@@ -160,19 +155,17 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           value: settings.biometricLock,
           onChanged: widget.settingsProvider.setBiometricLock,
         ),
-
         // PIN Timeout Settings Header
         Padding(
           padding: EdgeInsets.fromLTRB(sp.md, sp.md, sp.md, sp.sm),
           child: Text(
             'PIN Timeout Settings',
-            style: t.typography.labelLarge.copyWith(
-              fontWeight: context.text.bodyBold.fontWeight,
+            style: th.typography.labelLarge.copyWith(
+              fontWeight: tx.bodyBold.fontWeight,
               color: c.textSecondary,
             ),
           ),
         ),
-
         // Foreground Timeout
         ListTile(
           title: const Text('PIN Timeout (Active)'),
@@ -181,8 +174,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 ? 'Loading...'
                 : 'Require PIN after ${_formatDuration(_foregroundTimeout)} of inactivity',
           ),
-          leading: Icon(Icons.timer, size: t.sizes.iconMd),
-          trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
+          leading: Icon(Icons.timer, size: th.sizes.iconMd),
+          trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
           onTap: _isLoading
               ? null
               : () => _showTimeoutPicker(
@@ -198,7 +191,6 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                   },
                 ),
         ),
-
         // Background Timeout
         ListTile(
           title: const Text('PIN Timeout (Background)'),
@@ -207,8 +199,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 ? 'Loading...'
                 : 'Require PIN after ${_formatDuration(_backgroundTimeout)} in background',
           ),
-          leading: Icon(Icons.phonelink_lock, size: t.sizes.iconMd),
-          trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
+          leading: Icon(Icons.phonelink_lock, size: th.sizes.iconMd),
+          trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
           onTap: _isLoading
               ? null
               : () => _showTimeoutPicker(
@@ -224,7 +216,6 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                   },
                 ),
         ),
-
         // Max Session Duration
         ListTile(
           title: const Text('Max Session Duration'),
@@ -235,8 +226,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 ? 'No limit'
                 : 'Auto-lock after ${_formatDuration(_maxSessionDuration)}',
           ),
-          leading: Icon(Icons.lock_clock, size: t.sizes.iconMd),
-          trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
+          leading: Icon(Icons.lock_clock, size: th.sizes.iconMd),
+          trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
           onTap: _isLoading
               ? null
               : () => _showTimeoutPicker(
@@ -253,7 +244,6 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                   },
                 ),
         ),
-
         Divider(color: c.border),
         CommonSwitchTile(
           title: 'Hide in Recent Apps',
@@ -272,8 +262,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
         ListTile(
           title: const Text('Reset Harm Reduction Notices'),
           subtitle: const Text('Show dismissed warning banners again'),
-          leading: Icon(Icons.restore, size: t.sizes.iconMd),
-          trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
+          leading: Icon(Icons.restore, size: th.sizes.iconMd),
+          trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
           onTap: () async {
             final confirm = await showDialog<bool>(
               context: context,
@@ -295,7 +285,6 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 ],
               ),
             );
-
             if (confirm == true && mounted) {
               final onboardingSvc = OnboardingService();
               await onboardingSvc.resetHarmNotices();
@@ -330,8 +319,8 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
             child: ListTile(
               title: const Text('Privacy Policy'),
               subtitle: const Text('View our privacy policy'),
-              leading: Icon(Icons.policy, size: t.sizes.iconMd),
-              trailing: Icon(Icons.open_in_new, size: t.sizes.iconSm),
+              leading: Icon(Icons.policy, size: th.sizes.iconMd),
+              trailing: Icon(Icons.open_in_new, size: th.sizes.iconSm),
             ),
           ),
         ),
@@ -361,7 +350,6 @@ class _TimeoutPickerDialog extends StatefulWidget {
   final int maxValue;
   final List<int> presets;
   final bool allowDisable;
-
   const _TimeoutPickerDialog({
     required this.title,
     required this.subtitle,
@@ -371,7 +359,6 @@ class _TimeoutPickerDialog extends StatefulWidget {
     required this.presets,
     this.allowDisable = false,
   });
-
   @override
   State<_TimeoutPickerDialog> createState() => _TimeoutPickerDialogState();
 }
@@ -379,7 +366,6 @@ class _TimeoutPickerDialog extends StatefulWidget {
 class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
   late int _selectedValue;
   late TextEditingController _customController;
-
   @override
   void initState() {
     super.initState();
@@ -404,10 +390,9 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final spacing = context.spacing;
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
+    final sp = context.spacing;
 
     return AlertDialog(
       title: Text(widget.title),
@@ -418,12 +403,12 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
           children: [
             Text(
               widget.subtitle,
-              style: text.bodySmall.copyWith(color: c.textSecondary),
+              style: tx.bodySmall.copyWith(color: c.textSecondary),
             ),
-            CommonSpacer(height: spacing.lg),
+            CommonSpacer(height: sp.lg),
             Wrap(
-              spacing: spacing.sm,
-              runSpacing: spacing.sm,
+              spacing: sp.sm,
+              runSpacing: sp.sm,
               children: widget.presets.map((value) {
                 final isSelected = _selectedValue == value;
                 return ChoiceChip(
@@ -437,7 +422,7 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
                 );
               }).toList(),
             ),
-            CommonSpacer(height: spacing.lg),
+            CommonSpacer(height: sp.lg),
             Row(
               children: [
                 Expanded(
@@ -452,7 +437,7 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
                     ),
                   ),
                 ),
-                CommonSpacer(width: spacing.sm),
+                CommonSpacer(width: sp.sm),
                 CommonPrimaryButton(
                   onPressed: () {
                     final value = int.tryParse(_customController.text);
@@ -468,12 +453,10 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
                 ),
               ],
             ),
-            CommonSpacer(height: spacing.sm),
+            CommonSpacer(height: sp.sm),
             Text(
               'Current: ${_formatDuration(_selectedValue)}',
-              style: text.bodyLarge.copyWith(
-                fontWeight: text.bodyBold.fontWeight,
-              ),
+              style: tx.bodyLarge.copyWith(fontWeight: tx.bodyBold.fontWeight),
             ),
           ],
         ),

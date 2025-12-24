@@ -15,9 +15,7 @@ import 'severity_badge.dart';
 /// Bottom sheet dialog showing detailed error log information
 class ErrorLogDetailDialog extends StatelessWidget {
   final Map<String, dynamic> log;
-
   const ErrorLogDetailDialog({required this.log, super.key});
-
   Map<String, dynamic>? _parseExtraData(dynamic data) {
     if (data is Map<String, dynamic>) return data;
     if (data is String && data.isNotEmpty) {
@@ -34,18 +32,15 @@ class ErrorLogDetailDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
+    final tx = context.text;
     final sh = context.shapes;
-
     final createdAtString = log['created_at']?.toString();
     final createdAt = createdAtString != null
         ? DateTime.tryParse(createdAtString)
         : null;
-
     final extra = _parseExtraData(log['extra_data']);
     final severity = log['severity'] as String? ?? 'medium';
     final errorCode = log['error_code'] as String? ?? '';
-
     return DraggableScrollableSheet(
       expand: false,
       builder: (context, controller) {
@@ -70,12 +65,11 @@ class ErrorLogDetailDialog extends StatelessWidget {
                     Expanded(
                       child: Text(
                         log['error_message'] ?? 'Unknown error',
-                        style: text.heading4.copyWith(color: c.textPrimary),
+                        style: tx.heading4.copyWith(color: c.textPrimary),
                       ),
                     ),
                   ],
                 ),
-
                 SizedBox(height: sp.md),
 
                 /// SEVERITY + ERROR CODE
@@ -95,10 +89,10 @@ class ErrorLogDetailDialog extends StatelessWidget {
                         ),
                         child: Text(
                           errorCode,
-                          style: text.caption.copyWith(
+                          style: tx.caption.copyWith(
                             fontFamily:
                                 AppTypographyConstants.fontFamilyMonospace,
-                            fontWeight: text.bodyBold.fontWeight,
+                            fontWeight: tx.bodyBold.fontWeight,
                             color: c.textPrimary,
                           ),
                         ),
@@ -106,7 +100,6 @@ class ErrorLogDetailDialog extends StatelessWidget {
                     ],
                   ],
                 ),
-
                 SizedBox(height: sp.md),
 
                 /// METADATA
@@ -144,16 +137,14 @@ class ErrorLogDetailDialog extends StatelessWidget {
                   'Screen',
                   log['screen_name'] ?? 'Unknown',
                 ),
-
                 SizedBox(height: sp.md),
 
                 /// STACKTRACE
                 Text(
                   'Stacktrace',
-                  style: text.bodyBold.copyWith(color: c.textPrimary),
+                  style: tx.bodyBold.copyWith(color: c.textPrimary),
                 ),
                 SizedBox(height: sp.xs),
-
                 CommonCard(
                   padding: EdgeInsets.all(sp.md),
                   backgroundColor: c.surfaceVariant,
@@ -161,9 +152,9 @@ class ErrorLogDetailDialog extends StatelessWidget {
                   borderColor: c.border,
                   child: SelectableText(
                     log['stacktrace'] ?? 'Unavailable',
-                    style: text.caption.copyWith(
+                    style: tx.caption.copyWith(
                       fontFamily: AppTypographyConstants.fontFamilyMonospace,
-                      fontSize: context.text.label.fontSize,
+                      fontSize: tx.label.fontSize,
                       color: c.textPrimary,
                     ),
                   ),
@@ -174,7 +165,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                   SizedBox(height: sp.lg),
                   Text(
                     'Extra Data',
-                    style: text.bodyBold.copyWith(color: c.textPrimary),
+                    style: tx.bodyBold.copyWith(color: c.textPrimary),
                   ),
                   SizedBox(height: sp.xs),
                   CommonCard(
@@ -184,9 +175,9 @@ class ErrorLogDetailDialog extends StatelessWidget {
                     borderColor: c.border,
                     child: SelectableText(
                       const JsonEncoder.withIndent('  ').convert(extra),
-                      style: text.caption.copyWith(
+                      style: tx.caption.copyWith(
                         fontFamily: AppTypographyConstants.fontFamilyMonospace,
-                        fontSize: context.text.label.fontSize,
+                        fontSize: tx.label.fontSize,
                         color: c.textPrimary,
                       ),
                     ),
@@ -201,9 +192,9 @@ class ErrorLogDetailDialog extends StatelessWidget {
   }
 
   Widget _buildKeyValue(BuildContext context, String label, String value) {
-    final sp = context.spacing;
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
+    final sp = context.spacing;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: sp.xs),
@@ -214,11 +205,11 @@ class ErrorLogDetailDialog extends StatelessWidget {
             width: context.sizes.labelWidthMd,
             child: Text(
               '$label:',
-              style: text.bodyBold.copyWith(color: c.textSecondary),
+              style: tx.bodyBold.copyWith(color: c.textSecondary),
             ),
           ),
           Expanded(
-            child: Text(value, style: text.body.copyWith(color: c.textPrimary)),
+            child: Text(value, style: tx.body.copyWith(color: c.textPrimary)),
           ),
         ],
       ),

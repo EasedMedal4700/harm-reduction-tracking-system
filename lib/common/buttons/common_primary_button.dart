@@ -6,7 +6,6 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension. No hardcoded values.
-
 /// Primary action button (e.g., Save Entry)
 class CommonPrimaryButton extends StatelessWidget {
   final String label;
@@ -18,7 +17,6 @@ class CommonPrimaryButton extends StatelessWidget {
   final IconData? icon;
   final double? width;
   final double? height;
-
   const CommonPrimaryButton({
     required this.label,
     required this.onPressed,
@@ -31,13 +29,11 @@ class CommonPrimaryButton extends StatelessWidget {
     this.height,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final defaultBgColor = t.accent.primary;
-    final defaultTextColor = t.colors.textInverse;
-
+    final th = context.theme;
+    final defaultBgColor = th.accent.primary;
+    final defaultTextColor = th.colors.textInverse;
     return SizedBox(
       width: width,
       height: height ?? context.sizes.buttonHeightLg,
@@ -47,12 +43,12 @@ class CommonPrimaryButton extends StatelessWidget {
           backgroundColor: backgroundColor ?? defaultBgColor,
           foregroundColor: textColor ?? defaultTextColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+            borderRadius: BorderRadius.circular(th.shapes.radiusMd),
           ),
           elevation: 2,
           padding: EdgeInsets.symmetric(
-            horizontal: t.spacing.xl,
-            vertical: t.spacing.lg,
+            horizontal: th.spacing.xl,
+            vertical: th.spacing.lg,
           ),
         ),
         child: isLoading
@@ -72,11 +68,11 @@ class CommonPrimaryButton extends StatelessWidget {
                 children: [
                   if (icon != null) ...[
                     Icon(icon, size: context.sizes.iconSm),
-                    SizedBox(width: t.spacing.sm),
+                    SizedBox(width: th.spacing.sm),
                   ],
                   Text(
                     label,
-                    style: t.text.bodyLarge.copyWith(
+                    style: th.text.bodyLarge.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 16.0,
                     ),

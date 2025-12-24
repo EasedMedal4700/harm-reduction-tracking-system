@@ -13,7 +13,6 @@ class DailyCheckinCard extends StatelessWidget {
   final VoidCallback onTap;
   final String? completedMessage;
   final String? completedTimeSlot; // 'morning', 'afternoon', or 'evening'
-
   const DailyCheckinCard({
     required this.isCompleted,
     required this.onTap,
@@ -21,20 +20,17 @@ class DailyCheckinCard extends StatelessWidget {
     this.completedTimeSlot,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
-    final t = context.theme;
-    final acc = context.accent;
+    final tx = context.text;
+    final th = context.theme;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-    final isDark = context.theme.isDark;
-
-    final accentColor = acc.primary;
+    final isDark = th.isDark;
+    final accentColor = ac.primary;
     final completedColor = c.success;
-
     return Container(
       padding: EdgeInsets.all(sp.md),
       decoration: _buildDecoration(
@@ -51,7 +47,7 @@ class DailyCheckinCard extends StatelessWidget {
             children: [
               // Icon with status color
               Container(
-                padding: EdgeInsets.all(context.spacing.sm),
+                padding: EdgeInsets.all(sp.sm),
                 decoration: BoxDecoration(
                   color: (isCompleted ? completedColor : accentColor)
                       .withValues(alpha: context.opacities.low),
@@ -63,9 +59,7 @@ class DailyCheckinCard extends StatelessWidget {
                   color: isCompleted ? completedColor : accentColor,
                 ),
               ),
-
               CommonSpacer.horizontal(sp.md),
-
               // Text content
               Expanded(
                 child: Column(
@@ -74,8 +68,8 @@ class DailyCheckinCard extends StatelessWidget {
                   children: [
                     Text(
                       'Daily Check-in',
-                      style: t.typography.heading4.copyWith(
-                        fontWeight: text.bodyBold.fontWeight,
+                      style: th.typography.heading4.copyWith(
+                        fontWeight: tx.bodyBold.fontWeight,
                         color: c.textPrimary,
                       ),
                     ),
@@ -84,7 +78,7 @@ class DailyCheckinCard extends StatelessWidget {
                       isCompleted
                           ? _getCompletedMessage()
                           : 'Track your mood and wellness',
-                      style: t.typography.bodySmall.copyWith(
+                      style: th.typography.bodySmall.copyWith(
                         color: c.textSecondary,
                       ),
                     ),
@@ -93,9 +87,7 @@ class DailyCheckinCard extends StatelessWidget {
               ),
             ],
           ),
-
           CommonSpacer.vertical(sp.md),
-
           // Action button with status indicator
           SizedBox(
             width: double.infinity,
@@ -115,8 +107,8 @@ class DailyCheckinCard extends StatelessWidget {
                 ),
                 label: Text(
                   _getButtonText(),
-                  style: t.typography.button.copyWith(
-                    fontWeight: text.bodyBold.fontWeight,
+                  style: th.typography.button.copyWith(
+                    fontWeight: tx.bodyBold.fontWeight,
                     height: 1.2,
                   ),
                 ),

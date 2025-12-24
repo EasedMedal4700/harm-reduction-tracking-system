@@ -17,13 +17,11 @@
 // - Progress bars showing each substance's impact percentage
 // - Bucket-specific icon mapping (GABA, Stimulant, Serotonin, etc.)
 // - Accent color theming per bucket
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully modernized theme API. StatefulWidget kept due to async loading state.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../services/tolerance_engine_service.dart';
@@ -36,14 +34,12 @@ class SystemToleranceBreakdownSheet extends StatefulWidget {
   final String bucketName;
   final double currentPercent;
   final Color accentColor;
-
   const SystemToleranceBreakdownSheet({
     required this.bucketName,
     required this.currentPercent,
     required this.accentColor,
     super.key,
   });
-
   @override
   State<SystemToleranceBreakdownSheet> createState() =>
       _SystemToleranceBreakdownSheetState();
@@ -53,7 +49,6 @@ class _SystemToleranceBreakdownSheetState
     extends State<SystemToleranceBreakdownSheet> {
   bool _isLoading = true;
   List<ToleranceContribution> _contributions = [];
-
   @override
   void initState() {
     super.initState();
@@ -81,19 +76,16 @@ class _SystemToleranceBreakdownSheetState
   @override
   Widget build(BuildContext context) {
     // THEME ACCESS
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
-    final sizes = context.sizes;
-
+    final c = context.colors;
+    final sp = context.spacing;
+    final tx = context.text;
+    final sh = context.shapes;
+    final sz = context.sizes;
     // BOTTOM SHEET CONTAINER
     return Container(
       decoration: BoxDecoration(
-        color: colors.background,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(radii.radiusLg),
-        ),
+        color: c.background,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(sh.radiusLg)),
       ),
       child: Column(
         mainAxisSize: AppLayout.mainAxisSizeMin,
@@ -101,49 +93,44 @@ class _SystemToleranceBreakdownSheetState
           // DRAG HANDLE - Visual indicator for swipe gesture
           Center(
             child: Container(
-              margin: EdgeInsets.only(top: spacing.md, bottom: spacing.sm),
+              margin: EdgeInsets.only(top: sp.md, bottom: sp.sm),
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: colors.textSecondary.withValues(alpha: 0.25),
-                borderRadius: BorderRadius.circular(radii.radiusXs / 2),
+                color: c.textSecondary.withValues(alpha: 0.25),
+                borderRadius: BorderRadius.circular(sh.radiusXs / 2),
               ),
             ),
           ),
-
           // HEADER - Bucket icon, name, and tolerance percentage
           Padding(
-            padding: EdgeInsets.all(spacing.lg),
+            padding: EdgeInsets.all(sp.lg),
             child: Row(
               children: [
                 Container(
-                  padding: EdgeInsets.all(spacing.sm),
+                  padding: EdgeInsets.all(sp.sm),
                   decoration: BoxDecoration(
                     color: widget.accentColor.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(radii.radiusMd),
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
                   ),
                   child: Icon(
                     _getBucketIcon(widget.bucketName),
                     color: widget.accentColor,
-                    size: sizes.iconMd,
+                    size: sz.iconMd,
                   ),
                 ),
-                CommonSpacer.horizontal(spacing.lg),
+                CommonSpacer.horizontal(sp.lg),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                     children: [
                       Text(
                         _formatBucketName(widget.bucketName),
-                        style: typography.heading3.copyWith(
-                          color: colors.textPrimary,
-                        ),
+                        style: tx.heading3.copyWith(color: c.textPrimary),
                       ),
                       Text(
                         '${widget.currentPercent.toStringAsFixed(1)}% Load',
-                        style: typography.bodyBold.copyWith(
-                          color: widget.accentColor,
-                        ),
+                        style: tx.bodyBold.copyWith(color: widget.accentColor),
                       ),
                     ],
                   ),
@@ -151,35 +138,30 @@ class _SystemToleranceBreakdownSheetState
               ],
             ),
           ),
-
-          Divider(color: colors.divider, height: 1),
-
+          Divider(color: c.divider, height: 1),
           // CONTENT - Loading, empty, or contribution list
           Flexible(
             child: _isLoading
                 // Loading state
                 ? Padding(
-                    padding: EdgeInsets.all(spacing.xl2),
+                    padding: EdgeInsets.all(sp.xl2),
                     child: const Center(child: CommonLoader()),
                   )
                 : _contributions.isEmpty
                 // Empty state
                 ? Padding(
-                    padding: EdgeInsets.all(spacing.xl),
+                    padding: EdgeInsets.all(sp.xl),
                     child: Text(
                       'No recent contributors found.',
-                      style: typography.bodySmall.copyWith(
-                        color: colors.textSecondary,
-                      ),
+                      style: tx.bodySmall.copyWith(color: c.textSecondary),
                     ),
                   )
                 // Contribution list
                 : ListView.separated(
                     shrinkWrap: true,
-                    padding: EdgeInsets.all(spacing.lg),
+                    padding: EdgeInsets.all(sp.lg),
                     itemCount: _contributions.length,
-                    separatorBuilder: (_, __) =>
-                        CommonSpacer.vertical(spacing.lg),
+                    separatorBuilder: (_, __) => CommonSpacer.vertical(sp.lg),
                     itemBuilder: (_, index) {
                       return _buildContributionRow(
                         context,
@@ -188,8 +170,7 @@ class _SystemToleranceBreakdownSheetState
                     },
                   ),
           ),
-
-          CommonSpacer.vertical(spacing.xl),
+          CommonSpacer.vertical(sp.xl),
         ],
       ),
     );
@@ -201,10 +182,10 @@ class _SystemToleranceBreakdownSheetState
     BuildContext context,
     ToleranceContribution item,
   ) {
-    final typography = context.text;
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final radii = context.shapes;
+    final c = context.colors;
+    final tx = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return Row(
       children: [
@@ -215,14 +196,14 @@ class _SystemToleranceBreakdownSheetState
             children: [
               Text(
                 item.substanceName,
-                style: typography.bodyBold.copyWith(color: colors.textPrimary),
+                style: tx.bodyBold.copyWith(color: c.textPrimary),
               ),
-              CommonSpacer.vertical(spacing.xs),
+              CommonSpacer.vertical(sp.xs),
               ClipRRect(
-                borderRadius: BorderRadius.circular(radii.radiusSm),
+                borderRadius: BorderRadius.circular(sh.radiusSm),
                 child: LinearProgressIndicator(
                   value: item.percentContribution / 100,
-                  backgroundColor: colors.surfaceVariant,
+                  backgroundColor: c.surfaceVariant,
                   valueColor: AlwaysStoppedAnimation<Color>(widget.accentColor),
                   minHeight: 7,
                 ),
@@ -230,21 +211,16 @@ class _SystemToleranceBreakdownSheetState
             ],
           ),
         ),
-
-        CommonSpacer.horizontal(spacing.lg),
-
+        CommonSpacer.horizontal(sp.lg),
         // RIGHT SIDE - Percentage impact
         Column(
           crossAxisAlignment: AppLayout.crossAxisAlignmentEnd,
           children: [
             Text(
               '${item.percentContribution.toStringAsFixed(1)}%',
-              style: typography.bodyBold.copyWith(color: colors.textPrimary),
+              style: tx.bodyBold.copyWith(color: c.textPrimary),
             ),
-            Text(
-              'Impact',
-              style: typography.caption.copyWith(color: colors.textSecondary),
-            ),
+            Text('Impact', style: tx.caption.copyWith(color: c.textSecondary)),
           ],
         ),
       ],

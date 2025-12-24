@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Updated to CommonCard and new theme system. No Riverpod.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
@@ -16,26 +15,22 @@ import 'bucket_utils.dart';
 class BucketHeaderCard extends StatelessWidget {
   final String bucketType;
   final double tolerancePercent;
-
   const BucketHeaderCard({
     super.key,
     required this.bucketType,
     required this.tolerancePercent,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-
     final bucketColor = BucketUtils.getColorForTolerance(
       context,
       tolerancePercent / 100,
     );
     final isActive = tolerancePercent > 0.1;
-
     return CommonCard(
       child: Row(
         children: [
@@ -52,9 +47,7 @@ class BucketHeaderCard extends StatelessWidget {
               size: context.sizes.iconXl,
             ),
           ),
-
           CommonSpacer.horizontal(sp.md),
-
           // Title + tolerance display
           Expanded(
             child: Column(
@@ -62,25 +55,22 @@ class BucketHeaderCard extends StatelessWidget {
               children: [
                 Text(
                   BucketDefinitions.getDisplayName(bucketType),
-                  style: text.titleSmall.copyWith(
-                    fontWeight: text.bodyBold.fontWeight,
+                  style: tx.titleSmall.copyWith(
+                    fontWeight: tx.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
                 ),
-
                 CommonSpacer.vertical(sp.xs),
-
                 Text(
                   '${tolerancePercent.toStringAsFixed(1)}% Tolerance',
-                  style: text.body.copyWith(
-                    fontWeight: text.bodyBold.fontWeight,
+                  style: tx.body.copyWith(
+                    fontWeight: tx.bodyBold.fontWeight,
                     color: bucketColor,
                   ),
                 ),
               ],
             ),
           ),
-
           // ACTIVE badge (theme-aware)
           if (isActive)
             Container(
@@ -91,8 +81,8 @@ class BucketHeaderCard extends StatelessWidget {
               ),
               child: Text(
                 'ACTIVE',
-                style: text.bodySmall.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.bodySmall.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.warning,
                 ),
               ),

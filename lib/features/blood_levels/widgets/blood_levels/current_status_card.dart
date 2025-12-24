@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSpacer.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -17,7 +16,6 @@ class CurrentStatusCard extends StatelessWidget {
   final double currentPercentage;
   final double? timeToNextTier; // hours
   final Color substanceColor;
-
   const CurrentStatusCard({
     super.key,
     required this.substanceName,
@@ -26,7 +24,6 @@ class CurrentStatusCard extends StatelessWidget {
     this.timeToNextTier,
     required this.substanceColor,
   });
-
   String _formatTime(double hours) {
     if (hours < 1) {
       return '${(hours * 60).toStringAsFixed(0)}m';
@@ -40,15 +37,13 @@ class CurrentStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final acc = context.accent;
-
+    final ac = context.accent;
     final tierColor = Color(
       PharmacokineticsService.getTierColorValue(currentTier),
     );
-
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -72,16 +67,14 @@ class CurrentStatusCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                   children: [
-                    Text(substanceName, style: context.text.heading4),
-                    Text('Current Status', style: context.text.caption),
+                    Text(substanceName, style: tx.heading4),
+                    Text('Current Status', style: tx.caption),
                   ],
                 ),
               ),
             ],
           ),
-
-          CommonSpacer.vertical(context.spacing.xl),
-
+          CommonSpacer.vertical(sp.xl),
           Row(
             children: [
               Expanded(
@@ -103,14 +96,13 @@ class CurrentStatusCard extends StatelessWidget {
               ),
             ],
           ),
-
           if (timeToNextTier != null) ...[
             SizedBox(height: sp.md),
             _buildInfoBox(
               context,
               'Time to Next Tier',
               _formatTime(timeToNextTier!),
-              acc.primary,
+              ac.primary,
             ),
           ],
         ],
@@ -124,7 +116,7 @@ class CurrentStatusCard extends StatelessWidget {
     String value,
     Color color,
   ) {
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -141,9 +133,9 @@ class CurrentStatusCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          Text(label, style: text.caption),
+          Text(label, style: tx.caption),
           SizedBox(height: sp.xs),
-          Text(value, style: text.heading3.copyWith(color: color)),
+          Text(value, style: tx.heading3.copyWith(color: color)),
         ],
       ),
     );

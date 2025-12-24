@@ -9,58 +9,52 @@ import '../../../../common/text/common_section_header.dart';
 class RouteSelection extends StatelessWidget {
   final String route;
   final ValueChanged<String> onRouteChanged;
-
   const RouteSelection({
     super.key,
     required this.route,
     required this.onRouteChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           const CommonSectionHeader(title: "Route of Administration"),
-          SizedBox(height: t.spacing.md),
-
+          SizedBox(height: th.spacing.md),
           Wrap(
-            spacing: t.spacing.sm,
-            runSpacing: t.spacing.sm,
+            spacing: th.spacing.sm,
+            runSpacing: th.spacing.sm,
             children: DrugUseCatalog.consumptionMethods.map((method) {
               final String name = method['name']!;
               final String emoji = method['emoji']!;
-
               final bool selected = route == name;
-
               return ChoiceChip(
                 label: Row(
                   mainAxisSize: AppLayout.mainAxisSizeMin,
                   children: [
                     Text(emoji, style: const TextStyle(fontSize: 20.0)),
-                    SizedBox(width: t.spacing.xs),
+                    SizedBox(width: th.spacing.xs),
                     Text(
                       name.toUpperCase(),
-                      style: t.typography.label.copyWith(
-                        fontWeight: t.text.bodyBold.fontWeight,
+                      style: th.typography.label.copyWith(
+                        fontWeight: th.text.bodyBold.fontWeight,
                         color: selected
-                            ? t.colors.textInverse
-                            : t.colors.textPrimary,
+                            ? th.colors.textInverse
+                            : th.colors.textPrimary,
                       ),
                     ),
                   ],
                 ),
                 selected: selected,
-                selectedColor: t.accent.primary,
-                backgroundColor: t.colors.surfaceVariant,
+                selectedColor: th.accent.primary,
+                backgroundColor: th.colors.surfaceVariant,
                 onSelected: (_) => onRouteChanged(name),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+                  borderRadius: BorderRadius.circular(th.shapes.radiusMd),
                   side: BorderSide(
-                    color: selected ? t.accent.primary : t.colors.border,
+                    color: selected ? th.accent.primary : th.colors.border,
                   ),
                 ),
               );

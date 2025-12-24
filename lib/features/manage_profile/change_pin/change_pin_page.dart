@@ -5,11 +5,9 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: Pure UI for Change PIN flow. No business logic.
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../constants/layout/app_layout.dart';
 import '../../../common/layout/common_spacer.dart';
@@ -17,7 +15,6 @@ import 'change_pin_controller.dart';
 
 class ChangePinPage extends ConsumerStatefulWidget {
   const ChangePinPage({super.key});
-
   @override
   ConsumerState<ChangePinPage> createState() => _ChangePinPageState();
 }
@@ -27,11 +24,9 @@ class _ChangePinPageState extends ConsumerState<ChangePinPage> {
   final _oldPinController = TextEditingController();
   final _newPinController = TextEditingController();
   final _confirmPinController = TextEditingController();
-
   bool _oldPinObscure = true;
   bool _newPinObscure = true;
   bool _confirmPinObscure = true;
-
   @override
   void dispose() {
     _oldPinController.dispose();
@@ -44,17 +39,14 @@ class _ChangePinPageState extends ConsumerState<ChangePinPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(changePinControllerProvider);
     final controller = ref.read(changePinControllerProvider.notifier);
-
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-
     if (state.success) {
       return _SuccessView(onDone: controller.close);
     }
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -70,24 +62,21 @@ class _ChangePinPageState extends ConsumerState<ChangePinPage> {
             Icon(
               Icons.lock_reset,
               size: context.sizes.icon2xl,
-              color: a.primary,
+              color: ac.primary,
             ),
             CommonSpacer.vertical(sp.xl),
-
             Text(
               'Change Your PIN',
-              style: text.headlineMedium,
+              style: tx.headlineMedium,
               textAlign: AppLayout.textAlignCenter,
             ),
             CommonSpacer.vertical(sp.md),
-
             Text(
               'Your encrypted data stays intact. Only the PIN changes.',
-              style: text.bodyMedium.copyWith(color: c.textSecondary),
+              style: tx.bodyMedium.copyWith(color: c.textSecondary),
               textAlign: AppLayout.textAlignCenter,
             ),
             CommonSpacer.vertical(sp.xl),
-
             _PinField(
               label: 'Current PIN',
               controller: _oldPinController,
@@ -95,7 +84,6 @@ class _ChangePinPageState extends ConsumerState<ChangePinPage> {
               onToggle: () => setState(() => _oldPinObscure = !_oldPinObscure),
             ),
             CommonSpacer.vertical(sp.lg),
-
             _PinField(
               label: 'New PIN',
               controller: _newPinController,
@@ -103,7 +91,6 @@ class _ChangePinPageState extends ConsumerState<ChangePinPage> {
               onToggle: () => setState(() => _newPinObscure = !_newPinObscure),
             ),
             CommonSpacer.vertical(sp.lg),
-
             _PinField(
               label: 'Confirm New PIN',
               controller: _confirmPinController,
@@ -111,17 +98,14 @@ class _ChangePinPageState extends ConsumerState<ChangePinPage> {
               onToggle: () =>
                   setState(() => _confirmPinObscure = !_confirmPinObscure),
             ),
-
             if (state.errorMessage != null) ...[
               CommonSpacer.vertical(sp.lg),
               Text(
                 state.errorMessage!,
-                style: text.bodyMedium.copyWith(color: c.error),
+                style: tx.bodyMedium.copyWith(color: c.error),
               ),
             ],
-
             CommonSpacer.vertical(sp.xl2),
-
             SizedBox(
               height: context.sizes.buttonHeightLg,
               child: Semantics(
@@ -154,7 +138,6 @@ class _ChangePinPageState extends ConsumerState<ChangePinPage> {
 // -----------------------------------------------------------------------------
 // Private widgets
 // -----------------------------------------------------------------------------
-
 class _PinField extends StatelessWidget {
   const _PinField({
     required this.label,
@@ -162,22 +145,20 @@ class _PinField extends StatelessWidget {
     required this.obscure,
     required this.onToggle,
   });
-
   final String label;
   final TextEditingController controller;
   final bool obscure;
   final VoidCallback onToggle;
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
-        Text(label, style: text.labelMedium),
+        Text(label, style: tx.labelMedium),
         CommonSpacer.vertical(sp.sm),
         TextField(
           controller: controller,
@@ -203,13 +184,11 @@ class _PinField extends StatelessWidget {
 
 class _SuccessView extends StatelessWidget {
   const _SuccessView({required this.onDone});
-
   final VoidCallback onDone;
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
 
     return Scaffold(
@@ -223,7 +202,7 @@ class _SuccessView extends StatelessWidget {
             CommonSpacer.vertical(sp.xl),
             Text(
               'PIN changed successfully',
-              style: text.headlineMedium,
+              style: tx.headlineMedium,
               textAlign: TextAlign.center,
             ),
             CommonSpacer.vertical(sp.lg),

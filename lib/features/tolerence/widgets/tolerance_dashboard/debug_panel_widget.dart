@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,28 +14,25 @@ class DebugPanelWidget extends ConsumerWidget {
   final ToleranceResult? systemTolerance;
   final Map<String, bool> substanceActiveStates;
   final Map<String, Map<String, double>> substanceContributions;
-
   const DebugPanelWidget({
     super.key,
     required this.systemTolerance,
     required this.substanceActiveStates,
     required this.substanceContributions,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
-
+    final c = context.colors;
+    final sp = context.spacing;
+    final tx = context.text;
+    final sh = context.shapes;
     return Container(
-      margin: EdgeInsets.all(spacing.md),
-      padding: EdgeInsets.all(spacing.md),
+      margin: EdgeInsets.all(sp.md),
+      padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(radii.radiusSm),
-        border: Border.all(color: colors.warning),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusSm),
+        border: Border.all(color: c.warning),
       ),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -46,22 +42,20 @@ class DebugPanelWidget extends ConsumerWidget {
             children: [
               Icon(
                 Icons.bug_report,
-                color: colors.warning,
+                color: c.warning,
                 size: context.sizes.iconSm,
               ),
-              SizedBox(width: spacing.xs),
+              SizedBox(width: sp.xs),
               Text(
                 'Debug Panel',
-                style: typography.bodyLarge.copyWith(
-                  color: colors.warning,
-                  fontWeight: context.text.bodyBold.fontWeight,
+                style: tx.bodyLarge.copyWith(
+                  color: c.warning,
+                  fontWeight: tx.bodyBold.fontWeight,
                 ),
               ),
             ],
           ),
-
-          SizedBox(height: spacing.md),
-
+          SizedBox(height: sp.md),
           // SYSTEM TOLERANCE DATA
           _DebugSection(
             title: 'System Tolerance',
@@ -71,9 +65,7 @@ class DebugPanelWidget extends ConsumerWidget {
                     .join('\n') ??
                 'No data',
           ),
-
-          SizedBox(height: spacing.sm),
-
+          SizedBox(height: sp.sm),
           // ACTIVE SUBSTANCES
           _DebugSection(
             title: 'Active Substances',
@@ -89,9 +81,7 @@ class DebugPanelWidget extends ConsumerWidget {
                       .map((e) => e.key)
                       .join(', '),
           ),
-
-          SizedBox(height: spacing.sm),
-
+          SizedBox(height: sp.sm),
           // SUBSTANCE CONTRIBUTIONS
           _DebugSection(
             title: 'Contributions by Bucket',
@@ -116,38 +106,36 @@ class DebugPanelWidget extends ConsumerWidget {
 class _DebugSection extends ConsumerWidget {
   final String title;
   final String content;
-
   const _DebugSection({required this.title, required this.content});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
+    final c = context.colors;
+    final tx = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           title,
-          style: typography.bodySmall.copyWith(
-            color: colors.textSecondary,
-            fontWeight: context.text.bodyBold.fontWeight,
+          style: tx.bodySmall.copyWith(
+            color: c.textSecondary,
+            fontWeight: tx.bodyBold.fontWeight,
           ),
         ),
-        SizedBox(height: spacing.xs),
+        SizedBox(height: sp.xs),
         Container(
           width: double.infinity,
-          padding: EdgeInsets.all(spacing.sm),
+          padding: EdgeInsets.all(sp.sm),
           decoration: BoxDecoration(
-            color: colors.surfaceVariant,
-            borderRadius: BorderRadius.circular(radii.radiusXs),
+            color: c.surfaceVariant,
+            borderRadius: BorderRadius.circular(sh.radiusXs),
           ),
           child: Text(
             content,
-            style: typography.bodySmall.copyWith(
-              color: colors.textPrimary,
+            style: tx.bodySmall.copyWith(
+              color: c.textPrimary,
               fontFamily: AppTypographyConstants.fontFamilyMonospace,
             ),
           ),

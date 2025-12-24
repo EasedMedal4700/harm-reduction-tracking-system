@@ -6,24 +6,20 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-
 /// Sticky bottom bar for action buttons
 /// Provides consistent styling across the app for bottom-placed CTAs
 class CommonBottomBar extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
-
   const CommonBottomBar({required this.child, this.padding, super.key});
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return Container(
-      padding: padding ?? EdgeInsets.all(t.spacing.lg),
+      padding: padding ?? EdgeInsets.all(th.spacing.lg),
       decoration: BoxDecoration(
-        color: t.colors.surface,
-        border: Border(top: BorderSide(color: t.colors.border, width: 1)),
+        color: th.colors.surface,
+        border: Border(top: BorderSide(color: th.colors.border, width: 1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),

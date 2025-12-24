@@ -18,7 +18,6 @@ class CacheManagementSection extends StatelessWidget {
   final VoidCallback onClearDrugCache;
   final VoidCallback onClearExpired;
   final VoidCallback onRefreshFromDatabase;
-
   const CacheManagementSection({
     super.key,
     required this.cacheStats,
@@ -27,18 +26,15 @@ class CacheManagementSection extends StatelessWidget {
     required this.onClearExpired,
     required this.onRefreshFromDatabase,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
+    final tx = context.text;
     final sh = context.shapes;
-
     final totalEntries = cacheStats['total_entries'] ?? 0;
     final activeEntries = cacheStats['active_entries'] ?? 0;
     final expiredEntries = cacheStats['expired_entries'] ?? 0;
-
     return CommonCard(
       borderRadius: sh.radiusMd,
       padding: EdgeInsets.all(sp.lg),
@@ -53,11 +49,10 @@ class CacheManagementSection extends StatelessWidget {
               SizedBox(width: sp.md),
               Text(
                 'Cache Management',
-                style: text.heading3.copyWith(color: c.textPrimary),
+                style: tx.heading3.copyWith(color: c.textPrimary),
               ),
             ],
           ),
-
           SizedBox(height: sp.lg),
 
           /// Cache Stats
@@ -101,7 +96,6 @@ class CacheManagementSection extends StatelessWidget {
               ],
             ),
           ),
-
           SizedBox(height: sp.lg),
 
           /// Cache Actions
@@ -157,8 +151,8 @@ class CacheManagementSection extends StatelessWidget {
     VoidCallback onConfirm,
   ) {
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
-    final text = context.text;
 
     showDialog(
       context: context,
@@ -168,17 +162,14 @@ class CacheManagementSection extends StatelessWidget {
           borderRadius: BorderRadius.circular(sp.md),
           side: BorderSide(color: c.border),
         ),
-        title: Text(title, style: text.heading4.copyWith(color: c.textPrimary)),
-        content: Text(
-          message,
-          style: text.body.copyWith(color: c.textSecondary),
-        ),
+        title: Text(title, style: tx.heading4.copyWith(color: c.textPrimary)),
+        content: Text(message, style: tx.body.copyWith(color: c.textSecondary)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
               'Cancel',
-              style: text.button.copyWith(color: c.textSecondary),
+              style: tx.button.copyWith(color: c.textSecondary),
             ),
           ),
           CommonPrimaryButton(

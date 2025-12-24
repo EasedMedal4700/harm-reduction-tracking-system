@@ -7,9 +7,7 @@ enum DoseTier { threshold, light, common, strong, heavy }
 class DoseRange {
   final double min;
   final double max;
-
   const DoseRange(this.min, this.max);
-
   double get midpoint => (min + max) / 2;
 }
 
@@ -18,10 +16,8 @@ class PharmacokineticsService {
   /// Parse dose range string (e.g., "10-20mg", "40+mg", "12-15mg")
   static DoseRange? parseDoseRange(String? rangeStr) {
     if (rangeStr == null || rangeStr.isEmpty) return null;
-
     // Remove "mg" suffix and whitespace
     final cleaned = rangeStr.toLowerCase().replaceAll('mg', '').trim();
-
     // Handle "40+" format
     if (cleaned.contains('+')) {
       final value = double.tryParse(cleaned.replaceAll('+', ''));
@@ -29,7 +25,6 @@ class PharmacokineticsService {
         return DoseRange(value, value * 1.5); // Estimate upper bound
       }
     }
-
     // Handle "10-20" format
     if (cleaned.contains('-')) {
       final parts = cleaned.split('-');
@@ -41,13 +36,11 @@ class PharmacokineticsService {
         }
       }
     }
-
     // Handle single number
     final value = double.tryParse(cleaned);
     if (value != null) {
       return DoseRange(value, value);
     }
-
     return null;
   }
 
@@ -57,27 +50,22 @@ class PharmacokineticsService {
     String roa,
   ) {
     final tiers = <DoseTier, DoseRange>{};
-
     if (doseData == null || !doseData.containsKey(roa)) {
       return tiers;
     }
-
     final roaData = doseData[roa] as Map<String, dynamic>?;
     if (roaData == null) return tiers;
-
     // Parse each tier
     final threshold = parseDoseRange(roaData['Threshold']);
     final light = parseDoseRange(roaData['Light']);
     final common = parseDoseRange(roaData['Common']);
     final strong = parseDoseRange(roaData['Strong']);
     final heavy = parseDoseRange(roaData['Heavy']);
-
     if (threshold != null) tiers[DoseTier.threshold] = threshold;
     if (light != null) tiers[DoseTier.light] = light;
     if (common != null) tiers[DoseTier.common] = common;
     if (strong != null) tiers[DoseTier.strong] = strong;
     if (heavy != null) tiers[DoseTier.heavy] = heavy;
-
     return tiers;
   }
 
@@ -88,16 +76,13 @@ class PharmacokineticsService {
     List<String> roas,
   ) {
     double minHeavyThreshold = double.infinity;
-
     for (final roa in roas) {
       final tiers = extractDoseTiers(doseData, roa);
       final heavy = tiers[DoseTier.heavy];
-
       if (heavy != null && heavy.min < minHeavyThreshold) {
         minHeavyThreshold = heavy.min;
       }
     }
-
     // Fallback if no heavy range found
     return minHeavyThreshold == double.infinity ? 100.0 : minHeavyThreshold;
   }
@@ -110,12 +95,9 @@ class PharmacokineticsService {
     required double unifiedHeavyThreshold,
   }) {
     if (doseData == null) return doseMg;
-
     final tiers = extractDoseTiers(doseData, currentRoa);
     final heavy = tiers[DoseTier.heavy];
-
     if (heavy == null) return doseMg;
-
     // Calculate conversion factor
     final conversionFactor = unifiedHeavyThreshold / heavy.min;
     return doseMg * conversionFactor;
@@ -137,10 +119,8 @@ class PharmacokineticsService {
     required Duration timeSinceIngestion,
   }) {
     if (halfLifeHours <= 0) return 0;
-
     final hoursElapsed = timeSinceIngestion.inMinutes / 60.0;
     final halfLives = hoursElapsed / halfLifeHours;
-
     return initialDoseMg * math.pow(0.5, halfLives);
   }
 
@@ -152,19 +132,14 @@ class PharmacokineticsService {
     // Check from highest to lowest
     final heavy = tiers[DoseTier.heavy];
     if (heavy != null && doseMg >= heavy.min) return DoseTier.heavy;
-
     final strong = tiers[DoseTier.strong];
     if (strong != null && doseMg >= strong.min) return DoseTier.strong;
-
     final common = tiers[DoseTier.common];
     if (common != null && doseMg >= common.min) return DoseTier.common;
-
     final light = tiers[DoseTier.light];
     if (light != null && doseMg >= light.min) return DoseTier.light;
-
     final threshold = tiers[DoseTier.threshold];
     if (threshold != null && doseMg >= threshold.min) return DoseTier.threshold;
-
     return null; // Below threshold
   }
 
@@ -177,13 +152,11 @@ class PharmacokineticsService {
     if (currentDoseMg <= targetDoseMg || halfLifeHours <= 0) {
       return null;
     }
-
     // Solve: targetDose = currentDose * 0.5^(t/halfLife)
     // t = halfLife * log(targetDose/currentDose) / log(0.5)
     final ratio = targetDoseMg / currentDoseMg;
     final halfLivesNeeded = math.log(ratio) / math.log(0.5);
     final hoursNeeded = halfLivesNeeded * halfLifeHours;
-
     return Duration(minutes: (hoursNeeded * 60).round());
   }
 
@@ -200,33 +173,27 @@ class PharmacokineticsService {
     final points = <PKPoint>[];
     final totalDuration = endTime.difference(startTime);
     final intervalMs = totalDuration.inMilliseconds / pointCount;
-
     for (int i = 0; i <= pointCount; i++) {
       final currentTime = startTime.add(
         Duration(milliseconds: (intervalMs * i).round()),
       );
-
       // Only calculate if time is after ingestion
       if (currentTime.isBefore(ingestionTime)) {
         points.add(PKPoint(currentTime, 0, 0));
         continue;
       }
-
       final timeSinceIngestion = currentTime.difference(ingestionTime);
       final remainingDose = calculateRemainingDose(
         initialDoseMg: initialDoseMg,
         halfLifeHours: halfLifeHours,
         timeSinceIngestion: timeSinceIngestion,
       );
-
       final percentage = calculatePercentage(
         unifiedDoseMg: remainingDose,
         unifiedHeavyThreshold: unifiedHeavyThreshold,
       );
-
       points.add(PKPoint(currentTime, remainingDose, percentage));
     }
-
     return points;
   }
 
@@ -268,6 +235,5 @@ class PKPoint {
   final DateTime time;
   final double doseMg;
   final double percentage;
-
   PKPoint(this.time, this.doseMg, this.percentage);
 }

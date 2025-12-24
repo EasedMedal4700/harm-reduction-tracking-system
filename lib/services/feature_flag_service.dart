@@ -10,7 +10,6 @@ class FeatureFlag {
   final bool enabled;
   final String? description;
   final DateTime updatedAt;
-
   const FeatureFlag({
     required this.id,
     required this.featureName,
@@ -18,7 +17,6 @@ class FeatureFlag {
     this.description,
     required this.updatedAt,
   });
-
   factory FeatureFlag.fromJson(Map<String, dynamic> json) {
     return FeatureFlag(
       id: json['id'] as int,
@@ -28,7 +26,6 @@ class FeatureFlag {
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
   }
-
   FeatureFlag copyWith({bool? enabled}) {
     return FeatureFlag(
       id: id,
@@ -70,11 +67,9 @@ class FeatureFlagService extends ChangeNotifier {
 
   /// Error message if loading failed.
   String? _errorMessage;
-
   // ============================================================================
   // GETTERS
   // ============================================================================
-
   /// Returns true if flags have been loaded from the database.
   bool get isLoaded => _isLoaded;
 
@@ -86,45 +81,36 @@ class FeatureFlagService extends ChangeNotifier {
 
   /// Returns all loaded feature flags.
   List<FeatureFlag> get allFlags => _flags.values.toList();
-
   // ============================================================================
   // LOAD & REFRESH
   // ============================================================================
-
   /// Load all feature flags from Supabase.
   ///
   /// Call this on app start. Safe to call multiple times.
   Future<void> load() async {
     if (_isLoading) return;
-
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
-
     try {
       AppLog.d('🏴 Loading feature flags from database...');
-
       final response = await _client
           .from('feature_flags')
           .select('id, feature_name, enabled, description, updated_at')
           .order('feature_name');
-
       _flags = {};
       for (final row in response as List<dynamic>) {
         final flag = FeatureFlag.fromJson(row as Map<String, dynamic>);
         _flags[flag.featureName] = flag;
       }
-
       _isLoaded = true;
       AppLog.d('✅ Loaded ${_flags.length} feature flags');
-
       // Cache the flags
       _cache.set('feature_flags_loaded', true, ttl: CacheService.longTTL);
     } catch (e, stackTrace) {
       AppLog.e('❌ Error loading feature flags: $e');
       AppLog.e('$stackTrace');
       _errorMessage = 'Failed to load feature flags: $e';
-
       // On error, default to all features enabled (fail-open)
       _isLoaded = true;
     } finally {
@@ -142,7 +128,6 @@ class FeatureFlagService extends ChangeNotifier {
   // ============================================================================
   // CHECK FLAGS
   // ============================================================================
-
   /// Check if a feature is enabled.
   ///
   /// Returns true if:
@@ -155,13 +140,11 @@ class FeatureFlagService extends ChangeNotifier {
     if (isAdmin) {
       return true;
     }
-
     // If flags haven't loaded, default to enabled (fail-open)
     if (!_isLoaded) {
       AppLog.w('⚠️ Feature flags not loaded, defaulting to enabled');
       return true;
     }
-
     // Check if flag exists
     final flag = _flags[featureName];
     if (flag == null) {
@@ -169,7 +152,6 @@ class FeatureFlagService extends ChangeNotifier {
       AppLog.w('⚠️ Unknown feature flag: $featureName, defaulting to enabled');
       return true;
     }
-
     return flag.enabled;
   }
 
@@ -187,14 +169,12 @@ class FeatureFlagService extends ChangeNotifier {
   // ============================================================================
   // ADMIN: UPDATE FLAGS
   // ============================================================================
-
   /// Update a feature flag's enabled state (admin only).
   ///
   /// Updates the database and refreshes the local cache.
   Future<bool> updateFlag(String featureName, bool enabled) async {
     try {
       AppLog.d('🏴 Updating feature flag: $featureName = $enabled');
-
       await _client
           .from('feature_flags')
           .update({
@@ -202,14 +182,12 @@ class FeatureFlagService extends ChangeNotifier {
             'updated_at': DateTime.now().toIso8601String(),
           })
           .eq('feature_name', featureName);
-
       // Update local cache
       final existingFlag = _flags[featureName];
       if (existingFlag != null) {
         _flags[featureName] = existingFlag.copyWith(enabled: enabled);
         notifyListeners();
       }
-
       AppLog.d('✅ Feature flag updated successfully');
       return true;
     } catch (e, stackTrace) {

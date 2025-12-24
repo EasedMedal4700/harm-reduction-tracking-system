@@ -14,13 +14,11 @@
 // - Divider between columns for visual separation
 // - Calculates and displays days until tolerance returns to baseline
 // - Shows tolerance model parameters (half-life, decay days)
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,30 +33,27 @@ class ToleranceStatsCard extends ConsumerWidget {
   final ToleranceModel toleranceModel;
   final double daysUntilBaseline;
   final int recentUseCount;
-
   const ToleranceStatsCard({
     required this.toleranceModel,
     required this.daysUntilBaseline,
     required this.recentUseCount,
     super.key,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Access theme components through context extensions
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
-
+    final c = context.colors;
+    final sp = context.spacing;
+    final tx = context.text;
+    final sh = context.shapes;
     return Container(
       decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(radii.radiusMd),
-        border: Border.all(color: colors.border),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(color: c.border),
         boxShadow: context.cardShadow,
       ),
-      padding: EdgeInsets.all(spacing.cardPadding),
+      padding: EdgeInsets.all(sp.cardPadding),
       margin: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -66,10 +61,9 @@ class ToleranceStatsCard extends ConsumerWidget {
           // Section header
           Text(
             'Key metrics',
-            style: typography.heading4.copyWith(color: colors.textPrimary),
+            style: tx.heading4.copyWith(color: c.textPrimary),
           ),
-          SizedBox(height: spacing.lg),
-
+          SizedBox(height: sp.lg),
           // TWO COLUMN GRID
           Row(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -85,7 +79,7 @@ class ToleranceStatsCard extends ConsumerWidget {
                       value: '${toleranceModel.halfLifeHours}h',
                       icon: Icons.timelapse,
                     ),
-                    SizedBox(height: spacing.lg),
+                    SizedBox(height: sp.lg),
                     _metricItem(
                       context,
                       label: 'Days to baseline',
@@ -97,15 +91,13 @@ class ToleranceStatsCard extends ConsumerWidget {
                   ],
                 ),
               ),
-
               // Vertical divider between columns
               Container(
                 width: context.sizes.borderThin,
                 height: 80,
-                margin: EdgeInsets.symmetric(horizontal: spacing.lg),
-                color: colors.divider,
+                margin: EdgeInsets.symmetric(horizontal: sp.lg),
+                color: c.divider,
               ),
-
               // RIGHT COLUMN
               Expanded(
                 child: Column(
@@ -117,7 +109,7 @@ class ToleranceStatsCard extends ConsumerWidget {
                       value: '${toleranceModel.toleranceDecayDays} days',
                       icon: Icons.trending_down,
                     ),
-                    SizedBox(height: spacing.lg),
+                    SizedBox(height: sp.lg),
                     _metricItem(
                       context,
                       label: 'Recent uses',
@@ -137,7 +129,6 @@ class ToleranceStatsCard extends ConsumerWidget {
   // ---------------------------------------------------------------------------
   // HELPER METHODS
   // ---------------------------------------------------------------------------
-
   /// Builds a single metric item with icon, label, and value
   ///
   /// Used to display individual statistics in a consistent format.
@@ -147,9 +138,9 @@ class ToleranceStatsCard extends ConsumerWidget {
     required String value,
     required IconData icon,
   }) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
+    final c = context.colors;
+    final tx = context.text;
+    final sp = context.spacing;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -157,22 +148,16 @@ class ToleranceStatsCard extends ConsumerWidget {
         // Icon and label row
         Row(
           children: [
-            Icon(icon, size: context.sizes.iconSm, color: colors.textSecondary),
-            SizedBox(width: spacing.xs),
-            Text(
-              label,
-              style: typography.bodySmall.copyWith(color: colors.textSecondary),
-            ),
+            Icon(icon, size: context.sizes.iconSm, color: c.textSecondary),
+            SizedBox(width: sp.xs),
+            Text(label, style: tx.bodySmall.copyWith(color: c.textSecondary)),
           ],
         ),
         SizedBox(height: 4),
         // Value text (indented to align with label)
         Padding(
-          padding: EdgeInsets.only(left: context.sizes.iconSm + spacing.xs),
-          child: Text(
-            value,
-            style: typography.bodyBold.copyWith(color: colors.textPrimary),
-          ),
+          padding: EdgeInsets.only(left: context.sizes.iconSm + sp.xs),
+          child: Text(value, style: tx.bodyBold.copyWith(color: c.textPrimary)),
         ),
       ],
     );

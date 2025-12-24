@@ -21,7 +21,6 @@ class LogEntry {
   final String? intention;
   final double timezoneOffset; // parsed offset (e.g., hours)
   final List<String> people;
-
   LogEntry({
     this.id,
     required this.substance,

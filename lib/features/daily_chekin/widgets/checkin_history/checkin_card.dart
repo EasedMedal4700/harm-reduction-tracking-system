@@ -12,18 +12,15 @@ import '../../../../common/layout/common_spacer.dart';
 
 class CheckinCard extends StatelessWidget {
   final DailyCheckin checkin;
-
   const CheckinCard({super.key, required this.checkin});
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
-
+    final tx = context.text;
+    final th = context.theme;
     return Padding(
-      padding: EdgeInsets.only(bottom: t.spacing.md),
+      padding: EdgeInsets.only(bottom: th.spacing.md),
       child: CommonCard(
-        padding: EdgeInsets.all(t.spacing.md),
+        padding: EdgeInsets.all(th.spacing.md),
         child: Column(
           crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
@@ -35,72 +32,71 @@ class CheckinCard extends StatelessWidget {
                   children: [
                     Icon(
                       _getTimeIcon(checkin.timeOfDay),
-                      size: t.sizes.iconSm,
-                      color: t.colors.textSecondary,
+                      size: th.sizes.iconSm,
+                      color: th.colors.textSecondary,
                     ),
-                    CommonSpacer.horizontal(t.spacing.sm),
+                    CommonSpacer.horizontal(th.spacing.sm),
                     Text(
                       _formatDate(checkin.checkinDate),
-                      style: t.text.body.copyWith(
-                        fontWeight: text.bodyBold.fontWeight,
-                        color: t.colors.textPrimary,
+                      style: th.tx.body.copyWith(
+                        fontWeight: tx.bodyBold.fontWeight,
+                        color: th.colors.textPrimary,
                       ),
                     ),
                   ],
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: t.spacing.sm,
-                    vertical: t.spacing.xs,
+                    horizontal: th.spacing.sm,
+                    vertical: th.spacing.xs,
                   ),
                   decoration: BoxDecoration(
-                    color: t.colors.surfaceVariant,
-                    borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+                    color: th.colors.surfaceVariant,
+                    borderRadius: BorderRadius.circular(th.shapes.radiusSm),
                   ),
                   child: Text(
                     checkin.timeOfDay.toUpperCase(),
-                    style: t.text.label.copyWith(
-                      fontSize: context.text.caption.fontSize,
-                      color: t.colors.textSecondary,
+                    style: th.tx.label.copyWith(
+                      fontSize: tx.caption.fontSize,
+                      color: th.colors.textSecondary,
                     ),
                   ),
                 ),
               ],
             ),
             const CommonSpacer.vertical(12),
-
             // Mood
             Row(
               children: [
                 Text(
                   'Mood: ',
-                  style: t.text.body.copyWith(
-                    fontWeight: text.body.fontWeight,
-                    color: t.colors.textSecondary,
+                  style: th.tx.body.copyWith(
+                    fontWeight: tx.body.fontWeight,
+                    color: th.colors.textSecondary,
                   ),
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: t.spacing.md,
-                    vertical: t.spacing.xs,
+                    horizontal: th.spacing.md,
+                    vertical: th.spacing.xs,
                   ),
                   decoration: BoxDecoration(
                     color: _getMoodColor(
                       checkin.mood,
                       context,
-                    ).withValues(alpha: t.opacities.selected),
-                    borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+                    ).withValues(alpha: th.opacities.selected),
+                    borderRadius: BorderRadius.circular(th.shapes.radiusMd),
                     border: Border.all(
                       color: _getMoodColor(
                         checkin.mood,
                         context,
-                      ).withValues(alpha: t.opacities.slow),
+                      ).withValues(alpha: th.opacities.slow),
                     ),
                   ),
                   child: Text(
                     checkin.mood,
-                    style: t.text.label.copyWith(
-                      fontWeight: text.bodyBold.fontWeight,
+                    style: th.tx.label.copyWith(
+                      fontWeight: tx.bodyBold.fontWeight,
                       color: _getMoodColor(
                         checkin.mood,
                         context,
@@ -111,56 +107,54 @@ class CheckinCard extends StatelessWidget {
               ],
             ),
             const CommonSpacer.vertical(8),
-
             // Emotions
             if (checkin.emotions.isNotEmpty) ...[
               Text(
                 'Emotions:',
-                style: t.text.body.copyWith(
-                  fontWeight: text.body.fontWeight,
-                  color: t.colors.textSecondary,
+                style: th.tx.body.copyWith(
+                  fontWeight: tx.body.fontWeight,
+                  color: th.colors.textSecondary,
                 ),
               ),
               const CommonSpacer.vertical(4),
               Wrap(
-                spacing: t.spacing.sm,
-                runSpacing: t.spacing.sm,
+                spacing: th.spacing.sm,
+                runSpacing: th.spacing.sm,
                 children: checkin.emotions.map((emotion) {
                   return Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: t.spacing.sm,
-                      vertical: t.spacing.xs,
+                      horizontal: th.spacing.sm,
+                      vertical: th.spacing.xs,
                     ),
                     decoration: BoxDecoration(
-                      color: t.colors.surfaceVariant.withValues(
-                        alpha: t.opacities.slow,
+                      color: th.colors.surfaceVariant.withValues(
+                        alpha: th.opacities.slow,
                       ),
-                      borderRadius: BorderRadius.circular(t.shapes.radiusSm),
-                      border: Border.all(color: t.colors.border),
+                      borderRadius: BorderRadius.circular(th.shapes.radiusSm),
+                      border: Border.all(color: th.colors.border),
                     ),
                     child: Text(
                       emotion,
-                      style: t.text.label.copyWith(color: t.colors.textPrimary),
+                      style: th.tx.label.copyWith(color: th.colors.textPrimary),
                     ),
                   );
                 }).toList(),
               ),
               const CommonSpacer.vertical(8),
             ],
-
             // Notes
             if (checkin.notes != null && checkin.notes!.isNotEmpty) ...[
               Text(
                 'Notes:',
-                style: t.text.body.copyWith(
-                  fontWeight: text.body.fontWeight,
-                  color: t.colors.textSecondary,
+                style: th.tx.body.copyWith(
+                  fontWeight: tx.body.fontWeight,
+                  color: th.colors.textSecondary,
                 ),
               ),
               const CommonSpacer.vertical(4),
               Text(
                 checkin.notes!,
-                style: t.text.body.copyWith(color: t.colors.textSecondary),
+                style: th.tx.body.copyWith(color: th.colors.textSecondary),
               ),
             ],
           ],
@@ -174,7 +168,6 @@ class CheckinCard extends StatelessWidget {
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = today.subtract(const Duration(days: 1));
     final checkinDate = DateTime(date.year, date.month, date.day);
-
     if (checkinDate == today) {
       return 'Today';
     } else if (checkinDate == yesterday) {
@@ -198,20 +191,21 @@ class CheckinCard extends StatelessWidget {
   }
 
   Color _getMoodColor(String mood, BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
+
     switch (mood) {
       case 'Great':
-        return t.colors.success;
+        return th.colors.success;
       case 'Good':
-        return t.colors.success.withValues(alpha: 0.7);
+        return th.colors.success.withValues(alpha: 0.7);
       case 'Okay':
-        return t.colors.warning;
+        return th.colors.warning;
       case 'Struggling':
-        return t.colors.warning.withValues(alpha: 0.7);
+        return th.colors.warning.withValues(alpha: 0.7);
       case 'Poor':
-        return t.colors.error;
+        return th.colors.error;
       default:
-        return t.colors.textSecondary;
+        return th.colors.textSecondary;
     }
   }
 }

@@ -7,7 +7,6 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Moved from old_common. Uses AppThemeExtension.
-
 /// A banner that displays a harm reduction warning to users
 /// Emphasizes that calculated values are estimates, not medical advice
 /// Can be dismissed and state persists across app restarts
@@ -15,7 +14,6 @@ class HarmReductionBanner extends StatefulWidget {
   final String message;
   final String? dismissKey; // SharedPreferences key for persistence
   final VoidCallback? onDismiss;
-
   const HarmReductionBanner({
     super.key,
     this.message =
@@ -25,7 +23,6 @@ class HarmReductionBanner extends StatefulWidget {
     this.dismissKey,
     this.onDismiss,
   });
-
   @override
   State<HarmReductionBanner> createState() => _HarmReductionBannerState();
 }
@@ -33,7 +30,6 @@ class HarmReductionBanner extends StatefulWidget {
 class _HarmReductionBannerState extends State<HarmReductionBanner> {
   bool _isDismissed = false;
   bool _isLoading = true;
-
   @override
   void initState() {
     super.initState();
@@ -60,7 +56,6 @@ class _HarmReductionBannerState extends State<HarmReductionBanner> {
     if (widget.dismissKey != null) {
       await onboardingService.dismissHarmNotice(widget.dismissKey!);
     }
-
     if (mounted) {
       setState(() => _isDismissed = true);
       widget.onDismiss?.call();
@@ -70,12 +65,10 @@ class _HarmReductionBannerState extends State<HarmReductionBanner> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading || _isDismissed) return const SizedBox.shrink();
-
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-
     return Container(
       margin: EdgeInsets.only(bottom: sp.md),
       padding: EdgeInsets.all(sp.md),
@@ -94,7 +87,7 @@ class _HarmReductionBannerState extends State<HarmReductionBanner> {
               Expanded(
                 child: Text(
                   'Harm Reduction Notice',
-                  style: t.text.heading4.copyWith(
+                  style: th.text.heading4.copyWith(
                     color: c.warning,
                     fontWeight: FontWeight.bold,
                   ),
@@ -113,7 +106,7 @@ class _HarmReductionBannerState extends State<HarmReductionBanner> {
           SizedBox(height: sp.sm),
           Text(
             widget.message,
-            style: t.text.bodyMedium.copyWith(color: c.textPrimary),
+            style: th.text.bodyMedium.copyWith(color: c.textPrimary),
           ),
         ],
       ),

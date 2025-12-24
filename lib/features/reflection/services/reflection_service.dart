@@ -17,7 +17,6 @@ class ReflectionService {
           .select('reflection_id')
           .order('reflection_id', ascending: false)
           .limit(1);
-
       final nextId = response.isNotEmpty
           ? (response[0]['reflection_id'] as int) + 1
           : 1;
@@ -43,17 +42,14 @@ class ReflectionService {
         'ReflectionService',
         'Saving new reflection with ${relatedEntries.length} related entries',
       );
-
       final nextId = await getNextReflectionId();
       final userId = UserService.getCurrentUserId();
-
       // Encrypt notes field
       final reflectionData = reflection.toJson();
       final encryptedNotes = await _encryption.encryptTextNullable(
         reflectionData['notes'] as String?,
       );
       reflectionData['notes'] = encryptedNotes;
-
       await Supabase.instance.client.from('reflections').insert({
         'reflection_id': nextId,
         'uuid_user_id': userId,
@@ -62,7 +58,6 @@ class ReflectionService {
         'related_entries': relatedEntries,
         'is_simple': false,
       });
-
       ErrorHandler.logInfo(
         'ReflectionService',
         'Reflection saved successfully with ID: $nextId',
@@ -84,32 +79,26 @@ class ReflectionService {
         'ReflectionService',
         'Updating reflection $id with ${data.keys.length} fields',
       );
-
       if (!ReflectionValidator.isValidReflectionId(id)) {
         throw ReflectionSaveException(
           'Invalid reflection ID',
           details: 'ID "$id" is not valid',
         );
       }
-
       final supabase = Supabase.instance.client;
       final userId = UserService.getCurrentUserId();
       final parsedId = int.tryParse(id);
-
       // Encrypt notes field if it's being updated
       final encryptedData = await _encryption.encryptFields(data, ['notes']);
-
       final response = await supabase
           .from('reflections')
           .update(encryptedData)
           .eq('uuid_user_id', userId)
           .eq('reflection_id', parsedId ?? id)
           .select();
-
       if (response.isEmpty) {
         throw ReflectionNotFoundException(id);
       }
-
       ErrorHandler.logInfo(
         'ReflectionService',
         'Reflection updated successfully: $id',
@@ -135,30 +124,24 @@ class ReflectionService {
         'ReflectionService',
         'Fetching reflection by ID: $id',
       );
-
       if (!ReflectionValidator.isValidReflectionId(id)) {
         throw ReflectionFetchException(
           'Invalid reflection ID',
           details: 'ID "$id" is not a valid integer',
         );
       }
-
       final supabase = Supabase.instance.client;
       final parsedId = int.tryParse(id);
-
       ErrorHandler.logDebug(
         'ReflectionService',
         'Query params - original_id: $id, parsed_id: $parsedId',
       );
-
       final result = await supabase
           .from('reflections')
           .select('*')
           .eq('reflection_id', parsedId ?? id)
           .maybeSingle();
-
       ErrorHandler.logDebug('ReflectionService', 'Raw DB result: $result');
-
       if (result == null) {
         ErrorHandler.logWarning(
           'ReflectionService',
@@ -166,22 +149,17 @@ class ReflectionService {
         );
         throw ReflectionNotFoundException(id);
       }
-
       // Validate raw data before parsing
       ReflectionValidator.validateRawData(result);
-
       // Decrypt notes field
       final decryptedResult = await _encryption.decryptFields(result, [
         'notes',
       ]);
-
       final model = ReflectionModel.fromJson(decryptedResult);
-
       ErrorHandler.logInfo(
         'ReflectionService',
         'Reflection fetched - ID: $id, notes: ${model.notes?.isNotEmpty ?? false}, selected_count: ${model.selectedReflections.length}, raw_related_entries: ${result['related_entries']}',
       );
-
       return model;
     } catch (e, stackTrace) {
       ErrorHandler.logError(

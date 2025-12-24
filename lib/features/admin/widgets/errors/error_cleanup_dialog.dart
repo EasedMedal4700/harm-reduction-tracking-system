@@ -16,13 +16,11 @@ import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 class ErrorCleanupDialog extends StatefulWidget {
   final List<String> platformOptions;
   final List<String> screenOptions;
-
   const ErrorCleanupDialog({
     required this.platformOptions,
     required this.screenOptions,
     super.key,
   });
-
   @override
   State<ErrorCleanupDialog> createState() => _ErrorCleanupDialogState();
 }
@@ -32,7 +30,6 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
   String? _platform;
   String? _screen;
   bool _deleteAll = false;
-
   @override
   void dispose() {
     _daysController.dispose();
@@ -43,9 +40,8 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
+    final tx = context.text;
     final sh = context.shapes;
-
     return AlertDialog(
       backgroundColor: c.surface,
       shape: RoundedRectangleBorder(
@@ -56,7 +52,7 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
       /// TITLE
       title: Text(
         'Clean Error Logs',
-        style: text.heading3.copyWith(color: c.textPrimary),
+        style: tx.heading3.copyWith(color: c.textPrimary),
       ),
 
       /// CONTENT
@@ -71,7 +67,6 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
               title: 'Delete entire table',
               subtitle: 'This action cannot be undone',
             ),
-
             if (!_deleteAll) ...[
               /// DAYS FIELD
               CommonInputField(
@@ -80,7 +75,6 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
                 labelText: 'Older than (days)',
                 hintText: 'e.g., 30',
               ),
-
               SizedBox(height: sp.md),
 
               /// PLATFORM DROPDOWN
@@ -91,7 +85,6 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
                 itemLabel: (v) => v,
                 onChanged: (val) => setState(() => _platform = val),
               ),
-
               SizedBox(height: sp.md),
 
               /// SCREEN DROPDOWN
@@ -113,14 +106,12 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
           onPressed: () => Navigator.of(context).pop(null),
           child: Text(
             'Cancel',
-            style: text.button.copyWith(color: c.textSecondary),
+            style: tx.button.copyWith(color: c.textSecondary),
           ),
         ),
-
         CommonPrimaryButton(
           onPressed: () {
             final days = int.tryParse(_daysController.text);
-
             Navigator.of(context).pop({
               'deleteAll': _deleteAll,
               'olderThanDays': days,

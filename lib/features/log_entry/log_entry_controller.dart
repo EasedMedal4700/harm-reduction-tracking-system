@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Logic controller for log entry.
-
 import '../../models/log_entry_form_data.dart';
 import '../../models/log_entry_model.dart';
 import '../../services/timezone_service.dart';
@@ -20,7 +19,6 @@ class LogEntryController {
   final StockpileRepository _stockpileRepo;
   final LogEntryService _logEntryService;
   final TimezoneService _timezoneService;
-
   LogEntryController({
     SubstanceRepository? substanceRepo,
     StockpileRepository? stockpileRepo,
@@ -59,7 +57,6 @@ class LogEntryController {
         'Please select a substance before saving.',
       );
     }
-
     final details = await loadSubstanceDetails(data.substance);
     if (details == null) {
       return ValidationResult.error(
@@ -67,7 +64,6 @@ class LogEntryController {
         'The substance "${data.substance}" was not found in the database. Please select a valid substance.',
       );
     }
-
     return ValidationResult.success();
   }
 
@@ -129,16 +125,13 @@ class LogEntryController {
         bodySignals: data.bodySignals,
         people: [],
       );
-
       if (data.entryId.isNotEmpty) {
         await _logEntryService.updateLogEntry(data.entryId, entry.toJson());
       } else {
         await _logEntryService.saveLogEntry(entry);
       }
-
       // Update stockpile
       final stockpileResult = await _updateStockpile(data);
-
       return SaveResult.success(
         message: stockpileResult ?? 'Entry saved successfully!',
       );
@@ -155,9 +148,7 @@ class LogEntryController {
         data.unit,
         data.substanceDetails,
       );
-
       await _stockpileRepo.subtractFromStockpile(data.substance, doseInMg);
-
       final updatedStockpile = await _stockpileRepo.getStockpile(
         data.substance,
       );
@@ -177,18 +168,15 @@ class ValidationResult {
   final bool needsConfirmation;
   final String? title;
   final String? message;
-
   const ValidationResult._({
     required this.isValid,
     required this.needsConfirmation,
     this.title,
     this.message,
   });
-
   factory ValidationResult.success() {
     return const ValidationResult._(isValid: true, needsConfirmation: false);
   }
-
   factory ValidationResult.error(String title, String message) {
     return ValidationResult._(
       isValid: false,
@@ -197,7 +185,6 @@ class ValidationResult {
       message: message,
     );
   }
-
   factory ValidationResult.warning(String title, String message) {
     return ValidationResult._(
       isValid: true,
@@ -212,13 +199,10 @@ class ValidationResult {
 class SaveResult {
   final bool isSuccess;
   final String message;
-
   const SaveResult._({required this.isSuccess, required this.message});
-
   factory SaveResult.success({required String message}) {
     return SaveResult._(isSuccess: true, message: message);
   }
-
   factory SaveResult.error(String message) {
     return SaveResult._(isSuccess: false, message: message);
   }

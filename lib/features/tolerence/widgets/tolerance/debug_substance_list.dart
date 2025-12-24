@@ -14,13 +14,11 @@
 // - Empty state handling
 // - Highlighted tolerance values with accent color
 // - Debug label to indicate this is for development
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,40 +36,34 @@ class DebugSubstanceList extends ConsumerWidget {
 
   /// Whether data is currently loading
   final bool isLoading;
-
   const DebugSubstanceList({
     required this.perSubstanceTolerances,
     required this.isLoading,
     super.key,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Access theme components through context extensions
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
-
+    final c = context.colors;
+    final sp = context.spacing;
+    final tx = context.text;
+    final sh = context.shapes;
     return Container(
       decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(radii.radiusMd),
-        border: Border.all(color: colors.border),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(color: c.border),
       ),
-      padding: EdgeInsets.all(spacing.md),
+      padding: EdgeInsets.all(sp.md),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           // Debug header with distinctive styling
           Text(
             'DEBUG: Per-substance tolerance',
-            style: typography.heading4.copyWith(
-              fontSize: typography.body.fontSize! + 1,
-            ),
+            style: tx.heading4.copyWith(fontSize: tx.body.fontSize! + 1),
           ),
-          CommonSpacer.vertical(spacing.sm),
-
+          CommonSpacer.vertical(sp.sm),
           // LOADING STATE
           if (isLoading)
             const Center(child: CommonLoader())
@@ -79,22 +71,22 @@ class DebugSubstanceList extends ConsumerWidget {
           else if (perSubstanceTolerances.isEmpty)
             Text(
               'No data',
-              style: typography.bodySmall.copyWith(color: colors.textSecondary),
+              style: tx.bodySmall.copyWith(color: c.textSecondary),
             )
           // LIST OF SUBSTANCES WITH TOLERANCE PERCENTAGES
           else
             ...perSubstanceTolerances.entries.map(
               (entry) => Padding(
-                padding: EdgeInsets.symmetric(vertical: spacing.xs),
+                padding: EdgeInsets.symmetric(vertical: sp.xs),
                 child: Row(
                   mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                   children: [
                     // Substance name
-                    Text(entry.key, style: typography.body),
+                    Text(entry.key, style: tx.body),
                     // Tolerance percentage (highlighted with accent color)
                     Text(
                       '${entry.value.toStringAsFixed(1)}%',
-                      style: typography.bodyBold.copyWith(
+                      style: tx.bodyBold.copyWith(
                         color: context.accent.primary,
                       ),
                     ),

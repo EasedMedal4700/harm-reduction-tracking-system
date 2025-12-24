@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSpacer.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -15,25 +14,22 @@ class DosageGuideCard extends StatelessWidget {
   final Map<String, dynamic>? doseData;
   final String selectedMethod;
   final Color accentColor;
-
   const DosageGuideCard({
     super.key,
     required this.doseData,
     required this.selectedMethod,
     required this.accentColor,
   });
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
+    final tx = context.text;
+    final th = context.theme;
     if (doseData == null) {
       return _buildWarningCard(
         context,
         'No dosage information available for $selectedMethod administration.',
       );
     }
-
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
@@ -43,46 +39,46 @@ class DosageGuideCard extends StatelessWidget {
             const CommonSpacer.horizontal(4),
             Text(
               'Dose Ranges (Informational)',
-              style: t.text.heading3.copyWith(color: t.colors.textPrimary),
+              style: th.tx.heading3.copyWith(color: th.colors.textPrimary),
             ),
             const Spacer(),
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: t.spacing.sm,
-                vertical: t.spacing.xs,
+                horizontal: th.spacing.sm,
+                vertical: th.spacing.xs,
               ),
               decoration: BoxDecoration(
                 color: accentColor.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+                borderRadius: BorderRadius.circular(th.shapes.radiusMd),
               ),
               child: Text(
                 selectedMethod,
-                style: t.text.label.copyWith(
+                style: th.tx.label.copyWith(
                   color: accentColor,
-                  fontWeight: text.bodyBold.fontWeight,
+                  fontWeight: tx.bodyBold.fontWeight,
                 ),
               ),
             ),
           ],
         ),
         const CommonSpacer.vertical(16),
-        _buildDoseCard(context, 'Light', doseData!['Light'], t.colors.success),
+        _buildDoseCard(context, 'Light', doseData!['Light'], th.colors.success),
         const CommonSpacer.vertical(4),
         _buildDoseCard(
           context,
           'Common',
           doseData!['Common'],
-          t.colors.warning,
+          th.colors.warning,
         ),
         const CommonSpacer.vertical(4),
-        _buildDoseCard(context, 'Strong', doseData!['Strong'], t.colors.error),
+        _buildDoseCard(context, 'Strong', doseData!['Strong'], th.colors.error),
         if (doseData!['Heavy'] != null) ...[
           const CommonSpacer.vertical(4),
           _buildDoseCard(
             context,
             'Heavy',
             doseData!['Heavy'],
-            t.accent.secondary,
+            th.accent.secondary,
           ),
         ],
       ],
@@ -95,16 +91,16 @@ class DosageGuideCard extends StatelessWidget {
     String? range,
     Color color,
   ) {
-    final t = context.theme;
-    final text = context.text;
-    if (range == null) return const SizedBox.shrink();
+    final th = context.theme;
+    final tx = context.text;
 
+    if (range == null) return const SizedBox.shrink();
     return CommonCard(
-      padding: EdgeInsets.all(t.spacing.md),
+      padding: EdgeInsets.all(th.spacing.md),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(t.spacing.xs),
+            padding: EdgeInsets.all(th.spacing.xs),
             decoration: BoxDecoration(
               color: color.withValues(alpha: 0.1),
               shape: context.shapes.boxShapeCircle,
@@ -112,7 +108,7 @@ class DosageGuideCard extends StatelessWidget {
             child: Icon(
               _getDoseIcon(label),
               color: color,
-              size: t.sizes.iconSm,
+              size: th.sizes.iconSm,
             ),
           ),
           const CommonSpacer.horizontal(16),
@@ -121,17 +117,17 @@ class DosageGuideCard extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: t.typography.captionBold.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: th.typography.captionBold.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: color,
                 ),
               ),
-              SizedBox(height: t.spacing.xs),
+              SizedBox(height: th.spacing.xs),
               Text(
                 range,
-                style: t.typography.body.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
-                  color: t.colors.textPrimary,
+                style: th.typography.body.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
+                  color: th.colors.textPrimary,
                 ),
               ),
             ],
@@ -157,25 +153,27 @@ class DosageGuideCard extends StatelessWidget {
   }
 
   Widget _buildWarningCard(BuildContext context, String message) {
-    final t = context.theme;
+    final th = context.theme;
+    final tx = context.text;
+
     return Container(
-      padding: EdgeInsets.all(t.spacing.md),
+      padding: EdgeInsets.all(th.spacing.md),
       decoration: BoxDecoration(
-        color: t.colors.warning.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        color: th.colors.warning.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(th.shapes.radiusMd),
         border: Border.all(
-          color: t.colors.warning.withValues(alpha: t.opacities.slow),
+          color: th.colors.warning.withValues(alpha: th.opacities.slow),
         ),
       ),
       child: Row(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          Icon(Icons.warning_amber_rounded, color: t.colors.warning),
-          SizedBox(width: t.spacing.sm),
+          Icon(Icons.warning_amber_rounded, color: th.colors.warning),
+          SizedBox(width: th.spacing.sm),
           Expanded(
             child: Text(
               message,
-              style: t.text.body.copyWith(color: t.colors.warning, height: 1.4),
+              style: th.tx.body.copyWith(color: th.colors.warning, height: 1.4),
             ),
           ),
         ],

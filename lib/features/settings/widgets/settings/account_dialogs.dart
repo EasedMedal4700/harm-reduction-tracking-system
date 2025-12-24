@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -19,7 +18,6 @@ class PasswordVerificationDialog extends StatefulWidget {
   final Color actionButtonColor;
   final bool requireConfirmation;
   final Function(String password) onVerified;
-
   const PasswordVerificationDialog({
     required this.title,
     required this.description,
@@ -29,7 +27,6 @@ class PasswordVerificationDialog extends StatefulWidget {
     required this.onVerified,
     super.key,
   });
-
   @override
   State<PasswordVerificationDialog> createState() =>
       _PasswordVerificationDialogState();
@@ -41,7 +38,6 @@ class _PasswordVerificationDialogState
   bool _isVerifying = false;
   String? _errorMessage;
   bool _obscurePassword = true;
-
   @override
   void dispose() {
     _passwordController.dispose();
@@ -50,30 +46,24 @@ class _PasswordVerificationDialogState
 
   Future<void> _verify() async {
     final password = _passwordController.text.trim();
-
     if (password.isEmpty) {
       setState(() => _errorMessage = 'Please enter your password');
       return;
     }
-
     setState(() {
       _isVerifying = true;
       _errorMessage = null;
     });
-
     try {
       final supabase = Supabase.instance.client;
       final email = supabase.auth.currentUser?.email;
-
       if (email == null) {
         throw Exception('User not authenticated');
       }
-
       final response = await supabase.auth.signInWithPassword(
         email: email,
         password: password,
       );
-
       if (response.user != null) {
         widget.onVerified(password);
       } else {
@@ -92,9 +82,8 @@ class _PasswordVerificationDialogState
 
   @override
   Widget build(BuildContext context) {
-    final spacing = context.spacing;
-    final colors = context.colors;
-
+    final sp = context.spacing;
+    final c = context.colors;
     return AlertDialog(
       title: Text(widget.title),
       content: Column(
@@ -102,7 +91,7 @@ class _PasswordVerificationDialogState
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(widget.description),
-          CommonSpacer.vertical(spacing.lg),
+          CommonSpacer.vertical(sp.lg),
           TextField(
             controller: _passwordController,
             obscureText: _obscurePassword,
@@ -149,16 +138,13 @@ class _PasswordVerificationDialogState
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: widget.actionButtonColor,
-              foregroundColor: colors.surface,
+              foregroundColor: c.surface,
             ),
             child: _isVerifying
                 ? SizedBox(
-                    width: spacing.lg,
-                    height: spacing.lg,
-                    child: CommonLoader(
-                      size: spacing.lg,
-                      color: colors.surface,
-                    ),
+                    width: sp.lg,
+                    height: sp.lg,
+                    child: CommonLoader(size: sp.lg, color: c.surface),
                   )
                 : Text(widget.actionButtonText),
           ),
@@ -172,29 +158,27 @@ class _PasswordVerificationDialogState
 class WarningItem extends StatelessWidget {
   final String text;
   final bool isRed;
-
   const WarningItem(this.text, {this.isRed = false, super.key});
-
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final spacing = context.spacing;
+    final c = context.colors;
+    final sp = context.spacing;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: spacing.xs),
+      padding: EdgeInsets.symmetric(vertical: sp.xs),
       child: Row(
         children: [
           Icon(
             Icons.close,
-            color: isRed ? colors.error : colors.warning,
+            color: isRed ? c.error : c.warning,
             size: context.sizes.iconLg,
           ),
-          CommonSpacer.horizontal(spacing.sm),
+          CommonSpacer.horizontal(sp.sm),
           Expanded(
             child: Text(
               text,
               style: context.text.bodyMedium.copyWith(
-                color: isRed ? colors.error : colors.warning,
+                color: isRed ? c.error : c.warning,
                 fontWeight: context.text.bodyMedium.fontWeight,
               ),
             ),
@@ -208,22 +192,20 @@ class WarningItem extends StatelessWidget {
 /// Loading dialog for async operations
 class LoadingDialog extends StatelessWidget {
   final String message;
-
   const LoadingDialog({required this.message, super.key});
-
   @override
   Widget build(BuildContext context) {
-    final spacing = context.spacing;
+    final sp = context.spacing;
 
     return Center(
       child: Card(
         child: Padding(
-          padding: EdgeInsets.all(spacing.xl),
+          padding: EdgeInsets.all(sp.xl),
           child: Column(
             mainAxisSize: AppLayout.mainAxisSizeMin,
             children: [
               const CommonLoader(),
-              CommonSpacer.vertical(spacing.lg),
+              CommonSpacer.vertical(sp.lg),
               Text(message),
             ],
           ),
@@ -240,7 +222,6 @@ class TypedConfirmationDialog extends StatefulWidget {
   final String description;
   final Color? buttonColor;
   final VoidCallback onConfirmed;
-
   const TypedConfirmationDialog({
     required this.title,
     required this.confirmText,
@@ -249,7 +230,6 @@ class TypedConfirmationDialog extends StatefulWidget {
     required this.onConfirmed,
     super.key,
   });
-
   @override
   State<TypedConfirmationDialog> createState() =>
       _TypedConfirmationDialogState();
@@ -257,11 +237,10 @@ class TypedConfirmationDialog extends StatefulWidget {
 
 class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
   bool _userConfirmed = false;
-
   @override
   Widget build(BuildContext context) {
-    final spacing = context.spacing;
-    final colors = context.colors;
+    final c = context.colors;
+    final sp = context.spacing;
 
     return AlertDialog(
       title: Text(widget.title),
@@ -269,7 +248,7 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
         mainAxisSize: AppLayout.mainAxisSizeMin,
         children: [
           Text(widget.description, style: context.text.bodyBold),
-          CommonSpacer.vertical(spacing.md),
+          CommonSpacer.vertical(sp.md),
           TextField(
             decoration: InputDecoration(
               hintText: widget.confirmText,
@@ -299,8 +278,8 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
           child: ElevatedButton(
             onPressed: _userConfirmed ? widget.onConfirmed : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: widget.buttonColor ?? colors.error,
-              foregroundColor: colors.surface,
+              backgroundColor: widget.buttonColor ?? c.error,
+              foregroundColor: c.surface,
             ),
             child: const Text('Confirm'),
           ),

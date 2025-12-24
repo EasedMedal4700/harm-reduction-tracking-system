@@ -15,7 +15,6 @@ class ReflectionOptions {
     'Content',
     'Neutral',
   ];
-
   // Side effects options
   static const List<String> sideEffectsOptions = [
     'None',
@@ -37,7 +36,6 @@ class ReflectionOptions {
     'Mood swings',
     'Irritability',
   ];
-
   // Coping strategies options
   static const List<String> copingStrategiesOptions = [
     'Meditation',

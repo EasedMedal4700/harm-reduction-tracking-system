@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class NavigationService {
   final navigatorKey = GlobalKey<NavigatorState>();
-
   void replace(String route) {
     navigatorKey.currentState?.pushReplacementNamed(route);
   }

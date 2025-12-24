@@ -18,7 +18,6 @@ class SimpleFields extends StatelessWidget {
   final ValueChanged<DateTime> onDateChanged;
   final ValueChanged<TimeOfDay> onTimeChanged;
   final ValueChanged<String> onFeelingSelected;
-
   const SimpleFields({
     super.key,
     required this.substanceController,
@@ -31,11 +30,9 @@ class SimpleFields extends StatelessWidget {
     required this.onTimeChanged,
     required this.onFeelingSelected,
   });
-
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
-
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
@@ -45,14 +42,12 @@ class SimpleFields extends StatelessWidget {
           options: substanceOptions,
         ),
         SizedBox(height: sp.md),
-
         // Dosage Input
         DosageInput(
           controller: dosageController,
           unit: 'mg', // TODO: Make dynamic based on substance
         ),
         SizedBox(height: sp.md),
-
         // Date and Time Row
         Row(
           children: [
@@ -72,7 +67,6 @@ class SimpleFields extends StatelessWidget {
           ],
         ),
         SizedBox(height: sp.md),
-
         // Feeling Selection
         FeelingSelection(
           selectedFeeling: selectedFeeling,

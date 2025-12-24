@@ -9,14 +9,12 @@ import '../../common/buttons/common_primary_button.dart';
 /// Displays a success message and provides a button to navigate to login.
 class EmailConfirmedPage extends StatelessWidget {
   const EmailConfirmedPage({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-
     return Scaffold(
       backgroundColor: c.background,
       body: SafeArea(
@@ -32,7 +30,7 @@ class EmailConfirmedPage extends StatelessWidget {
                 height: 120,
                 decoration: BoxDecoration(
                   color: c.success.withValues(alpha: context.opacities.overlay),
-                  shape: context.shapes.boxShapeCircle,
+                  shape: sh.boxShapeCircle,
                 ),
                 child: Icon(
                   Icons.verified_rounded,
@@ -44,14 +42,14 @@ class EmailConfirmedPage extends StatelessWidget {
               // Title
               Text(
                 'Email Verified!',
-                style: text.headlineMedium.copyWith(color: c.textPrimary),
+                style: tx.headlineMedium.copyWith(color: c.textPrimary),
                 textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.lg),
               // Description
               Text(
                 'Your email has been successfully verified. You can now log in to your account.',
-                style: text.bodyMedium.copyWith(
+                style: tx.bodyMedium.copyWith(
                   color: c.textSecondary,
                   height: 1.5,
                 ),
@@ -101,28 +99,27 @@ class EmailConfirmedPage extends StatelessWidget {
   }
 
   Widget _buildCheckItem(BuildContext context, String text) {
-    final t = context.theme;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
+    final sh = context.shapes;
 
+    final th = context.theme;
     return Row(
       children: [
         Container(
           width: context.sizes.iconMd,
           height: context.sizes.iconMd,
-          decoration: BoxDecoration(
-            color: c.success,
-            shape: context.shapes.boxShapeCircle,
-          ),
+          decoration: BoxDecoration(color: c.success, shape: sh.boxShapeCircle),
           child: Icon(Icons.check, size: 16.0, color: c.textInverse),
         ),
         CommonSpacer.horizontal(sp.md),
         Expanded(
           child: Text(
             text,
-            style: t.typography.body.copyWith(
+            style: th.typography.body.copyWith(
               color: c.textPrimary,
-              fontWeight: context.text.bodyMedium.fontWeight,
+              fontWeight: tx.bodyMedium.fontWeight,
             ),
           ),
         ),

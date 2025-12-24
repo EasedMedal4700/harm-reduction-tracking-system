@@ -13,30 +13,26 @@ import '../../../bug_report/bug_report_page.dart';
 class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isLoading;
   final VoidCallback onRefresh;
-
   const AdminAppBar({
     super.key,
     required this.isLoading,
     required this.onRefresh,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
-
     return AppBar(
       title: Text(
         'Admin Panel',
-        style: text.heading3.copyWith(color: c.textPrimary),
+        style: tx.heading3.copyWith(color: c.textPrimary),
       ),
       backgroundColor: c.surface,
       foregroundColor: c.textPrimary,
       elevation: context.sizes.elevationNone,
       scrolledUnderElevation: context.sizes.elevationNone,
       surfaceTintColor: c.transparent,
-
       actions: [
         Padding(
           padding: EdgeInsets.only(right: sp.sm),
@@ -53,7 +49,6 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
             tooltip: 'Report Bug',
           ),
         ),
-
         IconButton(
           icon: const Icon(
             Icons.bug_report_outlined,
@@ -66,7 +61,6 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           tooltip: 'Error Analytics',
         ),
-
         Semantics(
           button: true,
           enabled: !isLoading,
@@ -85,7 +79,6 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
             tooltip: 'Refresh',
           ),
         ),
-
         SizedBox(width: sp.xs),
       ],
     );

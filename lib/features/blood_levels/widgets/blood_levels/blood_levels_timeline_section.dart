@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSpacer.
-
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -24,7 +23,6 @@ class BloodLevelsTimelineSection extends StatelessWidget {
   final ValueChanged<bool> onAdaptiveScaleChanged;
   final void Function(int back, int forward) onPresetSelected;
   final BloodLevelsService? service;
-
   const BloodLevelsTimelineSection({
     super.key,
     required this.levels,
@@ -38,13 +36,11 @@ class BloodLevelsTimelineSection extends StatelessWidget {
     required this.onPresetSelected,
     this.service,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-
+    final tx = context.text;
     // Empty state
     if (levels.isEmpty) {
       return CommonCard(
@@ -59,17 +55,15 @@ class BloodLevelsTimelineSection extends StatelessWidget {
               CommonSpacer.vertical(sp.lg),
               Text(
                 'Select a substance to view metabolism timeline',
-                style: text.body.copyWith(color: c.textSecondary),
+                style: tx.body.copyWith(color: c.textSecondary),
               ),
             ],
           ),
         ),
       );
     }
-
     // Show ALL drugs to draw multiple PK curves
     final allDrugs = levels.values.toList();
-
     return Column(
       children: [
         // Timeline controls
@@ -86,7 +80,6 @@ class BloodLevelsTimelineSection extends StatelessWidget {
           ),
         ),
         const CommonSpacer.vertical(24),
-
         // Timeline graph
         MetabolismTimelineCard(
           drugLevels: allDrugs,

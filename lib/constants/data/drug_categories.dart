@@ -17,7 +17,6 @@ class DrugCategories {
     "Nootropic",
     "SSRI",
   ];
-
   // Category icon map (Material Icons)
   static const Map<String, IconData> categoryIconMap = {
     "Psychedelic": Icons.blur_on,
@@ -41,7 +40,6 @@ class DrugCategories {
 /// Shared color palette for drug categories across the app.
 class DrugCategoryColors {
   DrugCategoryColors._();
-
   // Individual category colors
   static const Color psychedelic = Color(0xFF9C6BFF); // purple
   static const Color deliriant = Color(0xFFC67EFF); // violet
@@ -58,9 +56,7 @@ class DrugCategoryColors {
   static const Color supplement = Color(0xFFA7FF83); // mint
   static const Color experimental = Color(0xFFB8B8B8); // gray
   static const Color placeholder = Color(0xFF888888); // dark gray
-
   static const Color defaultColor = stimulant;
-
   static const Map<String, Color> _colorByCategory = {
     'psychedelic': psychedelic,
     'deliriant': deliriant,

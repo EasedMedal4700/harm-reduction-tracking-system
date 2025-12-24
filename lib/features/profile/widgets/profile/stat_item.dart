@@ -13,7 +13,6 @@ class StatItem extends StatelessWidget {
   final String label;
   final String value;
   final Color accent;
-
   const StatItem({
     super.key,
     required this.icon,
@@ -21,27 +20,27 @@ class StatItem extends StatelessWidget {
     required this.value,
     required this.accent,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(t.spacing.md),
+          padding: EdgeInsets.all(th.spacing.md),
           decoration: BoxDecoration(
             color: accent.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(t.spacing.md),
+            borderRadius: BorderRadius.circular(th.spacing.md),
           ),
-          child: Icon(icon, color: accent, size: t.sizes.iconLg),
+          child: Icon(icon, color: accent, size: th.sizes.iconLg),
         ),
-        CommonSpacer.vertical(t.spacing.sm),
-        Text(value, style: t.typography.heading3.copyWith(color: accent)),
-        CommonSpacer.vertical(t.spacing.xs),
+        CommonSpacer.vertical(th.spacing.sm),
+        Text(value, style: th.typography.heading3.copyWith(color: accent)),
+        CommonSpacer.vertical(th.spacing.xs),
         Text(
           label,
-          style: t.typography.bodySmall.copyWith(color: t.colors.textSecondary),
+          style: th.typography.bodySmall.copyWith(
+            color: th.colors.textSecondary,
+          ),
           textAlign: AppLayout.textAlignCenter,
         ),
       ],

@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../providers/shared_preferences_provider.dart';
 
 @immutable
@@ -12,12 +11,10 @@ class AppLockState {
     required this.backgroundStartedAt,
     required this.gracePeriod,
   });
-
   final bool requiresPin;
   final DateTime? lastUnlockAt;
   final DateTime? backgroundStartedAt;
   final Duration gracePeriod;
-
   AppLockState copyWith({
     bool? requiresPin,
     DateTime? lastUnlockAt,
@@ -39,30 +36,24 @@ class AppLockController extends Notifier<AppLockState> {
   static const String _keyBackgroundTimeMs = 'pin_background_time';
   static const String _keyForegroundTimeoutMinutes =
       'pin_foreground_timeout_minutes';
-
   static const int _minGraceMinutes = 5;
-
   @override
   AppLockState build() {
     final prefs = ref.watch(sharedPreferencesProvider);
-
     final lastUnlockMs = prefs.getInt(_keyLastUnlockTimeMs);
     final backgroundMs = prefs.getInt(_keyBackgroundTimeMs);
-
     final lastUnlockAt = lastUnlockMs != null
         ? DateTime.fromMillisecondsSinceEpoch(lastUnlockMs)
         : null;
     final backgroundStartedAt = backgroundMs != null
         ? DateTime.fromMillisecondsSinceEpoch(backgroundMs)
         : null;
-
     final gracePeriod = _readGracePeriod(prefs);
     final requiresPin = _computeRequiresPin(
       now: DateTime.now(),
       lastUnlockAt: lastUnlockAt,
       gracePeriod: gracePeriod,
     );
-
     return AppLockState(
       requiresPin: requiresPin,
       lastUnlockAt: lastUnlockAt,
@@ -92,7 +83,6 @@ class AppLockController extends Notifier<AppLockState> {
     final when = at ?? DateTime.now();
     await prefs.setInt(_keyLastUnlockTimeMs, when.millisecondsSinceEpoch);
     await prefs.remove(_keyBackgroundTimeMs);
-
     state = state.copyWith(
       requiresPin: false,
       lastUnlockAt: when,
@@ -105,7 +95,6 @@ class AppLockController extends Notifier<AppLockState> {
     final prefs = ref.read(sharedPreferencesProvider);
     final when = at ?? DateTime.now();
     await prefs.setInt(_keyBackgroundTimeMs, when.millisecondsSinceEpoch);
-
     state = state.copyWith(
       backgroundStartedAt: when,
       gracePeriod: _readGracePeriod(prefs),
@@ -115,21 +104,17 @@ class AppLockController extends Notifier<AppLockState> {
   Future<void> onForegroundResume({DateTime? now}) async {
     final prefs = ref.read(sharedPreferencesProvider);
     final when = now ?? DateTime.now();
-
     final lastUnlockMs = prefs.getInt(_keyLastUnlockTimeMs);
     final lastUnlockAt = lastUnlockMs != null
         ? DateTime.fromMillisecondsSinceEpoch(lastUnlockMs)
         : null;
-
     final gracePeriod = _readGracePeriod(prefs);
     final requiresPin = _computeRequiresPin(
       now: when,
       lastUnlockAt: lastUnlockAt,
       gracePeriod: gracePeriod,
     );
-
     await prefs.remove(_keyBackgroundTimeMs);
-
     state = state.copyWith(
       requiresPin: requiresPin,
       lastUnlockAt: lastUnlockAt,
@@ -142,7 +127,6 @@ class AppLockController extends Notifier<AppLockState> {
     final prefs = ref.read(sharedPreferencesProvider);
     await prefs.remove(_keyLastUnlockTimeMs);
     await prefs.remove(_keyBackgroundTimeMs);
-
     state = AppLockState(
       requiresPin: true,
       lastUnlockAt: null,
@@ -158,7 +142,6 @@ class AppLockController extends Notifier<AppLockState> {
         ? DateTime.fromMillisecondsSinceEpoch(lastUnlockMs)
         : null;
     final gracePeriod = _readGracePeriod(prefs);
-
     return _computeRequiresPin(
       now: DateTime.now(),
       lastUnlockAt: lastUnlockAt,

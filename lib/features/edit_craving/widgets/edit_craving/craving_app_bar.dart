@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: AppBar for editing cravings. No hardcoded values.
-
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import '../../../../common/feedback/common_loader.dart';
@@ -11,23 +10,20 @@ import '../../../../common/feedback/common_loader.dart';
 class CravingAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isSaving;
   final VoidCallback onSave;
-
   const CravingAppBar({
     super.key,
     required this.isSaving,
     required this.onSave,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final a = context.accent;
-    final t = context.text;
-
+    final ac = context.accent;
+    final tx = context.text;
     return AppBar(
       title: Text(
         'Edit Craving',
-        style: t.titleLarge.copyWith(color: c.textPrimary),
+        style: tx.titleLarge.copyWith(color: c.textPrimary),
       ),
       backgroundColor: c.surface,
       foregroundColor: c.textPrimary,
@@ -37,7 +33,10 @@ class CravingAppBar extends StatelessWidget implements PreferredSizeWidget {
           Center(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: context.spacing.md),
-              child: CommonLoader(size: context.sizes.iconSm, color: a.primary),
+              child: CommonLoader(
+                size: context.sizes.iconSm,
+                color: ac.primary,
+              ),
             ),
           )
         else
@@ -45,10 +44,13 @@ class CravingAppBar extends StatelessWidget implements PreferredSizeWidget {
             onPressed: onSave,
             icon: Icon(
               Icons.check,
-              color: a.primary,
+              color: ac.primary,
               size: context.sizes.iconMd,
             ),
-            label: Text('Save', style: t.labelLarge.copyWith(color: a.primary)),
+            label: Text(
+              'Save',
+              style: tx.labelLarge.copyWith(color: ac.primary),
+            ),
           ),
       ],
     );

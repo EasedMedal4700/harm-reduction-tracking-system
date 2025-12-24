@@ -5,20 +5,17 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 class SubstanceAutocomplete extends StatelessWidget {
   final TextEditingController controller;
   final List<String> options;
-
   const SubstanceAutocomplete({
     super.key,
     required this.controller,
     required this.options,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final acc = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-
     return Autocomplete<String>(
       optionsBuilder: (TextEditingValue textEditingValue) {
         if (textEditingValue.text == '') {
@@ -48,7 +45,6 @@ class SubstanceAutocomplete extends StatelessWidget {
                 offset: fieldTextEditingController.text.length,
               );
             }
-
             return TextFormField(
               controller: fieldTextEditingController,
               focusNode: fieldFocusNode,
@@ -59,7 +55,7 @@ class SubstanceAutocomplete extends StatelessWidget {
               },
               decoration: InputDecoration(
                 labelText: 'Substance',
-                prefixIcon: Icon(Icons.science, color: acc.primary),
+                prefixIcon: Icon(Icons.science, color: ac.primary),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                 ),
@@ -70,7 +66,7 @@ class SubstanceAutocomplete extends StatelessWidget {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   borderSide: BorderSide(
-                    color: acc.primary,
+                    color: ac.primary,
                     width: context.borders.medium,
                   ),
                 ),
@@ -94,7 +90,7 @@ class SubstanceAutocomplete extends StatelessWidget {
             Iterable<String> options,
           ) {
             return Align(
-              alignment: context.shapes.alignmentTopLeft,
+              alignment: sh.alignmentTopLeft,
               child: Material(
                 elevation: context.sizes.cardElevation,
                 borderRadius: BorderRadius.circular(sh.radiusMd),

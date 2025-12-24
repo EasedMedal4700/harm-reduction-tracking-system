@@ -6,7 +6,6 @@ class CommonActionCard extends StatelessWidget {
   final IconData icon;
   final Color? color;
   final VoidCallback onTap;
-
   const CommonActionCard({
     required this.title,
     required this.icon,
@@ -14,17 +13,14 @@ class CommonActionCard extends StatelessWidget {
     this.color,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final acc = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.text;
-
-    final cardColor = color ?? acc.primary;
-
+    final tx = context.text;
+    final cardColor = color ?? ac.primary;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -53,7 +49,7 @@ class CommonActionCard extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: t.bodySmall.copyWith(
+                style: tx.bodySmall.copyWith(
                   fontWeight: FontWeight.w600,
                   color: c.textPrimary,
                 ),

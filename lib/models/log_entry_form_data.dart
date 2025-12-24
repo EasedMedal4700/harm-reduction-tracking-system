@@ -20,10 +20,8 @@ class LogEntryFormData {
   final List<String> triggers;
   final List<String> bodySignals;
   final String entryId;
-
   // Substance details for ROA validation (loaded from DB)
   final Map<String, dynamic>? substanceDetails;
-
   const LogEntryFormData({
     this.isSimpleMode = true,
     this.dose = 0,
@@ -45,7 +43,6 @@ class LogEntryFormData {
     this.entryId = '',
     this.substanceDetails,
   });
-
   DateTime get selectedDateTime =>
       DateTime(date.year, date.month, date.day, hour, minute);
 

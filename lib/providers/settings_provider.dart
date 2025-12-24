@@ -6,10 +6,8 @@ import '../services/settings_service.dart';
 class SettingsProvider extends ChangeNotifier {
   AppSettings _settings = const AppSettings();
   bool _isLoading = true;
-
   AppSettings get settings => _settings;
   bool get isLoading => _isLoading;
-
   SettingsProvider() {
     _loadSettings();
   }
@@ -19,7 +17,6 @@ class SettingsProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       notifyListeners();
-
       _settings = await SettingsService.loadSettings();
     } finally {
       _isLoading = false;

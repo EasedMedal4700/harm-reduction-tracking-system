@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonSpacer.
-
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -20,7 +19,6 @@ class CatalogSearchFilters extends StatelessWidget {
   final ValueChanged<String> onSearchChanged;
   final Function(String?) onCategoryToggled;
   final ValueChanged<bool> onCommonOnlyChanged;
-
   const CatalogSearchFilters({
     super.key,
     required this.searchController,
@@ -32,17 +30,15 @@ class CatalogSearchFilters extends StatelessWidget {
     required this.onCategoryToggled,
     required this.onCommonOnlyChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return Container(
-      padding: EdgeInsets.all(t.spacing.md),
+      padding: EdgeInsets.all(th.spacing.md),
       decoration: BoxDecoration(
-        color: t.colors.surface,
+        color: th.colors.surface,
         border: Border(
-          bottom: BorderSide(color: t.colors.border, width: t.borders.thin),
+          bottom: BorderSide(color: th.colors.border, width: th.borders.thin),
         ),
       ),
       child: Column(

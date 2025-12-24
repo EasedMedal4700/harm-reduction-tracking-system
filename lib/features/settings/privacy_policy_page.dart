@@ -5,14 +5,11 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final a = context.accent;
+    final tx = context.text;
+    final ac = context.accent;
     final sp = context.spacing;
-    final t = context.text;
-
     return Scaffold(
       appBar: AppBar(title: const Text("Privacy Policy")),
       body: SingleChildScrollView(
@@ -22,12 +19,12 @@ class PrivacyPolicyScreen extends StatelessWidget {
           children: [
             Text(
               "SubstanceCheck Privacy Policy",
-              style: t.heading3.copyWith(fontWeight: text.bodyBold.fontWeight),
+              style: tx.heading3.copyWith(fontWeight: tx.bodyBold.fontWeight),
             ),
             CommonSpacer.vertical(sp.xs),
             Text(
               "Last updated: 28 November 2025",
-              style: t.body.copyWith(color: a.primary),
+              style: tx.body.copyWith(color: ac.primary),
             ),
             CommonSpacer.vertical(sp.lg),
             _section(
@@ -104,10 +101,8 @@ We only collect the data required for the app to function.
               title: "3. Legal Basis Under GDPR",
               body: '''
 Your data is processed under:
-
 ✔ Consent (GDPR Art. 6(1)(a) + Art. 9(2)(a))  
 ✔ Legitimate Interest (GDPR Art. 6(1)(f))  
-
 You can withdraw consent at any time by deleting your account.
 ''',
             ),
@@ -117,12 +112,9 @@ You can withdraw consent at any time by deleting your account.
               title: "4. Who Can Access Your Data",
               body: '''
 Only:
-
 • You  
 • The app administrator (for debugging)  
-
 All data is protected through:
-
 ✓ Supabase Authentication  
 ✓ Row-Level Security (RLS)  
 ✓ Encrypted connections (TLS)  
@@ -135,9 +127,7 @@ All data is protected through:
               title: "5. Data Retention",
               body: '''
 Your data is kept as long as your account remains active.
-
 When you delete your account:
-
 ✔ All personal data  
 ✔ All sensitive entries  
 ✔ All logs  
@@ -216,34 +206,33 @@ Location: Netherlands / EU
     List<String>? bulletPoints,
     String? note,
   }) {
-    final t = context.text;
-    final text = context.text;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
-    final a = context.accent;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           title,
-          style: t.heading4.copyWith(fontWeight: text.bodyBold.fontWeight),
+          style: tx.heading4.copyWith(fontWeight: tx.bodyBold.fontWeight),
         ),
         if (body != null) ...[
           CommonSpacer.vertical(sp.xs),
-          Text(body, style: t.body),
+          Text(body, style: tx.body),
         ],
         if (bulletPoints != null) ...[
           CommonSpacer.vertical(sp.sm),
           ...bulletPoints.map(
             (b) => Padding(
               padding: EdgeInsets.only(bottom: sp.xs),
-              child: Text("• $b", style: t.body),
+              child: Text("• $b", style: tx.body),
             ),
           ),
         ],
         if (note != null) ...[
           CommonSpacer.vertical(sp.sm),
-          Text(note, style: t.caption.copyWith(color: a.primary)),
+          Text(note, style: tx.caption.copyWith(color: ac.primary)),
         ],
         CommonSpacer.vertical(sp.lg),
       ],
@@ -258,6 +247,7 @@ Location: Netherlands / EU
     String? note,
   }) {
     final sp = context.spacing;
+
     return Padding(
       padding: EdgeInsets.only(left: sp.sm),
       child: _section(
@@ -271,8 +261,9 @@ Location: Netherlands / EU
   }
 
   Widget _divider(BuildContext context) {
-    final c = context.colors;
     final sp = context.spacing;
+
+    final c = context.colors;
     return Divider(
       height: sp.xl,
       thickness: context.borders.thin,

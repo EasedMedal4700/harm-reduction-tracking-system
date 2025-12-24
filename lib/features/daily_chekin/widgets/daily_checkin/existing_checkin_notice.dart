@@ -1,5 +1,4 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -11,26 +10,24 @@ import '../../../../common/layout/common_spacer.dart';
 
 class ExistingCheckinNotice extends StatelessWidget {
   const ExistingCheckinNotice({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-
+    final tx = context.text;
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       backgroundColor: c.error.withValues(alpha: 0.1),
       borderColor: c.error.withValues(alpha: 0.3),
       child: Row(
         children: [
-          Icon(Icons.info_outline, color: c.error, size: t.sizes.iconSm),
+          Icon(Icons.info_outline, color: c.error, size: th.sizes.iconSm),
           const CommonSpacer.horizontal(16),
           Expanded(
             child: Text(
               'Check-in already exists for this time.',
-              style: text.bodyBold.copyWith(color: c.error),
+              style: tx.bodyBold.copyWith(color: c.error),
             ),
           ),
         ],

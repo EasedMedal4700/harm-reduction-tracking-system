@@ -5,20 +5,16 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: UI-only forgot password screen. Emits intent to controller.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../common/layout/common_spacer.dart';
-
 import 'forgot_password_controller.dart';
 import 'forgot_password_state.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
-
   @override
   ConsumerState<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
@@ -26,7 +22,6 @@ class ForgotPasswordPage extends ConsumerStatefulWidget {
 class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-
   @override
   void dispose() {
     _emailController.dispose();
@@ -35,9 +30,11 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.colors;
+    final tx = context.text;
+    final sp = context.spacing;
     final state = ref.watch(forgotPasswordControllerProvider);
     final controller = ref.read(forgotPasswordControllerProvider.notifier);
-
     // Listen for error side-effects
     ref.listen<ForgotPasswordState>(forgotPasswordControllerProvider, (
       previous,
@@ -46,28 +43,24 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       if (next.status == ForgotPasswordStatus.error &&
           next.errorMessage != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.errorMessage!),
-            backgroundColor: context.colors.error,
-          ),
+          SnackBar(content: Text(next.errorMessage!), backgroundColor: c.error),
         );
       }
     });
-
     return Scaffold(
-      backgroundColor: context.colors.background,
+      backgroundColor: c.background,
       appBar: AppBar(
-        backgroundColor: context.colors.transparent,
+        backgroundColor: c.transparent,
         elevation: context.sizes.elevationNone,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: context.colors.textPrimary),
+          icon: Icon(Icons.arrow_back, color: c.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text('Reset Password', style: context.text.headlineSmall),
+        title: Text('Reset Password', style: tx.headlineSmall),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(context.spacing.xl),
+          padding: EdgeInsets.all(sp.xl),
           child: state.status == ForgotPasswordStatus.success
               ? _SuccessContent(
                   email: state.email ?? '',
@@ -97,7 +90,6 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
 /// ---------------------------------------------------------------------------
 /// Form content
 /// ---------------------------------------------------------------------------
-
 class _FormContent extends StatelessWidget {
   const _FormContent({
     required this.formKey,
@@ -105,60 +97,51 @@ class _FormContent extends StatelessWidget {
     required this.isSubmitting,
     required this.onSubmit,
   });
-
   final GlobalKey<FormState> formKey;
   final TextEditingController emailController;
   final bool isSubmitting;
   final VoidCallback onSubmit;
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
-    final sh = context.shapes;
-    final a = context.accent;
 
+    final sh = context.shapes;
+    final ac = context.accent;
     return Form(
       key: formKey,
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
         children: [
           SizedBox(height: sp.xl2),
-
           // Icon
           Container(
             width: context.sizes.icon2xl,
             height: context.sizes.icon2xl,
             decoration: BoxDecoration(
-              color: a.primary.withValues(alpha: context.opacities.overlay),
-              shape: context.shapes.boxShapeCircle,
+              color: ac.primary.withValues(alpha: context.opacities.overlay),
+              shape: sh.boxShapeCircle,
             ),
             child: Icon(
               Icons.lock_reset_rounded,
               size: context.sizes.iconXl,
-              color: a.primary,
+              color: ac.primary,
             ),
           ),
-
           SizedBox(height: sp.xl2),
-
           Text(
             'Forgot your password?',
-            style: text.headlineMedium.copyWith(color: c.textPrimary),
+            style: tx.headlineMedium.copyWith(color: c.textPrimary),
             textAlign: AppLayout.textAlignCenter,
           ),
-
           SizedBox(height: sp.md),
-
           Text(
             'Enter your email address and we\'ll send you a link to reset your password.',
-            style: text.bodyMedium.copyWith(color: c.textSecondary),
+            style: tx.bodyMedium.copyWith(color: c.textSecondary),
             textAlign: AppLayout.textAlignCenter,
           ),
-
           SizedBox(height: sp.xl2),
-
           // Email input
           Container(
             decoration: BoxDecoration(
@@ -188,19 +171,15 @@ class _FormContent extends StatelessWidget {
                 if (value == null || value.trim().isEmpty) {
                   return 'Please enter your email';
                 }
-
                 final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
                 if (!emailRegex.hasMatch(value.trim())) {
                   return 'Please enter a valid email';
                 }
-
                 return null;
               },
             ),
           ),
-
           SizedBox(height: sp.xl),
-
           // Submit button
           SizedBox(
             height: context.sizes.buttonHeightLg,
@@ -213,9 +192,9 @@ class _FormContent extends StatelessWidget {
                   if (!isSubmitting) onSubmit();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: a.primary,
+                  backgroundColor: ac.primary,
                   foregroundColor: c.textInverse,
-                  disabledBackgroundColor: a.primary.withValues(
+                  disabledBackgroundColor: ac.primary.withValues(
                     alpha: context.opacities.slow,
                   ),
                   shape: RoundedRectangleBorder(
@@ -233,22 +212,20 @@ class _FormContent extends StatelessWidget {
                       )
                     : Text(
                         'Send Reset Link',
-                        style: text.labelLarge.copyWith(
-                          fontWeight: text.bodyBold.fontWeight,
+                        style: tx.labelLarge.copyWith(
+                          fontWeight: tx.bodyBold.fontWeight,
                           color: c.textInverse,
                         ),
                       ),
               ),
             ),
           ),
-
           SizedBox(height: sp.lg),
-
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
               'Back to Login',
-              style: text.labelLarge.copyWith(color: a.primary),
+              style: tx.labelLarge.copyWith(color: ac.primary),
             ),
           ),
         ],
@@ -260,38 +237,34 @@ class _FormContent extends StatelessWidget {
 /// ---------------------------------------------------------------------------
 /// Success content
 /// ---------------------------------------------------------------------------
-
 class _SuccessContent extends StatelessWidget {
   const _SuccessContent({
     required this.email,
     required this.onTryAgain,
     required this.onBackToLogin,
   });
-
   final String email;
   final VoidCallback onTryAgain;
   final VoidCallback onBackToLogin;
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final a = context.accent;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
       children: [
         SizedBox(height: sp.xl2),
-
         // Success icon
         Container(
           width: context.sizes.icon2xl,
           height: context.sizes.icon2xl,
           decoration: BoxDecoration(
             color: c.success.withValues(alpha: context.opacities.overlay),
-            shape: context.shapes.boxShapeCircle,
+            shape: sh.boxShapeCircle,
           ),
           child: Icon(
             Icons.mark_email_read_rounded,
@@ -299,50 +272,42 @@ class _SuccessContent extends StatelessWidget {
             color: c.success,
           ),
         ),
-
         CommonSpacer.vertical(sp.xl2),
-
         Text(
           'Check your email',
-          style: text.headlineMedium.copyWith(color: c.textPrimary),
+          style: tx.headlineMedium.copyWith(color: c.textPrimary),
           textAlign: AppLayout.textAlignCenter,
         ),
-
         CommonSpacer.vertical(sp.md),
-
         Text(
           'We\'ve sent a password reset link to:',
-          style: text.bodyMedium.copyWith(color: c.textSecondary),
+          style: tx.bodyMedium.copyWith(color: c.textSecondary),
           textAlign: AppLayout.textAlignCenter,
         ),
-
         CommonSpacer.vertical(sp.sm),
-
         Text(
           email,
-          style: text.bodyMedium.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
+          style: tx.bodyMedium.copyWith(
+            fontWeight: tx.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
           textAlign: AppLayout.textAlignCenter,
         ),
-
         CommonSpacer.vertical(sp.xl),
-
         Container(
           padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
-            color: a.primary.withValues(alpha: context.opacities.overlay),
+            color: ac.primary.withValues(alpha: context.opacities.overlay),
             borderRadius: BorderRadius.circular(sh.radiusMd),
             border: Border.all(
-              color: a.primary.withValues(alpha: context.opacities.medium),
+              color: ac.primary.withValues(alpha: context.opacities.medium),
             ),
           ),
           child: Row(
             children: [
               Icon(
                 Icons.info_outline_rounded,
-                color: a.primary,
+                color: ac.primary,
                 size: context.sizes.iconMd,
               ),
               CommonSpacer.horizontal(sp.md),
@@ -350,21 +315,19 @@ class _SuccessContent extends StatelessWidget {
                 child: Text(
                   'Click the link in the email to reset your password. '
                   'The link expires in 24 hours.',
-                  style: text.bodySmall.copyWith(color: a.primary),
+                  style: tx.bodySmall.copyWith(color: ac.primary),
                 ),
               ),
             ],
           ),
         ),
-
         CommonSpacer.vertical(sp.xl2),
-
         SizedBox(
           height: context.sizes.buttonHeightLg,
           child: ElevatedButton(
             onPressed: onBackToLogin,
             style: ElevatedButton.styleFrom(
-              backgroundColor: a.primary,
+              backgroundColor: ac.primary,
               foregroundColor: c.textInverse,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(sh.radiusMd),
@@ -372,21 +335,19 @@ class _SuccessContent extends StatelessWidget {
             ),
             child: Text(
               'Back to Login',
-              style: text.labelLarge.copyWith(
-                fontWeight: text.bodyBold.fontWeight,
+              style: tx.labelLarge.copyWith(
+                fontWeight: tx.bodyBold.fontWeight,
                 color: c.textInverse,
               ),
             ),
           ),
         ),
-
         CommonSpacer.vertical(sp.lg),
-
         TextButton(
           onPressed: onTryAgain,
           child: Text(
             'Didn\'t receive the email? Try again',
-            style: text.labelLarge.copyWith(color: c.textSecondary),
+            style: tx.labelLarge.copyWith(color: c.textSecondary),
           ),
         ),
       ],

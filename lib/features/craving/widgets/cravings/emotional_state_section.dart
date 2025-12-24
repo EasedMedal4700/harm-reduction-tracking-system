@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonInputField.
-
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ class EmotionalStateSection extends StatelessWidget {
   final ValueChanged<Map<String, List<String>>> onSecondaryEmotionsChanged;
   final String? thoughts;
   final ValueChanged<String> onThoughtsChanged;
-
   const EmotionalStateSection({
     super.key,
     required this.selectedEmotions,
@@ -29,15 +27,13 @@ class EmotionalStateSection extends StatelessWidget {
     required this.thoughts,
     required this.onThoughtsChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
-    final text = context.text;
-    final a = context.accent;
+    final tx = context.text;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
@@ -45,19 +41,18 @@ class EmotionalStateSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.favorite, color: a.primary, size: t.sizes.iconMd),
+              Icon(Icons.favorite, color: ac.primary, size: th.sizes.iconMd),
               CommonSpacer.horizontal(sp.sm),
               Text(
                 'Emotional State',
-                style: t.typography.heading4.copyWith(
+                style: th.typography.heading4.copyWith(
                   color: c.textPrimary,
-                  fontWeight: text.bodyBold.fontWeight,
+                  fontWeight: tx.bodyBold.fontWeight,
                 ),
               ),
             ],
           ),
           CommonSpacer.vertical(sp.md),
-
           CommonChipGroup(
             title: 'Feelings',
             options: const [
@@ -73,9 +68,7 @@ class EmotionalStateSection extends StatelessWidget {
             onChanged: onEmotionsChanged,
             allowMultiple: true,
           ),
-
           CommonSpacer.vertical(sp.lg),
-
           CommonInputField(
             initialValue: thoughts,
             onChanged: onThoughtsChanged,

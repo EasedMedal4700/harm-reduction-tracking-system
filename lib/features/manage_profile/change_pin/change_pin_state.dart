@@ -5,9 +5,7 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: Immutable state for Change PIN flow.
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'change_pin_state.freezed.dart';
 
 @freezed

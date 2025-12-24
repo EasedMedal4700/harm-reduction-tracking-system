@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Updated to CommonCard and new theme system. No Riverpod.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
@@ -14,38 +13,31 @@ import 'bucket_utils.dart';
 /// Card showing the decay timeline with a visual progress bar
 class BucketDecayTimelineCard extends StatelessWidget {
   final double tolerancePercent; // 0–100
-
   const BucketDecayTimelineCard({super.key, required this.tolerancePercent});
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
-
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Decay Timeline',
-            style: text.body.copyWith(
-              fontWeight: text.bodyBold.fontWeight,
+            style: tx.body.copyWith(
+              fontWeight: tx.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),
-
           CommonSpacer.vertical(sp.md),
-
           _buildDecayBar(context),
-
           CommonSpacer.vertical(sp.sm),
-
           Text(
             tolerancePercent > 0.1
                 ? 'Substance is currently active in your system. Tolerance will continue to build.'
                 : 'Substance is no longer active. Tolerance is decaying naturally.',
-            style: text.bodySmall.copyWith(
+            style: tx.bodySmall.copyWith(
               color: c.textSecondary,
               fontStyle: FontStyle.italic,
             ),
@@ -57,14 +49,13 @@ class BucketDecayTimelineCard extends StatelessWidget {
 
   /// Progress bar + labels
   Widget _buildDecayBar(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
-    final sh = context.shapes;
+    final tx = context.text;
     final sp = context.spacing;
 
+    final sh = context.shapes;
     final activeFlex = tolerancePercent.round().clamp(0, 100);
     final remainingFlex = (100 - tolerancePercent).round().clamp(0, 100);
-
     return Column(
       children: [
         // Progress bar
@@ -89,7 +80,6 @@ class BucketDecayTimelineCard extends StatelessWidget {
                 ),
               ),
             ),
-
             // REMAINING PART
             if (remainingFlex > 0)
               Expanded(
@@ -106,15 +96,13 @@ class BucketDecayTimelineCard extends StatelessWidget {
               ),
           ],
         ),
-
         CommonSpacer.vertical(sp.xs),
-
         // Percentage labels
         Row(
           mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: [
-            Text('0%', style: text.overline.copyWith(color: c.textSecondary)),
-            Text('100%', style: text.overline.copyWith(color: c.textSecondary)),
+            Text('0%', style: tx.overline.copyWith(color: c.textSecondary)),
+            Text('100%', style: tx.overline.copyWith(color: c.textSecondary)),
           ],
         ),
       ],

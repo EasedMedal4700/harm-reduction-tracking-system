@@ -5,7 +5,6 @@ import '../../../services/performance_service.dart';
 class AdminService {
   AdminService([SupabaseClient? client])
     : _client = client ?? Supabase.instance.client;
-
   final SupabaseClient _client;
 
   /// Fetch all users for admin panel
@@ -16,31 +15,25 @@ class AdminService {
         'AdminService',
         'Fetching all users from public.users table',
       );
-
       // Query public.users - only has auth_user_id, display_name, is_admin
       final response = await _client
           .from('users')
           .select('auth_user_id, display_name, is_admin')
           .order('auth_user_id', ascending: false);
-
       ErrorHandler.logDebug(
         'AdminService',
         'Got ${(response as List).length} users from public.users',
       );
-
       // Get entry counts for each user
       final users = response as List<dynamic>;
       final enrichedUsers = <Map<String, dynamic>>[];
-
       for (var user in users) {
         final userData = Map<String, dynamic>.from(user);
         final authUserId = userData['auth_user_id'] as String?;
-
         ErrorHandler.logDebug(
           'AdminService',
           'Processing user with auth_user_id: $authUserId',
         );
-
         if (authUserId != null) {
           // Get email and timestamps from auth.users
           try {
@@ -65,7 +58,6 @@ class AdminService {
             userData['created_at'] = null;
             userData['updated_at'] = null;
           }
-
           // Get drug use entry count
           try {
             ErrorHandler.logDebug(
@@ -81,7 +73,6 @@ class AdminService {
               'AdminService',
               'User $authUserId has ${userData['entry_count']} entries',
             );
-
             // Get last activity date
             if ((entries as List).isNotEmpty) {
               final lastEntry = await _client
@@ -99,7 +90,6 @@ class AdminService {
             } else {
               userData['last_activity'] = null;
             }
-
             // Get craving count
             ErrorHandler.logDebug(
               'AdminService',
@@ -114,7 +104,6 @@ class AdminService {
               'AdminService',
               'User $authUserId has ${userData['craving_count']} cravings',
             );
-
             // Get reflection count
             ErrorHandler.logDebug(
               'AdminService',
@@ -153,22 +142,18 @@ class AdminService {
           userData['created_at'] = null;
           userData['updated_at'] = null;
         }
-
         enrichedUsers.add(userData);
       }
-
       ErrorHandler.logInfo(
         'AdminService',
         'Successfully fetched and enriched ${enrichedUsers.length} users',
       );
-
       // Record performance
       await PerformanceService.recordResponseTime(
         endpoint: 'fetchAllUsers',
         milliseconds: stopwatch.elapsedMilliseconds,
         fromCache: false,
       );
-
       return enrichedUsers;
     } catch (e, stackTrace) {
       ErrorHandler.logError('AdminService.fetchAllUsers', e, stackTrace);
@@ -180,7 +165,6 @@ class AdminService {
   Future<void> promoteUser(String authUserId) async {
     try {
       ErrorHandler.logDebug('AdminService', 'Promoting user: $authUserId');
-
       await _client
           .from('users')
           .update({
@@ -188,7 +172,6 @@ class AdminService {
             'updated_at': DateTime.now().toIso8601String(),
           })
           .eq('auth_user_id', authUserId);
-
       ErrorHandler.logInfo(
         'AdminService',
         'User $authUserId promoted to admin',
@@ -203,7 +186,6 @@ class AdminService {
   Future<void> demoteUser(String authUserId) async {
     try {
       ErrorHandler.logDebug('AdminService', 'Demoting user: $authUserId');
-
       await _client
           .from('users')
           .update({
@@ -211,7 +193,6 @@ class AdminService {
             'updated_at': DateTime.now().toIso8601String(),
           })
           .eq('auth_user_id', authUserId);
-
       ErrorHandler.logInfo(
         'AdminService',
         'User $authUserId demoted from admin',
@@ -226,26 +207,21 @@ class AdminService {
   Future<Map<String, dynamic>> getSystemStats() async {
     try {
       ErrorHandler.logDebug('AdminService', 'Fetching system stats');
-
       // Total entries
       final entriesResponse = await _client.from('drug_use').select('use_id');
-
       final totalEntries = (entriesResponse as List).length;
-
       // Active users (users with entries in last 30 days)
       final thirtyDaysAgo = DateTime.now().subtract(const Duration(days: 30));
       final activeUsersResponse = await _client
           .from('drug_use')
           .select('uuid_user_id')
           .gte('start_time', thirtyDaysAgo.toIso8601String());
-
       // Get unique user IDs
       final userIds = <String>{};
       for (var entry in activeUsersResponse as List) {
         userIds.add(entry['uuid_user_id'] as String);
       }
       final activeUsers = userIds.length;
-
       return {
         'total_entries': totalEntries,
         'active_users': activeUsers,
@@ -266,10 +242,8 @@ class AdminService {
   Future<Map<String, dynamic>> getErrorAnalytics() async {
     try {
       ErrorHandler.logDebug('AdminService', 'Fetching error analytics');
-
       final now = DateTime.now();
       final last24h = now.subtract(const Duration(hours: 24));
-
       final rawLogs =
           await _client
                   .from('error_logs')
@@ -279,17 +253,14 @@ class AdminService {
                   .order('created_at', ascending: false)
                   .limit(500)
               as List;
-
       final logs = rawLogs
           .map((item) => Map<String, dynamic>.from(item as Map))
           .toList();
-
       final totalErrors = logs.length;
       final last24hCount = logs.where((log) {
         final createdAt = DateTime.tryParse('${log['created_at']}');
         return createdAt != null && createdAt.isAfter(last24h);
       }).length;
-
       List<Map<String, dynamic>> buildTopCounts(
         String sourceKey,
         String labelKey,
@@ -305,7 +276,6 @@ class AdminService {
       }
 
       final recentLogs = logs.take(20).toList();
-
       return {
         'total_errors': totalErrors,
         'last_24h': last24hCount,
@@ -343,12 +313,9 @@ class AdminService {
         (screenName == null || screenName.isEmpty)) {
       throw ArgumentError('Select at least one filter or choose delete all.');
     }
-
     try {
       ErrorHandler.logDebug('AdminService', 'Clearing error logs');
-
       var deleteQuery = _client.from('error_logs').delete();
-
       if (!deleteAll) {
         if (olderThanDays != null) {
           final cutoff = DateTime.now().subtract(Duration(days: olderThanDays));
@@ -361,7 +328,6 @@ class AdminService {
           deleteQuery = deleteQuery.eq('screen_name', screenName);
         }
       }
-
       await deleteQuery;
     } catch (e, stackTrace) {
       ErrorHandler.logError('AdminService.clearErrorLogs', e, stackTrace);
@@ -373,9 +339,7 @@ class AdminService {
   Future<void> deleteUser(String authUserId) async {
     try {
       ErrorHandler.logDebug('AdminService', 'Deleting user: $authUserId');
-
       await _client.from('users').delete().eq('auth_user_id', authUserId);
-
       ErrorHandler.logInfo('AdminService', 'User $authUserId deleted');
     } catch (e, stackTrace) {
       ErrorHandler.logError('AdminService.deleteUser', e, stackTrace);

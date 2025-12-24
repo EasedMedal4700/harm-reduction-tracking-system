@@ -2,7 +2,6 @@ class DrugUseCatalog {
   // ============================================================================
   // CONSUMPTION METHODS
   // ============================================================================
-
   static const List<Map<String, String>> consumptionMethods = [
     {'name': 'oral', 'emoji': '💊'},
     {'name': 'insufflated', 'emoji': '👃'},
@@ -12,11 +11,9 @@ class DrugUseCatalog {
     {'name': 'intravenous', 'emoji': '💉'},
     {'name': 'intramuscular', 'emoji': '💪'},
   ];
-
   // ============================================================================
   // PRIMARY EMOTIONS
   // ============================================================================
-
   static const List<Map<String, String>> primaryEmotions = [
     {'name': 'Happy', 'emoji': '😊'},
     {'name': 'Calm', 'emoji': '😌'},
@@ -27,7 +24,6 @@ class DrugUseCatalog {
     {'name': 'Angry', 'emoji': '😠'},
     {'name': 'Excited', 'emoji': '🤩'},
   ];
-
   static const Map<String, List<String>> secondaryEmotions = {
     'Happy': ['Joyful', 'Proud', 'Grateful', 'Satisfied'],
     'Calm': ['Peaceful', 'Relaxed', 'Grounded', 'Safe'],
@@ -38,11 +34,9 @@ class DrugUseCatalog {
     'Angry': ['Frustrated', 'Annoyed', 'Bitter', 'Hostile'],
     'Excited': ['Energized', 'Motivated', 'Inspired', 'Playful'],
   };
-
   // ============================================================================
   // SUBSTANCES
   // ============================================================================
-
   static const List<String> substances = [
     'Test',
     'Cannabis',
@@ -54,7 +48,6 @@ class DrugUseCatalog {
     'Nicotine',
     'Other',
   ];
-
   static const List<String> locations = [
     'Select a location',
     'Home',

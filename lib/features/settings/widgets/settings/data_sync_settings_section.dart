@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
-
 import 'package:flutter/material.dart';
 import '../../../../providers/settings_provider.dart';
 import 'settings_section.dart';
@@ -15,19 +14,16 @@ class DataSyncSettingsSection extends StatelessWidget {
   final SettingsProvider settingsProvider;
   final VoidCallback onBackupFrequencyTap;
   final VoidCallback onCacheDurationTap;
-
   const DataSyncSettingsSection({
     required this.settingsProvider,
     required this.onBackupFrequencyTap,
     required this.onCacheDurationTap,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     final settings = settingsProvider.settings;
-    final t = context.theme;
-
+    final th = context.theme;
     return SettingsSection(
       title: 'Data & Sync',
       icon: Icons.cloud,
@@ -42,7 +38,7 @@ class DataSyncSettingsSection extends StatelessWidget {
           ListTile(
             title: const Text('Backup Frequency'),
             subtitle: Text(settings.backupFrequency),
-            trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
+            trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
             onTap: onBackupFrequencyTap,
           ),
         CommonSwitchTile(
@@ -67,7 +63,7 @@ class DataSyncSettingsSection extends StatelessWidget {
           ListTile(
             title: const Text('Cache Duration'),
             subtitle: Text(settings.cacheDuration),
-            trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
+            trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
             onTap: onCacheDurationTap,
           ),
       ],

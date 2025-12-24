@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Page for logging cravings. Uses CommonPrimaryButton. No hardcoded values.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../common/layout/common_drawer.dart';
@@ -23,7 +22,6 @@ import '../../common/buttons/common_primary_button.dart';
 class CravingsPage extends StatefulWidget {
   final CravingService? cravingService;
   const CravingsPage({super.key, this.cravingService});
-
   @override
   State<CravingsPage> createState() => _CravingsPageState();
 }
@@ -42,12 +40,10 @@ class _CravingsPageState extends State<CravingsPage> {
   late final CravingService _cravingService;
   final TimezoneService _timezoneService = TimezoneService();
   bool _isSaving = false;
-
   final List<String> sensations = physicalSensations;
   final List<String> emotions = DrugUseCatalog.primaryEmotions
       .map((e) => e['name']!)
       .toList();
-
   @override
   void initState() {
     super.initState();
@@ -57,11 +53,9 @@ class _CravingsPageState extends State<CravingsPage> {
   Future<void> _save() async {
     setState(() => _isSaving = true);
     final now = DateTime.now();
-
     final allSecondary = secondaryEmotions.values
         .expand((list) => list)
         .toList();
-
     final craving = Craving(
       userId: UserService.getCurrentUserId(),
       substance: selectedCravings.isNotEmpty ? selectedCravings.join('; ') : '',
@@ -84,14 +78,13 @@ class _CravingsPageState extends State<CravingsPage> {
       action: actedOnCraving ? 'Acted' : 'Resisted',
       timezone: _timezoneService.getTimezoneOffset(),
     );
-
     try {
       await _cravingService.saveCraving(craving);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Craving saved!'),
-          backgroundColor: context.theme.colors.success,
+          backgroundColor: th.colors.success,
           duration: context.animations.toast,
         ),
       );
@@ -101,7 +94,7 @@ class _CravingsPageState extends State<CravingsPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Save failed: $e'),
-          backgroundColor: context.theme.colors.error,
+          backgroundColor: th.colors.error,
           duration: context.animations.toast,
         ),
       );
@@ -129,18 +122,17 @@ class _CravingsPageState extends State<CravingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
-        title: Text('Log Craving', style: t.typography.heading3),
+        title: Text('Log Craving', style: th.typography.heading3),
         backgroundColor: c.surface,
         foregroundColor: c.textPrimary,
-        elevation: t.sizes.elevationNone,
+        elevation: th.sizes.elevationNone,
         actions: [
           Semantics(
             button: true,
@@ -152,17 +144,17 @@ class _CravingsPageState extends State<CravingsPage> {
               },
               icon: _isSaving
                   ? SizedBox(
-                      width: t.spacing.lg,
-                      height: t.spacing.lg,
+                      width: th.spacing.lg,
+                      height: th.spacing.lg,
                       child: CircularProgressIndicator(
-                        strokeWidth: t.borders.medium,
-                        color: a.primary,
+                        strokeWidth: th.borders.medium,
+                        color: ac.primary,
                       ),
                     )
-                  : Icon(Icons.check, color: a.primary),
+                  : Icon(Icons.check, color: ac.primary),
               label: Text(
                 _isSaving ? 'Saving...' : 'Save',
-                style: t.typography.labelLarge.copyWith(color: a.primary),
+                style: th.typography.labelLarge.copyWith(color: ac.primary),
               ),
             ),
           ),
@@ -170,7 +162,7 @@ class _CravingsPageState extends State<CravingsPage> {
       ),
       drawer: const CommonDrawer(),
       body: RefreshIndicator(
-        color: a.primary,
+        color: ac.primary,
         backgroundColor: c.surface,
         onRefresh: () async {
           setState(() {});
@@ -180,11 +172,11 @@ class _CravingsPageState extends State<CravingsPage> {
           child: Column(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
-              Text('Craving Reflection', style: t.typography.heading2),
+              Text('Craving Reflection', style: th.typography.heading2),
               SizedBox(height: sp.sm),
               Text(
                 'Log your recent craving experience',
-                style: t.typography.body.copyWith(color: c.textSecondary),
+                style: th.typography.body.copyWith(color: c.textSecondary),
               ),
               Divider(color: c.border),
               CravingDetailsSection(

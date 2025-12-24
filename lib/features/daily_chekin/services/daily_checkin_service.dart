@@ -23,7 +23,6 @@ class DailyCheckinService implements DailyCheckinRepository {
   final SupabaseClient _client;
   final CacheService _cache;
   final String Function() _getUserId;
-
   DailyCheckinService({
     SupabaseClient? client,
     CacheService? cache,
@@ -37,7 +36,6 @@ class DailyCheckinService implements DailyCheckinRepository {
   Future<void> saveCheckin(DailyCheckin checkin) async {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Saving new check-in');
-
       final userId = _getUserId();
       final data = {
         'uuid_user_id': userId,
@@ -49,12 +47,9 @@ class DailyCheckinService implements DailyCheckinRepository {
         'created_at': DateTime.now().toIso8601String(),
         'updated_at': DateTime.now().toIso8601String(),
       };
-
       await _client.from('daily_checkins').insert(data);
-
       // Invalidate cache
       _cache.removePattern('daily_checkin');
-
       ErrorHandler.logInfo(
         'DailyCheckinService',
         'Check-in saved successfully',
@@ -70,7 +65,6 @@ class DailyCheckinService implements DailyCheckinRepository {
   Future<void> updateCheckin(String id, DailyCheckin checkin) async {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Updating check-in: ');
-
       final userId = _getUserId();
       final data = {
         'mood': checkin.mood,
@@ -79,21 +73,17 @@ class DailyCheckinService implements DailyCheckinRepository {
         'notes': checkin.notes,
         'updated_at': DateTime.now().toIso8601String(),
       };
-
       final response = await _client
           .from('daily_checkins')
           .update(data)
           .eq('id', id)
           .eq('uuid_user_id', userId)
           .select();
-
       if (response.isEmpty) {
         throw Exception('Check-in not found or access denied');
       }
-
       // Invalidate cache
       _cache.removePattern('daily_checkin');
-
       ErrorHandler.logInfo(
         'DailyCheckinService',
         'Check-in updated successfully',
@@ -112,21 +102,17 @@ class DailyCheckinService implements DailyCheckinRepository {
         'DailyCheckinService',
         'Fetching check-ins for date: $date',
       );
-
       final userId = _getUserId();
       final dateStr = date.toIso8601String().split('T')[0];
-
       final response = await _client
           .from('daily_checkins')
           .select()
           .eq('uuid_user_id', userId)
           .eq('checkin_date', dateStr)
           .order('created_at', ascending: true);
-
       final checkins = (response as List)
           .map((json) => DailyCheckin.fromJson(json as Map<String, dynamic>))
           .toList();
-
       ErrorHandler.logInfo(
         'DailyCheckinService',
         'Fetched ${checkins.length} check-ins',
@@ -153,11 +139,9 @@ class DailyCheckinService implements DailyCheckinRepository {
         'DailyCheckinService',
         'Fetching check-ins from $startDate to $endDate',
       );
-
       final userId = _getUserId();
       final startStr = startDate.toIso8601String().split('T')[0];
       final endStr = endDate.toIso8601String().split('T')[0];
-
       final response = await _client
           .from('daily_checkins')
           .select()
@@ -166,11 +150,9 @@ class DailyCheckinService implements DailyCheckinRepository {
           .lte('checkin_date', endStr)
           .order('checkin_date', ascending: false)
           .order('created_at', ascending: false);
-
       final checkins = (response as List)
           .map((json) => DailyCheckin.fromJson(json as Map<String, dynamic>))
           .toList();
-
       ErrorHandler.logInfo(
         'DailyCheckinService',
         'Fetched ${checkins.length} check-ins in range',
@@ -197,10 +179,8 @@ class DailyCheckinService implements DailyCheckinRepository {
         'DailyCheckinService',
         'Checking for existing check-in: $date, $timeOfDay',
       );
-
       final userId = _getUserId();
       final dateStr = date.toIso8601String().split('T')[0];
-
       final response = await _client
           .from('daily_checkins')
           .select()
@@ -208,11 +188,9 @@ class DailyCheckinService implements DailyCheckinRepository {
           .eq('checkin_date', dateStr)
           .eq('time_of_day', timeOfDay)
           .maybeSingle();
-
       if (response == null) {
         return null;
       }
-
       return DailyCheckin.fromJson(response);
     } catch (e, stackTrace) {
       ErrorHandler.logError(
@@ -229,15 +207,12 @@ class DailyCheckinService implements DailyCheckinRepository {
   Future<void> deleteCheckin(String id) async {
     try {
       ErrorHandler.logDebug('DailyCheckinService', 'Deleting check-in: $id');
-
       final userId = _getUserId();
-
       await _client
           .from('daily_checkins')
           .delete()
           .eq('id', id)
           .eq('uuid_user_id', userId);
-
       ErrorHandler.logInfo(
         'DailyCheckinService',
         'Check-in deleted successfully',

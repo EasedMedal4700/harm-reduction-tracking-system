@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to use CommonSpacer.
-
 import 'package:flutter/material.dart';
 import '../../services/blood_levels_service.dart';
 import 'level_card.dart';
@@ -27,7 +26,6 @@ class BloodLevelsContent extends StatelessWidget {
   final ValueChanged<bool> onAdaptiveScaleChanged;
   final void Function(int back, int forward) onPresetSelected;
   final BloodLevelsService? service;
-
   const BloodLevelsContent({
     super.key,
     required this.filteredLevels,
@@ -43,25 +41,18 @@ class BloodLevelsContent extends StatelessWidget {
     required this.onPresetSelected,
     this.service,
   });
-
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
-
     final sorted = filteredLevels.values.toList()
       ..sort((a, b) => b.percentage.compareTo(a.percentage));
-
     return ListView(
       padding: EdgeInsets.all(sp.lg),
       children: [
         SystemOverviewCard(levels: filteredLevels, allLevels: allLevels),
-
         const CommonSpacer.vertical(24),
-
         RiskAssessmentCard(levels: filteredLevels),
-
         const CommonSpacer.vertical(24),
-
         // Metabolism Timeline
         if (showTimeline) ...[
           BloodLevelsTimelineSection(
@@ -78,7 +69,6 @@ class BloodLevelsContent extends StatelessWidget {
           ),
           const CommonSpacer.vertical(24),
         ],
-
         // Level cards
         ...sorted.map(
           (level) => Padding(

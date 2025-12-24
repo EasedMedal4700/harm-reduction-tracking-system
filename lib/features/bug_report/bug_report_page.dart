@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -13,7 +12,6 @@ import 'widgets/bug_report/bug_report_submit_button.dart';
 
 class BugReportScreen extends StatefulWidget {
   const BugReportScreen({super.key});
-
   @override
   State<BugReportScreen> createState() => _BugReportScreenState();
 }
@@ -23,11 +21,9 @@ class _BugReportScreenState extends State<BugReportScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _stepsController = TextEditingController();
-
   String _severity = 'Medium';
   String _category = 'General';
   bool _isSubmitting = false;
-
   final List<String> _severityLevels = ['Low', 'Medium', 'High', 'Critical'];
   final List<String> _categories = [
     'General',
@@ -38,7 +34,6 @@ class _BugReportScreenState extends State<BugReportScreen> {
     'Crash',
     'Other',
   ];
-
   @override
   void dispose() {
     _titleController.dispose();
@@ -49,12 +44,9 @@ class _BugReportScreenState extends State<BugReportScreen> {
 
   Future<void> _submitBugReport() async {
     if (!_formKey.currentState!.validate()) return;
-
     setState(() => _isSubmitting = true);
-
     try {
       final userId = UserService.getCurrentUserId();
-
       await ErrorReporter.instance.reportError(
         error: Exception(_titleController.text),
         stackTrace: StackTrace.current,
@@ -70,26 +62,22 @@ class _BugReportScreenState extends State<BugReportScreen> {
           'timestamp': DateTime.now().toIso8601String(),
         },
       );
-
       if (!mounted) return;
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text(' Bug report submitted successfully'),
-          backgroundColor: context.colors.success,
+          backgroundColor: c.success,
           duration: context.animations.toast,
         ),
       );
-
       Navigator.pop(context);
     } catch (e) {
       if (!mounted) return;
-
       setState(() => _isSubmitting = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to submit bug report: $e'),
-          backgroundColor: context.colors.error,
+          backgroundColor: c.error,
         ),
       );
     }
@@ -97,18 +85,17 @@ class _BugReportScreenState extends State<BugReportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
+    final tx = context.text;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-
     return Scaffold(
       backgroundColor: c.surface,
       appBar: AppBar(
-        title: Text('Report a Bug', style: context.text.titleLarge),
+        title: Text('Report a Bug', style: tx.titleLarge),
         backgroundColor: c.surface,
-        elevation: t.sizes.elevationNone,
+        elevation: th.sizes.elevationNone,
         iconTheme: IconThemeData(color: c.textPrimary),
       ),
       body: Form(
@@ -126,21 +113,22 @@ class _BugReportScreenState extends State<BugReportScreen> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline, color: c.info, size: t.sizes.iconMd),
+                  Icon(
+                    Icons.info_outline,
+                    color: c.info,
+                    size: th.sizes.iconMd,
+                  ),
                   SizedBox(width: sp.md),
                   Expanded(
                     child: Text(
                       'Help us improve by reporting bugs or issues you encounter',
-                      style: context.text.bodyMedium.copyWith(
-                        color: c.textSecondary,
-                      ),
+                      style: tx.bodyMedium.copyWith(color: c.textSecondary),
                     ),
                   ),
                 ],
               ),
             ),
             SizedBox(height: sp.lg),
-
             // Form Fields
             BugReportFormFields(
               titleController: _titleController,
@@ -159,7 +147,6 @@ class _BugReportScreenState extends State<BugReportScreen> {
               getSeverityIcon: _getSeverityIcon,
             ),
             SizedBox(height: sp.lg),
-
             // Submit Button
             BugReportSubmitButton(
               isSubmitting: _isSubmitting,
@@ -172,19 +159,21 @@ class _BugReportScreenState extends State<BugReportScreen> {
   }
 
   Widget _getSeverityIcon(String severity) {
-    final t = context.theme;
-    final c = context.colors;
     switch (severity) {
       case 'Critical':
-        return Icon(Icons.error, color: c.error, size: t.sizes.iconSm);
+        return Icon(Icons.error, color: c.error, size: th.sizes.iconSm);
       case 'High':
-        return Icon(Icons.warning, color: c.warning, size: t.sizes.iconSm);
+        return Icon(Icons.warning, color: c.warning, size: th.sizes.iconSm);
       case 'Medium':
-        return Icon(Icons.info, color: c.info, size: t.sizes.iconSm);
+        return Icon(Icons.info, color: c.info, size: th.sizes.iconSm);
       case 'Low':
-        return Icon(Icons.check_circle, color: c.success, size: t.sizes.iconSm);
+        return Icon(
+          Icons.check_circle,
+          color: c.success,
+          size: th.sizes.iconSm,
+        );
       default:
-        return Icon(Icons.info, color: c.textSecondary, size: t.sizes.iconSm);
+        return Icon(Icons.info, color: c.textSecondary, size: th.sizes.iconSm);
     }
   }
 }

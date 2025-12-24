@@ -1,6 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-
 // MIGRATION
 // Theme: TODO
 // Common: TODO
@@ -9,9 +8,7 @@ import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../../../common/layout/common_spacer.dart';
-
 import '../../../../services/auth_link_handler.dart';
-
 import '../../../../common/logging/app_log.dart';
 
 /// Debug utility widget for testing deep link flows.
@@ -23,20 +20,17 @@ import '../../../../common/logging/app_log.dart';
 /// Only available in debug mode.
 class DeepLinkDebugWidget extends StatelessWidget {
   const DeepLinkDebugWidget({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     // Only show in debug mode
     if (!kDebugMode) {
       return const SizedBox.shrink();
     }
-
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final acc = context.accent;
-
+    final ac = context.accent;
     return Container(
       margin: EdgeInsets.all(sp.md),
       padding: EdgeInsets.all(sp.md),
@@ -62,14 +56,14 @@ class DeepLinkDebugWidget extends StatelessWidget {
               CommonSpacer.horizontal(sp.sm),
               Text(
                 'Deep Link Debug Tools',
-                style: text.heading3.copyWith(color: c.textPrimary),
+                style: tx.heading3.copyWith(color: c.textPrimary),
               ),
             ],
           ),
           CommonSpacer.vertical(sp.sm),
           Text(
             'Simulate deep links for testing auth flows',
-            style: text.bodySmall.copyWith(color: c.textSecondary),
+            style: tx.bodySmall.copyWith(color: c.textSecondary),
           ),
           CommonSpacer.vertical(sp.md),
           // Email Confirmation Button
@@ -80,8 +74,8 @@ class DeepLinkDebugWidget extends StatelessWidget {
               icon: const Icon(Icons.email_outlined),
               label: const Text('Simulate Email Confirmation'),
               style: OutlinedButton.styleFrom(
-                foregroundColor: acc.primary,
-                side: BorderSide(color: acc.primary),
+                foregroundColor: ac.primary,
+                side: BorderSide(color: ac.primary),
                 padding: EdgeInsets.symmetric(vertical: sp.md),
               ),
             ),
@@ -95,8 +89,8 @@ class DeepLinkDebugWidget extends StatelessWidget {
               icon: const Icon(Icons.lock_reset),
               label: const Text('Simulate Password Reset'),
               style: OutlinedButton.styleFrom(
-                foregroundColor: acc.primary,
-                side: BorderSide(color: acc.primary),
+                foregroundColor: ac.primary,
+                side: BorderSide(color: ac.primary),
                 padding: EdgeInsets.symmetric(vertical: sp.md),
               ),
             ),
@@ -110,8 +104,8 @@ class DeepLinkDebugWidget extends StatelessWidget {
               icon: const Icon(Icons.link),
               label: const Text('Simulate Supabase Verify URL'),
               style: OutlinedButton.styleFrom(
-                foregroundColor: acc.primary,
-                side: BorderSide(color: acc.primary),
+                foregroundColor: ac.primary,
+                side: BorderSide(color: ac.primary),
                 padding: EdgeInsets.symmetric(vertical: sp.md),
               ),
             ),
@@ -124,10 +118,8 @@ class DeepLinkDebugWidget extends StatelessWidget {
   /// Simulate an email confirmation deep link
   void _simulateEmailConfirmDeepLink(BuildContext context) {
     AppLog.d('🔧 DEBUG: Simulating email confirmation deep link');
-
     final uri = Uri.parse('substancecheck://auth');
     authLinkHandler._handleDeepLink(uri);
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Simulated: substancecheck://auth'),
@@ -141,7 +133,6 @@ class DeepLinkDebugWidget extends StatelessWidget {
     AppLog.d('🔧 DEBUG: Simulating password reset deep link');
     final uri = Uri.parse('substancecheck://reset-password');
     authLinkHandler._handleDeepLink(uri);
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Simulated: substancecheck://reset-password'),
@@ -202,11 +193,9 @@ extension AuthLinkHandlerDebug on AuthLinkHandler {
     // We need to call the handler's method, but it's private
     // So we use reflection-like pattern by calling it via the exposed method
     // This is a workaround for debug purposes
-
     // The actual handler listens to links, but for simulation we directly navigate
     final context = _navigatorKey?.currentContext;
     if (context == null) return;
-
     if (uri.scheme == 'substancecheck') {
       switch (uri.host) {
         case 'auth':

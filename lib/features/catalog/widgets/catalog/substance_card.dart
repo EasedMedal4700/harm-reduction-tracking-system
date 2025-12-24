@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard.
-
 import 'package:flutter/material.dart';
 import '../../../../common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
@@ -29,7 +28,6 @@ class SubstanceCard extends StatelessWidget {
   )
   onAddStockpile;
   final Future<String?> Function(String name) getMostActiveDay;
-
   const SubstanceCard({
     super.key,
     required this.substance,
@@ -37,7 +35,6 @@ class SubstanceCard extends StatelessWidget {
     required this.onAddStockpile,
     required this.getMostActiveDay,
   });
-
   String _resolvePrimaryCategory(List<String> categories) {
     if (categories.isEmpty) return 'Other';
     for (final category in DrugCategories.categoryPriority) {
@@ -48,8 +45,8 @@ class SubstanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
+    final tx = context.text;
+    final th = context.theme;
     final name = substance['pretty_name'] ?? substance['name'] ?? 'Unknown';
     final substanceId = substance['name'] ?? 'unknown';
     final categories =
@@ -57,12 +54,10 @@ class SubstanceCard extends StatelessWidget {
             ?.map((e) => e.toString())
             .toList() ??
         [];
-
     final primaryCategory = _resolvePrimaryCategory(categories);
     final categoryColor = DrugCategoryColors.colorFor(primaryCategory);
     final categoryIcon =
         DrugCategories.categoryIconMap[primaryCategory] ?? Icons.science;
-
     // Get half-life or dose info
     String? additionalInfo;
     try {
@@ -73,30 +68,29 @@ class SubstanceCard extends StatelessWidget {
     } catch (e) {
       // Ignore
     }
-
     return Padding(
-      padding: EdgeInsets.only(bottom: t.spacing.md),
+      padding: EdgeInsets.only(bottom: th.spacing.md),
       child: CommonCard(
-        borderColor: t.isDark
+        borderColor: th.isDark
             ? categoryColor.withValues(alpha: 0.3)
-            : t.colors.border,
+            : th.colors.border,
         child: Column(
           children: [
             // Main card content
             InkWell(
               onTap: onTap,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(t.shapes.radiusLg),
-                topRight: Radius.circular(t.shapes.radiusLg),
+                topLeft: Radius.circular(th.shapes.radiusLg),
+                topRight: Radius.circular(th.shapes.radiusLg),
               ),
               child: Padding(
-                padding: EdgeInsets.all(t.spacing.md),
+                padding: EdgeInsets.all(th.spacing.md),
                 child: Row(
                   children: [
                     // Left circular icon
                     Container(
-                      width: t.sizes.buttonHeightLg,
-                      height: t.sizes.buttonHeightLg,
+                      width: th.sizes.buttonHeightLg,
+                      height: th.sizes.buttonHeightLg,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
@@ -118,8 +112,7 @@ class SubstanceCard extends StatelessWidget {
                         size: context.sizes.iconLg,
                       ),
                     ),
-                    SizedBox(width: t.spacing.md),
-
+                    SizedBox(width: th.spacing.md),
                     // Text content
                     Expanded(
                       child: Column(
@@ -127,14 +120,14 @@ class SubstanceCard extends StatelessWidget {
                         children: [
                           Text(
                             name,
-                            style: t.typography.heading3.copyWith(
-                              color: t.colors.textPrimary,
+                            style: th.typography.heading3.copyWith(
+                              color: th.colors.textPrimary,
                             ),
                           ),
-                          SizedBox(height: t.spacing.xs),
+                          SizedBox(height: th.spacing.xs),
                           Wrap(
                             spacing: _tagSpacing,
-                            runSpacing: t.spacing.xs,
+                            runSpacing: th.spacing.xs,
                             children: categories.take(3).map((cat) {
                               return Container(
                                 padding: const EdgeInsets.symmetric(
@@ -144,26 +137,26 @@ class SubstanceCard extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: categoryColor.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(
-                                    t.shapes.radiusXs,
+                                    th.shapes.radiusXs,
                                   ),
                                 ),
                                 child: Text(
                                   cat,
                                   style: TextStyle(
-                                    fontSize: context.text.caption.fontSize,
+                                    fontSize: tx.caption.fontSize,
                                     color: categoryColor,
-                                    fontWeight: text.bodyBold.fontWeight,
+                                    fontWeight: tx.bodyBold.fontWeight,
                                   ),
                                 ),
                               );
                             }).toList(),
                           ),
                           if (additionalInfo != null) ...[
-                            SizedBox(height: t.spacing.xs),
+                            SizedBox(height: th.spacing.xs),
                             Text(
                               additionalInfo,
-                              style: t.typography.bodySmall.copyWith(
-                                color: t.colors.textSecondary,
+                              style: th.typography.bodySmall.copyWith(
+                                color: th.colors.textSecondary,
                               ),
                             ),
                           ],
@@ -172,21 +165,19 @@ class SubstanceCard extends StatelessWidget {
                     ),
                     Icon(
                       Icons.chevron_right,
-                      color: t.colors.textSecondary.withValues(alpha: 0.5),
+                      color: th.colors.textSecondary.withValues(alpha: 0.5),
                     ),
                   ],
                 ),
               ),
             ),
-
             // Divider
-            Divider(height: _dividerHeight, color: t.colors.divider),
-
+            Divider(height: _dividerHeight, color: th.colors.divider),
             // Action bar
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: t.spacing.md,
-                vertical: t.spacing.sm,
+                horizontal: th.spacing.md,
+                vertical: th.spacing.sm,
               ),
               child: Row(
                 children: [
@@ -202,34 +193,33 @@ class SubstanceCard extends StatelessWidget {
                         final unit = item.unitMg != null && item.unitMg! > 1.0
                             ? 'units'
                             : 'mg';
-
                         return Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: t.spacing.sm,
+                            horizontal: th.spacing.sm,
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: t.colors.success.withValues(alpha: 0.1),
+                            color: th.colors.success.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(
-                              t.shapes.radiusSm,
+                              th.shapes.radiusSm,
                             ),
                             border: Border.all(
-                              color: t.colors.success.withValues(alpha: 0.3),
+                              color: th.colors.success.withValues(alpha: 0.3),
                             ),
                           ),
                           child: Row(
                             children: [
                               Icon(
                                 Icons.inventory_2_outlined,
-                                size: t.spacing.md,
-                                color: t.colors.success,
+                                size: th.spacing.md,
+                                color: th.colors.success,
                               ),
-                              CommonSpacer.horizontal(t.spacing.xs),
+                              CommonSpacer.horizontal(th.spacing.xs),
                               Text(
                                 '${amount.toStringAsFixed(1)} $unit',
-                                style: t.typography.label.copyWith(
-                                  color: t.colors.success,
-                                  fontWeight: text.bodyBold.fontWeight,
+                                style: th.typography.label.copyWith(
+                                  color: th.colors.success,
+                                  fontWeight: tx.bodyBold.fontWeight,
                                 ),
                               ),
                             ],
@@ -240,27 +230,26 @@ class SubstanceCard extends StatelessWidget {
                     },
                   ),
                   const Spacer(),
-
                   // Add to stockpile button
                   TextButton.icon(
                     onPressed: () =>
                         onAddStockpile(substanceId, name, substance),
                     icon: Icon(
                       Icons.add,
-                      size: t.spacing.lg,
-                      color: t.accent.primary,
+                      size: th.spacing.lg,
+                      color: th.accent.primary,
                     ),
                     label: Text(
                       'Add Stockpile',
-                      style: t.typography.label.copyWith(
-                        color: t.accent.primary,
-                        fontWeight: text.bodyBold.fontWeight,
+                      style: th.typography.label.copyWith(
+                        color: th.accent.primary,
+                        fontWeight: tx.bodyBold.fontWeight,
                       ),
                     ),
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.symmetric(
-                        horizontal: t.spacing.sm,
-                        vertical: t.spacing.xs,
+                        horizontal: th.spacing.sm,
+                        vertical: th.spacing.xs,
                       ),
                       minimumSize: Size.zero,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,

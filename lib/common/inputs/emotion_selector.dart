@@ -7,23 +7,19 @@ import '../../common/buttons/common_chip_group.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-
 class EmotionSelector extends StatelessWidget {
   final List<String> selectedEmotions;
   final List<String> availableEmotions;
   final ValueChanged<String> onEmotionToggled;
-
   const EmotionSelector({
     super.key,
     required this.selectedEmotions,
     required this.availableEmotions,
     required this.onEmotionToggled,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return CommonChipGroup(
       title: "Emotions",
       subtitle: "More specific feelings",
@@ -40,10 +36,9 @@ class EmotionSelector extends StatelessWidget {
           }
         }
       },
-
-      selectedColor: t.accent.primary,
-      selectedBorderColor: t.accent.primary,
-      showGlow: t.isDark,
+      selectedColor: th.accent.primary,
+      selectedBorderColor: th.accent.primary,
+      showGlow: th.isDark,
     );
   }
 }

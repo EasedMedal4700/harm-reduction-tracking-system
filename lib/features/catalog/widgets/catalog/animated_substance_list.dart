@@ -7,7 +7,6 @@ class AnimatedSubstanceList extends StatelessWidget {
   final Function(Map<String, dynamic>) onSubstanceTap;
   final Function(String, String, Map<String, dynamic>) onAddStockpile;
   final Future<String?> Function(String) getMostActiveDay;
-
   const AnimatedSubstanceList({
     super.key,
     required this.substances,
@@ -15,19 +14,17 @@ class AnimatedSubstanceList extends StatelessWidget {
     required this.onAddStockpile,
     required this.getMostActiveDay,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return ListView.builder(
-      padding: EdgeInsets.all(t.spacing.md),
+      padding: EdgeInsets.all(th.spacing.md),
       itemCount: substances.length,
       itemBuilder: (context, index) {
         final substance = substances[index];
         return TweenAnimationBuilder<double>(
           duration: Duration(
-            milliseconds: t.animations.normal.inMilliseconds + (index * 30),
+            milliseconds: th.animations.normal.inMilliseconds + (index * 30),
           ),
           tween: Tween(begin: 0.0, end: 1.0),
           curve: Curves.easeOutCubic,

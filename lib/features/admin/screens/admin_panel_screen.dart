@@ -21,7 +21,6 @@ import 'package:mobile_drug_use_app/constants/strings/app_strings.dart';
 /// Admin panel screen for managing users and monitoring system health
 class AdminPanelScreen extends StatefulWidget {
   const AdminPanelScreen({super.key});
-
   @override
   State<AdminPanelScreen> createState() => _AdminPanelScreenState();
 }
@@ -36,7 +35,6 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
   Map<String, dynamic> _perfStats = {};
   bool _isLoading = true;
   bool _isInitialized = false;
-
   @override
   void initState() {
     super.initState();
@@ -96,7 +94,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(AppStrings.errorLoadingAdminData),
-            backgroundColor: context.colors.error,
+            backgroundColor: c.error,
           ),
         );
       }
@@ -135,7 +133,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(AppStrings.errorToggleAdmin),
-            backgroundColor: context.theme.colors.error,
+            backgroundColor: th.colors.error,
           ),
         );
       }
@@ -152,7 +150,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(AppStrings.cacheClearedSuccess),
-            backgroundColor: context.theme.colors.success,
+            backgroundColor: th.colors.success,
           ),
         );
       }
@@ -161,7 +159,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(AppStrings.errorClearingCache),
-            backgroundColor: context.theme.colors.error,
+            backgroundColor: th.colors.error,
           ),
         );
       }
@@ -178,7 +176,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(AppStrings.drugCacheCleared),
-            backgroundColor: context.theme.colors.success,
+            backgroundColor: th.colors.success,
           ),
         );
       }
@@ -187,7 +185,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(AppStrings.errorClearingDrugCache),
-            backgroundColor: context.theme.colors.error,
+            backgroundColor: th.colors.error,
           ),
         );
       }
@@ -204,7 +202,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(AppStrings.expiredCacheCleared),
-            backgroundColor: context.theme.colors.success,
+            backgroundColor: th.colors.success,
           ),
         );
       }
@@ -213,7 +211,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(AppStrings.errorClearingExpiredCache),
-            backgroundColor: context.theme.colors.error,
+            backgroundColor: th.colors.error,
           ),
         );
       }
@@ -225,7 +223,6 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       // Clear drug-related cache to force fresh fetch from database
       _cacheService.removePattern('drug_profiles');
       _cacheService.removePattern('drug_use');
-
       if (mounted) {
         setState(() {
           _cacheStats = _cacheService.getStats();
@@ -235,7 +232,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
             content: const Text(
               '✓ Cache refreshed - data will reload from database',
             ),
-            backgroundColor: context.theme.colors.success,
+            backgroundColor: th.colors.success,
             duration: context.animations.toast,
           ),
         );
@@ -245,7 +242,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(AppStrings.errorRefreshingDatabase),
-            backgroundColor: context.theme.colors.error,
+            backgroundColor: th.colors.error,
           ),
         );
       }
@@ -254,10 +251,9 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final sp = context.spacing;
     final c = context.colors;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AdminAppBar(isLoading: _isLoading, onRefresh: _loadData),
@@ -265,7 +261,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       body: _isLoading
           ? const CommonLoader()
           : RefreshIndicator(
-              color: t.accent.primary,
+              color: th.accent.primary,
               onRefresh: _loadData,
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(sp.lg),
@@ -279,7 +275,6 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
                       cacheStats: _cacheStats,
                     ),
                     SizedBox(height: sp.xl),
-
                     // Cache Management Section
                     CacheManagementSection(
                       cacheStats: _cacheStats,
@@ -289,7 +284,6 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
                       onRefreshFromDatabase: _refreshFromDatabase,
                     ),
                     SizedBox(height: sp.xl),
-
                     // User Management
                     AdminUserList(
                       users: _users,

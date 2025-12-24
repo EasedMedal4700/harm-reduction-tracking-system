@@ -12,7 +12,6 @@ import '../../../daily_chekin/widgets/daily_checkin/checkin_dialog.dart';
 // Notes: Migrated to use AppTheme.
 class DailyCheckinBanner extends StatefulWidget {
   const DailyCheckinBanner({super.key});
-
   @override
   State<DailyCheckinBanner> createState() => _DailyCheckinBannerState();
 }
@@ -68,18 +67,15 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
-    final text = context.text;
+    final tx = context.text;
     final sh = context.shapes;
-
     return Consumer<DailyCheckinProvider>(
       builder: (context, provider, child) {
         final hasCheckedIn = provider.existingCheckin != null;
-
-        final baseColor = hasCheckedIn ? c.success : a.primary;
+        final baseColor = hasCheckedIn ? c.success : ac.primary;
         final backgroundColor = baseColor.withValues(alpha: 0.1);
-
         return Container(
           margin: EdgeInsets.all(sp.md),
           decoration: BoxDecoration(
@@ -107,16 +103,14 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
                       children: [
                         Text(
                           'Daily Check-In',
-                          style: text.titleMedium.copyWith(
+                          style: tx.titleMedium.copyWith(
                             color: c.textPrimary,
-                            fontWeight: text.bodyBold.fontWeight,
+                            fontWeight: tx.bodyBold.fontWeight,
                           ),
                         ),
                         Text(
                           _getTimeOfDayGreeting(provider.timeOfDay),
-                          style: text.bodySmall.copyWith(
-                            color: c.textSecondary,
-                          ),
+                          style: tx.bodySmall.copyWith(color: c.textSecondary),
                         ),
                       ],
                     ),
@@ -124,7 +118,6 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
                 ],
               ),
               SizedBox(height: sp.md),
-
               // Content based on check-in status
               if (hasCheckedIn)
                 _buildCheckedInContent(context, provider, baseColor)
@@ -142,7 +135,8 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
     DailyCheckinProvider provider,
     Color color,
   ) {
-    final text = context.text;
+    final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
 
     return Column(
@@ -155,9 +149,7 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
             Expanded(
               child: Text(
                 'You\'ve already checked in for ${provider.timeOfDay}. Great job tracking your wellness!',
-                style: text.bodyMedium.copyWith(
-                  color: context.colors.textPrimary,
-                ),
+                style: tx.bodyMedium.copyWith(color: c.textPrimary),
               ),
             ),
           ],
@@ -165,9 +157,9 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
         SizedBox(height: sp.sm),
         Text(
           'Mood: ${provider.existingCheckin!.mood}',
-          style: text.labelMedium.copyWith(
+          style: tx.labelMedium.copyWith(
             color: color,
-            fontWeight: text.bodyBold.fontWeight,
+            fontWeight: tx.bodyBold.fontWeight,
           ),
         ),
       ],
@@ -179,9 +171,9 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
     DailyCheckinProvider provider,
     Color color,
   ) {
-    final text = context.text;
-    final sp = context.spacing;
     final c = context.colors;
+    final tx = context.text;
+    final sp = context.spacing;
     final sh = context.shapes;
 
     return Column(
@@ -189,12 +181,12 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
       children: [
         Text(
           'How are you feeling today?',
-          style: text.titleSmall.copyWith(fontWeight: text.bodyBold.fontWeight),
+          style: tx.titleSmall.copyWith(fontWeight: tx.bodyBold.fontWeight),
         ),
         SizedBox(height: sp.xs),
         Text(
           'Track your wellness throughout the day.',
-          style: text.bodySmall.copyWith(color: c.textSecondary),
+          style: tx.bodySmall.copyWith(color: c.textSecondary),
         ),
         SizedBox(height: sp.md),
         SizedBox(

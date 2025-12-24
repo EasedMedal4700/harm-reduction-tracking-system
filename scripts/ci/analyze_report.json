@@ -8,13 +8,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\common\\buttons\\common_outlined_button.dart",
         "range": {
           "start": {
-            "offset": 878,
-            "line": 37,
+            "offset": 873,
+            "line": 34,
             "column": 11
           },
           "end": {
-            "offset": 879,
-            "line": 37,
+            "offset": 874,
+            "line": 34,
             "column": 12
           }
         }
@@ -31,13 +31,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\constants\\theme\\app_theme.dart",
         "range": {
           "start": {
-            "offset": 395,
-            "line": 14,
+            "offset": 393,
+            "line": 13,
             "column": 8
           },
           "end": {
-            "offset": 422,
-            "line": 14,
+            "offset": 420,
+            "line": 13,
             "column": 35
           }
         }
@@ -54,64 +54,18 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\activity\\widgets\\activity\\activity_detail_sheet.dart",
         "range": {
           "start": {
-            "offset": 1119,
-            "line": 36,
+            "offset": 1114,
+            "line": 33,
             "column": 11
           },
           "end": {
-            "offset": 1123,
-            "line": 36,
-            "column": 15
+            "offset": 1116,
+            "line": 33,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
-      "correctionMessage": "Try removing the variable or using it.",
-      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
-    },
-    {
-      "code": "unused_local_variable",
-      "severity": "WARNING",
-      "type": "STATIC_WARNING",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\activity\\widgets\\activity\\activity_detail_sheet.dart",
-        "range": {
-          "start": {
-            "offset": 2102,
-            "line": 69,
-            "column": 11
-          },
-          "end": {
-            "offset": 2106,
-            "line": 69,
-            "column": 15
-          }
-        }
-      },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
-      "correctionMessage": "Try removing the variable or using it.",
-      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
-    },
-    {
-      "code": "unused_local_variable",
-      "severity": "WARNING",
-      "type": "STATIC_WARNING",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\activity\\widgets\\activity\\activity_detail_sheet.dart",
-        "range": {
-          "start": {
-            "offset": 5454,
-            "line": 174,
-            "column": 11
-          },
-          "end": {
-            "offset": 5455,
-            "line": 174,
-            "column": 12
-          }
-        }
-      },
-      "problemMessage": "The value of the local variable 't' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -123,13 +77,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\services\\analytics_service.dart",
         "range": {
           "start": {
-            "offset": 7563,
-            "line": 239,
+            "offset": 7533,
+            "line": 224,
             "column": 13
           },
           "end": {
-            "offset": 7570,
-            "line": 239,
+            "offset": 7540,
+            "line": 224,
             "column": 20
           }
         }
@@ -146,13 +100,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
         "range": {
           "start": {
-            "offset": 3552,
-            "line": 108,
+            "offset": 3534,
+            "line": 99,
             "column": 11
           },
           "end": {
-            "offset": 3560,
-            "line": 108,
+            "offset": 3542,
+            "line": 99,
             "column": 19
           }
         }
@@ -169,18 +123,64 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
         "range": {
           "start": {
-            "offset": 5259,
-            "line": 155,
+            "offset": 5227,
+            "line": 139,
             "column": 11
           },
           "end": {
-            "offset": 5263,
-            "line": 155,
-            "column": 15
+            "offset": 5229,
+            "line": 139,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
+      "correctionMessage": "Try removing the variable or using it.",
+      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
+    },
+    {
+      "code": "unused_local_variable",
+      "severity": "WARNING",
+      "type": "STATIC_WARNING",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
+        "range": {
+          "start": {
+            "offset": 15582,
+            "line": 441,
+            "column": 11
+          },
+          "end": {
+            "offset": 15584,
+            "line": 441,
+            "column": 13
+          }
+        }
+      },
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
+      "correctionMessage": "Try removing the variable or using it.",
+      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
+    },
+    {
+      "code": "unused_local_variable",
+      "severity": "WARNING",
+      "type": "STATIC_WARNING",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
+        "range": {
+          "start": {
+            "offset": 16822,
+            "line": 480,
+            "column": 11
+          },
+          "end": {
+            "offset": 16824,
+            "line": 480,
+            "column": 13
+          }
+        }
+      },
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -192,41 +192,18 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\blood_level_graph.dart",
         "range": {
           "start": {
-            "offset": 1223,
-            "line": 37,
+            "offset": 1246,
+            "line": 33,
             "column": 11
           },
           "end": {
-            "offset": 1227,
-            "line": 37,
-            "column": 15
+            "offset": 1248,
+            "line": 33,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
-      "correctionMessage": "Try removing the variable or using it.",
-      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
-    },
-    {
-      "code": "unused_local_variable",
-      "severity": "WARNING",
-      "type": "STATIC_WARNING",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\current_status_card.dart",
-        "range": {
-          "start": {
-            "offset": 1271,
-            "line": 43,
-            "column": 11
-          },
-          "end": {
-            "offset": 1275,
-            "line": 43,
-            "column": 15
-          }
-        }
-      },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -238,87 +215,18 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\level_card.dart",
         "range": {
           "start": {
-            "offset": 934,
-            "line": 30,
+            "offset": 926,
+            "line": 26,
             "column": 11
           },
           "end": {
-            "offset": 938,
-            "line": 30,
-            "column": 15
+            "offset": 928,
+            "line": 26,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
-      "correctionMessage": "Try removing the variable or using it.",
-      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
-    },
-    {
-      "code": "unused_local_variable",
-      "severity": "WARNING",
-      "type": "STATIC_WARNING",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart",
-        "range": {
-          "start": {
-            "offset": 9989,
-            "line": 318,
-            "column": 11
-          },
-          "end": {
-            "offset": 9993,
-            "line": 318,
-            "column": 15
-          }
-        }
-      },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
-      "correctionMessage": "Try removing the variable or using it.",
-      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
-    },
-    {
-      "code": "unused_local_variable",
-      "severity": "WARNING",
-      "type": "STATIC_WARNING",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\bug_report_page.dart",
-        "range": {
-          "start": {
-            "offset": 2918,
-            "line": 100,
-            "column": 11
-          },
-          "end": {
-            "offset": 2922,
-            "line": 100,
-            "column": 15
-          }
-        }
-      },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
-      "correctionMessage": "Try removing the variable or using it.",
-      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
-    },
-    {
-      "code": "unused_local_variable",
-      "severity": "WARNING",
-      "type": "STATIC_WARNING",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\bug_report\\bug_report_screen.dart",
-        "range": {
-          "start": {
-            "offset": 2920,
-            "line": 101,
-            "column": 11
-          },
-          "end": {
-            "offset": 2924,
-            "line": 101,
-            "column": 15
-          }
-        }
-      },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -330,18 +238,18 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\category_filter_chips.dart",
         "range": {
           "start": {
-            "offset": 749,
-            "line": 25,
+            "offset": 743,
+            "line": 22,
             "column": 11
           },
           "end": {
-            "offset": 753,
-            "line": 25,
-            "column": 15
+            "offset": 745,
+            "line": 22,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -350,44 +258,21 @@
       "severity": "WARNING",
       "type": "STATIC_WARNING",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\category_filter_chips.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\dosage_guide_card.dart",
         "range": {
           "start": {
-            "offset": 1339,
-            "line": 46,
+            "offset": 4874,
+            "line": 157,
             "column": 11
           },
           "end": {
-            "offset": 1343,
-            "line": 46,
-            "column": 15
+            "offset": 4876,
+            "line": 157,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
-      "correctionMessage": "Try removing the variable or using it.",
-      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
-    },
-    {
-      "code": "unused_local_variable",
-      "severity": "WARNING",
-      "type": "STATIC_WARNING",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
-        "range": {
-          "start": {
-            "offset": 4650,
-            "line": 151,
-            "column": 11
-          },
-          "end": {
-            "offset": 4654,
-            "line": 151,
-            "column": 15
-          }
-        }
-      },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -399,18 +284,87 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
         "range": {
           "start": {
-            "offset": 14161,
-            "line": 422,
+            "offset": 4620,
+            "line": 136,
             "column": 11
           },
           "end": {
-            "offset": 14165,
-            "line": 422,
-            "column": 15
+            "offset": 4622,
+            "line": 136,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
+      "correctionMessage": "Try removing the variable or using it.",
+      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
+    },
+    {
+      "code": "unused_local_variable",
+      "severity": "WARNING",
+      "type": "STATIC_WARNING",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
+        "range": {
+          "start": {
+            "offset": 8081,
+            "line": 229,
+            "column": 11
+          },
+          "end": {
+            "offset": 8083,
+            "line": 229,
+            "column": 13
+          }
+        }
+      },
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
+      "correctionMessage": "Try removing the variable or using it.",
+      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
+    },
+    {
+      "code": "unused_local_variable",
+      "severity": "WARNING",
+      "type": "STATIC_WARNING",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
+        "range": {
+          "start": {
+            "offset": 14178,
+            "line": 402,
+            "column": 11
+          },
+          "end": {
+            "offset": 14180,
+            "line": 402,
+            "column": 13
+          }
+        }
+      },
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
+      "correctionMessage": "Try removing the variable or using it.",
+      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
+    },
+    {
+      "code": "unused_local_variable",
+      "severity": "WARNING",
+      "type": "STATIC_WARNING",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
+        "range": {
+          "start": {
+            "offset": 16123,
+            "line": 458,
+            "column": 11
+          },
+          "end": {
+            "offset": 16125,
+            "line": 458,
+            "column": 13
+          }
+        }
+      },
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -422,18 +376,18 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\timing_info_card.dart",
         "range": {
           "start": {
-            "offset": 995,
-            "line": 33,
+            "offset": 989,
+            "line": 30,
             "column": 11
           },
           "end": {
-            "offset": 999,
-            "line": 33,
-            "column": 15
+            "offset": 991,
+            "line": 30,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -445,18 +399,18 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\daily_chekin\\widgets\\daily_checkin\\checkin_dialog.dart",
         "range": {
           "start": {
-            "offset": 1734,
-            "line": 63,
+            "offset": 1728,
+            "line": 60,
             "column": 11
           },
           "end": {
-            "offset": 1738,
-            "line": 63,
-            "column": 15
+            "offset": 1730,
+            "line": 60,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -468,18 +422,18 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\daily_chekin\\widgets\\daily_checkin\\notes_input.dart",
         "range": {
           "start": {
-            "offset": 815,
-            "line": 26,
+            "offset": 812,
+            "line": 24,
             "column": 11
           },
           "end": {
-            "offset": 819,
-            "line": 26,
-            "column": 15
+            "offset": 814,
+            "line": 24,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -491,64 +445,18 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\widgets\\edit_log_entry\\edit_app_bar.dart",
         "range": {
           "start": {
-            "offset": 945,
-            "line": 30,
+            "offset": 939,
+            "line": 27,
             "column": 11
           },
           "end": {
-            "offset": 949,
-            "line": 30,
-            "column": 15
+            "offset": 941,
+            "line": 27,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
-      "correctionMessage": "Try removing the variable or using it.",
-      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
-    },
-    {
-      "code": "unused_local_variable",
-      "severity": "WARNING",
-      "type": "STATIC_WARNING",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\widgets\\home\\progress_overview_card.dart",
-        "range": {
-          "start": {
-            "offset": 3196,
-            "line": 109,
-            "column": 11
-          },
-          "end": {
-            "offset": 3197,
-            "line": 109,
-            "column": 12
-          }
-        }
-      },
-      "problemMessage": "The value of the local variable 't' isn't used.",
-      "correctionMessage": "Try removing the variable or using it.",
-      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
-    },
-    {
-      "code": "unused_local_variable",
-      "severity": "WARNING",
-      "type": "STATIC_WARNING",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\home\\widgets\\home\\quick_actions_grid.dart",
-        "range": {
-          "start": {
-            "offset": 3676,
-            "line": 113,
-            "column": 11
-          },
-          "end": {
-            "offset": 3677,
-            "line": 113,
-            "column": 12
-          }
-        }
-      },
-      "problemMessage": "The value of the local variable 't' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -560,13 +468,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\login\\login_controller.dart",
         "range": {
           "start": {
-            "offset": 1399,
-            "line": 47,
+            "offset": 1385,
+            "line": 40,
             "column": 8
           },
           "end": {
-            "offset": 1406,
-            "line": 47,
+            "offset": 1392,
+            "line": 40,
             "column": 15
           }
         }
@@ -582,13 +490,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\services\\post_login_router.dart",
         "range": {
           "start": {
-            "offset": 237,
-            "line": 10,
+            "offset": 235,
+            "line": 9,
             "column": 8
           },
           "end": {
-            "offset": 285,
-            "line": 10,
+            "offset": 283,
+            "line": 9,
             "column": 56
           }
         }
@@ -605,13 +513,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\services\\post_login_router.dart",
         "range": {
           "start": {
-            "offset": 297,
-            "line": 12,
+            "offset": 293,
+            "line": 10,
             "column": 8
           },
           "end": {
-            "offset": 350,
-            "line": 12,
+            "offset": 346,
+            "line": 10,
             "column": 61
           }
         }
@@ -628,13 +536,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\services\\post_login_router.dart",
         "range": {
           "start": {
-            "offset": 360,
-            "line": 13,
+            "offset": 356,
+            "line": 11,
             "column": 8
           },
           "end": {
-            "offset": 406,
-            "line": 13,
+            "offset": 402,
+            "line": 11,
             "column": 54
           }
         }
@@ -651,13 +559,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\manage_profile\\change_pin\\change_pin_page.dart",
         "range": {
           "start": {
-            "offset": 1569,
-            "line": 52,
+            "offset": 1556,
+            "line": 46,
             "column": 11
           },
           "end": {
-            "offset": 1571,
-            "line": 52,
+            "offset": 1558,
+            "line": 46,
             "column": 13
           }
         }
@@ -671,44 +579,21 @@
       "severity": "WARNING",
       "type": "STATIC_WARNING",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart",
-        "range": {
-          "start": {
-            "offset": 14329,
-            "line": 407,
-            "column": 11
-          },
-          "end": {
-            "offset": 14330,
-            "line": 407,
-            "column": 12
-          }
-        }
-      },
-      "problemMessage": "The value of the local variable 't' isn't used.",
-      "correctionMessage": "Try removing the variable or using it.",
-      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
-    },
-    {
-      "code": "unused_local_variable",
-      "severity": "WARNING",
-      "type": "STATIC_WARNING",
-      "location": {
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\onboarding_page.dart",
         "range": {
           "start": {
-            "offset": 2955,
-            "line": 108,
+            "offset": 2942,
+            "line": 101,
             "column": 11
           },
           "end": {
-            "offset": 2959,
-            "line": 108,
-            "column": 15
+            "offset": 2944,
+            "line": 101,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -720,18 +605,41 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\setup_account\\recovery_key_page.dart",
         "range": {
           "start": {
-            "offset": 4869,
-            "line": 161,
+            "offset": 4820,
+            "line": 143,
             "column": 11
           },
           "end": {
-            "offset": 4873,
-            "line": 161,
-            "column": 15
+            "offset": 4822,
+            "line": 143,
+            "column": 13
           }
         }
       },
-      "problemMessage": "The value of the local variable 'text' isn't used.",
+      "problemMessage": "The value of the local variable 'tx' isn't used.",
+      "correctionMessage": "Try removing the variable or using it.",
+      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
+    },
+    {
+      "code": "unused_local_variable",
+      "severity": "WARNING",
+      "type": "STATIC_WARNING",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\system_tolerance_widget.dart",
+        "range": {
+          "start": {
+            "offset": 1397,
+            "line": 37,
+            "column": 11
+          },
+          "end": {
+            "offset": 1398,
+            "line": 37,
+            "column": 12
+          }
+        }
+      },
+      "problemMessage": "The value of the local variable 'c' isn't used.",
       "correctionMessage": "Try removing the variable or using it.",
       "documentation": "https://dart.dev/diagnostics/unused_local_variable"
     },
@@ -743,13 +651,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\main.dart",
         "range": {
           "start": {
-            "offset": 681,
-            "line": 17,
+            "offset": 677,
+            "line": 15,
             "column": 8
           },
           "end": {
-            "offset": 715,
-            "line": 17,
+            "offset": 711,
+            "line": 15,
             "column": 42
           }
         }
@@ -789,13 +697,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\utils\\error_reporter.dart",
         "range": {
           "start": {
-            "offset": 8111,
-            "line": 256,
+            "offset": 8077,
+            "line": 239,
             "column": 28
           },
           "end": {
-            "offset": 8118,
-            "line": 256,
+            "offset": 8084,
+            "line": 239,
             "column": 35
           }
         }
@@ -1132,13 +1040,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart",
         "range": {
           "start": {
-            "offset": 1616,
-            "line": 42,
+            "offset": 1604,
+            "line": 36,
             "column": 7
           },
           "end": {
-            "offset": 1626,
-            "line": 42,
+            "offset": 1614,
+            "line": 36,
             "column": 17
           }
         }
@@ -1155,13 +1063,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart",
         "range": {
           "start": {
-            "offset": 1962,
-            "line": 56,
+            "offset": 1942,
+            "line": 46,
             "column": 7
           },
           "end": {
-            "offset": 1972,
-            "line": 56,
+            "offset": 1952,
+            "line": 46,
             "column": 17
           }
         }
@@ -1178,13 +1086,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart",
         "range": {
           "start": {
-            "offset": 6042,
-            "line": 190,
+            "offset": 6004,
+            "line": 171,
             "column": 47
           },
           "end": {
-            "offset": 6049,
-            "line": 190,
+            "offset": 6011,
+            "line": 171,
             "column": 54
           }
         }
@@ -1201,13 +1109,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\log_entry\\log_entry_page.dart",
         "range": {
           "start": {
-            "offset": 4144,
-            "line": 135,
+            "offset": 4110,
+            "line": 118,
             "column": 47
           },
           "end": {
-            "offset": 4151,
-            "line": 135,
+            "offset": 4117,
+            "line": 118,
             "column": 54
           }
         }
@@ -1224,13 +1132,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\login\\login\\login_controller.dart",
         "range": {
           "start": {
-            "offset": 1399,
-            "line": 47,
+            "offset": 1385,
+            "line": 40,
             "column": 8
           },
           "end": {
-            "offset": 1406,
-            "line": 47,
+            "offset": 1392,
+            "line": 40,
             "column": 15
           }
         }
@@ -1247,13 +1155,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart",
         "range": {
           "start": {
-            "offset": 4513,
-            "line": 136,
+            "offset": 4534,
+            "line": 131,
             "column": 38
           },
           "end": {
-            "offset": 4520,
-            "line": 136,
+            "offset": 4541,
+            "line": 131,
             "column": 45
           }
         }
@@ -1270,13 +1178,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart",
         "range": {
           "start": {
-            "offset": 11155,
-            "line": 303,
+            "offset": 11165,
+            "line": 292,
             "column": 38
           },
           "end": {
-            "offset": 11162,
-            "line": 303,
+            "offset": 11172,
+            "line": 292,
             "column": 45
           }
         }
@@ -1293,13 +1201,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\services\\tolerance_engine_service.dart",
         "range": {
           "start": {
-            "offset": 1782,
-            "line": 50,
+            "offset": 1776,
+            "line": 47,
             "column": 18
           },
           "end": {
-            "offset": 1813,
-            "line": 50,
+            "offset": 1807,
+            "line": 47,
             "column": 49
           }
         }
@@ -1316,13 +1224,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\services\\tolerance_engine_service.dart",
         "range": {
           "start": {
-            "offset": 5490,
-            "line": 167,
+            "offset": 5450,
+            "line": 147,
             "column": 18
           },
           "end": {
-            "offset": 5506,
-            "line": 167,
+            "offset": 5466,
+            "line": 147,
             "column": 34
           }
         }
@@ -1362,13 +1270,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\utils\\parsing_utils.dart",
         "range": {
           "start": {
-            "offset": 1366,
-            "line": 44,
+            "offset": 1360,
+            "line": 41,
             "column": 36
           },
           "end": {
-            "offset": 1387,
-            "line": 44,
+            "offset": 1381,
+            "line": 41,
             "column": 57
           }
         }
@@ -1385,13 +1293,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\utils\\tolerance_calculator.dart",
         "range": {
           "start": {
-            "offset": 3963,
-            "line": 124,
+            "offset": 3939,
+            "line": 112,
             "column": 18
           },
           "end": {
-            "offset": 3984,
-            "line": 124,
+            "offset": 3960,
+            "line": 112,
             "column": 39
           }
         }
@@ -1408,13 +1316,13 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\utils\\tolerance_calculator_old.dart",
         "range": {
           "start": {
-            "offset": 3053,
-            "line": 83,
+            "offset": 3037,
+            "line": 75,
             "column": 18
           },
           "end": {
-            "offset": 3069,
-            "line": 83,
+            "offset": 3053,
+            "line": 75,
             "column": 34
           }
         }

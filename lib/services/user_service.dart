@@ -1,5 +1,4 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../common/logging/app_log.dart';
 import '../models/user_profile.dart';
 import '../utils/error_handler.dart';
@@ -21,9 +20,7 @@ class UserService {
   static Map<String, dynamic>? _cachedUserData;
   static UserProfile? _cachedProfile;
   static final _cache = CacheService();
-
   final SupabaseClient _client;
-
   UserService([SupabaseClient? client])
     : _client = client ?? Supabase.instance.client;
 
@@ -45,7 +42,6 @@ class UserService {
     if (_cachedProfile != null) {
       return _cachedProfile!;
     }
-
     final user = _client.auth.currentUser;
     if (user == null) {
       throw const UserProfileException(
@@ -53,16 +49,13 @@ class UserService {
         code: 'NOT_AUTHENTICATED',
       );
     }
-
     try {
       AppLog.i('👤 DEBUG: Loading user profile for ${user.id}');
-
       final response = await _client
           .from('users')
           .select('auth_user_id, display_name, is_admin')
           .eq('auth_user_id', user.id)
           .maybeSingle();
-
       if (response == null) {
         AppLog.e('❌ DEBUG: User profile not found in database');
         throw const UserProfileException(
@@ -71,11 +64,8 @@ class UserService {
           code: 'PROFILE_NOT_FOUND',
         );
       }
-
       AppLog.i('✅ DEBUG: User profile loaded: ${response['display_name']}');
-
       final profile = UserProfile.fromJson(response, email: user.email);
-
       // Cache the profile
       _cachedProfile = profile;
       _cachedIsAdmin = profile.isAdmin;
@@ -85,7 +75,6 @@ class UserService {
         'display_name': profile.displayName,
         'is_admin': profile.isAdmin,
       };
-
       // Store in cache service
       _cache.set(
         CacheKeys.currentUserData,
@@ -97,7 +86,6 @@ class UserService {
         profile.isAdmin,
         ttl: CacheService.longTTL,
       );
-
       return profile;
     } on PostgrestException catch (e, stackTrace) {
       ErrorHandler.logError('UserService.loadUserProfile', e, stackTrace);
@@ -128,31 +116,24 @@ class UserService {
         code: 'NOT_AUTHENTICATED',
       );
     }
-
     final updates = <String, dynamic>{};
     if (displayName != null) {
       updates['display_name'] = displayName;
     }
-
     if (updates.isEmpty) {
       // Nothing to update, just return current profile
       return await loadUserProfile();
     }
-
     try {
       AppLog.i('👤 DEBUG: Updating user profile: $updates');
-
       final response = await _client
           .from('users')
           .update(updates)
           .eq('auth_user_id', user.id)
           .select('auth_user_id, display_name, is_admin')
           .single();
-
       AppLog.i('✅ DEBUG: User profile updated successfully');
-
       final profile = UserProfile.fromJson(response, email: user.email);
-
       // Update cache
       _cachedProfile = profile;
       _cachedUserData = {
@@ -166,18 +147,15 @@ class UserService {
         _cachedUserData!,
         ttl: CacheService.longTTL,
       );
-
       return profile;
     } on PostgrestException catch (e, stackTrace) {
       ErrorHandler.logError('UserService.updateUserProfile', e, stackTrace);
-
       if (e.code == '42501') {
         throw const UserProfileException(
           'You do not have permission to update this profile.',
           code: 'UNAUTHORIZED',
         );
       }
-
       throw UserProfileException(
         'Failed to update profile: ${e.message}',
         code: e.code,
@@ -196,14 +174,12 @@ class UserService {
   Future<bool> hasProfile() async {
     final user = _client.auth.currentUser;
     if (user == null) return false;
-
     try {
       final response = await _client
           .from('users')
           .select('auth_user_id')
           .eq('auth_user_id', user.id)
           .maybeSingle();
-
       return response != null;
     } catch (e) {
       AppLog.e('⚠️ DEBUG: Error checking profile existence: $e');
@@ -240,7 +216,6 @@ class UserService {
   // ============================================
   // Static methods for backward compatibility
   // ============================================
-
   /// Check if the current user is an admin
   /// Returns false if user is not logged in (no error logged)
   static Future<bool> isAdmin() async {
@@ -249,19 +224,16 @@ class UserService {
     if (user == null) {
       return false; // Not logged in, silently return false
     }
-
     // Return cached value if available
     if (_cachedIsAdmin != null) {
       return _cachedIsAdmin!;
     }
-
     // Check cache service
     final cachedAdmin = _cache.get<bool>(CacheKeys.currentUserIsAdmin);
     if (cachedAdmin != null) {
       _cachedIsAdmin = cachedAdmin;
       return cachedAdmin;
     }
-
     try {
       final userService = UserService();
       final profile = await userService.loadUserProfile();
@@ -281,7 +253,6 @@ class UserService {
     if (_cachedUserData != null) {
       return _cachedUserData!;
     }
-
     // Check cache service
     final cachedData = _cache.get<Map<String, dynamic>>(
       CacheKeys.currentUserData,
@@ -291,7 +262,6 @@ class UserService {
       _cachedIsAdmin = cachedData['is_admin'] as bool? ?? false;
       return cachedData;
     }
-
     try {
       final userService = UserService();
       final profile = await userService.loadUserProfile();
@@ -312,7 +282,6 @@ class UserService {
     _cachedIsAdmin = null;
     _cachedUserData = null;
     _cachedProfile = null;
-
     // Clear from cache service
     _cache.remove(CacheKeys.currentUserId);
     _cache.remove(CacheKeys.currentUserIsAdmin);

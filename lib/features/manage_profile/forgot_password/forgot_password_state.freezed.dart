@@ -2,15 +2,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
-
 part of 'forgot_password_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
 // **************************************************************************
-
 T _$identity<T>(T value) => value;
-
 final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
@@ -42,7 +39,6 @@ abstract class $ForgotPasswordStateCopyWith<$Res> {
 class _$ForgotPasswordStateCopyWithImpl<$Res, $Val extends ForgotPasswordState>
     implements $ForgotPasswordStateCopyWith<$Res> {
   _$ForgotPasswordStateCopyWithImpl(this._value, this._then);
-
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
@@ -127,14 +123,12 @@ class __$$ForgotPasswordStateImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
 class _$ForgotPasswordStateImpl implements _ForgotPasswordState {
   const _$ForgotPasswordStateImpl({
     this.status = ForgotPasswordStatus.idle,
     this.errorMessage,
     this.email,
   });
-
   @override
   @JsonKey()
   final ForgotPasswordStatus status;
@@ -142,7 +136,6 @@ class _$ForgotPasswordStateImpl implements _ForgotPasswordState {
   final String? errorMessage;
   @override
   final String? email;
-
   @override
   String toString() {
     return 'ForgotPasswordState(status: $status, errorMessage: $errorMessage, email: $email)';
@@ -180,7 +173,6 @@ abstract class _ForgotPasswordState implements ForgotPasswordState {
     final String? errorMessage,
     final String? email,
   }) = _$ForgotPasswordStateImpl;
-
   @override
   ForgotPasswordStatus get status;
   @override

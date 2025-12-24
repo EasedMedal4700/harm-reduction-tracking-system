@@ -17,7 +17,6 @@ class DecayService {
     if (doseMg <= 0 || hoursSinceDose < 0 || halfLife <= 0) {
       return 0.0;
     }
-
     // Using exponential decay: remaining = dose * 2^(-t/halfLife)
     final remaining = doseMg * pow(0.5, hoursSinceDose / halfLife);
     return remaining.clamp(0.0, doseMg);
@@ -40,7 +39,6 @@ class DecayService {
     double stepHours = GraphConstants.defaultStepHours,
   }) {
     final points = <CurvePoint>[];
-
     // Generate points from past to future
     for (
       double hour = -hoursBack.toDouble();
@@ -50,20 +48,16 @@ class DecayService {
       final timePoint = referenceTime.add(
         Duration(minutes: (hour * 60).round()),
       );
-
       // Calculate hours elapsed from this dose's start time
       final hoursElapsed =
           timePoint.difference(dose.startTime).inMinutes / 60.0;
-
       // Only calculate decay if dose was taken before this time point
       double remaining = 0.0;
       if (hoursElapsed >= 0) {
         remaining = decayRemaining(dose.dose, hoursElapsed, halfLife);
       }
-
       points.add(CurvePoint(hours: hour, remainingMg: remaining));
     }
-
     return points;
   }
 
@@ -79,7 +73,6 @@ class DecayService {
     double stepHours = GraphConstants.defaultStepHours,
   }) {
     if (doses.isEmpty) return [];
-
     // Generate curves for each individual dose
     final allCurves = doses
         .map(
@@ -93,22 +86,17 @@ class DecayService {
           ),
         )
         .toList();
-
     // Sum all curves at each time point
     final combinedPoints = <CurvePoint>[];
     final numPoints = allCurves.first.length;
-
     for (int i = 0; i < numPoints; i++) {
       double totalRemaining = 0.0;
       final hour = allCurves.first[i].hours;
-
       for (final curve in allCurves) {
         totalRemaining += curve[i].remainingMg;
       }
-
       combinedPoints.add(CurvePoint(hours: hour, remainingMg: totalRemaining));
     }
-
     return combinedPoints;
   }
 
@@ -124,26 +112,20 @@ class DecayService {
     Map<String, dynamic>? drugProfile,
   }) {
     if (doseMg <= 0) return 0.0;
-
     // Try to get thresholds from drug profile first
     List<double>? thresholds;
     if (drugProfile != null) {
       thresholds = DrugProfileUtils.getDosageThresholds(drugProfile);
     }
-
     // Fall back to known thresholds
     thresholds ??= DrugProfileUtils.getFallbackThresholds(drugName);
-
     if (thresholds == null || thresholds[3] == 0) {
       // No threshold data available, cap at 200%
       return doseMg.clamp(0.0, 200.0);
     }
-
     final heavyThreshold = thresholds[4]; // "heavy" is the 100% baseline
     if (heavyThreshold <= 0) return doseMg.clamp(0.0, 200.0);
-
     final normalized = (doseMg / heavyThreshold) * 100.0;
-
     // Allow values above 100% for heavy doses, but cap at 200%
     return normalized.clamp(0.0, 200.0);
   }
@@ -169,7 +151,6 @@ class DecayService {
       hoursForward: hoursForward,
       stepHours: stepHours,
     );
-
     // Then normalize each point to intensity percentage
     return mgCurve.map((point) {
       final intensity = normalizeToIntensity(

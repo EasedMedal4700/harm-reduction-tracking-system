@@ -1,7 +1,6 @@
 /// Opacity constants for the application
 class AppOpacities {
   const AppOpacities();
-
   final double disabled = 0.38;
   final double veryLow = 0.12;
   final double border = 0.4;

@@ -2,7 +2,6 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: COMPLETE
-
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -17,7 +16,6 @@ class BloodLevelsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onRefreshPressed;
   final int filterCount;
   final bool timelineVisible;
-
   const BloodLevelsAppBar({
     super.key,
     required this.selectedTime,
@@ -28,30 +26,23 @@ class BloodLevelsAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.filterCount,
     required this.timelineVisible,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors; // palette colors
     final text = context.text; // typography
     final sp = context.spacing; // spacing
     final acc = context.accent; // accent colors
-
     return AppBar(
       backgroundColor: c.surface,
       surfaceTintColor: c.transparent,
-
       elevation: context.sizes.elevationNone,
       shadowColor: c.transparent,
-
       titleSpacing: sp.md,
-
       title: BloodLevelsTimeDisplay(selectedTime: selectedTime),
-
       actionsIconTheme: IconThemeData(
         color: c.textPrimary,
         size: context.sizes.iconMd,
       ),
-
       actions: [
         // Time machine button
         IconButton(
@@ -63,7 +54,6 @@ class BloodLevelsAppBar extends StatelessWidget implements PreferredSizeWidget {
           tooltip: 'Time Machine',
           onPressed: onTimeMachinePressed,
         ),
-
         // Filter button + badge
         IconButton(
           icon: Badge(
@@ -78,7 +68,6 @@ class BloodLevelsAppBar extends StatelessWidget implements PreferredSizeWidget {
           tooltip: 'Filters',
           onPressed: onFilterPressed,
         ),
-
         // Timeline button
         IconButton(
           icon: Icon(
@@ -87,14 +76,12 @@ class BloodLevelsAppBar extends StatelessWidget implements PreferredSizeWidget {
           tooltip: 'Metabolism Timeline',
           onPressed: onTimelinePressed,
         ),
-
         // Refresh button
         IconButton(
           icon: const Icon(Icons.refresh),
           tooltip: 'Refresh',
           onPressed: onRefreshPressed,
         ),
-
         const CommonSpacer.horizontal(8), // breathing space at end
       ],
     );

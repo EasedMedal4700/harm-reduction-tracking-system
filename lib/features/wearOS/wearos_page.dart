@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Placeholder page. Migrated to use AppTheme. No hardcoded values.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -13,14 +12,12 @@ import '../../common/layout/common_spacer.dart';
 /// Placeholder page for WearOS companion app
 class WearOSPage extends StatelessWidget {
   const WearOSPage({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -38,14 +35,14 @@ class WearOSPage extends StatelessWidget {
             children: [
               Icon(
                 Icons.watch,
-                size: context.sizes.icon2xl + context.spacing.lg, // 80.0
-                color: a.primary,
+                size: context.sizes.icon2xl + sp.lg, // 80.0
+                color: ac.primary,
               ),
               CommonSpacer.vertical(sp.lg),
               Text(
                 'WearOS Companion',
-                style: context.text.headlineMedium.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.headlineMedium.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
                 textAlign: AppLayout.textAlignCenter,
@@ -53,7 +50,7 @@ class WearOSPage extends StatelessWidget {
               CommonSpacer.vertical(sp.md),
               Text(
                 'Connect and sync with your WearOS smartwatch',
-                style: context.text.bodyLarge.copyWith(color: c.textSecondary),
+                style: tx.bodyLarge.copyWith(color: c.textSecondary),
                 textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.xl),
@@ -63,7 +60,7 @@ class WearOSPage extends StatelessWidget {
                   color: c.surface,
                   borderRadius: BorderRadius.circular(context.shapes.radiusMd),
                   border: Border.all(
-                    color: a.primary.withValues(
+                    color: ac.primary.withValues(
                       alpha: context.opacities.medium,
                     ),
                   ),
@@ -71,13 +68,13 @@ class WearOSPage extends StatelessWidget {
                 child: Row(
                   mainAxisSize: AppLayout.mainAxisSizeMin,
                   children: [
-                    Icon(Icons.construction, color: a.primary),
+                    Icon(Icons.construction, color: ac.primary),
                     CommonSpacer.horizontal(sp.md),
                     Text(
                       'Coming Soon',
-                      style: context.text.titleMedium.copyWith(
-                        fontWeight: text.bodyBold.fontWeight,
-                        color: a.primary,
+                      style: tx.titleMedium.copyWith(
+                        fontWeight: tx.bodyBold.fontWeight,
+                        color: ac.primary,
                       ),
                     ),
                   ],

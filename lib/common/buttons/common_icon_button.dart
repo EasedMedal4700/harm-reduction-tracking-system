@@ -6,7 +6,6 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-
 /// Icon button with consistent styling
 class CommonIconButton extends StatelessWidget {
   final IconData icon;
@@ -15,7 +14,6 @@ class CommonIconButton extends StatelessWidget {
   final Color? backgroundColor;
   final double? size;
   final String? tooltip;
-
   const CommonIconButton({
     required this.icon,
     this.onPressed,
@@ -25,12 +23,10 @@ class CommonIconButton extends StatelessWidget {
     this.tooltip,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final defaultColor = t.colors.textPrimary;
-
+    final th = context.theme;
+    final defaultColor = th.colors.textPrimary;
     return IconButton(
       icon: Icon(icon),
       onPressed: onPressed,

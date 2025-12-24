@@ -1,7 +1,6 @@
 // ============================================================================
 // CRAVING CATEGORIES
 // ============================================================================
-
 const Map<String, String> cravingCategories = {
   'Stimulants ⚡': 'Stimulant',
   'Depressants 🌙': 'Depressant',

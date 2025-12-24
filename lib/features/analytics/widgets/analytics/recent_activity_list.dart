@@ -6,50 +6,41 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
-
 import '../../../../common/cards/common_card.dart';
 import '../../../../common/text/common_section_header.dart';
 import '../../../../common/layout/common_spacer.dart';
 import '../../../../common/buttons/common_chip.dart';
-
 import '../../../../constants/data/drug_categories.dart';
 import '../../../../models/log_entry_model.dart';
 
 class RecentActivityList extends StatelessWidget {
   final List<LogEntry> entries;
   final Map<String, String> substanceToCategory;
-
   const RecentActivityList({
     super.key,
     required this.entries,
     required this.substanceToCategory,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     final recent = entries.toList()
       ..sort((a, b) => b.datetime.compareTo(a.datetime));
-
     final display = recent.take(10).toList();
-
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           const CommonSectionHeader(title: 'Recent Activity'),
-
-          CommonSpacer.vertical(t.spacing.md),
-
+          CommonSpacer.vertical(th.spacing.md),
           if (display.isEmpty)
             Center(
               child: Padding(
-                padding: EdgeInsets.all(t.spacing.xl),
+                padding: EdgeInsets.all(th.spacing.xl),
                 child: Text(
                   'No recent activity',
-                  style: t.typography.body.copyWith(
-                    color: t.colors.textSecondary,
+                  style: th.typography.body.copyWith(
+                    color: th.colors.textSecondary,
                   ),
                 ),
               ),
@@ -76,48 +67,42 @@ class RecentActivityList extends StatelessWidget {
 class _RecentActivityItem extends StatelessWidget {
   final LogEntry entry;
   final String category;
-
   const _RecentActivityItem({required this.entry, required this.category});
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
 
     final icon = DrugCategories.categoryIconMap[category] ?? Icons.category;
     final timeAgo = _formatTimeAgo(entry.datetime);
-
     final hoursSince = DateTime.now().difference(entry.datetime).inHours;
     final remainingPercent = (100 - (hoursSince * 10)).clamp(0, 100).toDouble();
-
-    final categoryColor = t.accent.primary.withValues(
+    final categoryColor = th.accent.primary.withValues(
       alpha: 0.4 + (category.hashCode % 20) / 100,
     );
-
     return Padding(
-      padding: EdgeInsets.only(bottom: t.spacing.md),
+      padding: EdgeInsets.only(bottom: th.spacing.md),
       child: InkWell(
-        borderRadius: BorderRadius.circular(t.spacing.sm),
+        borderRadius: BorderRadius.circular(th.spacing.sm),
         onTap: () {},
         child: Container(
-          padding: EdgeInsets.all(t.spacing.md),
+          padding: EdgeInsets.all(th.spacing.md),
           decoration: BoxDecoration(
-            color: t.colors.surfaceVariant,
-            borderRadius: BorderRadius.circular(t.spacing.sm),
-            border: Border.all(color: t.colors.border),
+            color: th.colors.surfaceVariant,
+            borderRadius: BorderRadius.circular(th.spacing.sm),
+            border: Border.all(color: th.colors.border),
           ),
           child: Row(
             children: [
               /// Leading icon
               Container(
-                padding: EdgeInsets.all(t.spacing.sm),
+                padding: EdgeInsets.all(th.spacing.sm),
                 decoration: BoxDecoration(
-                  color: categoryColor.withValues(alpha: t.opacities.low),
-                  borderRadius: BorderRadius.circular(t.spacing.sm),
+                  color: categoryColor.withValues(alpha: th.opacities.low),
+                  borderRadius: BorderRadius.circular(th.spacing.sm),
                 ),
-                child: Icon(icon, color: categoryColor, size: t.sizes.iconMd),
+                child: Icon(icon, color: categoryColor, size: th.sizes.iconMd),
               ),
-
-              SizedBox(width: t.spacing.md),
+              SizedBox(width: th.spacing.md),
 
               /// Content
               Expanded(
@@ -130,13 +115,13 @@ class _RecentActivityItem extends StatelessWidget {
                         Expanded(
                           child: Text(
                             entry.substance,
-                            style: t.typography.bodyBold.copyWith(
-                              color: t.colors.textPrimary,
+                            style: th.typography.bodyBold.copyWith(
+                              color: th.colors.textPrimary,
                             ),
                             overflow: AppLayout.textOverflowEllipsis,
                           ),
                         ),
-                        SizedBox(width: t.spacing.sm),
+                        SizedBox(width: th.spacing.sm),
                         CommonChip(
                           label: category,
                           isSelected: false,
@@ -147,18 +132,16 @@ class _RecentActivityItem extends StatelessWidget {
                         ),
                       ],
                     ),
-
-                    CommonSpacer.vertical(t.spacing.xs),
+                    CommonSpacer.vertical(th.spacing.xs),
 
                     /// Dosage + time ago
                     Text(
                       '${entry.dosage} ${entry.unit} • $timeAgo',
-                      style: t.typography.bodySmall.copyWith(
-                        color: t.colors.textSecondary,
+                      style: th.typography.bodySmall.copyWith(
+                        color: th.colors.textSecondary,
                       ),
                     ),
-
-                    CommonSpacer.vertical(t.spacing.md),
+                    CommonSpacer.vertical(th.spacing.md),
 
                     /// Activity bar
                     Row(
@@ -167,27 +150,25 @@ class _RecentActivityItem extends StatelessWidget {
                       children: [
                         Text(
                           'Active',
-                          style: t.typography.caption.copyWith(
-                            color: t.colors.textSecondary,
+                          style: th.typography.caption.copyWith(
+                            color: th.colors.textSecondary,
                           ),
                         ),
                         Text(
                           '${remainingPercent.toInt()}%',
-                          style: t.typography.captionBold.copyWith(
+                          style: th.typography.captionBold.copyWith(
                             color: categoryColor,
                           ),
                         ),
                       ],
                     ),
-
-                    SizedBox(height: t.spacing.xs),
-
+                    SizedBox(height: th.spacing.xs),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(t.spacing.xs),
+                      borderRadius: BorderRadius.circular(th.spacing.xs),
                       child: LinearProgressIndicator(
                         value: remainingPercent / 100,
-                        backgroundColor: t.colors.border,
-                        minHeight: t.spacing.sm,
+                        backgroundColor: th.colors.border,
+                        minHeight: th.spacing.sm,
                         valueColor: AlwaysStoppedAnimation(categoryColor),
                       ),
                     ),
@@ -203,7 +184,6 @@ class _RecentActivityItem extends StatelessWidget {
 
   String _formatTimeAgo(DateTime dt) {
     final diff = DateTime.now().difference(dt);
-
     if (diff.inDays >= 365) return '${(diff.inDays / 365).floor()}y ago';
     if (diff.inDays >= 30) return '${(diff.inDays / 30).floor()}mo ago';
     if (diff.inDays >= 1) return '${diff.inDays}d ago';

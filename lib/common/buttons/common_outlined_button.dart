@@ -6,7 +6,6 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Standard outlined button for secondary actions.
-
 class CommonOutlinedButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
@@ -17,7 +16,6 @@ class CommonOutlinedButton extends StatelessWidget {
   final IconData? icon;
   final double? width;
   final double? height;
-
   const CommonOutlinedButton({
     required this.label,
     required this.onPressed,
@@ -30,14 +28,12 @@ class CommonOutlinedButton extends StatelessWidget {
     this.height,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
-    final effectiveColor = color ?? t.accent.primary;
+    final effectiveColor = color ?? th.accent.primary;
     final effectiveBorderColor = borderColor ?? effectiveColor;
-
     return SizedBox(
       width: width,
       height: height ?? context.sizes.buttonHeightLg,
@@ -45,9 +41,9 @@ class CommonOutlinedButton extends StatelessWidget {
         onPressed: isEnabled && !isLoading ? onPressed : null,
         style: OutlinedButton.styleFrom(
           side: BorderSide(color: effectiveBorderColor),
-          padding: EdgeInsets.symmetric(horizontal: t.spacing.md),
+          padding: EdgeInsets.symmetric(horizontal: th.spacing.md),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+            borderRadius: BorderRadius.circular(th.shapes.radiusMd),
           ),
           foregroundColor: effectiveColor,
         ),
@@ -66,11 +62,11 @@ class CommonOutlinedButton extends StatelessWidget {
                 children: [
                   if (icon != null) ...[
                     Icon(icon, size: context.sizes.iconSm),
-                    SizedBox(width: t.spacing.sm),
+                    SizedBox(width: th.spacing.sm),
                   ],
                   Text(
                     label,
-                    style: t.text.bodyLarge.copyWith(
+                    style: th.text.bodyLarge.copyWith(
                       fontWeight: FontWeight.w600,
                       color: effectiveColor,
                     ),

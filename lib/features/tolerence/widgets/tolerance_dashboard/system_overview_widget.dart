@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +19,6 @@ class SystemOverviewWidget extends ConsumerWidget {
   final Map<String, Map<String, double>> substanceContributions;
   final String? selectedBucket;
   final Function(String) onBucketSelected;
-
   const SystemOverviewWidget({
     super.key,
     required this.systemTolerance,
@@ -29,16 +27,13 @@ class SystemOverviewWidget extends ConsumerWidget {
     required this.selectedBucket,
     required this.onBucketSelected,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final c = context.colors;
     final sp = context.spacing;
-    final te = context.text;
+    final tx = context.text;
     final sh = context.shapes;
-
     final orderedBuckets = BucketDefinitions.orderedBuckets;
-
     // LOADING STATE
     if (systemTolerance == null) {
       return Container(
@@ -51,26 +46,19 @@ class SystemOverviewWidget extends ConsumerWidget {
         child: const Center(child: CommonLoader()),
       );
     }
-
     final data = systemTolerance!;
-
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         // HEADER
         Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: sp.xs,
-            vertical: sp.sm,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: sp.xs, vertical: sp.sm),
           child: Text(
             'System Tolerance Overview',
-            style: te.heading3.copyWith(color: c.textPrimary),
+            style: tx.heading3.copyWith(color: c.textPrimary),
           ),
         ),
-
         CommonSpacer.vertical(sp.sm),
-
         // BUCKET CARDS — horizontal scroll
         SizedBox(
           height: 140.0,
@@ -85,13 +73,10 @@ class SystemOverviewWidget extends ConsumerWidget {
                 0.0,
                 100.0,
               );
-
               final state = ToleranceCalculator.classifyState(percent);
-
               final contributions = substanceContributions[bucket];
               final isActive =
                   contributions != null && contributions.isNotEmpty;
-
               return SystemBucketCard(
                 bucketType: bucket,
                 tolerancePercent: percent,

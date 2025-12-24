@@ -102,10 +102,8 @@ class BucketDefinitions {
   /// Returns ordered list based on orderedBuckets
   static List<String> getAllBucketTypes(Map<String, dynamic> toleranceModels) {
     final allBuckets = <String>{};
-
     // Add all canonical buckets first
     allBuckets.addAll(orderedBuckets);
-
     // Add any custom buckets from models (rare, but supported)
     for (final model in toleranceModels.values) {
       if (model is Map && model.containsKey('neuro_buckets')) {
@@ -115,7 +113,6 @@ class BucketDefinitions {
         }
       }
     }
-
     // Return in canonical order, with unknowns at end
     final ordered = <String>[];
     for (final bucket in orderedBuckets) {
@@ -123,14 +120,12 @@ class BucketDefinitions {
         ordered.add(bucket);
       }
     }
-
     // Add any non-canonical buckets at the end
     for (final bucket in allBuckets) {
       if (!orderedBuckets.contains(bucket)) {
         ordered.add(bucket);
       }
     }
-
     return ordered;
   }
 }

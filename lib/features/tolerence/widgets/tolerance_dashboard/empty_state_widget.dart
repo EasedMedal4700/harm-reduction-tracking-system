@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: Fully migrated to use AppTheme, modern components, and Riverpod patterns.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,56 +12,47 @@ import '../../../../common/buttons/common_primary_button.dart';
 
 class EmptyStateWidget extends ConsumerWidget {
   final VoidCallback? onAddEntry;
-
   const EmptyStateWidget({super.key, this.onAddEntry});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-
+    final c = context.colors;
+    final sp = context.spacing;
+    final tx = context.text;
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(spacing.xl),
+        padding: EdgeInsets.all(sp.xl),
         child: Column(
           mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
           children: [
             // ICON
             Container(
-              padding: EdgeInsets.all(spacing.xl),
+              padding: EdgeInsets.all(sp.xl),
               decoration: BoxDecoration(
-                color: colors.surfaceVariant,
+                color: c.surfaceVariant,
                 shape: context.shapes.boxShapeCircle,
               ),
               child: Icon(
                 Icons.science_outlined,
                 size: 64.0,
-                color: colors.textSecondary,
+                color: c.textSecondary,
               ),
             ),
-
-            CommonSpacer.vertical(spacing.lg),
-
+            CommonSpacer.vertical(sp.lg),
             // TITLE
             Text(
               'No Tolerance Data',
-              style: typography.heading2.copyWith(color: colors.textPrimary),
+              style: tx.heading2.copyWith(color: c.textPrimary),
               textAlign: AppLayout.textAlignCenter,
             ),
-
-            CommonSpacer.vertical(spacing.sm),
-
+            CommonSpacer.vertical(sp.sm),
             // DESCRIPTION
             Text(
               'Start tracking your substance use to see\ntolerance insights and system interactions',
-              style: typography.body.copyWith(color: colors.textSecondary),
+              style: tx.body.copyWith(color: c.textSecondary),
               textAlign: AppLayout.textAlignCenter,
             ),
-
             if (onAddEntry != null) ...[
-              CommonSpacer.vertical(spacing.xl),
-
+              CommonSpacer.vertical(sp.xl),
               // ACTION BUTTON
               CommonPrimaryButton(
                 onPressed: onAddEntry!,

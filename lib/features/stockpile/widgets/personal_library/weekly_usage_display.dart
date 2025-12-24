@@ -2,7 +2,6 @@
 // Theme: COMPLETE
 // Common: PARTIAL
 // Riverpod: TODO
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -13,22 +12,19 @@ class WeeklyUsageDisplay extends StatelessWidget {
   final DrugCatalogEntry entry;
   final Color categoryColor;
   final Function(String, int, String, bool, Color) onDayTap;
-
   const WeeklyUsageDisplay({
     super.key,
     required this.entry,
     required this.categoryColor,
     required this.onDayTap,
   });
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
+    final tx = context.text;
+    final th = context.theme;
     final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     final counts = entry.weekdayUsage.counts;
     final maxUses = counts.isEmpty ? 1 : counts.reduce((a, b) => a > b ? a : b);
-
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
@@ -37,20 +33,20 @@ class WeeklyUsageDisplay extends StatelessWidget {
           children: [
             Text(
               'Weekly Pattern',
-              style: t.typography.bodySmall.copyWith(
-                fontWeight: text.bodyBold.fontWeight,
+              style: th.typography.bodySmall.copyWith(
+                fontWeight: tx.bodyBold.fontWeight,
               ),
             ),
             Text(
               '(Tap to see times)',
-              style: t.typography.caption.copyWith(
-                color: t.colors.textSecondary,
+              style: th.typography.caption.copyWith(
+                color: th.colors.textSecondary,
                 fontStyle: FontStyle.italic,
               ),
             ),
           ],
         ),
-        CommonSpacer.vertical(t.spacing.xs),
+        CommonSpacer.vertical(th.spacing.xs),
         Row(
           mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: List.generate(7, (index) {
@@ -59,21 +55,20 @@ class WeeklyUsageDisplay extends StatelessWidget {
                 : 0;
             final intensity = maxUses > 0 ? count / maxUses : 0.0;
             final accentColor = categoryColor;
-
             return Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: t.spacing.xs / 4),
+                padding: EdgeInsets.symmetric(horizontal: th.spacing.xs / 4),
                 child: InkWell(
                   onTap: count > 0
                       ? () => onDayTap(
                           entry.name,
                           index,
                           days[index],
-                          t.isDark,
+                          th.isDark,
                           accentColor,
                         )
                       : null,
-                  borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+                  borderRadius: BorderRadius.circular(th.shapes.radiusSm),
                   child: Container(
                     height: 60,
                     decoration: BoxDecoration(
@@ -81,16 +76,16 @@ class WeeklyUsageDisplay extends StatelessWidget {
                           ? accentColor.withValues(
                               alpha: 0.2 + (intensity * 0.6),
                             )
-                          : t.colors.background.withValues(
-                              alpha: t.isDark ? 0.3 : 1.0,
+                          : th.colors.background.withValues(
+                              alpha: th.isDark ? 0.3 : 1.0,
                             ),
-                      borderRadius: BorderRadius.circular(t.shapes.radiusSm),
+                      borderRadius: BorderRadius.circular(th.shapes.radiusSm),
                       border: Border.all(
                         color: count > 0
                             ? accentColor.withValues(
                                 alpha: 0.5 + (intensity * 0.5),
                               )
-                            : t.colors.border,
+                            : th.colors.border,
                         width: count > 0 ? 2 : 1,
                       ),
                     ),
@@ -99,35 +94,35 @@ class WeeklyUsageDisplay extends StatelessWidget {
                       children: [
                         Text(
                           days[index],
-                          style: t.typography.caption.copyWith(
+                          style: th.typography.caption.copyWith(
                             fontWeight: count > 0
-                                ? text.bodyBold.fontWeight
-                                : text.body.fontWeight,
+                                ? tx.bodyBold.fontWeight
+                                : tx.body.fontWeight,
                             color: count > 0
                                 ? accentColor
-                                : t.colors.textSecondary,
+                                : th.colors.textSecondary,
                           ),
                         ),
                         if (count > 0) ...[
-                          CommonSpacer.vertical(t.spacing.xs / 2),
+                          CommonSpacer.vertical(th.spacing.xs / 2),
                           Container(
                             padding: EdgeInsets.symmetric(
-                              horizontal: t.spacing.xs / 2,
-                              vertical: t.spacing.xs / 4,
+                              horizontal: th.spacing.xs / 2,
+                              vertical: th.spacing.xs / 4,
                             ),
                             decoration: BoxDecoration(
                               color: accentColor,
                               borderRadius: BorderRadius.circular(
-                                t.shapes.radiusSm,
+                                th.shapes.radiusSm,
                               ),
                             ),
                             child: Text(
                               '$count',
-                              style: t.typography.caption.copyWith(
-                                fontWeight: text.bodyBold.fontWeight,
-                                color: t.isDark
-                                    ? t.colors.textPrimary
-                                    : t.colors.surface,
+                              style: th.typography.caption.copyWith(
+                                fontWeight: tx.bodyBold.fontWeight,
+                                color: th.isDark
+                                    ? th.colors.textPrimary
+                                    : th.colors.surface,
                               ),
                             ),
                           ),

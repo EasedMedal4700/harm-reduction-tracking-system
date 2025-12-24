@@ -3,15 +3,12 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Page for editing log entries. Uses CommonPrimaryButton. No hardcoded values.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-
 import '../../common/layout/common_drawer.dart';
 import '../../models/log_entry_model.dart';
 import '../../models/log_entry_form_data.dart';
 import '../log_entry/log_entry_controller.dart';
-
 import 'widgets/edit_log_entry/edit_app_bar.dart';
 import 'widgets/edit_log_entry/loading_overlay.dart';
 import '../log_entry/widgets/log_entry/log_entry_form.dart';
@@ -22,7 +19,6 @@ class EditDrugUsePage extends StatefulWidget {
   final Map<String, dynamic> entry;
   final LogEntryController? controller;
   const EditDrugUsePage({super.key, required this.entry, this.controller});
-
   @override
   State<EditDrugUsePage> createState() => _EditDrugUsePageState();
 }
@@ -31,7 +27,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     with SingleTickerProviderStateMixin {
   late final LogEntryController _controller;
   late LogEntryFormData _formData;
-
   AnimationController? _animationController;
   late Animation<double> _fadeAnimation;
   final _formKey = GlobalKey<FormState>();
@@ -39,19 +34,15 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
   late final TextEditingController _doseCtrl;
   late final TextEditingController _substanceCtrl;
   bool _isSaving = false;
-
   @override
   void initState() {
     super.initState();
     _controller = widget.controller ?? LogEntryController();
-
     final LogEntry model = LogEntry.fromJson(widget.entry);
     _formData = _convertToFormData(model);
-
     _notesCtrl = TextEditingController(text: _formData.notes);
     _doseCtrl = TextEditingController(text: _formData.dose.toString());
     _substanceCtrl = TextEditingController(text: _formData.substance);
-
     _notesCtrl.addListener(() {
       setState(() => _formData = _formData.copyWith(notes: _notesCtrl.text));
     });
@@ -66,7 +57,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
       setState(() => _formData = _formData.copyWith(substance: text));
       _loadSubstanceDetails(text);
     });
-
     // Initial load
     _loadSubstanceDetails(_formData.substance);
   }
@@ -129,7 +119,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
       });
       return;
     }
-
     final details = await _controller.loadSubstanceDetails(substanceName);
     if (mounted) {
       setState(() {
@@ -143,7 +132,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
       _showSnackBar('Please fix validation errors before saving.');
       return;
     }
-
     final substanceValidation = await _controller.validateSubstance(_formData);
     if (!substanceValidation.isValid) {
       _showErrorDialog(
@@ -152,7 +140,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
       );
       return;
     }
-
     final roaValidation = _controller.validateROA(_formData);
     if (roaValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
@@ -161,7 +148,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
       );
       if (!confirmed) return;
     }
-
     final emotionsValidation = _controller.validateEmotions(_formData);
     if (emotionsValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
@@ -170,7 +156,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
       );
       if (!confirmed) return;
     }
-
     final cravingValidation = _controller.validateCraving(_formData);
     if (cravingValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
@@ -179,13 +164,9 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
       );
       if (!confirmed) return;
     }
-
     setState(() => _isSaving = true);
-
     final result = await _controller.saveLogEntry(_formData);
-
     setState(() => _isSaving = false);
-
     if (result.isSuccess) {
       _showSnackBar(result.message, duration: context.animations.longSnackbar);
       if (mounted) {
@@ -216,7 +197,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
         ],
       ),
     );
-
     if (confirmed == true) {
       setState(() => _isSaving = true);
       _showSnackBar('Delete functionality not yet implemented');
@@ -273,8 +253,8 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final sp = context.spacing;
 
+    final sp = context.spacing;
     return Scaffold(
       backgroundColor: c.background,
       appBar: EditLogEntryAppBar(
@@ -369,7 +349,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
                     ),
                   ),
                 ),
-
                 CommonBottomBar(
                   child: CommonPrimaryButton(
                     onPressed: _handleSave,
@@ -380,7 +359,6 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
               ],
             ),
           ),
-
           LoadingOverlay(isLoading: _isSaving),
         ],
       ),

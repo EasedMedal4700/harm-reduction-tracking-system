@@ -10,48 +10,44 @@ import '../../../../constants/theme/app_theme_extension.dart';
 class TimePeriodSelector extends StatelessWidget {
   final TimePeriod selectedPeriod;
   final ValueChanged<TimePeriod> onPeriodChanged;
-
   const TimePeriodSelector({
     super.key,
     required this.selectedPeriod,
     required this.onPeriodChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-    final acc = context.accent;
-    final text = context.text;
-
+    final ac = context.accent;
+    final tx = context.text;
     return Wrap(
       spacing: sp.md,
       runSpacing: sp.sm,
       alignment: WrapAlignment.center,
       children: TimePeriod.values.map((period) {
         final bool isSelected = period == selectedPeriod;
-
         return GestureDetector(
           onTap: () => onPeriodChanged(period),
           child: AnimatedContainer(
-            duration: t.animations.fast,
+            duration: th.animations.fast,
             padding: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.sm),
             decoration: BoxDecoration(
               color: isSelected
-                  ? acc.primary.withValues(alpha: t.opacities.low)
+                  ? ac.primary.withValues(alpha: th.opacities.low)
                   : c.surfaceVariant,
               borderRadius: BorderRadius.circular(sp.sm),
               border: Border.all(
-                color: isSelected ? acc.primary : c.border,
-                width: isSelected ? t.borders.medium : t.borders.thin,
+                color: isSelected ? ac.primary : c.border,
+                width: isSelected ? th.borders.medium : th.borders.thin,
               ),
-              boxShadow: isSelected ? t.cardShadow : null,
+              boxShadow: isSelected ? th.cardShadow : null,
             ),
             child: Text(
               _label(period),
-              style: text.bodyBold.copyWith(
-                color: isSelected ? acc.primary : c.textPrimary,
+              style: tx.bodyBold.copyWith(
+                color: isSelected ? ac.primary : c.textPrimary,
               ),
             ),
           ),

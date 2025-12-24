@@ -9,7 +9,6 @@ class DailyCheckin {
   final String? notes;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-
   DailyCheckin({
     this.id,
     required this.userId,

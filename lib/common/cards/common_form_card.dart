@@ -6,7 +6,6 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Replaces old_common/modern_form_card.dart. Fully aligned with AppThemeExtension.
-
 /// Modern card widget for form sections with glassmorphism effect
 class CommonFormCard extends StatelessWidget {
   final String? title;
@@ -15,7 +14,6 @@ class CommonFormCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
-
   const CommonFormCard({
     super.key,
     this.title,
@@ -25,67 +23,65 @@ class CommonFormCard extends StatelessWidget {
     this.padding,
     this.margin,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final effectiveAccentColor = accentColor ?? t.accent.primary;
-
+    final th = context.theme;
+    final effectiveAccentColor = accentColor ?? th.accent.primary;
     return Container(
       margin:
           margin ??
           EdgeInsets.only(
-            bottom: t.spacing.lg,
-            left: t.spacing.lg,
-            right: t.spacing.lg,
+            bottom: th.spacing.lg,
+            left: th.spacing.lg,
+            right: th.spacing.lg,
           ),
-      decoration: t.isDark
+      decoration: th.isDark
           ? BoxDecoration(
-              color: t.colors.surface.withValues(alpha: 0.6),
-              borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+              color: th.colors.surface.withValues(alpha: 0.6),
+              borderRadius: BorderRadius.circular(th.shapes.radiusLg),
               border: Border.all(
-                color: t.colors.border.withValues(alpha: 0.3),
+                color: th.colors.border.withValues(alpha: 0.3),
                 width: 1,
               ),
-              boxShadow: t.cardShadow,
+              boxShadow: th.cardShadow,
             )
           : BoxDecoration(
-              color: t.colors.surface,
-              borderRadius: BorderRadius.circular(t.shapes.radiusLg),
-              border: Border.all(color: t.colors.border),
-              boxShadow: t.cardShadow,
+              color: th.colors.surface,
+              borderRadius: BorderRadius.circular(th.shapes.radiusLg),
+              border: Border.all(color: th.colors.border),
+              boxShadow: th.cardShadow,
             ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (title != null || icon != null)
             Container(
-              padding: EdgeInsets.all(t.spacing.lg),
+              padding: EdgeInsets.all(th.spacing.lg),
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(color: t.colors.border, width: 1),
+                  bottom: BorderSide(color: th.colors.border, width: 1),
                 ),
               ),
               child: Row(
                 children: [
                   if (icon != null) ...[
                     Container(
-                      padding: EdgeInsets.all(t.spacing.sm),
+                      padding: EdgeInsets.all(th.spacing.sm),
                       decoration: BoxDecoration(
                         color: effectiveAccentColor.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+                        borderRadius: BorderRadius.circular(th.shapes.radiusMd),
                       ),
                       child: Icon(icon, size: 20, color: effectiveAccentColor),
                     ),
-                    SizedBox(width: t.spacing.md),
+                    SizedBox(width: th.spacing.md),
                   ],
                   if (title != null)
                     Expanded(
                       child: Text(
                         title!,
-                        style: t.text.heading4.copyWith(
+                        style: th.text.heading4.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: t.colors.textPrimary,
+                          color: th.colors.textPrimary,
                         ),
                       ),
                     ),
@@ -93,7 +89,7 @@ class CommonFormCard extends StatelessWidget {
               ),
             ),
           Padding(
-            padding: padding ?? EdgeInsets.all(t.spacing.lg),
+            padding: padding ?? EdgeInsets.all(th.spacing.lg),
             child: child,
           ),
         ],

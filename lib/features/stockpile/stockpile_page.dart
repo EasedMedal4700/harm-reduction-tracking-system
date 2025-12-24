@@ -3,11 +3,9 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
-
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-
 import '../../models/drug_catalog_entry.dart';
 import 'services/personal_library_service.dart';
 import '../../repo/stockpile_repository.dart';
@@ -22,12 +20,10 @@ import 'widgets/personal_library/summary_stats_banner.dart';
 import 'widgets/personal_library/day_usage_sheet.dart';
 import 'widgets/personal_library/library_search_bar.dart';
 import 'widgets/personal_library/library_app_bar.dart';
-
 import '../../utils/drug_preferences_manager.dart';
 
 class PersonalLibraryPage extends StatefulWidget {
   const PersonalLibraryPage({super.key});
-
   @override
   State<PersonalLibraryPage> createState() => _PersonalLibraryPageState();
 }
@@ -38,18 +34,15 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
   final _substanceRepo = SubstanceRepository();
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-
   List<DrugCatalogEntry> _catalog = [];
   List<DrugCatalogEntry> _filtered = [];
   bool _loading = true;
   String? _error;
   bool _showArchived = false;
-
   // Summary stats
   int _totalUses = 0;
   String _mostUsedCategory = '';
   double _avgUses = 0.0;
-
   @override
   void initState() {
     super.initState();
@@ -68,7 +61,6 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
       _loading = true;
       _error = null;
     });
-
     try {
       final catalog = await _service.fetchCatalog();
       setState(() {
@@ -87,12 +79,10 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
 
   void _calculateSummaryStats() {
     final activeSubstances = _catalog.where((e) => !e.archived).toList();
-
     _totalUses = activeSubstances.fold(0, (sum, e) => sum + e.totalUses);
     _avgUses = activeSubstances.isEmpty
         ? 0.0
         : _totalUses / activeSubstances.length;
-
     // Find most used category
     final Map<String, int> categoryCount = {};
     for (final entry in activeSubstances) {
@@ -100,7 +90,6 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
         categoryCount[cat] = (categoryCount[cat] ?? 0) + entry.totalUses;
       }
     }
-
     if (categoryCount.isNotEmpty) {
       final maxEntry = categoryCount.entries.reduce(
         (a, b) => a.value > b.value ? a : b,
@@ -114,7 +103,6 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
   Future<void> _toggleFavorite(DrugCatalogEntry entry) async {
     await _service.toggleFavorite(entry);
     if (!mounted) return;
-
     // Reload catalog to get updated entry
     await _loadCatalog();
   }
@@ -127,13 +115,11 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
         notes: entry.notes,
         quantity: entry.quantity,
       );
-
       await DrugPreferencesManager.saveArchived(
         entry.name,
         !entry.archived,
         currentPrefs,
       );
-
       await _loadCatalog();
     } catch (e) {
       if (mounted) {
@@ -162,20 +148,17 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
     final substanceDetails = await _substanceRepo.getSubstanceDetails(
       entry.name,
     );
-
     if (!mounted) return;
-
     final result = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: context.colors.transparent,
+      backgroundColor: c.transparent,
       builder: (context) => AddStockpileSheet(
         substanceId: entry.name,
         substanceName: entry.name,
         substanceDetails: substanceDetails,
       ),
     );
-
     if (result == true && mounted) {
       setState(() {});
     }
@@ -191,7 +174,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: context.colors.transparent,
+      backgroundColor: c.transparent,
       builder: (context) => DayUsageSheet(
         substanceName: substanceName,
         weekdayIndex: weekdayIndex,
@@ -203,10 +186,9 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       drawer: const CommonDrawer(),
@@ -224,7 +206,6 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
             },
             onRefresh: _loadCatalog,
           ),
-
           // Summary stats banner - scrolls away
           if (!_loading && _error == null)
             SliverToBoxAdapter(
@@ -235,7 +216,6 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
                 mostUsedCategory: _mostUsedCategory,
               ),
             ),
-
           // Search bar - scrolls away
           SliverToBoxAdapter(
             child: LibrarySearchBar(
@@ -247,7 +227,6 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
               },
             ),
           ),
-
           // Content
           if (_loading)
             const SliverFillRemaining(child: Center(child: CommonLoader()))
@@ -259,7 +238,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
                   children: [
                     Text(
                       _error!,
-                      style: t.typography.body.copyWith(color: c.error),
+                      style: th.typography.body.copyWith(color: c.error),
                     ),
                     CommonSpacer(height: sp.md),
                     TextButton(
@@ -277,7 +256,7 @@ class _PersonalLibraryPageState extends State<PersonalLibraryPage> {
                   _showArchived
                       ? 'No substances found'
                       : 'No active substances in your library',
-                  style: t.typography.body.copyWith(color: c.textSecondary),
+                  style: th.typography.body.copyWith(color: c.textSecondary),
                 ),
               ),
             )

@@ -21,7 +21,6 @@ class EncryptionService {
   static final EncryptionService _instance = EncryptionService._internal();
   factory EncryptionService() => _instance;
   EncryptionService._internal();
-
   SupabaseClient? get _client {
     try {
       return Supabase.instance.client;
@@ -32,7 +31,6 @@ class EncryptionService {
   }
 
   final AesGcm _algorithm = AesGcm.with256bits();
-
   SecretKey? _masterKey;
 
   /// Initialize encryption for the current user.
@@ -42,19 +40,16 @@ class EncryptionService {
       if (_client == null) {
         throw Exception('Supabase not initialized');
       }
-
       final user = _client!.auth.currentUser;
       if (user == null) {
         throw Exception('No authenticated user');
       }
-
       // Check if user already has an encrypted key stored
       final response = await _client!
           .from('user_keys')
           .select('encrypted_key')
           .eq('uuid_user_id', user.id)
           .maybeSingle();
-
       if (response == null) {
         // First time login - generate and store new master key
         await _generateAndStoreNewKey(user);
@@ -77,7 +72,6 @@ class EncryptionService {
           }
         }
       }
-
       ErrorHandler.logInfo(
         'EncryptionService',
         'Initialized for user: ${user.id.substring(0, 8)}...',
@@ -102,14 +96,12 @@ class EncryptionService {
       final random = Random.secure();
       final masterKeyBytes = List<int>.generate(32, (_) => random.nextInt(256));
       _masterKey = SecretKey(masterKeyBytes);
-
       // 2. Derive encryption key from JWT
       final session = _client!.auth.currentSession;
       if (session == null) {
         throw Exception('No active session');
       }
       final jwtKey = _deriveKeyFromJWT(session.accessToken);
-
       // 3. Encrypt master key with JWT-derived key
       final nonce = _algorithm.newNonce();
       final secretBox = await _algorithm.encrypt(
@@ -117,25 +109,21 @@ class EncryptionService {
         secretKey: jwtKey,
         nonce: nonce,
       );
-
       // 4. Store encrypted key as JSON
       final encryptedData = {
         'nonce': base64Encode(secretBox.nonce),
         'ciphertext': base64Encode(secretBox.cipherText),
         'mac': base64Encode(secretBox.mac.bytes),
       };
-
       // Generate a dummy salt for schema compatibility (JWT-based system doesn't use salt)
       final saltBytes = List<int>.generate(16, (_) => random.nextInt(256));
       final salt = base64Encode(saltBytes);
-
       final keyData = {
         'uuid_user_id': user.id,
         'encrypted_key': jsonEncode(encryptedData),
         'salt': salt, // Dummy salt for schema compatibility
         'kdf_iterations': 200000,
       };
-
       // Use upsert to handle both insert and update cases
       if (isRegeneration) {
         // Update existing row
@@ -147,7 +135,6 @@ class EncryptionService {
         // Insert new row (use upsert to avoid conflicts)
         await _client!.from('user_keys').upsert(keyData);
       }
-
       ErrorHandler.logInfo(
         'EncryptionService',
         'Generated and stored new master key',
@@ -168,44 +155,36 @@ class EncryptionService {
       if (_client == null) {
         throw Exception('Supabase not initialized');
       }
-
       final user = _client!.auth.currentUser;
       if (user == null) {
         throw Exception('No authenticated user');
       }
-
       // 1. Fetch encrypted key from database
       final response = await _client!
           .from('user_keys')
           .select('encrypted_key')
           .eq('uuid_user_id', user.id)
           .single();
-
       final encryptedKeyJson = response['encrypted_key'] as String;
       final encryptedData =
           jsonDecode(encryptedKeyJson) as Map<String, dynamic>;
-
       // 2. Derive decryption key from JWT
       final session = _client!.auth.currentSession;
       if (session == null) {
         throw Exception('No active session');
       }
       final jwtKey = _deriveKeyFromJWT(session.accessToken);
-
       // 3. Decrypt master key
       final secretBox = SecretBox(
         base64Decode(encryptedData['ciphertext'] as String),
         nonce: base64Decode(encryptedData['nonce'] as String),
         mac: Mac(base64Decode(encryptedData['mac'] as String)),
       );
-
       final decryptedBytes = await _algorithm.decrypt(
         secretBox,
         secretKey: jwtKey,
       );
-
       _masterKey = SecretKey(decryptedBytes);
-
       ErrorHandler.logInfo(
         'EncryptionService',
         'Loaded master key successfully',
@@ -233,7 +212,6 @@ class EncryptionService {
     if (plaintext == null || plaintext.isEmpty) {
       return null;
     }
-
     if (_masterKey == null) {
       ErrorHandler.logWarning(
         'EncryptionService',
@@ -259,7 +237,6 @@ class EncryptionService {
         throw Exception('Failed to initialize encryption');
       }
     }
-
     try {
       final nonce = _algorithm.newNonce();
       final secretBox = await _algorithm.encrypt(
@@ -267,13 +244,11 @@ class EncryptionService {
         secretKey: _masterKey!,
         nonce: nonce,
       );
-
       final encryptedData = {
         'nonce': base64Encode(secretBox.nonce),
         'ciphertext': base64Encode(secretBox.cipherText),
         'mac': base64Encode(secretBox.mac.bytes),
       };
-
       return jsonEncode(encryptedData);
     } catch (e, stack) {
       ErrorHandler.logError(
@@ -292,12 +267,10 @@ class EncryptionService {
     if (encryptedJson == null || encryptedJson.isEmpty) {
       return null;
     }
-
     // Auto-detect if already plaintext (not encrypted)
     if (!isEncrypted(encryptedJson)) {
       return encryptedJson;
     }
-
     if (_masterKey == null) {
       ErrorHandler.logWarning(
         'EncryptionService',
@@ -323,21 +296,17 @@ class EncryptionService {
         throw Exception('Failed to initialize encryption');
       }
     }
-
     try {
       final encryptedData = jsonDecode(encryptedJson) as Map<String, dynamic>;
-
       final secretBox = SecretBox(
         base64Decode(encryptedData['ciphertext'] as String),
         nonce: base64Decode(encryptedData['nonce'] as String),
         mac: Mac(base64Decode(encryptedData['mac'] as String)),
       );
-
       final decryptedBytes = await _algorithm.decrypt(
         secretBox,
         secretKey: _masterKey!,
       );
-
       return utf8.decode(decryptedBytes);
     } catch (e, stack) {
       ErrorHandler.logError(
@@ -354,11 +323,9 @@ class EncryptionService {
   /// Returns true if encrypted, false if plaintext
   bool isEncrypted(String text) {
     if (text.isEmpty) return false;
-
     try {
       final json = jsonDecode(text);
       if (json is! Map<String, dynamic>) return false;
-
       return json.containsKey('nonce') &&
           json.containsKey('ciphertext') &&
           json.containsKey('mac');
@@ -374,13 +341,11 @@ class EncryptionService {
     List<String> fieldsToEncrypt,
   ) async {
     final result = Map<String, dynamic>.from(data);
-
     for (final field in fieldsToEncrypt) {
       if (result.containsKey(field) && result[field] is String) {
         result[field] = await encryptText(result[field] as String);
       }
     }
-
     return result;
   }
 
@@ -391,13 +356,11 @@ class EncryptionService {
     List<String> fieldsToDecrypt,
   ) async {
     final result = Map<String, dynamic>.from(data);
-
     for (final field in fieldsToDecrypt) {
       if (result.containsKey(field) && result[field] is String) {
         result[field] = await decryptText(result[field] as String);
       }
     }
-
     return result;
   }
 
@@ -413,12 +376,10 @@ class EncryptionService {
       if (_client == null) {
         throw Exception('Supabase not initialized');
       }
-
       final user = _client!.auth.currentUser;
       if (user == null || _masterKey == null) {
         throw Exception('No authenticated user or master key');
       }
-
       // Encrypt master key with new JWT
       final session = _client!.auth.currentSession;
       if (session == null) {
@@ -431,19 +392,16 @@ class EncryptionService {
         secretKey: jwtKey,
         nonce: nonce,
       );
-
       final encryptedData = {
         'nonce': base64Encode(secretBox.nonce),
         'ciphertext': base64Encode(secretBox.cipherText),
         'mac': base64Encode(secretBox.mac.bytes),
       };
-
       // Update stored key
       await _client!
           .from('user_keys')
           .update({'encrypted_key': jsonEncode(encryptedData)})
           .eq('uuid_user_id', user.id);
-
       ErrorHandler.logInfo('EncryptionService', 'Rotated encryption key');
     } catch (e, stack) {
       ErrorHandler.logError(

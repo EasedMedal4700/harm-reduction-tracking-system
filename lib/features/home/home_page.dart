@@ -3,7 +3,6 @@ import 'package:mobile_drug_use_app/constants/theme/app_animations.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../common/logging/app_log.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -19,7 +18,6 @@ import 'home_page/home_quick_actions_grid.dart';
 import 'home_page/home_progress_stats.dart';
 import 'home_page/home_navigation_methods.dart';
 import '../../providers/daily_checkin_provider.dart';
-
 import '../daily_chekin/services/daily_checkin_service.dart';
 import '../../services/user_service.dart';
 import '../../services/encryption_service_v2.dart';
@@ -33,9 +31,7 @@ import '../admin/screens/admin_panel_screen.dart';
 /// This page does NOT have its own lifecycle observer.
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.dailyCheckinRepository});
-
   final DailyCheckinRepository? dailyCheckinRepository;
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -47,23 +43,19 @@ class _HomePageState extends State<HomePage>
   final _encryptionService = EncryptionServiceV2();
   final _userService = UserService();
   String _userName = 'User';
-
   @override
   void initState() {
     super.initState();
     _checkEncryptionStatus();
     _loadUserProfile();
-
     // Setup animations - duration will be set in didChangeDependencies
     _animationController = AnimationController(
       duration: const AppAnimations().normal,
       vsync: this,
     );
-
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
-
     _animationController.forward();
   }
 
@@ -97,7 +89,6 @@ class _HomePageState extends State<HomePage>
     try {
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) return;
-
       final hasEncryption = await _encryptionService.hasEncryptionSetup(
         user.id,
       );
@@ -118,7 +109,6 @@ class _HomePageState extends State<HomePage>
   void _openDailyCheckin(BuildContext context) async {
     // Navigate to daily check-in and wait for result
     await Navigator.pushNamed(context, '/daily-checkin');
-
     // Refresh the daily check-in status when returning
     if (context.mounted) {
       final provider = Provider.of<DailyCheckinProvider>(
@@ -126,7 +116,6 @@ class _HomePageState extends State<HomePage>
         listen: false,
       );
       await provider.checkExistingCheckin();
-
       // Trigger rebuild to show updated status
       setState(() {});
     }
@@ -134,16 +123,16 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final ac = context.accent;
+    final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
         title: Text(
           'Home',
-          style: text.headlineSmall.copyWith(color: c.textPrimary),
+          style: tx.headlineSmall.copyWith(color: c.textPrimary),
         ),
         backgroundColor: c.surface,
         elevation: context.sizes.elevationNone,
@@ -189,7 +178,7 @@ class _HomePageState extends State<HomePage>
       drawer: const CommonDrawer(),
       floatingActionButton: _buildFAB(context),
       body: RefreshIndicator(
-        color: context.accent.primary,
+        color: ac.primary,
         backgroundColor: c.surface,
         onRefresh: () async {
           setState(() {});
@@ -209,9 +198,7 @@ class _HomePageState extends State<HomePage>
                   greeting: _getGreeting(),
                   onProfileTap: () => Navigator.pushNamed(context, '/profile'),
                 ),
-
                 CommonSpacer.vertical(sp.lg),
-
                 // Daily Check-in Card
                 ChangeNotifierProvider(
                   create: (_) {
@@ -236,17 +223,13 @@ class _HomePageState extends State<HomePage>
                     },
                   ),
                 ),
-
                 CommonSpacer.vertical(sp.lg),
-
                 // Section Title - Professional typography
                 Text(
                   'Quick Actions',
-                  style: text.headlineMedium.copyWith(color: c.textPrimary),
+                  style: tx.headlineMedium.copyWith(color: c.textPrimary),
                 ),
-
                 CommonSpacer.vertical(sp.md),
-
                 // Quick Actions Grid - Always 2 columns for consistency
                 HomeQuickActionsGrid(
                   onLogEntry: () => openLogEntry(context),
@@ -258,20 +241,15 @@ class _HomePageState extends State<HomePage>
                   onCatalog: () => openCatalog(context),
                   onBloodLevels: () => openBloodLevels(context),
                 ),
-
                 CommonSpacer.vertical(sp.lg),
-
                 // Progress Section
                 Text(
                   'Your Progress',
-                  style: text.headlineMedium.copyWith(color: c.textPrimary),
+                  style: tx.headlineMedium.copyWith(color: c.textPrimary),
                 ),
-
                 CommonSpacer.vertical(sp.md),
-
                 // Stats Grid
                 const HomeProgressStats(),
-
                 CommonSpacer.vertical(sp.lg),
               ],
             ),
@@ -283,14 +261,14 @@ class _HomePageState extends State<HomePage>
 
   Widget _buildFAB(BuildContext context) {
     final c = context.colors;
-    final sh = context.shapes;
-    final a = context.accent;
+    final ac = context.accent;
 
+    final sh = context.shapes;
     // Using primary color for FAB in both themes for consistency, or could use accent if defined.
     // Assuming primary is the main action color.
     return FloatingActionButton(
       onPressed: () => openLogEntry(context),
-      backgroundColor: a.primary,
+      backgroundColor: ac.primary,
       foregroundColor: c.textInverse,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(sh.radiusMd),

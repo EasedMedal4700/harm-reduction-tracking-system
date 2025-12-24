@@ -20,7 +20,6 @@ const List<String> intentions = [
   'Peer Pressure',
   'Other',
 ];
-
 const List<String> physicalSensations = [
   'heart racing',
   'sweating',
@@ -35,7 +34,6 @@ const List<String> physicalSensations = [
   'fatigue',
   'hot/flushed',
 ];
-
 const List<String> triggers = [
   'stress',
   'social pressure',
@@ -50,7 +48,6 @@ const List<String> triggers = [
   'environment cues',
   'physical pain',
 ];
-
 const List<String> copingStrategies = [
   'deep breathing',
   'meditation',

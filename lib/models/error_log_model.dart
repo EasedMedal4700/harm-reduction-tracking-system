@@ -13,7 +13,6 @@ class ErrorLog {
   final String? stacktrace;
   final Map<String, dynamic>? extraData;
   final DateTime createdAt;
-
   const ErrorLog({
     required this.id,
     this.userId,
@@ -29,7 +28,6 @@ class ErrorLog {
     this.extraData,
     required this.createdAt,
   });
-
   factory ErrorLog.fromJson(Map<String, dynamic> json) {
     return ErrorLog(
       id: json['id'] as int? ?? 0,
@@ -49,7 +47,6 @@ class ErrorLog {
           : DateTime.now(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -105,9 +102,7 @@ class ErrorLog {
 class ColorInfo {
   final int colorValue;
   final String name;
-
   const ColorInfo(this.colorValue, this.name);
-
   static const critical = ColorInfo(0xFFD32F2F, 'Red');
   static const high = ColorInfo(0xFFF57C00, 'Orange');
   static const medium = ColorInfo(0xFFFBC02D, 'Yellow');
@@ -118,9 +113,7 @@ class ColorInfo {
 class IconInfo {
   final int iconCodePoint;
   final String name;
-
   const IconInfo(this.iconCodePoint, this.name);
-
   static const critical = IconInfo(0xe645, 'error'); // Icons.error
   static const high = IconInfo(0xe002, 'warning'); // Icons.warning
   static const medium = IconInfo(0xe88e, 'info'); // Icons.info

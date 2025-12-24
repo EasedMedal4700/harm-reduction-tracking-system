@@ -5,12 +5,10 @@
 // Notes: Uses AppTheme extensions (colors, spacing, shapes, typography).
 //        Uses CommonCard for container. Ready for Riverpod integration.
 //        Fully updated for new TimelineChartConfig signatures.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/data/graph_constants.dart';
 import 'package:fl_chart/fl_chart.dart';
-
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../services/blood_levels_service.dart';
 import '../../services/decay_service.dart';
@@ -27,7 +25,6 @@ class MetabolismTimelineCard extends StatefulWidget {
   final bool adaptiveScale;
   final DateTime referenceTime;
   final BloodLevelsService? service;
-
   const MetabolismTimelineCard({
     required this.drugLevels,
     required this.hoursBack,
@@ -37,7 +34,6 @@ class MetabolismTimelineCard extends StatefulWidget {
     this.service,
     super.key,
   });
-
   @override
   State<MetabolismTimelineCard> createState() => _MetabolismTimelineCardState();
 }
@@ -45,7 +41,6 @@ class MetabolismTimelineCard extends StatefulWidget {
 class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
   Map<String, List<DoseEntry>> _timelineDoses = {};
   bool _loading = true;
-
   @override
   void initState() {
     super.initState();
@@ -65,15 +60,12 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
 
   Future<void> _loadTimelineDoses() async {
     setState(() => _loading = true);
-
     try {
       final service = widget.service ?? BloodLevelsService();
       final Map<String, List<DoseEntry>> allDoses = {};
-
       final filteredDrugNames = widget.drugLevels
           .map((level) => level.drugName)
           .toList();
-
       for (final drugName in filteredDrugNames) {
         final doses = await service.getDosesForTimeline(
           drugName: drugName,
@@ -81,12 +73,10 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
           hoursBack: widget.hoursBack,
           hoursForward: widget.hoursForward,
         );
-
         if (doses.isNotEmpty) {
           allDoses[drugName] = doses;
         }
       }
-
       if (mounted) {
         setState(() {
           _timelineDoses = allDoses;
@@ -105,27 +95,23 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
     final accentColor = context.accent.primary;
-
     if (_loading) {
       return CommonCard(
         padding: EdgeInsets.all(sp.lg),
         child: Center(child: CircularProgressIndicator(color: accentColor)),
       );
     }
-
     if (_timelineDoses.isEmpty) {
       return _buildEmptyState(context);
     }
-
     // ----- Build curves -----
     final decayService = DecayService();
     final lineBarsData = <LineChartBarData>[];
     final legendItems = <Map<String, dynamic>>[];
-
     final drugsByCategory = <String, List<String>>{};
     for (final drugName in _timelineDoses.keys) {
       final drugLevel = widget.drugLevels.firstWhere(
@@ -143,18 +129,14 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
           categories: const [],
         ),
       );
-
       final category = drugLevel.categories.isNotEmpty
           ? drugLevel.categories.first
           : 'placeholder';
-
       drugsByCategory.putIfAbsent(category, () => []).add(drugName);
     }
-
     for (final drugName in _timelineDoses.keys) {
       final doses = _timelineDoses[drugName];
       if (doses == null || doses.isEmpty) continue;
-
       final drugLevel = widget.drugLevels.firstWhere(
         (level) => level.drugName.toLowerCase() == drugName.toLowerCase(),
         orElse: () => DrugLevel(
@@ -170,7 +152,6 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
           categories: const [],
         ),
       );
-
       final curvePoints = decayService.generateNormalizedCurve(
         doses: doses,
         halfLife: drugLevel.halfLife,
@@ -183,25 +164,20 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
             : null,
         stepHours: GraphConstants.defaultStepHours,
       );
-
       if (curvePoints.isEmpty) continue;
-
       final spots = curvePoints
           .map((p) => FlSpot(p.hours, p.remainingMg))
           .toList();
-
       final category = drugLevel.categories.isNotEmpty
           ? drugLevel.categories.first
           : 'placeholder';
       final group = drugsByCategory[category] ?? [];
       final indexInCategory = group.indexOf(drugName);
-
       final drugColor = _getVariantColorForSubstance(
         category,
         indexInCategory,
         group.length,
       );
-
       lineBarsData.add(
         LineChartBarData(
           spots: spots,
@@ -226,23 +202,19 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
           ),
         ),
       );
-
       legendItems.add({
         'name': drugName.toUpperCase(),
         'color': drugColor,
         'halfLife': drugLevel.halfLife,
       });
     }
-
     if (lineBarsData.isEmpty) {
       return _buildEmptyState(context);
     }
-
     final maxY = chart_config.TimelineChartConfig.calculateMaxY(
       lineBarsData,
       widget.adaptiveScale,
     );
-
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
       child: Column(
@@ -259,8 +231,8 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
               SizedBox(width: sp.sm),
               Text(
                 'Metabolism Timeline',
-                style: context.text.bodySmall.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.bodySmall.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: accentColor,
                   letterSpacing: context.sizes.letterSpacingSm,
                 ),
@@ -268,11 +240,9 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
             ],
           ),
           SizedBox(height: sp.sm),
-
           // ----- Legend -----
           TimelineLegend(items: legendItems),
           SizedBox(height: sp.md),
-
           // ----- Chart -----
           SizedBox(
             height: context.sizes.heightLg,
@@ -315,8 +285,8 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
   }
 
   Widget _buildEmptyState(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
 
     return CommonCard(
@@ -333,7 +303,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
             SizedBox(height: sp.md),
             Text(
               'No dose data to display',
-              style: context.text.bodySmall.copyWith(color: c.textSecondary),
+              style: tx.bodySmall.copyWith(color: c.textSecondary),
             ),
           ],
         ),
@@ -347,12 +317,9 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
     int totalInCategory,
   ) {
     final baseColor = DrugCategoryColors.colorFor(category);
-
     if (totalInCategory <= 1) return baseColor;
-
     final hsl = HSLColor.fromColor(baseColor);
     final ratio = index / (totalInCategory - 1);
-
     final newLightness = (hsl.lightness + ((ratio * 0.4) - 0.2)).clamp(
       0.3,
       0.8,
@@ -361,7 +328,6 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
       0.5,
       1.0,
     );
-
     return hsl
         .withLightness(newLightness)
         .withSaturation(newSaturation)
@@ -385,7 +351,6 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
       'ketamine': 2.5,
       'dxm': 3.0,
     };
-
     return halfLives[drugName.toLowerCase()] ?? 4.0;
   }
 }

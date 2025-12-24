@@ -10,7 +10,6 @@ class ToleranceBucket {
   final String toleranceType;
   final double potencyMultiplier;
   final double durationMultiplier;
-
   const ToleranceBucket({
     required this.type,
     required this.weight,
@@ -18,7 +17,6 @@ class ToleranceBucket {
     this.potencyMultiplier = 1.0,
     this.durationMultiplier = 1.0,
   });
-
   factory ToleranceBucket.fromJson(String type, Map<String, dynamic> json) {
     return ToleranceBucket(
       type: type,
@@ -30,7 +28,6 @@ class ToleranceBucket {
           (json['duration_multiplier'] as num?)?.toDouble() ?? 1.0,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'weight': weight,
@@ -60,7 +57,6 @@ class BucketToleranceModel {
   final double toleranceDecayDays;
   final Map<String, ToleranceBucket> neuroBuckets;
   final String? notes;
-
   const BucketToleranceModel({
     required this.substanceName,
     required this.halfLifeHours,
@@ -70,7 +66,6 @@ class BucketToleranceModel {
     required this.neuroBuckets,
     this.notes,
   });
-
   factory BucketToleranceModel.fromJson(
     String substanceName,
     Map<String, dynamic> json,
@@ -78,13 +73,11 @@ class BucketToleranceModel {
     final neuroBucketsJson =
         json['neuro_buckets'] as Map<String, dynamic>? ?? {};
     final neuroBuckets = <String, ToleranceBucket>{};
-
     neuroBucketsJson.forEach((key, value) {
       if (value is Map<String, dynamic>) {
         neuroBuckets[key] = ToleranceBucket.fromJson(key, value);
       }
     });
-
     return BucketToleranceModel(
       substanceName: substanceName,
       halfLifeHours: (json['half_life_hours'] as num?)?.toDouble() ?? 24.0,
@@ -97,13 +90,11 @@ class BucketToleranceModel {
       notes: json['notes'] as String?,
     );
   }
-
   Map<String, dynamic> toJson() {
     final neuroBucketsJson = <String, dynamic>{};
     neuroBuckets.forEach((key, bucket) {
       neuroBucketsJson[key] = bucket.toJson();
     });
-
     return {
       'half_life_hours': halfLifeHours,
       'active_threshold': activeThreshold,

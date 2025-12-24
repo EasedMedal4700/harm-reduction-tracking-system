@@ -11,21 +11,18 @@ class LibraryAppBar extends StatelessWidget {
   final bool showArchived;
   final VoidCallback onToggleArchived;
   final VoidCallback onRefresh;
-
   const LibraryAppBar({
     super.key,
     required this.showArchived,
     required this.onToggleArchived,
     required this.onRefresh,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return SliverAppBar(
       title: const Text('Personal Library'),
-      backgroundColor: t.colors.surface,
+      backgroundColor: th.colors.surface,
       pinned: true,
       floating: false,
       actions: [

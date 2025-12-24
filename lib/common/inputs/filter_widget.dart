@@ -7,7 +7,6 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Replaces old_common/filter.dart. Fully aligned with AppThemeExtension.
-
 class FilterWidget extends StatelessWidget {
   final List<String> uniqueCategories;
   final List<String> uniqueSubstances;
@@ -32,7 +31,6 @@ class FilterWidget extends StatelessWidget {
   final ValueChanged<double> onMaxCravingChanged;
   final TimePeriod? selectedPeriod;
   final ValueChanged<TimePeriod>? onPeriodChanged;
-
   const FilterWidget({
     super.key,
     required this.uniqueCategories,
@@ -59,13 +57,11 @@ class FilterWidget extends StatelessWidget {
     this.selectedPeriod,
     this.onPeriodChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -73,7 +69,7 @@ class FilterWidget extends StatelessWidget {
         if (selectedPeriod != null && onPeriodChanged != null) ...[
           Text(
             'Time Period',
-            style: t.text.heading4.copyWith(
+            style: th.text.heading4.copyWith(
               fontWeight: FontWeight.w600,
               color: c.textPrimary,
             ),
@@ -119,7 +115,7 @@ class FilterWidget extends StatelessWidget {
         // Type filter with buttons
         Text(
           'Filter by Type',
-          style: t.text.heading4.copyWith(
+          style: th.text.heading4.copyWith(
             fontWeight: FontWeight.w600,
             color: c.textPrimary,
           ),
@@ -134,16 +130,16 @@ class FilterWidget extends StatelessWidget {
                 selectedTypeIndex == 2,
               ],
               onPressed: onTypeChanged,
-              borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+              borderRadius: BorderRadius.circular(th.shapes.radiusMd),
               constraints: BoxConstraints(
                 minHeight: 40,
                 minWidth: (constraints.maxWidth - 20) / 3,
               ),
               color: c.textSecondary,
               selectedColor: c.textPrimary,
-              fillColor: t.accent.primary.withValues(alpha: 0.2),
+              fillColor: th.accent.primary.withValues(alpha: 0.2),
               borderColor: c.border,
-              selectedBorderColor: t.accent.primary,
+              selectedBorderColor: th.accent.primary,
               children: const [
                 Text('All', style: TextStyle(fontSize: 13)),
                 Text('Medical', style: TextStyle(fontSize: 13)),
@@ -196,7 +192,7 @@ class FilterWidget extends StatelessWidget {
         // Craving slider
         Text(
           'Craving Intensity',
-          style: t.text.heading4.copyWith(
+          style: th.text.heading4.copyWith(
             fontWeight: FontWeight.w600,
             color: c.textPrimary,
           ),
@@ -211,7 +207,7 @@ class FilterWidget extends StatelessWidget {
             minCraving.toStringAsFixed(0),
             maxCraving.toStringAsFixed(0),
           ),
-          activeColor: t.accent.primary,
+          activeColor: th.accent.primary,
           inactiveColor: c.border,
           onChanged: (values) {
             onMinCravingChanged(values.start);
@@ -227,20 +223,18 @@ class _PeriodButton extends StatelessWidget {
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
-
   const _PeriodButton({
     required this.label,
     required this.isSelected,
     required this.onTap,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-    final sh = context.shapes;
 
+    final sh = context.shapes;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -251,20 +245,20 @@ class _PeriodButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: sp.sm, horizontal: sp.xs),
           decoration: BoxDecoration(
             color: isSelected
-                ? t.accent.primary.withValues(alpha: 0.15)
+                ? th.accent.primary.withValues(alpha: 0.15)
                 : c.surface,
             borderRadius: BorderRadius.circular(sh.radiusMd),
             border: Border.all(
-              color: isSelected ? t.accent.primary : c.border,
+              color: isSelected ? th.accent.primary : c.border,
               width: isSelected ? 2 : 1,
             ),
           ),
           child: Center(
             child: Text(
               label,
-              style: t.text.bodySmall.copyWith(
+              style: th.text.bodySmall.copyWith(
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected ? t.accent.primary : c.textSecondary,
+                color: isSelected ? th.accent.primary : c.textSecondary,
               ),
             ),
           ),
@@ -282,7 +276,6 @@ class FilterButtons extends StatelessWidget {
   final ValueChanged<List<String>>? onChanged; // For multi
   final ValueChanged<String?>? onSingleChanged; // For single
   final List<String>? allOptions; // For Select All
-
   const FilterButtons({
     super.key,
     required this.label,
@@ -293,15 +286,14 @@ class FilterButtons extends StatelessWidget {
     this.onSingleChanged,
     this.allOptions,
   });
-
   @override
   Widget build(BuildContext context) {
-    final isMulti = selectedValues != null;
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
 
+    final isMulti = selectedValues != null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -309,7 +301,7 @@ class FilterButtons extends StatelessWidget {
           children: [
             Text(
               label,
-              style: t.text.heading4.copyWith(
+              style: th.text.heading4.copyWith(
                 fontWeight: FontWeight.w600,
                 color: c.textPrimary,
               ),
@@ -321,11 +313,11 @@ class FilterButtons extends StatelessWidget {
                 icon: Icon(
                   Icons.select_all_rounded,
                   size: 16,
-                  color: t.accent.primary,
+                  color: th.accent.primary,
                 ),
                 label: Text(
                   'Select All',
-                  style: TextStyle(fontSize: 12, color: t.accent.primary),
+                  style: TextStyle(fontSize: 12, color: th.accent.primary),
                 ),
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.symmetric(
@@ -348,9 +340,9 @@ class FilterButtons extends StatelessWidget {
             return FilterChip(
               label: Text(
                 option,
-                style: t.text.bodySmall.copyWith(
+                style: th.text.bodySmall.copyWith(
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  color: isSelected ? t.accent.primary : c.textPrimary,
+                  color: isSelected ? th.accent.primary : c.textPrimary,
                 ),
               ),
               selected: isSelected,
@@ -368,10 +360,10 @@ class FilterButtons extends StatelessWidget {
                 }
               },
               backgroundColor: c.surface,
-              selectedColor: t.accent.primary.withValues(alpha: 0.2),
-              checkmarkColor: t.accent.primary,
+              selectedColor: th.accent.primary.withValues(alpha: 0.2),
+              checkmarkColor: th.accent.primary,
               side: BorderSide(
-                color: isSelected ? t.accent.primary : c.border,
+                color: isSelected ? th.accent.primary : c.border,
                 width: isSelected ? 1.5 : 1,
               ),
               padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),

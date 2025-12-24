@@ -11,7 +11,6 @@ import '../../common/buttons/common_primary_button.dart';
 /// Screen for unlocking with recovery key and optionally resetting PIN
 class RecoveryKeyScreen extends StatefulWidget {
   const RecoveryKeyScreen({super.key});
-
   @override
   State<RecoveryKeyScreen> createState() => _RecoveryKeyScreenState();
 }
@@ -21,17 +20,14 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
   final _recoveryKeyController = TextEditingController();
   final _newPinController = TextEditingController();
   final _confirmPinController = TextEditingController();
-
   bool _isLoading = false;
   String? _errorMessage;
   bool _keyObscure = true;
   bool _pinObscure = true;
   bool _confirmPinObscure = true;
-
   // Two-step flow: first validate recovery key, then create new PIN
   bool _recoveryKeyValidated = false;
   String _validatedRecoveryKey = '';
-
   @override
   void dispose() {
     _recoveryKeyController.dispose();
@@ -46,29 +42,23 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
       _isLoading = true;
       _errorMessage = null;
     });
-
     try {
       final recoveryKey = _recoveryKeyController.text.trim();
-
       if (recoveryKey.isEmpty) {
         throw Exception('Please enter your recovery key');
       }
-
       if (recoveryKey.length != 24) {
         throw Exception('Recovery key must be 24 characters');
       }
-
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) {
         throw Exception('No authenticated user');
       }
-
       // Try to unlock with recovery key to validate it
       final success = await _encryptionService.unlockWithRecoveryKey(
         user.id,
         recoveryKey,
       );
-
       if (success) {
         // Recovery key is valid - move to PIN creation step
         setState(() {
@@ -96,47 +86,39 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
       _isLoading = true;
       _errorMessage = null;
     });
-
     try {
       final newPin = _newPinController.text.trim();
       final confirmPin = _confirmPinController.text.trim();
-
       // Validate PIN
       if (newPin.isEmpty) {
         throw Exception('Please enter a new PIN');
       }
-
       if (newPin.length != 6) {
         throw Exception('PIN must be exactly 6 digits');
       }
-
       if (!RegExp(r'^\d{6}$').hasMatch(newPin)) {
         throw Exception('PIN must contain only numbers');
       }
-
       if (newPin != confirmPin) {
         throw Exception('PINs do not match');
       }
-
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) {
         throw Exception('No authenticated user');
       }
-
       // Reset PIN using the validated recovery key
       final success = await _encryptionService.resetPinWithRecoveryKey(
         user.id,
         _validatedRecoveryKey,
         newPin,
       );
-
       if (success) {
         // PIN reset successful - navigate to home
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: const Text('PIN reset successful!'),
-              backgroundColor: context.colors.success,
+              backgroundColor: c.success,
               duration: const Duration(seconds: 3),
             ),
           );
@@ -158,10 +140,9 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -193,69 +174,63 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
   /// Build the recovery key input view (Step 1)
   Widget _buildRecoveryKeyView(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
-    final a = context.accent;
-    final t = context.text;
 
+    final ac = context.accent;
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
       children: [
         CommonSpacer.vertical(sp.lg),
-
         // Key Icon
-        Icon(Icons.vpn_key, size: 100, color: a.primary),
+        Icon(Icons.vpn_key, size: 100, color: ac.primary),
         CommonSpacer.vertical(sp.xl),
-
         // Title
         Text(
           'Enter Recovery Key',
-          style: t.heading2.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
+          style: tx.heading2.copyWith(
+            fontWeight: tx.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
           textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.sm),
-
         // Description
         Text(
           'Enter your recovery key to reset your PIN',
-          style: t.bodyLarge.copyWith(color: c.textSecondary),
+          style: tx.bodyLarge.copyWith(color: c.textSecondary),
           textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.xl2),
-
         // Info box
         Container(
           padding: EdgeInsets.all(sp.md),
           decoration: BoxDecoration(
-            color: a.primary.withValues(alpha: context.opacities.overlay),
+            color: ac.primary.withValues(alpha: context.opacities.overlay),
             borderRadius: BorderRadius.circular(context.shapes.radiusMd),
             border: Border.all(
-              color: a.primary.withValues(alpha: context.opacities.slow),
+              color: ac.primary.withValues(alpha: context.opacities.slow),
             ),
           ),
           child: Row(
             children: [
               Icon(
                 Icons.info_outline,
-                color: a.primary,
+                color: ac.primary,
                 size: context.sizes.iconMd,
               ),
               CommonSpacer.horizontal(sp.sm),
               Expanded(
                 child: Text(
                   'Your recovery key is a 24-character hexadecimal code',
-                  style: t.body.copyWith(color: c.textPrimary),
+                  style: tx.body.copyWith(color: c.textPrimary),
                 ),
               ),
             ],
           ),
         ),
         CommonSpacer.vertical(sp.lg),
-
         // Recovery Key Input
         Container(
           padding: EdgeInsets.all(sp.lg),
@@ -272,8 +247,8 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             children: [
               Text(
                 'Recovery Key',
-                style: t.labelLarge.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.labelLarge.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
               ),
@@ -283,7 +258,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                 obscureText: _keyObscure,
                 autocorrect: false,
                 enableSuggestions: false,
-                style: t.bodyLarge.copyWith(
+                style: tx.bodyLarge.copyWith(
                   fontFamily: AppTypographyConstants.fontFamilyMonospace,
                   letterSpacing: 1,
                   color: c.textPrimary,
@@ -305,15 +280,12 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             ],
           ),
         ),
-
         // Error message
         if (_errorMessage != null) ...[
           CommonSpacer.vertical(sp.lg),
           _buildErrorMessage(context),
         ],
-
         CommonSpacer.vertical(sp.xl),
-
         // Validate button
         CommonPrimaryButton(
           onPressed: _validateRecoveryKey,
@@ -321,16 +293,14 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           label: 'Continue',
           height: context.sizes.buttonHeightLg,
         ),
-
         CommonSpacer.vertical(sp.lg),
-
         // Back button
         TextButton.icon(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(Icons.arrow_back),
           label: const Text('Back to PIN Unlock'),
           style: TextButton.styleFrom(
-            foregroundColor: a.primary,
+            foregroundColor: ac.primary,
             padding: EdgeInsets.symmetric(vertical: sp.md),
           ),
         ),
@@ -340,40 +310,35 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
   /// Build the PIN creation view (Step 2)
   Widget _buildPinCreationView(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
-    final a = context.accent;
-    final t = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
       children: [
         CommonSpacer.vertical(sp.lg),
-
         // Lock Icon
-        Icon(Icons.lock_reset, size: 100, color: a.primary),
+        Icon(Icons.lock_reset, size: 100, color: ac.primary),
         CommonSpacer.vertical(sp.xl),
-
         // Title
         Text(
           'Create New PIN',
-          style: t.heading2.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
+          style: tx.heading2.copyWith(
+            fontWeight: tx.bodyBold.fontWeight,
             color: c.textPrimary,
           ),
           textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.sm),
-
         // Description
         Text(
           'Recovery key validated! Now create a new 6-digit PIN',
-          style: t.bodyLarge.copyWith(color: c.textSecondary),
+          style: tx.bodyLarge.copyWith(color: c.textSecondary),
           textAlign: AppLayout.textAlignCenter,
         ),
         CommonSpacer.vertical(sp.xl2),
-
         // Success indicator
         Container(
           padding: EdgeInsets.all(sp.md),
@@ -393,9 +358,9 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
               Expanded(
                 child: Text(
                   'Recovery key verified successfully',
-                  style: t.body.copyWith(
+                  style: tx.body.copyWith(
                     color: c.textPrimary,
-                    fontWeight: text.bodyMedium.fontWeight,
+                    fontWeight: tx.bodyMedium.fontWeight,
                   ),
                 ),
               ),
@@ -403,7 +368,6 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           ),
         ),
         CommonSpacer.vertical(sp.lg),
-
         // New PIN Input
         Container(
           padding: EdgeInsets.all(sp.lg),
@@ -420,8 +384,8 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             children: [
               Text(
                 'New PIN',
-                style: t.labelLarge.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.labelLarge.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
               ),
@@ -432,8 +396,8 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                 keyboardType: TextInputType.number,
                 maxLength: 6,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                style: t.heading3.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.heading3.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   letterSpacing: 8,
                   color: c.textPrimary,
                 ),
@@ -459,7 +423,6 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           ),
         ),
         CommonSpacer.vertical(sp.md),
-
         // Confirm PIN Input
         Container(
           padding: EdgeInsets.all(sp.lg),
@@ -476,8 +439,8 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             children: [
               Text(
                 'Confirm PIN',
-                style: t.labelLarge.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.labelLarge.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
               ),
@@ -488,8 +451,8 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
                 keyboardType: TextInputType.number,
                 maxLength: 6,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                style: t.heading3.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.heading3.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   letterSpacing: 8,
                   color: c.textPrimary,
                 ),
@@ -518,15 +481,12 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
             ],
           ),
         ),
-
         // Error message
         if (_errorMessage != null) ...[
           CommonSpacer.vertical(sp.lg),
           _buildErrorMessage(context),
         ],
-
         CommonSpacer.vertical(sp.xl),
-
         // Create PIN button
         CommonPrimaryButton(
           onPressed: _createNewPin,
@@ -540,10 +500,9 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
   /// Build error message widget
   Widget _buildErrorMessage(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
-    final t = context.text;
 
     return Container(
       padding: EdgeInsets.all(sp.md),
@@ -559,9 +518,9 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           Expanded(
             child: Text(
               _errorMessage!,
-              style: t.body.copyWith(
+              style: tx.body.copyWith(
                 color: c.error,
-                fontWeight: text.bodyMedium.fontWeight,
+                fontWeight: tx.bodyMedium.fontWeight,
               ),
             ),
           ),

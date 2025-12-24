@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
-
 import 'package:flutter/material.dart';
 import '../../../../providers/settings_provider.dart';
 import 'settings_section.dart';
@@ -14,18 +13,15 @@ import '../../../../constants/theme/app_theme_extension.dart';
 class NotificationSettingsSection extends StatelessWidget {
   final SettingsProvider settingsProvider;
   final VoidCallback onReminderTimeTap;
-
   const NotificationSettingsSection({
     required this.settingsProvider,
     required this.onReminderTimeTap,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     final settings = settingsProvider.settings;
-    final t = context.theme;
-
+    final th = context.theme;
     return SettingsSection(
       title: 'Notifications',
       icon: Icons.notifications,
@@ -46,7 +42,7 @@ class NotificationSettingsSection extends StatelessWidget {
           ListTile(
             title: const Text('Reminder Time'),
             subtitle: Text(settings.checkinReminderTime),
-            trailing: Icon(Icons.access_time, size: t.sizes.iconSm),
+            trailing: Icon(Icons.access_time, size: th.sizes.iconSm),
             onTap: onReminderTimeTap,
           ),
         CommonSwitchTile(

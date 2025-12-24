@@ -3,10 +3,8 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Helper methods to show detail sheets. Fully theme-compliant.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-
 import 'activity_detail_sheet.dart';
 import 'activity_helpers.dart';
 import '../../../edit_log_entry/edit_log_entry_page.dart';
@@ -22,16 +20,15 @@ class ActivityDetailHelpers {
     required Function(String, String, String) onDelete,
     required VoidCallback onUpdate,
   }) {
-    final t = context.theme;
-
+    final th = context.theme;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: t.colors.transparent,
+      backgroundColor: th.colors.transparent,
       builder: (context) => ActivityDetailSheet(
         title: entry['name'] ?? 'Unknown Substance',
         icon: Icons.medication,
-        accentColor: t.accent.primary,
+        accentColor: th.accent.primary,
         details: [
           DetailItem(label: 'Dose', value: entry['dose'] ?? 'Unknown'),
           DetailItem(
@@ -77,7 +74,6 @@ class ActivityDetailHelpers {
     required VoidCallback onUpdate,
   }) {
     final intensity = craving['intensity'] ?? 0;
-
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -135,6 +131,7 @@ class ActivityDetailHelpers {
     required Function(String, String, String) onDelete,
     required VoidCallback onUpdate,
   }) {
+    final ac = context.accent;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -142,7 +139,7 @@ class ActivityDetailHelpers {
       builder: (context) => ActivityDetailSheet(
         title: 'Reflection Entry',
         icon: Icons.notes,
-        accentColor: context.theme.accent.secondary,
+        accentColor: ac.secondary,
         details: [
           DetailItem(
             label: 'Time',

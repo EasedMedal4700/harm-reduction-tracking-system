@@ -16,15 +16,12 @@ class StockpileRepository {
   }) async {
     final prefs = await SharedPreferences.getInstance();
     final key = _keyPrefix + substanceId;
-
     StockpileItem item;
     final existing = await getStockpile(substanceId);
-
     if (existing != null) {
       // Update existing stockpile
       final newCurrent = existing.currentAmountMg + amountMg;
       final newTotal = existing.totalAddedMg + amountMg;
-
       item = existing.copyWith(
         currentAmountMg: newCurrent,
         totalAddedMg: newTotal,
@@ -42,10 +39,8 @@ class StockpileRepository {
         updatedAt: DateTime.now(),
       );
     }
-
     // Save to SharedPreferences
     await prefs.setString(key, jsonEncode(item.toJson()));
-
     // Update all items list
     await _updateAllItemsList(substanceId);
   }
@@ -57,21 +52,17 @@ class StockpileRepository {
   ) async {
     final existing = await getStockpile(substanceId);
     if (existing == null) return; // No stockpile to subtract from
-
     final prefs = await SharedPreferences.getInstance();
     final key = _keyPrefix + substanceId;
-
     // Clamp to 0 if result would be negative
     final newCurrent = (existing.currentAmountMg - amountMg).clamp(
       0.0,
       double.infinity,
     );
-
     final updated = existing.copyWith(
       currentAmountMg: newCurrent,
       updatedAt: DateTime.now(),
     );
-
     await prefs.setString(key, jsonEncode(updated.toJson()));
   }
 
@@ -79,10 +70,8 @@ class StockpileRepository {
   Future<StockpileItem?> getStockpile(String substanceId) async {
     final prefs = await SharedPreferences.getInstance();
     final key = _keyPrefix + substanceId;
-
     final jsonString = prefs.getString(key);
     if (jsonString == null) return null;
-
     try {
       final json = jsonDecode(jsonString) as Map<String, dynamic>;
       return StockpileItem.fromJson(json);
@@ -102,7 +91,6 @@ class StockpileRepository {
   Future<List<StockpileItem>> getAllStockpileItems() async {
     final prefs = await SharedPreferences.getInstance();
     final allItems = prefs.getStringList(_allItemsKey) ?? [];
-
     final items = <StockpileItem>[];
     for (final id in allItems) {
       final item = await getStockpile(id);
@@ -120,9 +108,7 @@ class StockpileRepository {
   Future<void> deleteStockpile(String substanceId) async {
     final prefs = await SharedPreferences.getInstance();
     final key = _keyPrefix + substanceId;
-
     await prefs.remove(key);
-
     // Remove from all items list
     final allItems = prefs.getStringList(_allItemsKey) ?? [];
     if (allItems.contains(substanceId)) {
@@ -135,11 +121,9 @@ class StockpileRepository {
   Future<void> clearAllStockpiles() async {
     final prefs = await SharedPreferences.getInstance();
     final allItems = prefs.getStringList(_allItemsKey) ?? [];
-
     for (final id in allItems) {
       await prefs.remove(_keyPrefix + id);
     }
-
     await prefs.remove(_allItemsKey);
   }
 
@@ -153,7 +137,6 @@ class StockpileRepository {
   Future<void> _updateAllItemsList(String substanceId) async {
     final prefs = await SharedPreferences.getInstance();
     final allItems = prefs.getStringList(_allItemsKey) ?? [];
-
     if (!allItems.contains(substanceId)) {
       allItems.add(substanceId);
       await prefs.setStringList(_allItemsKey, allItems);

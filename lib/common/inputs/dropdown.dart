@@ -6,7 +6,6 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-
 /// Dropdown selector with consistent styling
 class CommonDropdown<T> extends StatelessWidget {
   final T? value;
@@ -17,7 +16,6 @@ class CommonDropdown<T> extends StatelessWidget {
   final String? hintText;
   final FormFieldValidator<T>? validator;
   final bool enabled;
-
   const CommonDropdown({
     required this.value,
     required this.items,
@@ -29,23 +27,19 @@ class CommonDropdown<T> extends StatelessWidget {
     this.enabled = true,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     final uniqueItems = <T>[];
     for (final item in items) {
       if (!uniqueItems.contains(item)) {
         uniqueItems.add(item);
       }
     }
-
     final selectedMatches = value == null
         ? 0
         : uniqueItems.where((item) => item == value).length;
     final safeValue = selectedMatches == 1 ? value : null;
-
     return DropdownButtonFormField<T>(
       initialValue: safeValue,
       items: uniqueItems.map((item) {
@@ -55,7 +49,7 @@ class CommonDropdown<T> extends StatelessWidget {
               ? itemBuilder!(context, item)
               : Text(
                   itemLabel != null ? itemLabel!(item) : item.toString(),
-                  style: t.text.body.copyWith(color: t.colors.textPrimary),
+                  style: th.text.body.copyWith(color: th.colors.textPrimary),
                 ),
         );
       }).toList(),
@@ -63,31 +57,31 @@ class CommonDropdown<T> extends StatelessWidget {
       validator: validator,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: t.text.body.copyWith(
-          color: t.colors.textSecondary.withValues(alpha: 0.5),
+        hintStyle: th.text.body.copyWith(
+          color: th.colors.textSecondary.withValues(alpha: 0.5),
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(color: t.colors.border),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(color: t.colors.border),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(color: t.accent.primary, width: 2),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.accent.primary, width: 2),
         ),
         filled: true,
-        fillColor: t.colors.surfaceVariant.withValues(alpha: 0.3),
+        fillColor: th.colors.surfaceVariant.withValues(alpha: 0.3),
         contentPadding: EdgeInsets.symmetric(
-          horizontal: t.spacing.md,
-          vertical: t.spacing.md,
+          horizontal: th.spacing.md,
+          vertical: th.spacing.md,
         ),
       ),
-      style: t.text.body.copyWith(color: t.colors.textPrimary),
-      dropdownColor: t.colors.surface,
-      icon: Icon(Icons.arrow_drop_down, color: t.colors.textSecondary),
+      style: th.text.body.copyWith(color: th.colors.textPrimary),
+      dropdownColor: th.colors.surface,
+      icon: Icon(Icons.arrow_drop_down, color: th.colors.textSecondary),
     );
   }
 }

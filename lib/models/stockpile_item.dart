@@ -6,7 +6,6 @@ class StockpileItem {
   final double? unitMg; // mg per pill/capsule (optional)
   final DateTime createdAt;
   final DateTime updatedAt;
-
   StockpileItem({
     required this.substanceId,
     required this.totalAddedMg,

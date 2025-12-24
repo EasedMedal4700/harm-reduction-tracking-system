@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../providers/core_providers.dart';
 import '../../services/onboarding_service.dart';
 import '../../common/inputs/input_field.dart';
@@ -12,7 +10,6 @@ import '../../common/layout/common_spacer.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
-
   @override
   ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
@@ -24,12 +21,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final _confirmPasswordController = TextEditingController();
   final _displayNameController = TextEditingController();
   final _onboardingService = OnboardingService();
-
   bool _isSubmitting = false;
   bool _privacyAccepted = false;
   bool _isCheckingOnboarding = true;
   bool _onboardingComplete = false;
-
   @override
   void dispose() {
     _emailController.dispose();
@@ -50,7 +45,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         .isOnboardingComplete();
     final isPrivacyAccepted = await _onboardingService
         .isPrivacyPolicyAccepted();
-
     if (mounted) {
       setState(() {
         _onboardingComplete = isOnboardingComplete;
@@ -62,9 +56,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
-
     setState(() => _isSubmitting = true);
-
     final result = await ref
         .read(authServiceProvider)
         .register(
@@ -72,11 +64,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           password: _passwordController.text,
           displayName: _displayNameController.text.trim(),
         );
-
     if (!mounted) return;
-
     setState(() => _isSubmitting = false);
-
     if (result.success) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Account created! Please log in.')),
@@ -91,19 +80,16 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
-    final a = context.accent;
-    final t = context.text;
+    final ac = context.accent;
     final sp = context.spacing;
-
     if (_isCheckingOnboarding) {
       return Scaffold(
         appBar: AppBar(title: const Text('Create Account')),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
-
     // Redirect to onboarding if not complete
     if (!_onboardingComplete) {
       return Scaffold(
@@ -121,8 +107,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               CommonSpacer.vertical(sp.lg),
               Text(
                 'Complete Onboarding First',
-                style: t.headlineSmall.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.headlineSmall.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                 ),
                 textAlign: AppLayout.textAlignCenter,
               ),
@@ -131,7 +117,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 'Please complete the onboarding process before creating an account. '
                 'This helps us personalize your experience.',
                 textAlign: AppLayout.textAlignCenter,
-                style: t.bodyLarge,
+                style: tx.bodyLarge,
               ),
               CommonSpacer.vertical(sp.xl),
               CommonPrimaryButton(
@@ -146,7 +132,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         ),
       );
     }
-
     // Check privacy policy accepted
     if (!_privacyAccepted) {
       return Scaffold(
@@ -156,12 +141,16 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           child: Column(
             mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
-              Icon(Icons.policy, size: context.sizes.icon2xl, color: a.primary),
+              Icon(
+                Icons.policy,
+                size: context.sizes.icon2xl,
+                color: ac.primary,
+              ),
               CommonSpacer.vertical(sp.lg),
               Text(
                 'Accept Privacy Policy',
-                style: t.headlineSmall.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.headlineSmall.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                 ),
                 textAlign: AppLayout.textAlignCenter,
               ),
@@ -170,7 +159,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 'You need to accept the privacy policy before creating an account. '
                 'Please complete the onboarding process.',
                 textAlign: AppLayout.textAlignCenter,
-                style: t.bodyLarge,
+                style: tx.bodyLarge,
               ),
               CommonSpacer.vertical(sp.xl),
               CommonPrimaryButton(
@@ -185,7 +174,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         ),
       );
     }
-
     return Scaffold(
       appBar: AppBar(title: const Text('Create Account')),
       body: Padding(

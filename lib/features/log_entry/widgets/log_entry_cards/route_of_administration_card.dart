@@ -13,7 +13,6 @@ class RouteOfAdministrationCard extends StatelessWidget {
   final ValueChanged<String> onRouteChanged;
   final List<String> availableROAs;
   final bool Function(String)? isROAValidated;
-
   const RouteOfAdministrationCard({
     super.key,
     required this.route,
@@ -21,11 +20,9 @@ class RouteOfAdministrationCard extends StatelessWidget {
     required this.availableROAs,
     this.isROAValidated,
   });
-
   @override
   Widget build(BuildContext context) {
-    final s = context.spacing;
-
+    final sp = context.spacing;
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -34,19 +31,15 @@ class RouteOfAdministrationCard extends StatelessWidget {
             title: "Route of Administration",
             subtitle: "How the substance was taken",
           ),
-
-          CommonSpacer.vertical(s.md),
-
+          CommonSpacer.vertical(sp.md),
           Wrap(
-            spacing: s.sm,
-            runSpacing: s.sm,
+            spacing: sp.sm,
+            runSpacing: sp.sm,
             children: availableROAs.map((method) {
               final selected = route.toLowerCase() == method.toLowerCase();
               final validated = isROAValidated?.call(method) ?? true;
-
               final emoji = _emojiForROA(method);
               final accent = _accentColorForROA(context, validated);
-
               return CommonChip(
                 label: _capitalize(method),
                 emoji: emoji,
@@ -67,7 +60,6 @@ class RouteOfAdministrationCard extends StatelessWidget {
   // ------------------------------------------------------------
   // Helpers
   // ------------------------------------------------------------
-
   String _emojiForROA(String name) {
     final entry = DrugUseCatalog.consumptionMethods.firstWhere(
       (m) => m['name']!.toLowerCase() == name.toLowerCase(),
@@ -78,11 +70,11 @@ class RouteOfAdministrationCard extends StatelessWidget {
 
   Color _accentColorForROA(BuildContext context, bool validated) {
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     if (!validated) {
       return c.warning;
     }
-    return a.primary;
+    return ac.primary;
   }
 
   String _capitalize(String text) =>

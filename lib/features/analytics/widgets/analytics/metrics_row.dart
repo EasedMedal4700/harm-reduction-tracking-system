@@ -15,7 +15,6 @@ class MetricsRow extends StatelessWidget {
   final double weeklyAverage;
   final String topCategory;
   final double topCategoryPercent;
-
   const MetricsRow({
     super.key,
     required this.totalEntries,
@@ -25,49 +24,46 @@ class MetricsRow extends StatelessWidget {
     required this.topCategory,
     required this.topCategoryPercent,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final screenWidth = MediaQuery.of(context).size.width;
     final isNarrow = screenWidth < 600;
-
     // ===== MOBILE LAYOUT (Grid) =====
     if (isNarrow) {
       final aspect = screenWidth < 380 ? 1.1 : 1.25;
-
       return SizedBox(
         height: context.sizes.heightXl, // ensures proper rendering in ListViews
         child: GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: t.spacing.md,
-          crossAxisSpacing: t.spacing.md,
+          mainAxisSpacing: th.spacing.md,
+          crossAxisSpacing: th.spacing.md,
           childAspectRatio: aspect,
           children: [
             _MetricCard(
               icon: Icons.analytics_outlined,
-              accent: t.accent.primary,
+              accent: th.accent.primary,
               value: totalEntries.toString(),
               label: 'Total Entries',
             ),
             _MetricCard(
               icon: Icons.medication_outlined,
-              accent: t.accent.secondary,
+              accent: th.accent.secondary,
               value: mostUsedSubstance.isEmpty ? '-' : mostUsedSubstance,
               label: 'Most Used',
               subtitle: mostUsedCount > 0 ? '$mostUsedCount uses' : null,
             ),
             _MetricCard(
               icon: Icons.calendar_today_outlined,
-              accent: t.accent.secondary, // replaced invalid primaryVariant
+              accent: th.accent.secondary, // replaced invalid primaryVariant
               value: weeklyAverage.toStringAsFixed(1),
               label: 'Weekly Average',
             ),
             _MetricCard(
               icon: Icons.category_outlined,
-              accent: t.accent.primary,
+              accent: th.accent.primary,
               value: topCategory.isEmpty ? '-' : topCategory,
               label: 'Top Category',
               chipLabel: topCategoryPercent > 0
@@ -78,42 +74,41 @@ class MetricsRow extends StatelessWidget {
         ),
       );
     }
-
     // ===== TABLET/DESKTOP LAYOUT (Row) =====
     return Row(
       children: [
         Expanded(
           child: _MetricCard(
             icon: Icons.analytics_outlined,
-            accent: t.accent.primary,
+            accent: th.accent.primary,
             value: totalEntries.toString(),
             label: 'Total Entries',
           ),
         ),
-        SizedBox(width: t.spacing.md),
+        SizedBox(width: th.spacing.md),
         Expanded(
           child: _MetricCard(
             icon: Icons.medication_outlined,
-            accent: t.accent.secondary,
+            accent: th.accent.secondary,
             value: mostUsedSubstance.isEmpty ? '-' : mostUsedSubstance,
             label: 'Most Used',
             subtitle: mostUsedCount > 0 ? '$mostUsedCount uses' : null,
           ),
         ),
-        SizedBox(width: t.spacing.md),
+        SizedBox(width: th.spacing.md),
         Expanded(
           child: _MetricCard(
             icon: Icons.calendar_today_outlined,
-            accent: t.accent.secondary,
+            accent: th.accent.secondary,
             value: weeklyAverage.toStringAsFixed(1),
             label: 'Weekly Average',
           ),
         ),
-        SizedBox(width: t.spacing.md),
+        SizedBox(width: th.spacing.md),
         Expanded(
           child: _MetricCard(
             icon: Icons.category_outlined,
-            accent: t.accent.primary,
+            accent: th.accent.primary,
             value: topCategory.isEmpty ? '-' : topCategory,
             label: 'Top Category',
             chipLabel: topCategoryPercent > 0
@@ -133,7 +128,6 @@ class _MetricCard extends StatelessWidget {
   final String label;
   final String? subtitle;
   final String? chipLabel;
-
   const _MetricCard({
     required this.icon,
     required this.accent,
@@ -142,10 +136,9 @@ class _MetricCard extends StatelessWidget {
     this.subtitle,
     this.chipLabel,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
 
     return CommonCard(
       child: Column(
@@ -153,73 +146,67 @@ class _MetricCard extends StatelessWidget {
         children: [
           // ----- ICON -----
           Container(
-            padding: EdgeInsets.all(t.spacing.sm),
+            padding: EdgeInsets.all(th.spacing.sm),
             decoration: BoxDecoration(
-              color: accent.withValues(alpha: t.opacities.low),
-              borderRadius: BorderRadius.circular(t.spacing.sm),
+              color: accent.withValues(alpha: th.opacities.low),
+              borderRadius: BorderRadius.circular(th.spacing.sm),
             ),
-            child: Icon(icon, color: accent, size: t.sizes.iconSm),
+            child: Icon(icon, color: accent, size: th.sizes.iconSm),
           ),
-
-          SizedBox(height: t.spacing.sm),
-
+          SizedBox(height: th.spacing.sm),
           // ----- VALUE -----
           FittedBox(
             fit: AppLayout.boxFitScaleDown,
             alignment: context.shapes.alignmentCenterLeft,
             child: Text(
               value,
-              style: t.typography.heading2.copyWith(
-                color: t.colors.textPrimary,
+              style: th.typography.heading2.copyWith(
+                color: th.colors.textPrimary,
               ),
               maxLines: 1,
               overflow: AppLayout.textOverflowEllipsis,
             ),
           ),
-
-          SizedBox(height: t.spacing.xs),
-
+          SizedBox(height: th.spacing.xs),
           // ----- LABEL -----
           Text(
             label,
-            style: t.typography.bodySmall.copyWith(
-              color: t.colors.textSecondary,
+            style: th.typography.bodySmall.copyWith(
+              color: th.colors.textSecondary,
             ),
             maxLines: 2,
             overflow: AppLayout.textOverflowEllipsis,
           ),
-
           // ----- SUBTITLE -----
           if (subtitle != null) ...[
-            SizedBox(height: t.spacing.xs),
+            SizedBox(height: th.spacing.xs),
             Text(
               subtitle!,
-              style: t.typography.caption.copyWith(
-                color: t.colors.textSecondary,
+              style: th.typography.caption.copyWith(
+                color: th.colors.textSecondary,
               ),
               maxLines: 1,
               overflow: AppLayout.textOverflowEllipsis,
             ),
           ],
-
           // ----- CHIP -----
           if (chipLabel != null) ...[
-            SizedBox(height: t.spacing.sm),
+            SizedBox(height: th.spacing.sm),
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: t.spacing.sm,
-                vertical: t.spacing.xs,
+                horizontal: th.spacing.sm,
+                vertical: th.spacing.xs,
               ),
               decoration: BoxDecoration(
-                color: accent.withValues(alpha: t.opacities.low),
-                borderRadius: BorderRadius.circular(t.spacing.sm),
+                color: accent.withValues(alpha: th.opacities.low),
+                borderRadius: BorderRadius.circular(th.spacing.sm),
                 border: Border.all(
-                  color: accent.withValues(alpha: t.opacities.medium),
+                  color: accent.withValues(alpha: th.opacities.medium),
                 ),
               ),
               child: Text(
                 chipLabel!,
-                style: t.typography.captionBold.copyWith(color: accent),
+                style: th.typography.captionBold.copyWith(color: accent),
               ),
             ),
           ],

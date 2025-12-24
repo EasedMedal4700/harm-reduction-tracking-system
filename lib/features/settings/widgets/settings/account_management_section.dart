@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../services/account_data_service.dart';
@@ -17,32 +16,30 @@ import 'account_confirmation_dialogs.dart';
 /// Provides options for downloading data, deleting data, and deleting account
 class AccountManagementSection extends StatelessWidget {
   const AccountManagementSection({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-
+    final c = context.colors;
+    final sp = context.spacing;
+    final tx = context.text;
     return CommonCard(
-      padding: EdgeInsets.all(spacing.lg),
+      padding: EdgeInsets.all(sp.lg),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
             'Account Management',
-            style: typography.heading3.copyWith(color: colors.textPrimary),
+            style: tx.heading3.copyWith(color: c.textPrimary),
           ),
-          CommonSpacer.vertical(spacing.xs),
+          CommonSpacer.vertical(sp.xs),
           Text(
             'Manage your personal data and account',
-            style: typography.bodySmall.copyWith(color: colors.textSecondary),
+            style: tx.bodySmall.copyWith(color: c.textSecondary),
           ),
-          Divider(height: spacing.xl, thickness: context.borders.thin),
+          Divider(height: sp.xl, thickness: context.borders.thin),
           _buildDownloadDataTile(context),
-          CommonSpacer.vertical(spacing.sm),
+          CommonSpacer.vertical(sp.sm),
           _buildDeleteDataTile(context),
-          CommonSpacer.vertical(spacing.sm),
+          CommonSpacer.vertical(sp.sm),
           _buildDeleteAccountTile(context),
         ],
       ),
@@ -50,22 +47,18 @@ class AccountManagementSection extends StatelessWidget {
   }
 
   Widget _buildDownloadDataTile(BuildContext context) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final radii = context.shapes;
+    final c = context.colors;
+    final sp = context.spacing;
 
+    final sh = context.shapes;
     return ListTile(
       leading: Container(
-        padding: EdgeInsets.all(spacing.sm),
+        padding: EdgeInsets.all(sp.sm),
         decoration: BoxDecoration(
-          color: colors.info.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(radii.radiusSm),
+          color: c.info.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(sh.radiusSm),
         ),
-        child: Icon(
-          Icons.download,
-          color: colors.info,
-          size: context.sizes.iconMd,
-        ),
+        child: Icon(Icons.download, color: c.info, size: context.sizes.iconMd),
       ),
       title: const Text('Download My Data'),
       subtitle: const Text('Export all your personal information'),
@@ -75,20 +68,20 @@ class AccountManagementSection extends StatelessWidget {
   }
 
   Widget _buildDeleteDataTile(BuildContext context) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final radii = context.shapes;
+    final c = context.colors;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return ListTile(
       leading: Container(
-        padding: EdgeInsets.all(spacing.sm),
+        padding: EdgeInsets.all(sp.sm),
         decoration: BoxDecoration(
-          color: colors.warning.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(radii.radiusSm),
+          color: c.warning.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(sh.radiusSm),
         ),
         child: Icon(
           Icons.delete_sweep,
-          color: colors.warning,
+          color: c.warning,
           size: context.sizes.iconMd,
         ),
       ),
@@ -100,43 +93,42 @@ class AccountManagementSection extends StatelessWidget {
   }
 
   Widget _buildDeleteAccountTile(BuildContext context) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final radii = context.shapes;
+    final c = context.colors;
+    final tx = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: colors.error, width: context.borders.medium),
-        borderRadius: BorderRadius.circular(radii.radiusMd),
-        color: colors.error.withValues(alpha: 0.1),
+        border: Border.all(color: c.error, width: context.borders.medium),
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        color: c.error.withValues(alpha: 0.1),
       ),
       child: ListTile(
         leading: Container(
-          padding: EdgeInsets.all(spacing.sm),
+          padding: EdgeInsets.all(sp.sm),
           decoration: BoxDecoration(
-            color: colors.error.withValues(alpha: 0.25),
-            borderRadius: BorderRadius.circular(radii.radiusSm),
+            color: c.error.withValues(alpha: 0.25),
+            borderRadius: BorderRadius.circular(sh.radiusSm),
           ),
           child: Icon(
             Icons.warning,
-            color: colors.error,
+            color: c.error,
             size: context.sizes.iconMd,
           ),
         ),
         title: Text(
           'Delete Account',
-          style: context.text.bodyBold.copyWith(color: colors.error),
+          style: tx.bodyBold.copyWith(color: c.error),
         ),
         subtitle: Text(
           'Permanently delete your account and all data',
-          style: context.text.bodySmall.copyWith(
-            color: colors.error.withValues(alpha: 0.8),
-          ),
+          style: tx.bodySmall.copyWith(color: c.error.withValues(alpha: 0.8)),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,
           size: context.sizes.iconSm,
-          color: colors.error,
+          color: c.error,
         ),
         onTap: () => _showDeleteAccountDialog(context),
       ),
@@ -144,7 +136,7 @@ class AccountManagementSection extends StatelessWidget {
   }
 
   void _showDownloadDataDialog(BuildContext context) {
-    final colors = context.colors;
+    final c = context.colors;
 
     showDialog(
       context: context,
@@ -153,7 +145,7 @@ class AccountManagementSection extends StatelessWidget {
         description:
             'Enter your password to download all your personal information.',
         actionButtonText: 'Download',
-        actionButtonColor: colors.info,
+        actionButtonColor: c.info,
         onVerified: (password) async {
           Navigator.pop(context);
           await _executeDownload(context);
@@ -163,20 +155,20 @@ class AccountManagementSection extends StatelessWidget {
   }
 
   Future<void> _executeDownload(BuildContext context) async {
+    final c = context.colors;
     final messenger = ScaffoldMessenger.of(context);
-    final colors = context.colors;
     final service = AccountDataService();
     final result = await service.downloadUserData();
     messenger.showSnackBar(
       SnackBar(
         content: Text(result.message ?? 'Operation completed'),
-        backgroundColor: result.success ? colors.success : colors.error,
+        backgroundColor: result.success ? c.success : c.error,
       ),
     );
   }
 
   void _showDeleteDataDialog(BuildContext context) {
-    final colors = context.colors;
+    final c = context.colors;
 
     showDialog(
       context: context,
@@ -185,7 +177,7 @@ class AccountManagementSection extends StatelessWidget {
         description:
             'Enter your password to delete all your logs and entries. This action cannot be undone.',
         actionButtonText: 'Continue',
-        actionButtonColor: colors.warning,
+        actionButtonColor: c.warning,
         requireConfirmation: true,
         onVerified: (password) async {
           Navigator.pop(context);
@@ -218,20 +210,20 @@ class AccountManagementSection extends StatelessWidget {
   }
 
   Future<void> _executeDeleteData(BuildContext context) async {
+    final c = context.colors;
     final messenger = ScaffoldMessenger.of(context);
-    final colors = context.colors;
     final service = AccountDataService();
     final result = await service.deleteUserData();
     messenger.showSnackBar(
       SnackBar(
         content: Text(result.message ?? 'Operation completed'),
-        backgroundColor: result.success ? colors.warning : colors.error,
+        backgroundColor: result.success ? c.warning : c.error,
       ),
     );
   }
 
   void _showDeleteAccountDialog(BuildContext context) {
-    final colors = context.colors;
+    final c = context.colors;
 
     showDialog(
       context: context,
@@ -240,7 +232,7 @@ class AccountManagementSection extends StatelessWidget {
         description:
             'Enter your password to permanently delete your account. This action cannot be undone.',
         actionButtonText: 'Continue',
-        actionButtonColor: colors.error,
+        actionButtonColor: c.error,
         requireConfirmation: true,
         onVerified: (password) async {
           Navigator.pop(context);
@@ -270,20 +262,18 @@ class AccountManagementSection extends StatelessWidget {
   }
 
   Future<void> _executeDeleteAccount(BuildContext context) async {
+    final c = context.colors;
     final navigator = Navigator.of(context);
     final messenger = ScaffoldMessenger.of(context);
-    final colors = context.colors;
     final service = AccountDataService();
     final result = await service.deleteAccount();
-
     if (result.success) {
       navigator.pushNamedAndRemoveUntil('/login_page', (route) => false);
     }
-
     messenger.showSnackBar(
       SnackBar(
         content: Text(result.message ?? 'Operation completed'),
-        backgroundColor: colors.error,
+        backgroundColor: c.error,
         duration: const Duration(seconds: 8),
       ),
     );

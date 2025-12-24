@@ -7,7 +7,6 @@
 // Notes: One-time encryption migration screen.
 //        All users migrated as of YYYY-MM-DD.
 //        This file is intentionally frozen.
-
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_typography.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
@@ -17,7 +16,6 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../providers/core_providers.dart';
 import '../services/encryption_migration_service.dart';
 import '../utils/error_handler.dart';
@@ -25,7 +23,6 @@ import 'migration_step_controller.dart';
 
 class EncryptionMigrationScreen extends ConsumerStatefulWidget {
   const EncryptionMigrationScreen({super.key});
-
   @override
   ConsumerState<EncryptionMigrationScreen> createState() =>
       _EncryptionMigrationScreenState();
@@ -36,24 +33,21 @@ class _EncryptionMigrationScreenState
   final EncryptionMigrationService _migrationService =
       EncryptionMigrationService();
   final MigrationStepController _stepController = MigrationStepController();
-
   String _pin = '';
   String _confirmPin = '';
   bool _pinVisible = false;
   bool _confirmPinVisible = false;
   String _recoveryKey = '';
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: _stepController.currentStep < 4
           ? AppBar(
-              title: Text('Security Upgrade', style: text.headlineSmall),
+              title: Text('Security Upgrade', style: tx.headlineSmall),
               backgroundColor: c.surface,
               foregroundColor: c.textPrimary,
               elevation: context.sizes.elevationNone,
@@ -87,26 +81,26 @@ class _EncryptionMigrationScreenState
 
   // Step 1: Explain the migration
   Widget _buildExplanationStep(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
-    final sh = context.shapes;
-    final a = context.accent;
 
+    final sh = context.shapes;
+    final ac = context.accent;
     return Column(
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
-        Icon(Icons.security, size: context.sizes.icon2xl, color: a.primary),
+        Icon(Icons.security, size: context.sizes.icon2xl, color: ac.primary),
         CommonSpacer.vertical(sp.xl2),
         Text(
           'Security Upgrade Required',
-          style: text.headlineMedium.copyWith(color: c.textPrimary),
+          style: tx.headlineMedium.copyWith(color: c.textPrimary),
         ),
         CommonSpacer.vertical(sp.lg),
         Text(
           'We\'ve upgraded our encryption system to be more secure and reliable.',
-          style: text.bodyMedium.copyWith(color: c.textSecondary),
+          style: tx.bodyMedium.copyWith(color: c.textSecondary),
         ),
         CommonSpacer.vertical(sp.xl),
         _buildFeatureItem(
@@ -140,21 +134,21 @@ class _EncryptionMigrationScreenState
         Container(
           padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
-            color: a.primary.withValues(alpha: context.opacities.overlay),
+            color: ac.primary.withValues(alpha: context.opacities.overlay),
             borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
           child: Row(
             children: [
               Icon(
                 Icons.info_outline,
-                color: a.primary,
+                color: ac.primary,
                 size: context.sizes.iconMd,
               ),
               CommonSpacer.horizontal(sp.md),
               Expanded(
                 child: Text(
                   'This will take a moment to re-encrypt your data. Don\'t close the app during migration.',
-                  style: text.bodySmall.copyWith(color: c.textPrimary),
+                  style: tx.bodySmall.copyWith(color: c.textPrimary),
                 ),
               ),
             ],
@@ -170,7 +164,7 @@ class _EncryptionMigrationScreenState
               });
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: a.primary,
+              backgroundColor: ac.primary,
               foregroundColor: c.textInverse,
               padding: EdgeInsets.symmetric(vertical: sp.lg),
               shape: RoundedRectangleBorder(
@@ -179,8 +173,8 @@ class _EncryptionMigrationScreenState
             ),
             child: Text(
               'Continue',
-              style: text.labelLarge.copyWith(
-                fontWeight: text.bodyBold.fontWeight,
+              style: tx.labelLarge.copyWith(
+                fontWeight: tx.bodyBold.fontWeight,
                 color: c.textInverse,
               ),
             ),
@@ -196,36 +190,38 @@ class _EncryptionMigrationScreenState
     String title,
     String subtitle,
   ) {
+    final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
+
     return Row(
       children: [
         Container(
           width: context.sizes.iconXl,
           height: context.sizes.iconXl,
           decoration: BoxDecoration(
-            color: context.accent.primary.withValues(
-              alpha: context.opacities.selected,
-            ),
-            borderRadius: BorderRadius.circular(context.shapes.radiusMd),
+            color: ac.primary.withValues(alpha: context.opacities.selected),
+            borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
-          child: Icon(icon, color: context.accent.primary),
+          child: Icon(icon, color: ac.primary),
         ),
-        SizedBox(width: context.spacing.lg),
+        SizedBox(width: sp.lg),
         Expanded(
           child: Column(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 title,
-                style: context.text.labelLarge.copyWith(
-                  fontWeight: context.text.bodyBold.fontWeight,
-                  color: context.colors.textPrimary,
+                style: tx.labelLarge.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
+                  color: c.textPrimary,
                 ),
               ),
               Text(
                 subtitle,
-                style: context.text.bodySmall.copyWith(
-                  color: context.colors.textSecondary,
-                ),
+                style: tx.bodySmall.copyWith(color: c.textSecondary),
               ),
             ],
           ),
@@ -236,23 +232,23 @@ class _EncryptionMigrationScreenState
 
   // Step 2: Create PIN
   Widget _buildCreatePinStep(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final a = context.accent;
 
     return Column(
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
       children: [
         Text(
           'Create Your PIN',
-          style: text.headlineMedium.copyWith(color: c.textPrimary),
+          style: tx.headlineMedium.copyWith(color: c.textPrimary),
         ),
         SizedBox(height: sp.lg),
         Text(
           'Enter a 6-digit PIN to protect your data',
-          style: text.bodyMedium.copyWith(color: c.textSecondary),
+          style: tx.bodyMedium.copyWith(color: c.textSecondary),
         ),
         SizedBox(height: sp.xl2),
         TextField(
@@ -261,7 +257,7 @@ class _EncryptionMigrationScreenState
           keyboardType: TextInputType.number,
           maxLength: 6,
           textAlign: AppLayout.textAlignCenter,
-          style: text.headlineSmall.copyWith(
+          style: tx.headlineSmall.copyWith(
             letterSpacing: 8,
             color: c.textPrimary,
           ),
@@ -284,7 +280,7 @@ class _EncryptionMigrationScreenState
               borderSide: BorderSide(color: c.border),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: a.primary),
+              borderSide: BorderSide(color: ac.primary),
             ),
           ),
           onChanged: (value) {
@@ -305,7 +301,7 @@ class _EncryptionMigrationScreenState
                   }
                 : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: a.primary,
+              backgroundColor: ac.primary,
               foregroundColor: c.textInverse,
               padding: EdgeInsets.symmetric(vertical: sp.lg),
               shape: RoundedRectangleBorder(
@@ -314,8 +310,8 @@ class _EncryptionMigrationScreenState
             ),
             child: Text(
               'Next',
-              style: text.labelLarge.copyWith(
-                fontWeight: text.bodyBold.fontWeight,
+              style: tx.labelLarge.copyWith(
+                fontWeight: tx.bodyBold.fontWeight,
                 color: c.textInverse,
               ),
             ),
@@ -327,23 +323,23 @@ class _EncryptionMigrationScreenState
 
   // Step 3: Confirm PIN
   Widget _buildConfirmPinStep(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final a = context.accent;
 
     return Column(
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
       children: [
         Text(
           'Confirm Your PIN',
-          style: text.headlineMedium.copyWith(color: c.textPrimary),
+          style: tx.headlineMedium.copyWith(color: c.textPrimary),
         ),
         SizedBox(height: sp.lg),
         Text(
           'Enter your PIN again to confirm',
-          style: text.bodyMedium.copyWith(color: c.textSecondary),
+          style: tx.bodyMedium.copyWith(color: c.textSecondary),
         ),
         SizedBox(height: sp.xl2),
         TextField(
@@ -352,7 +348,7 @@ class _EncryptionMigrationScreenState
           keyboardType: TextInputType.number,
           maxLength: 6,
           textAlign: AppLayout.textAlignCenter,
-          style: text.headlineSmall.copyWith(
+          style: tx.headlineSmall.copyWith(
             letterSpacing: 8,
             color: c.textPrimary,
           ),
@@ -378,7 +374,7 @@ class _EncryptionMigrationScreenState
               borderSide: BorderSide(color: c.border),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: a.primary),
+              borderSide: BorderSide(color: ac.primary),
             ),
             errorBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: c.error),
@@ -421,7 +417,7 @@ class _EncryptionMigrationScreenState
                     ? _startMigration
                     : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: a.primary,
+                  backgroundColor: ac.primary,
                   foregroundColor: c.textInverse,
                   padding: EdgeInsets.symmetric(vertical: sp.lg),
                   shape: RoundedRectangleBorder(
@@ -430,8 +426,8 @@ class _EncryptionMigrationScreenState
                 ),
                 child: Text(
                   'Start Migration',
-                  style: text.labelLarge.copyWith(
-                    fontWeight: text.bodyBold.fontWeight,
+                  style: tx.labelLarge.copyWith(
+                    fontWeight: tx.bodyBold.fontWeight,
                     color: c.textInverse,
                   ),
                 ),
@@ -445,27 +441,27 @@ class _EncryptionMigrationScreenState
 
   // Step 4: Migrating (progress indicator)
   Widget _buildMigratingStep(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
-    final a = context.accent;
 
     return Column(
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
       children: [
         CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(a.primary),
+          valueColor: AlwaysStoppedAnimation<Color>(ac.primary),
         ),
         SizedBox(height: sp.xl2),
         Text(
           'Upgrading Security...',
-          style: text.headlineMedium.copyWith(color: c.textPrimary),
+          style: tx.headlineMedium.copyWith(color: c.textPrimary),
         ),
         SizedBox(height: sp.lg),
         Text(
           'Re-encrypting your data with the new system.\nThis may take a minute.',
           textAlign: AppLayout.textAlignCenter,
-          style: text.bodyMedium.copyWith(color: c.textSecondary),
+          style: tx.bodyMedium.copyWith(color: c.textSecondary),
         ),
       ],
     );
@@ -473,11 +469,11 @@ class _EncryptionMigrationScreenState
 
   // Step 5: Show recovery key
   Widget _buildRecoveryKeyStep(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final a = context.accent;
 
     return Column(
       mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
@@ -487,12 +483,12 @@ class _EncryptionMigrationScreenState
         SizedBox(height: sp.xl),
         Text(
           'Migration Complete!',
-          style: text.headlineMedium.copyWith(color: c.textPrimary),
+          style: tx.headlineMedium.copyWith(color: c.textPrimary),
         ),
         SizedBox(height: sp.lg),
         Text(
           'Your data has been successfully upgraded to the new encryption system.',
-          style: text.bodyMedium.copyWith(color: c.textSecondary),
+          style: tx.bodyMedium.copyWith(color: c.textSecondary),
         ),
         SizedBox(height: sp.xl2),
         Container(
@@ -511,8 +507,8 @@ class _EncryptionMigrationScreenState
                   SizedBox(width: sp.sm),
                   Text(
                     'IMPORTANT: Save Your Recovery Key',
-                    style: text.labelLarge.copyWith(
-                      fontWeight: text.bodyBold.fontWeight,
+                    style: tx.labelLarge.copyWith(
+                      fontWeight: tx.bodyBold.fontWeight,
                       color: c.error,
                     ),
                   ),
@@ -521,7 +517,7 @@ class _EncryptionMigrationScreenState
               SizedBox(height: sp.md),
               Text(
                 'If you forget your PIN, you\'ll need this recovery key to access your data. Store it somewhere safe.',
-                style: text.bodyMedium.copyWith(color: c.textPrimary),
+                style: tx.bodyMedium.copyWith(color: c.textPrimary),
               ),
             ],
           ),
@@ -529,8 +525,8 @@ class _EncryptionMigrationScreenState
         SizedBox(height: sp.lg),
         Text(
           'Recovery Key:',
-          style: text.labelMedium.copyWith(
-            fontWeight: text.bodyBold.fontWeight,
+          style: tx.labelMedium.copyWith(
+            fontWeight: tx.bodyBold.fontWeight,
             color: c.textSecondary,
           ),
         ),
@@ -546,9 +542,9 @@ class _EncryptionMigrationScreenState
           child: SelectableText(
             _recoveryKey,
             style: TextStyle(
-              fontSize: context.text.heading4.fontSize,
+              fontSize: tx.heading4.fontSize,
               fontFamily: AppTypographyConstants.fontFamilyMonospace,
-              color: a.primary,
+              color: ac.primary,
               letterSpacing: 2,
             ),
           ),
@@ -566,14 +562,14 @@ class _EncryptionMigrationScreenState
                 ),
               );
             },
-            icon: Icon(Icons.copy, color: a.primary),
+            icon: Icon(Icons.copy, color: ac.primary),
             label: Text(
               'Copy Recovery Key',
-              style: TextStyle(color: a.primary),
+              style: TextStyle(color: ac.primary),
             ),
             style: OutlinedButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: sp.lg),
-              side: BorderSide(color: a.primary),
+              side: BorderSide(color: ac.primary),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(sh.radiusMd),
               ),
@@ -592,7 +588,7 @@ class _EncryptionMigrationScreenState
               Navigator.of(context).pushReplacementNamed('/home_page');
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: a.primary,
+              backgroundColor: ac.primary,
               foregroundColor: c.textInverse,
               padding: EdgeInsets.symmetric(vertical: sp.lg),
               shape: RoundedRectangleBorder(
@@ -601,8 +597,8 @@ class _EncryptionMigrationScreenState
             ),
             child: Text(
               'Continue to App',
-              style: text.labelLarge.copyWith(
-                fontWeight: text.bodyBold.fontWeight,
+              style: tx.labelLarge.copyWith(
+                fontWeight: tx.bodyBold.fontWeight,
                 color: c.textInverse,
               ),
             ),
@@ -617,19 +613,16 @@ class _EncryptionMigrationScreenState
     setState(() {
       _stepController.goTo(4);
     });
-
     try {
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) {
         throw Exception('No user logged in');
       }
-
       // Perform migration
       final recoveryKey = await _migrationService.migrateUserData(
         user.id,
         _pin,
       );
-
       setState(() {
         _recoveryKey = recoveryKey;
         _stepController.goTo(5);
@@ -640,11 +633,9 @@ class _EncryptionMigrationScreenState
         'Migration failed: $e',
         stack,
       );
-
       setState(() {
         _stepController.goTo(2); // Back to create PIN step
       });
-
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

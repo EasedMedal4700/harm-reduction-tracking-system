@@ -6,7 +6,6 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-
 /// Switch tile with consistent styling for toggles
 /// Used for medical purpose, notifications, settings, etc.
 class CommonSwitchTile extends StatelessWidget {
@@ -16,7 +15,6 @@ class CommonSwitchTile extends StatelessWidget {
   final ValueChanged<bool> onChanged;
   final bool enabled;
   final bool highlighted;
-
   const CommonSwitchTile({
     required this.title,
     required this.value,
@@ -26,33 +24,33 @@ class CommonSwitchTile extends StatelessWidget {
     this.highlighted = false,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final accentColor = t.accent.primary;
-
+    final th = context.theme;
+    final accentColor = th.accent.primary;
     return Container(
       decoration: BoxDecoration(
-        color: t.colors.surfaceVariant.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(t.shapes.radiusMd),
+        color: th.colors.surfaceVariant.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(th.shapes.radiusMd),
         border: Border.all(
-          color: highlighted ? accentColor : t.colors.border,
+          color: highlighted ? accentColor : th.colors.border,
           width: highlighted ? 2 : 1,
         ),
       ),
       child: SwitchListTile(
         title: Text(
           title,
-          style: t.text.body.copyWith(
+          style: th.text.body.copyWith(
             fontWeight: value ? FontWeight.w600 : FontWeight.w400,
-            color: t.colors.textPrimary,
+            color: th.colors.textPrimary,
           ),
         ),
         subtitle: subtitle != null
             ? Text(
                 subtitle!,
-                style: t.text.bodySmall.copyWith(color: t.colors.textSecondary),
+                style: th.text.bodySmall.copyWith(
+                  color: th.colors.textSecondary,
+                ),
               )
             : null,
         value: value,

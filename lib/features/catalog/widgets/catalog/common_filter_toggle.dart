@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSpacer.
-
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/cards/common_card.dart';
@@ -12,39 +11,36 @@ import '../../../../common/layout/common_spacer.dart';
 class CommonFilterToggle extends StatelessWidget {
   final bool showCommonOnly;
   final ValueChanged<bool> onChanged;
-
   const CommonFilterToggle({
     super.key,
     required this.showCommonOnly,
     required this.onChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
-    final accentColor = t.accent.primary;
-
+    final tx = context.text;
+    final th = context.theme;
+    final accentColor = th.accent.primary;
     return CommonCard(
       padding: EdgeInsets.symmetric(
-        horizontal: t.spacing.md,
-        vertical: t.spacing.sm,
+        horizontal: th.spacing.md,
+        vertical: th.spacing.sm,
       ),
-      borderColor: showCommonOnly ? accentColor : t.colors.border,
+      borderColor: showCommonOnly ? accentColor : th.colors.border,
       child: Row(
         children: [
           Icon(
             Icons.filter_list_rounded,
-            color: showCommonOnly ? accentColor : t.colors.textSecondary,
-            size: t.sizes.iconSm,
+            color: showCommonOnly ? accentColor : th.colors.textSecondary,
+            size: th.sizes.iconSm,
           ),
           const CommonSpacer.horizontal(16),
           Expanded(
             child: Text(
               'Common Only',
-              style: t.text.body.copyWith(
-                color: t.colors.textPrimary,
-                fontWeight: text.bodyMedium.fontWeight,
+              style: th.tx.body.copyWith(
+                color: th.colors.textPrimary,
+                fontWeight: tx.bodyMedium.fontWeight,
               ),
             ),
           ),
@@ -52,7 +48,7 @@ class CommonFilterToggle extends StatelessWidget {
             value: showCommonOnly,
             onChanged: onChanged,
             activeThumbColor: accentColor,
-            activeTrackColor: accentColor.withValues(alpha: t.opacities.slow),
+            activeTrackColor: accentColor.withValues(alpha: th.opacities.slow),
           ),
         ],
       ),

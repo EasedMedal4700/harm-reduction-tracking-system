@@ -11,36 +11,29 @@ import '../../../../constants/theme/app_theme_extension.dart';
 class SeverityBadge extends StatelessWidget {
   final String severity;
   final bool compact;
-
   const SeverityBadge({
     required this.severity,
     this.compact = false,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-
     final colors = _getSeverityColors(context, severity);
     final icon = _getSeverityIcon(severity);
-
     final padding = compact
         ? EdgeInsets.symmetric(horizontal: sp.xs, vertical: sp.xs * 0.7)
         : EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm);
-
     final borderRadius = BorderRadius.circular(
       compact ? sh.radiusSm : sh.radiusMd,
     );
-
-    final textStyle = (compact ? text.caption : text.bodySmall).copyWith(
+    final textStyle = (compact ? tx.caption : tx.bodySmall).copyWith(
       color: colors.text,
-      fontWeight: text.bodyBold.fontWeight,
+      fontWeight: tx.bodyBold.fontWeight,
       letterSpacing: compact ? 0 : 0.5,
     );
-
     return Container(
       padding: padding,
       decoration: BoxDecoration(
@@ -62,7 +55,6 @@ class SeverityBadge extends StatelessWidget {
   /// THEME-DRIVEN severity colors
   _SeverityColors _getSeverityColors(BuildContext context, String severity) {
     final c = context.colors;
-
     switch (severity.toLowerCase()) {
       case 'critical':
         return _SeverityColors(
@@ -117,7 +109,6 @@ class _SeverityColors {
   final Color background;
   final Color border;
   final Color text;
-
   const _SeverityColors({
     required this.background,
     required this.border,

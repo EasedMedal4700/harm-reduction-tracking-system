@@ -1,7 +1,6 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
@@ -9,15 +8,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'common/logging/app_log.dart';
-
 import 'providers/daily_checkin_provider.dart';
 import 'providers/settings_provider.dart';
 import 'routes/screen_tracking_observer.dart';
 import 'providers/navigation_provider.dart';
 import 'services/navigation_service.dart';
-
 import 'constants/theme/app_theme_provider.dart';
-
 import 'features/admin/screens/admin_panel_screen.dart';
 import 'features/analytics/analytics_page.dart';
 import 'features/blood_levels/blood_levels_page.dart';
@@ -44,24 +40,19 @@ import 'features/feature_flags/feature_flags_page.dart';
 import 'features/manage_profile/forgot_password/forgot_password_page.dart';
 import 'features/setup_account/set_new_password_page.dart';
 import 'features/setup_account/email_confirmed_page.dart';
-
 import 'services/error_logging_service.dart';
 import 'services/feature_flag_service.dart';
 import 'services/auth_link_handler.dart';
 import 'services/app_lock_controller.dart';
-
 import 'providers/core_providers.dart';
-
 import 'constants/config/feature_flags.dart';
 import 'features/feature_flags/widgets/feature_flags/feature_gate.dart';
 
 Future<void> main() async {
   final errorLoggingService = ErrorLoggingService.instance;
-
   await runZonedGuarded<Future<void>>(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-
       // Load .env
       try {
         await dotenv.load(fileName: ".env");
@@ -70,18 +61,15 @@ Future<void> main() async {
         // If .env fails to load, we might want to throw or handle it,
         // but for now let's at least see the error.
       }
-
       if (!dotenv.isInitialized) {
         AppLog.w('DotEnv not initialized. Check if .env file exists.');
       }
-
       final supabaseUrl = dotenv.isInitialized
           ? (dotenv.env['SUPABASE_URL'] ?? '')
           : '';
       final supabaseKey = dotenv.isInitialized
           ? (dotenv.env['SUPABASE_ANON_KEY'] ?? '')
           : '';
-
       if (supabaseUrl.isNotEmpty && supabaseKey.isNotEmpty) {
         // Init Supabase
         await Supabase.initialize(
@@ -95,9 +83,7 @@ Future<void> main() async {
       } else {
         AppLog.e('Supabase not initialized: Missing credentials');
       }
-
       await errorLoggingService.init();
-
       FlutterError.onError = (details) {
         FlutterError.presentError(details);
         unawaited(
@@ -107,17 +93,14 @@ Future<void> main() async {
           ),
         );
       };
-
       ui.PlatformDispatcher.instance.onError = (error, stack) {
         unawaited(
           errorLoggingService.logError(error: error, stackTrace: stack),
         );
         return true;
       };
-
       final navigatorObserver = ScreenTrackingNavigatorObserver();
       final prefs = await SharedPreferences.getInstance();
-
       runApp(
         riverpod.ProviderScope(
           overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
@@ -133,9 +116,7 @@ Future<void> main() async {
 
 class MyApp extends riverpod.ConsumerStatefulWidget {
   const MyApp({required this.navigatorObserver, super.key});
-
   final NavigatorObserver navigatorObserver;
-
   @override
   riverpod.ConsumerState<MyApp> createState() => _MyAppState();
 }
@@ -144,9 +125,7 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
     with WidgetsBindingObserver {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
-
   riverpod.ProviderSubscription<AppLockState>? _appLockSub;
-
   @override
   void initState() {
     super.initState();
@@ -157,7 +136,6 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
 
   Future<void> _initServices() async {
     await featureFlagService.load();
-
     authLinkHandler.init(navigatorKey);
   }
 
@@ -166,10 +144,8 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
     _appLockSub = ref.listenManual(appLockControllerProvider, (previous, next) {
       final wasRequiringPin = previous?.requiresPin ?? false;
       if (wasRequiringPin || !next.requiresPin) return;
-
       final ctx = navigatorKey.currentContext;
       if (ctx == null || !ctx.mounted) return;
-
       unawaited(_navigateToPinUnlockIfEligible(ctx));
     });
   }
@@ -179,17 +155,13 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
     if (currentRoute == '/pin-unlock' || currentRoute == '/login_page') {
       return;
     }
-
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) return;
-
     final encryption = ref.read(encryptionServiceProvider);
     final hasEncryption = await encryption.hasEncryptionSetup(user.id);
     if (!hasEncryption) return;
-
     // Lock keys in memory; do NOT sign out.
     encryption.lock();
-
     if (!ctx.mounted) return;
     Navigator.of(ctx).pushNamedAndRemoveUntil(
       '/pin-unlock',
@@ -242,7 +214,6 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
                   ? ThemeMode.dark
                   : ThemeMode.light,
               initialRoute: '/login_page',
-
               routes: {
                 // Auth
                 '/login_page': (_) => const LoginPage(),
@@ -258,43 +229,35 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
                 '/forgot-password': (_) => const ForgotPasswordPage(),
                 '/set-new-password': (_) => const SetNewPasswordPage(),
                 '/email-confirmed': (_) => const EmailConfirmedPage(),
-
                 // Feature-gated
                 '/home_page': (_) => FeatureGate(
                   featureName: FeatureFlags.homePage,
                   child: const HomePage(),
                 ),
-
                 '/log_entry': (_) => FeatureGate(
                   featureName: FeatureFlags.logEntryPage,
                   child: const QuickLogEntryPage(),
                 ),
-
                 '/analytics': (_) => FeatureGate(
                   featureName: FeatureFlags.analyticsPage,
                   child: const AnalyticsPage(),
                 ),
-
                 '/catalog': (_) => FeatureGate(
                   featureName: FeatureFlags.catalogPage,
                   child: const CatalogPage(),
                 ),
-
                 '/cravings': (_) => FeatureGate(
                   featureName: FeatureFlags.cravingsPage,
                   child: const CravingsPage(),
                 ),
-
                 '/blood_levels': (_) => FeatureGate(
                   featureName: FeatureFlags.bloodLevelsPage,
                   child: const BloodLevelsPage(),
                 ),
-
                 '/reflection': (_) => FeatureGate(
                   featureName: FeatureFlags.reflectionPage,
                   child: const ReflectionPage(),
                 ),
-
                 '/daily-checkin': (_) => FeatureGate(
                   featureName: FeatureFlags.dailyCheckin,
                   child: ChangeNotifierProvider(
@@ -302,7 +265,6 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
                     child: const DailyCheckinScreen(),
                   ),
                 ),
-
                 '/checkin-history': (_) => FeatureGate(
                   featureName: FeatureFlags.checkinHistoryPage,
                   child: ChangeNotifierProvider(
@@ -310,18 +272,13 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
                     child: const CheckinHistoryScreen(),
                   ),
                 ),
-
                 '/profile': (_) => const ProfileScreen(),
-
                 '/admin-panel': (_) => FeatureGate(
                   featureName: FeatureFlags.adminPanel,
                   child: const AdminPanelScreen(),
                 ),
-
                 '/admin/feature-flags': (_) => const FeatureFlagsScreen(),
-
                 '/settings': (_) => const SettingsScreen(),
-
                 '/tolerance-dashboard': (context) {
                   final args =
                       ModalRoute.of(context)?.settings.arguments
@@ -334,7 +291,6 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
                   );
                 },
               },
-
               navigatorObservers: [widget.navigatorObserver],
             ),
           );

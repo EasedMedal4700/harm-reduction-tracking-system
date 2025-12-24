@@ -1,6 +1,5 @@
 class AppStrings {
   const AppStrings._();
-
   static const String errorLoadingActivity = 'Failed to load activity: ';
   static const String entryDeletedSuccess = 'Entry deleted successfully';
   static const String errorDeletingEntry = 'Failed to delete entry: ';
@@ -19,7 +18,6 @@ class AppStrings {
       'Failed to clear expired cache';
   static const String errorRefreshingDatabase =
       'Failed to refresh from database';
-
   // Error Analytics
   static const String errorLoadingAnalytics = 'Error loading analytics data';
   static const String errorAnalyticsFilterRequired =

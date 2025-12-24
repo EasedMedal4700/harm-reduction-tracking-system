@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../../../../providers/daily_checkin_provider.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
-
 // Local widgets
 import 'mood_selector.dart';
 import 'emotion_selector.dart';
@@ -18,14 +17,12 @@ import 'save_button.dart';
 
 class DailyCheckinDialog extends StatefulWidget {
   const DailyCheckinDialog({super.key});
-
   @override
   State<DailyCheckinDialog> createState() => _DailyCheckinDialogState();
 }
 
 class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
   final TextEditingController _notesController = TextEditingController();
-
   @override
   void dispose() {
     _notesController.dispose();
@@ -60,16 +57,15 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
-    final spacing = t.spacing;
-
+    final tx = context.text;
+    final th = context.theme;
+    final spacing = th.spacing;
     return Dialog(
-      backgroundColor: t.colors.surface,
+      backgroundColor: th.colors.surface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(t.shapes.radiusLg),
+        borderRadius: BorderRadius.circular(th.shapes.radiusLg),
       ),
-      elevation: t.sizes.elevationNone,
+      elevation: th.sizes.elevationNone,
       child: Consumer<DailyCheckinProvider>(
         builder: (context, provider, child) {
           return SingleChildScrollView(
@@ -84,41 +80,36 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                   children: [
                     Icon(
                       _getTimeIcon(provider.timeOfDay),
-                      size: t.sizes.iconLg,
-                      color: t.accent.primary,
+                      size: th.sizes.iconLg,
+                      color: th.accent.primary,
                     ),
-
                     SizedBox(width: spacing.md),
-
                     Expanded(
                       child: Column(
                         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                         children: [
                           Text(
                             "Daily Check-In",
-                            style: t.text.heading3.copyWith(
-                              color: t.colors.textPrimary,
+                            style: th.tx.heading3.copyWith(
+                              color: th.colors.textPrimary,
                             ),
                           ),
                           Text(
                             _getTimeLabel(provider.timeOfDay),
-                            style: t.typography.bodySmall.copyWith(
-                              color: t.colors.textSecondary,
+                            style: th.typography.bodySmall.copyWith(
+                              color: th.colors.textSecondary,
                             ),
                           ),
                         ],
                       ),
                     ),
-
                     IconButton(
-                      icon: Icon(Icons.close, color: t.colors.textSecondary),
+                      icon: Icon(Icons.close, color: th.colors.textSecondary),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                   ],
                 ),
-
                 const CommonSpacer.vertical(24),
-
                 // ---------------------------------------------------------------------
                 // MOOD SELECTOR
                 // ---------------------------------------------------------------------
@@ -127,9 +118,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                   availableMoods: provider.availableMoods,
                   onMoodSelected: provider.setMood,
                 ),
-
                 const CommonSpacer.vertical(24),
-
                 // ---------------------------------------------------------------------
                 // EMOTION SELECTOR
                 // ---------------------------------------------------------------------
@@ -138,9 +127,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                   availableEmotions: provider.availableEmotions,
                   onEmotionToggled: provider.toggleEmotion,
                 ),
-
                 const CommonSpacer.vertical(24),
-
                 // ---------------------------------------------------------------------
                 // NOTES INPUT
                 // ---------------------------------------------------------------------
@@ -148,9 +135,7 @@ class _DailyCheckinDialogState extends State<DailyCheckinDialog> {
                   controller: _notesController,
                   onChanged: provider.setNotes,
                 ),
-
                 const CommonSpacer.vertical(24),
-
                 // ---------------------------------------------------------------------
                 // SAVE BUTTON
                 // ---------------------------------------------------------------------

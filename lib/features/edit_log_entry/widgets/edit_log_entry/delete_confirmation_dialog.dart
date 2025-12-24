@@ -3,38 +3,35 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Dialog for deleting entries. No hardcoded values.
-
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import '../../../../common/buttons/common_primary_button.dart';
-
 import '../../../log_entry/log_entry_state.dart';
 import '../../../log_entry/log_entry_service.dart';
 
 class DeleteConfirmationDialog {
   static Future<void> show(BuildContext context, LogEntryState state) async {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
-    final a = context.accent;
-
+    final ac = context.accent;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: c.surface,
         title: Text(
           'Delete Entry?',
-          style: t.text.heading3.copyWith(color: c.textPrimary),
+          style: th.text.heading3.copyWith(color: c.textPrimary),
         ),
         content: Text(
           'Are you sure you want to delete this drug use entry? This action cannot be undone.',
-          style: t.text.body.copyWith(color: c.textSecondary),
+          style: th.text.body.copyWith(color: c.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: Text(
               'Cancel',
-              style: t.text.labelLarge.copyWith(color: a.primary),
+              style: th.text.labelLarge.copyWith(color: ac.primary),
             ),
           ),
           CommonPrimaryButton(
@@ -46,12 +43,10 @@ class DeleteConfirmationDialog {
         ],
       ),
     );
-
     if (confirmed == true && context.mounted) {
       try {
         final service = LogEntryService();
         await service.deleteLogEntry(state.entryId);
-
         if (context.mounted) {
           Navigator.pop(context); // Close edit page
           ScaffoldMessenger.of(context).showSnackBar(

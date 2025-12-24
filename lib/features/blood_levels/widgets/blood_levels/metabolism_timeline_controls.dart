@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSpacer.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -19,7 +18,6 @@ class MetabolismTimelineControls extends StatelessWidget {
   final Function(int) onHoursForwardChanged;
   final Function(bool) onAdaptiveScaleChanged;
   final Function(int, int)? onPresetSelected;
-
   const MetabolismTimelineControls({
     super.key,
     required this.hoursBack,
@@ -30,14 +28,12 @@ class MetabolismTimelineControls extends StatelessWidget {
     required this.onAdaptiveScaleChanged,
     this.onPresetSelected,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-
+    final tx = context.text;
     return CommonCard(
       padding: EdgeInsets.all(sp.lg),
       child: Column(
@@ -49,18 +45,16 @@ class MetabolismTimelineControls extends StatelessWidget {
               Icon(
                 Icons.tune,
                 size: context.sizes.iconSm,
-                color: t.accent.primary,
+                color: th.accent.primary,
               ),
               CommonSpacer.horizontal(sp.sm),
               Text(
                 'Timeline Controls',
-                style: text.heading4.copyWith(color: c.textPrimary),
+                style: tx.heading4.copyWith(color: c.textPrimary),
               ),
             ],
           ),
-
           CommonSpacer.vertical(sp.xl),
-
           // Hours back / forward
           Row(
             children: [
@@ -83,16 +77,12 @@ class MetabolismTimelineControls extends StatelessWidget {
               ),
             ],
           ),
-
           CommonSpacer.vertical(sp.xl),
-
           _buildScaleSelector(context),
-
           CommonSpacer.vertical(sp.xl),
-
           Text(
             'Quick Presets:',
-            style: text.bodyBold.copyWith(color: c.textPrimary),
+            style: tx.bodyBold.copyWith(color: c.textPrimary),
           ),
           CommonSpacer.vertical(sp.sm),
           Wrap(
@@ -119,15 +109,14 @@ class MetabolismTimelineControls extends StatelessWidget {
     required int value,
     required Function(int) onChanged,
   }) {
-    final sh = context.shapes;
-    final sp = context.spacing;
-    final text = context.text;
     final c = context.colors;
-
+    final tx = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
-        Text(label, style: text.bodySmall.copyWith(color: c.textSecondary)),
+        Text(label, style: tx.bodySmall.copyWith(color: c.textSecondary)),
         SizedBox(height: sp.xs),
         TextFormField(
           initialValue: value.toString(),
@@ -144,9 +133,9 @@ class MetabolismTimelineControls extends StatelessWidget {
             filled: true,
             fillColor: c.surfaceVariant,
             suffixText: 'h',
-            suffixStyle: text.caption.copyWith(color: c.textSecondary),
+            suffixStyle: tx.caption.copyWith(color: c.textSecondary),
           ),
-          style: text.body,
+          style: tx.body,
           onFieldSubmitted: (val) {
             final parsed = int.tryParse(val);
             if (parsed != null && parsed > 0 && parsed <= 168) {
@@ -162,8 +151,8 @@ class MetabolismTimelineControls extends StatelessWidget {
   // SCALE TOGGLE ROW
   // -------------------------
   Widget _buildScaleSelector(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
 
     return Row(
@@ -176,7 +165,7 @@ class MetabolismTimelineControls extends StatelessWidget {
         SizedBox(width: sp.sm),
         Text(
           'Y-Axis Scale:',
-          style: text.caption.copyWith(color: c.textSecondary),
+          style: tx.caption.copyWith(color: c.textSecondary),
         ),
         const Spacer(),
         _buildScaleButton(context, 'Fixed 100%', !adaptiveScale, () {
@@ -196,11 +185,11 @@ class MetabolismTimelineControls extends StatelessWidget {
     bool selected,
     VoidCallback onTap,
   ) {
-    final t = context.theme;
-    final sh = context.shapes;
-    final sp = context.spacing;
+    final th = context.theme;
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
+    final sp = context.spacing;
+    final sh = context.shapes;
 
     return InkWell(
       borderRadius: BorderRadius.circular(sh.radiusSm),
@@ -209,18 +198,18 @@ class MetabolismTimelineControls extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
         decoration: BoxDecoration(
           color: selected
-              ? t.accent.primary.withValues(alpha: 0.2)
+              ? th.accent.primary.withValues(alpha: 0.2)
               : c.surfaceVariant,
           borderRadius: BorderRadius.circular(sh.radiusSm),
           border: Border.all(
-            color: selected ? t.accent.primary : c.border,
+            color: selected ? th.accent.primary : c.border,
             width: selected ? 2 : 1,
           ),
         ),
         child: Text(
           label,
-          style: text.captionBold.copyWith(
-            color: selected ? t.accent.primary : c.textSecondary,
+          style: tx.captionBold.copyWith(
+            color: selected ? th.accent.primary : c.textSecondary,
           ),
         ),
       ),
@@ -236,14 +225,13 @@ class MetabolismTimelineControls extends StatelessWidget {
     int back,
     int forward,
   ) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
 
     final bool isSelected = (hoursBack == back && hoursForward == forward);
-
     return InkWell(
       onTap: () {
         if (onPresetSelected != null) {
@@ -255,18 +243,18 @@ class MetabolismTimelineControls extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
         decoration: BoxDecoration(
           color: isSelected
-              ? t.accent.primary.withValues(alpha: 0.2)
+              ? th.accent.primary.withValues(alpha: 0.2)
               : c.surfaceVariant,
           borderRadius: BorderRadius.circular(sh.radiusSm),
           border: Border.all(
-            color: isSelected ? t.accent.primary : c.border,
+            color: isSelected ? th.accent.primary : c.border,
             width: isSelected ? 2 : 1,
           ),
         ),
         child: Text(
           label,
-          style: text.captionBold.copyWith(
-            color: isSelected ? t.accent.primary : c.textSecondary,
+          style: tx.captionBold.copyWith(
+            color: isSelected ? th.accent.primary : c.textSecondary,
           ),
         ),
       ),

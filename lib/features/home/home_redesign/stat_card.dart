@@ -11,7 +11,6 @@ class StatCard extends StatelessWidget {
   final IconData icon;
   final Color? color;
   final VoidCallback? onTap;
-
   const StatCard({
     required this.title,
     required this.value,
@@ -21,18 +20,15 @@ class StatCard extends StatelessWidget {
     this.onTap,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
-    final acc = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
     final isDark = context.theme.isDark;
-
-    final cardColor = color ?? acc.primary;
-
+    final cardColor = color ?? ac.primary;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -48,7 +44,7 @@ class StatCard extends StatelessWidget {
               ? null
               : [
                   BoxShadow(
-                    color: context.colors.textPrimary.withValues(alpha: 0.03),
+                    color: c.textPrimary.withValues(alpha: 0.03),
                     blurRadius: context.sizes.blurRadiusSm,
                     offset: const Offset(0, 2),
                   ),
@@ -84,8 +80,8 @@ class StatCard extends StatelessWidget {
             Text(
               value,
               style: TextStyle(
-                fontSize: context.text.heading2.fontSize,
-                fontWeight: context.text.bodyBold.fontWeight,
+                fontSize: tx.heading2.fontSize,
+                fontWeight: tx.bodyBold.fontWeight,
                 color: c.textPrimary,
               ),
             ),
@@ -93,9 +89,9 @@ class StatCard extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                fontSize: context.text.label.fontSize,
+                fontSize: tx.label.fontSize,
                 color: c.textSecondary,
-                fontWeight: text.bodyMedium.fontWeight,
+                fontWeight: tx.bodyMedium.fontWeight,
               ),
               maxLines: 1,
               overflow: AppLayout.textOverflowEllipsis,
@@ -105,7 +101,7 @@ class StatCard extends StatelessWidget {
               Text(
                 subtitle!,
                 style: TextStyle(
-                  fontSize: context.text.caption.fontSize,
+                  fontSize: tx.caption.fontSize,
                   color: c.textSecondary.withValues(alpha: 0.7),
                 ),
                 maxLines: 1,

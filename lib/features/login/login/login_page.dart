@@ -5,13 +5,10 @@
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: UI only. All logic moved to controller/router.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-
 import '../../../common/inputs/input_field.dart';
 import '../../../common/buttons/common_primary_button.dart';
 import '../../../common/layout/common_spacer.dart';
@@ -19,7 +16,6 @@ import 'login_controller.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
-
   @override
   ConsumerState<LoginPage> createState() => _LoginPageState();
 }
@@ -27,7 +23,6 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
   @override
   void dispose() {
     emailController.dispose();
@@ -39,13 +34,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(loginControllerProvider);
     final controller = ref.read(loginControllerProvider.notifier);
-
     final c = context.colors;
-    final t = context.text;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final surfaces = context.surfaces;
-
+    final sf = context.surfaces;
     return Scaffold(
       backgroundColor: c.background,
       body: Center(
@@ -65,13 +58,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   // Header strip
                   Container(
                     height: AppLayout.authHeaderHeight,
-                    decoration: surfaces.authHeader.copyWith(
+                    decoration: sf.authHeader.copyWith(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(sh.radiusLg),
                       ),
                     ),
                   ),
-
                   Padding(
                     padding: EdgeInsets.all(sp.lg),
                     child: Column(
@@ -80,38 +72,30 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         // Title
                         Text(
                           'Welcome back',
-                          style: t.headlineMedium,
+                          style: tx.headlineMedium,
                           textAlign: TextAlign.center,
                         ),
-
                         CommonSpacer.vertical(sp.sm),
-
                         Text(
                           'Sign in to continue',
-                          style: t.bodyMedium.copyWith(color: c.textSecondary),
+                          style: tx.bodyMedium.copyWith(color: c.textSecondary),
                           textAlign: TextAlign.center,
                         ),
-
                         CommonSpacer.vertical(sp.xl),
-
                         // Email
                         CommonInputField(
                           controller: emailController,
                           labelText: 'Email',
                           keyboardType: TextInputType.emailAddress,
                         ),
-
                         CommonSpacer.vertical(sp.md),
-
                         // Password
                         CommonInputField(
                           controller: passwordController,
                           labelText: 'Password',
                           obscureText: true,
                         ),
-
                         CommonSpacer.vertical(sp.sm),
-
                         // Forgot password
                         Align(
                           alignment: Alignment.centerRight,
@@ -124,27 +108,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             },
                             child: Text(
                               'Forgot password?',
-                              style: t.labelLarge.copyWith(
+                              style: tx.labelLarge.copyWith(
                                 color: c.textSecondary,
                               ),
                             ),
                           ),
                         ),
-
                         CommonSpacer.vertical(sp.sm),
-
                         // Remember me
                         CheckboxListTile(
                           value: state.rememberMe,
                           contentPadding: EdgeInsets.zero,
-                          title: Text('Keep me logged in', style: t.bodyMedium),
+                          title: Text(
+                            'Keep me logged in',
+                            style: tx.bodyMedium,
+                          ),
                           controlAffinity: ListTileControlAffinity.leading,
                           onChanged: (v) =>
                               controller.toggleRememberMe(v ?? false),
                         ),
-
                         CommonSpacer.vertical(sp.lg),
-
                         // Primary CTA
                         CommonPrimaryButton(
                           isLoading: state.isLoading,
@@ -154,26 +137,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             password: passwordController.text,
                           ),
                         ),
-
                         // Error message
                         if (state.errorMessage != null) ...[
                           CommonSpacer.vertical(sp.md),
                           Text(
                             state.errorMessage!,
-                            style: t.bodyMedium.copyWith(color: c.error),
+                            style: tx.bodyMedium.copyWith(color: c.error),
                             textAlign: TextAlign.center,
                           ),
                         ],
-
                         CommonSpacer.vertical(sp.lg),
-
                         // Sign up
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               'Don’t have an account?',
-                              style: t.bodyMedium.copyWith(
+                              style: tx.bodyMedium.copyWith(
                                 color: c.textSecondary,
                               ),
                             ),
@@ -184,7 +164,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               },
                               child: Text(
                                 'Sign up',
-                                style: t.labelLarge.copyWith(
+                                style: tx.labelLarge.copyWith(
                                   color: context.accent.primary,
                                 ),
                               ),

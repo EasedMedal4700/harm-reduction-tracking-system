@@ -6,7 +6,6 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-
 /// Single-line text input field with consistent styling
 /// Used for dosage, location, etc.
 class CommonInputField extends StatelessWidget {
@@ -28,7 +27,6 @@ class CommonInputField extends StatelessWidget {
   final VoidCallback? onTap;
   final bool readOnly;
   final ValueChanged<String>? onFieldSubmitted;
-
   const CommonInputField({
     this.controller,
     this.initialValue,
@@ -50,11 +48,9 @@ class CommonInputField extends StatelessWidget {
     this.onFieldSubmitted,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-
+    final th = context.theme;
     return TextFormField(
       controller: controller,
       initialValue: initialValue,
@@ -73,44 +69,44 @@ class CommonInputField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,
-        hintStyle: t.text.body.copyWith(
-          color: t.colors.textSecondary.withValues(alpha: 0.5),
+        hintStyle: th.text.body.copyWith(
+          color: th.colors.textSecondary.withValues(alpha: 0.5),
         ),
-        labelStyle: t.text.body.copyWith(color: t.colors.textSecondary),
+        labelStyle: th.text.body.copyWith(color: th.colors.textSecondary),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(color: t.colors.border),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(color: t.colors.border),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(color: t.accent.primary, width: 2),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.accent.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(color: t.colors.error),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(t.shapes.radiusMd),
-          borderSide: BorderSide(color: t.colors.error, width: 2),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.error, width: 2),
         ),
         filled: true,
-        fillColor: t.colors.surfaceVariant.withValues(alpha: 0.3),
+        fillColor: th.colors.surfaceVariant.withValues(alpha: 0.3),
         contentPadding: EdgeInsets.symmetric(
-          horizontal: t.spacing.md,
-          vertical: t.spacing.md,
+          horizontal: th.spacing.md,
+          vertical: th.spacing.md,
         ),
       ),
-      style: t.text.bodyLarge.copyWith(
-        color: t.colors.textPrimary,
+      style: th.text.bodyLarge.copyWith(
+        color: th.colors.textPrimary,
         fontSize: 18.0,
       ),
-      cursorColor: t.accent.primary,
+      cursorColor: th.accent.primary,
     );
   }
 }

@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Page for editing reflections. No hardcoded values.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
@@ -23,7 +22,6 @@ class EditReflectionPage extends StatefulWidget {
     required this.entry,
     this.reflectionService,
   });
-
   @override
   State<EditReflectionPage> createState() => _EditReflectionPageState();
 }
@@ -33,7 +31,6 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
   bool _isSaving = false;
   bool _isLoading = true;
   late final ReflectionService _reflectionService;
-
   @override
   void initState() {
     super.initState();
@@ -44,36 +41,29 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
 
   Future<void> _loadFullEntry() async {
     setState(() => _isLoading = true);
-
     try {
       final id =
           widget.entry['reflection_id']?.toString() ??
           widget.entry['id']?.toString() ??
           '';
-
       ErrorHandler.logDebug(
         'EditReflectionPage',
         'Loading reflection with ID: $id',
       );
-
       if (id.isEmpty) {
         throw ReflectionFetchException(
           'Missing reflection ID',
           details: 'Entry data does not contain reflection_id or id field',
         );
       }
-
       final fetched = await _reflectionService.fetchReflectionById(id);
-
       if (fetched == null) {
         throw ReflectionNotFoundException(id);
       }
-
       ErrorHandler.logDebug(
         'EditReflectionPage',
         'Loaded reflection - selectedReflections: ${fetched.selectedReflections}, notes length: ${fetched.notes?.length ?? 0}',
       );
-
       if (mounted) {
         setState(() => _model = fetched);
       }
@@ -108,18 +98,14 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
 
   Future<void> _saveChanges() async {
     if (_isSaving) return; // Prevent double-save
-
     setState(() => _isSaving = true);
-
     try {
       ErrorHandler.logDebug(
         'EditReflectionPage',
         'Saving changes for reflection: ${_model.id}',
       );
-
       // Validate the model before saving
       ReflectionValidator.validateReflection(_model);
-
       final reflectionData = {
         'notes': ReflectionValidator.sanitizeNotes(_model.notes),
         'related_entries': _model.selectedReflections,
@@ -134,17 +120,14 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
         'coping_effectiveness': _model.copingEffectiveness.round(),
         'overall_satisfaction': _model.overallSatisfaction.round(),
       };
-
       ErrorHandler.logDebug(
         'EditReflectionPage',
         'Update data prepared with ${reflectionData.keys.length} fields',
       );
-
       await _reflectionService.updateReflection(
         _model.id ?? '',
         reflectionData,
       );
-
       if (mounted) {
         ErrorHandler.showSuccessSnackbar(
           context,
@@ -230,14 +213,13 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final a = context.accent;
-
+    final ac = context.accent;
     return Scaffold(
       backgroundColor: c.background,
       appBar: ReflectionAppBar(isSaving: _isSaving, onSave: _saveChanges),
       drawer: const CommonDrawer(),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator(color: a.primary))
+          ? Center(child: CircularProgressIndicator(color: ac.primary))
           : EditReflectionForm(
               selectedCount: _model.selectedReflections.length,
               effectiveness: _model.effectiveness,

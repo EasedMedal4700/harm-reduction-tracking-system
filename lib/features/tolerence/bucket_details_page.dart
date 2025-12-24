@@ -1,11 +1,9 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-
 import '../../models/bucket_definitions.dart';
 import '../../models/tolerance_model.dart';
 import '../../common/layout/common_spacer.dart';
-
 import 'widgets/bucket_details/bucket_header_card.dart';
 import 'widgets/bucket_details/bucket_description_card.dart';
 import 'widgets/bucket_details/bucket_status_card.dart';
@@ -24,7 +22,6 @@ class BucketDetailsPage extends StatelessWidget {
   final List<UseLogEntry> contributingUses;
   final double daysToBaseline;
   final String? substanceNotes;
-
   const BucketDetailsPage({
     super.key,
     required this.bucketType,
@@ -35,12 +32,10 @@ class BucketDetailsPage extends StatelessWidget {
     required this.daysToBaseline,
     this.substanceNotes,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -59,11 +54,9 @@ class BucketDetailsPage extends StatelessWidget {
               tolerancePercent: tolerancePercent,
             ),
             CommonSpacer.vertical(sp.lg),
-
             // Description
             BucketDescriptionCard(bucketType: bucketType),
             CommonSpacer.vertical(sp.lg),
-
             // Current status
             BucketStatusCard(
               bucket: bucket,
@@ -71,23 +64,19 @@ class BucketDetailsPage extends StatelessWidget {
               rawLoad: rawLoad,
             ),
             CommonSpacer.vertical(sp.lg),
-
             // Decay timeline (visual representation)
             BucketDecayTimelineCard(tolerancePercent: tolerancePercent),
             CommonSpacer.vertical(sp.lg),
-
             // Contributing uses
             if (contributingUses.isNotEmpty) ...[
               BucketContributingUsesCard(contributingUses: contributingUses),
               CommonSpacer.vertical(sp.lg),
             ],
-
             // Substance-specific notes
             if (substanceNotes != null && substanceNotes!.isNotEmpty) ...[
               BucketNotesCard(substanceNotes: substanceNotes!),
               CommonSpacer.vertical(sp.lg),
             ],
-
             // Days to baseline
             BucketBaselineCard(daysToBaseline: daysToBaseline),
           ],

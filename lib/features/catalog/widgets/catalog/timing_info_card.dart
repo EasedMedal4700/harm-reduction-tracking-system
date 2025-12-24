@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSpacer.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -19,7 +18,6 @@ class TimingInfoCard extends StatelessWidget {
   final String? duration;
   final String? afterEffects;
   final Color accentColor;
-
   const TimingInfoCard({
     super.key,
     required this.onset,
@@ -27,32 +25,29 @@ class TimingInfoCard extends StatelessWidget {
     required this.afterEffects,
     required this.accentColor,
   });
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
+    final tx = context.text;
+    final th = context.theme;
     if (onset == null && duration == null && afterEffects == null) {
       return const SizedBox.shrink();
     }
-
     return CommonCard(
-      padding: EdgeInsets.all(t.spacing.md),
+      padding: EdgeInsets.all(th.spacing.md),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Row(
             children: [
               Icon(Icons.timer_outlined, color: accentColor),
-              CommonSpacer.horizontal(t.spacing.xs),
+              CommonSpacer.horizontal(th.spacing.xs),
               Text(
                 'Timing Information',
-                style: t.text.heading3.copyWith(color: t.colors.textPrimary),
+                style: th.tx.heading3.copyWith(color: th.colors.textPrimary),
               ),
             ],
           ),
           const CommonSpacer.vertical(AppSpacingConstants.xl),
-
           // Timeline Visualization
           SizedBox(
             height: _timelineHeight,
@@ -62,7 +57,7 @@ class TimingInfoCard extends StatelessWidget {
                   Expanded(
                     flex: AppLayout.flex1,
                     child: _buildTimeBar(
-                      t.colors.success,
+                      th.colors.success,
                       true,
                       duration == null && afterEffects == null,
                     ),
@@ -71,7 +66,7 @@ class TimingInfoCard extends StatelessWidget {
                   Expanded(
                     flex: AppLayout.flex3,
                     child: _buildTimeBar(
-                      t.colors.info,
+                      th.colors.info,
                       onset == null,
                       afterEffects == null,
                     ),
@@ -80,7 +75,7 @@ class TimingInfoCard extends StatelessWidget {
                   Expanded(
                     flex: AppLayout.flex2,
                     child: _buildTimeBar(
-                      t.colors.warning,
+                      th.colors.warning,
                       onset == null && duration == null,
                       true,
                     ),
@@ -89,18 +84,17 @@ class TimingInfoCard extends StatelessWidget {
             ),
           ),
           const CommonSpacer.vertical(24),
-
           // Legend
           if (onset != null)
-            _buildTimeLegend(context, 'Onset', onset!, t.colors.success),
+            _buildTimeLegend(context, 'Onset', onset!, th.colors.success),
           if (duration != null)
-            _buildTimeLegend(context, 'Duration', duration!, t.colors.info),
+            _buildTimeLegend(context, 'Duration', duration!, th.colors.info),
           if (afterEffects != null)
             _buildTimeLegend(
               context,
               'After Effects',
               afterEffects!,
-              t.colors.warning,
+              th.colors.warning,
             ),
         ],
       ),
@@ -125,35 +119,37 @@ class TimingInfoCard extends StatelessWidget {
     String value,
     Color color,
   ) {
-    final t = context.theme;
+    final th = context.theme;
+    final tx = context.text;
+
     return Padding(
-      padding: EdgeInsets.only(bottom: t.spacing.md),
+      padding: EdgeInsets.only(bottom: th.spacing.md),
       child: Row(
         children: [
           Container(
-            width: t.spacing.md,
-            height: t.spacing.md,
+            width: th.spacing.md,
+            height: th.spacing.md,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.circular(t.shapes.radiusXs),
+              borderRadius: BorderRadius.circular(th.shapes.radiusXs),
             ),
           ),
-          SizedBox(width: t.spacing.sm),
+          SizedBox(width: th.spacing.sm),
           Column(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 label,
-                style: t.typography.label.copyWith(
+                style: th.typography.label.copyWith(
                   color: color,
-                  fontWeight: context.text.bodyBold.fontWeight,
+                  fontWeight: tx.bodyBold.fontWeight,
                 ),
               ),
               Text(
                 value,
-                style: t.typography.body.copyWith(
-                  fontWeight: context.text.bodyBold.fontWeight,
-                  color: t.colors.textPrimary,
+                style: th.typography.body.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
+                  color: th.colors.textPrimary,
                 ),
               ),
             ],

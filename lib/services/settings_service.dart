@@ -13,16 +13,13 @@ class SettingsService {
     if (_cachedSettings != null) {
       return _cachedSettings!;
     }
-
     try {
       final prefs = await SharedPreferences.getInstance();
       final jsonString = prefs.getString(_settingsKey);
-
       if (jsonString == null) {
         _cachedSettings = const AppSettings();
         return _cachedSettings!;
       }
-
       final json = jsonDecode(jsonString) as Map<String, dynamic>;
       _cachedSettings = AppSettings.fromJson(json);
       return _cachedSettings!;

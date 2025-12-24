@@ -1,22 +1,18 @@
 import 'dart:async';
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-
 import '../utils/error_reporter.dart';
 
 /// Centralized error logging that pushes failures into the `error_logs` table.
 class ErrorLoggingService {
   final DeviceInfoPlugin _deviceInfo;
   final Future<PackageInfo> Function() _packageInfoLoader;
-
   ErrorLoggingService._({
     DeviceInfoPlugin? deviceInfo,
     Future<PackageInfo> Function()? packageInfoLoader,
   }) : _deviceInfo = deviceInfo ?? DeviceInfoPlugin(),
        _packageInfoLoader = packageInfoLoader ?? PackageInfo.fromPlatform;
-
   static final ErrorLoggingService instance = ErrorLoggingService._();
 
   /// Visible for testing to inject mocks
@@ -30,21 +26,18 @@ class ErrorLoggingService {
       packageInfoLoader: packageInfoLoader,
     );
   }
-
   String? _appVersion;
   String? _platform;
   String? _osVersion;
   String? _deviceModel;
   String? _currentScreen;
   bool _initialized = false;
-
   // Public getters for error reporter
   String? get appVersion => _appVersion;
   String? get platform => _platform;
   String? get osVersion => _osVersion;
   String? get deviceModel => _deviceModel;
   String? get currentScreen => _currentScreen;
-
   Future<void> init() async {
     if (_initialized) return;
     _initialized = true;
@@ -69,7 +62,6 @@ class ErrorLoggingService {
         _deviceModel = info.browserName.name;
         return;
       }
-
       switch (defaultTargetPlatform) {
         case TargetPlatform.android:
           final info = await _deviceInfo.androidInfo;
@@ -120,7 +112,6 @@ class ErrorLoggingService {
     } catch (_) {
       // Fall through to defaults below.
     }
-
     _platform ??= kIsWeb ? 'web' : defaultTargetPlatform.name.toLowerCase();
     _osVersion ??= 'unknown';
     _deviceModel ??= 'unknown';
@@ -160,7 +151,6 @@ class ErrorLoggingService {
         'operation': operationName,
         if (extraData != null) ...extraData,
       };
-
       unawaited(
         logError(
           screenName: screenName,

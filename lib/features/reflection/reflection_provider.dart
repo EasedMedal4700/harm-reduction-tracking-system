@@ -6,10 +6,8 @@ import 'reflection_service.dart';
 
 class ReflectionProvider extends ChangeNotifier {
   final ReflectionService _service;
-
   ReflectionProvider({ReflectionService? service})
     : _service = service ?? ReflectionService();
-
   Reflection _reflection = Reflection();
   final Set<String> _selectedIds = {};
   bool _showForm = false;
@@ -25,18 +23,15 @@ class ReflectionProvider extends ChangeNotifier {
   String copingStrategies = '';
   double copingEffectiveness = 0.0;
   double overallSatisfaction = 0.0;
-
   final TextEditingController notesCtrl = TextEditingController();
   List<String> selectedReflections = [];
   DateTime date = DateTime.now();
   int hour = TimeOfDay.now().hour;
   int minute = TimeOfDay.now().minute;
-
   Reflection get reflection => _reflection;
   Set<String> get selectedIds => _selectedIds;
   bool get showForm => _showForm;
   bool get isSaving => _isSaving;
-
   void updateReflection(Reflection newReflection) {
     _reflection = newReflection;
     notifyListeners();
@@ -138,7 +133,6 @@ class ReflectionProvider extends ChangeNotifier {
 
   Future<void> save(BuildContext context) async {
     setSaving(true);
-
     try {
       final reflectionData = {
         'notes': notesCtrl.text,
@@ -158,7 +152,6 @@ class ReflectionProvider extends ChangeNotifier {
         'coping_effectiveness': copingEffectiveness,
         'overall_satisfaction': overallSatisfaction,
       };
-
       if (entryId.isNotEmpty) {
         await _service.updateReflection(entryId, reflectionData);
       } else {

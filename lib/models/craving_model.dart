@@ -16,7 +16,6 @@ class Craving {
   final String? secondaryEmotion;
   final String action;
   final double timezone;
-
   Craving({
     this.cravingId,
     required this.userId,
@@ -35,7 +34,6 @@ class Craving {
     required this.action,
     required this.timezone,
   });
-
   Map<String, dynamic> toJson() => {
     'craving_id': cravingId,
     'uuid_user_id': userId,

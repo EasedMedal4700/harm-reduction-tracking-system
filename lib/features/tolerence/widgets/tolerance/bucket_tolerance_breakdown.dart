@@ -16,21 +16,17 @@
 // - Tap interaction for detailed bucket view (coming soon)
 // - Conditional notes display
 // - Empty state handling (auto-hides when no buckets)
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: COMPLETE
 // Notes: Fully modernized with granular theme API and ConsumerWidget.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../models/tolerance_bucket.dart';
 import '../../../../models/bucket_definitions.dart';
 import '../../../../utils/bucket_tolerance_calculator.dart';
-
 // NEW THEME SYSTEM
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
@@ -43,7 +39,6 @@ import '../../../../common/layout/common_spacer.dart';
 class BucketToleranceBreakdown extends ConsumerWidget {
   final Map<String, BucketToleranceResult> bucketResults;
   final BucketToleranceModel model;
-
   const BucketToleranceBreakdown({
     super.key,
     required this.bucketResults,
@@ -53,11 +48,11 @@ class BucketToleranceBreakdown extends ConsumerWidget {
   /// Returns color based on tolerance level (0-1 scale).
   /// <0.25: success, <0.50: warning, <0.75: orange, >=0.75: error
   Color _getColorForTolerance(double value, BuildContext context) {
-    final colors = context.colors;
-    if (value < 0.25) return colors.success;
-    if (value < 0.50) return colors.warning;
-    if (value < 0.75) return colors.warning;
-    return colors.error;
+    final c = context.colors;
+    if (value < 0.25) return c.success;
+    if (value < 0.50) return c.warning;
+    if (value < 0.75) return c.warning;
+    return c.error;
   }
 
   String _getBucketDisplayName(String type) {
@@ -66,27 +61,26 @@ class BucketToleranceBreakdown extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // THEME ACCESS
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
-    final accent = context.accent;
+    final c = context.colors;
 
+    // THEME ACCESS
+    final sp = context.spacing;
+    final tx = context.text;
+    final sh = context.shapes;
+    final ac = context.accent;
     // EMPTY STATE - Auto-hide when no bucket data
     if (bucketResults.isEmpty) {
       return const SizedBox.shrink();
     }
-
     // MAIN CONTAINER
     return Container(
-      margin: EdgeInsets.all(spacing.lg),
-      padding: EdgeInsets.all(spacing.lg),
+      margin: EdgeInsets.all(sp.lg),
+      padding: EdgeInsets.all(sp.lg),
       decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(radii.radiusLg),
+        color: c.surface,
+        borderRadius: BorderRadius.circular(sh.radiusLg),
         border: Border.all(
-          color: colors.border.withValues(alpha: 0.6),
+          color: c.border.withValues(alpha: 0.6),
           width: context.sizes.borderThin,
         ),
         boxShadow: context.cardShadow,
@@ -99,19 +93,14 @@ class BucketToleranceBreakdown extends ConsumerWidget {
             children: [
               Icon(
                 Icons.analytics_outlined,
-                color: accent.primary,
+                color: ac.primary,
                 size: context.sizes.iconMd,
               ),
-              CommonSpacer.horizontal(spacing.sm),
-              Text(
-                'Neurochemical Tolerance Breakdown',
-                style: typography.heading3,
-              ),
+              CommonSpacer.horizontal(sp.sm),
+              Text('Neurochemical Tolerance Breakdown', style: tx.heading3),
             ],
           ),
-
-          CommonSpacer.vertical(spacing.lg),
-
+          CommonSpacer.vertical(sp.lg),
           // BUCKET CARDS - Display each bucket defined in the model
           // Only show buckets that exist in both neuroBuckets and bucketResults
           ...BucketDefinitions.orderedBuckets
@@ -126,11 +115,10 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                   result.tolerance,
                   context,
                 );
-
                 return Padding(
-                  padding: EdgeInsets.only(bottom: spacing.lg),
+                  padding: EdgeInsets.only(bottom: sp.lg),
                   child: InkWell(
-                    borderRadius: BorderRadius.circular(radii.radiusMd),
+                    borderRadius: BorderRadius.circular(sh.radiusMd),
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -142,12 +130,12 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                       );
                     },
                     child: Container(
-                      padding: EdgeInsets.all(spacing.md),
+                      padding: EdgeInsets.all(sp.md),
                       decoration: BoxDecoration(
-                        color: colors.surfaceVariant,
-                        borderRadius: BorderRadius.circular(radii.radiusMd),
+                        color: c.surfaceVariant,
+                        borderRadius: BorderRadius.circular(sh.radiusMd),
                         border: Border.all(
-                          color: colors.border,
+                          color: c.border,
                           width: context.sizes.borderThin,
                         ),
                       ),
@@ -167,51 +155,48 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                                   children: [
                                     Text(
                                       _getBucketDisplayName(bucketType),
-                                      style: typography.bodyBold,
+                                      style: tx.bodyBold,
                                     ),
-                                    CommonSpacer.vertical(spacing.xs),
+                                    CommonSpacer.vertical(sp.xs),
                                     Text(
                                       BucketDefinitions.getDescription(
                                         bucketType,
                                       ),
-                                      style: typography.caption,
+                                      style: tx.caption,
                                     ),
                                   ],
                                 ),
                               ),
-
                               // Active badge and tolerance percentage
                               Row(
                                 children: [
                                   if (result.isActive)
                                     Container(
                                       padding: EdgeInsets.symmetric(
-                                        horizontal: spacing.sm,
-                                        vertical: spacing.xs / 2,
+                                        horizontal: sp.sm,
+                                        vertical: sp.xs / 2,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: accent.primary.withValues(
+                                        color: ac.primary.withValues(
                                           alpha: 0.15,
                                         ),
                                         borderRadius: BorderRadius.circular(
-                                          radii.radiusSm,
+                                          sh.radiusSm,
                                         ),
                                       ),
                                       child: Text(
                                         'ACTIVE',
-                                        style: typography.captionBold.copyWith(
-                                          color: accent.primary,
-                                          fontSize:
-                                              context.text.caption.fontSize,
+                                        style: tx.captionBold.copyWith(
+                                          color: ac.primary,
+                                          fontSize: tx.caption.fontSize,
                                         ),
                                       ),
                                     ),
-                                  CommonSpacer.horizontal(spacing.sm),
-
+                                  CommonSpacer.horizontal(sp.sm),
                                   // Tolerance percentage with color coding
                                   Text(
                                     '${(result.tolerance * 100).toStringAsFixed(1)}%',
-                                    style: typography.bodyBold.copyWith(
+                                    style: tx.bodyBold.copyWith(
                                       color: toleranceColor,
                                     ),
                                   ),
@@ -219,28 +204,22 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                               ),
                             ],
                           ),
-
-                          CommonSpacer.vertical(spacing.sm),
-
+                          CommonSpacer.vertical(sp.sm),
                           // PROGRESS BAR - Visual tolerance indicator
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(radii.radiusSm),
+                            borderRadius: BorderRadius.circular(sh.radiusSm),
                             child: LinearProgressIndicator(
                               value: result.tolerance > 1
                                   ? 1
                                   : result.tolerance,
-                              minHeight: spacing.sm,
-                              backgroundColor: colors.border.withValues(
-                                alpha: 0.4,
-                              ),
+                              minHeight: sp.sm,
+                              backgroundColor: c.border.withValues(alpha: 0.4),
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 toleranceColor,
                               ),
                             ),
                           ),
-
-                          CommonSpacer.vertical(spacing.xs),
-
+                          CommonSpacer.vertical(sp.xs),
                           // METADATA - Bucket weight, type, and active level
                           Row(
                             mainAxisAlignment:
@@ -248,14 +227,14 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                             children: [
                               Text(
                                 'Weight: ${bucket.weight.toStringAsFixed(2)} • Type: ${bucket.toleranceType}',
-                                style: typography.caption,
+                                style: tx.caption,
                               ),
                               Text(
                                 'Active: ${(result.activeLevel * 100).toStringAsFixed(1)}%',
-                                style: typography.captionBold.copyWith(
+                                style: tx.captionBold.copyWith(
                                   color: result.isActive
-                                      ? accent.primary
-                                      : colors.textSecondary,
+                                      ? ac.primary
+                                      : c.textSecondary,
                                 ),
                               ),
                             ],
@@ -266,25 +245,22 @@ class BucketToleranceBreakdown extends ConsumerWidget {
                   ),
                 );
               }),
-
           // NOTES - Additional tolerance model notes if present
           if (model.notes != null) ...[
-            Divider(color: colors.border, height: spacing.xl),
+            Divider(color: c.border, height: sp.xl),
             Row(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Icon(
                   Icons.info_outline,
                   size: context.sizes.iconSm,
-                  color: colors.textSecondary,
+                  color: c.textSecondary,
                 ),
-                CommonSpacer.horizontal(spacing.sm),
+                CommonSpacer.horizontal(sp.sm),
                 Expanded(
                   child: Text(
                     model.notes!,
-                    style: typography.caption.copyWith(
-                      fontStyle: FontStyle.italic,
-                    ),
+                    style: tx.caption.copyWith(fontStyle: FontStyle.italic),
                   ),
                 ),
               ],

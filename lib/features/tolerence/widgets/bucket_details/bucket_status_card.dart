@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Updated to CommonCard and new theme system. No Riverpod.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
@@ -16,20 +15,17 @@ class BucketStatusCard extends StatelessWidget {
   final NeuroBucket bucket;
   final double tolerancePercent;
   final double rawLoad;
-
   const BucketStatusCard({
     super.key,
     required this.bucket,
     required this.tolerancePercent,
     required this.rawLoad,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
-
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -37,35 +33,29 @@ class BucketStatusCard extends StatelessWidget {
           // Title
           Text(
             'Current Status',
-            style: text.body.copyWith(
-              fontWeight: text.bodyBold.fontWeight,
+            style: tx.body.copyWith(
+              fontWeight: tx.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),
-
           CommonSpacer.vertical(sp.md),
-
           // Stats
           _buildStatRow(
             context,
             'Tolerance Level',
             '${tolerancePercent.toStringAsFixed(1)}%',
           ),
-
           _buildStatRow(context, 'Raw Load', rawLoad.toStringAsFixed(4)),
-
           _buildStatRow(
             context,
             'Bucket Weight',
             bucket.weight.toStringAsFixed(2),
           ),
-
           _buildStatRow(
             context,
             'Tolerance Type',
             bucket.toleranceType ?? 'unknown',
           ),
-
           _buildStatRow(
             context,
             'Status',
@@ -77,9 +67,9 @@ class BucketStatusCard extends StatelessWidget {
   }
 
   Widget _buildStatRow(BuildContext context, String label, String value) {
-    final sp = context.spacing;
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
+    final sp = context.spacing;
 
     return Padding(
       padding: EdgeInsets.only(bottom: sp.sm),
@@ -87,13 +77,12 @@ class BucketStatusCard extends StatelessWidget {
         mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
         children: [
           // Label
-          Text(label, style: text.bodySmall.copyWith(color: c.textSecondary)),
-
+          Text(label, style: tx.bodySmall.copyWith(color: c.textSecondary)),
           // Value
           Text(
             value,
-            style: text.bodySmall.copyWith(
-              fontWeight: text.bodyBold.fontWeight,
+            style: tx.bodySmall.copyWith(
+              fontWeight: tx.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),

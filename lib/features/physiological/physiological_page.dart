@@ -7,21 +7,19 @@ import '../../common/layout/common_drawer.dart';
 /// Placeholder page for physiological monitoring features
 class PhysiologicalPage extends StatelessWidget {
   const PhysiologicalPage({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
+    final tx = context.text;
+    final th = context.theme;
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Physiological Monitoring',
-          style: t.typography.heading3.copyWith(color: c.textPrimary),
+          style: th.typography.heading3.copyWith(color: c.textPrimary),
         ),
         backgroundColor: c.surface,
         foregroundColor: c.textPrimary,
@@ -42,8 +40,8 @@ class PhysiologicalPage extends StatelessWidget {
               CommonSpacer.vertical(sp.lg),
               Text(
                 'Physiological Monitoring',
-                style: t.typography.heading2.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: th.typography.heading2.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
                 textAlign: AppLayout.textAlignCenter,
@@ -51,17 +49,19 @@ class PhysiologicalPage extends StatelessWidget {
               CommonSpacer.vertical(sp.md),
               Text(
                 'Track heart rate, blood pressure, and other vital signs',
-                style: t.typography.body.copyWith(color: c.textSecondary),
+                style: th.typography.body.copyWith(color: c.textSecondary),
                 textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.xl),
               Container(
                 padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
-                  color: a.primary.withValues(alpha: context.opacities.overlay),
+                  color: ac.primary.withValues(
+                    alpha: context.opacities.overlay,
+                  ),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   border: Border.all(
-                    color: a.primary.withValues(alpha: context.opacities.slow),
+                    color: ac.primary.withValues(alpha: context.opacities.slow),
                   ),
                 ),
                 child: Row(
@@ -69,13 +69,13 @@ class PhysiologicalPage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.construction,
-                      color: a.primary,
+                      color: ac.primary,
                       size: context.sizes.iconMd,
                     ),
                     CommonSpacer.horizontal(sp.sm),
                     Text(
                       'Coming Soon',
-                      style: t.typography.heading4.copyWith(color: a.primary),
+                      style: th.typography.heading4.copyWith(color: ac.primary),
                     ),
                   ],
                 ),

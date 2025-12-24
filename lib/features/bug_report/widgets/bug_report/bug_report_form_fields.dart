@@ -1,6 +1,5 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-
 // MIGRATION: COMPLETE
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -21,7 +20,6 @@ class BugReportFormFields extends StatelessWidget {
   final ValueChanged<String?> onSeverityChanged;
   final ValueChanged<String?> onCategoryChanged;
   final Widget Function(String) getSeverityIcon;
-
   const BugReportFormFields({
     super.key,
     required this.titleController,
@@ -35,12 +33,10 @@ class BugReportFormFields extends StatelessWidget {
     required this.onCategoryChanged,
     required this.getSeverityIcon,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final text = context.text;
-
+    final tx = context.text;
     return Column(
       children: [
         // Title
@@ -57,7 +53,6 @@ class BugReportFormFields extends StatelessWidget {
           },
         ),
         const CommonSpacer.vertical(16),
-
         // Severity
         CommonDropdown<String>(
           value: severity,
@@ -68,14 +63,13 @@ class BugReportFormFields extends StatelessWidget {
               children: [
                 getSeverityIcon(level),
                 const CommonSpacer.horizontal(8),
-                Text(level, style: text.body.copyWith(color: c.textPrimary)),
+                Text(level, style: tx.body.copyWith(color: c.textPrimary)),
               ],
             );
           },
           hintText: 'Severity',
         ),
         const CommonSpacer.vertical(16),
-
         // Category
         CommonDropdown<String>(
           value: category,
@@ -84,7 +78,6 @@ class BugReportFormFields extends StatelessWidget {
           hintText: 'Category',
         ),
         const CommonSpacer.vertical(16),
-
         // Description
         CommonInputField(
           controller: descriptionController,
@@ -97,7 +90,6 @@ class BugReportFormFields extends StatelessWidget {
           ),
         ),
         const CommonSpacer.vertical(16),
-
         // Steps to Reproduce
         CommonInputField(
           controller: stepsController,

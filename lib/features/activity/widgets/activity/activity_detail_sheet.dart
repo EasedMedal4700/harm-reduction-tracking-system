@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Detail sheet widget. Fully theme-compliant.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
@@ -18,7 +17,6 @@ class ActivityDetailSheet extends StatelessWidget {
   final List<DetailItem> details;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
-
   const ActivityDetailSheet({
     super.key,
     required this.title,
@@ -28,21 +26,19 @@ class ActivityDetailSheet extends StatelessWidget {
     required this.onEdit,
     required this.onDelete,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
-    final text = context.text;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-
     return Container(
       decoration: BoxDecoration(
         color: c.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(sh.radiusLg)),
         border: Border.all(color: c.border),
-        boxShadow: t.cardShadow,
+        boxShadow: th.cardShadow,
       ),
       child: SafeArea(
         top: false,
@@ -66,7 +62,6 @@ class ActivityDetailSheet extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-    final text = context.text;
 
     return Container(
       margin: EdgeInsets.only(top: sp.sm),
@@ -80,9 +75,9 @@ class ActivityDetailSheet extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -96,7 +91,7 @@ class ActivityDetailSheet extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   accentColor,
-                  accentColor.withValues(alpha: t.opacities.gradientEnd),
+                  accentColor.withValues(alpha: th.opacities.gradientEnd),
                 ],
               ),
               borderRadius: BorderRadius.circular(sh.radiusSm),
@@ -107,7 +102,7 @@ class ActivityDetailSheet extends StatelessWidget {
           Expanded(
             child: Text(
               title,
-              style: text.heading3.copyWith(color: c.textPrimary),
+              style: tx.heading3.copyWith(color: c.textPrimary),
             ),
           ),
         ],
@@ -116,8 +111,8 @@ class ActivityDetailSheet extends StatelessWidget {
   }
 
   Widget _buildDetailsList(BuildContext context) {
-    final text = context.text;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -127,7 +122,6 @@ class ActivityDetailSheet extends StatelessWidget {
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: details.map((detail) {
           final highlight = detail.highlight;
-
           return Padding(
             padding: EdgeInsets.only(bottom: sp.lg),
             child: Column(
@@ -135,10 +129,9 @@ class ActivityDetailSheet extends StatelessWidget {
               children: [
                 Text(
                   detail.label,
-                  style: text.label.copyWith(color: c.textSecondary),
+                  style: tx.label.copyWith(color: c.textSecondary),
                 ),
                 CommonSpacer.vertical(sp.xs),
-
                 Container(
                   padding: highlight
                       ? EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs)
@@ -154,11 +147,11 @@ class ActivityDetailSheet extends StatelessWidget {
                       : null,
                   child: Text(
                     detail.value,
-                    style: text.bodyLarge.copyWith(
+                    style: tx.bodyLarge.copyWith(
                       color: highlight ? accentColor : c.textPrimary,
                       fontWeight: highlight
-                          ? text.bodyBold.fontWeight
-                          : text.body.fontWeight,
+                          ? tx.bodyBold.fontWeight
+                          : tx.body.fontWeight,
                     ),
                   ),
                 ),
@@ -171,7 +164,6 @@ class ActivityDetailSheet extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context) {
-    final t = context.theme;
     final c = context.colors;
     final sp = context.spacing;
 
@@ -189,7 +181,6 @@ class ActivityDetailSheet extends StatelessWidget {
               borderColor: c.error,
             ),
           ),
-
           CommonSpacer.horizontal(sp.md),
 
           /// EDIT BUTTON
@@ -214,7 +205,6 @@ class DetailItem {
   final String label;
   final String value;
   final bool highlight;
-
   DetailItem({
     required this.label,
     required this.value,

@@ -10,16 +10,14 @@ import '../../../../constants/theme/app_theme_extension.dart';
 class MedicalPurposeCard extends StatelessWidget {
   final bool isMedicalPurpose;
   final ValueChanged<bool> onChanged;
-
   const MedicalPurposeCard({
     super.key,
     required this.isMedicalPurpose,
     required this.onChanged,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -28,9 +26,7 @@ class MedicalPurposeCard extends StatelessWidget {
             title: "Purpose",
             subtitle: "Prescribed or therapeutic use",
           ),
-
-          CommonSpacer.vertical(t.spacing.md),
-
+          CommonSpacer.vertical(th.spacing.md),
           CommonSwitchTile(
             title: "Medical Purpose",
             subtitle: "Prescribed or therapeutic use",

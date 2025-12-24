@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Error analytics screen. Migrated to use AppTheme and CommonLoader.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
@@ -16,7 +15,6 @@ import '../widgets/errors/error_log_detail_dialog.dart';
 
 class ErrorAnalyticsScreen extends StatefulWidget {
   const ErrorAnalyticsScreen({super.key});
-
   @override
   State<ErrorAnalyticsScreen> createState() => _ErrorAnalyticsScreenState();
 }
@@ -24,11 +22,9 @@ class ErrorAnalyticsScreen extends StatefulWidget {
 class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
   final AdminService _adminService = AdminService();
   final ErrorReporter _errorReporter = ErrorReporter.instance;
-
   Map<String, dynamic> _errorAnalytics = {};
   bool _isClearingErrors = false;
   bool _isLoading = true;
-
   @override
   void initState() {
     super.initState();
@@ -67,13 +63,11 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
           .where((value) => value.isNotEmpty)
           .toSet()
           .toList();
-
       final screenOptions = _getBreakdown('screen_breakdown')
           .map((item) => item['screen_name']?.toString() ?? 'Unknown Screen')
           .where((value) => value.isNotEmpty)
           .toSet()
           .toList();
-
       final result = await showDialog<Map<String, dynamic>?>(
         context: context,
         builder: (context) => ErrorCleanupDialog(
@@ -81,14 +75,11 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
           screenOptions: screenOptions,
         ),
       );
-
       if (result == null || !mounted) return;
-
       final deleteAll = result['deleteAll'] as bool? ?? false;
       final olderThanDays = result['olderThanDays'] as int?;
       final platform = result['platform'] as String?;
       final screen = result['screen'] as String?;
-
       if (!deleteAll &&
           olderThanDays == null &&
           (platform?.isEmpty ?? true) &&
@@ -102,9 +93,7 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
         }
         return;
       }
-
       setState(() => _isClearingErrors = true);
-
       try {
         await _adminService.clearErrorLogs(
           deleteAll: deleteAll,
@@ -161,9 +150,8 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -195,7 +183,7 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
           ? const CommonLoader()
           : RefreshIndicator(
               onRefresh: _loadData,
-              color: a.primary,
+              color: ac.primary,
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(sp.md),
                 child: ErrorAnalyticsSection(

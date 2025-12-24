@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: State management for log entry.
-
 import 'package:flutter/material.dart';
 import '../../models/log_entry_form_data.dart';
 import 'log_entry_controller.dart';
@@ -21,13 +20,10 @@ import 'log_entry_controller.dart';
 class LogEntryState extends ChangeNotifier {
   LogEntryFormData _data = LogEntryFormData.initial();
   final LogEntryController _controller;
-
   LogEntryState({LogEntryController? controller})
     : _controller = controller ?? LogEntryController();
-
   // Expose pure data (Riverpod will use this directly)
   LogEntryFormData get data => _data;
-
   // Individual getters for backward compatibility with Provider
   bool get isSimpleMode => _data.isSimpleMode;
   double get dose => _data.dose;
@@ -49,7 +45,6 @@ class LogEntryState extends ChangeNotifier {
   String get entryId => _data.entryId;
   Map<String, dynamic>? get substanceDetails => _data.substanceDetails;
   DateTime get selectedDateTime => _data.selectedDateTime;
-
   // Pure business logic methods (delegated to controller)
   List<String> getAvailableROAs() {
     return _controller.getAvailableROAs(_data.substanceDetails);

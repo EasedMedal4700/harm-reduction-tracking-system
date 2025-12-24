@@ -1,15 +1,12 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to use CommonActionCard and AppTheme. No hardcoded values.
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import '../../../constants/config/feature_flags.dart';
-
 import '../../../services/feature_flag_service.dart';
 import '../../../services/user_service.dart';
 import '../../../../common/cards/common_action_card.dart';
@@ -23,7 +20,6 @@ class HomeQuickActionsGrid extends StatefulWidget {
   final VoidCallback onLibrary;
   final VoidCallback onCatalog;
   final VoidCallback onBloodLevels;
-
   const HomeQuickActionsGrid({
     super.key,
     required this.onLogEntry,
@@ -35,14 +31,12 @@ class HomeQuickActionsGrid extends StatefulWidget {
     required this.onCatalog,
     required this.onBloodLevels,
   });
-
   @override
   State<HomeQuickActionsGrid> createState() => _HomeQuickActionsGridState();
 }
 
 class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
   bool _isAdmin = false;
-
   @override
   void initState() {
     super.initState();
@@ -117,7 +111,6 @@ class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
         FeatureFlags.bloodLevelsPage,
       ),
     ];
-
     return Consumer<FeatureFlagService>(
       builder: (context, flags, _) {
         // Filter actions based on feature flags
@@ -126,11 +119,9 @@ class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
               (action) => flags.isEnabled(action.flagName, isAdmin: _isAdmin),
             )
             .toList();
-
         if (enabledActions.isEmpty) {
           return const SizedBox.shrink();
         }
-
         return GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
@@ -160,7 +151,6 @@ class _QuickAction {
   final String label;
   final VoidCallback onTap;
   final String flagName;
-
   const _QuickAction(
     this.key,
     this.icon,

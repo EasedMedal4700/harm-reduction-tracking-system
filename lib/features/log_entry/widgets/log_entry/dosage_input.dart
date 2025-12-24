@@ -5,22 +5,19 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 class DosageInput extends StatelessWidget {
   final TextEditingController controller;
   final String unit;
-
   const DosageInput({super.key, required this.controller, required this.unit});
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final acc = context.accent;
+    final ac = context.accent;
     // sp unused
     final sh = context.shapes;
-
     return TextFormField(
       controller: controller,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
         labelText: 'Dosage ($unit)',
-        prefixIcon: Icon(Icons.scale, color: acc.primary),
+        prefixIcon: Icon(Icons.scale, color: ac.primary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(sh.radiusMd),
         ),
@@ -31,7 +28,7 @@ class DosageInput extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(sh.radiusMd),
           borderSide: BorderSide(
-            color: acc.primary,
+            color: ac.primary,
             width: context.borders.medium,
           ),
         ),

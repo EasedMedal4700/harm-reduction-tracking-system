@@ -17,7 +17,6 @@ class PinTimeoutService {
   static const String _keyBackgroundTimeout = 'pin_background_timeout_minutes';
   static const String _keyMaxSessionDuration = 'pin_max_session_minutes';
   static const String _keySessionStartTime = 'pin_session_start_time';
-
   // Default values (in minutes)
   static const int defaultForegroundTimeout =
       5; // Re-enter PIN after 5 min inactive
@@ -25,13 +24,11 @@ class PinTimeoutService {
       60; // Re-enter PIN after 60 min in background
   static const int defaultMaxSessionDuration =
       480; // Auto-lock after 8 hours (0 = disabled)
-
   // Min/max values for settings
   static const int minTimeout = 1;
   static const int maxForegroundTimeout = 60;
   static const int maxBackgroundTimeout = 1440; // 24 hours
   static const int maxSessionDuration = 1440; // 24 hours
-
   SharedPreferences? _prefs;
 
   /// Initialize the service
@@ -48,7 +45,6 @@ class PinTimeoutService {
   // ============================================
   // Timeout Settings (persisted)
   // ============================================
-
   /// Get foreground timeout in minutes (time since last activity before requiring PIN)
   Future<int> getForegroundTimeout() async {
     final prefs = await _preferences;
@@ -91,7 +87,6 @@ class PinTimeoutService {
   // ============================================
   // Unlock State Management
   // ============================================
-
   /// Record that the user just unlocked with their PIN
   Future<void> recordUnlock() async {
     final prefs = await _preferences;
@@ -121,16 +116,13 @@ class PinTimeoutService {
   /// Returns true if user needs to enter PIN
   Future<bool> isPinRequired() async {
     final prefs = await _preferences;
-
     final lastUnlock = prefs.getInt(_keyLastUnlockTime);
     if (lastUnlock == null) {
       AppLog.i('🔐 PIN required: Never unlocked');
       return true; // Never unlocked
     }
-
     final now = DateTime.now().millisecondsSinceEpoch;
     final lastUnlockTime = DateTime.fromMillisecondsSinceEpoch(lastUnlock);
-
     // Check max session duration
     final sessionStart = prefs.getInt(_keySessionStartTime);
     final maxSession = await getMaxSessionDuration();
@@ -144,7 +136,6 @@ class PinTimeoutService {
         return true;
       }
     }
-
     // Check background timeout
     final backgroundStart = prefs.getInt(_keyBackgroundTime);
     if (backgroundStart != null) {
@@ -158,7 +149,6 @@ class PinTimeoutService {
         return true;
       }
     }
-
     // Check foreground timeout (time since last unlock/activity)
     final timeSinceUnlock = now - lastUnlock;
     final foregroundTimeout = await getForegroundTimeout();
@@ -169,7 +159,6 @@ class PinTimeoutService {
       );
       return true;
     }
-
     final remaining = ((foregroundTimeoutMs - timeSinceUnlock) / 1000 / 60)
         .round();
     AppLog.d(
@@ -191,17 +180,13 @@ class PinTimeoutService {
   /// Returns 0 if PIN is already required
   Future<int> getTimeRemaining() async {
     final prefs = await _preferences;
-
     final lastUnlock = prefs.getInt(_keyLastUnlockTime);
     if (lastUnlock == null) return 0;
-
     final now = DateTime.now().millisecondsSinceEpoch;
     final foregroundTimeout = await getForegroundTimeout();
     final foregroundTimeoutMs = foregroundTimeout * 60 * 1000;
-
     final timeSinceUnlock = now - lastUnlock;
     final remaining = foregroundTimeoutMs - timeSinceUnlock;
-
     return remaining > 0 ? (remaining / 1000).round() : 0;
   }
 

@@ -12,7 +12,6 @@ import 'widgets/reflection/reflection_selection.dart';
 class ReflectionPage extends StatefulWidget {
   final LogEntryService? logEntryService;
   const ReflectionPage({super.key, this.logEntryService});
-
   @override
   State<ReflectionPage> createState() => _ReflectionPageState();
 }
@@ -21,7 +20,6 @@ class _ReflectionPageState extends State<ReflectionPage> {
   late final LogEntryService _entryService;
   List<Map<String, dynamic>> _entries = [];
   bool _isLoading = true;
-
   @override
   void initState() {
     super.initState();
@@ -54,9 +52,9 @@ class _ReflectionPageState extends State<ReflectionPage> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final a = context.accent;
-    final t = context.text;
 
+    final ac = context.accent;
+    final tx = context.text;
     return Consumer<ReflectionProvider>(
       builder: (context, provider, child) {
         return Scaffold(
@@ -64,7 +62,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
           appBar: AppBar(
             title: Text(
               'Reflect on Recent Entries',
-              style: t.titleLarge.copyWith(
+              style: tx.titleLarge.copyWith(
                 fontWeight: FontWeight.bold,
                 color: c.textPrimary,
               ),
@@ -86,7 +84,9 @@ class _ReflectionPageState extends State<ReflectionPage> {
                         onPressed: provider.isSaving
                             ? null
                             : () => provider.save(context),
-                        style: TextButton.styleFrom(foregroundColor: a.primary),
+                        style: TextButton.styleFrom(
+                          foregroundColor: ac.primary,
+                        ),
                         child: provider.isSaving
                             ? SizedBox(
                                 width: context.sizes.iconSm,
@@ -94,13 +94,13 @@ class _ReflectionPageState extends State<ReflectionPage> {
                                 child: CircularProgressIndicator(
                                   strokeWidth: context.borders.medium,
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                    a.primary,
+                                    ac.primary,
                                   ),
                                 ),
                               )
                             : Text(
                                 'Save',
-                                style: t.labelLarge.copyWith(
+                                style: tx.labelLarge.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -115,7 +115,7 @@ class _ReflectionPageState extends State<ReflectionPage> {
             child: _isLoading
                 ? Center(
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(a.primary),
+                      valueColor: AlwaysStoppedAnimation<Color>(ac.primary),
                     ),
                   )
                 : SafeArea(

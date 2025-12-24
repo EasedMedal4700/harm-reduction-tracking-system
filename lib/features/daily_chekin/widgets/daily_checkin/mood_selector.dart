@@ -17,14 +17,12 @@ class MoodSelector extends StatefulWidget {
   final String? selectedMood;
   final List<String> availableMoods;
   final Function(String) onMoodSelected;
-
   const MoodSelector({
     super.key,
     required this.selectedMood,
     required this.availableMoods,
     required this.onMoodSelected,
   });
-
   @override
   State<MoodSelector> createState() => _MoodSelectorState();
 }
@@ -34,7 +32,6 @@ class _MoodSelectorState extends State<MoodSelector>
   late AnimationController _scaleController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
-
   @override
   void initState() {
     super.initState();
@@ -90,30 +87,25 @@ class _MoodSelectorState extends State<MoodSelector>
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
-    final a = context.accent;
-    final text = context.text;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
-
     // Reverse mapping: first mood ('Poor') -> 1.0 (left), last mood ('Great') -> max (right)
     final moodToValue = {
       for (int i = 0; i < widget.availableMoods.length; i++)
         widget.availableMoods[i]: (widget.availableMoods.length - i).toDouble(),
     };
-
     final valueToMood = {
       for (int i = 0; i < widget.availableMoods.length; i++)
         (widget.availableMoods.length - i).toDouble(): widget.availableMoods[i],
     };
-
     // Get current slider value (default to first mood if none selected)
     final currentValue = widget.selectedMood != null
         ? moodToValue[widget.selectedMood]!
         : 1.0;
-
     final selectedMoodIndex = (currentValue - 1).toInt();
-
     return CommonCard(
       padding: EdgeInsets.all(sp.lg),
       child: Column(
@@ -121,7 +113,7 @@ class _MoodSelectorState extends State<MoodSelector>
         children: [
           Text(
             'How are you feeling?',
-            style: text.heading4,
+            style: tx.heading4,
             textAlign: AppLayout.textAlignCenter,
           ),
           const CommonSpacer.vertical(16),
@@ -147,7 +139,7 @@ class _MoodSelectorState extends State<MoodSelector>
                         child: Text(
                           emoji,
                           style: TextStyle(
-                            fontSize: t.typography.displaySmall.fontSize,
+                            fontSize: th.typography.displaySmall.fontSize,
                           ),
                         ),
                       ),
@@ -164,13 +156,13 @@ class _MoodSelectorState extends State<MoodSelector>
               trackHeight: 6.0, // Thicker track
               thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12.0),
               overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
-              activeTrackColor: _getThumbColor(currentValue, c, a),
+              activeTrackColor: _getThumbColor(currentValue, c, ac),
               inactiveTrackColor: c.border,
-              thumbColor: _getThumbColor(currentValue, c, a),
+              thumbColor: _getThumbColor(currentValue, c, ac),
               overlayColor: _getThumbColor(
                 currentValue,
                 c,
-                a,
+                ac,
               ).withValues(alpha: 0.2),
             ),
             child: Slider(
@@ -195,8 +187,8 @@ class _MoodSelectorState extends State<MoodSelector>
                 .map(
                   (label) => Text(
                     label,
-                    style: text.bodySmall.copyWith(
-                      fontWeight: text.body.fontWeight,
+                    style: tx.bodySmall.copyWith(
+                      fontWeight: tx.body.fontWeight,
                     ),
                     textAlign: AppLayout.textAlignCenter,
                   ),

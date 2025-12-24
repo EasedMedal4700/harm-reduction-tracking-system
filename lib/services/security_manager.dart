@@ -14,7 +14,6 @@ class SecurityManager {
   static final SecurityManager _instance = SecurityManager._internal();
   factory SecurityManager() => _instance;
   SecurityManager._internal();
-
   // Storage keys
   static const String _keyLastUnlockTime = 'security_last_unlock_time';
   static const String _keyLastInteractionTime =
@@ -25,15 +24,12 @@ class SecurityManager {
       'security_foreground_timeout_minutes';
   static const String _keyBackgroundTimeout =
       'security_background_timeout_minutes';
-
   // Default timeouts (in minutes)
   static const int defaultForegroundTimeout = 5;
   static const int defaultBackgroundTimeout = 60;
-
   // Debounce settings
   static const Duration _debounceInterval = Duration(milliseconds: 500);
   static const Duration _minBackgroundDuration = Duration(seconds: 1);
-
   // State
   SharedPreferences? _prefs;
   bool _isLockingOrUnlocking = false;
@@ -41,7 +37,6 @@ class SecurityManager {
   bool _isInBackground = false;
   Timer? _backgroundLockTimer;
   final EncryptionServiceV2 _encryptionService = EncryptionServiceV2();
-
   // Callbacks for navigation
   VoidCallback? onPinRequired;
   VoidCallback? onUnlocked;
@@ -60,7 +55,6 @@ class SecurityManager {
   // ============================================
   // Timeout Settings
   // ============================================
-
   Future<int> getForegroundTimeout() async {
     final prefs = await _preferences;
     return prefs.getInt(_keyForegroundTimeout) ?? defaultForegroundTimeout;
@@ -84,7 +78,6 @@ class SecurityManager {
   // ============================================
   // Timestamp Management
   // ============================================
-
   /// Record that user just unlocked with PIN
   Future<void> recordUnlock() async {
     final prefs = await _preferences;
@@ -109,37 +102,31 @@ class SecurityManager {
     final prefs = await _preferences;
     final lastUnlock = prefs.getInt(_keyLastUnlockTime);
     final lastInteraction = prefs.getInt(_keyLastInteractionTime);
-
     final unlockTime = lastUnlock != null
         ? DateTime.fromMillisecondsSinceEpoch(lastUnlock)
         : DateTime(2000);
     final interactionTime = lastInteraction != null
         ? DateTime.fromMillisecondsSinceEpoch(lastInteraction)
         : DateTime(2000);
-
     return unlockTime.isAfter(interactionTime) ? unlockTime : interactionTime;
   }
 
   /// Check if PIN is required based on both unlock and interaction times
   Future<bool> shouldRequirePin() async {
     final prefs = await _preferences;
-
     // Check if ever unlocked
     final lastUnlock = prefs.getInt(_keyLastUnlockTime);
     if (lastUnlock == null) {
       return true; // Never unlocked
     }
-
     final now = DateTime.now();
     final lastActivity = await _getLastActivityTime();
     final foregroundTimeout = await getForegroundTimeout();
     final timeSinceActivity = now.difference(lastActivity);
-
     // Check foreground timeout (based on last activity)
     if (timeSinceActivity.inMinutes >= foregroundTimeout) {
       return true;
     }
-
     // Check background timeout if applicable
     final backgroundStart = prefs.getInt(_keyBackgroundStartTime);
     if (backgroundStart != null) {
@@ -150,7 +137,6 @@ class SecurityManager {
         return true;
       }
     }
-
     return false;
   }
 
@@ -168,7 +154,6 @@ class SecurityManager {
   // ============================================
   // Lifecycle Event Handling (with debounce)
   // ============================================
-
   /// Handle app going to background
   Future<void> handleBackgroundStart() async {
     // Debounce: ignore if we just processed a lifecycle event
@@ -178,19 +163,15 @@ class SecurityManager {
       return;
     }
     _lastLifecycleEvent = now;
-
     // Already in background? Skip
     if (_isInBackground) return;
     _isInBackground = true;
-
     // Record background start time
     final prefs = await _preferences;
     await prefs.setInt(_keyBackgroundStartTime, now.millisecondsSinceEpoch);
     AppLog.i('📱 [SecurityManager] Background started at $now');
-
     // Cancel any existing timer
     _backgroundLockTimer?.cancel();
-
     // Schedule potential lock after minimum background duration
     _backgroundLockTimer = Timer(_minBackgroundDuration, () async {
       if (_isInBackground) {
@@ -201,7 +182,6 @@ class SecurityManager {
         );
       }
     });
-
     // Lock encryption service (but don't navigate yet)
     _encryptionService.lock();
   }
@@ -215,15 +195,12 @@ class SecurityManager {
       return;
     }
     _lastLifecycleEvent = now;
-
     // Cancel background timer
     _backgroundLockTimer?.cancel();
     _backgroundLockTimer = null;
-
     // Already in foreground? Skip
     if (!_isInBackground) return;
     _isInBackground = false;
-
     // Guard against concurrent operations
     if (_isLockingOrUnlocking) {
       AppLog.w(
@@ -232,7 +209,6 @@ class SecurityManager {
       return;
     }
     _isLockingOrUnlocking = true;
-
     try {
       // Check if user is authenticated
       final user = Supabase.instance.client.auth.currentUser;
@@ -240,7 +216,6 @@ class SecurityManager {
         AppLog.i('🔒 [SecurityManager] No user, skipping PIN check');
         return;
       }
-
       // Check if user has encryption setup
       final hasEncryption = await _encryptionService.hasEncryptionSetup(
         user.id,
@@ -251,7 +226,6 @@ class SecurityManager {
         );
         return;
       }
-
       // Check if PIN is required
       final pinRequired = await shouldRequirePin();
       if (pinRequired) {

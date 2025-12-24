@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 /// Typography constants and system
 class AppTypographyConstants {
   AppTypographyConstants._();
-
   static const double fontXSmall = 12.0;
   static const double fontSmall = 14.0;
   static const double fontMedium = 16.0;
@@ -11,11 +10,9 @@ class AppTypographyConstants {
   static const double fontXLarge = 20.0;
   static const double font2XLarge = 24.0;
   static const double font3XLarge = 32.0;
-
   static const FontWeight fontBold = FontWeight.w700;
   static const FontWeight fontSemiBold = FontWeight.w600;
   static const FontWeight fontMediumWeight = FontWeight.w500;
-
   static const double lineHeightTight = 1.2;
   static const String fontFamilyMonospace = 'monospace';
 }
@@ -55,7 +52,6 @@ class AppTypography {
     final textColorTertiary = isDark
         ? const Color(0xFF6B7280)
         : const Color(0xFF9CA3AF);
-
     return TextStyles(
       // Headings
       heading1: TextStyle(
@@ -93,7 +89,6 @@ class AppTypography {
         letterSpacing: 0.1,
         height: 1.4,
       ),
-
       // Body text
       bodyLarge: TextStyle(
         fontSize: _scale(_baseBody + 2, userFontSize),
@@ -119,7 +114,6 @@ class AppTypography {
         color: textColorSecondary,
         height: 1.4,
       ),
-
       // Utility text
       caption: TextStyle(
         fontSize: _scale(_baseCaption, userFontSize),
@@ -140,7 +134,6 @@ class AppTypography {
         letterSpacing: 1.0,
         height: 1.2,
       ),
-
       // Button text
       button: TextStyle(
         fontSize: _scale(_baseBody, userFontSize),
@@ -154,7 +147,6 @@ class AppTypography {
         letterSpacing: 0.5,
         height: 1.2,
       ),
-
       // Label text (same as caption but with primary text color)
       label: TextStyle(
         fontSize: _scale(_baseCaption, userFontSize),
@@ -174,23 +166,19 @@ class TextStyles {
   final TextStyle heading3;
   final TextStyle heading4;
   final TextStyle titleSmall;
-
   // Body
   final TextStyle bodyLarge;
   final TextStyle body;
   final TextStyle bodyBold;
   final TextStyle bodySmall;
-
   // Utility
   final TextStyle caption;
   final TextStyle captionBold;
   final TextStyle overline;
   final TextStyle label;
-
   // Buttons
   final TextStyle button;
   final TextStyle buttonSmall;
-
   const TextStyles({
     required this.heading1,
     required this.heading2,
@@ -208,7 +196,6 @@ class TextStyles {
     required this.buttonSmall,
     required this.label,
   });
-
   // Material 3 Aliases
   TextStyle get displayLarge => heading1;
   TextStyle get displayMedium => heading2;

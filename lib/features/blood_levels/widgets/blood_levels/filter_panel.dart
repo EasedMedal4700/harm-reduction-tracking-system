@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to CommonSpacer. Kept Container as it's a panel.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -17,7 +16,6 @@ class FilterPanel extends StatelessWidget {
   final Function(String, bool) onIncludeChanged;
   final Function(String, bool) onExcludeChanged;
   final VoidCallback onClearAll;
-
   const FilterPanel({
     required this.availableDrugs,
     required this.includedDrugs,
@@ -27,14 +25,12 @@ class FilterPanel extends StatelessWidget {
     required this.onClearAll,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    final text = context.text;
-    final acc = context.accent;
-
+    final tx = context.text;
+    final ac = context.accent;
     return Container(
       decoration: BoxDecoration(
         color: c.surface,
@@ -49,24 +45,18 @@ class FilterPanel extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text('Filters', style: text.heading4),
+              Text('Filters', style: tx.heading4),
               const Spacer(),
               if (includedDrugs.isNotEmpty || excludedDrugs.isNotEmpty)
                 TextButton(
                   onPressed: onClearAll,
-                  child: Text(
-                    'Clear All',
-                    style: TextStyle(color: acc.primary),
-                  ),
+                  child: Text('Clear All', style: TextStyle(color: ac.primary)),
                 ),
             ],
           ),
-
           CommonSpacer.vertical(sp.sm),
-
-          Text('Include Only:', style: text.bodyBold),
+          Text('Include Only:', style: tx.bodyBold),
           CommonSpacer.vertical(sp.xs),
-
           Wrap(
             spacing: sp.sm,
             runSpacing: sp.xs,
@@ -77,22 +67,19 @@ class FilterPanel extends StatelessWidget {
                 selected: isSelected,
                 onSelected: (selected) => onIncludeChanged(drug, selected),
                 backgroundColor: c.surfaceVariant,
-                selectedColor: acc.primary.withValues(
+                selectedColor: ac.primary.withValues(
                   alpha: context.opacities.selected,
                 ),
-                checkmarkColor: acc.primary,
+                checkmarkColor: ac.primary,
                 labelStyle: TextStyle(
-                  color: isSelected ? acc.primary : c.textPrimary,
+                  color: isSelected ? ac.primary : c.textPrimary,
                 ),
               );
             }).toList(),
           ),
-
           CommonSpacer.vertical(sp.lg),
-
-          Text('Exclude:', style: text.bodyBold),
+          Text('Exclude:', style: tx.bodyBold),
           CommonSpacer.vertical(sp.xs),
-
           Wrap(
             spacing: sp.sm,
             runSpacing: sp.xs,

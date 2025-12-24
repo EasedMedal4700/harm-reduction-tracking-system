@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 
 class AppLog {
   static bool get _debugEnabled => !kReleaseMode;
-
   static void d(String message) {
     if (_debugEnabled) {
       dev.log(message, name: 'DEBUG');

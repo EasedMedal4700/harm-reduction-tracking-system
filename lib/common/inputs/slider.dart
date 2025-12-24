@@ -6,7 +6,6 @@ import '../../constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-
 /// Slider for numeric input (e.g., craving intensity)
 class CommonSlider extends StatelessWidget {
   final double value;
@@ -18,7 +17,6 @@ class CommonSlider extends StatelessWidget {
   final Color? activeColor;
   final Color? inactiveColor;
   final bool showValueLabel;
-
   const CommonSlider({
     required this.value,
     required this.onChanged,
@@ -31,13 +29,13 @@ class CommonSlider extends StatelessWidget {
     this.showValueLabel = true,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final defaultActiveColor = t.accent.primary;
-    final defaultInactiveColor = t.colors.surfaceVariant.withValues(alpha: 0.5);
-
+    final th = context.theme;
+    final defaultActiveColor = th.accent.primary;
+    final defaultInactiveColor = th.colors.surfaceVariant.withValues(
+      alpha: 0.5,
+    );
     return SliderTheme(
       data: SliderThemeData(
         activeTrackColor: activeColor ?? defaultActiveColor,
@@ -47,8 +45,8 @@ class CommonSlider extends StatelessWidget {
           alpha: 0.2,
         ),
         valueIndicatorColor: activeColor ?? defaultActiveColor,
-        valueIndicatorTextStyle: t.text.bodySmall.copyWith(
-          color: t.colors.textInverse,
+        valueIndicatorTextStyle: th.text.bodySmall.copyWith(
+          color: th.colors.textInverse,
           fontWeight: FontWeight.w500,
         ),
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10.0),

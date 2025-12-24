@@ -20,7 +20,6 @@ class UseDistributionCard extends StatefulWidget {
   final Map<String, int> substanceCounts;
   final List<LogEntry> filteredEntries;
   final Map<String, String> substanceToCategory;
-
   const UseDistributionCard({
     super.key,
     required this.categoryCounts,
@@ -28,7 +27,6 @@ class UseDistributionCard extends StatefulWidget {
     required this.filteredEntries,
     required this.substanceToCategory,
   });
-
   @override
   State<UseDistributionCard> createState() => _UseDistributionCardState();
 }
@@ -40,17 +38,14 @@ class _UseDistributionController {
   Map<String, int> substanceCounts;
   List<LogEntry> filteredEntries;
   Map<String, String> substanceToCategory;
-
   // Cache for per-category substance counts
   final Map<String, Map<String, int>> _substancesByCategoryCache = {};
-
   _UseDistributionController({
     required this.categoryCounts,
     required this.substanceCounts,
     required this.filteredEntries,
     required this.substanceToCategory,
   });
-
   void update({
     required Map<String, int> categoryCounts,
     required Map<String, int> substanceCounts,
@@ -72,12 +67,10 @@ class _UseDistributionController {
     if (viewType == DistributionViewType.category && selectedCategory == null) {
       return categoryCounts;
     }
-
     if (viewType == DistributionViewType.substance &&
         selectedCategory != null) {
       return getSubstanceCountsForCategory(selectedCategory);
     }
-
     return substanceCounts;
   }
 
@@ -86,7 +79,6 @@ class _UseDistributionController {
     if (_substancesByCategoryCache.containsKey(category)) {
       return _substancesByCategoryCache[category]!;
     }
-
     final result = <String, int>{};
     for (final entry in filteredEntries) {
       final cat = substanceToCategory[entry.substance.toLowerCase()] ?? 'Other';
@@ -94,7 +86,6 @@ class _UseDistributionController {
         result[entry.substance] = (result[entry.substance] ?? 0) + 1;
       }
     }
-
     _substancesByCategoryCache[category] = result;
     return result;
   }
@@ -107,15 +98,11 @@ class _UseDistributionController {
   ) {
     final category = substanceToCategory[substance.toLowerCase()] ?? 'Other';
     final base = context.accent.primary;
-
     if (total <= 1) return base;
-
     final hsl = HSLColor.fromColor(base);
     final ratio = total <= 1 ? 0.5 : index / (total - 1);
-
     final lightness = (hsl.lightness + (ratio - 0.5) * 0.35).clamp(0.25, 0.8);
     final sat = (hsl.saturation + (ratio - 0.5) * 0.25).clamp(0.5, 1.0);
-
     return hsl.withLightness(lightness).withSaturation(sat).toColor();
   }
 }
@@ -127,15 +114,12 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
     filteredEntries: widget.filteredEntries,
     substanceToCategory: widget.substanceToCategory,
   );
-
   DistributionViewType _viewType = DistributionViewType.category;
   int _touchedIndex = -1;
   String? _selectedCategory;
-
   @override
   void didUpdateWidget(covariant UseDistributionCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-
     // Keep controller data in sync when parent updates props
     if (oldWidget.categoryCounts != widget.categoryCounts ||
         oldWidget.substanceCounts != widget.substanceCounts ||
@@ -152,34 +136,30 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
-    final t = context.theme;
-
+    final tx = context.text;
+    final th = context.theme;
     final data = _controller.getActiveData(_viewType, _selectedCategory);
     final total = data.values.fold<int>(0, (sum, v) => sum + v);
     final hasData = total > 0;
-
     return CommonCard(
-      padding: EdgeInsets.all(t.spacing.lg),
+      padding: EdgeInsets.all(th.spacing.lg),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           _buildHeader(context),
           if (_selectedCategory != null) ...[
-            CommonSpacer.vertical(t.spacing.sm),
+            CommonSpacer.vertical(th.spacing.sm),
             _CategoryBreadcrumb(
               category: _selectedCategory!,
               onClear: _resetToCategoryView,
             ),
           ],
-          CommonSpacer.vertical(t.spacing.md),
-
+          CommonSpacer.vertical(th.spacing.md),
           if (!hasData)
             const _EmptyChartPlaceholder()
           else
             _buildChartSection(context, data, total),
-
-          CommonSpacer.vertical(t.spacing.md),
+          CommonSpacer.vertical(th.spacing.md),
           _buildLegend(context, data, total),
         ],
       ),
@@ -187,18 +167,15 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
   }
 
   // HEADER + TOGGLE -----------------------------------------------------------
-
   Widget _buildHeader(BuildContext context) {
     final isCategoryRoot =
         _viewType == DistributionViewType.category && _selectedCategory == null;
     final isSubstanceRoot =
         _viewType == DistributionViewType.substance &&
         _selectedCategory == null;
-
     final subtitle = _selectedCategory == null
         ? 'Usage across categories and substances.'
         : 'Substances within ${_selectedCategory!}.';
-
     return Row(
       children: [
         Expanded(
@@ -236,7 +213,6 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
   }
 
   // CHART ---------------------------------------------------------------------
-
   Widget _buildChartSection(
     BuildContext context,
     Map<String, int> data,
@@ -247,7 +223,6 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
         final width = constraints.maxWidth;
         final radiusBase = (width * 0.22).clamp(70.0, 110.0);
         final innerRadius = radiusBase * 0.5;
-
         return SizedBox(
           height: radiusBase * 2.1,
           child: Stack(
@@ -266,15 +241,11 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                         setState(() => _touchedIndex = -1);
                         return;
                       }
-
                       final index =
                           response!.touchedSection!.touchedSectionIndex;
                       final keys = data.keys.toList();
-
                       if (index < 0 || index >= keys.length) return;
-
                       setState(() => _touchedIndex = index);
-
                       // Drill-down on category slices
                       if (event is FlTapUpEvent &&
                           _viewType == DistributionViewType.category) {
@@ -307,13 +278,10 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
   ) {
     final entries = data.entries.toList();
     final total = data.values.fold<int>(0, (sum, v) => sum + v);
-
     if (total == 0) return [];
-
     return List.generate(entries.length, (index) {
       final e = entries[index];
       final isTouched = _touchedIndex == index;
-
       final baseColor = _viewType == DistributionViewType.category
           ? DrugCategoryColors.colorFor(e.key)
           : _controller.colorForSubstance(
@@ -322,21 +290,18 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
               index,
               entries.length,
             );
-
       final color = baseColor.withValues(alpha: isTouched ? 1.0 : 0.85);
       final radius = isTouched ? radiusBase * 1.08 : radiusBase;
-
       final slicePercent = e.value / total;
       final showLabel = slicePercent > 0.08;
-
       return PieChartSectionData(
         value: e.value.toDouble(),
         color: color,
         radius: radius,
         title: showLabel ? '${(slicePercent * 100).round()}%' : '',
         titleStyle: TextStyle(
-          fontSize: context.text.bodySmall.fontSize,
-          fontWeight: context.text.bodyBold.fontWeight,
+          fontSize: tx.bodySmall.fontSize,
+          fontWeight: tx.bodyBold.fontWeight,
           color: context.colors.surface,
         ),
       );
@@ -344,22 +309,21 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
   }
 
   // LEGEND --------------------------------------------------------------------
-
   Widget _buildLegend(BuildContext context, Map<String, int> data, int total) {
-    final t = context.theme;
+    final th = context.theme;
+
     final sorted = data.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
-
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(
           'Breakdown',
-          style: t.typography.captionBold.copyWith(
-            color: t.colors.textSecondary,
+          style: th.typography.captionBold.copyWith(
+            color: th.colors.textSecondary,
           ),
         ),
-        SizedBox(height: t.spacing.sm),
+        SizedBox(height: th.spacing.sm),
         ConstrainedBox(
           constraints: BoxConstraints(maxHeight: context.sizes.heightMd),
           child: SingleChildScrollView(
@@ -374,38 +338,36 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                         index,
                         sorted.length,
                       );
-
                 final pct = total == 0
                     ? '0%'
                     : '${(e.value / total * 100).round()}%';
-
                 return Padding(
-                  padding: EdgeInsets.symmetric(vertical: t.spacing.xs),
+                  padding: EdgeInsets.symmetric(vertical: th.spacing.xs),
                   child: Row(
                     children: [
                       Container(
-                        width: t.spacing.md,
-                        height: t.spacing.md,
+                        width: th.spacing.md,
+                        height: th.spacing.md,
                         decoration: BoxDecoration(
                           color: baseColor,
-                          borderRadius: BorderRadius.circular(t.spacing.xs),
+                          borderRadius: BorderRadius.circular(th.spacing.xs),
                         ),
                       ),
-                      SizedBox(width: t.spacing.sm),
+                      SizedBox(width: th.spacing.sm),
                       Expanded(
                         child: Text(
                           e.key,
-                          style: t.typography.bodySmall.copyWith(
-                            color: t.colors.textPrimary,
+                          style: th.typography.bodySmall.copyWith(
+                            color: th.colors.textPrimary,
                           ),
                           overflow: AppLayout.textOverflowEllipsis,
                         ),
                       ),
-                      SizedBox(width: t.spacing.sm),
+                      SizedBox(width: th.spacing.sm),
                       Text(
                         '$pct · ${e.value}',
-                        style: t.typography.caption.copyWith(
-                          color: t.colors.textSecondary,
+                        style: th.typography.caption.copyWith(
+                          color: th.colors.textSecondary,
                         ),
                       ),
                     ],
@@ -421,7 +383,6 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
 }
 
 // SUBWIDGETS ------------------------------------------------------------------
-
 class _ViewToggle extends StatelessWidget {
   final DistributionViewType activeType;
   final bool isDrilledDown;
@@ -429,7 +390,6 @@ class _ViewToggle extends StatelessWidget {
   final VoidCallback onSubstance;
   final bool isCategory;
   final bool isSubstance;
-
   const _ViewToggle({
     required this.activeType,
     required this.isDrilledDown,
@@ -438,18 +398,17 @@ class _ViewToggle extends StatelessWidget {
     required this.isCategory,
     required this.isSubstance,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final bg = t.colors.surface.withValues(alpha: 0.7);
-    final border = t.colors.border.withValues(alpha: 0.25);
+    final th = context.theme;
 
+    final bg = th.colors.surface.withValues(alpha: 0.7);
+    final border = th.colors.border.withValues(alpha: 0.25);
     return Container(
-      padding: EdgeInsets.all(t.spacing.xs),
+      padding: EdgeInsets.all(th.spacing.xs),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(t.shapes.radiusFull),
+        borderRadius: BorderRadius.circular(th.shapes.radiusFull),
         border: Border.all(color: border),
       ),
       child: Row(
@@ -478,31 +437,32 @@ class _ViewToggle extends StatelessWidget {
     required bool selected,
     required VoidCallback onTap,
   }) {
-    final t = context.theme;
+    final th = context.theme;
+    final tx = context.text;
 
     return InkWell(
-      borderRadius: BorderRadius.circular(t.shapes.radiusFull),
+      borderRadius: BorderRadius.circular(th.shapes.radiusFull),
       onTap: onTap,
       child: AnimatedContainer(
-        duration: t.animations.fast,
+        duration: th.animations.fast,
         curve: Curves.easeOut,
         padding: EdgeInsets.symmetric(
-          horizontal: t.spacing.sm,
-          vertical: t.spacing.xs,
+          horizontal: th.spacing.sm,
+          vertical: th.spacing.xs,
         ),
         decoration: BoxDecoration(
           color: selected
-              ? t.accent.primary.withValues(alpha: t.opacities.low)
-              : t.colors.transparent,
-          borderRadius: BorderRadius.circular(t.shapes.radiusFull),
+              ? th.accent.primary.withValues(alpha: th.opacities.low)
+              : th.colors.transparent,
+          borderRadius: BorderRadius.circular(th.shapes.radiusFull),
         ),
         child: Text(
           label,
-          style: t.typography.caption.copyWith(
+          style: th.typography.caption.copyWith(
             fontWeight: selected
-                ? t.text.bodyBold.fontWeight
-                : t.text.body.fontWeight,
-            color: selected ? t.accent.primary : t.colors.textSecondary,
+                ? th.tx.bodyBold.fontWeight
+                : th.tx.body.fontWeight,
+            color: selected ? th.accent.primary : th.colors.textSecondary,
           ),
         ),
       ),
@@ -513,39 +473,38 @@ class _ViewToggle extends StatelessWidget {
 class _CategoryBreadcrumb extends StatelessWidget {
   final String category;
   final VoidCallback onClear;
-
   const _CategoryBreadcrumb({required this.category, required this.onClear});
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
+    final tx = context.text;
 
     return InkWell(
       onTap: onClear,
-      borderRadius: BorderRadius.circular(t.shapes.radiusFull),
+      borderRadius: BorderRadius.circular(th.shapes.radiusFull),
       child: Container(
         padding: EdgeInsets.symmetric(
-          horizontal: t.spacing.sm,
-          vertical: t.spacing.xs,
+          horizontal: th.spacing.sm,
+          vertical: th.spacing.xs,
         ),
         decoration: BoxDecoration(
-          color: t.accent.primary.withValues(alpha: t.opacities.veryLow),
-          borderRadius: BorderRadius.circular(t.shapes.radiusFull),
+          color: th.accent.primary.withValues(alpha: th.opacities.veryLow),
+          borderRadius: BorderRadius.circular(th.shapes.radiusFull),
         ),
         child: Row(
           mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
             Icon(
               Icons.arrow_back_ios_new_rounded,
-              size: t.spacing.lg,
-              color: t.accent.primary,
+              size: th.spacing.lg,
+              color: th.accent.primary,
             ),
-            SizedBox(width: t.spacing.xs),
+            SizedBox(width: th.spacing.xs),
             Text(
               'Substances in $category',
-              style: t.typography.caption.copyWith(
-                color: t.accent.primary,
-                fontWeight: t.text.bodyBold.fontWeight,
+              style: th.typography.caption.copyWith(
+                color: th.accent.primary,
+                fontWeight: th.tx.bodyBold.fontWeight,
               ),
             ),
           ],
@@ -559,33 +518,30 @@ class _ChartCenterLabel extends StatelessWidget {
   final int total;
   final DistributionViewType mode;
   final String? category;
-
   const _ChartCenterLabel({
     required this.total,
     required this.mode,
     required this.category,
   });
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
 
     final label = switch (mode) {
       DistributionViewType.category => 'categories',
       DistributionViewType.substance => category ?? 'substances',
     };
-
     return Column(
       mainAxisSize: AppLayout.mainAxisSizeMin,
       children: [
         Text(
           total.toString(),
-          style: t.typography.heading4.copyWith(color: t.colors.textPrimary),
+          style: th.typography.heading4.copyWith(color: th.colors.textPrimary),
         ),
-        SizedBox(height: t.spacing.xs),
+        SizedBox(height: th.spacing.xs),
         Text(
           label,
-          style: t.typography.caption.copyWith(color: t.colors.textSecondary),
+          style: th.typography.caption.copyWith(color: th.colors.textSecondary),
         ),
       ],
     );
@@ -594,10 +550,9 @@ class _ChartCenterLabel extends StatelessWidget {
 
 class _EmptyChartPlaceholder extends StatelessWidget {
   const _EmptyChartPlaceholder();
-
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
 
     return SizedBox(
       height: context.sizes.heightMd,
@@ -605,7 +560,9 @@ class _EmptyChartPlaceholder extends StatelessWidget {
         child: Text(
           'No data to visualize yet.\nLog a few entries to see distribution.',
           textAlign: AppLayout.textAlignCenter,
-          style: t.typography.bodySmall.copyWith(color: t.colors.textSecondary),
+          style: th.typography.bodySmall.copyWith(
+            color: th.colors.textSecondary,
+          ),
         ),
       ),
     );

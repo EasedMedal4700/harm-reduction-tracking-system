@@ -3,12 +3,10 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_animations.dart';
 import '../../common/logging/app_log.dart';
-
 import '../../common/layout/common_drawer.dart';
 import '../../common/feedback/common_loader.dart';
 import '../../common/buttons/common_icon_button.dart';
@@ -23,9 +21,7 @@ import 'widgets/tolerance_dashboard/empty_state_widget.dart';
 
 class ToleranceDashboardPage extends StatefulWidget {
   final String? initialSubstance;
-
   const ToleranceDashboardPage({super.key, this.initialSubstance});
-
   @override
   State<ToleranceDashboardPage> createState() => _ToleranceDashboardPageState();
 }
@@ -35,10 +31,8 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   bool _isLoadingOptions = true;
   String? _userId;
   List<String> _substances = [];
-
   // Unified tolerance results
   ToleranceResult? _systemTolerance;
-
   // Hierarchical UI state
   String? _selectedBucket; // Currently selected bucket for detail view
   final ScrollController _scrollController = ScrollController();
@@ -46,11 +40,9 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   Map<String, Map<String, double>> _substanceContributions =
       {}; // bucket -> {substance -> contribution%}
   Map<String, bool> _substanceActiveStates = {}; // substance -> isActive
-
   // Debugging per-substance tolerance
   bool _showDebugSubstances = false;
   bool _showDebugPanel = false;
-
   @override
   void initState() {
     super.initState();
@@ -60,7 +52,6 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   Future<void> _loadSystemTolerance() async {
     try {
       if (_userId == null) return;
-
       final data = await ToleranceEngineService.computeSystemTolerance(
         userId: _userId!,
         daysBack: 30,
@@ -92,61 +83,49 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
 
   Future<void> _computeSubstanceContributions() async {
     if (_userId == null) return;
-
     AppLog.d('\n════════════════════════════════════════════════════════');
     AppLog.d('🔬 TOLERANCE CALCULATION DEBUG - ${DateTime.now()}');
     AppLog.d('════════════════════════════════════════════════════════');
-
     try {
       final allModels = await ToleranceEngineService.fetchAllToleranceModels();
       final allUseLogs = await ToleranceEngineService.fetchUseLogs(
         userId: _userId!,
         daysBack: 30,
       );
-
       AppLog.d('📊 Found ${allModels.length} substances with tolerance models');
       AppLog.d('📊 Found ${allUseLogs.length} use log entries (30 days)');
-
       // Group by bucket
       final Map<String, Map<String, double>> contributions = {};
       final Map<String, bool> activeStates = {};
-
       for (final entry in allModels.entries) {
         final substanceName = entry.key;
         AppLog.d('\n─────────────────────────────────────────────────────────');
         AppLog.d('💊 Processing: $substanceName');
-
         // Get use events for this substance
         final substanceEvents = allUseLogs
             .where((log) => log.substanceSlug == substanceName)
             .toList();
-
         if (substanceEvents.isEmpty) {
           AppLog.w('  ⚠️  No use events found - skipping');
           continue;
         }
-
         AppLog.d('  📅 Use events: ${substanceEvents.length}');
         for (final event in substanceEvents) {
           AppLog.d('    - ${event.timestamp}: ${event.doseUnits}mg');
         }
-
         // Use unified tolerance engine for this substance's contributions
         final perSubstanceResult = ToleranceCalculatorFull.computeToleranceFull(
           useLogs: substanceEvents,
           toleranceModels: {substanceName: entry.value},
         );
-
         AppLog.d('  🎯 Bucket Results (unified engine):');
         for (final bucketType in perSubstanceResult.bucketPercents.keys) {
           final tolerancePercent =
               perSubstanceResult.bucketPercents[bucketType] ?? 0.0;
           final rawLoad = perSubstanceResult.bucketRawLoads[bucketType] ?? 0.0;
-
           AppLog.d(
             '    - $bucketType: ${tolerancePercent.toStringAsFixed(1)}% (raw: ${rawLoad.toStringAsFixed(4)})',
           );
-
           if (tolerancePercent > 0.1) {
             contributions.putIfAbsent(bucketType, () => {});
             contributions[bucketType]![substanceName] = tolerancePercent;
@@ -156,7 +135,6 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
           }
         }
       }
-
       AppLog.d('\n══════════════════════════════════════════════════════════');
       AppLog.d('📈 FINAL BUCKET CONTRIBUTIONS:');
       for (final bucket in contributions.keys) {
@@ -173,7 +151,6 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
         }
       }
       AppLog.d('══════════════════════════════════════════════════════════\n');
-
       if (mounted) {
         setState(() {
           _substanceContributions = contributions;
@@ -189,19 +166,15 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
     setState(() {
       _isLoadingOptions = true;
     });
-
     try {
       final userId = UserService.getCurrentUserId();
       final options = await _toleranceService.fetchUserSubstances(userId);
-
       if (!mounted) return;
-
       setState(() {
         _userId = userId;
         _substances = options;
         _isLoadingOptions = false;
       });
-
       // Load system tolerance once we know the user
       await _loadSystemTolerance();
     } catch (e) {
@@ -215,9 +188,8 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
-
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -250,7 +222,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       ),
       drawer: const CommonDrawer(),
       body: _isLoadingOptions
-          ? Center(child: CommonLoader(color: a.primary))
+          ? Center(child: CommonLoader(color: ac.primary))
           : SingleChildScrollView(
               controller: _scrollController,
               padding: EdgeInsets.all(sp.md),

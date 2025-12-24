@@ -5,7 +5,6 @@ class CurvePoint {
 
   /// Amount of drug remaining in mg
   final double remainingMg;
-
   const CurvePoint({required this.hours, required this.remainingMg});
 
   /// Calculate percentage based on original dose

@@ -4,7 +4,6 @@ import '../common/logging/app_log.dart';
 
 class SubstanceRepository {
   SupabaseClient get _client => Supabase.instance.client;
-
   Future<List<Map<String, dynamic>>> fetchSubstancesCatalog() async {
     final response = await _client
         .from('drug_profiles')
@@ -14,7 +13,6 @@ class SubstanceRepository {
     final data = (response as List<dynamic>)
         .map((e) => e as Map<String, dynamic>)
         .toList();
-
     // Parse JSON fields
     return data.map((item) {
       return {
@@ -52,9 +50,7 @@ class SubstanceRepository {
           .select('name, pretty_name, formatted_dose')
           .ilike('name', substanceName)
           .maybeSingle();
-
       if (response == null) return null;
-
       return {
         'name': response['name'] ?? '',
         'pretty_name': response['pretty_name'] ?? response['name'] ?? '',
@@ -74,10 +70,8 @@ class SubstanceRepository {
   /// Returns list of available routes (lowercase) or empty list if none found
   List<String> getAvailableROAs(Map<String, dynamic>? substanceDetails) {
     if (substanceDetails == null) return [];
-
     final formattedDoseRaw = substanceDetails['formatted_dose'];
     if (formattedDoseRaw == null) return [];
-
     // Handle both Map<dynamic, dynamic> and Map<String, dynamic>
     final Map<String, dynamic> formattedDose;
     if (formattedDoseRaw is Map<String, dynamic>) {
@@ -87,9 +81,7 @@ class SubstanceRepository {
     } else {
       return [];
     }
-
     if (formattedDose.isEmpty) return [];
-
     // Extract ROA keys and convert to lowercase (Oral -> oral, Insufflated -> insufflated, etc.)
     return formattedDose.keys
         .map((key) => key.toString().toLowerCase())

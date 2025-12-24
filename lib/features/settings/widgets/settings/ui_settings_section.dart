@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to AppThemeExtension and common components. No logic or state changes.
-
 import 'package:flutter/material.dart';
 import '../../../../providers/settings_provider.dart';
 import 'settings_section.dart';
@@ -15,18 +14,15 @@ import '../../../../constants/theme/app_theme_extension.dart';
 class UISettingsSection extends StatelessWidget {
   final SettingsProvider settingsProvider;
   final VoidCallback onLanguageTap;
-
   const UISettingsSection({
     required this.settingsProvider,
     required this.onLanguageTap,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     final settings = settingsProvider.settings;
-    final t = context.theme;
-
+    final th = context.theme;
     return SettingsSection(
       title: 'UI Settings',
       icon: Icons.palette,
@@ -57,7 +53,7 @@ class UISettingsSection extends StatelessWidget {
         ListTile(
           title: const Text('Language'),
           subtitle: Text(settings.language),
-          trailing: Icon(Icons.chevron_right, size: t.sizes.iconSm),
+          trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
           onTap: onLanguageTap,
         ),
       ],

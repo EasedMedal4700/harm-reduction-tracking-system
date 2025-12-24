@@ -12,7 +12,6 @@ class ComplexFields extends StatelessWidget {
   final String? selectedRoa;
   final List<String> roaOptions;
   final ValueChanged<String?> onRoaChanged;
-
   const ComplexFields({
     super.key,
     required this.notesController,
@@ -23,14 +22,12 @@ class ComplexFields extends StatelessWidget {
     required this.roaOptions,
     required this.onRoaChanged,
   });
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final acc = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
@@ -42,13 +39,12 @@ class ComplexFields extends StatelessWidget {
           hintText: 'Route of Administration',
         ),
         SizedBox(height: sp.md),
-
         // Location Field
         TextFormField(
           controller: locationController,
           decoration: InputDecoration(
             labelText: 'Location',
-            prefixIcon: Icon(Icons.place, color: acc.primary),
+            prefixIcon: Icon(Icons.place, color: ac.primary),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
@@ -59,7 +55,7 @@ class ComplexFields extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
               borderSide: BorderSide(
-                color: acc.primary,
+                color: ac.primary,
                 width: context.borders.medium,
               ),
             ),
@@ -70,13 +66,12 @@ class ComplexFields extends StatelessWidget {
           style: TextStyle(color: c.textPrimary),
         ),
         SizedBox(height: sp.md),
-
         // People Field
         TextFormField(
           controller: peopleController,
           decoration: InputDecoration(
             labelText: 'People (comma separated)',
-            prefixIcon: Icon(Icons.people, color: acc.primary),
+            prefixIcon: Icon(Icons.people, color: ac.primary),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
@@ -87,7 +82,7 @@ class ComplexFields extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
               borderSide: BorderSide(
-                color: acc.primary,
+                color: ac.primary,
                 width: context.borders.medium,
               ),
             ),
@@ -98,14 +93,13 @@ class ComplexFields extends StatelessWidget {
           style: TextStyle(color: c.textPrimary),
         ),
         SizedBox(height: sp.md),
-
         // Cost Field
         TextFormField(
           controller: costController,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(
             labelText: 'Cost',
-            prefixIcon: Icon(Icons.attach_money, color: acc.primary),
+            prefixIcon: Icon(Icons.attach_money, color: ac.primary),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
@@ -115,7 +109,7 @@ class ComplexFields extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: 2),
+              borderSide: BorderSide(color: ac.primary, width: 2),
             ),
             filled: true,
             fillColor: c.surface,
@@ -124,14 +118,13 @@ class ComplexFields extends StatelessWidget {
           style: TextStyle(color: c.textPrimary),
         ),
         SizedBox(height: sp.md),
-
         // Notes Field
         TextFormField(
           controller: notesController,
           maxLines: 3,
           decoration: InputDecoration(
             labelText: 'Notes',
-            prefixIcon: Icon(Icons.note, color: acc.primary),
+            prefixIcon: Icon(Icons.note, color: ac.primary),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
             ),
@@ -141,7 +134,7 @@ class ComplexFields extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: acc.primary, width: 2),
+              borderSide: BorderSide(color: ac.primary, width: 2),
             ),
             filled: true,
             fillColor: c.surface,

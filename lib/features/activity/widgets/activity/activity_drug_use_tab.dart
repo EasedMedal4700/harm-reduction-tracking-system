@@ -3,7 +3,6 @@
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Tab for displaying drug use entries. Uses ActivityCard and ActivityEmptyState. No hardcoded values.
-
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'activity_card.dart';
@@ -13,18 +12,15 @@ class ActivityDrugUseTab extends StatelessWidget {
   final List entries;
   final Function(Map<String, dynamic>) onEntryTap;
   final Future<void> Function() onRefresh;
-
   const ActivityDrugUseTab({
     super.key,
     required this.entries,
     required this.onEntryTap,
     required this.onRefresh,
   });
-
   DateTime _parseTimestamp(dynamic timestamp) {
     if (timestamp == null) return DateTime.now();
     if (timestamp is DateTime) return timestamp;
-
     try {
       return DateTime.parse(timestamp.toString());
     } catch (_) {
@@ -34,9 +30,8 @@ class ActivityDrugUseTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
+    final th = context.theme;
     final sp = context.spacing;
-
     if (entries.isEmpty) {
       return const ActivityEmptyState(
         icon: Icons.medication_outlined,
@@ -44,10 +39,9 @@ class ActivityDrugUseTab extends StatelessWidget {
         subtitle: 'Your recent drug use entries will appear here',
       );
     }
-
     return RefreshIndicator(
-      color: t.accent.primary,
-      backgroundColor: t.colors.surface,
+      color: th.accent.primary,
+      backgroundColor: th.colors.surface,
       onRefresh: onRefresh,
       child: ListView.builder(
         padding: EdgeInsets.all(sp.lg),
@@ -57,7 +51,6 @@ class ActivityDrugUseTab extends StatelessWidget {
           final timestamp = _parseTimestamp(
             entry['start_time'] ?? entry['time'],
           );
-
           return ActivityCard(
             title: entry['name'] ?? 'Unknown Substance',
             subtitle:
@@ -65,7 +58,7 @@ class ActivityDrugUseTab extends StatelessWidget {
             timestamp: timestamp,
             icon: Icons.medication,
             // Replaces DrugCategoryColors.stimulant with theme accent
-            accentColor: t.accent.primary,
+            accentColor: th.accent.primary,
             badge: entry['is_medical_purpose'] == true ? 'Medical' : null,
             onTap: () => onEntryTap(entry),
           );

@@ -5,14 +5,12 @@ import 'package:provider/provider.dart';
 import '../../services/onboarding_service.dart';
 import '../../providers/settings_provider.dart';
 import '../../common/layout/common_spacer.dart';
-
 import '../../common/logging/app_log.dart';
 
 /// A multi-page onboarding experience for new users
 /// Shows app introduction, privacy info, usage frequency selection, and theme picker
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
-
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
@@ -20,12 +18,10 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
-
   // User selections
   String? _selectedFrequency;
   bool _privacyAccepted = false;
   bool _isDarkTheme = false;
-
   @override
   void initState() {
     super.initState();
@@ -72,15 +68,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     if (_privacyAccepted) {
       await onboardingService.acceptPrivacyPolicy();
     }
-
     // Apply theme
     if (mounted) {
       context.read<SettingsProvider>().setDarkMode(_isDarkTheme);
     }
-
     // Mark onboarding complete
     await onboardingService.completeOnboarding();
-
     // Navigate to register
     if (mounted) {
       Navigator.of(context).pushReplacementNamed('/register');
@@ -104,13 +97,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
+    final tx = context.text;
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
-
     return Scaffold(
       backgroundColor: c.background,
       body: SafeArea(
@@ -124,10 +116,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   return Expanded(
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: sp.xs),
-                      height: context.spacing.xs,
+                      height: sp.xs,
                       decoration: BoxDecoration(
                         color: index <= _currentPage
-                            ? a.primary
+                            ? ac.primary
                             : c.border.withValues(
                                 alpha: context.opacities.medium,
                               ),
@@ -138,7 +130,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 }),
               ),
             ),
-
             // Page content
             Expanded(
               child: PageView(
@@ -155,7 +146,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ],
               ),
             ),
-
             // Navigation buttons
             Padding(
               padding: EdgeInsets.all(sp.xl),
@@ -167,7 +157,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       icon: Icon(Icons.arrow_back, color: c.textSecondary),
                       label: Text(
                         'Back',
-                        style: t.typography.labelLarge.copyWith(
+                        style: th.typography.labelLarge.copyWith(
                           color: c.textSecondary,
                         ),
                       ),
@@ -176,7 +166,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ElevatedButton(
                     onPressed: _canProceedFromCurrentPage ? _nextPage : null,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: a.primary,
+                      backgroundColor: ac.primary,
                       foregroundColor: c.textInverse,
                       padding: EdgeInsets.symmetric(
                         horizontal: sp.xl,
@@ -188,7 +178,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     child: Text(
                       _currentPage == 3 ? 'Get Started' : 'Continue',
-                      style: t.typography.labelLarge.copyWith(
+                      style: th.typography.labelLarge.copyWith(
                         color: c.textInverse,
                       ),
                     ),
@@ -203,12 +193,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildWelcomePage(BuildContext context) {
-    final text = context.text;
+    final th = context.theme;
     final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final t = context.theme;
-    final a = context.accent;
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
@@ -222,14 +212,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             height: 120,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [a.primary, a.secondary],
-                begin: context.shapes.alignmentTopLeft,
-                end: context.shapes.alignmentBottomRight,
+                colors: [ac.primary, ac.secondary],
+                begin: sh.alignmentTopLeft,
+                end: sh.alignmentBottomRight,
               ),
               borderRadius: BorderRadius.circular(sh.radiusLg),
               boxShadow: [
                 BoxShadow(
-                  color: a.primary.withValues(alpha: context.opacities.medium),
+                  color: ac.primary.withValues(alpha: context.opacities.medium),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -242,29 +232,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
           CommonSpacer.vertical(sp.xl),
-
           // App Name
           Text(
             'SubstanceCheck',
-            style: t.typography.heading1.copyWith(
-              fontWeight: text.bodyBold.fontWeight,
+            style: th.typography.heading1.copyWith(
+              fontWeight: tx.bodyBold.fontWeight,
               letterSpacing: -1,
               color: c.textPrimary,
             ),
           ),
           CommonSpacer.vertical(sp.sm),
-
           // Tagline
           Text(
             'Realtime pharmacokinetic tracking\nfor informed substance use',
             textAlign: AppLayout.textAlignCenter,
-            style: t.typography.heading4.copyWith(
+            style: th.typography.heading4.copyWith(
               color: c.textSecondary,
               height: 1.4,
             ),
           ),
           CommonSpacer.vertical(sp.xl2),
-
           // Features
           _buildFeatureItem(
             context: context,
@@ -305,10 +292,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     required String title,
     required String description,
   }) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -318,10 +305,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         Container(
           padding: EdgeInsets.all(sp.sm),
           decoration: BoxDecoration(
-            color: a.primary.withValues(alpha: 0.1),
+            color: ac.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(sh.radiusMd),
           ),
-          child: Icon(icon, color: a.primary, size: t.sizes.iconMd),
+          child: Icon(icon, color: ac.primary, size: th.sizes.iconMd),
         ),
         CommonSpacer.horizontal(sp.md),
         Expanded(
@@ -330,15 +317,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               Text(
                 title,
-                style: t.typography.heading4.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: th.typography.heading4.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
               ),
               CommonSpacer.vertical(sp.xs),
               Text(
                 description,
-                style: t.typography.body.copyWith(color: c.textSecondary),
+                style: th.typography.body.copyWith(color: c.textSecondary),
               ),
             ],
           ),
@@ -348,9 +335,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildPrivacyInfoPage(BuildContext context) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
     final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -372,7 +360,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Icon(
                   Icons.lock_outline,
                   color: c.success,
-                  size: t.sizes.iconLg,
+                  size: th.sizes.iconLg,
                 ),
               ),
               CommonSpacer.horizontal(sp.md),
@@ -382,14 +370,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   children: [
                     Text(
                       'Privacy & Safety',
-                      style: t.typography.heading3.copyWith(
-                        fontWeight: text.bodyBold.fontWeight,
+                      style: th.typography.heading3.copyWith(
+                        fontWeight: tx.bodyBold.fontWeight,
                         color: c.textPrimary,
                       ),
                     ),
                     Text(
                       'Your data is protected',
-                      style: t.typography.body.copyWith(color: c.textSecondary),
+                      style: th.typography.body.copyWith(
+                        color: c.textSecondary,
+                      ),
                     ),
                   ],
                 ),
@@ -397,7 +387,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ],
           ),
           CommonSpacer.vertical(sp.xl),
-
           // Encryption section
           _buildPrivacySection(
             context: context,
@@ -409,7 +398,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             color: c.info,
           ),
           CommonSpacer.vertical(sp.md),
-
           _buildPrivacySection(
             context: context,
             icon: Icons.cloud_off,
@@ -417,10 +405,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             content:
                 'Your encryption keys are stored locally on your device. '
                 'If you lose your PIN and recovery key, your data cannot be recovered by anyone.',
-            color: context.accent.secondary,
+            color: ac.secondary,
           ),
           CommonSpacer.vertical(sp.md),
-
           _buildPrivacySection(
             context: context,
             icon: Icons.visibility_off,
@@ -431,7 +418,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             color: c.warning,
           ),
           CommonSpacer.vertical(sp.md),
-
           _buildPrivacySection(
             context: context,
             icon: Icons.delete_forever,
@@ -442,7 +428,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             color: c.error,
           ),
           CommonSpacer.vertical(sp.xl),
-
           // Theme selector
           Container(
             padding: EdgeInsets.all(sp.md),
@@ -456,8 +441,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 Text(
                   'Choose Your Theme',
-                  style: t.typography.heading4.copyWith(
-                    fontWeight: text.bodyBold.fontWeight,
+                  style: th.typography.heading4.copyWith(
+                    fontWeight: tx.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
                 ),
@@ -506,8 +491,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     required String content,
     required Color color,
   }) {
-    final t = context.theme;
+    final th = context.theme;
     final c = context.colors;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -521,7 +507,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Row(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
-          Icon(icon, color: color, size: t.sizes.iconMd),
+          Icon(icon, color: color, size: th.sizes.iconMd),
           CommonSpacer.horizontal(sp.md),
           Expanded(
             child: Column(
@@ -529,15 +515,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 Text(
                   title,
-                  style: t.typography.heading4.copyWith(
-                    fontWeight: context.text.bodyBold.fontWeight,
+                  style: th.typography.heading4.copyWith(
+                    fontWeight: tx.bodyBold.fontWeight,
                     color: c.textPrimary,
                   ),
                 ),
                 CommonSpacer.vertical(sp.xs),
                 Text(
                   content,
-                  style: t.typography.body.copyWith(
+                  style: th.typography.body.copyWith(
                     height: 1.4,
                     color: c.textSecondary,
                   ),
@@ -557,10 +543,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     required bool isSelected,
     required VoidCallback onTap,
   }) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
     final c = context.colors;
-    final a = context.accent;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
 
@@ -569,12 +555,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Container(
         padding: EdgeInsets.all(sp.md),
         decoration: BoxDecoration(
-          color: isSelected
-              ? a.primary.withValues(alpha: 0.1)
-              : context.colors.transparent,
+          color: isSelected ? ac.primary.withValues(alpha: 0.1) : c.transparent,
           borderRadius: BorderRadius.circular(sh.radiusMd),
           border: Border.all(
-            color: isSelected ? a.primary : c.border,
+            color: isSelected ? ac.primary : c.border,
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -582,17 +566,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             Icon(
               icon,
-              size: t.sizes.iconLg,
-              color: isSelected ? a.primary : c.textSecondary,
+              size: th.sizes.iconLg,
+              color: isSelected ? ac.primary : c.textSecondary,
             ),
             CommonSpacer.vertical(sp.xs),
             Text(
               title,
-              style: t.typography.body.copyWith(
+              style: th.typography.body.copyWith(
                 fontWeight: isSelected
-                    ? text.bodyBold.fontWeight
+                    ? tx.bodyBold.fontWeight
                     : FontWeight.normal,
-                color: isSelected ? a.primary : c.textSecondary,
+                color: isSelected ? ac.primary : c.textSecondary,
               ),
             ),
           ],
@@ -602,12 +586,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildPrivacyAcceptancePage(BuildContext context) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
     final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final a = context.accent;
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
@@ -618,18 +602,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           // Header
           Text(
             'Privacy Policy',
-            style: t.typography.heading3.copyWith(
-              fontWeight: text.bodyBold.fontWeight,
+            style: th.typography.heading3.copyWith(
+              fontWeight: tx.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),
           CommonSpacer.vertical(sp.xs),
           Text(
             'Please review and accept our privacy policy to continue.',
-            style: t.typography.body.copyWith(color: c.textSecondary),
+            style: th.typography.body.copyWith(color: c.textSecondary),
           ),
           CommonSpacer.vertical(sp.xl),
-
           // Privacy policy link
           GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -642,13 +625,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               decoration: BoxDecoration(
                 color: c.surface,
                 borderRadius: BorderRadius.circular(sh.radiusMd),
-                border: Border.all(color: a.primary.withValues(alpha: 0.3)),
+                border: Border.all(color: ac.primary.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.policy,
-                    color: a.primary,
+                    color: ac.primary,
                     size: context.sizes.iconXl,
                   ),
                   CommonSpacer.horizontal(sp.md),
@@ -658,15 +641,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       children: [
                         Text(
                           'Read Privacy Policy',
-                          style: t.typography.heading4.copyWith(
-                            fontWeight: text.bodyBold.fontWeight,
+                          style: th.typography.heading4.copyWith(
+                            fontWeight: tx.bodyBold.fontWeight,
                             color: c.textPrimary,
                           ),
                         ),
                         CommonSpacer.vertical(sp.xs),
                         Text(
                           'Opens in your browser',
-                          style: t.typography.body.copyWith(
+                          style: th.typography.body.copyWith(
                             color: c.textSecondary,
                           ),
                         ),
@@ -675,15 +658,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                   Icon(
                     Icons.open_in_new,
-                    color: a.primary,
-                    size: t.sizes.iconSm,
+                    color: ac.primary,
+                    size: th.sizes.iconSm,
                   ),
                 ],
               ),
             ),
           ),
           CommonSpacer.vertical(sp.xl),
-
           // Accept checkbox
           GestureDetector(
             onTap: () => setState(() => _privacyAccepted = !_privacyAccepted),
@@ -692,7 +674,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               decoration: BoxDecoration(
                 color: _privacyAccepted
                     ? c.success.withValues(alpha: 0.15)
-                    : context.colors.transparent,
+                    : c.transparent,
                 borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(
                   color: _privacyAccepted ? c.success : c.border,
@@ -705,9 +687,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     width: 28,
                     height: 28,
                     decoration: BoxDecoration(
-                      color: _privacyAccepted
-                          ? c.success
-                          : context.colors.transparent,
+                      color: _privacyAccepted ? c.success : c.transparent,
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(
                         color: _privacyAccepted ? c.success : c.border,
@@ -718,7 +698,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ? Icon(
                             Icons.check,
                             color: c.textInverse,
-                            size: t.sizes.iconSm,
+                            size: th.sizes.iconSm,
                           )
                         : null,
                   ),
@@ -726,9 +706,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Expanded(
                     child: Text(
                       'I have read and accept the Privacy Policy',
-                      style: t.typography.body.copyWith(
+                      style: th.typography.body.copyWith(
                         fontWeight: _privacyAccepted
-                            ? text.bodyBold.fontWeight
+                            ? tx.bodyBold.fontWeight
                             : FontWeight.normal,
                         color: _privacyAccepted ? c.success : c.textSecondary,
                       ),
@@ -738,7 +718,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
-
           if (!_privacyAccepted) ...[
             CommonSpacer.vertical(sp.md),
             Container(
@@ -752,13 +731,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Icon(
                     Icons.info_outline,
                     color: c.warning,
-                    size: t.sizes.iconSm,
+                    size: th.sizes.iconSm,
                   ),
                   CommonSpacer.horizontal(sp.sm),
                   Expanded(
                     child: Text(
                       'You must accept the privacy policy to continue',
-                      style: t.typography.body.copyWith(color: c.warning),
+                      style: th.typography.body.copyWith(color: c.warning),
                     ),
                   ),
                 ],
@@ -771,12 +750,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildUsageFrequencyPage(BuildContext context) {
-    final t = context.theme;
-    final text = context.text;
+    final th = context.theme;
     final c = context.colors;
+    final ac = context.accent;
+    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final a = context.accent;
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
@@ -787,18 +766,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           // Header
           Text(
             'How often do you use?',
-            style: t.typography.heading3.copyWith(
-              fontWeight: text.bodyBold.fontWeight,
+            style: th.typography.heading3.copyWith(
+              fontWeight: tx.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),
           CommonSpacer.vertical(sp.xs),
           Text(
             'This helps us personalize your experience. You can change this later in Settings.',
-            style: t.typography.body.copyWith(color: c.textSecondary),
+            style: th.typography.body.copyWith(color: c.textSecondary),
           ),
           CommonSpacer.vertical(sp.xl),
-
           // Frequency options
           ...OnboardingService.usageFrequencies.map((frequency) {
             final isSelected = _selectedFrequency == frequency.id;
@@ -810,11 +788,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   padding: EdgeInsets.all(sp.lg),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? a.primary.withValues(alpha: 0.1)
+                        ? ac.primary.withValues(alpha: 0.1)
                         : c.surface,
                     borderRadius: BorderRadius.circular(sh.radiusMd),
                     border: Border.all(
-                      color: isSelected ? a.primary : c.border,
+                      color: isSelected ? ac.primary : c.border,
                       width: isSelected ? 2 : 1,
                     ),
                   ),
@@ -822,9 +800,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     children: [
                       Text(
                         frequency.icon,
-                        style: TextStyle(
-                          fontSize: context.text.heading1.fontSize,
-                        ),
+                        style: TextStyle(fontSize: tx.heading1.fontSize),
                       ),
                       CommonSpacer.horizontal(sp.md),
                       Expanded(
@@ -833,15 +809,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           children: [
                             Text(
                               frequency.label,
-                              style: t.typography.heading4.copyWith(
-                                fontWeight: text.bodyBold.fontWeight,
-                                color: isSelected ? a.primary : c.textPrimary,
+                              style: th.typography.heading4.copyWith(
+                                fontWeight: tx.bodyBold.fontWeight,
+                                color: isSelected ? ac.primary : c.textPrimary,
                               ),
                             ),
                             CommonSpacer.vertical(sp.xs),
                             Text(
                               frequency.description,
-                              style: t.typography.body.copyWith(
+                              style: th.typography.body.copyWith(
                                 color: c.textSecondary,
                               ),
                             ),
@@ -852,8 +828,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         Container(
                           padding: EdgeInsets.all(sp.xs),
                           decoration: BoxDecoration(
-                            color: a.primary,
-                            shape: context.shapes.boxShapeCircle,
+                            color: ac.primary,
+                            shape: sh.boxShapeCircle,
                           ),
                           child: Icon(
                             Icons.check,
@@ -867,7 +843,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             );
           }),
-
           if (_selectedFrequency == null) ...[
             CommonSpacer.vertical(sp.md),
             Container(
@@ -881,13 +856,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Icon(
                     Icons.info_outline,
                     color: c.warning,
-                    size: t.sizes.iconSm,
+                    size: th.sizes.iconSm,
                   ),
                   CommonSpacer.horizontal(sp.sm),
                   Expanded(
                     child: Text(
                       'Please select an option to continue',
-                      style: t.typography.body.copyWith(color: c.warning),
+                      style: th.typography.body.copyWith(color: c.warning),
                     ),
                   ),
                 ],

@@ -14,7 +14,6 @@ class Reflection {
   double copingEffectiveness;
   double overallSatisfaction;
   String notes;
-
   Reflection({
     this.effectiveness = 5.0,
     this.sleepHours = 8.0,
@@ -28,7 +27,6 @@ class Reflection {
     this.overallSatisfaction = 5.0,
     this.notes = '',
   });
-
   Map<String, dynamic> toJson() => {
     'effectiveness': effectiveness.round(),
     'sleep_hours': sleepHours,
@@ -42,7 +40,6 @@ class Reflection {
     'overall_satisfaction': overallSatisfaction.round(),
     'notes': notes,
   };
-
   void reset() {
     effectiveness = 5.0;
     sleepHours = 8.0;
@@ -75,7 +72,6 @@ class ReflectionModel {
   final String copingStrategies;
   final double copingEffectiveness;
   final double overallSatisfaction;
-
   ReflectionModel({
     this.id,
     this.notes,
@@ -94,11 +90,9 @@ class ReflectionModel {
     this.copingEffectiveness = 0.0,
     this.overallSatisfaction = 0.0,
   });
-
   factory ReflectionModel.fromJson(Map<String, dynamic> json) {
     try {
       ErrorHandler.logDebug('ReflectionModel', 'Parsing reflection from JSON');
-
       List<String> toList(dynamic v, String fieldName) {
         try {
           if (v == null) {
@@ -169,7 +163,6 @@ class ReflectionModel {
         'selected_reflections': json['selected_reflections'],
         'reflections': json['reflections'],
       });
-
       // Parse selected reflections with priority fallback
       final selectedReflections = toList(
         json['selected_reflections'] ??
@@ -177,12 +170,10 @@ class ReflectionModel {
             json['related_entries'],
         'selectedReflections',
       );
-
       ErrorHandler.logDebug(
         'ReflectionModel',
         'Parsed selectedReflections: $selectedReflections (count: ${selectedReflections.length})',
       );
-
       return ReflectionModel(
         id: json['reflection_id']?.toString() ?? json['id']?.toString(),
         notes: json['notes']?.toString(),
@@ -220,7 +211,6 @@ class ReflectionModel {
       );
     }
   }
-
   Map<String, dynamic> toJson() => {
     'id': id,
     'notes': notes,

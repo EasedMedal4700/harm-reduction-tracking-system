@@ -2,7 +2,6 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../common/layout/common_spacer.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
@@ -13,19 +12,17 @@ import '../../common/layout/common_drawer.dart';
 /// Placeholder page for drug interaction checking
 class InteractionsPage extends StatelessWidget {
   const InteractionsPage({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final text = context.text;
+    final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Drug Interactions',
-          style: text.headlineSmall.copyWith(color: c.textPrimary),
+          style: tx.headlineSmall.copyWith(color: c.textPrimary),
         ),
         backgroundColor: c.surface,
         foregroundColor: c.textPrimary,
@@ -40,15 +37,15 @@ class InteractionsPage extends StatelessWidget {
             children: [
               Icon(
                 Icons.compare_arrows,
-                size: context.sizes.icon2xl + context.spacing.md, // 80.0
+                size: context.sizes.icon2xl + sp.md, // 80.0
                 color:
                     c.warning, // Using warning color for interactions/caution
               ),
               CommonSpacer.vertical(sp.lg),
               Text(
                 'Drug Interactions',
-                style: text.headlineMedium.copyWith(
-                  fontWeight: text.bodyBold.fontWeight,
+                style: tx.headlineMedium.copyWith(
+                  fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),
                 textAlign: AppLayout.textAlignCenter,
@@ -56,7 +53,7 @@ class InteractionsPage extends StatelessWidget {
               CommonSpacer.vertical(sp.md),
               Text(
                 'Check for potential interactions between substances',
-                style: text.bodyMedium.copyWith(color: c.textSecondary),
+                style: tx.bodyMedium.copyWith(color: c.textSecondary),
                 textAlign: AppLayout.textAlignCenter,
               ),
               CommonSpacer.vertical(sp.xl),
@@ -80,7 +77,7 @@ class InteractionsPage extends StatelessWidget {
                     CommonSpacer.horizontal(sp.sm),
                     Text(
                       'Coming Soon',
-                      style: text.titleLarge.copyWith(color: c.warning),
+                      style: tx.titleLarge.copyWith(color: c.warning),
                     ),
                   ],
                 ),
