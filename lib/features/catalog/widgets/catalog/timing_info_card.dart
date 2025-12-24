@@ -27,7 +27,6 @@ class TimingInfoCard extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final tx = context.text;
     final th = context.theme;
     if (onset == null && duration == null && afterEffects == null) {
       return const SizedBox.shrink();

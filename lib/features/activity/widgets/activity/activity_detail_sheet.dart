@@ -30,7 +30,6 @@ class ActivityDetailSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final th = context.theme;
     final c = context.colors;
-    final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
     return Container(

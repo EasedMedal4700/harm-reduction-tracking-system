@@ -399,7 +399,6 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
 
   Widget _buildProperties(BuildContext context) {
     final th = context.theme;
-    final tx = context.text;
 
     final summary = widget.substance['properties']?['summary'];
     final warning = widget.substance['properties']?['warning'];

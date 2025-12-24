@@ -34,7 +34,6 @@ class SystemToleranceWidget extends StatelessWidget {
   const SystemToleranceWidget({required this.data, super.key});
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
     final th = context.theme;
     return Container(
       decoration: BoxDecoration(

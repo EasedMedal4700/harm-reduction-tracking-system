@@ -43,7 +43,6 @@ class _ChangePinPageState extends ConsumerState<ChangePinPage> {
     final c = context.colors;
     final ac = context.accent;
     final sp = context.spacing;
-    final sh = context.shapes;
     if (state.success) {
       return _SuccessView(onDone: controller.close);
     }

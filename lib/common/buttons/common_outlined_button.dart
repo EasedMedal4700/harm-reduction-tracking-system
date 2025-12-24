@@ -31,7 +31,6 @@ class CommonOutlinedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
-    final c = context.colors;
     final effectiveColor = color ?? th.accent.primary;
     final effectiveBorderColor = borderColor ?? effectiveColor;
     return SizedBox(

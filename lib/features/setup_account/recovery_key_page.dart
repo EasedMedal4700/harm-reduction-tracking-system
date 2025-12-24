@@ -140,7 +140,6 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
     return Scaffold(

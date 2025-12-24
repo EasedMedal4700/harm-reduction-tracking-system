@@ -19,7 +19,6 @@ class CategoryFilterChips extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final tx = context.text;
     final categories = <String?>[
       null, // "All" option
       ...DrugCategories.categoryPriority,

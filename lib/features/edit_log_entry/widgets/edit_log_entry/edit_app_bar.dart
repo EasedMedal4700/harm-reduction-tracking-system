@@ -24,7 +24,6 @@ class EditLogEntryAppBar extends StatelessWidget
   });
   @override
   Widget build(BuildContext context) {
-    final tx = context.text;
     final c = context.colors;
     final th = context.theme;
     final sp = context.spacing;

@@ -98,7 +98,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
-    final tx = context.text;
     final c = context.colors;
     final ac = context.accent;
     final sp = context.spacing;

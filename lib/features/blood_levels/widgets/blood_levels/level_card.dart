@@ -23,7 +23,6 @@ class _LevelCardState extends State<LevelCard> {
   bool _expanded = false;
   @override
   Widget build(BuildContext context) {
-    final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;

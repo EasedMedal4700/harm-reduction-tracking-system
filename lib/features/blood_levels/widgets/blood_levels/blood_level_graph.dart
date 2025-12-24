@@ -30,7 +30,6 @@ class BloodLevelGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
-    final tx = context.text;
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

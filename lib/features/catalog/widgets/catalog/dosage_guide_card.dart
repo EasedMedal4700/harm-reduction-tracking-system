@@ -154,7 +154,6 @@ class DosageGuideCard extends StatelessWidget {
 
   Widget _buildWarningCard(BuildContext context, String message) {
     final th = context.theme;
-    final tx = context.text;
 
     return Container(
       padding: EdgeInsets.all(th.spacing.md),

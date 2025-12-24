@@ -136,7 +136,6 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
 
   @override
   Widget build(BuildContext context) {
-    final tx = context.text;
     final th = context.theme;
     final data = _controller.getActiveData(_viewType, _selectedCategory);
     final total = data.values.fold<int>(0, (sum, v) => sum + v);
@@ -438,7 +437,6 @@ class _ViewToggle extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     final th = context.theme;
-    final tx = context.text;
 
     return InkWell(
       borderRadius: BorderRadius.circular(th.shapes.radiusFull),
