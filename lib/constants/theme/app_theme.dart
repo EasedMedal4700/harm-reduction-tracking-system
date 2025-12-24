@@ -10,7 +10,6 @@ import 'app_animations.dart';
 import 'app_sizes.dart';
 import 'app_opacities.dart';
 import 'app_borders.dart';
-import '../layout/app_layout.dart';
 import 'app_surfaces.dart';
 
 /// Composed application theme.

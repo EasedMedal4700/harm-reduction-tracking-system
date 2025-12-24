@@ -6,9 +6,6 @@
 // Common: N/A
 // Notes: Central post-login routing incl. encryption & PIN.
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../services/encryption_migration_service.dart';
-import '../../../services/encryption_service_v2.dart';
 import '../../../providers/core_providers.dart';
 import '../../../providers/navigation_provider.dart';
 

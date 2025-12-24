@@ -37,6 +37,7 @@ class LoginController extends StateNotifier<LoginState> {
     _initializeSession();
   }
 
+  @override
   void dispose() {
     _authSub?.cancel();
   }

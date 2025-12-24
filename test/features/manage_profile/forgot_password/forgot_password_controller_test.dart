@@ -48,7 +48,7 @@ void main() {
           'test@test.com',
           redirectTo: 'substancecheck://reset-password',
         ),
-      ).thenAnswer((_) async => null);
+      ).thenAnswer((_) async {});
 
       final notifier = container.read(
         forgotPasswordControllerProvider.notifier,
@@ -93,7 +93,7 @@ void main() {
       // Second call succeeds
       when(
         mockAuth.resetPasswordForEmail(any, redirectTo: anyNamed('redirectTo')),
-      ).thenAnswer((_) async => null);
+      ).thenAnswer((_) async {});
 
       await notifier.sendResetEmail('test@test.com');
 
@@ -104,7 +104,7 @@ void main() {
     test('reset returns to initial state', () async {
       when(
         mockAuth.resetPasswordForEmail(any, redirectTo: anyNamed('redirectTo')),
-      ).thenAnswer((_) async => null);
+      ).thenAnswer((_) async {});
 
       final notifier = container.read(
         forgotPasswordControllerProvider.notifier,

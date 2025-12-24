@@ -12,7 +12,6 @@ import 'providers/daily_checkin_provider.dart';
 import 'providers/settings_provider.dart';
 import 'routes/screen_tracking_observer.dart';
 import 'providers/navigation_provider.dart';
-import 'services/navigation_service.dart';
 import 'constants/theme/app_theme_provider.dart';
 import 'features/admin/screens/admin_panel_screen.dart';
 import 'features/analytics/analytics_page.dart';

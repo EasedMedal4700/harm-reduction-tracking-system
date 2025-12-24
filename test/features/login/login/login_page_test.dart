@@ -47,10 +47,6 @@ class FakeLoginController extends StateNotifier<LoginState>
     state = newState;
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 }
 
 void main() {

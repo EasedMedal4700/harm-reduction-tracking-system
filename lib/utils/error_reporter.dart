@@ -236,10 +236,8 @@ class ErrorReporter {
       // Fallback logging if Supabase insert fails
       AppLog.e('Failed to report error to Supabase: $insertError');
       AppLog.e('Original error: $error');
-      if (insertStackTrace != null) {
-        AppLog.e('Insert stack trace: $insertStackTrace');
-      }
-    }
+      AppLog.e('Insert stack trace: $insertStackTrace');
+        }
   }
 
   /// Quick error report with just error and optional screen
