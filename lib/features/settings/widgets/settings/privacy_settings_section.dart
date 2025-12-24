@@ -19,6 +19,8 @@ import '../../../../common/layout/common_spacer.dart';
 import '../../../../common/buttons/common_primary_button.dart';
 
 /// Privacy & Security section widget
+import '../../../../common/logging/app_log.dart';
+
 class PrivacySettingsSection extends StatefulWidget {
   final SettingsProvider settingsProvider;
   final VoidCallback onAutoLockTap;
@@ -314,12 +316,12 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
         Listener(
           behavior: HitTestBehavior.translucent,
           onPointerDown: (event) =>
-              debugPrint('🖱 PointerDown on Privacy Policy tile: $event'),
+              AppLog.d('🖱 PointerDown on Privacy Policy tile: $event'),
           onPointerUp: (event) =>
-              debugPrint('🖱 PointerUp on Privacy Policy tile: $event'),
+              AppLog.d('🖱 PointerUp on Privacy Policy tile: $event'),
           child: InkWell(
             onTap: () {
-              debugPrint(
+              AppLog.d(
                 '🔔 Privacy Policy tile tapped - calling _openPrivacyPolicy()',
               );
               // _openPrivacyPolicy();

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'cache_service.dart';
+import '../common/logging/app_log.dart';
 
 /// Feature flag model representing a single flag from the database.
 class FeatureFlag {
@@ -101,9 +102,7 @@ class FeatureFlagService extends ChangeNotifier {
     notifyListeners();
 
     try {
-      if (kDebugMode) {
-        debugPrint('🏴 Loading feature flags from database...');
-      }
+      AppLog.d('🏴 Loading feature flags from database...');
 
       final response = await _client
           .from('feature_flags')
@@ -117,17 +116,13 @@ class FeatureFlagService extends ChangeNotifier {
       }
 
       _isLoaded = true;
-      if (kDebugMode) {
-        debugPrint('✅ Loaded ${_flags.length} feature flags');
-      }
+      AppLog.d('✅ Loaded ${_flags.length} feature flags');
 
       // Cache the flags
       _cache.set('feature_flags_loaded', true, ttl: CacheService.longTTL);
     } catch (e, stackTrace) {
-      if (kDebugMode) {
-        debugPrint('❌ Error loading feature flags: $e');
-        debugPrint('$stackTrace');
-      }
+      AppLog.e('❌ Error loading feature flags: $e');
+      AppLog.e('$stackTrace');
       _errorMessage = 'Failed to load feature flags: $e';
 
       // On error, default to all features enabled (fail-open)
@@ -163,9 +158,7 @@ class FeatureFlagService extends ChangeNotifier {
 
     // If flags haven't loaded, default to enabled (fail-open)
     if (!_isLoaded) {
-      if (kDebugMode) {
-        debugPrint('⚠️ Feature flags not loaded, defaulting to enabled');
-      }
+      AppLog.w('⚠️ Feature flags not loaded, defaulting to enabled');
       return true;
     }
 
@@ -173,11 +166,7 @@ class FeatureFlagService extends ChangeNotifier {
     final flag = _flags[featureName];
     if (flag == null) {
       // Unknown feature, default to enabled
-      if (kDebugMode) {
-        debugPrint(
-          '⚠️ Unknown feature flag: $featureName, defaulting to enabled',
-        );
-      }
+      AppLog.w('⚠️ Unknown feature flag: $featureName, defaulting to enabled');
       return true;
     }
 
@@ -189,6 +178,12 @@ class FeatureFlagService extends ChangeNotifier {
     return _flags[featureName];
   }
 
+  /// Clear the in-memory cache.
+  void clearCache() {
+    _flags = {};
+    _isLoaded = false;
+  }
+
   // ============================================================================
   // ADMIN: UPDATE FLAGS
   // ============================================================================
@@ -198,9 +193,7 @@ class FeatureFlagService extends ChangeNotifier {
   /// Updates the database and refreshes the local cache.
   Future<bool> updateFlag(String featureName, bool enabled) async {
     try {
-      if (kDebugMode) {
-        debugPrint('🏴 Updating feature flag: $featureName = $enabled');
-      }
+      AppLog.d('🏴 Updating feature flag: $featureName = $enabled');
 
       await _client
           .from('feature_flags')
@@ -217,25 +210,13 @@ class FeatureFlagService extends ChangeNotifier {
         notifyListeners();
       }
 
-      if (kDebugMode) {
-        debugPrint('✅ Feature flag updated successfully');
-      }
+      AppLog.d('✅ Feature flag updated successfully');
       return true;
     } catch (e, stackTrace) {
-      if (kDebugMode) {
-        debugPrint('❌ Error updating feature flag: $e');
-        debugPrint('$stackTrace');
-      }
+      AppLog.e('❌ Error updating feature flag: $e');
+      AppLog.e('$stackTrace');
       return false;
     }
-  }
-
-  /// Clear the local cache and reload from database.
-  void clearCache() {
-    _flags = {};
-    _isLoaded = false;
-    _errorMessage = null;
-    notifyListeners();
   }
 }
 

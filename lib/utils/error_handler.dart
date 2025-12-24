@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../common/logging/app_log.dart';
 
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_typography.dart';
@@ -126,9 +127,9 @@ class ErrorHandler {
     dynamic error, [
     StackTrace? stackTrace,
   ]) {
-    debugPrint('ERROR [$context]: $error');
+    AppLog.e('[$context]: $error');
     if (stackTrace != null) {
-      debugPrint('Stack trace: $stackTrace');
+      AppLog.e('Stack trace: $stackTrace');
     }
 
     unawaited(_errorReporter.reportWithContext(context, error, stackTrace));
@@ -136,19 +137,19 @@ class ErrorHandler {
 
   /// Log warning to console
   static void logWarning(String context, String message) {
-    debugPrint('WARNING [$context]: $message');
+    AppLog.w('[$context]: $message');
   }
 
   /// Log info to console
   static void logInfo(String context, String message) {
-    debugPrint('INFO [$context]: $message');
+    AppLog.i('[$context]: $message');
   }
 
   /// Log debug to console
   static void logDebug(String context, String message, [dynamic data]) {
-    debugPrint('DEBUG [$context]: $message');
+    AppLog.d('[$context]: $message');
     if (data != null) {
-      debugPrint('   Data: $data');
+      AppLog.d('   Data: $data');
     }
   }
 }

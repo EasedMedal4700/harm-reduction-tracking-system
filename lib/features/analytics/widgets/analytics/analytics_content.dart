@@ -65,7 +65,7 @@ class AnalyticsContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.theme;
-    log.d(
+    AppLog.d(
       '[BUILD] AnalyticsContent build (entries: ${entries.length}, period: $selectedPeriod)',
     );
 
@@ -73,7 +73,7 @@ class AnalyticsContent extends StatelessWidget {
       entries,
       selectedPeriod,
     );
-    log.d('[DATA] Period filtered entries: ${periodFilteredEntries.length}');
+    AppLog.d('[DATA] Period filtered entries: ${periodFilteredEntries.length}');
 
     final categoryTypeFilteredEntries = periodFilteredEntries.where((e) {
       final category =
@@ -90,7 +90,7 @@ class AnalyticsContent extends StatelessWidget {
 
       return matchesCategory && matchesType;
     }).toList();
-    log.d(
+    AppLog.d(
       '[DATA] Category/type filtered entries: ${categoryTypeFilteredEntries.length}',
     );
 
@@ -118,7 +118,7 @@ class AnalyticsContent extends StatelessWidget {
           matchesFeeling &&
           matchesCraving;
     }).toList();
-    log.d('[DATA] Fully filtered entries: ${filteredEntries.length}');
+    AppLog.d('[DATA] Fully filtered entries: ${filteredEntries.length}');
 
     final avgPerWeek = service.calculateAvgPerWeek(filteredEntries);
     final categoryCounts = service.getCategoryCounts(filteredEntries);
@@ -132,7 +132,7 @@ class AnalyticsContent extends StatelessWidget {
       totalEntries,
     );
 
-    log.d(
+    AppLog.d(
       '[METRICS] Total entries: $totalEntries, avg/week: $avgPerWeek, most used category: ${mostUsed.key} (${mostUsed.value}), most used substance: ${mostUsedSubstance.key} (${mostUsedSubstance.value})',
     );
 
@@ -163,7 +163,7 @@ class AnalyticsContent extends StatelessWidget {
         periodFilteredEntries.expand((e) => e.feelings).toSet().toList()
           ..sort();
 
-    log.d(
+    AppLog.d(
       '[FILTERS] Unique substances: ${uniqueSubstances.length}, categories: ${uniqueCategories.length}, places: ${uniquePlaces.length}, routes: ${uniqueRoutes.length}, feelings: ${uniqueFeelings.length}',
     );
 

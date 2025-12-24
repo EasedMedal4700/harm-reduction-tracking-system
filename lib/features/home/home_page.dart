@@ -1,6 +1,7 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
+import '../../common/logging/app_log.dart';
 
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage>
         _requireUnlock();
       }
     } catch (e) {
-      print('⚠️ Error checking encryption status: $e');
+      AppLog.e('⚠️ Error checking encryption status: $e');
     }
   }
 

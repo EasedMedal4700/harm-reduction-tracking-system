@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import '../models/tolerance_model.dart';
+import '../common/logging/app_log.dart';
 
 /// Core math for tolerance calculation.
 ///
@@ -50,15 +51,15 @@ class ToleranceCalculator {
 
     if (debug) {
       // ignore: avoid_print
-      print(
+      AppLog.d(
         '📊 Found ${toleranceModels.length} substances with tolerance models',
       );
       // ignore: avoid_print
-      print(
+      AppLog.d(
         '📊 Found ${useLogs.length} use log entries (${useLogs.isEmpty ? 0 : 30} days)',
       );
       // ignore: avoid_print
-      print('');
+      AppLog.d('');
     }
 
     for (final entry in logsBySubstance.entries) {
@@ -88,20 +89,20 @@ class ToleranceCalculator {
 
     if (debug) {
       // ignore: avoid_print
-      print('══════════════════════════════════════════════════════════');
+      AppLog.d('══════════════════════════════════════════════════════════');
       // ignore: avoid_print
-      print('📈 FINAL BUCKET CONTRIBUTIONS:');
+      AppLog.d('📈 FINAL BUCKET CONTRIBUTIONS:');
       for (final e in bucketRawLoads.entries) {
         final pct = loadToPercent(e.value);
         // ignore: avoid_print
-        print(
+        AppLog.d(
           '  ${e.key}  ->  ${pct.toStringAsFixed(1)}%  (raw: ${e.value.toStringAsFixed(4)})',
         );
       }
       // ignore: avoid_print
-      print('══════════════════════════════════════════════════════════');
+      AppLog.d('══════════════════════════════════════════════════════════');
       // ignore: avoid_print
-      print('');
+      AppLog.d('');
     }
 
     // Convert raw loads to percentages for the UI and state logic.
@@ -147,24 +148,24 @@ class ToleranceCalculator {
 
     if (debug) {
       // ignore: avoid_print
-      print('─────────────────────────────────────────────────────────');
+      AppLog.d('─────────────────────────────────────────────────────────');
       // ignore: avoid_print
-      print('💊 Processing: $slug');
+      AppLog.d('💊 Processing: $slug');
       if (logs.isEmpty) {
         // ignore: avoid_print
-        print('  !  No use events found - skipping');
+        AppLog.w('  !  No use events found - skipping');
         return result;
       }
       // ignore: avoid_print
-      print('  📅 Use events: ${logs.length}');
+      AppLog.d('  📅 Use events: ${logs.length}');
       for (final log in logs) {
         // ignore: avoid_print
-        print(
+        AppLog.d(
           '    - ${log.timestamp.toUtc()} : ${log.doseUnits.toStringAsFixed(1)}mg',
         );
       }
       // ignore: avoid_print
-      print('  📏 Standard unit: ${standardUnit.toStringAsFixed(1)}mg');
+      AppLog.d('  📏 Standard unit: ${standardUnit.toStringAsFixed(1)}mg');
     }
 
     // Pre-calc active window (when "no decay yet") in hours.
@@ -181,21 +182,21 @@ class ToleranceCalculator {
 
       if (debug) {
         // ignore: avoid_print
-        print('  🔍 DETAILED CALCULATION FOR BUCKET: $bucketName');
+        AppLog.d('  🔍 DETAILED CALCULATION FOR BUCKET: $bucketName');
         // ignore: avoid_print
-        print(
+        AppLog.d(
           '     halfLife: ${halfLife.toStringAsFixed(1)}h, '
           'gainRate: ${gain.toStringAsFixed(3)}, '
           'decayDays: ${decayDays.toStringAsFixed(1)}',
         );
         // ignore: avoid_print
-        print(
+        AppLog.d(
           '     standardUnit: ${standardUnit.toStringAsFixed(1)}mg, '
           'weight: ${bucket.weight.toStringAsFixed(3)}, '
           'potency: ${potency.toStringAsFixed(3)}',
         );
         // ignore: avoid_print
-        print('     Processing ${logs.length} events:');
+        AppLog.d('     Processing ${logs.length} events:');
       }
 
       for (final log in logs) {
@@ -240,12 +241,12 @@ class ToleranceCalculator {
 
         if (debug) {
           // ignore: avoid_print
-          print(
+          AppLog.d(
             '       └─ doseNorm: ${doseNorm.toStringAsFixed(3)}, '
             'baseContribution: ${baseContribution.toStringAsFixed(4)}',
           );
           // ignore: avoid_print
-          print(
+          AppLog.d(
             '       └─ decayFactor: ${decayFactor.toStringAsFixed(4)}, '
             'eventTolNow: ${eventTolNow.toStringAsFixed(4)}, '
             'total: ${rawTotal.toStringAsFixed(4)}',
@@ -259,19 +260,19 @@ class ToleranceCalculator {
         if (debug) {
           final pct = loadToPercent(rawTotal);
           // ignore: avoid_print
-          print(
+          AppLog.d(
             '     ✅ FINAL TOLERANCE: ${rawTotal.toStringAsFixed(4)} (${pct.toStringAsFixed(1)}%)',
           );
           // ignore: avoid_print
-          print('  🎯 Bucket Results:');
+          AppLog.d('  🎯 Bucket Results:');
           // ignore: avoid_print
-          print(
+          AppLog.d(
             '    - $bucketName: ${pct.toStringAsFixed(1)}% (raw: ${rawTotal.toStringAsFixed(4)}, active: ${pct > 0})',
           );
         }
       } else if (debug) {
         // ignore: avoid_print
-        print('     ✅ FINAL TOLERANCE: 0.0000 (0.0%)');
+        AppLog.d('     ✅ FINAL TOLERANCE: 0.0000 (0.0%)');
       }
     }
 

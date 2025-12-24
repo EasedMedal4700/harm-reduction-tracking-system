@@ -21,6 +21,15 @@ import '../../constants/theme/app_theme_extension.dart';
 import '../../repo/substance_repository.dart';
 import '../../../../common/logging/app_log.dart';
 
+class _LogWrapper {
+  void d(String m) => AppLog.d(m);
+  void i(String m) => AppLog.i(m);
+  void w(String m) => AppLog.w(m);
+  void e(String m) => AppLog.e(m);
+}
+
+final log = _LogWrapper();
+
 class AnalyticsPage extends StatefulWidget {
   final AnalyticsService? analyticsService;
   final SubstanceRepository? substanceRepository;

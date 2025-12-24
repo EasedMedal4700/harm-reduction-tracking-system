@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/daily_checkin_model.dart';
 import '../features/daily_chekin/services/daily_checkin_service.dart';
+import '../common/logging/app_log.dart';
 
 class DailyCheckinProvider extends ChangeNotifier {
   DailyCheckinProvider({DailyCheckinRepository? repository})
@@ -133,7 +134,7 @@ class DailyCheckinProvider extends ChangeNotifier {
         _notes = _existingCheckin!.notes ?? '';
       }
     } catch (e) {
-      debugPrint('Error checking existing check-in: $e');
+      AppLog.e('Error checking existing check-in: $e');
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -215,7 +216,7 @@ class DailyCheckinProvider extends ChangeNotifier {
         endDate,
       );
     } catch (e) {
-      debugPrint('Error loading recent check-ins: $e');
+      AppLog.e('Error loading recent check-ins: $e');
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -227,7 +228,7 @@ class DailyCheckinProvider extends ChangeNotifier {
     try {
       return await _repository.fetchCheckinsByDate(date);
     } catch (e) {
-      debugPrint('Error loading check-ins for date: $e');
+      AppLog.e('Error loading check-ins for date: $e');
       return [];
     }
   }

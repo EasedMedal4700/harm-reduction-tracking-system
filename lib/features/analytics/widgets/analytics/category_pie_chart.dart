@@ -37,28 +37,28 @@ final _mappingProvider = Provider.autoDispose<Map<String, String>>(
 /// ---------------------------------------------------------------------------
 
 final selectedCategoryProvider = StateProvider.autoDispose<String?>((ref) {
-  log.i('[STATE] selectedCategoryProvider CREATED');
+  AppLog.i('[STATE] selectedCategoryProvider CREATED');
 
   ref.listenSelf((prev, next) {
-    log.i('[STATE] selectedCategory changed: $prev → $next');
+    AppLog.i('[STATE] selectedCategory changed: $prev → $next');
   });
 
   ref.onDispose(() {
-    log.i('[STATE] selectedCategoryProvider DISPOSED');
+    AppLog.i('[STATE] selectedCategoryProvider DISPOSED');
   });
 
   return null;
 });
 
 final touchedIndexProvider = StateProvider.autoDispose<int>((ref) {
-  log.i('[STATE] touchedIndexProvider CREATED');
+  AppLog.i('[STATE] touchedIndexProvider CREATED');
 
   ref.listenSelf((prev, next) {
-    log.d('[STATE] touchedIndex changed: $prev → $next');
+    AppLog.d('[STATE] touchedIndex changed: $prev → $next');
   });
 
   ref.onDispose(() {
-    log.i('[STATE] touchedIndexProvider DISPOSED');
+    AppLog.i('[STATE] touchedIndexProvider DISPOSED');
   });
 
   return -1;
@@ -72,7 +72,7 @@ final allCategoryCountsProvider = Provider.autoDispose<Map<String, int>>((ref) {
   final entries = ref.watch(_entriesProvider);
   final mapping = ref.watch(_mappingProvider);
 
-  log.d(
+  AppLog.d(
     '[DATA] allCategoryCounts recompute '
     '(entries=${entries.length})',
   );
@@ -85,10 +85,10 @@ final allCategoryCountsProvider = Provider.autoDispose<Map<String, int>>((ref) {
     counts[category] = (counts[category] ?? 0) + 1;
   }
 
-  log.d('[DATA] allCategoryCounts result=$counts');
+  AppLog.d('[DATA] allCategoryCounts result=$counts');
 
   if (counts.isEmpty) {
-    log.w('[DATA] allCategoryCounts EMPTY');
+    AppLog.w('[DATA] allCategoryCounts EMPTY');
   }
 
   return counts;
@@ -98,7 +98,7 @@ final pieChartDataProvider = Provider.autoDispose<Map<String, int>>((ref) {
   final selected = ref.watch(selectedCategoryProvider);
   final all = ref.watch(allCategoryCountsProvider);
 
-  log.d(
+  AppLog.d(
     '[DATA] pieChartData recompute '
     'selected=$selected '
     'available=${all.keys.toList()}',
@@ -109,7 +109,7 @@ final pieChartDataProvider = Provider.autoDispose<Map<String, int>>((ref) {
   }
 
   if (!all.containsKey(selected)) {
-    log.w('[DATA] selectedCategory "$selected" NOT IN allCategoryCounts');
+    AppLog.w('[DATA] selectedCategory "$selected" NOT IN allCategoryCounts');
   }
 
   return {selected: all[selected] ?? 0};
@@ -119,14 +119,14 @@ final substanceCountsProvider = Provider.autoDispose<Map<String, int>>((ref) {
   final selected = ref.watch(selectedCategoryProvider);
 
   if (selected == null) {
-    log.d('[DATA] substanceCounts skipped (no selection)');
+    AppLog.d('[DATA] substanceCounts skipped (no selection)');
     return const {};
   }
 
   final entries = ref.watch(_entriesProvider);
   final mapping = ref.watch(_mappingProvider);
 
-  log.d(
+  AppLog.d(
     '[DATA] substanceCounts recompute '
     '(category=$selected, entries=${entries.length})',
   );
@@ -142,10 +142,10 @@ final substanceCountsProvider = Provider.autoDispose<Map<String, int>>((ref) {
     }
   }
 
-  log.d('[DATA] substanceCounts result=$counts');
+  AppLog.d('[DATA] substanceCounts result=$counts');
 
   if (counts.isEmpty) {
-    log.w('[DATA] substanceCounts EMPTY for "$selected"');
+    AppLog.w('[DATA] substanceCounts EMPTY for "$selected"');
   }
 
   return counts;
@@ -169,7 +169,7 @@ class CategoryPieChart extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCategory = ref.watch(selectedCategoryProvider);
 
-    log.i(
+    AppLog.i(
       '[BUILD] CategoryPieChart '
       '(selectedCategory=$selectedCategory, '
       'entries=${filteredEntries.length})',
@@ -213,7 +213,7 @@ class _PieChart extends ConsumerWidget {
 
     final categories = data.keys.toList();
 
-    log.d(
+    AppLog.d(
       '[BUILD] PieChart '
       '(categories=$categories, touchedIndex=$touchedIndex)',
     );
@@ -241,17 +241,17 @@ class _PieChart extends ConsumerWidget {
             touchCallback: (event, response) {
               final index = response?.touchedSection?.touchedSectionIndex;
 
-              log.i('[UI] Pie touched index=$index');
+              AppLog.i('[UI] Pie touched index=$index');
 
               if (index == null) {
-                log.i('[UI] Clearing selection');
+                AppLog.i('[UI] Clearing selection');
                 ref.read(touchedIndexProvider.notifier).state = -1;
                 ref.read(selectedCategoryProvider.notifier).state = null;
                 return;
               }
 
               final category = categories[index];
-              log.i('[UI] Selecting category "$category"');
+              AppLog.i('[UI] Selecting category "$category"');
 
               ref.read(touchedIndexProvider.notifier).state = index;
               ref.read(selectedCategoryProvider.notifier).state = category;
@@ -274,7 +274,7 @@ class _Legend extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(allCategoryCountsProvider);
 
-    log.d('[BUILD] Legend build categories=${data.keys.toList()}');
+    AppLog.d('[BUILD] Legend build categories=${data.keys.toList()}');
 
     return Wrap(
       spacing: context.theme.spacing.lg,
@@ -311,14 +311,14 @@ class _SubstanceHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selected = ref.watch(selectedCategoryProvider)!;
 
-    log.d('[BUILD] SubstanceHeader build selected=$selected');
+    AppLog.d('[BUILD] SubstanceHeader build selected=$selected');
 
     return Row(
       children: [
         IconButton(
           icon: Icon(Icons.arrow_back, color: context.theme.colors.textPrimary),
           onPressed: () {
-            log.i('[UI] Back pressed – clearing selection');
+            AppLog.i('[UI] Back pressed – clearing selection');
             ref.read(selectedCategoryProvider.notifier).state = null;
             ref.read(touchedIndexProvider.notifier).state = -1;
           },
@@ -336,7 +336,7 @@ class _SubstanceBarChart extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(substanceCountsProvider);
 
-    log.d(
+    AppLog.d(
       '[BUILD] SubstanceBarChart build '
       'substances=${data.keys.toList()}',
     );

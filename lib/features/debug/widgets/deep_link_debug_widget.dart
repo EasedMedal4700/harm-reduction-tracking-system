@@ -8,9 +8,11 @@ import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 // Notes: Review for theme/context migration if needed.
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../../../common/layout/common_spacer.dart';
+import '../../../common/layout/common_spacer.dart';
 
-import '../../../../services/auth_link_handler.dart';
+import '../../../services/auth_link_handler.dart';
+
+import '../../../common/logging/app_log.dart';
 
 /// Debug utility widget for testing deep link flows.
 ///
@@ -121,9 +123,7 @@ class DeepLinkDebugWidget extends StatelessWidget {
 
   /// Simulate an email confirmation deep link
   void _simulateEmailConfirmDeepLink(BuildContext context) {
-    if (kDebugMode) {
-      debugPrint('🔧 DEBUG: Simulating email confirmation deep link');
-    }
+    AppLog.d('🔧 DEBUG: Simulating email confirmation deep link');
 
     final uri = Uri.parse('substancecheck://auth');
     authLinkHandler._handleDeepLink(uri);
@@ -138,10 +138,7 @@ class DeepLinkDebugWidget extends StatelessWidget {
 
   /// Simulate a password reset deep link
   void _simulateResetPasswordDeepLink(BuildContext context) {
-    if (kDebugMode) {
-      debugPrint('🔧 DEBUG: Simulating password reset deep link');
-    }
-
+    AppLog.d('🔧 DEBUG: Simulating password reset deep link');
     final uri = Uri.parse('substancecheck://reset-password');
     authLinkHandler._handleDeepLink(uri);
 
@@ -155,10 +152,7 @@ class DeepLinkDebugWidget extends StatelessWidget {
 
   /// Simulate a Supabase verification URL
   void _simulateSupabaseVerifyUrl(BuildContext context) {
-    if (kDebugMode) {
-      debugPrint('🔧 DEBUG: Simulating Supabase verify URL');
-    }
-
+    AppLog.d('🔧 DEBUG: Simulating Supabase verify URL');
     // Show a dialog to choose the type
     showDialog(
       context: context,
@@ -272,15 +266,13 @@ class DeepLinkSimulator {
 
   /// Log a simulated deep link URI for debugging
   static void logSimulatedLink(String url) {
-    if (kDebugMode) {
-      final uri = Uri.parse(url);
-      debugPrint('🔧 Simulated Deep Link:');
-      debugPrint('   URL: $url');
-      debugPrint('   Scheme: ${uri.scheme}');
-      debugPrint('   Host: ${uri.host}');
-      debugPrint('   Path: ${uri.path}');
-      debugPrint('   Query: ${uri.queryParameters}');
-      debugPrint('   Fragment: ${uri.fragment}');
-    }
+    final uri = Uri.parse(url);
+    AppLog.d('🔧 Simulated Deep Link:');
+    AppLog.d('   URL: $url');
+    AppLog.d('   Scheme: ${uri.scheme}');
+    AppLog.d('   Host: ${uri.host}');
+    AppLog.d('   Path: ${uri.path}');
+    AppLog.d('   Query: ${uri.queryParameters}');
+    AppLog.d('   Fragment: ${uri.fragment}');
   }
 }

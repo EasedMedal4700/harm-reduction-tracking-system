@@ -6,6 +6,8 @@ import '../../services/onboarding_service.dart';
 import '../../providers/settings_provider.dart';
 import '../../common/layout/common_spacer.dart';
 
+import '../../common/logging/app_log.dart';
+
 /// A multi-page onboarding experience for new users
 /// Shows app introduction, privacy info, usage frequency selection, and theme picker
 class OnboardingScreen extends StatefulWidget {
@@ -632,7 +634,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
-              debugPrint("🔥 PRIVACY LINK TAPPED");
+              AppLog.d("🔥 PRIVACY LINK TAPPED");
               Navigator.of(context).pushNamed('/privacy-policy');
             },
             child: Container(

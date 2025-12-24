@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import '../common/logging/app_log.dart';
 
 /// Service to manage PIN timeout settings and state.
 ///
@@ -98,7 +99,7 @@ class PinTimeoutService {
     await prefs.setInt(_keyLastUnlockTime, now);
     await prefs.setInt(_keySessionStartTime, now);
     await prefs.remove(_keyBackgroundTime); // Clear background time
-    print('🔓 PIN unlock recorded at ${DateTime.now()}');
+    AppLog.i('🔓 PIN unlock recorded at ${DateTime.now()}');
   }
 
   /// Record when app goes to background
@@ -106,14 +107,14 @@ class PinTimeoutService {
     final prefs = await _preferences;
     final now = DateTime.now().millisecondsSinceEpoch;
     await prefs.setInt(_keyBackgroundTime, now);
-    print('📱 App went to background at ${DateTime.now()}');
+    AppLog.i('📱 App went to background at ${DateTime.now()}');
   }
 
   /// Record when app comes to foreground (update last activity)
   Future<void> recordForegroundResume() async {
     final prefs = await _preferences;
     await prefs.remove(_keyBackgroundTime);
-    print('📱 App resumed to foreground at ${DateTime.now()}');
+    AppLog.i('📱 App resumed to foreground at ${DateTime.now()}');
   }
 
   /// Check if PIN is required based on timeouts
@@ -123,7 +124,7 @@ class PinTimeoutService {
 
     final lastUnlock = prefs.getInt(_keyLastUnlockTime);
     if (lastUnlock == null) {
-      print('🔐 PIN required: Never unlocked');
+      AppLog.i('🔐 PIN required: Never unlocked');
       return true; // Never unlocked
     }
 
@@ -137,7 +138,7 @@ class PinTimeoutService {
       final sessionDuration = now - sessionStart;
       final maxSessionMs = maxSession * 60 * 1000;
       if (sessionDuration > maxSessionMs) {
-        print(
+        AppLog.i(
           '🔐 PIN required: Max session duration exceeded (${maxSession}min)',
         );
         return true;
@@ -151,7 +152,7 @@ class PinTimeoutService {
       final backgroundTimeout = await getBackgroundTimeout();
       final backgroundTimeoutMs = backgroundTimeout * 60 * 1000;
       if (backgroundDuration > backgroundTimeoutMs) {
-        print(
+        AppLog.i(
           '🔐 PIN required: Background timeout exceeded (${backgroundTimeout}min)',
         );
         return true;
@@ -163,7 +164,7 @@ class PinTimeoutService {
     final foregroundTimeout = await getForegroundTimeout();
     final foregroundTimeoutMs = foregroundTimeout * 60 * 1000;
     if (timeSinceUnlock > foregroundTimeoutMs) {
-      print(
+      AppLog.i(
         '🔐 PIN required: Foreground timeout exceeded (${foregroundTimeout}min)',
       );
       return true;
@@ -171,7 +172,7 @@ class PinTimeoutService {
 
     final remaining = ((foregroundTimeoutMs - timeSinceUnlock) / 1000 / 60)
         .round();
-    print(
+    AppLog.d(
       '✅ PIN not required. Last unlock: $lastUnlockTime, ${remaining}min remaining',
     );
     return false;
@@ -183,7 +184,7 @@ class PinTimeoutService {
     await prefs.remove(_keyLastUnlockTime);
     await prefs.remove(_keyBackgroundTime);
     await prefs.remove(_keySessionStartTime);
-    print('🔐 PIN timeout state cleared');
+    AppLog.i('🔐 PIN timeout state cleared');
   }
 
   /// Get time remaining until PIN is required (in seconds)

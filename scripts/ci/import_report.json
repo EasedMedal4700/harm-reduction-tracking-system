@@ -3,12 +3,12 @@
     "total_files": 359,
     "violations": 8,
     "warnings": 19,
-    "timestamp": "1766528210.7512052"
+    "timestamp": "1766578730.1511638"
   },
   "issues": [
     {
       "file": "lib\\main.dart",
-      "count": 48,
+      "count": 49,
       "status": "SMELL"
     },
     {
@@ -18,12 +18,12 @@
     },
     {
       "file": "lib\\features\\home\\home_page.dart",
-      "count": 18,
+      "count": 19,
       "status": "SMELL"
     },
     {
       "file": "lib\\features\\home\\home_page_main.dart",
-      "count": 18,
+      "count": 19,
       "status": "SMELL"
     },
     {
@@ -67,6 +67,11 @@
       "status": "WARNING"
     },
     {
+      "file": "lib\\features\\tolerence\\tolerance_dashboard_page.dart",
+      "count": 14,
+      "status": "WARNING"
+    },
+    {
       "file": "lib\\constants\\theme\\app_theme_extension.dart",
       "count": 13,
       "status": "WARNING"
@@ -87,12 +92,12 @@
       "status": "WARNING"
     },
     {
-      "file": "lib\\features\\tolerence\\bucket_details_page.dart",
+      "file": "lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart",
       "count": 13,
       "status": "WARNING"
     },
     {
-      "file": "lib\\features\\tolerence\\tolerance_dashboard_page.dart",
+      "file": "lib\\features\\tolerence\\bucket_details_page.dart",
       "count": 13,
       "status": "WARNING"
     },
@@ -108,11 +113,6 @@
     },
     {
       "file": "lib\\features\\blood_levels\\blood_levels_page.dart",
-      "count": 12,
-      "status": "WARNING"
-    },
-    {
-      "file": "lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart",
       "count": 12,
       "status": "WARNING"
     },

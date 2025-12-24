@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
 import 'user_service.dart';
 import 'encryption_service_v2.dart';
+import '../common/logging/app_log.dart';
 
 class AuthService {
   AuthService({
@@ -16,33 +17,33 @@ class AuthService {
 
   Future<bool> login(String email, String password) async {
     try {
-      print('🔐 DEBUG: Starting login for email: $email');
-      print('🔐 DEBUG: Attempting sign in with password...');
+      AppLog.d('🔐 DEBUG: Starting login for email: $email');
+      AppLog.d('🔐 DEBUG: Attempting sign in with password...');
 
       final response = await _client.auth.signInWithPassword(
         email: email,
         password: password,
       );
 
-      print('✅ DEBUG: Login successful!');
-      print('✅ DEBUG: User ID: ${response.user?.id}');
-      print('✅ DEBUG: Session exists: ${response.session != null}');
-      print('✅ DEBUG: Session expires at: ${response.session?.expiresAt}');
+      AppLog.d('✅ DEBUG: Login successful!');
+      AppLog.d('✅ DEBUG: User ID: ${response.user?.id}');
+      AppLog.d('✅ DEBUG: Session exists: ${response.session != null}');
+      AppLog.d('✅ DEBUG: Session expires at: ${response.session?.expiresAt}');
 
       // Note: Encryption initialization is handled by login_page.dart
       // which checks for migration/PIN setup and routes appropriately
 
       return true;
     } on AuthException catch (e, stackTrace) {
-      print('❌ DEBUG: AuthException during login');
-      print('❌ DEBUG: Error message: ${e.message}');
-      print('❌ DEBUG: Status code: ${e.statusCode}');
+      AppLog.e('❌ DEBUG: AuthException during login');
+      AppLog.e('❌ DEBUG: Error message: ${e.message}');
+      AppLog.e('❌ DEBUG: Status code: ${e.statusCode}');
       ErrorHandler.logError('AuthService.login.AuthException', e, stackTrace);
       return false;
     } catch (e, stackTrace) {
-      print('❌ DEBUG: Generic exception during login');
-      print('❌ DEBUG: Error: $e');
-      print('❌ DEBUG: Stack trace: $stackTrace');
+      AppLog.e('❌ DEBUG: Generic exception during login');
+      AppLog.e('❌ DEBUG: Error: $e');
+      AppLog.e('❌ DEBUG: Stack trace: $stackTrace');
       ErrorHandler.logError('AuthService.login', e, stackTrace);
       return false;
     }
@@ -61,8 +62,8 @@ class AuthService {
           ? displayName!.trim()
           : email;
 
-      print('📝 DEBUG: Starting registration for email: $email');
-      print('📝 DEBUG: Display name: $friendlyName');
+      AppLog.d('📝 DEBUG: Starting registration for email: $email');
+      AppLog.d('📝 DEBUG: Display name: $friendlyName');
 
       // Create Supabase Auth user with display_name in metadata
       // The database trigger will read this and create the user profile
@@ -79,9 +80,9 @@ class AuthService {
         );
       }
 
-      print('✅ DEBUG: Auth user created: ${user.id}');
-      print('✅ DEBUG: User metadata: ${user.userMetadata}');
-      print('ℹ️ DEBUG: User profile will be created by database trigger');
+      AppLog.d('✅ DEBUG: Auth user created: ${user.id}');
+      AppLog.d('✅ DEBUG: User metadata: ${user.userMetadata}');
+      AppLog.d('ℹ️ DEBUG: User profile will be created by database trigger');
 
       // Note: The database trigger (handle_new_user) will automatically
       // create a row in public.users with the display_name from metadata.
@@ -102,14 +103,14 @@ class AuthService {
         e,
         stackTrace,
       );
-      print('❌ DEBUG: AuthException: ${e.message}');
+      AppLog.e('❌ DEBUG: AuthException: ${e.message}');
       final message = e.message.contains('already registered')
           ? 'Email is already in use.'
           : e.message;
       return AuthResult.failure(message);
     } catch (e, stackTrace) {
       ErrorHandler.logError('AuthService.register', e, stackTrace);
-      print('❌ DEBUG: Unexpected error: $e');
+      AppLog.e('❌ DEBUG: Unexpected error: $e');
       return const AuthResult.failure(
         'Unexpected error occurred while creating the account.',
       );

@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../common/logging/app_log.dart';
 
 import '../../common/layout/common_drawer.dart';
 import '../../common/feedback/common_loader.dart';
@@ -73,7 +74,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
       }
     } catch (e) {
       // Silently fail - system tolerance is optional
-      debugPrint('System tolerance load failed: $e');
+      AppLog.e('System tolerance load failed: $e');
     }
   }
 
@@ -91,9 +92,9 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
   Future<void> _computeSubstanceContributions() async {
     if (_userId == null) return;
 
-    print('\n════════════════════════════════════════════════════════');
-    print('🔬 TOLERANCE CALCULATION DEBUG - ${DateTime.now()}');
-    print('════════════════════════════════════════════════════════');
+    AppLog.d('\n════════════════════════════════════════════════════════');
+    AppLog.d('🔬 TOLERANCE CALCULATION DEBUG - ${DateTime.now()}');
+    AppLog.d('════════════════════════════════════════════════════════');
 
     try {
       final allModels = await ToleranceEngineService.fetchAllToleranceModels();
@@ -102,8 +103,8 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
         daysBack: 30,
       );
 
-      print('📊 Found ${allModels.length} substances with tolerance models');
-      print('📊 Found ${allUseLogs.length} use log entries (30 days)');
+      AppLog.d('📊 Found ${allModels.length} substances with tolerance models');
+      AppLog.d('📊 Found ${allUseLogs.length} use log entries (30 days)');
 
       // Group by bucket
       final Map<String, Map<String, double>> contributions = {};
@@ -111,8 +112,8 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
 
       for (final entry in allModels.entries) {
         final substanceName = entry.key;
-        print('\n─────────────────────────────────────────────────────────');
-        print('💊 Processing: $substanceName');
+        AppLog.d('\n─────────────────────────────────────────────────────────');
+        AppLog.d('💊 Processing: $substanceName');
 
         // Get use events for this substance
         final substanceEvents = allUseLogs
@@ -120,13 +121,13 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
             .toList();
 
         if (substanceEvents.isEmpty) {
-          print('  ⚠️  No use events found - skipping');
+          AppLog.w('  ⚠️  No use events found - skipping');
           continue;
         }
 
-        print('  📅 Use events: ${substanceEvents.length}');
+        AppLog.d('  📅 Use events: ${substanceEvents.length}');
         for (final event in substanceEvents) {
-          print('    - ${event.timestamp}: ${event.doseUnits}mg');
+          AppLog.d('    - ${event.timestamp}: ${event.doseUnits}mg');
         }
 
         // Use unified tolerance engine for this substance's contributions
@@ -135,13 +136,13 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
           toleranceModels: {substanceName: entry.value},
         );
 
-        print('  🎯 Bucket Results (unified engine):');
+        AppLog.d('  🎯 Bucket Results (unified engine):');
         for (final bucketType in perSubstanceResult.bucketPercents.keys) {
           final tolerancePercent =
               perSubstanceResult.bucketPercents[bucketType] ?? 0.0;
           final rawLoad = perSubstanceResult.bucketRawLoads[bucketType] ?? 0.0;
 
-          print(
+          AppLog.d(
             '    - $bucketType: ${tolerancePercent.toStringAsFixed(1)}% (raw: ${rawLoad.toStringAsFixed(4)})',
           );
 
@@ -155,22 +156,22 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
         }
       }
 
-      print('\n══════════════════════════════════════════════════════════');
-      print('📈 FINAL BUCKET CONTRIBUTIONS:');
+      AppLog.d('\n══════════════════════════════════════════════════════════');
+      AppLog.d('📈 FINAL BUCKET CONTRIBUTIONS:');
       for (final bucket in contributions.keys) {
         final total = contributions[bucket]!.values.fold(
           0.0,
           (sum, val) => sum + val,
         );
-        print('  $bucket (TOTAL: ${total.toStringAsFixed(1)}%):');
+        AppLog.d('  $bucket (TOTAL: ${total.toStringAsFixed(1)}%):');
         for (final substance in contributions[bucket]!.entries) {
           final percent = substance.value;
-          print(
+          AppLog.d(
             '    - ${substance.key}: ${percent.toStringAsFixed(1)}%${percent > 100 ? ' ⚠️ UNREALISTIC!' : ''}',
           );
         }
       }
-      print('══════════════════════════════════════════════════════════\n');
+      AppLog.d('══════════════════════════════════════════════════════════\n');
 
       if (mounted) {
         setState(() {
@@ -179,7 +180,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
         });
       }
     } catch (e) {
-      debugPrint('Failed to compute substance contributions: $e');
+      AppLog.e('Failed to compute substance contributions: $e');
     }
   }
 

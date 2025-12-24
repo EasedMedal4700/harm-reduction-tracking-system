@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:convert'; // For JSON parsing
+import '../common/logging/app_log.dart';
 
 class SubstanceRepository {
   SupabaseClient get _client => Supabase.instance.client;
@@ -64,7 +65,7 @@ class SubstanceRepository {
             : {},
       };
     } catch (e) {
-      print('Error fetching substance details: $e');
+      AppLog.e('Error fetching substance details: $e');
       return null;
     }
   }

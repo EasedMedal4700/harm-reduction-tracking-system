@@ -1,6 +1,7 @@
 import 'dart:math';
 import '../models/tolerance_bucket.dart';
 import 'bucket_tolerance_formulas.dart';
+import '../common/logging/app_log.dart';
 
 /// Use event for tolerance calculations.
 class UseEvent {
@@ -88,11 +89,11 @@ class BucketToleranceCalculator {
     required double standardUnitMg,
     required DateTime currentTime,
   }) {
-    print('  🔍 DETAILED CALCULATION FOR BUCKET: ${bucket.type}');
-    print(
+    AppLog.d('  🔍 DETAILED CALCULATION FOR BUCKET: ${bucket.type}');
+    AppLog.d(
       '     halfLife: ${halfLifeHours}h, gainRate: $toleranceGainRate, decayDays: $toleranceDecayDays',
     );
-    print(
+    AppLog.d(
       '     standardUnit: ${standardUnitMg}mg, weight: ${bucket.weight}, potency: ${bucket.potencyMultiplier}',
     );
 
@@ -103,7 +104,7 @@ class BucketToleranceCalculator {
     final sortedEvents = List<UseEvent>.from(useEvents)
       ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
-    print('     Processing ${sortedEvents.length} events:');
+    AppLog.d('     Processing ${sortedEvents.length} events:');
     for (final event in sortedEvents) {
       // Calculate active level for this specific use event
       final activeLevel = calculateActiveLevel(
@@ -136,7 +137,7 @@ class BucketToleranceCalculator {
         toleranceGainRate: toleranceGainRate,
       );
 
-      print(
+      AppLog.d(
         '       └─ doseNorm: ${doseNormalized.toStringAsFixed(3)}, baseContribution: ${baseContribution.toStringAsFixed(4)}',
       );
 
@@ -163,7 +164,7 @@ class BucketToleranceCalculator {
       // Calculate current tolerance from this event (with decay applied)
       final eventToleranceNow = baseContribution * decayFactor;
 
-      print(
+      AppLog.d(
         '       └─ decayFactor: ${decayFactor.toStringAsFixed(4)}, eventTolNow: ${eventToleranceNow.toStringAsFixed(4)}, total: ${(totalTolerance + eventToleranceNow).toStringAsFixed(4)}',
       );
 
@@ -171,11 +172,13 @@ class BucketToleranceCalculator {
       totalTolerance += eventToleranceNow;
     }
 
-    print(
+    AppLog.d(
       '     ✅ FINAL TOLERANCE: ${totalTolerance.toStringAsFixed(4)} (${(totalTolerance * 100).toStringAsFixed(1)}%)',
     );
     if (totalTolerance > 2.0) {
-      print('     ⚠️⚠️⚠️ ERROR: Tolerance > 200%! Check formula parameters!');
+      AppLog.w(
+        '     ⚠️⚠️⚠️ ERROR: Tolerance > 200%! Check formula parameters!',
+      );
     }
 
     return BucketToleranceResult(

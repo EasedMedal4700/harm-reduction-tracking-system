@@ -1,4 +1,5 @@
 import 'dart:math';
+import '../common/logging/app_log.dart';
 
 /// Bucket-specific tolerance calculation formulas.
 ///
@@ -44,7 +45,7 @@ class BucketToleranceFormulas {
 
     if (result > 0.1) {
       // Only log significant contributions
-      print(
+      AppLog.d(
         '         [STIMULANT FORMULA]: effDose=${effectiveDose.toStringAsFixed(3)}, log=${logTolerance.toStringAsFixed(4)}, result=${result.toStringAsFixed(4)}',
       );
     }
@@ -99,37 +100,18 @@ class BucketToleranceFormulas {
     required double durationMultiplier,
     required double toleranceGainRate,
   }) {
-    // LOGARITHMIC GROWTH - consistent with other buckets
+    // LOGARITHMIC GROWTH - slow but steady
     final effectiveDose =
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance =
-        log(1.0 + effectiveDose * 1.5) / log(3.2); // Moderate growth
+        log(1.0 + effectiveDose * 1.5) / log(4.0); // Slower growth
 
-    final calibrationFactor =
-        0.14; // Slower buildup, dangerous withdrawal considerations
-    return logTolerance * toleranceGainRate * calibrationFactor;
+    final buildupMultiplier = 0.20; // Moderate buildup with log damping
+    return logTolerance * toleranceGainRate * buildupMultiplier;
   }
 
-  /// Calculates tolerance for NMDA antagonist bucket (ketamine, DXM, etc.).
-  /// LOGARITHMIC MODEL: Slow buildup with rebound sensitivity, then plateaus.
-  static double calculateNmdaTolerance({
-    required double doseNormalized,
-    required double weight,
-    required double potencyMultiplier,
-    required double durationMultiplier,
-    required double toleranceGainRate,
-  }) {
-    // LOGARITHMIC GROWTH - moderate buildup with rebound
-    final effectiveDose =
-        doseNormalized * potencyMultiplier * weight * durationMultiplier;
-    final logTolerance = log(1.0 + effectiveDose * 1.8) / log(2.8);
-
-    final reboundMultiplier = 0.20; // Rebound-sensitive with log damping
-    return logTolerance * toleranceGainRate * reboundMultiplier;
-  }
-
-  /// Calculates tolerance for opioid bucket.
-  /// LOGARITHMIC MODEL: Biphasic - rapid initial buildup, then plateaus.
+  /// Calculates tolerance for Opioid bucket (painkillers, heroin, etc.).
+  /// LOGARITHMIC MODEL: Moderate buildup, dangerous plateau.
   static double calculateOpioidTolerance({
     required double doseNormalized,
     required double weight,
@@ -137,17 +119,37 @@ class BucketToleranceFormulas {
     required double durationMultiplier,
     required double toleranceGainRate,
   }) {
-    // LOGARITHMIC GROWTH - biphasic rapid initial
+    // LOGARITHMIC GROWTH - moderate
     final effectiveDose =
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
-    final logTolerance = log(1.0 + effectiveDose * 2.2) / log(2.6);
+    final logTolerance =
+        log(1.0 + effectiveDose * 2.0) / log(3.0); // Moderate growth
 
-    final biphasicMultiplier = 0.22; // Rapid initial phase with log damping
-    return logTolerance * toleranceGainRate * biphasicMultiplier;
+    final buildupMultiplier = 0.25; // Moderate buildup with log damping
+    return logTolerance * toleranceGainRate * buildupMultiplier;
   }
 
-  /// Calculates tolerance for cannabinoid bucket (THC, CBD, etc.).
-  /// LOGARITHMIC MODEL: Very slow buildup, gentle plateau. Slow decay.
+  /// Calculates tolerance for Dissociative bucket (ketamine, DXM, etc.).
+  /// LOGARITHMIC MODEL: Slow buildup, very long decay (perma-tolerance risk).
+  static double calculateDissociativeTolerance({
+    required double doseNormalized,
+    required double weight,
+    required double potencyMultiplier,
+    required double durationMultiplier,
+    required double toleranceGainRate,
+  }) {
+    // LOGARITHMIC GROWTH - slow
+    final effectiveDose =
+        doseNormalized * potencyMultiplier * weight * durationMultiplier;
+    final logTolerance =
+        log(1.0 + effectiveDose * 1.5) / log(3.5); // Slower growth
+
+    final buildupMultiplier = 0.20; // Moderate buildup with log damping
+    return logTolerance * toleranceGainRate * buildupMultiplier;
+  }
+
+  /// Calculates tolerance for Cannabinoid bucket (THC, etc.).
+  /// LOGARITHMIC MODEL: Fast buildup, fast decay.
   static double calculateCannabinoidTolerance({
     required double doseNormalized,
     required double weight,
@@ -155,46 +157,55 @@ class BucketToleranceFormulas {
     required double durationMultiplier,
     required double toleranceGainRate,
   }) {
-    // LOGARITHMIC GROWTH - very slow buildup
+    // LOGARITHMIC GROWTH - fast
     final effectiveDose =
         doseNormalized * potencyMultiplier * weight * durationMultiplier;
     final logTolerance =
-        log(1.0 + effectiveDose * 1.2) / log(3.5); // Slowest growth
+        log(1.0 + effectiveDose * 2.5) / log(2.5); // Fast growth
 
-    final slowMultiplier = 0.12; // Very slow buildup with log damping
-    return logTolerance * toleranceGainRate * slowMultiplier;
+    final buildupMultiplier = 0.30; // Strong buildup with log damping
+    return logTolerance * toleranceGainRate * buildupMultiplier;
   }
 
-  /// Calculates tolerance decay multiplier based on tolerance type.
-  /// Returns a multiplier for tolerance_decay_days.
-  ///
-  /// RECALIBRATED DECAY RATES:
-  /// - Stimulant: 1.2× (slightly slower than baseline, ~8-10 days full decay)
-  /// - Serotonin psychedelic: 0.4× (very fast, 3-5 days)
-  /// - Serotonin release: 2.0× (long decay, weeks)
-  /// - Others: Moderate to slow decay
-  static double getDecayMultiplier(String toleranceType) {
-    switch (toleranceType.toLowerCase()) {
-      case 'serotonin_psychedelic':
-        return 0.4; // Very fast decay (3-5 days)
-      case 'serotonin_release':
-        return 2.0; // Long decay (weeks)
-      case 'gaba':
-        return 1.3; // Slower decay
-      case 'nmda':
-        return 1.5; // Slow rebound-sensitive decay
-      case 'opioid':
-        return 1.0; // Biphasic decay
-      case 'cannabinoid':
-        return 1.8; // Slow decay
-      case 'stimulant':
-        return 1.2; // Slightly slower than baseline (8-10 days)
-      default:
-        return 1.0; // Normal decay
-    }
+  /// Calculates tolerance for Deliriant bucket (DPH, Datura, etc.).
+  /// LOGARITHMIC MODEL: Unpredictable, dangerous.
+  static double calculateDeliriantTolerance({
+    required double doseNormalized,
+    required double weight,
+    required double potencyMultiplier,
+    required double durationMultiplier,
+    required double toleranceGainRate,
+  }) {
+    // LOGARITHMIC GROWTH - unpredictable
+    final effectiveDose =
+        doseNormalized * potencyMultiplier * weight * durationMultiplier;
+    final logTolerance =
+        log(1.0 + effectiveDose * 2.0) / log(3.0); // Moderate growth
+
+    final buildupMultiplier = 0.25; // Moderate buildup with log damping
+    return logTolerance * toleranceGainRate * buildupMultiplier;
   }
 
-  /// Main dispatcher for bucket-specific tolerance calculation.
+  /// Calculates tolerance for generic bucket (unknown mechanism).
+  /// LOGARITHMIC MODEL: Conservative estimate.
+  static double calculateGenericTolerance({
+    required double doseNormalized,
+    required double weight,
+    required double potencyMultiplier,
+    required double durationMultiplier,
+    required double toleranceGainRate,
+  }) {
+    // LOGARITHMIC GROWTH - conservative
+    final effectiveDose =
+        doseNormalized * potencyMultiplier * weight * durationMultiplier;
+    final logTolerance =
+        log(1.0 + effectiveDose * 1.5) / log(3.5); // Slower growth
+
+    final buildupMultiplier = 0.20; // Moderate buildup with log damping
+    return logTolerance * toleranceGainRate * buildupMultiplier;
+  }
+
+  /// Main entry point to calculate tolerance based on bucket type.
   static double calculateBucketTolerance({
     required String toleranceType,
     required double doseNormalized,
@@ -203,7 +214,7 @@ class BucketToleranceFormulas {
     required double durationMultiplier,
     required double toleranceGainRate,
   }) {
-    switch (toleranceType.toLowerCase()) {
+    switch (toleranceType) {
       case 'stimulant':
         return calculateStimulantTolerance(
           doseNormalized: doseNormalized,
@@ -212,7 +223,6 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-
       case 'serotonin_release':
         return calculateSerotoninReleaseTolerance(
           doseNormalized: doseNormalized,
@@ -221,7 +231,6 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-
       case 'serotonin_psychedelic':
         return calculateSerotoninPsychedelicTolerance(
           doseNormalized: doseNormalized,
@@ -230,7 +239,6 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-
       case 'gaba':
         return calculateGabaTolerance(
           doseNormalized: doseNormalized,
@@ -239,16 +247,6 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-
-      case 'nmda':
-        return calculateNmdaTolerance(
-          doseNormalized: doseNormalized,
-          weight: weight,
-          potencyMultiplier: potencyMultiplier,
-          durationMultiplier: durationMultiplier,
-          toleranceGainRate: toleranceGainRate,
-        );
-
       case 'opioid':
         return calculateOpioidTolerance(
           doseNormalized: doseNormalized,
@@ -257,7 +255,14 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-
+      case 'dissociative':
+        return calculateDissociativeTolerance(
+          doseNormalized: doseNormalized,
+          weight: weight,
+          potencyMultiplier: potencyMultiplier,
+          durationMultiplier: durationMultiplier,
+          toleranceGainRate: toleranceGainRate,
+        );
       case 'cannabinoid':
         return calculateCannabinoidTolerance(
           doseNormalized: doseNormalized,
@@ -266,16 +271,47 @@ class BucketToleranceFormulas {
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
-
-      default:
-        // Default to stimulant formula
-        return calculateStimulantTolerance(
+      case 'deliriant':
+        return calculateDeliriantTolerance(
           doseNormalized: doseNormalized,
           weight: weight,
           potencyMultiplier: potencyMultiplier,
           durationMultiplier: durationMultiplier,
           toleranceGainRate: toleranceGainRate,
         );
+      default:
+        return calculateGenericTolerance(
+          doseNormalized: doseNormalized,
+          weight: weight,
+          potencyMultiplier: potencyMultiplier,
+          durationMultiplier: durationMultiplier,
+          toleranceGainRate: toleranceGainRate,
+        );
+    }
+  }
+
+  /// Gets decay multiplier based on bucket type.
+  /// Some substances decay faster (psychedelics) or slower (dissociatives) than average.
+  static double getDecayMultiplier(String toleranceType) {
+    switch (toleranceType) {
+      case 'stimulant':
+        return 1.0; // Standard decay
+      case 'serotonin_release':
+        return 1.5; // Slower decay (takes longer to recover serotonin)
+      case 'serotonin_psychedelic':
+        return 0.5; // Faster decay (3-5 days usually)
+      case 'gaba':
+        return 1.2; // Slightly slower decay
+      case 'opioid':
+        return 1.0; // Standard decay
+      case 'dissociative':
+        return 2.0; // Very slow decay (perma-tolerance risk)
+      case 'cannabinoid':
+        return 0.8; // Slightly faster decay
+      case 'deliriant':
+        return 1.5; // Slower decay
+      default:
+        return 1.0;
     }
   }
 }

@@ -1,6 +1,7 @@
 import '../../models/tolerance_bucket.dart';
 import '../../utils/bucket_tolerance_calculator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../common/logging/app_log.dart';
 
 /// Service for fetching and managing bucket-based tolerance data.
 class BucketToleranceService {
@@ -18,7 +19,7 @@ class BucketToleranceService {
           .maybeSingle();
 
       if (response == null || response['tolerance_model'] == null) {
-        print('No tolerance model found for $substance in drug_profiles');
+        AppLog.w('No tolerance model found for $substance in drug_profiles');
         return null;
       }
 
@@ -27,7 +28,7 @@ class BucketToleranceService {
           response['tolerance_model'] as Map<String, dynamic>;
       return BucketToleranceModel.fromJson(substance, toleranceModelJson);
     } catch (e) {
-      print('Error fetching tolerance model for $substance: $e');
+      AppLog.e('Error fetching tolerance model for $substance: $e');
       return null;
     }
   }
@@ -86,7 +87,7 @@ class BucketToleranceService {
 
       return events;
     } catch (e) {
-      print('Error fetching use events: $e');
+      AppLog.e('Error fetching use events: $e');
       return [];
     }
   }
@@ -147,7 +148,7 @@ class BucketToleranceService {
         'standardUnitMg': standardUnitMg,
       };
     } catch (e) {
-      print('Error calculating substance tolerance: $e');
+      AppLog.e('Error calculating substance tolerance: $e');
       return {
         'error': e.toString(),
         'tolerance': 0.0,
@@ -210,7 +211,7 @@ class BucketToleranceService {
         'substances': uniqueSubstances,
       };
     } catch (e) {
-      print('Error calculating system tolerance: $e');
+      AppLog.e('Error calculating system tolerance: $e');
       return {
         'error': e.toString(),
         'overallTolerance': 0.0,

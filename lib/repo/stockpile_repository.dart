@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/stockpile_item.dart';
+import '../common/logging/app_log.dart';
 
 /// Repository for managing local stockpile data using SharedPreferences
 class StockpileRepository {
@@ -86,7 +87,7 @@ class StockpileRepository {
       final json = jsonDecode(jsonString) as Map<String, dynamic>;
       return StockpileItem.fromJson(json);
     } catch (e) {
-      print('Error parsing stockpile for $substanceId: $e');
+      AppLog.e('Error parsing stockpile for $substanceId: $e');
       return null;
     }
   }
@@ -98,110 +99,64 @@ class StockpileRepository {
   }
 
   /// Get all stockpile items
-  Future<List<StockpileItem>> getAllStockpiles() async {
+  Future<List<StockpileItem>> getAllStockpileItems() async {
     final prefs = await SharedPreferences.getInstance();
-    final itemIdsJson = prefs.getString(_allItemsKey);
+    final allItems = prefs.getStringList(_allItemsKey) ?? [];
 
-    if (itemIdsJson == null) return [];
-
-    try {
-      final itemIds = (jsonDecode(itemIdsJson) as List<dynamic>)
-          .map((e) => e as String)
-          .toList();
-
-      final items = <StockpileItem>[];
-      for (final id in itemIds) {
-        final item = await getStockpile(id);
-        if (item != null) {
-          items.add(item);
-        }
+    final items = <StockpileItem>[];
+    for (final id in allItems) {
+      final item = await getStockpile(id);
+      if (item != null) {
+        items.add(item);
       }
-
-      return items;
-    } catch (e) {
-      print('Error loading all stockpiles: $e');
-      return [];
     }
+    return items;
   }
 
-  /// Delete stockpile for a substance
+  /// Alias for getAllStockpileItems to match test expectations
+  Future<List<StockpileItem>> getAllStockpiles() => getAllStockpileItems();
+
+  /// Delete a stockpile item
   Future<void> deleteStockpile(String substanceId) async {
     final prefs = await SharedPreferences.getInstance();
     final key = _keyPrefix + substanceId;
 
     await prefs.remove(key);
-    await _removeFromAllItemsList(substanceId);
+
+    // Remove from all items list
+    final allItems = prefs.getStringList(_allItemsKey) ?? [];
+    if (allItems.contains(substanceId)) {
+      allItems.remove(substanceId);
+      await prefs.setStringList(_allItemsKey, allItems);
+    }
   }
 
-  /// Clear all stockpiles
+  /// Clear all stockpile items
   Future<void> clearAllStockpiles() async {
     final prefs = await SharedPreferences.getInstance();
-    final items = await getAllStockpiles();
+    final allItems = prefs.getStringList(_allItemsKey) ?? [];
 
-    for (final item in items) {
-      final key = _keyPrefix + item.substanceId;
-      await prefs.remove(key);
+    for (final id in allItems) {
+      await prefs.remove(_keyPrefix + id);
     }
 
     await prefs.remove(_allItemsKey);
   }
 
-  /// Update the list of all item IDs
+  /// Get total value of all stockpiles (sum of current amounts)
+  Future<double> getTotalStockpileValue() async {
+    final items = await getAllStockpileItems();
+    return items.fold<double>(0.0, (sum, item) => sum + item.currentAmountMg);
+  }
+
+  /// Helper to update the list of all tracked substance IDs
   Future<void> _updateAllItemsList(String substanceId) async {
     final prefs = await SharedPreferences.getInstance();
-    final itemIdsJson = prefs.getString(_allItemsKey);
+    final allItems = prefs.getStringList(_allItemsKey) ?? [];
 
-    List<String> itemIds;
-    if (itemIdsJson != null) {
-      try {
-        itemIds = (jsonDecode(itemIdsJson) as List<dynamic>)
-            .map((e) => e as String)
-            .toList();
-      } catch (e) {
-        itemIds = [];
-      }
-    } else {
-      itemIds = [];
+    if (!allItems.contains(substanceId)) {
+      allItems.add(substanceId);
+      await prefs.setStringList(_allItemsKey, allItems);
     }
-
-    if (!itemIds.contains(substanceId)) {
-      itemIds.add(substanceId);
-      await prefs.setString(_allItemsKey, jsonEncode(itemIds));
-    }
-  }
-
-  /// Remove from the list of all item IDs
-  Future<void> _removeFromAllItemsList(String substanceId) async {
-    final prefs = await SharedPreferences.getInstance();
-    final itemIdsJson = prefs.getString(_allItemsKey);
-
-    if (itemIdsJson == null) return;
-
-    try {
-      final itemIds = (jsonDecode(itemIdsJson) as List<dynamic>)
-          .map((e) => e as String)
-          .toList();
-
-      itemIds.remove(substanceId);
-      await prefs.setString(_allItemsKey, jsonEncode(itemIds));
-    } catch (e) {
-      print('Error removing from all items list: $e');
-    }
-  }
-
-  /// Get total value of all stockpiles (in mg)
-  Future<double> getTotalStockpileValue() async {
-    final items = await getAllStockpiles();
-    double total = 0.0;
-    for (final item in items) {
-      total += item.currentAmountMg;
-    }
-    return total;
-  }
-
-  /// Get count of substances with stockpile
-  Future<int> getStockpileCount() async {
-    final items = await getAllStockpiles();
-    return items.where((item) => !item.isEmpty()).length;
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../common/logging/app_log.dart';
 import 'encryption_service_v2.dart';
 
 /// Centralized security manager that handles PIN timeout logic with:
@@ -48,7 +49,7 @@ class SecurityManager {
   /// Initialize the security manager
   Future<void> init() async {
     _prefs ??= await SharedPreferences.getInstance();
-    print('🔒 SecurityManager initialized');
+    AppLog.i('🔒 SecurityManager initialized');
   }
 
   Future<SharedPreferences> get _preferences async {
@@ -92,7 +93,7 @@ class SecurityManager {
     await prefs.setInt(_keyLastInteractionTime, now);
     await prefs.remove(_keyBackgroundStartTime);
     _isInBackground = false;
-    print('🔓 [SecurityManager] Unlock recorded at ${DateTime.now()}');
+    AppLog.i('🔓 [SecurityManager] Unlock recorded at ${DateTime.now()}');
   }
 
   /// Record user interaction (extend session)
@@ -185,7 +186,7 @@ class SecurityManager {
     // Record background start time
     final prefs = await _preferences;
     await prefs.setInt(_keyBackgroundStartTime, now.millisecondsSinceEpoch);
-    print('📱 [SecurityManager] Background started at $now');
+    AppLog.i('📱 [SecurityManager] Background started at $now');
 
     // Cancel any existing timer
     _backgroundLockTimer?.cancel();
@@ -195,7 +196,7 @@ class SecurityManager {
       if (_isInBackground) {
         // App is still in background after delay, we can consider locking
         // But we don't actually lock until foreground resume check
-        print(
+        AppLog.i(
           '📱 [SecurityManager] App confirmed in background for ${_minBackgroundDuration.inSeconds}s',
         );
       }
@@ -225,7 +226,7 @@ class SecurityManager {
 
     // Guard against concurrent operations
     if (_isLockingOrUnlocking) {
-      print(
+      AppLog.w(
         '🔒 [SecurityManager] Skip foreground handling - operation in progress',
       );
       return;
@@ -236,7 +237,7 @@ class SecurityManager {
       // Check if user is authenticated
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) {
-        print('🔒 [SecurityManager] No user, skipping PIN check');
+        AppLog.i('🔒 [SecurityManager] No user, skipping PIN check');
         return;
       }
 
@@ -245,25 +246,27 @@ class SecurityManager {
         user.id,
       );
       if (!hasEncryption) {
-        print('🔒 [SecurityManager] No encryption setup, skipping PIN check');
+        AppLog.i(
+          '🔒 [SecurityManager] No encryption setup, skipping PIN check',
+        );
         return;
       }
 
       // Check if PIN is required
       final pinRequired = await shouldRequirePin();
       if (pinRequired) {
-        print('🔐 [SecurityManager] PIN required - navigating to unlock');
+        AppLog.i('🔐 [SecurityManager] PIN required - navigating to unlock');
         onPinRequired?.call();
       } else {
         // Update interaction time and clear background time
         final prefs = await _preferences;
         await prefs.remove(_keyBackgroundStartTime);
         await recordInteraction();
-        print('✅ [SecurityManager] PIN not required, session extended');
+        AppLog.i('✅ [SecurityManager] PIN not required, session extended');
         onUnlocked?.call();
       }
     } catch (e) {
-      print('⚠️ [SecurityManager] Error handling foreground: $e');
+      AppLog.e('⚠️ [SecurityManager] Error handling foreground: $e');
       // On error, require PIN for safety
       onPinRequired?.call();
     } finally {
@@ -281,7 +284,7 @@ class SecurityManager {
     _backgroundLockTimer?.cancel();
     _backgroundLockTimer = null;
     _encryptionService.lock();
-    print('🔐 [SecurityManager] State cleared');
+    AppLog.i('🔐 [SecurityManager] State cleared');
   }
 
   /// Check if currently in a lock/unlock operation

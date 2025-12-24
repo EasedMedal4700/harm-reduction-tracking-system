@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:app_links/app_links.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../common/logging/app_log.dart';
 
 /// Handles deep links for authentication flows (email confirmation, password reset).
 ///
@@ -47,16 +48,10 @@ class AuthLinkHandler {
     _linkSubscription = _appLinks.uriLinkStream.listen(
       _handleDeepLink,
       onError: (error) {
-        if (kDebugMode) {
-          debugPrint(
-            '❌ AuthLinkHandler: Error listening to deep links: $error',
-          );
-        }
+        AppLog.e('❌ AuthLinkHandler: Error listening to deep links: $error');
       },
     );
-    if (kDebugMode) {
-      debugPrint('🔗 AuthLinkHandler: Started listening for deep links');
-    }
+    AppLog.d('🔗 AuthLinkHandler: Started listening for deep links');
   }
 
   /// Handle the initial deep link if app was launched from a link.
@@ -64,15 +59,11 @@ class AuthLinkHandler {
     try {
       final initialUri = await _appLinks.getInitialLink();
       if (initialUri != null) {
-        if (kDebugMode) {
-          debugPrint('🔗 AuthLinkHandler: Initial link: $initialUri');
-        }
+        AppLog.d('🔗 AuthLinkHandler: Initial link: $initialUri');
         _handleDeepLink(initialUri);
       }
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint('⚠️ AuthLinkHandler: Error getting initial link: $e');
-      }
+      AppLog.w('⚠️ AuthLinkHandler: Error getting initial link: $e');
     }
   }
 
@@ -82,9 +73,7 @@ class AuthLinkHandler {
 
     // Prevent double-handling
     if (_handledLinks.contains(linkKey)) {
-      if (kDebugMode) {
-        debugPrint('⚠️ AuthLinkHandler: Link already handled: $linkKey');
-      }
+      AppLog.w('⚠️ AuthLinkHandler: Link already handled: $linkKey');
       return;
     }
     _handledLinks.add(linkKey);
@@ -94,13 +83,11 @@ class AuthLinkHandler {
       _handledLinks.remove(linkKey);
     });
 
-    if (kDebugMode) {
-      debugPrint('🔗 AuthLinkHandler: Handling deep link: $uri');
-      debugPrint('🔗 AuthLinkHandler: Scheme: ${uri.scheme}');
-      debugPrint('🔗 AuthLinkHandler: Host: ${uri.host}');
-      debugPrint('🔗 AuthLinkHandler: Path: ${uri.path}');
-      debugPrint('🔗 AuthLinkHandler: Query: ${uri.queryParameters}');
-    }
+    AppLog.d('🔗 AuthLinkHandler: Handling deep link: $uri');
+    AppLog.d('🔗 AuthLinkHandler: Scheme: ${uri.scheme}');
+    AppLog.d('🔗 AuthLinkHandler: Host: ${uri.host}');
+    AppLog.d('🔗 AuthLinkHandler: Path: ${uri.path}');
+    AppLog.d('🔗 AuthLinkHandler: Query: ${uri.queryParameters}');
 
     // Handle substancecheck:// scheme
     if (uri.scheme == 'substancecheck') {
@@ -114,9 +101,7 @@ class AuthLinkHandler {
       return;
     }
 
-    if (kDebugMode) {
-      debugPrint('⚠️ AuthLinkHandler: Unknown scheme: ${uri.scheme}');
-    }
+    AppLog.w('⚠️ AuthLinkHandler: Unknown scheme: ${uri.scheme}');
   }
 
   /// Handle substancecheck:// deep links
@@ -124,24 +109,18 @@ class AuthLinkHandler {
     switch (uri.host) {
       case 'auth':
         // Email confirmation successful
-        if (kDebugMode) {
-          debugPrint('✅ AuthLinkHandler: Email confirmation link detected');
-        }
+        AppLog.d('✅ AuthLinkHandler: Email confirmation link detected');
         _navigateToEmailConfirmed();
         break;
 
       case 'reset-password':
         // Password reset flow
-        if (kDebugMode) {
-          debugPrint('🔑 AuthLinkHandler: Password reset link detected');
-        }
+        AppLog.d('🔑 AuthLinkHandler: Password reset link detected');
         _handlePasswordReset(uri);
         break;
 
       default:
-        if (kDebugMode) {
-          debugPrint('⚠️ AuthLinkHandler: Unknown host: ${uri.host}');
-        }
+        AppLog.w('⚠️ AuthLinkHandler: Unknown host: ${uri.host}');
     }
   }
 
@@ -154,10 +133,8 @@ class AuthLinkHandler {
     final path = uri.path;
     final queryParams = uri.queryParameters;
 
-    if (kDebugMode) {
-      debugPrint('🔗 AuthLinkHandler: HTTPS link path: $path');
-      debugPrint('🔗 AuthLinkHandler: Query params: $queryParams');
-    }
+    AppLog.d('🔗 AuthLinkHandler: HTTPS link path: $path');
+    AppLog.d('🔗 AuthLinkHandler: Query params: $queryParams');
 
     // Check for Supabase auth verification path
     if (path.contains('/auth/v1/verify') || path.contains('/verify')) {
@@ -166,31 +143,25 @@ class AuthLinkHandler {
       final accessToken = queryParams['access_token'];
       final refreshToken = queryParams['refresh_token'];
 
-      if (kDebugMode) {
-        debugPrint('🔗 AuthLinkHandler: Verification type: $type');
-        debugPrint('🔗 AuthLinkHandler: Token exists: ${token != null}');
-        debugPrint(
-          '🔗 AuthLinkHandler: Access token exists: ${accessToken != null}',
-        );
-      }
+      AppLog.d('🔗 AuthLinkHandler: Verification type: $type');
+      AppLog.d('🔗 AuthLinkHandler: Token exists: ${token != null}');
+      AppLog.d(
+        '🔗 AuthLinkHandler: Access token exists: ${accessToken != null}',
+      );
 
       switch (type) {
         case 'signup':
         case 'email':
         case 'email_change':
           // Email confirmation
-          if (kDebugMode) {
-            debugPrint('✅ AuthLinkHandler: Email verification successful');
-          }
+          AppLog.d('✅ AuthLinkHandler: Email verification successful');
           _navigateToEmailConfirmed();
           break;
 
         case 'recovery':
         case 'magiclink':
           // Password recovery
-          if (kDebugMode) {
-            debugPrint('🔑 AuthLinkHandler: Password recovery flow');
-          }
+          AppLog.d('🔑 AuthLinkHandler: Password recovery flow');
           // Try to set the session if we have tokens
           if (accessToken != null) {
             _setSessionAndNavigateToResetPassword(accessToken, refreshToken);
@@ -203,9 +174,7 @@ class AuthLinkHandler {
           break;
 
         default:
-          if (kDebugMode) {
-            debugPrint('⚠️ AuthLinkHandler: Unknown verification type: $type');
-          }
+          AppLog.w('⚠️ AuthLinkHandler: Unknown verification type: $type');
       }
     } else {
       // Check for direct token in URL fragment (Supabase implicit flow)
@@ -221,9 +190,7 @@ class AuthLinkHandler {
     // Parse fragment like: access_token=XXX&refresh_token=YYY&type=recovery
     final params = Uri.splitQueryString(fragment);
 
-    if (kDebugMode) {
-      debugPrint('🔗 AuthLinkHandler: Fragment params: $params');
-    }
+    AppLog.d('🔗 AuthLinkHandler: Fragment params: $params');
 
     final type = params['type'];
     final accessToken = params['access_token'];
@@ -262,20 +229,14 @@ class AuthLinkHandler {
       );
 
       if (response.session != null) {
-        if (kDebugMode) {
-          debugPrint('✅ AuthLinkHandler: Recovery token verified');
-        }
+        AppLog.d('✅ AuthLinkHandler: Recovery token verified');
         _navigateToSetNewPassword();
       } else {
-        if (kDebugMode) {
-          debugPrint('❌ AuthLinkHandler: Recovery token verification failed');
-        }
+        AppLog.e('❌ AuthLinkHandler: Recovery token verification failed');
         _showError('Invalid or expired reset link. Please request a new one.');
       }
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint('❌ AuthLinkHandler: Error verifying recovery token: $e');
-      }
+      AppLog.e('❌ AuthLinkHandler: Error verifying recovery token: $e');
       _showError('Could not verify reset link. Please try again.');
     }
   }
@@ -287,14 +248,10 @@ class AuthLinkHandler {
   ) async {
     try {
       await Supabase.instance.client.auth.setSession(accessToken);
-      if (kDebugMode) {
-        debugPrint('✅ AuthLinkHandler: Session set from recovery tokens');
-      }
+      AppLog.d('✅ AuthLinkHandler: Session set from recovery tokens');
       _navigateToSetNewPassword();
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint('❌ AuthLinkHandler: Error setting session: $e');
-      }
+      AppLog.e('❌ AuthLinkHandler: Error setting session: $e');
       // Still navigate, the page will handle the error
       _navigateToSetNewPassword();
     }
@@ -308,9 +265,7 @@ class AuthLinkHandler {
         context,
       ).pushNamedAndRemoveUntil('/email-confirmed', (route) => false);
     } else {
-      if (kDebugMode) {
-        debugPrint('⚠️ AuthLinkHandler: Navigator context not available');
-      }
+      AppLog.w('⚠️ AuthLinkHandler: Navigator context not available');
     }
   }
 
@@ -322,9 +277,7 @@ class AuthLinkHandler {
         context,
       ).pushNamedAndRemoveUntil('/set-new-password', (route) => false);
     } else {
-      if (kDebugMode) {
-        debugPrint('⚠️ AuthLinkHandler: Navigator context not available');
-      }
+      AppLog.w('⚠️ AuthLinkHandler: Navigator context not available');
     }
   }
 

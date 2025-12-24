@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'common/logging/app_log.dart';
 
 import 'providers/daily_checkin_provider.dart';
 import 'providers/settings_provider.dart';
@@ -65,13 +66,13 @@ Future<void> main() async {
       try {
         await dotenv.load(fileName: ".env");
       } catch (e) {
-        debugPrint('Error loading .env file: $e');
+        AppLog.e('Error loading .env file: $e');
         // If .env fails to load, we might want to throw or handle it,
         // but for now let's at least see the error.
       }
 
       if (!dotenv.isInitialized) {
-        debugPrint('DotEnv not initialized. Check if .env file exists.');
+        AppLog.w('DotEnv not initialized. Check if .env file exists.');
       }
 
       final supabaseUrl = dotenv.isInitialized
@@ -92,7 +93,7 @@ Future<void> main() async {
           ),
         );
       } else {
-        debugPrint('Supabase not initialized: Missing credentials');
+        AppLog.e('Supabase not initialized: Missing credentials');
       }
 
       await errorLoggingService.init();

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../common/logging/app_log.dart';
 
 import '../services/error_logging_service.dart';
 
@@ -237,24 +238,23 @@ class ErrorReporter {
         await _client!.from('error_logs').insert(payload);
       }
 
-      debugPrint('═' * 80);
-      debugPrint(
-        'ERROR REPORTED: [$errorCode] ${severity.value.toUpperCase()}',
-      );
-      debugPrint('Screen: ${payload['screen_name']}');
-      if (context != null) debugPrint('Context: $context');
-      debugPrint('Error: $error');
+      AppLog.e('═' * 80);
+      AppLog.e('ERROR REPORTED: [$errorCode] ${severity.value.toUpperCase()}');
+      AppLog.e('Screen: ${payload['screen_name']}');
+      if (context != null) AppLog.e('Context: $context');
+      AppLog.e('Error: $error');
       if (stackTrace != null) {
-        debugPrint(
+        AppLog.e(
           'Stack: ${stackTrace.toString().split('\n').take(5).join('\n')}',
         );
       }
       debugPrint('═' * 80);
     } catch (insertError, insertStackTrace) {
-      debugPrint('Failed to report error to Supabase: $insertError');
-      debugPrint('Original error: $error');
-      if (kDebugMode) {
-        debugPrint('Insert stack trace: $insertStackTrace');
+      // Fallback logging if Supabase insert fails
+      AppLog.e('Failed to report error to Supabase: $insertError');
+      AppLog.e('Original error: $error');
+      if (insertStackTrace != null) {
+        AppLog.e('Insert stack trace: $insertStackTrace');
       }
     }
   }

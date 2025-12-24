@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../common/logging/app_log.dart';
 import '../models/user_profile.dart';
 import '../utils/error_handler.dart';
 import 'cache_service.dart';
@@ -54,7 +55,7 @@ class UserService {
     }
 
     try {
-      print('👤 DEBUG: Loading user profile for ${user.id}');
+      AppLog.i('👤 DEBUG: Loading user profile for ${user.id}');
 
       final response = await _client
           .from('users')
@@ -63,7 +64,7 @@ class UserService {
           .maybeSingle();
 
       if (response == null) {
-        print('❌ DEBUG: User profile not found in database');
+        AppLog.e('❌ DEBUG: User profile not found in database');
         throw const UserProfileException(
           'User profile not found. The account may not have been set up correctly. '
           'Please contact support.',
@@ -71,7 +72,7 @@ class UserService {
         );
       }
 
-      print('✅ DEBUG: User profile loaded: ${response['display_name']}');
+      AppLog.i('✅ DEBUG: User profile loaded: ${response['display_name']}');
 
       final profile = UserProfile.fromJson(response, email: user.email);
 
@@ -139,7 +140,7 @@ class UserService {
     }
 
     try {
-      print('👤 DEBUG: Updating user profile: $updates');
+      AppLog.i('👤 DEBUG: Updating user profile: $updates');
 
       final response = await _client
           .from('users')
@@ -148,7 +149,7 @@ class UserService {
           .select('auth_user_id, display_name, is_admin')
           .single();
 
-      print('✅ DEBUG: User profile updated successfully');
+      AppLog.i('✅ DEBUG: User profile updated successfully');
 
       final profile = UserProfile.fromJson(response, email: user.email);
 
@@ -205,7 +206,7 @@ class UserService {
 
       return response != null;
     } catch (e) {
-      print('⚠️ DEBUG: Error checking profile existence: $e');
+      AppLog.e('⚠️ DEBUG: Error checking profile existence: $e');
       return false;
     }
   }
@@ -224,7 +225,9 @@ class UserService {
         return profile;
       } on UserProfileException catch (e) {
         if (e.isProfileMissing && i < maxRetries - 1) {
-          print('👤 DEBUG: Profile not ready, retry ${i + 1}/$maxRetries...');
+          AppLog.i(
+            '👤 DEBUG: Profile not ready, retry ${i + 1}/$maxRetries...',
+          );
           await Future.delayed(delay);
           continue;
         }

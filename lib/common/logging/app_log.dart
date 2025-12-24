@@ -18,16 +18,7 @@ class AppLog {
     dev.log(message, name: 'WARN');
   }
 
-  static void e(
-    String message, {
-    Object? error,
-    StackTrace? stackTrace,
-  }) {
-    dev.log(
-      message,
-      name: 'ERROR',
-      error: error,
-      stackTrace: stackTrace,
-    );
+  static void e(String message, {Object? error, StackTrace? stackTrace}) {
+    dev.log(message, name: 'ERROR', error: error, stackTrace: stackTrace);
   }
 }

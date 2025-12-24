@@ -117,10 +117,7 @@ void main() {
         // Manually corrupt one item but keep it in the list
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('stockpile_sub2', 'invalid_json');
-        await prefs.setString(
-          'stockpile_all_items',
-          jsonEncode(['sub1', 'sub2']),
-        );
+        await prefs.setStringList('stockpile_all_items', ['sub1', 'sub2']);
 
         final items = await repository.getAllStockpiles();
         expect(items.length, 1);
