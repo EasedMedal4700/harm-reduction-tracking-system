@@ -243,7 +243,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                       color: c.error.withValues(
                         alpha: context.opacities.overlay,
                       ),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(context.shapes.radiusSm),
                       border: Border.all(
                         color: c.error.withValues(
                           alpha: context.opacities.medium,
@@ -348,7 +348,7 @@ class _SetNewPasswordPageState extends State<SetNewPasswordPage> {
                   padding: EdgeInsets.all(sp.md),
                   decoration: BoxDecoration(
                     color: a.primary.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(context.shapes.radiusMd),
                   ),
                   child: Column(
                     crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

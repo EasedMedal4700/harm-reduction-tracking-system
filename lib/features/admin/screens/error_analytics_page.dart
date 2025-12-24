@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
+import 'package:mobile_drug_use_app/constants/strings/app_strings.dart';
 import '../services/admin_service.dart';
 import '../../../utils/error_reporter.dart';
 import '../widgets/errors/error_analytics_section.dart';
@@ -53,7 +54,7 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Error loading analytics data')),
+          const SnackBar(content: Text(AppStrings.errorLoadingAnalytics)),
         );
       }
     }
@@ -95,7 +96,7 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Add at least one filter or enable delete all.'),
+              content: Text(AppStrings.errorAnalyticsFilterRequired),
             ),
           );
         }
@@ -113,7 +114,7 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
         );
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Error logs cleaned successfully')),
+            const SnackBar(content: Text(AppStrings.errorLogsCleaned)),
           );
         }
         await _loadData();
@@ -132,7 +133,7 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
       if (mounted) {
         setState(() => _isClearingErrors = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to clean error logs')),
+          const SnackBar(content: Text(AppStrings.errorCleaningLogs)),
         );
       }
     }
@@ -166,7 +167,7 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
-        title: const Text('Error Analytics'),
+        title: const Text(AppStrings.errorAnalyticsTitle),
         backgroundColor: c.surface,
         foregroundColor: c.textPrimary,
         elevation: context.sizes.elevationNone,

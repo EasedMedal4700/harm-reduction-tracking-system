@@ -283,21 +283,21 @@ class _UnifiedBucketToleranceWidgetState
     required bool isExpanded,
   }) {
     // THEME ACCESS
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
+    final t = context.text;
 
     final substanceTolerance = bucketPercent / 100.0;
     final isActive = bucketPercent > 0.1;
 
     // BUCKET CARD
     return Card(
-      margin: EdgeInsets.only(bottom: spacing.md),
-      color: colors.surface,
+      margin: EdgeInsets.only(bottom: sp.md),
+      color: c.surface,
       elevation: context.sizes.elevationNone,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(context.shapes.radiusSm),
-        side: BorderSide(color: colors.border, width: context.sizes.borderThin),
+        side: BorderSide(color: c.border, width: context.sizes.borderThin),
       ),
       child: InkWell(
         onTap: () {
@@ -309,7 +309,7 @@ class _UnifiedBucketToleranceWidgetState
         },
         borderRadius: BorderRadius.circular(context.shapes.radiusSm),
         child: Padding(
-          padding: EdgeInsets.all(spacing.md),
+          padding: EdgeInsets.all(sp.md),
           child: Column(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
@@ -319,55 +319,55 @@ class _UnifiedBucketToleranceWidgetState
                   Icon(
                     _getBucketIcon(bucketType),
                     size: context.sizes.iconMd,
-                    color: colors.textSecondary,
+                    color: c.textSecondary,
                   ),
-                  SizedBox(width: spacing.md),
+                  SizedBox(width: sp.md),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
                       children: [
                         Text(
                           BucketDefinitions.getDisplayName(bucketType),
-                          style: typography.bodyBold.copyWith(
-                            color: colors.textPrimary,
+                          style: t.bodyBold.copyWith(
+                            color: c.textPrimary,
                           ),
                         ),
                         SizedBox(height: 2),
                         Text(
                           BucketDefinitions.getDescription(bucketType),
-                          style: typography.caption.copyWith(
-                            color: colors.textSecondary,
+                          style: t.caption.copyWith(
+                            color: c.textSecondary,
                             height: 1.2,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(width: spacing.sm),
+                  SizedBox(width: sp.sm),
                   if (isActive)
                     Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: spacing.sm,
+                        horizontal: sp.sm,
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: colors.info.withValues(alpha: 0.15),
+                        color: c.info.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(
                           context.shapes.radiusSm,
                         ),
                       ),
                       child: Text(
                         'ACTIVE',
-                        style: typography.captionBold.copyWith(
-                          fontSize: typography.caption.fontSize,
-                          color: colors.info,
+                        style: t.captionBold.copyWith(
+                          fontSize: t.caption.fontSize,
+                          color: c.info,
                         ),
                       ),
                     ),
                 ],
               ),
 
-              SizedBox(height: spacing.md),
+              SizedBox(height: sp.md),
 
               // SYSTEM-WIDE TOLERANCE - Combined load from all substances
               Row(
@@ -375,22 +375,22 @@ class _UnifiedBucketToleranceWidgetState
                 children: [
                   Text(
                     'System-wide (all substances):',
-                    style: typography.caption.copyWith(
-                      color: colors.textSecondary,
+                    style: t.caption.copyWith(
+                      color: c.textSecondary,
                     ),
                   ),
                   Row(
                     children: [
                       Text(
                         '${bucketPercent.toStringAsFixed(1)}%',
-                        style: typography.bodyBold.copyWith(
+                        style: t.bodyBold.copyWith(
                           color: _getColorForTolerance(
                             substanceTolerance,
                             context,
                           ),
                         ),
                       ),
-                      SizedBox(width: spacing.xs),
+                      SizedBox(width: sp.xs),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 6,
@@ -401,7 +401,7 @@ class _UnifiedBucketToleranceWidgetState
                             state,
                             context,
                           ).withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(context.shapes.radiusMd),
                           border: Border.all(
                             color: _getStateColor(
                               state,
@@ -412,7 +412,7 @@ class _UnifiedBucketToleranceWidgetState
                         ),
                         child: Text(
                           state.displayName,
-                          style: typography.captionBold.copyWith(
+                          style: t.captionBold.copyWith(
                             fontSize: context.text.caption.fontSize,
                             color: _getStateColor(state, context),
                           ),
@@ -423,7 +423,7 @@ class _UnifiedBucketToleranceWidgetState
                 ],
               ),
 
-              SizedBox(height: spacing.sm),
+              SizedBox(height: sp.sm),
 
               // SUBSTANCE CONTRIBUTION - This substance's impact on bucket
               Row(
@@ -431,27 +431,27 @@ class _UnifiedBucketToleranceWidgetState
                 children: [
                   Text(
                     '${widget.substanceName} contribution:',
-                    style: typography.captionBold.copyWith(
-                      color: colors.textPrimary,
+                    style: t.captionBold.copyWith(
+                      color: c.textPrimary,
                     ),
                   ),
                   Text(
                     '${(substanceTolerance * 100).toStringAsFixed(1)}%',
-                    style: typography.bodyBold.copyWith(
+                    style: t.bodyBold.copyWith(
                       color: _getColorForTolerance(substanceTolerance, context),
                     ),
                   ),
                 ],
               ),
 
-              SizedBox(height: spacing.sm),
+              SizedBox(height: sp.sm),
 
               // PROGRESS BAR - Visual indicator of substance contribution
               ClipRRect(
                 borderRadius: BorderRadius.circular(context.shapes.radiusSm),
                 child: LinearProgressIndicator(
                   value: substanceTolerance > 1.0 ? 1.0 : substanceTolerance,
-                  backgroundColor: colors.border.withValues(alpha: 0.3),
+                  backgroundColor: c.border.withValues(alpha: 0.3),
                   valueColor: AlwaysStoppedAnimation<Color>(
                     _getColorForTolerance(substanceTolerance, context),
                   ),
@@ -459,7 +459,7 @@ class _UnifiedBucketToleranceWidgetState
                 ),
               ),
 
-              SizedBox(height: spacing.sm),
+              SizedBox(height: sp.sm),
 
               // STATS ROW - Bucket metadata
               Row(
@@ -467,14 +467,14 @@ class _UnifiedBucketToleranceWidgetState
                 children: [
                   Text(
                     'Weight: ${bucket.weight.toStringAsFixed(2)} • Type: ${bucket.toleranceType}',
-                    style: typography.caption.copyWith(
-                      color: colors.textSecondary,
+                    style: t.caption.copyWith(
+                      color: c.textSecondary,
                     ),
                   ),
                   Text(
                     'Active: ${isActive ? 'Yes' : 'No'}',
-                    style: typography.captionBold.copyWith(
-                      color: isActive ? colors.info : colors.textSecondary,
+                    style: t.captionBold.copyWith(
+                      color: isActive ? c.info : c.textSecondary,
                     ),
                   ),
                 ],
@@ -482,9 +482,9 @@ class _UnifiedBucketToleranceWidgetState
 
               // DEBUG SECTION - Expandable calculation details
               if (_showDebug && isExpanded) ...[
-                SizedBox(height: spacing.md),
-                Divider(color: colors.divider),
-                SizedBox(height: spacing.sm),
+                SizedBox(height: sp.md),
+                Divider(color: c.divider),
+                SizedBox(height: sp.sm),
                 _buildDebugSection(
                   context: context,
                   bucketType: bucketType,
@@ -616,22 +616,23 @@ class _UnifiedBucketToleranceWidgetState
 
   /// Builds a single debug row showing label and value.
   Widget _debugRow(BuildContext context, String label, String value) {
-    final typography = context.text;
-    final colors = context.colors;
+    final t = context.text;
+    final c = context.colors;
+    final sp = context.spacing;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2),
+      padding: EdgeInsets.symmetric(vertical: sp.xs / 2),
       child: Row(
         mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
         children: [
           Text(
             '$label:',
-            style: typography.caption.copyWith(color: colors.textSecondary),
+            style: t.caption.copyWith(color: c.textSecondary),
           ),
           Text(
             value,
-            style: typography.captionBold.copyWith(
-              color: colors.textPrimary,
+            style: t.captionBold.copyWith(
+              color: c.textPrimary,
               fontFamily: AppTypographyConstants.fontFamilyMonospace,
             ),
           ),

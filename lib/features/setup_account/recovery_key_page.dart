@@ -232,7 +232,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           padding: EdgeInsets.all(sp.md),
           decoration: BoxDecoration(
             color: a.primary.withValues(alpha: context.opacities.overlay),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(context.shapes.radiusMd),
             border: Border.all(
               color: a.primary.withValues(alpha: context.opacities.slow),
             ),
@@ -261,7 +261,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
             color: c.surface,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(context.shapes.radiusLg),
             border: Border.all(
               color: c.border,
               width: context.sizes.borderRegular,
@@ -379,7 +379,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           padding: EdgeInsets.all(sp.md),
           decoration: BoxDecoration(
             color: c.success.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(context.shapes.radiusMd),
             border: Border.all(color: c.success.withValues(alpha: 0.3)),
           ),
           child: Row(
@@ -409,7 +409,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
             color: c.surface,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(context.shapes.radiusLg),
             border: Border.all(
               color: c.border,
               width: context.sizes.borderRegular,
@@ -465,7 +465,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
           padding: EdgeInsets.all(sp.lg),
           decoration: BoxDecoration(
             color: c.surface,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(context.shapes.radiusLg),
             border: Border.all(
               color: c.border,
               width: context.sizes.borderRegular,
@@ -549,7 +549,7 @@ class _RecoveryKeyScreenState extends State<RecoveryKeyScreen> {
       padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
         color: c.error.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(context.shapes.radiusMd),
         border: Border.all(color: c.error),
       ),
       child: Row(

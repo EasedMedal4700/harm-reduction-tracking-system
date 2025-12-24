@@ -168,7 +168,7 @@ class ToleranceStatsCard extends ConsumerWidget {
         SizedBox(height: 4),
         // Value text (indented to align with label)
         Padding(
-          padding: const EdgeInsets.only(left: 22),
+          padding: EdgeInsets.only(left: context.sizes.iconSm + spacing.xs),
           child: Text(
             value,
             style: typography.bodyBold.copyWith(color: colors.textPrimary),

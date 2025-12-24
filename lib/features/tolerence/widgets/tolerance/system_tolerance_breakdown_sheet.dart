@@ -106,7 +106,7 @@ class _SystemToleranceBreakdownSheetState
               height: 4,
               decoration: BoxDecoration(
                 color: colors.textSecondary.withValues(alpha: 0.25),
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(radii.radiusXs / 2),
               ),
             ),
           ),
@@ -158,9 +158,9 @@ class _SystemToleranceBreakdownSheetState
           Flexible(
             child: _isLoading
                 // Loading state
-                ? const Padding(
-                    padding: EdgeInsets.all(32),
-                    child: Center(child: CommonLoader()),
+                ? Padding(
+                    padding: EdgeInsets.all(spacing.xl2),
+                    child: const Center(child: CommonLoader()),
                   )
                 : _contributions.isEmpty
                 // Empty state

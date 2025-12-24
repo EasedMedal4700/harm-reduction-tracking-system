@@ -11,6 +11,7 @@ import '../widgets/app_bar/admin_app_bar.dart';
 import '../widgets/cache/cache_management_section.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
+import 'package:mobile_drug_use_app/constants/strings/app_strings.dart';
 
 // MIGRATION
 // Theme: COMPLETE
@@ -94,7 +95,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Error loading admin data'),
+            content: const Text(AppStrings.errorLoadingAdminData),
             backgroundColor: context.colors.error,
           ),
         );
@@ -108,14 +109,14 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         await _adminService.demoteUser(authUserId);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('User demoted from admin')),
+            const SnackBar(content: Text(AppStrings.userDemoted)),
           );
         }
       } else {
         await _adminService.promoteUser(authUserId);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('User promoted to admin')),
+            const SnackBar(content: Text(AppStrings.userPromoted)),
           );
         }
       }
@@ -133,7 +134,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Failed to toggle admin status'),
+            content: const Text(AppStrings.errorToggleAdmin),
             backgroundColor: context.theme.colors.error,
           ),
         );
@@ -150,7 +151,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('✓ All cache cleared successfully'),
+            content: const Text(AppStrings.cacheClearedSuccess),
             backgroundColor: context.theme.colors.success,
           ),
         );
@@ -159,7 +160,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Failed to clear cache'),
+            content: const Text(AppStrings.errorClearingCache),
             backgroundColor: context.theme.colors.error,
           ),
         );
@@ -176,7 +177,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('✓ Drug profiles cache cleared'),
+            content: const Text(AppStrings.drugCacheCleared),
             backgroundColor: context.theme.colors.success,
           ),
         );
@@ -185,7 +186,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Failed to clear drug cache'),
+            content: const Text(AppStrings.errorClearingDrugCache),
             backgroundColor: context.theme.colors.error,
           ),
         );
@@ -202,7 +203,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('✓ Expired cache entries cleared'),
+            content: const Text(AppStrings.expiredCacheCleared),
             backgroundColor: context.theme.colors.success,
           ),
         );
@@ -211,7 +212,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Failed to clear expired cache'),
+            content: const Text(AppStrings.errorClearingExpiredCache),
             backgroundColor: context.theme.colors.error,
           ),
         );
@@ -243,7 +244,7 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Failed to refresh from database'),
+            content: const Text(AppStrings.errorRefreshingDatabase),
             backgroundColor: context.theme.colors.error,
           ),
         );

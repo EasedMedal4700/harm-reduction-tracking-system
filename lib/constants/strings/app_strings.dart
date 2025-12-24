@@ -13,4 +13,18 @@ class AppStrings {
   static const String errorClearingCache = 'Failed to clear cache';
   static const String drugCacheCleared = '\u2713 Drug profiles cache cleared';
   static const String errorClearingDrugCache = 'Failed to clear drug cache';
+  static const String expiredCacheCleared =
+      '\u2713 Expired cache entries cleared';
+  static const String errorClearingExpiredCache =
+      'Failed to clear expired cache';
+  static const String errorRefreshingDatabase =
+      'Failed to refresh from database';
+
+  // Error Analytics
+  static const String errorLoadingAnalytics = 'Error loading analytics data';
+  static const String errorAnalyticsFilterRequired =
+      'Add at least one filter or enable delete all.';
+  static const String errorLogsCleaned = 'Error logs cleaned successfully';
+  static const String errorCleaningLogs = 'Failed to clean error logs';
+  static const String errorAnalyticsTitle = 'Error Analytics';
 }
