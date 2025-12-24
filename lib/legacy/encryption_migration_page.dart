@@ -21,7 +21,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../providers/core_providers.dart';
 import '../services/encryption_migration_service.dart';
 import '../utils/error_handler.dart';
-import '../states/migration_step_controller.dart';
+import 'migration_step_controller.dart';
 
 class EncryptionMigrationScreen extends ConsumerStatefulWidget {
   const EncryptionMigrationScreen({super.key});

@@ -1,16 +1,13 @@
-// lib/common/logging/app_log.dart
 import 'dart:developer' as dev;
+import 'package:flutter/foundation.dart';
 
-/// Centralized application logging
-/// Usage:
-/// log.d('[BUILD] Widget rebuilt');
-/// log.i('[UI] Button pressed');
-/// log.w('[DATA] Unexpected empty result');
-/// log.e('[STATE] Impossible state reached');
+class AppLog {
+  static bool get _debugEnabled => !kReleaseMode;
 
-class log {
   static void d(String message) {
-    dev.log(message, name: 'DEBUG');
+    if (_debugEnabled) {
+      dev.log(message, name: 'DEBUG');
+    }
   }
 
   static void i(String message) {
@@ -21,7 +18,16 @@ class log {
     dev.log(message, name: 'WARN');
   }
 
-  static void e(String message) {
-    dev.log(message, name: 'ERROR');
+  static void e(
+    String message, {
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
+    dev.log(
+      message,
+      name: 'ERROR',
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 }
