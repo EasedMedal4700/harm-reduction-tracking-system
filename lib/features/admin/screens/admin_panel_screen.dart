@@ -108,9 +108,9 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
       if (currentlyAdmin) {
         await _adminService.demoteUser(authUserId);
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text(AppStrings.userDemoted)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text(AppStrings.userDemoted)));
         }
       } else {
         await _adminService.promoteUser(authUserId);

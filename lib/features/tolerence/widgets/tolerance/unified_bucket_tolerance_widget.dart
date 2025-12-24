@@ -328,9 +328,7 @@ class _UnifiedBucketToleranceWidgetState
                       children: [
                         Text(
                           BucketDefinitions.getDisplayName(bucketType),
-                          style: t.bodyBold.copyWith(
-                            color: c.textPrimary,
-                          ),
+                          style: t.bodyBold.copyWith(color: c.textPrimary),
                         ),
                         SizedBox(height: 2),
                         Text(
@@ -375,9 +373,7 @@ class _UnifiedBucketToleranceWidgetState
                 children: [
                   Text(
                     'System-wide (all substances):',
-                    style: t.caption.copyWith(
-                      color: c.textSecondary,
-                    ),
+                    style: t.caption.copyWith(color: c.textSecondary),
                   ),
                   Row(
                     children: [
@@ -401,7 +397,9 @@ class _UnifiedBucketToleranceWidgetState
                             state,
                             context,
                           ).withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(context.shapes.radiusMd),
+                          borderRadius: BorderRadius.circular(
+                            context.shapes.radiusMd,
+                          ),
                           border: Border.all(
                             color: _getStateColor(
                               state,
@@ -431,9 +429,7 @@ class _UnifiedBucketToleranceWidgetState
                 children: [
                   Text(
                     '${widget.substanceName} contribution:',
-                    style: t.captionBold.copyWith(
-                      color: c.textPrimary,
-                    ),
+                    style: t.captionBold.copyWith(color: c.textPrimary),
                   ),
                   Text(
                     '${(substanceTolerance * 100).toStringAsFixed(1)}%',
@@ -467,9 +463,7 @@ class _UnifiedBucketToleranceWidgetState
                 children: [
                   Text(
                     'Weight: ${bucket.weight.toStringAsFixed(2)} • Type: ${bucket.toleranceType}',
-                    style: t.caption.copyWith(
-                      color: c.textSecondary,
-                    ),
+                    style: t.caption.copyWith(color: c.textSecondary),
                   ),
                   Text(
                     'Active: ${isActive ? 'Yes' : 'No'}',
@@ -625,10 +619,7 @@ class _UnifiedBucketToleranceWidgetState
       child: Row(
         mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
         children: [
-          Text(
-            '$label:',
-            style: t.caption.copyWith(color: c.textSecondary),
-          ),
+          Text('$label:', style: t.caption.copyWith(color: c.textSecondary)),
           Text(
             value,
             style: t.captionBold.copyWith(

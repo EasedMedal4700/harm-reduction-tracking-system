@@ -32,10 +32,10 @@ class SystemOverviewWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.colors;
-    final spacing = context.spacing;
-    final typography = context.text;
-    final radii = context.shapes;
+    final c = context.colors;
+    final sp = context.spacing;
+    final te = context.text;
+    final sh = context.shapes;
 
     final orderedBuckets = BucketDefinitions.orderedBuckets;
 

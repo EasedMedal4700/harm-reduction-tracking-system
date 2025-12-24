@@ -3,7 +3,7 @@
     "total_files": 361,
     "violations": 7,
     "warnings": 20,
-    "timestamp": "1766582990.6510348"
+    "timestamp": "1766589698.4384267"
   },
   "issues": [
     {
@@ -67,12 +67,12 @@
       "status": "WARNING"
     },
     {
-      "file": "lib\\constants\\theme\\app_theme_extension.dart",
-      "count": 13,
+      "file": "lib\\features\\admin\\screens\\admin_panel_screen.dart",
+      "count": 14,
       "status": "WARNING"
     },
     {
-      "file": "lib\\features\\admin\\screens\\admin_panel_screen.dart",
+      "file": "lib\\constants\\theme\\app_theme_extension.dart",
       "count": 13,
       "status": "WARNING"
     },
