@@ -138,9 +138,8 @@ class DeepLinkDebugWidget extends StatelessWidget {
 
   /// Simulate a password reset deep link
   void _simulateResetPasswordDeepLink(BuildContext context) {
-    if (kDebugMode) {
-      debugPrint('🔧 DEBUG: Simulating password reset deep link');
-    AppLog.d('🔧 DEBUG: Simulating password reset deep link');inal uri = Uri.parse('substancecheck://reset-password');
+    AppLog.d('🔧 DEBUG: Simulating password reset deep link');
+    final uri = Uri.parse('substancecheck://reset-password');
     authLinkHandler._handleDeepLink(uri);
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -153,9 +152,8 @@ class DeepLinkDebugWidget extends StatelessWidget {
 
   /// Simulate a Supabase verification URL
   void _simulateSupabaseVerifyUrl(BuildContext context) {
-    if (kDebugMode) {
-      debugPrint('🔧 DEBUG: Simulating Supabase verify URL');
-    AppLog.d('🔧 DEBUG: Simulating Supabase verify URL');/ Show a dialog to choose the type
+    AppLog.d('🔧 DEBUG: Simulating Supabase verify URL');
+    // Show a dialog to choose the type
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -268,10 +266,6 @@ class DeepLinkSimulator {
 
   /// Log a simulated deep link URI for debugging
   static void logSimulatedLink(String url) {
-    if (kDebugMode) {
-      final uri = Uri.parse(url);
-      debugPrint('🔧 Simulated Deep Link:');
-      debugPrint('   URL: $url');
     final uri = Uri.parse(url);
     AppLog.d('🔧 Simulated Deep Link:');
     AppLog.d('   URL: $url');
@@ -280,3 +274,5 @@ class DeepLinkSimulator {
     AppLog.d('   Path: ${uri.path}');
     AppLog.d('   Query: ${uri.queryParameters}');
     AppLog.d('   Fragment: ${uri.fragment}');
+  }
+}
