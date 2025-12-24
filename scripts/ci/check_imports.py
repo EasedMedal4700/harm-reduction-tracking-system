@@ -12,6 +12,12 @@ Guidelines:
 import os
 import json
 import sys
+try:
+    from config import CIConfig
+except ImportError:
+    # Fallback if run from wrong directory or config missing
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+    from config import CIConfig
 
 def find_dart_files(root_dir):
     dart_files = []
@@ -48,6 +54,9 @@ def main():
     violations = 0
     warnings = 0
 
+    config = CIConfig()
+    max_imports = config.get_step_config('imports').get('max_imports', 15)
+
     print("Checking imports...")
     
     for file_path in files:
@@ -55,7 +64,7 @@ def main():
         rel_path = os.path.relpath(file_path, project_root)
         
         status = "OK"
-        if count > 15:
+        if count > max_imports:
             status = "SMELL"
             violations += 1
         elif count > 10:
@@ -73,12 +82,13 @@ def main():
     results.sort(key=lambda x: x['count'], reverse=True)
 
     # Generate report
+    import time
     report = {
         "summary": {
             "total_files": len(files),
             "violations": violations,
             "warnings": warnings,
-            "timestamp": str(sys.modules['time'].time()) # Placeholder, will be fixed in pipeline
+            "timestamp": str(time.time())
         },
         "issues": results
     }
@@ -91,7 +101,7 @@ def main():
 
     # Print summary
     print(f"Checked {len(files)} files.")
-    print(f"Found {violations} violations (16+ imports) and {warnings} warnings (11-15 imports).")
+    print(f"Found {violations} violations (> {max_imports} imports) and {warnings} warnings (11-{max_imports} imports).")
     
     if violations > 0:
         print("\nTop offenders:")

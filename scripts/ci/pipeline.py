@@ -8,12 +8,13 @@ Separated from UI for better maintainability and reusability.
 import json
 import os
 import subprocess
+import glob
 from datetime import datetime
 from dataclasses import dataclass
-from typing import Dict, Any, Optional, Tuple
+from typing import Dict, Any, Optional, Tuple, List
 from datetime import datetime
 import time
-
+from config import CIConfig, Colors
 
 def create_progress_bar(percentage, width=20):
     """Create a text-based progress bar"""
@@ -70,6 +71,10 @@ def load_unified_report() -> Optional[Dict[str, Any]]:
 
 def run_design_system_checks() -> Tuple[bool, str, str]:
     """Run design system checks and return status"""
+    config = CIConfig()
+    if not config.is_step_enabled('design_system'):
+        return True, Colors.colorize("Skipped (Disabled in config)", 'neutral'), ""
+
     base_dir = os.path.dirname(os.path.abspath(__file__))
     run_py = os.path.join(base_dir, "design_system", "run.py")
     
@@ -85,28 +90,49 @@ def run_design_system_checks() -> Tuple[bool, str, str]:
         summary = report["summary"]
         blocking = summary.get("blocking", 0)
         warnings = summary.get("warnings", 0)
-        status_msg = f"Design system checks completed\nBlocking: {blocking}\nWarnings: {warnings}"
+        
+        allow_warnings = config.get_step_config('design_system').get('allow_warnings', True)
+        
+        if blocking > 0:
+             status_msg = Colors.colorize(f"Design system checks failed\nBlocking: {blocking}", 'failure')
+             success = False
+        elif warnings > 0:
+             if allow_warnings:
+                 status_msg = Colors.colorize(f"Design system checks passed with warnings\nWarnings: {warnings}", 'warning')
+             else:
+                 status_msg = Colors.colorize(f"Design system checks failed (Warnings not allowed)\nWarnings: {warnings}", 'failure')
+                 success = False
+        else:
+             status_msg = Colors.colorize("Design system checks completed\n✅ OK", 'success')
     else:
-        status_msg = "Design system checks completed\nUnable to read results"
+        status_msg = Colors.colorize("Design system checks completed\nUnable to read results", 'warning')
 
     return success, status_msg, output
 
 
 def run_dart_format() -> Tuple[bool, str, str]:
     """Run dart format and return status"""
+    config = CIConfig()
+    if not config.is_step_enabled('format'):
+        return True, Colors.colorize("Skipped (Disabled in config)", 'neutral'), ""
+
     step = PipelineStep("Dart Format", "dart format --set-exit-if-changed .")
     success, output = step.execute()
 
     if success:
-        status_msg = "✅ OK"
+        status_msg = Colors.colorize("✅ OK", 'success')
     else:
-        status_msg = "❌ Needs formatting"
+        status_msg = Colors.colorize("❌ Needs formatting", 'failure')
 
     return success, status_msg, output
 
 
 def run_tests() -> Tuple[bool, str, str]:
     """Run flutter tests and return status with progress display"""
+    config = CIConfig()
+    if not config.is_step_enabled('tests'):
+        return True, Colors.colorize("Skipped (Disabled in config)", 'neutral'), ""
+
     print("Running Flutter tests...")
     print("Progress will be shown below. This may take a few minutes.")
     print()
@@ -136,9 +162,15 @@ def run_tests() -> Tuple[bool, str, str]:
     progress_bar = create_progress_bar(percentage)
 
     try:
+        # Construct command
+        cmd = "flutter test --machine --coverage"
+        exclude_tags = config.get_step_config('tests').get('exclude_tags', [])
+        if exclude_tags:
+            cmd += f" --exclude-tags={','.join(exclude_tags)}"
+
         # Run flutter test with machine-readable output and coverage
         process = subprocess.Popen(
-            "flutter test --machine --coverage",
+            cmd,
             shell=True,
             cwd=find_project_root(),
             stdout=subprocess.PIPE,
@@ -207,7 +239,7 @@ def run_tests() -> Tuple[bool, str, str]:
                             })
 
                     # Update progress on every testDone if total known
-                    if total_known:
+                    if total_known and config.should_show_progress():
                         percentage = (completed / fixed_total) * 100
                         elapsed = time.time() - start_time
                         progress_bar = create_progress_bar(percentage)
@@ -233,7 +265,7 @@ def run_tests() -> Tuple[bool, str, str]:
             f.write(str(total_tests))
 
     except Exception as e:
-        return False, f"❌ Test execution failed: {str(e)}", str(e)
+        return False, Colors.colorize(f"❌ Test execution failed: {str(e)}", 'failure'), str(e)
 
     # Save failed tests to JSON file
     if failed_tests:
@@ -250,10 +282,18 @@ def run_tests() -> Tuple[bool, str, str]:
             }, f, indent=2)
 
     # Create status message
+    allow_failure = config.get_step_config('tests').get('allow_failure', False)
+    
     if failed_tests:
-        status_msg = f"❌ {len(failed_tests)} test(s) failed"
+        msg = f"❌ {len(failed_tests)} test(s) failed"
+        if allow_failure:
+            status_msg = Colors.colorize(msg + " (Allowed Failure)", 'warning')
+            success = True
+        else:
+            status_msg = Colors.colorize(msg, 'failure')
+            success = False
     else:
-        status_msg = f"✅ All {total_tests} tests passed"
+        status_msg = Colors.colorize(f"✅ All {total_tests} tests passed", 'success')
 
     output = ''.join(output_lines)
     return success, status_msg, output
@@ -261,36 +301,69 @@ def run_tests() -> Tuple[bool, str, str]:
 
 def run_dart_analyze() -> Tuple[bool, str, str]:
     """Run dart analyze and return status"""
+    config = CIConfig()
+    if not config.is_step_enabled('analyze'):
+        return True, Colors.colorize("Skipped (Disabled in config)", 'neutral'), ""
+
     print("Running Dart Analyze...")
-    # Run with --format=json to get machine readable output, but also capture standard output for display
+    # Run with --format=json to get machine readable output
     step = PipelineStep("Dart Analyze", "dart analyze --format=json")
     success, json_output = step.execute()
     
-    # Also run human readable for display if needed, or parse JSON
-    # For simplicity, let's save the JSON report
-    if json_output.strip():
-        try:
-            # dart analyze outputs JSON objects, one per line or a list? 
-            # Actually dart analyze --format=json outputs a JSON object.
-            # But sometimes it has preamble.
-            # Let's just save the raw output to a file.
-            report_path = os.path.join(os.path.dirname(__file__), 'analyze_report.json')
-            with open(report_path, 'w') as f:
-                f.write(json_output)
-        except:
-            pass
+    # Filter exclusions from JSON output
+    filtered_issues = []
+    try:
+        data = json.loads(json_output)
+        diagnostics = data.get('diagnostics', [])
+        
+        excludes = config.get_step_config('analyze').get('exclude', [])
+        fatal_infos = config.get_step_config('analyze').get('fatal_infos', False)
+        
+        for issue in diagnostics:
+            file_path = issue.get('location', {}).get('file', '')
+            # Check exclusions
+            is_excluded = False
+            for pattern in excludes:
+                # Simple containment check for now, can be improved with glob
+                clean_pattern = pattern.replace('**', '').replace('*', '')
+                if clean_pattern and clean_pattern in file_path.replace('\\', '/'):
+                     is_excluded = True
+                     break
+            
+            if not is_excluded:
+                filtered_issues.append(issue)
+                
+        # Re-evaluate success based on filtered issues
+        error_count = 0
+        for issue in filtered_issues:
+            severity = issue.get('severity', 'INFO')
+            if severity == 'ERROR' or severity == 'WARNING' or (fatal_infos and severity == 'INFO'):
+                 error_count += 1
+        
+        success = error_count == 0
+        
+        # Save filtered report
+        report_path = os.path.join(os.path.dirname(__file__), 'analyze_report.json')
+        with open(report_path, 'w') as f:
+            json.dump({'diagnostics': filtered_issues}, f, indent=2)
+            
+    except json.JSONDecodeError:
+        pass
 
     if success:
-        status_msg = "✅ No issues found"
+        status_msg = Colors.colorize("✅ No issues found", 'success')
     else:
-        # Count issues from JSON if possible, otherwise generic
-        status_msg = "❌ Analysis issues found"
+        status_msg = Colors.colorize(f"❌ {len(filtered_issues)} issues found", 'failure')
 
     return success, status_msg, json_output
 
 
 def run_import_check() -> Tuple[bool, str, str]:
     """Run import checker script"""
+    config = CIConfig()
+    if not config.is_step_enabled('imports'):
+        return True, Colors.colorize("Skipped (Disabled in config)", 'neutral'), ""
+
     print("Running Import Check...")
     base_dir = os.path.dirname(os.path.abspath(__file__))
     script_path = os.path.join(base_dir, "check_imports.py")
@@ -303,15 +376,19 @@ def run_import_check() -> Tuple[bool, str, str]:
     success, output = step.execute()
     
     if success:
-        status_msg = "✅ Imports OK"
+        status_msg = Colors.colorize("✅ Imports OK", 'success')
     else:
-        status_msg = "❌ Import violations found"
+        status_msg = Colors.colorize("❌ Import violations found", 'failure')
         
     return success, status_msg, output
 
 
 def run_coverage_check() -> Tuple[bool, str, str]:
     """Run coverage regression check"""
+    config = CIConfig()
+    if not config.is_step_enabled('coverage'):
+        return True, Colors.colorize("Skipped (Disabled in config)", 'neutral'), ""
+
     print("Running Coverage Check...")
     base_dir = os.path.dirname(os.path.abspath(__file__))
     script_path = os.path.join(base_dir, "check_coverage.py")
@@ -324,9 +401,9 @@ def run_coverage_check() -> Tuple[bool, str, str]:
     success, output = step.execute()
     
     if success:
-        status_msg = "✅ Coverage OK"
+        status_msg = Colors.colorize("✅ Coverage OK", 'success')
     else:
-        status_msg = "❌ Coverage regression"
+        status_msg = Colors.colorize("❌ Coverage regression", 'failure')
         
     return success, status_msg, output
 

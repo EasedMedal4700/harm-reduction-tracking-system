@@ -9,6 +9,11 @@ import os
 import sys
 import json
 import re
+try:
+    from config import CIConfig
+except ImportError:
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+    from config import CIConfig
 
 def get_coverage_percentage(lcov_path):
     if not os.path.exists(lcov_path):
@@ -34,6 +39,9 @@ def get_coverage_percentage(lcov_path):
     return (covered_lines / total_lines) * 100
 
 def main():
+    config = CIConfig()
+    min_coverage = config.get_step_config('coverage').get('min_coverage', 0.0)
+
     project_root = os.getcwd()
     lcov_path = os.path.join(project_root, 'coverage', 'lcov.info')
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -56,6 +64,11 @@ def main():
     # Save current coverage
     with open(cache_path, 'w') as f:
         json.dump({'coverage': current_coverage}, f)
+
+    # Check minimum coverage
+    if current_coverage < min_coverage:
+        print(f"❌ Coverage {current_coverage:.2f}% is below minimum {min_coverage:.2f}%")
+        sys.exit(1)
 
     # Allow small fluctuation (e.g. 0.1%) or strict? User said "doesnt allow regression".
     # Let's be strict but handle float precision.

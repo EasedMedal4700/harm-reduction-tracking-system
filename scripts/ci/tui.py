@@ -2,6 +2,7 @@ import json
 import os
 import sys
 from typing import Dict, Any, List, Optional, Tuple
+from config import Colors
 
 from pipeline import (
     load_unified_report,
@@ -48,31 +49,16 @@ def show_all_summary(results: Dict[str, Tuple[bool, str, str]]) -> Dict[str, str
     print(f"Tests:              {tests_msg}")
     print(f"Import Check:       {imports_msg}")
     print(f"Coverage Check:     {coverage_msg}")
-
-    # Parse design system results
-    report = load_unified_report()
-    blocking = 0
-    warnings = 0
-    if report and "summary" in report:
-        summary = report["summary"]
-        blocking = summary.get("blocking", 0)
-        warnings = summary.get("warnings", 0)
-        if blocking > 0:
-            design_status = f"❌ BLOCKING ({blocking})"
-        elif warnings > 0:
-            design_status = f"⚠ WARNINGS ({warnings})"
-        else:
-            design_status = "✅ OK"
-    else:
-        design_status = "❓ UNKNOWN"
-
-    print(f"Design System:      {design_status}")
+    print(f"Design System:      {design_msg}")
     print()
 
     # Overall status
+    # Note: design_success might be False if warnings exist but are allowed, 
+    # so we should rely on the success flag returned by the pipeline step which handles allow_warnings
     all_passed = (format_success and analyze_success and tests_success and 
-                  imports_success and coverage_success and (blocking == 0))
-    overall = "✅ PASS" if all_passed else "❌ FAIL"
+                  imports_success and coverage_success and design_success)
+    
+    overall = Colors.colorize("✅ PASS", 'success') if all_passed else Colors.colorize("❌ FAIL", 'failure')
     print(f"Overall Status: {overall}")
     print()
 
