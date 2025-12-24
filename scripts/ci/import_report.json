@@ -1,50 +1,50 @@
 {
   "summary": {
-    "total_files": 360,
-    "violations": 8,
-    "warnings": 19,
-    "timestamp": "1766581119.2134593"
+    "total_files": 361,
+    "violations": 0,
+    "warnings": 27,
+    "timestamp": "1766582434.6365154"
   },
   "issues": [
     {
       "file": "lib\\main.dart",
       "count": 49,
-      "status": "SMELL"
+      "status": "WARNING"
     },
     {
       "file": "lib\\routes\\app_routes.dart",
       "count": 28,
-      "status": "SMELL"
+      "status": "WARNING"
     },
     {
       "file": "lib\\features\\home\\home_page.dart",
-      "count": 19,
-      "status": "SMELL"
-    },
-    {
-      "file": "lib\\features\\home\\home_page_main.dart",
-      "count": 19,
-      "status": "SMELL"
+      "count": 20,
+      "status": "WARNING"
     },
     {
       "file": "lib\\features\\stockpile\\stockpile_page.dart",
       "count": 18,
-      "status": "SMELL"
+      "status": "WARNING"
     },
     {
       "file": "lib\\features\\analytics\\analytics_page.dart",
       "count": 16,
-      "status": "SMELL"
+      "status": "WARNING"
     },
     {
       "file": "lib\\features\\log_entry\\widgets\\log_entry\\log_entry_form.dart",
       "count": 16,
-      "status": "SMELL"
+      "status": "WARNING"
     },
     {
       "file": "lib\\features\\settings\\settings_page.dart",
       "count": 16,
-      "status": "SMELL"
+      "status": "WARNING"
+    },
+    {
+      "file": "lib\\features\\activity\\activity_page.dart",
+      "count": 15,
+      "status": "WARNING"
     },
     {
       "file": "lib\\features\\craving\\cravings_page.dart",
@@ -57,17 +57,12 @@
       "status": "WARNING"
     },
     {
-      "file": "lib\\constants\\theme\\app_theme.dart",
-      "count": 14,
-      "status": "WARNING"
-    },
-    {
-      "file": "lib\\features\\activity\\activity_page.dart",
-      "count": 14,
-      "status": "WARNING"
-    },
-    {
       "file": "lib\\features\\tolerence\\tolerance_dashboard_page.dart",
+      "count": 15,
+      "status": "WARNING"
+    },
+    {
+      "file": "lib\\constants\\theme\\app_theme.dart",
       "count": 14,
       "status": "WARNING"
     },
@@ -123,6 +118,11 @@
     },
     {
       "file": "lib\\features\\analytics\\widgets\\analytics\\analytics_content.dart",
+      "count": 11,
+      "status": "WARNING"
+    },
+    {
+      "file": "lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart",
       "count": 11,
       "status": "WARNING"
     },

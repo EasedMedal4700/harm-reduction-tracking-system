@@ -41,7 +41,10 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
         Padding(
           padding: EdgeInsets.only(right: sp.sm),
           child: IconButton(
-            icon: const Icon(Icons.report_problem_outlined),
+            icon: const Icon(
+              Icons.report_problem_outlined,
+              semanticLabel: 'Report Bug',
+            ),
             color: c.textPrimary,
             onPressed: () => Navigator.push(
               context,
@@ -52,7 +55,10 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
 
         IconButton(
-          icon: const Icon(Icons.bug_report_outlined),
+          icon: const Icon(
+            Icons.bug_report_outlined,
+            semanticLabel: 'Error Analytics',
+          ),
           color: c.textPrimary,
           onPressed: () => Navigator.push(
             context,
@@ -68,7 +74,11 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: IconButton(
             icon: isLoading
                 ? CommonLoader(size: context.sizes.iconSm, color: c.textPrimary)
-                : Icon(Icons.refresh, color: c.textPrimary),
+                : Icon(
+                    Icons.refresh,
+                    color: c.textPrimary,
+                    semanticLabel: 'Refresh',
+                  ),
             onPressed: () {
               if (!isLoading) onRefresh();
             },

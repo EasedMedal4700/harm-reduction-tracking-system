@@ -18,6 +18,7 @@ import 'widgets/activity/activity_helpers.dart';
 import 'services/activity_service.dart';
 import '../../services/user_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/strings/app_strings.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});
@@ -58,9 +59,9 @@ class _ActivityPageState extends State<ActivityPage>
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Failed to load activity: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${AppStrings.errorLoadingActivity}$e')),
+        );
       }
     }
   }
@@ -93,15 +94,27 @@ class _ActivityPageState extends State<ActivityPage>
           unselectedLabelColor: t.colors.textSecondary,
           tabs: [
             Tab(
-              icon: Icon(Icons.medication, size: context.sizes.iconMd),
+              icon: Icon(
+                Icons.medication,
+                size: context.sizes.iconMd,
+                semanticLabel: 'Drug Use',
+              ),
               text: 'Drug Use',
             ),
             Tab(
-              icon: Icon(Icons.favorite, size: context.sizes.iconMd),
+              icon: Icon(
+                Icons.favorite,
+                size: context.sizes.iconMd,
+                semanticLabel: 'Cravings',
+              ),
               text: 'Cravings',
             ),
             Tab(
-              icon: Icon(Icons.notes, size: context.sizes.iconMd),
+              icon: Icon(
+                Icons.notes,
+                size: context.sizes.iconMd,
+                semanticLabel: 'Reflections',
+              ),
               text: 'Reflections',
             ),
           ],
@@ -206,7 +219,7 @@ class _ActivityPageState extends State<ActivityPage>
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Entry deleted successfully'),
+            content: const Text(AppStrings.entryDeletedSuccess),
             backgroundColor: context.theme.colors.success,
           ),
         );
@@ -216,7 +229,7 @@ class _ActivityPageState extends State<ActivityPage>
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to delete entry: $e'),
+            content: Text('${AppStrings.errorDeletingEntry}$e'),
             backgroundColor: context.theme.colors.error,
           ),
         );

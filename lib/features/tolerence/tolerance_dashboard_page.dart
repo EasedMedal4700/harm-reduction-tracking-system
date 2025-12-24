@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_animations.dart';
 import '../../common/logging/app_log.dart';
 
 import '../../common/layout/common_drawer.dart';
@@ -275,7 +276,7 @@ class _ToleranceDashboardPageState extends State<ToleranceDashboardPage> {
             if (context != null) {
               Scrollable.ensureVisible(
                 context,
-                duration: const Duration(milliseconds: 300),
+                duration: const AppAnimations().normal,
                 curve: Curves.easeInOut,
               );
             }

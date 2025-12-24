@@ -134,7 +134,12 @@ class ActivityCard extends StatelessWidget {
 
           if (onTap != null) ...[
             SizedBox(width: sp.sm),
-            Icon(Icons.arrow_forward_ios, size: sp.md, color: c.textSecondary),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: sp.md,
+              color: c.textSecondary,
+              semanticLabel: 'View Details',
+            ),
           ],
         ],
       ),

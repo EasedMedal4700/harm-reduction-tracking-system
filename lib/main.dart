@@ -27,7 +27,7 @@ import 'features/daily_chekin/checkin_history_page.dart';
 import 'features/craving/cravings_page.dart';
 import 'features/daily_chekin/daily_checkin_page.dart';
 import 'legacy/encryption_migration_page.dart';
-import 'features/home/home_page_main.dart';
+import 'features/home/home_page.dart';
 import 'features/log_entry/log_entry_page.dart';
 import 'features/login/login/login_page.dart';
 import 'features/setup_account/pin_setup_page.dart';

@@ -2,6 +2,7 @@ import 'dart:math';
 import '../../../models/curve_point.dart';
 import 'blood_levels_service.dart';
 import '../../../utils/drug_profile_utils.dart';
+import 'package:mobile_drug_use_app/constants/data/graph_constants.dart';
 
 /// Service for calculating pharmacokinetic decay curves
 class DecayService {
@@ -36,7 +37,7 @@ class DecayService {
     required DateTime referenceTime,
     required int hoursBack,
     required int hoursForward,
-    double stepHours = 2.0,
+    double stepHours = GraphConstants.defaultStepHours,
   }) {
     final points = <CurvePoint>[];
 
@@ -75,7 +76,7 @@ class DecayService {
     required DateTime referenceTime,
     required int hoursBack,
     required int hoursForward,
-    double stepHours = 2.0,
+    double stepHours = GraphConstants.defaultStepHours,
   }) {
     if (doses.isEmpty) return [];
 
@@ -157,7 +158,7 @@ class DecayService {
     required int hoursForward,
     required String drugName,
     Map<String, dynamic>? drugProfile,
-    double stepHours = 2.0,
+    double stepHours = GraphConstants.defaultStepHours,
   }) {
     // First generate the combined curve in mg
     final mgCurve = generateCombinedCurve(

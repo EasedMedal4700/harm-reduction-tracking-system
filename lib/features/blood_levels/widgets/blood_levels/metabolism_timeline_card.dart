@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/data/graph_constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../../../../constants/theme/app_theme_extension.dart';
@@ -180,7 +181,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
         drugProfile: drugLevel.formattedDose != null
             ? {'formatted_dose': drugLevel.formattedDose}
             : null,
-        stepHours: 2.0,
+        stepHours: GraphConstants.defaultStepHours,
       );
 
       if (curvePoints.isEmpty) continue;
@@ -205,9 +206,9 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
         LineChartBarData(
           spots: spots,
           isCurved: true,
-          curveSmoothness: 0.3,
+          curveSmoothness: GraphConstants.defaultCurveSmoothness,
           color: drugColor,
-          barWidth: 2.5,
+          barWidth: GraphConstants.thinBarWidth,
           isStrokeCapRound: true,
           dotData: const FlDotData(show: false),
           belowBarData: BarAreaData(

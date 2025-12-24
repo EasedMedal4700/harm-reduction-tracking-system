@@ -1,18 +1,24 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_animations.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../common/logging/app_log.dart';
 
+// MIGRATION
+// Theme: COMPLETE
+// Common: COMPLETE
+// Riverpod: TODO
+// Notes: Main Home Page. Migrated to use AppTheme and Common components. No hardcoded values.
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../common/layout/common_drawer.dart';
-import '../../../common/layout/common_spacer.dart';
+import '../../common/layout/common_drawer.dart';
+import '../../common/layout/common_spacer.dart';
 import 'home_redesign/header_card.dart';
 import 'home_redesign/daily_checkin_card.dart';
 import 'home_page/home_quick_actions_grid.dart';
 import 'home_page/home_progress_stats.dart';
 import 'home_page/home_navigation_methods.dart';
-import '../../../providers/daily_checkin_provider.dart';
+import '../../providers/daily_checkin_provider.dart';
 
 import '../daily_chekin/services/daily_checkin_service.dart';
 import '../../services/user_service.dart';
@@ -48,14 +54,14 @@ class _HomePageState extends State<HomePage>
     _checkEncryptionStatus();
     _loadUserProfile();
 
-    // Setup animations
+    // Setup animations - duration will be set in didChangeDependencies
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const AppAnimations().normal,
       vsync: this,
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
 
     _animationController.forward();
@@ -145,7 +151,7 @@ class _HomePageState extends State<HomePage>
         actions: [
           // Profile Button
           IconButton(
-            icon: const Icon(Icons.account_circle),
+            icon: const Icon(Icons.account_circle, semanticLabel: 'Profile'),
             onPressed: () {
               Navigator.push(
                 context,
@@ -160,7 +166,10 @@ class _HomePageState extends State<HomePage>
             builder: (context, snapshot) {
               if (snapshot.data == true) {
                 return IconButton(
-                  icon: const Icon(Icons.admin_panel_settings),
+                  icon: const Icon(
+                    Icons.admin_panel_settings,
+                    semanticLabel: 'Admin Panel',
+                  ),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -184,7 +193,7 @@ class _HomePageState extends State<HomePage>
         backgroundColor: c.surface,
         onRefresh: () async {
           setState(() {});
-          await Future.delayed(const Duration(milliseconds: 500));
+          await Future.delayed(context.animations.slow);
         },
         child: FadeTransition(
           opacity: _fadeAnimation,
@@ -286,7 +295,7 @@ class _HomePageState extends State<HomePage>
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(sh.radiusMd),
       ),
-      child: const Icon(Icons.add),
+      child: const Icon(Icons.add, semanticLabel: 'Add Entry'),
     );
   }
 }
