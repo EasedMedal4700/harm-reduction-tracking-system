@@ -3,12 +3,12 @@
     "total_files": 361,
     "violations": 7,
     "warnings": 20,
-    "timestamp": "1766613965.3133326"
+    "timestamp": "1766614589.677095"
   },
   "issues": [
     {
       "file": "lib\\main.dart",
-      "count": 49,
+      "count": 48,
       "status": "SMELL"
     },
     {
@@ -62,13 +62,13 @@
       "status": "WARNING"
     },
     {
-      "file": "lib\\constants\\theme\\app_theme.dart",
+      "file": "lib\\features\\admin\\screens\\admin_panel_screen.dart",
       "count": 14,
       "status": "WARNING"
     },
     {
-      "file": "lib\\features\\admin\\screens\\admin_panel_screen.dart",
-      "count": 14,
+      "file": "lib\\constants\\theme\\app_theme.dart",
+      "count": 13,
       "status": "WARNING"
     },
     {

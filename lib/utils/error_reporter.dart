@@ -237,7 +237,7 @@ class ErrorReporter {
       AppLog.e('Failed to report error to Supabase: $insertError');
       AppLog.e('Original error: $error');
       AppLog.e('Insert stack trace: $insertStackTrace');
-        }
+    }
   }
 
   /// Quick error report with just error and optional screen

@@ -46,7 +46,6 @@ class FakeLoginController extends StateNotifier<LoginState>
   void setState(LoginState newState) {
     state = newState;
   }
-
 }
 
 void main() {
