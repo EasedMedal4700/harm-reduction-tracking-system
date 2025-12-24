@@ -43,11 +43,11 @@ class SystemOverviewWidget extends ConsumerWidget {
     if (systemTolerance == null) {
       return Container(
         decoration: BoxDecoration(
-          color: colors.surface,
-          borderRadius: BorderRadius.circular(radii.radiusMd),
-          border: Border.all(color: colors.border),
+          color: c.surface,
+          borderRadius: BorderRadius.circular(sh.radiusMd),
+          border: Border.all(color: c.border),
         ),
-        padding: EdgeInsets.all(spacing.lg),
+        padding: EdgeInsets.all(sp.lg),
         child: const Center(child: CommonLoader()),
       );
     }
@@ -60,25 +60,25 @@ class SystemOverviewWidget extends ConsumerWidget {
         // HEADER
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: spacing.xs,
-            vertical: spacing.sm,
+            horizontal: sp.xs,
+            vertical: sp.sm,
           ),
           child: Text(
             'System Tolerance Overview',
-            style: typography.heading3.copyWith(color: colors.textPrimary),
+            style: te.heading3.copyWith(color: c.textPrimary),
           ),
         ),
 
-        CommonSpacer.vertical(spacing.sm),
+        CommonSpacer.vertical(sp.sm),
 
         // BUCKET CARDS — horizontal scroll
         SizedBox(
           height: 140.0,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.symmetric(horizontal: spacing.sm),
+            padding: EdgeInsets.symmetric(horizontal: sp.sm),
             itemCount: orderedBuckets.length,
-            separatorBuilder: (_, __) => CommonSpacer.horizontal(spacing.sm),
+            separatorBuilder: (_, __) => CommonSpacer.horizontal(sp.sm),
             itemBuilder: (context, index) {
               final bucket = orderedBuckets[index];
               final percent = (data.bucketPercents[bucket] ?? 0.0).clamp(
