@@ -1,45 +1,45 @@
 {
   "summary": {
     "total_files": 361,
-    "violations": 0,
-    "warnings": 27,
-    "timestamp": "1766582434.6365154"
+    "violations": 7,
+    "warnings": 20,
+    "timestamp": "1766582990.6510348"
   },
   "issues": [
     {
       "file": "lib\\main.dart",
       "count": 49,
-      "status": "WARNING"
+      "status": "SMELL"
     },
     {
       "file": "lib\\routes\\app_routes.dart",
       "count": 28,
-      "status": "WARNING"
+      "status": "SMELL"
     },
     {
       "file": "lib\\features\\home\\home_page.dart",
       "count": 20,
-      "status": "WARNING"
+      "status": "SMELL"
     },
     {
       "file": "lib\\features\\stockpile\\stockpile_page.dart",
       "count": 18,
-      "status": "WARNING"
+      "status": "SMELL"
     },
     {
       "file": "lib\\features\\analytics\\analytics_page.dart",
       "count": 16,
-      "status": "WARNING"
+      "status": "SMELL"
     },
     {
       "file": "lib\\features\\log_entry\\widgets\\log_entry\\log_entry_form.dart",
       "count": 16,
-      "status": "WARNING"
+      "status": "SMELL"
     },
     {
       "file": "lib\\features\\settings\\settings_page.dart",
       "count": 16,
-      "status": "WARNING"
+      "status": "SMELL"
     },
     {
       "file": "lib\\features\\activity\\activity_page.dart",
