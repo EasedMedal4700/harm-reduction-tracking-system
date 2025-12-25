@@ -1,0 +1,8 @@
+*/**/*.g.dart
+*/**/*.freezed.dart
+*/**/*.mocks.dart
+*/**/*.config.dart
+*/**/*.riverpod.dart
+*/**/*.provider.dart
+lib/common/**
+lib/constants/**

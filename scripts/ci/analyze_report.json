@@ -165,6 +165,29 @@
       "severity": "WARNING",
       "type": "STATIC_WARNING",
       "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
+        "range": {
+          "start": {
+            "offset": 8605,
+            "line": 257,
+            "column": 11
+          },
+          "end": {
+            "offset": 8613,
+            "line": 257,
+            "column": 19
+          }
+        }
+      },
+      "problemMessage": "The value of the local variable 'logCount' isn't used.",
+      "correctionMessage": "Try removing the variable or using it.",
+      "documentation": "https://dart.dev/diagnostics/unused_local_variable"
+    },
+    {
+      "code": "unused_local_variable",
+      "severity": "WARNING",
+      "type": "STATIC_WARNING",
+      "location": {
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\login\\login\\login_controller_test.dart",
         "range": {
           "start": {
@@ -228,6 +251,52 @@
       "problemMessage": "The getter doesn't override an inherited getter.",
       "correctionMessage": "Try updating this class to match the superclass, or removing the override annotation.",
       "documentation": "https://dart.dev/diagnostics/override_on_non_overriding_member"
+    },
+    {
+      "code": "unused_import",
+      "severity": "WARNING",
+      "type": "STATIC_WARNING",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\widgets\\day_usage_sheet_test.dart",
+        "range": {
+          "start": {
+            "offset": 98,
+            "line": 3,
+            "column": 8
+          },
+          "end": {
+            "offset": 146,
+            "line": 3,
+            "column": 56
+          }
+        }
+      },
+      "problemMessage": "Unused import: 'package:flutter_riverpod/flutter_riverpod.dart'.",
+      "correctionMessage": "Try removing the import directive.",
+      "documentation": "https://dart.dev/diagnostics/unused_import"
+    },
+    {
+      "code": "unused_element_parameter",
+      "severity": "WARNING",
+      "type": "STATIC_WARNING",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\widgets\\substance_card_test.dart",
+        "range": {
+          "start": {
+            "offset": 465,
+            "line": 11,
+            "column": 18
+          },
+          "end": {
+            "offset": 474,
+            "line": 11,
+            "column": 27
+          }
+        }
+      },
+      "problemMessage": "A value for optional parameter 'stockpile' isn't ever given.",
+      "correctionMessage": "Try removing the unused parameter.",
+      "documentation": "https://dart.dev/diagnostics/unused_element_parameter"
     },
     {
       "code": "unused_local_variable",
@@ -600,604 +669,6 @@
       "severity": "INFO",
       "type": "LINT",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 843,
-            "line": 30,
-            "column": 5
-          },
-          "end": {
-            "offset": 848,
-            "line": 30,
-            "column": 10
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 896,
-            "line": 31,
-            "column": 5
-          },
-          "end": {
-            "offset": 901,
-            "line": 31,
-            "column": 10
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_function_literals_in_foreach_calls",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 978,
-            "line": 32,
-            "column": 26
-          },
-          "end": {
-            "offset": 985,
-            "line": 32,
-            "column": 33
-          }
-        }
-      },
-      "problemMessage": "Function literals shouldn't be passed to 'forEach'.",
-      "correctionMessage": "Try using a 'for' loop.",
-      "documentation": "https://dart.dev/diagnostics/avoid_function_literals_in_foreach_calls"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 1002,
-            "line": 33,
-            "column": 7
-          },
-          "end": {
-            "offset": 1007,
-            "line": 33,
-            "column": 12
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 1038,
-            "line": 35,
-            "column": 5
-          },
-          "end": {
-            "offset": 1043,
-            "line": 35,
-            "column": 10
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_function_literals_in_foreach_calls",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 1197,
-            "line": 37,
-            "column": 22
-          },
-          "end": {
-            "offset": 1204,
-            "line": 37,
-            "column": 29
-          }
-        }
-      },
-      "problemMessage": "Function literals shouldn't be passed to 'forEach'.",
-      "correctionMessage": "Try using a 'for' loop.",
-      "documentation": "https://dart.dev/diagnostics/avoid_function_literals_in_foreach_calls"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 1280,
-            "line": 39,
-            "column": 7
-          },
-          "end": {
-            "offset": 1285,
-            "line": 39,
-            "column": 12
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 1407,
-            "line": 43,
-            "column": 5
-          },
-          "end": {
-            "offset": 1412,
-            "line": 43,
-            "column": 10
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 2143,
-            "line": 65,
-            "column": 9
-          },
-          "end": {
-            "offset": 2148,
-            "line": 65,
-            "column": 14
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 2198,
-            "line": 66,
-            "column": 9
-          },
-          "end": {
-            "offset": 2203,
-            "line": 66,
-            "column": 14
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 2272,
-            "line": 67,
-            "column": 9
-          },
-          "end": {
-            "offset": 2277,
-            "line": 67,
-            "column": 14
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_function_literals_in_foreach_calls",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 2345,
-            "line": 68,
-            "column": 30
-          },
-          "end": {
-            "offset": 2352,
-            "line": 68,
-            "column": 37
-          }
-        }
-      },
-      "problemMessage": "Function literals shouldn't be passed to 'forEach'.",
-      "correctionMessage": "Try using a 'for' loop.",
-      "documentation": "https://dart.dev/diagnostics/avoid_function_literals_in_foreach_calls"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 2432,
-            "line": 70,
-            "column": 13
-          },
-          "end": {
-            "offset": 2437,
-            "line": 70,
-            "column": 18
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 4004,
-            "line": 122,
-            "column": 5
-          },
-          "end": {
-            "offset": 4009,
-            "line": 122,
-            "column": 10
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 4053,
-            "line": 123,
-            "column": 5
-          },
-          "end": {
-            "offset": 4058,
-            "line": 123,
-            "column": 10
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 4123,
-            "line": 124,
-            "column": 5
-          },
-          "end": {
-            "offset": 4128,
-            "line": 124,
-            "column": 10
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 4251,
-            "line": 127,
-            "column": 9
-          },
-          "end": {
-            "offset": 4256,
-            "line": 127,
-            "column": 14
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 4457,
-            "line": 133,
-            "column": 7
-          },
-          "end": {
-            "offset": 4462,
-            "line": 133,
-            "column": 12
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 4505,
-            "line": 135,
-            "column": 5
-          },
-          "end": {
-            "offset": 4510,
-            "line": 135,
-            "column": 10
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 7131,
-            "line": 221,
-            "column": 5
-          },
-          "end": {
-            "offset": 7136,
-            "line": 221,
-            "column": 10
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 7289,
-            "line": 225,
-            "column": 7
-          },
-          "end": {
-            "offset": 7294,
-            "line": 225,
-            "column": 12
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 7934,
-            "line": 244,
-            "column": 5
-          },
-          "end": {
-            "offset": 7939,
-            "line": 244,
-            "column": 10
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 8084,
-            "line": 247,
-            "column": 5
-          },
-          "end": {
-            "offset": 8089,
-            "line": 247,
-            "column": 10
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 8388,
-            "line": 256,
-            "column": 7
-          },
-          "end": {
-            "offset": 8393,
-            "line": 256,
-            "column": 12
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 9557,
-            "line": 291,
-            "column": 11
-          },
-          "end": {
-            "offset": 9562,
-            "line": 291,
-            "column": 16
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_logic.dart",
-        "range": {
-          "start": {
-            "offset": 9874,
-            "line": 298,
-            "column": 7
-          },
-          "end": {
-            "offset": 9879,
-            "line": 298,
-            "column": 12
-          }
-        }
-      },
-      "problemMessage": "Don't invoke 'print' in production code.",
-      "correctionMessage": "Try using a logging framework.",
-      "documentation": "https://dart.dev/diagnostics/avoid_print"
-    },
-    {
-      "code": "avoid_print",
-      "severity": "INFO",
-      "type": "LINT",
-      "location": {
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerance\\controllers\\tolerance_repository.dart",
         "range": {
           "start": {
@@ -1491,6 +962,190 @@
       "problemMessage": "Angle brackets will be interpreted as HTML.",
       "correctionMessage": "Try using backticks around the content with angle brackets, or try replacing `<` with `&lt;` and `>` with `&gt;`.",
       "documentation": "https://dart.dev/diagnostics/unintended_html_in_doc_comment"
+    },
+    {
+      "code": "deprecated_member_use_from_same_package",
+      "severity": "INFO",
+      "type": "HINT",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\screens\\personal_library_page_test.dart",
+        "range": {
+          "start": {
+            "offset": 3984,
+            "line": 138,
+            "column": 9
+          },
+          "end": {
+            "offset": 4015,
+            "line": 138,
+            "column": 40
+          }
+        }
+      },
+      "problemMessage": "'wrapWithAppThemeAndProvidersApp' is deprecated and shouldn't be used.",
+      "correctionMessage": "Try replacing the use of the deprecated member with the replacement.",
+      "documentation": "https://dart.dev/diagnostics/deprecated_member_use_from_same_package"
+    },
+    {
+      "code": "deprecated_member_use_from_same_package",
+      "severity": "INFO",
+      "type": "HINT",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\screens\\personal_library_page_test.dart",
+        "range": {
+          "start": {
+            "offset": 5653,
+            "line": 190,
+            "column": 7
+          },
+          "end": {
+            "offset": 5684,
+            "line": 190,
+            "column": 38
+          }
+        }
+      },
+      "problemMessage": "'wrapWithAppThemeAndProvidersApp' is deprecated and shouldn't be used.",
+      "correctionMessage": "Try replacing the use of the deprecated member with the replacement.",
+      "documentation": "https://dart.dev/diagnostics/deprecated_member_use_from_same_package"
+    },
+    {
+      "code": "deprecated_member_use_from_same_package",
+      "severity": "INFO",
+      "type": "HINT",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\screens\\personal_library_page_test.dart",
+        "range": {
+          "start": {
+            "offset": 6438,
+            "line": 215,
+            "column": 7
+          },
+          "end": {
+            "offset": 6469,
+            "line": 215,
+            "column": 38
+          }
+        }
+      },
+      "problemMessage": "'wrapWithAppThemeAndProvidersApp' is deprecated and shouldn't be used.",
+      "correctionMessage": "Try replacing the use of the deprecated member with the replacement.",
+      "documentation": "https://dart.dev/diagnostics/deprecated_member_use_from_same_package"
+    },
+    {
+      "code": "deprecated_member_use_from_same_package",
+      "severity": "INFO",
+      "type": "HINT",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\screens\\personal_library_page_test.dart",
+        "range": {
+          "start": {
+            "offset": 7204,
+            "line": 237,
+            "column": 9
+          },
+          "end": {
+            "offset": 7235,
+            "line": 237,
+            "column": 40
+          }
+        }
+      },
+      "problemMessage": "'wrapWithAppThemeAndProvidersApp' is deprecated and shouldn't be used.",
+      "correctionMessage": "Try replacing the use of the deprecated member with the replacement.",
+      "documentation": "https://dart.dev/diagnostics/deprecated_member_use_from_same_package"
+    },
+    {
+      "code": "deprecated_member_use_from_same_package",
+      "severity": "INFO",
+      "type": "HINT",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\screens\\personal_library_page_test.dart",
+        "range": {
+          "start": {
+            "offset": 8936,
+            "line": 289,
+            "column": 9
+          },
+          "end": {
+            "offset": 8967,
+            "line": 289,
+            "column": 40
+          }
+        }
+      },
+      "problemMessage": "'wrapWithAppThemeAndProvidersApp' is deprecated and shouldn't be used.",
+      "correctionMessage": "Try replacing the use of the deprecated member with the replacement.",
+      "documentation": "https://dart.dev/diagnostics/deprecated_member_use_from_same_package"
+    },
+    {
+      "code": "depend_on_referenced_packages",
+      "severity": "INFO",
+      "type": "LINT",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\services\\day_usage_service_test.dart",
+        "range": {
+          "start": {
+            "offset": 195,
+            "line": 6,
+            "column": 8
+          },
+          "end": {
+            "offset": 219,
+            "line": 6,
+            "column": 32
+          }
+        }
+      },
+      "problemMessage": "The imported package 'http' isn't a dependency of the importing package.",
+      "correctionMessage": "Try adding a dependency for 'http' in the 'pubspec.yaml' file.",
+      "documentation": "https://dart.dev/diagnostics/depend_on_referenced_packages"
+    },
+    {
+      "code": "depend_on_referenced_packages",
+      "severity": "INFO",
+      "type": "LINT",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\services\\personal_library_service_test.dart",
+        "range": {
+          "start": {
+            "offset": 105,
+            "line": 5,
+            "column": 8
+          },
+          "end": {
+            "offset": 129,
+            "line": 5,
+            "column": 32
+          }
+        }
+      },
+      "problemMessage": "The imported package 'http' isn't a dependency of the importing package.",
+      "correctionMessage": "Try adding a dependency for 'http' in the 'pubspec.yaml' file.",
+      "documentation": "https://dart.dev/diagnostics/depend_on_referenced_packages"
+    },
+    {
+      "code": "unnecessary_import",
+      "severity": "INFO",
+      "type": "HINT",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\services\\personal_library_service_test.dart",
+        "range": {
+          "start": {
+            "offset": 209,
+            "line": 7,
+            "column": 8
+          },
+          "end": {
+            "offset": 241,
+            "line": 7,
+            "column": 40
+          }
+        }
+      },
+      "problemMessage": "The import of 'package:supabase/supabase.dart' is unnecessary because all of the used elements are also provided by the import of 'package:supabase_flutter/supabase_flutter.dart'.",
+      "correctionMessage": "Try removing the import directive.",
+      "documentation": "https://dart.dev/diagnostics/unnecessary_import"
     },
     {
       "code": "provide_deprecation_message",

@@ -52,7 +52,10 @@ void main() {
       expect(result.toleranceScore, 0.0);
       expect(result.bucketPercents['stimulant'], 0.0);
       expect(result.bucketPercents['gaba'], 0.0);
-      expect(result.bucketRawLoads.isEmpty, isFalse); // bucketRawLoads has all buckets initialized to 0
+      expect(
+        result.bucketRawLoads.isEmpty,
+        isFalse,
+      ); // bucketRawLoads has all buckets initialized to 0
       expect(result.substanceContributions.isEmpty, isTrue);
       expect(result.substanceActiveStates.isEmpty, isTrue);
     });
@@ -151,8 +154,14 @@ void main() {
 
       expect(result.bucketPercents['gaba'], greaterThan(0.0));
       expect(result.bucketPercents['stimulant'], greaterThan(0.0));
-      expect(result.substanceContributions['gaba']?['alcohol'], greaterThan(0.0));
-      expect(result.substanceContributions['stimulant']?['caffeine'], greaterThan(0.0));
+      expect(
+        result.substanceContributions['gaba']?['alcohol'],
+        greaterThan(0.0),
+      );
+      expect(
+        result.substanceContributions['stimulant']?['caffeine'],
+        greaterThan(0.0),
+      );
     });
 
     test('handles multiple uses of same substance', () {
@@ -245,7 +254,10 @@ void main() {
       final models = {
         'mdma': ToleranceModel(
           neuroBuckets: {
-            'serotonin_release': NeuroBucket(name: 'serotonin_release', weight: 1.0),
+            'serotonin_release': NeuroBucket(
+              name: 'serotonin_release',
+              weight: 1.0,
+            ),
             'stimulant': NeuroBucket(name: 'stimulant', weight: 0.35),
           },
           halfLifeHours: 9.0,
@@ -278,7 +290,9 @@ void main() {
       ];
 
       final normalModel = ToleranceModel(
-        neuroBuckets: {'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0)},
+        neuroBuckets: {
+          'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0),
+        },
         halfLifeHours: 5.0,
         toleranceDecayDays: 2.0,
         standardUnitMg: 100.0,
@@ -286,7 +300,9 @@ void main() {
       );
 
       final potentModel = ToleranceModel(
-        neuroBuckets: {'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0)},
+        neuroBuckets: {
+          'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0),
+        },
         halfLifeHours: 5.0,
         toleranceDecayDays: 2.0,
         standardUnitMg: 100.0,
@@ -320,7 +336,9 @@ void main() {
       ];
 
       final lowGainModel = ToleranceModel(
-        neuroBuckets: {'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0)},
+        neuroBuckets: {
+          'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0),
+        },
         halfLifeHours: 5.0,
         toleranceDecayDays: 2.0,
         standardUnitMg: 100.0,
@@ -328,7 +346,9 @@ void main() {
       );
 
       final highGainModel = ToleranceModel(
-        neuroBuckets: {'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0)},
+        neuroBuckets: {
+          'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0),
+        },
         halfLifeHours: 5.0,
         toleranceDecayDays: 2.0,
         standardUnitMg: 100.0,
@@ -362,7 +382,9 @@ void main() {
       ];
 
       final model = ToleranceModel(
-        neuroBuckets: {'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0)},
+        neuroBuckets: {
+          'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0),
+        },
         halfLifeHours: 5.0,
         toleranceDecayDays: 2.0,
         standardUnitMg: 100.0,
@@ -388,7 +410,9 @@ void main() {
       ];
 
       final model = ToleranceModel(
-        neuroBuckets: {'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0)},
+        neuroBuckets: {
+          'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0),
+        },
         halfLifeHours: 5.0,
         toleranceDecayDays: 2.0,
         standardUnitMg: 100.0,
@@ -414,7 +438,9 @@ void main() {
       ];
 
       final model = ToleranceModel(
-        neuroBuckets: {'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0)},
+        neuroBuckets: {
+          'stimulant': NeuroBucket(name: 'stimulant', weight: 1.0),
+        },
         halfLifeHours: 5.0,
         toleranceDecayDays: 2.0,
         standardUnitMg: 100.0,
@@ -440,7 +466,9 @@ void main() {
       ];
 
       final model = ToleranceModel(
-        neuroBuckets: {'stimulant': NeuroBucket(name: 'stimulant', weight: 0.01)},
+        neuroBuckets: {
+          'stimulant': NeuroBucket(name: 'stimulant', weight: 0.01),
+        },
         halfLifeHours: 5.0,
         toleranceDecayDays: 2.0,
         standardUnitMg: 100.0,
@@ -458,10 +486,7 @@ void main() {
 
   group('ToleranceLogic - classifyState', () {
     test('classifies 0-20% as recovered', () {
-      expect(
-        ToleranceLogic.classifyState(0.0),
-        ToleranceSystemState.recovered,
-      );
+      expect(ToleranceLogic.classifyState(0.0), ToleranceSystemState.recovered);
       expect(
         ToleranceLogic.classifyState(10.0),
         ToleranceSystemState.recovered,
@@ -518,14 +543,8 @@ void main() {
     });
 
     test('classifies 80%+ as depleted', () {
-      expect(
-        ToleranceLogic.classifyState(80.0),
-        ToleranceSystemState.depleted,
-      );
-      expect(
-        ToleranceLogic.classifyState(90.0),
-        ToleranceSystemState.depleted,
-      );
+      expect(ToleranceLogic.classifyState(80.0), ToleranceSystemState.depleted);
+      expect(ToleranceLogic.classifyState(90.0), ToleranceSystemState.depleted);
       expect(
         ToleranceLogic.classifyState(100.0),
         ToleranceSystemState.depleted,

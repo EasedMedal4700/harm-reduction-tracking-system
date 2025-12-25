@@ -1,9 +1,9 @@
 {
   "summary": {
-    "total_files": 344,
+    "total_files": 351,
     "violations": 7,
     "warnings": 18,
-    "timestamp": "1766659119.7182994"
+    "timestamp": "1766670867.0811188"
   },
   "issues": [
     {
@@ -23,7 +23,7 @@
     },
     {
       "file": "lib\\features\\stockpile\\stockpile_page.dart",
-      "count": 18,
+      "count": 17,
       "status": "SMELL"
     },
     {

@@ -33,9 +33,7 @@ void main() {
 
       final models = {
         'alcohol': const ToleranceModel(
-          neuroBuckets: {
-            'gaba': NeuroBucket(name: 'gaba', weight: 0.9),
-          },
+          neuroBuckets: {'gaba': NeuroBucket(name: 'gaba', weight: 0.9)},
           halfLifeHours: 8.0,
         ),
       };
@@ -48,7 +46,9 @@ void main() {
         ),
       ];
 
-      when(mockRepository.fetchToleranceModels()).thenAnswer((_) async => models);
+      when(
+        mockRepository.fetchToleranceModels(),
+      ).thenAnswer((_) async => models);
       when(
         mockRepository.fetchUseLogs(userId: anyNamed('userId')),
       ).thenAnswer((_) async => useLogs);
@@ -95,14 +95,14 @@ void main() {
 
       final models = {
         'alcohol': const ToleranceModel(
-          neuroBuckets: {
-            'gaba': NeuroBucket(name: 'gaba', weight: 0.9),
-          },
+          neuroBuckets: {'gaba': NeuroBucket(name: 'gaba', weight: 0.9)},
           halfLifeHours: 8.0,
         ),
       };
 
-      when(mockRepository.fetchToleranceModels()).thenAnswer((_) async => models);
+      when(
+        mockRepository.fetchToleranceModels(),
+      ).thenAnswer((_) async => models);
       when(
         mockRepository.fetchUseLogs(userId: anyNamed('userId')),
       ).thenAnswer((_) async => []);
@@ -122,9 +122,9 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      when(mockRepository.fetchToleranceModels()).thenThrow(
-        Exception('Database error'),
-      );
+      when(
+        mockRepository.fetchToleranceModels(),
+      ).thenThrow(Exception('Database error'));
       when(
         mockRepository.fetchUseLogs(userId: anyNamed('userId')),
       ).thenAnswer((_) async => []);
@@ -168,9 +168,7 @@ void main() {
 
       final models = {
         'alcohol': const ToleranceModel(
-          neuroBuckets: {
-            'gaba': NeuroBucket(name: 'gaba', weight: 0.9),
-          },
+          neuroBuckets: {'gaba': NeuroBucket(name: 'gaba', weight: 0.9)},
           halfLifeHours: 8.0,
         ),
         'caffeine': const ToleranceModel(
@@ -194,7 +192,9 @@ void main() {
         ),
       ];
 
-      when(mockRepository.fetchToleranceModels()).thenAnswer((_) async => models);
+      when(
+        mockRepository.fetchToleranceModels(),
+      ).thenAnswer((_) async => models);
       when(
         mockRepository.fetchUseLogs(userId: anyNamed('userId')),
       ).thenAnswer((_) async => useLogs);
@@ -255,9 +255,9 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      when(mockRepository.fetchToleranceModels()).thenThrow(
-        Exception('Network error'),
-      );
+      when(
+        mockRepository.fetchToleranceModels(),
+      ).thenThrow(Exception('Network error'));
 
       try {
         await container.read(toleranceControllerProvider('user1').future);

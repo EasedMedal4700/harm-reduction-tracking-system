@@ -22,7 +22,7 @@ class WeeklyUsageDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final tx = context.text;
     final th = context.theme;
-    final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    final days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     final counts = entry.weekdayUsage.counts;
     final maxUses = counts.isEmpty ? 1 : counts.reduce((a, b) => a > b ? a : b);
     return Column(

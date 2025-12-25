@@ -24,10 +24,7 @@ void main() {
     });
 
     test('creates NeuroBucket with minimal fields', () {
-      const bucket = NeuroBucket(
-        name: 'stimulant',
-        weight: 1.0,
-      );
+      const bucket = NeuroBucket(name: 'stimulant', weight: 1.0);
 
       expect(bucket.name, 'stimulant');
       expect(bucket.weight, 1.0);
@@ -105,9 +102,7 @@ void main() {
     test('creates ToleranceModel with all fields', () {
       const model = ToleranceModel(
         notes: 'Test model',
-        neuroBuckets: {
-          'gaba': NeuroBucket(name: 'gaba', weight: 0.9),
-        },
+        neuroBuckets: {'gaba': NeuroBucket(name: 'gaba', weight: 0.9)},
         halfLifeHours: 8.0,
         toleranceDecayDays: 3.0,
         standardUnitMg: 10.0,
@@ -163,23 +158,17 @@ void main() {
 
     test('supports equality comparison', () {
       const model1 = ToleranceModel(
-        neuroBuckets: {
-          'gaba': NeuroBucket(name: 'gaba', weight: 0.9),
-        },
+        neuroBuckets: {'gaba': NeuroBucket(name: 'gaba', weight: 0.9)},
         halfLifeHours: 8.0,
       );
 
       const model2 = ToleranceModel(
-        neuroBuckets: {
-          'gaba': NeuroBucket(name: 'gaba', weight: 0.9),
-        },
+        neuroBuckets: {'gaba': NeuroBucket(name: 'gaba', weight: 0.9)},
         halfLifeHours: 8.0,
       );
 
       const model3 = ToleranceModel(
-        neuroBuckets: {
-          'gaba': NeuroBucket(name: 'gaba', weight: 0.9),
-        },
+        neuroBuckets: {'gaba': NeuroBucket(name: 'gaba', weight: 0.9)},
         halfLifeHours: 10.0,
       );
 
@@ -200,10 +189,7 @@ void main() {
           'gaba': {'alcohol': 25.5},
           'stimulant': {'caffeine': 10.2},
         },
-        substanceActiveStates: {
-          'alcohol': true,
-          'caffeine': true,
-        },
+        substanceActiveStates: {'alcohol': true, 'caffeine': true},
       );
 
       expect(result.bucketPercents['gaba'], 25.5);
@@ -235,26 +221,14 @@ void main() {
 
   group('Tolerance Models - ToleranceSystemState', () {
     test('has correct display names', () {
-      expect(
-        ToleranceSystemState.recovered.displayName,
-        'Recovered',
-      );
-      expect(
-        ToleranceSystemState.lightStress.displayName,
-        'Light Stress',
-      );
+      expect(ToleranceSystemState.recovered.displayName, 'Recovered');
+      expect(ToleranceSystemState.lightStress.displayName, 'Light Stress');
       expect(
         ToleranceSystemState.moderateStrain.displayName,
         'Moderate Strain',
       );
-      expect(
-        ToleranceSystemState.highStrain.displayName,
-        'High Strain',
-      );
-      expect(
-        ToleranceSystemState.depleted.displayName,
-        'Depleted',
-      );
+      expect(ToleranceSystemState.highStrain.displayName, 'High Strain');
+      expect(ToleranceSystemState.depleted.displayName, 'Depleted');
     });
 
     test('has all expected states', () {
