@@ -1,23 +1,32 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Placeholder page. Migrated to use AppTheme. No hardcoded values.
+// Notes: Placeholder UI-only page for WearOS companion. No state, logic, or side effects yet.
+
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
 import '../../common/layout/common_drawer.dart';
 import '../../common/layout/common_spacer.dart';
 
-/// Placeholder page for WearOS companion app
+/// Placeholder page for WearOS companion app.
+/// This page is intentionally UI-only and contains no state or logic.
+/// Future WearOS sync logic must be implemented via Riverpod controllers.
 class WearOSPage extends StatelessWidget {
   const WearOSPage({super.key});
+
   @override
   Widget build(BuildContext context) {
+    // Theme shortcuts for readability and consistency
     final tx = context.text;
     final c = context.colors;
     final ac = context.accent;
     final sp = context.spacing;
+
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -35,7 +44,7 @@ class WearOSPage extends StatelessWidget {
             children: [
               Icon(
                 Icons.watch,
-                size: context.sizes.icon2xl + sp.lg, // 80.0
+                size: context.sizes.icon2xl + sp.lg,
                 color: ac.primary,
               ),
               CommonSpacer.vertical(sp.lg),

@@ -6,18 +6,18 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_animations.dart';
-import '../../common/logging/app_log.dart';
-import '../../common/layout/common_drawer.dart';
-import '../../common/feedback/common_loader.dart';
-import '../../common/buttons/common_icon_button.dart';
-import '../../models/bucket_definitions.dart';
-import 'services/tolerance_service.dart';
-import '../../services/user_service.dart';
-import 'services/tolerance_engine_service.dart';
-import '../../services/debug_config.dart';
-import '../../../utils/tolerance_calculator.dart';
-import 'widgets/tolerance_dashboard/dashboard_content_widget.dart';
-import 'widgets/tolerance_dashboard/empty_state_widget.dart';
+import '../../../common/logging/app_log.dart';
+import '../../../common/layout/common_drawer.dart';
+import '../../../common/feedback/common_loader.dart';
+import '../../../common/buttons/common_icon_button.dart';
+import '../../../models/bucket_definitions.dart';
+import '../services/tolerance_service.dart';
+import '../../../services/user_service.dart';
+import '../services/tolerance_engine_service.dart';
+import '../../../services/debug_config.dart';
+import '../../../../utils/tolerance_calculator.dart';
+import '../widgets/tolerance_dashboard/dashboard_content_widget.dart';
+import '../widgets/tolerance_dashboard/empty_state_widget.dart';
 
 class ToleranceDashboardPage extends StatefulWidget {
   final String? initialSubstance;

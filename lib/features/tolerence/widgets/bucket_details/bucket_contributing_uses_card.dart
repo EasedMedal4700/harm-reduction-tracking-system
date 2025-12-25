@@ -1,50 +1,61 @@
-// MIGRATION
+// MIGRATION:
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
-// Notes: Updated to CommonCard and new theme system. No Riverpod.
+// Notes: UI-only card. Displays aggregated tolerance contributions per substance.
+//        Uses ToleranceContribution instead of raw UseLogEntry.
+
 import 'package:flutter/material.dart';
+
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import '../../../../models/tolerance_model.dart';
-import 'bucket_utils.dart';
 
-/// Card listing recent uses that contribute to current tolerance
+import '../../services/tolerance_engine_service.dart';
+
+/// Card listing substances contributing to the current bucket tolerance.
+///
+/// IMPORTANT:
+/// - This widget is UI-only
+/// - It must NOT receive raw use logs
+/// - All aggregation happens in the controller / engine
 class BucketContributingUsesCard extends StatelessWidget {
-  final List<UseLogEntry> contributingUses;
-  const BucketContributingUsesCard({super.key, required this.contributingUses});
+  final List<ToleranceContribution> contributions;
+
+  const BucketContributingUsesCard({super.key, required this.contributions});
+
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final tx = context.text;
     final sp = context.spacing;
+
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
-            'Contributing Uses',
+            'Contributing Substances',
             style: tx.body.copyWith(
               fontWeight: tx.bodyBold.fontWeight,
               color: c.textPrimary,
             ),
           ),
           CommonSpacer.vertical(sp.sm),
-          ...contributingUses.take(10).map((use) {
-            final timeAgo = DateTime.now().difference(use.timestamp);
+
+          ...contributions.take(10).map((item) {
             return Padding(
               padding: EdgeInsets.only(bottom: sp.xs),
               child: Row(
                 mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
                 children: [
                   Text(
-                    BucketUtils.formatTimeAgo(timeAgo),
+                    item.substanceName,
                     style: tx.bodySmall.copyWith(color: c.textSecondary),
                   ),
                   Text(
-                    '${use.doseUnits.toStringAsFixed(1)} units',
+                    '${item.percentContribution.toStringAsFixed(1)}%',
                     style: tx.bodySmall.copyWith(
                       fontWeight: tx.bodyBold.fontWeight,
                       color: c.textPrimary,
@@ -54,9 +65,10 @@ class BucketContributingUsesCard extends StatelessWidget {
               ),
             );
           }),
-          if (contributingUses.length > 10)
+
+          if (contributions.length > 10)
             Text(
-              '...and ${contributingUses.length - 10} more',
+              '...and ${contributions.length - 10} more',
               style: tx.overline.copyWith(
                 color: c.textSecondary,
                 fontStyle: FontStyle.italic,

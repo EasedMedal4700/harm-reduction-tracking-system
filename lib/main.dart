@@ -32,7 +32,7 @@ import 'features/setup_account/recovery_key_page.dart';
 import 'features/reflection/reflection_page.dart';
 import 'features/setup_account/register_page.dart';
 import 'features/settings/settings_page.dart';
-import 'features/tolerence/tolerance_dashboard_page.dart';
+import 'features/tolerence/page/tolerance_dashboard_page.dart';
 import 'features/setup_account/onboarding_page.dart';
 import 'features/settings/privacy_policy_page.dart';
 import 'features/feature_flags/feature_flags_page.dart';

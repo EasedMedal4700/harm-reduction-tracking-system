@@ -1,9 +1,9 @@
 {
   "summary": {
-    "total_files": 361,
+    "total_files": 363,
     "violations": 7,
     "warnings": 20,
-    "timestamp": "1766614589.677095"
+    "timestamp": "1766651540.4381056"
   },
   "issues": [
     {
@@ -57,7 +57,12 @@
       "status": "WARNING"
     },
     {
-      "file": "lib\\features\\tolerence\\tolerance_dashboard_page.dart",
+      "file": "lib\\features\\tolerence\\page\\bucket_details_page.dart",
+      "count": 15,
+      "status": "WARNING"
+    },
+    {
+      "file": "lib\\features\\tolerence\\page\\tolerance_dashboard_page.dart",
       "count": 15,
       "status": "WARNING"
     },
@@ -88,11 +93,6 @@
     },
     {
       "file": "lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart",
-      "count": 13,
-      "status": "WARNING"
-    },
-    {
-      "file": "lib\\features\\tolerence\\bucket_details_page.dart",
       "count": 13,
       "status": "WARNING"
     },

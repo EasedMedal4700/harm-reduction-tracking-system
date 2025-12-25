@@ -16,7 +16,7 @@ import '../features/daily_chekin/checkin_history_page.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/admin/screens/admin_panel_screen.dart';
 import '../features/settings/settings_page.dart';
-import '../features/tolerence/tolerance_dashboard_page.dart'; // Import ToleranceDashboardPage
+import '../features/tolerence/page/tolerance_dashboard_page.dart'; // Import ToleranceDashboardPage
 import '../features/physiological/physiological_page.dart';
 import '../features/interactions/interactions_page.dart';
 import '../features/wearOS/wearos_page.dart';

@@ -12,12 +12,12 @@ import '../../../../models/tolerance_model.dart';
 
 /// Card displaying current bucket status with various metrics
 class BucketStatusCard extends StatelessWidget {
-  final NeuroBucket bucket;
+  final String bucketType;
   final double tolerancePercent;
   final double rawLoad;
   const BucketStatusCard({
     super.key,
-    required this.bucket,
+    required this.bucketType,
     required this.tolerancePercent,
     required this.rawLoad,
   });
@@ -46,16 +46,16 @@ class BucketStatusCard extends StatelessWidget {
             '${tolerancePercent.toStringAsFixed(1)}%',
           ),
           _buildStatRow(context, 'Raw Load', rawLoad.toStringAsFixed(4)),
-          _buildStatRow(
-            context,
-            'Bucket Weight',
-            bucket.weight.toStringAsFixed(2),
-          ),
-          _buildStatRow(
-            context,
-            'Tolerance Type',
-            bucket.toleranceType ?? 'unknown',
-          ),
+          // _buildStatRow(
+          //   context,
+          //   'Bucket Weight',
+          //     bucketType.weight.toStringAsFixed(2),
+          // ),
+          // _buildStatRow(
+          //   context,
+          //   'Tolerance Type',
+          //   bucketType.toleranceType ?? 'unknown',
+          // ),
           _buildStatRow(
             context,
             'Status',

@@ -161,6 +161,52 @@
       "documentation": "https://dart.dev/diagnostics/must_call_super"
     },
     {
+      "code": "unused_field",
+      "severity": "WARNING",
+      "type": "STATIC_WARNING",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\bucket_details\\bucket_details_controller.dart",
+        "range": {
+          "start": {
+            "offset": 2134,
+            "line": 63,
+            "column": 13
+          },
+          "end": {
+            "offset": 2138,
+            "line": 63,
+            "column": 17
+          }
+        }
+      },
+      "problemMessage": "The value of the field '_ref' isn't used.",
+      "correctionMessage": "Try removing the field, or using it.",
+      "documentation": "https://dart.dev/diagnostics/unused_field"
+    },
+    {
+      "code": "unused_import",
+      "severity": "WARNING",
+      "type": "STATIC_WARNING",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\tolerence\\widgets\\bucket_details\\bucket_status_card.dart",
+        "range": {
+          "start": {
+            "offset": 483,
+            "line": 11,
+            "column": 8
+          },
+          "end": {
+            "offset": 524,
+            "line": 11,
+            "column": 49
+          }
+        }
+      },
+      "problemMessage": "Unused import: '../../../../models/tolerance_model.dart'.",
+      "correctionMessage": "Try removing the import directive.",
+      "documentation": "https://dart.dev/diagnostics/unused_import"
+    },
+    {
       "code": "unused_local_variable",
       "severity": "WARNING",
       "type": "STATIC_WARNING",
