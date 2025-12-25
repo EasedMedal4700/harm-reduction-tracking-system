@@ -32,7 +32,7 @@ import 'features/setup_account/recovery_key_page.dart';
 import 'features/reflection/reflection_page.dart';
 import 'features/setup_account/register_page.dart';
 import 'features/settings/settings_page.dart';
-import 'features/tolerence/page/tolerance_dashboard_page.dart';
+import 'features/tolerance/pages/tolerance_dashboard_page.dart';
 import 'features/setup_account/onboarding_page.dart';
 import 'features/settings/privacy_policy_page.dart';
 import 'features/feature_flags/feature_flags_page.dart';
@@ -279,14 +279,9 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
                 '/admin/feature-flags': (_) => const FeatureFlagsScreen(),
                 '/settings': (_) => const SettingsScreen(),
                 '/tolerance-dashboard': (context) {
-                  final args =
-                      ModalRoute.of(context)?.settings.arguments
-                          as Map<String, dynamic>? ??
-                      {};
-                  final substance = args['substance'] as String?;
                   return FeatureGate(
                     featureName: FeatureFlags.toleranceDashboardPage,
-                    child: ToleranceDashboardPage(initialSubstance: substance),
+                    child: const ToleranceDashboardPage(),
                   );
                 },
               },

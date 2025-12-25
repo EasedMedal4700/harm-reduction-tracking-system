@@ -1,9 +1,9 @@
 {
   "summary": {
-    "total_files": 363,
+    "total_files": 344,
     "violations": 7,
-    "warnings": 20,
-    "timestamp": "1766651540.4381056"
+    "warnings": 18,
+    "timestamp": "1766659119.7182994"
   },
   "issues": [
     {
@@ -53,16 +53,6 @@
     },
     {
       "file": "lib\\features\\edit_craving\\edit_craving_page.dart",
-      "count": 15,
-      "status": "WARNING"
-    },
-    {
-      "file": "lib\\features\\tolerence\\page\\bucket_details_page.dart",
-      "count": 15,
-      "status": "WARNING"
-    },
-    {
-      "file": "lib\\features\\tolerence\\page\\tolerance_dashboard_page.dart",
       "count": 15,
       "status": "WARNING"
     },
