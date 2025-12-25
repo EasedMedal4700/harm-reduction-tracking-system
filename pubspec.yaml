@@ -45,6 +45,7 @@ dev_dependencies:
     sdk: flutter
   riverpod_generator: ^2.6.4
   json_serializable: ^6.9.5
+  # coverage: ^1.6.3
 
 flutter:
   uses-material-design: true
