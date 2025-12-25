@@ -31,7 +31,9 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-/coverage/
+/coverage/lcov.info
+/coverage/lcov_after.info
+
 
 # Symbolication related
 app.*.symbols
