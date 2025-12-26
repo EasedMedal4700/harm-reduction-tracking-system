@@ -1,5 +1,6 @@
 // MIGRATION
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_spacer.dart';
 import 'dart:async';
@@ -108,7 +109,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       await ref.read(authServiceProvider).logout();
       unawaited(ref.read(appLockControllerProvider.notifier).clear());
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/login_page');
+        context.go('/login_page');
       }
     }
   }

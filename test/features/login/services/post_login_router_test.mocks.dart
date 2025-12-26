@@ -5,17 +5,17 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i8;
 
-import 'package:flutter/material.dart' as _i1;
-import 'package:flutter_riverpod/flutter_riverpod.dart' as _i3;
-import 'package:mobile_drug_use_app/services/app_lock_controller.dart' as _i4;
+import 'package:flutter/material.dart' as _i6;
+import 'package:flutter_riverpod/flutter_riverpod.dart' as _i2;
+import 'package:mobile_drug_use_app/services/app_lock_controller.dart' as _i3;
 import 'package:mobile_drug_use_app/services/encryption_migration_service.dart'
     as _i7;
 import 'package:mobile_drug_use_app/services/encryption_service_v2.dart'
     as _i10;
-import 'package:mobile_drug_use_app/services/navigation_service.dart' as _i6;
-import 'package:mockito/mockito.dart' as _i2;
+import 'package:mobile_drug_use_app/services/navigation_service.dart' as _i5;
+import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i9;
-import 'package:supabase_flutter/supabase_flutter.dart' as _i5;
+import 'package:supabase_flutter/supabase_flutter.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -31,148 +31,137 @@ import 'package:supabase_flutter/supabase_flutter.dart' as _i5;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeGlobalKey_0<T extends _i1.State<_i1.StatefulWidget>>
-    extends _i2.SmartFake
-    implements _i1.GlobalKey<T> {
-  _FakeGlobalKey_0(Object parent, Invocation parentInvocation)
+class _FakeNotifierProviderRef_0<T> extends _i1.SmartFake
+    implements _i2.NotifierProviderRef<T> {
+  _FakeNotifierProviderRef_0(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeNotifierProviderRef_1<T> extends _i2.SmartFake
-    implements _i3.NotifierProviderRef<T> {
-  _FakeNotifierProviderRef_1(Object parent, Invocation parentInvocation)
+class _FakeAppLockState_1 extends _i1.SmartFake implements _i3.AppLockState {
+  _FakeAppLockState_1(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeAppLockState_2 extends _i2.SmartFake implements _i4.AppLockState {
-  _FakeAppLockState_2(Object parent, Invocation parentInvocation)
+class _FakeFunctionsClient_2 extends _i1.SmartFake
+    implements _i4.FunctionsClient {
+  _FakeFunctionsClient_2(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeFunctionsClient_3 extends _i2.SmartFake
-    implements _i5.FunctionsClient {
-  _FakeFunctionsClient_3(Object parent, Invocation parentInvocation)
+class _FakeSupabaseStorageClient_3 extends _i1.SmartFake
+    implements _i4.SupabaseStorageClient {
+  _FakeSupabaseStorageClient_3(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeSupabaseStorageClient_4 extends _i2.SmartFake
-    implements _i5.SupabaseStorageClient {
-  _FakeSupabaseStorageClient_4(Object parent, Invocation parentInvocation)
+class _FakeRealtimeClient_4 extends _i1.SmartFake
+    implements _i4.RealtimeClient {
+  _FakeRealtimeClient_4(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeRealtimeClient_5 extends _i2.SmartFake
-    implements _i5.RealtimeClient {
-  _FakeRealtimeClient_5(Object parent, Invocation parentInvocation)
+class _FakePostgrestClient_5 extends _i1.SmartFake
+    implements _i4.PostgrestClient {
+  _FakePostgrestClient_5(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakePostgrestClient_6 extends _i2.SmartFake
-    implements _i5.PostgrestClient {
-  _FakePostgrestClient_6(Object parent, Invocation parentInvocation)
+class _FakeGoTrueClient_6 extends _i1.SmartFake implements _i4.GoTrueClient {
+  _FakeGoTrueClient_6(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeGoTrueClient_7 extends _i2.SmartFake implements _i5.GoTrueClient {
-  _FakeGoTrueClient_7(Object parent, Invocation parentInvocation)
+class _FakeSupabaseQueryBuilder_7 extends _i1.SmartFake
+    implements _i4.SupabaseQueryBuilder {
+  _FakeSupabaseQueryBuilder_7(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeSupabaseQueryBuilder_8 extends _i2.SmartFake
-    implements _i5.SupabaseQueryBuilder {
-  _FakeSupabaseQueryBuilder_8(Object parent, Invocation parentInvocation)
+class _FakeSupabaseQuerySchema_8 extends _i1.SmartFake
+    implements _i4.SupabaseQuerySchema {
+  _FakeSupabaseQuerySchema_8(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeSupabaseQuerySchema_9 extends _i2.SmartFake
-    implements _i5.SupabaseQuerySchema {
-  _FakeSupabaseQuerySchema_9(Object parent, Invocation parentInvocation)
+class _FakePostgrestFilterBuilder_9<T1> extends _i1.SmartFake
+    implements _i4.PostgrestFilterBuilder<T1> {
+  _FakePostgrestFilterBuilder_9(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakePostgrestFilterBuilder_10<T1> extends _i2.SmartFake
-    implements _i5.PostgrestFilterBuilder<T1> {
-  _FakePostgrestFilterBuilder_10(Object parent, Invocation parentInvocation)
+class _FakeRealtimeChannel_10 extends _i1.SmartFake
+    implements _i4.RealtimeChannel {
+  _FakeRealtimeChannel_10(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeRealtimeChannel_11 extends _i2.SmartFake
-    implements _i5.RealtimeChannel {
-  _FakeRealtimeChannel_11(Object parent, Invocation parentInvocation)
+class _FakeGoTrueAdminApi_11 extends _i1.SmartFake
+    implements _i4.GoTrueAdminApi {
+  _FakeGoTrueAdminApi_11(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeGoTrueAdminApi_12 extends _i2.SmartFake
-    implements _i5.GoTrueAdminApi {
-  _FakeGoTrueAdminApi_12(Object parent, Invocation parentInvocation)
+class _FakeGoTrueMFAApi_12 extends _i1.SmartFake implements _i4.GoTrueMFAApi {
+  _FakeGoTrueMFAApi_12(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeGoTrueMFAApi_13 extends _i2.SmartFake implements _i5.GoTrueMFAApi {
-  _FakeGoTrueMFAApi_13(Object parent, Invocation parentInvocation)
+class _FakeAuthResponse_13 extends _i1.SmartFake implements _i4.AuthResponse {
+  _FakeAuthResponse_13(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeAuthResponse_14 extends _i2.SmartFake implements _i5.AuthResponse {
-  _FakeAuthResponse_14(Object parent, Invocation parentInvocation)
+class _FakeOAuthResponse_14 extends _i1.SmartFake implements _i4.OAuthResponse {
+  _FakeOAuthResponse_14(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeOAuthResponse_15 extends _i2.SmartFake implements _i5.OAuthResponse {
-  _FakeOAuthResponse_15(Object parent, Invocation parentInvocation)
+class _FakeAuthSessionUrlResponse_15 extends _i1.SmartFake
+    implements _i4.AuthSessionUrlResponse {
+  _FakeAuthSessionUrlResponse_15(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeAuthSessionUrlResponse_16 extends _i2.SmartFake
-    implements _i5.AuthSessionUrlResponse {
-  _FakeAuthSessionUrlResponse_16(Object parent, Invocation parentInvocation)
+class _FakeResendResponse_16 extends _i1.SmartFake
+    implements _i4.ResendResponse {
+  _FakeResendResponse_16(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeResendResponse_17 extends _i2.SmartFake
-    implements _i5.ResendResponse {
-  _FakeResendResponse_17(Object parent, Invocation parentInvocation)
+class _FakeUserResponse_17 extends _i1.SmartFake implements _i4.UserResponse {
+  _FakeUserResponse_17(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeUserResponse_18 extends _i2.SmartFake implements _i5.UserResponse {
-  _FakeUserResponse_18(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeObject_19 extends _i2.SmartFake implements Object {
-  _FakeObject_19(Object parent, Invocation parentInvocation)
+class _FakeObject_18 extends _i1.SmartFake implements Object {
+  _FakeObject_18(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
 /// A class which mocks [NavigationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNavigationService extends _i2.Mock implements _i6.NavigationService {
+class MockNavigationService extends _i1.Mock implements _i5.NavigationService {
   MockNavigationService() {
-    _i2.throwOnMissingStub(this);
+    _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i1.GlobalKey<_i1.NavigatorState> get navigatorKey =>
-      (super.noSuchMethod(
-            Invocation.getter(#navigatorKey),
-            returnValue: _FakeGlobalKey_0<_i1.NavigatorState>(
-              this,
-              Invocation.getter(#navigatorKey),
-            ),
-          )
-          as _i1.GlobalKey<_i1.NavigatorState>);
+  void bind(_i6.GlobalKey<_i6.NavigatorState>? navigatorKey) =>
+      super.noSuchMethod(
+        Invocation.method(#bind, [navigatorKey]),
+        returnValueForMissingStub: null,
+      );
 
   @override
-  void replace(String? route) => super.noSuchMethod(
-    Invocation.method(#replace, [route]),
+  void replace(String? location) => super.noSuchMethod(
+    Invocation.method(#replace, [location]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void push(String? route) => super.noSuchMethod(
-    Invocation.method(#push, [route]),
+  void push(String? location) => super.noSuchMethod(
+    Invocation.method(#push, [location]),
     returnValueForMissingStub: null,
   );
 
@@ -186,10 +175,10 @@ class MockNavigationService extends _i2.Mock implements _i6.NavigationService {
 /// A class which mocks [EncryptionMigrationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockEncryptionMigrationService extends _i2.Mock
+class MockEncryptionMigrationService extends _i1.Mock
     implements _i7.EncryptionMigrationService {
   MockEncryptionMigrationService() {
-    _i2.throwOnMissingStub(this);
+    _i1.throwOnMissingStub(this);
   }
 
   @override
@@ -217,10 +206,10 @@ class MockEncryptionMigrationService extends _i2.Mock
 /// A class which mocks [EncryptionServiceV2].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockEncryptionServiceV2 extends _i2.Mock
+class MockEncryptionServiceV2 extends _i1.Mock
     implements _i10.EncryptionServiceV2 {
   MockEncryptionServiceV2() {
-    _i2.throwOnMissingStub(this);
+    _i1.throwOnMissingStub(this);
   }
 
   @override
@@ -411,46 +400,46 @@ class MockEncryptionServiceV2 extends _i2.Mock
 /// A class which mocks [AppLockController].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppLockController extends _i2.Mock implements _i4.AppLockController {
+class MockAppLockController extends _i1.Mock implements _i3.AppLockController {
   MockAppLockController() {
-    _i2.throwOnMissingStub(this);
+    _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.NotifierProviderRef<_i4.AppLockState> get ref =>
+  _i2.NotifierProviderRef<_i3.AppLockState> get ref =>
       (super.noSuchMethod(
             Invocation.getter(#ref),
-            returnValue: _FakeNotifierProviderRef_1<_i4.AppLockState>(
+            returnValue: _FakeNotifierProviderRef_0<_i3.AppLockState>(
               this,
               Invocation.getter(#ref),
             ),
           )
-          as _i3.NotifierProviderRef<_i4.AppLockState>);
+          as _i2.NotifierProviderRef<_i3.AppLockState>);
 
   @override
-  _i4.AppLockState get state =>
+  _i3.AppLockState get state =>
       (super.noSuchMethod(
             Invocation.getter(#state),
-            returnValue: _FakeAppLockState_2(this, Invocation.getter(#state)),
+            returnValue: _FakeAppLockState_1(this, Invocation.getter(#state)),
           )
-          as _i4.AppLockState);
+          as _i3.AppLockState);
 
   @override
-  set state(_i4.AppLockState? value) => super.noSuchMethod(
+  set state(_i3.AppLockState? value) => super.noSuchMethod(
     Invocation.setter(#state, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  _i4.AppLockState build() =>
+  _i3.AppLockState build() =>
       (super.noSuchMethod(
             Invocation.method(#build, []),
-            returnValue: _FakeAppLockState_2(
+            returnValue: _FakeAppLockState_1(
               this,
               Invocation.method(#build, []),
             ),
           )
-          as _i4.AppLockState);
+          as _i3.AppLockState);
 
   @override
   _i8.Future<void> recordUnlock({DateTime? at}) =>
@@ -498,7 +487,7 @@ class MockAppLockController extends _i2.Mock implements _i4.AppLockController {
 
   @override
   void listenSelf(
-    void Function(_i4.AppLockState?, _i4.AppLockState)? listener, {
+    void Function(_i3.AppLockState?, _i3.AppLockState)? listener, {
     void Function(Object, StackTrace)? onError,
   }) => super.noSuchMethod(
     Invocation.method(#listenSelf, [listener], {#onError: onError}),
@@ -506,7 +495,7 @@ class MockAppLockController extends _i2.Mock implements _i4.AppLockController {
   );
 
   @override
-  bool updateShouldNotify(_i4.AppLockState? previous, _i4.AppLockState? next) =>
+  bool updateShouldNotify(_i3.AppLockState? previous, _i3.AppLockState? next) =>
       (super.noSuchMethod(
             Invocation.method(#updateShouldNotify, [previous, next]),
             returnValue: false,
@@ -517,51 +506,51 @@ class MockAppLockController extends _i2.Mock implements _i4.AppLockController {
 /// A class which mocks [SupabaseClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSupabaseClient extends _i2.Mock implements _i5.SupabaseClient {
+class MockSupabaseClient extends _i1.Mock implements _i4.SupabaseClient {
   MockSupabaseClient() {
-    _i2.throwOnMissingStub(this);
+    _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.FunctionsClient get functions =>
+  _i4.FunctionsClient get functions =>
       (super.noSuchMethod(
             Invocation.getter(#functions),
-            returnValue: _FakeFunctionsClient_3(
+            returnValue: _FakeFunctionsClient_2(
               this,
               Invocation.getter(#functions),
             ),
           )
-          as _i5.FunctionsClient);
+          as _i4.FunctionsClient);
 
   @override
-  _i5.SupabaseStorageClient get storage =>
+  _i4.SupabaseStorageClient get storage =>
       (super.noSuchMethod(
             Invocation.getter(#storage),
-            returnValue: _FakeSupabaseStorageClient_4(
+            returnValue: _FakeSupabaseStorageClient_3(
               this,
               Invocation.getter(#storage),
             ),
           )
-          as _i5.SupabaseStorageClient);
+          as _i4.SupabaseStorageClient);
 
   @override
-  _i5.RealtimeClient get realtime =>
+  _i4.RealtimeClient get realtime =>
       (super.noSuchMethod(
             Invocation.getter(#realtime),
-            returnValue: _FakeRealtimeClient_5(
+            returnValue: _FakeRealtimeClient_4(
               this,
               Invocation.getter(#realtime),
             ),
           )
-          as _i5.RealtimeClient);
+          as _i4.RealtimeClient);
 
   @override
-  _i5.PostgrestClient get rest =>
+  _i4.PostgrestClient get rest =>
       (super.noSuchMethod(
             Invocation.getter(#rest),
-            returnValue: _FakePostgrestClient_6(this, Invocation.getter(#rest)),
+            returnValue: _FakePostgrestClient_5(this, Invocation.getter(#rest)),
           )
-          as _i5.PostgrestClient);
+          as _i4.PostgrestClient);
 
   @override
   Map<String, String> get headers =>
@@ -572,33 +561,33 @@ class MockSupabaseClient extends _i2.Mock implements _i5.SupabaseClient {
           as Map<String, String>);
 
   @override
-  _i5.GoTrueClient get auth =>
+  _i4.GoTrueClient get auth =>
       (super.noSuchMethod(
             Invocation.getter(#auth),
-            returnValue: _FakeGoTrueClient_7(this, Invocation.getter(#auth)),
+            returnValue: _FakeGoTrueClient_6(this, Invocation.getter(#auth)),
           )
-          as _i5.GoTrueClient);
+          as _i4.GoTrueClient);
 
   @override
-  set functions(_i5.FunctionsClient? _functions) => super.noSuchMethod(
+  set functions(_i4.FunctionsClient? _functions) => super.noSuchMethod(
     Invocation.setter(#functions, _functions),
     returnValueForMissingStub: null,
   );
 
   @override
-  set storage(_i5.SupabaseStorageClient? _storage) => super.noSuchMethod(
+  set storage(_i4.SupabaseStorageClient? _storage) => super.noSuchMethod(
     Invocation.setter(#storage, _storage),
     returnValueForMissingStub: null,
   );
 
   @override
-  set realtime(_i5.RealtimeClient? _realtime) => super.noSuchMethod(
+  set realtime(_i4.RealtimeClient? _realtime) => super.noSuchMethod(
     Invocation.setter(#realtime, _realtime),
     returnValueForMissingStub: null,
   );
 
   @override
-  set rest(_i5.PostgrestClient? _rest) => super.noSuchMethod(
+  set rest(_i4.PostgrestClient? _rest) => super.noSuchMethod(
     Invocation.setter(#rest, _rest),
     returnValueForMissingStub: null,
   );
@@ -610,66 +599,66 @@ class MockSupabaseClient extends _i2.Mock implements _i5.SupabaseClient {
   );
 
   @override
-  _i5.SupabaseQueryBuilder from(String? table) =>
+  _i4.SupabaseQueryBuilder from(String? table) =>
       (super.noSuchMethod(
             Invocation.method(#from, [table]),
-            returnValue: _FakeSupabaseQueryBuilder_8(
+            returnValue: _FakeSupabaseQueryBuilder_7(
               this,
               Invocation.method(#from, [table]),
             ),
           )
-          as _i5.SupabaseQueryBuilder);
+          as _i4.SupabaseQueryBuilder);
 
   @override
-  _i5.SupabaseQuerySchema schema(String? schema) =>
+  _i4.SupabaseQuerySchema schema(String? schema) =>
       (super.noSuchMethod(
             Invocation.method(#schema, [schema]),
-            returnValue: _FakeSupabaseQuerySchema_9(
+            returnValue: _FakeSupabaseQuerySchema_8(
               this,
               Invocation.method(#schema, [schema]),
             ),
           )
-          as _i5.SupabaseQuerySchema);
+          as _i4.SupabaseQuerySchema);
 
   @override
-  _i5.PostgrestFilterBuilder<T> rpc<T>(
+  _i4.PostgrestFilterBuilder<T> rpc<T>(
     String? fn, {
     Map<String, dynamic>? params,
     dynamic get = false,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#rpc, [fn], {#params: params, #get: get}),
-            returnValue: _FakePostgrestFilterBuilder_10<T>(
+            returnValue: _FakePostgrestFilterBuilder_9<T>(
               this,
               Invocation.method(#rpc, [fn], {#params: params, #get: get}),
             ),
           )
-          as _i5.PostgrestFilterBuilder<T>);
+          as _i4.PostgrestFilterBuilder<T>);
 
   @override
-  _i5.RealtimeChannel channel(
+  _i4.RealtimeChannel channel(
     String? name, {
-    _i5.RealtimeChannelConfig? opts = const _i5.RealtimeChannelConfig(),
+    _i4.RealtimeChannelConfig? opts = const _i4.RealtimeChannelConfig(),
   }) =>
       (super.noSuchMethod(
             Invocation.method(#channel, [name], {#opts: opts}),
-            returnValue: _FakeRealtimeChannel_11(
+            returnValue: _FakeRealtimeChannel_10(
               this,
               Invocation.method(#channel, [name], {#opts: opts}),
             ),
           )
-          as _i5.RealtimeChannel);
+          as _i4.RealtimeChannel);
 
   @override
-  List<_i5.RealtimeChannel> getChannels() =>
+  List<_i4.RealtimeChannel> getChannels() =>
       (super.noSuchMethod(
             Invocation.method(#getChannels, []),
-            returnValue: <_i5.RealtimeChannel>[],
+            returnValue: <_i4.RealtimeChannel>[],
           )
-          as List<_i5.RealtimeChannel>);
+          as List<_i4.RealtimeChannel>);
 
   @override
-  _i8.Future<String> removeChannel(_i5.RealtimeChannel? channel) =>
+  _i8.Future<String> removeChannel(_i4.RealtimeChannel? channel) =>
       (super.noSuchMethod(
             Invocation.method(#removeChannel, [channel]),
             returnValue: _i8.Future<String>.value(
@@ -702,45 +691,45 @@ class MockSupabaseClient extends _i2.Mock implements _i5.SupabaseClient {
 /// A class which mocks [GoTrueClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
+class MockGoTrueClient extends _i1.Mock implements _i4.GoTrueClient {
   MockGoTrueClient() {
-    _i2.throwOnMissingStub(this);
+    _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.GoTrueAdminApi get admin =>
+  _i4.GoTrueAdminApi get admin =>
       (super.noSuchMethod(
             Invocation.getter(#admin),
-            returnValue: _FakeGoTrueAdminApi_12(
+            returnValue: _FakeGoTrueAdminApi_11(
               this,
               Invocation.getter(#admin),
             ),
           )
-          as _i5.GoTrueAdminApi);
+          as _i4.GoTrueAdminApi);
 
   @override
-  _i5.GoTrueMFAApi get mfa =>
+  _i4.GoTrueMFAApi get mfa =>
       (super.noSuchMethod(
             Invocation.getter(#mfa),
-            returnValue: _FakeGoTrueMFAApi_13(this, Invocation.getter(#mfa)),
+            returnValue: _FakeGoTrueMFAApi_12(this, Invocation.getter(#mfa)),
           )
-          as _i5.GoTrueMFAApi);
+          as _i4.GoTrueMFAApi);
 
   @override
-  _i8.Stream<_i5.AuthState> get onAuthStateChange =>
+  _i8.Stream<_i4.AuthState> get onAuthStateChange =>
       (super.noSuchMethod(
             Invocation.getter(#onAuthStateChange),
-            returnValue: _i8.Stream<_i5.AuthState>.empty(),
+            returnValue: _i8.Stream<_i4.AuthState>.empty(),
           )
-          as _i8.Stream<_i5.AuthState>);
+          as _i8.Stream<_i4.AuthState>);
 
   @override
-  _i8.Stream<_i5.AuthState> get onAuthStateChangeSync =>
+  _i8.Stream<_i4.AuthState> get onAuthStateChangeSync =>
       (super.noSuchMethod(
             Invocation.getter(#onAuthStateChangeSync),
-            returnValue: _i8.Stream<_i5.AuthState>.empty(),
+            returnValue: _i8.Stream<_i4.AuthState>.empty(),
           )
-          as _i8.Stream<_i5.AuthState>);
+          as _i8.Stream<_i4.AuthState>);
 
   @override
   Map<String, String> get headers =>
@@ -751,19 +740,19 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
           as Map<String, String>);
 
   @override
-  set admin(_i5.GoTrueAdminApi? _admin) => super.noSuchMethod(
+  set admin(_i4.GoTrueAdminApi? _admin) => super.noSuchMethod(
     Invocation.setter(#admin, _admin),
     returnValueForMissingStub: null,
   );
 
   @override
-  set mfa(_i5.GoTrueMFAApi? _mfa) => super.noSuchMethod(
+  set mfa(_i4.GoTrueMFAApi? _mfa) => super.noSuchMethod(
     Invocation.setter(#mfa, _mfa),
     returnValueForMissingStub: null,
   );
 
   @override
-  _i8.Future<_i5.AuthResponse> signInAnonymously({
+  _i8.Future<_i4.AuthResponse> signInAnonymously({
     Map<String, dynamic>? data,
     String? captchaToken,
   }) =>
@@ -772,8 +761,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               #data: data,
               #captchaToken: captchaToken,
             }),
-            returnValue: _i8.Future<_i5.AuthResponse>.value(
-              _FakeAuthResponse_14(
+            returnValue: _i8.Future<_i4.AuthResponse>.value(
+              _FakeAuthResponse_13(
                 this,
                 Invocation.method(#signInAnonymously, [], {
                   #data: data,
@@ -782,17 +771,17 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               ),
             ),
           )
-          as _i8.Future<_i5.AuthResponse>);
+          as _i8.Future<_i4.AuthResponse>);
 
   @override
-  _i8.Future<_i5.AuthResponse> signUp({
+  _i8.Future<_i4.AuthResponse> signUp({
     String? email,
     String? phone,
     required String? password,
     String? emailRedirectTo,
     Map<String, dynamic>? data,
     String? captchaToken,
-    _i5.OtpChannel? channel = _i5.OtpChannel.sms,
+    _i4.OtpChannel? channel = _i4.OtpChannel.sms,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#signUp, [], {
@@ -804,8 +793,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               #captchaToken: captchaToken,
               #channel: channel,
             }),
-            returnValue: _i8.Future<_i5.AuthResponse>.value(
-              _FakeAuthResponse_14(
+            returnValue: _i8.Future<_i4.AuthResponse>.value(
+              _FakeAuthResponse_13(
                 this,
                 Invocation.method(#signUp, [], {
                   #email: email,
@@ -819,10 +808,10 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               ),
             ),
           )
-          as _i8.Future<_i5.AuthResponse>);
+          as _i8.Future<_i4.AuthResponse>);
 
   @override
-  _i8.Future<_i5.AuthResponse> signInWithPassword({
+  _i8.Future<_i4.AuthResponse> signInWithPassword({
     String? email,
     String? phone,
     required String? password,
@@ -835,8 +824,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               #password: password,
               #captchaToken: captchaToken,
             }),
-            returnValue: _i8.Future<_i5.AuthResponse>.value(
-              _FakeAuthResponse_14(
+            returnValue: _i8.Future<_i4.AuthResponse>.value(
+              _FakeAuthResponse_13(
                 this,
                 Invocation.method(#signInWithPassword, [], {
                   #email: email,
@@ -847,11 +836,11 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               ),
             ),
           )
-          as _i8.Future<_i5.AuthResponse>);
+          as _i8.Future<_i4.AuthResponse>);
 
   @override
-  _i8.Future<_i5.OAuthResponse> getOAuthSignInUrl({
-    required _i5.OAuthProvider? provider,
+  _i8.Future<_i4.OAuthResponse> getOAuthSignInUrl({
+    required _i4.OAuthProvider? provider,
     String? redirectTo,
     String? scopes,
     Map<String, String>? queryParams,
@@ -863,8 +852,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               #scopes: scopes,
               #queryParams: queryParams,
             }),
-            returnValue: _i8.Future<_i5.OAuthResponse>.value(
-              _FakeOAuthResponse_15(
+            returnValue: _i8.Future<_i4.OAuthResponse>.value(
+              _FakeOAuthResponse_14(
                 this,
                 Invocation.method(#getOAuthSignInUrl, [], {
                   #provider: provider,
@@ -875,26 +864,26 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               ),
             ),
           )
-          as _i8.Future<_i5.OAuthResponse>);
+          as _i8.Future<_i4.OAuthResponse>);
 
   @override
-  _i8.Future<_i5.AuthSessionUrlResponse> exchangeCodeForSession(
+  _i8.Future<_i4.AuthSessionUrlResponse> exchangeCodeForSession(
     String? authCode,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#exchangeCodeForSession, [authCode]),
-            returnValue: _i8.Future<_i5.AuthSessionUrlResponse>.value(
-              _FakeAuthSessionUrlResponse_16(
+            returnValue: _i8.Future<_i4.AuthSessionUrlResponse>.value(
+              _FakeAuthSessionUrlResponse_15(
                 this,
                 Invocation.method(#exchangeCodeForSession, [authCode]),
               ),
             ),
           )
-          as _i8.Future<_i5.AuthSessionUrlResponse>);
+          as _i8.Future<_i4.AuthSessionUrlResponse>);
 
   @override
-  _i8.Future<_i5.AuthResponse> signInWithIdToken({
-    required _i5.OAuthProvider? provider,
+  _i8.Future<_i4.AuthResponse> signInWithIdToken({
+    required _i4.OAuthProvider? provider,
     required String? idToken,
     String? accessToken,
     String? nonce,
@@ -908,8 +897,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               #nonce: nonce,
               #captchaToken: captchaToken,
             }),
-            returnValue: _i8.Future<_i5.AuthResponse>.value(
-              _FakeAuthResponse_14(
+            returnValue: _i8.Future<_i4.AuthResponse>.value(
+              _FakeAuthResponse_13(
                 this,
                 Invocation.method(#signInWithIdToken, [], {
                   #provider: provider,
@@ -921,7 +910,7 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               ),
             ),
           )
-          as _i8.Future<_i5.AuthResponse>);
+          as _i8.Future<_i4.AuthResponse>);
 
   @override
   _i8.Future<void> signInWithOtp({
@@ -931,7 +920,7 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
     bool? shouldCreateUser,
     Map<String, dynamic>? data,
     String? captchaToken,
-    _i5.OtpChannel? channel = _i5.OtpChannel.sms,
+    _i4.OtpChannel? channel = _i4.OtpChannel.sms,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#signInWithOtp, [], {
@@ -949,11 +938,11 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
           as _i8.Future<void>);
 
   @override
-  _i8.Future<_i5.AuthResponse> verifyOTP({
+  _i8.Future<_i4.AuthResponse> verifyOTP({
     String? email,
     String? phone,
     String? token,
-    required _i5.OtpType? type,
+    required _i4.OtpType? type,
     String? redirectTo,
     String? captchaToken,
     String? tokenHash,
@@ -968,8 +957,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               #captchaToken: captchaToken,
               #tokenHash: tokenHash,
             }),
-            returnValue: _i8.Future<_i5.AuthResponse>.value(
-              _FakeAuthResponse_14(
+            returnValue: _i8.Future<_i4.AuthResponse>.value(
+              _FakeAuthResponse_13(
                 this,
                 Invocation.method(#verifyOTP, [], {
                   #email: email,
@@ -983,7 +972,7 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               ),
             ),
           )
-          as _i8.Future<_i5.AuthResponse>);
+          as _i8.Future<_i4.AuthResponse>);
 
   @override
   _i8.Future<String> getSSOSignInUrl({
@@ -1014,17 +1003,17 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
           as _i8.Future<String>);
 
   @override
-  _i8.Future<_i5.AuthResponse> refreshSession([String? refreshToken]) =>
+  _i8.Future<_i4.AuthResponse> refreshSession([String? refreshToken]) =>
       (super.noSuchMethod(
             Invocation.method(#refreshSession, [refreshToken]),
-            returnValue: _i8.Future<_i5.AuthResponse>.value(
-              _FakeAuthResponse_14(
+            returnValue: _i8.Future<_i4.AuthResponse>.value(
+              _FakeAuthResponse_13(
                 this,
                 Invocation.method(#refreshSession, [refreshToken]),
               ),
             ),
           )
-          as _i8.Future<_i5.AuthResponse>);
+          as _i8.Future<_i4.AuthResponse>);
 
   @override
   _i8.Future<void> reauthenticate() =>
@@ -1036,10 +1025,10 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
           as _i8.Future<void>);
 
   @override
-  _i8.Future<_i5.ResendResponse> resend({
+  _i8.Future<_i4.ResendResponse> resend({
     String? email,
     String? phone,
-    required _i5.OtpType? type,
+    required _i4.OtpType? type,
     String? emailRedirectTo,
     String? captchaToken,
   }) =>
@@ -1051,8 +1040,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               #emailRedirectTo: emailRedirectTo,
               #captchaToken: captchaToken,
             }),
-            returnValue: _i8.Future<_i5.ResendResponse>.value(
-              _FakeResendResponse_17(
+            returnValue: _i8.Future<_i4.ResendResponse>.value(
+              _FakeResendResponse_16(
                 this,
                 Invocation.method(#resend, [], {
                   #email: email,
@@ -1064,21 +1053,21 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               ),
             ),
           )
-          as _i8.Future<_i5.ResendResponse>);
+          as _i8.Future<_i4.ResendResponse>);
 
   @override
-  _i8.Future<_i5.UserResponse> getUser([String? jwt]) =>
+  _i8.Future<_i4.UserResponse> getUser([String? jwt]) =>
       (super.noSuchMethod(
             Invocation.method(#getUser, [jwt]),
-            returnValue: _i8.Future<_i5.UserResponse>.value(
-              _FakeUserResponse_18(this, Invocation.method(#getUser, [jwt])),
+            returnValue: _i8.Future<_i4.UserResponse>.value(
+              _FakeUserResponse_17(this, Invocation.method(#getUser, [jwt])),
             ),
           )
-          as _i8.Future<_i5.UserResponse>);
+          as _i8.Future<_i4.UserResponse>);
 
   @override
-  _i8.Future<_i5.UserResponse> updateUser(
-    _i5.UserAttributes? attributes, {
+  _i8.Future<_i4.UserResponse> updateUser(
+    _i4.UserAttributes? attributes, {
     String? emailRedirectTo,
   }) =>
       (super.noSuchMethod(
@@ -1087,8 +1076,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               [attributes],
               {#emailRedirectTo: emailRedirectTo},
             ),
-            returnValue: _i8.Future<_i5.UserResponse>.value(
-              _FakeUserResponse_18(
+            returnValue: _i8.Future<_i4.UserResponse>.value(
+              _FakeUserResponse_17(
                 this,
                 Invocation.method(
                   #updateUser,
@@ -1098,23 +1087,23 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               ),
             ),
           )
-          as _i8.Future<_i5.UserResponse>);
+          as _i8.Future<_i4.UserResponse>);
 
   @override
-  _i8.Future<_i5.AuthResponse> setSession(String? refreshToken) =>
+  _i8.Future<_i4.AuthResponse> setSession(String? refreshToken) =>
       (super.noSuchMethod(
             Invocation.method(#setSession, [refreshToken]),
-            returnValue: _i8.Future<_i5.AuthResponse>.value(
-              _FakeAuthResponse_14(
+            returnValue: _i8.Future<_i4.AuthResponse>.value(
+              _FakeAuthResponse_13(
                 this,
                 Invocation.method(#setSession, [refreshToken]),
               ),
             ),
           )
-          as _i8.Future<_i5.AuthResponse>);
+          as _i8.Future<_i4.AuthResponse>);
 
   @override
-  _i8.Future<_i5.AuthSessionUrlResponse> getSessionFromUrl(
+  _i8.Future<_i4.AuthSessionUrlResponse> getSessionFromUrl(
     Uri? originUrl, {
     bool? storeSession = true,
   }) =>
@@ -1124,8 +1113,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               [originUrl],
               {#storeSession: storeSession},
             ),
-            returnValue: _i8.Future<_i5.AuthSessionUrlResponse>.value(
-              _FakeAuthSessionUrlResponse_16(
+            returnValue: _i8.Future<_i4.AuthSessionUrlResponse>.value(
+              _FakeAuthSessionUrlResponse_15(
                 this,
                 Invocation.method(
                   #getSessionFromUrl,
@@ -1135,11 +1124,11 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               ),
             ),
           )
-          as _i8.Future<_i5.AuthSessionUrlResponse>);
+          as _i8.Future<_i4.AuthSessionUrlResponse>);
 
   @override
   _i8.Future<void> signOut({
-    _i5.SignOutScope? scope = _i5.SignOutScope.local,
+    _i4.SignOutScope? scope = _i4.SignOutScope.local,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#signOut, [], {#scope: scope}),
@@ -1166,18 +1155,18 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
           as _i8.Future<void>);
 
   @override
-  _i8.Future<List<_i5.UserIdentity>> getUserIdentities() =>
+  _i8.Future<List<_i4.UserIdentity>> getUserIdentities() =>
       (super.noSuchMethod(
             Invocation.method(#getUserIdentities, []),
-            returnValue: _i8.Future<List<_i5.UserIdentity>>.value(
-              <_i5.UserIdentity>[],
+            returnValue: _i8.Future<List<_i4.UserIdentity>>.value(
+              <_i4.UserIdentity>[],
             ),
           )
-          as _i8.Future<List<_i5.UserIdentity>>);
+          as _i8.Future<List<_i4.UserIdentity>>);
 
   @override
-  _i8.Future<_i5.AuthResponse> linkIdentityWithIdToken({
-    required _i5.OAuthProvider? provider,
+  _i8.Future<_i4.AuthResponse> linkIdentityWithIdToken({
+    required _i4.OAuthProvider? provider,
     required String? idToken,
     String? accessToken,
     String? nonce,
@@ -1191,8 +1180,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               #nonce: nonce,
               #captchaToken: captchaToken,
             }),
-            returnValue: _i8.Future<_i5.AuthResponse>.value(
-              _FakeAuthResponse_14(
+            returnValue: _i8.Future<_i4.AuthResponse>.value(
+              _FakeAuthResponse_13(
                 this,
                 Invocation.method(#linkIdentityWithIdToken, [], {
                   #provider: provider,
@@ -1204,11 +1193,11 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               ),
             ),
           )
-          as _i8.Future<_i5.AuthResponse>);
+          as _i8.Future<_i4.AuthResponse>);
 
   @override
-  _i8.Future<_i5.OAuthResponse> getLinkIdentityUrl(
-    _i5.OAuthProvider? provider, {
+  _i8.Future<_i4.OAuthResponse> getLinkIdentityUrl(
+    _i4.OAuthProvider? provider, {
     String? redirectTo,
     String? scopes,
     Map<String, String>? queryParams,
@@ -1223,8 +1212,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
                 #queryParams: queryParams,
               },
             ),
-            returnValue: _i8.Future<_i5.OAuthResponse>.value(
-              _FakeOAuthResponse_15(
+            returnValue: _i8.Future<_i4.OAuthResponse>.value(
+              _FakeOAuthResponse_14(
                 this,
                 Invocation.method(
                   #getLinkIdentityUrl,
@@ -1238,10 +1227,10 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
               ),
             ),
           )
-          as _i8.Future<_i5.OAuthResponse>);
+          as _i8.Future<_i4.OAuthResponse>);
 
   @override
-  _i8.Future<void> unlinkIdentity(_i5.UserIdentity? identity) =>
+  _i8.Future<void> unlinkIdentity(_i4.UserIdentity? identity) =>
       (super.noSuchMethod(
             Invocation.method(#unlinkIdentity, [identity]),
             returnValue: _i8.Future<void>.value(),
@@ -1259,17 +1248,17 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
           as _i8.Future<void>);
 
   @override
-  _i8.Future<_i5.AuthResponse> recoverSession(String? jsonStr) =>
+  _i8.Future<_i4.AuthResponse> recoverSession(String? jsonStr) =>
       (super.noSuchMethod(
             Invocation.method(#recoverSession, [jsonStr]),
-            returnValue: _i8.Future<_i5.AuthResponse>.value(
-              _FakeAuthResponse_14(
+            returnValue: _i8.Future<_i4.AuthResponse>.value(
+              _FakeAuthResponse_13(
                 this,
                 Invocation.method(#recoverSession, [jsonStr]),
               ),
             ),
           )
-          as _i8.Future<_i5.AuthResponse>);
+          as _i8.Future<_i4.AuthResponse>);
 
   @override
   void startAutoRefresh() => super.noSuchMethod(
@@ -1291,8 +1280,8 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
 
   @override
   void notifyAllSubscribers(
-    _i5.AuthChangeEvent? event, {
-    _i5.Session? session,
+    _i4.AuthChangeEvent? event, {
+    _i4.Session? session,
     bool? broadcast = true,
   }) => super.noSuchMethod(
     Invocation.method(
@@ -1307,7 +1296,7 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
   Object notifyException(Object? exception, [StackTrace? stackTrace]) =>
       (super.noSuchMethod(
             Invocation.method(#notifyException, [exception, stackTrace]),
-            returnValue: _FakeObject_19(
+            returnValue: _FakeObject_18(
               this,
               Invocation.method(#notifyException, [exception, stackTrace]),
             ),
@@ -1318,9 +1307,9 @@ class MockGoTrueClient extends _i2.Mock implements _i5.GoTrueClient {
 /// A class which mocks [User].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUser extends _i2.Mock implements _i5.User {
+class MockUser extends _i1.Mock implements _i4.User {
   MockUser() {
-    _i2.throwOnMissingStub(this);
+    _i1.throwOnMissingStub(this);
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_settings_model.dart';
 import '../utils/error_handler.dart';
@@ -7,6 +8,13 @@ import '../utils/error_handler.dart';
 class SettingsService {
   static const String _settingsKey = 'app_settings';
   static AppSettings? _cachedSettings;
+
+  static final StreamController<AppSettings> _settingsChangedController =
+      StreamController<AppSettings>.broadcast();
+
+  /// Emits whenever settings are saved or reset.
+  static Stream<AppSettings> get settingsChanged =>
+      _settingsChangedController.stream;
 
   /// Load settings from local storage
   static Future<AppSettings> loadSettings() async {
@@ -37,6 +45,7 @@ class SettingsService {
       final jsonString = jsonEncode(settings.toJson());
       await prefs.setString(_settingsKey, jsonString);
       _cachedSettings = settings;
+      _settingsChangedController.add(settings);
       ErrorHandler.logInfo('SettingsService', 'Settings saved successfully');
     } catch (e, stackTrace) {
       ErrorHandler.logError('SettingsService.saveSettings', e, stackTrace);

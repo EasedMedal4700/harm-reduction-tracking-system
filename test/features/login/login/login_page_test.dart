@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/features/login/login/login_controller.dart';
 import 'package:mobile_drug_use_app/features/login/login/login_page.dart';
 import 'package:mobile_drug_use_app/features/login/login/login_state.dart';
@@ -58,20 +59,35 @@ void main() {
   Widget createTestWidget(LoginState state) {
     fakeController.setState(state);
 
+    final router = GoRouter(
+      initialLocation: '/',
+      routes: [
+        GoRoute(
+          path: '/',
+          builder: (context, _) => const LoginPage(),
+        ),
+        GoRoute(
+          path: '/forgot-password',
+          builder: (context, _) => const Scaffold(
+            body: Text('Forgot Password'),
+          ),
+        ),
+        GoRoute(
+          path: '/signup',
+          builder: (context, _) => const Scaffold(
+            body: Text('Sign Up'),
+          ),
+        ),
+      ],
+    );
+
     return ProviderScope(
       overrides: [
         loginControllerProvider.overrideWith((ref) => fakeController),
       ],
       child: AppThemeProvider(
         theme: AppTheme.light(fontSize: 1.0, compactMode: false),
-        child: MaterialApp(
-          home: const LoginPage(),
-          routes: {
-            '/forgot_password': (context) =>
-                const Scaffold(body: Text('Forgot Password')),
-            '/signup': (context) => const Scaffold(body: Text('Sign Up')),
-          },
-        ),
+        child: MaterialApp.router(routerConfig: router),
       ),
     );
   }

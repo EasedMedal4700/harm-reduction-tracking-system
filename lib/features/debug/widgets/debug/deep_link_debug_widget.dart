@@ -7,6 +7,7 @@ import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 // Notes: Review for theme/context migration if needed.
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../common/layout/common_spacer.dart';
 import '../../../../services/auth_link_handler.dart';
 import '../../../../common/logging/app_log.dart';
@@ -201,12 +202,16 @@ extension AuthLinkHandlerDebug on AuthLinkHandler {
         case 'auth':
           Navigator.of(
             context,
-          ).pushNamedAndRemoveUntil('/email-confirmed', (route) => false);
+          );
+          if (!context.mounted) return;
+          context.go('/email-confirmed');
           break;
         case 'reset-password':
           Navigator.of(
             context,
-          ).pushNamedAndRemoveUntil('/set-new-password', (route) => false);
+          );
+          if (!context.mounted) return;
+          context.go('/set-new-password');
           break;
       }
     } else if (uri.scheme == 'https') {
@@ -216,12 +221,16 @@ extension AuthLinkHandlerDebug on AuthLinkHandler {
         case 'email':
           Navigator.of(
             context,
-          ).pushNamedAndRemoveUntil('/email-confirmed', (route) => false);
+          );
+          if (!context.mounted) return;
+          context.go('/email-confirmed');
           break;
         case 'recovery':
           Navigator.of(
             context,
-          ).pushNamedAndRemoveUntil('/set-new-password', (route) => false);
+          );
+          if (!context.mounted) return;
+          context.go('/set-new-password');
           break;
       }
     }
@@ -243,14 +252,18 @@ class DeepLinkSimulator {
   static void simulateEmailConfirmation(BuildContext context) {
     Navigator.of(
       context,
-    ).pushNamedAndRemoveUntil('/email-confirmed', (route) => false);
+    );
+    if (!context.mounted) return;
+    context.go('/email-confirmed');
   }
 
   /// Navigate to set new password page (simulates password reset link)
   static void simulatePasswordReset(BuildContext context) {
     Navigator.of(
       context,
-    ).pushNamedAndRemoveUntil('/set-new-password', (route) => false);
+    );
+    if (!context.mounted) return;
+    context.go('/set-new-password');
   }
 
   /// Log a simulated deep link URI for debugging

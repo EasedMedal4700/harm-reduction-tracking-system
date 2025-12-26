@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'dart:async';
 import '../models/app_settings_model.dart';
 import '../services/settings_service.dart';
 
@@ -6,10 +7,22 @@ import '../services/settings_service.dart';
 class SettingsProvider extends ChangeNotifier {
   AppSettings _settings = const AppSettings();
   bool _isLoading = true;
+  StreamSubscription<AppSettings>? _settingsSub;
   AppSettings get settings => _settings;
   bool get isLoading => _isLoading;
   SettingsProvider() {
     _loadSettings();
+    _settingsSub = SettingsService.settingsChanged.listen((newSettings) {
+      _settings = newSettings;
+      notifyListeners();
+    });
+  }
+
+  @override
+  void dispose() {
+    _settingsSub?.cancel();
+    _settingsSub = null;
+    super.dispose();
   }
 
   /// Load settings from storage

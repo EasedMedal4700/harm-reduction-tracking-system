@@ -6,6 +6,7 @@
 // Common: COMPLETE
 // Notes: UI only. All logic moved to controller/router.
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
@@ -101,10 +102,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
-                              // TODO(navigation): replace with NavigationService
-                              Navigator.of(
-                                context,
-                              ).pushNamed('/forgot_password');
+                              context.push('/forgot-password');
                             },
                             child: Text(
                               'Forgot password?',
@@ -160,7 +158,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             TextButton(
                               onPressed: () {
                                 // TODO(navigation): replace with NavigationService
-                                Navigator.of(context).pushNamed('/signup');
+                                context.push('/signup');
                               },
                               child: Text(
                                 'Sign up',

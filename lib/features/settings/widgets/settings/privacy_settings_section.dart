@@ -6,6 +6,7 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../providers/settings_provider.dart';
 import '../../../../services/pin_timeout_service.dart';
@@ -144,7 +145,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
             leading: Icon(Icons.security, size: th.sizes.iconMd),
             trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
             onTap: () {
-              Navigator.of(context).pushNamed('/pin-setup');
+              context.push('/pin-setup');
             },
           ),
         ],
@@ -314,7 +315,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 '🔔 Privacy Policy tile tapped - calling _openPrivacyPolicy()',
               );
               // _openPrivacyPolicy();
-              Navigator.of(context).pushNamed('/privacy-policy');
+              context.push('/privacy-policy');
             },
             child: ListTile(
               title: const Text('Privacy Policy'),

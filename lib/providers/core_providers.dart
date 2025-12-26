@@ -4,6 +4,7 @@ import '../services/app_lock_controller.dart';
 import '../services/auth_service.dart';
 import '../services/encryption_service_v2.dart';
 import '../services/encryption_migration_service.dart';
+import '../services/onboarding_service.dart';
 export 'shared_preferences_provider.dart';
 
 final supabaseClientProvider = Provider<SupabaseClient>((ref) {
@@ -27,6 +28,10 @@ final authServiceProvider = Provider<AuthService>((ref) {
     client: ref.watch(supabaseClientProvider),
     encryption: ref.watch(encryptionServiceProvider),
   );
+});
+
+final onboardingServiceProvider = Provider<OnboardingService>((ref) {
+  return onboardingService;
 });
 final appLockControllerProvider =
     NotifierProvider<AppLockController, AppLockState>(AppLockController.new);

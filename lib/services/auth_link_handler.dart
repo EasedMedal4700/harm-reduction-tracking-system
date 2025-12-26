@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:app_links/app_links.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../common/logging/app_log.dart';
 
@@ -238,9 +239,7 @@ class AuthLinkHandler {
   void _navigateToEmailConfirmed() {
     final context = _navigatorKey?.currentContext;
     if (context != null && context.mounted) {
-      Navigator.of(
-        context,
-      ).pushNamedAndRemoveUntil('/email-confirmed', (route) => false);
+      GoRouter.of(context).go('/email-confirmed');
     } else {
       AppLog.w('⚠️ AuthLinkHandler: Navigator context not available');
     }
@@ -250,9 +249,7 @@ class AuthLinkHandler {
   void _navigateToSetNewPassword() {
     final context = _navigatorKey?.currentContext;
     if (context != null && context.mounted) {
-      Navigator.of(
-        context,
-      ).pushNamedAndRemoveUntil('/set-new-password', (route) => false);
+      GoRouter.of(context).go('/set-new-password');
     } else {
       AppLog.w('⚠️ AuthLinkHandler: Navigator context not available');
     }

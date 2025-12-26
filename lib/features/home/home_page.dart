@@ -2,6 +2,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_animations.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../common/logging/app_log.dart';
 // MIGRATION
 // Theme: COMPLETE
@@ -102,13 +103,13 @@ class _HomePageState extends State<HomePage>
 
   void _requireUnlock() {
     if (mounted) {
-      Navigator.of(context).pushReplacementNamed('/pin-unlock');
+      context.go('/pin-unlock');
     }
   }
 
   void _openDailyCheckin(BuildContext context) async {
     // Navigate to daily check-in and wait for result
-    await Navigator.pushNamed(context, '/daily-checkin');
+    await context.push('/daily-checkin');
     // Refresh the daily check-in status when returning
     if (context.mounted) {
       final provider = Provider.of<DailyCheckinProvider>(
@@ -196,7 +197,7 @@ class _HomePageState extends State<HomePage>
                 HeaderCard(
                   userName: _userName,
                   greeting: _getGreeting(),
-                  onProfileTap: () => Navigator.pushNamed(context, '/profile'),
+                  onProfileTap: () => context.push('/profile'),
                 ),
                 CommonSpacer.vertical(sp.lg),
                 // Daily Check-in Card

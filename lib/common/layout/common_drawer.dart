@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../constants/config/feature_flags.dart';
 import '../../constants/theme/app_theme_extension.dart';
@@ -396,7 +397,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
       ),
       onTap: () {
         Navigator.pop(context);
-        Navigator.pushNamed(context, '/admin/feature-flags');
+        context.push('/admin/feature-flags');
       },
     );
   }

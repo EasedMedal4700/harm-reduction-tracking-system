@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../common/buttons/common_primary_button.dart';
@@ -56,7 +57,7 @@ class FeatureDisabledScreen extends StatelessWidget {
             if (Navigator.of(context).canPop()) {
               Navigator.of(context).pop();
             } else {
-              Navigator.of(context).pushReplacementNamed('/home');
+              context.go('/home');
             }
           },
         ),
@@ -106,7 +107,9 @@ class FeatureDisabledScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(
                     context,
-                  ).pushNamedAndRemoveUntil('/home', (_) => false);
+                  );
+                  if (!context.mounted) return;
+                  context.go('/home');
                 },
                 icon: Icons.home_rounded,
                 label: 'Go to Home',
@@ -119,7 +122,7 @@ class FeatureDisabledScreen extends StatelessWidget {
                   if (Navigator.of(context).canPop()) {
                     Navigator.of(context).pop();
                   } else {
-                    Navigator.of(context).pushReplacementNamed('/home');
+                    context.go('/home');
                   }
                 },
                 icon: Icons.arrow_back_rounded,

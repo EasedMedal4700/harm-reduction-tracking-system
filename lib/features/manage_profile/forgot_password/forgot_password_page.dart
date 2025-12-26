@@ -6,6 +6,7 @@
 // Common: COMPLETE
 // Notes: UI-only forgot password screen. Emits intent to controller.
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
@@ -68,7 +69,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                   onBackToLogin: () {
                     Navigator.of(
                       context,
-                    ).pushNamedAndRemoveUntil('/login_page', (route) => false);
+                    );
+                    if (!context.mounted) return;
+                    context.go('/login_page');
                   },
                 )
               : _FormContent(

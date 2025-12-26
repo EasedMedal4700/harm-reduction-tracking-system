@@ -2,6 +2,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import '../../common/layout/common_drawer.dart';
 import 'widgets/daily_checkin/readonly_field.dart';
 import 'widgets/daily_checkin/time_of_day_indicator.dart';
@@ -58,7 +59,7 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
           IconButton(
             icon: const Icon(Icons.history),
             onPressed: () {
-              Navigator.pushNamed(context, '/checkin-history');
+              context.push('/checkin-history');
             },
             tooltip: 'View History',
           ),
