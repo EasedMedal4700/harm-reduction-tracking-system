@@ -70,9 +70,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     if (!ok) {
       final errorMessage = ref.read(onboardingControllerProvider).errorMessage;
       if (errorMessage == null) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(errorMessage)));
       return;
     }
 
@@ -158,8 +158,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     onPressed: onboardingState.isCompleting
                         ? null
                         : (onboardingState.canProceedFromCurrentPage
-                            ? _nextPage
-                            : null),
+                              ? _nextPage
+                              : null),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ac.primary,
                       foregroundColor: c.textInverse,
@@ -282,7 +282,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       ),
     );
   }
-
 
   Widget _buildFeatureItem({
     required BuildContext context,
@@ -675,8 +674,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           CommonSpacer.vertical(sp.xl),
           // Accept checkbox
           GestureDetector(
-            onTap: () =>
-                ref.read(onboardingControllerProvider.notifier).togglePrivacyAccepted(),
+            onTap: () => ref
+                .read(onboardingControllerProvider.notifier)
+                .togglePrivacyAccepted(),
             child: Container(
               padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
@@ -789,7 +789,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           CommonSpacer.vertical(sp.xl),
           // Frequency options
           ...OnboardingService.usageFrequencies.map((frequency) {
-            final isSelected = onboardingState.selectedFrequency == frequency.id;
+            final isSelected =
+                onboardingState.selectedFrequency == frequency.id;
             return Padding(
               padding: EdgeInsets.only(bottom: sp.sm),
               child: GestureDetector(

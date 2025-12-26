@@ -23,7 +23,6 @@ class _SetNewPasswordPageState extends ConsumerState<SetNewPasswordPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-
   @override
   void dispose() {
     _passwordController.dispose();

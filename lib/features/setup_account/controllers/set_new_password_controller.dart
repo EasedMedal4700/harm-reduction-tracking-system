@@ -29,7 +29,9 @@ class SetNewPasswordController extends _$SetNewPasswordController {
   }
 
   void toggleObscureConfirmPassword() {
-    state = state.copyWith(obscureConfirmPassword: !state.obscureConfirmPassword);
+    state = state.copyWith(
+      obscureConfirmPassword: !state.obscureConfirmPassword,
+    );
   }
 
   Future<bool> submitNewPassword(String password) async {
@@ -46,7 +48,11 @@ class SetNewPasswordController extends _$SetNewPasswordController {
       state = state.copyWith(isSubmitting: false, errorMessage: e.message);
       return false;
     } catch (e, st) {
-      logger.error('SetNewPasswordController.submitNewPassword failed', error: e, stackTrace: st);
+      logger.error(
+        'SetNewPasswordController.submitNewPassword failed',
+        error: e,
+        stackTrace: st,
+      );
       state = state.copyWith(
         isSubmitting: false,
         errorMessage: 'An error occurred. Please try again.',

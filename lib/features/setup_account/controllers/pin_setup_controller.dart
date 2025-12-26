@@ -56,7 +56,11 @@ class PinSetupController extends _$PinSetupController {
       );
     } catch (e, st) {
       logger.warning('PinSetupController.setupEncryption failed: $e');
-      logger.error('PinSetupController.setupEncryption stack', error: e, stackTrace: st);
+      logger.error(
+        'PinSetupController.setupEncryption stack',
+        error: e,
+        stackTrace: st,
+      );
       state = state.copyWith(
         isLoading: false,
         errorMessage: e.toString().replaceAll('Exception: ', ''),
@@ -70,7 +74,11 @@ class PinSetupController extends _$PinSetupController {
       await encryption.enableBiometrics(pin);
       return true;
     } catch (e, st) {
-      logger.error('PinSetupController.enableBiometrics failed', error: e, stackTrace: st);
+      logger.error(
+        'PinSetupController.enableBiometrics failed',
+        error: e,
+        stackTrace: st,
+      );
       return false;
     }
   }

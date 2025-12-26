@@ -27,23 +27,18 @@ void main() {
           ),
           GoRoute(
             path: '/login_page',
-            builder: (context, _) => const Scaffold(
-              body: Text('Login Page'),
-            ),
+            builder: (context, _) => const Scaffold(body: Text('Login Page')),
           ),
           GoRoute(
             path: '/forgot-password',
-            builder: (context, _) => const Scaffold(
-              body: Text('Forgot Password'),
-            ),
+            builder: (context, _) =>
+                const Scaffold(body: Text('Forgot Password')),
           ),
         ],
       );
 
       return ProviderScope(
-        overrides: [
-          supabaseClientProvider.overrideWithValue(mockSupabase),
-        ],
+        overrides: [supabaseClientProvider.overrideWithValue(mockSupabase)],
         child: AppThemeProvider(
           theme: AppTheme.light(fontSize: 1.0, compactMode: false),
           child: MaterialApp.router(routerConfig: router),
@@ -57,7 +52,9 @@ void main() {
       when(mockSupabase.auth).thenReturn(mockAuth);
     });
 
-    testWidgets('shows link expired UI when session is missing', (tester) async {
+    testWidgets('shows link expired UI when session is missing', (
+      tester,
+    ) async {
       when(mockAuth.currentSession).thenReturn(null);
 
       await tester.pumpWidget(buildApp());
@@ -68,7 +65,9 @@ void main() {
       expect(find.text('Back to Login'), findsOneWidget);
     });
 
-    testWidgets('Request New Link navigates to forgot password', (tester) async {
+    testWidgets('Request New Link navigates to forgot password', (
+      tester,
+    ) async {
       when(mockAuth.currentSession).thenReturn(null);
 
       await tester.pumpWidget(buildApp());
@@ -80,9 +79,13 @@ void main() {
       expect(find.text('Forgot Password'), findsOneWidget);
     });
 
-    testWidgets('successful submit updates password and navigates to login', (tester) async {
+    testWidgets('successful submit updates password and navigates to login', (
+      tester,
+    ) async {
       when(mockAuth.currentSession).thenReturn(MockSession());
-      when(mockAuth.updateUser(any)).thenAnswer((_) async => MockUserResponse());
+      when(
+        mockAuth.updateUser(any),
+      ).thenAnswer((_) async => MockUserResponse());
       when(mockAuth.signOut()).thenAnswer((_) async {});
 
       await tester.pumpWidget(buildApp());
@@ -102,22 +105,25 @@ void main() {
       verify(mockAuth.signOut()).called(1);
     });
 
-    testWidgets('mismatched passwords shows validation error and does not submit', (tester) async {
-      when(mockAuth.currentSession).thenReturn(MockSession());
+    testWidgets(
+      'mismatched passwords shows validation error and does not submit',
+      (tester) async {
+        when(mockAuth.currentSession).thenReturn(MockSession());
 
-      await tester.pumpWidget(buildApp());
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(buildApp());
+        await tester.pumpAndSettle();
 
-      final fields = find.byType(TextFormField);
-      await tester.enterText(fields.at(0), 'password123');
-      await tester.enterText(fields.at(1), 'different');
+        final fields = find.byType(TextFormField);
+        await tester.enterText(fields.at(0), 'password123');
+        await tester.enterText(fields.at(1), 'different');
 
-      await tester.tap(find.text('Update Password'));
-      await tester.pump();
+        await tester.tap(find.text('Update Password'));
+        await tester.pump();
 
-      expect(find.text('Passwords do not match'), findsOneWidget);
-      verifyNever(mockAuth.updateUser(any));
-    });
+        expect(find.text('Passwords do not match'), findsOneWidget);
+        verifyNever(mockAuth.updateUser(any));
+      },
+    );
 
     testWidgets('AuthException shows error message', (tester) async {
       when(mockAuth.currentSession).thenReturn(MockSession());

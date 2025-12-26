@@ -73,9 +73,7 @@ class AppRoutePaths {
   static const toleranceDashboard = '/tolerance-dashboard';
 }
 
-GoRouter createAppRouter({
-  required NavigatorObserver observer,
-}) {
+GoRouter createAppRouter({required NavigatorObserver observer}) {
   return GoRouter(
     initialLocation: AppRoutePaths.login,
     observers: [observer],

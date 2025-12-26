@@ -200,16 +200,12 @@ extension AuthLinkHandlerDebug on AuthLinkHandler {
     if (uri.scheme == 'substancecheck') {
       switch (uri.host) {
         case 'auth':
-          Navigator.of(
-            context,
-          );
+          Navigator.of(context);
           if (!context.mounted) return;
           context.go('/email-confirmed');
           break;
         case 'reset-password':
-          Navigator.of(
-            context,
-          );
+          Navigator.of(context);
           if (!context.mounted) return;
           context.go('/set-new-password');
           break;
@@ -219,16 +215,12 @@ extension AuthLinkHandlerDebug on AuthLinkHandler {
       switch (type) {
         case 'signup':
         case 'email':
-          Navigator.of(
-            context,
-          );
+          Navigator.of(context);
           if (!context.mounted) return;
           context.go('/email-confirmed');
           break;
         case 'recovery':
-          Navigator.of(
-            context,
-          );
+          Navigator.of(context);
           if (!context.mounted) return;
           context.go('/set-new-password');
           break;
@@ -250,18 +242,14 @@ class DeepLinkSimulator {
 
   /// Navigate to email confirmed page (simulates email confirmation link)
   static void simulateEmailConfirmation(BuildContext context) {
-    Navigator.of(
-      context,
-    );
+    Navigator.of(context);
     if (!context.mounted) return;
     context.go('/email-confirmed');
   }
 
   /// Navigate to set new password page (simulates password reset link)
   static void simulatePasswordReset(BuildContext context) {
-    Navigator.of(
-      context,
-    );
+    Navigator.of(context);
     if (!context.mounted) return;
     context.go('/set-new-password');
   }

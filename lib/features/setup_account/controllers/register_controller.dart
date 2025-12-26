@@ -43,7 +43,9 @@ class RegisterController extends _$RegisterController {
     required String displayName,
   }) async {
     final current = state.valueOrNull ?? const RegisterState();
-    state = AsyncValue.data(current.copyWith(isSubmitting: true, errorMessage: null));
+    state = AsyncValue.data(
+      current.copyWith(isSubmitting: true, errorMessage: null),
+    );
 
     try {
       final auth = ref.read(authServiceProvider);
@@ -66,7 +68,11 @@ class RegisterController extends _$RegisterController {
 
       return result;
     } catch (e, st) {
-      logger.error('RegisterController.submitRegister failed', error: e, stackTrace: st);
+      logger.error(
+        'RegisterController.submitRegister failed',
+        error: e,
+        stackTrace: st,
+      );
       state = AsyncValue.data(
         current.copyWith(
           isSubmitting: false,

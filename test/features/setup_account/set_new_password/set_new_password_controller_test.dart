@@ -15,9 +15,7 @@ void main() {
 
     ProviderContainer buildContainer() {
       return ProviderContainer(
-        overrides: [
-          supabaseClientProvider.overrideWithValue(mockSupabase),
-        ],
+        overrides: [supabaseClientProvider.overrideWithValue(mockSupabase)],
       );
     }
 
@@ -57,7 +55,9 @@ void main() {
       final container = buildContainer();
       addTearDown(container.dispose);
 
-      final notifier = container.read(setNewPasswordControllerProvider.notifier);
+      final notifier = container.read(
+        setNewPasswordControllerProvider.notifier,
+      );
       final before = container.read(setNewPasswordControllerProvider);
 
       notifier.toggleObscurePassword();
@@ -72,7 +72,9 @@ void main() {
       final container = buildContainer();
       addTearDown(container.dispose);
 
-      final notifier = container.read(setNewPasswordControllerProvider.notifier);
+      final notifier = container.read(
+        setNewPasswordControllerProvider.notifier,
+      );
       final before = container.read(setNewPasswordControllerProvider);
 
       notifier.toggleObscureConfirmPassword();
@@ -81,61 +83,85 @@ void main() {
       expect(after.obscureConfirmPassword, !before.obscureConfirmPassword);
     });
 
-    test('submitNewPassword success updates password, signs out, and returns true', () async {
-      when(mockAuth.currentSession).thenReturn(MockSession());
-      when(mockAuth.updateUser(any)).thenAnswer((_) async => MockUserResponse());
-      when(mockAuth.signOut()).thenAnswer((_) async {});
+    test(
+      'submitNewPassword success updates password, signs out, and returns true',
+      () async {
+        when(mockAuth.currentSession).thenReturn(MockSession());
+        when(
+          mockAuth.updateUser(any),
+        ).thenAnswer((_) async => MockUserResponse());
+        when(mockAuth.signOut()).thenAnswer((_) async {});
 
-      final container = buildContainer();
-      addTearDown(container.dispose);
+        final container = buildContainer();
+        addTearDown(container.dispose);
 
-      final notifier = container.read(setNewPasswordControllerProvider.notifier);
+        final notifier = container.read(
+          setNewPasswordControllerProvider.notifier,
+        );
 
-      final future = notifier.submitNewPassword('password123');
-      expect(container.read(setNewPasswordControllerProvider).isSubmitting, true);
+        final future = notifier.submitNewPassword('password123');
+        expect(
+          container.read(setNewPasswordControllerProvider).isSubmitting,
+          true,
+        );
 
-      final ok = await future;
-      expect(ok, true);
+        final ok = await future;
+        expect(ok, true);
 
-      final state = container.read(setNewPasswordControllerProvider);
-      expect(state.isSubmitting, false);
-      expect(state.errorMessage, null);
+        final state = container.read(setNewPasswordControllerProvider);
+        expect(state.isSubmitting, false);
+        expect(state.errorMessage, null);
 
-      final captured = verify(mockAuth.updateUser(captureAny)).captured.single as UserAttributes;
-      expect(captured.password, 'password123');
-      verify(mockAuth.signOut()).called(1);
-    });
+        final captured =
+            verify(mockAuth.updateUser(captureAny)).captured.single
+                as UserAttributes;
+        expect(captured.password, 'password123');
+        verify(mockAuth.signOut()).called(1);
+      },
+    );
 
-    test('submitNewPassword AuthException returns false and uses exception message', () async {
-      when(mockAuth.currentSession).thenReturn(MockSession());
-      when(mockAuth.updateUser(any)).thenThrow(const AuthException('Bad password'));
+    test(
+      'submitNewPassword AuthException returns false and uses exception message',
+      () async {
+        when(mockAuth.currentSession).thenReturn(MockSession());
+        when(
+          mockAuth.updateUser(any),
+        ).thenThrow(const AuthException('Bad password'));
 
-      final container = buildContainer();
-      addTearDown(container.dispose);
+        final container = buildContainer();
+        addTearDown(container.dispose);
 
-      final notifier = container.read(setNewPasswordControllerProvider.notifier);
-      final ok = await notifier.submitNewPassword('password123');
+        final notifier = container.read(
+          setNewPasswordControllerProvider.notifier,
+        );
+        final ok = await notifier.submitNewPassword('password123');
 
-      expect(ok, false);
-      final state = container.read(setNewPasswordControllerProvider);
-      expect(state.isSubmitting, false);
-      expect(state.errorMessage, 'Bad password');
-    });
+        expect(ok, false);
+        final state = container.read(setNewPasswordControllerProvider);
+        expect(state.isSubmitting, false);
+        expect(state.errorMessage, 'Bad password');
+      },
+    );
 
-    test('submitNewPassword generic error returns false with fallback message', () async {
-      when(mockAuth.currentSession).thenReturn(MockSession());
-      when(mockAuth.updateUser(any)).thenThrow(Exception('boom'));
+    test(
+      'submitNewPassword generic error returns false with fallback message',
+      () async {
+        when(mockAuth.currentSession).thenReturn(MockSession());
+        when(mockAuth.updateUser(any)).thenThrow(Exception('boom'));
 
-      final container = buildContainer();
-      addTearDown(container.dispose);
+        final container = buildContainer();
+        addTearDown(container.dispose);
 
-      final notifier = container.read(setNewPasswordControllerProvider.notifier);
-      final ok = await notifier.submitNewPassword('password123');
+        final notifier = container.read(
+          setNewPasswordControllerProvider.notifier,
+        );
+        final ok = await notifier.submitNewPassword('password123');
 
-      expect(ok, false);
-      final state = container.read(setNewPasswordControllerProvider);
-      expect(state.isSubmitting, false);
-      expect(state.errorMessage, 'An error occurred. Please try again.');
-    });
+        expect(ok, false);
+        final state = container.read(setNewPasswordControllerProvider);
+        expect(state.isSubmitting, false);
+        expect(state.errorMessage, 'An error occurred. Please try again.');
+      },
+    );
   });
 }

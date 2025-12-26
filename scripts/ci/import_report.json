@@ -1,14 +1,14 @@
 {
   "summary": {
-    "total_files": 351,
-    "violations": 7,
-    "warnings": 18,
-    "timestamp": "1766705365.5651546"
+    "total_files": 363,
+    "violations": 8,
+    "warnings": 19,
+    "timestamp": "1766742676.8466513"
   },
   "issues": [
     {
-      "file": "lib\\main.dart",
-      "count": 48,
+      "file": "lib\\routes\\app_router.dart",
+      "count": 32,
       "status": "SMELL"
     },
     {
@@ -17,8 +17,13 @@
       "status": "SMELL"
     },
     {
+      "file": "lib\\main.dart",
+      "count": 21,
+      "status": "SMELL"
+    },
+    {
       "file": "lib\\features\\home\\home_page.dart",
-      "count": 20,
+      "count": 21,
       "status": "SMELL"
     },
     {
@@ -62,27 +67,27 @@
       "status": "WARNING"
     },
     {
+      "file": "lib\\features\\daily_chekin\\daily_checkin_page.dart",
+      "count": 14,
+      "status": "WARNING"
+    },
+    {
+      "file": "lib\\features\\profile\\profile_screen.dart",
+      "count": 14,
+      "status": "WARNING"
+    },
+    {
+      "file": "lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart",
+      "count": 14,
+      "status": "WARNING"
+    },
+    {
       "file": "lib\\constants\\theme\\app_theme.dart",
       "count": 13,
       "status": "WARNING"
     },
     {
       "file": "lib\\constants\\theme\\app_theme_extension.dart",
-      "count": 13,
-      "status": "WARNING"
-    },
-    {
-      "file": "lib\\features\\daily_chekin\\daily_checkin_page.dart",
-      "count": 13,
-      "status": "WARNING"
-    },
-    {
-      "file": "lib\\features\\profile\\profile_screen.dart",
-      "count": 13,
-      "status": "WARNING"
-    },
-    {
-      "file": "lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart",
       "count": 13,
       "status": "WARNING"
     },
@@ -98,11 +103,6 @@
     },
     {
       "file": "lib\\features\\blood_levels\\blood_levels_page.dart",
-      "count": 12,
-      "status": "WARNING"
-    },
-    {
-      "file": "lib\\features\\setup_account\\pin_setup_page.dart",
       "count": 12,
       "status": "WARNING"
     },
@@ -128,6 +128,16 @@
     },
     {
       "file": "lib\\features\\edit_log_entry\\edit_log_entry_page.dart",
+      "count": 11,
+      "status": "WARNING"
+    },
+    {
+      "file": "lib\\features\\setup_account\\pages\\onboarding_page.dart",
+      "count": 11,
+      "status": "WARNING"
+    },
+    {
+      "file": "lib\\features\\setup_account\\pages\\pin_setup_page.dart",
       "count": 11,
       "status": "WARNING"
     }

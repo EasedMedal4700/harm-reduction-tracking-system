@@ -39,7 +39,9 @@ class _RecoveryKeyScreenState extends ConsumerState<RecoveryKeyScreen> {
   /// Step 2: Create new PIN using the validated recovery key
   Future<void> _createNewPin() async {
     final c = context.colors;
-    final ok = await ref.read(recoveryKeyControllerProvider.notifier).resetPin(
+    final ok = await ref
+        .read(recoveryKeyControllerProvider.notifier)
+        .resetPin(
           newPinRaw: _newPinController.text,
           confirmPinRaw: _confirmPinController.text,
         );
@@ -65,7 +67,9 @@ class _RecoveryKeyScreenState extends ConsumerState<RecoveryKeyScreen> {
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
-        title: Text(flow.recoveryKeyValidated ? 'Create New PIN' : 'Recovery Key'),
+        title: Text(
+          flow.recoveryKeyValidated ? 'Create New PIN' : 'Recovery Key',
+        ),
         backgroundColor: c.surface,
         elevation: context.sizes.elevationNone,
         leading: flow.recoveryKeyValidated
@@ -216,8 +220,8 @@ class _RecoveryKeyScreenState extends ConsumerState<RecoveryKeyScreen> {
         ),
         CommonSpacer.vertical(sp.lg),
         // Back button
-          TextButton.icon(
-            onPressed: () => context.pop(),
+        TextButton.icon(
+          onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back),
           label: const Text('Back to PIN Unlock'),
           style: TextButton.styleFrom(

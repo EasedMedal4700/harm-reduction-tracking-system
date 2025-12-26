@@ -67,9 +67,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                   email: state.email ?? '',
                   onTryAgain: controller.reset,
                   onBackToLogin: () {
-                    Navigator.of(
-                      context,
-                    );
+                    Navigator.of(context);
                     if (!context.mounted) return;
                     context.go('/login_page');
                   },

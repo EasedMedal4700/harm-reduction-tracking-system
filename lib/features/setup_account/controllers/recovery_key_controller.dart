@@ -14,8 +14,10 @@ class RecoveryKeyController extends _$RecoveryKeyController {
   @override
   RecoveryKeyState build() => const RecoveryKeyState();
 
-  void toggleKeyObscure() => state = state.copyWith(keyObscure: !state.keyObscure);
-  void togglePinObscure() => state = state.copyWith(pinObscure: !state.pinObscure);
+  void toggleKeyObscure() =>
+      state = state.copyWith(keyObscure: !state.keyObscure);
+  void togglePinObscure() =>
+      state = state.copyWith(pinObscure: !state.pinObscure);
   void toggleConfirmPinObscure() =>
       state = state.copyWith(confirmPinObscure: !state.confirmPinObscure);
 
@@ -46,7 +48,10 @@ class RecoveryKeyController extends _$RecoveryKeyController {
       }
 
       final encryption = ref.read(encryptionServiceProvider);
-      final success = await encryption.unlockWithRecoveryKey(user.id, recoveryKey);
+      final success = await encryption.unlockWithRecoveryKey(
+        user.id,
+        recoveryKey,
+      );
       if (!success) {
         state = state.copyWith(
           isLoading: false,
@@ -62,7 +67,11 @@ class RecoveryKeyController extends _$RecoveryKeyController {
       );
       return true;
     } catch (e, st) {
-      logger.error('RecoveryKeyController.validateRecoveryKey failed', error: e, stackTrace: st);
+      logger.error(
+        'RecoveryKeyController.validateRecoveryKey failed',
+        error: e,
+        stackTrace: st,
+      );
       state = state.copyWith(
         isLoading: false,
         errorMessage: e.toString().replaceAll('Exception: ', ''),
@@ -123,7 +132,11 @@ class RecoveryKeyController extends _$RecoveryKeyController {
       state = state.copyWith(isLoading: false);
       return true;
     } catch (e, st) {
-      logger.error('RecoveryKeyController.resetPin failed', error: e, stackTrace: st);
+      logger.error(
+        'RecoveryKeyController.resetPin failed',
+        error: e,
+        stackTrace: st,
+      );
       state = state.copyWith(
         isLoading: false,
         errorMessage: e.toString().replaceAll('Exception: ', ''),

@@ -105,9 +105,7 @@ class FeatureDisabledScreen extends StatelessWidget {
               // Go Home button
               CommonPrimaryButton(
                 onPressed: () {
-                  Navigator.of(
-                    context,
-                  );
+                  Navigator.of(context);
                   if (!context.mounted) return;
                   context.go('/home');
                 },

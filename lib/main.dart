@@ -104,9 +104,7 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
     _router = createAppRouter(observer: widget.navigatorObserver);
     // Bind legacy NavigationService to GoRouter so controller-driven navigation
     // continues to work while we migrate call sites.
-    ref
-        .read(navigationProvider)
-        .bind(_router.routerDelegate.navigatorKey);
+    ref.read(navigationProvider).bind(_router.routerDelegate.navigatorKey);
     _initServices();
     _setupAppLockListener();
   }

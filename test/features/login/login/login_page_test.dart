@@ -62,21 +62,15 @@ void main() {
     final router = GoRouter(
       initialLocation: '/',
       routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, _) => const LoginPage(),
-        ),
+        GoRoute(path: '/', builder: (context, _) => const LoginPage()),
         GoRoute(
           path: '/forgot-password',
-          builder: (context, _) => const Scaffold(
-            body: Text('Forgot Password'),
-          ),
+          builder: (context, _) =>
+              const Scaffold(body: Text('Forgot Password')),
         ),
         GoRoute(
           path: '/signup',
-          builder: (context, _) => const Scaffold(
-            body: Text('Sign Up'),
-          ),
+          builder: (context, _) => const Scaffold(body: Text('Sign Up')),
         ),
       ],
     );

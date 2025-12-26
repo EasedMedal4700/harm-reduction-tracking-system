@@ -28,7 +28,9 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
   }
 
   Future<void> _setupEncryption() async {
-    await ref.read(pinSetupControllerProvider.notifier).setupEncryption(
+    await ref
+        .read(pinSetupControllerProvider.notifier)
+        .setupEncryption(
           pin1: _pin1Controller.text,
           pin2: _pin2Controller.text,
         );
@@ -43,7 +45,9 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(ok ? 'Fingerprint unlock enabled' : 'Failed to enable biometrics'),
+        content: Text(
+          ok ? 'Fingerprint unlock enabled' : 'Failed to enable biometrics',
+        ),
         backgroundColor: ok ? c.success : c.error,
       ),
     );

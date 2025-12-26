@@ -10,11 +10,8 @@ class Logger {
   void debug(String message) => AppLog.d(message);
   void info(String message) => AppLog.i(message);
   void warning(String message) => AppLog.w(message);
-  void error(
-    String message, {
-    Object? error,
-    StackTrace? stackTrace,
-  }) => AppLog.e(message, error: error, stackTrace: stackTrace);
+  void error(String message, {Object? error, StackTrace? stackTrace}) =>
+      AppLog.e(message, error: error, stackTrace: stackTrace);
 }
 
 const logger = Logger();
