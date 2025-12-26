@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:provider/provider.dart';
 import '../../common/layout/common_drawer.dart';
-import 'widgets/checkin_history/checkin_card.dart';
+import 'widgets/checkin_card.dart';
 import '../../providers/daily_checkin_provider.dart';
 import '../../constants/theme/app_theme_extension.dart';
 

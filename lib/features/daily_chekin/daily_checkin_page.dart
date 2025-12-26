@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../common/layout/common_drawer.dart';
-import 'widgets/daily_checkin/readonly_field.dart';
-import 'widgets/daily_checkin/time_of_day_indicator.dart';
-import 'widgets/daily_checkin/existing_checkin_notice.dart';
-import 'widgets/daily_checkin/mood_selector.dart';
-import 'widgets/daily_checkin/emotion_selector.dart';
-import 'widgets/daily_checkin/notes_input.dart';
-import 'widgets/daily_checkin/save_button.dart';
+import 'widgets/readonly_field.dart';
+import 'widgets/time_of_day_indicator.dart';
+import 'widgets/existing_checkin_notice.dart';
+import 'widgets/mood_selector.dart';
+import 'widgets/emotion_selector.dart';
+import 'widgets/notes_input.dart';
+import 'widgets/save_button.dart';
 import '../../providers/daily_checkin_provider.dart';
 
 class DailyCheckinScreen extends StatefulWidget {

@@ -5,15 +5,15 @@ import '../../common/layout/common_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../providers/settings_provider.dart';
-import 'widgets/settings/ui_settings_section.dart';
-import 'widgets/settings/notification_settings_section.dart';
-import 'widgets/settings/privacy_settings_section.dart';
-import 'widgets/settings/data_sync_settings_section.dart';
-import 'widgets/settings/entry_preferences_section.dart';
-import 'widgets/settings/display_settings_section.dart';
-import 'widgets/settings/about_section.dart';
-import 'widgets/settings/account_management_section.dart';
-import 'widgets/settings/settings_dialogs.dart';
+import 'widgets/ui_settings_section.dart';
+import 'widgets/notification_settings_section.dart';
+import 'widgets/privacy_settings_section.dart';
+import 'widgets/data_sync_settings_section.dart';
+import 'widgets/entry_preferences_section.dart';
+import 'widgets/display_settings_section.dart';
+import 'widgets/about_section.dart';
+import 'widgets/account_management_section.dart';
+import 'widgets/settings_dialogs.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

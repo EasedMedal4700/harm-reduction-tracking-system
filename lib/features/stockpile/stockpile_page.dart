@@ -11,17 +11,17 @@ import 'package:mobile_drug_use_app/common/layout/common_drawer.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/features/catalog/widgets/catalog/add_stockpile_sheet.dart';
+import 'package:mobile_drug_use_app/features/catalog/widgets/add_stockpile_sheet.dart';
 import 'package:mobile_drug_use_app/features/stockpile/controllers/personal_library_controller.dart';
 import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_providers.dart';
 import 'package:mobile_drug_use_app/models/drug_catalog_entry.dart';
 import 'package:mobile_drug_use_app/models/stockpile_item.dart';
 
-import 'widgets/personal_library/day_usage_sheet.dart';
-import 'widgets/personal_library/library_app_bar.dart';
-import 'widgets/personal_library/library_search_bar.dart';
-import 'widgets/personal_library/substance_card.dart';
-import 'widgets/personal_library/summary_stats_banner.dart';
+import 'widgets/day_usage_sheet.dart';
+import 'widgets/library_app_bar.dart';
+import 'widgets/library_search_bar.dart';
+import 'widgets/substance_card.dart';
+import 'widgets/summary_stats_banner.dart';
 
 class PersonalLibraryPage extends ConsumerStatefulWidget {
   const PersonalLibraryPage({super.key});

@@ -3,12 +3,12 @@ import '../../repo/substance_repository.dart';
 import '../analytics/services/analytics_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
-import 'widgets/catalog/add_stockpile_sheet.dart';
-import 'widgets/catalog/substance_details_sheet.dart';
-import 'widgets/catalog/catalog_app_bar.dart';
-import 'widgets/catalog/catalog_search_filters.dart';
-import 'widgets/catalog/catalog_empty_state.dart';
-import 'widgets/catalog/animated_substance_list.dart';
+import 'widgets/add_stockpile_sheet.dart';
+import 'widgets/substance_details_sheet.dart';
+import 'widgets/catalog_app_bar.dart';
+import 'widgets/catalog_search_filters.dart';
+import 'widgets/catalog_empty_state.dart';
+import 'widgets/animated_substance_list.dart';
 
 class CatalogPage extends StatefulWidget {
   final SubstanceRepository? repository;

@@ -20,7 +20,7 @@ import '../features/craving/cravings_page.dart';
 import '../features/daily_chekin/checkin_history_page.dart';
 import '../features/daily_chekin/daily_checkin_page.dart';
 import '../features/feature_flags/feature_flags_page.dart';
-import '../features/feature_flags/widgets/feature_flags/feature_gate.dart';
+import '../features/feature_flags/widgets/feature_gate.dart';
 import '../features/home/home_page.dart';
 import '../features/log_entry/log_entry_page.dart';
 import '../features/edit_craving/edit_craving_page.dart';

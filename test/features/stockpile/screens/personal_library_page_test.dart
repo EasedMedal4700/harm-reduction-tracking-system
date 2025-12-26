@@ -12,7 +12,7 @@ import 'package:mobile_drug_use_app/models/stockpile_item.dart';
 import 'package:mobile_drug_use_app/repo/stockpile_repository.dart';
 import 'package:mobile_drug_use_app/repo/substance_repository.dart';
 import '../../../helpers/test_app_wrapper.dart';
-import 'package:mobile_drug_use_app/features/catalog/widgets/catalog/add_stockpile_sheet.dart';
+import 'package:mobile_drug_use_app/features/catalog/widgets/add_stockpile_sheet.dart';
 
 class _DummyPersonalLibraryApi implements PersonalLibraryApi {
   @override

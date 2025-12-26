@@ -6,8 +6,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
-import '../reflection/widgets/reflection/edit_reflection_form.dart';
-import 'widgets/edit_reflection/reflection_app_bar.dart';
+import '../reflection/widgets/edit_reflection_form.dart';
+import 'widgets/reflection_app_bar.dart';
 import '../../models/reflection_model.dart';
 import '../reflection/reflection_service.dart';
 import '../../utils/error_handler.dart';

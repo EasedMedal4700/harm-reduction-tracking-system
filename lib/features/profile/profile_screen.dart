@@ -7,10 +7,10 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/core_providers.dart';
 import '../../common/layout/common_drawer.dart';
-import 'widgets/profile/profile_header.dart';
-import 'widgets/profile/statistics_card.dart';
-import 'widgets/profile/account_info_card.dart';
-import 'widgets/profile/logout_button.dart';
+import 'widgets/profile_header.dart';
+import 'widgets/statistics_card.dart';
+import 'widgets/account_info_card.dart';
+import 'widgets/logout_button.dart';
 import '../../services/user_service.dart';
 import '../log_entry/log_entry_service.dart';
 

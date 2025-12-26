@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:mobile_drug_use_app/features/stockpile/widgets/personal_library/summary_stats_banner.dart';
+import 'package:mobile_drug_use_app/features/stockpile/widgets/summary_stats_banner.dart';
 import '../../../helpers/test_app_wrapper.dart';
 
 void main() {

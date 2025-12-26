@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:mobile_drug_use_app/features/stockpile/widgets/personal_library/library_search_bar.dart';
+import 'package:mobile_drug_use_app/features/stockpile/widgets/library_search_bar.dart';
 import '../../../helpers/test_app_wrapper.dart';
 
 void main() {
