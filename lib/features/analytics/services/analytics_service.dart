@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: GOROUTER
+// Models: FREEZED
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Analytics domain/service layer used by providers.
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../constants/enums/time_period.dart';
 import '../../../models/log_entry_model.dart';

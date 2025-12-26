@@ -1,8 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: GOROUTER
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Converted to CommonCard layout + cleaned architecture. No Riverpod.
+// Notes: Pure widget; consumes computed data from parent.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -112,7 +114,7 @@ class UsageTrendChart extends StatelessWidget {
                       borderRadius: BorderRadius.circular(th.spacing.xs),
                     ),
                   ),
-                  SizedBox(width: 6),
+                  SizedBox(width: th.spacing.xs),
                   Text(
                     cat,
                     style: th.typography.captionBold.copyWith(

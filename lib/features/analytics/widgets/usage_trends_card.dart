@@ -1,8 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: GOROUTER
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Migrated to CommonCard and CommonSectionHeader. No Riverpod.
+// Notes: UI-only granularity selection; data comes from parent/provider.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -319,7 +321,7 @@ class _UsageTrendsCardState extends State<UsageTrendsCard> {
         ),
         SizedBox(height: sp.sm),
         ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 200),
+          constraints: BoxConstraints(maxHeight: context.sizes.heightMd),
           child: SingleChildScrollView(
             child: Column(
               children: sorted.map((e) {

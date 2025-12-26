@@ -1,8 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: GOROUTER
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Theme alignment & structural cleanup. Not fully migrated or Riverpod integrated.
+// Notes: Layout-only widget; all data is injected.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../constants/theme/app_theme_extension.dart';
@@ -38,12 +40,14 @@ class AnalyticsLayout extends StatelessWidget {
   final double topCategoryPercent;
   final Map<String, int> categoryCounts;
   final Map<String, int> substanceCounts;
+  final Map<String, Map<String, int>> substanceCountsByCategory;
   final List<LogEntry> filteredEntries;
   final Map<String, String> substanceToCategory;
   final Function(String) onCategoryTapped;
   final TimePeriod period;
   final String selectedPeriodText;
   final String mostUsedCategory;
+  final String insightText;
   const AnalyticsLayout({
     super.key,
     required this.filterContent,
@@ -55,12 +59,14 @@ class AnalyticsLayout extends StatelessWidget {
     required this.topCategoryPercent,
     required this.categoryCounts,
     required this.substanceCounts,
+    required this.substanceCountsByCategory,
     required this.filteredEntries,
     required this.substanceToCategory,
     required this.onCategoryTapped,
     required this.period,
     required this.selectedPeriodText,
     required this.mostUsedCategory,
+    required this.insightText,
   });
   @override
   Widget build(BuildContext context) {
@@ -115,15 +121,12 @@ class AnalyticsLayout extends StatelessWidget {
               UseDistributionCard(
                 categoryCounts: categoryCounts,
                 substanceCounts: substanceCounts,
-                filteredEntries: filteredEntries,
-                substanceToCategory: substanceToCategory,
+                substanceCountsByCategory: substanceCountsByCategory,
               ),
               CommonSpacer.vertical(th.spacing.lg),
               InsightSummaryCard(
-                totalEntries: totalEntries,
-                mostUsedCategory: mostUsedCategory,
-                weeklyAverage: weeklyAverage,
                 selectedPeriodText: selectedPeriodText,
+                insightText: insightText,
               ),
             ],
           ),
@@ -162,8 +165,7 @@ class AnalyticsLayout extends StatelessWidget {
         UseDistributionCard(
           categoryCounts: categoryCounts,
           substanceCounts: substanceCounts,
-          filteredEntries: filteredEntries,
-          substanceToCategory: substanceToCategory,
+          substanceCountsByCategory: substanceCountsByCategory,
         ),
         CommonSpacer.vertical(th.spacing.lg),
         UsageTrendsCard(
@@ -173,10 +175,8 @@ class AnalyticsLayout extends StatelessWidget {
         ),
         CommonSpacer.vertical(th.spacing.lg),
         InsightSummaryCard(
-          totalEntries: totalEntries,
-          mostUsedCategory: mostUsedCategory,
-          weeklyAverage: weeklyAverage,
           selectedPeriodText: selectedPeriodText,
+          insightText: insightText,
         ),
         CommonSpacer.vertical(th.spacing.lg),
         RecentActivityList(

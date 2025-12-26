@@ -1,8 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: GOROUTER
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Fully theme-compliant. Uses CommonLoader.
+// Notes: Presentation-only loading state.
 import 'package:flutter/material.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';

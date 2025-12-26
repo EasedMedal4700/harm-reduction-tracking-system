@@ -1,8 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: GOROUTER
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Rebuilt RecentActivityList with CommonCard + unified layout. No Riverpod.
+// Notes: Presentation-only; entries are injected.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../constants/theme/app_theme_extension.dart';
@@ -26,7 +28,8 @@ class RecentActivityList extends StatelessWidget {
     final th = context.theme;
     final recent = entries.toList()
       ..sort((a, b) => b.datetime.compareTo(a.datetime));
-    final display = recent.take(10).toList();
+    const maxItems = 10;
+    final display = recent.take(maxItems).toList();
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -75,7 +78,11 @@ class _RecentActivityItem extends StatelessWidget {
     final icon = DrugCategories.categoryIconMap[category] ?? Icons.category;
     final timeAgo = _formatTimeAgo(entry.datetime);
     final hoursSince = DateTime.now().difference(entry.datetime).inHours;
-    final remainingPercent = (100 - (hoursSince * 10)).clamp(0, 100).toDouble();
+    const maxPercent = 100;
+    const percentPerHour = 10;
+    final remainingPercent = (maxPercent - (hoursSince * percentPerHour))
+        .clamp(0, maxPercent)
+        .toDouble();
     final categoryColor = th.accent.primary.withValues(
       alpha: 0.4 + (category.hashCode % 20) / 100,
     );

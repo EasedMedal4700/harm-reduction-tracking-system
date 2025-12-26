@@ -1,8 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: GOROUTER
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
+// Notes: AppBar is stateless; state lives in Riverpod.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../constants/theme/app_theme_extension.dart';
@@ -21,7 +23,7 @@ class AnalyticsAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onExport,
   });
   @override
-  Size get preferredSize => const Size.fromHeight(110);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight * 2);
   @override
   Widget build(BuildContext context) {
     final tx = context.text;

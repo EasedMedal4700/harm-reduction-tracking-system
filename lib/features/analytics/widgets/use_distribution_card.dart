@@ -1,14 +1,15 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: GOROUTER
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Structural refactor + CommonCard + caching. No Riverpod.
+// Notes: Presentation-only; receives precomputed counts from providers.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../constants/data/drug_categories.dart';
-import '../../../models/log_entry_model.dart';
 import '../../../common/cards/common_card.dart';
 import '../../../common/text/common_section_header.dart';
 import '../../../common/layout/common_spacer.dart';
@@ -18,126 +19,31 @@ enum DistributionViewType { category, substance }
 class UseDistributionCard extends StatefulWidget {
   final Map<String, int> categoryCounts;
   final Map<String, int> substanceCounts;
-  final List<LogEntry> filteredEntries;
-  final Map<String, String> substanceToCategory;
+  final Map<String, Map<String, int>> substanceCountsByCategory;
   const UseDistributionCard({
     super.key,
     required this.categoryCounts,
     required this.substanceCounts,
-    required this.filteredEntries,
-    required this.substanceToCategory,
+    required this.substanceCountsByCategory,
   });
   @override
   State<UseDistributionCard> createState() => _UseDistributionCardState();
 }
 
-/// Internal controller responsible for all data aggregation & caching.
-/// This keeps the widget from becoming a god-class.
-class _UseDistributionController {
-  Map<String, int> categoryCounts;
-  Map<String, int> substanceCounts;
-  List<LogEntry> filteredEntries;
-  Map<String, String> substanceToCategory;
-  // Cache for per-category substance counts
-  final Map<String, Map<String, int>> _substancesByCategoryCache = {};
-  _UseDistributionController({
-    required this.categoryCounts,
-    required this.substanceCounts,
-    required this.filteredEntries,
-    required this.substanceToCategory,
-  });
-  void update({
-    required Map<String, int> categoryCounts,
-    required Map<String, int> substanceCounts,
-    required List<LogEntry> filteredEntries,
-    required Map<String, String> substanceToCategory,
-  }) {
-    this.categoryCounts = categoryCounts;
-    this.substanceCounts = substanceCounts;
-    this.filteredEntries = filteredEntries;
-    this.substanceToCategory = substanceToCategory;
-    _substancesByCategoryCache.clear();
-  }
-
-  /// Active dataset based on view type and optional selected category.
-  Map<String, int> getActiveData(
-    DistributionViewType viewType,
-    String? selectedCategory,
-  ) {
-    if (viewType == DistributionViewType.category && selectedCategory == null) {
-      return categoryCounts;
-    }
-    if (viewType == DistributionViewType.substance &&
-        selectedCategory != null) {
-      return getSubstanceCountsForCategory(selectedCategory);
-    }
-    return substanceCounts;
-  }
-
-  /// Returns substance counts for a specific category, cached.
-  Map<String, int> getSubstanceCountsForCategory(String category) {
-    if (_substancesByCategoryCache.containsKey(category)) {
-      return _substancesByCategoryCache[category]!;
-    }
-    final result = <String, int>{};
-    for (final entry in filteredEntries) {
-      final cat = substanceToCategory[entry.substance.toLowerCase()] ?? 'Other';
-      if (cat == category) {
-        result[entry.substance] = (result[entry.substance] ?? 0) + 1;
-      }
-    }
-    _substancesByCategoryCache[category] = result;
-    return result;
-  }
-
-  Color colorForSubstance(
-    BuildContext context,
-    String substance,
-    int index,
-    int total,
-  ) {
-    final category = substanceToCategory[substance.toLowerCase()] ?? 'Other';
-    final base = context.accent.primary;
-    if (total <= 1) return base;
-    final hsl = HSLColor.fromColor(base);
-    final ratio = total <= 1 ? 0.5 : index / (total - 1);
-    final lightness = (hsl.lightness + (ratio - 0.5) * 0.35).clamp(0.25, 0.8);
-    final sat = (hsl.saturation + (ratio - 0.5) * 0.25).clamp(0.5, 1.0);
-    return hsl.withLightness(lightness).withSaturation(sat).toColor();
-  }
-}
-
 class _UseDistributionCardState extends State<UseDistributionCard> {
-  late final _controller = _UseDistributionController(
-    categoryCounts: widget.categoryCounts,
-    substanceCounts: widget.substanceCounts,
-    filteredEntries: widget.filteredEntries,
-    substanceToCategory: widget.substanceToCategory,
-  );
   DistributionViewType _viewType = DistributionViewType.category;
   int _touchedIndex = -1;
   String? _selectedCategory;
-  @override
-  void didUpdateWidget(covariant UseDistributionCard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Keep controller data in sync when parent updates props
-    if (oldWidget.categoryCounts != widget.categoryCounts ||
-        oldWidget.substanceCounts != widget.substanceCounts ||
-        oldWidget.filteredEntries != widget.filteredEntries ||
-        oldWidget.substanceToCategory != widget.substanceToCategory) {
-      _controller.update(
-        categoryCounts: widget.categoryCounts,
-        substanceCounts: widget.substanceCounts,
-        filteredEntries: widget.filteredEntries,
-        substanceToCategory: widget.substanceToCategory,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
-    final data = _controller.getActiveData(_viewType, _selectedCategory);
+    final data = _viewType == DistributionViewType.category
+        ? widget.categoryCounts
+        : (_selectedCategory == null
+              ? widget.substanceCounts
+              : (widget.substanceCountsByCategory[_selectedCategory!] ??
+                    const <String, int>{}));
     final total = data.values.fold<int>(0, (sum, v) => sum + v);
     final hasData = total > 0;
     return CommonCard(
@@ -220,16 +126,21 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
-        final radiusBase = (width * 0.22).clamp(70.0, 110.0);
-        final innerRadius = radiusBase * 0.5;
+        const radiusScale = 0.22;
+        const minRadius = 70.0;
+        const maxRadius = 110.0;
+        const innerRadiusScale = 0.5;
+        const heightScale = 2.1;
+        final radiusBase = (width * radiusScale).clamp(minRadius, maxRadius);
+        final innerRadius = radiusBase * innerRadiusScale;
         return SizedBox(
-          height: radiusBase * 2.1,
+          height: radiusBase * heightScale,
           child: Stack(
             alignment: context.shapes.alignmentCenter,
             children: [
               PieChart(
                 PieChartData(
-                  sectionsSpace: 3,
+                  sectionsSpace: context.spacing.xs,
                   centerSpaceRadius: innerRadius,
                   sections: _buildSections(data, radiusBase),
                   pieTouchData: PieTouchData(
@@ -275,6 +186,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
     Map<String, int> data,
     double radiusBase,
   ) {
+    final tx = context.text;
     final entries = data.entries.toList();
     final total = data.values.fold<int>(0, (sum, v) => sum + v);
     if (total == 0) return [];
@@ -283,12 +195,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
       final isTouched = _touchedIndex == index;
       final baseColor = _viewType == DistributionViewType.category
           ? DrugCategoryColors.colorFor(e.key)
-          : _controller.colorForSubstance(
-              context,
-              e.key,
-              index,
-              entries.length,
-            );
+          : _colorForSubstance(context, index: index, total: entries.length);
       final color = baseColor.withValues(alpha: isTouched ? 1.0 : 0.85);
       final radius = isTouched ? radiusBase * 1.08 : radiusBase;
       final slicePercent = e.value / total;
@@ -327,15 +234,14 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
           constraints: BoxConstraints(maxHeight: context.sizes.heightMd),
           child: SingleChildScrollView(
             child: Column(
-              children: sorted.map((e) {
-                final index = sorted.indexOf(e);
+              children: List.generate(sorted.length, (index) {
+                final e = sorted[index];
                 final baseColor = _viewType == DistributionViewType.category
-                    ? context.accent.primary
-                    : _controller.colorForSubstance(
+                    ? DrugCategoryColors.colorFor(e.key)
+                    : _colorForSubstance(
                         context,
-                        e.key,
-                        index,
-                        sorted.length,
+                        index: index,
+                        total: sorted.length,
                       );
                 final pct = total == 0
                     ? '0%'
@@ -372,12 +278,27 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                     ],
                   ),
                 );
-              }).toList(),
+              }),
             ),
           ),
         ),
       ],
     );
+  }
+
+  Color _colorForSubstance(
+    BuildContext context, {
+    required int index,
+    required int total,
+  }) {
+    final base = context.accent.primary;
+    if (total <= 1) return base;
+
+    final hsl = HSLColor.fromColor(base);
+    final ratio = total <= 1 ? 0.5 : index / (total - 1);
+    final lightness = (hsl.lightness + (ratio - 0.5) * 0.35).clamp(0.25, 0.8);
+    final sat = (hsl.saturation + (ratio - 0.5) * 0.25).clamp(0.5, 1.0);
+    return hsl.withLightness(lightness).withSaturation(sat).toColor();
   }
 }
 
@@ -458,8 +379,8 @@ class _ViewToggle extends StatelessWidget {
           label,
           style: th.typography.caption.copyWith(
             fontWeight: selected
-                ? th.tx.bodyBold.fontWeight
-                : th.tx.body.fontWeight,
+                ? th.typography.bodyBold.fontWeight
+                : th.typography.body.fontWeight,
             color: selected ? th.accent.primary : th.colors.textSecondary,
           ),
         ),
