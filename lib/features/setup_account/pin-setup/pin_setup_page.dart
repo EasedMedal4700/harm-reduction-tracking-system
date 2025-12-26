@@ -6,10 +6,10 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../providers/core_providers.dart';
-import '../../services/encryption_service_v2.dart';
-import '../../common/layout/common_spacer.dart';
-import '../../common/buttons/common_primary_button.dart';
+import '../../../providers/core_providers.dart';
+import '../../../services/encryption_service_v2.dart';
+import '../../../common/layout/common_spacer.dart';
+import '../../../common/buttons/common_primary_button.dart';
 
 /// Screen for setting up PIN-based encryption
 class PinSetupScreen extends ConsumerStatefulWidget {

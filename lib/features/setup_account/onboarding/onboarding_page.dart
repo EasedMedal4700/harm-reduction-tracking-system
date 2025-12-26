@@ -2,10 +2,10 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../services/onboarding_service.dart';
-import '../../providers/settings_provider.dart';
-import '../../common/layout/common_spacer.dart';
-import '../../common/logging/app_log.dart';
+import '../../../services/onboarding_service.dart';
+import '../../../providers/settings_provider.dart';
+import '../../../common/layout/common_spacer.dart';
+import '../../../common/logging/app_log.dart';
 
 /// A multi-page onboarding experience for new users
 /// Shows app introduction, privacy info, usage frequency selection, and theme picker

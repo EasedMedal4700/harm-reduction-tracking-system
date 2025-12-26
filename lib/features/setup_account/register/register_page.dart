@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/core_providers.dart';
-import '../../services/onboarding_service.dart';
-import '../../common/inputs/input_field.dart';
-import '../../common/buttons/common_primary_button.dart';
-import '../../common/layout/common_spacer.dart';
+import '../../../providers/core_providers.dart';
+import '../../../services/onboarding_service.dart';
+import '../../../common/inputs/input_field.dart';
+import '../../../common/buttons/common_primary_button.dart';
+import '../../../common/layout/common_spacer.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
