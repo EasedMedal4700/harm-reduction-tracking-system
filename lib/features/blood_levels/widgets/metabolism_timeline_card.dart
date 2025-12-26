@@ -6,11 +6,14 @@
 //        Uses CommonCard for container. Ready for Riverpod integration.
 //        Fully updated for new TimelineChartConfig signatures.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/data/graph_constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../constants/theme/app_theme_extension.dart';
-import '../services/blood_levels_service.dart';
+import '../models/blood_levels_models.dart';
+import '../models/blood_levels_timeline_request.dart';
+import '../providers/blood_levels_providers.dart';
 import '../services/decay_service.dart';
 import '../../../constants/data/drug_categories.dart';
 import '../../../common/cards/common_card.dart';
@@ -18,146 +21,91 @@ import 'timeline_chart_config.dart' as chart_config;
 import 'timeline_legend.dart';
 
 /// Card displaying metabolism timeline graph with decay curves for multiple drugs
-class MetabolismTimelineCard extends StatefulWidget {
+class MetabolismTimelineCard extends ConsumerWidget {
   final List<DrugLevel> drugLevels;
   final int hoursBack;
   final int hoursForward;
   final bool adaptiveScale;
   final DateTime referenceTime;
-  final BloodLevelsService? service;
   const MetabolismTimelineCard({
     required this.drugLevels,
     required this.hoursBack,
     required this.hoursForward,
     required this.adaptiveScale,
     required this.referenceTime,
-    this.service,
     super.key,
   });
   @override
-  State<MetabolismTimelineCard> createState() => _MetabolismTimelineCardState();
-}
-
-class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
-  Map<String, List<DoseEntry>> _timelineDoses = {};
-  bool _loading = true;
-  @override
-  void initState() {
-    super.initState();
-    _loadTimelineDoses();
-  }
-
-  @override
-  void didUpdateWidget(MetabolismTimelineCard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.hoursBack != widget.hoursBack ||
-        oldWidget.hoursForward != widget.hoursForward ||
-        oldWidget.drugLevels.length != widget.drugLevels.length ||
-        oldWidget.referenceTime != widget.referenceTime) {
-      _loadTimelineDoses();
-    }
-  }
-
-  Future<void> _loadTimelineDoses() async {
-    setState(() => _loading = true);
-    try {
-      final service = widget.service ?? BloodLevelsService();
-      final Map<String, List<DoseEntry>> allDoses = {};
-      final filteredDrugNames = widget.drugLevels
-          .map((level) => level.drugName)
-          .toList();
-      for (final drugName in filteredDrugNames) {
-        final doses = await service.getDosesForTimeline(
-          drugName: drugName,
-          referenceTime: widget.referenceTime,
-          hoursBack: widget.hoursBack,
-          hoursForward: widget.hoursForward,
-        );
-        if (doses.isNotEmpty) {
-          allDoses[drugName] = doses;
-        }
-      }
-      if (mounted) {
-        setState(() {
-          _timelineDoses = allDoses;
-          _loading = false;
-        });
-      }
-    } catch (_) {
-      if (mounted) {
-        setState(() {
-          _timelineDoses = {};
-          _loading = false;
-        });
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
     final accentColor = context.accent.primary;
-    if (_loading) {
+
+    final request = BloodLevelsTimelineRequest(
+      drugNames: drugLevels.map((level) => level.drugName).toList(),
+      referenceTime: referenceTime,
+      hoursBack: hoursBack,
+      hoursForward: hoursForward,
+    );
+
+    final timelineDosesAsync = ref.watch(bloodLevelsTimelineDosesProvider(request));
+
+    if (timelineDosesAsync.isLoading) {
       return CommonCard(
         padding: EdgeInsets.all(sp.lg),
         child: Center(child: CircularProgressIndicator(color: accentColor)),
       );
     }
-    if (_timelineDoses.isEmpty) {
+
+    final timelineDoses = timelineDosesAsync.valueOrNull ?? {};
+    if (timelineDoses.isEmpty) {
       return _buildEmptyState(context);
     }
+
     // ----- Build curves -----
     final decayService = DecayService();
     final lineBarsData = <LineChartBarData>[];
     final legendItems = <Map<String, dynamic>>[];
     final drugsByCategory = <String, List<String>>{};
-    for (final drugName in _timelineDoses.keys) {
-      final drugLevel = widget.drugLevels.firstWhere(
-        (level) => level.drugName.toLowerCase() == drugName.toLowerCase(),
-        orElse: () => DrugLevel(
-          drugName: drugName,
-          totalDose: 0,
-          totalRemaining: 0,
-          lastDose: 0,
-          lastUse: DateTime.now(),
-          halfLife: _getDefaultHalfLife(drugName),
-          doses: const [],
-          activeWindow: 24,
-          maxDuration: 12,
-          categories: const [],
-        ),
-      );
+    for (final drugName in timelineDoses.keys) {
+      DrugLevel? drugLevel;
+      try {
+        drugLevel = drugLevels.firstWhere(
+          (level) => level.drugName.toLowerCase() == drugName.toLowerCase(),
+        );
+      } catch (_) {
+        drugLevel = null;
+      }
+
+      if (drugLevel == null) continue;
+
       final category = drugLevel.categories.isNotEmpty
           ? drugLevel.categories.first
           : 'placeholder';
       drugsByCategory.putIfAbsent(category, () => []).add(drugName);
     }
-    for (final drugName in _timelineDoses.keys) {
-      final doses = _timelineDoses[drugName];
+
+    for (final drugName in timelineDoses.keys) {
+      final doses = timelineDoses[drugName];
       if (doses == null || doses.isEmpty) continue;
-      final drugLevel = widget.drugLevels.firstWhere(
-        (level) => level.drugName.toLowerCase() == drugName.toLowerCase(),
-        orElse: () => DrugLevel(
-          drugName: drugName,
-          totalDose: 0,
-          totalRemaining: 0,
-          lastDose: 0,
-          lastUse: DateTime.now(),
-          halfLife: _getDefaultHalfLife(drugName),
-          doses: const [],
-          activeWindow: 24,
-          maxDuration: 12,
-          categories: const [],
-        ),
-      );
+
+      DrugLevel? drugLevel;
+      try {
+        drugLevel = drugLevels.firstWhere(
+          (level) => level.drugName.toLowerCase() == drugName.toLowerCase(),
+        );
+      } catch (_) {
+        drugLevel = null;
+      }
+      if (drugLevel == null) continue;
+
       final curvePoints = decayService.generateNormalizedCurve(
         doses: doses,
         halfLife: drugLevel.halfLife,
-        referenceTime: widget.referenceTime,
-        hoursBack: widget.hoursBack,
-        hoursForward: widget.hoursForward,
+        referenceTime: referenceTime,
+        hoursBack: hoursBack,
+        hoursForward: hoursForward,
         drugName: drugName,
         drugProfile: drugLevel.formattedDose != null
             ? {'formatted_dose': drugLevel.formattedDose}
@@ -193,8 +141,8 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
               begin: context.shapes.alignmentTopCenter,
               end: context.shapes.alignmentBottomCenter,
               colors: [
-                drugColor.withValues(alpha: 0.4),
-                drugColor.withValues(alpha: 0.2),
+                drugColor.withValues(alpha: context.opacities.border),
+                drugColor.withValues(alpha: context.opacities.selected),
                 drugColor.withValues(alpha: 0.0),
               ],
               stops: const [0.0, 0.5, 1.0],
@@ -213,7 +161,7 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
     }
     final maxY = chart_config.TimelineChartConfig.calculateMaxY(
       lineBarsData,
-      widget.adaptiveScale,
+      adaptiveScale,
     );
     return CommonCard(
       padding: EdgeInsets.all(sp.md),
@@ -255,8 +203,8 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
                 titlesData: chart_config.TimelineChartConfig.buildTitlesData(
                   context: context,
                   maxY: maxY,
-                  hoursBack: widget.hoursBack,
-                  hoursForward: widget.hoursForward,
+                  hoursBack: hoursBack,
+                  hoursForward: hoursForward,
                 ),
                 borderData: FlBorderData(show: false),
                 minY: 0,
@@ -332,25 +280,5 @@ class _MetabolismTimelineCardState extends State<MetabolismTimelineCard> {
         .withLightness(newLightness)
         .withSaturation(newSaturation)
         .toColor();
-  }
-
-  double _getDefaultHalfLife(String drugName) {
-    const halfLives = {
-      'methylphenidate': 3.5,
-      'dexedrine': 10.0,
-      'amphetamine': 10.0,
-      'cocaine': 1.0,
-      'mdma': 8.0,
-      'lsd': 3.0,
-      'psilocybin': 2.5,
-      'cannabis': 24.0,
-      'thc': 24.0,
-      'caffeine': 5.0,
-      'nicotine': 2.0,
-      'alcohol': 5.0,
-      'ketamine': 2.5,
-      'dxm': 3.0,
-    };
-    return halfLives[drugName.toLowerCase()] ?? 4.0;
   }
 }

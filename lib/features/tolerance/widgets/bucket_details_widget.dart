@@ -7,15 +7,16 @@
 // Notes: Bucket details widget
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../constants/theme/app_theme_extension.dart';
+import '../../../common/buttons/common_icon_button.dart';
+import '../../../common/cards/common_card.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../models/bucket_definitions.dart';
 import '../controllers/tolerance_logic.dart';
 import '../models/tolerance_models.dart';
 import 'bucket_utils.dart';
 
-class BucketDetailsWidget extends ConsumerWidget {
+class BucketDetailsWidget extends StatelessWidget {
   final String bucketType;
   final double tolerancePercent;
   final Map<String, double> substanceContributions;
@@ -30,11 +31,12 @@ class BucketDetailsWidget extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final c = context.colors;
-    final sp = context.spacing;
-    final tx = context.text;
-    final sh = context.shapes;
+  Widget build(BuildContext context) {
+    final th = context.theme;
+    final c = th.colors;
+    final sp = th.sp;
+    final tx = th.text;
+    final sh = th.shapes;
 
     final bucketName = BucketDefinitions.getDisplayName(bucketType);
     final state = ToleranceLogic.classifyState(tolerancePercent);
@@ -43,24 +45,19 @@ class BucketDetailsWidget extends ConsumerWidget {
       tolerancePercent / 100.0,
     );
 
-    return Container(
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(color: c.border),
-      ),
+    return CommonCard(
+      borderRadius: sh.radiusMd,
       padding: EdgeInsets.all(sp.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // HEADER with close button
           Row(
             children: [
               Icon(
                 BucketUtils.getBucketIcon(bucketType),
                 color: stateColor,
-                size: 24,
+                size: th.sizes.iconMd,
               ),
               CommonSpacer.horizontal(sp.sm),
               Expanded(
@@ -69,21 +66,23 @@ class BucketDetailsWidget extends ConsumerWidget {
                   style: tx.heading3.copyWith(color: c.textPrimary),
                 ),
               ),
-              IconButton(
-                icon: Icon(Icons.close, color: c.textSecondary),
+              CommonIconButton(
+                icon: Icons.close,
+                color: c.textSecondary,
+                tooltip: 'Close',
                 onPressed: onClose,
               ),
             ],
           ),
           CommonSpacer.vertical(sp.md),
-
-          // STATE
           Container(
             padding: EdgeInsets.symmetric(horizontal: sp.sm, vertical: sp.xs),
             decoration: BoxDecoration(
-              color: stateColor.withValues(alpha: 0.1),
+              color: stateColor.withValues(alpha: th.opacities.overlay),
               borderRadius: BorderRadius.circular(sh.radiusSm),
-              border: Border.all(color: stateColor.withValues(alpha: 0.3)),
+              border: Border.all(
+                color: stateColor.withValues(alpha: th.opacities.medium),
+              ),
             ),
             child: Text(
               state.displayName,
@@ -91,8 +90,6 @@ class BucketDetailsWidget extends ConsumerWidget {
             ),
           ),
           CommonSpacer.vertical(sp.md),
-
-          // CONTRIBUTIONS
           if (substanceContributions.isNotEmpty) ...[
             Text(
               'Contributing Substances',
@@ -106,7 +103,7 @@ class BucketDetailsWidget extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      entry.key, // Substance slug, ideally mapped to name
+                      entry.key,
                       style: tx.bodyMedium.copyWith(color: c.textSecondary),
                     ),
                     Text(

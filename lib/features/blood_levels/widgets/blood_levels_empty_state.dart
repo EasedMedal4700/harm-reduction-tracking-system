@@ -32,7 +32,7 @@ class BloodLevelsEmptyState extends StatelessWidget {
             style: text.heading4.copyWith(color: c.textSecondary),
           ),
           if (hasActiveFilters) ...[
-            const CommonSpacer.vertical(8),
+            CommonSpacer.vertical(context.spacing.sm),
             Text(
               'Try adjusting filters',
               style: text.bodySmall.copyWith(color: c.textSecondary),

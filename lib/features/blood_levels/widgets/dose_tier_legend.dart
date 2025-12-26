@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../services/pharmacokinetics_service.dart';
+import 'dose_tier_theme_color.dart';
 import '../../../common/cards/common_card.dart';
 import '../../../common/layout/common_spacer.dart';
 
@@ -63,9 +64,7 @@ class DoseTierLegend extends StatelessWidget {
                     children: DoseTier.values.map((tier) {
                       final range = tiers[tier];
                       if (range == null) return const SizedBox.shrink();
-                      final tierColor = Color(
-                        PharmacokineticsService.getTierColorValue(tier),
-                      );
+                      final tierColor = tier.themeColor(context);
                       return Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: sp.sm,

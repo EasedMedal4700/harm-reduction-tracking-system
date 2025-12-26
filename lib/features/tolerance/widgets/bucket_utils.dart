@@ -36,7 +36,8 @@ class BucketUtils {
   }
 
   static Color toleranceColor(BuildContext context, double tolerance) {
-    final c = context.colors;
+    final th = context.theme;
+    final c = th.colors;
     if (tolerance < 0.25) return c.success;
     if (tolerance < 0.5) return c.warning;
     if (tolerance < 0.75) return c.warning;

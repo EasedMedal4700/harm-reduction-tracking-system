@@ -7,7 +7,6 @@
 // Notes: Dashboard content widget
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../models/tolerance_models.dart';
@@ -15,7 +14,7 @@ import 'system_overview_widget.dart';
 import 'empty_state_widget.dart';
 import 'bucket_details_widget.dart';
 
-class DashboardContentWidget extends ConsumerWidget {
+class DashboardContentWidget extends StatelessWidget {
   final ToleranceResult? systemTolerance;
   final Map<String, bool> substanceActiveStates;
   final Map<String, Map<String, double>> substanceContributions;
@@ -34,8 +33,9 @@ class DashboardContentWidget extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final sp = context.spacing;
+  Widget build(BuildContext context) {
+    final th = context.theme;
+    final sp = th.sp;
 
     // EMPTY STATE
     if (systemTolerance == null ||

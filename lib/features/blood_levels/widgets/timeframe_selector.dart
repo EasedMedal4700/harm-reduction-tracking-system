@@ -49,7 +49,7 @@ class TimeframeSelector extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(sp.xs),
                 decoration: BoxDecoration(
-                  color: ac.primary.withValues(alpha: 0.12),
+                  color: ac.primary.withValues(alpha: context.opacities.veryLow),
                   borderRadius: BorderRadius.circular(sh.radiusSm),
                 ),
                 child: Icon(
@@ -58,11 +58,11 @@ class TimeframeSelector extends StatelessWidget {
                   size: th.sizes.iconSm,
                 ),
               ),
-              const CommonSpacer.horizontal(8),
+              CommonSpacer.horizontal(sp.sm),
               Text('Timeframe', style: tx.heading4),
             ],
           ),
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(sp.lg),
           // Chips
           Wrap(
             spacing: sp.sm,
@@ -80,14 +80,15 @@ class TimeframeSelector extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? ac.primary.withValues(alpha: 0.18)
+                        ? ac.primary.withValues(alpha: context.opacities.selected)
                         : c.surfaceVariant,
                     borderRadius: BorderRadius.circular(sh.radiusSm),
                     border: Border.all(
                       color: isSelected
                           ? ac.primary
-                          : c.border.withValues(alpha: 0.4),
-                      width: isSelected ? 1.8 : 1.2,
+                          : c.border.withValues(alpha: context.opacities.border),
+                      width:
+                          isSelected ? context.borders.medium : context.borders.thin,
                     ),
                     boxShadow: isSelected ? th.cardShadow : null,
                   ),

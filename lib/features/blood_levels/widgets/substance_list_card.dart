@@ -40,7 +40,7 @@ class SubstanceListCard extends StatelessWidget {
                 size: th.sizes.iconXl,
                 color: c.textTertiary,
               ),
-              const CommonSpacer.vertical(16),
+              CommonSpacer.vertical(sp.lg),
               Text(
                 'No substances in timeframe',
                 style: tx.body.copyWith(color: c.textSecondary),
@@ -73,14 +73,14 @@ class SubstanceListCard extends StatelessWidget {
                   color: accentColor,
                 ),
               ),
-              const CommonSpacer.horizontal(16),
+              CommonSpacer.horizontal(sp.lg),
               Text(
                 'Active Substances (${substances.length})',
                 style: tx.heading4.copyWith(color: c.textPrimary),
               ),
             ],
           ),
-          const CommonSpacer.vertical(24),
+          CommonSpacer.vertical(sp.xl),
           // SUBSTANCE ITEMS
           ...substances.map((substance) {
             final color = substanceColors[substance.name] ?? ac.primary;

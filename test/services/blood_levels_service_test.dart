@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobile_drug_use_app/features/blood_levels/models/blood_levels_models.dart';
 import 'package:mobile_drug_use_app/features/blood_levels/services/blood_levels_service.dart';
 
 void main() {
@@ -31,7 +32,7 @@ void main() {
           lastDose: 100.0,
           lastUse: now,
           halfLife: 5.0,
-          doses: [],
+          doses: const <DoseEntry>[],
         );
 
         expect(level.drugName, 'caffeine');
@@ -50,7 +51,7 @@ void main() {
           lastDose: 100.0,
           lastUse: now,
           halfLife: 5.0,
-          doses: [],
+          doses: const <DoseEntry>[],
         );
 
         expect(level.percentage, closeTo(37.5, 0.1));
@@ -65,7 +66,7 @@ void main() {
           lastDose: 0.0,
           lastUse: now,
           halfLife: 5.0,
-          doses: [],
+          doses: const <DoseEntry>[],
         );
 
         expect(level.percentage, 0.0);
@@ -80,7 +81,7 @@ void main() {
           lastDose: 100.0,
           lastUse: now,
           halfLife: 5.0,
-          doses: [],
+          doses: const <DoseEntry>[],
         );
 
         final updated = original.copyWith(

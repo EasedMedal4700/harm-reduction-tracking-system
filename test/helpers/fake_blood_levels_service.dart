@@ -1,3 +1,4 @@
+import 'package:mobile_drug_use_app/features/blood_levels/models/blood_levels_models.dart';
 import 'package:mobile_drug_use_app/features/blood_levels/services/blood_levels_service.dart';
 
 class FakeBloodLevelsService implements BloodLevelsService {
@@ -10,7 +11,7 @@ class FakeBloodLevelsService implements BloodLevelsService {
         lastDose: 10.0,
         lastUse: time.subtract(const Duration(hours: 2)),
         halfLife: 10.0,
-        doses: [],
+        doses: const <DoseEntry>[],
       ),
     };
   }

@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../utils/error_handler.dart';
 import '../../../services/user_service.dart';
+import '../../../common/logging/logger.dart';
+
+import '../models/blood_levels_models.dart';
 
 /// Service for calculating drug blood levels and metabolism
 class BloodLevelsService {
@@ -12,10 +14,7 @@ class BloodLevelsService {
     final now = referenceTime ?? DateTime.now();
     final userId = UserService.getCurrentUserId();
     try {
-      ErrorHandler.logDebug(
-        'BloodLevelsService',
-        'Fetching drug use data and profiles',
-      );
+      logger.debug('[BloodLevelsService] Fetching drug use data and profiles');
       // Fetch drug profiles to get duration and aftereffects data
       final profilesResponse = await Supabase.instance.client
           .from('drug_profiles')
@@ -68,16 +67,14 @@ class BloodLevelsService {
             [];
         final formattedDose =
             profile?['formatted_dose'] as Map<String, dynamic>?;
-        ErrorHandler.logDebug(
-          'BloodLevelsService',
-          'Entry: $drugName, dose: ${doseMg}mg, hours: ${hoursSinceDose.toStringAsFixed(2)}h, '
-              'duration: ${maxDuration}h, aftereffects: ${maxAftereffects}h, window: ${fullActiveWindow}h',
+        logger.debug(
+          '[BloodLevelsService] Entry: $drugName, dose: ${doseMg}mg, hours: ${hoursSinceDose.toStringAsFixed(2)}h, '
+          'duration: ${maxDuration}h, aftereffects: ${maxAftereffects}h, window: ${fullActiveWindow}h',
         );
         // Skip if outside active window
         if (hoursSinceDose > fullActiveWindow) {
-          ErrorHandler.logDebug(
-            'BloodLevelsService',
-            'Skipping $drugName - outside active window',
+          logger.debug(
+            '[BloodLevelsService] Skipping $drugName - outside active window',
           );
           continue;
         }
@@ -88,9 +85,8 @@ class BloodLevelsService {
         final inAftereffects = hoursSinceDose > maxDuration;
         // Keep doses with >10% remaining OR still in aftereffects window
         if (percentRemaining < 10.0 && !inAftereffects) {
-          ErrorHandler.logDebug(
-            'BloodLevelsService',
-            'Skipping $drugName - ${percentRemaining.toStringAsFixed(1)}% remaining, not in aftereffects',
+          logger.debug(
+            '[BloodLevelsService] Skipping $drugName - ${percentRemaining.toStringAsFixed(1)}% remaining, not in aftereffects',
           );
           continue;
         }
@@ -102,7 +98,7 @@ class BloodLevelsService {
             lastDose: doseMg,
             lastUse: startTime,
             halfLife: halfLife,
-            doses: [],
+            doses: const [],
             activeWindow: fullActiveWindow,
             maxDuration: maxDuration,
             categories: categories,
@@ -110,6 +106,7 @@ class BloodLevelsService {
           );
         }
         final currentLevel = levels[drugName]!;
+        final isMoreRecent = startTime.isAfter(currentLevel.lastUse);
         levels[drugName] = currentLevel.copyWith(
           totalDose: currentLevel.totalDose + doseMg,
           totalRemaining: currentLevel.totalRemaining + remaining,
@@ -124,20 +121,17 @@ class BloodLevelsService {
             ),
           ],
           // Update last dose if this is more recent
-          lastDose: startTime.isAfter(currentLevel.lastUse) ? doseMg : null,
-          lastUse: startTime.isAfter(currentLevel.lastUse) ? startTime : null,
+          lastDose: isMoreRecent ? doseMg : currentLevel.lastDose,
+          lastUse: isMoreRecent ? startTime : currentLevel.lastUse,
         );
       }
-      ErrorHandler.logInfo(
-        'BloodLevelsService',
-        'Found ${levels.length} active substances',
-      );
+      logger.info('[BloodLevelsService] Found ${levels.length} active substances');
       return levels;
     } catch (e, stackTrace) {
-      ErrorHandler.logError(
-        'BloodLevelsService.calculateLevels',
-        e,
-        stackTrace,
+      logger.error(
+        '[BloodLevelsService] calculateLevels failed',
+        error: e,
+        stackTrace: stackTrace,
       );
       rethrow;
     }
@@ -170,7 +164,7 @@ class BloodLevelsService {
       }
       return maxHours > 0 ? maxHours : 8.0;
     } catch (e) {
-      ErrorHandler.logDebug('BloodLevelsService', 'Error parsing duration: $e');
+      logger.debug('[BloodLevelsService] Error parsing duration: $e');
       return 8.0;
     }
   }
@@ -218,9 +212,8 @@ class BloodLevelsService {
       final userId = UserService.getCurrentUserId();
       final startTime = referenceTime.subtract(Duration(hours: hoursBack));
       final endTime = referenceTime.add(Duration(hours: hoursForward));
-      ErrorHandler.logDebug(
-        'BloodLevelsService',
-        'Fetching timeline doses for $drugName between $startTime and $endTime',
+      logger.debug(
+        '[BloodLevelsService] Fetching timeline doses for $drugName between $startTime and $endTime',
       );
       // Fetch all doses within the time window (case-insensitive)
       final response = await Supabase.instance.client
@@ -265,16 +258,15 @@ class BloodLevelsService {
           ),
         );
       }
-      ErrorHandler.logInfo(
-        'BloodLevelsService',
-        'Found ${doses.length} doses for $drugName in timeline window',
+      logger.info(
+        '[BloodLevelsService] Found ${doses.length} doses for $drugName in timeline window',
       );
       return doses;
     } catch (e, stackTrace) {
-      ErrorHandler.logError(
-        'BloodLevelsService.getDosesForTimeline',
-        e,
-        stackTrace,
+      logger.error(
+        '[BloodLevelsService] getDosesForTimeline failed',
+        error: e,
+        stackTrace: stackTrace,
       );
       rethrow;
     }
@@ -291,9 +283,8 @@ class BloodLevelsService {
       final userId = UserService.getCurrentUserId();
       final startTime = referenceTime.subtract(Duration(hours: hoursBack));
       final endTime = referenceTime.add(Duration(hours: hoursForward));
-      ErrorHandler.logDebug(
-        'BloodLevelsService',
-        'Fetching all drugs in timeline window: $startTime to $endTime',
+      logger.debug(
+        '[BloodLevelsService] Fetching all drugs in timeline window: $startTime to $endTime',
       );
       // Fetch all drugs with doses in the window
       final response = await Supabase.instance.client
@@ -310,16 +301,15 @@ class BloodLevelsService {
           drugNames.add(name);
         }
       }
-      ErrorHandler.logInfo(
-        'BloodLevelsService',
-        'Found ${drugNames.length} unique drugs in timeline window: ${drugNames.join(", ")}',
+      logger.info(
+        '[BloodLevelsService] Found ${drugNames.length} unique drugs in timeline window: ${drugNames.join(", ")}',
       );
       return drugNames;
     } catch (e, stackTrace) {
-      ErrorHandler.logError(
-        'BloodLevelsService.getDrugsInTimelineWindow',
-        e,
-        stackTrace,
+      logger.error(
+        '[BloodLevelsService] getDrugsInTimelineWindow failed',
+        error: e,
+        stackTrace: stackTrace,
       );
       return {};
     }
@@ -406,90 +396,4 @@ class BloodLevelsService {
     // Step 5: Clamp to reasonable range
     return estimatedHalfLife.clamp(0.5, 120.0);
   }
-}
-
-/// Data class for drug level information
-class DrugLevel {
-  final String drugName;
-  final double totalDose;
-  final double totalRemaining;
-  final double lastDose;
-  final DateTime lastUse;
-  final double halfLife;
-  final List<DoseEntry> doses;
-  final double activeWindow; // Full active window (duration + aftereffects)
-  final double maxDuration; // Maximum duration before aftereffects
-  final List<String>
-  categories; // Drug categories (e.g., 'Stimulant', 'Psychedelic')
-  final Map<String, dynamic>?
-  formattedDose; // Dose thresholds for normalization
-  const DrugLevel({
-    required this.drugName,
-    required this.totalDose,
-    required this.totalRemaining,
-    required this.lastDose,
-    required this.lastUse,
-    required this.halfLife,
-    required this.doses,
-    this.activeWindow = 8.0,
-    this.maxDuration = 6.0,
-    this.categories = const [],
-    this.formattedDose,
-  });
-
-  /// Calculate overall percentage remaining (for all doses combined)
-  double get percentage =>
-      totalDose > 0 ? (totalRemaining / totalDose) * 100 : 0.0;
-
-  /// Get status based on remaining percentage
-  String get status {
-    final hoursSinceLastUse =
-        DateTime.now().difference(lastUse).inMinutes / 60.0;
-    final inAftereffects = hoursSinceLastUse > maxDuration;
-    if (percentage > 40) return 'HIGH';
-    if (percentage >= 10) return 'ACTIVE';
-    if (inAftereffects && hoursSinceLastUse <= activeWindow) return 'TRACE';
-    return 'LOW';
-  }
-
-  DrugLevel copyWith({
-    double? totalDose,
-    double? totalRemaining,
-    double? lastDose,
-    DateTime? lastUse,
-    List<DoseEntry>? doses,
-    double? activeWindow,
-    double? maxDuration,
-    Map<String, dynamic>? formattedDose,
-  }) {
-    return DrugLevel(
-      drugName: drugName,
-      totalDose: totalDose ?? this.totalDose,
-      totalRemaining: totalRemaining ?? this.totalRemaining,
-      lastDose: lastDose ?? this.lastDose,
-      lastUse: lastUse ?? this.lastUse,
-      halfLife: halfLife,
-      doses: doses ?? this.doses,
-      activeWindow: activeWindow ?? this.activeWindow,
-      maxDuration: maxDuration ?? this.maxDuration,
-      categories: categories,
-      formattedDose: formattedDose ?? this.formattedDose,
-    );
-  }
-}
-
-/// Individual dose entry
-class DoseEntry {
-  final double dose;
-  final DateTime startTime;
-  final double remaining;
-  final double hoursElapsed;
-  final double percentRemaining;
-  const DoseEntry({
-    required this.dose,
-    required this.startTime,
-    required this.remaining,
-    required this.hoursElapsed,
-    this.percentRemaining = 0.0,
-  });
 }

@@ -7,16 +7,16 @@
 // Notes: System overview widget
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../common/feedback/common_loader.dart';
+import '../../../common/cards/common_card.dart';
 import '../../../models/bucket_definitions.dart';
 import '../models/tolerance_models.dart';
 import '../controllers/tolerance_logic.dart';
 import 'system_bucket_card.dart';
 
-class SystemOverviewWidget extends ConsumerWidget {
+class SystemOverviewWidget extends StatelessWidget {
   final ToleranceResult? systemTolerance;
   final Map<String, bool> substanceActiveStates;
   final Map<String, Map<String, double>> substanceContributions;
@@ -33,18 +33,14 @@ class SystemOverviewWidget extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final c = context.colors;
-    final sp = context.spacing;
-    final sh = context.shapes;
+  Widget build(BuildContext context) {
+    final th = context.theme;
+    final sp = th.sp;
+    final sh = th.shapes;
 
     if (systemTolerance == null) {
-      return Container(
-        decoration: BoxDecoration(
-          color: c.surface,
-          borderRadius: BorderRadius.circular(sh.radiusMd),
-          border: Border.all(color: c.border),
-        ),
+      return CommonCard(
+        borderRadius: sh.radiusMd,
         padding: EdgeInsets.all(sp.lg),
         child: const Center(child: CommonLoader()),
       );
@@ -57,7 +53,7 @@ class SystemOverviewWidget extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 220, // Fixed height for horizontal list
+          height: th.sizes.heightMd,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: orderedBuckets.length,
@@ -68,9 +64,6 @@ class SystemOverviewWidget extends ConsumerWidget {
               final percent = data.bucketPercents[bucket] ?? 0.0;
               final state = ToleranceLogic.classifyState(percent);
 
-              // Check if any substance is active for this bucket
-              // This logic might need refinement based on substanceActiveStates
-              // For now, check if any contributing substance is active
               bool isActive = false;
               if (substanceContributions.containsKey(bucket)) {
                 for (final substance in substanceContributions[bucket]!.keys) {

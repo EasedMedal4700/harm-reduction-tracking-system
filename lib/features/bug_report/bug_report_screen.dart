@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../services/user_service.dart';
 import '../../utils/error_reporter.dart';
-import 'widgets/bug_report/bug_report_form_fields.dart';
-import 'widgets/bug_report/bug_report_submit_button.dart';
+import 'widgets/bug_report_form_fields.dart';
+import 'widgets/bug_report_submit_button.dart';
 
 class BugReportScreen extends StatefulWidget {
   const BugReportScreen({super.key});

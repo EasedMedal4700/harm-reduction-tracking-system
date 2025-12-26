@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Migrated to CommonCard and CommonSpacer.
 import 'package:flutter/material.dart';
-import '../services/blood_levels_service.dart';
+import '../models/blood_levels_models.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/cards/common_card.dart';
 import '../../../common/layout/common_spacer.dart';
@@ -22,7 +22,6 @@ class BloodLevelsTimelineSection extends StatelessWidget {
   final ValueChanged<int> onHoursForwardChanged;
   final ValueChanged<bool> onAdaptiveScaleChanged;
   final void Function(int back, int forward) onPresetSelected;
-  final BloodLevelsService? service;
   const BloodLevelsTimelineSection({
     super.key,
     required this.levels,
@@ -34,7 +33,6 @@ class BloodLevelsTimelineSection extends StatelessWidget {
     required this.onHoursForwardChanged,
     required this.onAdaptiveScaleChanged,
     required this.onPresetSelected,
-    this.service,
   });
   @override
   Widget build(BuildContext context) {
@@ -79,7 +77,7 @@ class BloodLevelsTimelineSection extends StatelessWidget {
             onPresetSelected: onPresetSelected,
           ),
         ),
-        const CommonSpacer.vertical(24),
+        CommonSpacer.vertical(sp.xl),
         // Timeline graph
         MetabolismTimelineCard(
           drugLevels: allDrugs,
@@ -87,7 +85,6 @@ class BloodLevelsTimelineSection extends StatelessWidget {
           hoursForward: hoursForward,
           adaptiveScale: adaptiveScale,
           referenceTime: referenceTime,
-          service: service,
         ),
       ],
     );

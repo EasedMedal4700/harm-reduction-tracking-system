@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Migrated to use CommonSpacer.
 import 'package:flutter/material.dart';
-import '../services/blood_levels_service.dart';
+import '../models/blood_levels_models.dart';
 import 'level_card.dart';
 import 'system_overview_card.dart';
 import 'risk_assessment_card.dart';
@@ -25,7 +25,6 @@ class BloodLevelsContent extends StatelessWidget {
   final ValueChanged<int> onHoursForwardChanged;
   final ValueChanged<bool> onAdaptiveScaleChanged;
   final void Function(int back, int forward) onPresetSelected;
-  final BloodLevelsService? service;
   const BloodLevelsContent({
     super.key,
     required this.filteredLevels,
@@ -39,7 +38,6 @@ class BloodLevelsContent extends StatelessWidget {
     required this.onHoursForwardChanged,
     required this.onAdaptiveScaleChanged,
     required this.onPresetSelected,
-    this.service,
   });
   @override
   Widget build(BuildContext context) {
@@ -50,9 +48,9 @@ class BloodLevelsContent extends StatelessWidget {
       padding: EdgeInsets.all(sp.lg),
       children: [
         SystemOverviewCard(levels: filteredLevels, allLevels: allLevels),
-        const CommonSpacer.vertical(24),
+        CommonSpacer.vertical(sp.xl),
         RiskAssessmentCard(levels: filteredLevels),
-        const CommonSpacer.vertical(24),
+        CommonSpacer.vertical(sp.xl),
         // Metabolism Timeline
         if (showTimeline) ...[
           BloodLevelsTimelineSection(
@@ -65,15 +63,14 @@ class BloodLevelsContent extends StatelessWidget {
             onHoursForwardChanged: onHoursForwardChanged,
             onAdaptiveScaleChanged: onAdaptiveScaleChanged,
             onPresetSelected: onPresetSelected,
-            service: service,
           ),
-          const CommonSpacer.vertical(24),
+          CommonSpacer.vertical(sp.xl),
         ],
         // Level cards
         ...sorted.map(
           (level) => Padding(
             padding: EdgeInsets.only(bottom: sp.lg),
-            child: LevelCard(level: level),
+            child: LevelCard(level: level, referenceTime: referenceTime),
           ),
         ),
       ],

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../services/pharmacokinetics_service.dart';
+import 'dose_tier_theme_color.dart';
 import '../../../common/cards/common_card.dart';
 import '../../../common/layout/common_spacer.dart';
 
@@ -41,9 +42,7 @@ class CurrentStatusCard extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
     final ac = context.accent;
-    final tierColor = Color(
-      PharmacokineticsService.getTierColorValue(currentTier),
-    );
+    final tierColor = currentTier.themeColor(context);
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

@@ -212,22 +212,6 @@ class PharmacokineticsService {
         return 'Heavy';
     }
   }
-
-  /// Get tier color for visualization
-  static int getTierColorValue(DoseTier tier) {
-    switch (tier) {
-      case DoseTier.threshold:
-        return 0xFF3B82F6; // Blue
-      case DoseTier.light:
-        return 0xFF10B981; // Green
-      case DoseTier.common:
-        return 0xFFFBBF24; // Yellow
-      case DoseTier.strong:
-        return 0xFFF59E0B; // Orange
-      case DoseTier.heavy:
-        return 0xFFEF4444; // Red
-    }
-  }
 }
 
 /// Represents a point on the PK curve

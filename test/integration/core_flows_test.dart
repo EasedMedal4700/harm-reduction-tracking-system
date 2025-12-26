@@ -300,7 +300,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify initial state
-      expect(find.text('Blood Levels'), findsOneWidget);
+      expect(find.byIcon(Icons.refresh), findsOneWidget);
 
       // Check if Dexedrine level is displayed
       // Assuming BloodLevelsContent displays the substance name

@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Migrated to CommonPrimaryButton.
 import 'package:flutter/material.dart';
-import '../../../../common/buttons/common_primary_button.dart';
+import '../../../common/buttons/common_primary_button.dart';
 
 class BugReportSubmitButton extends StatelessWidget {
   final bool isSubmitting;

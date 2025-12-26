@@ -1,6 +1,6 @@
 import 'dart:math';
 import '../../../models/curve_point.dart';
-import 'blood_levels_service.dart';
+import '../models/blood_levels_models.dart';
 import '../../../utils/drug_profile_utils.dart';
 import 'package:mobile_drug_use_app/constants/data/graph_constants.dart';
 

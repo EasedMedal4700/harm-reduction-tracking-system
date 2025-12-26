@@ -7,14 +7,13 @@
 // Notes: System bucket card widget
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../constants/theme/app_theme_extension.dart';
-import '../../../constants/theme/app_color_palette.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../models/bucket_definitions.dart';
 import '../models/tolerance_models.dart';
+import 'bucket_utils.dart';
 
-class SystemBucketCard extends ConsumerWidget {
+class SystemBucketCard extends StatelessWidget {
   final String bucketType;
   final double tolerancePercent;
   final ToleranceSystemState state;
@@ -32,7 +31,9 @@ class SystemBucketCard extends ConsumerWidget {
     required this.onTap,
   });
 
-  Color _getStateColor(ToleranceSystemState state, ColorPalette c) {
+  Color _getStateColor(ToleranceSystemState state, BuildContext context) {
+    final th = context.theme;
+    final c = th.colors;
     switch (state) {
       case ToleranceSystemState.recovered:
         return c.success;
@@ -47,120 +48,98 @@ class SystemBucketCard extends ConsumerWidget {
     }
   }
 
-  IconData _getBucketIcon() {
-    // Assuming BucketDefinitions.getIconName exists and returns a string
-    // If not, I might need to check BucketDefinitions
-    switch (BucketDefinitions.getIconName(bucketType)) {
-      case 'psychology':
-        return Icons.psychology;
-      case 'bolt':
-        return Icons.bolt;
-      case 'favorite':
-        return Icons.favorite;
-      case 'auto_awesome':
-        return Icons.auto_awesome;
-      case 'sentiment_satisfied_alt':
-        return Icons.sentiment_satisfied_alt;
-      case 'medication':
-        return Icons.medication;
-      case 'blur_on':
-        return Icons.blur_on;
-      case 'eco':
-        return Icons.eco;
-      default:
-        return Icons.science;
-    }
-  }
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final c = context.colors;
-    final sp = context.spacing;
-    final tx = context.text;
-    final sh = context.shapes;
-    final stateColor = _getStateColor(state, c);
+  Widget build(BuildContext context) {
+    final th = context.theme;
+    final c = th.colors;
+    final sp = th.sp;
+    final tx = th.text;
+    final sh = th.shapes;
+    final stateColor = _getStateColor(state, context);
+    final shadows = isSelected ? context.cardShadowHovered : context.cardShadow;
 
-    return Container(
-      width:
-          160, // context.sizes.cardWidthMd might not be available in standard theme extension, using fixed or checking theme
-      // Assuming context.sizes exists in AppThemeExtension
-      // If not, I'll use a fixed width or check the theme file.
-      // The original code used context.sizes.cardWidthMd.
-      decoration: BoxDecoration(
-        color: c.surface,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        border: Border.all(
-          color: isSelected ? stateColor : c.border,
-          width: isSelected ? 2.0 : 1.0, // context.sizes.borderRegular/Thin
+    return SizedBox(
+      width: th.sizes.cardWidthMd,
+      child: Container(
+        decoration: BoxDecoration(
+          color: c.surface,
+          borderRadius: BorderRadius.circular(sh.radiusMd),
+          border: Border.all(
+            color: isSelected ? stateColor : c.border,
+            width: isSelected ? th.sizes.borderRegular : th.sizes.borderThin,
+          ),
+          boxShadow: shadows,
         ),
-        boxShadow: isSelected ? [] : [], // context.cardShadowHovered/cardShadow
-      ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(sh.radiusMd),
-        child: Padding(
-          padding: EdgeInsets.all(sp.sm),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                _getBucketIcon(),
-                size: 24.0, // context.sizes.iconMd
-                color: stateColor,
-              ),
-              CommonSpacer.vertical(sp.sm),
-              Text(
-                BucketDefinitions.getDisplayName(bucketType),
-                style: tx.bodyBold.copyWith(color: c.textPrimary),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              CommonSpacer.vertical(sp.sm),
-              Text(
-                '${tolerancePercent.toStringAsFixed(1)}%',
-                style: tx.heading3.copyWith(color: stateColor),
-              ),
-              CommonSpacer.vertical(sp.sm),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: sp.sm,
-                  vertical: sp.xs,
-                ),
-                decoration: BoxDecoration(
-                  color: stateColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(sh.radiusMd),
-                  border: Border.all(
-                    color: stateColor.withValues(alpha: 0.35),
-                    width: 1.0,
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(sh.radiusMd),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: EdgeInsets.all(sp.sm),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    BucketUtils.getBucketIcon(bucketType),
+                    size: th.sizes.iconMd,
+                    color: stateColor,
                   ),
-                ),
-                child: Text(
-                  state.displayName,
-                  style: tx.captionBold.copyWith(color: stateColor),
-                ),
-              ),
-              if (isActive) ...[
-                CommonSpacer.vertical(sp.xs),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: sp.sm,
-                    vertical: sp.xs / 2,
+                  CommonSpacer.vertical(sp.sm),
+                  Text(
+                    BucketDefinitions.getDisplayName(bucketType),
+                    style: tx.bodyBold.copyWith(color: c.textPrimary),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  decoration: BoxDecoration(
-                    color: c.info.withValues(alpha: 0.18),
-                    borderRadius: BorderRadius.circular(sh.radiusSm),
+                  CommonSpacer.vertical(sp.sm),
+                  Text(
+                    '${tolerancePercent.toStringAsFixed(1)}%',
+                    style: tx.heading3.copyWith(color: stateColor),
                   ),
-                  child: Text(
-                    'ACTIVE',
-                    style: tx.captionBold.copyWith(
-                      color: c.info,
-                      fontSize: tx.caption.fontSize,
+                  CommonSpacer.vertical(sp.sm),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: sp.sm,
+                      vertical: sp.xs,
+                    ),
+                    decoration: BoxDecoration(
+                      color: stateColor.withValues(alpha: th.opacities.veryLow),
+                      borderRadius: BorderRadius.circular(sh.radiusMd),
+                      border: Border.all(
+                        color: stateColor.withValues(
+                          alpha: th.opacities.border,
+                        ),
+                        width: th.sizes.borderThin,
+                      ),
+                    ),
+                    child: Text(
+                      state.displayName,
+                      style: tx.captionBold.copyWith(color: stateColor),
                     ),
                   ),
-                ),
-              ],
-            ],
+                  if (isActive) ...[
+                    CommonSpacer.vertical(sp.xs),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: sp.sm,
+                        vertical: sp.xs,
+                      ),
+                      decoration: BoxDecoration(
+                        color: c.info.withValues(alpha: th.opacities.selected),
+                        borderRadius: BorderRadius.circular(sh.radiusSm),
+                      ),
+                      child: Text(
+                        'ACTIVE',
+                        style: tx.captionBold.copyWith(color: c.info),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ),
         ),
       ),

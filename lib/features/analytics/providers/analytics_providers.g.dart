@@ -6,7 +6,7 @@ part of 'analytics_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$analyticsServiceHash() => r'0196a36dee2149b5d3cbb5992396046229f222b4';
+String _$analyticsServiceHash() => r'4928fb3ed712b41230dcf79231ab61cb4da3f83d';
 
 /// See also [analyticsService].
 @ProviderFor(analyticsService)
@@ -24,7 +24,7 @@ final analyticsServiceProvider = AutoDisposeProvider<AnalyticsService>.internal(
 // ignore: unused_element
 typedef AnalyticsServiceRef = AutoDisposeProviderRef<AnalyticsService>;
 String _$substanceRepositoryHash() =>
-    r'305e657c685429090873fa32dc958b8b3209b023';
+    r'04c5688844632ce7cf30ed868baf75f303883785';
 
 /// See also [substanceRepository].
 @ProviderFor(substanceRepository)
@@ -42,7 +42,7 @@ final substanceRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SubstanceRepositoryRef = AutoDisposeProviderRef<SubstanceRepository>;
-String _$analyticsComputedHash() => r'7c8f575f78d2b5b1af78ddb0123bcf8c5ddac721';
+String _$analyticsComputedHash() => r'a4c9ed871cd2c7ded6701d5cf4aedb65379acf21';
 
 /// See also [analyticsComputed].
 @ProviderFor(analyticsComputed)

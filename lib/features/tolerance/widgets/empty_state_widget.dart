@@ -7,20 +7,20 @@
 // Notes: Empty state for tolerance dashboard
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../common/buttons/common_primary_button.dart';
 
-class EmptyStateWidget extends ConsumerWidget {
+class EmptyStateWidget extends StatelessWidget {
   final VoidCallback? onAddEntry;
   const EmptyStateWidget({super.key, this.onAddEntry});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final c = context.colors;
-    final sp = context.spacing;
-    final tx = context.text;
+  Widget build(BuildContext context) {
+    final th = context.theme;
+    final c = th.colors;
+    final sp = th.sp;
+    final tx = th.text;
 
     return Center(
       child: Padding(
@@ -37,7 +37,7 @@ class EmptyStateWidget extends ConsumerWidget {
               ),
               child: Icon(
                 Icons.science_outlined,
-                size: 64.0,
+                size: th.sizes.icon2xl,
                 color: c.textSecondary,
               ),
             ),

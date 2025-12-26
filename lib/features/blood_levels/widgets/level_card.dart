@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../constants/theme/app_theme_extension.dart';
-import '../services/blood_levels_service.dart';
+import '../models/blood_levels_models.dart';
 import '../../../constants/data/drug_categories.dart';
 import '../../../common/cards/common_card.dart';
 import '../../../common/layout/common_spacer.dart';
@@ -14,7 +14,12 @@ import '../../../common/layout/common_spacer.dart';
 /// Expandable card displaying drug level information
 class LevelCard extends StatefulWidget {
   final DrugLevel level;
-  const LevelCard({required this.level, super.key});
+  final DateTime referenceTime;
+  const LevelCard({
+    required this.level,
+    required this.referenceTime,
+    super.key,
+  });
   @override
   State<LevelCard> createState() => _LevelCardState();
 }
@@ -27,9 +32,9 @@ class _LevelCardState extends State<LevelCard> {
     final sp = context.spacing;
     final sh = context.shapes;
     final percentage = widget.level.percentage;
-    final status = widget.level.status;
+    final status = widget.level.statusAt(widget.referenceTime);
     final categoryColor = _getColorForCategory();
-    final timeAgo = DateTime.now().difference(widget.level.lastUse);
+    final timeAgo = widget.referenceTime.difference(widget.level.lastUse);
     final remainingMg = widget.level.totalRemaining;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
@@ -76,9 +81,9 @@ class _LevelCardState extends State<LevelCard> {
               ],
             ),
             if (_expanded) ...[
-              const CommonSpacer.vertical(24),
+              CommonSpacer.vertical(sp.xl),
               Divider(color: c.divider),
-              const CommonSpacer.vertical(16),
+              CommonSpacer.vertical(sp.lg),
               _buildExpandedContent(context),
             ],
           ],
@@ -179,7 +184,7 @@ class _LevelCardState extends State<LevelCard> {
                         style: tx.body,
                       ),
                       Text(
-                        '${_formatTimeAgo(DateTime.now().difference(dose.startTime))} '
+                        '${_formatTimeAgo(widget.referenceTime.difference(dose.startTime))} '
                         '(${dose.percentRemaining.toStringAsFixed(0)}%)',
                         style: tx.caption.copyWith(color: c.textSecondary),
                       ),

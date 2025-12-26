@@ -35,7 +35,7 @@ class BloodLevelsTimeDisplay extends StatelessWidget {
           'Blood Levels',
           style: th.typography.heading4.copyWith(color: c.textPrimary),
         ),
-        const CommonSpacer.vertical(4),
+        CommonSpacer.vertical(context.spacing.xs),
         Text(
           label,
           style: th.typography.caption.copyWith(color: c.textSecondary),

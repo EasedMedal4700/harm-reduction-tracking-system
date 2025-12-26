@@ -5,9 +5,11 @@
 // Notes: Migrated to CommonCard and CommonSpacer.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import '../constants/blood_levels_constants.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/cards/common_card.dart';
 import '../../../common/layout/common_spacer.dart';
+import '../../../common/inputs/input_field.dart';
 
 /// Controls for adjusting metabolism timeline view parameters
 class MetabolismTimelineControls extends StatelessWidget {
@@ -112,33 +114,29 @@ class MetabolismTimelineControls extends StatelessWidget {
     final c = context.colors;
     final tx = context.text;
     final sp = context.spacing;
-    final sh = context.shapes;
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
         Text(label, style: tx.bodySmall.copyWith(color: c.textSecondary)),
         SizedBox(height: sp.xs),
-        TextFormField(
+        CommonInputField(
           initialValue: value.toString(),
           keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: sp.md,
-              vertical: sp.sm,
+          suffixIcon: Padding(
+            padding: EdgeInsets.only(right: sp.sm),
+            child: Center(
+              widthFactor: 1,
+              child: Text(
+                'h',
+                style: tx.caption.copyWith(color: c.textSecondary),
+              ),
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(sh.radiusSm),
-              borderSide: BorderSide(color: c.border),
-            ),
-            filled: true,
-            fillColor: c.surfaceVariant,
-            suffixText: 'h',
-            suffixStyle: tx.caption.copyWith(color: c.textSecondary),
           ),
-          style: tx.body,
           onFieldSubmitted: (val) {
             final parsed = int.tryParse(val);
-            if (parsed != null && parsed > 0 && parsed <= 168) {
+            if (parsed != null &&
+                parsed > 0 &&
+                parsed <= BloodLevelsConstants.maxTimelineHours) {
               onChanged(parsed);
             }
           },
@@ -198,12 +196,12 @@ class MetabolismTimelineControls extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
         decoration: BoxDecoration(
           color: selected
-              ? th.accent.primary.withValues(alpha: 0.2)
+              ? th.accent.primary.withValues(alpha: context.opacities.selected)
               : c.surfaceVariant,
           borderRadius: BorderRadius.circular(sh.radiusSm),
           border: Border.all(
             color: selected ? th.accent.primary : c.border,
-            width: selected ? 2 : 1,
+            width: selected ? context.borders.medium : context.borders.thin,
           ),
         ),
         child: Text(
@@ -243,12 +241,12 @@ class MetabolismTimelineControls extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
         decoration: BoxDecoration(
           color: isSelected
-              ? th.accent.primary.withValues(alpha: 0.2)
+              ? th.accent.primary.withValues(alpha: context.opacities.selected)
               : c.surfaceVariant,
           borderRadius: BorderRadius.circular(sh.radiusSm),
           border: Border.all(
             color: isSelected ? th.accent.primary : c.border,
-            width: isSelected ? 2 : 1,
+            width: isSelected ? context.borders.medium : context.borders.thin,
           ),
         ),
         child: Text(
