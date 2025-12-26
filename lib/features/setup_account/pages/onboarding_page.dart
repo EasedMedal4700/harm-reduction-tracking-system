@@ -3,35 +3,32 @@ import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import '../../../services/onboarding_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/common/logging/logger.dart';
+import 'package:mobile_drug_use_app/features/setup_account/controllers/onboarding_controller.dart';
 import '../../../providers/settings_provider.dart';
 import '../../../common/layout/common_spacer.dart';
-import '../../../common/logging/app_log.dart';
+import '../../../services/onboarding_service.dart';
 
 /// A multi-page onboarding experience for new users
 /// Shows app introduction, privacy info, usage frequency selection, and theme picker
-class OnboardingScreen extends StatefulWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final PageController _pageController = PageController();
-  int _currentPage = 0;
-  // User selections
-  String? _selectedFrequency;
-  bool _privacyAccepted = false;
-  bool _isDarkTheme = false;
   @override
   void initState() {
     super.initState();
     // Get current theme setting
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final settings = context.read<SettingsProvider>().settings;
-      setState(() {
-        _isDarkTheme = settings.darkMode;
-      });
+      ref
+          .read(onboardingControllerProvider.notifier)
+          .setDarkTheme(settings.darkMode);
     });
   }
 
@@ -42,7 +39,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _nextPage() {
-    if (_currentPage < 3) {
+    final currentPage = ref.read(onboardingControllerProvider).currentPage;
+    if (currentPage < 3) {
       _pageController.nextPage(
         duration: context.animations.normal,
         curve: Curves.easeInOut,
@@ -53,7 +51,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _previousPage() {
-    if (_currentPage > 0) {
+    final currentPage = ref.read(onboardingControllerProvider).currentPage;
+    if (currentPage > 0) {
       _pageController.previousPage(
         duration: context.animations.normal,
         curve: Curves.easeInOut,
@@ -62,38 +61,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Future<void> _completeOnboarding() async {
-    // Save preferences
-    if (_selectedFrequency != null) {
-      await onboardingService.saveUsageFrequency(_selectedFrequency!);
-    }
-    if (_privacyAccepted) {
-      await onboardingService.acceptPrivacyPolicy();
-    }
-    // Apply theme
-    if (mounted) {
-      context.read<SettingsProvider>().setDarkMode(_isDarkTheme);
-    }
-    // Mark onboarding complete
-    await onboardingService.completeOnboarding();
-    // Navigate to register
-    if (mounted) {
-      context.go('/register');
-    }
-  }
+    final ok = await ref
+        .read(onboardingControllerProvider.notifier)
+        .completeOnboarding();
 
-  bool get _canProceedFromCurrentPage {
-    switch (_currentPage) {
-      case 0:
-        return true; // Welcome page
-      case 1:
-        return true; // Privacy info page
-      case 2:
-        return _privacyAccepted; // Privacy policy acceptance
-      case 3:
-        return _selectedFrequency != null; // Usage frequency selection
-      default:
-        return true;
+    if (!mounted) return;
+
+    if (!ok) {
+      final errorMessage = ref.read(onboardingControllerProvider).errorMessage;
+      if (errorMessage == null) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+      return;
     }
+
+    // Apply theme after onboarding data is saved.
+    final state = ref.read(onboardingControllerProvider);
+    await context.read<SettingsProvider>().setDarkMode(state.isDarkTheme);
+    if (!mounted) return;
+    context.go('/register');
   }
 
   @override
@@ -103,6 +90,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final ac = context.accent;
     final sp = context.spacing;
     final sh = context.shapes;
+
+    final onboardingState = ref.watch(onboardingControllerProvider);
     return Scaffold(
       backgroundColor: c.background,
       body: SafeArea(
@@ -118,7 +107,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       margin: EdgeInsets.symmetric(horizontal: sp.xs),
                       height: sp.xs,
                       decoration: BoxDecoration(
-                        color: index <= _currentPage
+                        color: index <= onboardingState.currentPage
                             ? ac.primary
                             : c.border.withValues(
                                 alpha: context.opacities.medium,
@@ -136,7 +125,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 controller: _pageController,
                 physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: (page) {
-                  setState(() => _currentPage = page);
+                  ref
+                      .read(onboardingControllerProvider.notifier)
+                      .setCurrentPage(page);
                 },
                 children: [
                   _buildWelcomePage(context),
@@ -151,7 +142,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               padding: EdgeInsets.all(sp.xl),
               child: Row(
                 children: [
-                  if (_currentPage > 0)
+                  if (onboardingState.currentPage > 0)
                     TextButton.icon(
                       onPressed: _previousPage,
                       icon: Icon(Icons.arrow_back, color: c.textSecondary),
@@ -164,7 +155,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   const Spacer(),
                   ElevatedButton(
-                    onPressed: _canProceedFromCurrentPage ? _nextPage : null,
+                    onPressed: onboardingState.isCompleting
+                        ? null
+                        : (onboardingState.canProceedFromCurrentPage
+                            ? _nextPage
+                            : null),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ac.primary,
                       foregroundColor: c.textInverse,
@@ -177,7 +172,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                     ),
                     child: Text(
-                      _currentPage == 3 ? 'Get Started' : 'Continue',
+                      onboardingState.currentPage == 3
+                          ? 'Get Started'
+                          : 'Continue',
                       style: th.typography.labelLarge.copyWith(
                         color: c.textInverse,
                       ),
@@ -286,6 +283,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
+
   Widget _buildFeatureItem({
     required BuildContext context,
     required IconData icon,
@@ -341,6 +339,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
+
+    final onboardingState = ref.watch(onboardingControllerProvider);
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
@@ -454,9 +454,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         context: context,
                         title: 'Light',
                         icon: Icons.light_mode,
-                        isSelected: !_isDarkTheme,
+                        isSelected: !onboardingState.isDarkTheme,
                         onTap: () {
-                          setState(() => _isDarkTheme = false);
+                          ref
+                              .read(onboardingControllerProvider.notifier)
+                              .setDarkTheme(false);
                           context.read<SettingsProvider>().setDarkMode(false);
                         },
                       ),
@@ -467,9 +469,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         context: context,
                         title: 'Dark',
                         icon: Icons.dark_mode,
-                        isSelected: _isDarkTheme,
+                        isSelected: onboardingState.isDarkTheme,
                         onTap: () {
-                          setState(() => _isDarkTheme = true);
+                          ref
+                              .read(onboardingControllerProvider.notifier)
+                              .setDarkTheme(true);
                           context.read<SettingsProvider>().setDarkMode(true);
                         },
                       ),
@@ -593,6 +597,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final sp = context.spacing;
     final sh = context.shapes;
 
+    final onboardingState = ref.watch(onboardingControllerProvider);
+    final privacyAccepted = onboardingState.privacyAccepted;
+
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
       child: Column(
@@ -617,7 +624,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
-              AppLog.d("🔥 PRIVACY LINK TAPPED");
+              logger.debug('Onboarding: privacy policy link tapped');
               context.push('/privacy-policy');
             },
             child: Container(
@@ -668,17 +675,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           CommonSpacer.vertical(sp.xl),
           // Accept checkbox
           GestureDetector(
-            onTap: () => setState(() => _privacyAccepted = !_privacyAccepted),
+            onTap: () =>
+                ref.read(onboardingControllerProvider.notifier).togglePrivacyAccepted(),
             child: Container(
               padding: EdgeInsets.all(sp.md),
               decoration: BoxDecoration(
-                color: _privacyAccepted
+                color: privacyAccepted
                     ? c.success.withValues(alpha: 0.15)
                     : c.transparent,
                 borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(
-                  color: _privacyAccepted ? c.success : c.border,
-                  width: _privacyAccepted ? 2 : 1,
+                  color: privacyAccepted ? c.success : c.border,
+                  width: privacyAccepted ? 2 : 1,
                 ),
               ),
               child: Row(
@@ -687,14 +695,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     width: 28,
                     height: 28,
                     decoration: BoxDecoration(
-                      color: _privacyAccepted ? c.success : c.transparent,
+                      color: privacyAccepted ? c.success : c.transparent,
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(
-                        color: _privacyAccepted ? c.success : c.border,
+                        color: privacyAccepted ? c.success : c.border,
                         width: context.sizes.borderRegular,
                       ),
                     ),
-                    child: _privacyAccepted
+                    child: privacyAccepted
                         ? Icon(
                             Icons.check,
                             color: c.textInverse,
@@ -707,10 +715,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Text(
                       'I have read and accept the Privacy Policy',
                       style: th.typography.body.copyWith(
-                        fontWeight: _privacyAccepted
+                        fontWeight: privacyAccepted
                             ? tx.bodyBold.fontWeight
                             : FontWeight.normal,
-                        color: _privacyAccepted ? c.success : c.textSecondary,
+                        color: privacyAccepted ? c.success : c.textSecondary,
                       ),
                     ),
                   ),
@@ -718,7 +726,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
-          if (!_privacyAccepted) ...[
+          if (!privacyAccepted) ...[
             CommonSpacer.vertical(sp.md),
             Container(
               padding: EdgeInsets.all(sp.sm),
@@ -757,6 +765,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final sp = context.spacing;
     final sh = context.shapes;
 
+    final onboardingState = ref.watch(onboardingControllerProvider);
+
     return SingleChildScrollView(
       padding: EdgeInsets.all(sp.xl),
       child: Column(
@@ -779,11 +789,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           CommonSpacer.vertical(sp.xl),
           // Frequency options
           ...OnboardingService.usageFrequencies.map((frequency) {
-            final isSelected = _selectedFrequency == frequency.id;
+            final isSelected = onboardingState.selectedFrequency == frequency.id;
             return Padding(
               padding: EdgeInsets.only(bottom: sp.sm),
               child: GestureDetector(
-                onTap: () => setState(() => _selectedFrequency = frequency.id),
+                onTap: () => ref
+                    .read(onboardingControllerProvider.notifier)
+                    .selectFrequency(frequency.id),
                 child: Container(
                   padding: EdgeInsets.all(sp.lg),
                   decoration: BoxDecoration(
@@ -843,7 +855,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             );
           }),
-          if (_selectedFrequency == null) ...[
+          if (onboardingState.selectedFrequency == null) ...[
             CommonSpacer.vertical(sp.md),
             Container(
               padding: EdgeInsets.all(sp.sm),
