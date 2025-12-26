@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'dart:async';
 import '../models/app_settings_model.dart';
-import '../services/settings_service.dart';
+import '../features/settings/services/settings_service.dart';
 
 /// Provider for managing app settings state
 class SettingsProvider extends ChangeNotifier {

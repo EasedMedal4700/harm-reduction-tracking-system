@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_drug_use_app/providers/settings_provider.dart';
-import 'package:mobile_drug_use_app/services/settings_service.dart';
+import 'package:mobile_drug_use_app/features/settings/services/settings_service.dart';
 import 'package:mobile_drug_use_app/models/app_settings_model.dart';
 
 void main() {
