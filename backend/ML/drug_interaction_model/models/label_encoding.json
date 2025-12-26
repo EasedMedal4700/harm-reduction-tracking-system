@@ -1,0 +1,20 @@
+{
+  "encoder": {
+    "Low Risk": 0,
+    "Caution": 1,
+    "Unsafe": 2,
+    "Dangerous": 3
+  },
+  "decoder": {
+    "0": "Low Risk",
+    "1": "Caution",
+    "2": "Unsafe",
+    "3": "Dangerous"
+  },
+  "risk_order": [
+    "Low Risk",
+    "Caution",
+    "Unsafe",
+    "Dangerous"
+  ]
+}
