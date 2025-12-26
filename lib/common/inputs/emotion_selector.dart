@@ -8,10 +8,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../common/buttons/common_chip_group.dart';
-// Theme: COMPLETE
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
+
 class EmotionSelector extends StatelessWidget {
   final List<String> selectedEmotions;
   final List<String> availableEmotions;

@@ -16,11 +16,7 @@ import '../../routes/app_routes.dart';
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';
 
-// MIGRATION
-// Theme: COMPLETE
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Replaces old_common/drawer_menu.dart. Fully themed.
+
 class CommonDrawer extends StatefulWidget {
   const CommonDrawer({super.key});
   @override

@@ -7,10 +7,7 @@
 // Notes: Common UI component.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension. No hardcoded values.
-/// Primary action button (e.g., Save Entry)
+
 class CommonPrimaryButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;

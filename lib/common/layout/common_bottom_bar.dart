@@ -7,11 +7,7 @@
 // Notes: Common UI component.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-/// Sticky bottom bar for action buttons
-/// Provides consistent styling across the app for bottom-placed CTAs
+
 class CommonBottomBar extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;

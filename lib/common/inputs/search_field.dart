@@ -7,10 +7,7 @@
 // Notes: Common UI component.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-/// Search field with autocomplete support
+
 class CommonSearchField<T extends Object> extends StatelessWidget {
   final TextEditingController? controller;
   final String? hintText;

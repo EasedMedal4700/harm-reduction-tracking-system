@@ -8,10 +8,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/enums/time_period.dart';
 import '../../constants/theme/app_theme_extension.dart';
-// Theme: COMPLETE
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Replaces old_common/filter.dart. Fully aligned with AppThemeExtension.
+
 class FilterWidget extends StatelessWidget {
   final List<String> uniqueCategories;
   final List<String> uniqueSubstances;

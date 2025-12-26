@@ -7,11 +7,7 @@
 // Notes: Common UI component.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Deprecated theme references removed. Fully aligned with AppThemeExtension.
-/// Reusable card container with consistent styling
-/// Used across all form sections: Substance, Dosage, ROA, Feelings, etc.
+
 class CommonCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;

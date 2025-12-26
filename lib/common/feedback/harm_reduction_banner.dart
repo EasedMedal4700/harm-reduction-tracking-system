@@ -8,13 +8,7 @@
 import 'package:flutter/material.dart';
 import '../../services/onboarding_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
-// Theme: COMPLETE
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Moved from old_common. Uses AppThemeExtension.
-/// A banner that displays a harm reduction warning to users
-/// Emphasizes that calculated values are estimates, not medical advice
-/// Can be dismissed and state persists across app restarts
+
 class HarmReductionBanner extends StatefulWidget {
   final String message;
   final String? dismissKey; // SharedPreferences key for persistence
