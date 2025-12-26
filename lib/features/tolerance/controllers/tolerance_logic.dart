@@ -254,7 +254,7 @@ class ToleranceLogic {
       double rawTotal = 0.0;
 
       // print('    Processing bucket: $bucketName (weight=${bucket.weight})');
-      int logCount = 0;
+      // int logCount = 0;
 
       for (final log in logs) {
         final hoursSince = now.difference(log.timestamp).inMinutes / 60.0;
