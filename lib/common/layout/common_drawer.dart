@@ -16,7 +16,6 @@ import '../../routes/app_routes.dart';
 import '../../services/feature_flag_service.dart';
 import '../../services/user_service.dart';
 
-
 class CommonDrawer extends StatefulWidget {
   const CommonDrawer({super.key});
   @override

@@ -9,8 +9,6 @@ import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../common/layout/common_spacer.dart';
 
-
-
 class DailyCheckinCard extends StatelessWidget {
   final bool isCompleted;
   final VoidCallback onTap;
