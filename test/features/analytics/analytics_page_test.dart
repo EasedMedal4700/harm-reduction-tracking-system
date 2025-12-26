@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:mobile_drug_use_app/features/analytics/analytics_page.dart';
 import 'package:mobile_drug_use_app/features/analytics/providers/analytics_providers.dart';
@@ -45,7 +44,10 @@ LogEntry _entry({required String substance, required DateTime datetime}) {
 
 void main() {
   testWidgets('renders error state when refresh fails', (tester) async {
-    final fakeService = _FakeAnalyticsService(entries: const [], throwOnFetch: true);
+    final fakeService = _FakeAnalyticsService(
+      entries: const [],
+      throwOnFetch: true,
+    );
     final fakeRepo = _FakeSubstanceRepository(const []);
 
     await tester.pumpWidget(

@@ -28,7 +28,6 @@ void main() {
   late ProviderContainer container;
   late MockAuthService mockAuthService;
   late MockPostLoginRouter mockRouter;
-  late MockOnboardingService mockOnboardingService;
   late MockSupabaseClient mockSupabaseClient;
   late MockGoTrueClient mockGoTrueClient;
 
@@ -38,7 +37,6 @@ void main() {
 
     mockAuthService = MockAuthService();
     mockRouter = MockPostLoginRouter();
-    mockOnboardingService = MockOnboardingService();
     mockSupabaseClient = MockSupabaseClient();
     mockGoTrueClient = MockGoTrueClient();
 
@@ -80,7 +78,8 @@ void main() {
     });
 
     test('init sets isInitialized to true', () async {
-      final notifier = container.read(loginControllerProvider.notifier);
+      // Ensure the provider is created so init() actually runs.
+      container.read(loginControllerProvider.notifier);
       await Future.delayed(const Duration(milliseconds: 100));
 
       final state = container.read(loginControllerProvider);

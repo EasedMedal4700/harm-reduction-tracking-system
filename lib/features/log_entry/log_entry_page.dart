@@ -113,6 +113,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
     // Save
     setState(() => _isSaving = true);
     final result = await _controller.saveLogEntry(_state.data);
+    if (!mounted) return;
     setState(() => _isSaving = false);
     if (result.isSuccess) {
       _showSnackBar(result.message, duration: context.animations.longSnackbar);

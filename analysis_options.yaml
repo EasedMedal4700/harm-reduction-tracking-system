@@ -1,4 +1,5 @@
 include: package:flutter_lints/flutter.yaml
 linter:
   rules:
-    avoid_print: true
+    # depend_on_referenced_packages: false
+    # avoid_print: true

@@ -133,7 +133,6 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final tx = context.text;
     final th = context.theme;
     final name = widget.substance['pretty_name'] ?? widget.substance['name'];
     final categories =
@@ -226,7 +225,6 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
     Color accentColor,
   ) {
     final th = context.theme;
-    final tx = context.text;
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -454,7 +452,6 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
 
   Widget _buildWarningCard(BuildContext context, String message) {
     final th = context.theme;
-    final tx = context.text;
 
     return CommonCard(
       padding: EdgeInsets.all(th.spacing.lg),

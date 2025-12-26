@@ -109,7 +109,7 @@ class ToleranceCalculator {
 
   /// Compute raw tolerance loads for a single substance across all its buckets.
   ///
-  /// Returns Map<bucketName, rawLoad>.
+  /// Returns `Map<bucketName, rawLoad>`.
   static Map<String, double> _computeRawLoadsForSubstance({
     required String slug,
     required List<UseLogEntry> logs,

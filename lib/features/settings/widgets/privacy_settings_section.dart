@@ -125,10 +125,10 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
             leading: Icon(Icons.lock_reset, size: th.sizes.iconMd),
             trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
             onTap: () async {
-              final result = await Navigator.of(
-                context,
-              ).pushNamed('/change-pin');
-              if (result == true && mounted) {
+              final navigator = Navigator.of(context);
+              final result = await navigator.pushNamed('/change-pin');
+              if (!context.mounted) return;
+              if (result == true) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: const Text('PIN changed successfully'),
@@ -286,20 +286,16 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 ],
               ),
             );
-            if (confirm == true && mounted) {
-              final onboardingSvc = OnboardingService();
-              await onboardingSvc.resetHarmNotices();
-              if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text(
-                      'Harm reduction notices will appear again',
-                    ),
-                    backgroundColor: c.success,
-                  ),
-                );
-              }
-            }
+            if (confirm != true) return;
+            final onboardingSvc = OnboardingService();
+            await onboardingSvc.resetHarmNotices();
+            if (!context.mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Text('Harm reduction notices will appear again'),
+                backgroundColor: c.success,
+              ),
+            );
           },
         ),
         Divider(color: c.border),

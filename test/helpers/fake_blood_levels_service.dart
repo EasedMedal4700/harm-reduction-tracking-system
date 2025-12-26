@@ -1,7 +1,6 @@
 import 'package:mobile_drug_use_app/features/blood_levels/services/blood_levels_service.dart';
 
 class FakeBloodLevelsService implements BloodLevelsService {
-  @override
   Future<Map<String, DrugLevel>> calculateCurrentLevels(DateTime time) async {
     return {
       'Dexedrine': DrugLevel(

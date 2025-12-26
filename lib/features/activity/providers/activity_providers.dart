@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:mobile_drug_use_app/providers/core_providers.dart';
@@ -9,7 +10,7 @@ import '../services/activity_service.dart';
 part 'activity_providers.g.dart';
 
 @riverpod
-ActivityService activityService(ActivityServiceRef ref) {
+ActivityService activityService(Ref ref) {
   final client = ref.watch(supabaseClientProvider);
   final encryptionService = ref.watch(encryptionServiceProvider);
   return ActivityService(client: client, encryptionService: encryptionService);

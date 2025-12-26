@@ -34,15 +34,6 @@ void main() {
     });
 
     test('ToleranceModel should parse from JSON correctly', () {
-      final json = {
-        'notes': 'Test notes',
-        'neuro_buckets': {
-          'stimulant': {'weight': 1.0, 'tolerance_type': 'stimulant'},
-        },
-        'half_life_hours': 5.0,
-        'tolerance_decay_days': 3.0,
-      };
-
       // Note: My Freezed model expects Map<String, NeuroBucket> for neuroBuckets.
       // But the JSON from Supabase has Map<String, Map<String, dynamic>>.
       // The Repository handles the conversion.

@@ -102,14 +102,14 @@ class ToleranceRepository {
         '[ToleranceRepository] Successfully loaded ${models.length} tolerance models',
       );
 
-      print('\n=== TOLERANCE MODELS LOADED FROM DB ===');
-      print('Total models: ${models.length}');
-      models.forEach((slug, model) {
-        print(
-          '  - Slug: "$slug" | Buckets: ${model.neuroBuckets.keys.join(", ")}',
+      AppLog.d('\n=== TOLERANCE MODELS LOADED FROM DB ===');
+      AppLog.d('Total models: ${models.length}');
+      for (final entry in models.entries) {
+        AppLog.d(
+          '  - Slug: "${entry.key}" | Buckets: ${entry.value.neuroBuckets.keys.join(", ")}',
         );
-      });
-      print('======================================\n');
+      }
+      AppLog.d('======================================\n');
 
       return models;
     } catch (e, stackTrace) {
@@ -172,8 +172,8 @@ class ToleranceRepository {
         final parsedDose = _parseNum(rawDose, 0.0);
 
         if (logs.length < 5) {
-          print(
-            'DEBUG ROW: name="$name", dose=$rawDose (type: ${rawDose.runtimeType}), parsed=$parsedDose',
+          AppLog.d(
+            '[ToleranceRepository] DEBUG ROW: name="$name", dose=$rawDose (type: ${rawDose.runtimeType}), parsed=$parsedDose',
           );
         }
 
@@ -190,17 +190,17 @@ class ToleranceRepository {
         '[ToleranceRepository] Successfully loaded ${logs.length} use log entries',
       );
 
-      print('\n=== USE LOGS FROM DB ===');
-      print('Total logs: ${logs.length}');
+      AppLog.d('\n=== USE LOGS FROM DB ===');
+      AppLog.d('Total logs: ${logs.length}');
       final substanceCounts = <String, int>{};
       for (final entry in logs) {
         substanceCounts[entry.substanceSlug] =
             (substanceCounts[entry.substanceSlug] ?? 0) + 1;
       }
-      substanceCounts.forEach((slug, count) {
-        print('  - Substance: "$slug" ($count uses)');
-      });
-      print('========================\n');
+      for (final entry in substanceCounts.entries) {
+        AppLog.d('  - Substance: "${entry.key}" (${entry.value} uses)');
+      }
+      AppLog.d('========================\n');
 
       return logs;
     } catch (e, stackTrace) {

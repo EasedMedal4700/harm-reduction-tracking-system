@@ -263,11 +263,12 @@ class AccountManagementSection extends StatelessWidget {
   }
 
   Future<void> _executeDeleteAccount(BuildContext context) async {
-    final c = context.colors;
-    final navigator = Navigator.of(context);
-    final messenger = ScaffoldMessenger.of(context);
     final service = AccountDataService();
     final result = await service.deleteAccount();
+    if (!context.mounted) return;
+
+    final c = context.colors;
+    final messenger = ScaffoldMessenger.of(context);
     if (result.success) {
       context.go('/login_page');
     }

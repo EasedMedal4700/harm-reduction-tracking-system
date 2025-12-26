@@ -14,7 +14,6 @@ class FakeLogEntryService implements LogEntryService {
     _entries.removeWhere((e) => e.id == id);
   }
 
-  @override
   Future<void> createLogEntry(Map<String, dynamic> data) async {
     // Simulate create
     _entries.add(

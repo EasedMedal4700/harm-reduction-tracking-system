@@ -396,7 +396,6 @@ class _CategoryBreadcrumb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
-    final tx = context.text;
 
     return InkWell(
       onTap: onClear,

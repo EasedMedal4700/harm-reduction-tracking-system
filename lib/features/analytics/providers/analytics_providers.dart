@@ -13,6 +13,7 @@ import 'package:mobile_drug_use_app/features/analytics/services/analytics_servic
 import 'package:mobile_drug_use_app/models/log_entry_model.dart';
 import 'package:mobile_drug_use_app/repo/substance_repository.dart';
 import 'package:mobile_drug_use_app/utils/time_period_utils.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:mobile_drug_use_app/common/logging/app_log.dart';
@@ -20,14 +21,12 @@ import 'package:mobile_drug_use_app/common/logging/app_log.dart';
 part 'analytics_providers.g.dart';
 
 @riverpod
-AnalyticsService analyticsService(AnalyticsServiceRef ref) =>
-    AnalyticsService();
+AnalyticsService analyticsService(Ref ref) => AnalyticsService();
 
 @riverpod
-SubstanceRepository substanceRepository(SubstanceRepositoryRef ref) =>
-    SubstanceRepository();
+SubstanceRepository substanceRepository(Ref ref) => SubstanceRepository();
 
-@riverpod
+@Riverpod(dependencies: [analyticsService, substanceRepository])
 class AnalyticsController extends _$AnalyticsController {
   @override
   AnalyticsState build() {
@@ -206,8 +205,8 @@ class AnalyticsController extends _$AnalyticsController {
   }
 }
 
-@riverpod
-AnalyticsComputed? analyticsComputed(AnalyticsComputedRef ref) {
+@Riverpod(dependencies: [analyticsService, AnalyticsController])
+AnalyticsComputed? analyticsComputed(Ref ref) {
   final service = ref.watch(analyticsServiceProvider);
   final state = ref.watch(analyticsControllerProvider);
   if (state.isLoading || state.hasError) return null;

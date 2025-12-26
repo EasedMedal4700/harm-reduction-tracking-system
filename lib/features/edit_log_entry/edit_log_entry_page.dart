@@ -166,12 +166,11 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     }
     setState(() => _isSaving = true);
     final result = await _controller.saveLogEntry(_formData);
+    if (!mounted) return;
     setState(() => _isSaving = false);
     if (result.isSuccess) {
       _showSnackBar(result.message, duration: context.animations.longSnackbar);
-      if (mounted) {
-        Navigator.of(context).pop(true);
-      }
+      Navigator.of(context).pop(true);
     } else {
       _showSnackBar(result.message);
     }

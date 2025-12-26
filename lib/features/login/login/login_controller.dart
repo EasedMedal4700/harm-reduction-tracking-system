@@ -20,7 +20,6 @@ final loginControllerProvider =
     StateNotifierProvider<LoginController, LoginState>((ref) {
       final controller = LoginController(ref);
       controller.init();
-      ref.onDispose(controller.dispose);
       return controller;
     });
 
@@ -40,6 +39,7 @@ class LoginController extends StateNotifier<LoginState> {
   @override
   void dispose() {
     _authSub?.cancel();
+    super.dispose();
   }
 
   // ---------------------------------------------------------------------------
@@ -48,8 +48,10 @@ class LoginController extends StateNotifier<LoginState> {
   void _listenForRestoredSession() {
     final client = _ref.read(supabaseClientProvider);
     _authSub = client.auth.onAuthStateChange.listen((data) async {
+      if (!mounted) return;
       if (state.hasNavigated) return;
       final remember = await _readRememberMe();
+      if (!mounted) return;
       if (remember && data.session != null) {
         _navigateOnce(debug: false);
       }
@@ -58,11 +60,14 @@ class LoginController extends StateNotifier<LoginState> {
 
   Future<void> _initializeSession() async {
     // Onboarding always has priority
-    if (!await onboardingService.isOnboardingComplete()) {
+    final onboardingComplete = await onboardingService.isOnboardingComplete();
+    if (!mounted) return;
+    if (!onboardingComplete) {
       _ref.read(postLoginRouterProvider).goToOnboarding();
       return;
     }
     final remember = await _readRememberMe();
+    if (!mounted) return;
     state = state.copyWith(rememberMe: remember, isInitialized: true);
     // Debug auto-login (dev only)
     if (DebugConfig.instance.isAutoLoginEnabled &&
@@ -84,12 +89,14 @@ class LoginController extends StateNotifier<LoginState> {
     }
     state = state.copyWith(isLoading: true, errorMessage: null);
     final success = await _ref.read(authServiceProvider).login(email, password);
+    if (!mounted) return;
     state = state.copyWith(isLoading: false);
     if (!success) {
       state = state.copyWith(errorMessage: 'Invalid credentials');
       return;
     }
     await _persistRememberMe(state.rememberMe);
+    if (!mounted) return;
     _navigateOnce(debug: false);
   }
 
@@ -108,9 +115,11 @@ class LoginController extends StateNotifier<LoginState> {
           DebugConfig.instance.debugEmail!,
           DebugConfig.instance.debugPassword!,
         );
+    if (!mounted) return;
     state = state.copyWith(isLoading: false);
     if (success) {
       await _persistRememberMe(true);
+      if (!mounted) return;
       _navigateOnce(debug: true);
     }
   }

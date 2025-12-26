@@ -7,7 +7,7 @@ class ParsingUtils {
   /// Parses a dynamic value to int, returns 0 if parsing fails
   static int parseInt(dynamic v) => int.tryParse(v?.toString() ?? '') ?? 0;
 
-  /// Converts dynamic value to List<String>
+  /// Converts dynamic value to `List<String>`
   ///
   /// Supports:
   /// - List types (converted to string list)
@@ -38,7 +38,7 @@ class ParsingUtils {
     return [];
   }
 
-  /// Converts dynamic value to Map<String, List<String>>
+  /// Converts dynamic value to `Map<String, List<String>>`
   ///
   /// Supports:
   /// - Map types (keys converted to strings, values to string lists)

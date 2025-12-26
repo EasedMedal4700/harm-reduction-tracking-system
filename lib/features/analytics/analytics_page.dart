@@ -9,15 +9,56 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/common/layout/common_drawer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/features/analytics/services/analytics_service.dart';
 import 'package:mobile_drug_use_app/features/analytics/providers/analytics_providers.dart';
 import 'package:mobile_drug_use_app/features/analytics/widgets/analytics_app_bar.dart';
 import 'package:mobile_drug_use_app/features/analytics/widgets/analytics_error_state.dart';
 import 'package:mobile_drug_use_app/features/analytics/widgets/analytics_layout.dart';
 import 'package:mobile_drug_use_app/features/analytics/widgets/analytics_loading_state.dart';
 import 'package:mobile_drug_use_app/common/inputs/filter_widget.dart';
+import 'package:mobile_drug_use_app/repo/substance_repository.dart';
 
-class AnalyticsPage extends ConsumerWidget {
-  const AnalyticsPage({super.key});
+class AnalyticsPage extends StatelessWidget {
+  const AnalyticsPage({
+    super.key,
+    this.analyticsService,
+    this.substanceRepository,
+  });
+
+  final AnalyticsService? analyticsService;
+  final SubstanceRepository? substanceRepository;
+
+  @override
+  Widget build(BuildContext context) {
+    final overrides = <Override>[];
+    final injectedAnalyticsService = analyticsService;
+    if (injectedAnalyticsService != null) {
+      overrides.add(
+        analyticsServiceProvider.overrideWithValue(injectedAnalyticsService),
+      );
+    }
+    final injectedSubstanceRepository = substanceRepository;
+    if (injectedSubstanceRepository != null) {
+      overrides.add(
+        substanceRepositoryProvider.overrideWithValue(
+          injectedSubstanceRepository,
+        ),
+      );
+    }
+
+    if (overrides.isEmpty) {
+      return const _AnalyticsPageBody();
+    }
+
+    return ProviderScope(
+      overrides: overrides,
+      child: const _AnalyticsPageBody(),
+    );
+  }
+}
+
+class _AnalyticsPageBody extends ConsumerWidget {
+  const _AnalyticsPageBody();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mobile_drug_use_app/utils/error_reporter.dart';
 
 /// Test wrapper that reports test failures to the error database
@@ -39,7 +40,7 @@ void testWithErrorReporting(
           );
         } catch (reportError) {
           // If reporting fails, just print it
-          print('Failed to report test error: $reportError');
+          debugPrint('Failed to report test error: $reportError');
         }
         // Re-throw to fail the test
         rethrow;

@@ -4,7 +4,6 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 
 /// Legacy wrapper functions - consider using TestUtils from flutter_test_config.dart instead
-@deprecated
 Widget wrapWithAppTheme(Widget child) {
   return AppThemeProvider(
     theme: AppTheme.light(),
@@ -12,7 +11,6 @@ Widget wrapWithAppTheme(Widget child) {
   );
 }
 
-@deprecated
 Widget wrapWithAppThemeApp({required Widget home}) {
   return AppThemeProvider(
     theme: AppTheme.light(),
@@ -20,7 +18,6 @@ Widget wrapWithAppThemeApp({required Widget home}) {
   );
 }
 
-@deprecated
 Widget wrapWithAppThemeAndProvidersApp({
   required Widget home,
   List<Override> overrides = const [],

@@ -6,7 +6,7 @@ part of 'analytics_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$analyticsServiceHash() => r'4928fb3ed712b41230dcf79231ab61cb4da3f83d';
+String _$analyticsServiceHash() => r'0196a36dee2149b5d3cbb5992396046229f222b4';
 
 /// See also [analyticsService].
 @ProviderFor(analyticsService)
@@ -24,7 +24,7 @@ final analyticsServiceProvider = AutoDisposeProvider<AnalyticsService>.internal(
 // ignore: unused_element
 typedef AnalyticsServiceRef = AutoDisposeProviderRef<AnalyticsService>;
 String _$substanceRepositoryHash() =>
-    r'04c5688844632ce7cf30ed868baf75f303883785';
+    r'305e657c685429090873fa32dc958b8b3209b023';
 
 /// See also [substanceRepository].
 @ProviderFor(substanceRepository)
@@ -42,7 +42,7 @@ final substanceRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SubstanceRepositoryRef = AutoDisposeProviderRef<SubstanceRepository>;
-String _$analyticsComputedHash() => r'ae9ade88797d601019fba75158fc13614889808c';
+String _$analyticsComputedHash() => r'7c8f575f78d2b5b1af78ddb0123bcf8c5ddac721';
 
 /// See also [analyticsComputed].
 @ProviderFor(analyticsComputed)
@@ -53,15 +53,23 @@ final analyticsComputedProvider =
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
           : _$analyticsComputedHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
+      dependencies: <ProviderOrFamily>[
+        analyticsServiceProvider,
+        analyticsControllerProvider,
+      ],
+      allTransitiveDependencies: <ProviderOrFamily>{
+        analyticsServiceProvider,
+        ...?analyticsServiceProvider.allTransitiveDependencies,
+        analyticsControllerProvider,
+        ...?analyticsControllerProvider.allTransitiveDependencies,
+      },
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AnalyticsComputedRef = AutoDisposeProviderRef<AnalyticsComputed?>;
 String _$analyticsControllerHash() =>
-    r'6a61d64e5aeae9910a80bf615592a483ef69fb59';
+    r'add19911c06e7baaac9cac2487137a25fd39cf5d';
 
 /// See also [AnalyticsController].
 @ProviderFor(AnalyticsController)
@@ -72,8 +80,16 @@ final analyticsControllerProvider =
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
           : _$analyticsControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
+      dependencies: <ProviderOrFamily>[
+        analyticsServiceProvider,
+        substanceRepositoryProvider,
+      ],
+      allTransitiveDependencies: <ProviderOrFamily>{
+        analyticsServiceProvider,
+        ...?analyticsServiceProvider.allTransitiveDependencies,
+        substanceRepositoryProvider,
+        ...?substanceRepositoryProvider.allTransitiveDependencies,
+      },
     );
 
 typedef _$AnalyticsController = AutoDisposeNotifier<AnalyticsState>;

@@ -6,10 +6,7 @@ import 'package:mobile_drug_use_app/models/drug_catalog_entry.dart';
 import 'package:mobile_drug_use_app/models/stockpile_item.dart';
 import '../../../helpers/test_app_wrapper.dart';
 
-DrugCatalogEntry _entry({
-  required List<String> categories,
-  StockpileItem? stockpile,
-}) {
+DrugCatalogEntry _entry({required List<String> categories}) {
   return DrugCatalogEntry(
     name: 'Methylphenidate',
     categories: categories,

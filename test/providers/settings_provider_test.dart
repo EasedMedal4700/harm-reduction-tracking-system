@@ -24,7 +24,6 @@ void main() {
     });
 
     test('loads settings from storage', () async {
-      final prefs = await SharedPreferences.getInstance();
       final settings = const AppSettings(darkMode: true);
       // We need to save it using the service or manually to prefs
       // Since SettingsService uses a specific key, let's use SettingsService to save first

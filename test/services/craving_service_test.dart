@@ -24,9 +24,16 @@ class FakePostgrestTransformBuilder<T> extends Fake
 // Fake implementation for FilterBuilder (returned by select, insert, update)
 class FakePostgrestFilterBuilder extends Fake
     implements PostgrestFilterBuilder<List<Map<String, dynamic>>> {
-  List<Map<String, dynamic>> _data;
+  final List<Map<String, dynamic>> _data;
 
-  FakePostgrestFilterBuilder([this._data = const []]);
+  FakePostgrestFilterBuilder([List<Map<String, dynamic>> data = const []])
+    : _data = List<Map<String, dynamic>>.from(data);
+
+  void setData(List<Map<String, dynamic>> data) {
+    _data
+      ..clear()
+      ..addAll(data);
+  }
 
   @override
   PostgrestFilterBuilder<List<Map<String, dynamic>>> eq(
@@ -221,7 +228,7 @@ void main() {
     group('fetchCravingById', () {
       test('returns decrypted craving when found', () async {
         // Setup fake data
-        fakeFilterBuilder._data = [
+        fakeFilterBuilder.setData([
           {
             'craving_id': 'c1',
             'uuid_user_id': 'test-user-id',
@@ -229,7 +236,7 @@ void main() {
             'thoughts': 'encrypted_Secret thoughts',
             'action': 'encrypted_Drank water',
           },
-        ];
+        ]);
 
         final result = await service.fetchCravingById('c1');
 
@@ -239,7 +246,7 @@ void main() {
       });
 
       test('throws exception when not found', () async {
-        fakeFilterBuilder._data = [];
+        fakeFilterBuilder.setData([]);
 
         expect(
           () => service.fetchCravingById('c1'),
@@ -256,9 +263,9 @@ void main() {
 
     group('updateCraving', () {
       test('encrypts and updates craving', () async {
-        fakeFilterBuilder._data = [
+        fakeFilterBuilder.setData([
           {'craving_id': 'c1'},
-        ];
+        ]);
 
         final data = {'substance': 'Tobacco', 'thoughts': 'New thoughts'};
 

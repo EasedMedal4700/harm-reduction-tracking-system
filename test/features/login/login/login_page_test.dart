@@ -22,10 +22,6 @@ class FakeLoginController extends StateNotifier<LoginState>
   bool? lastRememberMe;
 
   @override
-  // ignore: unused_element
-  Ref get _ref => throw UnimplementedError();
-
-  @override
   Future<void> init() async {}
 
   @override

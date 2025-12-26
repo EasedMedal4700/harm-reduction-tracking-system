@@ -93,23 +93,6 @@ class TestUtils {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
   }
-
-  /// Creates a mock BuildContext for testing
-  static BuildContext createMockContext() {
-    final element = _MockElement();
-    return element;
-  }
-}
-
-/// Mock element for creating mock contexts
-class _MockElement extends Element {
-  _MockElement() : super(const SizedBox());
-
-  @override
-  bool get debugDoingBuild => false;
-
-  @override
-  void performRebuild() {}
 }
 
 /// Custom test matchers for common assertions

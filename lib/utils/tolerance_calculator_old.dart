@@ -72,7 +72,7 @@ class ToleranceCalculator {
   /// CRITICAL: Computes tolerance for ALL buckets found in tolerance models,
   /// not just a hardcoded list. This ensures we capture all 7+ bucket types.
   ///
-  /// Returns Map<String, double> like:
+  /// Returns `Map<String, double>` like:
   /// {
   ///   "gaba": 72.4,
   ///   "stimulant": 33.8,

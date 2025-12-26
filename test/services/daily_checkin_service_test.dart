@@ -143,18 +143,15 @@ class FakePostgrestBuilder<T> extends Fake
     return FakePostgrestBuilder<Map<String, dynamic>?>(singleData);
   }
 
-  @override
   PostgrestFilterBuilder<T> delete({bool count = false, String? returning}) =>
       this;
 
-  @override
   PostgrestFilterBuilder<T> update(
     Map<String, dynamic> values, {
     bool count = false,
     String? returning,
   }) => this;
 
-  @override
   PostgrestFilterBuilder<T> insert(
     dynamic values, {
     bool count = false,

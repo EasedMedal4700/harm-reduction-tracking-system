@@ -228,7 +228,7 @@ class AnalyticsService {
       // Filter by period
       final filteredEntries = filterEntriesByPeriod(allEntries, period);
       // Fetch substance catalog and set category map
-      final catalog = await fetchSubstancesCatalog();
+      await fetchSubstancesCatalog();
       // final substanceToCategoryMap = {
       //   for (var item in catalog) item['name'].toLowerCase(): item['category'],
       // };
