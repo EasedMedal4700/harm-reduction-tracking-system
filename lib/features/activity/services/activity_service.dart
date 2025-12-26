@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Feature service.
 import 'package:mobile_drug_use_app/common/logging/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

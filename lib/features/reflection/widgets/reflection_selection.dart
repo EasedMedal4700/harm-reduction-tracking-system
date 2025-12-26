@@ -1,5 +1,10 @@
-// MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
-// Notes: No hardcoded values.
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Widget for selecting reflections.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../common/layout/common_spacer.dart';

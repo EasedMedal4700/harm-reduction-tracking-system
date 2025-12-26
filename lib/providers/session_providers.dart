@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Session providers.
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/user_service.dart';
 

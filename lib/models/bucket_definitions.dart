@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Data model.
 /// Centralized bucket type definitions and metadata
 /// CRITICAL: This file defines the CANONICAL bucket order and display information.
 /// All buckets rendered in the UI MUST use this order.

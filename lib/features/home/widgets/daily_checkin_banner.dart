@@ -1,13 +1,10 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../providers/daily_checkin_provider.dart';
-import '../../daily_chekin/widgets/checkin_dialog.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
+// Riverpod: TODO
+// Notes: Migrated to use AppTheme.
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 // Riverpod: TODO
 // Notes: Migrated to use AppTheme.
 class DailyCheckinBanner extends StatefulWidget {

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: App bar for catalog.
 import 'package:flutter/material.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 

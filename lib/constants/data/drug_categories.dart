@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Data catalog.
 import 'package:flutter/material.dart';
 
 class DrugCategories {

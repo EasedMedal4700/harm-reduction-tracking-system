@@ -1,4 +1,10 @@
-// MIGRATION // Theme: [Not Applicable] // Common: [Not Applicable] // Riverpod: TODO
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Custom exceptions for reflection.
 /// Custom exceptions for reflection-related operations
 class ReflectionException implements Exception {
   final String message;

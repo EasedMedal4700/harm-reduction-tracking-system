@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: LEGACY
+// Models: LEGACY
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Catalog page using local state and repository.
 import 'package:flutter/material.dart';
 import '../../repo/substance_repository.dart';
 import '../analytics/services/analytics_service.dart';

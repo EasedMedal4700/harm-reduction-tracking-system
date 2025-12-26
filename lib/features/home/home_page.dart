@@ -1,14 +1,17 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: CENTRALIZED
+// Models: LEGACY
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Main Home Page. Migrated to use AppTheme and Common components. No hardcoded values.
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_animations.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../common/logging/app_log.dart';
-// MIGRATION
-// Theme: COMPLETE
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Main Home Page. Migrated to use AppTheme and Common components. No hardcoded values.
+
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../common/layout/common_drawer.dart';

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: CENTRALIZED
+// Models: LEGACY
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Daily Checkin using Provider and GoRouter.
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';

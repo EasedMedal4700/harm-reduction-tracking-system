@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Utility.
 import '../constants/enums/time_period.dart';
 
 /// Utility class for time period related operations

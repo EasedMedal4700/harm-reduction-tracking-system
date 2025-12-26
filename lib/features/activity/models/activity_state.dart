@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Feature state.
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'activity_models.dart';

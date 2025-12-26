@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Feature service.
 import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../services/user_service.dart';

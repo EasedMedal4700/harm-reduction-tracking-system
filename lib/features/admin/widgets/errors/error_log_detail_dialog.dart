@@ -1,7 +1,9 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
 // Notes: Fully theme-based, correct typography & colors.
 import 'dart:convert';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';

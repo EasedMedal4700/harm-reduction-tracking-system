@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: MODERN
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: A multi-page onboarding experience for new users.
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';

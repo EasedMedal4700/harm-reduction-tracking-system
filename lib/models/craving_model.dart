@@ -1,4 +1,10 @@
-// filepath: c:\Users\user\Desktop\Power BI\mobile_drug_use_app\lib\models\craving_model.dart
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Data model.
 class Craving {
   final String? cravingId;
   final String userId;

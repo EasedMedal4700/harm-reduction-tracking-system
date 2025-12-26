@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: FREEZED
+// Theme: N/A
+// Common: N/A
+// Notes: State for onboarding flow.
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'onboarding_state.freezed.dart';

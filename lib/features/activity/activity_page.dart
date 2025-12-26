@@ -1,7 +1,9 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: MODERN
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
 // Notes: Main activity page with tabs. Uses AppThemeExtension. No hardcoded values.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

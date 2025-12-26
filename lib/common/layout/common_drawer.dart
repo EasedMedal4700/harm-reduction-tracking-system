@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: CENTRALIZED
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Uses Provider for state.
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

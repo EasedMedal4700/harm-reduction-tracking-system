@@ -1,10 +1,10 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:flutter/material.dart';
 // MIGRATION: COMPLETE
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Uses CommonInputField and CommonSpacer.
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';

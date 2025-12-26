@@ -1,7 +1,7 @@
 // MIGRATION:
 // State: MODERN
-// Navigation: CENTRALIZED (TODO: replace Navigator calls)
-// Models: FREEZED
+// Navigation: CENTRALIZED
+// Models: MODERN
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: UI-only forgot password screen. Emits intent to controller.

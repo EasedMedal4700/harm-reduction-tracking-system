@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Data model.
 /// Model for error log entry
 class ErrorLog {
   final int id;

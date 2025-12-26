@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Extension for DoseTier theme colors.
 import 'package:flutter/material.dart';
 
 import '../../../constants/theme/app_theme_extension.dart';

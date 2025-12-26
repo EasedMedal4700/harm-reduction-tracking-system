@@ -1,7 +1,7 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: CENTRALIZED
-// Models: FREEZED
+// Models: MODERN
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: Pure UI for Change PIN flow. No business logic.

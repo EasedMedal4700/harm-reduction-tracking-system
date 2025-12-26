@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Service.
 import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';

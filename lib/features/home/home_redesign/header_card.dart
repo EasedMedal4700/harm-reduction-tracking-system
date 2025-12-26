@@ -1,13 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import '../../../../common/layout/common_spacer.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to use AppTheme. Replaced magic numbers with constants.
+import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 class HeaderCard extends StatelessWidget {
   final String userName;
   final String greeting;

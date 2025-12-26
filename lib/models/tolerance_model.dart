@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Data model.
 /// Global bucket list for tolerance tracking
 const List<String> kToleranceBuckets = [
   'gaba',

@@ -1,9 +1,9 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to use CommonActionCard and AppTheme. No hardcoded values.
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants/config/feature_flags.dart';

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: MODERN
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Screen for setting up PIN-based encryption.
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_typography.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';

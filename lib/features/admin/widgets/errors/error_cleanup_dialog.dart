@@ -1,8 +1,10 @@
 // ignore_for_file: deprecated_member_use
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
 // Notes: Fully theme-compliant, no deprecated API
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Utility.
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/drug_catalog_entry.dart';

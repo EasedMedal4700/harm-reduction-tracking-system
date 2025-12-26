@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Data model.
 /// Represents a neurochemical bucket for tolerance calculation.
 ///
 /// WARNING: These tolerance calculations are NOT medically validated.

@@ -1,7 +1,7 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: CENTRALIZED
-// Models: FREEZED
+// Models: MODERN
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: UI-only PIN unlock screen.

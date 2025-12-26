@@ -1,4 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: LEGACY
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Profile screen using Riverpod but legacy models.
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';

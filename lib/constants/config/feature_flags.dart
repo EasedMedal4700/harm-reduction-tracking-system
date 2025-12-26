@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Feature flag constants.
 /// Constants for feature flag names.
 ///
 /// These names must match the `feature_name` column in the

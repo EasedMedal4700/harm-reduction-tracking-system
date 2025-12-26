@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Controller for recovery key flow.
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:mobile_drug_use_app/common/logging/logger.dart';

@@ -1,5 +1,10 @@
-// MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
-// Notes: No hardcoded values.
+// MIGRATION:
+// State: LEGACY
+// Navigation: LEGACY
+// Models: LEGACY
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Reflection page using legacy state.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Data catalog.
 /// Predefined options for reflection form fields
 class ReflectionOptions {
   // Next day mood options

@@ -1,12 +1,15 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Placeholder page. Migrated to use AppTheme. No hardcoded values.
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import '../../common/layout/common_spacer.dart';
-// MIGRATION
-// Theme: COMPLETE
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Placeholder page. Migrated to use AppTheme. No hardcoded values.
+
 import '../../common/layout/common_drawer.dart';
 
 /// Placeholder page for drug interaction checking

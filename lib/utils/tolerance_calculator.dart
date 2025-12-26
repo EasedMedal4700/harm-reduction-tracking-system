@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Utility.
 import 'dart:math' as math;
 import '../models/tolerance_model.dart';
 import '../common/logging/app_log.dart';

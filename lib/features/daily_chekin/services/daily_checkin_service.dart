@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Service for daily checkins.
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../models/daily_checkin_model.dart';
 import '../../../services/user_service.dart';

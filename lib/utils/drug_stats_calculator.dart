@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Utility.
 /// Utility class for calculating drug usage statistics
 class DrugStatsCalculator {
   /// Calculate average dose from list of drug use entries

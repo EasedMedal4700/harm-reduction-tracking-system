@@ -1,7 +1,9 @@
-// MIGRATION
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
 // Notes: No theme dependencies.
 /// Consistent spacing component
 library;

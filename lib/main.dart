@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: N/A
+// Theme: COMPLETE
+// Common: N/A
+// Notes: Entry point.
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'dart:async';
 import 'dart:ui' as ui;

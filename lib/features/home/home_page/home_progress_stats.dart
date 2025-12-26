@@ -1,9 +1,9 @@
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Migrated to use CommonStatCard and AppTheme. Replaced GridView with Column to avoid magic aspect ratio.
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import '../../../../common/cards/common_stat_card.dart';
 import '../../../../common/layout/common_spacer.dart';

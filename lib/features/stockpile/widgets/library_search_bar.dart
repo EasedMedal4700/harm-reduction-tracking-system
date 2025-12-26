@@ -1,8 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: LEGACY
+// Navigation: N/A
+// Models: N/A
 // Theme: COMPLETE
 // Common: PARTIAL
-// Riverpod: TODO
-// Notes: Migrated to AppThemeExtension and existing common components. No logic or state changes.
+// Notes: Migrated to AppThemeExtension. Riverpod TODO.
 import 'package:flutter/material.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/inputs/input_field.dart';

@@ -1,4 +1,10 @@
-// filepath: c:\Users\user\Desktop\Power BI\mobile_drug_use_app\lib\services\reflection_service.dart
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Service for reflection operations.
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../models/reflection_model.dart';
 import '../../../services/user_service.dart';

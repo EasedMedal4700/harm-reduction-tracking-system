@@ -1,4 +1,10 @@
-// MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Log entry form widget.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/data/drug_use_catalog.dart';

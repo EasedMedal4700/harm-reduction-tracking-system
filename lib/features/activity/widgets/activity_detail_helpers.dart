@@ -1,7 +1,9 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
 // Notes: Helper methods to show detail sheets. Fully theme-compliant.
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

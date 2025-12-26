@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Success page shown after email confirmation via deep link.
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';

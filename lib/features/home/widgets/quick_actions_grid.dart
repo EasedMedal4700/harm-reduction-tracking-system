@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully migrated to AppThemeExtension. AppTheme parameters removed.
+import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 /// Quick action tile for the home grid
 class QuickActionTile extends StatefulWidget {
   final IconData icon;

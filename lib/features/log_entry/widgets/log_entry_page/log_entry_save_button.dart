@@ -1,4 +1,10 @@
-// MIGRATION // Theme: [Migrated] // Common: [Migrated] // Riverpod: TODO
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Log entry save button.
 import 'package:flutter/material.dart';
 import '../../../../common/buttons/common_primary_button.dart';
 import '../../../../constants/theme/app_theme_extension.dart';

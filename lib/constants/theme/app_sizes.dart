@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: N/A
+// Notes: Theme definition.
 /// Size constants for icons, buttons, and elevations
 class AppSizes {
   const AppSizes();

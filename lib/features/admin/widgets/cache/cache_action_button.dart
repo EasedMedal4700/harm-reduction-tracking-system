@@ -1,7 +1,9 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
 // Notes: Fully theme-based. No hardcoded values.
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';

@@ -1,7 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: COMPLETE
+// Notes: Riverpod complete.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';

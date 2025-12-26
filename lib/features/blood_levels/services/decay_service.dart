@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Feature service.
 import 'dart:math';
 import '../../../models/curve_point.dart';
 import '../models/blood_levels_models.dart';

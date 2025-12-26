@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Utility.
 import 'dart:math';
 import '../models/tolerance_bucket.dart';
 import 'bucket_tolerance_formulas.dart';

@@ -1,7 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: LEGACY
+// Navigation: N/A
+// Models: N/A
 // Theme: COMPLETE
 // Common: PARTIAL
-// Riverpod: TODO
+// Notes: Riverpod TODO.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../constants/theme/app_theme_extension.dart';

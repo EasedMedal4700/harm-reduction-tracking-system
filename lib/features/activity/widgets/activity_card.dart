@@ -1,7 +1,9 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
 // Notes: Reusable card for activity items. Fully theme-compliant. No hardcoded values.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

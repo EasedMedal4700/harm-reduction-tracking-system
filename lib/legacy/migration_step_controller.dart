@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Legacy controller.
 class MigrationStepController {
   int currentStep = 1;
   void goTo(int step) {

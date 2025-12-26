@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Repository.
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/stockpile_item.dart';

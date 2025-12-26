@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Data model.
 /// Represents a single point on the metabolism decay curve
 class CurvePoint {
   /// Time offset in hours relative to "now" (negative = past, positive = future)

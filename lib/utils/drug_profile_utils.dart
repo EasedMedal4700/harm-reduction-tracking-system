@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Utility.
 /// Utilities for parsing drug profile data
 class DrugProfileUtils {
   /// Extract maximum duration from formatted_duration field

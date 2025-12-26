@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Feature constants.
 class BloodLevelsConstants {
   BloodLevelsConstants._();
 

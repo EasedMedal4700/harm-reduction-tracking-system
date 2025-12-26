@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Service.
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
 import 'user_service.dart';

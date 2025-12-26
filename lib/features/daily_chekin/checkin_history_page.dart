@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: LEGACY
+// Models: LEGACY
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Check-In History using Provider.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:provider/provider.dart';

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Legacy ChangeNotifier provider.
 import 'package:flutter/material.dart';
 import '../models/daily_checkin_model.dart';
 import '../features/daily_chekin/services/daily_checkin_service.dart';

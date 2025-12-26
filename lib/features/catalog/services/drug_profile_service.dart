@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Service for drug profile search and normalization.
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../utils/error_handler.dart';
 import '../../../services/cache_service.dart';

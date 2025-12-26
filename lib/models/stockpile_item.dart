@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Data model.
 /// Represents a stockpile item for a substance (local-only storage)
 class StockpileItem {
   final String substanceId;

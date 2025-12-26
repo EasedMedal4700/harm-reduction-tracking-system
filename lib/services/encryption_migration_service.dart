@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Service.
 /// Migration Service: Migrate from old JWT-based encryption to new PIN-based encryption
 ///
 /// This service handles the migration for existing users who have data encrypted

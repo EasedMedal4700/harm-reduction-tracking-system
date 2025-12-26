@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: N/A
+// Notes: Theme colors.
 import 'package:flutter/material.dart';
 
 /// Light theme colors - Wellness-focused, inviting, soft pastels

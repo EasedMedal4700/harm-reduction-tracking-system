@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: N/A
+// Notes: Theme definition.
 import 'package:flutter/material.dart';
 import '../../models/app_settings_model.dart';
 import 'app_color_palette.dart';

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Service.
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: COMPLETE
+// Notes: Logging utility.
 import 'app_log.dart';
 
 /// Thin logger facade used across the app.

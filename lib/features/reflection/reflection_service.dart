@@ -1,5 +1,10 @@
-// MIGRATION // Theme: [Not Applicable] // Common: [Not Applicable] // Riverpod: TODO
-// filepath: c:\Users\user\Desktop\Power BI\mobile_drug_use_app\lib\services\reflection_service.dart
+// MIGRATION:
+// State: LEGACY
+// Navigation: N/A
+// Models: LEGACY
+// Theme: N/A
+// Common: N/A
+// Notes: Service for reflection.
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/reflection_model.dart';
 import '../../services/user_service.dart';

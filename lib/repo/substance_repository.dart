@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Repository.
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:convert'; // For JSON parsing
 import '../common/logging/app_log.dart';

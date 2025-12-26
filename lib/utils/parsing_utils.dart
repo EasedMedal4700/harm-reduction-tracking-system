@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Utility.
 /// Reusable parsing utilities for converting dynamic JSON values to typed Dart values
 class ParsingUtils {
   /// Parses a dynamic value to double, returns 0.0 if parsing fails

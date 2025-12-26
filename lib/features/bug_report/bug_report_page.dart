@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-// MIGRATION
+// MIGRATION:
+// State: LEGACY
+// Navigation: LEGACY
+// Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
 // Notes: Bug Report Screen. Migrated to use AppTheme. No hardcoded values.
+import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../services/user_service.dart';
 import '../../utils/error_reporter.dart';
 import 'widgets/bug_report_form_fields.dart';

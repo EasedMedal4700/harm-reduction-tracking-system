@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Layout constants.
 import 'package:flutter/material.dart';
 
 /// Layout constants for consistent widget placement and sizing

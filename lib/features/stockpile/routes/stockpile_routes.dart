@@ -1,5 +1,9 @@
 // MIGRATION:
+// State: MODERN
 // Navigation: GOROUTER
+// Models: N/A
+// Theme: N/A
+// Common: N/A
 // Notes: GoRouter-ready route(s) for stockpile feature.
 
 import 'package:go_router/go_router.dart';

@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-
 // MIGRATION
 // Theme: COMPLETE
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully migrated to AppThemeExtension. AppTheme parameter removed.
+import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 /// Animated greeting banner with time-based message
 class GreetingBanner extends StatelessWidget {
   final String? userName;

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: LEGACY
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Legacy route definitions.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../features/reflection/reflection_provider.dart';

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Utility.
 import '../models/reflection_model.dart';
 import '../features/reflection/reflection_exceptions.dart';
 

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Data model.
 /// Pure data class representing log entry form state
 /// This is Riverpod-ready - contains only serializable values
 /// No UI controllers, no BuildContext, no ChangeNotifier

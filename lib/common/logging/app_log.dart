@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: COMPLETE
+// Notes: Logging utility.
 import 'dart:developer' as dev;
 import 'package:flutter/foundation.dart';
 

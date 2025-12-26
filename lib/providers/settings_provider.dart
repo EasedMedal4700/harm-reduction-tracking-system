@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Legacy ChangeNotifier provider.
 import 'package:flutter/foundation.dart';
 import 'dart:async';
 import '../models/app_settings_model.dart';

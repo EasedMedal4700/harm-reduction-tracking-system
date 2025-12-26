@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Common UI component.
 import 'package:flutter/material.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../cards/common_card.dart';

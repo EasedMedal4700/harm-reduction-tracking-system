@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Navigation observer.
 import 'package:flutter/material.dart';
 import '../services/error_logging_service.dart';
 

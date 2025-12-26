@@ -1,7 +1,9 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: MODERN
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: COMPLETE
 // Notes: Migrated to Riverpod controller + Freezed state. UI/UX unchanged.
 
 import 'package:flutter/material.dart';

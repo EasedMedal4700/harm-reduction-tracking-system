@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: LEGACY
+// Models: LEGACY
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Admin Panel Screen. Migrated to use AppTheme. No hardcoded values.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../common/layout/common_drawer.dart';
@@ -13,11 +20,6 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
 import 'package:mobile_drug_use_app/constants/strings/app_strings.dart';
 
-// MIGRATION
-// Theme: COMPLETE
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Admin Panel Screen. Migrated to use AppTheme. No hardcoded values.
 /// Admin panel screen for managing users and monitoring system health
 class AdminPanelScreen extends StatefulWidget {
   const AdminPanelScreen({super.key});

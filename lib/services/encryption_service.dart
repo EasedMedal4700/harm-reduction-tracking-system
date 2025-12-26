@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: LEGACY
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Legacy service.
 import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';

@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: String constants.
 class AppStrings {
   const AppStrings._();
   static const String errorLoadingActivity = 'Failed to load activity: ';

@@ -1,7 +1,7 @@
 // MIGRATION:
 // State: MODERN
-// Navigation: GOROUTER
-// Models: FREEZED
+// Navigation: CENTRALIZED
+// Models: MODERN
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: Tolerance dashboard page

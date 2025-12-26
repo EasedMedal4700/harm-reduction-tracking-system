@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Constants.
 class GraphConstants {
   // Private constructor to prevent instantiation
   const GraphConstants._();

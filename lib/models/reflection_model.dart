@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Data model.
 import 'package:flutter/material.dart';
 import '../utils/error_handler.dart';
 import '../features/reflection/reflection_exceptions.dart';

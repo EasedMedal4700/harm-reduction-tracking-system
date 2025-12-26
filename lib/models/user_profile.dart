@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: MODERN
+// Theme: N/A
+// Common: N/A
+// Notes: Data model.
 /// User profile model matching the public.users table structure.
 ///
 /// The user profile is automatically created by a database trigger when

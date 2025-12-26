@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Service.
 class TimezoneService {
   /// Returns the user's timezone offset in hours from UTC (e.g., +5.5 for IST).
   double getTimezoneOffset() {
