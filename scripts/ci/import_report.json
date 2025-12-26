@@ -1,9 +1,9 @@
 {
   "summary": {
-    "total_files": 367,
+    "total_files": 366,
     "violations": 8,
     "warnings": 19,
-    "timestamp": "1766745667.338905"
+    "timestamp": "1766754146.0747254"
   },
   "issues": [
     {
@@ -77,7 +77,7 @@
       "status": "WARNING"
     },
     {
-      "file": "lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart",
+      "file": "lib\\features\\settings\\widgets\\privacy_settings_section.dart",
       "count": 14,
       "status": "WARNING"
     },
@@ -112,7 +112,7 @@
       "status": "WARNING"
     },
     {
-      "file": "lib\\features\\blood_levels\\widgets\\blood_levels\\metabolism_timeline_card.dart",
+      "file": "lib\\features\\blood_levels\\widgets\\metabolism_timeline_card.dart",
       "count": 11,
       "status": "WARNING"
     },
@@ -122,7 +122,7 @@
       "status": "WARNING"
     },
     {
-      "file": "lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
+      "file": "lib\\features\\catalog\\widgets\\substance_details_sheet.dart",
       "count": 11,
       "status": "WARNING"
     },

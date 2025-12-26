@@ -210,23 +210,33 @@ def run_tests() -> Tuple[bool, str, str]:
                     test_id = event.get('test', {}).get('id')
                     test_name = event.get('test', {}).get('name')
                     if test_id and test_name:
-                        test_names[test_id] = test_name
-                        current_test = test_name
+                        # The runner emits a hidden "loading <path>" test per suite.
+                        # Exclude these so totals/progress match `flutter test` summary.
+                        if not str(test_name).startswith('loading '):
+                            test_names[test_id] = test_name
+                            current_test = test_name
 
                 elif event_type == 'testDone':
-                    total_tests += 1
-                    completed += 1
                     test_id = event.get('testID')
                     result = event.get('result')
                     skipped = event.get('skipped', False)
                     hidden = event.get('hidden', False)
+
+                    # Ignore hidden tests (not counted in `flutter test` summary)
+                    if hidden:
+                        continue
+
+                    # Count non-hidden tests as completed (including skipped) for progress
+                    completed += 1
 
                     # Lock total on first testDone if not cached
                     if not total_known:
                         total_known = True
                         fixed_total = len(test_names)
 
-                    if not skipped and not hidden:
+                    # Match console summary: exclude skipped tests from passed/failed totals
+                    if not skipped:
+                        total_tests += 1
                         if result == 'success':
                             passed_tests += 1
                         else:
@@ -259,6 +269,48 @@ def run_tests() -> Tuple[bool, str, str]:
         print()  # New line after progress
         print(f"⏱️  Total time: {elapsed:.1f}s")
         print()
+
+        # Recalculate authoritative total from captured machine output
+        try:
+            authoritative_total = 0
+            def handle_event(ev):
+                nonlocal authoritative_total
+                if not isinstance(ev, dict):
+                    return
+                t = ev.get('type') or ev.get('event')
+                if t == 'testDone':
+                    if ev.get('hidden', False):
+                        return
+                    if ev.get('skipped', False):
+                        return
+                    authoritative_total += 1
+
+            for raw_line in output_lines:
+                line = (raw_line or '').strip()
+                if not line:
+                    continue
+                try:
+                    ev = json.loads(line)
+                except json.JSONDecodeError:
+                    # Try to clean trailing commas
+                    try:
+                        ev = json.loads(line.rstrip(','))
+                    except Exception:
+                        continue
+
+                if isinstance(ev, list):
+                    for item in ev:
+                        handle_event(item)
+                else:
+                    handle_event(ev)
+
+            # Use authoritative total if we found any events
+            if authoritative_total > 0:
+                total_tests = authoritative_total
+
+        except Exception:
+            # If re-parse fails, fall back to live count
+            pass
 
         # Cache the test count for future runs
         with open(cache_file, 'w') as f:

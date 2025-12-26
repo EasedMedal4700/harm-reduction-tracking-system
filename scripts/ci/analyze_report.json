@@ -74,15 +74,15 @@
       "severity": "WARNING",
       "type": "STATIC_WARNING",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\substance_details_sheet.dart",
         "range": {
           "start": {
-            "offset": 4620,
+            "offset": 4602,
             "line": 136,
             "column": 11
           },
           "end": {
-            "offset": 4622,
+            "offset": 4604,
             "line": 136,
             "column": 13
           }
@@ -97,15 +97,15 @@
       "severity": "WARNING",
       "type": "STATIC_WARNING",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\substance_details_sheet.dart",
         "range": {
           "start": {
-            "offset": 8081,
+            "offset": 8063,
             "line": 229,
             "column": 11
           },
           "end": {
-            "offset": 8083,
+            "offset": 8065,
             "line": 229,
             "column": 13
           }
@@ -120,15 +120,15 @@
       "severity": "WARNING",
       "type": "STATIC_WARNING",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\catalog\\substance_details_sheet.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\catalog\\widgets\\substance_details_sheet.dart",
         "range": {
           "start": {
-            "offset": 16093,
+            "offset": 16075,
             "line": 457,
             "column": 11
           },
           "end": {
-            "offset": 16095,
+            "offset": 16077,
             "line": 457,
             "column": 13
           }
@@ -165,15 +165,15 @@
       "severity": "WARNING",
       "type": "STATIC_WARNING",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_management_section.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\account_management_section.dart",
         "range": {
           "start": {
-            "offset": 8698,
+            "offset": 8686,
             "line": 267,
             "column": 11
           },
           "end": {
-            "offset": 8707,
+            "offset": 8695,
             "line": 267,
             "column": 20
           }
@@ -283,12 +283,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\widgets\\substance_card_test.dart",
         "range": {
           "start": {
-            "offset": 465,
+            "offset": 448,
             "line": 11,
             "column": 18
           },
           "end": {
-            "offset": 474,
+            "offset": 457,
             "line": 11,
             "column": 27
           }
@@ -603,12 +603,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\edit_log_entry\\edit_log_entry_page.dart",
         "range": {
           "start": {
-            "offset": 6004,
+            "offset": 5974,
             "line": 171,
             "column": 47
           },
           "end": {
-            "offset": 6011,
+            "offset": 5981,
             "line": 171,
             "column": 54
           }
@@ -646,15 +646,15 @@
       "severity": "INFO",
       "type": "LINT",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\account_management_section.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\account_management_section.dart",
         "range": {
           "start": {
-            "offset": 8915,
+            "offset": 8903,
             "line": 272,
             "column": 7
           },
           "end": {
-            "offset": 8922,
+            "offset": 8910,
             "line": 272,
             "column": 14
           }
@@ -669,15 +669,15 @@
       "severity": "INFO",
       "type": "LINT",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\privacy_settings_section.dart",
         "range": {
           "start": {
-            "offset": 4578,
+            "offset": 4554,
             "line": 132,
             "column": 38
           },
           "end": {
-            "offset": 4585,
+            "offset": 4561,
             "line": 132,
             "column": 45
           }
@@ -692,15 +692,15 @@
       "severity": "INFO",
       "type": "LINT",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\settings\\privacy_settings_section.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\settings\\widgets\\privacy_settings_section.dart",
         "range": {
           "start": {
-            "offset": 11190,
+            "offset": 11166,
             "line": 293,
             "column": 38
           },
           "end": {
-            "offset": 11197,
+            "offset": 11173,
             "line": 293,
             "column": 45
           }
@@ -1017,12 +1017,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\screens\\personal_library_page_test.dart",
         "range": {
           "start": {
-            "offset": 3984,
+            "offset": 3976,
             "line": 138,
             "column": 9
           },
           "end": {
-            "offset": 4015,
+            "offset": 4007,
             "line": 138,
             "column": 40
           }
@@ -1040,12 +1040,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\screens\\personal_library_page_test.dart",
         "range": {
           "start": {
-            "offset": 5653,
+            "offset": 5645,
             "line": 190,
             "column": 7
           },
           "end": {
-            "offset": 5684,
+            "offset": 5676,
             "line": 190,
             "column": 38
           }
@@ -1063,12 +1063,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\screens\\personal_library_page_test.dart",
         "range": {
           "start": {
-            "offset": 6438,
+            "offset": 6430,
             "line": 215,
             "column": 7
           },
           "end": {
-            "offset": 6469,
+            "offset": 6461,
             "line": 215,
             "column": 38
           }
@@ -1086,12 +1086,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\screens\\personal_library_page_test.dart",
         "range": {
           "start": {
-            "offset": 7204,
+            "offset": 7196,
             "line": 237,
             "column": 9
           },
           "end": {
-            "offset": 7235,
+            "offset": 7227,
             "line": 237,
             "column": 40
           }
@@ -1109,12 +1109,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\features\\stockpile\\screens\\personal_library_page_test.dart",
         "range": {
           "start": {
-            "offset": 8936,
+            "offset": 8928,
             "line": 289,
             "column": 9
           },
           "end": {
-            "offset": 8967,
+            "offset": 8959,
             "line": 289,
             "column": 40
           }
@@ -1937,12 +1937,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\widgets\\feature_gate_test.dart",
         "range": {
           "start": {
-            "offset": 4284,
+            "offset": 4256,
             "line": 147,
             "column": 9
           },
           "end": {
-            "offset": 4300,
+            "offset": 4272,
             "line": 147,
             "column": 25
           }
@@ -1960,12 +1960,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\widgets\\feature_gate_test.dart",
         "range": {
           "start": {
-            "offset": 4756,
+            "offset": 4728,
             "line": 158,
             "column": 9
           },
           "end": {
-            "offset": 4772,
+            "offset": 4744,
             "line": 158,
             "column": 25
           }
@@ -1983,12 +1983,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\widgets\\feature_gate_test.dart",
         "range": {
           "start": {
-            "offset": 5101,
+            "offset": 5073,
             "line": 169,
             "column": 9
           },
           "end": {
-            "offset": 5117,
+            "offset": 5089,
             "line": 169,
             "column": 25
           }
@@ -2006,12 +2006,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\widgets\\feature_gate_test.dart",
         "range": {
           "start": {
-            "offset": 5448,
+            "offset": 5420,
             "line": 180,
             "column": 9
           },
           "end": {
-            "offset": 5464,
+            "offset": 5436,
             "line": 180,
             "column": 25
           }
@@ -2029,12 +2029,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\widgets\\feature_gate_test.dart",
         "range": {
           "start": {
-            "offset": 5783,
+            "offset": 5755,
             "line": 192,
             "column": 9
           },
           "end": {
-            "offset": 5799,
+            "offset": 5771,
             "line": 192,
             "column": 25
           }
@@ -2650,12 +2650,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\widgets\\reflection_selection_test.dart",
         "range": {
           "start": {
-            "offset": 623,
+            "offset": 612,
             "line": 24,
             "column": 32
           },
           "end": {
-            "offset": 639,
+            "offset": 628,
             "line": 24,
             "column": 48
           }
