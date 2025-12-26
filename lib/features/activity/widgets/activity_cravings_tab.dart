@@ -5,7 +5,7 @@
 // Notes: Tab for displaying cravings. Uses ActivityCard and ActivityEmptyState.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import '../../models/activity_models.dart';
+import '../models/activity_models.dart';
 import 'activity_card.dart';
 import 'activity_empty_state.dart';
 

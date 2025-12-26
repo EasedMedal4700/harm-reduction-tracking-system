@@ -11,10 +11,10 @@ import '../../common/buttons/common_icon_button.dart';
 import 'models/activity_models.dart';
 import 'models/activity_state.dart';
 import 'providers/activity_providers.dart';
-import 'widgets/activity/activity_drug_use_tab.dart';
-import 'widgets/activity/activity_cravings_tab.dart';
-import 'widgets/activity/activity_reflections_tab.dart';
-import 'widgets/activity/activity_detail_helpers.dart';
+import 'widgets/activity_drug_use_tab.dart';
+import 'widgets/activity_cravings_tab.dart';
+import 'widgets/activity_reflections_tab.dart';
+import 'widgets/activity_detail_helpers.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/strings/app_strings.dart';
 
