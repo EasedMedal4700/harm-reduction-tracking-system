@@ -420,12 +420,12 @@
         "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\test\\providers\\settings_provider_test.dart",
         "range": {
           "start": {
-            "offset": 914,
+            "offset": 932,
             "line": 27,
             "column": 13
           },
           "end": {
-            "offset": 919,
+            "offset": 937,
             "line": 27,
             "column": 18
           }
