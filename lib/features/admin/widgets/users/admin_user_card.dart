@@ -1,10 +1,12 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: N/A
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: Fully theme-compliant. No hardcoded values.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:intl/intl.dart';
@@ -12,10 +14,12 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 
+import '../../models/admin_user.dart';
+
 /// User card widget for admin panel
 class AdminUserCard extends StatelessWidget {
-  final Map<String, dynamic> user;
-  final Function(String, bool) onToggleAdmin;
+  final AdminUser user;
+  final Future<void> Function(String, bool) onToggleAdmin;
   const AdminUserCard({
     required this.user,
     required this.onToggleAdmin,
@@ -28,19 +32,15 @@ class AdminUserCard extends StatelessWidget {
     final sp = context.spacing;
     final sh = context.shapes;
     final tx = context.text;
-    final authUserId = user['auth_user_id'] as String? ?? '';
-    final username =
-        user['username'] as String? ??
-        user['display_name'] as String? ??
-        'Unknown';
-    final email = user['email'] as String? ?? 'No email';
-    final isAdmin = user['is_admin'] as bool? ?? false;
-    final createdAt = user['created_at'];
-    final lastActive =
-        user['last_activity'] ?? user['last_active'] ?? user['updated_at'];
-    final entryCount = user['entry_count'] as int? ?? 0;
-    final cravingCount = user['craving_count'] as int? ?? 0;
-    final reflectionCount = user['reflection_count'] as int? ?? 0;
+    final authUserId = user.authUserId;
+    final username = user.displayName;
+    final email = user.email;
+    final isAdmin = user.isAdmin;
+    final createdAt = user.createdAt;
+    final lastActive = user.lastActivity ?? user.updatedAt;
+    final entryCount = user.entryCount;
+    final cravingCount = user.cravingCount;
+    final reflectionCount = user.reflectionCount;
     // INVALID DATA FALLBACK
     if (authUserId.isEmpty) {
       return Padding(
@@ -151,17 +151,13 @@ class AdminUserCard extends StatelessWidget {
                     _buildInfoRow(
                       context,
                       'Joined',
-                      DateFormat(
-                        'MMM d, yyyy',
-                      ).format(DateTime.parse(createdAt)),
+                      DateFormat('MMM d, yyyy').format(createdAt),
                     ),
                   if (lastActive != null)
                     _buildInfoRow(
                       context,
                       'Last Active',
-                      DateFormat(
-                        'MMM d, yyyy HH:mm',
-                      ).format(DateTime.parse(lastActive)),
+                      DateFormat('MMM d, yyyy HH:mm').format(lastActive),
                     ),
                   SizedBox(height: sp.lg),
 
@@ -170,7 +166,9 @@ class AdminUserCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: CommonPrimaryButton(
-                          onPressed: () => onToggleAdmin(authUserId, isAdmin),
+                          onPressed: () {
+                            unawaited(onToggleAdmin(authUserId, isAdmin));
+                          },
                           icon: isAdmin
                               ? Icons.remove_circle
                               : Icons.add_circle,

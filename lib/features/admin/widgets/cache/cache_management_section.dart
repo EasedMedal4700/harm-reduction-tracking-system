@@ -1,21 +1,25 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: N/A
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_outlined_button.dart';
+
+import '../../models/admin_cache_stats.dart';
 import '../stats/cache_stat_widget.dart';
 import 'cache_action_button.dart';
 
 /// Cache management section showing stats and actions for cache control
 class CacheManagementSection extends StatelessWidget {
-  final Map<String, dynamic> cacheStats;
+  final AdminCacheStats cacheStats;
   final VoidCallback onClearAll;
   final VoidCallback onClearDrugCache;
   final VoidCallback onClearExpired;
@@ -34,9 +38,9 @@ class CacheManagementSection extends StatelessWidget {
     final sp = context.spacing;
     final tx = context.text;
     final sh = context.shapes;
-    final totalEntries = cacheStats['total_entries'] ?? 0;
-    final activeEntries = cacheStats['active_entries'] ?? 0;
-    final expiredEntries = cacheStats['expired_entries'] ?? 0;
+    final totalEntries = cacheStats.totalEntries;
+    final activeEntries = cacheStats.activeEntries;
+    final expiredEntries = cacheStats.expiredEntries;
     return CommonCard(
       borderRadius: sh.radiusMd,
       padding: EdgeInsets.all(sp.lg),
@@ -62,7 +66,7 @@ class CacheManagementSection extends StatelessWidget {
             padding: EdgeInsets.all(sp.md),
             decoration: BoxDecoration(
               color: c.surfaceVariant,
-              borderRadius: BorderRadius.circular(sp.sm),
+              borderRadius: BorderRadius.circular(sh.radiusSm),
             ),
             child: Row(
               mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceAround,
@@ -154,34 +158,35 @@ class CacheManagementSection extends StatelessWidget {
   ) {
     final c = context.colors;
     final tx = context.text;
-    final sp = context.spacing;
+    final sh = context.shapes;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: c.surface,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(sp.md),
+          borderRadius: BorderRadius.circular(sh.radiusMd),
           side: BorderSide(color: c.border),
         ),
         title: Text(title, style: tx.heading4.copyWith(color: c.textPrimary)),
         content: Text(message, style: tx.body.copyWith(color: c.textSecondary)),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'Cancel',
-              style: tx.button.copyWith(color: c.textSecondary),
-            ),
+          CommonOutlinedButton(
+            label: 'Cancel',
+            height: context.sizes.buttonHeightSm,
+            onPressed: () => context.pop(),
+            color: c.textSecondary,
+            borderColor: c.border,
           ),
           CommonPrimaryButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
               onConfirm();
             },
             label: 'Clear',
             backgroundColor: c.error,
             textColor: c.textInverse,
+            height: context.sizes.buttonHeightSm,
           ),
         ],
       ),

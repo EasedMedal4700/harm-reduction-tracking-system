@@ -1,15 +1,16 @@
 // MIGRATION:
 // State: MODERN
-// Navigation: N/A
+// Navigation: GOROUTER
 // Models: N/A
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
-import '../../screens/error_analytics_page.dart';
-import '../../../bug_report/bug_report_page.dart';
+
+import '../../../../routes/app_router.dart';
 
 /// Custom app bar for the admin panel screen
 class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -44,10 +45,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
               semanticLabel: 'Report Bug',
             ),
             color: c.textPrimary,
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const BugReportScreen()),
-            ),
+            onPressed: () => context.push(AppRoutePaths.bugReport),
             tooltip: 'Report Bug',
           ),
         ),
@@ -57,10 +55,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
             semanticLabel: 'Error Analytics',
           ),
           color: c.textPrimary,
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const ErrorAnalyticsScreen()),
-          ),
+          onPressed: () => context.push(AppRoutePaths.adminErrorAnalytics),
           tooltip: 'Error Analytics',
         ),
         Semantics(

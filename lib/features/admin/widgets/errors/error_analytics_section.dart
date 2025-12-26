@@ -1,7 +1,7 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: N/A
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: Fully theme-based, no deprecated typography or colors.
@@ -10,31 +10,26 @@ import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_outlined_button.dart';
+
+import '../../models/error_analytics.dart';
+import '../../models/error_log_entry.dart';
+import '../../models/label_count.dart';
 import 'severity_badge.dart';
 
 /// Error analytics dashboard widget for admin panel
 class ErrorAnalyticsSection extends StatelessWidget {
-  final Map<String, dynamic> errorAnalytics;
+  final ErrorAnalytics analytics;
   final bool isClearingErrors;
   final VoidCallback onCleanLogs;
-  final Function(Map<String, dynamic>) onShowLogDetails;
+  final void Function(ErrorLogEntry) onShowLogDetails;
   const ErrorAnalyticsSection({
-    required this.errorAnalytics,
+    required this.analytics,
     required this.isClearingErrors,
     required this.onCleanLogs,
     required this.onShowLogDetails,
     super.key,
   });
-  List<Map<String, dynamic>> _getBreakdown(String key) {
-    final raw = errorAnalytics[key];
-    if (raw is List) {
-      return raw
-          .whereType<Map>()
-          .map<Map<String, dynamic>>((item) => Map<String, dynamic>.from(item))
-          .toList();
-    }
-    return <Map<String, dynamic>>[];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +37,14 @@ class ErrorAnalyticsSection extends StatelessWidget {
     final tx = context.text;
     final sp = context.spacing;
     final sh = context.shapes;
-    final totalErrors = errorAnalytics['total_errors'] ?? 0;
-    final last24h = errorAnalytics['last_24h'] ?? 0;
-    final platformBreakdown = _getBreakdown('platform_breakdown');
-    final screenBreakdown = _getBreakdown('screen_breakdown');
-    final messageBreakdown = _getBreakdown('message_breakdown');
-    final severityBreakdown = _getBreakdown('severity_breakdown');
-    final errorCodeBreakdown = _getBreakdown('error_code_breakdown');
-    final recentLogs = _getBreakdown('recent_logs');
+    final totalErrors = analytics.totalErrors;
+    final last24h = analytics.last24h;
+    final platformBreakdown = analytics.platformBreakdown;
+    final screenBreakdown = analytics.screenBreakdown;
+    final messageBreakdown = analytics.messageBreakdown;
+    final severityBreakdown = analytics.severityBreakdown;
+    final errorCodeBreakdown = analytics.errorCodeBreakdown;
+    final recentLogs = analytics.recentLogs;
     return CommonCard(
       borderRadius: sh.radiusMd,
       padding: EdgeInsets.all(sp.lg),
@@ -71,15 +66,12 @@ class ErrorAnalyticsSection extends StatelessWidget {
                 button: true,
                 enabled: !isClearingErrors,
                 label: isClearingErrors ? 'Clearing logs' : 'Clean Logs',
-                child: TextButton.icon(
-                  onPressed: () {
-                    if (!isClearingErrors) onCleanLogs();
-                  },
-                  icon: const Icon(Icons.cleaning_services_outlined),
-                  label: Text(
-                    'Clean Logs',
-                    style: tx.button.copyWith(color: c.textPrimary),
-                  ),
+                child: CommonOutlinedButton(
+                  label: 'Clean Logs',
+                  icon: Icons.cleaning_services_outlined,
+                  height: context.sizes.buttonHeightSm,
+                  isEnabled: !isClearingErrors,
+                  onPressed: onCleanLogs,
                 ),
               ),
             ],
@@ -122,32 +114,24 @@ class ErrorAnalyticsSection extends StatelessWidget {
               context: context,
               title: 'Top Platforms',
               data: platformBreakdown,
-              labelKey: 'platform',
-              countKey: 'count',
             ),
           if (screenBreakdown.isNotEmpty)
             _buildBreakdownSection(
               context: context,
               title: 'Top Screens',
               data: screenBreakdown,
-              labelKey: 'screen_name',
-              countKey: 'count',
             ),
           if (messageBreakdown.isNotEmpty)
             _buildBreakdownSection(
               context: context,
               title: 'Frequent Errors',
               data: messageBreakdown,
-              labelKey: 'error_message',
-              countKey: 'count',
             ),
           if (severityBreakdown.isNotEmpty)
             _buildBreakdownSection(
               context: context,
               title: 'By Severity',
               data: severityBreakdown,
-              labelKey: 'severity',
-              countKey: 'count',
               useSeverityBadge: true,
             ),
           if (errorCodeBreakdown.isNotEmpty)
@@ -155,8 +139,6 @@ class ErrorAnalyticsSection extends StatelessWidget {
               context: context,
               title: 'By Error Code',
               data: errorCodeBreakdown,
-              labelKey: 'error_code',
-              countKey: 'count',
             ),
           SizedBox(height: sp.lg),
 
@@ -174,17 +156,12 @@ class ErrorAnalyticsSection extends StatelessWidget {
           else
             Column(
               children: recentLogs.map((log) {
-                final createdRaw = log['created_at'];
-                final createdAt = createdRaw is String
-                    ? DateTime.tryParse(createdRaw)
-                    : createdRaw is DateTime
-                    ? createdRaw
-                    : null;
+                final createdAt = log.createdAt;
                 final timestamp = createdAt != null
                     ? DateFormat('MMM dd, HH:mm').format(createdAt)
                     : 'Unknown time';
-                final severity = log['severity']?.toString() ?? 'medium';
-                final errorCode = log['error_code']?.toString() ?? '';
+                final severity = log.severity;
+                final errorCode = log.errorCode ?? '';
                 return ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: SeverityBadge(severity: severity, compact: true),
@@ -213,7 +190,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                       ],
                       Expanded(
                         child: Text(
-                          log['error_message'] ?? 'Unknown error',
+                          log.errorMessage ?? 'Unknown error',
                           overflow: AppLayout.textOverflowEllipsis,
                           maxLines: 2,
                           style: tx.body.copyWith(color: c.textPrimary),
@@ -222,8 +199,8 @@ class ErrorAnalyticsSection extends StatelessWidget {
                     ],
                   ),
                   subtitle: Text(
-                    '${log['platform'] ?? 'unknown'} • '
-                    '${log['screen_name'] ?? 'Unknown screen'}\n'
+                    '${log.platform ?? 'unknown'} • '
+                    '${log.screenName ?? 'Unknown screen'}\n'
                     '$timestamp',
                     style: tx.caption.copyWith(color: c.textSecondary),
                   ),
@@ -232,7 +209,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
                     children: [
                       Icon(Icons.devices, color: c.textSecondary),
                       Text(
-                        log['device_model'] ?? 'unavailable',
+                        log.deviceModel ?? 'unavailable',
                         style: tx.caption.copyWith(color: c.textSecondary),
                       ),
                     ],
@@ -261,7 +238,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
       width: context.sizes.cardWidthMd,
       padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
+        color: color.withValues(alpha: context.opacities.veryLow),
         borderRadius: BorderRadius.circular(sh.radiusMd),
       ),
       child: Column(
@@ -279,9 +256,7 @@ class ErrorAnalyticsSection extends StatelessWidget {
   Widget _buildBreakdownSection({
     required BuildContext context,
     required String title,
-    required List<Map<String, dynamic>> data,
-    required String labelKey,
-    required String countKey,
+    required List<LabelCount> data,
     bool useSeverityBadge = false,
   }) {
     final c = context.colors;
@@ -303,18 +278,15 @@ class ErrorAnalyticsSection extends StatelessWidget {
                   children: [
                     Expanded(
                       child: useSeverityBadge
-                          ? SeverityBadge(
-                              severity: item[labelKey]?.toString() ?? 'medium',
-                              compact: false,
-                            )
+                          ? SeverityBadge(severity: item.label, compact: false)
                           : Text(
-                              item[labelKey]?.toString() ?? 'Unknown',
+                              item.label,
                               overflow: AppLayout.textOverflowEllipsis,
                               style: tx.body.copyWith(color: c.textPrimary),
                             ),
                     ),
                     Text(
-                      '${item[countKey] ?? 0} hits',
+                      '${item.count} hits',
                       style: tx.bodyBold.copyWith(color: c.textSecondary),
                     ),
                   ],

@@ -26,7 +26,7 @@ class SeverityBadge extends StatelessWidget {
     final colors = _getSeverityColors(context, severity);
     final icon = _getSeverityIcon(severity);
     final padding = compact
-        ? EdgeInsets.symmetric(horizontal: sp.xs, vertical: sp.xs * 0.7)
+        ? EdgeInsets.symmetric(horizontal: sp.xs, vertical: sp.xs)
         : EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm);
     final borderRadius = BorderRadius.circular(
       compact ? sh.radiusSm : sh.radiusMd,
@@ -34,19 +34,23 @@ class SeverityBadge extends StatelessWidget {
     final textStyle = (compact ? tx.caption : tx.bodySmall).copyWith(
       color: colors.text,
       fontWeight: tx.bodyBold.fontWeight,
-      letterSpacing: compact ? 0 : 0.5,
+      letterSpacing: compact ? 0 : context.sizes.letterSpacingSm,
     );
+    final iconSize =
+        (compact ? tx.caption.fontSize : tx.bodySmall.fontSize) ??
+        context.sizes.iconSm;
+    final borderWidth = compact ? context.borders.thin : context.borders.medium;
     return Container(
       padding: padding,
       decoration: BoxDecoration(
         color: colors.background,
         borderRadius: borderRadius,
-        border: Border.all(color: colors.border, width: compact ? 1 : 1.5),
+        border: Border.all(color: colors.border, width: borderWidth),
       ),
       child: Row(
         mainAxisSize: AppLayout.mainAxisSizeMin,
         children: [
-          Icon(icon, size: compact ? 12 : 16, color: colors.text),
+          Icon(icon, size: iconSize, color: colors.text),
           SizedBox(width: compact ? sp.xs : sp.sm),
           Text(severity.toUpperCase(), style: textStyle),
         ],
@@ -60,26 +64,26 @@ class SeverityBadge extends StatelessWidget {
     switch (severity.toLowerCase()) {
       case 'critical':
         return _SeverityColors(
-          background: c.error.withValues(alpha: 0.12),
-          border: c.error.withValues(alpha: 0.6),
+          background: c.error.withValues(alpha: context.opacities.veryLow),
+          border: c.error.withValues(alpha: context.opacities.high),
           text: c.error,
         );
       case 'high':
         return _SeverityColors(
-          background: c.warning.withValues(alpha: 0.12),
-          border: c.warning.withValues(alpha: 0.6),
+          background: c.warning.withValues(alpha: context.opacities.veryLow),
+          border: c.warning.withValues(alpha: context.opacities.high),
           text: c.warning,
         );
       case 'medium':
         return _SeverityColors(
-          background: c.info.withValues(alpha: 0.12),
-          border: c.info.withValues(alpha: 0.6),
+          background: c.info.withValues(alpha: context.opacities.veryLow),
+          border: c.info.withValues(alpha: context.opacities.high),
           text: c.info,
         );
       case 'low':
         return _SeverityColors(
-          background: c.success.withValues(alpha: 0.12),
-          border: c.success.withValues(alpha: 0.6),
+          background: c.success.withValues(alpha: context.opacities.veryLow),
+          border: c.success.withValues(alpha: context.opacities.high),
           text: c.success,
         );
       default:

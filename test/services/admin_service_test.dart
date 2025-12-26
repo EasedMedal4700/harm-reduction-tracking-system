@@ -62,8 +62,8 @@ void main() {
       final result = await adminService.getSystemStats();
 
       expect(result, isNotNull);
-      expect(result['total_entries'], 10);
-      expect(result['active_users'], 5);
+      expect(result.totalEntries, 10);
+      expect(result.activeUsers, 5);
     });
 
     test('handles errors gracefully', () async {
@@ -77,8 +77,8 @@ void main() {
       final result = await adminService.getSystemStats();
 
       expect(result, isNotNull);
-      expect(result['total_entries'], 0);
-      expect(result['active_users'], 0);
+      expect(result.totalEntries, 0);
+      expect(result.activeUsers, 0);
     });
   });
 

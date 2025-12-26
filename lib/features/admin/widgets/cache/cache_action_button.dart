@@ -4,9 +4,10 @@
 // Models: N/A
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Fully theme-based. No hardcoded values.
+// Notes: Wrapper around common buttons (no custom button styling).
 import 'package:flutter/material.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_outlined_button.dart';
 
 /// Action button for cache management operations
 class CacheActionButton extends StatelessWidget {
@@ -23,31 +24,13 @@ class CacheActionButton extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final sp = context.spacing;
-    final tx = context.text;
-    return ElevatedButton.icon(
+    return CommonOutlinedButton(
+      label: label,
+      icon: icon,
       onPressed: onPressed,
-      icon: Icon(
-        icon,
-        size: context.sizes.iconSm,
-        color: color, // stays as user accent color
-      ),
-      label: Text(label, style: tx.button.copyWith(color: color)),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color.withValues(alpha: context.opacities.veryLow),
-        foregroundColor: color,
-        shadowColor: c.overlayHeavy,
-        elevation: context.sizes.elevationNone,
-        padding: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.md),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(sp.sm),
-          side: BorderSide(
-            color: color.withValues(alpha: context.opacities.border),
-            width: context.borders.thin,
-          ),
-        ),
-      ),
+      height: context.sizes.buttonHeightSm,
+      color: color,
+      borderColor: color.withValues(alpha: context.opacities.border),
     );
   }
 }

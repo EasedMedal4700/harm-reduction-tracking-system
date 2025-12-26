@@ -1,7 +1,7 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: N/A
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: Fully theme-based, correct typography & colors.
@@ -12,23 +12,14 @@ import 'package:intl/intl.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import '../../../../constants/theme/app_typography.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+
+import '../../models/error_log_entry.dart';
 import 'severity_badge.dart';
 
 /// Bottom sheet dialog showing detailed error log information
 class ErrorLogDetailDialog extends StatelessWidget {
-  final Map<String, dynamic> log;
+  final ErrorLogEntry log;
   const ErrorLogDetailDialog({required this.log, super.key});
-  Map<String, dynamic>? _parseExtraData(dynamic data) {
-    if (data is Map<String, dynamic>) return data;
-    if (data is String && data.isNotEmpty) {
-      try {
-        return jsonDecode(data) as Map<String, dynamic>?;
-      } catch (_) {
-        return null;
-      }
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +27,10 @@ class ErrorLogDetailDialog extends StatelessWidget {
     final sp = context.spacing;
     final tx = context.text;
     final sh = context.shapes;
-    final createdAtString = log['created_at']?.toString();
-    final createdAt = createdAtString != null
-        ? DateTime.tryParse(createdAtString)
-        : null;
-    final extra = _parseExtraData(log['extra_data']);
-    final severity = log['severity'] as String? ?? 'medium';
-    final errorCode = log['error_code'] as String? ?? '';
+    final createdAt = log.createdAt;
+    final extra = log.parseExtraDataAsMap();
+    final severity = log.severity;
+    final errorCode = log.errorCode ?? '';
     return DraggableScrollableSheet(
       expand: false,
       builder: (context, controller) {
@@ -66,7 +54,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                     SizedBox(width: sp.sm),
                     Expanded(
                       child: Text(
-                        log['error_message'] ?? 'Unknown error',
+                        log.errorMessage ?? 'Unknown error',
                         style: tx.heading4.copyWith(color: c.textPrimary),
                       ),
                     ),
@@ -114,31 +102,19 @@ class ErrorLogDetailDialog extends StatelessWidget {
                         ).format(createdAt.toLocal())
                       : 'Unknown',
                 ),
-                _buildKeyValue(
-                  context,
-                  'Platform',
-                  log['platform'] ?? 'Unknown',
-                ),
+                _buildKeyValue(context, 'Platform', log.platform ?? 'Unknown'),
                 _buildKeyValue(
                   context,
                   'OS Version',
-                  log['os_version'] ?? 'Unknown',
+                  log.osVersion ?? 'Unknown',
                 ),
-                _buildKeyValue(
-                  context,
-                  'Device',
-                  log['device_model'] ?? 'Unknown',
-                ),
+                _buildKeyValue(context, 'Device', log.deviceModel ?? 'Unknown'),
                 _buildKeyValue(
                   context,
                   'App Version',
-                  log['app_version'] ?? 'Unknown',
+                  log.appVersion ?? 'Unknown',
                 ),
-                _buildKeyValue(
-                  context,
-                  'Screen',
-                  log['screen_name'] ?? 'Unknown',
-                ),
+                _buildKeyValue(context, 'Screen', log.screenName ?? 'Unknown'),
                 SizedBox(height: sp.md),
 
                 /// STACKTRACE
@@ -153,7 +129,7 @@ class ErrorLogDetailDialog extends StatelessWidget {
                   borderRadius: sh.radiusMd,
                   borderColor: c.border,
                   child: SelectableText(
-                    log['stacktrace'] ?? 'Unavailable',
+                    log.stacktrace ?? 'Unavailable',
                     style: tx.caption.copyWith(
                       fontFamily: AppTypographyConstants.fontFamilyMonospace,
                       fontSize: tx.label.fontSize,

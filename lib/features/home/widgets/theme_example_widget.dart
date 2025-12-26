@@ -8,9 +8,6 @@ import '../../../common/layout/common_spacer.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully migrated. Uses context-based AppTheme access only.
-import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-
 /// Example widget demonstrating theme usage patterns
 /// Use this as a reference when building new themed widgets
 class ThemeExampleWidget extends StatelessWidget {

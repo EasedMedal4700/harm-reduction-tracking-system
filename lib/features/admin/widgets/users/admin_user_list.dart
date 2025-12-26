@@ -1,7 +1,7 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: N/A
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
@@ -9,12 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_icon_button.dart';
+
+import '../../models/admin_user.dart';
 import 'admin_user_card.dart';
 
 /// User list section for admin panel
 class AdminUserList extends StatelessWidget {
-  final List<Map<String, dynamic>> users;
-  final Function(String, bool) onToggleAdmin;
+  final List<AdminUser> users;
+  final Future<void> Function(String, bool) onToggleAdmin;
   final VoidCallback onRefresh;
   const AdminUserList({
     required this.users,

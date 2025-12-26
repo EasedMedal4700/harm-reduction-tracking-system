@@ -1,21 +1,29 @@
-// ignore_for_file: deprecated_member_use
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: N/A
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Fully theme-compliant, no deprecated API
+// Notes: Fully theme-compliant; dialog state via Riverpod.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 import 'package:mobile_drug_use_app/common/inputs/switch_tile.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_outlined_button.dart';
+
+import '../../models/error_cleanup_filters.dart';
+
+final _deleteAllProvider = StateProvider.autoDispose<bool>((ref) => false);
+final _platformProvider = StateProvider.autoDispose<String?>((ref) => null);
+final _screenProvider = StateProvider.autoDispose<String?>((ref) => null);
 
 /// Dialog for cleaning/filtering error logs with various options
-class ErrorCleanupDialog extends StatefulWidget {
+class ErrorCleanupDialog extends ConsumerStatefulWidget {
   final List<String> platformOptions;
   final List<String> screenOptions;
   const ErrorCleanupDialog({
@@ -24,14 +32,12 @@ class ErrorCleanupDialog extends StatefulWidget {
     super.key,
   });
   @override
-  State<ErrorCleanupDialog> createState() => _ErrorCleanupDialogState();
+  ConsumerState<ErrorCleanupDialog> createState() => _ErrorCleanupDialogState();
 }
 
-class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
+class _ErrorCleanupDialogState extends ConsumerState<ErrorCleanupDialog> {
   final _daysController = TextEditingController();
-  String? _platform;
-  String? _screen;
-  bool _deleteAll = false;
+
   @override
   void dispose() {
     _daysController.dispose();
@@ -44,6 +50,11 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
     final sp = context.spacing;
     final tx = context.text;
     final sh = context.shapes;
+
+    final deleteAll = ref.watch(_deleteAllProvider);
+    final platform = ref.watch(_platformProvider);
+    final screen = ref.watch(_screenProvider);
+
     return AlertDialog(
       backgroundColor: c.surface,
       shape: RoundedRectangleBorder(
@@ -64,12 +75,13 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
           children: [
             /// DELETE ALL SWITCH
             CommonSwitchTile(
-              value: _deleteAll,
-              onChanged: (value) => setState(() => _deleteAll = value),
+              value: deleteAll,
+              onChanged: (value) =>
+                  ref.read(_deleteAllProvider.notifier).state = value,
               title: 'Delete entire table',
               subtitle: 'This action cannot be undone',
             ),
-            if (!_deleteAll) ...[
+            if (!deleteAll) ...[
               /// DAYS FIELD
               CommonInputField(
                 controller: _daysController,
@@ -81,21 +93,23 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
 
               /// PLATFORM DROPDOWN
               CommonDropdown<String>(
-                value: _platform,
+                value: platform,
                 items: widget.platformOptions,
                 hintText: 'Platform (optional)',
                 itemLabel: (v) => v,
-                onChanged: (val) => setState(() => _platform = val),
+                onChanged: (val) =>
+                    ref.read(_platformProvider.notifier).state = val,
               ),
               SizedBox(height: sp.md),
 
               /// SCREEN DROPDOWN
               CommonDropdown<String>(
-                value: _screen,
+                value: screen,
                 items: widget.screenOptions,
                 hintText: 'Screen (optional)',
                 itemLabel: (v) => v,
-                onChanged: (val) => setState(() => _screen = val),
+                onChanged: (val) =>
+                    ref.read(_screenProvider.notifier).state = val,
               ),
             ],
           ],
@@ -104,24 +118,27 @@ class _ErrorCleanupDialogState extends State<ErrorCleanupDialog> {
 
       /// ACTION BUTTONS
       actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(null),
-          child: Text(
-            'Cancel',
-            style: tx.button.copyWith(color: c.textSecondary),
-          ),
+        CommonOutlinedButton(
+          label: 'Cancel',
+          height: context.sizes.buttonHeightSm,
+          onPressed: () => context.pop<ErrorCleanupFilters?>(null),
+          color: c.textSecondary,
+          borderColor: c.border,
         ),
         CommonPrimaryButton(
           onPressed: () {
             final days = int.tryParse(_daysController.text);
-            Navigator.of(context).pop({
-              'deleteAll': _deleteAll,
-              'olderThanDays': days,
-              'platform': _platform,
-              'screen': _screen,
-            });
+            context.pop(
+              ErrorCleanupFilters(
+                deleteAll: deleteAll,
+                olderThanDays: days,
+                platform: platform,
+                screenName: screen,
+              ),
+            );
           },
           label: 'Confirm',
+          height: context.sizes.buttonHeightSm,
         ),
       ],
     );

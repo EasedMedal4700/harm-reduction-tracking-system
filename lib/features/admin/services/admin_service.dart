@@ -9,13 +9,17 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../utils/error_handler.dart';
 import '../../../services/performance_service.dart';
 
+import '../models/admin_system_stats.dart';
+import '../models/admin_user.dart';
+import '../models/error_analytics.dart';
+
 class AdminService {
   AdminService([SupabaseClient? client])
     : _client = client ?? Supabase.instance.client;
   final SupabaseClient _client;
 
   /// Fetch all users for admin panel
-  Future<List<Map<String, dynamic>>> fetchAllUsers() async {
+  Future<List<AdminUser>> fetchAllUsers() async {
     final stopwatch = Stopwatch()..start();
     try {
       ErrorHandler.logDebug(
@@ -33,7 +37,7 @@ class AdminService {
       );
       // Get entry counts for each user
       final users = response as List<dynamic>;
-      final enrichedUsers = <Map<String, dynamic>>[];
+      final enrichedUsers = <AdminUser>[];
       for (var user in users) {
         final userData = Map<String, dynamic>.from(user);
         final authUserId = userData['auth_user_id'] as String?;
@@ -149,7 +153,7 @@ class AdminService {
           userData['created_at'] = null;
           userData['updated_at'] = null;
         }
-        enrichedUsers.add(userData);
+        enrichedUsers.add(AdminUser.fromServiceMap(userData));
       }
       ErrorHandler.logInfo(
         'AdminService',
@@ -211,7 +215,7 @@ class AdminService {
   }
 
   /// Get system statistics
-  Future<Map<String, dynamic>> getSystemStats() async {
+  Future<AdminSystemStats> getSystemStats() async {
     try {
       ErrorHandler.logDebug('AdminService', 'Fetching system stats');
       // Total entries
@@ -229,24 +233,19 @@ class AdminService {
         userIds.add(entry['uuid_user_id'] as String);
       }
       final activeUsers = userIds.length;
-      return {
+      return AdminSystemStats.fromServiceMap({
         'total_entries': totalEntries,
         'active_users': activeUsers,
         'cache_hit_rate': 0.0, // Placeholder
         'avg_response_time': 0.0, // Placeholder
-      };
+      });
     } catch (e, stackTrace) {
       ErrorHandler.logError('AdminService.getSystemStats', e, stackTrace);
-      return {
-        'total_entries': 0,
-        'active_users': 0,
-        'cache_hit_rate': 0.0,
-        'avg_response_time': 0.0,
-      };
+      return const AdminSystemStats();
     }
   }
 
-  Future<Map<String, dynamic>> getErrorAnalytics() async {
+  Future<ErrorAnalytics> getErrorAnalytics() async {
     try {
       ErrorHandler.logDebug('AdminService', 'Fetching error analytics');
       final now = DateTime.now();
@@ -283,7 +282,7 @@ class AdminService {
       }
 
       final recentLogs = logs.take(20).toList();
-      return {
+      return ErrorAnalytics.fromServiceMap({
         'total_errors': totalErrors,
         'last_24h': last24hCount,
         'platform_breakdown': buildTopCounts('platform', 'platform'),
@@ -292,19 +291,10 @@ class AdminService {
         'severity_breakdown': buildTopCounts('severity', 'severity'),
         'error_code_breakdown': buildTopCounts('error_code', 'error_code'),
         'recent_logs': recentLogs,
-      };
+      });
     } catch (e, stackTrace) {
       ErrorHandler.logError('AdminService.getErrorAnalytics', e, stackTrace);
-      return {
-        'total_errors': 0,
-        'last_24h': 0,
-        'platform_breakdown': const <Map<String, dynamic>>[],
-        'screen_breakdown': const <Map<String, dynamic>>[],
-        'message_breakdown': const <Map<String, dynamic>>[],
-        'severity_breakdown': const <Map<String, dynamic>>[],
-        'error_code_breakdown': const <Map<String, dynamic>>[],
-        'recent_logs': const <Map<String, dynamic>>[],
-      };
+      return const ErrorAnalytics();
     }
   }
 

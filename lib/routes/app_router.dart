@@ -12,9 +12,11 @@ import 'package:provider/provider.dart';
 
 import '../constants/config/feature_flags.dart';
 import '../features/admin/screens/admin_panel_screen.dart';
+import '../features/admin/screens/error_analytics_page.dart';
 import '../features/analytics/analytics_page.dart';
 import '../features/activity/activity_page.dart';
 import '../features/blood_levels/blood_levels_page.dart';
+import '../features/bug_report/bug_report_page.dart';
 import '../features/catalog/catalog_page.dart';
 import '../features/craving/cravings_page.dart';
 import '../features/daily_chekin/checkin_history_page.dart';
@@ -77,6 +79,8 @@ class AppRoutePaths {
   static const profile = '/profile';
   static const adminPanel = '/admin-panel';
   static const adminFeatureFlags = '/admin/feature-flags';
+  static const adminErrorAnalytics = '/admin/error-analytics';
+  static const bugReport = '/bug-report';
   static const settings = '/settings';
   static const toleranceDashboard = '/tolerance-dashboard';
 }
@@ -262,8 +266,19 @@ GoRouter createAppRouter({required NavigatorObserver observer}) {
         ),
       ),
       GoRoute(
+        path: AppRoutePaths.adminErrorAnalytics,
+        builder: (context, state) => FeatureGate(
+          featureName: FeatureFlags.adminPanel,
+          child: const ErrorAnalyticsScreen(),
+        ),
+      ),
+      GoRoute(
         path: AppRoutePaths.adminFeatureFlags,
         builder: (context, state) => const FeatureFlagsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutePaths.bugReport,
+        builder: (context, state) => const BugReportScreen(),
       ),
       GoRoute(
         path: AppRoutePaths.settings,

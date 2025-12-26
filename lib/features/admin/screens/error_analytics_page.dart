@@ -1,92 +1,58 @@
 // MIGRATION:
-// State: LEGACY
-// Navigation: LEGACY
-// Models: N/A
+// State: MODERN
+// Navigation: GOROUTER
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Error analytics screen. Migrated to use AppTheme and CommonLoader.
+// Notes: Riverpod-driven error analytics.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
 import 'package:mobile_drug_use_app/constants/strings/app_strings.dart';
-import '../services/admin_service.dart';
-import '../../../utils/error_reporter.dart';
 import '../widgets/errors/error_analytics_section.dart';
 import '../widgets/errors/error_cleanup_dialog.dart';
 import '../widgets/errors/error_log_detail_dialog.dart';
 
-class ErrorAnalyticsScreen extends StatefulWidget {
+import '../providers/admin_providers.dart';
+import '../models/error_cleanup_filters.dart';
+import '../models/error_log_entry.dart';
+
+class ErrorAnalyticsScreen extends ConsumerWidget {
   const ErrorAnalyticsScreen({super.key});
-  @override
-  State<ErrorAnalyticsScreen> createState() => _ErrorAnalyticsScreenState();
-}
-
-class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
-  final AdminService _adminService = AdminService();
-  final ErrorReporter _errorReporter = ErrorReporter.instance;
-  Map<String, dynamic> _errorAnalytics = {};
-  bool _isClearingErrors = false;
-  bool _isLoading = true;
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  Future<void> _loadData() async {
-    setState(() => _isLoading = true);
+  Future<void> _showErrorCleanupDialog(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     try {
-      final errorAnalytics = await _adminService.getErrorAnalytics();
-      if (!mounted) return;
-      setState(() {
-        _errorAnalytics = errorAnalytics;
-        _isLoading = false;
-      });
-    } catch (e, stackTrace) {
-      await _errorReporter.reportError(
-        error: e,
-        stackTrace: stackTrace,
-        screenName: 'ErrorAnalyticsScreen',
-        extraData: {'context': 'load_data'},
-      );
-      if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text(AppStrings.errorLoadingAnalytics)),
-        );
-      }
-    }
-  }
-
-  Future<void> _showErrorCleanupDialog() async {
-    try {
-      final platformOptions = _getBreakdown('platform_breakdown')
-          .map((item) => item['platform']?.toString() ?? 'unknown')
+      final state = ref.read(errorAnalyticsControllerProvider);
+      final platformOptions = state.analytics.platformBreakdown
+          .map((item) => item.label)
           .where((value) => value.isNotEmpty)
           .toSet()
           .toList();
-      final screenOptions = _getBreakdown('screen_breakdown')
-          .map((item) => item['screen_name']?.toString() ?? 'Unknown Screen')
+      final screenOptions = state.analytics.screenBreakdown
+          .map((item) => item.label)
           .where((value) => value.isNotEmpty)
           .toSet()
           .toList();
-      final result = await showDialog<Map<String, dynamic>?>(
+      final result = await showDialog<ErrorCleanupFilters?>(
         context: context,
         builder: (context) => ErrorCleanupDialog(
           platformOptions: platformOptions,
           screenOptions: screenOptions,
         ),
       );
-      if (result == null || !mounted) return;
-      final deleteAll = result['deleteAll'] as bool? ?? false;
-      final olderThanDays = result['olderThanDays'] as int?;
-      final platform = result['platform'] as String?;
-      final screen = result['screen'] as String?;
+      if (result == null || !context.mounted) return;
+      final deleteAll = result.deleteAll;
+      final olderThanDays = result.olderThanDays;
+      final platform = result.platform;
+      final screen = result.screenName;
       if (!deleteAll &&
           olderThanDays == null &&
           (platform?.isEmpty ?? true) &&
           (screen?.isEmpty ?? true)) {
-        if (mounted) {
+        if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text(AppStrings.errorAnalyticsFilterRequired),
@@ -95,34 +61,21 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
         }
         return;
       }
-      setState(() => _isClearingErrors = true);
-      try {
-        await _adminService.clearErrorLogs(
-          deleteAll: deleteAll,
-          olderThanDays: olderThanDays,
-          platform: platform,
-          screenName: screen,
-        );
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text(AppStrings.errorLogsCleaned)),
+      await ref
+          .read(errorAnalyticsControllerProvider.notifier)
+          .clearErrorLogs(
+            deleteAll: deleteAll,
+            olderThanDays: olderThanDays,
+            platform: platform,
+            screenName: screen,
           );
-        }
-        await _loadData();
-      } finally {
-        if (mounted) {
-          setState(() => _isClearingErrors = false);
-        }
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text(AppStrings.errorLogsCleaned)),
+        );
       }
-    } catch (e, stackTrace) {
-      await _errorReporter.reportError(
-        error: e,
-        stackTrace: stackTrace,
-        screenName: 'ErrorAnalyticsScreen',
-        extraData: {'context': 'error_cleanup_dialog'},
-      );
-      if (mounted) {
-        setState(() => _isClearingErrors = false);
+    } catch (e) {
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text(AppStrings.errorCleaningLogs)),
         );
@@ -130,7 +83,7 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
     }
   }
 
-  void _showLogDetails(Map<String, dynamic> log) {
+  void _showLogDetails(BuildContext context, ErrorLogEntry log) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -138,22 +91,14 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
     );
   }
 
-  List<Map<String, dynamic>> _getBreakdown(String key) {
-    final raw = _errorAnalytics[key];
-    if (raw is List) {
-      return raw
-          .whereType<Map>()
-          .map<Map<String, dynamic>>((item) => Map<String, dynamic>.from(item))
-          .toList();
-    }
-    return <Map<String, dynamic>>[];
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final c = context.colors;
     final ac = context.accent;
     final sp = context.spacing;
+
+    final state = ref.watch(errorAnalyticsControllerProvider);
+    final controller = ref.read(errorAnalyticsControllerProvider.notifier);
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -164,35 +109,35 @@ class _ErrorAnalyticsScreenState extends State<ErrorAnalyticsScreen> {
         actions: [
           Semantics(
             button: true,
-            enabled: !_isLoading,
-            label: _isLoading ? 'Loading data' : 'Refresh data',
+            enabled: !state.isLoading,
+            label: state.isLoading ? 'Loading data' : 'Refresh data',
             child: IconButton(
-              icon: _isLoading
+              icon: state.isLoading
                   ? CommonLoader(
                       size: context.sizes.iconSm,
                       color: c.textPrimary,
                     )
                   : const Icon(Icons.refresh),
               onPressed: () {
-                if (!_isLoading) _loadData();
+                if (!state.isLoading) controller.refresh();
               },
               tooltip: 'Refresh',
             ),
           ),
         ],
       ),
-      body: _isLoading
+      body: state.isLoading
           ? const CommonLoader()
           : RefreshIndicator(
-              onRefresh: _loadData,
+              onRefresh: controller.refresh,
               color: ac.primary,
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(sp.md),
                 child: ErrorAnalyticsSection(
-                  errorAnalytics: _errorAnalytics,
-                  isClearingErrors: _isClearingErrors,
-                  onCleanLogs: _showErrorCleanupDialog,
-                  onShowLogDetails: _showLogDetails,
+                  analytics: state.analytics,
+                  isClearingErrors: state.isClearingErrors,
+                  onCleanLogs: () => _showErrorCleanupDialog(context, ref),
+                  onShowLogDetails: (log) => _showLogDetails(context, log),
                 ),
               ),
             ),

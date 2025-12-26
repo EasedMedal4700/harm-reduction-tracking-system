@@ -1,24 +1,25 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: N/A
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
 // Notes: Fully theme-compliant. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
+import '../../models/admin_performance_stats.dart';
+import '../../models/admin_system_stats.dart';
 import 'admin_stat_card.dart';
 
 /// Quick Stats section for admin dashboard
 class AdminStatsSection extends StatelessWidget {
-  final Map<String, dynamic> stats;
-  final Map<String, dynamic> perfStats;
-  final Map<String, dynamic> cacheStats;
+  final AdminSystemStats stats;
+  final AdminPerformanceStats perfStats;
   const AdminStatsSection({
     required this.stats,
     required this.perfStats,
-    required this.cacheStats,
     super.key,
   });
   @override
@@ -27,9 +28,8 @@ class AdminStatsSection extends StatelessWidget {
     final c = context.colors;
     final sp = context.spacing;
     final tx = context.text;
-    // Extract stats safely
-    final cacheHitRate = (perfStats['cache_hit_rate'] ?? 0.0).toDouble();
-    final avgResponseTime = (perfStats['avg_response_time'] ?? 0.0).toDouble();
+    final cacheHitRate = perfStats.cacheHitRate;
+    final avgResponseTime = perfStats.avgResponseTimeMs;
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
@@ -51,13 +51,13 @@ class AdminStatsSection extends StatelessWidget {
               children: [
                 AdminStatCard(
                   title: 'Total Entries',
-                  value: stats['total_entries']?.toString() ?? '0',
+                  value: stats.totalEntries.toString(),
                   icon: Icons.analytics,
                   color: c.info, // replaced hardcoded blue
                 ),
                 AdminStatCard(
                   title: 'Active Users',
-                  value: stats['active_users']?.toString() ?? '0',
+                  value: stats.activeUsers.toString(),
                   icon: Icons.people,
                   color: c.success, // replaced green
                 ),
@@ -66,14 +66,14 @@ class AdminStatsSection extends StatelessWidget {
                   value: '${cacheHitRate.toStringAsFixed(1)}%',
                   icon: Icons.memory,
                   color: c.warning, // replaced orange
-                  subtitle: '${perfStats['cache_hits'] ?? 0} hits',
+                  subtitle: '${perfStats.cacheHits} hits',
                 ),
                 AdminStatCard(
                   title: 'Avg Response',
                   value: '${avgResponseTime.toStringAsFixed(0)}ms',
                   icon: Icons.speed,
                   color: th.accent.secondary, // replaced purple
-                  subtitle: '${perfStats['total_samples'] ?? 0} samples',
+                  subtitle: '${perfStats.totalSamples} samples',
                 ),
               ],
             );

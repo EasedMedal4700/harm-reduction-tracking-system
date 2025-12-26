@@ -7,9 +7,6 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 // Common: COMPLETE
 // Riverpod: TODO
 // Notes: Fully migrated to AppThemeExtension. AppTheme parameters removed.
-import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-
 /// Stats card showing key metrics
 class StatsCard extends StatelessWidget {
   final String title;
