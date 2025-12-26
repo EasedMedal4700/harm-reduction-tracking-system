@@ -28,15 +28,15 @@
       "severity": "WARNING",
       "type": "STATIC_WARNING",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\use_distribution_card.dart",
         "range": {
           "start": {
-            "offset": 3534,
+            "offset": 3516,
             "line": 99,
             "column": 11
           },
           "end": {
-            "offset": 3542,
+            "offset": 3524,
             "line": 99,
             "column": 19
           }
@@ -51,15 +51,15 @@
       "severity": "WARNING",
       "type": "STATIC_WARNING",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\use_distribution_card.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\use_distribution_card.dart",
         "range": {
           "start": {
-            "offset": 16762,
+            "offset": 16744,
             "line": 478,
             "column": 11
           },
           "end": {
-            "offset": 16764,
+            "offset": 16746,
             "line": 478,
             "column": 13
           }
@@ -527,19 +527,42 @@
       "documentation": "https://dart.dev/diagnostics/override_on_non_overriding_member"
     },
     {
+      "code": "deprecated_member_use_from_same_package",
+      "severity": "INFO",
+      "type": "HINT",
+      "location": {
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\activity\\providers\\activity_providers.dart",
+        "range": {
+          "start": {
+            "offset": 347,
+            "line": 12,
+            "column": 33
+          },
+          "end": {
+            "offset": 365,
+            "line": 12,
+            "column": 51
+          }
+        }
+      },
+      "problemMessage": "'ActivityServiceRef' is deprecated and shouldn't be used. Will be removed in 3.0. Use Ref instead.",
+      "correctionMessage": "Try replacing the use of the deprecated member with the replacement.",
+      "documentation": "https://dart.dev/diagnostics/deprecated_member_use_from_same_package"
+    },
+    {
       "code": "deprecated_member_use",
       "severity": "INFO",
       "type": "HINT",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\category_pie_chart.dart",
         "range": {
           "start": {
-            "offset": 1604,
+            "offset": 1583,
             "line": 36,
             "column": 7
           },
           "end": {
-            "offset": 1614,
+            "offset": 1593,
             "line": 36,
             "column": 17
           }
@@ -554,15 +577,15 @@
       "severity": "INFO",
       "type": "HINT",
       "location": {
-        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\analytics\\category_pie_chart.dart",
+        "file": "C:\\Users\\USER\\dev\\code\\mobile_drug_use_app\\lib\\features\\analytics\\widgets\\category_pie_chart.dart",
         "range": {
           "start": {
-            "offset": 1942,
+            "offset": 1921,
             "line": 46,
             "column": 7
           },
           "end": {
-            "offset": 1952,
+            "offset": 1931,
             "line": 46,
             "column": 17
           }

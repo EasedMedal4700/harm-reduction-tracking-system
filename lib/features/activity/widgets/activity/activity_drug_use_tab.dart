@@ -5,12 +5,13 @@
 // Notes: Tab for displaying drug use entries. Uses ActivityCard and ActivityEmptyState. No hardcoded values.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../models/activity_models.dart';
 import 'activity_card.dart';
 import 'activity_empty_state.dart';
 
 class ActivityDrugUseTab extends StatelessWidget {
-  final List entries;
-  final Function(Map<String, dynamic>) onEntryTap;
+  final List<ActivityDrugUseEntry> entries;
+  final void Function(ActivityDrugUseEntry) onEntryTap;
   final Future<void> Function() onRefresh;
   const ActivityDrugUseTab({
     super.key,
@@ -18,15 +19,6 @@ class ActivityDrugUseTab extends StatelessWidget {
     required this.onEntryTap,
     required this.onRefresh,
   });
-  DateTime _parseTimestamp(dynamic timestamp) {
-    if (timestamp == null) return DateTime.now();
-    if (timestamp is DateTime) return timestamp;
-    try {
-      return DateTime.parse(timestamp.toString());
-    } catch (_) {
-      return DateTime.now();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,18 +40,14 @@ class ActivityDrugUseTab extends StatelessWidget {
         itemCount: entries.length,
         itemBuilder: (context, index) {
           final entry = entries[index];
-          final timestamp = _parseTimestamp(
-            entry['start_time'] ?? entry['time'],
-          );
           return ActivityCard(
-            title: entry['name'] ?? 'Unknown Substance',
-            subtitle:
-                '${entry['dose'] ?? 'Unknown dose'} • ${entry['place'] ?? 'No location'}',
-            timestamp: timestamp,
+            title: entry.name,
+            subtitle: '${entry.dose} • ${entry.place}',
+            timestamp: entry.time,
             icon: Icons.medication,
             // Replaces DrugCategoryColors.stimulant with theme accent
             accentColor: th.accent.primary,
-            badge: entry['is_medical_purpose'] == true ? 'Medical' : null,
+            badge: entry.isMedicalPurpose ? 'Medical' : null,
             onTap: () => onEntryTap(entry),
           );
         },

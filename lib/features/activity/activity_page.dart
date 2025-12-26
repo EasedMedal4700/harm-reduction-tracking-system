@@ -4,38 +4,33 @@
 // Riverpod: TODO
 // Notes: Main activity page with tabs. Uses AppThemeExtension. No hardcoded values.
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../common/feedback/common_loader.dart';
 import '../../common/buttons/common_icon_button.dart';
+import 'models/activity_models.dart';
+import 'models/activity_state.dart';
+import 'providers/activity_providers.dart';
 import 'widgets/activity/activity_drug_use_tab.dart';
 import 'widgets/activity/activity_cravings_tab.dart';
 import 'widgets/activity/activity_reflections_tab.dart';
-import 'widgets/activity/activity_delete_dialog.dart';
 import 'widgets/activity/activity_detail_helpers.dart';
-import 'widgets/activity/activity_helpers.dart';
-import 'services/activity_service.dart';
-import '../../services/user_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/strings/app_strings.dart';
 
-class ActivityPage extends StatefulWidget {
+class ActivityPage extends ConsumerStatefulWidget {
   const ActivityPage({super.key});
   @override
-  State<ActivityPage> createState() => _ActivityPageState();
+  ConsumerState<ActivityPage> createState() => _ActivityPageState();
 }
 
-class _ActivityPageState extends State<ActivityPage>
+class _ActivityPageState extends ConsumerState<ActivityPage>
     with SingleTickerProviderStateMixin {
-  final ActivityService _service = ActivityService();
-  Map<String, dynamic> _activity = {};
-  bool _isLoading = true;
   late TabController _tabController;
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    _fetchActivity();
   }
 
   @override
@@ -44,28 +39,39 @@ class _ActivityPageState extends State<ActivityPage>
     super.dispose();
   }
 
-  Future<void> _fetchActivity() async {
-    try {
-      final data = await _service.fetchRecentActivity();
-      if (mounted) {
-        setState(() {
-          _activity = data;
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${AppStrings.errorLoadingActivity}$e')),
-        );
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
+
+    ref.listen<ActivityUiEvent?>(
+      activityControllerProvider.select((a) => a.valueOrNull?.event),
+      (previous, next) {
+        if (next == null) return;
+        final controller = ref.read(activityControllerProvider.notifier);
+
+        final (message, tone) = next.when(
+          snackBar: (message, tone) => (message, tone),
+        );
+
+        final bg = switch (tone) {
+          ActivityUiEventTone.success => th.colors.success,
+          ActivityUiEventTone.error => th.colors.error,
+          ActivityUiEventTone.neutral => th.colors.surface,
+        };
+
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message), backgroundColor: bg));
+        controller.clearEvent();
+      },
+    );
+
+    final activityAsync = ref.watch(activityControllerProvider);
+    final activityState = activityAsync.valueOrNull ?? const ActivityState();
+    final data = activityState.data;
+    final showInitialLoader =
+        activityAsync.isLoading && activityAsync.valueOrNull == null;
+
     return Scaffold(
       backgroundColor: th.colors.background,
       appBar: AppBar(
@@ -78,7 +84,8 @@ class _ActivityPageState extends State<ActivityPage>
         actions: [
           CommonIconButton(
             icon: Icons.refresh,
-            onPressed: _fetchActivity,
+            onPressed: () =>
+                ref.read(activityControllerProvider.notifier).refreshActivity(),
             tooltip: 'Refresh',
             color: th.colors.textPrimary,
           ),
@@ -117,49 +124,60 @@ class _ActivityPageState extends State<ActivityPage>
         ),
       ),
       drawer: const CommonDrawer(),
-      body: _isLoading
+      body: showInitialLoader
           ? const CommonLoader()
+          : activityAsync.hasError
+          ? Center(
+              child: Text(
+                '${AppStrings.errorLoadingActivity}${activityAsync.error}',
+                style: th.typography.body.copyWith(
+                  color: th.colors.textSecondary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            )
           : TabBarView(
               controller: _tabController,
               children: [
-                _buildDrugUseTab(),
-                _buildCravingsTab(),
-                _buildReflectionsTab(),
+                _buildDrugUseTab(data.entries),
+                _buildCravingsTab(data.cravings),
+                _buildReflectionsTab(data.reflections),
               ],
             ),
     );
   }
 
-  Widget _buildDrugUseTab() {
-    final entries = _activity['entries'] as List? ?? [];
+  Widget _buildDrugUseTab(List<ActivityDrugUseEntry> entries) {
     return ActivityDrugUseTab(
       entries: entries,
       onEntryTap: (entry) => ActivityDetailHelpers.showDrugUseDetail(
         context: context,
         entry: entry,
         onDelete: _handleDelete,
-        onUpdate: _fetchActivity,
+        onUpdate: () =>
+            ref.read(activityControllerProvider.notifier).refreshActivity(),
       ),
-      onRefresh: _fetchActivity,
+      onRefresh: () =>
+          ref.read(activityControllerProvider.notifier).refreshActivity(),
     );
   }
 
-  Widget _buildCravingsTab() {
-    final cravings = _activity['cravings'] as List? ?? [];
+  Widget _buildCravingsTab(List<ActivityCravingEntry> cravings) {
     return ActivityCravingsTab(
       cravings: cravings,
       onCravingTap: (craving) => ActivityDetailHelpers.showCravingDetail(
         context: context,
         craving: craving,
         onDelete: _handleDelete,
-        onUpdate: _fetchActivity,
+        onUpdate: () =>
+            ref.read(activityControllerProvider.notifier).refreshActivity(),
       ),
-      onRefresh: _fetchActivity,
+      onRefresh: () =>
+          ref.read(activityControllerProvider.notifier).refreshActivity(),
     );
   }
 
-  Widget _buildReflectionsTab() {
-    final reflections = _activity['reflections'] as List? ?? [];
+  Widget _buildReflectionsTab(List<ActivityReflectionEntry> reflections) {
     return ActivityReflectionsTab(
       reflections: reflections,
       onReflectionTap: (reflection) =>
@@ -167,66 +185,20 @@ class _ActivityPageState extends State<ActivityPage>
             context: context,
             reflection: reflection,
             onDelete: _handleDelete,
-            onUpdate: _fetchActivity,
+            onUpdate: () =>
+                ref.read(activityControllerProvider.notifier).refreshActivity(),
           ),
-      onRefresh: _fetchActivity,
+      onRefresh: () =>
+          ref.read(activityControllerProvider.notifier).refreshActivity(),
     );
   }
 
-  void _handleDelete(String entryId, String entryType, String serviceName) {
-    _confirmDelete(
-      context,
-      entryId: entryId,
-      entryType: entryType,
-      serviceName: serviceName,
-    );
-  }
-
-  Future<void> _confirmDelete(
-    BuildContext context, {
+  void _handleDelete({
     required String entryId,
-    required String entryType,
-    required String serviceName,
-  }) async {
-    final confirmed = await ActivityDeleteDialog.show(context, entryType);
-    if (confirmed && context.mounted) {
-      Navigator.pop(context); // Close bottom sheet
-      await _deleteEntry(context, entryId, serviceName);
-    }
-  }
-
-  Future<void> _deleteEntry(
-    BuildContext context,
-    String entryId,
-    String serviceName,
-  ) async {
-    try {
-      final supabase = Supabase.instance.client;
-      final userId = UserService.getCurrentUserId();
-      final idColumn = ActivityHelpers.getIdColumn(serviceName);
-      await supabase
-          .from(serviceName)
-          .delete()
-          .eq('uuid_user_id', userId)
-          .eq(idColumn, entryId);
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text(AppStrings.entryDeletedSuccess),
-            backgroundColor: th.colors.success,
-          ),
-        );
-        _fetchActivity();
-      }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${AppStrings.errorDeletingEntry}$e'),
-            backgroundColor: th.colors.error,
-          ),
-        );
-      }
-    }
+    required ActivityItemType type,
+  }) {
+    ref
+        .read(activityControllerProvider.notifier)
+        .deleteEntry(id: entryId, type: type);
   }
 }

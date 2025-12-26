@@ -3,6 +3,7 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/features/activity/services/activity_service.dart';
+import 'package:mobile_drug_use_app/features/activity/models/activity_models.dart';
 import 'package:mobile_drug_use_app/services/encryption_service_v2.dart';
 import 'dart:async';
 
@@ -39,7 +40,7 @@ void main() {
 
     service = ActivityService(
       client: mockSupabaseClient,
-      encryption: mockEncryptionService,
+      encryptionService: mockEncryptionService,
     );
   });
 
@@ -51,17 +52,27 @@ void main() {
         final entriesData = [
           {
             'id': '1',
-            'created_at': '2023-01-01T10:00:00Z',
-            'substance_type': 'Alcohol',
+            'name': 'Alcohol',
+            'dose': '1 unit',
+            'place': 'Home',
+            'start_time': '2023-01-01T10:00:00Z',
           },
           {
             'id': '2',
-            'created_at': '2023-01-02T10:00:00Z',
-            'substance_type': 'Cannabis',
+            'name': 'Cannabis',
+            'dose': '10 mg',
+            'place': 'Home',
+            'start_time': '2023-01-02T10:00:00Z',
           },
         ];
         final cravingsData = [
-          {'id': '3', 'created_at': '2023-01-01T12:00:00Z', 'intensity': 5},
+          {
+            'id': '3',
+            'substance': 'Nicotine',
+            'intensity': 5,
+            'location': 'Work',
+            'time': '2023-01-01T12:00:00Z',
+          },
         ];
         final reflectionsData = [
           {
@@ -99,9 +110,10 @@ void main() {
 
         final result = await service.fetchRecentActivity();
 
-        expect(result['entries'], hasLength(2));
-        expect(result['cravings'], hasLength(1));
-        expect(result['reflections'], hasLength(1));
+        expect(result, isA<ActivityData>());
+        expect(result.entries, hasLength(2));
+        expect(result.cravings, hasLength(1));
+        expect(result.reflections, hasLength(1));
       },
     );
 
@@ -136,9 +148,9 @@ void main() {
 
       final result = await service.fetchRecentActivity();
 
-      expect(result['entries'], isEmpty);
-      expect(result['cravings'], isEmpty);
-      expect(result['reflections'], isEmpty);
+      expect(result.entries, isEmpty);
+      expect(result.cravings, isEmpty);
+      expect(result.reflections, isEmpty);
     });
 
     test(

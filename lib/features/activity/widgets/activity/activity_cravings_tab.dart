@@ -5,12 +5,13 @@
 // Notes: Tab for displaying cravings. Uses ActivityCard and ActivityEmptyState.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../models/activity_models.dart';
 import 'activity_card.dart';
 import 'activity_empty_state.dart';
 
 class ActivityCravingsTab extends StatelessWidget {
-  final List cravings;
-  final Function(Map<String, dynamic>) onCravingTap;
+  final List<ActivityCravingEntry> cravings;
+  final void Function(ActivityCravingEntry) onCravingTap;
   final Future<void> Function() onRefresh;
   const ActivityCravingsTab({
     super.key,
@@ -18,15 +19,6 @@ class ActivityCravingsTab extends StatelessWidget {
     required this.onCravingTap,
     required this.onRefresh,
   });
-  DateTime _parseTimestamp(dynamic timestamp) {
-    if (timestamp == null) return DateTime.now();
-    if (timestamp is DateTime) return timestamp;
-    try {
-      return DateTime.parse(timestamp.toString());
-    } catch (_) {
-      return DateTime.now();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,16 +40,15 @@ class ActivityCravingsTab extends StatelessWidget {
         itemCount: cravings.length,
         itemBuilder: (context, index) {
           final craving = cravings[index];
-          final timestamp = _parseTimestamp(craving['time'] ?? craving['date']);
-          final intensity = (craving['intensity'] ?? 5).toDouble();
+          final intensity = craving.intensity;
           return ActivityCard(
-            title: craving['substance'] ?? 'Unknown Substance',
+            title: craving.substance,
             subtitle:
-                'Intensity: ${intensity.toStringAsFixed(1)}/10 • ${craving['location'] ?? 'No location'}',
-            timestamp: timestamp,
+                'Intensity: ${intensity.toStringAsFixed(1)}/10 • ${craving.location}',
+            timestamp: craving.time,
             icon: Icons.favorite,
             accentColor: _getIntensityColor(context, intensity),
-            badge: craving['action'] == 'Resisted' ? 'Resisted' : null,
+            badge: craving.action == 'Resisted' ? 'Resisted' : null,
             onTap: () => onCravingTap(craving),
           );
         },

@@ -4,8 +4,8 @@
 // Riverpod: TODO
 // Notes: Theme compliant.
 import 'package:flutter/material.dart';
-import '../../../../constants/enums/time_period.dart';
-import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../constants/enums/time_period.dart';
+import '../../../constants/theme/app_theme_extension.dart';
 
 class TimePeriodSelector extends StatelessWidget {
   final TimePeriod selectedPeriod;

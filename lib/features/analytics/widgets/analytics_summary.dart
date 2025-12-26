@@ -5,10 +5,10 @@
 // Notes: Modernized summary card using CommonCard & unified typography. No Riverpod.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../common/cards/common_card.dart';
-import '../../../../common/text/common_section_header.dart';
-import '../../../../common/layout/common_spacer.dart';
+import '../../../constants/theme/app_theme_extension.dart';
+import '../../../common/cards/common_card.dart';
+import '../../../common/text/common_section_header.dart';
+import '../../../common/layout/common_spacer.dart';
 
 class AnalyticsSummary extends StatelessWidget {
   final int totalEntries;

@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import '../constants/config/feature_flags.dart';
 import '../features/admin/screens/admin_panel_screen.dart';
 import '../features/analytics/analytics_page.dart';
+import '../features/activity/activity_page.dart';
 import '../features/blood_levels/blood_levels_page.dart';
 import '../features/catalog/catalog_page.dart';
 import '../features/craving/cravings_page.dart';
@@ -22,6 +23,9 @@ import '../features/feature_flags/feature_flags_page.dart';
 import '../features/feature_flags/widgets/feature_flags/feature_gate.dart';
 import '../features/home/home_page.dart';
 import '../features/log_entry/log_entry_page.dart';
+import '../features/edit_craving/edit_craving_page.dart';
+import '../features/edit_log_entry/edit_log_entry_page.dart';
+import '../features/edit_reflection/edit_reflection_page.dart';
 import '../features/login/login/login_page.dart';
 import '../features/login/pin_unlock/pin_unlock_page.dart';
 import '../features/manage_profile/change_pin/change_pin_page.dart';
@@ -64,6 +68,10 @@ class AppRoutePaths {
   static const cravings = '/cravings';
   static const bloodLevels = '/blood_levels';
   static const reflection = '/reflection';
+  static const activity = '/activity';
+  static const editDrugUse = '/activity/edit-drug-use';
+  static const editCraving = '/activity/edit-craving';
+  static const editReflection = '/activity/edit-reflection';
   static const dailyCheckin = '/daily-checkin';
   static const checkinHistory = '/checkin-history';
   static const profile = '/profile';
@@ -187,6 +195,40 @@ GoRouter createAppRouter({required NavigatorObserver observer}) {
           featureName: FeatureFlags.reflectionPage,
           child: const ReflectionPage(),
         ),
+      ),
+      GoRoute(
+        path: AppRoutePaths.activity,
+        builder: (context, state) => const ActivityPage(),
+      ),
+      GoRoute(
+        path: AppRoutePaths.editDrugUse,
+        builder: (context, state) {
+          final extra = state.extra;
+          if (extra is Map<String, dynamic>) {
+            return EditDrugUsePage(entry: extra);
+          }
+          return const ActivityPage();
+        },
+      ),
+      GoRoute(
+        path: AppRoutePaths.editCraving,
+        builder: (context, state) {
+          final extra = state.extra;
+          if (extra is Map<String, dynamic>) {
+            return EditCravingPage(entry: extra);
+          }
+          return const ActivityPage();
+        },
+      ),
+      GoRoute(
+        path: AppRoutePaths.editReflection,
+        builder: (context, state) {
+          final extra = state.extra;
+          if (extra is Map<String, dynamic>) {
+            return EditReflectionPage(entry: extra);
+          }
+          return const ActivityPage();
+        },
       ),
       GoRoute(
         path: AppRoutePaths.dailyCheckin,

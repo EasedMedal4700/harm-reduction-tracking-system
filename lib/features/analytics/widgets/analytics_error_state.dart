@@ -5,9 +5,9 @@
 // Notes: Fully theme-compliant. Uses CommonPrimaryButton.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
-import '../../../../common/layout/common_spacer.dart';
+import '../../../common/layout/common_spacer.dart';
 
 /// Widget displaying error state for the analytics page
 class AnalyticsErrorState extends StatelessWidget {

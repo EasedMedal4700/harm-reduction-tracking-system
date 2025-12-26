@@ -4,6 +4,7 @@
 // Riverpod: TODO
 // Notes: Dialog for confirming deletion. Fully theme-compliant.
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../../../common/buttons/common_primary_button.dart';
 
@@ -41,13 +42,13 @@ class ActivityDeleteDialog extends StatelessWidget {
       actions: [
         // Cancel Button
         TextButton(
-          onPressed: () => Navigator.pop(context, false),
+          onPressed: () => context.pop(false),
           child: Text('Cancel', style: tx.body.copyWith(color: c.textPrimary)),
         ),
         // Delete Button
         CommonPrimaryButton(
           label: 'Delete',
-          onPressed: () => Navigator.pop(context, true),
+          onPressed: () => context.pop(true),
           backgroundColor: c.error,
           textColor: c.textInverse,
         ),

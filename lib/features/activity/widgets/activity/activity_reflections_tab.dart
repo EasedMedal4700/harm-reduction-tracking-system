@@ -5,12 +5,13 @@
 // Notes: Tab for displaying reflections. Uses ActivityCard and ActivityEmptyState.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../models/activity_models.dart';
 import 'activity_card.dart';
 import 'activity_empty_state.dart';
 
 class ActivityReflectionsTab extends StatelessWidget {
-  final List reflections;
-  final Function(Map<String, dynamic>) onReflectionTap;
+  final List<ActivityReflectionEntry> reflections;
+  final void Function(ActivityReflectionEntry) onReflectionTap;
   final Future<void> Function() onRefresh;
   const ActivityReflectionsTab({
     super.key,
@@ -18,15 +19,6 @@ class ActivityReflectionsTab extends StatelessWidget {
     required this.onReflectionTap,
     required this.onRefresh,
   });
-  DateTime _parseTimestamp(dynamic timestamp) {
-    if (timestamp == null) return DateTime.now();
-    if (timestamp is DateTime) return timestamp;
-    try {
-      return DateTime.parse(timestamp.toString());
-    } catch (_) {
-      return DateTime.now();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +40,17 @@ class ActivityReflectionsTab extends StatelessWidget {
         itemCount: reflections.length,
         itemBuilder: (context, index) {
           final reflection = reflections[index];
-          final timestamp = _parseTimestamp(reflection['created_at']);
-          final effectiveness = reflection['effectiveness'] ?? 0;
+          final effectivenessLabel = reflection.effectiveness == null
+              ? 'N/A'
+              : '${reflection.effectiveness}/10';
+          final sleepLabel = reflection.sleepHours == null
+              ? 'N/A'
+              : '${reflection.sleepHours}';
           return ActivityCard(
             title: 'Reflection Entry',
             subtitle:
-                'Effectiveness: $effectiveness/10 • ${reflection['sleep_hours'] ?? 'N/A'} hrs sleep',
-            timestamp: timestamp,
+                'Effectiveness: $effectivenessLabel • $sleepLabel hrs sleep',
+            timestamp: reflection.createdAt,
             icon: Icons.self_improvement,
             accentColor: th.accent.secondary,
             onTap: () => onReflectionTap(reflection),

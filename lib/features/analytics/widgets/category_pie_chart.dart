@@ -10,13 +10,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../constants/layout/app_layout.dart';
-import '../../../../common/cards/common_card.dart';
-import '../../../../common/text/common_section_header.dart';
-import '../../../../common/layout/common_spacer.dart';
-import '../../../../models/log_entry_model.dart';
-import '../../../../common/logging/app_log.dart';
+import '../../../constants/theme/app_theme_extension.dart';
+import '../../../constants/layout/app_layout.dart';
+import '../../../common/cards/common_card.dart';
+import '../../../common/text/common_section_header.dart';
+import '../../../common/layout/common_spacer.dart';
+import '../../../models/log_entry_model.dart';
+import '../../../common/logging/app_log.dart';
 
 /// ---------------------------------------------------------------------------
 /// LOCAL BRIDGE PROVIDERS (inputs overridden by parent ProviderScope)

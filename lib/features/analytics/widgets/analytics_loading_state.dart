@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Fully theme-compliant. Uses CommonLoader.
 import 'package:flutter/material.dart';
-import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
 
 /// Widget displaying a loading indicator for the analytics page

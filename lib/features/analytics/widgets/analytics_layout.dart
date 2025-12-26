@@ -5,16 +5,16 @@
 // Notes: Theme alignment & structural cleanup. Not fully migrated or Riverpod integrated.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import '../../../../constants/theme/app_theme_extension.dart';
-import '../../../../common/layout/common_spacer.dart';
+import '../../../constants/theme/app_theme_extension.dart';
+import '../../../common/layout/common_spacer.dart';
 import 'analytics_filter_card.dart';
 import 'metrics_row.dart';
 import 'insight_summary_card.dart';
 import 'recent_activity_list.dart';
 import 'use_distribution_card.dart';
 import 'usage_trends_card.dart';
-import '../../../../models/log_entry_model.dart';
-import '../../../../constants/enums/time_period.dart';
+import '../../../models/log_entry_model.dart';
+import '../../../constants/enums/time_period.dart';
 
 /// Layout wrapper for Analytics page.
 /// Handles responsive switching between single-column (mobile)

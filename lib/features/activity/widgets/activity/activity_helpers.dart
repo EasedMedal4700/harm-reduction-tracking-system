@@ -28,10 +28,12 @@ class ActivityHelpers {
   }
 
   /// Formats a timestamp into a friendly, detailed string.
-  static String formatDetailTimestamp(dynamic timestamp) {
+  static String formatDetailTimestamp(Object? timestamp) {
     if (timestamp == null) return 'Unknown';
     try {
-      final dt = DateTime.parse(timestamp.toString()).toLocal();
+      final dt = timestamp is DateTime
+          ? timestamp.toLocal()
+          : DateTime.parse(timestamp.toString()).toLocal();
       final now = DateTime.now();
       final diff = now.difference(dt);
       String relative;
