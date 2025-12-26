@@ -116,3 +116,11 @@ data/scraped/raw*.json
 # Design system CI reports (generated files)
 scripts/ci/design_system/reports/*
 **/reports/
+
+# CI test reports and caches (machine output, summaries, and caches)
+/scripts/ci/test_report.json
+/scripts/ci/test_count_cache.txt
+/scripts/ci/import_report.json
+/scripts/ci/analyze_report.json
+/scripts/ci/coverage_cache.json
+/.dart_test.json
