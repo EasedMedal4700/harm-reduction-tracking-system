@@ -32,11 +32,13 @@ class DrugLevel with _$DrugLevel {
   }) = _DrugLevel;
 
   /// Overall percentage remaining across all doses combined.
-  double get percentage => totalDose > 0 ? (totalRemaining / totalDose) * 100 : 0.0;
+  double get percentage =>
+      totalDose > 0 ? (totalRemaining / totalDose) * 100 : 0.0;
 
   /// Status at a given reference time (supports "time machine").
   String statusAt(DateTime referenceTime) {
-    final hoursSinceLastUse = referenceTime.difference(lastUse).inMinutes / 60.0;
+    final hoursSinceLastUse =
+        referenceTime.difference(lastUse).inMinutes / 60.0;
     final inAftereffects = hoursSinceLastUse > maxDuration;
 
     if (percentage > 40) return 'HIGH';

@@ -49,7 +49,9 @@ class TimeframeSelector extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(sp.xs),
                 decoration: BoxDecoration(
-                  color: ac.primary.withValues(alpha: context.opacities.veryLow),
+                  color: ac.primary.withValues(
+                    alpha: context.opacities.veryLow,
+                  ),
                   borderRadius: BorderRadius.circular(sh.radiusSm),
                 ),
                 child: Icon(
@@ -80,15 +82,20 @@ class TimeframeSelector extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? ac.primary.withValues(alpha: context.opacities.selected)
+                        ? ac.primary.withValues(
+                            alpha: context.opacities.selected,
+                          )
                         : c.surfaceVariant,
                     borderRadius: BorderRadius.circular(sh.radiusSm),
                     border: Border.all(
                       color: isSelected
                           ? ac.primary
-                          : c.border.withValues(alpha: context.opacities.border),
-                      width:
-                          isSelected ? context.borders.medium : context.borders.thin,
+                          : c.border.withValues(
+                              alpha: context.opacities.border,
+                            ),
+                      width: isSelected
+                          ? context.borders.medium
+                          : context.borders.thin,
                     ),
                     boxShadow: isSelected ? th.cardShadow : null,
                   ),

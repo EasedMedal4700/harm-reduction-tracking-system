@@ -32,9 +32,7 @@ class BloodLevelsPage extends ConsumerWidget {
     }
 
     return ProviderScope(
-      overrides: [
-        bloodLevelsServiceProvider.overrideWithValue(service!),
-      ],
+      overrides: [bloodLevelsServiceProvider.overrideWithValue(service!)],
       child: page,
     );
   }
@@ -53,13 +51,12 @@ class _BloodLevelsPageBody extends ConsumerWidget {
       backgroundColor: c.background,
       appBar: BloodLevelsAppBar(
         selectedTime: selectedTime,
-        onTimeMachinePressed: () => _showTimeMachine(context, ref, selectedTime),
-        onFilterPressed: () => ref
-            .read(bloodLevelsControllerProvider.notifier)
-            .toggleFilters(),
-        onTimelinePressed: () => ref
-            .read(bloodLevelsControllerProvider.notifier)
-            .toggleTimeline(),
+        onTimeMachinePressed: () =>
+            _showTimeMachine(context, ref, selectedTime),
+        onFilterPressed: () =>
+            ref.read(bloodLevelsControllerProvider.notifier).toggleFilters(),
+        onTimelinePressed: () =>
+            ref.read(bloodLevelsControllerProvider.notifier).toggleTimeline(),
         onRefreshPressed: () =>
             ref.read(bloodLevelsControllerProvider.notifier).refresh(),
         filterCount: viewState?.filterCount ?? 0,
@@ -116,7 +113,9 @@ class _BloodLevelsPageBody extends ConsumerWidget {
       time.minute,
     );
 
-    await ref.read(bloodLevelsControllerProvider.notifier).setSelectedTime(next);
+    await ref
+        .read(bloodLevelsControllerProvider.notifier)
+        .setSelectedTime(next);
   }
 }
 
@@ -171,7 +170,9 @@ class _MainContent extends ConsumerWidget {
 
     final filteredLevels = viewState.filteredLevels;
     if (filteredLevels.isEmpty) {
-      return BloodLevelsEmptyState(hasActiveFilters: viewState.hasActiveFilters);
+      return BloodLevelsEmptyState(
+        hasActiveFilters: viewState.hasActiveFilters,
+      );
     }
 
     return BloodLevelsContent(

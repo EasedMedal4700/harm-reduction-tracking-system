@@ -49,7 +49,9 @@ class MetabolismTimelineCard extends ConsumerWidget {
       hoursForward: hoursForward,
     );
 
-    final timelineDosesAsync = ref.watch(bloodLevelsTimelineDosesProvider(request));
+    final timelineDosesAsync = ref.watch(
+      bloodLevelsTimelineDosesProvider(request),
+    );
 
     if (timelineDosesAsync.isLoading) {
       return CommonCard(

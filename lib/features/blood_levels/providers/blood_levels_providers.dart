@@ -107,10 +107,7 @@ class BloodLevelsController extends _$BloodLevelsController {
     }
 
     state = AsyncData(
-      current.copyWith(
-        includedDrugs: included,
-        excludedDrugs: excluded,
-      ),
+      current.copyWith(includedDrugs: included, excludedDrugs: excluded),
     );
   }
 
@@ -129,10 +126,7 @@ class BloodLevelsController extends _$BloodLevelsController {
     }
 
     state = AsyncData(
-      current.copyWith(
-        includedDrugs: included,
-        excludedDrugs: excluded,
-      ),
+      current.copyWith(includedDrugs: included, excludedDrugs: excluded),
     );
   }
 
@@ -172,10 +166,7 @@ class BloodLevelsController extends _$BloodLevelsController {
     if (current == null) return;
 
     state = AsyncData(
-      current.copyWith(
-        chartHoursBack: back,
-        chartHoursForward: forward,
-      ),
+      current.copyWith(chartHoursBack: back, chartHoursForward: forward),
     );
   }
 }

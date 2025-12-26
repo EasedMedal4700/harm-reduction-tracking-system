@@ -125,7 +125,9 @@ class BloodLevelsService {
           lastUse: isMoreRecent ? startTime : currentLevel.lastUse,
         );
       }
-      logger.info('[BloodLevelsService] Found ${levels.length} active substances');
+      logger.info(
+        '[BloodLevelsService] Found ${levels.length} active substances',
+      );
       return levels;
     } catch (e, stackTrace) {
       logger.error(

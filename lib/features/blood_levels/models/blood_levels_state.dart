@@ -15,7 +15,8 @@ class BloodLevelsState with _$BloodLevelsState {
     @Default(false) bool showFilters,
     @Default(BloodLevelsConstants.defaultShowTimeline) bool showTimeline,
     @Default(BloodLevelsConstants.defaultChartHoursBack) int chartHoursBack,
-    @Default(BloodLevelsConstants.defaultChartHoursForward) int chartHoursForward,
+    @Default(BloodLevelsConstants.defaultChartHoursForward)
+    int chartHoursForward,
     @Default(BloodLevelsConstants.defaultAdaptiveScale) bool chartAdaptiveScale,
   }) = _BloodLevelsState;
 }
@@ -23,7 +24,8 @@ class BloodLevelsState with _$BloodLevelsState {
 extension BloodLevelsStateX on BloodLevelsState {
   int get filterCount => includedDrugs.length + excludedDrugs.length;
 
-  bool get hasActiveFilters => includedDrugs.isNotEmpty || excludedDrugs.isNotEmpty;
+  bool get hasActiveFilters =>
+      includedDrugs.isNotEmpty || excludedDrugs.isNotEmpty;
 
   List<String> get availableDrugs => levels.keys.toList()..sort();
 

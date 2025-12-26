@@ -16,7 +16,9 @@ class FakeBloodLevelsService extends BloodLevelsService {
   final Map<String, List<DoseEntry>> timelineDosesByDrug = {};
 
   @override
-  Future<Map<String, DrugLevel>> calculateLevels({DateTime? referenceTime}) async {
+  Future<Map<String, DrugLevel>> calculateLevels({
+    DateTime? referenceTime,
+  }) async {
     calculateCallCount += 1;
     lastReferenceTime = referenceTime;
     return levelsToReturn;
@@ -59,14 +61,10 @@ void main() {
     final fake = FakeBloodLevelsService();
     final now = DateTime(2025, 1, 1, 12);
 
-    fake.levelsToReturn = {
-      'caffeine': _exampleLevel(now: now),
-    };
+    fake.levelsToReturn = {'caffeine': _exampleLevel(now: now)};
 
     final container = ProviderContainer(
-      overrides: [
-        bloodLevelsServiceProvider.overrideWithValue(fake),
-      ],
+      overrides: [bloodLevelsServiceProvider.overrideWithValue(fake)],
     );
     addTearDown(container.dispose);
 
@@ -87,9 +85,7 @@ void main() {
     };
 
     final container = ProviderContainer(
-      overrides: [
-        bloodLevelsServiceProvider.overrideWithValue(fake),
-      ],
+      overrides: [bloodLevelsServiceProvider.overrideWithValue(fake)],
     );
     addTearDown(container.dispose);
 
@@ -120,9 +116,7 @@ void main() {
     final fake = FakeBloodLevelsService();
 
     final container = ProviderContainer(
-      overrides: [
-        bloodLevelsServiceProvider.overrideWithValue(fake),
-      ],
+      overrides: [bloodLevelsServiceProvider.overrideWithValue(fake)],
     );
     addTearDown(container.dispose);
 

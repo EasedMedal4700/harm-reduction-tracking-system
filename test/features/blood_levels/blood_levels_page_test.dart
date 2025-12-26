@@ -14,7 +14,9 @@ class FakeBloodLevelsService extends BloodLevelsService {
   FakeBloodLevelsService(this.levelsToReturn);
 
   @override
-  Future<Map<String, DrugLevel>> calculateLevels({DateTime? referenceTime}) async {
+  Future<Map<String, DrugLevel>> calculateLevels({
+    DateTime? referenceTime,
+  }) async {
     return levelsToReturn;
   }
 
@@ -53,12 +55,12 @@ DrugLevel _exampleLevel(DateTime now) {
 void main() {
   testWidgets('shows loading then content', (tester) async {
     final now = DateTime(2025, 1, 1, 12);
-    final fakeService = FakeBloodLevelsService({'caffeine': _exampleLevel(now)});
+    final fakeService = FakeBloodLevelsService({
+      'caffeine': _exampleLevel(now),
+    });
 
     final container = ProviderContainer(
-      overrides: [
-        bloodLevelsServiceProvider.overrideWithValue(fakeService),
-      ],
+      overrides: [bloodLevelsServiceProvider.overrideWithValue(fakeService)],
     );
     addTearDown(container.dispose);
 
@@ -87,9 +89,7 @@ void main() {
     final fakeService = FakeBloodLevelsService(const {});
 
     final container = ProviderContainer(
-      overrides: [
-        bloodLevelsServiceProvider.overrideWithValue(fakeService),
-      ],
+      overrides: [bloodLevelsServiceProvider.overrideWithValue(fakeService)],
     );
     addTearDown(container.dispose);
 
