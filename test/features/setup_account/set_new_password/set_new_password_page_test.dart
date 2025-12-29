@@ -8,7 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 import 'package:mobile_drug_use_app/features/setup_account/pages/set_new_password_page.dart';
-import 'package:mobile_drug_use_app/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
 
 import '../../../mocks/supabase_mocks.mocks.dart';
 

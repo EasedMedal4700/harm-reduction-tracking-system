@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/utils/parsing_utils.dart';
+import 'package:mobile_drug_use_app/core/utils/parsing_utils.dart';
 
 void main() {
   group('ParsingUtils', () {

@@ -6,8 +6,8 @@
 // Common: N/A
 // Notes: Feature service.
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../utils/error_handler.dart';
-import '../../../services/performance_service.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
+import 'package:mobile_drug_use_app/core/services/performance_service.dart';
 
 import '../models/admin_system_stats.dart';
 import '../models/admin_user.dart';

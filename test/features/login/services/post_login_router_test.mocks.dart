@@ -7,12 +7,14 @@ import 'dart:async' as _i8;
 
 import 'package:flutter/material.dart' as _i6;
 import 'package:flutter_riverpod/flutter_riverpod.dart' as _i2;
-import 'package:mobile_drug_use_app/services/app_lock_controller.dart' as _i3;
-import 'package:mobile_drug_use_app/services/encryption_migration_service.dart'
+import 'package:mobile_drug_use_app/features/login/pin_unlock/providers/app_lock_controller.dart'
+    as _i3;
+import 'package:mobile_drug_use_app/core/services/encryption_migration_service.dart'
     as _i7;
-import 'package:mobile_drug_use_app/services/encryption_service_v2.dart'
+import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart'
     as _i10;
-import 'package:mobile_drug_use_app/services/navigation_service.dart' as _i5;
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart'
+    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i9;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i4;

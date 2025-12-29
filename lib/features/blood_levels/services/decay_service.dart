@@ -6,9 +6,9 @@
 // Common: N/A
 // Notes: Feature service.
 import 'dart:math';
-import '../../../models/curve_point.dart';
+import 'package:mobile_drug_use_app/features/tolerance/models/curve_point.dart';
 import '../models/blood_levels_models.dart';
-import '../../../utils/drug_profile_utils.dart';
+import 'package:mobile_drug_use_app/features/catalog/utils/drug_profile_utils.dart';
 import 'package:mobile_drug_use_app/constants/data/graph_constants.dart';
 
 /// Service for calculating pharmacokinetic decay curves

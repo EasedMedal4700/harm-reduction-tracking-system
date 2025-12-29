@@ -18,7 +18,7 @@ import 'widgets/mood_selector.dart';
 import 'widgets/emotion_selector.dart';
 import 'widgets/notes_input.dart';
 import 'widgets/save_button.dart';
-import '../../providers/daily_checkin_provider.dart';
+import 'providers/daily_checkin_provider.dart';
 
 class DailyCheckinScreen extends StatefulWidget {
   const DailyCheckinScreen({super.key});

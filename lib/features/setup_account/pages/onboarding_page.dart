@@ -13,9 +13,9 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/common/logging/logger.dart';
 import 'package:mobile_drug_use_app/features/setup_account/controllers/onboarding_controller.dart';
-import '../../../providers/settings_provider.dart';
+import 'package:mobile_drug_use_app/features/settings/providers/settings_provider.dart';
 import '../../../common/layout/common_spacer.dart';
-import '../../../services/onboarding_service.dart';
+import 'package:mobile_drug_use_app/core/services/onboarding_service.dart';
 
 /// A multi-page onboarding experience for new users
 /// Shows app introduction, privacy info, usage frequency selection, and theme picker

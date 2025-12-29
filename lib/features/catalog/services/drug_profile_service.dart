@@ -6,8 +6,8 @@
 // Common: N/A
 // Notes: Service for drug profile search and normalization.
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../utils/error_handler.dart';
-import '../../../services/cache_service.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
+import 'package:mobile_drug_use_app/core/services/cache_service.dart';
 import 'dart:math';
 
 /// Result of a drug name search with normalization info

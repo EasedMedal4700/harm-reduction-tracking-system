@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/layout/common_spacer.dart';
-import '../../../models/bucket_definitions.dart';
+import '../models/bucket_definitions.dart';
 import '../models/tolerance_models.dart';
 import 'bucket_utils.dart';
 

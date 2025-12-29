@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:mobile_drug_use_app/services/feature_flag_service.dart';
+import 'package:mobile_drug_use_app/features/feature_flags/services/feature_flag_service.dart';
 import 'package:mobile_drug_use_app/features/feature_flags/widgets/feature_gate.dart';
 import 'package:mobile_drug_use_app/features/feature_flags/widgets/feature_disabled_screen.dart';
 import 'package:mobile_drug_use_app/constants/config/feature_flags.dart';

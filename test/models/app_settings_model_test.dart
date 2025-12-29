@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/models/app_settings_model.dart';
+import 'package:mobile_drug_use_app/features/settings/models/app_settings_model.dart';
 
 void main() {
   group('AppSettings', () {

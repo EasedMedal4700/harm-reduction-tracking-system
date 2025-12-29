@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/features/activity/models/activity_models.dart';
-import 'package:mobile_drug_use_app/routes/app_router.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 import 'activity_detail_sheet.dart';
 import 'activity_delete_dialog.dart';
 import 'activity_helpers.dart';

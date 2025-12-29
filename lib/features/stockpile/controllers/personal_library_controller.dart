@@ -7,7 +7,7 @@
 // Notes: Riverpod controller for stockpile personal library
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:mobile_drug_use_app/models/drug_catalog_entry.dart';
+import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
 import 'package:mobile_drug_use_app/features/stockpile/models/personal_library_state.dart';
 import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_providers.dart';
 

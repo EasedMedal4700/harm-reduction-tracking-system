@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/services/auth_service.dart';
-import 'package:mobile_drug_use_app/services/encryption_service_v2.dart';
+import 'package:mobile_drug_use_app/features/login/services/auth_service.dart';
+import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {

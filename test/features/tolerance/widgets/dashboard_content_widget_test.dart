@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/features/tolerance/models/tolerance_models.dart';
 import 'package:mobile_drug_use_app/features/tolerance/widgets/dashboard_content_widget.dart';
-import 'package:mobile_drug_use_app/models/bucket_definitions.dart';
+import 'package:mobile_drug_use_app/features/tolerance/models/bucket_definitions.dart';
 
 import '../../../helpers/test_app_wrapper.dart';
 

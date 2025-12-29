@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:mobile_drug_use_app/features/stockpile/services/personal_library_service.dart';
-import 'package:mobile_drug_use_app/models/drug_catalog_entry.dart';
+import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
 
 class _FakePersonalLibraryApi implements PersonalLibraryApi {
   _FakePersonalLibraryApi({required this.profiles, required this.rows});

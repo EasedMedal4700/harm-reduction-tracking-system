@@ -8,8 +8,8 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../models/app_settings_model.dart';
-import '../../../utils/error_handler.dart';
+import '../models/app_settings_model.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 
 /// Service for managing app settings with local storage
 class SettingsService {

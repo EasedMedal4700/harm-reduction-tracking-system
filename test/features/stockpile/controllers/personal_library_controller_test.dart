@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/features/stockpile/controllers/personal_library_controller.dart';
 import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_providers.dart';
 import 'package:mobile_drug_use_app/features/stockpile/services/personal_library_service.dart';
-import 'package:mobile_drug_use_app/models/drug_catalog_entry.dart';
+import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
 
 class _DummyPersonalLibraryApi implements PersonalLibraryApi {
   @override

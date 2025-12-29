@@ -7,7 +7,8 @@ import 'dart:async' as _i3;
 
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_controller.dart'
     as _i2;
-import 'package:mobile_drug_use_app/models/log_entry_form_data.dart' as _i4;
+import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_form_data.dart'
+    as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint

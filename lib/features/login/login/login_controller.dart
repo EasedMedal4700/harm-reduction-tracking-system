@@ -8,9 +8,9 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:mobile_drug_use_app/providers/core_providers.dart';
-import '../../../services/debug_config.dart';
-import '../../../services/onboarding_service.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/features/debug/services/debug_config.dart';
+import 'package:mobile_drug_use_app/core/services/onboarding_service.dart';
 import '../services/post_login_router.dart';
 import 'login_state.dart';
 

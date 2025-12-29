@@ -13,7 +13,8 @@ import 'package:mobile_drug_use_app/features/admin/models/error_analytics.dart'
     as _i3;
 import 'package:mobile_drug_use_app/features/admin/services/admin_service.dart'
     as _i4;
-import 'package:mobile_drug_use_app/services/cache_service.dart' as _i7;
+import 'package:mobile_drug_use_app/core/services/cache_service.dart'
+    as _i7;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint

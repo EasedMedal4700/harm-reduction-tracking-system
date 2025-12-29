@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/services/timezone_service.dart';
+import 'package:mobile_drug_use_app/core/services/timezone_service.dart';
 
 void main() {
   group('TimezoneService', () {

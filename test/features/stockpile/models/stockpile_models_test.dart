@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/features/stockpile/models/day_usage_models.dart';
 import 'package:mobile_drug_use_app/features/stockpile/models/personal_library_state.dart';
-import 'package:mobile_drug_use_app/models/drug_catalog_entry.dart';
+import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
 
 void main() {
   test('Freezed models and state construct', () {

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile_drug_use_app/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
 
 void main() {
   late ProviderContainer container;

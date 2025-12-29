@@ -7,10 +7,10 @@
 // Notes: Service for managing cravings.
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
-import '../../../models/craving_model.dart';
-import '../../../utils/error_handler.dart';
-import '../../../services/user_service.dart';
-import '../../../services/encryption_service_v2.dart';
+import '../models/craving_model.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
+import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
 
 class CravingService {
   final _uuid = const Uuid();

@@ -11,7 +11,7 @@ import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/buttons/common_icon_button.dart';
 import '../../../common/cards/common_card.dart';
 import '../../../common/layout/common_spacer.dart';
-import '../../../models/bucket_definitions.dart';
+import '../models/bucket_definitions.dart';
 import '../controllers/tolerance_logic.dart';
 import '../models/tolerance_models.dart';
 import 'bucket_utils.dart';

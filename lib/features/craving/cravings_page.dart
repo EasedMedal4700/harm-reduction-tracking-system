@@ -14,10 +14,10 @@ import 'widgets/craving_details_section.dart';
 import 'widgets/emotional_state_section.dart';
 import 'widgets/body_mind_signals_section.dart';
 import 'widgets/outcome_section.dart';
-import '../../models/craving_model.dart';
+import 'models/craving_model.dart';
 import 'services/craving_service.dart';
-import '../../services/timezone_service.dart';
-import '../../services/user_service.dart';
+import 'package:mobile_drug_use_app/core/services/timezone_service.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../common/buttons/common_primary_button.dart';
 

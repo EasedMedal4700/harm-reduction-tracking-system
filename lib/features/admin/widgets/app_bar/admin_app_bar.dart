@@ -10,7 +10,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
 
-import '../../../../routes/app_router.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 
 /// Custom app bar for the admin panel screen
 class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {

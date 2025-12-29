@@ -4,7 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:mobile_drug_use_app/features/setup_account/controllers/set_new_password_controller.dart';
-import 'package:mobile_drug_use_app/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
 
 import '../../../mocks/supabase_mocks.mocks.dart';
 

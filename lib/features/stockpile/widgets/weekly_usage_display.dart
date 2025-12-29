@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/layout/common_spacer.dart';
-import '../../../models/drug_catalog_entry.dart';
+import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
 
 class WeeklyUsageDisplay extends StatelessWidget {
   final DrugCatalogEntry entry;

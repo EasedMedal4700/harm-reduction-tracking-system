@@ -8,7 +8,7 @@ import 'package:mobile_drug_use_app/features/activity/models/activity_models.dar
 import 'package:mobile_drug_use_app/features/activity/activity_page.dart';
 import 'package:mobile_drug_use_app/features/activity/providers/activity_providers.dart';
 import 'package:mobile_drug_use_app/features/activity/services/activity_service.dart';
-import 'package:mobile_drug_use_app/routes/app_router.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 
 class FakeActivityService implements ActivityService {
   FakeActivityService(this._data);

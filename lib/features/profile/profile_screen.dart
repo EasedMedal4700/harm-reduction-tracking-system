@@ -11,13 +11,13 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_spacer.dart';
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
 import '../../common/layout/common_drawer.dart';
 import 'widgets/profile_header.dart';
 import 'widgets/statistics_card.dart';
 import 'widgets/account_info_card.dart';
 import 'widgets/logout_button.dart';
-import '../../services/user_service.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
 import '../log_entry/log_entry_service.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {

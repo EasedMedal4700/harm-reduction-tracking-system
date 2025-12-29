@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_controller.dart';
-import 'package:mobile_drug_use_app/models/log_entry_form_data.dart';
+import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_form_data.dart';
 import 'package:mobile_drug_use_app/repo/substance_repository.dart';
 
 // Simple Mock for SubstanceRepository

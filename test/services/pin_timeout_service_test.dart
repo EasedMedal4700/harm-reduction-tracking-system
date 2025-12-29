@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile_drug_use_app/services/pin_timeout_service.dart';
+import 'package:mobile_drug_use_app/core/services/pin_timeout_service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../services/user_service.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
 import '../controllers/tolerance_controller.dart';
 import '../widgets/dashboard_content_widget.dart';
 import '../../../common/feedback/common_loader.dart';

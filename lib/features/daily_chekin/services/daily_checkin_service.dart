@@ -6,10 +6,10 @@
 // Common: N/A
 // Notes: Service for daily checkins.
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../models/daily_checkin_model.dart';
-import '../../../services/user_service.dart';
-import '../../../utils/error_handler.dart';
-import '../../../services/cache_service.dart';
+import '../models/daily_checkin_model.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
+import 'package:mobile_drug_use_app/core/services/cache_service.dart';
 
 abstract class DailyCheckinRepository {
   Future<void> saveCheckin(DailyCheckin checkin);

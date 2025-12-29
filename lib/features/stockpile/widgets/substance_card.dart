@@ -12,8 +12,8 @@ import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../common/buttons/common_outlined_button.dart';
 import '../../../constants/data/drug_categories.dart';
-import '../../../models/drug_catalog_entry.dart';
-import '../../../models/stockpile_item.dart';
+import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
+import 'package:mobile_drug_use_app/features/stockpile/models/stockpile_item.dart';
 import 'weekly_usage_display.dart';
 
 const double _buttonHeight = 40.0;

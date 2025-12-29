@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/models/daily_checkin_model.dart';
+import 'package:mobile_drug_use_app/features/daily_chekin/models/daily_checkin_model.dart';
 
 void main() {
   group('DailyCheckin Model', () {

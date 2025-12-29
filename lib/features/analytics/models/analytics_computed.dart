@@ -6,7 +6,7 @@
 // Common: COMPLETE
 // Notes: Freezed computed snapshot derived from AnalyticsState.
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mobile_drug_use_app/models/log_entry_model.dart';
+import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_model.dart';
 
 part 'analytics_computed.freezed.dart';
 

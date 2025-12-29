@@ -21,10 +21,10 @@ import 'home_redesign/daily_checkin_card.dart';
 import 'home_page/home_quick_actions_grid.dart';
 import 'home_page/home_progress_stats.dart';
 import 'home_page/home_navigation_methods.dart';
-import '../../providers/daily_checkin_provider.dart';
+import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_provider.dart';
 import '../daily_chekin/services/daily_checkin_service.dart';
-import '../../services/user_service.dart';
-import '../../services/encryption_service_v2.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
+import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
 import '../profile/profile_screen.dart';
 import '../admin/screens/admin_panel_screen.dart';
 

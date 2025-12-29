@@ -16,8 +16,8 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/features/catalog/widgets/add_stockpile_sheet.dart';
 import 'package:mobile_drug_use_app/features/stockpile/controllers/personal_library_controller.dart';
 import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_providers.dart';
-import 'package:mobile_drug_use_app/models/drug_catalog_entry.dart';
-import 'package:mobile_drug_use_app/models/stockpile_item.dart';
+import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
+import 'package:mobile_drug_use_app/features/stockpile/models/stockpile_item.dart';
 
 import 'widgets/day_usage_sheet.dart';
 import 'widgets/library_app_bar.dart';

@@ -1,5 +1,5 @@
 import 'package:mobile_drug_use_app/features/craving/services/craving_service.dart';
-import 'package:mobile_drug_use_app/models/craving_model.dart';
+import 'package:mobile_drug_use_app/features/craving/models/craving_model.dart';
 
 class FakeCravingService implements CravingService {
   @override

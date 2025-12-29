@@ -9,8 +9,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:mobile_drug_use_app/common/logging/logger.dart';
 import 'package:mobile_drug_use_app/features/setup_account/models/register_state.dart';
-import 'package:mobile_drug_use_app/providers/core_providers.dart';
-import 'package:mobile_drug_use_app/services/auth_service.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/features/login/services/auth_service.dart';
 
 part 'register_controller.g.dart';
 

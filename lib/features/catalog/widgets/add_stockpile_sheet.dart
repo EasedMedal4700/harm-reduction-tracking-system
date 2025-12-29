@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../repo/stockpile_repository.dart';
-import '../../../utils/drug_profile_utils.dart';
+import 'package:mobile_drug_use_app/features/catalog/utils/drug_profile_utils.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 import 'package:mobile_drug_use_app/common/inputs/input_field.dart';

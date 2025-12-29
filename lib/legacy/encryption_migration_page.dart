@@ -16,9 +16,9 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../providers/core_providers.dart';
-import '../services/encryption_migration_service.dart';
-import '../utils/error_handler.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/services/encryption_migration_service.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 import 'migration_step_controller.dart';
 
 class EncryptionMigrationScreen extends ConsumerStatefulWidget {

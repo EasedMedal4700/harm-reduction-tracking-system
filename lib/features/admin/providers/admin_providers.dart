@@ -11,9 +11,9 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../services/cache_service.dart';
-import '../../../services/performance_service.dart';
-import '../../../utils/error_reporter.dart';
+import 'package:mobile_drug_use_app/core/services/cache_service.dart';
+import 'package:mobile_drug_use_app/core/services/performance_service.dart';
+import 'package:mobile_drug_use_app/core/utils/error_reporter.dart';
 import '../models/admin_cache_stats.dart';
 import '../models/admin_panel_state.dart';
 import '../models/admin_performance_stats.dart';

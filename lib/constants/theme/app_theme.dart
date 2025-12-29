@@ -6,7 +6,7 @@
 // Common: N/A
 // Notes: Theme definition.
 import 'package:flutter/material.dart';
-import '../../models/app_settings_model.dart';
+import 'package:mobile_drug_use_app/features/settings/models/app_settings_model.dart';
 import 'app_color_palette.dart';
 import 'app_accent_colors.dart';
 import 'app_spacing.dart';

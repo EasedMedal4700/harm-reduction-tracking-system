@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../constants/theme/app_theme_extension.dart';
-import '../../../models/bucket_definitions.dart';
+import '../models/bucket_definitions.dart';
 
 class BucketUtils {
   static IconData getBucketIcon(String bucketType) {

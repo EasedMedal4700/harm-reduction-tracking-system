@@ -8,7 +8,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/features/stockpile/services/day_usage_service.dart';
 import 'package:mobile_drug_use_app/features/stockpile/services/personal_library_service.dart';
-import 'package:mobile_drug_use_app/models/stockpile_item.dart';
+import 'package:mobile_drug_use_app/features/stockpile/models/stockpile_item.dart';
 import 'package:mobile_drug_use_app/repo/stockpile_repository.dart';
 import 'package:mobile_drug_use_app/repo/substance_repository.dart';
 

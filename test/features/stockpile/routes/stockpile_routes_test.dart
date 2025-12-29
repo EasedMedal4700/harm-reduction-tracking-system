@@ -6,7 +6,7 @@ import 'package:mobile_drug_use_app/features/stockpile/routes/stockpile_routes.d
 import 'package:mobile_drug_use_app/features/stockpile/stockpile_page.dart';
 import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_providers.dart';
 import 'package:mobile_drug_use_app/features/stockpile/services/personal_library_service.dart';
-import 'package:mobile_drug_use_app/models/drug_catalog_entry.dart';
+import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 

@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/features/manage_profile/forgot_password/forgot_password_controller.dart';
 import 'package:mobile_drug_use_app/features/manage_profile/forgot_password/forgot_password_state.dart';
-import 'package:mobile_drug_use_app/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

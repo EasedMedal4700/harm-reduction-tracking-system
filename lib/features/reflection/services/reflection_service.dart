@@ -6,12 +6,12 @@
 // Common: N/A
 // Notes: Service for reflection operations.
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../../models/reflection_model.dart';
-import '../../../services/user_service.dart';
-import '../../../../utils/error_handler.dart';
+import '../models/reflection_model.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 import '../reflection_exceptions.dart';
 import '../utils/reflection_validator.dart';
-import '../../../services/encryption_service_v2.dart';
+import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
 
 class ReflectionService {
   final _encryption = EncryptionServiceV2();

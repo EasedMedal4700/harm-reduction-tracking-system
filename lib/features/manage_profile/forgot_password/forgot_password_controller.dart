@@ -7,7 +7,7 @@
 // Notes: Handles forgot password orchestration and Supabase interaction.
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
 import 'forgot_password_state.dart';
 
 final forgotPasswordControllerProvider =

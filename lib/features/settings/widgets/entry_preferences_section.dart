@@ -6,7 +6,7 @@
 // Common: COMPLETE
 // Notes: Entry preferences section.
 import 'package:flutter/material.dart';
-import '../../../providers/settings_provider.dart';
+import '../providers/settings_provider.dart';
 import 'settings_section.dart';
 import '../../../common/inputs/switch_tile.dart';
 import '../../../common/inputs/slider.dart';

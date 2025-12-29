@@ -6,7 +6,7 @@
 // Common: N/A
 // Notes: Utility.
 import 'dart:math' as math;
-import '../../../models/tolerance_model.dart';
+import '../models/tolerance_model.dart';
 import '../../../common/logging/app_log.dart';
 
 /// Core math for tolerance calculation.

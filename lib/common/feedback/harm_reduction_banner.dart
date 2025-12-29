@@ -6,7 +6,7 @@
 // Common: COMPLETE
 // Notes: Common UI component.
 import 'package:flutter/material.dart';
-import '../../services/onboarding_service.dart';
+import 'package:mobile_drug_use_app/core/services/onboarding_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
 
 class HarmReductionBanner extends StatefulWidget {

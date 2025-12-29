@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mobile_drug_use_app/features/craving/services/craving_service.dart';
-import 'package:mobile_drug_use_app/models/craving_model.dart';
+import 'package:mobile_drug_use_app/features/craving/models/craving_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'craving_service_test_mocks.mocks.dart';
 

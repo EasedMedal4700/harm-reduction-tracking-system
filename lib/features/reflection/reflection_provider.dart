@@ -6,7 +6,7 @@
 // Common: N/A
 // Notes: Provider for reflection.
 import 'package:flutter/material.dart';
-import '../../models/reflection_model.dart';
+import 'models/reflection_model.dart';
 import 'reflection_service.dart';
 
 class ReflectionProvider extends ChangeNotifier {

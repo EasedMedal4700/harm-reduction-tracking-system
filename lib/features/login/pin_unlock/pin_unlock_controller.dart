@@ -8,11 +8,11 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../providers/navigation_provider.dart';
-import '../../../services/navigation_service.dart';
-import '../../../providers/core_providers.dart';
-import '../../../services/encryption_service_v2.dart';
-import '../../../services/debug_config.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
+import 'package:mobile_drug_use_app/features/debug/services/debug_config.dart';
 import 'pin_unlock_state.dart';
 
 final pinUnlockControllerProvider =

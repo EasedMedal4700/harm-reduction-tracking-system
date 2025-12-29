@@ -7,10 +7,10 @@
 // Notes: Analytics domain/service layer used by providers.
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../constants/enums/time_period.dart';
-import '../../../models/log_entry_model.dart';
+import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_model.dart';
 import '../../../repo/substance_repository.dart';
-import '../../../services/user_service.dart';
-import '../../../utils/error_handler.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 
 class AnalyticsService {
   Map<String, String> substanceToCategory = {};

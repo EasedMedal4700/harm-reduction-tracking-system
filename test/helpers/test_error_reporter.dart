@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mobile_drug_use_app/utils/error_reporter.dart';
+import 'package:mobile_drug_use_app/core/utils/error_reporter.dart';
 
 /// Test wrapper that reports test failures to the error database
 ///

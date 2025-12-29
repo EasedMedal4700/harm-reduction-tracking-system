@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../common/layout/common_spacer.dart';
-import '../../../services/auth_link_handler.dart';
+import 'package:mobile_drug_use_app/features/login/services/auth_link_handler.dart';
 import '../../../common/logging/app_log.dart';
 
 /// Debug utility widget for testing deep link flows.

@@ -12,8 +12,8 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_spacer.dart';
 
 import '../../constants/config/feature_flags.dart';
-import '../../services/feature_flag_service.dart';
-import '../../services/user_service.dart';
+import 'package:mobile_drug_use_app/features/feature_flags/services/feature_flag_service.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
 
 // import '../../common/old_common/drawer_menu.dart'; // Removed legacy drawer
 /// Admin screen for managing feature flags.

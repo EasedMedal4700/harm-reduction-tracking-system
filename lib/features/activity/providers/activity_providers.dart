@@ -8,7 +8,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:mobile_drug_use_app/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
 
 import '../models/activity_models.dart';
 import '../models/activity_state.dart';

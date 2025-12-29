@@ -16,7 +16,7 @@ import '../craving/widgets/body_mind_signals_section.dart';
 import '../craving/widgets/outcome_section.dart';
 import 'widgets/craving_app_bar.dart';
 import '../craving/services/craving_service.dart';
-import '../../utils/error_handler.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 import '../../constants/data/body_and_mind_catalog.dart';
 import '../../constants/data/drug_use_catalog.dart';
 import '../../constants/data/craving_consatnts.dart';

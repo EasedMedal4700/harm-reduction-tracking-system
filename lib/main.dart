@@ -16,16 +16,16 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'common/logging/app_log.dart';
-import 'providers/settings_provider.dart';
-import 'routes/screen_tracking_observer.dart';
-import 'providers/navigation_provider.dart';
+import 'features/settings/providers/settings_provider.dart';
+import 'core/routes/screen_tracking_observer.dart';
+import 'core/providers/navigation_provider.dart';
 import 'constants/theme/app_theme_provider.dart';
-import 'services/error_logging_service.dart';
-import 'services/feature_flag_service.dart';
-import 'services/auth_link_handler.dart';
-import 'services/app_lock_controller.dart';
-import 'providers/core_providers.dart';
-import 'routes/app_router.dart';
+import 'core/services/error_logging_service.dart';
+import 'features/feature_flags/services/feature_flag_service.dart';
+import 'features/login/services/auth_link_handler.dart';
+import 'features/login/pin_unlock/providers/app_lock_controller.dart';
+import 'core/providers/core_providers.dart';
+import 'core/routes/app_router.dart';
 
 Future<void> main() async {
   final errorLoggingService = ErrorLoggingService.instance;

@@ -5,7 +5,7 @@
 // Notes: AppBar for editing log entries. No hardcoded values.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import '../../../models/log_entry_form_data.dart';
+import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_form_data.dart';
 import '../../../common/buttons/common_icon_button.dart';
 import '../../../common/layout/common_spacer.dart';
 

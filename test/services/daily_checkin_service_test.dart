@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/models/daily_checkin_model.dart';
-import 'package:mobile_drug_use_app/services/cache_service.dart';
+import 'package:mobile_drug_use_app/features/daily_chekin/models/daily_checkin_model.dart';
+import 'package:mobile_drug_use_app/core/services/cache_service.dart';
 import 'package:mobile_drug_use_app/features/daily_chekin/services/daily_checkin_service.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

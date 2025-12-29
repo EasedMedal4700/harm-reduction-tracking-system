@@ -5,7 +5,7 @@
 // Theme: N/A
 // Common: N/A
 // Notes: Utility.
-import '../../../models/reflection_model.dart';
+import '../models/reflection_model.dart';
 import '../reflection_exceptions.dart';
 
 /// Validator for reflection data

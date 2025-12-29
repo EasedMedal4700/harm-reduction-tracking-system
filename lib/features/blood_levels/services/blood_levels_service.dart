@@ -7,7 +7,7 @@
 // Notes: Feature service.
 import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../services/user_service.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
 import '../../../common/logging/logger.dart';
 
 import '../models/blood_levels_models.dart';

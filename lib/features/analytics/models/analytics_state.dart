@@ -7,7 +7,7 @@
 // Notes: Freezed state for Analytics feature.
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_drug_use_app/constants/enums/time_period.dart';
-import 'package:mobile_drug_use_app/models/log_entry_model.dart';
+import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_model.dart';
 
 part 'analytics_state.freezed.dart';
 

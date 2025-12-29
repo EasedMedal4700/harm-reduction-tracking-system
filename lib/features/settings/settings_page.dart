@@ -11,7 +11,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import '../../providers/settings_provider.dart';
+import 'providers/settings_provider.dart';
 import 'widgets/ui_settings_section.dart';
 import 'widgets/notification_settings_section.dart';
 import 'widgets/privacy_settings_section.dart';

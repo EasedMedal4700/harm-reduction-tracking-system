@@ -8,8 +8,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import '../../../services/feature_flag_service.dart';
-import '../../../services/user_service.dart';
+import 'package:mobile_drug_use_app/features/feature_flags/services/feature_flag_service.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
 import 'feature_disabled_screen.dart';
 
 /// A wrapper widget that conditionally shows a page based on feature flags.

@@ -1,4 +1,4 @@
-import 'package:mobile_drug_use_app/models/daily_checkin_model.dart';
+import 'package:mobile_drug_use_app/features/daily_chekin/models/daily_checkin_model.dart';
 import 'package:mobile_drug_use_app/features/daily_chekin/services/daily_checkin_service.dart';
 
 /// A lightweight in-memory implementation that avoids touching Supabase during widget tests.

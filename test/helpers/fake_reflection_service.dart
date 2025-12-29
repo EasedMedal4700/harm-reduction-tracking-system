@@ -1,5 +1,5 @@
 import 'package:mobile_drug_use_app/features/reflection/reflection_service.dart';
-import 'package:mobile_drug_use_app/models/reflection_model.dart';
+import 'package:mobile_drug_use_app/features/reflection/models/reflection_model.dart';
 
 class FakeReflectionService implements ReflectionService {
   @override

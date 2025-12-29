@@ -6,7 +6,7 @@
 // Common: COMPLETE
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mobile_drug_use_app/models/drug_catalog_entry.dart';
+import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
 
 part 'personal_library_state.freezed.dart';
 

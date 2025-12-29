@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: State management for log entry.
 import 'package:flutter/material.dart';
-import '../../models/log_entry_form_data.dart';
+import 'models/log_entry_form_data.dart';
 import 'log_entry_controller.dart';
 
 /// Riverpod-ready state adapter for Provider

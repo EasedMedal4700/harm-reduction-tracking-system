@@ -13,7 +13,7 @@ import '../../../common/text/common_section_header.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../common/buttons/common_chip.dart';
 import '../../../constants/data/drug_categories.dart';
-import '../../../models/log_entry_model.dart';
+import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_model.dart';
 
 class RecentActivityList extends StatelessWidget {
   final List<LogEntry> entries;

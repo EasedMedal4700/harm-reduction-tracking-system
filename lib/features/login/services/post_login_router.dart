@@ -6,8 +6,8 @@
 // Common: N/A
 // Notes: Central post-login routing incl. encryption & PIN.
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../providers/core_providers.dart';
-import '../../../providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 
 final postLoginRouterProvider = Provider<PostLoginRouter>(
   (ref) => PostLoginRouter(ref),

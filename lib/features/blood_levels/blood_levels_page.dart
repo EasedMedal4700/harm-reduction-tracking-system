@@ -12,7 +12,7 @@ import 'constants/blood_levels_constants.dart';
 import 'models/blood_levels_state.dart';
 import 'providers/blood_levels_providers.dart';
 import 'services/blood_levels_service.dart';
-import '../../services/onboarding_service.dart';
+import 'package:mobile_drug_use_app/core/services/onboarding_service.dart';
 import 'widgets/filter_panel.dart';
 import 'widgets/blood_levels_app_bar.dart';
 import 'widgets/blood_levels_loading_state.dart';

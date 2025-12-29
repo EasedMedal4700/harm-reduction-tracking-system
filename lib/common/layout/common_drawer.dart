@@ -12,9 +12,9 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../constants/config/feature_flags.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import '../../routes/app_routes.dart';
-import '../../services/feature_flag_service.dart';
-import '../../services/user_service.dart';
+import 'package:mobile_drug_use_app/core/routes/app_routes.dart';
+import 'package:mobile_drug_use_app/features/feature_flags/services/feature_flag_service.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
 
 class CommonDrawer extends StatefulWidget {
   const CommonDrawer({super.key});

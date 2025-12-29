@@ -9,7 +9,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:mobile_drug_use_app/common/logging/logger.dart';
 import 'package:mobile_drug_use_app/features/setup_account/models/onboarding_state.dart';
-import 'package:mobile_drug_use_app/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
 
 part 'onboarding_controller.g.dart';
 

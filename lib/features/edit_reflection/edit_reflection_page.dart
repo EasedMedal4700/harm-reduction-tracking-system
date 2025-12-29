@@ -10,9 +10,9 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
 import '../reflection/widgets/edit_reflection_form.dart';
 import 'widgets/reflection_app_bar.dart';
-import '../../models/reflection_model.dart';
+import 'package:mobile_drug_use_app/features/reflection/models/reflection_model.dart';
 import '../reflection/reflection_service.dart';
-import '../../utils/error_handler.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 import '../reflection/reflection_exceptions.dart';
 import '../reflection/utils/reflection_validator.dart';
 

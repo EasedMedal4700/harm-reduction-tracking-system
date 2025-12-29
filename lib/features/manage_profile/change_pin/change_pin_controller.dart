@@ -7,10 +7,10 @@
 // Notes: Owns Change PIN orchestration, validation, encryption, and navigation intent.
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../services/encryption_service_v2.dart';
-import '../../../services/navigation_service.dart';
-import '../../../providers/encryption_providers.dart';
-import '../../../providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
+import 'package:mobile_drug_use_app/core/providers/encryption_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import 'change_pin_state.dart';
 
 /// Riverpod provider for the Change PIN controller.

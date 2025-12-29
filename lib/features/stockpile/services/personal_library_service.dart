@@ -8,12 +8,12 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../models/drug_catalog_entry.dart';
-import '../../../services/user_service.dart';
-import '../../../utils/drug_data_parser.dart';
-import '../../../utils/drug_preferences_manager.dart';
+import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
+import 'package:mobile_drug_use_app/features/catalog/utils/drug_data_parser.dart';
+import 'package:mobile_drug_use_app/features/catalog/utils/drug_preferences_manager.dart';
 import '../../analytics/utils/drug_stats_calculator.dart';
-import '../../../utils/error_handler.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 
 abstract class PersonalLibraryApi {
   Future<List<Map<String, dynamic>>> fetchDrugProfiles();

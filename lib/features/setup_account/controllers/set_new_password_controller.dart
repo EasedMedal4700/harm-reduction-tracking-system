@@ -10,7 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:mobile_drug_use_app/common/logging/logger.dart';
 import 'package:mobile_drug_use_app/features/setup_account/models/set_new_password_state.dart';
-import 'package:mobile_drug_use_app/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
 
 part 'set_new_password_controller.g.dart';
 

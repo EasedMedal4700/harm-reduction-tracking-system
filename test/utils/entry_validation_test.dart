@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/utils/entry_validation.dart';
+import 'package:mobile_drug_use_app/features/log_entry/utils/entry_validation.dart';
 import 'package:mobile_drug_use_app/constants/data/drug_use_catalog.dart';
 
 void main() {

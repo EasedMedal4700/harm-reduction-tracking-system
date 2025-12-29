@@ -8,14 +8,11 @@ import 'package:mobile_drug_use_app/features/admin/models/admin_system_stats.dar
 import 'package:mobile_drug_use_app/features/admin/models/admin_user.dart';
 import 'package:mobile_drug_use_app/features/admin/providers/admin_providers.dart';
 import 'package:mobile_drug_use_app/features/admin/services/admin_service.dart';
-import 'package:mobile_drug_use_app/services/cache_service.dart';
+import 'package:mobile_drug_use_app/core/services/cache_service.dart';
 
 import 'admin_panel_controller_test.mocks.dart';
 
-@GenerateNiceMocks([
-  MockSpec<AdminService>(),
-  MockSpec<CacheService>(),
-])
+@GenerateNiceMocks([MockSpec<AdminService>(), MockSpec<CacheService>()])
 void main() {
   group('AdminPanelController', () {
     setUp(() {
@@ -84,9 +81,9 @@ void main() {
       final mockCache = MockCacheService();
 
       when(mockService.fetchAllUsers()).thenAnswer((_) async => const []);
-      when(mockService.getSystemStats()).thenAnswer(
-        (_) async => const AdminSystemStats(),
-      );
+      when(
+        mockService.getSystemStats(),
+      ).thenAnswer((_) async => const AdminSystemStats());
       when(mockService.promoteUser(any)).thenAnswer((_) async {});
       when(mockCache.getStats()).thenReturn({
         'total_entries': 0,
@@ -121,9 +118,9 @@ void main() {
       final mockCache = MockCacheService();
 
       when(mockService.fetchAllUsers()).thenAnswer((_) async => const []);
-      when(mockService.getSystemStats()).thenAnswer(
-        (_) async => const AdminSystemStats(),
-      );
+      when(
+        mockService.getSystemStats(),
+      ).thenAnswer((_) async => const AdminSystemStats());
       when(mockService.demoteUser(any)).thenAnswer((_) async {});
       when(mockCache.getStats()).thenReturn({
         'total_entries': 0,
@@ -156,9 +153,9 @@ void main() {
       final mockCache = MockCacheService();
 
       when(mockService.fetchAllUsers()).thenAnswer((_) async => const []);
-      when(mockService.getSystemStats()).thenAnswer(
-        (_) async => const AdminSystemStats(),
-      );
+      when(
+        mockService.getSystemStats(),
+      ).thenAnswer((_) async => const AdminSystemStats());
       when(mockCache.getStats()).thenReturn({
         'total_entries': 0,
         'active_entries': 0,
@@ -179,7 +176,9 @@ void main() {
       clearInteractions(mockService);
       clearInteractions(mockCache);
 
-      await container.read(adminPanelControllerProvider.notifier).clearAllCache();
+      await container
+          .read(adminPanelControllerProvider.notifier)
+          .clearAllCache();
 
       verify(mockCache.clearAll()).called(1);
       verifyNever(mockService.fetchAllUsers());

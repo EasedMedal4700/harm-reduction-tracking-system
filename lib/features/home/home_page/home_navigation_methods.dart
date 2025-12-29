@@ -4,7 +4,7 @@
 // Riverpod: TODO
 // Notes: Navigation mixin. No UI to migrate.
 import 'package:flutter/material.dart';
-import '../../../routes/app_routes.dart';
+import 'package:mobile_drug_use_app/core/routes/app_routes.dart';
 
 /// Mixin providing navigation methods for HomePage
 mixin HomeNavigationMethods {

@@ -5,7 +5,7 @@ import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_controller.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
-import 'package:mobile_drug_use_app/models/log_entry_form_data.dart';
+import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_form_data.dart';
 
 // Mock Controller
 class MockLogEntryController extends LogEntryController {

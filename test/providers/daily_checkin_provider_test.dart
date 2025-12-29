@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/models/daily_checkin_model.dart';
-import 'package:mobile_drug_use_app/providers/daily_checkin_provider.dart';
+import 'package:mobile_drug_use_app/features/daily_chekin/models/daily_checkin_model.dart';
+import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_provider.dart';
 import 'package:mobile_drug_use_app/features/daily_chekin/services/daily_checkin_service.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

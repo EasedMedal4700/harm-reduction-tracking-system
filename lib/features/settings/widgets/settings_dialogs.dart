@@ -7,7 +7,7 @@
 // Notes: Settings dialogs.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import '../../../providers/settings_provider.dart';
+import '../providers/settings_provider.dart';
 
 class SettingsDialogs {
   static void showLanguagePicker(
