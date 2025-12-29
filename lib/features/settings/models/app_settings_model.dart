@@ -29,7 +29,8 @@ class AppSettings with _$AppSettings {
     // Privacy Settings
     @Default(false) bool biometricLock,
     @Default(false) bool requirePinOnOpen,
-    @Default('5min') String autoLockDuration, // '1min', '5min', '15min', 'never'
+    @Default('5min')
+    String autoLockDuration, // '1min', '5min', '15min', 'never'
     @Default(false) bool hideContentInRecents,
     @Default(false) bool analyticsEnabled,
     // Data Settings
@@ -47,7 +48,8 @@ class AppSettings with _$AppSettings {
     @Default(5) int recentSubstancesCount,
     // Display Settings
     @Default(false) bool show24HourTime,
-    @Default('MM/DD/YYYY') String dateFormat, // 'MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'
+    @Default('MM/DD/YYYY')
+    String dateFormat, // 'MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'
     @Default(true) bool showBloodLevels,
     @Default(true) bool showAnalytics,
   }) = _AppSettings;

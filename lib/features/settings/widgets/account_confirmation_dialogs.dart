@@ -87,10 +87,7 @@ void showDeleteDataConfirmation(
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: () => context.pop(),
-          child: const Text('Cancel'),
-        ),
+        TextButton(onPressed: () => context.pop(), child: const Text('Cancel')),
         TextButton(
           onPressed: () {
             context.pop();
@@ -219,10 +216,7 @@ void showDeleteAccountConfirmation(
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: () => context.pop(),
-          child: const Text('Cancel'),
-        ),
+        TextButton(onPressed: () => context.pop(), child: const Text('Cancel')),
         TextButton(
           onPressed: () {
             context.pop();

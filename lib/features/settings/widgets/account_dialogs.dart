@@ -262,10 +262,7 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: () => context.pop(),
-          child: const Text('Cancel'),
-        ),
+        TextButton(onPressed: () => context.pop(), child: const Text('Cancel')),
         Semantics(
           button: true,
           enabled: _userConfirmed,
