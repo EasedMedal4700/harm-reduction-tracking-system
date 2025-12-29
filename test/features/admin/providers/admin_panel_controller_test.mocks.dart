@@ -5,6 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
 
+import 'package:mobile_drug_use_app/core/services/cache_service.dart' as _i7;
 import 'package:mobile_drug_use_app/features/admin/models/admin_system_stats.dart'
     as _i2;
 import 'package:mobile_drug_use_app/features/admin/models/admin_user.dart'
@@ -13,8 +14,6 @@ import 'package:mobile_drug_use_app/features/admin/models/error_analytics.dart'
     as _i3;
 import 'package:mobile_drug_use_app/features/admin/services/admin_service.dart'
     as _i4;
-import 'package:mobile_drug_use_app/core/services/cache_service.dart'
-    as _i7;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint

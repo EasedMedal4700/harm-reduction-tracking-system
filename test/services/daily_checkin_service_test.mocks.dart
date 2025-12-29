@@ -5,8 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
-import 'package:mobile_drug_use_app/core/services/cache_service.dart'
-    as _i5;
+import 'package:mobile_drug_use_app/core/services/cache_service.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i4;
 import 'package:supabase/supabase.dart' as _i2;

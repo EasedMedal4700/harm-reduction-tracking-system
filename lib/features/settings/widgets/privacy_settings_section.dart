@@ -127,8 +127,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
             leading: Icon(Icons.lock_reset, size: th.sizes.iconMd),
             trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
             onTap: () async {
-              final navigator = Navigator.of(context);
-              final result = await navigator.pushNamed('/change-pin');
+              final result = await context.push<bool>('/change-pin');
               if (!context.mounted) return;
               if (result == true) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -278,11 +277,11 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 ),
                 actions: [
                   TextButton(
-                    onPressed: () => Navigator.pop(context, false),
+                    onPressed: () => context.pop(false),
                     child: const Text('Cancel'),
                   ),
                   CommonPrimaryButton(
-                    onPressed: () => Navigator.pop(context, true),
+                    onPressed: () => context.pop(true),
                     label: 'Reset',
                   ),
                 ],

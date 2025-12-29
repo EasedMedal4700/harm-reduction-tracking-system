@@ -6,11 +6,13 @@
 // Common: COMPLETE
 // Notes: Account dialogs.
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../common/feedback/common_loader.dart';
+import '../../../common/buttons/common_primary_button.dart';
 
 /// Dialog for password verification before sensitive operations
 class PasswordVerificationDialog extends StatefulWidget {
@@ -125,7 +127,7 @@ class _PasswordVerificationDialogState
           label: _isVerifying ? 'Verifying password' : 'Cancel',
           child: TextButton(
             onPressed: () {
-              if (!_isVerifying) Navigator.pop(context);
+              if (!_isVerifying) context.pop();
             },
             child: const Text('Cancel'),
           ),
@@ -134,21 +136,14 @@ class _PasswordVerificationDialogState
           button: true,
           enabled: !_isVerifying,
           label: _isVerifying ? 'Verifying password' : widget.actionButtonText,
-          child: ElevatedButton(
+          child: CommonPrimaryButton(
             onPressed: () {
               if (!_isVerifying) _verify();
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: widget.actionButtonColor,
-              foregroundColor: c.surface,
-            ),
-            child: _isVerifying
-                ? SizedBox(
-                    width: sp.lg,
-                    height: sp.lg,
-                    child: CommonLoader(size: sp.lg, color: c.surface),
-                  )
-                : Text(widget.actionButtonText),
+            isLoading: _isVerifying,
+            label: widget.actionButtonText,
+            backgroundColor: widget.actionButtonColor,
+            textColor: c.surface,
           ),
         ),
       ],
@@ -268,7 +263,7 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
           child: const Text('Cancel'),
         ),
         Semantics(
@@ -277,13 +272,12 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
           label: _userConfirmed
               ? 'Confirm action'
               : 'Type confirmation text to enable',
-          child: ElevatedButton(
-            onPressed: _userConfirmed ? widget.onConfirmed : null,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: widget.buttonColor ?? c.error,
-              foregroundColor: c.surface,
-            ),
-            child: const Text('Confirm'),
+          child: CommonPrimaryButton(
+            onPressed: widget.onConfirmed,
+            isEnabled: _userConfirmed,
+            label: 'Confirm',
+            backgroundColor: widget.buttonColor ?? c.error,
+            textColor: c.surface,
           ),
         ),
       ],

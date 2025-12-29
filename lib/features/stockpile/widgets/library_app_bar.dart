@@ -1,10 +1,10 @@
 // MIGRATION:
-// State: LEGACY
+// State: MODERN
 // Navigation: N/A
 // Models: N/A
 // Theme: COMPLETE
-// Common: PARTIAL
-// Notes: Migrated to AppThemeExtension. Riverpod TODO.
+// Common: COMPLETE
+// Notes: Migrated to AppThemeExtension.
 import 'package:flutter/material.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/buttons/common_icon_button.dart';

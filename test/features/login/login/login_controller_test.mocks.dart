@@ -5,12 +5,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:mobile_drug_use_app/features/login/services/post_login_router.dart'
-    as _i5;
-import 'package:mobile_drug_use_app/features/login/services/auth_service.dart'
-    as _i2;
 import 'package:mobile_drug_use_app/core/services/onboarding_service.dart'
     as _i6;
+import 'package:mobile_drug_use_app/features/login/services/auth_service.dart'
+    as _i2;
+import 'package:mobile_drug_use_app/features/login/services/post_login_router.dart'
+    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i3;

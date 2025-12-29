@@ -6,8 +6,10 @@
 // Common: COMPLETE
 // Notes: Account confirmation dialogs.
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../constants/theme/app_theme_extension.dart';
+import '../../../common/buttons/common_primary_button.dart';
 import '../../../common/layout/common_spacer.dart';
 import 'account_dialogs.dart';
 
@@ -86,27 +88,25 @@ void showDeleteDataConfirmation(
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
           child: const Text('Cancel'),
         ),
         TextButton(
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
             onDownloadFirst();
           },
           style: TextButton.styleFrom(foregroundColor: c.info),
           child: const Text('Download Data First'),
         ),
-        ElevatedButton(
+        CommonPrimaryButton(
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
             onConfirmDelete();
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: c.warning,
-            foregroundColor: c.surface,
-          ),
-          child: const Text('Yes, Delete My Data'),
+          label: 'Yes, Delete My Data',
+          backgroundColor: c.warning,
+          textColor: c.surface,
         ),
       ],
     ),
@@ -220,27 +220,25 @@ void showDeleteAccountConfirmation(
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
           child: const Text('Cancel'),
         ),
         TextButton(
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
             onDownloadFirst();
           },
           style: TextButton.styleFrom(foregroundColor: c.info),
           child: const Text('Download Data First'),
         ),
-        ElevatedButton(
+        CommonPrimaryButton(
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
             onContinue();
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: c.error,
-            foregroundColor: c.surface,
-          ),
-          child: const Text('I Understand, Continue'),
+          label: 'I Understand, Continue',
+          backgroundColor: c.error,
+          textColor: c.surface,
         ),
       ],
     ),
@@ -309,22 +307,18 @@ void showFinalDeleteAccountConfirmation(
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             child: const Text('Cancel'),
           ),
-          ElevatedButton(
-            onPressed: userConfirmed
-                ? () {
-                    Navigator.pop(context);
-                    onConfirmDelete();
-                  }
-                : null,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: c.error,
-              foregroundColor: c.surface,
-              disabledBackgroundColor: c.textSecondary.withValues(alpha: 0.3),
-            ),
-            child: const Text('DELETE MY ACCOUNT FOREVER'),
+          CommonPrimaryButton(
+            onPressed: () {
+              context.pop();
+              onConfirmDelete();
+            },
+            isEnabled: userConfirmed,
+            label: 'DELETE MY ACCOUNT FOREVER',
+            backgroundColor: c.error,
+            textColor: c.surface,
           ),
         ],
       ),
