@@ -6,8 +6,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_providers.dart';
 import 'package:mobile_drug_use_app/features/stockpile/services/day_usage_service.dart';
 import 'package:mobile_drug_use_app/features/stockpile/services/personal_library_service.dart';
-import 'package:mobile_drug_use_app/repo/stockpile_repository.dart';
-import 'package:mobile_drug_use_app/repo/substance_repository.dart';
+import 'package:mobile_drug_use_app/features/stockpile/repo/stockpile_repository.dart';
+import 'package:mobile_drug_use_app/features/stockpile/repo/substance_repository.dart';
 
 void main() {
   setUpAll(() async {

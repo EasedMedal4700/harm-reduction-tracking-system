@@ -9,8 +9,8 @@ import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_provi
 import 'package:mobile_drug_use_app/features/stockpile/services/personal_library_service.dart';
 import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
 import 'package:mobile_drug_use_app/features/stockpile/models/stockpile_item.dart';
-import 'package:mobile_drug_use_app/repo/stockpile_repository.dart';
-import 'package:mobile_drug_use_app/repo/substance_repository.dart';
+import 'package:mobile_drug_use_app/features/stockpile/repo/stockpile_repository.dart';
+import 'package:mobile_drug_use_app/features/stockpile/repo/substance_repository.dart';
 import '../../../helpers/test_app_wrapper.dart';
 import 'package:mobile_drug_use_app/features/catalog/widgets/add_stockpile_sheet.dart';
 

@@ -7,8 +7,8 @@ import 'models/log_entry_form_data.dart';
 import 'models/log_entry_model.dart';
 import 'package:mobile_drug_use_app/core/services/timezone_service.dart';
 import 'log_entry_service.dart';
-import '../../repo/substance_repository.dart';
-import '../../repo/stockpile_repository.dart';
+import '../stockpile/repo/substance_repository.dart';
+import '../stockpile/repo/stockpile_repository.dart';
 import 'package:mobile_drug_use_app/features/catalog/utils/drug_profile_utils.dart';
 
 /// Pure business logic for log entry operations

@@ -6,7 +6,7 @@ import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_controller.dart';
 import 'package:mobile_drug_use_app/features/daily_chekin/daily_checkin_page.dart';
 import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_provider.dart';
-import 'package:mobile_drug_use_app/repo/stockpile_repository.dart';
+import 'package:mobile_drug_use_app/features/stockpile/repo/stockpile_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../helpers/test_app_wrapper.dart';

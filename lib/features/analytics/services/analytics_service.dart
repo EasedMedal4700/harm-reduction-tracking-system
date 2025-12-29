@@ -8,7 +8,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../constants/enums/time_period.dart';
 import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_model.dart';
-import '../../../repo/substance_repository.dart';
+import '../../stockpile/repo/substance_repository.dart';
 import 'package:mobile_drug_use_app/core/services/user_service.dart';
 import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 

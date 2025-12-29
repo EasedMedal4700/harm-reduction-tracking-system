@@ -7,7 +7,7 @@
 // Notes: Repository.
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:convert'; // For JSON parsing
-import '../common/logging/app_log.dart';
+import '../../../common/logging/app_log.dart';
 
 class SubstanceRepository {
   SupabaseClient get _client => Supabase.instance.client;

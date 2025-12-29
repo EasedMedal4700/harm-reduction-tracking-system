@@ -11,7 +11,7 @@ import 'package:mobile_drug_use_app/features/analytics/models/analytics_computed
 import 'package:mobile_drug_use_app/features/analytics/models/analytics_state.dart';
 import 'package:mobile_drug_use_app/features/analytics/services/analytics_service.dart';
 import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_model.dart';
-import 'package:mobile_drug_use_app/repo/substance_repository.dart';
+import 'package:mobile_drug_use_app/features/stockpile/repo/substance_repository.dart';
 import 'package:mobile_drug_use_app/features/analytics/utils/time_period_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
 import 'package:riverpod_annotation/riverpod_annotation.dart';

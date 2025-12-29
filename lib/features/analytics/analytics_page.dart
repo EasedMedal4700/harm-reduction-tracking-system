@@ -16,7 +16,7 @@ import 'package:mobile_drug_use_app/features/analytics/widgets/analytics_error_s
 import 'package:mobile_drug_use_app/features/analytics/widgets/analytics_layout.dart';
 import 'package:mobile_drug_use_app/features/analytics/widgets/analytics_loading_state.dart';
 import 'package:mobile_drug_use_app/common/inputs/filter_widget.dart';
-import 'package:mobile_drug_use_app/repo/substance_repository.dart';
+import 'package:mobile_drug_use_app/features/stockpile/repo/substance_repository.dart';
 
 class AnalyticsPage extends StatelessWidget {
   const AnalyticsPage({

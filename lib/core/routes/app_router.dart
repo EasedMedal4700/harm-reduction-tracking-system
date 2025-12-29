@@ -43,7 +43,7 @@ import 'package:mobile_drug_use_app/features/setup_account/pages/recovery_key_pa
 import 'package:mobile_drug_use_app/features/setup_account/pages/register_page.dart';
 import 'package:mobile_drug_use_app/features/setup_account/pages/set_new_password_page.dart';
 import 'package:mobile_drug_use_app/features/tolerance/pages/tolerance_dashboard_page.dart';
-import 'package:mobile_drug_use_app/legacy/encryption_migration_page.dart';
+import '../../../legacy/encryption_migration_page.dart';
 import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_provider.dart';
 
 class AppRoutePaths {

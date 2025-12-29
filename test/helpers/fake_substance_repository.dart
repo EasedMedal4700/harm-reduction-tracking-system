@@ -1,4 +1,4 @@
-import 'package:mobile_drug_use_app/repo/substance_repository.dart';
+import 'package:mobile_drug_use_app/features/stockpile/repo/substance_repository.dart';
 
 class FakeSubstanceRepository implements SubstanceRepository {
   @override

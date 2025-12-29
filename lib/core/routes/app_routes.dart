@@ -31,7 +31,7 @@ import 'package:mobile_drug_use_app/features/bug_report/bug_report_page.dart';
 import 'package:mobile_drug_use_app/features/setup_account/pages/pin_setup_page.dart';
 import 'package:mobile_drug_use_app/features/login/pin_unlock/pin_unlock_page.dart';
 import 'package:mobile_drug_use_app/features/setup_account/pages/recovery_key_page.dart';
-import 'package:mobile_drug_use_app/legacy/encryption_migration_page.dart';
+import '../../../legacy/encryption_migration_page.dart';
 import 'package:mobile_drug_use_app/features/manage_profile/change_pin/change_pin_page.dart';
 
 class AppRoutes {

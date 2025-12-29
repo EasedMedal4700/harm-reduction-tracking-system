@@ -6,7 +6,7 @@
 // Common: COMPLETE
 // Notes: Catalog page using local state and repository.
 import 'package:flutter/material.dart';
-import '../../repo/substance_repository.dart';
+import '../stockpile/repo/substance_repository.dart';
 import '../analytics/services/analytics_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
