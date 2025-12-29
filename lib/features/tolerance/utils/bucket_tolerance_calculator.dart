@@ -6,9 +6,9 @@
 // Common: N/A
 // Notes: Utility.
 import 'dart:math';
-import '../models/tolerance_bucket.dart';
+import '../../../models/tolerance_bucket.dart';
 import 'bucket_tolerance_formulas.dart';
-import '../common/logging/app_log.dart';
+import '../../../common/logging/app_log.dart';
 
 /// Use event for tolerance calculations.
 class UseEvent {

@@ -12,7 +12,7 @@ import '../../../models/drug_catalog_entry.dart';
 import '../../../services/user_service.dart';
 import '../../../utils/drug_data_parser.dart';
 import '../../../utils/drug_preferences_manager.dart';
-import '../../../utils/drug_stats_calculator.dart';
+import '../../analytics/utils/drug_stats_calculator.dart';
 import '../../../utils/error_handler.dart';
 
 abstract class PersonalLibraryApi {

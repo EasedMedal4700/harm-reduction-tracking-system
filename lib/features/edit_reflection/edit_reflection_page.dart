@@ -14,7 +14,7 @@ import '../../models/reflection_model.dart';
 import '../reflection/reflection_service.dart';
 import '../../utils/error_handler.dart';
 import '../reflection/reflection_exceptions.dart';
-import '../../utils/reflection_validator.dart';
+import '../reflection/utils/reflection_validator.dart';
 
 class EditReflectionPage extends StatefulWidget {
   final Map<String, dynamic> entry;

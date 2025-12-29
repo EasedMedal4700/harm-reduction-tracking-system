@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/utils/tolerance_calculator.dart';
+import 'package:mobile_drug_use_app/features/tolerance/utils/tolerance_calculator.dart';
 import 'package:mobile_drug_use_app/models/tolerance_model.dart';
 
 void main() {

@@ -6,7 +6,7 @@
 // Common: N/A
 // Notes: Legacy utility.
 import 'dart:math';
-import '../models/tolerance_model.dart';
+import '../../../models/tolerance_model.dart';
 
 /// Tolerance calculation utilities
 ///
