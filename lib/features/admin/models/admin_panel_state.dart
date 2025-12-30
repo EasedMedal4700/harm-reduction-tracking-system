@@ -31,5 +31,7 @@ abstract class AdminPanelState with _$AdminPanelState {
 
   // Factory method for JSON serialization
   factory AdminPanelState.fromJson(Map<String, dynamic> json) =>
-      _$AdminPanelStateFromJson(json); // This generates the `fromJson` and `toJson` methods
+      _$AdminPanelStateFromJson(
+        json,
+      ); // This generates the `fromJson` and `toJson` methods
 }

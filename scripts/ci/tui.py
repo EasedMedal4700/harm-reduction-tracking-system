@@ -15,7 +15,8 @@ from pipeline import (
     run_freezed_check,
     run_navigation_check,
     run_riverpod_check,
-    run_all_pipeline
+    run_all_pipeline,
+    run_all_pipeline_no_tests,
 )
 
 def render_main_menu() -> None:
@@ -33,6 +34,7 @@ def render_main_menu() -> None:
     print("[9] Run Navigation Checker")
     print("[10] Run Riverpod Checker")
     print("[11] Run ALL (Format + Analyze + Tests + Checks)")
+    print("[12] Run ALL (Everything except Tests)")
     print()
     print("[q] Quit")
 
@@ -262,6 +264,24 @@ def main():
             print("\n[11] Run ALL")
             print("Running all checks...")
             results = run_all_pipeline()
+            outputs = show_all_summary(results)
+
+            # Handle sub-menu for viewing individual outputs
+            while True:
+                sub_choice = safe_input("Select option: ").strip().lower()
+                if sub_choice == 'q':
+                    break
+                elif sub_choice == 'd':
+                    view_design_system_results()
+                elif sub_choice in outputs:
+                    print(f"\nOutput:\n{outputs[sub_choice]}")
+                    safe_input("\nPress Enter to continue...")
+                else:
+                    print("Invalid choice.")
+        elif choice == '12':
+            print("\n[12] Run ALL (No Tests)")
+            print("Running all checks except tests...")
+            results = run_all_pipeline_no_tests()
             outputs = show_all_summary(results)
 
             # Handle sub-menu for viewing individual outputs

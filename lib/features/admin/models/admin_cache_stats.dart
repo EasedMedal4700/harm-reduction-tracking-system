@@ -8,8 +8,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'admin_cache_stats.freezed.dart';  // Freezed part
-part 'admin_cache_stats.g.dart';  // JSON serialization part
+part 'admin_cache_stats.freezed.dart'; // Freezed part
+part 'admin_cache_stats.g.dart'; // JSON serialization part
 
 @freezed
 abstract class AdminCacheStats with _$AdminCacheStats {

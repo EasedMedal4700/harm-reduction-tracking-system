@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'admin_user.freezed.dart';
-part 'admin_user.g.dart';  // Ensure this part file is generated for JSON serialization
+part 'admin_user.g.dart'; // Ensure this part file is generated for JSON serialization
 
 @freezed
 abstract class AdminUser with _$AdminUser {
@@ -19,6 +19,8 @@ abstract class AdminUser with _$AdminUser {
   }) = _AdminUser;
 
   const AdminUser._();
+
+  int get totalActivity => entryCount + cravingCount + reflectionCount;
 
   // Method to parse DateTime if needed
   static DateTime? _parseDate(dynamic v) {

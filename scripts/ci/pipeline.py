@@ -701,3 +701,68 @@ def run_all_pipeline() -> Dict[str, Tuple[bool, str, str]]:
     print()
 
     return results
+
+
+def run_all_pipeline_no_tests() -> Dict[str, Tuple[bool, str, str]]:
+    """Run all CI steps except Flutter tests and return results.
+
+    Note: Coverage check relies on existing coverage artifacts (e.g. coverage/lcov.info).
+    If you need fresh coverage, run tests first.
+    """
+    results: Dict[str, Tuple[bool, str, str]] = {}
+
+    print("Running ALL checks (excluding tests)...")
+    print()
+
+    # 1. Dart Format
+    print("1. Running Dart Format...")
+    results['format'] = run_dart_format()
+    print(f"   {results['format'][1]}")
+    print()
+
+    # 2. Dart Analyze
+    print("2. Running Dart Analyze...")
+    results['analyze'] = run_dart_analyze()
+    print(f"   {results['analyze'][1]}")
+    print()
+
+    # 3. Tests (skipped)
+    results['tests'] = (True, Colors.colorize("Skipped (TUI option: no tests)", 'neutral'), "")
+
+    # 4. Coverage Check (uses existing artifacts)
+    print("3. Checking Coverage Threshold (existing artifacts)...")
+    results['coverage'] = run_coverage_check()
+    print(f"   {results['coverage'][1]}")
+    print()
+
+    # 5. Import Check
+    print("4. Checking Imports...")
+    results['imports'] = run_import_check()
+    print(f"   {results['imports'][1]}")
+    print()
+
+    # 6. Freezed Checker
+    print("5. Checking Freezed Models...")
+    results['freezed'] = run_freezed_check()
+    print(f"   {results['freezed'][1]}")
+    print()
+
+    # 7. Navigation Checker
+    print("6. Checking Navigation Centralization...")
+    results['navigation'] = run_navigation_check()
+    print(f"   {results['navigation'][1]}")
+    print()
+
+    # 8. Riverpod Checker
+    print("7. Checking Riverpod Architecture...")
+    results['riverpod'] = run_riverpod_check()
+    print(f"   {results['riverpod'][1]}")
+    print()
+
+    # 9. Design System Checks
+    print("8. Running Design System Checks...")
+    results['design'] = run_design_system_checks()
+    print(f"   {results['design'][1]}")
+    print()
+
+    return results
