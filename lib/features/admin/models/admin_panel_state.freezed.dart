@@ -11,6 +11,7 @@ part of 'admin_panel_state.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$AdminPanelState {
 
@@ -21,6 +22,8 @@ mixin _$AdminPanelState {
 @pragma('vm:prefer-inline')
 $AdminPanelStateCopyWith<AdminPanelState> get copyWith => _$AdminPanelStateCopyWithImpl<AdminPanelState>(this as AdminPanelState, _$identity);
 
+  /// Serializes this AdminPanelState to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is AdminPanelState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.users, users)&&(identical(other.systemStats, systemStats) || other.systemStats == systemStats)&&(identical(other.cacheStats, cacheStats) || other.cacheStats == cacheStats)&&(identical(other.performanceStats, performanceStats) || other.performanceStats == performanceStats)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,isLoading,const DeepCollectionEquality().hash(users),systemStats,cacheStats,performanceStats,errorMessage);
 
@@ -235,11 +238,11 @@ return $default(_that.isLoading,_that.users,_that.systemStats,_that.cacheStats,_
 }
 
 /// @nodoc
+@JsonSerializable()
 
-
-class _AdminPanelState implements AdminPanelState {
-  const _AdminPanelState({this.isLoading = true, final  List<AdminUser> users = const <AdminUser>[], this.systemStats = const AdminSystemStats(), this.cacheStats = const AdminCacheStats(), this.performanceStats = const AdminPerformanceStats(), this.errorMessage}): _users = users;
-  
+class _AdminPanelState extends AdminPanelState {
+  const _AdminPanelState({this.isLoading = true, final  List<AdminUser> users = const <AdminUser>[], this.systemStats = const AdminSystemStats(), this.cacheStats = const AdminCacheStats(), this.performanceStats = const AdminPerformanceStats(), this.errorMessage}): _users = users,super._();
+  factory _AdminPanelState.fromJson(Map<String, dynamic> json) => _$AdminPanelStateFromJson(json);
 
 @override@JsonKey() final  bool isLoading;
  final  List<AdminUser> _users;
@@ -260,14 +263,17 @@ class _AdminPanelState implements AdminPanelState {
 @pragma('vm:prefer-inline')
 _$AdminPanelStateCopyWith<_AdminPanelState> get copyWith => __$AdminPanelStateCopyWithImpl<_AdminPanelState>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$AdminPanelStateToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdminPanelState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other._users, _users)&&(identical(other.systemStats, systemStats) || other.systemStats == systemStats)&&(identical(other.cacheStats, cacheStats) || other.cacheStats == cacheStats)&&(identical(other.performanceStats, performanceStats) || other.performanceStats == performanceStats)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,isLoading,const DeepCollectionEquality().hash(_users),systemStats,cacheStats,performanceStats,errorMessage);
 

@@ -15,6 +15,7 @@ from typing import Dict, Any, Optional, Tuple, List
 from datetime import datetime
 import time
 from config import CIConfig, Colors
+from reporting import write_report
 
 def create_progress_bar(percentage, width=20):
     """Create a text-based progress bar"""
@@ -107,6 +108,35 @@ def run_design_system_checks() -> Tuple[bool, str, str]:
     else:
         status_msg = Colors.colorize("Design system checks completed\nUnable to read results", 'warning')
 
+    # Mirror the latest design system report into scripts/ci/reports/
+    try:
+        report_for_ci = load_unified_report() or {}
+        summary = report_for_ci.get("summary", {}) or {}
+        issues = report_for_ci.get("issues", []) or []
+
+        write_report(
+            name="design_system",
+            success=success,
+            summary={
+                "blocking": int(summary.get("blocking", 0) or 0),
+                "warnings": int(summary.get("warnings", 0) or 0),
+                "total": int(summary.get("blocking", 0) or 0),
+            },
+            details=[
+                {
+                    "file": (i.get("file", "") or "").replace('\\\\', '/'),
+                    "line": int(i.get("line", 0) or 0),
+                    "rule": i.get("rule"),
+                    "severity": i.get("severity"),
+                    "message": i.get("message"),
+                }
+                for i in issues
+            ],
+        )
+    except Exception:
+        # Reporting should never fail the pipeline
+        pass
+
     return success, status_msg, output
 
 
@@ -134,6 +164,17 @@ def run_dart_format() -> Tuple[bool, str, str]:
         status_msg = Colors.colorize(f"✅ Auto-formatted {count} file(s)", 'success')
     else:
         status_msg = Colors.colorize("✅ Already formatted", 'success')
+
+    # Deterministic report (no timestamps)
+    write_report(
+        name="format",
+        success=True,
+        summary={
+            "formatted_files": int(len(formatted_files)),
+            "total": 0,
+        },
+        details=[{"message": l} for l in formatted_files],
+    )
 
     return True, status_msg, output
 
@@ -330,19 +371,28 @@ def run_tests() -> Tuple[bool, str, str]:
     except Exception as e:
         return False, Colors.colorize(f"❌ Test execution failed: {str(e)}", 'failure'), str(e)
 
-    # Save failed tests to JSON file
-    if failed_tests:
-        report_path = os.path.join(os.path.dirname(__file__), 'test_report.json')
-        with open(report_path, 'w') as f:
-            json.dump({
-                'summary': {
-                    'total_tests': total_tests,
-                    'passed_tests': passed_tests,
-                    'failed_tests': len(failed_tests),
-                    'timestamp': str(datetime.now())
-                },
-                'failed_tests': failed_tests
-            }, f, indent=2)
+    # Deterministic report (no timestamps)
+    # Note: allow_failure is applied later to the step success, but total still
+    # reflects real failures.
+    write_report(
+        name="tests",
+        success=(len(failed_tests) == 0),
+        summary={
+            "total_tests": int(total_tests),
+            "passed_tests": int(passed_tests),
+            "failed_tests": int(len(failed_tests)),
+            "total": int(len(failed_tests)),
+        },
+        details=[
+            {
+                "id": t.get('id'),
+                "name": t.get('name'),
+                "result": t.get('result'),
+                "time": t.get('time', 0),
+            }
+            for t in failed_tests
+        ],
+    )
 
     # Create status message
     allow_failure = config.get_step_config('tests').get('allow_failure', False)
@@ -405,10 +455,32 @@ def run_dart_analyze() -> Tuple[bool, str, str]:
         
         success = error_count == 0
         
-        # Save filtered report
-        report_path = os.path.join(os.path.dirname(__file__), 'analyze_report.json')
-        with open(report_path, 'w') as f:
-            json.dump({'diagnostics': filtered_issues}, f, indent=2)
+        # Deterministic report (no timestamps)
+        details = []
+        for issue in filtered_issues:
+            loc = issue.get('location', {}) or {}
+            rng = loc.get('range', {}) or {}
+            start = rng.get('start', {}) or {}
+
+            details.append({
+                "file": (loc.get('file', '') or '').replace('\\\\', '/'),
+                "line": int(start.get('line', 0) or 0) + 1,
+                "severity": issue.get('severity', 'INFO'),
+                "code": issue.get('code'),
+                "message": issue.get('message'),
+            })
+
+        details.sort(key=lambda d: (str(d.get('file', '')), int(d.get('line', 0)), str(d.get('code', ''))))
+
+        write_report(
+            name="analyze",
+            success=success,
+            summary={
+                "issues": int(len(filtered_issues)),
+                "total": int(len(filtered_issues)),
+            },
+            details=details,
+        )
             
     except json.JSONDecodeError:
         pass
@@ -443,6 +515,78 @@ def run_import_check() -> Tuple[bool, str, str]:
     else:
         status_msg = Colors.colorize("❌ Import violations found", 'failure')
         
+    return success, status_msg, output
+
+
+def run_freezed_check() -> Tuple[bool, str, str]:
+    """Run Freezed model enforcement checker"""
+    config = CIConfig()
+    if not config.is_step_enabled('freezed'):
+        return True, Colors.colorize("Skipped (Disabled in config)", 'neutral'), ""
+
+    print("Running Freezed Checker...")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.join(base_dir, "check_freezed_models.py")
+
+    project_root = find_project_root()
+    venv_python = os.path.join(project_root, ".venv", "Scripts", "python.exe")
+
+    step = PipelineStep("Freezed Checker", f'"{venv_python}" "{script_path}"')
+    success, output = step.execute()
+
+    if success:
+        status_msg = Colors.colorize("Freezed OK", 'success')
+    else:
+        status_msg = Colors.colorize("Freezed violations found", 'failure')
+
+    return success, status_msg, output
+
+
+def run_navigation_check() -> Tuple[bool, str, str]:
+    """Run centralized navigation enforcement checker"""
+    config = CIConfig()
+    if not config.is_step_enabled('navigation'):
+        return True, Colors.colorize("Skipped (Disabled in config)", 'neutral'), ""
+
+    print("Running Navigation Checker...")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.join(base_dir, "check_navigation_centralization.py")
+
+    project_root = find_project_root()
+    venv_python = os.path.join(project_root, ".venv", "Scripts", "python.exe")
+
+    step = PipelineStep("Navigation Checker", f'"{venv_python}" "{script_path}"')
+    success, output = step.execute()
+
+    if success:
+        status_msg = Colors.colorize("Navigation OK", 'success')
+    else:
+        status_msg = Colors.colorize("Navigation violations found", 'failure')
+
+    return success, status_msg, output
+
+
+def run_riverpod_check() -> Tuple[bool, str, str]:
+    """Run Riverpod-only architecture enforcement checker"""
+    config = CIConfig()
+    if not config.is_step_enabled('riverpod'):
+        return True, Colors.colorize("Skipped (Disabled in config)", 'neutral'), ""
+
+    print("Running Riverpod Checker...")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.join(base_dir, "check_riverpod_architecture.py")
+
+    project_root = find_project_root()
+    venv_python = os.path.join(project_root, ".venv", "Scripts", "python.exe")
+
+    step = PipelineStep("Riverpod Checker", f'"{venv_python}" "{script_path}"')
+    success, output = step.execute()
+
+    if success:
+        status_msg = Colors.colorize("Riverpod OK", 'success')
+    else:
+        status_msg = Colors.colorize("Riverpod violations found", 'failure')
+
     return success, status_msg, output
 
 
@@ -532,8 +676,26 @@ def run_all_pipeline() -> Dict[str, Tuple[bool, str, str]]:
     print(f"   {results['imports'][1]}")
     print()
 
-    # 6. Design System Checks
-    print("6. Running Design System Checks...")
+    # 6. Freezed Checker
+    print("6. Checking Freezed Models...")
+    results['freezed'] = run_freezed_check()
+    print(f"   {results['freezed'][1]}")
+    print()
+
+    # 7. Navigation Checker
+    print("7. Checking Navigation Centralization...")
+    results['navigation'] = run_navigation_check()
+    print(f"   {results['navigation'][1]}")
+    print()
+
+    # 8. Riverpod Checker
+    print("8. Checking Riverpod Architecture...")
+    results['riverpod'] = run_riverpod_check()
+    print(f"   {results['riverpod'][1]}")
+    print()
+
+    # 9. Design System Checks
+    print("9. Running Design System Checks...")
     results['design'] = run_design_system_checks()
     print(f"   {results['design'][1]}")
     print()

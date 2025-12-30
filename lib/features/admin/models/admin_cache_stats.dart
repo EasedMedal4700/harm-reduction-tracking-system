@@ -8,7 +8,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'admin_cache_stats.freezed.dart';
+part 'admin_cache_stats.freezed.dart';  // Freezed part
+part 'admin_cache_stats.g.dart';  // JSON serialization part
 
 @freezed
 abstract class AdminCacheStats with _$AdminCacheStats {
@@ -17,6 +18,10 @@ abstract class AdminCacheStats with _$AdminCacheStats {
     @Default(0) int activeEntries,
     @Default(0) int expiredEntries,
   }) = _AdminCacheStats;
+
+  // Add fromJson and toJson support for JSON serialization
+  factory AdminCacheStats.fromJson(Map<String, dynamic> json) =>
+      _$AdminCacheStatsFromJson(json);
 
   factory AdminCacheStats.fromCacheServiceMap(Map<String, dynamic> map) {
     return AdminCacheStats(

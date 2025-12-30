@@ -11,6 +11,7 @@ part of 'admin_cache_stats.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$AdminCacheStats {
 
@@ -21,6 +22,8 @@ mixin _$AdminCacheStats {
 @pragma('vm:prefer-inline')
 $AdminCacheStatsCopyWith<AdminCacheStats> get copyWith => _$AdminCacheStatsCopyWithImpl<AdminCacheStats>(this as AdminCacheStats, _$identity);
 
+  /// Serializes this AdminCacheStats to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is AdminCacheStats&&(identical(other.totalEntries, totalEntries) || other.totalEntries == totalEntries)&&(identical(other.activeEntries, activeEntries) || other.activeEntries == activeEntries)&&(identical(other.expiredEntries, expiredEntries) || other.expiredEntries == expiredEntries));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,totalEntries,activeEntries,expiredEntries);
 
@@ -205,11 +208,11 @@ return $default(_that.totalEntries,_that.activeEntries,_that.expiredEntries);cas
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _AdminCacheStats implements AdminCacheStats {
   const _AdminCacheStats({this.totalEntries = 0, this.activeEntries = 0, this.expiredEntries = 0});
-  
+  factory _AdminCacheStats.fromJson(Map<String, dynamic> json) => _$AdminCacheStatsFromJson(json);
 
 @override@JsonKey() final  int totalEntries;
 @override@JsonKey() final  int activeEntries;
@@ -221,14 +224,17 @@ class _AdminCacheStats implements AdminCacheStats {
 @pragma('vm:prefer-inline')
 _$AdminCacheStatsCopyWith<_AdminCacheStats> get copyWith => __$AdminCacheStatsCopyWithImpl<_AdminCacheStats>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$AdminCacheStatsToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdminCacheStats&&(identical(other.totalEntries, totalEntries) || other.totalEntries == totalEntries)&&(identical(other.activeEntries, activeEntries) || other.activeEntries == activeEntries)&&(identical(other.expiredEntries, expiredEntries) || other.expiredEntries == expiredEntries));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,totalEntries,activeEntries,expiredEntries);
 

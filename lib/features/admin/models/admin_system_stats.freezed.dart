@@ -11,6 +11,7 @@ part of 'admin_system_stats.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$AdminSystemStats {
 
@@ -21,6 +22,8 @@ mixin _$AdminSystemStats {
 @pragma('vm:prefer-inline')
 $AdminSystemStatsCopyWith<AdminSystemStats> get copyWith => _$AdminSystemStatsCopyWithImpl<AdminSystemStats>(this as AdminSystemStats, _$identity);
 
+  /// Serializes this AdminSystemStats to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is AdminSystemStats&&(identical(other.totalEntries, totalEntries) || other.totalEntries == totalEntries)&&(identical(other.activeUsers, activeUsers) || other.activeUsers == activeUsers)&&(identical(other.cacheHitRate, cacheHitRate) || other.cacheHitRate == cacheHitRate)&&(identical(other.avgResponseTimeMs, avgResponseTimeMs) || other.avgResponseTimeMs == avgResponseTimeMs));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,totalEntries,activeUsers,cacheHitRate,avgResponseTimeMs);
 
@@ -206,11 +209,11 @@ return $default(_that.totalEntries,_that.activeUsers,_that.cacheHitRate,_that.av
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _AdminSystemStats implements AdminSystemStats {
   const _AdminSystemStats({this.totalEntries = 0, this.activeUsers = 0, this.cacheHitRate = 0.0, this.avgResponseTimeMs = 0.0});
-  
+  factory _AdminSystemStats.fromJson(Map<String, dynamic> json) => _$AdminSystemStatsFromJson(json);
 
 @override@JsonKey() final  int totalEntries;
 @override@JsonKey() final  int activeUsers;
@@ -223,14 +226,17 @@ class _AdminSystemStats implements AdminSystemStats {
 @pragma('vm:prefer-inline')
 _$AdminSystemStatsCopyWith<_AdminSystemStats> get copyWith => __$AdminSystemStatsCopyWithImpl<_AdminSystemStats>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$AdminSystemStatsToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdminSystemStats&&(identical(other.totalEntries, totalEntries) || other.totalEntries == totalEntries)&&(identical(other.activeUsers, activeUsers) || other.activeUsers == activeUsers)&&(identical(other.cacheHitRate, cacheHitRate) || other.cacheHitRate == cacheHitRate)&&(identical(other.avgResponseTimeMs, avgResponseTimeMs) || other.avgResponseTimeMs == avgResponseTimeMs));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,totalEntries,activeUsers,cacheHitRate,avgResponseTimeMs);
 

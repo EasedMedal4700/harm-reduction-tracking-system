@@ -13,12 +13,19 @@ import os
 import json
 import sys
 import fnmatch
+from typing import Any, Dict
 try:
     from config import CIConfig
 except ImportError:
     # Fallback if run from wrong directory or config missing
     sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     from config import CIConfig
+
+try:
+    from reporting import write_report
+except ImportError:
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+    from reporting import write_report
 
 def find_dart_files(root_dir, excludes=None):
     if excludes is None:
@@ -102,22 +109,33 @@ def main():
     results.sort(key=lambda x: x['count'], reverse=True)
 
     # Generate report
-    import time
-    report = {
-        "summary": {
-            "total_files": len(files),
-            "violations": violations,
-            "warnings": warnings,
-            "timestamp": str(time.time())
-        },
-        "issues": results
+    details = [
+        {
+            "file": r.get("file"),
+            "count": int(r.get("count", 0)),
+            "status": r.get("status"),
+        }
+        for r in results
+    ]
+
+    # Deterministic order: primarily by count desc, then file.
+    details.sort(key=lambda d: (-int(d.get("count", 0)), str(d.get("file", ""))))
+
+    summary: Dict[str, Any] = {
+        "total_files": int(len(files)),
+        "violations": int(violations),
+        "warnings": int(warnings),
+        "max_imports": int(max_imports),
+        "total": int(violations),
     }
 
-    # Save report
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    report_path = os.path.join(script_dir, 'import_report.json')
-    with open(report_path, 'w') as f:
-        json.dump(report, f, indent=2)
+    # Write to scripts/ci/reports/imports_report.json
+    write_report(
+        name="imports",
+        success=(violations == 0),
+        summary=summary,
+        details=details,
+    )
 
     # Print summary
     print(f"Checked {len(files)} files.")

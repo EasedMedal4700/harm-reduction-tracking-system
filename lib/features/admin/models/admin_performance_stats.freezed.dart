@@ -11,6 +11,7 @@ part of 'admin_performance_stats.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$AdminPerformanceStats {
 
@@ -21,6 +22,8 @@ mixin _$AdminPerformanceStats {
 @pragma('vm:prefer-inline')
 $AdminPerformanceStatsCopyWith<AdminPerformanceStats> get copyWith => _$AdminPerformanceStatsCopyWithImpl<AdminPerformanceStats>(this as AdminPerformanceStats, _$identity);
 
+  /// Serializes this AdminPerformanceStats to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is AdminPerformanceStats&&(identical(other.avgResponseTimeMs, avgResponseTimeMs) || other.avgResponseTimeMs == avgResponseTimeMs)&&(identical(other.avgCachedResponseMs, avgCachedResponseMs) || other.avgCachedResponseMs == avgCachedResponseMs)&&(identical(other.avgUncachedResponseMs, avgUncachedResponseMs) || other.avgUncachedResponseMs == avgUncachedResponseMs)&&(identical(other.totalSamples, totalSamples) || other.totalSamples == totalSamples)&&(identical(other.cacheHitRate, cacheHitRate) || other.cacheHitRate == cacheHitRate)&&(identical(other.cacheHits, cacheHits) || other.cacheHits == cacheHits)&&(identical(other.cacheMisses, cacheMisses) || other.cacheMisses == cacheMisses)&&(identical(other.cacheTotalRequests, cacheTotalRequests) || other.cacheTotalRequests == cacheTotalRequests)&&(identical(other.lastUpdated, lastUpdated) || other.lastUpdated == lastUpdated)&&(identical(other.error, error) || other.error == error));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,avgResponseTimeMs,avgCachedResponseMs,avgUncachedResponseMs,totalSamples,cacheHitRate,cacheHits,cacheMisses,cacheTotalRequests,lastUpdated,error);
 
@@ -212,11 +215,11 @@ return $default(_that.avgResponseTimeMs,_that.avgCachedResponseMs,_that.avgUncac
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _AdminPerformanceStats implements AdminPerformanceStats {
   const _AdminPerformanceStats({this.avgResponseTimeMs = 0.0, this.avgCachedResponseMs = 0.0, this.avgUncachedResponseMs = 0.0, this.totalSamples = 0, this.cacheHitRate = 0.0, this.cacheHits = 0, this.cacheMisses = 0, this.cacheTotalRequests = 0, this.lastUpdated, this.error});
-  
+  factory _AdminPerformanceStats.fromJson(Map<String, dynamic> json) => _$AdminPerformanceStatsFromJson(json);
 
 @override@JsonKey() final  double avgResponseTimeMs;
 @override@JsonKey() final  double avgCachedResponseMs;
@@ -235,14 +238,17 @@ class _AdminPerformanceStats implements AdminPerformanceStats {
 @pragma('vm:prefer-inline')
 _$AdminPerformanceStatsCopyWith<_AdminPerformanceStats> get copyWith => __$AdminPerformanceStatsCopyWithImpl<_AdminPerformanceStats>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$AdminPerformanceStatsToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdminPerformanceStats&&(identical(other.avgResponseTimeMs, avgResponseTimeMs) || other.avgResponseTimeMs == avgResponseTimeMs)&&(identical(other.avgCachedResponseMs, avgCachedResponseMs) || other.avgCachedResponseMs == avgCachedResponseMs)&&(identical(other.avgUncachedResponseMs, avgUncachedResponseMs) || other.avgUncachedResponseMs == avgUncachedResponseMs)&&(identical(other.totalSamples, totalSamples) || other.totalSamples == totalSamples)&&(identical(other.cacheHitRate, cacheHitRate) || other.cacheHitRate == cacheHitRate)&&(identical(other.cacheHits, cacheHits) || other.cacheHits == cacheHits)&&(identical(other.cacheMisses, cacheMisses) || other.cacheMisses == cacheMisses)&&(identical(other.cacheTotalRequests, cacheTotalRequests) || other.cacheTotalRequests == cacheTotalRequests)&&(identical(other.lastUpdated, lastUpdated) || other.lastUpdated == lastUpdated)&&(identical(other.error, error) || other.error == error));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,avgResponseTimeMs,avgCachedResponseMs,avgUncachedResponseMs,totalSamples,cacheHitRate,cacheHits,cacheMisses,cacheTotalRequests,lastUpdated,error);
 

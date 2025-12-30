@@ -12,6 +12,9 @@ from pipeline import (
     run_tests,
     run_import_check,
     run_coverage_check,
+    run_freezed_check,
+    run_navigation_check,
+    run_riverpod_check,
     run_all_pipeline
 )
 
@@ -26,7 +29,10 @@ def render_main_menu() -> None:
     print("[5] Run Tests")
     print("[6] Run Import Check")
     print("[7] Run Coverage Check")
-    print("[8] Run ALL (Format + Analyze + Tests + Checks)")
+    print("[8] Run Freezed Checker")
+    print("[9] Run Navigation Checker")
+    print("[10] Run Riverpod Checker")
+    print("[11] Run ALL (Format + Analyze + Tests + Checks)")
     print()
     print("[q] Quit")
 
@@ -42,6 +48,9 @@ def show_all_summary(results: Dict[str, Tuple[bool, str, str]]) -> Dict[str, str
     tests_success, tests_msg, tests_output = results['tests']
     imports_success, imports_msg, imports_output = results['imports']
     coverage_success, coverage_msg, coverage_output = results['coverage']
+    freezed_success, freezed_msg, freezed_output = results.get('freezed', (True, '', ''))
+    navigation_success, navigation_msg, navigation_output = results.get('navigation', (True, '', ''))
+    riverpod_success, riverpod_msg, riverpod_output = results.get('riverpod', (True, '', ''))
     design_success, design_msg, design_output = results['design']
 
     print(f"Dart Format:        {format_msg}")
@@ -49,14 +58,21 @@ def show_all_summary(results: Dict[str, Tuple[bool, str, str]]) -> Dict[str, str
     print(f"Tests:              {tests_msg}")
     print(f"Import Check:       {imports_msg}")
     print(f"Coverage Check:     {coverage_msg}")
+    print(f"Freezed Checker:    {freezed_msg}")
+    print(f"Navigation Check:   {navigation_msg}")
+    print(f"Riverpod Check:     {riverpod_msg}")
     print(f"Design System:      {design_msg}")
     print()
 
     # Overall status
     # Note: design_success might be False if warnings exist but are allowed, 
     # so we should rely on the success flag returned by the pipeline step which handles allow_warnings
-    all_passed = (format_success and analyze_success and tests_success and 
-                  imports_success and coverage_success and design_success)
+    all_passed = (
+        format_success and analyze_success and tests_success and
+        imports_success and coverage_success and
+        freezed_success and navigation_success and riverpod_success and
+        design_success
+    )
     
     overall = Colors.colorize("✅ PASS", 'success') if all_passed else Colors.colorize("❌ FAIL", 'failure')
     print(f"Overall Status: {overall}")
@@ -67,6 +83,9 @@ def show_all_summary(results: Dict[str, Tuple[bool, str, str]]) -> Dict[str, str
     print("[t] View test output")
     print("[i] View import check output")
     print("[c] View coverage check output")
+    print("[m] View freezed checker output")
+    print("[n] View navigation checker output")
+    print("[r] View riverpod checker output")
     print("[d] View design system results")
     print("[q] Back to menu")
 
@@ -76,6 +95,9 @@ def show_all_summary(results: Dict[str, Tuple[bool, str, str]]) -> Dict[str, str
         't': tests_output,
         'i': imports_output,
         'c': coverage_output,
+        'm': freezed_output,
+        'n': navigation_output,
+        'r': riverpod_output,
         'd': design_output
     }
 
@@ -213,7 +235,31 @@ def main():
                 print(output)
             safe_input("\nPress Enter to continue...")
         elif choice == '8':
-            print("\n[8] Run ALL")
+            print("\n[8] Run Freezed Checker")
+            success, message, output = run_freezed_check()
+            print(message)
+            if output.strip():
+                print("\nOutput:")
+                print(output)
+            safe_input("\nPress Enter to continue...")
+        elif choice == '9':
+            print("\n[9] Run Navigation Checker")
+            success, message, output = run_navigation_check()
+            print(message)
+            if output.strip():
+                print("\nOutput:")
+                print(output)
+            safe_input("\nPress Enter to continue...")
+        elif choice == '10':
+            print("\n[10] Run Riverpod Checker")
+            success, message, output = run_riverpod_check()
+            print(message)
+            if output.strip():
+                print("\nOutput:")
+                print(output)
+            safe_input("\nPress Enter to continue...")
+        elif choice == '11':
+            print("\n[11] Run ALL")
             print("Running all checks...")
             results = run_all_pipeline()
             outputs = show_all_summary(results)

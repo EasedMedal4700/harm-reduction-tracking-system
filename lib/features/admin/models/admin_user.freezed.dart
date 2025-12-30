@@ -11,6 +11,7 @@ part of 'admin_user.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$AdminUser {
 
@@ -21,6 +22,8 @@ mixin _$AdminUser {
 @pragma('vm:prefer-inline')
 $AdminUserCopyWith<AdminUser> get copyWith => _$AdminUserCopyWithImpl<AdminUser>(this as AdminUser, _$identity);
 
+  /// Serializes this AdminUser to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is AdminUser&&(identical(other.authUserId, authUserId) || other.authUserId == authUserId)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.email, email) || other.email == email)&&(identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.lastActivity, lastActivity) || other.lastActivity == lastActivity)&&(identical(other.entryCount, entryCount) || other.entryCount == entryCount)&&(identical(other.cravingCount, cravingCount) || other.cravingCount == cravingCount)&&(identical(other.reflectionCount, reflectionCount) || other.reflectionCount == reflectionCount));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,authUserId,displayName,email,isAdmin,createdAt,updatedAt,lastActivity,entryCount,cravingCount,reflectionCount);
 
@@ -212,11 +215,11 @@ return $default(_that.authUserId,_that.displayName,_that.email,_that.isAdmin,_th
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _AdminUser extends AdminUser {
   const _AdminUser({required this.authUserId, this.displayName = 'Unknown', this.email = 'N/A', this.isAdmin = false, this.createdAt, this.updatedAt, this.lastActivity, this.entryCount = 0, this.cravingCount = 0, this.reflectionCount = 0}): super._();
-  
+  factory _AdminUser.fromJson(Map<String, dynamic> json) => _$AdminUserFromJson(json);
 
 @override final  String authUserId;
 @override@JsonKey() final  String displayName;
@@ -235,14 +238,17 @@ class _AdminUser extends AdminUser {
 @pragma('vm:prefer-inline')
 _$AdminUserCopyWith<_AdminUser> get copyWith => __$AdminUserCopyWithImpl<_AdminUser>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$AdminUserToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdminUser&&(identical(other.authUserId, authUserId) || other.authUserId == authUserId)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.email, email) || other.email == email)&&(identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.lastActivity, lastActivity) || other.lastActivity == lastActivity)&&(identical(other.entryCount, entryCount) || other.entryCount == entryCount)&&(identical(other.cravingCount, cravingCount) || other.cravingCount == cravingCount)&&(identical(other.reflectionCount, reflectionCount) || other.reflectionCount == reflectionCount));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,authUserId,displayName,email,isAdmin,createdAt,updatedAt,lastActivity,entryCount,cravingCount,reflectionCount);
 

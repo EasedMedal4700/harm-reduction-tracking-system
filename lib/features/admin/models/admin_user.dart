@@ -1,14 +1,7 @@
-// MIGRATION:
-// State: MODERN
-// Navigation: N/A
-// Models: FREEZED
-// Theme: N/A
-// Common: N/A
-// Notes: Typed admin view of a user.
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'admin_user.freezed.dart';
+part 'admin_user.g.dart';  // Ensure this part file is generated for JSON serialization
 
 @freezed
 abstract class AdminUser with _$AdminUser {
@@ -27,14 +20,14 @@ abstract class AdminUser with _$AdminUser {
 
   const AdminUser._();
 
-  int get totalActivity => entryCount + cravingCount + reflectionCount;
-
+  // Method to parse DateTime if needed
   static DateTime? _parseDate(dynamic v) {
     if (v is DateTime) return v;
     if (v is String && v.isNotEmpty) return DateTime.tryParse(v);
     return null;
   }
 
+  // Add fromServiceMap for converting a map to AdminUser
   factory AdminUser.fromServiceMap(Map<String, dynamic> map) {
     return AdminUser(
       authUserId: (map['auth_user_id'] as String?) ?? '',
@@ -52,4 +45,8 @@ abstract class AdminUser with _$AdminUser {
       reflectionCount: (map['reflection_count'] as int?) ?? 0,
     );
   }
+
+  // Optional: JSON serialization
+  factory AdminUser.fromJson(Map<String, dynamic> json) =>
+      _$AdminUserFromJson(json);
 }

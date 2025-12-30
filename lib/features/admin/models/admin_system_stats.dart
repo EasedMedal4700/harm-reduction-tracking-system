@@ -8,7 +8,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'admin_system_stats.freezed.dart';
+part 'admin_system_stats.freezed.dart';  // Freezed part
+part 'admin_system_stats.g.dart';  // JSON serialization part
 
 @freezed
 abstract class AdminSystemStats with _$AdminSystemStats {
@@ -19,6 +20,11 @@ abstract class AdminSystemStats with _$AdminSystemStats {
     @Default(0.0) double avgResponseTimeMs,
   }) = _AdminSystemStats;
 
+  // Adding the `fromJson` and `toJson` methods for JSON serialization
+  factory AdminSystemStats.fromJson(Map<String, dynamic> json) =>
+      _$AdminSystemStatsFromJson(json);
+
+  // If needed, this is your custom map-to-model logic
   factory AdminSystemStats.fromServiceMap(Map<String, dynamic> map) {
     return AdminSystemStats(
       totalEntries: (map['total_entries'] as int?) ?? 0,

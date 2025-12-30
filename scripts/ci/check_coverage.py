@@ -19,6 +19,12 @@ except ImportError:
     sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     from config import CIConfig
 
+try:
+    from reporting import write_report
+except ImportError:
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+    from reporting import write_report
+
 def get_coverage_percentage(lcov_path):
     if not os.path.exists(lcov_path):
         return 0.0
@@ -51,6 +57,28 @@ def main():
     current_coverage = get_coverage_percentage(lcov_path)
     print(f"Current Coverage: {current_coverage:.2f}%")
     print(f"Minimum Coverage: {min_coverage:.2f}%")
+
+    passed = current_coverage >= min_coverage
+
+    # Write deterministic report
+    write_report(
+        name="coverage",
+        success=passed,
+        summary={
+            "current": float(f"{current_coverage:.2f}"),
+            "minimum": float(f"{min_coverage:.2f}"),
+            "total": 0 if passed else 1,
+        },
+        details=(
+            []
+            if passed
+            else [
+                {
+                    "message": f"{current_coverage:.2f}% below minimum {min_coverage:.2f}%",
+                }
+            ]
+        ),
+    )
 
     # Check minimum coverage
     if current_coverage < min_coverage:

@@ -53,6 +53,15 @@ pipeline:
         - "**/*.g.dart"
         - "lib/generated/**"
 
+    freezed:
+      enabled: true
+
+    navigation:
+      enabled: true
+
+    riverpod:
+      enabled: true
+
     design_system:
       enabled: true
       allow_warnings: true
