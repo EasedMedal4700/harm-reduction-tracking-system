@@ -48,7 +48,7 @@ pipeline:
       
     coverage:
       enabled: true
-      min_coverage: 40.0
+      min_coverage: 45.0
       exclude:
         - "**/*.g.dart"
         - "lib/generated/**"

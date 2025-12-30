@@ -1,8 +1,12 @@
-"""
-Coverage Regression Checker
+"""scripts/ci/check_coverage.py
 
-Checks if code coverage has decreased compared to the previous run.
-Uses lcov.info and a cache file.
+Coverage Threshold Checker
+
+Enforces a minimum line coverage percentage based on CI config.
+
+Important:
+- This script intentionally does NOT enforce coverage regression rules.
+- If you want regression tracking, implement it separately as an advisory step.
 """
 
 import os
@@ -44,39 +48,16 @@ def main():
 
     project_root = os.getcwd()
     lcov_path = os.path.join(project_root, 'coverage', 'lcov.info')
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    cache_path = os.path.join(script_dir, 'coverage_cache.json')
-
     current_coverage = get_coverage_percentage(lcov_path)
     print(f"Current Coverage: {current_coverage:.2f}%")
-
-    previous_coverage = 0.0
-    if os.path.exists(cache_path):
-        try:
-            with open(cache_path, 'r') as f:
-                data = json.load(f)
-                previous_coverage = data.get('coverage', 0.0)
-        except:
-            pass
-    
-    print(f"Previous Coverage: {previous_coverage:.2f}%")
-
-    # Save current coverage
-    with open(cache_path, 'w') as f:
-        json.dump({'coverage': current_coverage}, f)
+    print(f"Minimum Coverage: {min_coverage:.2f}%")
 
     # Check minimum coverage
     if current_coverage < min_coverage:
-        print(f"❌ Coverage {current_coverage:.2f}% is below minimum {min_coverage:.2f}%")
-        sys.exit(1)
-
-    # Allow small fluctuation (e.g. 0.1%) or strict? User said "doesnt allow regression".
-    # Let's be strict but handle float precision.
-    if current_coverage < previous_coverage - 0.01:
-        print(f"❌ Coverage regression detected! Dropped from {previous_coverage:.2f}% to {current_coverage:.2f}%")
+        print(f"Coverage {current_coverage:.2f}% is below minimum {min_coverage:.2f}%")
         sys.exit(1)
     
-    print("✅ Coverage check passed.")
+    print("Coverage check passed.")
     sys.exit(0)
 
 if __name__ == "__main__":

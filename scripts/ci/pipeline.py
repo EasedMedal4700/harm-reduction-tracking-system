@@ -447,7 +447,7 @@ def run_import_check() -> Tuple[bool, str, str]:
 
 
 def run_coverage_check() -> Tuple[bool, str, str]:
-    """Run coverage regression check"""
+    """Run coverage threshold check"""
     config = CIConfig()
     if not config.is_step_enabled('coverage'):
         return True, Colors.colorize("Skipped (Disabled in config)", 'neutral'), ""
@@ -462,12 +462,36 @@ def run_coverage_check() -> Tuple[bool, str, str]:
     
     step = PipelineStep("Coverage Check", f'"{venv_python}" "{script_path}"')
     success, output = step.execute()
-    
+
+    # Parse numeric coverage values from script output if present
+    import re
+    current = None
+    minimum = None
+    m_curr = re.search(r"Current Coverage:\s*([0-9]+(?:\.[0-9]+)?)%", output)
+    if m_curr:
+        try:
+            current = float(m_curr.group(1))
+        except Exception:
+            current = None
+
+    m_min = re.search(r"Minimum Coverage:\s*([0-9]+(?:\.[0-9]+)?)%", output)
+    if m_min:
+        try:
+            minimum = float(m_min.group(1))
+        except Exception:
+            minimum = None
+
     if success:
-        status_msg = Colors.colorize("✅ Coverage OK", 'success')
+        if current is not None and minimum is not None:
+            status_msg = Colors.colorize(f"✅ Coverage OK: {current:.2f}% (min {minimum:.2f}%)", 'success')
+        else:
+            status_msg = Colors.colorize("✅ Coverage OK", 'success')
     else:
-        status_msg = Colors.colorize("❌ Coverage regression", 'failure')
-        
+        if current is not None and minimum is not None:
+            status_msg = Colors.colorize(f"{current:.2f}% should be {minimum:.2f}% — ❌ Coverage below threshold", 'failure')
+        else:
+            status_msg = Colors.colorize("❌ Coverage below threshold", 'failure')
+
     return success, status_msg, output
 
 
@@ -497,7 +521,7 @@ def run_all_pipeline() -> Dict[str, Tuple[bool, str, str]]:
     print()
 
     # 4. Coverage Check
-    print("4. Checking Coverage Regression...")
+    print("4. Checking Coverage Threshold...")
     results['coverage'] = run_coverage_check()
     print(f"   {results['coverage'][1]}")
     print()
