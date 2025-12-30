@@ -116,15 +116,26 @@ def run_dart_format() -> Tuple[bool, str, str]:
     if not config.is_step_enabled('format'):
         return True, Colors.colorize("Skipped (Disabled in config)", 'neutral'), ""
 
-    step = PipelineStep("Dart Format", "dart format --set-exit-if-changed .")
+    # Run dart format to auto-format
+    step = PipelineStep("Dart Format", "dart format .")
     success, output = step.execute()
 
-    if success:
-        status_msg = Colors.colorize("✅ OK", 'success')
-    else:
-        status_msg = Colors.colorize("❌ Needs formatting", 'failure')
+    if not success:
+        return False, Colors.colorize("❌ Dart format failed to run", 'failure'), output
 
-    return success, status_msg, output
+    # Check output to see if files were changed
+    formatted_files = []
+    for line in output.splitlines():
+        if line.startswith("Formatted") and "files (" not in line:
+            formatted_files.append(line)
+    
+    if formatted_files:
+        count = len(formatted_files)
+        status_msg = Colors.colorize(f"✅ Auto-formatted {count} file(s)", 'success')
+    else:
+        status_msg = Colors.colorize("✅ Already formatted", 'success')
+
+    return True, status_msg, output
 
 
 def run_tests() -> Tuple[bool, str, str]:

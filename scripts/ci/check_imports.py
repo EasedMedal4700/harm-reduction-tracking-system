@@ -12,6 +12,7 @@ Guidelines:
 import os
 import json
 import sys
+import fnmatch
 try:
     from config import CIConfig
 except ImportError:
@@ -19,14 +20,32 @@ except ImportError:
     sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     from config import CIConfig
 
-def find_dart_files(root_dir):
+def find_dart_files(root_dir, excludes=None):
+    if excludes is None:
+        excludes = []
     dart_files = []
     for root, dirs, files in os.walk(root_dir):
         if '.dart_tool' in root or 'build' in root or '.venv' in root:
             continue
         for file in files:
             if file.endswith('.dart') and not file.endswith('.freezed.dart') and not file.endswith('.g.dart'):
-                dart_files.append(os.path.join(root, file))
+                full_path = os.path.join(root, file)
+                
+                # Check exclusions
+                is_excluded = False
+                # Normalize path for matching
+                try:
+                    rel_path = os.path.relpath(full_path, os.getcwd()).replace('\\', '/')
+                    for pattern in excludes:
+                        if fnmatch.fnmatch(rel_path, pattern):
+                            is_excluded = True
+                            break
+                except ValueError:
+                    # Handle case where paths are on different drives
+                    pass
+                
+                if not is_excluded:
+                    dart_files.append(full_path)
     return dart_files
 
 def count_imports(file_path):
@@ -49,13 +68,14 @@ def main():
         print("Error: lib directory not found.")
         sys.exit(1)
 
-    files = find_dart_files(lib_dir)
+    config = CIConfig()
+    max_imports = config.get_step_config('imports').get('max_imports', 15)
+    excludes = config.get_step_config('imports').get('exclude', [])
+
+    files = find_dart_files(lib_dir, excludes)
     results = []
     violations = 0
     warnings = 0
-
-    config = CIConfig()
-    max_imports = config.get_step_config('imports').get('max_imports', 15)
 
     print("Checking imports...")
     

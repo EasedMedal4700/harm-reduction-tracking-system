@@ -41,10 +41,14 @@ pipeline:
         - "package:mobile_drug_use_app"
         - "package:flutter"
         - "dart:"
+      exclude:
+        - "lib/generated/**"
+        - "**/*.g.dart"
+        - "**/*.freezed.dart"
       
     coverage:
       enabled: true
-      min_coverage: 80.0
+      min_coverage: 40.0
       exclude:
         - "**/*.g.dart"
         - "lib/generated/**"

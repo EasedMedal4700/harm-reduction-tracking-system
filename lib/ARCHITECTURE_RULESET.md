@@ -168,12 +168,13 @@ Every touched file MUST start with this header, exactly in this format:
 
 ```dart
 // MIGRATION:
-// State: LEGACY | PARTIAL | MODERN
+// State: LEGACY | PARTIAL | MODERN | MODERN (UI-only)
 // Navigation: LEGACY | CENTRALIZED | GOROUTER
 // Models: LEGACY | FREEZED
 // Theme: LEGACY | COMPLETE
 // Common: LEGACY | COMPLETE
-// Notes: short explanation
+// Notes: short, concrete explanation
+
 ```
 
 Rules:
