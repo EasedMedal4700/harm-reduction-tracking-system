@@ -1,167 +1,117 @@
 // MIGRATION:
-// State: LEGACY
+// State: MODERN
 // Navigation: N/A
-// Models: LEGACY
+// Models: MODERN
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Legacy ChangeNotifier state for log entry.
-import 'package:flutter/material.dart';
+// Notes: Riverpod Notifier for log entry state.
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'models/log_entry_form_data.dart';
 import 'log_entry_controller.dart';
 
-/// Riverpod-ready state adapter for Provider
-/// This wraps the pure LogEntryFormData with ChangeNotifier for Provider compatibility
-/// When migrating to Riverpod, this entire file will be replaced with a StateNotifier/Notifier
-///
-/// MIGRATION NOTE: Replace this with:
-/// ```
-/// final logEntryProvider = StateNotifierProvider<LogEntryNotifier, LogEntryFormData>((ref) {
-///   return LogEntryNotifier(ref.read(logEntryControllerProvider));
-/// });
-/// ```
-class LogEntryState extends ChangeNotifier {
-  LogEntryFormData _data = LogEntryFormData.initial();
-  final LogEntryController _controller;
-  LogEntryState({LogEntryController? controller})
-    : _controller = controller ?? LogEntryController();
-  // Expose pure data (Riverpod will use this directly)
-  LogEntryFormData get data => _data;
-  // Individual getters for backward compatibility with Provider
-  bool get isSimpleMode => _data.isSimpleMode;
-  double get dose => _data.dose;
-  String get unit => _data.unit;
-  String get substance => _data.substance;
-  String get route => _data.route;
-  List<String> get feelings => _data.feelings;
-  Map<String, List<String>> get secondaryFeelings => _data.secondaryFeelings;
-  String get location => _data.location;
-  DateTime get date => _data.date;
-  int get hour => _data.hour;
-  int get minute => _data.minute;
-  String get notes => _data.notes;
-  bool get isMedicalPurpose => _data.isMedicalPurpose;
-  double get cravingIntensity => _data.cravingIntensity;
-  String? get intention => _data.intention;
-  List<String> get triggers => _data.triggers;
-  List<String> get bodySignals => _data.bodySignals;
-  String get entryId => _data.entryId;
-  Map<String, dynamic>? get substanceDetails => _data.substanceDetails;
-  DateTime get selectedDateTime => _data.selectedDateTime;
-  // Pure business logic methods (delegated to controller)
+part 'log_entry_state.g.dart';
+
+@riverpod
+class LogEntryNotifier extends _$LogEntryNotifier {
+  late final LogEntryController _controller;
+
+  @override
+  LogEntryFormData build() {
+    _controller = LogEntryController();
+    return LogEntryFormData.initial();
+  }
+
   List<String> getAvailableROAs() {
-    return _controller.getAvailableROAs(_data.substanceDetails);
+    return _controller.getAvailableROAs(state.substanceDetails);
   }
 
   bool isROAValidated(String roa) {
-    return _controller.isROAValidated(roa, _data.substanceDetails);
+    return _controller.isROAValidated(roa, state.substanceDetails);
   }
 
-  // State mutation methods (Riverpod will replace these with copyWith)
   void setIsSimpleMode(bool value) {
-    _data = _data.copyWith(isSimpleMode: value);
-    notifyListeners();
+    state = state.copyWith(isSimpleMode: value);
   }
 
   void setDose(double value) {
-    _data = _data.copyWith(dose: value);
-    notifyListeners();
+    state = state.copyWith(dose: value);
   }
 
   void setUnit(String value) {
-    _data = _data.copyWith(unit: value);
-    notifyListeners();
+    state = state.copyWith(unit: value);
   }
 
   void setSubstance(String value) {
-    _data = _data.copyWith(substance: value);
+    state = state.copyWith(substance: value);
     _loadSubstanceDetails(value);
-    notifyListeners();
   }
 
   Future<void> _loadSubstanceDetails(String substanceName) async {
     final details = await _controller.loadSubstanceDetails(substanceName);
-    _data = _data.copyWith(substanceDetails: details);
-    notifyListeners();
+    state = state.copyWith(substanceDetails: details);
   }
 
   void setRoute(String value) {
-    _data = _data.copyWith(route: value);
-    notifyListeners();
+    state = state.copyWith(route: value);
   }
 
   void setFeelings(List<String> value) {
-    _data = _data.copyWith(feelings: value);
-    notifyListeners();
+    state = state.copyWith(feelings: value);
   }
 
   void setSecondaryFeelings(Map<String, List<String>> value) {
-    _data = _data.copyWith(secondaryFeelings: value);
-    notifyListeners();
+    state = state.copyWith(secondaryFeelings: value);
   }
 
   void setLocation(String value) {
-    _data = _data.copyWith(location: value);
-    notifyListeners();
+    state = state.copyWith(location: value);
   }
 
   void setDate(DateTime value) {
-    _data = _data.copyWith(date: value);
-    notifyListeners();
+    state = state.copyWith(date: value);
   }
 
   void setHour(int value) {
-    _data = _data.copyWith(hour: value);
-    notifyListeners();
+    state = state.copyWith(hour: value);
   }
 
   void setMinute(int value) {
-    _data = _data.copyWith(minute: value);
-    notifyListeners();
+    state = state.copyWith(minute: value);
   }
 
   void setIsMedicalPurpose(bool value) {
-    _data = _data.copyWith(isMedicalPurpose: value);
-    notifyListeners();
+    state = state.copyWith(isMedicalPurpose: value);
   }
 
   void setCravingIntensity(double value) {
-    _data = _data.copyWith(cravingIntensity: value);
-    notifyListeners();
+    state = state.copyWith(cravingIntensity: value);
   }
 
   void setIntention(String? value) {
-    _data = _data.copyWith(intention: value ?? '-- Select Intention--');
-    notifyListeners();
+    state = state.copyWith(intention: value ?? '-- Select Intention--');
   }
 
   void setTriggers(List<String> value) {
-    _data = _data.copyWith(triggers: value);
-    notifyListeners();
+    state = state.copyWith(triggers: value);
   }
 
   void setBodySignals(List<String> value) {
-    _data = _data.copyWith(bodySignals: value);
-    notifyListeners();
+    state = state.copyWith(bodySignals: value);
   }
 
   void setNotes(String value) {
-    _data = _data.copyWith(notes: value);
-    notifyListeners();
+    state = state.copyWith(notes: value);
   }
 
   void resetForm() {
-    _data = LogEntryFormData.empty();
-    notifyListeners();
+    state = LogEntryFormData.empty();
   }
 
-  // Prefill methods for external usage (e.g., editing existing entry)
   void prefillSubstance(String value) {
-    _data = _data.copyWith(substance: value);
-    // Don't notify if called before provider is attached
+    state = state.copyWith(substance: value);
   }
 
   void prefillDose(double value) {
-    _data = _data.copyWith(dose: value);
-    notifyListeners();
+    state = state.copyWith(dose: value);
   }
 }

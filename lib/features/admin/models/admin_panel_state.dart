@@ -16,7 +16,7 @@ import 'admin_user.dart';
 part 'admin_panel_state.freezed.dart';
 
 @freezed
-class AdminPanelState with _$AdminPanelState {
+abstract class AdminPanelState with _$AdminPanelState {
   const factory AdminPanelState({
     @Default(true) bool isLoading,
     @Default(<AdminUser>[]) List<AdminUser> users,

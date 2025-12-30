@@ -11,7 +11,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'admin_cache_stats.freezed.dart';
 
 @freezed
-class AdminCacheStats with _$AdminCacheStats {
+abstract class AdminCacheStats with _$AdminCacheStats {
   const factory AdminCacheStats({
     @Default(0) int totalEntries,
     @Default(0) int activeEntries,

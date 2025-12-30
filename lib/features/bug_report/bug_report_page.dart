@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'widgets/bug_report_form_fields.dart';
 import 'widgets/bug_report_submit_button.dart';
 import 'providers/bug_report_providers.dart';
+import 'models/bug_report_state.dart';
 
 class BugReportScreen extends ConsumerStatefulWidget {
   const BugReportScreen({super.key});

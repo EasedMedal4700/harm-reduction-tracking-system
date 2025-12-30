@@ -6,25 +6,59 @@ part of 'set_new_password_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(SetNewPasswordController)
+final setNewPasswordControllerProvider = SetNewPasswordControllerProvider._();
+
+final class SetNewPasswordControllerProvider
+    extends $NotifierProvider<SetNewPasswordController, SetNewPasswordState> {
+  SetNewPasswordControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'setNewPasswordControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$setNewPasswordControllerHash();
+
+  @$internal
+  @override
+  SetNewPasswordController create() => SetNewPasswordController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SetNewPasswordState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SetNewPasswordState>(value),
+    );
+  }
+}
+
 String _$setNewPasswordControllerHash() =>
     r'7b58d3a103c24525126121a82681bd706c2680da';
 
-/// See also [SetNewPasswordController].
-@ProviderFor(SetNewPasswordController)
-final setNewPasswordControllerProvider =
-    AutoDisposeNotifierProvider<
-      SetNewPasswordController,
-      SetNewPasswordState
-    >.internal(
-      SetNewPasswordController.new,
-      name: r'setNewPasswordControllerProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$setNewPasswordControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-typedef _$SetNewPasswordController = AutoDisposeNotifier<SetNewPasswordState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$SetNewPasswordController
+    extends $Notifier<SetNewPasswordState> {
+  SetNewPasswordState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<SetNewPasswordState, SetNewPasswordState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SetNewPasswordState, SetNewPasswordState>,
+              SetNewPasswordState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}

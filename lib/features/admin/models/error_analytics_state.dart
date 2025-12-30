@@ -13,7 +13,7 @@ import 'error_analytics.dart';
 part 'error_analytics_state.freezed.dart';
 
 @freezed
-class ErrorAnalyticsState with _$ErrorAnalyticsState {
+abstract class ErrorAnalyticsState with _$ErrorAnalyticsState {
   const factory ErrorAnalyticsState({
     @Default(true) bool isLoading,
     @Default(false) bool isClearingErrors,

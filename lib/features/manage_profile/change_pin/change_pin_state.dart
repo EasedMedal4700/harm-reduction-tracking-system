@@ -9,7 +9,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'change_pin_state.freezed.dart';
 
 @freezed
-class ChangePinState with _$ChangePinState {
+abstract class ChangePinState with _$ChangePinState {
   const factory ChangePinState({
     @Default(false) bool isLoading,
     @Default(false) bool success,

@@ -30,21 +30,17 @@ class AnalyticsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final overrides = <Override>[];
     final injectedAnalyticsService = analyticsService;
-    if (injectedAnalyticsService != null) {
-      overrides.add(
-        analyticsServiceProvider.overrideWithValue(injectedAnalyticsService),
-      );
-    }
     final injectedSubstanceRepository = substanceRepository;
-    if (injectedSubstanceRepository != null) {
-      overrides.add(
+
+    final overrides = [
+      if (injectedAnalyticsService != null)
+        analyticsServiceProvider.overrideWithValue(injectedAnalyticsService),
+      if (injectedSubstanceRepository != null)
         substanceRepositoryProvider.overrideWithValue(
           injectedSubstanceRepository,
         ),
-      );
-    }
+    ];
 
     if (overrides.isEmpty) {
       return const _AnalyticsPageBody();

@@ -34,6 +34,23 @@ class Reflection {
     this.overallSatisfaction = 5.0,
     this.notes = '',
   });
+
+  Reflection clone() {
+    return Reflection(
+      effectiveness: effectiveness,
+      sleepHours: sleepHours,
+      sleepQuality: sleepQuality,
+      nextDayMood: nextDayMood,
+      energyLevel: energyLevel,
+      sideEffects: sideEffects,
+      postUseCraving: postUseCraving,
+      copingStrategies: copingStrategies,
+      copingEffectiveness: copingEffectiveness,
+      overallSatisfaction: overallSatisfaction,
+      notes: notes,
+    );
+  }
+
   Map<String, dynamic> toJson() => {
     'effectiveness': effectiveness.round(),
     'sleep_hours': sleepHours,

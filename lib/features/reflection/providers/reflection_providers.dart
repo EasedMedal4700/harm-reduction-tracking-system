@@ -1,16 +1,9 @@
 // MIGRATION:
-// State: MIXED (legacy ChangeNotifier, Riverpod wiring)
+// State: MODERN
 // Navigation: N/A
-// Models: LEGACY
+// Models: MODERN
 // Theme: N/A
 // Common: N/A
-// Notes: Riverpod wrapper for legacy ReflectionProvider.
+// Notes: Exports the new ReflectionController.
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../reflection_provider.dart';
-
-final reflectionControllerProvider =
-    ChangeNotifierProvider.autoDispose<ReflectionProvider>((ref) {
-      return ReflectionProvider();
-    });
+export 'reflection_controller.dart';

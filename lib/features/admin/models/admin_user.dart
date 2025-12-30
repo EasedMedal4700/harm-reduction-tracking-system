@@ -11,7 +11,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'admin_user.freezed.dart';
 
 @freezed
-class AdminUser with _$AdminUser {
+abstract class AdminUser with _$AdminUser {
   const factory AdminUser({
     required String authUserId,
     @Default('Unknown') String displayName,

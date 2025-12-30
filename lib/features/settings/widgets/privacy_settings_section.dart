@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../providers/settings_provider.dart';
+import '../models/app_settings_model.dart';
 import 'package:mobile_drug_use_app/core/services/pin_timeout_service.dart';
 import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
 import 'package:mobile_drug_use_app/core/services/onboarding_service.dart';
@@ -23,10 +24,12 @@ import '../../../common/buttons/common_primary_button.dart';
 import '../../../common/logging/app_log.dart';
 
 class PrivacySettingsSection extends StatefulWidget {
-  final SettingsProvider settingsProvider;
+  final AppSettings settings;
+  final SettingsController controller;
   final VoidCallback onAutoLockTap;
   const PrivacySettingsSection({
-    required this.settingsProvider,
+    required this.settings,
+    required this.controller,
     required this.onAutoLockTap,
     super.key,
   });
@@ -111,7 +114,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
   @override
   Widget build(BuildContext context) {
     final tx = context.text;
-    final settings = widget.settingsProvider.settings;
+    final settings = widget.settings;
     final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
@@ -155,7 +158,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           title: 'Biometric Lock',
           subtitle: 'Use fingerprint/face to unlock',
           value: settings.biometricLock,
-          onChanged: widget.settingsProvider.setBiometricLock,
+          onChanged: widget.controller.setBiometricLock,
         ),
         // PIN Timeout Settings Header
         Padding(
@@ -251,13 +254,13 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
           title: 'Hide in Recent Apps',
           subtitle: 'Blur content in app switcher',
           value: settings.hideContentInRecents,
-          onChanged: widget.settingsProvider.setHideContentInRecents,
+          onChanged: widget.controller.setHideContentInRecents,
         ),
         CommonSwitchTile(
           title: 'Analytics',
           subtitle: 'Share anonymous usage data',
           value: settings.analyticsEnabled,
-          onChanged: widget.settingsProvider.setAnalyticsEnabled,
+          onChanged: widget.controller.setAnalyticsEnabled,
         ),
         Divider(color: c.border),
         // Reset harm reduction notices option

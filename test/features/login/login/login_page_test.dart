@@ -12,17 +12,18 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 
 // Fake implementation of LoginController to avoid StateNotifier mocking issues
-class FakeLoginController extends StateNotifier<LoginState>
-    implements LoginController {
-  FakeLoginController() : super(const LoginState());
-
+class FakeLoginController extends LoginController {
   // Tracking calls for verification
   String? lastEmail;
   String? lastPassword;
   bool? lastRememberMe;
 
+  LoginState _testState = const LoginState();
+
   @override
-  Future<void> init() async {}
+  LoginState build() {
+    return _testState;
+  }
 
   @override
   Future<void> submitLogin({
@@ -41,7 +42,13 @@ class FakeLoginController extends StateNotifier<LoginState>
 
   // Helper to set state directly for testing
   void setState(LoginState newState) {
-    state = newState;
+    _testState = newState;
+    try {
+      state = newState;
+    } catch (_) {
+      // If the notifier is not yet initialized (mounted), we can't set state.
+      // That's fine, because build() will return _testState when it initializes.
+    }
   }
 }
 
@@ -72,9 +79,7 @@ void main() {
     );
 
     return ProviderScope(
-      overrides: [
-        loginControllerProvider.overrideWith((ref) => fakeController),
-      ],
+      overrides: [loginControllerProvider.overrideWith(() => fakeController)],
       child: AppThemeProvider(
         theme: AppTheme.light(fontSize: 1.0, compactMode: false),
         child: MaterialApp.router(routerConfig: router),

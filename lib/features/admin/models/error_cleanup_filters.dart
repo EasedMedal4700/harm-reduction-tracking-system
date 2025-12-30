@@ -11,7 +11,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'error_cleanup_filters.freezed.dart';
 
 @freezed
-class ErrorCleanupFilters with _$ErrorCleanupFilters {
+abstract class ErrorCleanupFilters with _$ErrorCleanupFilters {
   const factory ErrorCleanupFilters({
     @Default(false) bool deleteAll,
     int? olderThanDays,

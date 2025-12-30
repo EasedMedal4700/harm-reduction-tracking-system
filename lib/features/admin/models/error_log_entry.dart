@@ -13,7 +13,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'error_log_entry.freezed.dart';
 
 @freezed
-class ErrorLogEntry with _$ErrorLogEntry {
+abstract class ErrorLogEntry with _$ErrorLogEntry {
   const factory ErrorLogEntry({
     String? id,
     String? uuidUserId,

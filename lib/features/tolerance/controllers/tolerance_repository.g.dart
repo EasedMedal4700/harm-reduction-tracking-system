@@ -6,24 +6,53 @@ part of 'tolerance_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(toleranceRepository)
+final toleranceRepositoryProvider = ToleranceRepositoryProvider._();
+
+final class ToleranceRepositoryProvider
+    extends
+        $FunctionalProvider<
+          ToleranceRepository,
+          ToleranceRepository,
+          ToleranceRepository
+        >
+    with $Provider<ToleranceRepository> {
+  ToleranceRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'toleranceRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$toleranceRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<ToleranceRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  ToleranceRepository create(Ref ref) {
+    return toleranceRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ToleranceRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ToleranceRepository>(value),
+    );
+  }
+}
+
 String _$toleranceRepositoryHash() =>
     r'1713c76e8e5565f607e238a67dca44fbde28c257';
-
-/// See also [toleranceRepository].
-@ProviderFor(toleranceRepository)
-final toleranceRepositoryProvider =
-    AutoDisposeProvider<ToleranceRepository>.internal(
-      toleranceRepository,
-      name: r'toleranceRepositoryProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$toleranceRepositoryHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ToleranceRepositoryRef = AutoDisposeProviderRef<ToleranceRepository>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

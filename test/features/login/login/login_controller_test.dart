@@ -78,6 +78,9 @@ void main() {
     });
 
     test('init sets isInitialized to true', () async {
+      // Keep provider alive
+      container.listen(loginControllerProvider, (_, __) {});
+
       // Ensure the provider is created so init() actually runs.
       container.read(loginControllerProvider.notifier);
       await Future.delayed(const Duration(milliseconds: 100));
@@ -107,8 +110,13 @@ void main() {
         ],
       );
 
-      // ensure async initialization completes (call init again to be deterministic)
-      newContainer.read(loginControllerProvider.notifier).init();
+      // ensure async initialization completes
+      // newContainer.read(loginControllerProvider.notifier).init(); // Removed as init is called in build
+
+      // Keep provider alive
+      newContainer.listen(loginControllerProvider, (_, __) {});
+
+      newContainer.read(loginControllerProvider); // Trigger build
       await Future.delayed(const Duration(milliseconds: 500));
       final state = newContainer.read(loginControllerProvider);
 
@@ -174,6 +182,9 @@ void main() {
     });
 
     test('submitLogin sets isLoading during request', () async {
+      // Keep provider alive
+      container.listen(loginControllerProvider, (_, __) {});
+
       when(mockAuthService.login(any, any)).thenAnswer(
         (_) => Future.delayed(const Duration(milliseconds: 100), () => true),
       );

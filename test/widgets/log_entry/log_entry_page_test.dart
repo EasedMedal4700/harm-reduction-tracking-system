@@ -2,11 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_controller.dart';
+import 'package:mobile_drug_use_app/features/log_entry/log_entry_state.dart';
+import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_form_data.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 import 'log_entry_page_test.mocks.dart';
+
+class FakeLogEntryNotifier extends LogEntryNotifier {
+  @override
+  LogEntryFormData build() {
+    return LogEntryFormData.initial();
+  }
+
+  @override
+  void setSubstance(String value) {
+    state = state.copyWith(substance: value);
+  }
+
+  @override
+  List<String> getAvailableROAs() => ['Oral', 'Insufflated'];
+
+  @override
+  bool isROAValidated(String roa) => true;
+}
 
 @GenerateMocks([LogEntryController])
 void main() {
@@ -26,9 +47,12 @@ void main() {
   });
 
   Widget createWidgetUnderTest() {
-    return AppThemeProvider(
-      theme: AppTheme.light(),
-      child: MaterialApp(home: QuickLogEntryPage(controller: mockController)),
+    return ProviderScope(
+      overrides: [logEntryProvider.overrideWith(() => FakeLogEntryNotifier())],
+      child: AppThemeProvider(
+        theme: AppTheme.light(),
+        child: MaterialApp(home: QuickLogEntryPage(controller: mockController)),
+      ),
     );
   }
 

@@ -7,6 +7,7 @@
 // Notes: Entry preferences section.
 import 'package:flutter/material.dart';
 import '../providers/settings_provider.dart';
+import '../models/app_settings_model.dart';
 import 'settings_section.dart';
 import '../../../common/inputs/switch_tile.dart';
 import '../../../common/inputs/slider.dart';
@@ -14,16 +15,18 @@ import '../../../constants/theme/app_theme_extension.dart';
 
 /// Entry Preferences section widget
 class EntryPreferencesSection extends StatelessWidget {
-  final SettingsProvider settingsProvider;
+  final AppSettings settings;
+  final SettingsController controller;
   final VoidCallback onDoseUnitTap;
   const EntryPreferencesSection({
-    required this.settingsProvider,
+    required this.settings,
+    required this.controller,
     required this.onDoseUnitTap,
     super.key,
   });
   @override
   Widget build(BuildContext context) {
-    final settings = settingsProvider.settings;
+    // final settings = controller.settings;
     final th = context.theme;
     return SettingsSection(
       title: 'Entry Preferences',
@@ -39,19 +42,19 @@ class EntryPreferencesSection extends StatelessWidget {
           title: 'Quick Entry Mode',
           subtitle: 'Skip confirmation dialogs',
           value: settings.quickEntryMode,
-          onChanged: settingsProvider.setQuickEntryMode,
+          onChanged: controller.setQuickEntryMode,
         ),
         CommonSwitchTile(
           title: 'Auto-save Entries',
           subtitle: 'Save without confirmation',
           value: settings.autoSaveEntries,
-          onChanged: settingsProvider.setAutoSaveEntries,
+          onChanged: controller.setAutoSaveEntries,
         ),
         CommonSwitchTile(
           title: 'Show Recent Substances',
           subtitle: 'Show last ${settings.recentSubstancesCount} used',
           value: settings.showRecentSubstances,
-          onChanged: settingsProvider.setShowRecentSubstances,
+          onChanged: controller.setShowRecentSubstances,
         ),
         if (settings.showRecentSubstances)
           ListTile(
@@ -63,7 +66,7 @@ class EntryPreferencesSection extends StatelessWidget {
               divisions: 7,
               label: settings.recentSubstancesCount.toString(),
               onChanged: (value) =>
-                  settingsProvider.setRecentSubstancesCount(value.round()),
+                  controller.setRecentSubstancesCount(value.round()),
             ),
           ),
       ],

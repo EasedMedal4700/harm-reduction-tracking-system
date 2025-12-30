@@ -13,21 +13,19 @@ import '../../common/feedback/common_loader.dart';
 import '../../common/layout/common_drawer.dart';
 import 'log_entry_controller.dart';
 import 'log_entry_state.dart';
-import 'providers/log_entry_providers.dart';
 import 'widgets/log_entry/log_entry_form.dart';
 import 'widgets/log_entry_page/log_entry_app_bar.dart';
 
-class QuickLogEntryPage extends StatefulWidget {
+class QuickLogEntryPage extends ConsumerStatefulWidget {
   final LogEntryController? controller;
   const QuickLogEntryPage({super.key, this.controller});
 
   @override
-  State<QuickLogEntryPage> createState() => _QuickLogEntryPageState();
+  ConsumerState<QuickLogEntryPage> createState() => _QuickLogEntryPageState();
 }
 
-class _QuickLogEntryPageState extends State<QuickLogEntryPage>
+class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
     with SingleTickerProviderStateMixin {
-  late final LogEntryState _state;
   late final LogEntryController _controller;
 
   AnimationController? _animationController;
@@ -44,14 +42,18 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   void initState() {
     super.initState();
     _controller = widget.controller ?? LogEntryController();
-    _state = LogEntryState(controller: _controller);
 
-    _notesCtrl.addListener(() => _state.setNotes(_notesCtrl.text));
+    _notesCtrl.addListener(
+      () => ref.read(logEntryProvider.notifier).setNotes(_notesCtrl.text),
+    );
     _doseCtrl.addListener(() {
       final value = double.tryParse(_doseCtrl.text);
-      if (value != null) _state.setDose(value);
+      if (value != null) ref.read(logEntryProvider.notifier).setDose(value);
     });
-    _substanceCtrl.addListener(() => _state.setSubstance(_substanceCtrl.text));
+    _substanceCtrl.addListener(
+      () =>
+          ref.read(logEntryProvider.notifier).setSubstance(_substanceCtrl.text),
+    );
   }
 
   @override
@@ -84,9 +86,9 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       return;
     }
 
-    final substanceValidation = await _controller.validateSubstance(
-      _state.data,
-    );
+    final data = ref.read(logEntryProvider);
+
+    final substanceValidation = await _controller.validateSubstance(data);
     if (!substanceValidation.isValid) {
       _showErrorDialog(
         substanceValidation.title!,
@@ -95,7 +97,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       return;
     }
 
-    final roaValidation = _controller.validateROA(_state.data);
+    final roaValidation = _controller.validateROA(data);
     if (roaValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
         roaValidation.title!,
@@ -104,7 +106,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       if (!confirmed) return;
     }
 
-    final emotionsValidation = _controller.validateEmotions(_state.data);
+    final emotionsValidation = _controller.validateEmotions(data);
     if (emotionsValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
         emotionsValidation.title!,
@@ -113,7 +115,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       if (!confirmed) return;
     }
 
-    final cravingValidation = _controller.validateCraving(_state.data);
+    final cravingValidation = _controller.validateCraving(data);
     if (cravingValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
         cravingValidation.title!,
@@ -123,7 +125,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
     }
 
     setState(() => _isSaving = true);
-    final result = await _controller.saveLogEntry(_state.data);
+    final result = await _controller.saveLogEntry(data);
     if (!mounted) return;
     setState(() => _isSaving = false);
 
@@ -136,7 +138,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   }
 
   void _resetForm() {
-    _state.resetForm();
+    ref.read(logEntryProvider.notifier).resetForm();
     _notesCtrl.clear();
     _doseCtrl.clear();
     _substanceCtrl.clear();
@@ -193,71 +195,65 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
+    final state = ref.watch(logEntryProvider);
+    final notifier = ref.read(logEntryProvider.notifier);
 
-    return ProviderScope(
-      overrides: [logEntryStateProvider.overrideWith((ref) => _state)],
-      child: Consumer(
-        builder: (context, ref, _) {
-          final state = ref.watch(logEntryStateProvider);
-          return Scaffold(
-            backgroundColor: c.background,
-            appBar: LogEntryAppBar(
-              isSimpleMode: state.isSimpleMode,
-              onSimpleModeChanged: state.setIsSimpleMode,
+    return Scaffold(
+      backgroundColor: c.background,
+      appBar: LogEntryAppBar(
+        isSimpleMode: state.isSimpleMode,
+        onSimpleModeChanged: notifier.setIsSimpleMode,
+      ),
+      drawer: const CommonDrawer(),
+      body: Stack(
+        children: [
+          FadeTransition(
+            opacity: _fadeAnimation,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(sp.md),
+              child: LogEntryForm(
+                isSimpleMode: state.isSimpleMode,
+                dose: state.dose,
+                unit: state.unit,
+                substance: state.substance,
+                route: state.route,
+                feelings: state.feelings,
+                secondaryFeelings: state.secondaryFeelings,
+                location: state.location,
+                date: state.date,
+                hour: state.hour,
+                minute: state.minute,
+                isMedicalPurpose: state.isMedicalPurpose,
+                cravingIntensity: state.cravingIntensity,
+                intention: state.intention,
+                selectedTriggers: state.triggers,
+                selectedBodySignals: state.bodySignals,
+                notesCtrl: _notesCtrl,
+                doseCtrl: _doseCtrl,
+                substanceCtrl: _substanceCtrl,
+                formKey: _formKey,
+                onDoseChanged: notifier.setDose,
+                onUnitChanged: notifier.setUnit,
+                onSubstanceChanged: notifier.setSubstance,
+                onRouteChanged: notifier.setRoute,
+                onFeelingsChanged: notifier.setFeelings,
+                onSecondaryFeelingsChanged: notifier.setSecondaryFeelings,
+                onLocationChanged: notifier.setLocation,
+                onDateChanged: notifier.setDate,
+                onHourChanged: notifier.setHour,
+                onMinuteChanged: notifier.setMinute,
+                onMedicalPurposeChanged: notifier.setIsMedicalPurpose,
+                onCravingIntensityChanged: notifier.setCravingIntensity,
+                onIntentionChanged: notifier.setIntention,
+                onTriggersChanged: notifier.setTriggers,
+                onBodySignalsChanged: notifier.setBodySignals,
+                onSave: _handleSave,
+              ),
             ),
-            drawer: const CommonDrawer(),
-            body: Stack(
-              children: [
-                FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.all(sp.md),
-                    child: LogEntryForm(
-                      isSimpleMode: state.isSimpleMode,
-                      dose: state.dose,
-                      unit: state.unit,
-                      substance: state.substance,
-                      route: state.route,
-                      feelings: state.feelings,
-                      secondaryFeelings: state.secondaryFeelings,
-                      location: state.location,
-                      date: state.date,
-                      hour: state.hour,
-                      minute: state.minute,
-                      isMedicalPurpose: state.isMedicalPurpose,
-                      cravingIntensity: state.cravingIntensity,
-                      intention: state.intention,
-                      selectedTriggers: state.triggers,
-                      selectedBodySignals: state.bodySignals,
-                      notesCtrl: _notesCtrl,
-                      doseCtrl: _doseCtrl,
-                      substanceCtrl: _substanceCtrl,
-                      formKey: _formKey,
-                      onDoseChanged: state.setDose,
-                      onUnitChanged: state.setUnit,
-                      onSubstanceChanged: state.setSubstance,
-                      onRouteChanged: state.setRoute,
-                      onFeelingsChanged: state.setFeelings,
-                      onSecondaryFeelingsChanged: state.setSecondaryFeelings,
-                      onLocationChanged: state.setLocation,
-                      onDateChanged: state.setDate,
-                      onHourChanged: state.setHour,
-                      onMinuteChanged: state.setMinute,
-                      onMedicalPurposeChanged: state.setIsMedicalPurpose,
-                      onCravingIntensityChanged: state.setCravingIntensity,
-                      onIntentionChanged: state.setIntention,
-                      onTriggersChanged: state.setTriggers,
-                      onBodySignalsChanged: state.setBodySignals,
-                      onSave: _handleSave,
-                    ),
-                  ),
-                ),
-                if (_isSaving)
-                  Container(color: c.overlayHeavy, child: const CommonLoader()),
-              ],
-            ),
-          );
-        },
+          ),
+          if (_isSaving)
+            Container(color: c.overlayHeavy, child: const CommonLoader()),
+        ],
       ),
     );
   }

@@ -30,7 +30,7 @@ class RegisterController extends _$RegisterController {
   }
 
   Future<void> refreshOnboardingStatus() async {
-    final previous = state.valueOrNull ?? const RegisterState();
+    final previous = state.value ?? const RegisterState();
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
@@ -49,7 +49,7 @@ class RegisterController extends _$RegisterController {
     required String password,
     required String displayName,
   }) async {
-    final current = state.valueOrNull ?? const RegisterState();
+    final current = state.value ?? const RegisterState();
     state = AsyncValue.data(
       current.copyWith(isSubmitting: true, errorMessage: null),
     );

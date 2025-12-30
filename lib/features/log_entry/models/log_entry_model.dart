@@ -13,7 +13,7 @@ part 'log_entry_model.g.dart';
 
 /// Represents a drug use log entry
 @freezed
-class LogEntry with _$LogEntry {
+abstract class LogEntry with _$LogEntry {
   const LogEntry._();
 
   const factory LogEntry({

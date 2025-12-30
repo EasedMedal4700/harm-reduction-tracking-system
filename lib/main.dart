@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'common/logging/app_log.dart';
 import 'features/settings/providers/settings_providers.dart';
+import 'features/settings/models/app_settings_model.dart';
 import 'core/routes/screen_tracking_observer.dart';
 import 'core/providers/navigation_provider.dart';
 import 'constants/theme/app_theme_provider.dart';
@@ -173,8 +174,9 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
 
   @override
   Widget build(BuildContext context) {
-    final settings = ref.watch(settingsControllerProvider);
-    final appTheme = AppTheme.fromSettings(settings.settings);
+    final settingsAsync = ref.watch(settingsControllerProvider);
+    final settings = settingsAsync.value ?? const AppSettings();
+    final appTheme = AppTheme.fromSettings(settings);
     return AppThemeProvider(
       theme: appTheme,
       child: MaterialApp.router(
@@ -182,9 +184,7 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light().themeData,
         darkTheme: AppTheme.dark().themeData,
-        themeMode: settings.settings.darkMode
-            ? ThemeMode.dark
-            : ThemeMode.light,
+        themeMode: settings.darkMode ? ThemeMode.dark : ThemeMode.light,
       ),
     );
   }

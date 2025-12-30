@@ -3,8 +3,9 @@
 // Common: COMPLETE
 // Riverpod: TODO
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import '../../stockpile/repo/stockpile_repository.dart';
+import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_providers.dart';
 import 'package:mobile_drug_use_app/features/catalog/utils/drug_profile_utils.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
@@ -12,7 +13,7 @@ import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 
-class AddStockpileSheet extends StatefulWidget {
+class AddStockpileSheet extends ConsumerStatefulWidget {
   final String substanceId;
   final String substanceName;
   final Map<String, dynamic>? substanceDetails;
@@ -23,15 +24,14 @@ class AddStockpileSheet extends StatefulWidget {
     this.substanceDetails,
   });
   @override
-  State<AddStockpileSheet> createState() => _AddStockpileSheetState();
+  ConsumerState<AddStockpileSheet> createState() => _AddStockpileSheetState();
 }
 
-class _AddStockpileSheetState extends State<AddStockpileSheet> {
+class _AddStockpileSheetState extends ConsumerState<AddStockpileSheet> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
   String _selectedUnit = 'mg';
   bool _isSaving = false;
-  final _stockpileRepo = StockpileRepository();
   final List<String> _units = ['mg', 'g', 'pill', 'ml'];
   @override
   void dispose() {
@@ -52,11 +52,13 @@ class _AddStockpileSheetState extends State<AddStockpileSheet> {
         widget.substanceDetails,
       );
       // Add to stockpile (unitMg is named parameter)
-      await _stockpileRepo.addToStockpile(
-        widget.substanceId,
-        amountInMg,
-        unitMg: 1.0, // Already converted to mg, so 1mg = 1mg
-      );
+      await ref
+          .read(stockpileRepositoryProvider)
+          .addToStockpile(
+            widget.substanceId,
+            amountInMg,
+            unitMg: 1.0, // Already converted to mg, so 1mg = 1mg
+          );
       if (mounted) {
         Navigator.pop(context, true); // Return true to indicate success
         ScaffoldMessenger.of(context).showSnackBar(

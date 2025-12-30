@@ -1,67 +1,51 @@
 // MIGRATION:
-// State: LEGACY
+// State: MODERN
 // Navigation: N/A
-// Models: N/A
+// Models: MODERN
 // Theme: N/A
 // Common: N/A
-// Notes: Legacy ChangeNotifier provider.
-import 'package:flutter/foundation.dart';
+// Notes: Riverpod Notifier for settings.
 import 'dart:async';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/app_settings_model.dart';
 import '../services/settings_service.dart';
 
-/// Provider for managing app settings state
-class SettingsProvider extends ChangeNotifier {
-  AppSettings _settings = const AppSettings();
-  bool _isLoading = true;
-  StreamSubscription<AppSettings>? _settingsSub;
-  AppSettings get settings => _settings;
-  bool get isLoading => _isLoading;
-  SettingsProvider() {
-    _loadSettings();
-    _settingsSub = SettingsService.settingsChanged.listen((newSettings) {
-      _settings = newSettings;
-      notifyListeners();
+part 'settings_provider.g.dart';
+
+@riverpod
+class SettingsController extends _$SettingsController {
+  @override
+  Future<AppSettings> build() async {
+    final stream = SettingsService.settingsChanged;
+    final sub = stream.listen((newSettings) {
+      state = AsyncData(newSettings);
+    });
+    ref.onDispose(sub.cancel);
+
+    return SettingsService.loadSettings();
+  }
+
+  Future<void> updateSettings(AppSettings newSettings) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      await SettingsService.saveSettings(newSettings);
+      return newSettings;
     });
   }
 
-  @override
-  void dispose() {
-    _settingsSub?.cancel();
-    _settingsSub = null;
-    super.dispose();
-  }
-
-  /// Load settings from storage
-  Future<void> _loadSettings() async {
-    try {
-      _isLoading = true;
-      notifyListeners();
-      _settings = await SettingsService.loadSettings();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
-
-  /// Update settings
-  Future<void> updateSettings(AppSettings newSettings) async {
-    await SettingsService.saveSettings(newSettings);
-    _settings = newSettings;
-    notifyListeners();
-  }
-
-  /// Update a specific setting
   Future<void> updateSetting(AppSettings Function(AppSettings) updater) async {
-    final newSettings = updater(_settings);
+    final current = state.value;
+    if (current == null) return;
+    final newSettings = updater(current);
     await updateSettings(newSettings);
   }
 
-  /// Reset to default settings
   Future<void> resetToDefaults() async {
-    await SettingsService.resetSettings();
-    _settings = const AppSettings();
-    notifyListeners();
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      await SettingsService.resetSettings();
+      return const AppSettings();
+    });
   }
 
   /// UI Settings

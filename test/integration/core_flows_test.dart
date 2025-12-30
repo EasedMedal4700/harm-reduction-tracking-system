@@ -23,7 +23,6 @@ import 'package:mobile_drug_use_app/features/analytics/analytics_page.dart';
 import 'package:mobile_drug_use_app/features/blood_levels/blood_levels_page.dart';
 import 'package:mobile_drug_use_app/features/catalog/catalog_page.dart';
 import 'package:mobile_drug_use_app/features/settings/settings_page.dart';
-import 'package:mobile_drug_use_app/features/settings/providers/settings_provider.dart';
 import '../helpers/fake_analytics_service.dart';
 import '../helpers/fake_blood_levels_service.dart';
 
@@ -379,12 +378,7 @@ void main() {
       });
 
       await tester.pumpWidget(
-        createEnhancedTestWrapper(
-          child: ChangeNotifierProvider<SettingsProvider>(
-            create: (_) => SettingsProvider(),
-            child: const SettingsScreen(),
-          ),
-        ),
+        createEnhancedTestWrapper(child: const SettingsScreen()),
       );
       await tester.pumpAndSettle();
 

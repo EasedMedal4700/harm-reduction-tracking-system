@@ -13,7 +13,7 @@ import 'blood_levels_models.dart';
 part 'blood_levels_state.freezed.dart';
 
 @freezed
-class BloodLevelsState with _$BloodLevelsState {
+abstract class BloodLevelsState with _$BloodLevelsState {
   const factory BloodLevelsState({
     @Default(<String, DrugLevel>{}) Map<String, DrugLevel> levels,
     required DateTime selectedTime,

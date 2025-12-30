@@ -12,7 +12,7 @@ part 'app_settings_model.g.dart';
 
 /// Model for app settings stored locally
 @freezed
-class AppSettings with _$AppSettings {
+abstract class AppSettings with _$AppSettings {
   const factory AppSettings({
     // UI Settings
     @Default(false) bool darkMode,

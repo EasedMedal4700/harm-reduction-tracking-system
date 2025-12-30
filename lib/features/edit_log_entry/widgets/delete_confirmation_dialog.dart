@@ -6,11 +6,11 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import '../../../common/buttons/common_primary_button.dart';
-import '../../log_entry/log_entry_state.dart';
+import '../../log_entry/models/log_entry_form_data.dart';
 import '../../log_entry/log_entry_service.dart';
 
 class DeleteConfirmationDialog {
-  static Future<void> show(BuildContext context, LogEntryState state) async {
+  static Future<void> show(BuildContext context, LogEntryFormData state) async {
     final th = context.theme;
     final c = context.colors;
     final ac = context.accent;

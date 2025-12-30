@@ -1,10 +1,10 @@
 // MIGRATION:
-// State: LEGACY
+// State: MODERN
 // Navigation: LEGACY
 // Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Reflection page using legacy state.
+// Notes: Reflection page using modern Riverpod state.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,7 +45,7 @@ class _ReflectionPageState extends ConsumerState<ReflectionPage> {
         final c = context.colors;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to load entries: $e'),
+            content: Text('Failed to load entries: '),
             backgroundColor: c.error,
             behavior: SnackBarBehavior.floating,
           ),
@@ -57,10 +57,12 @@ class _ReflectionPageState extends ConsumerState<ReflectionPage> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-
     final ac = context.accent;
     final tx = context.text;
-    final provider = ref.watch(reflectionControllerProvider);
+
+    final state = ref.watch(reflectionControllerProvider);
+    final notifier = ref.read(reflectionControllerProvider.notifier);
+
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -74,22 +76,43 @@ class _ReflectionPageState extends ConsumerState<ReflectionPage> {
         backgroundColor: c.surface,
         elevation: context.sizes.elevationNone,
         centerTitle: true,
-        leading: provider.showForm
+        leading: state.showForm
             ? IconButton(
                 icon: Icon(Icons.arrow_back, color: c.textPrimary),
-                onPressed: () => provider.setShowForm(false),
+                onPressed: () => notifier.setShowForm(false),
               )
             : null,
-        actions: provider.showForm
+        actions: state.showForm
             ? [
                 Padding(
                   padding: EdgeInsets.only(right: context.spacing.sm),
                   child: TextButton(
-                    onPressed: provider.isSaving
+                    onPressed: state.isSaving
                         ? null
-                        : () => provider.save(context),
+                        : () async {
+                            try {
+                              await notifier.save();
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Reflection saved successfully!',
+                                    ),
+                                  ),
+                                );
+                              }
+                            } catch (e) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Error saving reflection: '),
+                                  ),
+                                );
+                              }
+                            }
+                          },
                     style: TextButton.styleFrom(foregroundColor: ac.primary),
-                    child: provider.isSaving
+                    child: state.isSaving
                         ? SizedBox(
                             width: context.sizes.iconSm,
                             height: context.sizes.iconSm,
@@ -121,71 +144,71 @@ class _ReflectionPageState extends ConsumerState<ReflectionPage> {
                 ),
               )
             : SafeArea(
-                child: provider.showForm
+                child: state.showForm
                     ? ReflectionForm(
-                        selectedCount: provider.selectedIds.length,
-                        effectiveness: provider.reflection.effectiveness,
+                        selectedCount: state.selectedIds.length,
+                        effectiveness: state.reflection.effectiveness,
                         onEffectivenessChanged: (value) =>
-                            provider.updateReflection(
-                              provider.reflection..effectiveness = value,
+                            notifier.updateReflection(
+                              state.reflection..effectiveness = value,
                             ),
-                        sleepHours: provider.reflection.sleepHours,
+                        sleepHours: state.reflection.sleepHours,
                         onSleepHoursChanged: (value) =>
-                            provider.updateReflection(
-                              provider.reflection..sleepHours = value,
+                            notifier.updateReflection(
+                              state.reflection..sleepHours = value,
                             ),
-                        sleepQuality: provider.reflection.sleepQuality,
+                        sleepQuality: state.reflection.sleepQuality,
                         onSleepQualityChanged: (value) =>
-                            provider.updateReflection(
-                              provider.reflection..sleepQuality = value,
+                            notifier.updateReflection(
+                              state.reflection..sleepQuality = value,
                             ),
-                        nextDayMood: provider.reflection.nextDayMood,
+                        nextDayMood: state.reflection.nextDayMood,
                         onNextDayMoodChanged: (value) =>
-                            provider.updateReflection(
-                              provider.reflection..nextDayMood = value,
+                            notifier.updateReflection(
+                              state.reflection..nextDayMood = value,
                             ),
-                        energyLevel: provider.reflection.energyLevel,
+                        energyLevel: state.reflection.energyLevel,
                         onEnergyLevelChanged: (value) =>
-                            provider.updateReflection(
-                              provider.reflection..energyLevel = value,
+                            notifier.updateReflection(
+                              state.reflection..energyLevel = value,
                             ),
-                        sideEffects: provider.reflection.sideEffects,
+                        sideEffects: state.reflection.sideEffects,
                         onSideEffectsChanged: (value) =>
-                            provider.updateReflection(
-                              provider.reflection..sideEffects = value,
+                            notifier.updateReflection(
+                              state.reflection..sideEffects = value,
                             ),
-                        postUseCraving: provider.reflection.postUseCraving,
+                        postUseCraving: state.reflection.postUseCraving,
                         onPostUseCravingChanged: (value) =>
-                            provider.updateReflection(
-                              provider.reflection..postUseCraving = value,
+                            notifier.updateReflection(
+                              state.reflection..postUseCraving = value,
                             ),
-                        copingStrategies: provider.reflection.copingStrategies,
+                        copingStrategies: state.reflection.copingStrategies,
                         onCopingStrategiesChanged: (value) =>
-                            provider.updateReflection(
-                              provider.reflection..copingStrategies = value,
+                            notifier.updateReflection(
+                              state.reflection..copingStrategies = value,
                             ),
                         copingEffectiveness:
-                            provider.reflection.copingEffectiveness,
+                            state.reflection.copingEffectiveness,
                         onCopingEffectivenessChanged: (value) =>
-                            provider.updateReflection(
-                              provider.reflection..copingEffectiveness = value,
+                            notifier.updateReflection(
+                              state.reflection..copingEffectiveness = value,
                             ),
                         overallSatisfaction:
-                            provider.reflection.overallSatisfaction,
+                            state.reflection.overallSatisfaction,
                         onOverallSatisfactionChanged: (value) =>
-                            provider.updateReflection(
-                              provider.reflection..overallSatisfaction = value,
+                            notifier.updateReflection(
+                              state.reflection..overallSatisfaction = value,
                             ),
-                        notes: provider.reflection.notes,
-                        onNotesChanged: (value) => provider.updateReflection(
-                          provider.reflection..notes = value,
+                        notes: state.reflection.notes,
+                        onNotesChanged: (value) => notifier.updateReflection(
+                          state.reflection..notes = value,
                         ),
                       )
                     : ReflectionSelection(
                         entries: _entries,
-                        selectedIds: provider.selectedIds,
-                        onEntryChanged: provider.toggleEntry,
-                        onNext: () => provider.setShowForm(true),
+                        selectedIds: state.selectedIds,
+                        onEntryChanged: notifier.toggleEntry,
+                        onNext: () => notifier.setShowForm(true),
                       ),
               ),
       ),

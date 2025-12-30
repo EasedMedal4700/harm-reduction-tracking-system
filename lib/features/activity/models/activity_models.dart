@@ -50,7 +50,7 @@ enum ActivityItemType {
 }
 
 @freezed
-class ActivityData with _$ActivityData {
+abstract class ActivityData with _$ActivityData {
   const factory ActivityData({
     @Default(<ActivityDrugUseEntry>[]) List<ActivityDrugUseEntry> entries,
     @Default(<ActivityCravingEntry>[]) List<ActivityCravingEntry> cravings,
@@ -58,12 +58,12 @@ class ActivityData with _$ActivityData {
     List<ActivityReflectionEntry> reflections,
   }) = _ActivityData;
 
-  factory ActivityData.fromJson(Map<String, Object?> json) =>
+  factory ActivityData.fromJson(Map<String, dynamic> json) =>
       _$ActivityDataFromJson(json);
 }
 
 @freezed
-class ActivityDrugUseEntry with _$ActivityDrugUseEntry {
+abstract class ActivityDrugUseEntry with _$ActivityDrugUseEntry {
   const factory ActivityDrugUseEntry({
     required String id,
     required String name,
@@ -75,7 +75,7 @@ class ActivityDrugUseEntry with _$ActivityDrugUseEntry {
     @Default(<String, Object?>{}) Map<String, Object?> raw,
   }) = _ActivityDrugUseEntry;
 
-  factory ActivityDrugUseEntry.fromJson(Map<String, Object?> json) =>
+  factory ActivityDrugUseEntry.fromJson(Map<String, dynamic> json) =>
       _$ActivityDrugUseEntryFromJson(json);
 
   factory ActivityDrugUseEntry.fromMap(Map<String, dynamic> map) {
@@ -101,7 +101,7 @@ class ActivityDrugUseEntry with _$ActivityDrugUseEntry {
 }
 
 @freezed
-class ActivityCravingEntry with _$ActivityCravingEntry {
+abstract class ActivityCravingEntry with _$ActivityCravingEntry {
   const factory ActivityCravingEntry({
     required String id,
     required String substance,
@@ -114,7 +114,7 @@ class ActivityCravingEntry with _$ActivityCravingEntry {
     @Default(<String, Object?>{}) Map<String, Object?> raw,
   }) = _ActivityCravingEntry;
 
-  factory ActivityCravingEntry.fromJson(Map<String, Object?> json) =>
+  factory ActivityCravingEntry.fromJson(Map<String, dynamic> json) =>
       _$ActivityCravingEntryFromJson(json);
 
   factory ActivityCravingEntry.fromMap(Map<String, dynamic> map) {
@@ -143,7 +143,7 @@ class ActivityCravingEntry with _$ActivityCravingEntry {
 }
 
 @freezed
-class ActivityReflectionEntry with _$ActivityReflectionEntry {
+abstract class ActivityReflectionEntry with _$ActivityReflectionEntry {
   const factory ActivityReflectionEntry({
     required String id,
     required DateTime createdAt,
@@ -153,7 +153,7 @@ class ActivityReflectionEntry with _$ActivityReflectionEntry {
     @Default(<String, Object?>{}) Map<String, Object?> raw,
   }) = _ActivityReflectionEntry;
 
-  factory ActivityReflectionEntry.fromJson(Map<String, Object?> json) =>
+  factory ActivityReflectionEntry.fromJson(Map<String, dynamic> json) =>
       _$ActivityReflectionEntryFromJson(json);
 
   factory ActivityReflectionEntry.fromMap(Map<String, dynamic> map) {

@@ -11,9 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/feature_flag_service.dart';
 import '../../../core/services/user_service.dart';
 
-final featureFlagServiceProvider = ChangeNotifierProvider<FeatureFlagService>((
-  ref,
-) {
+final featureFlagServiceProvider = Provider<FeatureFlagService>((ref) {
   return featureFlagService;
 });
 

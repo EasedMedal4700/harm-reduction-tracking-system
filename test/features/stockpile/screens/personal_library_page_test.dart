@@ -7,12 +7,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_drug_use_app/features/stockpile/stockpile_page.dart';
 import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_providers.dart';
 import 'package:mobile_drug_use_app/features/stockpile/services/personal_library_service.dart';
+import 'package:mobile_drug_use_app/features/stockpile/services/day_usage_service.dart';
 import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
 import 'package:mobile_drug_use_app/features/stockpile/models/stockpile_item.dart';
 import 'package:mobile_drug_use_app/features/stockpile/repo/stockpile_repository.dart';
 import 'package:mobile_drug_use_app/features/stockpile/repo/substance_repository.dart';
 import '../../../helpers/test_app_wrapper.dart';
 import 'package:mobile_drug_use_app/features/catalog/widgets/add_stockpile_sheet.dart';
+
+class _DummyDayUsageApi implements DayUsageApi {
+  @override
+  Future<List<Map<String, dynamic>>> fetchDrugUseRows({
+    required String substanceName,
+  }) async => const [];
+}
+
+class _FakeDayUsageService extends DayUsageService {
+  _FakeDayUsageService() : super(api: _DummyDayUsageApi());
+}
 
 class _DummyPersonalLibraryApi implements PersonalLibraryApi {
   @override
@@ -138,6 +150,7 @@ void main() {
         wrapWithAppThemeAndProvidersApp(
           home: const PersonalLibraryPage(),
           overrides: [
+            dayUsageServiceProvider.overrideWithValue(_FakeDayUsageService()),
             personalLibraryServiceProvider.overrideWithValue(
               _FakePersonalLibraryService([_entry()]),
             ),
@@ -172,7 +185,12 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Add to Stockpile'), findsWidgets);
 
-      await tester.enterText(find.byType(TextField).first, '10');
+      final sheetFinder = find.byType(AddStockpileSheet);
+      final amountFieldFinder = find.descendant(
+        of: sheetFinder,
+        matching: find.byType(TextField),
+      );
+      await tester.enterText(amountFieldFinder, '10');
       await tester.tap(find.text('Add to Stockpile').last);
       await tester.pumpAndSettle();
 
@@ -190,6 +208,7 @@ void main() {
       wrapWithAppThemeAndProvidersApp(
         home: const PersonalLibraryPage(),
         overrides: [
+          dayUsageServiceProvider.overrideWithValue(_FakeDayUsageService()),
           personalLibraryServiceProvider.overrideWithValue(
             _CompletingPersonalLibraryService(completer),
           ),
@@ -214,7 +233,10 @@ void main() {
     await tester.pumpWidget(
       wrapWithAppThemeAndProvidersApp(
         home: const PersonalLibraryPage(),
-        overrides: [personalLibraryServiceProvider.overrideWithValue(flaky)],
+        overrides: [
+          dayUsageServiceProvider.overrideWithValue(_FakeDayUsageService()),
+          personalLibraryServiceProvider.overrideWithValue(flaky),
+        ],
       ),
     );
 
@@ -237,6 +259,7 @@ void main() {
         wrapWithAppThemeAndProvidersApp(
           home: const PersonalLibraryPage(),
           overrides: [
+            dayUsageServiceProvider.overrideWithValue(_FakeDayUsageService()),
             personalLibraryServiceProvider.overrideWithValue(service),
             stockpileRepositoryProvider.overrideWithValue(
               _FakeStockpileRepository(),
@@ -289,6 +312,7 @@ void main() {
         wrapWithAppThemeAndProvidersApp(
           home: const PersonalLibraryPage(),
           overrides: [
+            dayUsageServiceProvider.overrideWithValue(_FakeDayUsageService()),
             personalLibraryServiceProvider.overrideWithValue(
               _FakePersonalLibraryService([_entry()]),
             ),

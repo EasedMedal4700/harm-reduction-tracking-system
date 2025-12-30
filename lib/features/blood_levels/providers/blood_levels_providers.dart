@@ -5,7 +5,6 @@
 // Theme: N/A
 // Common: N/A
 // Notes: Feature provider.
-import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../common/logging/logger.dart';
@@ -42,9 +41,10 @@ class BloodLevelsController extends _$BloodLevelsController {
   }
 
   Future<void> refresh() async {
-    final previous = state.valueOrNull;
+    final previous = state.value;
     if (previous == null) return;
 
+    // ignore: invalid_use_of_internal_member
     state = const AsyncLoading<BloodLevelsState>().copyWithPrevious(state);
 
     state = await AsyncValue.guard(() async {
@@ -65,9 +65,10 @@ class BloodLevelsController extends _$BloodLevelsController {
   }
 
   Future<void> setSelectedTime(DateTime selectedTime) async {
-    final previous = state.valueOrNull;
+    final previous = state.value;
     if (previous == null) return;
 
+    // ignore: invalid_use_of_internal_member
     state = const AsyncLoading<BloodLevelsState>().copyWithPrevious(state);
 
     state = await AsyncValue.guard(() async {
@@ -88,19 +89,19 @@ class BloodLevelsController extends _$BloodLevelsController {
   }
 
   void toggleFilters() {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
     state = AsyncData(current.copyWith(showFilters: !current.showFilters));
   }
 
   void toggleTimeline() {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
     state = AsyncData(current.copyWith(showTimeline: !current.showTimeline));
   }
 
   void includeDrug(String drugName, bool selected) {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     final included = {...current.includedDrugs};
@@ -119,7 +120,7 @@ class BloodLevelsController extends _$BloodLevelsController {
   }
 
   void excludeDrug(String drugName, bool selected) {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     final included = {...current.includedDrugs};
@@ -138,7 +139,7 @@ class BloodLevelsController extends _$BloodLevelsController {
   }
 
   void clearFilters() {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     state = AsyncData(
@@ -147,7 +148,7 @@ class BloodLevelsController extends _$BloodLevelsController {
   }
 
   void setHoursBack(int value) {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     final clamped = value.clamp(1, BloodLevelsConstants.maxTimelineHours);
@@ -155,7 +156,7 @@ class BloodLevelsController extends _$BloodLevelsController {
   }
 
   void setHoursForward(int value) {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     final clamped = value.clamp(1, BloodLevelsConstants.maxTimelineHours);
@@ -163,13 +164,13 @@ class BloodLevelsController extends _$BloodLevelsController {
   }
 
   void setAdaptiveScale(bool value) {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
     state = AsyncData(current.copyWith(chartAdaptiveScale: value));
   }
 
   void setPreset(int back, int forward) {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     state = AsyncData(

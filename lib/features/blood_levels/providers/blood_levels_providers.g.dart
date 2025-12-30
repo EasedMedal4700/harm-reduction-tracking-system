@@ -6,207 +6,191 @@ part of 'blood_levels_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(bloodLevelsService)
+final bloodLevelsServiceProvider = BloodLevelsServiceProvider._();
+
+final class BloodLevelsServiceProvider
+    extends
+        $FunctionalProvider<
+          BloodLevelsService,
+          BloodLevelsService,
+          BloodLevelsService
+        >
+    with $Provider<BloodLevelsService> {
+  BloodLevelsServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'bloodLevelsServiceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$bloodLevelsServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<BloodLevelsService> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  BloodLevelsService create(Ref ref) {
+    return bloodLevelsService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(BloodLevelsService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<BloodLevelsService>(value),
+    );
+  }
+}
+
 String _$bloodLevelsServiceHash() =>
     r'fff278442dac8c65c2e9558314b8ff97411b3b96';
 
-/// See also [bloodLevelsService].
-@ProviderFor(bloodLevelsService)
-final bloodLevelsServiceProvider =
-    AutoDisposeProvider<BloodLevelsService>.internal(
-      bloodLevelsService,
-      name: r'bloodLevelsServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$bloodLevelsServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+@ProviderFor(BloodLevelsController)
+final bloodLevelsControllerProvider = BloodLevelsControllerProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef BloodLevelsServiceRef = AutoDisposeProviderRef<BloodLevelsService>;
-String _$bloodLevelsTimelineDosesHash() =>
-    r'29a40c40558c6db20d7223241556fbcb94d6c3c3';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-/// See also [bloodLevelsTimelineDoses].
-@ProviderFor(bloodLevelsTimelineDoses)
-const bloodLevelsTimelineDosesProvider = BloodLevelsTimelineDosesFamily();
-
-/// See also [bloodLevelsTimelineDoses].
-class BloodLevelsTimelineDosesFamily
-    extends Family<AsyncValue<Map<String, List<DoseEntry>>>> {
-  /// See also [bloodLevelsTimelineDoses].
-  const BloodLevelsTimelineDosesFamily();
-
-  /// See also [bloodLevelsTimelineDoses].
-  BloodLevelsTimelineDosesProvider call(BloodLevelsTimelineRequest request) {
-    return BloodLevelsTimelineDosesProvider(request);
-  }
-
-  @override
-  BloodLevelsTimelineDosesProvider getProviderOverride(
-    covariant BloodLevelsTimelineDosesProvider provider,
-  ) {
-    return call(provider.request);
-  }
-
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    bloodLevelsServiceProvider,
-  ];
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        bloodLevelsServiceProvider,
-        ...?bloodLevelsServiceProvider.allTransitiveDependencies,
-      };
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'bloodLevelsTimelineDosesProvider';
-}
-
-/// See also [bloodLevelsTimelineDoses].
-class BloodLevelsTimelineDosesProvider
-    extends AutoDisposeFutureProvider<Map<String, List<DoseEntry>>> {
-  /// See also [bloodLevelsTimelineDoses].
-  BloodLevelsTimelineDosesProvider(BloodLevelsTimelineRequest request)
-    : this._internal(
-        (ref) => bloodLevelsTimelineDoses(
-          ref as BloodLevelsTimelineDosesRef,
-          request,
-        ),
-        from: bloodLevelsTimelineDosesProvider,
-        name: r'bloodLevelsTimelineDosesProvider',
-        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-            ? null
-            : _$bloodLevelsTimelineDosesHash,
-        dependencies: BloodLevelsTimelineDosesFamily._dependencies,
-        allTransitiveDependencies:
-            BloodLevelsTimelineDosesFamily._allTransitiveDependencies,
-        request: request,
+final class BloodLevelsControllerProvider
+    extends $AsyncNotifierProvider<BloodLevelsController, BloodLevelsState> {
+  BloodLevelsControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'bloodLevelsControllerProvider',
+        isAutoDispose: true,
+        dependencies: <ProviderOrFamily>[bloodLevelsServiceProvider],
+        $allTransitiveDependencies: <ProviderOrFamily>[
+          BloodLevelsControllerProvider.$allTransitiveDependencies0,
+        ],
       );
 
-  BloodLevelsTimelineDosesProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.request,
-  }) : super.internal();
-
-  final BloodLevelsTimelineRequest request;
+  static final $allTransitiveDependencies0 = bloodLevelsServiceProvider;
 
   @override
-  Override overrideWith(
-    FutureOr<Map<String, List<DoseEntry>>> Function(
-      BloodLevelsTimelineDosesRef provider,
-    )
-    create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: BloodLevelsTimelineDosesProvider._internal(
-        (ref) => create(ref as BloodLevelsTimelineDosesRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        request: request,
-      ),
-    );
+  String debugGetCreateSourceHash() => _$bloodLevelsControllerHash();
+
+  @$internal
+  @override
+  BloodLevelsController create() => BloodLevelsController();
+}
+
+String _$bloodLevelsControllerHash() =>
+    r'0d44b3f16cbecccb13d57103074799f0ac464762';
+
+abstract class _$BloodLevelsController
+    extends $AsyncNotifier<BloodLevelsState> {
+  FutureOr<BloodLevelsState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<BloodLevelsState>, BloodLevelsState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<BloodLevelsState>, BloodLevelsState>,
+              AsyncValue<BloodLevelsState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(bloodLevelsTimelineDoses)
+final bloodLevelsTimelineDosesProvider = BloodLevelsTimelineDosesFamily._();
+
+final class BloodLevelsTimelineDosesProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Map<String, List<DoseEntry>>>,
+          Map<String, List<DoseEntry>>,
+          FutureOr<Map<String, List<DoseEntry>>>
+        >
+    with
+        $FutureModifier<Map<String, List<DoseEntry>>>,
+        $FutureProvider<Map<String, List<DoseEntry>>> {
+  BloodLevelsTimelineDosesProvider._({
+    required BloodLevelsTimelineDosesFamily super.from,
+    required BloodLevelsTimelineRequest super.argument,
+  }) : super(
+         retry: null,
+         name: r'bloodLevelsTimelineDosesProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  static final $allTransitiveDependencies0 = bloodLevelsServiceProvider;
+
+  @override
+  String debugGetCreateSourceHash() => _$bloodLevelsTimelineDosesHash();
+
+  @override
+  String toString() {
+    return r'bloodLevelsTimelineDosesProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  AutoDisposeFutureProviderElement<Map<String, List<DoseEntry>>>
-  createElement() {
-    return _BloodLevelsTimelineDosesProviderElement(this);
+  $FutureProviderElement<Map<String, List<DoseEntry>>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<Map<String, List<DoseEntry>>> create(Ref ref) {
+    final argument = this.argument as BloodLevelsTimelineRequest;
+    return bloodLevelsTimelineDoses(ref, argument);
   }
 
   @override
   bool operator ==(Object other) {
     return other is BloodLevelsTimelineDosesProvider &&
-        other.request == request;
+        other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, request.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin BloodLevelsTimelineDosesRef
-    on AutoDisposeFutureProviderRef<Map<String, List<DoseEntry>>> {
-  /// The parameter `request` of this provider.
-  BloodLevelsTimelineRequest get request;
-}
+String _$bloodLevelsTimelineDosesHash() =>
+    r'29a40c40558c6db20d7223241556fbcb94d6c3c3';
 
-class _BloodLevelsTimelineDosesProviderElement
-    extends AutoDisposeFutureProviderElement<Map<String, List<DoseEntry>>>
-    with BloodLevelsTimelineDosesRef {
-  _BloodLevelsTimelineDosesProviderElement(super.provider);
+final class BloodLevelsTimelineDosesFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<Map<String, List<DoseEntry>>>,
+          BloodLevelsTimelineRequest
+        > {
+  BloodLevelsTimelineDosesFamily._()
+    : super(
+        retry: null,
+        name: r'bloodLevelsTimelineDosesProvider',
+        dependencies: <ProviderOrFamily>[bloodLevelsServiceProvider],
+        $allTransitiveDependencies: <ProviderOrFamily>[
+          BloodLevelsTimelineDosesProvider.$allTransitiveDependencies0,
+        ],
+        isAutoDispose: true,
+      );
+
+  BloodLevelsTimelineDosesProvider call(BloodLevelsTimelineRequest request) =>
+      BloodLevelsTimelineDosesProvider._(argument: request, from: this);
 
   @override
-  BloodLevelsTimelineRequest get request =>
-      (origin as BloodLevelsTimelineDosesProvider).request;
+  String toString() => r'bloodLevelsTimelineDosesProvider';
 }
-
-String _$bloodLevelsControllerHash() =>
-    r'b33d167699b7e295c2ba7ed0ab5ea04a3ac35803';
-
-/// See also [BloodLevelsController].
-@ProviderFor(BloodLevelsController)
-final bloodLevelsControllerProvider =
-    AutoDisposeAsyncNotifierProvider<
-      BloodLevelsController,
-      BloodLevelsState
-    >.internal(
-      BloodLevelsController.new,
-      name: r'bloodLevelsControllerProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$bloodLevelsControllerHash,
-      dependencies: <ProviderOrFamily>[bloodLevelsServiceProvider],
-      allTransitiveDependencies: <ProviderOrFamily>{
-        bloodLevelsServiceProvider,
-        ...?bloodLevelsServiceProvider.allTransitiveDependencies,
-      },
-    );
-
-typedef _$BloodLevelsController = AutoDisposeAsyncNotifier<BloodLevelsState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

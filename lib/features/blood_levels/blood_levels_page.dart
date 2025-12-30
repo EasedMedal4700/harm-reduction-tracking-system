@@ -46,7 +46,7 @@ class _BloodLevelsPageBody extends ConsumerWidget {
     final c = context.colors;
 
     final asyncState = ref.watch(bloodLevelsControllerProvider);
-    final viewState = asyncState.valueOrNull;
+    final viewState = asyncState.value;
     final selectedTime = viewState?.selectedTime ?? DateTime.now();
 
     return Scaffold(
@@ -153,7 +153,7 @@ class _MainContent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(bloodLevelsControllerProvider.notifier);
-    final viewState = asyncState.valueOrNull;
+    final viewState = asyncState.value;
 
     if (asyncState.isLoading && viewState == null) {
       return const BloodLevelsLoadingState();

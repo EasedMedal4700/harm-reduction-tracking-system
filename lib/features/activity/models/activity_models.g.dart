@@ -6,9 +6,9 @@ part of 'activity_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ActivityDataImpl _$$ActivityDataImplFromJson(
+_ActivityData _$ActivityDataFromJson(
   Map<String, dynamic> json,
-) => _$ActivityDataImpl(
+) => _ActivityData(
   entries:
       (json['entries'] as List<dynamic>?)
           ?.map((e) => ActivityDrugUseEntry.fromJson(e as Map<String, dynamic>))
@@ -28,16 +28,16 @@ _$ActivityDataImpl _$$ActivityDataImplFromJson(
       const <ActivityReflectionEntry>[],
 );
 
-Map<String, dynamic> _$$ActivityDataImplToJson(_$ActivityDataImpl instance) =>
+Map<String, dynamic> _$ActivityDataToJson(_ActivityData instance) =>
     <String, dynamic>{
       'entries': instance.entries,
       'cravings': instance.cravings,
       'reflections': instance.reflections,
     };
 
-_$ActivityDrugUseEntryImpl _$$ActivityDrugUseEntryImplFromJson(
+_ActivityDrugUseEntry _$ActivityDrugUseEntryFromJson(
   Map<String, dynamic> json,
-) => _$ActivityDrugUseEntryImpl(
+) => _ActivityDrugUseEntry(
   id: json['id'] as String,
   name: json['name'] as String,
   dose: json['dose'] as String,
@@ -48,8 +48,8 @@ _$ActivityDrugUseEntryImpl _$$ActivityDrugUseEntryImplFromJson(
   raw: json['raw'] as Map<String, dynamic>? ?? const <String, Object?>{},
 );
 
-Map<String, dynamic> _$$ActivityDrugUseEntryImplToJson(
-  _$ActivityDrugUseEntryImpl instance,
+Map<String, dynamic> _$ActivityDrugUseEntryToJson(
+  _ActivityDrugUseEntry instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
@@ -61,9 +61,9 @@ Map<String, dynamic> _$$ActivityDrugUseEntryImplToJson(
   'raw': instance.raw,
 };
 
-_$ActivityCravingEntryImpl _$$ActivityCravingEntryImplFromJson(
+_ActivityCravingEntry _$ActivityCravingEntryFromJson(
   Map<String, dynamic> json,
-) => _$ActivityCravingEntryImpl(
+) => _ActivityCravingEntry(
   id: json['id'] as String,
   substance: json['substance'] as String,
   intensity: (json['intensity'] as num).toDouble(),
@@ -75,8 +75,8 @@ _$ActivityCravingEntryImpl _$$ActivityCravingEntryImplFromJson(
   raw: json['raw'] as Map<String, dynamic>? ?? const <String, Object?>{},
 );
 
-Map<String, dynamic> _$$ActivityCravingEntryImplToJson(
-  _$ActivityCravingEntryImpl instance,
+Map<String, dynamic> _$ActivityCravingEntryToJson(
+  _ActivityCravingEntry instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'substance': instance.substance,
@@ -89,9 +89,9 @@ Map<String, dynamic> _$$ActivityCravingEntryImplToJson(
   'raw': instance.raw,
 };
 
-_$ActivityReflectionEntryImpl _$$ActivityReflectionEntryImplFromJson(
+_ActivityReflectionEntry _$ActivityReflectionEntryFromJson(
   Map<String, dynamic> json,
-) => _$ActivityReflectionEntryImpl(
+) => _ActivityReflectionEntry(
   id: json['id'] as String,
   createdAt: DateTime.parse(json['createdAt'] as String),
   effectiveness: (json['effectiveness'] as num?)?.toInt(),
@@ -100,8 +100,8 @@ _$ActivityReflectionEntryImpl _$$ActivityReflectionEntryImplFromJson(
   raw: json['raw'] as Map<String, dynamic>? ?? const <String, Object?>{},
 );
 
-Map<String, dynamic> _$$ActivityReflectionEntryImplToJson(
-  _$ActivityReflectionEntryImpl instance,
+Map<String, dynamic> _$ActivityReflectionEntryToJson(
+  _ActivityReflectionEntry instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'createdAt': instance.createdAt.toIso8601String(),

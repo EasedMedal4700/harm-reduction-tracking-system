@@ -93,7 +93,7 @@ class _PersonalLibraryPageState extends ConsumerState<PersonalLibraryPage> {
     final sp = context.spacing;
 
     final asyncState = ref.watch(personalLibraryControllerProvider);
-    final data = asyncState.valueOrNull;
+    final data = asyncState.value;
 
     return Scaffold(
       backgroundColor: c.background,
@@ -193,8 +193,7 @@ class _PersonalLibraryPageState extends ConsumerState<PersonalLibraryPage> {
                         final stockpileAsync = ref.watch(
                           stockpileItemProvider(entry.name),
                         );
-                        final StockpileItem? stockpile =
-                            stockpileAsync.valueOrNull;
+                        final StockpileItem? stockpile = stockpileAsync.value;
 
                         return SubstanceCard(
                           entry: entry,

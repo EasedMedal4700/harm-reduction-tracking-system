@@ -11,7 +11,7 @@ part 'forgot_password_state.freezed.dart';
 enum ForgotPasswordStatus { idle, submitting, success, error }
 
 @freezed
-class ForgotPasswordState with _$ForgotPasswordState {
+abstract class ForgotPasswordState with _$ForgotPasswordState {
   const factory ForgotPasswordState({
     @Default(ForgotPasswordStatus.idle) ForgotPasswordStatus status,
     String? errorMessage,

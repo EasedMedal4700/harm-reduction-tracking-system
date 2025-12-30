@@ -14,7 +14,7 @@ import 'label_count.dart';
 part 'error_analytics.freezed.dart';
 
 @freezed
-class ErrorAnalytics with _$ErrorAnalytics {
+abstract class ErrorAnalytics with _$ErrorAnalytics {
   const factory ErrorAnalytics({
     @Default(0) int totalErrors,
     @Default(0) int last24h,

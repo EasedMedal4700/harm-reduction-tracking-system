@@ -6,25 +6,50 @@ part of 'register_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$registerControllerHash() =>
-    r'300161c7c4f9eea986cb8f93131af52f2886286a';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [RegisterController].
 @ProviderFor(RegisterController)
-final registerControllerProvider =
-    AutoDisposeAsyncNotifierProvider<
-      RegisterController,
-      RegisterState
-    >.internal(
-      RegisterController.new,
-      name: r'registerControllerProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$registerControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final registerControllerProvider = RegisterControllerProvider._();
 
-typedef _$RegisterController = AutoDisposeAsyncNotifier<RegisterState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class RegisterControllerProvider
+    extends $AsyncNotifierProvider<RegisterController, RegisterState> {
+  RegisterControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'registerControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$registerControllerHash();
+
+  @$internal
+  @override
+  RegisterController create() => RegisterController();
+}
+
+String _$registerControllerHash() =>
+    r'7b2e9b3a2a9b607c2de0c38f04074918d1e2e9e6';
+
+abstract class _$RegisterController extends $AsyncNotifier<RegisterState> {
+  FutureOr<RegisterState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<RegisterState>, RegisterState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<RegisterState>, RegisterState>,
+              AsyncValue<RegisterState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}

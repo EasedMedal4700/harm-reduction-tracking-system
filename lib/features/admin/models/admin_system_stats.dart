@@ -11,7 +11,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'admin_system_stats.freezed.dart';
 
 @freezed
-class AdminSystemStats with _$AdminSystemStats {
+abstract class AdminSystemStats with _$AdminSystemStats {
   const factory AdminSystemStats({
     @Default(0) int totalEntries,
     @Default(0) int activeUsers,

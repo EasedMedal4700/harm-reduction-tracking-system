@@ -23,7 +23,7 @@ const List<String> kToleranceBuckets = [
 ];
 
 @freezed
-class UseLogEntry with _$UseLogEntry {
+abstract class UseLogEntry with _$UseLogEntry {
   const factory UseLogEntry({
     required String substanceSlug,
     required DateTime timestamp,
@@ -35,7 +35,7 @@ class UseLogEntry with _$UseLogEntry {
 }
 
 @freezed
-class NeuroBucket with _$NeuroBucket {
+abstract class NeuroBucket with _$NeuroBucket {
   const factory NeuroBucket({
     required String name,
     required double weight,
@@ -47,7 +47,7 @@ class NeuroBucket with _$NeuroBucket {
 }
 
 @freezed
-class ToleranceModel with _$ToleranceModel {
+abstract class ToleranceModel with _$ToleranceModel {
   const factory ToleranceModel({
     @Default('') String notes,
     required Map<String, NeuroBucket> neuroBuckets,
@@ -65,7 +65,7 @@ class ToleranceModel with _$ToleranceModel {
 }
 
 @freezed
-class ToleranceResult with _$ToleranceResult {
+abstract class ToleranceResult with _$ToleranceResult {
   const factory ToleranceResult({
     required Map<String, double> bucketPercents,
     required Map<String, double> bucketRawLoads,

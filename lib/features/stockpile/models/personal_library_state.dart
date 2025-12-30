@@ -11,7 +11,7 @@ import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.d
 part 'personal_library_state.freezed.dart';
 
 @freezed
-class PersonalLibrarySummary with _$PersonalLibrarySummary {
+abstract class PersonalLibrarySummary with _$PersonalLibrarySummary {
   const factory PersonalLibrarySummary({
     @Default(0) int totalUses,
     @Default(0) int activeSubstances,
@@ -23,7 +23,7 @@ class PersonalLibrarySummary with _$PersonalLibrarySummary {
 }
 
 @freezed
-class PersonalLibraryState with _$PersonalLibraryState {
+abstract class PersonalLibraryState with _$PersonalLibraryState {
   const factory PersonalLibraryState({
     @Default(<DrugCatalogEntry>[]) List<DrugCatalogEntry> catalog,
     @Default(<DrugCatalogEntry>[]) List<DrugCatalogEntry> filtered,

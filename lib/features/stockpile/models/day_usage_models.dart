@@ -10,7 +10,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'day_usage_models.freezed.dart';
 
 @freezed
-class DayUsageEntry with _$DayUsageEntry {
+abstract class DayUsageEntry with _$DayUsageEntry {
   const factory DayUsageEntry({
     required DateTime startTime,
     required String dose,

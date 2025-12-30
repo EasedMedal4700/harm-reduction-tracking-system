@@ -28,6 +28,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as _i3;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeAuthResult_0 extends _i1.SmartFake implements _i2.AuthResult {
   _FakeAuthResult_0(Object parent, Invocation parentInvocation)
@@ -407,26 +408,26 @@ class MockSupabaseClient extends _i1.Mock implements _i3.SupabaseClient {
           as _i3.GoTrueClient);
 
   @override
-  set functions(_i3.FunctionsClient? _functions) => super.noSuchMethod(
-    Invocation.setter(#functions, _functions),
+  set functions(_i3.FunctionsClient? value) => super.noSuchMethod(
+    Invocation.setter(#functions, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set storage(_i3.SupabaseStorageClient? _storage) => super.noSuchMethod(
-    Invocation.setter(#storage, _storage),
+  set storage(_i3.SupabaseStorageClient? value) => super.noSuchMethod(
+    Invocation.setter(#storage, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set realtime(_i3.RealtimeClient? _realtime) => super.noSuchMethod(
-    Invocation.setter(#realtime, _realtime),
+  set realtime(_i3.RealtimeClient? value) => super.noSuchMethod(
+    Invocation.setter(#realtime, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set rest(_i3.PostgrestClient? _rest) => super.noSuchMethod(
-    Invocation.setter(#rest, _rest),
+  set rest(_i3.PostgrestClient? value) => super.noSuchMethod(
+    Invocation.setter(#rest, value),
     returnValueForMissingStub: null,
   );
 
@@ -578,14 +579,14 @@ class MockGoTrueClient extends _i1.Mock implements _i3.GoTrueClient {
           as Map<String, String>);
 
   @override
-  set admin(_i3.GoTrueAdminApi? _admin) => super.noSuchMethod(
-    Invocation.setter(#admin, _admin),
+  set admin(_i3.GoTrueAdminApi? value) => super.noSuchMethod(
+    Invocation.setter(#admin, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set mfa(_i3.GoTrueMFAApi? _mfa) => super.noSuchMethod(
-    Invocation.setter(#mfa, _mfa),
+  set mfa(_i3.GoTrueMFAApi? value) => super.noSuchMethod(
+    Invocation.setter(#mfa, value),
     returnValueForMissingStub: null,
   );
 

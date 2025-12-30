@@ -7,7 +7,6 @@
 // Notes: Repository for fetching tolerance data
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../common/logging/app_log.dart';
 import '../models/tolerance_models.dart';

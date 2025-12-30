@@ -11,7 +11,7 @@ import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_model.da
 part 'analytics_computed.freezed.dart';
 
 @freezed
-class AnalyticsComputed with _$AnalyticsComputed {
+abstract class AnalyticsComputed with _$AnalyticsComputed {
   const factory AnalyticsComputed({
     required List<LogEntry> filteredEntries,
     required List<String> uniqueSubstances,

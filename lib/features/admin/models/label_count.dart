@@ -11,7 +11,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'label_count.freezed.dart';
 
 @freezed
-class LabelCount with _$LabelCount {
+abstract class LabelCount with _$LabelCount {
   const factory LabelCount({required String label, @Default(0) int count}) =
       _LabelCount;
 }

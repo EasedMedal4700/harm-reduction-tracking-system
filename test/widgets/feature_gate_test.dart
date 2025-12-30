@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
 import 'package:mobile_drug_use_app/features/feature_flags/services/feature_flag_service.dart';
 import 'package:mobile_drug_use_app/features/feature_flags/widgets/feature_gate.dart';
 import 'package:mobile_drug_use_app/features/feature_flags/widgets/feature_disabled_screen.dart';
 import 'package:mobile_drug_use_app/constants/config/feature_flags.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
-import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
+import 'package:mobile_drug_use_app/features/feature_flags/providers/feature_flag_providers.dart';
 import '../helpers/test_app_wrapper.dart';
 
 /// Mock FeatureFlagService for testing
@@ -92,26 +90,21 @@ void main() {
       );
 
       await tester.pumpWidget(
-        AppThemeProvider(
-          theme: AppTheme.light(),
-          child: MaterialApp(
-            home: ChangeNotifierProvider<FeatureFlagService>.value(
-              value: mockFlags,
-              child: const FeatureGate(
-                featureName: FeatureFlags.homePage,
-                child: Text('Home Page Content'),
-              ),
-            ),
+        wrapWithAppThemeAndProvidersApp(
+          home: const FeatureGate(
+            featureName: FeatureFlags.homePage,
+            child: Text('Home Page Content'),
           ),
+          overrides: [
+            featureFlagServiceProvider.overrideWith((ref) => mockFlags),
+            isAdminProvider.overrideWith((ref) async => false),
+          ],
         ),
       );
 
       await tester.pumpAndSettle();
 
-      // Note: Due to FutureBuilder for admin check, we need to wait
-      // In a real test, we'd mock UserService.isAdmin()
-      // For now, we verify the widget structure
-      expect(find.byType(FeatureGate), findsOneWidget);
+      expect(find.text('Home Page Content'), findsOneWidget);
     });
 
     testWidgets('shows loading indicator while checking', (tester) async {
@@ -121,17 +114,15 @@ void main() {
       );
 
       await tester.pumpWidget(
-        AppThemeProvider(
-          theme: AppTheme.light(),
-          child: MaterialApp(
-            home: ChangeNotifierProvider<FeatureFlagService>.value(
-              value: mockFlags,
-              child: const FeatureGate(
-                featureName: FeatureFlags.homePage,
-                child: Text('Home Page Content'),
-              ),
-            ),
+        wrapWithAppThemeAndProvidersApp(
+          home: const FeatureGate(
+            featureName: FeatureFlags.homePage,
+            child: Text('Home Page Content'),
           ),
+          overrides: [
+            featureFlagServiceProvider.overrideWith((ref) => mockFlags),
+            isAdminProvider.overrideWith((ref) async => false),
+          ],
         ),
       );
 
@@ -208,22 +199,22 @@ void main() {
       );
 
       await tester.pumpWidget(
-        AppThemeProvider(
-          theme: AppTheme.light(),
-          child: MaterialApp(
-            home: ChangeNotifierProvider<FeatureFlagService>.value(
-              value: mockFlags,
-              child: const FeatureGate(
-                featureName: FeatureFlags.analyticsPage,
-                child: Text('Analytics Content'),
-              ),
-            ),
+        wrapWithAppThemeAndProvidersApp(
+          home: const FeatureGate(
+            featureName: FeatureFlags.analyticsPage,
+            child: Text('Analytics Content'),
           ),
+          overrides: [
+            featureFlagServiceProvider.overrideWith((ref) => mockFlags),
+            isAdminProvider.overrideWith((ref) async => false),
+          ],
         ),
       );
 
+      await tester.pumpAndSettle();
+
       // Verify gate exists
-      expect(find.byType(FeatureGate), findsOneWidget);
+      expect(find.text('Analytics Content'), findsOneWidget);
       expect(
         mockFlags.isEnabled(FeatureFlags.analyticsPage, isAdmin: false),
         isTrue,

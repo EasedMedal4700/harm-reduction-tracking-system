@@ -5,7 +5,6 @@
 // Theme: N/A
 // Common: N/A
 // Notes: Feature provider.
-import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
@@ -32,6 +31,7 @@ class ActivityController extends _$ActivityController {
   }
 
   Future<void> refreshActivity() async {
+    // ignore: invalid_use_of_internal_member
     state = const AsyncLoading<ActivityState>().copyWithPrevious(state);
     state = await AsyncValue.guard(() async {
       final data = await ref
@@ -45,7 +45,7 @@ class ActivityController extends _$ActivityController {
     required String id,
     required ActivityItemType type,
   }) async {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     state = AsyncData(current.copyWith(isDeleting: true, event: null));
@@ -55,7 +55,7 @@ class ActivityController extends _$ActivityController {
           .read(activityServiceProvider)
           .deleteActivityItem(type: type, id: id);
       await refreshActivity();
-      final refreshed = state.valueOrNull;
+      final refreshed = state.value;
       if (refreshed != null) {
         state = AsyncData(
           refreshed.copyWith(
@@ -67,7 +67,7 @@ class ActivityController extends _$ActivityController {
         );
       }
     } catch (_) {
-      final stillCurrent = state.valueOrNull ?? current;
+      final stillCurrent = state.value ?? current;
       state = AsyncData(
         stillCurrent.copyWith(
           isDeleting: false,
@@ -81,7 +81,7 @@ class ActivityController extends _$ActivityController {
   }
 
   void clearEvent() {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
     if (current.event == null) return;
     state = AsyncData(current.copyWith(event: null));

@@ -46,7 +46,7 @@ class _ActivityPageState extends ConsumerState<ActivityPage>
     final th = context.theme;
 
     ref.listen<ActivityUiEvent?>(
-      activityControllerProvider.select((a) => a.valueOrNull?.event),
+      activityControllerProvider.select((a) => a.value?.event),
       (previous, next) {
         if (next == null) return;
         final controller = ref.read(activityControllerProvider.notifier);
@@ -69,10 +69,10 @@ class _ActivityPageState extends ConsumerState<ActivityPage>
     );
 
     final activityAsync = ref.watch(activityControllerProvider);
-    final activityState = activityAsync.valueOrNull ?? const ActivityState();
+    final activityState = activityAsync.value ?? const ActivityState();
     final data = activityState.data;
     final showInitialLoader =
-        activityAsync.isLoading && activityAsync.valueOrNull == null;
+        activityAsync.isLoading && activityAsync.value == null;
 
     return Scaffold(
       backgroundColor: th.colors.background,

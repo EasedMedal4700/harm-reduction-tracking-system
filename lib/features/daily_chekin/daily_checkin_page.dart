@@ -18,6 +18,7 @@ import 'widgets/emotion_selector.dart';
 import 'widgets/notes_input.dart';
 import 'widgets/save_button.dart';
 import 'providers/daily_checkin_providers.dart';
+import 'models/daily_checkin_state.dart';
 
 class DailyCheckinScreen extends ConsumerStatefulWidget {
   const DailyCheckinScreen({super.key});

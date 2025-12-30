@@ -68,7 +68,7 @@ class _DayUsageSheetState extends ConsumerState<DayUsageSheet> {
       },
     );
 
-    final allEntries = asyncEntries.valueOrNull ?? const <DayUsageEntry>[];
+    final allEntries = asyncEntries.value ?? const <DayUsageEntry>[];
     final displayEntries = _showAll || allEntries.length <= 10
         ? allEntries
         : allEntries.take(10).toList();

@@ -12,7 +12,7 @@ import 'activity_models.dart';
 part 'activity_state.freezed.dart';
 
 @freezed
-class ActivityUiEvent with _$ActivityUiEvent {
+abstract class ActivityUiEvent with _$ActivityUiEvent {
   const factory ActivityUiEvent.snackBar({
     required String message,
     @Default(ActivityUiEventTone.neutral) ActivityUiEventTone tone,
@@ -22,7 +22,7 @@ class ActivityUiEvent with _$ActivityUiEvent {
 enum ActivityUiEventTone { neutral, success, error }
 
 @freezed
-class ActivityState with _$ActivityState {
+abstract class ActivityState with _$ActivityState {
   const factory ActivityState({
     @Default(ActivityData()) ActivityData data,
     @Default(false) bool isDeleting,

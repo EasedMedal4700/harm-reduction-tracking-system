@@ -68,7 +68,7 @@ class DailyCheckinBanner extends ConsumerWidget {
 
     final timeOfDay = _timeOfDay();
     final checkin = ref.watch(dailyCheckinForNowProvider);
-    final hasCheckedIn = checkin.valueOrNull != null;
+    final hasCheckedIn = checkin.value != null;
     final baseColor = hasCheckedIn ? c.success : ac.primary;
     final backgroundColor = baseColor.withValues(alpha: 0.1);
 
@@ -114,12 +114,7 @@ class DailyCheckinBanner extends ConsumerWidget {
           ),
           SizedBox(height: sp.md),
           if (hasCheckedIn)
-            _buildCheckedInContent(
-              context,
-              timeOfDay,
-              checkin.valueOrNull,
-              baseColor,
-            )
+            _buildCheckedInContent(context, timeOfDay, checkin.value, baseColor)
           else
             _buildPromptContent(context, ref, baseColor),
         ],

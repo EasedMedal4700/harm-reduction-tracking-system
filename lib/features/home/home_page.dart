@@ -143,12 +143,12 @@ class _HomePageState extends ConsumerState<HomePage>
                 CommonSpacer.vertical(sp.lg),
                 // Daily Check-in Card
                 DailyCheckinCard(
-                  isCompleted: checkin.valueOrNull != null,
+                  isCompleted: checkin.value != null,
                   onTap: () => ref
                       .read(homeControllerProvider.notifier)
                       .openDailyCheckin(),
                   completedMessage: 'Keep up the great work!',
-                  completedTimeSlot: checkin.valueOrNull?.timeOfDay,
+                  completedTimeSlot: checkin.value?.timeOfDay,
                 ),
                 CommonSpacer.vertical(sp.lg),
                 // Section Title - Professional typography

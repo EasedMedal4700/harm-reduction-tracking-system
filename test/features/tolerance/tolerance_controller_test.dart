@@ -124,15 +124,39 @@ void main() {
 
       when(
         mockRepository.fetchToleranceModels(),
-      ).thenThrow(Exception('Database error'));
+      ).thenAnswer((_) => Future.error(Exception('Database error')));
       when(
-        mockRepository.fetchUseLogs(userId: anyNamed('userId')),
-      ).thenAnswer((_) async => []);
+        mockRepository.fetchUseLogs(
+          userId: anyNamed('userId'),
+          daysBack: anyNamed('daysBack'),
+        ),
+      ).thenAnswer((_) => Future.value([]));
 
-      expect(
-        () => container.read(toleranceControllerProvider('user1').future),
-        throwsException,
+      // Keep provider alive
+      container.listen(
+        toleranceControllerProvider('user1'),
+        (_, __) {},
+        fireImmediately: false,
       );
+
+      // Trigger build and catch error
+      container.read(toleranceControllerProvider('user1').future).catchError((
+        _,
+      ) {
+        return const ToleranceResult(
+          toleranceScore: 0,
+          bucketPercents: {},
+          bucketRawLoads: {},
+          daysUntilBaseline: {},
+          overallDaysUntilBaseline: 0,
+        );
+      });
+
+      await Future.delayed(const Duration(milliseconds: 50));
+
+      final state = container.read(toleranceControllerProvider('user1'));
+      expect(state.hasError, true);
+      expect(state.error, isA<Exception>());
     });
 
     test('handles different user IDs', () async {
@@ -257,17 +281,40 @@ void main() {
 
       when(
         mockRepository.fetchToleranceModels(),
-      ).thenThrow(Exception('Network error'));
+      ).thenAnswer((_) => Future.error(Exception('Network error')));
+      when(
+        mockRepository.fetchUseLogs(
+          userId: anyNamed('userId'),
+          daysBack: anyNamed('daysBack'),
+        ),
+      ).thenAnswer((_) => Future.value([]));
 
-      try {
-        await container.read(toleranceControllerProvider('user1').future);
-      } catch (e) {
-        // Expected
-      }
+      // Keep provider alive
+      container.listen(
+        toleranceControllerProvider('user1'),
+        (_, __) {},
+        fireImmediately: false,
+      );
+
+      // Trigger build and catch error
+      container.read(toleranceControllerProvider('user1').future).catchError((
+        _,
+      ) {
+        return const ToleranceResult(
+          toleranceScore: 0,
+          bucketPercents: {},
+          bucketRawLoads: {},
+          daysUntilBaseline: {},
+          overallDaysUntilBaseline: 0,
+        );
+      });
+
+      await Future.delayed(const Duration(milliseconds: 50));
 
       final state = container.read(toleranceControllerProvider('user1'));
 
-      expect(state, isA<AsyncError>());
+      expect(state.hasError, true);
+      expect(state.error, isA<Exception>());
     });
   });
 }

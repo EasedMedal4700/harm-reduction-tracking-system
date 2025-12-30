@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_drug_use_app/features/settings/providers/settings_provider.dart';
@@ -5,61 +6,72 @@ import 'package:mobile_drug_use_app/features/settings/services/settings_service.
 import 'package:mobile_drug_use_app/features/settings/models/app_settings_model.dart';
 
 void main() {
-  late SettingsProvider provider;
+  late ProviderContainer container;
+  late SettingsController controller;
 
   setUp(() {
     SharedPreferences.setMockInitialValues({});
     SettingsService.clearCache();
-    provider = SettingsProvider();
+    container = ProviderContainer();
+    // Initialize provider
+    container.read(settingsControllerProvider);
+    controller = container.read(settingsControllerProvider.notifier);
   });
 
-  group('SettingsProvider', () {
-    test('initializes with default settings', () async {
-      // Wait for initialization
-      await Future.delayed(Duration.zero);
+  tearDown(() {
+    container.dispose();
+  });
 
-      expect(provider.isLoading, false);
-      expect(provider.settings, isA<AppSettings>());
-      expect(provider.settings.darkMode, false);
+  group('SettingsController', () {
+    test('initializes with default settings', () async {
+      final settings = await container.read(settingsControllerProvider.future);
+      expect(settings, isA<AppSettings>());
+      expect(settings.darkMode, false);
     });
 
     test('loads settings from storage', () async {
       final settings = const AppSettings(darkMode: true);
-      // We need to save it using the service or manually to prefs
-      // Since SettingsService uses a specific key, let's use SettingsService to save first
-      // But we need to clear cache first to ensure provider loads from prefs
       SettingsService.clearCache();
       await SettingsService.saveSettings(settings);
-      SettingsService.clearCache(); // Clear again so provider fetches from prefs
+      SettingsService.clearCache();
 
-      provider = SettingsProvider();
-      // Wait for async init in constructor
-      await Future.delayed(Duration(milliseconds: 50));
+      container.dispose();
+      container = ProviderContainer();
 
-      expect(provider.settings.darkMode, true);
+      final loadedSettings = await container.read(
+        settingsControllerProvider.future,
+      );
+      expect(loadedSettings.darkMode, true);
     });
 
     test('updateSettings updates state and storage', () async {
-      await Future.delayed(Duration.zero);
+      await container.read(settingsControllerProvider.future);
 
-      final newSettings = provider.settings.copyWith(darkMode: true);
-      await provider.updateSettings(newSettings);
+      final current = await container.read(settingsControllerProvider.future);
+      final newSettings = current.copyWith(darkMode: true);
+      await controller.updateSettings(newSettings);
 
-      expect(provider.settings.darkMode, true);
+      final state = await container.read(settingsControllerProvider.future);
+      expect(state.darkMode, true);
 
-      // Verify storage
       final stored = await SettingsService.loadSettings();
       expect(stored.darkMode, true);
     });
 
     test('resetToDefaults resets state and storage', () async {
-      await Future.delayed(Duration.zero);
+      await container.read(settingsControllerProvider.future);
 
-      await provider.setDarkMode(true);
-      expect(provider.settings.darkMode, true);
+      await controller.setDarkMode(true);
+      expect(
+        (await container.read(settingsControllerProvider.future)).darkMode,
+        true,
+      );
 
-      await provider.resetToDefaults();
-      expect(provider.settings.darkMode, false);
+      await controller.resetToDefaults();
+      expect(
+        (await container.read(settingsControllerProvider.future)).darkMode,
+        false,
+      );
 
       final stored = await SettingsService.loadSettings();
       expect(stored.darkMode, false);
@@ -67,163 +79,297 @@ void main() {
 
     group('UI Settings', () {
       test('setDarkMode updates setting', () async {
-        await provider.setDarkMode(true);
-        expect(provider.settings.darkMode, true);
+        await controller.setDarkMode(true);
+        expect(
+          (await container.read(settingsControllerProvider.future)).darkMode,
+          true,
+        );
       });
 
       test('setFontSize updates setting', () async {
-        await provider.setFontSize(18.0);
-        expect(provider.settings.fontSize, 18.0);
+        await controller.setFontSize(18.0);
+        expect(
+          (await container.read(settingsControllerProvider.future)).fontSize,
+          18.0,
+        );
       });
 
       test('setCompactMode updates setting', () async {
-        await provider.setCompactMode(true);
-        expect(provider.settings.compactMode, true);
+        await controller.setCompactMode(true);
+        expect(
+          (await container.read(settingsControllerProvider.future)).compactMode,
+          true,
+        );
       });
 
       test('setLanguage updates setting', () async {
-        await provider.setLanguage('es');
-        expect(provider.settings.language, 'es');
+        await controller.setLanguage('es');
+        expect(
+          (await container.read(settingsControllerProvider.future)).language,
+          'es',
+        );
       });
     });
 
     group('Notification Settings', () {
       test('setNotificationsEnabled updates setting', () async {
-        await provider.setNotificationsEnabled(false);
-        expect(provider.settings.notificationsEnabled, false);
+        await controller.setNotificationsEnabled(false);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).notificationsEnabled,
+          false,
+        );
       });
 
       test('setDailyCheckinReminder updates setting', () async {
-        await provider.setDailyCheckinReminder(false);
-        expect(provider.settings.dailyCheckinReminder, false);
+        await controller.setDailyCheckinReminder(false);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).dailyCheckinReminder,
+          false,
+        );
       });
 
       test('setCheckinReminderTime updates setting', () async {
-        await provider.setCheckinReminderTime('10:00');
-        expect(provider.settings.checkinReminderTime, '10:00');
+        await controller.setCheckinReminderTime('10:00');
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).checkinReminderTime,
+          '10:00',
+        );
       });
 
       test('setMedicationReminders updates setting', () async {
-        await provider.setMedicationReminders(false);
-        expect(provider.settings.medicationReminders, false);
+        await controller.setMedicationReminders(false);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).medicationReminders,
+          false,
+        );
       });
 
       test('setCravingAlerts updates setting', () async {
-        await provider.setCravingAlerts(false);
-        expect(provider.settings.cravingAlerts, false);
+        await controller.setCravingAlerts(false);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).cravingAlerts,
+          false,
+        );
       });
 
       test('setWeeklyReports updates setting', () async {
-        await provider.setWeeklyReports(true);
-        expect(provider.settings.weeklyReports, true);
+        await controller.setWeeklyReports(true);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).weeklyReports,
+          true,
+        );
       });
     });
 
     group('Privacy Settings', () {
       test('setBiometricLock updates setting', () async {
-        await provider.setBiometricLock(true);
-        expect(provider.settings.biometricLock, true);
+        await controller.setBiometricLock(true);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).biometricLock,
+          true,
+        );
       });
 
       test('setRequirePinOnOpen updates setting', () async {
-        await provider.setRequirePinOnOpen(true);
-        expect(provider.settings.requirePinOnOpen, true);
+        await controller.setRequirePinOnOpen(true);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).requirePinOnOpen,
+          true,
+        );
       });
 
       test('setAutoLockDuration updates setting', () async {
-        await provider.setAutoLockDuration('15min');
-        expect(provider.settings.autoLockDuration, '15min');
+        await controller.setAutoLockDuration('15min');
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).autoLockDuration,
+          '15min',
+        );
       });
 
       test('setHideContentInRecents updates setting', () async {
-        await provider.setHideContentInRecents(true);
-        expect(provider.settings.hideContentInRecents, true);
+        await controller.setHideContentInRecents(true);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).hideContentInRecents,
+          true,
+        );
       });
 
       test('setAnalyticsEnabled updates setting', () async {
-        await provider.setAnalyticsEnabled(true);
-        expect(provider.settings.analyticsEnabled, true);
+        await controller.setAnalyticsEnabled(true);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).analyticsEnabled,
+          true,
+        );
       });
     });
 
     group('Data Settings', () {
       test('setAutoBackup updates setting', () async {
-        await provider.setAutoBackup(true);
-        expect(provider.settings.autoBackup, true);
+        await controller.setAutoBackup(true);
+        expect(
+          (await container.read(settingsControllerProvider.future)).autoBackup,
+          true,
+        );
       });
 
       test('setBackupFrequency updates setting', () async {
-        await provider.setBackupFrequency('daily');
-        expect(provider.settings.backupFrequency, 'daily');
+        await controller.setBackupFrequency('daily');
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).backupFrequency,
+          'daily',
+        );
       });
 
       test('setSyncEnabled updates setting', () async {
-        await provider.setSyncEnabled(false);
-        expect(provider.settings.syncEnabled, false);
+        await controller.setSyncEnabled(false);
+        expect(
+          (await container.read(settingsControllerProvider.future)).syncEnabled,
+          false,
+        );
       });
 
       test('setOfflineMode updates setting', () async {
-        await provider.setOfflineMode(true);
-        expect(provider.settings.offlineMode, true);
+        await controller.setOfflineMode(true);
+        expect(
+          (await container.read(settingsControllerProvider.future)).offlineMode,
+          true,
+        );
       });
 
       test('setCacheEnabled updates setting', () async {
-        await provider.setCacheEnabled(false);
-        expect(provider.settings.cacheEnabled, false);
+        await controller.setCacheEnabled(false);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).cacheEnabled,
+          false,
+        );
       });
 
       test('setCacheDuration updates setting', () async {
-        await provider.setCacheDuration('6hours');
-        expect(provider.settings.cacheDuration, '6hours');
+        await controller.setCacheDuration('6hours');
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).cacheDuration,
+          '6hours',
+        );
       });
     });
 
     group('Entry Settings', () {
       test('setDefaultDoseUnit updates setting', () async {
-        await provider.setDefaultDoseUnit('g');
-        expect(provider.settings.defaultDoseUnit, 'g');
+        await controller.setDefaultDoseUnit('g');
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).defaultDoseUnit,
+          'g',
+        );
       });
 
       test('setQuickEntryMode updates setting', () async {
-        await provider.setQuickEntryMode(true);
-        expect(provider.settings.quickEntryMode, true);
+        await controller.setQuickEntryMode(true);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).quickEntryMode,
+          true,
+        );
       });
 
       test('setAutoSaveEntries updates setting', () async {
-        await provider.setAutoSaveEntries(false);
-        expect(provider.settings.autoSaveEntries, false);
+        await controller.setAutoSaveEntries(false);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).autoSaveEntries,
+          false,
+        );
       });
 
       test('setShowRecentSubstances updates setting', () async {
-        await provider.setShowRecentSubstances(false);
-        expect(provider.settings.showRecentSubstances, false);
+        await controller.setShowRecentSubstances(false);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).showRecentSubstances,
+          false,
+        );
       });
 
       test('setRecentSubstancesCount updates setting', () async {
-        await provider.setRecentSubstancesCount(10);
-        expect(provider.settings.recentSubstancesCount, 10);
+        await controller.setRecentSubstancesCount(10);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).recentSubstancesCount,
+          10,
+        );
       });
     });
 
     group('Display Settings', () {
       test('setShow24HourTime updates setting', () async {
-        await provider.setShow24HourTime(true);
-        expect(provider.settings.show24HourTime, true);
+        await controller.setShow24HourTime(true);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).show24HourTime,
+          true,
+        );
       });
 
       test('setDateFormat updates setting', () async {
-        await provider.setDateFormat('YYYY-MM-DD');
-        expect(provider.settings.dateFormat, 'YYYY-MM-DD');
+        await controller.setDateFormat('YYYY-MM-DD');
+        expect(
+          (await container.read(settingsControllerProvider.future)).dateFormat,
+          'YYYY-MM-DD',
+        );
       });
 
       test('setShowBloodLevels updates setting', () async {
-        await provider.setShowBloodLevels(false);
-        expect(provider.settings.showBloodLevels, false);
+        await controller.setShowBloodLevels(false);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).showBloodLevels,
+          false,
+        );
       });
 
       test('setShowAnalytics updates setting', () async {
-        await provider.setShowAnalytics(false);
-        expect(provider.settings.showAnalytics, false);
+        await controller.setShowAnalytics(false);
+        expect(
+          (await container.read(
+            settingsControllerProvider.future,
+          )).showAnalytics,
+          false,
+        );
       });
     });
   });

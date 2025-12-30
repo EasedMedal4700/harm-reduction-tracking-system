@@ -13,7 +13,7 @@ part 'log_entry_form_data.freezed.dart';
 /// This is Riverpod-ready - contains only serializable values
 /// No UI controllers, no BuildContext, no ChangeNotifier
 @freezed
-class LogEntryFormData with _$LogEntryFormData {
+abstract class LogEntryFormData with _$LogEntryFormData {
   const LogEntryFormData._();
 
   const factory LogEntryFormData({

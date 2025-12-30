@@ -94,19 +94,19 @@ void main() {
     final notifier = container.read(bloodLevelsControllerProvider.notifier);
 
     notifier.includeDrug('caffeine', true);
-    var view = container.read(bloodLevelsControllerProvider).valueOrNull!;
+    var view = container.read(bloodLevelsControllerProvider).value!;
     expect(view.includedDrugs, contains('caffeine'));
     expect(view.filteredLevels.keys, contains('caffeine'));
     expect(view.filteredLevels.keys, isNot(contains('nicotine')));
 
     notifier.excludeDrug('caffeine', true);
-    view = container.read(bloodLevelsControllerProvider).valueOrNull!;
+    view = container.read(bloodLevelsControllerProvider).value!;
     expect(view.excludedDrugs, contains('caffeine'));
     expect(view.includedDrugs, isNot(contains('caffeine')));
     expect(view.filteredLevels.keys, isNot(contains('caffeine')));
 
     notifier.clearFilters();
-    view = container.read(bloodLevelsControllerProvider).valueOrNull!;
+    view = container.read(bloodLevelsControllerProvider).value!;
     expect(view.includedDrugs, isEmpty);
     expect(view.excludedDrugs, isEmpty);
     expect(view.filteredLevels.keys, containsAll(['caffeine', 'nicotine']));
@@ -125,11 +125,11 @@ void main() {
     final notifier = container.read(bloodLevelsControllerProvider.notifier);
 
     notifier.setHoursBack(0);
-    var view = container.read(bloodLevelsControllerProvider).valueOrNull!;
+    var view = container.read(bloodLevelsControllerProvider).value!;
     expect(view.chartHoursBack, 1);
 
     notifier.setHoursForward(9999);
-    view = container.read(bloodLevelsControllerProvider).valueOrNull!;
+    view = container.read(bloodLevelsControllerProvider).value!;
     expect(view.chartHoursForward, BloodLevelsConstants.maxTimelineHours);
   });
 }

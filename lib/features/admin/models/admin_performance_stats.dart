@@ -11,7 +11,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'admin_performance_stats.freezed.dart';
 
 @freezed
-class AdminPerformanceStats with _$AdminPerformanceStats {
+abstract class AdminPerformanceStats with _$AdminPerformanceStats {
   const factory AdminPerformanceStats({
     @Default(0.0) double avgResponseTimeMs,
     @Default(0.0) double avgCachedResponseMs,

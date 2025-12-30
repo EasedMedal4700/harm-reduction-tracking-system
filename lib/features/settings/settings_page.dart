@@ -1,10 +1,10 @@
 // MIGRATION:
-// State: LEGACY
+// State: MODERN
 // Navigation: LEGACY
-// Models: LEGACY
+// Models: MODERN
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Settings page using Provider.
+// Notes: Settings page using Riverpod Notifier.
 import 'package:flutter/material.dart';
 import '../../common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -48,7 +48,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Widget build(BuildContext context) {
     final ac = context.accent;
     final sp = context.spacing;
-    final settings = ref.watch(settingsControllerProvider);
+    final asyncSettings = ref.watch(settingsControllerProvider);
+    final controller = ref.read(settingsControllerProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -56,64 +58,68 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           IconButton(
             icon: const Icon(Icons.restore),
             tooltip: 'Reset to defaults',
-            onPressed: () => SettingsDialogs.showResetDialog(
-              context,
-              ref.read(settingsControllerProvider),
-            ),
+            onPressed: () =>
+                SettingsDialogs.showResetDialog(context, controller),
           ),
         ],
       ),
       drawer: const CommonDrawer(),
-      body: settings.isLoading
-          ? Center(child: CircularProgressIndicator(color: ac.primary))
-          : ListView(
-              children: [
-                UISettingsSection(
-                  settingsProvider: settings,
-                  onLanguageTap: () =>
-                      SettingsDialogs.showLanguagePicker(context, settings),
-                ),
-                NotificationSettingsSection(
-                  settingsProvider: settings,
-                  onReminderTimeTap: () => SettingsDialogs.showTimePickerDialog(
-                    context,
-                    settings,
-                    settings.settings.checkinReminderTime,
-                  ),
-                ),
-                PrivacySettingsSection(
-                  settingsProvider: settings,
-                  onAutoLockTap: () =>
-                      SettingsDialogs.showAutoLockPicker(context, settings),
-                ),
-                DataSyncSettingsSection(
-                  settingsProvider: settings,
-                  onBackupFrequencyTap: () =>
-                      SettingsDialogs.showBackupFrequencyPicker(
-                        context,
-                        settings,
-                      ),
-                  onCacheDurationTap: () =>
-                      SettingsDialogs.showCacheDurationPicker(
-                        context,
-                        settings,
-                      ),
-                ),
-                EntryPreferencesSection(
-                  settingsProvider: settings,
-                  onDoseUnitTap: () =>
-                      SettingsDialogs.showDoseUnitPicker(context, settings),
-                ),
-                DisplaySettingsSection(
-                  settingsProvider: settings,
-                  onDateFormatTap: () =>
-                      SettingsDialogs.showDateFormatPicker(context, settings),
-                ),
-                const AccountManagementSection(),
-                AboutSection(packageInfo: _packageInfo),
-                CommonSpacer.vertical(sp.md),
-              ],
+      body: asyncSettings.when(
+        data: (settings) => ListView(
+          children: [
+            UISettingsSection(
+              settings: settings,
+              controller: controller,
+              onLanguageTap: () =>
+                  SettingsDialogs.showLanguagePicker(context, controller),
             ),
+            NotificationSettingsSection(
+              settings: settings,
+              controller: controller,
+              onReminderTimeTap: () => SettingsDialogs.showTimePickerDialog(
+                context,
+                controller,
+                settings.checkinReminderTime,
+              ),
+            ),
+            PrivacySettingsSection(
+              settings: settings,
+              controller: controller,
+              onAutoLockTap: () =>
+                  SettingsDialogs.showAutoLockPicker(context, controller),
+            ),
+            DataSyncSettingsSection(
+              settings: settings,
+              controller: controller,
+              onBackupFrequencyTap: () =>
+                  SettingsDialogs.showBackupFrequencyPicker(
+                    context,
+                    controller,
+                  ),
+              onCacheDurationTap: () =>
+                  SettingsDialogs.showCacheDurationPicker(context, controller),
+            ),
+            EntryPreferencesSection(
+              settings: settings,
+              controller: controller,
+              onDoseUnitTap: () =>
+                  SettingsDialogs.showDoseUnitPicker(context, controller),
+            ),
+            DisplaySettingsSection(
+              settings: settings,
+              controller: controller,
+              onDateFormatTap: () =>
+                  SettingsDialogs.showDateFormatPicker(context, controller),
+            ),
+            const AccountManagementSection(),
+            AboutSection(packageInfo: _packageInfo),
+            CommonSpacer.vertical(sp.md),
+          ],
+        ),
+        loading: () =>
+            Center(child: CircularProgressIndicator(color: ac.primary)),
+        error: (e, st) => Center(child: Text('Error: $e')),
+      ),
     );
   }
 }

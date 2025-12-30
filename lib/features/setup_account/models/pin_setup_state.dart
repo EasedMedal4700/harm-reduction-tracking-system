@@ -10,7 +10,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'pin_setup_state.freezed.dart';
 
 @freezed
-class PinSetupState with _$PinSetupState {
+abstract class PinSetupState with _$PinSetupState {
   const factory PinSetupState({
     @Default(false) bool isLoading,
     @Default(false) bool showRecoveryKey,

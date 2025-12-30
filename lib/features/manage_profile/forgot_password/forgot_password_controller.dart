@@ -5,19 +5,22 @@
 // Theme: N/A
 // Common: N/A
 // Notes: Handles forgot password orchestration and Supabase interaction.
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
 import 'forgot_password_state.dart';
 
-final forgotPasswordControllerProvider =
-    StateNotifierProvider<ForgotPasswordController, ForgotPasswordState>(
-      (ref) => ForgotPasswordController(ref.read(supabaseClientProvider)),
-    );
+part 'forgot_password_controller.g.dart';
 
-class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
-  ForgotPasswordController(this._supabase) : super(const ForgotPasswordState());
-  final SupabaseClient _supabase;
+@riverpod
+class ForgotPasswordController extends _$ForgotPasswordController {
+  SupabaseClient get _supabase => ref.read(supabaseClientProvider);
+
+  @override
+  ForgotPasswordState build() {
+    return const ForgotPasswordState();
+  }
+
   Future<void> sendResetEmail(String email) async {
     state = state.copyWith(
       status: ForgotPasswordStatus.submitting,

@@ -60,7 +60,7 @@ class MetabolismTimelineCard extends ConsumerWidget {
       );
     }
 
-    final timelineDoses = timelineDosesAsync.valueOrNull ?? {};
+    final timelineDoses = timelineDosesAsync.value ?? {};
     if (timelineDoses.isEmpty) {
       return _buildEmptyState(context);
     }

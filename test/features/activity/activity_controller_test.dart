@@ -117,7 +117,7 @@ void main() {
       expect(fake.deleted.single.type, ActivityItemType.drugUse);
       expect(fake.deleted.single.id, 'u1');
 
-      final after = container.read(activityControllerProvider).valueOrNull;
+      final after = container.read(activityControllerProvider).value;
       expect(after, isNotNull);
       expect(after!.data.entries, isEmpty);
       expect(after.event, isNotNull);

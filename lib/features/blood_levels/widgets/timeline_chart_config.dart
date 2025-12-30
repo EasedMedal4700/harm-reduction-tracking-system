@@ -144,8 +144,9 @@ class TimelineChartConfig {
     List<LineChartBarData> lineBarsData,
     bool adaptiveScale,
   ) {
-    if (lineBarsData.isEmpty)
+    if (lineBarsData.isEmpty) {
       return BloodLevelsConstants.timelineFixedScaleMinY;
+    }
     double maxValue = 0;
     for (final line in lineBarsData) {
       for (final spot in line.spots) {

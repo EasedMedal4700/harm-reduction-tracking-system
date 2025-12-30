@@ -6,9 +6,7 @@ part of 'log_entry_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$LogEntryImpl _$$LogEntryImplFromJson(
-  Map<String, dynamic> json,
-) => _$LogEntryImpl(
+_LogEntry _$LogEntryFromJson(Map<String, dynamic> json) => _LogEntry(
   id: json['id'] as String?,
   substance: json['substance'] as String,
   dosage: (json['dosage'] as num).toDouble(),
@@ -45,25 +43,24 @@ _$LogEntryImpl _$$LogEntryImplFromJson(
       const [],
 );
 
-Map<String, dynamic> _$$LogEntryImplToJson(_$LogEntryImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'substance': instance.substance,
-      'dosage': instance.dosage,
-      'unit': instance.unit,
-      'route': instance.route,
-      'datetime': instance.datetime.toIso8601String(),
-      'notes': instance.notes,
-      'timeDifferenceMinutes': instance.timeDifferenceMinutes,
-      'timezone': instance.timezone,
-      'feelings': instance.feelings,
-      'secondaryFeelings': instance.secondaryFeelings,
-      'triggers': instance.triggers,
-      'bodySignals': instance.bodySignals,
-      'location': instance.location,
-      'isMedicalPurpose': instance.isMedicalPurpose,
-      'cravingIntensity': instance.cravingIntensity,
-      'intention': instance.intention,
-      'timezoneOffset': instance.timezoneOffset,
-      'people': instance.people,
-    };
+Map<String, dynamic> _$LogEntryToJson(_LogEntry instance) => <String, dynamic>{
+  'id': instance.id,
+  'substance': instance.substance,
+  'dosage': instance.dosage,
+  'unit': instance.unit,
+  'route': instance.route,
+  'datetime': instance.datetime.toIso8601String(),
+  'notes': instance.notes,
+  'timeDifferenceMinutes': instance.timeDifferenceMinutes,
+  'timezone': instance.timezone,
+  'feelings': instance.feelings,
+  'secondaryFeelings': instance.secondaryFeelings,
+  'triggers': instance.triggers,
+  'bodySignals': instance.bodySignals,
+  'location': instance.location,
+  'isMedicalPurpose': instance.isMedicalPurpose,
+  'cravingIntensity': instance.cravingIntensity,
+  'intention': instance.intention,
+  'timezoneOffset': instance.timezoneOffset,
+  'people': instance.people,
+};

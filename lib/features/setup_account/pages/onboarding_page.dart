@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/common/logging/logger.dart';
 import 'package:mobile_drug_use_app/features/setup_account/controllers/onboarding_controller.dart';
 import 'package:mobile_drug_use_app/features/settings/providers/settings_providers.dart';
+import 'package:mobile_drug_use_app/features/settings/models/app_settings_model.dart';
 import '../../../common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/core/services/onboarding_service.dart';
 import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
@@ -32,7 +33,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     super.initState();
     // Get current theme setting
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final settings = ref.read(settingsControllerProvider).settings;
+      final settings =
+          ref.read(settingsControllerProvider).value ?? const AppSettings();
       ref
           .read(onboardingControllerProvider.notifier)
           .setDarkTheme(settings.darkMode);
@@ -85,7 +87,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     // Apply theme after onboarding data is saved.
     final state = ref.read(onboardingControllerProvider);
-    await ref.read(settingsControllerProvider).setDarkMode(state.isDarkTheme);
+    await ref
+        .read(settingsControllerProvider.notifier)
+        .setDarkMode(state.isDarkTheme);
     if (!mounted) return;
     ref.read(navigationProvider).replace(AppRoutePaths.register);
   }
@@ -466,7 +470,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                               .read(onboardingControllerProvider.notifier)
                               .setDarkTheme(false);
                           ref
-                              .read(settingsControllerProvider)
+                              .read(settingsControllerProvider.notifier)
                               .setDarkMode(false);
                         },
                       ),
@@ -483,7 +487,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                               .read(onboardingControllerProvider.notifier)
                               .setDarkTheme(true);
                           ref
-                              .read(settingsControllerProvider)
+                              .read(settingsControllerProvider.notifier)
                               .setDarkMode(true);
                         },
                       ),

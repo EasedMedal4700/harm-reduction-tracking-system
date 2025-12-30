@@ -7,24 +7,27 @@
 // Notes: Data sync settings section.
 import 'package:flutter/material.dart';
 import '../providers/settings_provider.dart';
+import '../models/app_settings_model.dart';
 import 'settings_section.dart';
 import '../../../common/inputs/switch_tile.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 
 /// Data & Sync section widget
 class DataSyncSettingsSection extends StatelessWidget {
-  final SettingsProvider settingsProvider;
+  final AppSettings settings;
+  final SettingsController controller;
   final VoidCallback onBackupFrequencyTap;
   final VoidCallback onCacheDurationTap;
   const DataSyncSettingsSection({
-    required this.settingsProvider,
+    required this.settings,
+    required this.controller,
     required this.onBackupFrequencyTap,
     required this.onCacheDurationTap,
     super.key,
   });
   @override
   Widget build(BuildContext context) {
-    final settings = settingsProvider.settings;
+    // final settings = controller.settings;
     final th = context.theme;
     return SettingsSection(
       title: 'Data & Sync',
@@ -34,7 +37,7 @@ class DataSyncSettingsSection extends StatelessWidget {
           title: 'Auto Backup',
           subtitle: 'Frequency: ${settings.backupFrequency}',
           value: settings.autoBackup,
-          onChanged: settingsProvider.setAutoBackup,
+          onChanged: controller.setAutoBackup,
         ),
         if (settings.autoBackup)
           ListTile(
@@ -47,19 +50,19 @@ class DataSyncSettingsSection extends StatelessWidget {
           title: 'Cloud Sync',
           subtitle: 'Sync data across devices',
           value: settings.syncEnabled,
-          onChanged: settingsProvider.setSyncEnabled,
+          onChanged: controller.setSyncEnabled,
         ),
         CommonSwitchTile(
           title: 'Offline Mode',
           subtitle: 'Work without internet',
           value: settings.offlineMode,
-          onChanged: settingsProvider.setOfflineMode,
+          onChanged: controller.setOfflineMode,
         ),
         CommonSwitchTile(
           title: 'Enable Cache',
           subtitle: 'Duration: ${settings.cacheDuration}',
           value: settings.cacheEnabled,
-          onChanged: settingsProvider.setCacheEnabled,
+          onChanged: controller.setCacheEnabled,
         ),
         if (settings.cacheEnabled)
           ListTile(

@@ -13,7 +13,7 @@ import 'daily_checkin_model.dart';
 part 'daily_checkin_state.freezed.dart';
 
 @freezed
-class DailyCheckinUiEvent with _$DailyCheckinUiEvent {
+abstract class DailyCheckinUiEvent with _$DailyCheckinUiEvent {
   const factory DailyCheckinUiEvent.snackbar({
     required String message,
     @Default(false) bool isError,
@@ -25,7 +25,7 @@ class DailyCheckinUiEvent with _$DailyCheckinUiEvent {
 }
 
 @freezed
-class DailyCheckinState with _$DailyCheckinState {
+abstract class DailyCheckinState with _$DailyCheckinState {
   const factory DailyCheckinState({
     @Default('Neutral') String mood,
     @Default(<String>[]) List<String> emotions,

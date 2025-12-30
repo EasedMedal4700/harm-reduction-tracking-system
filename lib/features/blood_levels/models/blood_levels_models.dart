@@ -10,7 +10,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'blood_levels_models.freezed.dart';
 
 @freezed
-class DoseEntry with _$DoseEntry {
+abstract class DoseEntry with _$DoseEntry {
   const factory DoseEntry({
     required double dose,
     required DateTime startTime,
@@ -21,7 +21,7 @@ class DoseEntry with _$DoseEntry {
 }
 
 @freezed
-class DrugLevel with _$DrugLevel {
+abstract class DrugLevel with _$DrugLevel {
   const DrugLevel._();
 
   const factory DrugLevel({

@@ -23,7 +23,7 @@ class PersonalLibraryController extends _$PersonalLibraryController {
   }
 
   Future<void> refresh() async {
-    final previous = state.valueOrNull;
+    final previous = state.value;
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
@@ -38,7 +38,7 @@ class PersonalLibraryController extends _$PersonalLibraryController {
   }
 
   void setQuery(String query) {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     state = AsyncValue.data(
@@ -51,7 +51,7 @@ class PersonalLibraryController extends _$PersonalLibraryController {
   }
 
   void toggleShowArchived() {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     state = AsyncValue.data(
@@ -64,7 +64,7 @@ class PersonalLibraryController extends _$PersonalLibraryController {
   }
 
   Future<void> toggleFavorite(DrugCatalogEntry entry) async {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     final service = ref.read(personalLibraryServiceProvider);
@@ -73,7 +73,7 @@ class PersonalLibraryController extends _$PersonalLibraryController {
   }
 
   Future<void> toggleArchive(DrugCatalogEntry entry) async {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     final service = ref.read(personalLibraryServiceProvider);

@@ -12,7 +12,7 @@ import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_model.da
 part 'analytics_state.freezed.dart';
 
 @freezed
-class AnalyticsState with _$AnalyticsState {
+abstract class AnalyticsState with _$AnalyticsState {
   const factory AnalyticsState({
     @Default(true) bool isLoading,
     @Default(<LogEntry>[]) List<LogEntry> entries,

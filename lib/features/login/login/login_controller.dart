@@ -6,7 +6,7 @@
 // Common: N/A
 // Notes: Owns login orchestration, session restore, debug auto-login.
 import 'dart:async';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
 import 'package:mobile_drug_use_app/features/debug/services/debug_config.dart';
@@ -14,44 +14,35 @@ import 'package:mobile_drug_use_app/core/services/onboarding_service.dart';
 import '../services/post_login_router.dart';
 import 'login_state.dart';
 
+part 'login_controller.g.dart';
+
 /// Provider wiring owns lifecycle.
 /// UI MUST NOT call init().
-final loginControllerProvider =
-    StateNotifierProvider<LoginController, LoginState>((ref) {
-      final controller = LoginController(ref);
-      controller.init();
-      return controller;
-    });
-
-class LoginController extends StateNotifier<LoginState> {
-  LoginController(this._ref) : super(const LoginState());
-  final Ref _ref;
+@riverpod
+class LoginController extends _$LoginController {
   static const _rememberMeKey = 'remember_me';
   StreamSubscription<AuthState>? _authSub;
-  // ---------------------------------------------------------------------------
-  // Lifecycle
-  // ---------------------------------------------------------------------------
-  void init() {
-    _listenForRestoredSession();
-    _initializeSession();
-  }
 
   @override
-  void dispose() {
-    _authSub?.cancel();
-    super.dispose();
+  LoginState build() {
+    _listenForRestoredSession();
+    _initializeSession();
+
+    ref.onDispose(() {
+      _authSub?.cancel();
+    });
+
+    return const LoginState();
   }
 
   // ---------------------------------------------------------------------------
   // Session restore
   // ---------------------------------------------------------------------------
   void _listenForRestoredSession() {
-    final client = _ref.read(supabaseClientProvider);
+    final client = ref.read(supabaseClientProvider);
     _authSub = client.auth.onAuthStateChange.listen((data) async {
-      if (!mounted) return;
       if (state.hasNavigated) return;
       final remember = await _readRememberMe();
-      if (!mounted) return;
       if (remember && data.session != null) {
         _navigateOnce(debug: false);
       }
@@ -61,13 +52,11 @@ class LoginController extends StateNotifier<LoginState> {
   Future<void> _initializeSession() async {
     // Onboarding always has priority
     final onboardingComplete = await onboardingService.isOnboardingComplete();
-    if (!mounted) return;
     if (!onboardingComplete) {
-      _ref.read(postLoginRouterProvider).goToOnboarding();
+      ref.read(postLoginRouterProvider).goToOnboarding();
       return;
     }
     final remember = await _readRememberMe();
-    if (!mounted) return;
     state = state.copyWith(rememberMe: remember, isInitialized: true);
     // Debug auto-login (dev only)
     if (DebugConfig.instance.isAutoLoginEnabled &&
@@ -88,15 +77,13 @@ class LoginController extends StateNotifier<LoginState> {
       return;
     }
     state = state.copyWith(isLoading: true, errorMessage: null);
-    final success = await _ref.read(authServiceProvider).login(email, password);
-    if (!mounted) return;
+    final success = await ref.read(authServiceProvider).login(email, password);
     state = state.copyWith(isLoading: false);
     if (!success) {
       state = state.copyWith(errorMessage: 'Invalid credentials');
       return;
     }
     await _persistRememberMe(state.rememberMe);
-    if (!mounted) return;
     _navigateOnce(debug: false);
   }
 
@@ -109,17 +96,15 @@ class LoginController extends StateNotifier<LoginState> {
   // ---------------------------------------------------------------------------
   Future<void> _performDebugAutoLogin() async {
     state = state.copyWith(isLoading: true);
-    final success = await _ref
+    final success = await ref
         .read(authServiceProvider)
         .login(
           DebugConfig.instance.debugEmail!,
           DebugConfig.instance.debugPassword!,
         );
-    if (!mounted) return;
     state = state.copyWith(isLoading: false);
     if (success) {
       await _persistRememberMe(true);
-      if (!mounted) return;
       _navigateOnce(debug: true);
     }
   }
@@ -130,18 +115,17 @@ class LoginController extends StateNotifier<LoginState> {
   void _navigateOnce({required bool debug}) {
     if (state.hasNavigated) return;
     state = state.copyWith(hasNavigated: true);
-    _ref.read(postLoginRouterProvider).routeAfterLogin(debug: debug);
+    ref.read(postLoginRouterProvider).routeAfterLogin(debug: debug);
   }
 
   // ---------------------------------------------------------------------------
   // Persistence helpers
   // ---------------------------------------------------------------------------
   Future<bool> _readRememberMe() async {
-    return _ref.read(sharedPreferencesProvider).getBool(_rememberMeKey) ??
-        false;
+    return ref.read(sharedPreferencesProvider).getBool(_rememberMeKey) ?? false;
   }
 
   Future<void> _persistRememberMe(bool value) async {
-    await _ref.read(sharedPreferencesProvider).setBool(_rememberMeKey, value);
+    await ref.read(sharedPreferencesProvider).setBool(_rememberMeKey, value);
   }
 }

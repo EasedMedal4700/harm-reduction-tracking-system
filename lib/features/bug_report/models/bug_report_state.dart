@@ -10,7 +10,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'bug_report_state.freezed.dart';
 
 @freezed
-class BugReportUiEvent with _$BugReportUiEvent {
+abstract class BugReportUiEvent with _$BugReportUiEvent {
   const factory BugReportUiEvent.snackbar({
     required String message,
     @Default(false) bool isError,
@@ -20,7 +20,7 @@ class BugReportUiEvent with _$BugReportUiEvent {
 }
 
 @freezed
-class BugReportState with _$BugReportState {
+abstract class BugReportState with _$BugReportState {
   const factory BugReportState({
     @Default('Medium') String severity,
     @Default('General') String category,

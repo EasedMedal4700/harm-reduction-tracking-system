@@ -12,7 +12,7 @@ import '../providers/settings_provider.dart';
 class SettingsDialogs {
   static void showLanguagePicker(
     BuildContext context,
-    SettingsProvider provider,
+    SettingsController controller,
   ) {
     final languages = ['English', 'Spanish', 'French', 'German', 'Portuguese'];
     showDialog(
@@ -25,7 +25,7 @@ class SettingsDialogs {
             return ListTile(
               title: Text(lang),
               onTap: () {
-                provider.setLanguage(lang);
+                controller.setLanguage(lang);
                 Navigator.pop(context);
               },
             );
@@ -37,7 +37,7 @@ class SettingsDialogs {
 
   static Future<void> showTimePickerDialog(
     BuildContext context,
-    SettingsProvider provider,
+    SettingsController controller,
     String currentTime,
   ) async {
     final parts = currentTime.split(':');
@@ -52,13 +52,13 @@ class SettingsDialogs {
     if (time != null) {
       final timeString =
           '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
-      await provider.setCheckinReminderTime(timeString);
+      await controller.setCheckinReminderTime(timeString);
     }
   }
 
   static void showAutoLockPicker(
     BuildContext context,
-    SettingsProvider provider,
+    SettingsController controller,
   ) {
     final durations = ['1min', '5min', '15min', '30min', 'never'];
     showDialog(
@@ -71,7 +71,7 @@ class SettingsDialogs {
             return ListTile(
               title: Text(duration),
               onTap: () {
-                provider.setAutoLockDuration(duration);
+                controller.setAutoLockDuration(duration);
                 Navigator.pop(context);
               },
             );
@@ -83,7 +83,7 @@ class SettingsDialogs {
 
   static void showBackupFrequencyPicker(
     BuildContext context,
-    SettingsProvider provider,
+    SettingsController controller,
   ) {
     final frequencies = ['daily', 'weekly', 'monthly'];
     showDialog(
@@ -96,7 +96,7 @@ class SettingsDialogs {
             return ListTile(
               title: Text(freq[0].toUpperCase() + freq.substring(1)),
               onTap: () {
-                provider.setBackupFrequency(freq);
+                controller.setBackupFrequency(freq);
                 Navigator.pop(context);
               },
             );
@@ -108,7 +108,7 @@ class SettingsDialogs {
 
   static void showCacheDurationPicker(
     BuildContext context,
-    SettingsProvider provider,
+    SettingsController controller,
   ) {
     final durations = ['15min', '30min', '1hour', '6hours', '1day'];
     showDialog(
@@ -121,7 +121,7 @@ class SettingsDialogs {
             return ListTile(
               title: Text(duration),
               onTap: () {
-                provider.setCacheDuration(duration);
+                controller.setCacheDuration(duration);
                 Navigator.pop(context);
               },
             );
@@ -133,7 +133,7 @@ class SettingsDialogs {
 
   static void showDoseUnitPicker(
     BuildContext context,
-    SettingsProvider provider,
+    SettingsController controller,
   ) {
     final units = ['mg', 'g', 'µg', 'ml', 'pills', 'puffs'];
     showDialog(
@@ -146,7 +146,7 @@ class SettingsDialogs {
             return ListTile(
               title: Text(unit),
               onTap: () {
-                provider.setDefaultDoseUnit(unit);
+                controller.setDefaultDoseUnit(unit);
                 Navigator.pop(context);
               },
             );
@@ -158,7 +158,7 @@ class SettingsDialogs {
 
   static void showDateFormatPicker(
     BuildContext context,
-    SettingsProvider provider,
+    SettingsController controller,
   ) {
     final formats = ['MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'];
     showDialog(
@@ -171,7 +171,7 @@ class SettingsDialogs {
             return ListTile(
               title: Text(format),
               onTap: () {
-                provider.setDateFormat(format);
+                controller.setDateFormat(format);
                 Navigator.pop(context);
               },
             );
@@ -181,7 +181,10 @@ class SettingsDialogs {
     );
   }
 
-  static void showResetDialog(BuildContext context, SettingsProvider provider) {
+  static void showResetDialog(
+    BuildContext context,
+    SettingsController controller,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -197,7 +200,7 @@ class SettingsDialogs {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              provider.resetToDefaults();
+              controller.resetToDefaults();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Settings reset to defaults')),
               );

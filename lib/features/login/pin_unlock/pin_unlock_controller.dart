@@ -6,7 +6,7 @@
 // Common: N/A
 // Notes: Owns PIN unlock flow, auth checks, encryption, and navigation.
 import 'dart:async';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
@@ -15,16 +15,18 @@ import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
 import 'package:mobile_drug_use_app/features/debug/services/debug_config.dart';
 import 'pin_unlock_state.dart';
 
-final pinUnlockControllerProvider =
-    StateNotifierProvider<PinUnlockController, PinUnlockState>(
-      (ref) => PinUnlockController(ref),
-    );
+part 'pin_unlock_controller.g.dart';
 
-class PinUnlockController extends StateNotifier<PinUnlockState> {
-  PinUnlockController(this._ref) : super(const PinUnlockState());
-  final Ref _ref;
-  EncryptionServiceV2 get _encryption => _ref.read(encryptionServiceProvider);
-  NavigationService get _nav => _ref.read(navigationProvider);
+@riverpod
+class PinUnlockController extends _$PinUnlockController {
+  EncryptionServiceV2 get _encryption => ref.read(encryptionServiceProvider);
+  NavigationService get _nav => ref.read(navigationProvider);
+
+  @override
+  PinUnlockState build() {
+    return const PinUnlockState();
+  }
+
   // ---------------------------
   // Lifecycle
   // ---------------------------
@@ -61,7 +63,7 @@ class PinUnlockController extends StateNotifier<PinUnlockState> {
       state = state.copyWith(isLoading: false, errorMessage: 'Incorrect PIN');
       return;
     }
-    await _ref.read(appLockControllerProvider.notifier).recordUnlock();
+    await ref.read(appLockControllerProvider.notifier).recordUnlock();
     _nav.replace('/home_page');
   }
 
@@ -80,7 +82,7 @@ class PinUnlockController extends StateNotifier<PinUnlockState> {
       );
       return;
     }
-    await _ref.read(appLockControllerProvider.notifier).recordUnlock();
+    await ref.read(appLockControllerProvider.notifier).recordUnlock();
     _nav.replace('/home_page');
   }
 
@@ -105,7 +107,7 @@ class PinUnlockController extends StateNotifier<PinUnlockState> {
       state = state.copyWith(isLoading: false);
       return;
     }
-    await _ref.read(appLockControllerProvider.notifier).recordUnlock();
+    await ref.read(appLockControllerProvider.notifier).recordUnlock();
     _nav.replace('/home_page');
   }
 }

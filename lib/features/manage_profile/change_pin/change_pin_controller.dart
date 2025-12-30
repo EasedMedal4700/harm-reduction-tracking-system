@@ -5,7 +5,7 @@
 // Theme: N/A
 // Common: N/A
 // Notes: Owns Change PIN orchestration, validation, encryption, and navigation intent.
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
 import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
@@ -13,34 +13,23 @@ import 'package:mobile_drug_use_app/core/providers/encryption_providers.dart';
 import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import 'change_pin_state.dart';
 
-/// Riverpod provider for the Change PIN controller.
-///
-/// All dependencies are injected:
-/// - encryption
-/// - navigation
-/// - auth access
-final changePinControllerProvider =
-    StateNotifierProvider<ChangePinController, ChangePinState>(
-      (ref) => ChangePinController(
-        encryptionService: ref.read(encryptionServiceProvider),
-        navigationService: ref.read(navigationProvider),
-      ),
-    );
+part 'change_pin_controller.g.dart';
 
 /// Controller responsible for:
 /// - Validating PIN input
 /// - Performing encryption key re-wrapping
 /// - Handling success / error states
 /// - Emitting navigation intent
-class ChangePinController extends StateNotifier<ChangePinState> {
-  ChangePinController({
-    required EncryptionServiceV2 encryptionService,
-    required NavigationService navigationService,
-  }) : _encryptionService = encryptionService,
-       _navigationService = navigationService,
-       super(const ChangePinState());
-  final EncryptionServiceV2 _encryptionService;
-  final NavigationService _navigationService;
+@riverpod
+class ChangePinController extends _$ChangePinController {
+  EncryptionServiceV2 get _encryptionService =>
+      ref.read(encryptionServiceProvider);
+  NavigationService get _navigationService => ref.read(navigationProvider);
+
+  @override
+  ChangePinState build() {
+    return const ChangePinState();
+  }
 
   /// Public entry point from the UI.
   ///

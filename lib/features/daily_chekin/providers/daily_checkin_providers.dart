@@ -6,7 +6,6 @@
 // Common: COMPLETE
 // Notes: Riverpod state management for Daily Check-In.
 import 'package:flutter/material.dart' show TimeOfDay;
-import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/providers/navigation_provider.dart';
