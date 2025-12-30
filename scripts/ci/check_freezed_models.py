@@ -35,6 +35,12 @@ def _is_model_file(abs_path: str) -> bool:
     if any(excluded in abs_path for excluded in EXCLUDED_MODELS):
         return False
     norm = abs_path.replace("\\", "/").lower()
+
+    # Exclude non-model utilities that happen to live under a models folder.
+    # These are helpers (e.g. serializers) and are not data models.
+    if "/models/serialization/" in norm:
+        return False
+
     base = os.path.basename(norm)
     if base.endswith("_model.dart"):
         return True
@@ -54,8 +60,11 @@ _JSON_TOKENS = (
     "@JsonSerializable",
 )
 
+# Heuristic: only flag likely *class fields*, not local variables.
+# In this codebase, class members are typically indented by exactly 2 spaces.
 _FIELD_RE = re.compile(
-    r"^\s*(?!final\b|const\b|static\b|late\b|@|factory\b|get\b|set\b|class\b|typedef\b|enum\b|abstract\b)"
+    r"^(?:  )(?! )"
+    r"(?!final\b|const\b|static\b|late\b|@|factory\b|get\b|set\b|class\b|typedef\b|enum\b|abstract\b)"
     r"[A-Za-z_][\w<>,?\s]*\s+[A-Za-z_]\w*\s*(;|=)"
 )
 
