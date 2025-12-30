@@ -1,28 +1,29 @@
 // MIGRATION:
-// State: LEGACY
+// State: MODERN
 // Navigation: CENTRALIZED
 // Models: N/A
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Uses Provider for state.
+// Notes: Drawer navigation via NavigationService and feature flags via Riverpod.
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../constants/config/feature_flags.dart';
 import '../../constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/core/routes/app_routes.dart';
-import 'package:mobile_drug_use_app/features/feature_flags/services/feature_flag_service.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
+import 'package:mobile_drug_use_app/features/feature_flags/providers/feature_flag_providers.dart';
 import 'package:mobile_drug_use_app/core/services/user_service.dart';
 
-class CommonDrawer extends StatefulWidget {
+class CommonDrawer extends ConsumerStatefulWidget {
   const CommonDrawer({super.key});
   @override
-  State<CommonDrawer> createState() => _CommonDrawerState();
+  ConsumerState<CommonDrawer> createState() => _CommonDrawerState();
 }
 
-class _CommonDrawerState extends State<CommonDrawer> {
+class _CommonDrawerState extends ConsumerState<CommonDrawer> {
   late Timer _timer;
   DateTime _now = DateTime.now();
   bool _isAdmin = false;
@@ -64,36 +65,38 @@ class _CommonDrawerState extends State<CommonDrawer> {
   Widget build(BuildContext context) {
     final c = context.colors;
     final tx = context.text;
+    final nav = ref.read(navigationProvider);
+    final flags = ref.watch(featureFlagServiceProvider);
     // Section 1: Main Navigation (with feature flag keys)
     final List<Map<String, dynamic>> mainPages = [
       {
         'icon': Icons.home,
         'title': 'Home',
-        'builder': AppRoutes.buildHomePage,
+        'route': AppRoutePaths.home,
         'flag': FeatureFlags.homePage,
       },
       {
         'icon': Icons.bloodtype,
         'title': 'Blood Levels',
-        'builder': AppRoutes.buildBloodLevelsPage,
+        'route': AppRoutePaths.bloodLevels,
         'flag': FeatureFlags.bloodLevelsPage,
       },
       {
         'icon': Icons.directions_run,
         'title': 'Activity',
-        'builder': AppRoutes.buildActivityPage,
+        'route': AppRoutePaths.activity,
         'flag': FeatureFlags.activityPage,
       },
       {
         'icon': Icons.local_fire_department,
         'title': 'Cravings',
-        'builder': AppRoutes.buildCravingsPage,
+        'route': AppRoutePaths.cravings,
         'flag': FeatureFlags.cravingsPage,
       },
       {
         'icon': Icons.self_improvement,
         'title': 'Reflection',
-        'builder': AppRoutes.buildReflectionPage,
+        'route': AppRoutePaths.reflection,
         'flag': FeatureFlags.reflectionPage,
       },
     ];
@@ -102,19 +105,19 @@ class _CommonDrawerState extends State<CommonDrawer> {
       {
         'icon': Icons.menu_book,
         'title': 'Library',
-        'builder': AppRoutes.buildLibraryPage,
+        'route': AppRoutePaths.library,
         'flag': FeatureFlags.personalLibraryPage,
       },
       {
         'icon': Icons.analytics,
         'title': 'Analytics',
-        'builder': AppRoutes.buildAnalyticsPage,
+        'route': AppRoutePaths.analytics,
         'flag': FeatureFlags.analyticsPage,
       },
       {
         'icon': Icons.inventory,
         'title': 'Catalog',
-        'builder': AppRoutes.buildCatalogPage,
+        'route': AppRoutePaths.catalog,
         'flag': FeatureFlags.catalogPage,
       },
     ];
@@ -123,146 +126,119 @@ class _CommonDrawerState extends State<CommonDrawer> {
       {
         'icon': Icons.favorite,
         'title': 'Physiological',
-        'builder': AppRoutes.buildPhysiologicalPage,
+        'route': AppRoutePaths.physiological,
         'flag': FeatureFlags.physiologicalPage,
       },
       {
         'icon': Icons.compare_arrows,
         'title': 'Interactions',
-        'builder': AppRoutes.buildInteractionsPage,
+        'route': AppRoutePaths.interactions,
         'flag': FeatureFlags.interactionsPage,
       },
       {
         'icon': Icons.speed,
         'title': 'Tolerance',
-        'builder': AppRoutes.buildToleranceDashboardPage,
+        'route': AppRoutePaths.toleranceDashboard,
         'flag': FeatureFlags.toleranceDashboardPage,
       },
       {
         'icon': Icons.watch,
         'title': 'WearOS',
-        'builder': AppRoutes.buildWearOSPage,
+        'route': AppRoutePaths.wearos,
         'flag': FeatureFlags.wearosPage,
       },
     ];
-    return Consumer<FeatureFlagService>(
-      builder: (context, flags, _) {
-        // Filter pages based on feature flags
-        final filteredMainPages = mainPages
-            .where(
-              (p) => flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin),
-            )
-            .toList();
-        final filteredDataPages = dataPages
-            .where(
-              (p) => flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin),
-            )
-            .toList();
-        final filteredAdvancedPages = advancedPages
-            .where(
-              (p) => flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin),
-            )
-            .toList();
-        return Drawer(
-          backgroundColor: c.surface,
-          child: Column(
-            children: [
-              // Modern gradient header
-              _buildModernHeader(context),
-              // Use Expanded so the time stays at the bottom
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    // Section 1: Main Navigation
-                    if (filteredMainPages.isNotEmpty) ...[
-                      ...filteredMainPages.map(
-                        (page) => _buildMenuItem(context, page),
-                      ),
-                      _buildSleekDivider(context),
-                    ],
-                    // Section 2: Data & Resources
-                    if (filteredDataPages.isNotEmpty) ...[
-                      ...filteredDataPages.map(
-                        (page) => _buildMenuItem(context, page),
-                      ),
-                      _buildSleekDivider(context),
-                    ],
-                    // Section 3: Advanced Features
-                    if (filteredAdvancedPages.isNotEmpty) ...[
-                      ...filteredAdvancedPages.map(
-                        (page) => _buildMenuItem(context, page),
-                      ),
-                      _buildSleekDivider(context),
-                    ],
-                    // Daily Check-In
-                    if (flags.isEnabled(
-                      FeatureFlags.dailyCheckin,
-                      isAdmin: _isAdmin,
-                    ))
-                      _buildMenuItem(context, {
-                        'icon': Icons.mood,
-                        'title': 'Daily Check-In',
-                        'builder': AppRoutes.buildDailyCheckinPage,
-                      }),
-                    // Log Entry
-                    if (flags.isEnabled(
-                      FeatureFlags.logEntryPage,
-                      isAdmin: _isAdmin,
-                    ))
-                      _buildMenuItem(context, {
-                        'icon': Icons.note_add,
-                        'title': 'Log Entry',
-                        'builder': AppRoutes.buildLogEntryPage,
-                      }),
-                    // Settings (always visible)
-                    _buildMenuItem(context, {
-                      'icon': Icons.settings,
-                      'title': 'Settings',
-                      'builder': AppRoutes.buildSettingsPage,
-                    }),
-                    // Bug Report (always visible)
-                    _buildMenuItem(context, {
-                      'icon': Icons.report_problem,
-                      'title': 'Report a Bug',
-                      'builder': AppRoutes.buildBugReportPage,
-                    }),
-                    // Admin: Feature Flags (admin only)
-                    if (_isAdmin) _buildAdminFeatureFlagsItem(context),
-                  ],
-                ),
-              ),
-              // Live time at the bottom of the drawer
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12,
-                  horizontal: 16,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(top: BorderSide(color: c.divider)),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _formatDate(_now),
-                      style: tx.bodyMedium.copyWith(color: c.textSecondary),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      _formatTime(_now),
-                      style: tx.titleMedium.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: c.textPrimary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    // Filter pages based on feature flags
+    final filteredMainPages = mainPages
+        .where((p) => flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin))
+        .toList();
+    final filteredDataPages = dataPages
+        .where((p) => flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin))
+        .toList();
+    final filteredAdvancedPages = advancedPages
+        .where((p) => flags.isEnabled(p['flag'] as String, isAdmin: _isAdmin))
+        .toList();
+
+    return Drawer(
+      backgroundColor: c.surface,
+      child: Column(
+        children: [
+          _buildModernHeader(context),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                if (filteredMainPages.isNotEmpty) ...[
+                  ...filteredMainPages.map((page) => _buildMenuItem(page, nav)),
+                  _buildSleekDivider(context),
+                ],
+                if (filteredDataPages.isNotEmpty) ...[
+                  ...filteredDataPages.map((page) => _buildMenuItem(page, nav)),
+                  _buildSleekDivider(context),
+                ],
+                if (filteredAdvancedPages.isNotEmpty) ...[
+                  ...filteredAdvancedPages.map(
+                    (page) => _buildMenuItem(page, nav),
+                  ),
+                  _buildSleekDivider(context),
+                ],
+                if (flags.isEnabled(
+                  FeatureFlags.dailyCheckin,
+                  isAdmin: _isAdmin,
+                ))
+                  _buildMenuItem({
+                    'icon': Icons.mood,
+                    'title': 'Daily Check-In',
+                    'route': AppRoutePaths.dailyCheckin,
+                  }, nav),
+                if (flags.isEnabled(
+                  FeatureFlags.logEntryPage,
+                  isAdmin: _isAdmin,
+                ))
+                  _buildMenuItem({
+                    'icon': Icons.note_add,
+                    'title': 'Log Entry',
+                    'route': AppRoutePaths.logEntry,
+                  }, nav),
+                _buildMenuItem({
+                  'icon': Icons.settings,
+                  'title': 'Settings',
+                  'route': AppRoutePaths.settings,
+                }, nav),
+                _buildMenuItem({
+                  'icon': Icons.report_problem,
+                  'title': 'Report a Bug',
+                  'route': AppRoutePaths.bugReport,
+                }, nav),
+                if (_isAdmin) _buildAdminFeatureFlagsItem(nav),
+              ],
+            ),
           ),
-        );
-      },
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: c.divider)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  _formatDate(_now),
+                  style: tx.bodyMedium.copyWith(color: c.textSecondary),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  _formatTime(_now),
+                  style: tx.titleMedium.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: c.textPrimary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -324,9 +300,10 @@ class _CommonDrawerState extends State<CommonDrawer> {
     );
   }
 
-  Widget _buildMenuItem(BuildContext context, Map<String, dynamic> page) {
+  Widget _buildMenuItem(Map<String, dynamic> page, NavigationService nav) {
     final c = context.colors;
     final tx = context.text;
+    final route = page['route'] as String;
 
     return ListTile(
       leading: Icon(page['icon'], color: c.textSecondary),
@@ -334,18 +311,9 @@ class _CommonDrawerState extends State<CommonDrawer> {
         page['title'],
         style: tx.bodyMedium.copyWith(color: c.textPrimary),
       ),
-      onTap: () async {
-        Navigator.pop(context);
-        // Navigate and wait for result - triggers refresh on return
-        await Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => page['builder']()),
-        );
-        // Trigger rebuild of current page by popping/pushing context
-        if (context.mounted) {
-          // This causes the calling page to rebuild
-          (context as Element).markNeedsBuild();
-        }
+      onTap: () {
+        nav.pop();
+        nav.push(route);
       },
     );
   }
@@ -370,7 +338,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
     );
   }
 
-  Widget _buildAdminFeatureFlagsItem(BuildContext context) {
+  Widget _buildAdminFeatureFlagsItem(NavigationService nav) {
     final c = context.colors;
     final tx = context.text;
 
@@ -398,8 +366,8 @@ class _CommonDrawerState extends State<CommonDrawer> {
         ),
       ),
       onTap: () {
-        Navigator.pop(context);
-        context.push('/admin/feature-flags');
+        nav.pop();
+        nav.push(AppRoutePaths.adminFeatureFlags);
       },
     );
   }

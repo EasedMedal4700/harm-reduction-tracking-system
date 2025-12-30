@@ -10,18 +10,17 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'common/logging/app_log.dart';
-import 'features/settings/providers/settings_provider.dart';
+import 'features/settings/providers/settings_providers.dart';
 import 'core/routes/screen_tracking_observer.dart';
 import 'core/providers/navigation_provider.dart';
 import 'constants/theme/app_theme_provider.dart';
 import 'core/services/error_logging_service.dart';
-import 'features/feature_flags/services/feature_flag_service.dart';
+import 'features/feature_flags/providers/feature_flag_providers.dart';
 import 'features/login/services/auth_link_handler.dart';
 import 'features/login/pin_unlock/providers/app_lock_controller.dart';
 import 'core/providers/core_providers.dart';
@@ -117,7 +116,7 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
   }
 
   Future<void> _initServices() async {
-    await featureFlagService.load();
+    await ref.read(featureFlagServiceProvider).load();
     // Provide GoRouter's navigatorKey for deep-link routing.
     authLinkHandler.init(_router.routerDelegate.navigatorKey);
   }
@@ -174,27 +173,18 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => SettingsProvider()),
-        ChangeNotifierProvider.value(value: featureFlagService),
-      ],
-      child: Consumer<SettingsProvider>(
-        builder: (context, settingsProvider, _) {
-          final appTheme = AppTheme.fromSettings(settingsProvider.settings);
-          return AppThemeProvider(
-            theme: appTheme,
-            child: MaterialApp.router(
-              routerConfig: _router,
-              debugShowCheckedModeBanner: false,
-              theme: AppTheme.light().themeData,
-              darkTheme: AppTheme.dark().themeData,
-              themeMode: settingsProvider.settings.darkMode
-                  ? ThemeMode.dark
-                  : ThemeMode.light,
-            ),
-          );
-        },
+    final settings = ref.watch(settingsControllerProvider);
+    final appTheme = AppTheme.fromSettings(settings.settings);
+    return AppThemeProvider(
+      theme: appTheme,
+      child: MaterialApp.router(
+        routerConfig: _router,
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light().themeData,
+        darkTheme: AppTheme.dark().themeData,
+        themeMode: settings.settings.darkMode
+            ? ThemeMode.dark
+            : ThemeMode.light,
       ),
     );
   }

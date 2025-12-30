@@ -1,75 +1,49 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Navigation mixin. No UI to migrate.
-import 'package:flutter/material.dart';
-import 'package:mobile_drug_use_app/core/routes/app_routes.dart';
+// Notes: Legacy navigation helper; routes now centralized via NavigationService.
+import 'package:mobile_drug_use_app/core/routes/app_router.dart'
+    show AppRoutePaths;
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
 
 /// Mixin providing navigation methods for HomePage
 mixin HomeNavigationMethods {
-  void openLogEntry(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => AppRoutes.buildLogEntryPage()),
-    );
+  void openLogEntry(NavigationService navigation) {
+    navigation.push(AppRoutePaths.logEntry);
   }
 
-  void openAnalytics(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => AppRoutes.buildAnalyticsPage()),
-    );
+  void openAnalytics(NavigationService navigation) {
+    navigation.push(AppRoutePaths.analytics);
   }
 
-  void openCatalog(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => AppRoutes.buildCatalogPage()),
-    );
+  void openCatalog(NavigationService navigation) {
+    navigation.push(AppRoutePaths.catalog);
   }
 
-  void openCravings(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => AppRoutes.buildCravingsPage()),
-    );
+  void openCravings(NavigationService navigation) {
+    navigation.push(AppRoutePaths.cravings);
   }
 
-  void openBloodLevels(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => AppRoutes.buildBloodLevelsPage()),
-    );
+  void openBloodLevels(NavigationService navigation) {
+    navigation.push(AppRoutePaths.bloodLevels);
   }
 
-  void openReflection(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => AppRoutes.buildReflectionPage()),
-    );
+  void openReflection(NavigationService navigation) {
+    navigation.push(AppRoutePaths.reflection);
   }
 
-  void openActivity(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => AppRoutes.buildActivityPage()),
-    );
+  void openActivity(NavigationService navigation) {
+    navigation.push(AppRoutePaths.activity);
   }
 
-  void openLibrary(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => AppRoutes.buildLibraryPage()),
-    );
+  void openLibrary(NavigationService navigation) {
+    navigation.push(AppRoutePaths.library);
   }
 
-  void openToleranceDashboard(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => AppRoutes.buildToleranceDashboardPage(),
-      ),
-    );
+  void openToleranceDashboard(NavigationService navigation) {
+    navigation.push(AppRoutePaths.toleranceDashboard);
   }
 }

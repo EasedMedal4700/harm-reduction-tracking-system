@@ -1,8 +1,10 @@
-// MIGRATION: COMPLETE
+// MIGRATION:
+// State: MODERN (UI-only)
+// Navigation: CENTRALIZED
+// Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Uses CommonInputField and CommonSpacer.
+// Notes: UI-only; driven by BugReportScreen.
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/common/inputs/input_field.dart';

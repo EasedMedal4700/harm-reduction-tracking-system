@@ -6,6 +6,7 @@
 // Common: N/A
 // Notes: Legacy ChangeNotifier provider.
 import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../models/daily_checkin_model.dart';
 import '../services/daily_checkin_service.dart';
 import 'package:mobile_drug_use_app/common/logging/app_log.dart';
@@ -139,13 +140,14 @@ class DailyCheckinProvider extends ChangeNotifier {
     // Block if check-in already exists
     if (_existingCheckin != null) {
       if (context.mounted) {
+        final c = context.colors;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
+          SnackBar(
+            content: const Text(
               'A check-in already exists for this time. Please choose a different time or date.',
             ),
-            backgroundColor: Colors.orange,
-            duration: Duration(seconds: 4),
+            backgroundColor: c.warning,
+            duration: const Duration(seconds: 4),
           ),
         );
       }

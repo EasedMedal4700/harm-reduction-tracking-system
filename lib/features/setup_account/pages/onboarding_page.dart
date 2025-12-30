@@ -8,14 +8,14 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/common/logging/logger.dart';
 import 'package:mobile_drug_use_app/features/setup_account/controllers/onboarding_controller.dart';
-import 'package:mobile_drug_use_app/features/settings/providers/settings_provider.dart';
+import 'package:mobile_drug_use_app/features/settings/providers/settings_providers.dart';
 import '../../../common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/core/services/onboarding_service.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 
 /// A multi-page onboarding experience for new users
 /// Shows app introduction, privacy info, usage frequency selection, and theme picker
@@ -32,7 +32,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     super.initState();
     // Get current theme setting
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final settings = context.read<SettingsProvider>().settings;
+      final settings = ref.read(settingsControllerProvider).settings;
       ref
           .read(onboardingControllerProvider.notifier)
           .setDarkTheme(settings.darkMode);
@@ -85,9 +85,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     // Apply theme after onboarding data is saved.
     final state = ref.read(onboardingControllerProvider);
-    await context.read<SettingsProvider>().setDarkMode(state.isDarkTheme);
+    await ref.read(settingsControllerProvider).setDarkMode(state.isDarkTheme);
     if (!mounted) return;
-    context.go('/register');
+    ref.read(navigationProvider).replace(AppRoutePaths.register);
   }
 
   @override
@@ -465,7 +465,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           ref
                               .read(onboardingControllerProvider.notifier)
                               .setDarkTheme(false);
-                          context.read<SettingsProvider>().setDarkMode(false);
+                          ref
+                              .read(settingsControllerProvider)
+                              .setDarkMode(false);
                         },
                       ),
                     ),
@@ -480,7 +482,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           ref
                               .read(onboardingControllerProvider.notifier)
                               .setDarkTheme(true);
-                          context.read<SettingsProvider>().setDarkMode(true);
+                          ref
+                              .read(settingsControllerProvider)
+                              .setDarkMode(true);
                         },
                       ),
                     ),
@@ -631,7 +635,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             behavior: HitTestBehavior.opaque,
             onTap: () {
               logger.debug('Onboarding: privacy policy link tapped');
-              context.push('/privacy-policy');
+              ref.read(navigationProvider).push(AppRoutePaths.privacyPolicy);
             },
             child: Container(
               padding: EdgeInsets.all(sp.lg),

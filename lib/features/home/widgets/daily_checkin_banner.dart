@@ -1,33 +1,27 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Uses Riverpod dailyCheckinForNowProvider for completion state.
+
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_providers.dart';
+import 'package:mobile_drug_use_app/features/daily_chekin/models/daily_checkin_model.dart';
 import '../../daily_chekin/widgets/checkin_dialog.dart';
 
-// MIGRATION
-// Theme: COMPLETE
-// Common: COMPLETE
-// Riverpod: TODO
-// Notes: Migrated to use AppTheme.
-// Riverpod: TODO
-// Notes: Migrated to use AppTheme.
-class DailyCheckinBanner extends StatefulWidget {
+class DailyCheckinBanner extends ConsumerWidget {
   const DailyCheckinBanner({super.key});
-  @override
-  State<DailyCheckinBanner> createState() => _DailyCheckinBannerState();
-}
 
-class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      final provider = context.read<DailyCheckinProvider>();
-      provider.initialize();
-      provider.checkExistingCheckin();
-    });
+  String _timeOfDay() {
+    final hour = TimeOfDay.now().hour;
+    if (hour < 12) return 'morning';
+    if (hour < 17) return 'afternoon';
+    return 'evening';
   }
 
   String _getTimeOfDayGreeting(String timeOfDay) {
@@ -56,85 +50,87 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
     }
   }
 
-  void _showCheckinDialog(BuildContext context, DailyCheckinProvider provider) {
-    showDialog(
+  Future<void> _showCheckinDialog(BuildContext context, WidgetRef ref) async {
+    await showDialog<void>(
       context: context,
-      builder: (dialogContext) => ChangeNotifierProvider.value(
-        value: provider,
-        child: const DailyCheckinDialog(),
-      ),
+      builder: (_) => const DailyCheckinDialog(),
     );
+    ref.invalidate(dailyCheckinForNowProvider);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final c = context.colors;
     final ac = context.accent;
     final sp = context.spacing;
     final tx = context.text;
     final sh = context.shapes;
-    return Consumer<DailyCheckinProvider>(
-      builder: (context, provider, child) {
-        final hasCheckedIn = provider.existingCheckin != null;
-        final baseColor = hasCheckedIn ? c.success : ac.primary;
-        final backgroundColor = baseColor.withValues(alpha: 0.1);
-        return Container(
-          margin: EdgeInsets.all(sp.md),
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.circular(sh.radiusMd),
-            border: Border.all(color: baseColor.withValues(alpha: 0.3)),
-            boxShadow: context.cardShadow,
-          ),
-          padding: EdgeInsets.all(sp.md),
-          child: Column(
-            crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+
+    final timeOfDay = _timeOfDay();
+    final checkin = ref.watch(dailyCheckinForNowProvider);
+    final hasCheckedIn = checkin.valueOrNull != null;
+    final baseColor = hasCheckedIn ? c.success : ac.primary;
+    final backgroundColor = baseColor.withValues(alpha: 0.1);
+
+    return Container(
+      margin: EdgeInsets.all(sp.md),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(sh.radiusMd),
+        border: Border.all(color: baseColor.withValues(alpha: 0.3)),
+        boxShadow: context.cardShadow,
+      ),
+      padding: EdgeInsets.all(sp.md),
+      child: Column(
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+        children: [
+          Row(
             children: [
-              // Header row with icon and title
-              Row(
-                children: [
-                  Icon(
-                    _getTimeIcon(provider.timeOfDay),
-                    size: context.sizes.iconLg,
-                    color: baseColor,
-                  ),
-                  SizedBox(width: sp.sm),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
-                      children: [
-                        Text(
-                          'Daily Check-In',
-                          style: tx.titleMedium.copyWith(
-                            color: c.textPrimary,
-                            fontWeight: tx.bodyBold.fontWeight,
-                          ),
-                        ),
-                        Text(
-                          _getTimeOfDayGreeting(provider.timeOfDay),
-                          style: tx.bodySmall.copyWith(color: c.textSecondary),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              Icon(
+                _getTimeIcon(timeOfDay),
+                size: context.sizes.iconLg,
+                color: baseColor,
               ),
-              SizedBox(height: sp.md),
-              // Content based on check-in status
-              if (hasCheckedIn)
-                _buildCheckedInContent(context, provider, baseColor)
-              else
-                _buildPromptContent(context, provider, baseColor),
+              SizedBox(width: sp.sm),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+                  children: [
+                    Text(
+                      'Daily Check-In',
+                      style: tx.titleMedium.copyWith(
+                        color: c.textPrimary,
+                        fontWeight: tx.bodyBold.fontWeight,
+                      ),
+                    ),
+                    Text(
+                      _getTimeOfDayGreeting(timeOfDay),
+                      style: tx.bodySmall.copyWith(color: c.textSecondary),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
-        );
-      },
+          SizedBox(height: sp.md),
+          if (hasCheckedIn)
+            _buildCheckedInContent(
+              context,
+              timeOfDay,
+              checkin.valueOrNull,
+              baseColor,
+            )
+          else
+            _buildPromptContent(context, ref, baseColor),
+        ],
+      ),
     );
   }
 
   Widget _buildCheckedInContent(
     BuildContext context,
-    DailyCheckinProvider provider,
+    String timeOfDay,
+    DailyCheckin? checkin,
     Color color,
   ) {
     final c = context.colors;
@@ -150,7 +146,7 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
             SizedBox(width: sp.xs),
             Expanded(
               child: Text(
-                'You\'ve already checked in for ${provider.timeOfDay}. Great job tracking your wellness!',
+                'You\'ve already checked in for $timeOfDay. Great job tracking your wellness!',
                 style: tx.bodyMedium.copyWith(color: c.textPrimary),
               ),
             ),
@@ -158,7 +154,7 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
         ),
         SizedBox(height: sp.sm),
         Text(
-          'Mood: ${provider.existingCheckin!.mood}',
+          'Mood: ${checkin?.mood ?? ''}',
           style: tx.labelMedium.copyWith(
             color: color,
             fontWeight: tx.bodyBold.fontWeight,
@@ -168,11 +164,7 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
     );
   }
 
-  Widget _buildPromptContent(
-    BuildContext context,
-    DailyCheckinProvider provider,
-    Color color,
-  ) {
+  Widget _buildPromptContent(BuildContext context, WidgetRef ref, Color color) {
     final c = context.colors;
     final tx = context.text;
     final sp = context.spacing;
@@ -194,7 +186,7 @@ class _DailyCheckinBannerState extends State<DailyCheckinBanner> {
         SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
-            onPressed: () => _showCheckinDialog(context, provider),
+            onPressed: () => _showCheckinDialog(context, ref),
             icon: const Icon(Icons.add_circle_outline),
             label: const Text('Check-In Now'),
             style: ElevatedButton.styleFrom(

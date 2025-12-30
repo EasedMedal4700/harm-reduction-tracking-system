@@ -1,31 +1,31 @@
 // MIGRATION:
-// State: LEGACY
-// Navigation: LEGACY
+// State: MODERN
+// Navigation: CENTRALIZED
 // Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Check-In History using Provider.
+// Notes: Riverpod-driven history list.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/layout/common_drawer.dart';
 import 'widgets/checkin_card.dart';
-import 'providers/daily_checkin_provider.dart';
 import '../../constants/theme/app_theme_extension.dart';
+import 'providers/daily_checkin_providers.dart';
 
-class CheckinHistoryScreen extends StatefulWidget {
+class CheckinHistoryScreen extends ConsumerStatefulWidget {
   const CheckinHistoryScreen({super.key});
   @override
-  State<CheckinHistoryScreen> createState() => _CheckinHistoryScreenState();
+  ConsumerState<CheckinHistoryScreen> createState() =>
+      _CheckinHistoryScreenState();
 }
 
-class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
+class _CheckinHistoryScreenState extends ConsumerState<CheckinHistoryScreen> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      context.read<DailyCheckinProvider>().loadRecentCheckins();
+      ref.read(dailyCheckinControllerProvider.notifier).loadRecentCheckins();
     });
   }
 
@@ -35,6 +35,8 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
     final c = context.colors;
     final ac = context.accent;
     final sp = context.spacing;
+
+    final state = ref.watch(dailyCheckinControllerProvider);
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -44,13 +46,10 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
         iconTheme: IconThemeData(color: c.textPrimary),
       ),
       drawer: const CommonDrawer(),
-      body: Consumer<DailyCheckinProvider>(
-        builder: (context, provider, child) {
-          if (provider.isLoading) {
-            return Center(child: CircularProgressIndicator(color: ac.primary));
-          }
-          if (provider.recentCheckins.isEmpty) {
-            return Center(
+      body: state.isLoading
+          ? Center(child: CircularProgressIndicator(color: ac.primary))
+          : state.recentCheckins.isEmpty
+          ? Center(
               child: Column(
                 mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
                 children: [
@@ -73,18 +72,15 @@ class _CheckinHistoryScreenState extends State<CheckinHistoryScreen> {
                   ),
                 ],
               ),
-            );
-          }
-          return ListView.builder(
-            padding: EdgeInsets.all(sp.lg),
-            itemCount: provider.recentCheckins.length,
-            itemBuilder: (context, index) {
-              final checkin = provider.recentCheckins[index];
-              return CheckinCard(checkin: checkin);
-            },
-          );
-        },
-      ),
+            )
+          : ListView.builder(
+              padding: EdgeInsets.all(sp.lg),
+              itemCount: state.recentCheckins.length,
+              itemBuilder: (context, index) {
+                final checkin = state.recentCheckins[index];
+                return CheckinCard(checkin: checkin);
+              },
+            ),
     );
   }
 }

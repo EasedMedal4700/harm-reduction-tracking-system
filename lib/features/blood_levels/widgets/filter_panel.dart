@@ -1,8 +1,10 @@
-// MIGRATION: COMPLETE
+// MIGRATION:
+// State: MODERN (UI-only)
+// Navigation: CENTRALIZED
+// Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Migrated to CommonSpacer. Kept Container as it's a panel.
+// Notes: UI-only filter panel. Emits selection intents via callbacks.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../constants/theme/app_theme_extension.dart';
@@ -91,7 +93,9 @@ class FilterPanel extends StatelessWidget {
                 selected: isSelected,
                 onSelected: (selected) => onExcludeChanged(drug, selected),
                 backgroundColor: c.surfaceVariant,
-                selectedColor: excludeColor.withValues(alpha: 0.2),
+                selectedColor: excludeColor.withValues(
+                  alpha: context.opacities.veryLow,
+                ),
                 checkmarkColor: excludeColor,
                 labelStyle: TextStyle(
                   color: isSelected ? excludeColor : c.textPrimary,

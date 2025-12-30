@@ -6,9 +6,6 @@
 // Common: N/A
 // Notes: Legacy route definitions.
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:mobile_drug_use_app/features/reflection/reflection_provider.dart';
-import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_provider.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/analytics/analytics_page.dart';
 import 'package:mobile_drug_use_app/features/catalog/catalog_page.dart';
@@ -44,20 +41,11 @@ class AppRoutes {
   static Widget buildBloodLevelsPage() => const BloodLevelsPage();
   static Widget buildLibraryPage() =>
       const PersonalLibraryPage(); // Add if implemented
-  static Widget buildReflectionPage() => ChangeNotifierProvider(
-    create: (_) => ReflectionProvider(),
-    child: const ReflectionPage(),
-  );
+  static Widget buildReflectionPage() => const ReflectionPage();
   static Widget buildActivityPage() =>
       const ActivityPage(); // Update to actual class name
-  static Widget buildDailyCheckinPage() => ChangeNotifierProvider(
-    create: (_) => DailyCheckinProvider(),
-    child: const DailyCheckinScreen(),
-  );
-  static Widget buildCheckinHistoryPage() => ChangeNotifierProvider(
-    create: (_) => DailyCheckinProvider(),
-    child: const CheckinHistoryScreen(),
-  );
+  static Widget buildDailyCheckinPage() => const DailyCheckinScreen();
+  static Widget buildCheckinHistoryPage() => const CheckinHistoryScreen();
   static Widget buildProfilePage() => const ProfileScreen();
   static Widget buildAdminPanelPage() => const AdminPanelScreen();
   // Add buildLibraryPage() if implemented

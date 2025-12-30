@@ -33,6 +33,14 @@ lib\features\analytics\widgets\recent_activity_list.dart
 lib\features\analytics\widgets\usage_trend_chart.dart
 lib\features\analytics\widgets\usage_trends_card.dart
 lib\features\analytics\widgets\use_distribution_card.dart
+lib\features\bug_report\bug_report_page.dart
+lib\features\bug_report\models\bug_report_state.dart
+lib\features\bug_report\providers\bug_report_providers.dart
+lib\features\daily_chekin\models\daily_checkin_state.dart
+lib\features\daily_chekin\providers\daily_checkin_providers.dart
+lib\features\home\home_page.dart
+lib\features\home\models\home_state.dart
+lib\features\home\providers\home_providers.dart
 lib\features\login\login\login_controller.dart
 lib\features\login\login\login_state.dart
 lib\features\login\pin_unlock\pin_unlock_controller.dart

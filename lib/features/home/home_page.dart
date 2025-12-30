@@ -1,57 +1,48 @@
 // MIGRATION:
-// State: LEGACY
+// State: MODERN
 // Navigation: CENTRALIZED
-// Models: LEGACY
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Main Home Page. Migrated to use AppTheme and Common components. No hardcoded values.
+// Notes: Riverpod-managed orchestration; widgets emit intent only.
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_animations.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../../common/logging/app_log.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:provider/provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../common/layout/common_spacer.dart';
 import 'home_redesign/header_card.dart';
 import 'home_redesign/daily_checkin_card.dart';
 import 'home_page/home_quick_actions_grid.dart';
 import 'home_page/home_progress_stats.dart';
-import 'home_page/home_navigation_methods.dart';
-import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_provider.dart';
-import '../daily_chekin/services/daily_checkin_service.dart';
 import 'package:mobile_drug_use_app/core/services/user_service.dart';
-import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
-import '../profile/profile_screen.dart';
-import '../admin/screens/admin_panel_screen.dart';
+
+import '../daily_chekin/providers/daily_checkin_providers.dart';
+import 'providers/home_providers.dart';
 
 /// Redesigned Home Page with modular architecture
 /// Supports Light (wellness) and Dark (futuristic) themes
 ///
 /// NOTE: Lifecycle handling (background/foreground) is managed centrally.
 /// This page does NOT have its own lifecycle observer.
-class HomePage extends StatefulWidget {
-  const HomePage({super.key, this.dailyCheckinRepository});
-  final DailyCheckinRepository? dailyCheckinRepository;
+class HomePage extends ConsumerStatefulWidget {
+  const HomePage({super.key});
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin, HomeNavigationMethods {
+class _HomePageState extends ConsumerState<HomePage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
-  final _encryptionService = EncryptionServiceV2();
-  final _userService = UserService();
-  String _userName = 'User';
   @override
   void initState() {
     super.initState();
-    _checkEncryptionStatus();
-    _loadUserProfile();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(homeControllerProvider.notifier).initialize();
+    });
     // Setup animations - duration will be set in didChangeDependencies
     _animationController = AnimationController(
       duration: const AppAnimations().normal,
@@ -61,19 +52,6 @@ class _HomePageState extends State<HomePage>
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
     _animationController.forward();
-  }
-
-  Future<void> _loadUserProfile() async {
-    try {
-      final profile = await _userService.loadUserProfile();
-      if (mounted) {
-        setState(() {
-          _userName = profile.displayName;
-        });
-      }
-    } catch (e) {
-      // Fallback to default
-    }
   }
 
   String _getGreeting() {
@@ -89,48 +67,16 @@ class _HomePageState extends State<HomePage>
     super.dispose();
   }
 
-  Future<void> _checkEncryptionStatus() async {
-    try {
-      final user = Supabase.instance.client.auth.currentUser;
-      if (user == null) return;
-      final hasEncryption = await _encryptionService.hasEncryptionSetup(
-        user.id,
-      );
-      if (hasEncryption && !_encryptionService.isReady) {
-        _requireUnlock();
-      }
-    } catch (e) {
-      AppLog.e('⚠️ Error checking encryption status: $e');
-    }
-  }
-
-  void _requireUnlock() {
-    if (mounted) {
-      context.go('/pin-unlock');
-    }
-  }
-
-  void _openDailyCheckin(BuildContext context) async {
-    // Navigate to daily check-in and wait for result
-    await context.push('/daily-checkin');
-    // Refresh the daily check-in status when returning
-    if (context.mounted) {
-      final provider = Provider.of<DailyCheckinProvider>(
-        context,
-        listen: false,
-      );
-      await provider.checkExistingCheckin();
-      // Trigger rebuild to show updated status
-      setState(() {});
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final ac = context.accent;
     final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
+
+    final homeState = ref.watch(homeControllerProvider);
+    final checkin = ref.watch(dailyCheckinForNowProvider);
+
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -146,10 +92,7 @@ class _HomePageState extends State<HomePage>
           IconButton(
             icon: const Icon(Icons.account_circle, semanticLabel: 'Profile'),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const ProfileScreen()),
-              );
+              ref.read(homeControllerProvider.notifier).openProfile();
             },
             tooltip: 'Profile',
           ),
@@ -164,12 +107,7 @@ class _HomePageState extends State<HomePage>
                     semanticLabel: 'Admin Panel',
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const AdminPanelScreen(),
-                      ),
-                    );
+                    ref.read(homeControllerProvider.notifier).openAdminPanel();
                   },
                   tooltip: 'Admin Panel',
                 );
@@ -185,7 +123,6 @@ class _HomePageState extends State<HomePage>
         color: ac.primary,
         backgroundColor: c.surface,
         onRefresh: () async {
-          setState(() {});
           await Future.delayed(context.animations.slow);
         },
         child: FadeTransition(
@@ -198,34 +135,20 @@ class _HomePageState extends State<HomePage>
               children: [
                 // Header with greeting
                 HeaderCard(
-                  userName: _userName,
+                  userName: homeState.userName,
                   greeting: _getGreeting(),
-                  onProfileTap: () => context.push('/profile'),
+                  onProfileTap: () =>
+                      ref.read(homeControllerProvider.notifier).openProfile(),
                 ),
                 CommonSpacer.vertical(sp.lg),
                 // Daily Check-in Card
-                ChangeNotifierProvider(
-                  create: (_) {
-                    final provider = DailyCheckinProvider(
-                      repository: widget.dailyCheckinRepository,
-                    );
-                    provider.initialize();
-                    // Schedule check to avoid setState during build
-                    Future.microtask(() => provider.checkExistingCheckin());
-                    return provider;
-                  },
-                  child: Consumer<DailyCheckinProvider>(
-                    builder: (context, provider, _) {
-                      final hasCompleted = provider.existingCheckin != null;
-                      final timeSlot = provider.existingCheckin?.timeOfDay;
-                      return DailyCheckinCard(
-                        isCompleted: hasCompleted,
-                        onTap: () => _openDailyCheckin(context),
-                        completedMessage: 'Keep up the great work!',
-                        completedTimeSlot: timeSlot,
-                      );
-                    },
-                  ),
+                DailyCheckinCard(
+                  isCompleted: checkin.valueOrNull != null,
+                  onTap: () => ref
+                      .read(homeControllerProvider.notifier)
+                      .openDailyCheckin(),
+                  completedMessage: 'Keep up the great work!',
+                  completedTimeSlot: checkin.valueOrNull?.timeOfDay,
                 ),
                 CommonSpacer.vertical(sp.lg),
                 // Section Title - Professional typography
@@ -236,14 +159,24 @@ class _HomePageState extends State<HomePage>
                 CommonSpacer.vertical(sp.md),
                 // Quick Actions Grid - Always 2 columns for consistency
                 HomeQuickActionsGrid(
-                  onLogEntry: () => openLogEntry(context),
-                  onReflection: () => openReflection(context),
-                  onAnalytics: () => openAnalytics(context),
-                  onCravings: () => openCravings(context),
-                  onActivity: () => openActivity(context),
-                  onLibrary: () => openLibrary(context),
-                  onCatalog: () => openCatalog(context),
-                  onBloodLevels: () => openBloodLevels(context),
+                  onLogEntry: () =>
+                      ref.read(homeControllerProvider.notifier).openLogEntry(),
+                  onReflection: () => ref
+                      .read(homeControllerProvider.notifier)
+                      .openReflection(),
+                  onAnalytics: () =>
+                      ref.read(homeControllerProvider.notifier).openAnalytics(),
+                  onCravings: () =>
+                      ref.read(homeControllerProvider.notifier).openCravings(),
+                  onActivity: () =>
+                      ref.read(homeControllerProvider.notifier).openActivity(),
+                  onLibrary: () =>
+                      ref.read(homeControllerProvider.notifier).openLibrary(),
+                  onCatalog: () =>
+                      ref.read(homeControllerProvider.notifier).openCatalog(),
+                  onBloodLevels: () => ref
+                      .read(homeControllerProvider.notifier)
+                      .openBloodLevels(),
                 ),
                 CommonSpacer.vertical(sp.lg),
                 // Progress Section
@@ -271,7 +204,7 @@ class _HomePageState extends State<HomePage>
     // Using primary color for FAB in both themes for consistency, or could use accent if defined.
     // Assuming primary is the main action color.
     return FloatingActionButton(
-      onPressed: () => openLogEntry(context),
+      onPressed: () => ref.read(homeControllerProvider.notifier).openLogEntry(),
       backgroundColor: ac.primary,
       foregroundColor: c.textInverse,
       shape: RoundedRectangleBorder(

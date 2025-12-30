@@ -1,8 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: LEGACY
+// Navigation: N/A
+// Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: State management for log entry.
+// Notes: Legacy ChangeNotifier state for log entry.
 import 'package:flutter/material.dart';
 import 'models/log_entry_form_data.dart';
 import 'log_entry_controller.dart';

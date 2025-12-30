@@ -1,10 +1,13 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN (UI-only)
+// Navigation: CENTRALIZED
+// Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Fully migrated to new AppTheme system.
+// Notes: Pure chart configuration helpers (no state or side effects).
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import '../constants/blood_levels_constants.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 
 /// Configuration and builders for the metabolism timeline chart.
@@ -25,8 +28,8 @@ class TimelineChartConfig {
       bottomTitles: AxisTitles(
         sideTitles: SideTitles(
           showTitles: true,
-          reservedSize: 24,
-          interval: 24,
+          reservedSize: BloodLevelsConstants.timelineBottomReservedSize,
+          interval: BloodLevelsConstants.timelineBottomIntervalHours,
           getTitlesWidget: (value, meta) =>
               _buildBottomTitle(context, value, hoursBack, hoursForward),
         ),
@@ -35,7 +38,7 @@ class TimelineChartConfig {
         sideTitles: SideTitles(
           showTitles: true,
           interval: maxY / 4,
-          reservedSize: 40,
+          reservedSize: BloodLevelsConstants.timelineLeftReservedSize,
           getTitlesWidget: (value, meta) => Text(
             '${value.toStringAsFixed(0)}%',
             style: tx.caption.copyWith(color: c.textSecondary),
@@ -96,8 +99,12 @@ class TimelineChartConfig {
       show: true,
       drawVerticalLine: false,
       horizontalInterval: maxY / 4,
-      getDrawingHorizontalLine: (value) =>
-          FlLine(color: c.border.withValues(alpha: 0.25), strokeWidth: bd.thin),
+      getDrawingHorizontalLine: (value) => FlLine(
+        color: c.border.withValues(
+          alpha: BloodLevelsConstants.timelineGridLineOpacity,
+        ),
+        strokeWidth: bd.thin,
+      ),
     );
   }
 
@@ -110,9 +117,14 @@ class TimelineChartConfig {
       verticalLines: [
         VerticalLine(
           x: 0,
-          color: ac.primary.withValues(alpha: 0.5),
+          color: ac.primary.withValues(
+            alpha: BloodLevelsConstants.timelineNowLineOpacity,
+          ),
           strokeWidth: bd.medium,
-          dashArray: [5, 5],
+          dashArray: [
+            BloodLevelsConstants.timelineNowDashOn,
+            BloodLevelsConstants.timelineNowDashOff,
+          ],
           label: VerticalLineLabel(
             show: true,
             alignment: context.shapes.alignmentTopCenter,
@@ -132,7 +144,8 @@ class TimelineChartConfig {
     List<LineChartBarData> lineBarsData,
     bool adaptiveScale,
   ) {
-    if (lineBarsData.isEmpty) return 100;
+    if (lineBarsData.isEmpty)
+      return BloodLevelsConstants.timelineFixedScaleMinY;
     double maxValue = 0;
     for (final line in lineBarsData) {
       for (final spot in line.spots) {
@@ -140,10 +153,21 @@ class TimelineChartConfig {
       }
     }
     if (adaptiveScale) {
-      return (maxValue * 1.3).clamp(20.0, 200.0);
+      return (maxValue * BloodLevelsConstants.timelineAdaptiveScaleMultiplier)
+          .clamp(
+            BloodLevelsConstants.timelineAdaptiveScaleMinY,
+            BloodLevelsConstants.timelineAdaptiveScaleMaxY,
+          );
     }
     // Fixed 100% scale
-    return maxValue < 100 ? 100 : (maxValue * 1.3).clamp(100.0, 200.0);
+    if (maxValue < BloodLevelsConstants.timelineFixedScaleMinY) {
+      return BloodLevelsConstants.timelineFixedScaleMinY;
+    }
+    return (maxValue * BloodLevelsConstants.timelineAdaptiveScaleMultiplier)
+        .clamp(
+          BloodLevelsConstants.timelineFixedScaleMinY,
+          BloodLevelsConstants.timelineAdaptiveScaleMaxY,
+        );
   }
 
   /// Tooltip builder

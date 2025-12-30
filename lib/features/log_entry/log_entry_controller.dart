@@ -1,8 +1,10 @@
-// MIGRATION
+// MIGRATION:
+// State: LEGACY
+// Navigation: N/A
+// Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Logic controller for log entry.
+// Notes: Pure business logic controller for log entry.
 import 'models/log_entry_form_data.dart';
 import 'models/log_entry_model.dart';
 import 'package:mobile_drug_use_app/core/services/timezone_service.dart';

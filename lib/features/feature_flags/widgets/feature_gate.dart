@@ -6,10 +6,10 @@
 // Common: COMPLETE
 // Notes: Wrapper widget for feature gating.
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/features/feature_flags/services/feature_flag_service.dart';
-import 'package:mobile_drug_use_app/core/services/user_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:mobile_drug_use_app/features/feature_flags/providers/feature_flag_providers.dart';
 import 'feature_disabled_screen.dart';
 
 /// A wrapper widget that conditionally shows a page based on feature flags.
@@ -24,7 +24,7 @@ import 'feature_disabled_screen.dart';
 ///   child: HomePage(),
 /// )
 /// ```
-class FeatureGate extends StatelessWidget {
+class FeatureGate extends ConsumerWidget {
   /// The feature flag name to check (e.g., 'home_page', 'analytics_page').
   final String featureName;
 
@@ -40,32 +40,22 @@ class FeatureGate extends StatelessWidget {
     this.disabledScreen,
   });
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: UserService.isAdmin(),
-      builder: (context, adminSnapshot) {
-        // Show loading while checking admin status
-        if (adminSnapshot.connectionState == ConnectionState.waiting) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final admin = ref.watch(isAdminProvider);
+    return admin.when(
+      loading: () => const _LoadingScreen(),
+      error: (_, __) => const _LoadingScreen(),
+      data: (isAdmin) {
+        final flags = ref.watch(featureFlagServiceProvider);
+        if (flags.isLoading && !flags.isLoaded) {
           return const _LoadingScreen();
         }
-        final isAdmin = adminSnapshot.data ?? false;
-        // Use Consumer to listen to feature flag changes
-        return Consumer<FeatureFlagService>(
-          builder: (context, flags, _) {
-            // Check if flags are still loading
-            if (flags.isLoading && !flags.isLoaded) {
-              return const _LoadingScreen();
-            }
-            // Check if feature is enabled (or admin override)
-            final isEnabled = flags.isEnabled(featureName, isAdmin: isAdmin);
-            if (isEnabled) {
-              return child;
-            }
-            // Show disabled screen
-            return disabledScreen ??
-                FeatureDisabledScreen(featureName: featureName);
-          },
-        );
+        final isEnabled = flags.isEnabled(featureName, isAdmin: isAdmin);
+        if (isEnabled) {
+          return child;
+        }
+        return disabledScreen ??
+            FeatureDisabledScreen(featureName: featureName);
       },
     );
   }

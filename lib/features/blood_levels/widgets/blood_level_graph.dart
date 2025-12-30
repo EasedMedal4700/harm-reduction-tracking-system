@@ -1,12 +1,15 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN (UI-only)
+// Navigation: CENTRALIZED
+// Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Migrated to CommonCard and CommonSectionHeader. No Riverpod.
+// Notes: UI-only chart widget. Renders provided PK points.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/data/graph_constants.dart';
 import 'package:fl_chart/fl_chart.dart';
+import '../constants/blood_levels_constants.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/cards/common_card.dart';
 import '../../../common/text/common_section_header.dart';
@@ -107,7 +110,7 @@ class BloodLevelGraph extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 45,
+              reservedSize: BloodLevelsConstants.chartAxisLeftReservedSize,
               getTitlesWidget: (value, meta) =>
                   _buildLeftTitle(value, meta, context),
             ),
@@ -115,7 +118,7 @@ class BloodLevelGraph extends StatelessWidget {
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 32,
+              reservedSize: BloodLevelsConstants.chartAxisBottomReservedSize,
               getTitlesWidget: (value, meta) =>
                   _buildBottomTitle(value, meta, context),
             ),
@@ -130,7 +133,7 @@ class BloodLevelGraph extends StatelessWidget {
         gridData: FlGridData(
           show: true,
           drawVerticalLine: true,
-          horizontalInterval: 20,
+          horizontalInterval: BloodLevelsConstants.chartGridHorizontalInterval,
           getDrawingHorizontalLine: (value) => FlLine(
             color: c.border.withValues(alpha: context.opacities.slow),
             strokeWidth: context.borders.thin,
@@ -144,8 +147,8 @@ class BloodLevelGraph extends StatelessWidget {
           show: true,
           border: Border.all(color: c.border, width: context.borders.thin),
         ),
-        minY: 0,
-        maxY: 120,
+        minY: BloodLevelsConstants.chartMinY,
+        maxY: BloodLevelsConstants.chartMaxY,
         minX: startTime.millisecondsSinceEpoch.toDouble(),
         maxX: endTime.millisecondsSinceEpoch.toDouble(),
         lineTouchData: LineTouchData(
@@ -198,7 +201,7 @@ class BloodLevelGraph extends StatelessWidget {
 
     final date = DateTime.fromMillisecondsSinceEpoch(value.toInt());
     final hoursDiff = date.difference(startTime).inHours;
-    if (hoursDiff % 6 == 0) {
+    if (hoursDiff % BloodLevelsConstants.chartAxisLabelHoursStep == 0) {
       return Padding(
         padding: EdgeInsets.only(top: sp.sm),
         child: Text(

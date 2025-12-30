@@ -11,6 +11,7 @@ import 'package:app_links/app_links.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/common/logging/app_log.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
 /// Handles deep links for authentication flows (email confirmation, password reset).
 ///
@@ -266,8 +267,9 @@ class AuthLinkHandler {
   void _showError(String message) {
     final context = _navigatorKey?.currentContext;
     if (context != null && context.mounted) {
+      final c = context.colors;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message), backgroundColor: Colors.red),
+        SnackBar(content: Text(message), backgroundColor: c.error),
       );
     }
   }

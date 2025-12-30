@@ -1,15 +1,14 @@
 // MIGRATION:
-// State: LEGACY
+// State: MODERN
 // Navigation: CENTRALIZED
 // Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Daily Checkin using Provider and GoRouter.
+// Notes: Uses Riverpod controller; widgets emit intent only.
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/layout/common_drawer.dart';
 import 'widgets/readonly_field.dart';
 import 'widgets/time_of_day_indicator.dart';
@@ -18,24 +17,21 @@ import 'widgets/mood_selector.dart';
 import 'widgets/emotion_selector.dart';
 import 'widgets/notes_input.dart';
 import 'widgets/save_button.dart';
-import 'providers/daily_checkin_provider.dart';
+import 'providers/daily_checkin_providers.dart';
 
-class DailyCheckinScreen extends StatefulWidget {
+class DailyCheckinScreen extends ConsumerStatefulWidget {
   const DailyCheckinScreen({super.key});
   @override
-  State<DailyCheckinScreen> createState() => _DailyCheckinScreenState();
+  ConsumerState<DailyCheckinScreen> createState() => _DailyCheckinScreenState();
 }
 
-class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
+class _DailyCheckinScreenState extends ConsumerState<DailyCheckinScreen> {
   final TextEditingController _notesController = TextEditingController();
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      final provider = context.read<DailyCheckinProvider>();
-      provider.initialize();
-      provider.checkExistingCheckin();
+      ref.read(dailyCheckinControllerProvider.notifier).initialize();
     });
   }
 
@@ -51,6 +47,36 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
     final c = context.colors;
     final ac = context.accent;
     final sp = context.spacing;
+
+    ref.listen(dailyCheckinControllerProvider.select((s) => s.notes), (
+      previous,
+      next,
+    ) {
+      if (_notesController.text == next) return;
+      _notesController.text = next;
+    });
+
+    ref.listen(dailyCheckinControllerProvider, (previous, next) {
+      final event = next.uiEvent;
+      event.map(
+        snackbar: (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(e.message),
+              backgroundColor: e.isError ? c.error : c.success,
+              duration: context.animations.toast,
+            ),
+          );
+          ref.read(dailyCheckinControllerProvider.notifier).clearUiEvent();
+        },
+        close: (_) {
+          ref.read(dailyCheckinControllerProvider.notifier).clearUiEvent();
+        },
+        none: (_) {},
+      );
+    });
+
+    final state = ref.watch(dailyCheckinControllerProvider);
     return Scaffold(
       backgroundColor: c.background,
       appBar: AppBar(
@@ -66,7 +92,7 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
           IconButton(
             icon: const Icon(Icons.history),
             onPressed: () {
-              context.push('/checkin-history');
+              ref.read(dailyCheckinControllerProvider.notifier).openHistory();
             },
             tooltip: 'View History',
           ),
@@ -77,86 +103,93 @@ class _DailyCheckinScreenState extends State<DailyCheckinScreen> {
         color: ac.primary,
         backgroundColor: c.surface,
         onRefresh: () async {
-          final provider = context.read<DailyCheckinProvider>();
-          await provider.checkExistingCheckin();
+          await ref
+              .read(dailyCheckinControllerProvider.notifier)
+              .checkExistingCheckin();
         },
-        child: Consumer<DailyCheckinProvider>(
-          builder: (context, provider, child) {
-            if (provider.isLoading) {
-              return Center(
+        child: state.isLoading
+            ? Center(
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(ac.primary),
                 ),
-              );
-            }
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(sp.lg),
-              child: Column(
-                crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
-                children: [
-                  // Date & Time (Read-Only)
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ReadOnlyField(
-                          icon: Icons.calendar_today,
-                          label: 'Date',
-                          value:
-                              '${provider.selectedDate.year}-${provider.selectedDate.month.toString().padLeft(2, '0')}-${provider.selectedDate.day.toString().padLeft(2, '0')}',
+              )
+            : SingleChildScrollView(
+                padding: EdgeInsets.all(sp.lg),
+                child: Column(
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+                  children: [
+                    // Date & Time (Read-Only)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ReadOnlyField(
+                            icon: Icons.calendar_today,
+                            label: 'Date',
+                            value: state.selectedDate == null
+                                ? ''
+                                : '${state.selectedDate!.year}-${state.selectedDate!.month.toString().padLeft(2, '0')}-${state.selectedDate!.day.toString().padLeft(2, '0')}',
+                          ),
                         ),
-                      ),
-                      SizedBox(width: sp.lg),
-                      Expanded(
-                        child: ReadOnlyField(
-                          icon: Icons.access_time,
-                          label: 'Time',
-                          value:
-                              '${provider.selectedTime?.hour.toString().padLeft(2, '0')}:${provider.selectedTime?.minute.toString().padLeft(2, '0')}',
+                        SizedBox(width: sp.lg),
+                        Expanded(
+                          child: ReadOnlyField(
+                            icon: Icons.access_time,
+                            label: 'Time',
+                            value: state.selectedTime == null
+                                ? ''
+                                : '${state.selectedTime!.hour.toString().padLeft(2, '0')}:${state.selectedTime!.minute.toString().padLeft(2, '0')}',
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: sp.xl),
-                  // Time of Day Indicator (Full Width)
-                  TimeOfDayIndicator(currentTimeOfDay: provider.timeOfDay),
-                  SizedBox(height: sp.xl),
-                  // Existing check-in notice
-                  if (provider.existingCheckin != null) ...[
-                    const ExistingCheckinNotice(),
+                      ],
+                    ),
                     SizedBox(height: sp.xl),
+                    // Time of Day Indicator (Full Width)
+                    TimeOfDayIndicator(currentTimeOfDay: state.timeOfDay),
+                    SizedBox(height: sp.xl),
+                    // Existing check-in notice
+                    if (state.existingCheckin != null) ...[
+                      const ExistingCheckinNotice(),
+                      SizedBox(height: sp.xl),
+                    ],
+                    // Mood Selection
+                    MoodSelector(
+                      selectedMood: state.mood,
+                      availableMoods: DailyCheckinController.availableMoods,
+                      onMoodSelected: ref
+                          .read(dailyCheckinControllerProvider.notifier)
+                          .setMood,
+                    ),
+                    SizedBox(height: sp.xl2),
+                    // Emotions Selection
+                    EmotionSelector(
+                      selectedEmotions: state.emotions,
+                      availableEmotions:
+                          DailyCheckinController.availableEmotions,
+                      onEmotionToggled: ref
+                          .read(dailyCheckinControllerProvider.notifier)
+                          .toggleEmotion,
+                    ),
+                    SizedBox(height: sp.xl2),
+                    // Notes
+                    NotesInput(
+                      controller: _notesController,
+                      onChanged: ref
+                          .read(dailyCheckinControllerProvider.notifier)
+                          .setNotes,
+                    ),
+                    SizedBox(height: sp.xl2),
+                    // Save Button
+                    SaveButton(
+                      isSaving: state.isSaving,
+                      isDisabled: state.existingCheckin != null,
+                      onPressed: () => ref
+                          .read(dailyCheckinControllerProvider.notifier)
+                          .saveCheckin(),
+                    ),
+                    SizedBox(height: sp.xl2),
                   ],
-                  // Mood Selection
-                  MoodSelector(
-                    selectedMood: provider.mood,
-                    availableMoods: provider.availableMoods,
-                    onMoodSelected: provider.setMood,
-                  ),
-                  SizedBox(height: sp.xl2),
-                  // Emotions Selection
-                  EmotionSelector(
-                    selectedEmotions: provider.emotions,
-                    availableEmotions: provider.availableEmotions,
-                    onEmotionToggled: provider.toggleEmotion,
-                  ),
-                  SizedBox(height: sp.xl2),
-                  // Notes
-                  NotesInput(
-                    controller: _notesController,
-                    onChanged: provider.setNotes,
-                  ),
-                  SizedBox(height: sp.xl2),
-                  // Save Button
-                  SaveButton(
-                    isSaving: provider.isSaving,
-                    isDisabled: provider.existingCheckin != null,
-                    onPressed: () => provider.saveCheckin(context),
-                  ),
-                  SizedBox(height: sp.xl2),
-                ],
+                ),
               ),
-            );
-          },
-        ),
       ),
     );
   }

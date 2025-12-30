@@ -1,17 +1,19 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Migrated to use CommonActionCard and AppTheme. No hardcoded values.
+// Notes: Quick actions are feature-flag gated.
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../constants/config/feature_flags.dart';
-import 'package:mobile_drug_use_app/features/feature_flags/services/feature_flag_service.dart';
 import 'package:mobile_drug_use_app/core/services/user_service.dart';
 import '../../../../common/cards/common_action_card.dart';
+import 'package:mobile_drug_use_app/features/feature_flags/providers/feature_flag_providers.dart';
 
-class HomeQuickActionsGrid extends StatefulWidget {
+class HomeQuickActionsGrid extends ConsumerStatefulWidget {
   final VoidCallback onLogEntry;
   final VoidCallback onReflection;
   final VoidCallback onAnalytics;
@@ -32,10 +34,11 @@ class HomeQuickActionsGrid extends StatefulWidget {
     required this.onBloodLevels,
   });
   @override
-  State<HomeQuickActionsGrid> createState() => _HomeQuickActionsGridState();
+  ConsumerState<HomeQuickActionsGrid> createState() =>
+      _HomeQuickActionsGridState();
 }
 
-class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
+class _HomeQuickActionsGridState extends ConsumerState<HomeQuickActionsGrid> {
   bool _isAdmin = false;
   @override
   void initState() {
@@ -111,35 +114,29 @@ class _HomeQuickActionsGridState extends State<HomeQuickActionsGrid> {
         FeatureFlags.bloodLevelsPage,
       ),
     ];
-    return Consumer<FeatureFlagService>(
-      builder: (context, flags, _) {
-        // Filter actions based on feature flags
-        final enabledActions = allActions
-            .where(
-              (action) => flags.isEnabled(action.flagName, isAdmin: _isAdmin),
-            )
-            .toList();
-        if (enabledActions.isEmpty) {
-          return const SizedBox.shrink();
-        }
-        return GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisSpacing: context.spacing.md,
-          mainAxisSpacing: context.spacing.md,
-          childAspectRatio: 1.0, // Square aspect ratio
-          children: enabledActions
-              .map(
-                (action) => CommonActionCard(
-                  icon: action.icon,
-                  title: action.label,
-                  onTap: action.onTap,
-                ),
-              )
-              .toList(),
-        );
-      },
+    final flags = ref.watch(featureFlagServiceProvider);
+    final enabledActions = allActions
+        .where((action) => flags.isEnabled(action.flagName, isAdmin: _isAdmin))
+        .toList();
+    if (enabledActions.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisSpacing: context.spacing.md,
+      mainAxisSpacing: context.spacing.md,
+      childAspectRatio: 1.0,
+      children: enabledActions
+          .map(
+            (action) => CommonActionCard(
+              icon: action.icon,
+              title: action.label,
+              onTap: action.onTap,
+            ),
+          )
+          .toList(),
     );
   }
 }

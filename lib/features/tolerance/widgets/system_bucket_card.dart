@@ -71,7 +71,7 @@ class SystemBucketCard extends StatelessWidget {
           boxShadow: shadows,
         ),
         child: Material(
-          color: Colors.transparent,
+          color: c.transparent,
           borderRadius: BorderRadius.circular(sh.radiusMd),
           clipBehavior: Clip.antiAlias,
           child: InkWell(

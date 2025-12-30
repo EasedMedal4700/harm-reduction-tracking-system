@@ -8,7 +8,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import 'package:mobile_drug_use_app/constants/config/feature_flags.dart';
 import 'package:mobile_drug_use_app/features/admin/screens/admin_panel_screen.dart';
@@ -28,14 +27,17 @@ import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/edit_craving/edit_craving_page.dart';
 import 'package:mobile_drug_use_app/features/edit_log_entry/edit_log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/edit_reflection/edit_reflection_page.dart';
+import 'package:mobile_drug_use_app/features/interactions/interactions_page.dart';
 import 'package:mobile_drug_use_app/features/login/login/login_page.dart';
 import 'package:mobile_drug_use_app/features/login/pin_unlock/pin_unlock_page.dart';
 import 'package:mobile_drug_use_app/features/manage_profile/change_pin/change_pin_page.dart';
 import 'package:mobile_drug_use_app/features/manage_profile/forgot_password/forgot_password_page.dart';
+import 'package:mobile_drug_use_app/features/physiological/physiological_page.dart';
 import 'package:mobile_drug_use_app/features/profile/profile_screen.dart';
 import 'package:mobile_drug_use_app/features/reflection/reflection_page.dart';
 import 'package:mobile_drug_use_app/features/settings/privacy_policy_page.dart';
 import 'package:mobile_drug_use_app/features/settings/settings_page.dart';
+import 'package:mobile_drug_use_app/features/stockpile/stockpile_page.dart';
 import 'package:mobile_drug_use_app/features/setup_account/pages/email_confirmed_page.dart';
 import 'package:mobile_drug_use_app/features/setup_account/pages/onboarding_page.dart';
 import 'package:mobile_drug_use_app/features/setup_account/pages/pin_setup_page.dart';
@@ -43,7 +45,7 @@ import 'package:mobile_drug_use_app/features/setup_account/pages/recovery_key_pa
 import 'package:mobile_drug_use_app/features/setup_account/pages/register_page.dart';
 import 'package:mobile_drug_use_app/features/setup_account/pages/set_new_password_page.dart';
 import 'package:mobile_drug_use_app/features/tolerance/pages/tolerance_dashboard_page.dart';
-import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_provider.dart';
+import 'package:mobile_drug_use_app/features/wearOS/wearos_page.dart';
 
 class AppRoutePaths {
   static const login = '/login_page';
@@ -70,6 +72,7 @@ class AppRoutePaths {
   static const bloodLevels = '/blood_levels';
   static const reflection = '/reflection';
   static const activity = '/activity';
+  static const library = '/library';
   static const editDrugUse = '/activity/edit-drug-use';
   static const editCraving = '/activity/edit-craving';
   static const editReflection = '/activity/edit-reflection';
@@ -82,6 +85,11 @@ class AppRoutePaths {
   static const bugReport = '/bug-report';
   static const settings = '/settings';
   static const toleranceDashboard = '/tolerance-dashboard';
+
+  // Advanced
+  static const physiological = '/physiological';
+  static const interactions = '/interactions';
+  static const wearos = '/wearos';
 }
 
 GoRouter createAppRouter({required NavigatorObserver observer}) {
@@ -200,8 +208,26 @@ GoRouter createAppRouter({required NavigatorObserver observer}) {
         ),
       ),
       GoRoute(
+        path: AppRoutePaths.physiological,
+        builder: (context, state) => FeatureGate(
+          featureName: FeatureFlags.physiologicalPage,
+          child: const PhysiologicalPage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutePaths.interactions,
+        builder: (context, state) => FeatureGate(
+          featureName: FeatureFlags.interactionsPage,
+          child: const InteractionsPage(),
+        ),
+      ),
+      GoRoute(
         path: AppRoutePaths.activity,
         builder: (context, state) => const ActivityPage(),
+      ),
+      GoRoute(
+        path: AppRoutePaths.library,
+        builder: (context, state) => const PersonalLibraryPage(),
       ),
       GoRoute(
         path: AppRoutePaths.editDrugUse,
@@ -237,20 +263,14 @@ GoRouter createAppRouter({required NavigatorObserver observer}) {
         path: AppRoutePaths.dailyCheckin,
         builder: (context, state) => FeatureGate(
           featureName: FeatureFlags.dailyCheckin,
-          child: ChangeNotifierProvider(
-            create: (_) => DailyCheckinProvider(),
-            child: const DailyCheckinScreen(),
-          ),
+          child: const DailyCheckinScreen(),
         ),
       ),
       GoRoute(
         path: AppRoutePaths.checkinHistory,
         builder: (context, state) => FeatureGate(
           featureName: FeatureFlags.checkinHistoryPage,
-          child: ChangeNotifierProvider(
-            create: (_) => DailyCheckinProvider(),
-            child: const CheckinHistoryScreen(),
-          ),
+          child: const CheckinHistoryScreen(),
         ),
       ),
       GoRoute(
@@ -288,6 +308,13 @@ GoRouter createAppRouter({required NavigatorObserver observer}) {
         builder: (context, state) => FeatureGate(
           featureName: FeatureFlags.toleranceDashboardPage,
           child: const ToleranceDashboardPage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutePaths.wearos,
+        builder: (context, state) => FeatureGate(
+          featureName: FeatureFlags.wearosPage,
+          child: const WearOSPage(),
         ),
       ),
     ],

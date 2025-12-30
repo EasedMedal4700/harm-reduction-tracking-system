@@ -4,20 +4,23 @@
 // Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Page for logging drug use. No hardcoded values.
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+// Notes: Page for logging drug use. Uses Riverpod wrapper for legacy ChangeNotifier state.
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../common/layout/common_drawer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+
 import '../../common/feedback/common_loader.dart';
+import '../../common/layout/common_drawer.dart';
+import 'log_entry_controller.dart';
+import 'log_entry_state.dart';
+import 'providers/log_entry_providers.dart';
 import 'widgets/log_entry/log_entry_form.dart';
 import 'widgets/log_entry_page/log_entry_app_bar.dart';
-import 'log_entry_state.dart';
-import 'log_entry_controller.dart';
 
 class QuickLogEntryPage extends StatefulWidget {
   final LogEntryController? controller;
   const QuickLogEntryPage({super.key, this.controller});
+
   @override
   State<QuickLogEntryPage> createState() => _QuickLogEntryPageState();
 }
@@ -26,20 +29,23 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
     with SingleTickerProviderStateMixin {
   late final LogEntryState _state;
   late final LogEntryController _controller;
+
   AnimationController? _animationController;
   late Animation<double> _fadeAnimation;
+
   final _formKey = GlobalKey<FormState>();
   final _notesCtrl = TextEditingController();
   final _doseCtrl = TextEditingController();
   final _substanceCtrl = TextEditingController();
+
   bool _isSaving = false;
+
   @override
   void initState() {
     super.initState();
     _controller = widget.controller ?? LogEntryController();
     _state = LogEntryState(controller: _controller);
-    // AnimationController will be initialized in didChangeDependencies
-    // to safely access Theme context.
+
     _notesCtrl.addListener(() => _state.setNotes(_notesCtrl.text));
     _doseCtrl.addListener(() {
       final value = double.tryParse(_doseCtrl.text);
@@ -77,7 +83,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       _showSnackBar('Please fix validation errors before saving.');
       return;
     }
-    // Run validations
+
     final substanceValidation = await _controller.validateSubstance(
       _state.data,
     );
@@ -88,6 +94,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       );
       return;
     }
+
     final roaValidation = _controller.validateROA(_state.data);
     if (roaValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
@@ -96,6 +103,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       );
       if (!confirmed) return;
     }
+
     final emotionsValidation = _controller.validateEmotions(_state.data);
     if (emotionsValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
@@ -104,6 +112,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       );
       if (!confirmed) return;
     }
+
     final cravingValidation = _controller.validateCraving(_state.data);
     if (cravingValidation.needsConfirmation) {
       final confirmed = await _showConfirmDialog(
@@ -112,11 +121,12 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
       );
       if (!confirmed) return;
     }
-    // Save
+
     setState(() => _isSaving = true);
     final result = await _controller.saveLogEntry(_state.data);
     if (!mounted) return;
     setState(() => _isSaving = false);
+
     if (result.isSuccess) {
       _showSnackBar(result.message, duration: context.animations.longSnackbar);
       _resetForm();
@@ -143,7 +153,7 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   }
 
   void _showErrorDialog(String title, String message) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(title),
@@ -183,10 +193,12 @@ class _QuickLogEntryPageState extends State<QuickLogEntryPage>
   Widget build(BuildContext context) {
     final c = context.colors;
     final sp = context.spacing;
-    return ChangeNotifierProvider<LogEntryState>.value(
-      value: _state,
-      child: Consumer<LogEntryState>(
-        builder: (context, state, child) {
+
+    return ProviderScope(
+      overrides: [logEntryStateProvider.overrideWith((ref) => _state)],
+      child: Consumer(
+        builder: (context, ref, _) {
+          final state = ref.watch(logEntryStateProvider);
           return Scaffold(
             backgroundColor: c.background,
             appBar: LogEntryAppBar(

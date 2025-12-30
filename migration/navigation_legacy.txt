@@ -1,0 +1,10 @@
+﻿lib\features\bug_report\bug_report_screen.dart
+lib\features\catalog\catalog_page.dart
+lib\features\craving\cravings_page.dart
+lib\features\edit_craving\edit_craving_page.dart
+lib\features\edit_log_entry\edit_log_entry_page.dart
+lib\features\edit_reflection\edit_reflection_page.dart
+lib\features\feature_flags\feature_flags_page.dart
+lib\features\log_entry\log_entry_page.dart
+lib\features\reflection\reflection_page.dart
+lib\features\settings\settings_page.dart

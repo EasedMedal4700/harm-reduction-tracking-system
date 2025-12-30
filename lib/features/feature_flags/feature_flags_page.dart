@@ -7,26 +7,28 @@
 // Notes: Admin feature flags page. Migrated to use AppTheme. No hardcoded values.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import 'package:provider/provider.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/layout/common_spacer.dart';
 
 import '../../constants/config/feature_flags.dart';
-import 'package:mobile_drug_use_app/features/feature_flags/services/feature_flag_service.dart';
 import 'package:mobile_drug_use_app/core/services/user_service.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/features/feature_flags/providers/feature_flag_providers.dart';
+import 'package:mobile_drug_use_app/features/feature_flags/services/feature_flag_service.dart';
 
 // import '../../common/old_common/drawer_menu.dart'; // Removed legacy drawer
 /// Admin screen for managing feature flags.
 ///
 /// Allows admins to toggle feature flags on/off, which controls
 /// access to various app features for non-admin users.
-class FeatureFlagsScreen extends StatefulWidget {
+class FeatureFlagsScreen extends ConsumerStatefulWidget {
   const FeatureFlagsScreen({super.key});
   @override
-  State<FeatureFlagsScreen> createState() => _FeatureFlagsScreenState();
+  ConsumerState<FeatureFlagsScreen> createState() => _FeatureFlagsScreenState();
 }
 
-class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
+class _FeatureFlagsScreenState extends ConsumerState<FeatureFlagsScreen> {
   bool _isLoading = true;
   bool _isAdmin = false;
   String? _errorMessage;
@@ -41,13 +43,17 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     final isAdmin = await UserService.isAdmin();
     if (!isAdmin) {
       if (mounted) {
-        Navigator.of(context).pop();
+        final c = context.colors;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Admin access required'),
             backgroundColor: c.error,
           ),
         );
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          ref.read(navigationProvider).pop();
+        });
       }
       return;
     }
@@ -62,11 +68,11 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
       _pendingUpdates[featureName] = true;
     });
     try {
-      final success = await featureFlagService.updateFlag(
-        featureName,
-        newValue,
-      );
+      final success = await ref
+          .read(featureFlagServiceProvider)
+          .updateFlag(featureName, newValue);
       if (!success && mounted) {
+        final c = context.colors;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to update "$featureName"'),
@@ -85,7 +91,7 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
 
   Future<void> _refreshFlags() async {
     setState(() => _isLoading = true);
-    await featureFlagService.refresh();
+    await ref.read(featureFlagServiceProvider).refresh();
     setState(() => _isLoading = false);
   }
 
@@ -124,18 +130,15 @@ class _FeatureFlagsScreenState extends State<FeatureFlagsScreen> {
     if (_errorMessage != null) {
       return _buildErrorState(context);
     }
-    return Consumer<FeatureFlagService>(
-      builder: (context, flags, _) {
-        if (flags.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        final allFlags = flags.allFlags;
-        if (allFlags.isEmpty) {
-          return _buildEmptyState(context);
-        }
-        return _buildFlagsList(context, allFlags);
-      },
-    );
+    final flags = ref.watch(featureFlagServiceProvider);
+    if (flags.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    final allFlags = flags.allFlags;
+    if (allFlags.isEmpty) {
+      return _buildEmptyState(context);
+    }
+    return _buildFlagsList(context, allFlags);
   }
 
   Widget _buildErrorState(BuildContext context) {

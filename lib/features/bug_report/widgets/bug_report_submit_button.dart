@@ -1,8 +1,10 @@
-// MIGRATION: COMPLETE
+// MIGRATION:
+// State: MODERN (UI-only)
+// Navigation: CENTRALIZED
+// Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Riverpod: TODO
-// Notes: Migrated to CommonPrimaryButton.
+// Notes: UI-only button.
 import 'package:flutter/material.dart';
 import '../../../common/buttons/common_primary_button.dart';
 
