@@ -23,24 +23,22 @@ class DosageInput extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final ac = context.accent;
-    // sp unused
-    final sh = context.shapes;
+    final th = context.theme;
+    final sh = th.sh;
     // If unit options are provided, render a combined control (text field + dropdown)
     if (units != null && onUnitChanged != null) {
       return Container(
         decoration: BoxDecoration(
-          color: c.surface,
+          color: th.c.surface,
           borderRadius: BorderRadius.circular(sh.radiusMd),
-          border: Border.all(color: c.border),
+          border: Border.all(color: th.c.border, width: th.borders.thin),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+        padding: EdgeInsets.symmetric(horizontal: th.sp.md, vertical: th.sp.sm),
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6.0),
-              child: Icon(Icons.scale, color: ac.primary),
+              padding: EdgeInsets.symmetric(horizontal: th.sp.sm),
+              child: Icon(Icons.scale, color: th.ac.primary, size: th.sizes.iconMd),
             ),
             Expanded(
               child: TextFormField(
@@ -49,7 +47,7 @@ class DosageInput extends StatelessWidget {
                   decimal: true,
                 ),
                 decoration: InputDecoration.collapsed(hintText: 'Dosage'),
-                style: TextStyle(color: c.textPrimary),
+                style: TextStyle(color: th.c.textPrimary),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter dosage';
@@ -62,10 +60,10 @@ class DosageInput extends StatelessWidget {
               ),
             ),
             Container(
-              height: 32,
-              width: 1,
-              color: c.border,
-              margin: EdgeInsets.symmetric(horizontal: 8.0),
+              height: th.sizes.iconMd + th.sp.md,
+              width: th.borders.thin,
+              color: th.c.border,
+              margin: EdgeInsets.symmetric(horizontal: th.sp.md),
             ),
             DropdownButtonHideUnderline(
               child: DropdownButton<String>(
@@ -76,8 +74,8 @@ class DosageInput extends StatelessWidget {
                 onChanged: (v) {
                   if (v != null) onUnitChanged!(v);
                 },
-                style: TextStyle(color: c.textPrimary),
-                iconEnabledColor: c.textSecondary,
+                style: TextStyle(color: th.c.textPrimary),
+                iconEnabledColor: th.c.textSecondary,
               ),
             ),
           ],
@@ -91,26 +89,26 @@ class DosageInput extends StatelessWidget {
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
         labelText: 'Dosage ($unit)',
-        prefixIcon: Icon(Icons.scale, color: ac.primary),
+        prefixIcon: Icon(Icons.scale, color: th.ac.primary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(sh.radiusMd),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(sh.radiusMd),
-          borderSide: BorderSide(color: c.border),
+          borderSide: BorderSide(color: th.c.border, width: th.borders.thin),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(sh.radiusMd),
           borderSide: BorderSide(
-            color: ac.primary,
-            width: context.borders.medium,
+            color: th.ac.primary,
+            width: th.borders.medium,
           ),
         ),
         filled: true,
-        fillColor: c.surface,
-        labelStyle: TextStyle(color: c.textSecondary),
+        fillColor: th.c.surface,
+        labelStyle: TextStyle(color: th.c.textSecondary),
       ),
-      style: TextStyle(color: c.textPrimary),
+      style: TextStyle(color: th.c.textPrimary),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter dosage';

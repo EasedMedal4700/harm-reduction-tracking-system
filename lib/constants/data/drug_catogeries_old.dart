@@ -93,29 +93,25 @@ class DrugCategories {
 }
 
 /// Shared color palette for drug categories across the app.
-/// Shared color palette for drug categories across the app.
-/// Balanced: readable, calm, modern — not neon, not muddy.
 class DrugCategoryColors {
   DrugCategoryColors._();
-
-  static const Color psychedelic     = Color(0xFF8B7CFF); // soft violet
-  static const Color deliriant        = Color(0xFFA07FE0); // lavender-violet
-  static const Color dissociative     = Color(0xFF4FA3C7); // airy cyan-blue
-  static const Color empathogen       = Color(0xFFE26AA6); // warm pink
-  static const Color opioid           = Color(0xFFE38B4F); // soft orange
-  static const Color depressant       = Color(0xFF4C86C6); // calm blue
-  static const Color benzodiazepine   = Color(0xFF7FA9D8); // light steel blue
-  static const Color barbiturate      = Color(0xFFE1C35C); // muted gold
-  static const Color stimulant        = Color(0xFF38C6D9); // balanced cyan
-  static const Color cathinone        = Color(0xFF3AB3CF); // blue-cyan
-  static const Color nootropic        = Color(0xFF46BFA1); // fresh teal
-  static const Color ssri             = Color(0xFF8FA0E8); // soft periwinkle
-  static const Color supplement       = Color(0xFF8ED37C); // gentle green
-  static const Color experimental     = Color(0xFF9CA3AF); // neutral gray
-  static const Color placeholder      = Color(0xFF9CA3AF);
-
+  // Individual category colors
+  static const Color psychedelic = Color(0xFF9C6BFF); // purple
+  static const Color deliriant = Color(0xFFC67EFF); // violet
+  static const Color dissociative = Color(0xFF00BFFF);
+  static const Color empathogen = Color(0xFFFF5FB7); // pink
+  static const Color opioid = Color(0xFFFF914D); // orange
+  static const Color depressant = Color(0xFF1E90FF); // blue
+  static const Color benzodiazepine = Color(0xFF6EB5FF); // light blue
+  static const Color barbiturate = Color(0xFFFFD86E); // gold
+  static const Color stimulant = Color(0xFF00E0FF); // cyan
+  static const Color cathinone = Color(0xFF00C8FF); // bright cyan
+  static const Color nootropic = Color(0xFF00C896); // teal
+  static const Color ssri = Color(0xFF8C9EFF); // lavender
+  static const Color supplement = Color(0xFFA7FF83); // mint
+  static const Color experimental = Color(0xFFB8B8B8); // gray
+  static const Color placeholder = Color(0xFF888888); // dark gray
   static const Color defaultColor = stimulant;
-
   static const Map<String, Color> _colorByCategory = {
     'psychedelic': psychedelic,
     'deliriant': deliriant,

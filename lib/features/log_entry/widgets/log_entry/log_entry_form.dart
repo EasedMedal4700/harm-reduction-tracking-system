@@ -164,8 +164,14 @@ class _LogEntryFormState extends State<LogEntryForm> {
           child: Column(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
             children: [
-              // Substance
-              CommonSearchField<DrugSearchResult>(
+              // Grouped form area (card) - contains all fields except the save button
+              CommonCard(
+                padding: EdgeInsets.all(sp.cardPadding),
+                child: Column(
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
+                  children: [
+                    // Substance
+                    CommonSearchField<DrugSearchResult>(
                 controller: widget.substanceCtrl,
                 labelText: 'Substance',
                 hintText: 'Start typing (e.g. dex...)',
@@ -177,7 +183,11 @@ class _LogEntryFormState extends State<LogEntryForm> {
                     key: ValueKey<String>(
                       'substance_icon_${targetIcon ?? Icons.science}',
                     ),
-                    color: (targetAccent ?? context.accent.primary),
+                    color: (targetAccent != null
+                        ? (targetAccent.computeLuminance() < 0.5
+                            ? Colors.white
+                            : Colors.black87)
+                        : context.accent.primary),
                   ),
                 ),
                 validator: (v) =>
@@ -439,7 +449,11 @@ class _LogEntryFormState extends State<LogEntryForm> {
                 maxLines: 3,
                 accentColor: targetAccent,
               ),
-              CommonSpacer.vertical(sp.lg),
+                ],
+              ),
+              ),
+              CommonSpacer.vertical(sp.md),
+
               if (widget.showSaveButton && widget.onSave != null)
                 CommonPrimaryButton(
                   onPressed: widget.onSave!,

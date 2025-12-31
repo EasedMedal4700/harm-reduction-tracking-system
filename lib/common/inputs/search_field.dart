@@ -47,6 +47,7 @@ class _CommonSearchFieldState<T extends Object>
   late FocusNode _focusNode;
   bool _ownsController = false;
   bool _ownsFocusNode = false;
+  bool _autoSelecting = false;
 
   @override
   void initState() {
@@ -96,12 +97,21 @@ class _CommonSearchFieldState<T extends Object>
     final th = context.theme;
     final accentColor = widget.accentColor ?? th.accent.primary;
     final baseFill = th.colors.surfaceVariant.withValues(alpha: 0.3);
+    // If caller provided an explicit accentColor, use it exactly for the
+    // fill so the field matches other UI elements (e.g., Save button).
     final fillColor = widget.accentColor == null
-        ? baseFill
-        : Color.alphaBlend(
-            accentColor.withValues(alpha: th.isDark ? 0.14 : 0.10),
-            baseFill,
-          );
+      ? Color.alphaBlend(
+        accentColor.withValues(alpha: th.isDark ? 0.14 : 0.10),
+        baseFill,
+        )
+      : accentColor;
+    // Choose readable text/icon color on top of the fill when accent provided.
+    final bool accentIsDark = widget.accentColor != null
+      ? accentColor.computeLuminance() < 0.5
+      : false;
+    final fillTextColor = widget.accentColor != null
+      ? (accentIsDark ? Colors.white : Colors.black87)
+      : th.colors.textPrimary;
 
     return RawAutocomplete<T>(
       textEditingController: _controller,
@@ -118,6 +128,50 @@ class _CommonSearchFieldState<T extends Object>
         return ValueListenableBuilder<TextEditingValue>(
           valueListenable: controller,
           builder: (context, value, _) {
+            // Auto-select behavior: when the user has typed text and either
+            // only one option is returned or the typed text exactly matches
+            // a single option, auto-select it. Guard with `_autoSelecting`
+            // to avoid recursive selection loops.
+            if (value.text.isNotEmpty && !_autoSelecting) {
+              final query = value.text;
+              // Run async check off the build frame.
+              Future.microtask(() async {
+                try {
+                  final opts = await widget.optionsBuilder(query);
+                  final list = opts.toList(growable: false);
+                  T? match;
+                  if (list.length == 1) {
+                    match = list.first;
+                  } else {
+                    final lower = query.trim().toLowerCase();
+                    for (final o in list) {
+                      final label = widget.displayStringForOption(o)
+                          .trim()
+                          .toLowerCase();
+                      if (label == lower) {
+                        match = o;
+                        break;
+                      }
+                    }
+                  }
+                  if (match != null) {
+                    _autoSelecting = true;
+                    final display = widget.displayStringForOption(match);
+                    // Update controller text to canonical display and notify
+                    // selection.
+                    controller.text = display;
+                    controller.selection = TextSelection.collapsed(
+                        offset: controller.text.length);
+                    widget.onSelected(match);
+                    // allow future selections
+                    await Future.delayed(const Duration(milliseconds: 50));
+                    _autoSelecting = false;
+                  }
+                } catch (_) {
+                  // ignore
+                }
+              });
+            }
             return TextFormField(
               controller: controller,
               focusNode: focusNode,
@@ -126,17 +180,23 @@ class _CommonSearchFieldState<T extends Object>
                 hintText: widget.hintText ?? 'Search...',
                 labelText: widget.labelText,
                 hintStyle: th.text.body.copyWith(
-                  color: th.colors.textSecondary.withValues(alpha: 0.5),
+                    color: (widget.accentColor != null)
+                      ? fillTextColor.withValues(alpha: 0.85)
+                      : th.colors.textSecondary.withValues(alpha: 0.5),
                 ),
                 labelStyle: th.text.body.copyWith(
-                  color: th.colors.textSecondary,
+                  color: widget.accentColor != null
+                      ? fillTextColor
+                      : th.colors.textSecondary,
                 ),
-                prefixIcon:
-                    widget.prefixIcon ??
-                    Icon(Icons.search, color: th.colors.textSecondary),
+                prefixIcon: widget.prefixIcon ??
+                    Icon(Icons.search,
+                        color: widget.accentColor != null
+                            ? fillTextColor
+                            : th.colors.textSecondary),
                 suffixIcon: value.text.isNotEmpty
                     ? IconButton(
-                        icon: Icon(Icons.clear, color: th.colors.textSecondary),
+                        icon: Icon(Icons.clear, color: fillTextColor),
                         onPressed: () {
                           controller.clear();
                           widget.onChanged?.call('');
@@ -160,7 +220,7 @@ class _CommonSearchFieldState<T extends Object>
                 fillColor: fillColor,
               ),
               style: th.text.bodyLarge.copyWith(
-                color: th.colors.textPrimary,
+                color: fillTextColor,
                 fontSize: 18.0,
               ),
               onChanged: widget.onChanged,
