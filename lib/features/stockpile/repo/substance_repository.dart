@@ -64,18 +64,19 @@ class SubstanceRepository {
         'name, pretty_name, formatted_dose, aliases',
       ];
 
-      Future<Map<String, dynamic>?> _maybeSingleWithSelect(String select) async {
+      Future<Map<String, dynamic>?> _maybeSingleWithSelect(
+        String select,
+      ) async {
         final response = await _client
             .from('drug_profiles')
             .select(select)
             .or('name.ilike.$input,pretty_name.ilike.$input')
             .maybeSingle();
         if (response != null) return response;
-        return await _client
-            .from('drug_profiles')
-            .select(select)
-            .contains('aliases', [input])
-            .maybeSingle();
+        return await _client.from('drug_profiles').select(select).contains(
+          'aliases',
+          [input],
+        ).maybeSingle();
       }
 
       // Prefer exact-ish matches by canonical name or pretty name.

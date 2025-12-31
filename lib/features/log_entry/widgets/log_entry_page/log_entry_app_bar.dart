@@ -15,11 +15,15 @@ import '../../../../common/layout/common_spacer.dart';
 class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isSimpleMode;
   final ValueChanged<bool> onSimpleModeChanged;
+  final Color? categoryAccent;
+  final IconData? categoryIcon;
 
   const LogEntryAppBar({
     super.key,
     required this.isSimpleMode,
     required this.onSimpleModeChanged,
+    this.categoryAccent,
+    this.categoryIcon,
   });
 
   @override
@@ -33,7 +37,14 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Container(
           height: preferredSize.height,
           decoration: BoxDecoration(
-            color: th.c.surface,
+            // Blend the category accent over the surface with a medium opacity
+            // to create a stronger but still matte background without magic numbers.
+            color: categoryAccent == null
+                ? th.c.surface
+                : Color.alphaBlend(
+                    categoryAccent!.withValues(alpha: th.opacities.medium),
+                    th.c.surface,
+                  ),
             borderRadius: BorderRadius.circular(th.sh.radiusLg),
             boxShadow: [
               BoxShadow(
@@ -63,12 +74,17 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Container(
                   padding: EdgeInsets.all(th.sp.sm),
                   decoration: BoxDecoration(
-                    color: th.c.info.withValues(alpha: th.opacities.veryLow),
+                    color: categoryAccent == null
+                        ? th.c.info.withValues(alpha: th.opacities.veryLow)
+                        : Color.alphaBlend(
+                            categoryAccent!.withValues(alpha: th.opacities.high),
+                            th.c.surface,
+                          ),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    Icons.medication,
-                    color: th.c.info,
+                    categoryIcon ?? Icons.medication,
+                    color: categoryAccent ?? th.c.info,
                     size: th.sizes.iconSm,
                   ),
                 ),
@@ -88,46 +104,12 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Text(
-                        'Add a new substance record',
-                        style: th.text.bodySmall.copyWith(
-                          color: th.c.textSecondary,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      // subtitle removed per design
                     ],
                   ),
                 ),
 
-                // Simple toggle pill
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: th.sp.md,
-                    vertical: th.sp.xs,
-                  ),
-                  decoration: BoxDecoration(
-                    color: th.c.surfaceVariant,
-                    borderRadius: BorderRadius.circular(th.sh.radiusFull),
-                    border: Border.all(color: th.c.border),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Simple',
-                        style: th.text.bodySmall.copyWith(
-                          color: th.c.textSecondary,
-                        ),
-                      ),
-                      CommonSpacer.horizontal(th.sp.xs),
-                      Switch(
-                        value: isSimpleMode,
-                        onChanged: onSimpleModeChanged,
-                        activeThumbColor: th.c.info,
-                      ),
-                    ],
-                  ),
-                ),
+                // simple toggle removed — show full form
               ],
             ),
           ),
@@ -137,5 +119,5 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(96.0);
+  Size get preferredSize => const Size.fromHeight(80.0);
 }

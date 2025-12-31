@@ -45,11 +45,10 @@ class DosageInput extends StatelessWidget {
             Expanded(
               child: TextFormField(
                 controller: controller,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration.collapsed(
-                  hintText: 'Dosage',
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
                 ),
+                decoration: InputDecoration.collapsed(hintText: 'Dosage'),
                 style: TextStyle(color: c.textPrimary),
                 validator: (value) {
                   if (value == null || value.isEmpty) {

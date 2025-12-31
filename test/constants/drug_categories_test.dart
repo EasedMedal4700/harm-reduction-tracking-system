@@ -17,7 +17,10 @@ void main() {
     });
 
     test('returns Experimental for unknown categories', () {
-      expect(DrugCategories.primaryCategoryFromRaw('MadeUpCategory'), 'Experimental');
+      expect(
+        DrugCategories.primaryCategoryFromRaw('MadeUpCategory'),
+        'Experimental',
+      );
     });
   });
 }

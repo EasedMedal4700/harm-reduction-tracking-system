@@ -175,7 +175,9 @@ class _LogEntryFormState extends State<LogEntryForm> {
                   duration: context.animations.normal,
                   child: Icon(
                     targetIcon ?? Icons.science,
-                    key: ValueKey<String>('substance_icon_${targetIcon ?? Icons.science}'),
+                    key: ValueKey<String>(
+                      'substance_icon_${targetIcon ?? Icons.science}',
+                    ),
                     color: (targetAccent ?? context.accent.primary),
                   ),
                 ),
@@ -217,176 +219,175 @@ class _LogEntryFormState extends State<LogEntryForm> {
                 },
               ),
               CommonSpacer.vertical(sp.md),
-          // Dose & Unit
-          Row(
-            children: [
-              Expanded(
-                flex: AppLayout.flex2,
-                child: CommonInputField(
-                  controller: widget.doseCtrl,
-                  labelText: 'Dose',
-                  keyboardType: TextInputType.number,
-                  accentColor: targetAccent,
-                  onChanged: (v) {
-                    if (widget.onDoseChanged != null) {
-                      final val = double.tryParse(v);
-                      if (val != null) widget.onDoseChanged!(val);
-                    }
-                  },
-                ),
-              ),
-              CommonSpacer.horizontal(sp.md),
-              Expanded(
-                flex: AppLayout.flex1,
-                child: CommonDropdown<String>(
-                  value: widget.unit ?? 'mg',
-                  items: const ['mg', 'g', 'ml', 'oz', 'pills', 'tabs'],
-                  accentColor: targetAccent,
-                  onChanged: (v) => widget.onUnitChanged?.call(v ?? 'mg'),
-                  hintText: 'Unit',
-                ),
-              ),
-            ],
-          ),
-          CommonSpacer.vertical(sp.md),
-          // Route
-          CommonDropdown<String>(
-            value: normalizedRoute,
-            items: routeOptions,
-            itemLabel: (v) =>
-                v.isEmpty ? v : '${v[0].toUpperCase()}${v.substring(1)}',
-            accentColor: targetAccent,
-            onChanged: (v) {
-              if (v != null && widget.onRouteChanged != null) {
-                widget.onRouteChanged!(v);
-              }
-            },
-            hintText: 'Route of Administration',
-          ),
-          CommonSpacer.vertical(sp.md),
-          // Time Selector
-          _buildTimeSelector(context),
-          CommonSpacer.vertical(sp.md),
-          // Location
-          CommonDropdown<String>(
-            value: widget.location ?? DrugUseCatalog.locations.first,
-            items: DrugUseCatalog.locations,
-            accentColor: targetAccent,
-            onChanged: (v) {
-              if (v != null && widget.onLocationChanged != null) {
-                widget.onLocationChanged!(v);
-              }
-            },
-            hintText: 'Location',
-          ),
-          CommonSpacer.vertical(sp.md),
-          // Medical Purpose
-          CommonSwitchTile(
-            title: 'Medical Purpose',
-            value: widget.isMedicalPurpose ?? false,
-            onChanged: (v) => widget.onMedicalPurposeChanged?.call(v),
-          ),
-          CommonSpacer.vertical(sp.md),
-          // Complex Mode Inputs
-          if (!widget.isSimpleMode) ...[
-            // Intention
-            CommonDropdown<String>(
-              value: widget.intention ?? intentions.first,
-              items: intentions,
-              onChanged: (v) {
-                if (v != null && widget.onIntentionChanged != null) {
-                  widget.onIntentionChanged!(v);
-                }
-              },
-              hintText: 'Intention',
-            ),
-            CommonSpacer.vertical(sp.md),
-            // Craving Intensity
-            CommonCard(
-              padding: EdgeInsets.all(sp.cardPadding),
-              child: Column(
-                crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+              // Dose & Unit
+              Row(
                 children: [
-                  CommonSectionHeader(
-                    title: 'Craving Intensity',
-                    subtitle: 'How strong was the urge?',
+                  Expanded(
+                    flex: AppLayout.flex2,
+                    child: CommonInputField(
+                      controller: widget.doseCtrl,
+                      labelText: 'Dose',
+                      keyboardType: TextInputType.number,
+                      accentColor: targetAccent,
+                      onChanged: (v) {
+                        if (widget.onDoseChanged != null) {
+                          final val = double.tryParse(v);
+                          if (val != null) widget.onDoseChanged!(val);
+                        }
+                      },
+                    ),
                   ),
-                  CommonSpacer.vertical(sp.sm),
-                  CommonSlider(
-                    value: widget.cravingIntensity ?? 0.0,
-                    min: 0.0,
-                    max: 10.0,
-                    divisions: 10,
-                    activeColor: targetAccent,
-                    onChanged: (v) => widget.onCravingIntensityChanged?.call(v),
+                  CommonSpacer.horizontal(sp.md),
+                  Expanded(
+                    flex: AppLayout.flex1,
+                    child: CommonDropdown<String>(
+                      value: widget.unit ?? 'mg',
+                      items: const ['mg', 'g', 'ml', 'oz', 'pills', 'tabs'],
+                      accentColor: targetAccent,
+                      onChanged: (v) => widget.onUnitChanged?.call(v ?? 'mg'),
+                      hintText: 'Unit',
+                    ),
                   ),
                 ],
               ),
-            ),
-            CommonSpacer.vertical(sp.md),
-            // Emotions
-            EmotionSelector(
-              selectedEmotions: widget.feelings ?? [],
-              availableEmotions: DrugUseCatalog.primaryEmotions
-                  .map((e) => e['name']!)
-                  .toList(),
-              accentColor: targetAccent,
-              onEmotionToggled: (emotion) {
-                if (widget.onFeelingsChanged != null) {
-                  final current = List<String>.from(widget.feelings ?? []);
-                  if (current.contains(emotion)) {
-                    current.remove(emotion);
-                  } else {
-                    current.add(emotion);
+              CommonSpacer.vertical(sp.md),
+              // Route
+              CommonDropdown<String>(
+                value: normalizedRoute,
+                items: routeOptions,
+                itemLabel: (v) =>
+                    v.isEmpty ? v : '${v[0].toUpperCase()}${v.substring(1)}',
+                accentColor: targetAccent,
+                onChanged: (v) {
+                  if (v != null && widget.onRouteChanged != null) {
+                    widget.onRouteChanged!(v);
                   }
-                  widget.onFeelingsChanged!(current);
-                }
-              },
-            ),
-            CommonSpacer.vertical(sp.md),
-            // Secondary Emotions
-            if (widget.feelings != null && widget.feelings!.isNotEmpty)
-              _buildSecondaryEmotions(context),
-            // Triggers
-            CommonChipGroup(
-              title: 'Triggers',
-              subtitle: 'What triggered this use?',
-              options: triggers,
-              selected: widget.selectedTriggers ?? [],
-              onChanged: (v) => widget.onTriggersChanged?.call(v),
-              selectedColor: targetAccent,
-              selectedBorderColor: targetAccent,
-            ),
-            CommonSpacer.vertical(sp.md),
-            // Body Signals
-            CommonChipGroup(
-              title: 'Body Signals',
-              subtitle: 'Physical sensations',
-              options: physicalSensations,
-              selected: widget.selectedBodySignals ?? [],
-              onChanged: (v) => widget.onBodySignalsChanged?.call(v),
-              selectedColor: targetAccent,
-              selectedBorderColor: targetAccent,
-            ),
-            CommonSpacer.vertical(sp.md),
-          ],
-          // Notes
-          CommonTextarea(
-            controller: widget.notesCtrl,
-            labelText: 'Notes',
-            maxLines: 3,
-            accentColor: targetAccent,
+                },
+                hintText: 'Route of Administration',
+              ),
+              CommonSpacer.vertical(sp.md),
+              // Time Selector
+              _buildTimeSelector(context),
+              CommonSpacer.vertical(sp.md),
+              // Location
+              CommonDropdown<String>(
+                value: widget.location ?? DrugUseCatalog.locations.first,
+                items: DrugUseCatalog.locations,
+                accentColor: targetAccent,
+                onChanged: (v) {
+                  if (v != null && widget.onLocationChanged != null) {
+                    widget.onLocationChanged!(v);
+                  }
+                },
+                hintText: 'Location',
+              ),
+              CommonSpacer.vertical(sp.md),
+              // Medical Purpose
+              CommonSwitchTile(
+                title: 'Medical Purpose',
+                value: widget.isMedicalPurpose ?? false,
+                onChanged: (v) => widget.onMedicalPurposeChanged?.call(v),
+              ),
+              CommonSpacer.vertical(sp.md),
+              // Complex Mode Inputs (always shown)
+                // Intention
+                CommonDropdown<String>(
+                  value: widget.intention ?? intentions.first,
+                  items: intentions,
+                  onChanged: (v) {
+                    if (v != null && widget.onIntentionChanged != null) {
+                      widget.onIntentionChanged!(v);
+                    }
+                  },
+                  hintText: 'Intention',
+                ),
+                CommonSpacer.vertical(sp.md),
+                // Craving Intensity
+                CommonCard(
+                  padding: EdgeInsets.all(sp.cardPadding),
+                  child: Column(
+                    crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+                    children: [
+                      CommonSectionHeader(
+                        title: 'Craving Intensity',
+                        subtitle: 'How strong was the urge?',
+                      ),
+                      CommonSpacer.vertical(sp.sm),
+                      CommonSlider(
+                        value: widget.cravingIntensity ?? 0.0,
+                        min: 0.0,
+                        max: 10.0,
+                        divisions: 10,
+                        activeColor: targetAccent,
+                        onChanged: (v) =>
+                            widget.onCravingIntensityChanged?.call(v),
+                      ),
+                    ],
+                  ),
+                ),
+                CommonSpacer.vertical(sp.md),
+                // Emotions
+                EmotionSelector(
+                  selectedEmotions: widget.feelings ?? [],
+                  availableEmotions: DrugUseCatalog.primaryEmotions
+                      .map((e) => e['name']!)
+                      .toList(),
+                  accentColor: targetAccent,
+                  onEmotionToggled: (emotion) {
+                    if (widget.onFeelingsChanged != null) {
+                      final current = List<String>.from(widget.feelings ?? []);
+                      if (current.contains(emotion)) {
+                        current.remove(emotion);
+                      } else {
+                        current.add(emotion);
+                      }
+                      widget.onFeelingsChanged!(current);
+                    }
+                  },
+                ),
+                CommonSpacer.vertical(sp.md),
+                // Secondary Emotions
+                if (widget.feelings != null && widget.feelings!.isNotEmpty)
+                  _buildSecondaryEmotions(context),
+                // Triggers
+                CommonChipGroup(
+                  title: 'Triggers',
+                  subtitle: 'What triggered this use?',
+                  options: triggers,
+                  selected: widget.selectedTriggers ?? [],
+                  onChanged: (v) => widget.onTriggersChanged?.call(v),
+                  selectedColor: targetAccent,
+                  selectedBorderColor: targetAccent,
+                ),
+                CommonSpacer.vertical(sp.md),
+                // Body Signals
+                CommonChipGroup(
+                  title: 'Body Signals',
+                  subtitle: 'Physical sensations',
+                  options: physicalSensations,
+                  selected: widget.selectedBodySignals ?? [],
+                  onChanged: (v) => widget.onBodySignalsChanged?.call(v),
+                  selectedColor: targetAccent,
+                  selectedBorderColor: targetAccent,
+                ),
+                CommonSpacer.vertical(sp.md),
+              // Notes
+              CommonTextarea(
+                controller: widget.notesCtrl,
+                labelText: 'Notes',
+                maxLines: 3,
+                accentColor: targetAccent,
+              ),
+              CommonSpacer.vertical(sp.lg),
+              if (widget.showSaveButton && widget.onSave != null)
+                CommonPrimaryButton(
+                  onPressed: widget.onSave!,
+                  label: 'Save Entry',
+                  backgroundColor: targetAccent,
+                  icon: targetIcon,
+                ),
+            ],
           ),
-          CommonSpacer.vertical(sp.lg),
-          if (widget.showSaveButton && widget.onSave != null)
-            CommonPrimaryButton(
-              onPressed: widget.onSave!,
-              label: 'Save Entry',
-              backgroundColor: targetAccent,
-              icon: targetIcon,
-            ),
-        ],
-      ),
         );
       },
     );

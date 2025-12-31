@@ -41,7 +41,8 @@ class CommonSearchField<T extends Object> extends StatefulWidget {
   State<CommonSearchField<T>> createState() => _CommonSearchFieldState<T>();
 }
 
-class _CommonSearchFieldState<T extends Object> extends State<CommonSearchField<T>> {
+class _CommonSearchFieldState<T extends Object>
+    extends State<CommonSearchField<T>> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
   bool _ownsController = false;
@@ -65,7 +66,8 @@ class _CommonSearchFieldState<T extends Object> extends State<CommonSearchField<
       if (_ownsController) {
         _controller.dispose();
       }
-      _controller = widget.controller ?? TextEditingController(text: previousText);
+      _controller =
+          widget.controller ?? TextEditingController(text: previousText);
       _ownsController = widget.controller == null;
     }
 
@@ -126,7 +128,9 @@ class _CommonSearchFieldState<T extends Object> extends State<CommonSearchField<
                 hintStyle: th.text.body.copyWith(
                   color: th.colors.textSecondary.withValues(alpha: 0.5),
                 ),
-                labelStyle: th.text.body.copyWith(color: th.colors.textSecondary),
+                labelStyle: th.text.body.copyWith(
+                  color: th.colors.textSecondary,
+                ),
                 prefixIcon:
                     widget.prefixIcon ??
                     Icon(Icons.search, color: th.colors.textSecondary),

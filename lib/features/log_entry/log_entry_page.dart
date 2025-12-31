@@ -228,6 +228,8 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
       appBar: LogEntryAppBar(
         isSimpleMode: state.isSimpleMode,
         onSimpleModeChanged: notifier.setIsSimpleMode,
+        categoryAccent: categoryAccent,
+        categoryIcon: categoryIcon,
       ),
       drawer: const CommonDrawer(),
       body: Stack(
