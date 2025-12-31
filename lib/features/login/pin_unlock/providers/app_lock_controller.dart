@@ -40,6 +40,8 @@ class AppLockState {
 class AppLockController extends Notifier<AppLockState> {
   // Reuse existing keys from PinTimeoutService for compatibility.
   static const String _keyLastUnlockTimeMs = 'pin_last_unlock_time';
+  // New key: last user activity time (extends session while actively using app).
+  static const String _keyLastInteractionTimeMs = 'pin_last_interaction_time';
   static const String _keyBackgroundTimeMs = 'pin_background_time';
   static const String _keyForegroundTimeoutMinutes =
       'pin_foreground_timeout_minutes';
@@ -48,17 +50,22 @@ class AppLockController extends Notifier<AppLockState> {
   AppLockState build() {
     final prefs = ref.watch(sharedPreferencesProvider);
     final lastUnlockMs = prefs.getInt(_keyLastUnlockTimeMs);
+    final lastInteractionMs = prefs.getInt(_keyLastInteractionTimeMs);
     final backgroundMs = prefs.getInt(_keyBackgroundTimeMs);
     final lastUnlockAt = lastUnlockMs != null
         ? DateTime.fromMillisecondsSinceEpoch(lastUnlockMs)
+        : null;
+    final lastInteractionAt = lastInteractionMs != null
+        ? DateTime.fromMillisecondsSinceEpoch(lastInteractionMs)
         : null;
     final backgroundStartedAt = backgroundMs != null
         ? DateTime.fromMillisecondsSinceEpoch(backgroundMs)
         : null;
     final gracePeriod = _readGracePeriod(prefs);
+    final lastActivityAt = _lastActivity(lastUnlockAt, lastInteractionAt);
     final requiresPin = _computeRequiresPin(
       now: DateTime.now(),
-      lastUnlockAt: lastUnlockAt,
+      lastUnlockAt: lastActivityAt,
       gracePeriod: gracePeriod,
     );
     return AppLockState(
@@ -67,6 +74,14 @@ class AppLockController extends Notifier<AppLockState> {
       backgroundStartedAt: backgroundStartedAt,
       gracePeriod: gracePeriod,
     );
+  }
+
+  DateTime? _lastActivity(DateTime? lastUnlockAt, DateTime? lastInteractionAt) {
+    if (lastUnlockAt == null) return lastInteractionAt;
+    if (lastInteractionAt == null) return lastUnlockAt;
+    return lastUnlockAt.isAfter(lastInteractionAt)
+        ? lastUnlockAt
+        : lastInteractionAt;
   }
 
   Duration _readGracePeriod(SharedPreferences prefs) {
@@ -89,6 +104,7 @@ class AppLockController extends Notifier<AppLockState> {
     final prefs = ref.read(sharedPreferencesProvider);
     final when = at ?? DateTime.now();
     await prefs.setInt(_keyLastUnlockTimeMs, when.millisecondsSinceEpoch);
+    await prefs.setInt(_keyLastInteractionTimeMs, when.millisecondsSinceEpoch);
     await prefs.remove(_keyBackgroundTimeMs);
     state = state.copyWith(
       requiresPin: false,
@@ -102,6 +118,10 @@ class AppLockController extends Notifier<AppLockState> {
     final prefs = ref.read(sharedPreferencesProvider);
     final when = at ?? DateTime.now();
     await prefs.setInt(_keyBackgroundTimeMs, when.millisecondsSinceEpoch);
+    // Consider the moment the app backgrounds as the last meaningful activity.
+    // This prevents requiring a PIN after long active sessions when the user
+    // briefly switches apps and returns.
+    await prefs.setInt(_keyLastInteractionTimeMs, when.millisecondsSinceEpoch);
     state = state.copyWith(
       backgroundStartedAt: when,
       gracePeriod: _readGracePeriod(prefs),
@@ -112,15 +132,26 @@ class AppLockController extends Notifier<AppLockState> {
     final prefs = ref.read(sharedPreferencesProvider);
     final when = now ?? DateTime.now();
     final lastUnlockMs = prefs.getInt(_keyLastUnlockTimeMs);
+    final lastInteractionMs = prefs.getInt(_keyLastInteractionTimeMs);
     final lastUnlockAt = lastUnlockMs != null
         ? DateTime.fromMillisecondsSinceEpoch(lastUnlockMs)
         : null;
+    final lastInteractionAt = lastInteractionMs != null
+        ? DateTime.fromMillisecondsSinceEpoch(lastInteractionMs)
+        : null;
     final gracePeriod = _readGracePeriod(prefs);
+    final lastActivityAt = _lastActivity(lastUnlockAt, lastInteractionAt);
     final requiresPin = _computeRequiresPin(
       now: when,
-      lastUnlockAt: lastUnlockAt,
+      lastUnlockAt: lastActivityAt,
       gracePeriod: gracePeriod,
     );
+
+    if (!requiresPin) {
+      // Extend session on successful resume.
+      await prefs.setInt(_keyLastInteractionTimeMs, when.millisecondsSinceEpoch);
+    }
+
     await prefs.remove(_keyBackgroundTimeMs);
     state = state.copyWith(
       requiresPin: requiresPin,
@@ -133,6 +164,7 @@ class AppLockController extends Notifier<AppLockState> {
   Future<void> clear() async {
     final prefs = ref.read(sharedPreferencesProvider);
     await prefs.remove(_keyLastUnlockTimeMs);
+    await prefs.remove(_keyLastInteractionTimeMs);
     await prefs.remove(_keyBackgroundTimeMs);
     state = AppLockState(
       requiresPin: true,
@@ -145,13 +177,18 @@ class AppLockController extends Notifier<AppLockState> {
   Future<bool> shouldRequirePinNow() async {
     final prefs = ref.read(sharedPreferencesProvider);
     final lastUnlockMs = prefs.getInt(_keyLastUnlockTimeMs);
+    final lastInteractionMs = prefs.getInt(_keyLastInteractionTimeMs);
     final lastUnlockAt = lastUnlockMs != null
         ? DateTime.fromMillisecondsSinceEpoch(lastUnlockMs)
         : null;
+    final lastInteractionAt = lastInteractionMs != null
+        ? DateTime.fromMillisecondsSinceEpoch(lastInteractionMs)
+        : null;
     final gracePeriod = _readGracePeriod(prefs);
+    final lastActivityAt = _lastActivity(lastUnlockAt, lastInteractionAt);
     return _computeRequiresPin(
       now: DateTime.now(),
-      lastUnlockAt: lastUnlockAt,
+      lastUnlockAt: lastActivityAt,
       gracePeriod: gracePeriod,
     );
   }

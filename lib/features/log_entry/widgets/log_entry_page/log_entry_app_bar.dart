@@ -61,11 +61,23 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             child: Row(
               children: [
-                // Menu
-                Icon(
-                  Icons.menu,
-                  color: th.c.textPrimary,
-                  size: th.sizes.iconMd,
+                // Menu (clickable)
+                Builder(
+                  builder: (ctx) => IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints(),
+                    icon: Icon(
+                      Icons.menu,
+                      color: th.c.textPrimary,
+                      size: th.sizes.iconMd,
+                    ),
+                    onPressed: () {
+                      final scaffold = Scaffold.maybeOf(ctx);
+                      if (scaffold != null && scaffold.hasDrawer) {
+                        scaffold.openDrawer();
+                      }
+                    },
+                  ),
                 ),
 
                 CommonSpacer.horizontal(th.sp.md),
@@ -77,7 +89,9 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
                     color: categoryAccent == null
                         ? th.c.info.withValues(alpha: th.opacities.veryLow)
                         : Color.alphaBlend(
-                            categoryAccent!.withValues(alpha: th.opacities.high),
+                            categoryAccent!.withValues(
+                              alpha: th.opacities.high,
+                            ),
                             th.c.surface,
                           ),
                     shape: BoxShape.circle,

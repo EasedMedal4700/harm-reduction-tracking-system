@@ -121,10 +121,9 @@ class LogEntryForm extends StatefulWidget {
 }
 
 class _LogEntryFormState extends State<LogEntryForm> {
-  Color _accentColorForResult(DrugSearchResult result) {
-    final primary = DrugCategories.primaryCategoryFromRaw(result.category);
-    return DrugCategoryColors.colorFor(primary);
-  }
+  // Removed unused helper: color derivation happens at page-level.
+
+  bool _showExtraDetails = false;
 
   @override
   Widget build(BuildContext context) {
@@ -289,89 +288,151 @@ class _LogEntryFormState extends State<LogEntryForm> {
                 onChanged: (v) => widget.onMedicalPurposeChanged?.call(v),
               ),
               CommonSpacer.vertical(sp.md),
-              // Complex Mode Inputs (always shown)
-                // Intention
-                CommonDropdown<String>(
-                  value: widget.intention ?? intentions.first,
-                  items: intentions,
-                  onChanged: (v) {
-                    if (v != null && widget.onIntentionChanged != null) {
-                      widget.onIntentionChanged!(v);
-                    }
-                  },
-                  hintText: 'Intention',
-                ),
-                CommonSpacer.vertical(sp.md),
-                // Craving Intensity
-                CommonCard(
-                  padding: EdgeInsets.all(sp.cardPadding),
-                  child: Column(
-                    crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
-                    children: [
-                      CommonSectionHeader(
-                        title: 'Craving Intensity',
-                        subtitle: 'How strong was the urge?',
-                      ),
-                      CommonSpacer.vertical(sp.sm),
-                      CommonSlider(
-                        value: widget.cravingIntensity ?? 0.0,
-                        min: 0.0,
-                        max: 10.0,
-                        divisions: 10,
-                        activeColor: targetAccent,
-                        onChanged: (v) =>
-                            widget.onCravingIntensityChanged?.call(v),
-                      ),
-                    ],
+                // Extra Details accordion
+                ExpansionTile(
+                key: const ValueKey('extra_details_accordion'),
+                initiallyExpanded: _showExtraDetails,
+                onExpansionChanged: (v) =>
+                  setState(() => _showExtraDetails = v),
+                title: Text('Extra details', style: th.text.body),
+                // Ensure header/text/icon contrast against the surface by
+                // using the page-derived animatedAccent where available.
+                collapsedIconColor: (animatedAccent ?? context.accent.primary),
+                iconColor: (animatedAccent ?? context.accent.primary),
+                textColor: (animatedAccent ?? context.accent.primary),
+                collapsedTextColor: (animatedAccent ?? context.accent.primary),
+                backgroundColor: targetAccent == null
+                  ? th.c.surface
+                  : Color.alphaBlend(
+                    (animatedAccent ?? context.accent.primary)
+                      .withValues(alpha: th.opacities.veryLow),
+                    th.c.surface,
+                    ),
+                collapsedBackgroundColor: targetAccent == null
+                  ? th.c.surface
+                  : Color.alphaBlend(
+                    (animatedAccent ?? context.accent.primary)
+                      .withValues(alpha: th.opacities.veryLow),
+                    th.c.surface,
+                    ),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: th.spacing.md,
+                      vertical: th.spacing.sm,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
+                      children: [
+                        // Intention
+                        SizedBox(
+                          width: double.infinity,
+                          child: CommonDropdown<String>(
+                            value: widget.intention ?? intentions.first,
+                            items: intentions,
+                            onChanged: (v) {
+                              if (v != null && widget.onIntentionChanged != null) {
+                                widget.onIntentionChanged!(v);
+                              }
+                            },
+                            hintText: 'Intention',
+                          ),
+                        ),
+                        CommonSpacer.vertical(sp.md),
+                        // Craving Intensity
+                        SizedBox(
+                          width: double.infinity,
+                          child: CommonCard(
+                            padding: EdgeInsets.all(sp.cardPadding),
+                            child: Column(
+                              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+                              children: [
+                                CommonSectionHeader(
+                                  title: 'Craving Intensity',
+                                  subtitle: 'How strong was the urge?',
+                                ),
+                                CommonSpacer.vertical(sp.sm),
+                                CommonSlider(
+                                  value: widget.cravingIntensity ?? 0.0,
+                                  min: 0.0,
+                                  max: 10.0,
+                                  divisions: 10,
+                                  activeColor: targetAccent,
+                                  onChanged: (v) =>
+                                      widget.onCravingIntensityChanged?.call(v),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        CommonSpacer.vertical(sp.md),
+                        // Emotions
+                        SizedBox(
+                          width: double.infinity,
+                          child: EmotionSelector(
+                            selectedEmotions: widget.feelings ?? [],
+                            availableEmotions: DrugUseCatalog.primaryEmotions
+                                .map((e) => e['name']!)
+                                .toList(),
+                            accentColor: targetAccent,
+                            onEmotionToggled: (emotion) {
+                              if (widget.onFeelingsChanged != null) {
+                                final current = List<String>.from(
+                                  widget.feelings ?? [],
+                                );
+                                if (current.contains(emotion)) {
+                                  current.remove(emotion);
+                                } else {
+                                  current.add(emotion);
+                                }
+                                widget.onFeelingsChanged!(current);
+                              }
+                            },
+                          ),
+                        ),
+                        CommonSpacer.vertical(sp.md),
+                        // Secondary Emotions
+                        if (widget.feelings != null && widget.feelings!.isNotEmpty)
+                          SizedBox(
+                            width: double.infinity,
+                            child: _buildSecondaryEmotions(context),
+                          ),
+                        // Triggers
+                        SizedBox(
+                          width: double.infinity,
+                          child: CommonChipGroup(
+                            title: 'Triggers',
+                            subtitle: 'What triggered this use?',
+                            options: triggers,
+                            selected: widget.selectedTriggers ?? [],
+                            onChanged: (v) => widget.onTriggersChanged?.call(v),
+                            selectedColor: targetAccent,
+                            selectedBorderColor: targetAccent,
+                          ),
+                        ),
+                        CommonSpacer.vertical(sp.md),
+                        // Body Signals
+                        SizedBox(
+                          width: double.infinity,
+                          child: CommonChipGroup(
+                            title: 'Body Signals',
+                            subtitle: 'Physical sensations',
+                            options: physicalSensations,
+                            selected: widget.selectedBodySignals ?? [],
+                            onChanged: (v) => widget.onBodySignalsChanged?.call(v),
+                            selectedColor: targetAccent,
+                            selectedBorderColor: targetAccent,
+                          ),
+                        ),
+                        CommonSpacer.vertical(sp.md),
+                      ],
+                    ),
                   ),
-                ),
-                CommonSpacer.vertical(sp.md),
-                // Emotions
-                EmotionSelector(
-                  selectedEmotions: widget.feelings ?? [],
-                  availableEmotions: DrugUseCatalog.primaryEmotions
-                      .map((e) => e['name']!)
-                      .toList(),
-                  accentColor: targetAccent,
-                  onEmotionToggled: (emotion) {
-                    if (widget.onFeelingsChanged != null) {
-                      final current = List<String>.from(widget.feelings ?? []);
-                      if (current.contains(emotion)) {
-                        current.remove(emotion);
-                      } else {
-                        current.add(emotion);
-                      }
-                      widget.onFeelingsChanged!(current);
-                    }
-                  },
-                ),
-                CommonSpacer.vertical(sp.md),
-                // Secondary Emotions
-                if (widget.feelings != null && widget.feelings!.isNotEmpty)
-                  _buildSecondaryEmotions(context),
-                // Triggers
-                CommonChipGroup(
-                  title: 'Triggers',
-                  subtitle: 'What triggered this use?',
-                  options: triggers,
-                  selected: widget.selectedTriggers ?? [],
-                  onChanged: (v) => widget.onTriggersChanged?.call(v),
-                  selectedColor: targetAccent,
-                  selectedBorderColor: targetAccent,
-                ),
-                CommonSpacer.vertical(sp.md),
-                // Body Signals
-                CommonChipGroup(
-                  title: 'Body Signals',
-                  subtitle: 'Physical sensations',
-                  options: physicalSensations,
-                  selected: widget.selectedBodySignals ?? [],
-                  onChanged: (v) => widget.onBodySignalsChanged?.call(v),
-                  selectedColor: targetAccent,
-                  selectedBorderColor: targetAccent,
-                ),
-                CommonSpacer.vertical(sp.md),
+                ],
+              ),
               // Notes
+                            CommonSpacer.vertical(sp.lg),
+
               CommonTextarea(
                 controller: widget.notesCtrl,
                 labelText: 'Notes',

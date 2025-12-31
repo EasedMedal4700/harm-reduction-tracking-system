@@ -40,6 +40,10 @@ void main() {
 
       // Verify storage
       expect(prefs.getInt('pin_last_unlock_time'), now.millisecondsSinceEpoch);
+      expect(
+        prefs.getInt('pin_last_interaction_time'),
+        now.millisecondsSinceEpoch,
+      );
     });
 
     test('onBackgroundStart updates state and storage', () async {
@@ -53,7 +57,29 @@ void main() {
 
       // Verify storage
       expect(prefs.getInt('pin_background_time'), now.millisecondsSinceEpoch);
+      // Backgrounding counts as last meaningful activity.
+      expect(
+        prefs.getInt('pin_last_interaction_time'),
+        now.millisecondsSinceEpoch,
+      );
     });
+
+    test(
+      'resume shortly after background does NOT require pin even if last unlock was long ago',
+      () async {
+        final controller = container.read(appLockControllerProvider.notifier);
+        final unlockAt = DateTime(2025, 1, 1, 12, 0, 0);
+        final backgroundAt = unlockAt.add(const Duration(minutes: 30));
+        final resumeAt = backgroundAt.add(const Duration(seconds: 10));
+
+        await controller.recordUnlock(at: unlockAt);
+        await controller.onBackgroundStart(at: backgroundAt);
+        await controller.onForegroundResume(now: resumeAt);
+
+        final state = container.read(appLockControllerProvider);
+        expect(state.requiresPin, false);
+      },
+    );
 
     test('onForegroundResume requires pin if grace period exceeded', () async {
       final controller = container.read(appLockControllerProvider.notifier);
@@ -98,6 +124,7 @@ void main() {
       expect(state.lastUnlockAt, isNull);
 
       expect(prefs.containsKey('pin_last_unlock_time'), false);
+      expect(prefs.containsKey('pin_last_interaction_time'), false);
     });
 
     test('shouldRequirePinNow returns correct value', () async {
@@ -114,6 +141,10 @@ void main() {
       final oldTime = DateTime.now().subtract(const Duration(minutes: 10));
       await prefs.setInt(
         'pin_last_unlock_time',
+        oldTime.millisecondsSinceEpoch,
+      );
+      await prefs.setInt(
+        'pin_last_interaction_time',
         oldTime.millisecondsSinceEpoch,
       );
 
