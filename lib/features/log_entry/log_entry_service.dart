@@ -15,6 +15,37 @@ class LogEntryService {
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   final _cache = CacheService();
   final _encryption = EncryptionServiceV2();
+
+  /// Builds a Supabase-compatible update payload for the `drug_use` table.
+  ///
+  /// Important: Do not pass `LogEntry.toJson()` directly to PostgREST.
+  /// The model/serializer includes test-compat keys (e.g. `bodySignals`) that
+  /// are not DB columns and will cause PGRST204 schema cache errors.
+  Map<String, dynamic> buildDrugUseUpdateData(LogEntry entry) {
+    return {
+      'name': entry.substance,
+      'dose': '${entry.dosage} ${entry.unit}',
+      'start_time': formatter.format(entry.datetime.toUtc()),
+      'consumption': entry.route,
+      'intention':
+          (entry.intention == null || entry.intention == '-- Select Intention--')
+              ? null
+              : entry.intention,
+      'craving_0_10': entry.cravingIntensity.toInt(),
+      'medical': entry.isMedicalPurpose.toString(),
+      'primary_emotions': entry.feelings,
+      'secondary_emotions': entry.secondaryFeelings.values
+          .expand((list) => list)
+          .toList(),
+      'triggers': entry.triggers,
+      'people': entry.people,
+      'place': entry.location,
+      'body_signals': entry.bodySignals,
+      'notes': entry.notes,
+      'timezone': entry.timezoneOffset.toString(),
+    };
+  }
+
   Future<void> updateLogEntry(String id, Map<String, dynamic> data) async {
     try {
       final supabase = Supabase.instance.client;

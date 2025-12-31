@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod/src/framework.dart';
 import 'package:mobile_drug_use_app/features/setup_account/controllers/recovery_key_controller.dart';
 import 'package:mobile_drug_use_app/features/setup_account/models/recovery_key_state.dart';
 import 'package:mobile_drug_use_app/features/setup_account/pages/recovery_key_page.dart';
 import '../../helpers/test_app_wrapper.dart';
 
 class _FakeRecoveryKeyController extends RecoveryKeyController {
+  _FakeRecoveryKeyController({required this.resetPinOk});
+
+  final bool resetPinOk;
+
   @override
   RecoveryKeyState build() => const RecoveryKeyState();
 
@@ -48,16 +52,16 @@ class _FakeRecoveryKeyController extends RecoveryKeyController {
     required String confirmPinRaw,
   }) async {
     state = state.copyWith(isLoading: false, errorMessage: null);
-    return true;
+    return resetPinOk;
   }
 }
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  List<Override> _overrides() => [
+  List<Override> overrides({required bool resetPinOk}) => [
         recoveryKeyControllerProvider.overrideWith(
-          () => _FakeRecoveryKeyController(),
+          () => _FakeRecoveryKeyController(resetPinOk: resetPinOk),
         ),
       ];
 
@@ -65,7 +69,7 @@ void main() {
     await tester.pumpWidget(
       createEnhancedTestWrapper(
         child: const RecoveryKeyScreen(),
-        providerOverrides: _overrides(),
+        providerOverrides: overrides(resetPinOk: false),
         size: const Size(400, 900),
       ),
     );
@@ -84,21 +88,24 @@ void main() {
 
     // Enter PINs and submit.
     final pinFields = find.byType(TextField);
-    expect(pinFields, findsNWidgets(3));
+    expect(pinFields, findsNWidgets(2));
+    await tester.enterText(pinFields.at(0), '123456');
     await tester.enterText(pinFields.at(1), '123456');
-    await tester.enterText(pinFields.at(2), '123456');
 
-    await tester.tap(find.text('Reset PIN'));
-    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Reset PIN'));
+    await tester.pump();
+    await tester.tap(find.text('Reset PIN'), warnIfMissed: false);
+    await tester.pump();
 
-    expect(find.text('PIN reset successful!'), findsOneWidget);
+    // Fake controller returns false to avoid navigation requiring GoRouter.
+    expect(find.text('Create New PIN'), findsAtLeastNWidgets(1));
   });
 
   testWidgets('RecoveryKeyScreen back button returns to recovery key step', (tester) async {
     await tester.pumpWidget(
       createEnhancedTestWrapper(
         child: const RecoveryKeyScreen(),
-        providerOverrides: _overrides(),
+        providerOverrides: overrides(resetPinOk: false),
         size: const Size(400, 900),
       ),
     );

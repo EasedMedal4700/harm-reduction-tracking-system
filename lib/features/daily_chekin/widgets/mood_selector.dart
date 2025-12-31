@@ -32,11 +32,14 @@ class _MoodSelectorState extends State<MoodSelector>
   late AnimationController _scaleController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
+  bool _hasStarted = false;
   @override
   void initState() {
     super.initState();
     _scaleController = AnimationController(
-      duration: context.animations.normal,
+      // Don't read inherited widgets in initState (AppThemeProvider).
+      // We update the duration in didChangeDependencies instead.
+      duration: const Duration(milliseconds: 250),
       vsync: this,
     );
     _scaleAnimation = Tween<double>(
@@ -47,7 +50,16 @@ class _MoodSelectorState extends State<MoodSelector>
       begin: 0.7,
       end: 1.0,
     ).animate(CurvedAnimation(parent: _scaleController, curve: Curves.easeOut));
-    _scaleController.forward();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _scaleController.duration = context.animations.normal;
+    if (!_hasStarted) {
+      _hasStarted = true;
+      _scaleController.forward();
+    }
   }
 
   @override

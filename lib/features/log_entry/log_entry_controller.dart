@@ -128,7 +128,10 @@ class LogEntryController {
         people: [],
       );
       if (data.entryId.isNotEmpty) {
-        await _logEntryService.updateLogEntry(data.entryId, entry.toJson());
+        await _logEntryService.updateLogEntry(
+          data.entryId,
+          _logEntryService.buildDrugUseUpdateData(entry),
+        );
       } else {
         await _logEntryService.saveLogEntry(entry);
       }
