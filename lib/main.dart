@@ -119,7 +119,10 @@ class _MyAppState extends riverpod.ConsumerState<MyApp>
   Future<void> _initServices() async {
     await ref.read(featureFlagServiceProvider).load();
     // Provide GoRouter's navigatorKey for deep-link routing.
-    authLinkHandler.init(_router.routerDelegate.navigatorKey);
+    authLinkHandler.init(
+      _router.routerDelegate.navigatorKey,
+      ref.read(navigationProvider),
+    );
   }
 
   void _setupAppLockListener() {

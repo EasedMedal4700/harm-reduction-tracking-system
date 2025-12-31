@@ -6,8 +6,9 @@
 // Common: COMPLETE
 // Notes: Dialog for confirming deletion. Fully theme-compliant.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import '../../../common/buttons/common_primary_button.dart';
 
 class ActivityDeleteDialog extends StatelessWidget {
@@ -43,16 +44,29 @@ class ActivityDeleteDialog extends StatelessWidget {
       ),
       actions: [
         // Cancel Button
-        TextButton(
-          onPressed: () => context.pop(false),
-          child: Text('Cancel', style: tx.body.copyWith(color: c.textPrimary)),
+        Consumer(
+          builder: (context, ref, _) {
+            final nav = ref.read(navigationProvider);
+            return TextButton(
+              onPressed: () => nav.pop(false),
+              child: Text(
+                'Cancel',
+                style: tx.body.copyWith(color: c.textPrimary),
+              ),
+            );
+          },
         ),
         // Delete Button
-        CommonPrimaryButton(
-          label: 'Delete',
-          onPressed: () => context.pop(true),
-          backgroundColor: c.error,
-          textColor: c.textInverse,
+        Consumer(
+          builder: (context, ref, _) {
+            final nav = ref.read(navigationProvider);
+            return CommonPrimaryButton(
+              label: 'Delete',
+              onPressed: () => nav.pop(true),
+              backgroundColor: c.error,
+              textColor: c.textInverse,
+            );
+          },
         ),
       ],
     );

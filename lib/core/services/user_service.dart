@@ -72,7 +72,7 @@ class UserService {
         );
       }
       AppLog.i('✅ DEBUG: User profile loaded: ${response['display_name']}');
-      final profile = UserProfile.fromJson(response, email: user.email);
+      final profile = UserProfile.fromServiceJson(response, email: user.email);
       // Cache the profile
       _cachedProfile = profile;
       _cachedIsAdmin = profile.isAdmin;
@@ -140,7 +140,7 @@ class UserService {
           .select('auth_user_id, display_name, is_admin')
           .single();
       AppLog.i('✅ DEBUG: User profile updated successfully');
-      final profile = UserProfile.fromJson(response, email: user.email);
+      final profile = UserProfile.fromServiceJson(response, email: user.email);
       // Update cache
       _cachedProfile = profile;
       _cachedUserData = {

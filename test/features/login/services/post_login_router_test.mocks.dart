@@ -145,27 +145,27 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
   }
 
   @override
-  void bind(_i5.GlobalKey<_i5.NavigatorState>? navigatorKey) =>
+  void bind(_i5.GlobalKey<_i5.NavigatorState> navigatorKey) =>
       super.noSuchMethod(
         Invocation.method(#bind, [navigatorKey]),
         returnValueForMissingStub: null,
       );
 
   @override
-  void replace(String? location) => super.noSuchMethod(
+  void replace(String location) => super.noSuchMethod(
     Invocation.method(#replace, [location]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void push(String? location) => super.noSuchMethod(
-    Invocation.method(#push, [location]),
+  void push(String location, {Object? extra}) => super.noSuchMethod(
+    Invocation.method(#push, [location], {#extra: extra}),
     returnValueForMissingStub: null,
   );
 
   @override
-  void pop() => super.noSuchMethod(
-    Invocation.method(#pop, []),
+  void pop<T extends Object?>([T? result]) => super.noSuchMethod(
+    Invocation.method(#pop, [result]),
     returnValueForMissingStub: null,
   );
 }

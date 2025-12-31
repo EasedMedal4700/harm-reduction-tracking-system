@@ -1,23 +1,12 @@
 // MIGRATION:
 // State: MODERN
-// Navigation: GOROUTER
+// Navigation: CENTRALIZED
 // Models: N/A
 // Theme: N/A
 // Common: N/A
-// Notes: GoRouter-ready route(s) for stockpile feature.
+// Notes: Routes are centralized in lib/core/routes/app_router.dart.
 
-import 'package:go_router/go_router.dart';
-import 'package:mobile_drug_use_app/features/stockpile/stockpile_page.dart';
-
+@Deprecated('Routes are centralized in lib/core/routes/app_router.dart')
 class StockpileRoutes {
   static const String libraryPath = '/library';
-
-  static List<GoRoute> routes() {
-    return [
-      GoRoute(
-        path: libraryPath,
-        builder: (context, state) => const PersonalLibraryPage(),
-      ),
-    ];
-  }
 }

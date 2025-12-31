@@ -6,9 +6,10 @@
 // Common: COMPLETE
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_outlined_button.dart';
@@ -171,22 +172,32 @@ class CacheManagementSection extends StatelessWidget {
         title: Text(title, style: tx.heading4.copyWith(color: c.textPrimary)),
         content: Text(message, style: tx.body.copyWith(color: c.textSecondary)),
         actions: [
-          CommonOutlinedButton(
-            label: 'Cancel',
-            height: context.sizes.buttonHeightSm,
-            onPressed: () => context.pop(),
-            color: c.textSecondary,
-            borderColor: c.border,
-          ),
-          CommonPrimaryButton(
-            onPressed: () {
-              context.pop();
-              onConfirm();
+          Consumer(
+            builder: (context, ref, _) {
+              final nav = ref.read(navigationProvider);
+              return CommonOutlinedButton(
+                label: 'Cancel',
+                height: context.sizes.buttonHeightSm,
+                onPressed: () => nav.pop(),
+                color: c.textSecondary,
+                borderColor: c.border,
+              );
             },
-            label: 'Clear',
-            backgroundColor: c.error,
-            textColor: c.textInverse,
-            height: context.sizes.buttonHeightSm,
+          ),
+          Consumer(
+            builder: (context, ref, _) {
+              final nav = ref.read(navigationProvider);
+              return CommonPrimaryButton(
+                onPressed: () {
+                  nav.pop();
+                  onConfirm();
+                },
+                label: 'Clear',
+                backgroundColor: c.error,
+                textColor: c.textInverse,
+                height: context.sizes.buttonHeightSm,
+              );
+            },
           ),
         ],
       ),

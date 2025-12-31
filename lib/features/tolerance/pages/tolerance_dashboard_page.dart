@@ -53,8 +53,6 @@ class _ToleranceDashboardPageState
                 setState(() => _selectedBucket = bucket),
             onAddEntry: () {
               // Navigate to log entry
-              // context.push('/log-entry');
-              // Assuming route exists, otherwise just print
               debugPrint("Navigate to log entry");
             },
           );

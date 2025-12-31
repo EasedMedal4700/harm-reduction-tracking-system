@@ -1,42 +1,59 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: MODERN
+// Models: FREEZED
 // Theme: N/A
 // Common: N/A
 // Notes: Data model.
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'user_profile.freezed.dart';
+
 /// User profile model matching the public.users table structure.
 ///
 /// The user profile is automatically created by a database trigger when
 /// a new auth user signs up. The app should only READ and UPDATE profiles,
 /// never INSERT.
-class UserProfile {
-  /// The auth user ID (UUID) - primary key, references auth.users(id)
-  final String authUserId;
+@freezed
+abstract class UserProfile with _$UserProfile {
+  const factory UserProfile({
+    /// The auth user ID (UUID) - primary key, references auth.users(id)
+    required String authUserId,
 
-  /// The user's display name
-  final String displayName;
+    /// The user's display name
+    @Default('User') String displayName,
 
-  /// Whether the user has admin privileges
-  final bool isAdmin;
+    /// Whether the user has admin privileges
+    @Default(false) bool isAdmin,
 
-  /// Email from auth.users (not stored in public.users)
-  final String? email;
-  const UserProfile({
-    required this.authUserId,
-    required this.displayName,
-    required this.isAdmin,
-    this.email,
-  });
+    /// Email from auth.users (not stored in public.users)
+    String? email,
+  }) = _UserProfile;
+
+  const UserProfile._();
+
+  factory UserProfile.fromJson(Map<String, dynamic> json) {
+    return UserProfile(
+      authUserId:
+          (json['auth_user_id'] as String?) ??
+          (json['authUserId'] as String?) ??
+          '',
+      displayName:
+          (json['display_name'] as String?) ??
+          (json['displayName'] as String?) ??
+          'User',
+      isAdmin:
+          (json['is_admin'] as bool?) ?? (json['isAdmin'] as bool?) ?? false,
+      email: (json['email'] as String?),
+    );
+  }
 
   /// Create a UserProfile from a database row + auth user data
-  factory UserProfile.fromJson(Map<String, dynamic> json, {String? email}) {
-    return UserProfile(
-      authUserId: json['auth_user_id'] as String,
-      displayName: json['display_name'] as String? ?? 'User',
-      isAdmin: json['is_admin'] as bool? ?? false,
-      email: email,
-    );
+  factory UserProfile.fromServiceJson(
+    Map<String, dynamic> json, {
+    String? email,
+  }) {
+    return UserProfile.fromJson({...json, if (email != null) 'email': email});
   }
 
   /// Convert to JSON for updates (only mutable fields)
@@ -46,47 +63,21 @@ class UserProfile {
       // Note: is_admin should not be updatable by the user themselves
     };
   }
-
-  /// Create a copy with updated fields
-  UserProfile copyWith({String? displayName, bool? isAdmin, String? email}) {
-    return UserProfile(
-      authUserId: authUserId,
-      displayName: displayName ?? this.displayName,
-      isAdmin: isAdmin ?? this.isAdmin,
-      email: email ?? this.email,
-    );
-  }
-
-  @override
-  String toString() {
-    return 'UserProfile(authUserId: $authUserId, displayName: $displayName, isAdmin: $isAdmin, email: $email)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    return other is UserProfile &&
-        other.authUserId == authUserId &&
-        other.displayName == displayName &&
-        other.isAdmin == isAdmin &&
-        other.email == email;
-  }
-
-  @override
-  int get hashCode {
-    return authUserId.hashCode ^
-        displayName.hashCode ^
-        isAdmin.hashCode ^
-        email.hashCode;
-  }
 }
 
 /// Exception thrown when user profile operations fail
-class UserProfileException implements Exception {
-  final String message;
-  final String? code;
-  final dynamic originalError;
-  const UserProfileException(this.message, {this.code, this.originalError});
+@freezed
+abstract class UserProfileException
+    with _$UserProfileException
+    implements Exception {
+  const factory UserProfileException(
+    String message, {
+    String? code,
+    Object? originalError,
+  }) = _UserProfileException;
+
+  const UserProfileException._();
+
   @override
   String toString() => 'UserProfileException: $message (code: $code)';
 

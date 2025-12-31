@@ -10,6 +10,9 @@ import 'package:mobile_drug_use_app/features/login/login/login_page.dart';
 import 'package:mobile_drug_use_app/features/login/login/login_state.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
 
 // Fake implementation of LoginController to avoid StateNotifier mocking issues
 class FakeLoginController extends LoginController {
@@ -62,24 +65,34 @@ void main() {
   Widget createTestWidget(LoginState state) {
     fakeController.setState(state);
 
+    final navigatorKey = GlobalKey<NavigatorState>();
+    final nav = NavigationService()..bind(navigatorKey);
+
     final router = GoRouter(
-      initialLocation: '/',
+      navigatorKey: navigatorKey,
+      initialLocation: AppRoutePaths.login,
       routes: [
-        GoRoute(path: '/', builder: (context, _) => const LoginPage()),
         GoRoute(
-          path: '/forgot-password',
+          path: AppRoutePaths.login,
+          builder: (context, _) => const LoginPage(),
+        ),
+        GoRoute(
+          path: AppRoutePaths.forgotPassword,
           builder: (context, _) =>
               const Scaffold(body: Text('Forgot Password')),
         ),
         GoRoute(
-          path: '/signup',
+          path: AppRoutePaths.register,
           builder: (context, _) => const Scaffold(body: Text('Sign Up')),
         ),
       ],
     );
 
     return ProviderScope(
-      overrides: [loginControllerProvider.overrideWith(() => fakeController)],
+      overrides: [
+        loginControllerProvider.overrideWith(() => fakeController),
+        navigationProvider.overrideWithValue(nav),
+      ],
       child: AppThemeProvider(
         theme: AppTheme.light(fontSize: 1.0, compactMode: false),
         child: MaterialApp.router(routerConfig: router),

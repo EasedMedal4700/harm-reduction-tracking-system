@@ -9,6 +9,9 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 import 'package:mobile_drug_use_app/features/setup_account/pages/set_new_password_page.dart';
 import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
 
 import '../../../mocks/supabase_mocks.mocks.dart';
 
@@ -18,19 +21,22 @@ void main() {
     late MockGoTrueClient mockAuth;
 
     Widget buildApp() {
+      final navigatorKey = GlobalKey<NavigatorState>();
+      final nav = NavigationService()..bind(navigatorKey);
       final router = GoRouter(
-        initialLocation: '/set-new-password',
+        navigatorKey: navigatorKey,
+        initialLocation: AppRoutePaths.setNewPassword,
         routes: [
           GoRoute(
-            path: '/set-new-password',
+            path: AppRoutePaths.setNewPassword,
             builder: (context, _) => const SetNewPasswordPage(),
           ),
           GoRoute(
-            path: '/login_page',
+            path: AppRoutePaths.login,
             builder: (context, _) => const Scaffold(body: Text('Login Page')),
           ),
           GoRoute(
-            path: '/forgot-password',
+            path: AppRoutePaths.forgotPassword,
             builder: (context, _) =>
                 const Scaffold(body: Text('Forgot Password')),
           ),
@@ -38,7 +44,10 @@ void main() {
       );
 
       return ProviderScope(
-        overrides: [supabaseClientProvider.overrideWithValue(mockSupabase)],
+        overrides: [
+          supabaseClientProvider.overrideWithValue(mockSupabase),
+          navigationProvider.overrideWithValue(nav),
+        ],
         child: AppThemeProvider(
           theme: AppTheme.light(fontSize: 1.0, compactMode: false),
           child: MaterialApp.router(routerConfig: router),

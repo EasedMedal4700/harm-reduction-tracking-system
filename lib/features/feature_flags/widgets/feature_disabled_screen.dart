@@ -6,15 +6,17 @@
 // Common: COMPLETE
 // Notes: Fully migrated to AppThemeExtension and Common buttons.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 import '../../../common/buttons/common_primary_button.dart';
 import '../../../common/buttons/common_outlined_button.dart';
 
 /// A screen displayed when a feature is currently disabled.
 /// Shows a friendly message and provides navigation options.
-class FeatureDisabledScreen extends StatelessWidget {
+class FeatureDisabledScreen extends ConsumerWidget {
   /// The name of the disabled feature (e.g., 'craving_log')
   final String featureName;
 
@@ -39,7 +41,8 @@ class FeatureDisabledScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final nav = ref.read(navigationProvider);
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -56,11 +59,11 @@ class FeatureDisabledScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           color: c.textPrimary,
           onPressed: () {
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
-            } else {
-              context.go('/home');
+            if (nav.canPop()) {
+              nav.pop();
+              return;
             }
+            nav.replace(AppRoutePaths.home);
           },
         ),
       ),
@@ -107,9 +110,7 @@ class FeatureDisabledScreen extends StatelessWidget {
               // Go Home button
               CommonPrimaryButton(
                 onPressed: () {
-                  Navigator.of(context);
-                  if (!context.mounted) return;
-                  context.go('/home');
+                  nav.replace(AppRoutePaths.home);
                 },
                 icon: Icons.home_rounded,
                 label: 'Go to Home',
@@ -119,11 +120,11 @@ class FeatureDisabledScreen extends StatelessWidget {
               // Back button
               CommonOutlinedButton(
                 onPressed: () {
-                  if (Navigator.of(context).canPop()) {
-                    Navigator.of(context).pop();
-                  } else {
-                    context.go('/home');
+                  if (nav.canPop()) {
+                    nav.pop();
+                    return;
                   }
+                  nav.replace(AppRoutePaths.home);
                 },
                 icon: Icons.arrow_back_rounded,
                 label: 'Go Back',

@@ -8,8 +8,11 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
 import '../providers/settings_provider.dart';
 import '../models/app_settings_model.dart';
 import 'package:mobile_drug_use_app/core/services/pin_timeout_service.dart';
@@ -23,7 +26,7 @@ import '../../../common/buttons/common_primary_button.dart';
 /// Privacy & Security section widget
 import '../../../common/logging/app_log.dart';
 
-class PrivacySettingsSection extends StatefulWidget {
+class PrivacySettingsSection extends ConsumerStatefulWidget {
   final AppSettings settings;
   final SettingsController controller;
   final VoidCallback onAutoLockTap;
@@ -34,10 +37,12 @@ class PrivacySettingsSection extends StatefulWidget {
     super.key,
   });
   @override
-  State<PrivacySettingsSection> createState() => _PrivacySettingsSectionState();
+  ConsumerState<PrivacySettingsSection> createState() =>
+      _PrivacySettingsSectionState();
 }
 
-class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
+class _PrivacySettingsSectionState
+    extends ConsumerState<PrivacySettingsSection> {
   final _encryptionService = EncryptionServiceV2();
   int _foregroundTimeout = PinTimeoutService.defaultForegroundTimeout;
   int _backgroundTimeout = PinTimeoutService.defaultBackgroundTimeout;
@@ -94,6 +99,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
     required Function(int) onChanged,
     bool allowDisable = false,
   }) async {
+    final nav = ref.read(navigationProvider);
     final result = await showDialog<int>(
       context: context,
       builder: (context) => _TimeoutPickerDialog(
@@ -104,6 +110,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
         maxValue: maxValue,
         presets: presets,
         allowDisable: allowDisable,
+        nav: nav,
       ),
     );
     if (result != null) {
@@ -118,6 +125,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
     final th = context.theme;
     final c = context.colors;
     final sp = context.spacing;
+    final NavigationService nav = ref.read(navigationProvider);
     return SettingsSection(
       title: 'Privacy & Security',
       icon: Icons.lock,
@@ -130,7 +138,9 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
             leading: Icon(Icons.lock_reset, size: th.sizes.iconMd),
             trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
             onTap: () async {
-              final result = await context.push<bool>('/change-pin');
+              final result = await nav.pushForResult<bool>(
+                AppRoutePaths.changePin,
+              );
               if (!context.mounted) return;
               if (result == true) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -149,7 +159,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
             leading: Icon(Icons.security, size: th.sizes.iconMd),
             trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
             onTap: () {
-              context.push('/pin-setup');
+              nav.push(AppRoutePaths.pinSetup);
             },
           ),
         ],
@@ -280,11 +290,11 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 ),
                 actions: [
                   TextButton(
-                    onPressed: () => context.pop(false),
+                    onPressed: () => nav.pop(false),
                     child: const Text('Cancel'),
                   ),
                   CommonPrimaryButton(
-                    onPressed: () => context.pop(true),
+                    onPressed: () => nav.pop(true),
                     label: 'Reset',
                   ),
                 ],
@@ -315,7 +325,7 @@ class _PrivacySettingsSectionState extends State<PrivacySettingsSection> {
                 '🔔 Privacy Policy tile tapped - calling _openPrivacyPolicy()',
               );
               // _openPrivacyPolicy();
-              context.push('/privacy-policy');
+              nav.push(AppRoutePaths.privacyPolicy);
             },
             child: ListTile(
               title: const Text('Privacy Policy'),
@@ -351,6 +361,7 @@ class _TimeoutPickerDialog extends StatefulWidget {
   final int maxValue;
   final List<int> presets;
   final bool allowDisable;
+  final NavigationService nav;
   const _TimeoutPickerDialog({
     required this.title,
     required this.subtitle,
@@ -359,6 +370,7 @@ class _TimeoutPickerDialog extends StatefulWidget {
     required this.maxValue,
     required this.presets,
     this.allowDisable = false,
+    required this.nav,
   });
   @override
   State<_TimeoutPickerDialog> createState() => _TimeoutPickerDialogState();
@@ -464,11 +476,11 @@ class _TimeoutPickerDialogState extends State<_TimeoutPickerDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => widget.nav.pop(),
           child: const Text('Cancel'),
         ),
         CommonPrimaryButton(
-          onPressed: () => Navigator.of(context).pop(_selectedValue),
+          onPressed: () => widget.nav.pop(_selectedValue),
           label: 'Save',
         ),
       ],

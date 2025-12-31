@@ -50,23 +50,23 @@ def _is_model_file(abs_path: str) -> bool:
 # Parsing helpers 
 # ----------------------------------------------------------------------------- 
 
-_PART_RE = re.compile(r"^\s*part\s+['\"]([^'\"]+)['\"]\s*;\s*$")
+_PART_RE = re.compile(
+    r"^\s*part\s+['\"]([^'\"]+)['\"]\s*;\s*(?:(?://.*)|(?:/\*.*\*/\s*))?$"
+)
 _CLASS_RE = re.compile(r"^\s*class\s+(\w+)\b")
 
-_JSON_TOKENS = (
-    "fromJson(",
-    "toJson(",
-    "@JsonKey",
-    "@JsonSerializable",
-)
+_JSON_FACTORY_RE = re.compile(r"_\$\w+(FromJson|ToJson)\b")
 
 # Heuristic: only flag likely *class fields*, not local variables.
 # In this codebase, class members are typically indented by exactly 2 spaces.
 _FIELD_RE = re.compile(
     r"^(?:  )(?! )"
     r"(?!final\b|const\b|static\b|late\b|@|factory\b|get\b|set\b|class\b|typedef\b|enum\b|abstract\b)"
+    r"(?!return\b|if\b|for\b|while\b|switch\b|case\b|default\b|break\b|continue\b|throw\b|try\b|catch\b|finally\b|do\b|else\b)"
     r"[A-Za-z_][\w<>,?\s]*\s+[A-Za-z_]\w*\s*(;|=)"
 )
+
+_GETTER_SETTER_TOKEN_RE = re.compile(r"\b(get|set)\b")
 
 def _read_lines(path: str) -> List[str]:
     with open(path, "r", encoding="utf-8") as f:
@@ -106,7 +106,9 @@ def _check_file(path: str) -> List[Violation]:
     has_freezed_part = any(p.endswith(".freezed.dart") for p in parts)
     has_g_part = any(p.endswith(".g.dart") for p in parts)
 
-    uses_json = any(tok in full_text for tok in _JSON_TOKENS)
+    uses_json = ("@JsonSerializable" in full_text) or (
+        _JSON_FACTORY_RE.search(full_text) is not None
+    )
 
     # ---- File-level enforcement ----
     if not has_freezed_annotation:
@@ -164,6 +166,11 @@ def _check_file(path: str) -> List[Violation]:
     # ---- Detect mutable (non-final) field declarations inside file (best-effort)
     for idx, line in enumerate(lines, start=1):
         if _FIELD_RE.match(line):
+            # Avoid false positives on members like:
+            #   int get foo => ...;
+            #   set foo(v) => ...;
+            if "=>" in line or _GETTER_SETTER_TOKEN_RE.search(line) is not None:
+                continue
             violations.append(
                 Violation(
                     path,

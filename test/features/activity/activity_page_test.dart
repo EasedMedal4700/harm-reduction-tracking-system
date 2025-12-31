@@ -9,6 +9,8 @@ import 'package:mobile_drug_use_app/features/activity/activity_page.dart';
 import 'package:mobile_drug_use_app/features/activity/providers/activity_providers.dart';
 import 'package:mobile_drug_use_app/features/activity/services/activity_service.dart';
 import 'package:mobile_drug_use_app/core/routes/app_router.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
 
 class FakeActivityService implements ActivityService {
   FakeActivityService(this._data);
@@ -58,7 +60,10 @@ ActivityData _fixtureData() {
 }
 
 Widget _buildApp({required FakeActivityService fake}) {
+  final navigatorKey = GlobalKey<NavigatorState>();
+  final nav = NavigationService()..bind(navigatorKey);
   final router = GoRouter(
+    navigatorKey: navigatorKey,
     initialLocation: AppRoutePaths.activity,
     routes: [
       GoRoute(
@@ -74,7 +79,10 @@ Widget _buildApp({required FakeActivityService fake}) {
   );
 
   return ProviderScope(
-    overrides: [activityServiceProvider.overrideWithValue(fake)],
+    overrides: [
+      activityServiceProvider.overrideWithValue(fake),
+      navigationProvider.overrideWithValue(nav),
+    ],
     child: AppThemeProvider(
       theme: AppTheme.light(),
       child: MaterialApp.router(routerConfig: router),

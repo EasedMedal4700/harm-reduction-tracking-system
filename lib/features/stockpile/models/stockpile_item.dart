@@ -1,71 +1,68 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: MODERN
+// Models: FREEZED
 // Theme: N/A
 // Common: N/A
 // Notes: Data model.
-/// Represents a stockpile item for a substance (local-only storage)
-class StockpileItem {
-  final String substanceId;
-  final double totalAddedMg; // Total ever added (historical max)
-  final double currentAmountMg; // Current remaining amount
-  final double? unitMg; // mg per pill/capsule (optional)
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  StockpileItem({
-    required this.substanceId,
-    required this.totalAddedMg,
-    required this.currentAmountMg,
-    this.unitMg,
-    required this.createdAt,
-    required this.updatedAt,
-  });
+// Represents a stockpile item for a substance (local-only storage)
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  /// Creates a StockpileItem from JSON data
+part 'stockpile_item.freezed.dart';
+
+DateTime _dateTimeFromAny(Object? v) {
+  if (v is DateTime) return v;
+  if (v is String && v.isNotEmpty) {
+    return DateTime.tryParse(v) ?? DateTime.now();
+  }
+  return DateTime.now();
+}
+
+String _dateTimeToIsoString(DateTime v) => v.toIso8601String();
+
+@freezed
+abstract class StockpileItem with _$StockpileItem {
+  const factory StockpileItem({
+    required String substanceId,
+    required double totalAddedMg,
+    required double currentAmountMg,
+    double? unitMg,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+  }) = _StockpileItem;
+
+  const StockpileItem._();
+
   factory StockpileItem.fromJson(Map<String, dynamic> json) {
     return StockpileItem(
-      substanceId: json['substanceId'] as String,
-      totalAddedMg: (json['totalAddedMg'] as num).toDouble(),
-      currentAmountMg: (json['currentAmountMg'] as num).toDouble(),
-      unitMg: json['unitMg'] != null
-          ? (json['unitMg'] as num).toDouble()
-          : null,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      substanceId:
+          json['substanceId']?.toString() ??
+          json['substance_id']?.toString() ??
+          '',
+      totalAddedMg:
+          (json['totalAddedMg'] as num?)?.toDouble() ??
+          (json['total_added_mg'] as num?)?.toDouble() ??
+          0.0,
+      currentAmountMg:
+          (json['currentAmountMg'] as num?)?.toDouble() ??
+          (json['current_amount_mg'] as num?)?.toDouble() ??
+          0.0,
+      unitMg:
+          (json['unitMg'] as num?)?.toDouble() ??
+          (json['unit_mg'] as num?)?.toDouble(),
+      createdAt: _dateTimeFromAny(json['createdAt'] ?? json['created_at']),
+      updatedAt: _dateTimeFromAny(json['updatedAt'] ?? json['updated_at']),
     );
   }
 
-  /// Converts this StockpileItem to JSON data
-  Map<String, dynamic> toJson() {
-    return {
-      'substanceId': substanceId,
-      'totalAddedMg': totalAddedMg,
-      'currentAmountMg': currentAmountMg,
-      'unitMg': unitMg,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
-    };
-  }
-
-  /// Creates a copy with updated fields
-  StockpileItem copyWith({
-    String? substanceId,
-    double? totalAddedMg,
-    double? currentAmountMg,
-    double? unitMg,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) {
-    return StockpileItem(
-      substanceId: substanceId ?? this.substanceId,
-      totalAddedMg: totalAddedMg ?? this.totalAddedMg,
-      currentAmountMg: currentAmountMg ?? this.currentAmountMg,
-      unitMg: unitMg ?? this.unitMg,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
+  Map<String, dynamic> toJson() => {
+    'substanceId': substanceId,
+    'totalAddedMg': totalAddedMg,
+    'currentAmountMg': currentAmountMg,
+    'unitMg': unitMg,
+    'createdAt': _dateTimeToIsoString(createdAt),
+    'updatedAt': _dateTimeToIsoString(updatedAt),
+  };
 
   /// Get stockpile percentage (0-100)
   double getPercentage() {

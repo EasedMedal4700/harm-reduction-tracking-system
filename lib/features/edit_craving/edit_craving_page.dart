@@ -6,8 +6,10 @@
 // Common: COMPLETE
 // Notes: Page for editing cravings. No hardcoded values.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../common/layout/common_spacer.dart';
 import '../craving/widgets/craving_details_section.dart';
@@ -21,15 +23,15 @@ import '../../constants/data/body_and_mind_catalog.dart';
 import '../../constants/data/drug_use_catalog.dart';
 import '../../constants/data/craving_consatnts.dart';
 
-class EditCravingPage extends StatefulWidget {
+class EditCravingPage extends ConsumerStatefulWidget {
   final Map<String, dynamic> entry;
   final CravingService? cravingService;
   const EditCravingPage({super.key, required this.entry, this.cravingService});
   @override
-  State<EditCravingPage> createState() => _EditCravingPageState();
+  ConsumerState<EditCravingPage> createState() => _EditCravingPageState();
 }
 
-class _EditCravingPageState extends State<EditCravingPage> {
+class _EditCravingPageState extends ConsumerState<EditCravingPage> {
   late final CravingService _cravingService;
   // Form fields
   List<String> selectedCravings = [];
@@ -213,7 +215,7 @@ class _EditCravingPageState extends State<EditCravingPage> {
           context,
           message: 'Craving updated successfully!',
         );
-        Navigator.pop(context, true);
+        ref.read(navigationProvider).pop(true);
       }
     } catch (e, stackTrace) {
       ErrorHandler.logError('EditCravingPage._saveChanges', e, stackTrace);

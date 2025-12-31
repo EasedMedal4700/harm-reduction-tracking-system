@@ -1,14 +1,23 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: MODERN
+// Models: FREEZED
 // Theme: N/A
 // Common: N/A
 // Notes: Data model.
-/// Centralized bucket type definitions and metadata
-/// CRITICAL: This file defines the CANONICAL bucket order and display information.
-/// All buckets rendered in the UI MUST use this order.
-class BucketDefinitions {
+// Centralized bucket type definitions and metadata
+// CRITICAL: This file defines the CANONICAL bucket order and display information.
+// All buckets rendered in the UI MUST use this order.
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'bucket_definitions.freezed.dart';
+
+@freezed
+class BucketDefinitions with _$BucketDefinitions {
+  const factory BucketDefinitions() = _BucketDefinitions;
+
+  const BucketDefinitions._();
+
   /// Canonical bucket order for display
   /// If a bucket doesn't exist in a substance, show it as "Recovered 0.0%"
   static const List<String> orderedBuckets = [

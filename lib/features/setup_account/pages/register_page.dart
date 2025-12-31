@@ -9,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/features/setup_account/controllers/register_controller.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 import '../../../common/inputs/input_field.dart';
 import '../../../common/buttons/common_primary_button.dart';
 import '../../../common/layout/common_spacer.dart';
@@ -38,6 +39,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
+    final nav = ref.read(navigationProvider);
     final result = await ref
         .read(registerControllerProvider.notifier)
         .submitRegister(
@@ -50,7 +52,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Account created! Please log in.')),
       );
-      context.pop();
+      nav.pop();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result.errorMessage ?? 'Registration failed')),
@@ -117,7 +119,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   CommonSpacer.vertical(sp.xl),
                   CommonPrimaryButton(
                     onPressed: () {
-                      context.go('/onboarding');
+                      final nav = ref.read(navigationProvider);
+                      nav.replace(AppRoutePaths.onboarding);
                     },
                     icon: Icons.arrow_forward,
                     label: 'Go to Onboarding',
@@ -159,7 +162,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   CommonSpacer.vertical(sp.xl),
                   CommonPrimaryButton(
                     onPressed: () {
-                      context.go('/onboarding');
+                      final nav = ref.read(navigationProvider);
+                      nav.replace(AppRoutePaths.onboarding);
                     },
                     icon: Icons.arrow_forward,
                     label: 'Go to Onboarding',
@@ -240,7 +244,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     icon: const Icon(Icons.login),
                     label: const Text('Already have an account? Log in'),
                     onPressed: () {
-                      context.go('/login_page');
+                      final nav = ref.read(navigationProvider);
+                      nav.replace(AppRoutePaths.login);
                     },
                   ),
                 ],

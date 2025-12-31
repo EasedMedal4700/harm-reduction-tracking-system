@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 
 import '../../common/feedback/common_loader.dart';
 import '../../common/layout/common_drawer.dart';
@@ -155,22 +156,21 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
   }
 
   void _showErrorDialog(String title, String message) {
+    final nav = ref.read(navigationProvider);
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(title),
         content: Text(message),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
+          TextButton(onPressed: () => nav.pop(), child: const Text('OK')),
         ],
       ),
     );
   }
 
   Future<bool> _showConfirmDialog(String title, String message) async {
+    final nav = ref.read(navigationProvider);
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -178,11 +178,11 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
         content: Text(message),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
+            onPressed: () => nav.pop(false),
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
+            onPressed: () => nav.pop(true),
             child: const Text('Continue'),
           ),
         ],

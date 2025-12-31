@@ -72,19 +72,19 @@ void main() {
         notes: 'Hard day',
       );
 
-      reflection.reset();
+      final reset = reflection.reset();
 
-      expect(reflection.effectiveness, 5.0);
-      expect(reflection.sleepHours, 8.0);
-      expect(reflection.sleepQuality, 'Good');
-      expect(reflection.nextDayMood, '');
-      expect(reflection.energyLevel, 'Neutral');
-      expect(reflection.sideEffects, '');
-      expect(reflection.postUseCraving, 5.0);
-      expect(reflection.copingStrategies, '');
-      expect(reflection.copingEffectiveness, 5.0);
-      expect(reflection.overallSatisfaction, 5.0);
-      expect(reflection.notes, '');
+      expect(reset.effectiveness, 5.0);
+      expect(reset.sleepHours, 8.0);
+      expect(reset.sleepQuality, 'Good');
+      expect(reset.nextDayMood, '');
+      expect(reset.energyLevel, 'Neutral');
+      expect(reset.sideEffects, '');
+      expect(reset.postUseCraving, 5.0);
+      expect(reset.copingStrategies, '');
+      expect(reset.copingEffectiveness, 5.0);
+      expect(reset.overallSatisfaction, 5.0);
+      expect(reset.notes, '');
     });
 
     test('validates reflection data structure', () {

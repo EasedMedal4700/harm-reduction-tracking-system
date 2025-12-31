@@ -6,7 +6,9 @@
 // Common: COMPLETE
 // Notes: Page for editing log entries. Uses CommonPrimaryButton. No hardcoded values.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import '../../common/layout/common_drawer.dart';
 import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_model.dart';
 import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_form_data.dart';
@@ -17,15 +19,15 @@ import '../log_entry/widgets/log_entry/log_entry_form.dart';
 import '../../common/layout/common_bottom_bar.dart';
 import '../../common/buttons/common_primary_button.dart';
 
-class EditDrugUsePage extends StatefulWidget {
+class EditDrugUsePage extends ConsumerStatefulWidget {
   final Map<String, dynamic> entry;
   final LogEntryController? controller;
   const EditDrugUsePage({super.key, required this.entry, this.controller});
   @override
-  State<EditDrugUsePage> createState() => _EditDrugUsePageState();
+  ConsumerState<EditDrugUsePage> createState() => _EditDrugUsePageState();
 }
 
-class _EditDrugUsePageState extends State<EditDrugUsePage>
+class _EditDrugUsePageState extends ConsumerState<EditDrugUsePage>
     with SingleTickerProviderStateMixin {
   late final LogEntryController _controller;
   late LogEntryFormData _formData;
@@ -172,7 +174,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
     setState(() => _isSaving = false);
     if (result.isSuccess) {
       _showSnackBar(result.message, duration: context.animations.longSnackbar);
-      Navigator.of(context).pop(true);
+      ref.read(navigationProvider).pop(true);
     } else {
       _showSnackBar(result.message);
     }
@@ -180,6 +182,7 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
 
   Future<void> _handleDelete() async {
     final c = context.colors;
+    final nav = ref.read(navigationProvider);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -187,11 +190,11 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
         content: const Text('This action cannot be undone.'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
+            onPressed: () => nav.pop(false),
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () => Navigator.pop(context, true),
+            onPressed: () => nav.pop(true),
             style: TextButton.styleFrom(foregroundColor: c.error),
             child: const Text('Delete'),
           ),
@@ -215,22 +218,21 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
   }
 
   void _showErrorDialog(String title, String message) {
+    final nav = ref.read(navigationProvider);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(title),
         content: Text(message),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
+          TextButton(onPressed: () => nav.pop(), child: const Text('OK')),
         ],
       ),
     );
   }
 
   Future<bool> _showConfirmDialog(String title, String message) async {
+    final nav = ref.read(navigationProvider);
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -238,11 +240,11 @@ class _EditDrugUsePageState extends State<EditDrugUsePage>
         content: Text(message),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
+            onPressed: () => nav.pop(false),
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
+            onPressed: () => nav.pop(true),
             child: const Text('Continue'),
           ),
         ],

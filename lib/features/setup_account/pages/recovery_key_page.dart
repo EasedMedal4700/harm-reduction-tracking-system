@@ -8,11 +8,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_typography.dart';
 import 'package:mobile_drug_use_app/features/setup_account/controllers/recovery_key_controller.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../common/buttons/common_primary_button.dart';
 
@@ -46,6 +47,7 @@ class _RecoveryKeyScreenState extends ConsumerState<RecoveryKeyScreen> {
   /// Step 2: Create new PIN using the validated recovery key
   Future<void> _createNewPin() async {
     final c = context.colors;
+    final nav = ref.read(navigationProvider);
     final ok = await ref
         .read(recoveryKeyControllerProvider.notifier)
         .resetPin(
@@ -62,7 +64,7 @@ class _RecoveryKeyScreenState extends ConsumerState<RecoveryKeyScreen> {
           duration: const Duration(seconds: 3),
         ),
       );
-      context.go('/home_page');
+      nav.replace(AppRoutePaths.home);
     }
   }
 
@@ -228,7 +230,10 @@ class _RecoveryKeyScreenState extends ConsumerState<RecoveryKeyScreen> {
         CommonSpacer.vertical(sp.lg),
         // Back button
         TextButton.icon(
-          onPressed: () => context.pop(),
+          onPressed: () {
+            final nav = ref.read(navigationProvider);
+            nav.pop();
+          },
           icon: const Icon(Icons.arrow_back),
           label: const Text('Back to PIN Unlock'),
           style: TextButton.styleFrom(

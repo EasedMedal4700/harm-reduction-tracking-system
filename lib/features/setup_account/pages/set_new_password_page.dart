@@ -9,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/features/setup_account/controllers/set_new_password_controller.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../common/buttons/common_primary_button.dart';
 import '../../../common/inputs/input_field.dart';
@@ -41,6 +42,7 @@ class _SetNewPasswordPageState extends ConsumerState<SetNewPasswordPage> {
     if (!_formKey.currentState!.validate()) return;
 
     final c = context.colors;
+    final nav = ref.read(navigationProvider);
     final ok = await ref
         .read(setNewPasswordControllerProvider.notifier)
         .submitNewPassword(_passwordController.text);
@@ -52,7 +54,7 @@ class _SetNewPasswordPageState extends ConsumerState<SetNewPasswordPage> {
           backgroundColor: c.success,
         ),
       );
-      context.go('/login_page');
+      nav.replace(AppRoutePaths.login);
     }
   }
 
@@ -67,6 +69,7 @@ class _SetNewPasswordPageState extends ConsumerState<SetNewPasswordPage> {
 
     // Show error state if no session
     if (!flow.hasValidSession) {
+      final nav = ref.read(navigationProvider);
       return Scaffold(
         backgroundColor: c.background,
         appBar: AppBar(
@@ -110,12 +113,12 @@ class _SetNewPasswordPageState extends ConsumerState<SetNewPasswordPage> {
                 ),
                 CommonSpacer.vertical(sp.xl),
                 CommonPrimaryButton(
-                  onPressed: () => context.push('/forgot-password'),
+                  onPressed: () => nav.push(AppRoutePaths.forgotPassword),
                   label: 'Request New Link',
                 ),
                 CommonSpacer.vertical(sp.md),
                 TextButton(
-                  onPressed: () => context.go('/login_page'),
+                  onPressed: () => nav.replace(AppRoutePaths.login),
                   child: Text(
                     'Back to Login',
                     style: TextStyle(color: ac.primary),
@@ -134,7 +137,10 @@ class _SetNewPasswordPageState extends ConsumerState<SetNewPasswordPage> {
         elevation: context.sizes.elevationNone,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: c.textPrimary),
-          onPressed: () => context.go('/login_page'),
+          onPressed: () {
+            final nav = ref.read(navigationProvider);
+            nav.replace(AppRoutePaths.login);
+          },
         ),
         title: Text(
           'Set New Password',

@@ -49,7 +49,7 @@ $Res call({
 });
 
 
-
+$ReflectionCopyWith<$Res> get reflection;
 
 }
 /// @nodoc
@@ -87,7 +87,16 @@ as int,minute: null == minute ? _self.minute : minute // ignore: cast_nullable_t
 as int,
   ));
 }
-
+/// Create a copy of ReflectionState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ReflectionCopyWith<$Res> get reflection {
+  
+  return $ReflectionCopyWith<$Res>(_self.reflection, (value) {
+    return _then(_self.copyWith(reflection: value));
+  });
+}
 }
 
 
@@ -295,7 +304,7 @@ $Res call({
 });
 
 
-
+@override $ReflectionCopyWith<$Res> get reflection;
 
 }
 /// @nodoc
@@ -334,7 +343,16 @@ as int,
   ));
 }
 
-
+/// Create a copy of ReflectionState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ReflectionCopyWith<$Res> get reflection {
+  
+  return $ReflectionCopyWith<$Res>(_self.reflection, (value) {
+    return _then(_self.copyWith(reflection: value));
+  });
+}
 }
 
 // dart format on

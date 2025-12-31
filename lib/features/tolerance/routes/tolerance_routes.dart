@@ -1,17 +1,12 @@
 // MIGRATION:
 // State: MODERN
-// Navigation: GOROUTER
+// Navigation: CENTRALIZED
 // Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Tolerance routes
+// Notes: Routes are centralized in lib/core/routes/app_router.dart.
 
-import 'package:go_router/go_router.dart';
-import '../pages/tolerance_dashboard_page.dart';
-
-final toleranceRoutes = [
-  GoRoute(
-    path: '/tolerance',
-    builder: (context, state) => const ToleranceDashboardPage(),
-  ),
-];
+@Deprecated('Routes are centralized in lib/core/routes/app_router.dart')
+class ToleranceRoutes {
+  static const String legacyTolerancePath = '/tolerance';
+}

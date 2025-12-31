@@ -8,21 +8,25 @@
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../common/buttons/common_primary_button.dart';
 
 /// Success page shown after email confirmation via deep link.
 ///
 /// Displays a success message and provides a button to navigate to login.
-class EmailConfirmedPage extends StatelessWidget {
+class EmailConfirmedPage extends ConsumerWidget {
   const EmailConfirmedPage({super.key});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final tx = context.text;
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
+    final nav = ref.read(navigationProvider);
     return Scaffold(
       backgroundColor: c.background,
       body: SafeArea(
@@ -90,7 +94,7 @@ class EmailConfirmedPage extends StatelessWidget {
               // Login button
               CommonPrimaryButton(
                 onPressed: () {
-                  context.go('/login_page');
+                  nav.replace(AppRoutePaths.login);
                 },
                 icon: Icons.login_rounded,
                 label: 'Go to Login',

@@ -6,10 +6,11 @@
 // Common: COMPLETE
 // Notes: UI only. All logic moved to controller/router.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 import '../../../common/inputs/input_field.dart';
 import '../../../common/buttons/common_primary_button.dart';
 import '../../../common/layout/common_spacer.dart';
@@ -102,7 +103,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
-                              context.push('/forgot-password');
+                              final nav = ref.read(navigationProvider);
+                              nav.push(AppRoutePaths.forgotPassword);
                             },
                             child: Text(
                               'Forgot password?',
@@ -157,8 +159,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             ),
                             TextButton(
                               onPressed: () {
-                                // TODO(navigation): replace with NavigationService
-                                context.push('/signup');
+                                final nav = ref.read(navigationProvider);
+                                nav.push(AppRoutePaths.register);
                               },
                               child: Text(
                                 'Sign up',

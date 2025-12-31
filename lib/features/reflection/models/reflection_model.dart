@@ -1,55 +1,73 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: MODERN
+// Models: FREEZED
 // Theme: N/A
 // Common: N/A
 // Notes: Data model.
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
+
 import '../reflection_exceptions.dart';
 
-class Reflection {
-  double effectiveness;
-  double sleepHours;
-  String sleepQuality;
-  String nextDayMood;
-  String energyLevel;
-  String sideEffects;
-  double postUseCraving;
-  String copingStrategies;
-  double copingEffectiveness;
-  double overallSatisfaction;
-  String notes;
-  Reflection({
-    this.effectiveness = 5.0,
-    this.sleepHours = 8.0,
-    this.sleepQuality = 'Good',
-    this.nextDayMood = '',
-    this.energyLevel = 'Neutral',
-    this.sideEffects = '',
-    this.postUseCraving = 5.0,
-    this.copingStrategies = '',
-    this.copingEffectiveness = 5.0,
-    this.overallSatisfaction = 5.0,
-    this.notes = '',
-  });
+part 'reflection_model.freezed.dart';
 
-  Reflection clone() {
-    return Reflection(
-      effectiveness: effectiveness,
-      sleepHours: sleepHours,
-      sleepQuality: sleepQuality,
-      nextDayMood: nextDayMood,
-      energyLevel: energyLevel,
-      sideEffects: sideEffects,
-      postUseCraving: postUseCraving,
-      copingStrategies: copingStrategies,
-      copingEffectiveness: copingEffectiveness,
-      overallSatisfaction: overallSatisfaction,
-      notes: notes,
-    );
+double _doubleFromAny(Object? v) => double.tryParse(v?.toString() ?? '') ?? 0.0;
+
+int _intFromAny(Object? v, int fallback) =>
+    int.tryParse(v?.toString() ?? '') ?? fallback;
+
+DateTime _dateTimeFromAny(Object? v) {
+  final parsed = DateTime.tryParse(v?.toString() ?? '');
+  return parsed ?? DateTime.now();
+}
+
+Object? _readSelectedReflections(Map<dynamic, dynamic> json, String key) {
+  return json['selected_reflections'] ??
+      json['reflections'] ??
+      json['related_entries'];
+}
+
+List<String> _stringListFromAny(Object? v) {
+  if (v == null) return const [];
+  if (v is List) {
+    return v
+        .map((e) => e?.toString() ?? '')
+        .where((s) => s.isNotEmpty)
+        .toList();
   }
+  if (v is String && v.isNotEmpty) {
+    return v
+        .split(',')
+        .map((s) => s.trim())
+        .where((s) => s.isNotEmpty)
+        .toList();
+  }
+  return const [];
+}
+
+@freezed
+abstract class Reflection with _$Reflection {
+  const factory Reflection({
+    @Default(5.0) double effectiveness,
+    @Default(8.0) double sleepHours,
+    @Default('Good') String sleepQuality,
+    @Default('') String nextDayMood,
+    @Default('Neutral') String energyLevel,
+    @Default('') String sideEffects,
+    @Default(5.0) double postUseCraving,
+    @Default('') String copingStrategies,
+    @Default(5.0) double copingEffectiveness,
+    @Default(5.0) double overallSatisfaction,
+    @Default('') String notes,
+  }) = _Reflection;
+
+  const Reflection._();
+
+  Reflection clone() => copyWith();
+
+  Reflection reset() => const Reflection();
 
   Map<String, dynamic> toJson() => {
     'effectiveness': effectiveness.round(),
@@ -64,167 +82,61 @@ class Reflection {
     'overall_satisfaction': overallSatisfaction.round(),
     'notes': notes,
   };
-  void reset() {
-    effectiveness = 5.0;
-    sleepHours = 8.0;
-    sleepQuality = 'Good';
-    nextDayMood = '';
-    energyLevel = 'Neutral';
-    sideEffects = '';
-    postUseCraving = 5.0;
-    copingStrategies = '';
-    copingEffectiveness = 5.0;
-    overallSatisfaction = 5.0;
-    notes = '';
-  }
 }
 
-class ReflectionModel {
-  final String? id;
-  final String? notes;
-  final List<String> selectedReflections;
-  final DateTime date;
-  final int hour;
-  final int minute;
-  final double effectiveness;
-  final double sleepHours;
-  final String sleepQuality;
-  final String nextDayMood;
-  final String energyLevel;
-  final String sideEffects;
-  final double postUseCraving;
-  final String copingStrategies;
-  final double copingEffectiveness;
-  final double overallSatisfaction;
-  ReflectionModel({
-    this.id,
-    this.notes,
-    this.selectedReflections = const [],
-    required this.date,
-    required this.hour,
-    required this.minute,
-    this.effectiveness = 0.0,
-    this.sleepHours = 0.0,
-    this.sleepQuality = '',
-    this.nextDayMood = '',
-    this.energyLevel = '',
-    this.sideEffects = '',
-    this.postUseCraving = 0.0,
-    this.copingStrategies = '',
-    this.copingEffectiveness = 0.0,
-    this.overallSatisfaction = 0.0,
-  });
+@freezed
+abstract class ReflectionModel with _$ReflectionModel {
+  const factory ReflectionModel({
+    @Default([]) List<String> selectedReflections,
+    String? id,
+    String? notes,
+    required DateTime date,
+    required int hour,
+    required int minute,
+    @Default(0.0) double effectiveness,
+    @Default(0.0) double sleepHours,
+    @Default('') String sleepQuality,
+    @Default('') String nextDayMood,
+    @Default('') String energyLevel,
+    @Default('') String sideEffects,
+    @Default(0.0) double postUseCraving,
+    @Default('') String copingStrategies,
+    @Default(0.0) double copingEffectiveness,
+    @Default(0.0) double overallSatisfaction,
+  }) = _ReflectionModel;
+
+  const ReflectionModel._();
+
   factory ReflectionModel.fromJson(Map<String, dynamic> json) {
     try {
       ErrorHandler.logDebug('ReflectionModel', 'Parsing reflection from JSON');
-      List<String> toList(dynamic v, String fieldName) {
-        try {
-          if (v == null) {
-            ErrorHandler.logDebug('ReflectionModel', '$fieldName is null');
-            return [];
-          }
-          if (v is List) {
-            ErrorHandler.logDebug(
-              'ReflectionModel',
-              '$fieldName is List with ${v.length} items: $v',
-            );
-            return v
-                .map((e) => e?.toString() ?? '')
-                .where((s) => s.isNotEmpty)
-                .toList();
-          }
-          if (v is String && v.isNotEmpty) {
-            ErrorHandler.logDebug(
-              'ReflectionModel',
-              '$fieldName is String: $v',
-            );
-            return v
-                .split(',')
-                .map((s) => s.trim())
-                .where((s) => s.isNotEmpty)
-                .toList();
-          }
-          ErrorHandler.logWarning(
-            'ReflectionModel',
-            '$fieldName has unexpected type: ${v.runtimeType}',
-          );
-          return [];
-        } catch (e) {
-          ErrorHandler.logError('ReflectionModel._toList($fieldName)', e);
-          return [];
-        }
-      }
-
-      double toDouble(dynamic v, String fieldName) {
-        final result = double.tryParse(v?.toString() ?? '') ?? 0.0;
-        if (v != null &&
-            result == 0.0 &&
-            v.toString() != '0' &&
-            v.toString() != '0.0') {
-          ErrorHandler.logWarning(
-            'ReflectionModel',
-            'Failed to parse $fieldName as double: $v',
-          );
-        }
-        return result;
-      }
-
-      DateTime toDate(dynamic v) {
-        final result = DateTime.tryParse(v?.toString() ?? '');
-        if (result == null && v != null) {
-          ErrorHandler.logWarning(
-            'ReflectionModel',
-            'Failed to parse date: $v, using current time',
-          );
-          return DateTime.now();
-        }
-        return result ?? DateTime.now();
-      }
-
-      // Log the raw related entries data
       ErrorHandler.logDebug('ReflectionModel', 'Raw field values:', {
         'related_entries': json['related_entries'],
         'selected_reflections': json['selected_reflections'],
         'reflections': json['reflections'],
       });
-      // Parse selected reflections with priority fallback
-      final selectedReflections = toList(
-        json['selected_reflections'] ??
-            json['reflections'] ??
-            json['related_entries'],
-        'selectedReflections',
-      );
-      ErrorHandler.logDebug(
-        'ReflectionModel',
-        'Parsed selectedReflections: $selectedReflections (count: ${selectedReflections.length})',
-      );
+
+      final now = TimeOfDay.now();
+
       return ReflectionModel(
         id: json['reflection_id']?.toString() ?? json['id']?.toString(),
         notes: json['notes']?.toString(),
-        selectedReflections: selectedReflections,
-        date: toDate(json['date'] ?? json['created_at']),
-        hour:
-            int.tryParse(json['hour']?.toString() ?? '') ??
-            TimeOfDay.now().hour,
-        minute:
-            int.tryParse(json['minute']?.toString() ?? '') ??
-            TimeOfDay.now().minute,
-        effectiveness: toDouble(json['effectiveness'], 'effectiveness'),
-        sleepHours: toDouble(json['sleep_hours'], 'sleep_hours'),
+        selectedReflections: _stringListFromAny(
+          _readSelectedReflections(json, 'selected_reflections'),
+        ),
+        date: _dateTimeFromAny(json['date'] ?? json['created_at']),
+        hour: _intFromAny(json['hour'], now.hour),
+        minute: _intFromAny(json['minute'], now.minute),
+        effectiveness: _doubleFromAny(json['effectiveness']),
+        sleepHours: _doubleFromAny(json['sleep_hours']),
         sleepQuality: json['sleep_quality']?.toString() ?? '',
         nextDayMood: json['next_day_mood']?.toString() ?? '',
         energyLevel: json['energy_level']?.toString() ?? '',
         sideEffects: json['side_effects']?.toString() ?? '',
-        postUseCraving: toDouble(json['post_use_craving'], 'post_use_craving'),
+        postUseCraving: _doubleFromAny(json['post_use_craving']),
         copingStrategies: json['coping_strategies']?.toString() ?? '',
-        copingEffectiveness: toDouble(
-          json['coping_effectiveness'],
-          'coping_effectiveness',
-        ),
-        overallSatisfaction: toDouble(
-          json['overall_satisfaction'],
-          'overall_satisfaction',
-        ),
+        copingEffectiveness: _doubleFromAny(json['coping_effectiveness']),
+        overallSatisfaction: _doubleFromAny(json['overall_satisfaction']),
       );
     } catch (e, stackTrace) {
       ErrorHandler.logError('ReflectionModel.fromJson', e, stackTrace);
@@ -235,6 +147,7 @@ class ReflectionModel {
       );
     }
   }
+
   Map<String, dynamic> toJson() => {
     'id': id,
     'notes': notes,

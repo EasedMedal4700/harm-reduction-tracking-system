@@ -11,6 +11,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 
 import 'providers/settings_providers.dart';
 import 'widgets/ui_settings_section.dart';
@@ -50,6 +51,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final sp = context.spacing;
     final asyncSettings = ref.watch(settingsControllerProvider);
     final controller = ref.read(settingsControllerProvider.notifier);
+    final nav = ref.read(navigationProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,7 +61,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             icon: const Icon(Icons.restore),
             tooltip: 'Reset to defaults',
             onPressed: () =>
-                SettingsDialogs.showResetDialog(context, controller),
+                SettingsDialogs.showResetDialog(context, controller, nav),
           ),
         ],
       ),
@@ -71,7 +73,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               settings: settings,
               controller: controller,
               onLanguageTap: () =>
-                  SettingsDialogs.showLanguagePicker(context, controller),
+                  SettingsDialogs.showLanguagePicker(context, controller, nav),
             ),
             NotificationSettingsSection(
               settings: settings,
@@ -86,7 +88,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               settings: settings,
               controller: controller,
               onAutoLockTap: () =>
-                  SettingsDialogs.showAutoLockPicker(context, controller),
+                  SettingsDialogs.showAutoLockPicker(context, controller, nav),
             ),
             DataSyncSettingsSection(
               settings: settings,
@@ -95,21 +97,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   SettingsDialogs.showBackupFrequencyPicker(
                     context,
                     controller,
+                    nav,
                   ),
-              onCacheDurationTap: () =>
-                  SettingsDialogs.showCacheDurationPicker(context, controller),
+              onCacheDurationTap: () => SettingsDialogs.showCacheDurationPicker(
+                context,
+                controller,
+                nav,
+              ),
             ),
             EntryPreferencesSection(
               settings: settings,
               controller: controller,
               onDoseUnitTap: () =>
-                  SettingsDialogs.showDoseUnitPicker(context, controller),
+                  SettingsDialogs.showDoseUnitPicker(context, controller, nav),
             ),
             DisplaySettingsSection(
               settings: settings,
               controller: controller,
-              onDateFormatTap: () =>
-                  SettingsDialogs.showDateFormatPicker(context, controller),
+              onDateFormatTap: () => SettingsDialogs.showDateFormatPicker(
+                context,
+                controller,
+                nav,
+              ),
             ),
             const AccountManagementSection(),
             AboutSection(packageInfo: _packageInfo),

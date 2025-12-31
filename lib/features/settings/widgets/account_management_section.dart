@@ -6,8 +6,10 @@
 // Common: COMPLETE
 // Notes: Account management section.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 import '../services/account_data_service.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/cards/common_card.dart';
@@ -17,10 +19,10 @@ import 'account_confirmation_dialogs.dart';
 
 /// Account management section for settings screen
 /// Provides options for downloading data, deleting data, and deleting account
-class AccountManagementSection extends StatelessWidget {
+class AccountManagementSection extends ConsumerWidget {
   const AccountManagementSection({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final c = context.colors;
     final sp = context.spacing;
     final tx = context.text;
@@ -39,17 +41,17 @@ class AccountManagementSection extends StatelessWidget {
             style: tx.bodySmall.copyWith(color: c.textSecondary),
           ),
           Divider(height: sp.xl, thickness: context.borders.thin),
-          _buildDownloadDataTile(context),
+          _buildDownloadDataTile(context, ref),
           CommonSpacer.vertical(sp.sm),
-          _buildDeleteDataTile(context),
+          _buildDeleteDataTile(context, ref),
           CommonSpacer.vertical(sp.sm),
-          _buildDeleteAccountTile(context),
+          _buildDeleteAccountTile(context, ref),
         ],
       ),
     );
   }
 
-  Widget _buildDownloadDataTile(BuildContext context) {
+  Widget _buildDownloadDataTile(BuildContext context, WidgetRef ref) {
     final c = context.colors;
     final sp = context.spacing;
 
@@ -66,11 +68,11 @@ class AccountManagementSection extends StatelessWidget {
       title: const Text('Download My Data'),
       subtitle: const Text('Export all your personal information'),
       trailing: Icon(Icons.arrow_forward_ios, size: context.sizes.iconSm),
-      onTap: () => _showDownloadDataDialog(context),
+      onTap: () => _showDownloadDataDialog(context, ref),
     );
   }
 
-  Widget _buildDeleteDataTile(BuildContext context) {
+  Widget _buildDeleteDataTile(BuildContext context, WidgetRef ref) {
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
@@ -91,11 +93,11 @@ class AccountManagementSection extends StatelessWidget {
       title: const Text('Delete My Data'),
       subtitle: const Text('Remove all your logs and entries'),
       trailing: Icon(Icons.arrow_forward_ios, size: context.sizes.iconSm),
-      onTap: () => _showDeleteDataDialog(context),
+      onTap: () => _showDeleteDataDialog(context, ref),
     );
   }
 
-  Widget _buildDeleteAccountTile(BuildContext context) {
+  Widget _buildDeleteAccountTile(BuildContext context, WidgetRef ref) {
     final c = context.colors;
     final tx = context.text;
     final sp = context.spacing;
@@ -133,13 +135,14 @@ class AccountManagementSection extends StatelessWidget {
           size: context.sizes.iconSm,
           color: c.error,
         ),
-        onTap: () => _showDeleteAccountDialog(context),
+        onTap: () => _showDeleteAccountDialog(context, ref),
       ),
     );
   }
 
-  void _showDownloadDataDialog(BuildContext context) {
+  void _showDownloadDataDialog(BuildContext context, WidgetRef ref) {
     final c = context.colors;
+    final nav = ref.read(navigationProvider);
 
     showDialog(
       context: context,
@@ -150,7 +153,7 @@ class AccountManagementSection extends StatelessWidget {
         actionButtonText: 'Download',
         actionButtonColor: c.info,
         onVerified: (password) async {
-          Navigator.pop(context);
+          nav.pop();
           await _executeDownload(context);
         },
       ),
@@ -170,8 +173,9 @@ class AccountManagementSection extends StatelessWidget {
     );
   }
 
-  void _showDeleteDataDialog(BuildContext context) {
+  void _showDeleteDataDialog(BuildContext context, WidgetRef ref) {
     final c = context.colors;
+    final nav = ref.read(navigationProvider);
 
     showDialog(
       context: context,
@@ -183,28 +187,40 @@ class AccountManagementSection extends StatelessWidget {
         actionButtonColor: c.warning,
         requireConfirmation: true,
         onVerified: (password) async {
-          Navigator.pop(context);
-          _handleDeleteDataFlow(context, password);
+          nav.pop();
+          _handleDeleteDataFlow(context, ref, password);
         },
       ),
     );
   }
 
-  void _handleDeleteDataFlow(BuildContext context, String password) {
+  void _handleDeleteDataFlow(
+    BuildContext context,
+    WidgetRef ref,
+    String password,
+  ) {
+    final nav = ref.read(navigationProvider);
     showDeleteDataConfirmation(
       context,
+      nav,
       password,
       onDownloadFirst: () =>
-          _showFinalDeleteDataWithDownload(context, password),
+          _showFinalDeleteDataWithDownload(context, ref, password),
       onConfirmDelete: () async {
         await _executeDeleteData(context);
       },
     );
   }
 
-  void _showFinalDeleteDataWithDownload(BuildContext context, String password) {
+  void _showFinalDeleteDataWithDownload(
+    BuildContext context,
+    WidgetRef ref,
+    String password,
+  ) {
+    final nav = ref.read(navigationProvider);
     showFinalDeleteDataConfirmation(
       context,
+      nav,
       password,
       onConfirmDelete: () async {
         await _executeDeleteData(context);
@@ -225,8 +241,9 @@ class AccountManagementSection extends StatelessWidget {
     );
   }
 
-  void _showDeleteAccountDialog(BuildContext context) {
+  void _showDeleteAccountDialog(BuildContext context, WidgetRef ref) {
     final c = context.colors;
+    final nav = ref.read(navigationProvider);
 
     showDialog(
       context: context,
@@ -238,33 +255,48 @@ class AccountManagementSection extends StatelessWidget {
         actionButtonColor: c.error,
         requireConfirmation: true,
         onVerified: (password) async {
-          Navigator.pop(context);
-          _handleDeleteAccountFlow(context, password);
+          nav.pop();
+          _handleDeleteAccountFlow(context, ref, password);
         },
       ),
     );
   }
 
-  void _handleDeleteAccountFlow(BuildContext context, String password) {
+  void _handleDeleteAccountFlow(
+    BuildContext context,
+    WidgetRef ref,
+    String password,
+  ) {
+    final nav = ref.read(navigationProvider);
     showDeleteAccountConfirmation(
       context,
+      nav,
       password,
-      onDownloadFirst: () => _showDownloadDataDialog(context),
-      onContinue: () => _showFinalDeleteAccountFlow(context, password),
+      onDownloadFirst: () => _showDownloadDataDialog(context, ref),
+      onContinue: () => _showFinalDeleteAccountFlow(context, ref, password),
     );
   }
 
-  void _showFinalDeleteAccountFlow(BuildContext context, String password) {
+  void _showFinalDeleteAccountFlow(
+    BuildContext context,
+    WidgetRef ref,
+    String password,
+  ) {
+    final nav = ref.read(navigationProvider);
     showFinalDeleteAccountConfirmation(
       context,
+      nav,
       password,
       onConfirmDelete: () async {
-        await _executeDeleteAccount(context);
+        await _executeDeleteAccount(context, ref);
       },
     );
   }
 
-  Future<void> _executeDeleteAccount(BuildContext context) async {
+  Future<void> _executeDeleteAccount(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     final service = AccountDataService();
     final result = await service.deleteAccount();
     if (!context.mounted) return;
@@ -272,7 +304,8 @@ class AccountManagementSection extends StatelessWidget {
     final c = context.colors;
     final messenger = ScaffoldMessenger.of(context);
     if (result.success) {
-      context.go('/login_page');
+      final nav = ref.read(navigationProvider);
+      nav.replace(AppRoutePaths.login);
     }
     messenger.showSnackBar(
       SnackBar(

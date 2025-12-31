@@ -12,8 +12,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/features/setup_account/controllers/pin_setup_controller.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../common/buttons/common_primary_button.dart';
 
@@ -72,7 +73,8 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
 
   void _finishSetup() {
     unawaited(ref.read(pinSetupControllerProvider.notifier).recordUnlock());
-    context.go('/home_page');
+    final nav = ref.read(navigationProvider);
+    nav.replace(AppRoutePaths.home);
   }
 
   @override

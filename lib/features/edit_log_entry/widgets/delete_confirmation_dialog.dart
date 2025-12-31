@@ -5,12 +5,15 @@
 // Notes: Dialog for deleting entries. No hardcoded values.
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import '../../../common/buttons/common_primary_button.dart';
 import '../../log_entry/models/log_entry_form_data.dart';
 import '../../log_entry/log_entry_service.dart';
 
 class DeleteConfirmationDialog {
   static Future<void> show(BuildContext context, LogEntryFormData state) async {
+    final nav = ProviderScope.containerOf(context).read(navigationProvider);
     final th = context.theme;
     final c = context.colors;
     final ac = context.accent;
@@ -28,14 +31,14 @@ class DeleteConfirmationDialog {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
+            onPressed: () => nav.pop(false),
             child: Text(
               'Cancel',
               style: th.text.labelLarge.copyWith(color: ac.primary),
             ),
           ),
           CommonPrimaryButton(
-            onPressed: () => Navigator.pop(context, true),
+            onPressed: () => nav.pop(true),
             label: 'Delete',
             backgroundColor: c.error,
             textColor: c.textInverse,
@@ -48,7 +51,7 @@ class DeleteConfirmationDialog {
         final service = LogEntryService();
         await service.deleteLogEntry(state.entryId);
         if (context.mounted) {
-          Navigator.pop(context); // Close edit page
+          nav.pop();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: const Text('Entry deleted successfully'),

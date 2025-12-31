@@ -15,8 +15,10 @@ import '../reflection/reflection_service.dart';
 import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 import '../reflection/reflection_exceptions.dart';
 import '../reflection/utils/reflection_validator.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 
-class EditReflectionPage extends StatefulWidget {
+class EditReflectionPage extends ConsumerStatefulWidget {
   final Map<String, dynamic> entry;
   final ReflectionService? reflectionService;
   const EditReflectionPage({
@@ -25,10 +27,10 @@ class EditReflectionPage extends StatefulWidget {
     this.reflectionService,
   });
   @override
-  State<EditReflectionPage> createState() => _EditReflectionPageState();
+  ConsumerState<EditReflectionPage> createState() => _EditReflectionPageState();
 }
 
-class _EditReflectionPageState extends State<EditReflectionPage> {
+class _EditReflectionPageState extends ConsumerState<EditReflectionPage> {
   late ReflectionModel _model;
   bool _isSaving = false;
   bool _isLoading = true;
@@ -135,7 +137,7 @@ class _EditReflectionPageState extends State<EditReflectionPage> {
           context,
           message: 'Reflection updated successfully!',
         );
-        Navigator.pop(context, true);
+        ref.read(navigationProvider).pop(true);
       }
     } on ReflectionValidationException catch (e) {
       ErrorHandler.logError('EditReflectionPage._saveChanges', e);

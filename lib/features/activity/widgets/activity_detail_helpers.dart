@@ -6,10 +6,10 @@
 // Common: COMPLETE
 // Notes: Helper methods to show detail sheets. Fully theme-compliant.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/features/activity/models/activity_models.dart';
 import 'package:mobile_drug_use_app/core/routes/app_router.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
 import 'activity_detail_sheet.dart';
 import 'activity_delete_dialog.dart';
 import 'activity_helpers.dart';
@@ -22,6 +22,7 @@ class ActivityDetailHelpers {
   /// Shows a detail sheet for a drug use entry.
   static void showDrugUseDetail({
     required BuildContext context,
+    required NavigationService nav,
     required ActivityDrugUseEntry entry,
     required ActivityOnDelete onDelete,
     required VoidCallback onUpdate,
@@ -53,9 +54,9 @@ class ActivityDetailHelpers {
             DetailItem(label: 'Purpose', value: 'Medical', highlight: true),
         ],
         onEdit: () {
-          context.pop();
-          rootContext
-              .push(
+          nav.pop();
+          nav
+              .pushForResult<void>(
                 AppRoutePaths.editDrugUse,
                 extra: Map<String, dynamic>.from(entry.raw),
               )
@@ -67,7 +68,7 @@ class ActivityDetailHelpers {
             ActivityItemType.drugUse.displayName,
           );
           if (!confirmed) return;
-          if (context.mounted) context.pop();
+          if (context.mounted) nav.pop();
           onDelete(entryId: entry.id, type: ActivityItemType.drugUse);
         },
       ),
@@ -77,6 +78,7 @@ class ActivityDetailHelpers {
   /// Shows a detail sheet for a craving entry.
   static void showCravingDetail({
     required BuildContext context,
+    required NavigationService nav,
     required ActivityCravingEntry craving,
     required ActivityOnDelete onDelete,
     required VoidCallback onUpdate,
@@ -110,9 +112,9 @@ class ActivityDetailHelpers {
               DetailItem(label: 'Notes', value: craving.notes!),
           ],
           onEdit: () {
-            context.pop();
-            rootContext
-                .push(
+            nav.pop();
+            nav
+                .pushForResult<void>(
                   AppRoutePaths.editCraving,
                   extra: Map<String, dynamic>.from(craving.raw),
                 )
@@ -124,7 +126,7 @@ class ActivityDetailHelpers {
               ActivityItemType.craving.displayName,
             );
             if (!confirmed) return;
-            if (context.mounted) context.pop();
+            if (context.mounted) nav.pop();
             onDelete(entryId: craving.id, type: ActivityItemType.craving);
           },
         );
@@ -135,6 +137,7 @@ class ActivityDetailHelpers {
   /// Shows a detail sheet for a reflection entry.
   static void showReflectionDetail({
     required BuildContext context,
+    required NavigationService nav,
     required ActivityReflectionEntry reflection,
     required ActivityOnDelete onDelete,
     required VoidCallback onUpdate,
@@ -158,9 +161,9 @@ class ActivityDetailHelpers {
             DetailItem(label: 'Notes', value: reflection.notes!),
         ],
         onEdit: () {
-          context.pop();
-          rootContext
-              .push(
+          nav.pop();
+          nav
+              .pushForResult<void>(
                 AppRoutePaths.editReflection,
                 extra: Map<String, dynamic>.from(reflection.raw),
               )
@@ -172,7 +175,7 @@ class ActivityDetailHelpers {
             ActivityItemType.reflection.displayName,
           );
           if (!confirmed) return;
-          if (context.mounted) context.pop();
+          if (context.mounted) nav.pop();
           onDelete(entryId: reflection.id, type: ActivityItemType.reflection);
         },
       ),

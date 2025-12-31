@@ -38,8 +38,9 @@ void main() {
       final provider = ReflectionProvider();
       provider.toggleEntry('1', true);
       provider.setShowForm(true);
-      provider.reflection.effectiveness = 2;
-      provider.reflection.notes = 'Custom';
+      provider.updateReflection(
+        provider.reflection.copyWith(effectiveness: 2, notes: 'Custom'),
+      );
 
       provider.reset();
 

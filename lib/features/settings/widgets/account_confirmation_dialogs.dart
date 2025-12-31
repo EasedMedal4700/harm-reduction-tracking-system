@@ -6,8 +6,8 @@
 // Common: COMPLETE
 // Notes: Account confirmation dialogs.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/buttons/common_primary_button.dart';
 import '../../../common/layout/common_spacer.dart';
@@ -16,6 +16,7 @@ import 'account_dialogs.dart';
 /// Shows confirmation dialog for delete data operation
 void showDeleteDataConfirmation(
   BuildContext context,
+  NavigationService nav,
   String password, {
   required VoidCallback onDownloadFirst,
   required VoidCallback onConfirmDelete,
@@ -87,10 +88,10 @@ void showDeleteDataConfirmation(
         ],
       ),
       actions: [
-        TextButton(onPressed: () => context.pop(), child: const Text('Cancel')),
+        TextButton(onPressed: () => nav.pop(), child: const Text('Cancel')),
         TextButton(
           onPressed: () {
-            context.pop();
+            nav.pop();
             onDownloadFirst();
           },
           style: TextButton.styleFrom(foregroundColor: c.info),
@@ -98,7 +99,7 @@ void showDeleteDataConfirmation(
         ),
         CommonPrimaryButton(
           onPressed: () {
-            context.pop();
+            nav.pop();
             onConfirmDelete();
           },
           label: 'Yes, Delete My Data',
@@ -113,6 +114,7 @@ void showDeleteDataConfirmation(
 /// Shows final typed confirmation for data deletion
 void showFinalDeleteDataConfirmation(
   BuildContext context,
+  NavigationService nav,
   String password, {
   required VoidCallback onConfirmDelete,
 }) {
@@ -127,7 +129,7 @@ void showFinalDeleteDataConfirmation(
       description: 'Type "DELETE MY DATA" to confirm:',
       buttonColor: c.warning,
       onConfirmed: () {
-        Navigator.pop(context);
+        nav.pop();
         onConfirmDelete();
       },
     ),
@@ -137,6 +139,7 @@ void showFinalDeleteDataConfirmation(
 /// Shows confirmation dialog for delete account operation
 void showDeleteAccountConfirmation(
   BuildContext context,
+  NavigationService nav,
   String password, {
   required VoidCallback onDownloadFirst,
   required VoidCallback onContinue,
@@ -216,10 +219,10 @@ void showDeleteAccountConfirmation(
         ],
       ),
       actions: [
-        TextButton(onPressed: () => context.pop(), child: const Text('Cancel')),
+        TextButton(onPressed: () => nav.pop(), child: const Text('Cancel')),
         TextButton(
           onPressed: () {
-            context.pop();
+            nav.pop();
             onDownloadFirst();
           },
           style: TextButton.styleFrom(foregroundColor: c.info),
@@ -227,7 +230,7 @@ void showDeleteAccountConfirmation(
         ),
         CommonPrimaryButton(
           onPressed: () {
-            context.pop();
+            nav.pop();
             onContinue();
           },
           label: 'I Understand, Continue',
@@ -242,6 +245,7 @@ void showDeleteAccountConfirmation(
 /// Shows final typed confirmation for account deletion
 void showFinalDeleteAccountConfirmation(
   BuildContext context,
+  NavigationService nav,
   String password, {
   required VoidCallback onConfirmDelete,
 }) {
@@ -267,7 +271,7 @@ void showFinalDeleteAccountConfirmation(
           mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
             Text(
-              'Type "DELETE MY ACCOUNT" to confirm account deletion:',
+              'To permanently delete your account, type DELETE MY ACCOUNT below.',
               style: context.text.bodyBold.copyWith(color: c.error),
             ),
             CommonSpacer.vertical(sp.md),
@@ -300,13 +304,10 @@ void showFinalDeleteAccountConfirmation(
           ],
         ),
         actions: [
-          TextButton(
-            onPressed: () => context.pop(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => nav.pop(), child: const Text('Cancel')),
           CommonPrimaryButton(
             onPressed: () {
-              context.pop();
+              nav.pop();
               onConfirmDelete();
             },
             isEnabled: userConfirmed,

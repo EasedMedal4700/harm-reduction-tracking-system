@@ -6,9 +6,10 @@
 // Common: COMPLETE
 // Notes: Fully theme-based. Some common component extraction possible. No Riverpod.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 
 import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 
@@ -39,24 +40,34 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         Padding(
           padding: EdgeInsets.only(right: sp.sm),
-          child: IconButton(
-            icon: const Icon(
-              Icons.report_problem_outlined,
-              semanticLabel: 'Report Bug',
-            ),
-            color: c.textPrimary,
-            onPressed: () => context.push(AppRoutePaths.bugReport),
-            tooltip: 'Report Bug',
+          child: Consumer(
+            builder: (context, ref, _) {
+              final nav = ref.read(navigationProvider);
+              return IconButton(
+                icon: const Icon(
+                  Icons.report_problem_outlined,
+                  semanticLabel: 'Report Bug',
+                ),
+                color: c.textPrimary,
+                onPressed: () => nav.push(AppRoutePaths.bugReport),
+                tooltip: 'Report Bug',
+              );
+            },
           ),
         ),
-        IconButton(
-          icon: const Icon(
-            Icons.bug_report_outlined,
-            semanticLabel: 'Error Analytics',
-          ),
-          color: c.textPrimary,
-          onPressed: () => context.push(AppRoutePaths.adminErrorAnalytics),
-          tooltip: 'Error Analytics',
+        Consumer(
+          builder: (context, ref, _) {
+            final nav = ref.read(navigationProvider);
+            return IconButton(
+              icon: const Icon(
+                Icons.bug_report_outlined,
+                semanticLabel: 'Error Analytics',
+              ),
+              color: c.textPrimary,
+              onPressed: () => nav.push(AppRoutePaths.adminErrorAnalytics),
+              tooltip: 'Error Analytics',
+            );
+          },
         ),
         Semantics(
           button: true,

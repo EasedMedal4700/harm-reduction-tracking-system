@@ -7,12 +7,14 @@
 // Notes: Settings dialogs.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
 import '../providers/settings_provider.dart';
 
 class SettingsDialogs {
   static void showLanguagePicker(
     BuildContext context,
     SettingsController controller,
+    NavigationService nav,
   ) {
     final languages = ['English', 'Spanish', 'French', 'German', 'Portuguese'];
     showDialog(
@@ -26,7 +28,7 @@ class SettingsDialogs {
               title: Text(lang),
               onTap: () {
                 controller.setLanguage(lang);
-                Navigator.pop(context);
+                nav.pop();
               },
             );
           }).toList(),
@@ -59,6 +61,7 @@ class SettingsDialogs {
   static void showAutoLockPicker(
     BuildContext context,
     SettingsController controller,
+    NavigationService nav,
   ) {
     final durations = ['1min', '5min', '15min', '30min', 'never'];
     showDialog(
@@ -72,7 +75,7 @@ class SettingsDialogs {
               title: Text(duration),
               onTap: () {
                 controller.setAutoLockDuration(duration);
-                Navigator.pop(context);
+                nav.pop();
               },
             );
           }).toList(),
@@ -84,6 +87,7 @@ class SettingsDialogs {
   static void showBackupFrequencyPicker(
     BuildContext context,
     SettingsController controller,
+    NavigationService nav,
   ) {
     final frequencies = ['daily', 'weekly', 'monthly'];
     showDialog(
@@ -97,7 +101,7 @@ class SettingsDialogs {
               title: Text(freq[0].toUpperCase() + freq.substring(1)),
               onTap: () {
                 controller.setBackupFrequency(freq);
-                Navigator.pop(context);
+                nav.pop();
               },
             );
           }).toList(),
@@ -109,6 +113,7 @@ class SettingsDialogs {
   static void showCacheDurationPicker(
     BuildContext context,
     SettingsController controller,
+    NavigationService nav,
   ) {
     final durations = ['15min', '30min', '1hour', '6hours', '1day'];
     showDialog(
@@ -122,7 +127,7 @@ class SettingsDialogs {
               title: Text(duration),
               onTap: () {
                 controller.setCacheDuration(duration);
-                Navigator.pop(context);
+                nav.pop();
               },
             );
           }).toList(),
@@ -134,6 +139,7 @@ class SettingsDialogs {
   static void showDoseUnitPicker(
     BuildContext context,
     SettingsController controller,
+    NavigationService nav,
   ) {
     final units = ['mg', 'g', 'µg', 'ml', 'pills', 'puffs'];
     showDialog(
@@ -147,7 +153,7 @@ class SettingsDialogs {
               title: Text(unit),
               onTap: () {
                 controller.setDefaultDoseUnit(unit);
-                Navigator.pop(context);
+                nav.pop();
               },
             );
           }).toList(),
@@ -159,6 +165,7 @@ class SettingsDialogs {
   static void showDateFormatPicker(
     BuildContext context,
     SettingsController controller,
+    NavigationService nav,
   ) {
     final formats = ['MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'];
     showDialog(
@@ -172,7 +179,7 @@ class SettingsDialogs {
               title: Text(format),
               onTap: () {
                 controller.setDateFormat(format);
-                Navigator.pop(context);
+                nav.pop();
               },
             );
           }).toList(),
@@ -184,6 +191,7 @@ class SettingsDialogs {
   static void showResetDialog(
     BuildContext context,
     SettingsController controller,
+    NavigationService nav,
   ) {
     showDialog(
       context: context,
@@ -193,13 +201,10 @@ class SettingsDialogs {
           'This will reset all settings to their default values.',
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => nav.pop(), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              nav.pop();
               controller.resetToDefaults();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Settings reset to defaults')),

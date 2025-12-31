@@ -8,10 +8,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:app_links/app_links.dart';
-import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/common/logging/app_log.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
 
 /// Handles deep links for authentication flows (email confirmation, password reset).
 ///
@@ -27,14 +28,19 @@ class AuthLinkHandler {
   final AppLinks _appLinks = AppLinks();
   StreamSubscription<Uri>? _linkSubscription;
   GlobalKey<NavigatorState>? _navigatorKey;
+  NavigationService? _navigation;
   // Track handled links to prevent double-handling
   final Set<String> _handledLinks = {};
 
   /// Initialize the deep link handler with a navigator key for routing.
   ///
   /// Call this in your app's initState() after the MaterialApp is built.
-  void init(GlobalKey<NavigatorState> navigatorKey) {
+  void init(
+    GlobalKey<NavigatorState> navigatorKey,
+    NavigationService navigation,
+  ) {
     _navigatorKey = navigatorKey;
+    _navigation = navigation;
     _startListening();
     _handleInitialLink();
   }
@@ -46,6 +52,7 @@ class AuthLinkHandler {
     _linkSubscription?.cancel();
     _linkSubscription = null;
     _handledLinks.clear();
+    _navigation = null;
   }
 
   /// Start listening for incoming deep links.
@@ -245,22 +252,22 @@ class AuthLinkHandler {
 
   /// Navigate to email confirmed page
   void _navigateToEmailConfirmed() {
-    final context = _navigatorKey?.currentContext;
-    if (context != null && context.mounted) {
-      GoRouter.of(context).go('/email-confirmed');
-    } else {
-      AppLog.w('⚠️ AuthLinkHandler: Navigator context not available');
+    final nav = _navigation;
+    if (nav == null) {
+      AppLog.w('⚠️ AuthLinkHandler: NavigationService not available');
+      return;
     }
+    nav.replace(AppRoutePaths.emailConfirmed);
   }
 
   /// Navigate to set new password page
   void _navigateToSetNewPassword() {
-    final context = _navigatorKey?.currentContext;
-    if (context != null && context.mounted) {
-      GoRouter.of(context).go('/set-new-password');
-    } else {
-      AppLog.w('⚠️ AuthLinkHandler: Navigator context not available');
+    final nav = _navigation;
+    if (nav == null) {
+      AppLog.w('⚠️ AuthLinkHandler: NavigationService not available');
+      return;
     }
+    nav.replace(AppRoutePaths.setNewPassword);
   }
 
   /// Show error message using SnackBar

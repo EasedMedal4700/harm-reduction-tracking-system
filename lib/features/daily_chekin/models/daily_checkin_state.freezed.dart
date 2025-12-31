@@ -353,7 +353,7 @@ $Res call({
 });
 
 
-$DailyCheckinUiEventCopyWith<$Res> get uiEvent;
+$DailyCheckinCopyWith<$Res>? get existingCheckin;$DailyCheckinUiEventCopyWith<$Res> get uiEvent;
 
 }
 /// @nodoc
@@ -383,6 +383,18 @@ as DailyCheckinUiEvent,
   ));
 }
 /// Create a copy of DailyCheckinState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DailyCheckinCopyWith<$Res>? get existingCheckin {
+    if (_self.existingCheckin == null) {
+    return null;
+  }
+
+  return $DailyCheckinCopyWith<$Res>(_self.existingCheckin!, (value) {
+    return _then(_self.copyWith(existingCheckin: value));
+  });
+}/// Create a copy of DailyCheckinState
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -590,7 +602,7 @@ $Res call({
 });
 
 
-@override $DailyCheckinUiEventCopyWith<$Res> get uiEvent;
+@override $DailyCheckinCopyWith<$Res>? get existingCheckin;@override $DailyCheckinUiEventCopyWith<$Res> get uiEvent;
 
 }
 /// @nodoc
@@ -621,6 +633,18 @@ as DailyCheckinUiEvent,
 }
 
 /// Create a copy of DailyCheckinState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DailyCheckinCopyWith<$Res>? get existingCheckin {
+    if (_self.existingCheckin == null) {
+    return null;
+  }
+
+  return $DailyCheckinCopyWith<$Res>(_self.existingCheckin!, (value) {
+    return _then(_self.copyWith(existingCheckin: value));
+  });
+}/// Create a copy of DailyCheckinState
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')

@@ -7,9 +7,9 @@
 // Notes: Fully theme-compliant; dialog state via local state.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../../../constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import 'package:mobile_drug_use_app/common/inputs/input_field.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 import 'package:mobile_drug_use_app/common/inputs/switch_tile.dart';
@@ -49,6 +49,7 @@ class _ErrorCleanupDialogState extends ConsumerState<ErrorCleanupDialog> {
     final sp = context.spacing;
     final tx = context.text;
     final sh = context.shapes;
+    final nav = ref.read(navigationProvider);
 
     return AlertDialog(
       backgroundColor: c.surface,
@@ -113,14 +114,14 @@ class _ErrorCleanupDialogState extends ConsumerState<ErrorCleanupDialog> {
         CommonOutlinedButton(
           label: 'Cancel',
           height: context.sizes.buttonHeightSm,
-          onPressed: () => context.pop<ErrorCleanupFilters?>(null),
+          onPressed: () => nav.pop<ErrorCleanupFilters?>(null),
           color: c.textSecondary,
           borderColor: c.border,
         ),
         CommonPrimaryButton(
           onPressed: () {
             final days = int.tryParse(_daysController.text);
-            context.pop(
+            nav.pop(
               ErrorCleanupFilters(
                 deleteAll: _deleteAll,
                 olderThanDays: days,

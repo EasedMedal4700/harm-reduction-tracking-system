@@ -1,37 +1,37 @@
-// MIGRATION
+// MIGRATION:
+// State: MODERN
+// Navigation: CENTRALIZED
+// Models: N/A
 // Theme: TODO
 // Common: TODO
-// Riverpod: TODO
-// Notes: Review for theme/context migration if needed.
-import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+// Notes: Debug-only widget.
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../../../common/layout/common_spacer.dart';
-import 'package:mobile_drug_use_app/features/login/services/auth_link_handler.dart';
-import '../../../common/logging/app_log.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
+import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
 
-/// Debug utility widget for testing deep link flows.
+/// Debug utility widget for simulating auth deep-link flows.
 ///
-/// This widget provides buttons to simulate incoming deep links
-/// for email confirmation and password reset without needing
-/// actual emails or links.
-///
-/// Only available in debug mode.
-class DeepLinkDebugWidget extends StatelessWidget {
+/// Only visible in debug mode.
+class DeepLinkDebugWidget extends ConsumerWidget {
   const DeepLinkDebugWidget({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    final tx = context.text;
-    // Only show in debug mode
-    if (!kDebugMode) {
-      return const SizedBox.shrink();
-    }
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (!kDebugMode) return const SizedBox.shrink();
+
+    final nav = ref.read(navigationProvider);
     final c = context.colors;
     final sp = context.spacing;
     final sh = context.shapes;
+    final tx = context.text;
     final ac = context.accent;
+
     return Container(
       margin: EdgeInsets.all(sp.md),
       padding: EdgeInsets.all(sp.md),
@@ -50,7 +50,7 @@ class DeepLinkDebugWidget extends StatelessWidget {
           Row(
             children: [
               Icon(
-                Icons.bug_report,
+                Icons.warning_amber_rounded,
                 color: c.warning,
                 size: context.sizes.iconMd,
               ),
@@ -63,15 +63,14 @@ class DeepLinkDebugWidget extends StatelessWidget {
           ),
           CommonSpacer.vertical(sp.sm),
           Text(
-            'Simulate deep links for testing auth flows',
+            'Simulate auth deep links',
             style: tx.bodySmall.copyWith(color: c.textSecondary),
           ),
           CommonSpacer.vertical(sp.md),
-          // Email Confirmation Button
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
-              onPressed: () => _simulateEmailConfirmDeepLink(context),
+              onPressed: () => nav.replace(AppRoutePaths.emailConfirmed),
               icon: const Icon(Icons.email_outlined),
               label: const Text('Simulate Email Confirmation'),
               style: OutlinedButton.styleFrom(
@@ -81,12 +80,11 @@ class DeepLinkDebugWidget extends StatelessWidget {
               ),
             ),
           ),
-          CommonSpacer.vertical(sp.md),
-          // Password Reset Button
+          CommonSpacer.vertical(sp.sm),
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
-              onPressed: () => _simulateResetPasswordDeepLink(context),
+              onPressed: () => nav.replace(AppRoutePaths.setNewPassword),
               icon: const Icon(Icons.lock_reset),
               label: const Text('Simulate Password Reset'),
               style: OutlinedButton.styleFrom(
@@ -96,12 +94,11 @@ class DeepLinkDebugWidget extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: sp.md),
-          // Supabase Verify URL Button
+          CommonSpacer.vertical(sp.sm),
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
-              onPressed: () => _simulateSupabaseVerifyUrl(context),
+              onPressed: () => _showSupabaseVerifyChooser(context, nav),
               icon: const Icon(Icons.link),
               label: const Text('Simulate Supabase Verify URL'),
               style: OutlinedButton.styleFrom(
@@ -116,153 +113,36 @@ class DeepLinkDebugWidget extends StatelessWidget {
     );
   }
 
-  /// Simulate an email confirmation deep link
-  void _simulateEmailConfirmDeepLink(BuildContext context) {
-    AppLog.d('🔧 DEBUG: Simulating email confirmation deep link');
-    final uri = Uri.parse('substancecheck://auth');
-    authLinkHandler._handleDeepLink(uri);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Simulated: substancecheck://auth'),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-  }
-
-  /// Simulate a password reset deep link
-  void _simulateResetPasswordDeepLink(BuildContext context) {
-    AppLog.d('🔧 DEBUG: Simulating password reset deep link');
-    final uri = Uri.parse('substancecheck://reset-password');
-    authLinkHandler._handleDeepLink(uri);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Simulated: substancecheck://reset-password'),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-  }
-
-  /// Simulate a Supabase verification URL
-  void _simulateSupabaseVerifyUrl(BuildContext context) {
-    AppLog.d('🔧 DEBUG: Simulating Supabase verify URL');
-    // Show a dialog to choose the type
-    showDialog(
+  void _showSupabaseVerifyChooser(BuildContext context, NavigationService nav) {
+    showDialog<void>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Choose Verification Type'),
-        content: Column(
-          mainAxisSize: AppLayout.mainAxisSizeMin,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.email),
-              title: const Text('Email Signup'),
-              onTap: () {
-                Navigator.pop(context);
-                final uri = Uri.parse(
-                  'https://project.supabase.co/auth/v1/verify?token=test_token&type=signup&redirect_to=substancecheck://auth',
-                );
-                authLinkHandler._handleDeepLink(uri);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.lock_reset),
-              title: const Text('Password Recovery'),
-              onTap: () {
-                Navigator.pop(context);
-                final uri = Uri.parse(
-                  'https://project.supabase.co/auth/v1/verify?token=test_token&type=recovery&redirect_to=substancecheck://reset-password',
-                );
-                authLinkHandler._handleDeepLink(uri);
-              },
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Choose Verification Type'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text('Signup / Email verification'),
+                onTap: () {
+                  nav.pop();
+                  nav.replace(AppRoutePaths.emailConfirmed);
+                },
+              ),
+              ListTile(
+                title: const Text('Recovery / Password reset'),
+                onTap: () {
+                  nav.pop();
+                  nav.replace(AppRoutePaths.setNewPassword);
+                },
+              ),
+            ],
           ),
-        ],
-      ),
+          actions: [
+            TextButton(onPressed: () => nav.pop(), child: const Text('Cancel')),
+          ],
+        );
+      },
     );
-  }
-}
-
-// Extension to access private method for testing
-extension AuthLinkHandlerDebug on AuthLinkHandler {
-  void _handleDeepLink(Uri uri) {
-    // We need to call the handler's method, but it's private
-    // So we use reflection-like pattern by calling it via the exposed method
-    // This is a workaround for debug purposes
-    // The actual handler listens to links, but for simulation we directly navigate
-    final context = _navigatorKey?.currentContext;
-    if (context == null) return;
-    if (uri.scheme == 'substancecheck') {
-      switch (uri.host) {
-        case 'auth':
-          Navigator.of(context);
-          if (!context.mounted) return;
-          context.go('/email-confirmed');
-          break;
-        case 'reset-password':
-          Navigator.of(context);
-          if (!context.mounted) return;
-          context.go('/set-new-password');
-          break;
-      }
-    } else if (uri.scheme == 'https') {
-      final type = uri.queryParameters['type'];
-      switch (type) {
-        case 'signup':
-        case 'email':
-          Navigator.of(context);
-          if (!context.mounted) return;
-          context.go('/email-confirmed');
-          break;
-        case 'recovery':
-          Navigator.of(context);
-          if (!context.mounted) return;
-          context.go('/set-new-password');
-          break;
-      }
-    }
-  }
-
-  GlobalKey<NavigatorState>? get _navigatorKey {
-    // Access the navigator key
-    // This won't work directly, but illustrates the intent
-    // The actual implementation uses the handler's internal state
-    return null; // Placeholder
-  }
-}
-
-/// Standalone debug simulation functions for use in tests or debug menus.
-class DeepLinkSimulator {
-  DeepLinkSimulator._();
-
-  /// Navigate to email confirmed page (simulates email confirmation link)
-  static void simulateEmailConfirmation(BuildContext context) {
-    Navigator.of(context);
-    if (!context.mounted) return;
-    context.go('/email-confirmed');
-  }
-
-  /// Navigate to set new password page (simulates password reset link)
-  static void simulatePasswordReset(BuildContext context) {
-    Navigator.of(context);
-    if (!context.mounted) return;
-    context.go('/set-new-password');
-  }
-
-  /// Log a simulated deep link URI for debugging
-  static void logSimulatedLink(String url) {
-    final uri = Uri.parse(url);
-    AppLog.d('🔧 Simulated Deep Link:');
-    AppLog.d('   URL: $url');
-    AppLog.d('   Scheme: ${uri.scheme}');
-    AppLog.d('   Host: ${uri.host}');
-    AppLog.d('   Path: ${uri.path}');
-    AppLog.d('   Query: ${uri.queryParameters}');
-    AppLog.d('   Fragment: ${uri.fragment}');
   }
 }

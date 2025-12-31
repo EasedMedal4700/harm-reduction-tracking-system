@@ -8,6 +8,8 @@
 import 'dart:convert';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import '../../../constants/data/drug_categories.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../constants/theme/app_typography.dart';
@@ -22,7 +24,7 @@ const double _lineHeightRelaxed = 1.6;
 const double _lineHeightNormal = 1.4;
 const double _lineHeightAliases = 1.5;
 
-class SubstanceDetailsSheet extends StatefulWidget {
+class SubstanceDetailsSheet extends ConsumerStatefulWidget {
   final Map<String, dynamic> substance;
   final Function(
     String substanceId,
@@ -36,10 +38,11 @@ class SubstanceDetailsSheet extends StatefulWidget {
     this.onAddStockpile,
   });
   @override
-  State<SubstanceDetailsSheet> createState() => _SubstanceDetailsSheetState();
+  ConsumerState<SubstanceDetailsSheet> createState() =>
+      _SubstanceDetailsSheetState();
 }
 
-class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
+class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
   String _selectedMethod = 'Oral';
   List<String> _availableMethods = ['Oral'];
   Map<String, dynamic> _parsedDosage = {};
@@ -303,7 +306,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                 ),
                 child: const Icon(Icons.close),
               ),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => ref.read(navigationProvider).pop(),
             ),
           ],
         ),
@@ -319,7 +322,7 @@ class _SubstanceDetailsSheetState extends State<SubstanceDetailsSheet> {
                         widget.substance['pretty_name'] ??
                         widget.substance['name'] ??
                         'Unknown';
-                    Navigator.pop(context);
+                    ref.read(navigationProvider).pop();
                     widget.onAddStockpile!(substanceId, name, widget.substance);
                   }
                 : null,

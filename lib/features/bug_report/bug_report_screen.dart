@@ -6,19 +6,21 @@
 // Common: COMPLETE
 // Notes: Bug Report Screen. Migrated to use AppTheme. No hardcoded values.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import 'package:mobile_drug_use_app/core/services/user_service.dart';
 import 'package:mobile_drug_use_app/core/utils/error_reporter.dart';
 import 'widgets/bug_report_form_fields.dart';
 import 'widgets/bug_report_submit_button.dart';
 
-class BugReportScreen extends StatefulWidget {
+class BugReportScreen extends ConsumerStatefulWidget {
   const BugReportScreen({super.key});
   @override
-  State<BugReportScreen> createState() => _BugReportScreenState();
+  ConsumerState<BugReportScreen> createState() => _BugReportScreenState();
 }
 
-class _BugReportScreenState extends State<BugReportScreen> {
+class _BugReportScreenState extends ConsumerState<BugReportScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -47,6 +49,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
   Future<void> _submitBugReport() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isSubmitting = true);
+    final c = context.colors;
     try {
       final userId = UserService.getCurrentUserId();
       await ErrorReporter.instance.reportError(
@@ -72,7 +75,7 @@ class _BugReportScreenState extends State<BugReportScreen> {
           duration: context.animations.toast,
         ),
       );
-      Navigator.pop(context);
+      ref.read(navigationProvider).pop();
     } catch (e) {
       if (!mounted) return;
       setState(() => _isSubmitting = false);

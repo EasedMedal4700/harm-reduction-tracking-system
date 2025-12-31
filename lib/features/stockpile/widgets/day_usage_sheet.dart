@@ -15,6 +15,7 @@ import 'package:mobile_drug_use_app/features/stockpile/models/day_usage_models.d
 import 'package:mobile_drug_use_app/common/buttons/common_primary_button.dart';
 import 'package:mobile_drug_use_app/common/feedback/common_loader.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 
 const double _handleWidth = 40.0;
 
@@ -140,7 +141,7 @@ class _DayUsageSheetState extends ConsumerState<DayUsageSheet> {
                     ),
                     IconButton(
                       icon: const Icon(Icons.close),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => ref.read(navigationProvider).pop(),
                       color: th.colors.textSecondary,
                     ),
                   ],

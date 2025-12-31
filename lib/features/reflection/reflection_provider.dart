@@ -187,7 +187,7 @@ class ReflectionProvider extends ChangeNotifier {
   }
 
   void reset() {
-    _reflection.reset();
+    _reflection = _reflection.reset();
     _selectedIds.clear();
     _showForm = false;
     notifyListeners();

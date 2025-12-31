@@ -1,10 +1,36 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: MODERN
+// Models: FREEZED
 // Theme: N/A
 // Common: N/A
 // Notes: Data model.
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'tolerance_model.freezed.dart';
+
+DateTime _dateTimeFromAny(Object? v) {
+  if (v is DateTime) return v;
+  if (v is String && v.isNotEmpty) {
+    return DateTime.tryParse(v) ?? DateTime.now();
+  }
+  return DateTime.now();
+}
+
+Map<String, NeuroBucket> _neuroBucketsFromJson(Object? v) {
+  final bucketsJson = (v as Map?)?.cast<String, dynamic>() ?? const {};
+  final buckets = <String, NeuroBucket>{};
+  bucketsJson.forEach((key, value) {
+    final inner = (value as Map?)?.cast<String, dynamic>() ?? const {};
+    buckets[key] = NeuroBucket(
+      name: key,
+      weight: (inner['weight'] as num?)?.toDouble() ?? 1.0,
+      toleranceType: inner['tolerance_type'] as String?,
+    );
+  });
+  return buckets;
+}
+
 /// Global bucket list for tolerance tracking
 const List<String> kToleranceBuckets = [
   'gaba',
@@ -16,106 +42,106 @@ const List<String> kToleranceBuckets = [
   'cannabinoid',
 ];
 
-class UseLogEntry {
-  final String substanceSlug;
-  final DateTime timestamp;
-  final double doseUnits;
-  const UseLogEntry({
-    required this.substanceSlug,
-    required this.timestamp,
-    required this.doseUnits,
-  });
+@freezed
+abstract class UseLogEntry with _$UseLogEntry {
+  const factory UseLogEntry({
+    required String substanceSlug,
+    required DateTime timestamp,
+    required double doseUnits,
+  }) = _UseLogEntry;
+
+  const UseLogEntry._();
+
+  factory UseLogEntry.fromJson(Map<String, dynamic> json) {
+    return UseLogEntry(
+      substanceSlug:
+          json['substanceSlug']?.toString() ??
+          json['substance_slug']?.toString() ??
+          '',
+      timestamp: _dateTimeFromAny(json['timestamp']),
+      doseUnits:
+          (json['doseUnits'] as num?)?.toDouble() ??
+          (json['dose_units'] as num?)?.toDouble() ??
+          0.0,
+    );
+  }
 }
 
 /// Model for tolerance calculation data from Supabase
-class ToleranceModel {
-  final String notes;
+@freezed
+abstract class ToleranceModel with _$ToleranceModel {
+  const factory ToleranceModel({
+    @Default('') String notes,
 
-  /// Neurotransmitter → bucket data (weight + type)
-  final Map<String, NeuroBucket> neuroBuckets;
+    /// Neurotransmitter → bucket data (weight + type)
+    @Default({}) Map<String, NeuroBucket> neuroBuckets,
 
-  /// Pharmacokinetic parameters
-  final double halfLifeHours;
-  final double toleranceDecayDays;
+    /// Pharmacokinetic parameters
+    @Default(6.0) double halfLifeHours,
+    @Default(2.0) double toleranceDecayDays,
 
-  /// Potency normalization
-  final double standardUnitMg; // e.g. 10mg Dex, 20mg MPH, 300mg Bupropion
-  final double potencyMultiplier; // e.g. 1.0 Dex, 0.4 MPH, 0.02 Bupropion
-  final double durationMultiplier; // affects how long tolerance grows
-  /// Tolerance dynamics
-  final double toleranceGainRate; // how strongly each use builds tolerance
-  final double activeThreshold; // minimum active level before decay stops
-  const ToleranceModel({
-    required this.notes,
-    required this.neuroBuckets,
-    required this.halfLifeHours,
-    required this.toleranceDecayDays,
-    required this.standardUnitMg,
-    required this.potencyMultiplier,
-    required this.durationMultiplier,
-    required this.toleranceGainRate,
-    required this.activeThreshold,
-  });
+    /// Potency normalization
+    @Default(10.0) double standardUnitMg,
+    @Default(1.0) double potencyMultiplier,
+    @Default(1.0) double durationMultiplier,
+
+    /// Tolerance dynamics
+    @Default(1.0) double toleranceGainRate,
+    @Default(0.05) double activeThreshold,
+  }) = _ToleranceModel;
+
+  const ToleranceModel._();
+
   factory ToleranceModel.fromJson(Map<String, dynamic> json) {
-    // Parse neuro_buckets
-    final bucketsJson = json['neuro_buckets'] as Map<String, dynamic>? ?? {};
-    final buckets = <String, NeuroBucket>{};
-    bucketsJson.forEach((key, value) {
-      buckets[key] = NeuroBucket.fromJson(key, value as Map<String, dynamic>);
-    });
+    final neuroBucketsRaw = json['neuro_buckets'] ?? json['neuroBuckets'];
+
     return ToleranceModel(
-      notes: json['notes'] as String? ?? '',
-      neuroBuckets: buckets,
-      halfLifeHours: (json['half_life_hours'] as num?)?.toDouble() ?? 6.0,
+      notes: json['notes']?.toString() ?? '',
+      neuroBuckets: _neuroBucketsFromJson(neuroBucketsRaw),
+      halfLifeHours:
+          (json['half_life_hours'] as num?)?.toDouble() ??
+          (json['halfLifeHours'] as num?)?.toDouble() ??
+          6.0,
       toleranceDecayDays:
-          (json['tolerance_decay_days'] as num?)?.toDouble() ?? 2.0,
-      // 🟢 NEW FIELDS (previously ignored)
-      standardUnitMg: (json['standard_unit_mg'] as num?)?.toDouble() ?? 10.0,
+          (json['tolerance_decay_days'] as num?)?.toDouble() ??
+          (json['toleranceDecayDays'] as num?)?.toDouble() ??
+          2.0,
+      standardUnitMg:
+          (json['standard_unit_mg'] as num?)?.toDouble() ??
+          (json['standardUnitMg'] as num?)?.toDouble() ??
+          10.0,
       potencyMultiplier:
-          (json['potency_multiplier'] as num?)?.toDouble() ?? 1.0,
+          (json['potency_multiplier'] as num?)?.toDouble() ??
+          (json['potencyMultiplier'] as num?)?.toDouble() ??
+          1.0,
       durationMultiplier:
-          (json['duration_multiplier'] as num?)?.toDouble() ?? 1.0,
+          (json['duration_multiplier'] as num?)?.toDouble() ??
+          (json['durationMultiplier'] as num?)?.toDouble() ??
+          1.0,
       toleranceGainRate:
-          (json['tolerance_gain_rate'] as num?)?.toDouble() ?? 1.0,
-      activeThreshold: (json['active_threshold'] as num?)?.toDouble() ?? 0.05,
+          (json['tolerance_gain_rate'] as num?)?.toDouble() ??
+          (json['toleranceGainRate'] as num?)?.toDouble() ??
+          1.0,
+      activeThreshold:
+          (json['active_threshold'] as num?)?.toDouble() ??
+          (json['activeThreshold'] as num?)?.toDouble() ??
+          0.05,
     );
-  }
-  Map<String, dynamic> toJson() {
-    return {
-      'notes': notes,
-      'neuro_buckets': neuroBuckets.map(
-        (key, value) => MapEntry(key, value.toJson()),
-      ),
-      'half_life_hours': halfLifeHours,
-      'tolerance_decay_days': toleranceDecayDays,
-      // 🟢 NEW FIELDS
-      'standard_unit_mg': standardUnitMg,
-      'potency_multiplier': potencyMultiplier,
-      'duration_multiplier': durationMultiplier,
-      'tolerance_gain_rate': toleranceGainRate,
-      'active_threshold': activeThreshold,
-    };
   }
 }
 
 /// Neurotransmitter tolerance bucket
-class NeuroBucket {
-  final String name;
-  final double weight; // How strongly this substance affects the bucket
-  final String? toleranceType; // Optional: "stimulant", "gaba", etc.
-  const NeuroBucket({
-    required this.name,
-    required this.weight,
-    this.toleranceType,
-  });
-  factory NeuroBucket.fromJson(String name, Map<String, dynamic> json) {
-    return NeuroBucket(
-      name: name,
-      weight: (json['weight'] as num?)?.toDouble() ?? 1.0,
-      toleranceType: json['tolerance_type'] as String?,
-    );
-  }
-  Map<String, dynamic> toJson() {
+@freezed
+abstract class NeuroBucket with _$NeuroBucket {
+  const factory NeuroBucket({
+    required String name,
+    @Default(1.0) double weight,
+    String? toleranceType,
+  }) = _NeuroBucket;
+
+  const NeuroBucket._();
+
+  Map<String, dynamic> toServiceJson() {
     return {
       'weight': weight,
       if (toleranceType != null) 'tolerance_type': toleranceType,
@@ -123,19 +149,31 @@ class NeuroBucket {
   }
 
   String get displayName => name.toUpperCase();
+
   String get description => 'Neurotransmitter system';
 }
 
 /// Event data used by tolerance calculation
-class UseEvent {
-  final DateTime timestamp;
-  final double dose;
-  final String substanceName;
-  const UseEvent({
-    required this.timestamp,
-    required this.dose,
-    required this.substanceName,
-  });
+@freezed
+abstract class UseEvent with _$UseEvent {
+  const factory UseEvent({
+    required DateTime timestamp,
+    required double dose,
+    required String substanceName,
+  }) = _UseEvent;
+
+  const UseEvent._();
+
+  factory UseEvent.fromJson(Map<String, dynamic> json) {
+    return UseEvent(
+      timestamp: _dateTimeFromAny(json['timestamp']),
+      dose: (json['dose'] as num?)?.toDouble() ?? 0.0,
+      substanceName:
+          json['substanceName']?.toString() ??
+          json['substance_name']?.toString() ??
+          '',
+    );
+  }
 }
 
 /// System state classification
@@ -165,8 +203,19 @@ extension ToleranceSystemStateExtension on ToleranceSystemState {
 }
 
 /// Data point for graphs
-class TolerancePoint {
-  final DateTime time;
-  final double score;
-  const TolerancePoint({required this.time, required this.score});
+@freezed
+abstract class TolerancePoint with _$TolerancePoint {
+  const factory TolerancePoint({
+    required DateTime time,
+    required double score,
+  }) = _TolerancePoint;
+
+  const TolerancePoint._();
+
+  factory TolerancePoint.fromJson(Map<String, dynamic> json) {
+    return TolerancePoint(
+      time: _dateTimeFromAny(json['time']),
+      score: (json['score'] as num?)?.toDouble() ?? 0.0,
+    );
+  }
 }

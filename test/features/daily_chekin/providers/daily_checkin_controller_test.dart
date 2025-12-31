@@ -15,12 +15,12 @@ class _FakeNavigationService extends NavigationService {
   String? lastLocation;
 
   @override
-  void pop() {
+  void pop<T extends Object?>([T? result]) {
     popCount += 1;
   }
 
   @override
-  void push(String location) {
+  void push(String location, {Object? extra}) {
     pushCount += 1;
     lastLocation = location;
   }

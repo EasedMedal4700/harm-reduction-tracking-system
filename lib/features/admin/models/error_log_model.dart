@@ -1,40 +1,35 @@
 // MIGRATION:
 // State: MODERN
 // Navigation: N/A
-// Models: MODERN
+// Models: FREEZED
 // Theme: N/A
 // Common: N/A
 // Notes: Data model.
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'error_log_model.freezed.dart';
+
 /// Model for error log entry
-class ErrorLog {
-  final int id;
-  final String? userId;
-  final String? appVersion;
-  final String? platform;
-  final String? osVersion;
-  final String? deviceModel;
-  final String? screenName;
-  final String errorMessage;
-  final String? errorCode;
-  final String severity; // low, medium, high, critical
-  final String? stacktrace;
-  final Map<String, dynamic>? extraData;
-  final DateTime createdAt;
-  const ErrorLog({
-    required this.id,
-    this.userId,
-    this.appVersion,
-    this.platform,
-    this.osVersion,
-    this.deviceModel,
-    this.screenName,
-    required this.errorMessage,
-    this.errorCode,
-    required this.severity,
-    this.stacktrace,
-    this.extraData,
-    required this.createdAt,
-  });
+@freezed
+abstract class ErrorLog with _$ErrorLog {
+  const factory ErrorLog({
+    @Default(0) int id,
+    String? userId,
+    String? appVersion,
+    String? platform,
+    String? osVersion,
+    String? deviceModel,
+    String? screenName,
+    @Default('Unknown error') String errorMessage,
+    String? errorCode,
+    @Default('medium') String severity,
+    String? stacktrace,
+    Map<String, dynamic>? extraData,
+    required DateTime createdAt,
+  }) = _ErrorLog;
+
+  const ErrorLog._();
+
   factory ErrorLog.fromJson(Map<String, dynamic> json) {
     return ErrorLog(
       id: json['id'] as int? ?? 0,
@@ -49,11 +44,12 @@ class ErrorLog {
       severity: json['severity'] as String? ?? 'medium',
       stacktrace: json['stacktrace'] as String?,
       extraData: json['extra_data'] as Map<String, dynamic>?,
-      createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'] as String)
-          : DateTime.now(),
+      createdAt: json['created_at'] is String
+          ? DateTime.tryParse(json['created_at'] as String) ?? DateTime.now()
+          : (json['created_at'] as DateTime?) ?? DateTime.now(),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -106,23 +102,29 @@ class ErrorLog {
 }
 
 /// Color information for severity
-class ColorInfo {
-  final int colorValue;
-  final String name;
-  const ColorInfo(this.colorValue, this.name);
-  static const critical = ColorInfo(0xFFD32F2F, 'Red');
-  static const high = ColorInfo(0xFFF57C00, 'Orange');
-  static const medium = ColorInfo(0xFFFBC02D, 'Yellow');
-  static const low = ColorInfo(0xFF1976D2, 'Blue');
+@freezed
+abstract class ColorInfo with _$ColorInfo {
+  const factory ColorInfo({required int colorValue, required String name}) =
+      _ColorInfo;
+
+  const ColorInfo._();
+
+  static const critical = ColorInfo(colorValue: 0xFFD32F2F, name: 'Red');
+  static const high = ColorInfo(colorValue: 0xFFF57C00, name: 'Orange');
+  static const medium = ColorInfo(colorValue: 0xFFFBC02D, name: 'Yellow');
+  static const low = ColorInfo(colorValue: 0xFF1976D2, name: 'Blue');
 }
 
 /// Icon information for severity
-class IconInfo {
-  final int iconCodePoint;
-  final String name;
-  const IconInfo(this.iconCodePoint, this.name);
-  static const critical = IconInfo(0xe645, 'error'); // Icons.error
-  static const high = IconInfo(0xe002, 'warning'); // Icons.warning
-  static const medium = IconInfo(0xe88e, 'info'); // Icons.info
-  static const low = IconInfo(0xe86f, 'check_circle'); // Icons.check_circle
+@freezed
+abstract class IconInfo with _$IconInfo {
+  const factory IconInfo({required int iconCodePoint, required String name}) =
+      _IconInfo;
+
+  const IconInfo._();
+
+  static const critical = IconInfo(iconCodePoint: 0xe645, name: 'error');
+  static const high = IconInfo(iconCodePoint: 0xe002, name: 'warning');
+  static const medium = IconInfo(iconCodePoint: 0xe88e, name: 'info');
+  static const low = IconInfo(iconCodePoint: 0xe86f, name: 'check_circle');
 }

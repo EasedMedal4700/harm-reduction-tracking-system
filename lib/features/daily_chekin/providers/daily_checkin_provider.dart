@@ -176,9 +176,6 @@ class DailyCheckinProvider extends ChangeNotifier {
       await loadRecentCheckins();
       // Reload to check existing again
       await checkExistingCheckin();
-      if (context.mounted) {
-        Navigator.pop(context);
-      }
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(

@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_providers.dart';
 import 'package:mobile_drug_use_app/features/catalog/utils/drug_profile_utils.dart';
 import '../../../constants/theme/app_theme_extension.dart';
@@ -60,7 +61,7 @@ class _AddStockpileSheetState extends ConsumerState<AddStockpileSheet> {
             unitMg: 1.0, // Already converted to mg, so 1mg = 1mg
           );
       if (mounted) {
-        Navigator.pop(context, true); // Return true to indicate success
+        ref.read(navigationProvider).pop(true);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -135,7 +136,7 @@ class _AddStockpileSheetState extends ConsumerState<AddStockpileSheet> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.close),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => ref.read(navigationProvider).pop(),
                   color: th.colors.textSecondary,
                 ),
               ],

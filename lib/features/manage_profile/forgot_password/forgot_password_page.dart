@@ -6,10 +6,11 @@
 // Common: COMPLETE
 // Notes: UI-only forgot password screen. Emits intent to controller.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 import '../../../common/layout/common_spacer.dart';
 import 'forgot_password_controller.dart';
 import 'forgot_password_state.dart';
@@ -34,6 +35,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     final c = context.colors;
     final tx = context.text;
     final sp = context.spacing;
+    final nav = ref.read(navigationProvider);
     final state = ref.watch(forgotPasswordControllerProvider);
     final controller = ref.read(forgotPasswordControllerProvider.notifier);
     // Listen for error side-effects
@@ -55,7 +57,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         elevation: context.sizes.elevationNone,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: c.textPrimary),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => nav.pop(),
         ),
         title: Text('Reset Password', style: tx.headlineSmall),
       ),
@@ -66,11 +68,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               ? _SuccessContent(
                   email: state.email ?? '',
                   onTryAgain: controller.reset,
-                  onBackToLogin: () {
-                    Navigator.of(context);
-                    if (!context.mounted) return;
-                    context.go('/login_page');
-                  },
+                  onBackToLogin: () => nav.replace(AppRoutePaths.login),
                 )
               : _FormContent(
                   formKey: _formKey,
@@ -81,6 +79,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                       controller.sendResetEmail(_emailController.text.trim());
                     }
                   },
+                  onBack: () => nav.pop(),
                 ),
         ),
       ),
@@ -97,11 +96,13 @@ class _FormContent extends StatelessWidget {
     required this.emailController,
     required this.isSubmitting,
     required this.onSubmit,
+    required this.onBack,
   });
   final GlobalKey<FormState> formKey;
   final TextEditingController emailController;
   final bool isSubmitting;
   final VoidCallback onSubmit;
+  final VoidCallback onBack;
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
@@ -223,7 +224,7 @@ class _FormContent extends StatelessWidget {
           ),
           SizedBox(height: sp.lg),
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: onBack,
             child: Text(
               'Back to Login',
               style: tx.labelLarge.copyWith(color: ac.primary),

@@ -6,12 +6,13 @@
 // Common: COMPLETE
 // Notes: Profile screen using Riverpod but legacy models.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_spacer.dart';
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/core/providers/core_providers.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/routes/app_router.dart';
 import '../../common/layout/common_drawer.dart';
 import 'widgets/profile_header.dart';
 import 'widgets/statistics_card.dart';
@@ -86,6 +87,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 
   Future<void> _logout() async {
+    final nav = ref.read(navigationProvider);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) {
@@ -96,11 +98,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           content: const Text('Are you sure you want to logout?'),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context, false),
+              onPressed: () => nav.pop(false),
               child: const Text('Cancel'),
             ),
             ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
+              onPressed: () => nav.pop(true),
               style: ElevatedButton.styleFrom(backgroundColor: c.error),
               child: Text(
                 'Logout',
@@ -115,7 +117,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       await ref.read(authServiceProvider).logout();
       unawaited(ref.read(appLockControllerProvider.notifier).clear());
       if (mounted) {
-        context.go('/login_page');
+        nav.replace(AppRoutePaths.login);
       }
     }
   }

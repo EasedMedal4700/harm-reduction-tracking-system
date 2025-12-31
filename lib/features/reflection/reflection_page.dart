@@ -150,58 +150,64 @@ class _ReflectionPageState extends ConsumerState<ReflectionPage> {
                         effectiveness: state.reflection.effectiveness,
                         onEffectivenessChanged: (value) =>
                             notifier.updateReflection(
-                              state.reflection..effectiveness = value,
+                              state.reflection.copyWith(effectiveness: value),
                             ),
                         sleepHours: state.reflection.sleepHours,
                         onSleepHoursChanged: (value) =>
                             notifier.updateReflection(
-                              state.reflection..sleepHours = value,
+                              state.reflection.copyWith(sleepHours: value),
                             ),
                         sleepQuality: state.reflection.sleepQuality,
                         onSleepQualityChanged: (value) =>
                             notifier.updateReflection(
-                              state.reflection..sleepQuality = value,
+                              state.reflection.copyWith(sleepQuality: value),
                             ),
                         nextDayMood: state.reflection.nextDayMood,
                         onNextDayMoodChanged: (value) =>
                             notifier.updateReflection(
-                              state.reflection..nextDayMood = value,
+                              state.reflection.copyWith(nextDayMood: value),
                             ),
                         energyLevel: state.reflection.energyLevel,
                         onEnergyLevelChanged: (value) =>
                             notifier.updateReflection(
-                              state.reflection..energyLevel = value,
+                              state.reflection.copyWith(energyLevel: value),
                             ),
                         sideEffects: state.reflection.sideEffects,
                         onSideEffectsChanged: (value) =>
                             notifier.updateReflection(
-                              state.reflection..sideEffects = value,
+                              state.reflection.copyWith(sideEffects: value),
                             ),
                         postUseCraving: state.reflection.postUseCraving,
                         onPostUseCravingChanged: (value) =>
                             notifier.updateReflection(
-                              state.reflection..postUseCraving = value,
+                              state.reflection.copyWith(postUseCraving: value),
                             ),
                         copingStrategies: state.reflection.copingStrategies,
                         onCopingStrategiesChanged: (value) =>
                             notifier.updateReflection(
-                              state.reflection..copingStrategies = value,
+                              state.reflection.copyWith(
+                                copingStrategies: value,
+                              ),
                             ),
                         copingEffectiveness:
                             state.reflection.copingEffectiveness,
                         onCopingEffectivenessChanged: (value) =>
                             notifier.updateReflection(
-                              state.reflection..copingEffectiveness = value,
+                              state.reflection.copyWith(
+                                copingEffectiveness: value,
+                              ),
                             ),
                         overallSatisfaction:
                             state.reflection.overallSatisfaction,
                         onOverallSatisfactionChanged: (value) =>
                             notifier.updateReflection(
-                              state.reflection..overallSatisfaction = value,
+                              state.reflection.copyWith(
+                                overallSatisfaction: value,
+                              ),
                             ),
                         notes: state.reflection.notes,
                         onNotesChanged: (value) => notifier.updateReflection(
-                          state.reflection..notes = value,
+                          state.reflection.copyWith(notes: value),
                         ),
                       )
                     : ReflectionSelection(

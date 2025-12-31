@@ -6,9 +6,10 @@
 // Common: COMPLETE
 // Notes: Account dialogs.
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../common/feedback/common_loader.dart';
@@ -125,11 +126,16 @@ class _PasswordVerificationDialogState
           button: true,
           enabled: !_isVerifying,
           label: _isVerifying ? 'Verifying password' : 'Cancel',
-          child: TextButton(
-            onPressed: () {
-              if (!_isVerifying) context.pop();
+          child: Consumer(
+            builder: (context, ref, _) {
+              final nav = ref.read(navigationProvider);
+              return TextButton(
+                onPressed: () {
+                  if (!_isVerifying) nav.pop();
+                },
+                child: const Text('Cancel'),
+              );
             },
-            child: const Text('Cancel'),
           ),
         ),
         Semantics(
@@ -262,7 +268,15 @@ class _TypedConfirmationDialogState extends State<TypedConfirmationDialog> {
         ],
       ),
       actions: [
-        TextButton(onPressed: () => context.pop(), child: const Text('Cancel')),
+        Consumer(
+          builder: (context, ref, _) {
+            final nav = ref.read(navigationProvider);
+            return TextButton(
+              onPressed: () => nav.pop(),
+              child: const Text('Cancel'),
+            );
+          },
+        ),
         Semantics(
           button: true,
           enabled: _userConfirmed,

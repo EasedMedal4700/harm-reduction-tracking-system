@@ -19,6 +19,7 @@ import 'widgets/activity_reflections_tab.dart';
 import 'widgets/activity_detail_helpers.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/strings/app_strings.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 
 class ActivityPage extends ConsumerStatefulWidget {
   const ActivityPage({super.key});
@@ -154,6 +155,7 @@ class _ActivityPageState extends ConsumerState<ActivityPage>
       entries: entries,
       onEntryTap: (entry) => ActivityDetailHelpers.showDrugUseDetail(
         context: context,
+        nav: ref.read(navigationProvider),
         entry: entry,
         onDelete: _handleDelete,
         onUpdate: () =>
@@ -169,6 +171,7 @@ class _ActivityPageState extends ConsumerState<ActivityPage>
       cravings: cravings,
       onCravingTap: (craving) => ActivityDetailHelpers.showCravingDetail(
         context: context,
+        nav: ref.read(navigationProvider),
         craving: craving,
         onDelete: _handleDelete,
         onUpdate: () =>
@@ -185,6 +188,7 @@ class _ActivityPageState extends ConsumerState<ActivityPage>
       onReflectionTap: (reflection) =>
           ActivityDetailHelpers.showReflectionDetail(
             context: context,
+            nav: ref.read(navigationProvider),
             reflection: reflection,
             onDelete: _handleDelete,
             onUpdate: () =>
