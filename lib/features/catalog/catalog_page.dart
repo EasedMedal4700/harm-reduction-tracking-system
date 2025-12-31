@@ -6,8 +6,10 @@
 // Common: COMPLETE
 // Notes: Catalog page using local state and repository.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../stockpile/repo/substance_repository.dart';
 import '../analytics/services/analytics_service.dart';
+import '../analytics/providers/analytics_providers.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../common/layout/common_drawer.dart';
 import 'widgets/add_stockpile_sheet.dart';
@@ -17,15 +19,15 @@ import 'widgets/catalog_search_filters.dart';
 import 'widgets/catalog_empty_state.dart';
 import 'widgets/animated_substance_list.dart';
 
-class CatalogPage extends StatefulWidget {
+class CatalogPage extends ConsumerStatefulWidget {
   final SubstanceRepository? repository;
   final AnalyticsService? analyticsService;
   const CatalogPage({super.key, this.repository, this.analyticsService});
   @override
-  State<CatalogPage> createState() => _CatalogPageState();
+  ConsumerState<CatalogPage> createState() => _CatalogPageState();
 }
 
-class _CatalogPageState extends State<CatalogPage> {
+class _CatalogPageState extends ConsumerState<CatalogPage> {
   late final SubstanceRepository _repository;
   late final AnalyticsService _analyticsService;
   List<Map<String, dynamic>> _allSubstances = [];
@@ -38,8 +40,9 @@ class _CatalogPageState extends State<CatalogPage> {
   @override
   void initState() {
     super.initState();
-    _repository = widget.repository ?? SubstanceRepository();
-    _analyticsService = widget.analyticsService ?? AnalyticsService();
+    _repository = widget.repository ?? ref.read(substanceRepositoryProvider);
+    _analyticsService =
+        widget.analyticsService ?? ref.read(analyticsServiceProvider);
     _loadSubstances();
   }
 

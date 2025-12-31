@@ -13,15 +13,12 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 
-import 'providers/settings_providers.dart';
+import 'settings.dart';
 import 'widgets/ui_settings_section.dart';
-import 'widgets/notification_settings_section.dart';
-import 'widgets/privacy_settings_section.dart';
 import 'widgets/data_sync_settings_section.dart';
 import 'widgets/entry_preferences_section.dart';
 import 'widgets/display_settings_section.dart';
 import 'widgets/about_section.dart';
-import 'widgets/account_management_section.dart';
 import 'widgets/settings_dialogs.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {

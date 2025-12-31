@@ -10,6 +10,7 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/layout/common_drawer.dart';
 import '../log_entry/log_entry_service.dart';
+import '../log_entry/providers/log_entry_providers.dart';
 import 'providers/reflection_providers.dart';
 import 'widgets/reflection_form.dart';
 import 'widgets/reflection_selection.dart';
@@ -28,7 +29,7 @@ class _ReflectionPageState extends ConsumerState<ReflectionPage> {
   @override
   void initState() {
     super.initState();
-    _entryService = widget.logEntryService ?? LogEntryService();
+    _entryService = widget.logEntryService ?? ref.read(logEntryServiceProvider);
     _loadEntries();
   }
 

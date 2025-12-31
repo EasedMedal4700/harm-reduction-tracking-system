@@ -14,17 +14,8 @@ import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/common/buttons/common_outlined_button.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
-import 'package:mobile_drug_use_app/features/catalog/widgets/add_stockpile_sheet.dart';
-import 'package:mobile_drug_use_app/features/stockpile/controllers/personal_library_controller.dart';
-import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_providers.dart';
-import 'package:mobile_drug_use_app/features/catalog/models/drug_catalog_entry.dart';
-import 'package:mobile_drug_use_app/features/stockpile/models/stockpile_item.dart';
 
-import 'widgets/day_usage_sheet.dart';
-import 'widgets/library_app_bar.dart';
-import 'widgets/library_search_bar.dart';
-import 'widgets/substance_card.dart';
-import 'widgets/summary_stats_banner.dart';
+import 'stockpile_page_deps.dart';
 
 class PersonalLibraryPage extends ConsumerStatefulWidget {
   const PersonalLibraryPage({super.key});

@@ -10,15 +10,9 @@ import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
-import 'package:mobile_drug_use_app/core/routes/app_router.dart';
-import 'package:mobile_drug_use_app/core/services/navigation_service.dart';
-import '../providers/settings_provider.dart';
-import '../models/app_settings_model.dart';
-import 'package:mobile_drug_use_app/core/services/pin_timeout_service.dart';
+import 'package:mobile_drug_use_app/core/core.dart';
+import '../settings.dart';
 import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
-import 'package:mobile_drug_use_app/core/services/onboarding_service.dart';
-import 'settings_section.dart';
 import '../../../common/inputs/switch_tile.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../../../common/buttons/common_primary_button.dart';
@@ -301,7 +295,7 @@ class _PrivacySettingsSectionState
               ),
             );
             if (confirm != true) return;
-            final onboardingSvc = OnboardingService();
+            final onboardingSvc = ref.read(onboardingServiceProvider);
             await onboardingSvc.resetHarmNotices();
             if (!context.mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(

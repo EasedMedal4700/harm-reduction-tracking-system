@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:cryptography/cryptography.dart';
+import 'package:meta/meta.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/error_handler.dart';
 
@@ -39,6 +40,11 @@ class EncryptionService {
 
   final AesGcm _algorithm = AesGcm.with256bits();
   SecretKey? _masterKey;
+
+  @visibleForTesting
+  void setMasterKeyForTesting(SecretKey masterKey) {
+    _masterKey = masterKey;
+  }
 
   /// Initialize encryption for the current user.
   /// Call this after user logs in.

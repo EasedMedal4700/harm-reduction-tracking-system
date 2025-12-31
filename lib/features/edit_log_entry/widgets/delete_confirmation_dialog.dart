@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import '../../../common/buttons/common_primary_button.dart';
 import '../../log_entry/models/log_entry_form_data.dart';
-import '../../log_entry/log_entry_service.dart';
+import '../../log_entry/providers/log_entry_providers.dart';
 
 class DeleteConfirmationDialog {
   static Future<void> show(BuildContext context, LogEntryFormData state) async {
@@ -48,7 +48,9 @@ class DeleteConfirmationDialog {
     );
     if (confirmed == true && context.mounted) {
       try {
-        final service = LogEntryService();
+        final service = ProviderScope.containerOf(
+          context,
+        ).read(logEntryServiceProvider);
         await service.deleteLogEntry(state.entryId);
         if (context.mounted) {
           nav.pop();

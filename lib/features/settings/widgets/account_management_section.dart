@@ -10,7 +10,7 @@ import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import 'package:mobile_drug_use_app/core/routes/app_router.dart';
-import '../services/account_data_service.dart';
+import '../providers/account_data_providers.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/cards/common_card.dart';
 import '../../../common/layout/common_spacer.dart';
@@ -154,16 +154,16 @@ class AccountManagementSection extends ConsumerWidget {
         actionButtonColor: c.info,
         onVerified: (password) async {
           nav.pop();
-          await _executeDownload(context);
+          await _executeDownload(context, ref);
         },
       ),
     );
   }
 
-  Future<void> _executeDownload(BuildContext context) async {
+  Future<void> _executeDownload(BuildContext context, WidgetRef ref) async {
     final c = context.colors;
     final messenger = ScaffoldMessenger.of(context);
-    final service = AccountDataService();
+    final service = ref.read(accountDataServiceProvider);
     final result = await service.downloadUserData();
     messenger.showSnackBar(
       SnackBar(
@@ -207,7 +207,7 @@ class AccountManagementSection extends ConsumerWidget {
       onDownloadFirst: () =>
           _showFinalDeleteDataWithDownload(context, ref, password),
       onConfirmDelete: () async {
-        await _executeDeleteData(context);
+        await _executeDeleteData(context, ref);
       },
     );
   }
@@ -223,15 +223,15 @@ class AccountManagementSection extends ConsumerWidget {
       nav,
       password,
       onConfirmDelete: () async {
-        await _executeDeleteData(context);
+        await _executeDeleteData(context, ref);
       },
     );
   }
 
-  Future<void> _executeDeleteData(BuildContext context) async {
+  Future<void> _executeDeleteData(BuildContext context, WidgetRef ref) async {
     final c = context.colors;
     final messenger = ScaffoldMessenger.of(context);
-    final service = AccountDataService();
+    final service = ref.read(accountDataServiceProvider);
     final result = await service.deleteUserData();
     messenger.showSnackBar(
       SnackBar(
@@ -297,7 +297,7 @@ class AccountManagementSection extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
-    final service = AccountDataService();
+    final service = ref.read(accountDataServiceProvider);
     final result = await service.deleteAccount();
     if (!context.mounted) return;
 

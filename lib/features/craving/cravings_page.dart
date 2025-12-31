@@ -6,29 +6,26 @@
 // Common: COMPLETE
 // Notes: Page for logging cravings. Uses CommonPrimaryButton. No hardcoded values.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../constants/data/body_and_mind_catalog.dart';
 import '../../constants/data/drug_use_catalog.dart';
-import 'widgets/craving_details_section.dart';
-import 'widgets/emotional_state_section.dart';
-import 'widgets/body_mind_signals_section.dart';
-import 'widgets/outcome_section.dart';
-import 'models/craving_model.dart';
-import 'services/craving_service.dart';
+import 'craving.dart';
 import 'package:mobile_drug_use_app/core/services/timezone_service.dart';
 import 'package:mobile_drug_use_app/core/services/user_service.dart';
 import '../../constants/theme/app_theme_extension.dart';
 import '../../common/buttons/common_primary_button.dart';
+import '../../core/providers/core_providers.dart';
 
-class CravingsPage extends StatefulWidget {
+class CravingsPage extends ConsumerStatefulWidget {
   final CravingService? cravingService;
   const CravingsPage({super.key, this.cravingService});
   @override
-  State<CravingsPage> createState() => _CravingsPageState();
+  ConsumerState<CravingsPage> createState() => _CravingsPageState();
 }
 
-class _CravingsPageState extends State<CravingsPage> {
+class _CravingsPageState extends ConsumerState<CravingsPage> {
   List<String> selectedCravings = [];
   double intensity = 0.0;
   String location = 'Select a location';
@@ -40,7 +37,7 @@ class _CravingsPageState extends State<CravingsPage> {
   String? whatDidYouDo;
   bool actedOnCraving = false;
   late final CravingService _cravingService;
-  final TimezoneService _timezoneService = TimezoneService();
+  late final TimezoneService _timezoneService;
   bool _isSaving = false;
   final List<String> sensations = physicalSensations;
   final List<String> emotions = DrugUseCatalog.primaryEmotions
@@ -49,7 +46,8 @@ class _CravingsPageState extends State<CravingsPage> {
   @override
   void initState() {
     super.initState();
-    _cravingService = widget.cravingService ?? CravingService();
+    _cravingService = widget.cravingService ?? ref.read(cravingServiceProvider);
+    _timezoneService = ref.read(timezoneServiceProvider);
   }
 
   Future<void> _save() async {

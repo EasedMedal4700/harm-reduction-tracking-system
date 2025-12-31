@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:cryptography/cryptography.dart';
+import 'package:meta/meta.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
@@ -40,6 +41,11 @@ class EncryptionServiceV2 {
 
   /// Check if encryption is ready (dataKey loaded)
   bool get isReady => _dataKey != null;
+
+  @visibleForTesting
+  void setDataKeyForTesting(SecretKey dataKey) {
+    _dataKey = dataKey;
+  }
 
   /// Storage keys
   static const String _keyEncryptedPin = 'encrypted_pin';

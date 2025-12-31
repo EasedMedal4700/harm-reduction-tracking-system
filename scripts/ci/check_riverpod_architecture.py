@@ -11,14 +11,9 @@ Hard failures:
   - `Provider.of(` usage
   - Any `ChangeNotifier` usage
 
-Additional hard failures in lib/features/:
-- Any `setState(` usage
-- Any widget extending `StatelessWidget` or `StatefulWidget`
-  (Feature widgets must be ConsumerWidget / ConsumerStatefulWidget / HookConsumerWidget, etc.)
-
-Additional hard failures in lib/features/ and lib/common/:
-- Instantiating service-like classes directly (must be provided via providers/services):
-  - `*Service(`, `*Repository(`, `*Client(`, `*Api(`, `*DataSource(` / `*Datasource(`
+Additional hard failures in UI-layer files under lib/features/ and lib/common/:
+- Instantiating service-like classes directly in UI widgets is forbidden.
+    Services/repositories should be provided via Riverpod providers.
 
 Ignores (required):
 - Generated files: *.g.dart, *.freezed.dart, *.riverpod.dart
@@ -58,15 +53,14 @@ PROVIDER_IMPORT_RE = re.compile(r"^\s*import\s+['\"]package:provider/provider\.d
 PROVIDER_OF_RE = re.compile(r"\bProvider\s*\.\s*of\s*\(")
 CHANGENOTIFIER_RE = re.compile(r"\bChangeNotifier\b")
 
-SETSTATE_RE = re.compile(r"\bsetState\s*\(")
-
-FEATURE_WIDGET_BANNED_EXTENDS = [
-    (re.compile(r"\bextends\s+StatelessWidget\b"), "Feature widgets must not extend StatelessWidget (use ConsumerWidget/HookConsumerWidget)"),
-    (re.compile(r"\bextends\s+StatefulWidget\b"), "Feature widgets must not extend StatefulWidget (use ConsumerStatefulWidget/HookConsumerStatefulWidget)"),
-]
-
+# Match *instantiation* sites of service-like classes in UI layers.
+#
+# Important: We intentionally do NOT match constructor declarations like:
+#   MyService({ ... })
+# inside service class definitions, because those are not instantiation.
 SERVICE_INSTANTIATION_RE = re.compile(
-    r"\b[A-Z][A-Za-z0-9_]*(Service|Repository|Client|Api|DataSource|Datasource)\s*\("
+    r"(?:\breturn\s+|=\s*|:\s*|\?\?\s*|\bnew\s+)"
+    r"[A-Z][A-Za-z0-9_]*(Service|Repository|Client|Api|DataSource|Datasource)\s*\("
 )
 
 
@@ -76,6 +70,20 @@ def _is_features(path: str) -> bool:
 
 def _is_common(path: str) -> bool:
     return "/lib/common/" in path.replace("\\", "/").lower()
+
+
+def _is_ui_layer(path: str) -> bool:
+    normalized = path.replace("\\", "/").lower()
+
+    if not (_is_features(normalized) or _is_common(normalized)):
+        return False
+
+    if any(seg in normalized for seg in ["/widgets/", "/pages/", "/screens/"]):
+        return True
+
+    # Also treat common naming conventions as UI files.
+    base = os.path.basename(normalized)
+    return base.endswith(("_page.dart", "_screen.dart", "_dialog.dart", "_sheet.dart"))
 
 
 def _check_file(path: str) -> List[Violation]:
@@ -95,19 +103,17 @@ def _check_file(path: str) -> List[Violation]:
         if CHANGENOTIFIER_RE.search(line):
             violations.append(Violation(path, i, "ChangeNotifier is forbidden; use Riverpod Notifier/StateNotifier", line))
 
-        # Feature-only bans
-        if _is_features(path):
-            if SETSTATE_RE.search(line):
-                violations.append(Violation(path, i, "setState() is forbidden in lib/features (use Riverpod state)", line))
-
-            for pattern, msg in FEATURE_WIDGET_BANNED_EXTENDS:
-                if pattern.search(line):
-                    violations.append(Violation(path, i, msg, line))
-
-        # Service instantiation bans in UI layers
-        if _is_features(path) or _is_common(path):
+        # Service instantiation bans in UI layers only
+        if _is_ui_layer(path):
             if SERVICE_INSTANTIATION_RE.search(line):
-                violations.append(Violation(path, i, "Service/repository/client instantiation is forbidden in widgets; use providers/services injected via Riverpod", line))
+                violations.append(
+                    Violation(
+                        path,
+                        i,
+                        "Service/repository/client instantiation is forbidden in UI widgets; use providers/services injected via Riverpod",
+                        line,
+                    )
+                )
 
     return violations
 

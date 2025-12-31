@@ -1,0 +1,39 @@
+// Central barrel export for feature entry pages/screens used by routing.
+// Keeps router imports small.
+
+export 'activity/activity_page.dart';
+export 'admin/screens/admin_panel_screen.dart';
+export 'admin/screens/error_analytics_page.dart';
+export 'analytics/analytics_page.dart';
+export 'blood_levels/blood_levels_page.dart';
+export 'bug_report/bug_report_page.dart';
+export 'catalog/catalog_page.dart';
+export 'craving/cravings_page.dart';
+export 'daily_chekin/checkin_history_page.dart';
+export 'daily_chekin/daily_checkin_page.dart';
+export 'edit_craving/edit_craving_page.dart';
+export 'edit_log_entry/edit_log_entry_page.dart';
+export 'edit_reflection/edit_reflection_page.dart';
+export 'feature_flags/feature_flags_page.dart';
+export 'feature_flags/widgets/feature_gate.dart';
+export 'home/home_page.dart';
+export 'log_entry/log_entry_page.dart';
+export 'interactions/interactions_page.dart';
+export 'login/login/login_page.dart';
+export 'login/pin_unlock/pin_unlock_page.dart';
+export 'manage_profile/change_pin/change_pin_page.dart';
+export 'manage_profile/forgot_password/forgot_password_page.dart';
+export 'physiological/physiological_page.dart';
+export 'profile/profile_screen.dart';
+export 'reflection/reflection_page.dart';
+export 'settings/privacy_policy_page.dart';
+export 'settings/settings_page.dart';
+export 'setup_account/pages/email_confirmed_page.dart';
+export 'setup_account/pages/onboarding_page.dart';
+export 'setup_account/pages/pin_setup_page.dart';
+export 'setup_account/pages/recovery_key_page.dart';
+export 'setup_account/pages/register_page.dart';
+export 'setup_account/pages/set_new_password_page.dart';
+export 'stockpile/stockpile_page.dart';
+export 'tolerance/pages/tolerance_dashboard_page.dart';
+export 'wearOS/wearos_page.dart';

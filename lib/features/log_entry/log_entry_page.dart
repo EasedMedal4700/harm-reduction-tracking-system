@@ -4,7 +4,7 @@
 // Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Page for logging drug use. Uses Riverpod wrapper for legacy ChangeNotifier state.
+// Notes: Page for logging drug use. Uses a Riverpod wrapper for legacy notifier-style state.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';

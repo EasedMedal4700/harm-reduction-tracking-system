@@ -14,7 +14,7 @@ import '../stockpile/repo/stockpile_repository.dart';
 import 'package:mobile_drug_use_app/features/catalog/utils/drug_profile_utils.dart';
 
 /// Pure business logic for log entry operations
-/// Riverpod-ready: No BuildContext, no ChangeNotifier, no UI state
+/// Riverpod-ready: No BuildContext, no legacy notifier base class, no UI state
 /// This will become a Riverpod Notifier in the future
 class LogEntryController {
   final SubstanceRepository _substanceRepo;

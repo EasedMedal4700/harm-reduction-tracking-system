@@ -5,7 +5,6 @@
 // Theme: COMPLETE
 // Common: N/A
 // Notes: Entry point.
-import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
@@ -14,18 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'common/logging/app_log.dart';
-import 'features/settings/providers/settings_providers.dart';
-import 'features/settings/models/app_settings_model.dart';
-import 'core/routes/screen_tracking_observer.dart';
-import 'core/providers/navigation_provider.dart';
-import 'constants/theme/app_theme_provider.dart';
-import 'core/services/error_logging_service.dart';
-import 'features/feature_flags/providers/feature_flag_providers.dart';
-import 'features/login/services/auth_link_handler.dart';
-import 'features/login/pin_unlock/providers/app_lock_controller.dart';
-import 'core/providers/core_providers.dart';
-import 'core/routes/app_router.dart';
+import 'main_deps.dart';
 
 Future<void> main() async {
   final errorLoggingService = ErrorLoggingService.instance;

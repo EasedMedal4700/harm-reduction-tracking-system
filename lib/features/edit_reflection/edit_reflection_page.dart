@@ -12,6 +12,7 @@ import '../reflection/widgets/edit_reflection_form.dart';
 import 'widgets/reflection_app_bar.dart';
 import 'package:mobile_drug_use_app/features/reflection/models/reflection_model.dart';
 import '../reflection/reflection_service.dart';
+import '../reflection/providers/reflection_service_provider.dart';
 import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 import '../reflection/reflection_exceptions.dart';
 import '../reflection/utils/reflection_validator.dart';
@@ -38,7 +39,8 @@ class _EditReflectionPageState extends ConsumerState<EditReflectionPage> {
   @override
   void initState() {
     super.initState();
-    _reflectionService = widget.reflectionService ?? ReflectionService();
+    _reflectionService =
+        widget.reflectionService ?? ref.read(reflectionServiceProvider);
     _model = ReflectionModel.fromJson(widget.entry);
     _loadFullEntry();
   }

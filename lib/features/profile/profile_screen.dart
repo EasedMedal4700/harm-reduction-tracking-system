@@ -19,7 +19,7 @@ import 'widgets/statistics_card.dart';
 import 'widgets/account_info_card.dart';
 import 'widgets/logout_button.dart';
 import 'package:mobile_drug_use_app/core/services/user_service.dart';
-import '../log_entry/log_entry_service.dart';
+import '../log_entry/providers/log_entry_providers.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -59,7 +59,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   Future<Map<String, int>> _loadStatistics() async {
     try {
-      final logService = LogEntryService();
+      final logService = ref.read(logEntryServiceProvider);
       final entries = await logService.fetchRecentEntriesRaw();
       // Calculate statistics from entries
       final now = DateTime.now();

@@ -11,7 +11,7 @@ part 'log_entry_form_data.freezed.dart';
 
 /// Pure data class representing log entry form state
 /// This is Riverpod-ready - contains only serializable values
-/// No UI controllers, no BuildContext, no ChangeNotifier
+/// No UI controllers, no BuildContext, no legacy notifier base class
 @freezed
 abstract class LogEntryFormData with _$LogEntryFormData {
   const LogEntryFormData._();

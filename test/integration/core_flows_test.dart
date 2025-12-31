@@ -5,9 +5,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_controller.dart';
 import 'package:mobile_drug_use_app/features/daily_chekin/daily_checkin_page.dart';
-import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_provider.dart';
+import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_providers.dart';
 import 'package:mobile_drug_use_app/features/stockpile/repo/stockpile_repository.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../helpers/test_app_wrapper.dart';
 import '../helpers/fake_log_entry_service.dart';
@@ -15,7 +14,6 @@ import '../helpers/fake_substance_repository.dart';
 import '../helpers/fake_daily_checkin_repository.dart';
 import '../helpers/fake_reflection_service.dart';
 import 'package:mobile_drug_use_app/features/reflection/reflection_page.dart';
-import 'package:mobile_drug_use_app/features/reflection/reflection_provider.dart';
 
 import 'package:mobile_drug_use_app/features/edit_log_entry/edit_log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/edit_reflection/edit_reflection_page.dart';
@@ -103,11 +101,12 @@ void main() {
     testWidgets('Daily Check-in Flow - Create Check-in', (tester) async {
       await tester.pumpWidget(
         createEnhancedTestWrapper(
-          child: ChangeNotifierProvider<DailyCheckinProvider>(
-            create: (_) =>
-                DailyCheckinProvider(repository: fakeDailyCheckinRepo),
-            child: const DailyCheckinScreen(),
-          ),
+          providerOverrides: [
+            dailyCheckinRepositoryProvider.overrideWithValue(
+              fakeDailyCheckinRepo,
+            ),
+          ],
+          child: const DailyCheckinScreen(),
         ),
       );
       await tester.pump(); // Frame 1
@@ -142,10 +141,7 @@ void main() {
     testWidgets('Reflection Flow - Create Reflection', (tester) async {
       await tester.pumpWidget(
         createEnhancedTestWrapper(
-          child: ChangeNotifierProvider<ReflectionProvider>(
-            create: (_) => ReflectionProvider(service: fakeReflectionService),
-            child: ReflectionPage(logEntryService: fakeLogEntryService),
-          ),
+          child: ReflectionPage(logEntryService: fakeLogEntryService),
         ),
       );
       await tester.pump();

@@ -8,17 +8,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'constants/blood_levels_constants.dart';
-import 'models/blood_levels_state.dart';
-import 'providers/blood_levels_providers.dart';
-import 'services/blood_levels_service.dart';
+import 'blood_levels_deps.dart';
 import 'package:mobile_drug_use_app/core/services/onboarding_service.dart';
-import 'widgets/filter_panel.dart';
-import 'widgets/blood_levels_app_bar.dart';
-import 'widgets/blood_levels_loading_state.dart';
-import 'widgets/blood_levels_error_state.dart';
-import 'widgets/blood_levels_empty_state.dart';
-import 'widgets/blood_levels_content.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../common/feedback/harm_reduction_banner.dart';
 import '../../constants/theme/app_theme_extension.dart';

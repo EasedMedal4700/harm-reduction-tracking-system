@@ -12,6 +12,7 @@ import 'package:mobile_drug_use_app/features/login/services/auth_service.dart';
 import '../services/encryption_service_v2.dart';
 import '../services/encryption_migration_service.dart';
 import '../services/onboarding_service.dart';
+import '../services/timezone_service.dart';
 export 'shared_preferences_provider.dart';
 
 final supabaseClientProvider = Provider<SupabaseClient>((ref) {
@@ -39,6 +40,10 @@ final authServiceProvider = Provider<AuthService>((ref) {
 
 final onboardingServiceProvider = Provider<OnboardingService>((ref) {
   return onboardingService;
+});
+
+final timezoneServiceProvider = Provider<TimezoneService>((ref) {
+  return TimezoneService();
 });
 final appLockControllerProvider =
     NotifierProvider<AppLockController, AppLockState>(AppLockController.new);

@@ -14,7 +14,7 @@ import '../../../constants/theme/app_theme_extension.dart';
 import '../models/blood_levels_models.dart';
 import '../models/blood_levels_timeline_request.dart';
 import '../providers/blood_levels_providers.dart';
-import '../services/decay_service.dart';
+import '../providers/decay_providers.dart';
 import '../../../constants/data/drug_categories.dart';
 import '../../../common/cards/common_card.dart';
 import 'timeline_chart_config.dart' as chart_config;
@@ -66,7 +66,7 @@ class MetabolismTimelineCard extends ConsumerWidget {
     }
 
     // ----- Build curves -----
-    final decayService = DecayService();
+    final decayService = ref.read(decayServiceProvider);
     final lineBarsData = <LineChartBarData>[];
     final legendItems = <Map<String, dynamic>>[];
     final drugsByCategory = <String, List<String>>{};

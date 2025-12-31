@@ -5,7 +5,6 @@
 // Theme: N/A
 // Common: N/A
 // Notes: Service.
-import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/core/services/cache_service.dart';
 import 'package:mobile_drug_use_app/common/logging/app_log.dart';
@@ -54,7 +53,7 @@ class FeatureFlag {
 /// await featureFlagService.load();
 /// final canAccess = featureFlagService.isEnabled('home_page', isAdmin: false);
 /// ```
-class FeatureFlagService extends ChangeNotifier {
+class FeatureFlagService {
   static final FeatureFlagService _instance = FeatureFlagService._internal();
   factory FeatureFlagService() => _instance;
   FeatureFlagService._internal();
@@ -98,7 +97,6 @@ class FeatureFlagService extends ChangeNotifier {
     if (_isLoading) return;
     _isLoading = true;
     _errorMessage = null;
-    notifyListeners();
     try {
       AppLog.d('🏴 Loading feature flags from database...');
       final response = await _client
@@ -122,7 +120,6 @@ class FeatureFlagService extends ChangeNotifier {
       _isLoaded = true;
     } finally {
       _isLoading = false;
-      notifyListeners();
     }
   }
 
@@ -193,7 +190,6 @@ class FeatureFlagService extends ChangeNotifier {
       final existingFlag = _flags[featureName];
       if (existingFlag != null) {
         _flags[featureName] = existingFlag.copyWith(enabled: enabled);
-        notifyListeners();
       }
       AppLog.d('✅ Feature flag updated successfully');
       return true;

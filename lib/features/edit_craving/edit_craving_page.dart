@@ -12,12 +12,8 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import '../../common/layout/common_drawer.dart';
 import '../../common/layout/common_spacer.dart';
-import '../craving/widgets/craving_details_section.dart';
-import '../craving/widgets/emotional_state_section.dart';
-import '../craving/widgets/body_mind_signals_section.dart';
-import '../craving/widgets/outcome_section.dart';
+import '../craving/craving.dart';
 import 'widgets/craving_app_bar.dart';
-import '../craving/services/craving_service.dart';
 import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 import '../../constants/data/body_and_mind_catalog.dart';
 import '../../constants/data/drug_use_catalog.dart';
@@ -54,7 +50,7 @@ class _EditCravingPageState extends ConsumerState<EditCravingPage> {
   @override
   void initState() {
     super.initState();
-    _cravingService = widget.cravingService ?? CravingService();
+    _cravingService = widget.cravingService ?? ref.read(cravingServiceProvider);
     _loadCravingData();
   }
 
