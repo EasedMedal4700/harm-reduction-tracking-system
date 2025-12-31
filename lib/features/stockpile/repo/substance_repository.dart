@@ -52,19 +52,39 @@ class SubstanceRepository {
     String substanceName,
   ) async {
     try {
+      final input = substanceName.trim();
+      if (input.isEmpty) return null;
+
+      // Prefer exact-ish matches by canonical name or pretty name.
+      // PostgREST `ilike` is case-insensitive pattern match; without wildcards
+      // this behaves like case-insensitive equality.
       final response = await _client
           .from('drug_profiles')
-          .select('name, pretty_name, formatted_dose')
-          .ilike('name', substanceName)
+          .select('name, pretty_name, formatted_dose, aliases')
+          .or('name.ilike.$input,pretty_name.ilike.$input')
           .maybeSingle();
-      if (response == null) return null;
+
+      // Fallback: exact alias match (array/json contains).
+      final aliasResponse =
+          response ??
+          await _client
+              .from('drug_profiles')
+              .select('name, pretty_name, formatted_dose, aliases')
+              .contains('aliases', [input])
+              .maybeSingle();
+
+      if (aliasResponse == null) return null;
       return {
-        'name': response['name'] ?? '',
-        'pretty_name': response['pretty_name'] ?? response['name'] ?? '',
-        'formatted_dose': response['formatted_dose'] != null
-            ? (response['formatted_dose'] is Map
-                  ? response['formatted_dose']
-                  : json.decode(response['formatted_dose']))
+        'name': aliasResponse['name'] ?? '',
+        'pretty_name':
+            aliasResponse['pretty_name'] ?? aliasResponse['name'] ?? '',
+        'aliases': aliasResponse['aliases'] is List
+            ? aliasResponse['aliases']
+            : json.decode(aliasResponse['aliases'] ?? '[]'),
+        'formatted_dose': aliasResponse['formatted_dose'] != null
+            ? (aliasResponse['formatted_dose'] is Map
+                  ? aliasResponse['formatted_dose']
+                  : json.decode(aliasResponse['formatted_dose']))
             : {},
       };
     } catch (e) {

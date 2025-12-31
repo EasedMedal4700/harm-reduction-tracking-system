@@ -28,9 +28,10 @@ class LogEntryService {
       'start_time': formatter.format(entry.datetime.toUtc()),
       'consumption': entry.route,
       'intention':
-          (entry.intention == null || entry.intention == '-- Select Intention--')
-              ? null
-              : entry.intention,
+          (entry.intention == null ||
+              entry.intention == '-- Select Intention--')
+          ? null
+          : entry.intention,
       'craving_0_10': entry.cravingIntensity.toInt(),
       'medical': entry.isMedicalPurpose.toString(),
       'primary_emotions': entry.feelings,

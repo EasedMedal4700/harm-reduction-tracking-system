@@ -11,10 +11,12 @@ import 'package:mobile_drug_use_app/constants/data/drug_use_catalog.dart';
 import 'package:mobile_drug_use_app/constants/data/body_and_mind_catalog.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/inputs.dart';
+import 'package:mobile_drug_use_app/common/inputs/search_field.dart';
 import 'package:mobile_drug_use_app/common/buttons/buttons.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/text/common_section_header.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
+import 'package:mobile_drug_use_app/features/catalog/services/drug_profile_service.dart';
 
 class LogEntryForm extends StatelessWidget {
   final GlobalKey<FormState>? formKey;
@@ -57,6 +59,11 @@ class LogEntryForm extends StatelessWidget {
   final ValueChanged<List<String>>? onBodySignalsChanged;
   final VoidCallback? onSave;
   final bool showSaveButton;
+
+  /// Optional injection point for DB-backed substance autocomplete.
+  /// Defaults to [DrugProfileService.searchDrugNamesWithAliases].
+  final Future<Iterable<DrugSearchResult>> Function(String)?
+  substanceOptionsBuilder;
   const LogEntryForm({
     super.key,
     this.formKey,
@@ -96,10 +103,23 @@ class LogEntryForm extends StatelessWidget {
     this.onBodySignalsChanged,
     this.onSave,
     this.showSaveButton = true,
+    this.substanceOptionsBuilder,
   });
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
+    final Future<Iterable<DrugSearchResult>> Function(String) optionsBuilder =
+        substanceOptionsBuilder ??
+        (query) async {
+          // In production Supabase is initialized at startup.
+          // In widget tests it often isn't, so we gracefully return no options
+          // rather than crashing the whole widget tree.
+          try {
+            return await DrugProfileService().searchDrugNamesWithAliases(query);
+          } catch (_) {
+            return const <DrugSearchResult>[];
+          }
+        };
     final routeOptions = DrugUseCatalog.consumptionMethods
         .map((m) => m['name']!)
         .toList(growable: false);
@@ -115,11 +135,30 @@ class LogEntryForm extends StatelessWidget {
         crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
         children: [
           // Substance
-          CommonInputField(
+          CommonSearchField<DrugSearchResult>(
             controller: substanceCtrl,
             labelText: 'Substance',
-            onChanged: onSubstanceChanged,
-            validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+            hintText: 'Start typing (e.g. dex...)',
+            prefixIcon: Icon(Icons.science, color: context.accent.primary),
+            validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null,
+            onChanged: (v) => onSubstanceChanged?.call(v),
+            optionsBuilder: (query) async {
+              // Includes canonical matches + aliases; aliases normalize to canonicalName.
+              return await optionsBuilder(query);
+            },
+            displayStringForOption: (r) => r.displayName,
+            itemBuilder: (context, r) {
+              final th = context.theme;
+              return Text(
+                r.displayName,
+                style: th.text.body.copyWith(color: th.colors.textPrimary),
+              );
+            },
+            onSelected: (r) {
+              // Normalize aliases to canonical name in the form state.
+              substanceCtrl?.text = r.canonicalName;
+              onSubstanceChanged?.call(r.canonicalName);
+            },
           ),
           CommonSpacer.vertical(sp.md),
           // Dose & Unit

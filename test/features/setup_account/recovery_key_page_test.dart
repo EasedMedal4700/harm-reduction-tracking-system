@@ -19,11 +19,12 @@ class _FakeRecoveryKeyController extends RecoveryKeyController {
       state = state.copyWith(keyObscure: !state.keyObscure);
 
   @override
-  void togglePinObscure() => state = state.copyWith(pinObscure: !state.pinObscure);
+  void togglePinObscure() =>
+      state = state.copyWith(pinObscure: !state.pinObscure);
 
   @override
-  void toggleConfirmPinObscure() => state =
-      state.copyWith(confirmPinObscure: !state.confirmPinObscure);
+  void toggleConfirmPinObscure() =>
+      state = state.copyWith(confirmPinObscure: !state.confirmPinObscure);
 
   @override
   void backToRecoveryKeyEntry() {
@@ -60,12 +61,14 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   List<Override> overrides({required bool resetPinOk}) => [
-        recoveryKeyControllerProvider.overrideWith(
-          () => _FakeRecoveryKeyController(resetPinOk: resetPinOk),
-        ),
-      ];
+    recoveryKeyControllerProvider.overrideWith(
+      () => _FakeRecoveryKeyController(resetPinOk: resetPinOk),
+    ),
+  ];
 
-  testWidgets('RecoveryKeyScreen can validate key and reset pin', (tester) async {
+  testWidgets('RecoveryKeyScreen can validate key and reset pin', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       createEnhancedTestWrapper(
         child: const RecoveryKeyScreen(),
@@ -101,7 +104,9 @@ void main() {
     expect(find.text('Create New PIN'), findsAtLeastNWidgets(1));
   });
 
-  testWidgets('RecoveryKeyScreen back button returns to recovery key step', (tester) async {
+  testWidgets('RecoveryKeyScreen back button returns to recovery key step', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       createEnhancedTestWrapper(
         child: const RecoveryKeyScreen(),
