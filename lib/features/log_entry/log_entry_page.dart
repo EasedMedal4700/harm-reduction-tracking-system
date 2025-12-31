@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:mobile_drug_use_app/constants/data/drug_categories.dart';
 
 import '../../common/feedback/common_loader.dart';
 import '../../common/layout/common_drawer.dart';
@@ -196,6 +197,32 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
     final state = ref.watch(logEntryProvider);
     final notifier = ref.read(logEntryProvider.notifier);
 
+    String? rawCategory;
+    final details = state.substanceDetails;
+    if (details != null) {
+      rawCategory = details['category'] as String?;
+      if (rawCategory == null || rawCategory.trim().isEmpty) {
+        final cats = details['categories'];
+        if (cats is List) {
+          final list = cats.whereType<String>().toList(growable: false);
+          if (list.isNotEmpty) rawCategory = list.join(', ');
+        } else if (cats is String && cats.trim().isNotEmpty) {
+          rawCategory = cats;
+        }
+      }
+    }
+
+    final hasCategory = rawCategory != null && rawCategory!.trim().isNotEmpty;
+    final categoryKey = hasCategory
+        ? DrugCategories.primaryCategoryFromRaw(rawCategory)
+        : null;
+    final categoryAccent = categoryKey == null
+        ? null
+        : DrugCategoryColors.colorFor(categoryKey);
+    final categoryIcon = categoryKey == null
+        ? null
+        : (DrugCategories.categoryIconMap[categoryKey] ?? Icons.science);
+
     return Scaffold(
       backgroundColor: c.background,
       appBar: LogEntryAppBar(
@@ -226,6 +253,8 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
                 intention: state.intention,
                 selectedTriggers: state.triggers,
                 selectedBodySignals: state.bodySignals,
+                categoryAccent: categoryAccent,
+                categoryIcon: categoryIcon,
                 notesCtrl: _notesCtrl,
                 doseCtrl: _doseCtrl,
                 substanceCtrl: _substanceCtrl,

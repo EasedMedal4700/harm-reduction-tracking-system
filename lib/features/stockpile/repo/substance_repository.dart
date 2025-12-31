@@ -55,25 +55,50 @@ class SubstanceRepository {
       final input = substanceName.trim();
       if (input.isEmpty) return null;
 
+      // Try to include category metadata when available. Some older schemas may
+      // not expose these columns, so we fall back gracefully.
+      const selectAttempts = <String>[
+        'name, pretty_name, formatted_dose, aliases, categories, category',
+        'name, pretty_name, formatted_dose, aliases, categories',
+        'name, pretty_name, formatted_dose, aliases, category',
+        'name, pretty_name, formatted_dose, aliases',
+      ];
+
+      Future<Map<String, dynamic>?> _maybeSingleWithSelect(String select) async {
+        final response = await _client
+            .from('drug_profiles')
+            .select(select)
+            .or('name.ilike.$input,pretty_name.ilike.$input')
+            .maybeSingle();
+        if (response != null) return response;
+        return await _client
+            .from('drug_profiles')
+            .select(select)
+            .contains('aliases', [input])
+            .maybeSingle();
+      }
+
       // Prefer exact-ish matches by canonical name or pretty name.
       // PostgREST `ilike` is case-insensitive pattern match; without wildcards
       // this behaves like case-insensitive equality.
-      final response = await _client
-          .from('drug_profiles')
-          .select('name, pretty_name, formatted_dose, aliases')
-          .or('name.ilike.$input,pretty_name.ilike.$input')
-          .maybeSingle();
-
-      // Fallback: exact alias match (array/json contains).
-      final aliasResponse =
-          response ??
-          await _client
-              .from('drug_profiles')
-              .select('name, pretty_name, formatted_dose, aliases')
-              .contains('aliases', [input])
-              .maybeSingle();
+      Map<String, dynamic>? aliasResponse;
+      for (final select in selectAttempts) {
+        try {
+          aliasResponse = await _maybeSingleWithSelect(select);
+          if (aliasResponse != null) break;
+        } catch (_) {
+          // Try next select shape.
+        }
+      }
 
       if (aliasResponse == null) return null;
+
+      final categories = aliasResponse['categories'] is List
+          ? aliasResponse['categories']
+          : (aliasResponse['categories'] == null
+                ? null
+                : json.decode(aliasResponse['categories'] ?? '[]'));
+
       return {
         'name': aliasResponse['name'] ?? '',
         'pretty_name':
@@ -81,6 +106,8 @@ class SubstanceRepository {
         'aliases': aliasResponse['aliases'] is List
             ? aliasResponse['aliases']
             : json.decode(aliasResponse['aliases'] ?? '[]'),
+        'categories': categories,
+        'category': aliasResponse['category'],
         'formatted_dose': aliasResponse['formatted_dose'] != null
             ? (aliasResponse['formatted_dose'] is Map
                   ? aliasResponse['formatted_dose']

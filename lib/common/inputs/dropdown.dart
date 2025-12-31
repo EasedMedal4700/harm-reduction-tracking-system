@@ -16,6 +16,7 @@ class CommonDropdown<T> extends StatelessWidget {
   final Widget Function(BuildContext, T)? itemBuilder;
   final String? hintText;
   final FormFieldValidator<T>? validator;
+  final Color? accentColor;
   final bool enabled;
   const CommonDropdown({
     required this.value,
@@ -25,12 +26,21 @@ class CommonDropdown<T> extends StatelessWidget {
     this.itemBuilder,
     this.hintText,
     this.validator,
+    this.accentColor,
     this.enabled = true,
     super.key,
   });
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
+    final accent = accentColor;
+    final baseFill = th.colors.surfaceVariant.withValues(alpha: 0.3);
+    final fillColor = accent == null
+        ? baseFill
+        : Color.alphaBlend(
+            accent.withValues(alpha: th.isDark ? 0.14 : 0.10),
+            baseFill,
+          );
     final uniqueItems = <T>[];
     for (final item in items) {
       if (!uniqueItems.contains(item)) {
@@ -71,10 +81,10 @@ class CommonDropdown<T> extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(th.shapes.radiusMd),
-          borderSide: BorderSide(color: th.accent.primary, width: 2),
+          borderSide: BorderSide(color: accent ?? th.accent.primary, width: 2),
         ),
         filled: true,
-        fillColor: th.colors.surfaceVariant.withValues(alpha: 0.3),
+        fillColor: fillColor,
         contentPadding: EdgeInsets.symmetric(
           horizontal: th.spacing.md,
           vertical: th.spacing.md,

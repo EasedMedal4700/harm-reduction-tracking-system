@@ -27,6 +27,7 @@ class CommonInputField extends StatelessWidget {
   final VoidCallback? onTap;
   final bool readOnly;
   final ValueChanged<String>? onFieldSubmitted;
+  final Color? accentColor;
   const CommonInputField({
     this.controller,
     this.initialValue,
@@ -46,11 +47,20 @@ class CommonInputField extends StatelessWidget {
     this.onTap,
     this.readOnly = false,
     this.onFieldSubmitted,
+    this.accentColor,
     super.key,
   });
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
+    final accent = accentColor;
+    final baseFill = th.colors.surfaceVariant.withValues(alpha: 0.3);
+    final fillColor = accent == null
+        ? baseFill
+        : Color.alphaBlend(
+            accent.withValues(alpha: th.isDark ? 0.14 : 0.10),
+            baseFill,
+          );
     return TextFormField(
       controller: controller,
       initialValue: initialValue,
@@ -85,7 +95,7 @@ class CommonInputField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(th.shapes.radiusMd),
-          borderSide: BorderSide(color: th.accent.primary, width: 2),
+          borderSide: BorderSide(color: accent ?? th.accent.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(th.shapes.radiusMd),
@@ -96,7 +106,7 @@ class CommonInputField extends StatelessWidget {
           borderSide: BorderSide(color: th.colors.error, width: 2),
         ),
         filled: true,
-        fillColor: th.colors.surfaceVariant.withValues(alpha: 0.3),
+        fillColor: fillColor,
         contentPadding: EdgeInsets.symmetric(
           horizontal: th.spacing.md,
           vertical: th.spacing.md,
@@ -106,7 +116,7 @@ class CommonInputField extends StatelessWidget {
         color: th.colors.textPrimary,
         fontSize: 18.0,
       ),
-      cursorColor: th.accent.primary,
+      cursorColor: accent ?? th.accent.primary,
     );
   }
 }

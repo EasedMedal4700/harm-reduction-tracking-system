@@ -13,15 +13,18 @@ class EmotionSelector extends StatelessWidget {
   final List<String> selectedEmotions;
   final List<String> availableEmotions;
   final ValueChanged<String> onEmotionToggled;
+  final Color? accentColor;
   const EmotionSelector({
     super.key,
     required this.selectedEmotions,
     required this.availableEmotions,
     required this.onEmotionToggled,
+    this.accentColor,
   });
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
+    final accent = accentColor ?? th.accent.primary;
     return CommonChipGroup(
       title: "Emotions",
       subtitle: "More specific feelings",
@@ -38,8 +41,8 @@ class EmotionSelector extends StatelessWidget {
           }
         }
       },
-      selectedColor: th.accent.primary,
-      selectedBorderColor: th.accent.primary,
+      selectedColor: accent,
+      selectedBorderColor: accent,
       showGlow: th.isDark,
     );
   }

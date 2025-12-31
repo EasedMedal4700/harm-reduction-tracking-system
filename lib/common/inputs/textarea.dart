@@ -14,6 +14,7 @@ class CommonTextarea extends StatelessWidget {
   final String? labelText;
   final ValueChanged<String>? onChanged;
   final FormFieldValidator<String>? validator;
+  final Color? accentColor;
   final int maxLines;
   final int? minLines;
   final int? maxLength;
@@ -28,11 +29,20 @@ class CommonTextarea extends StatelessWidget {
     this.minLines = 3,
     this.maxLength,
     this.enabled = true,
+    this.accentColor,
     super.key,
   });
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
+    final accent = accentColor;
+    final baseFill = th.colors.surfaceVariant.withValues(alpha: 0.3);
+    final fillColor = accent == null
+        ? baseFill
+        : Color.alphaBlend(
+            accent.withValues(alpha: th.isDark ? 0.14 : 0.10),
+            baseFill,
+          );
     return TextFormField(
       controller: controller,
       onChanged: onChanged,
@@ -59,7 +69,7 @@ class CommonTextarea extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(th.shapes.radiusMd),
-          borderSide: BorderSide(color: th.accent.primary, width: 2),
+          borderSide: BorderSide(color: accent ?? th.accent.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(th.shapes.radiusMd),
@@ -70,11 +80,11 @@ class CommonTextarea extends StatelessWidget {
           borderSide: BorderSide(color: th.colors.error, width: 2),
         ),
         filled: true,
-        fillColor: th.colors.surfaceVariant.withValues(alpha: 0.3),
+        fillColor: fillColor,
         alignLabelWithHint: true,
       ),
       style: th.text.body.copyWith(color: th.colors.textPrimary, height: 1.5),
-      cursorColor: th.accent.primary,
+      cursorColor: accent ?? th.accent.primary,
     );
   }
 }

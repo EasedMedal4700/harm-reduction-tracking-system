@@ -35,6 +35,7 @@ void main() {
         LogEntryForm(
           isSimpleMode: true,
           substanceCtrl: substanceCtrl,
+          categoryAccent: DrugCategoryColors.colorFor('Psychedelic'),
           doseCtrl: TextEditingController(),
           onSubstanceChanged: (_) {},
           onUnitChanged: (_) {},
@@ -68,8 +69,8 @@ void main() {
     expect(morphineText.style?.color, expectedOpioid);
     expect(expectedPsychedelic, isNot(expectedOpioid));
 
-    // Selecting LSD should tint the field via cursorColor.
-    await tester.tap(find.text('LSD'));
+    // The field tint is driven by the page-derived categoryAccent.
+    await tester.tap(find.byType(TextFormField).first);
     await tester.pump();
 
     final editable = tester.widget<EditableText>(find.byType(EditableText).first);

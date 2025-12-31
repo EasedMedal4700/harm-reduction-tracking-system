@@ -6,7 +6,6 @@
 // Common: COMPLETE
 // Notes: Log entry form widget.
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:mobile_drug_use_app/constants/data/drug_categories.dart';
 import 'package:mobile_drug_use_app/constants/data/drug_use_catalog.dart';
@@ -23,6 +22,13 @@ import 'package:mobile_drug_use_app/features/catalog/services/drug_profile_servi
 class LogEntryForm extends StatefulWidget {
   final GlobalKey<FormState>? formKey;
   final bool isSimpleMode;
+
+  /// Pure UI parameter: if provided, certain form controls adopt this color.
+  /// Derived by the page from the selected substance category.
+  final Color? categoryAccent;
+
+  /// Pure UI parameter: category icon for the selected substance.
+  final IconData? categoryIcon;
   // Data
   final double? dose;
   final String? unit;
@@ -70,6 +76,8 @@ class LogEntryForm extends StatefulWidget {
     super.key,
     this.formKey,
     required this.isSimpleMode,
+    this.categoryAccent,
+    this.categoryIcon,
     this.dose,
     this.unit,
     this.substance,
@@ -113,8 +121,6 @@ class LogEntryForm extends StatefulWidget {
 }
 
 class _LogEntryFormState extends State<LogEntryForm> {
-  Color? _substanceAccentColor;
-
   Color _accentColorForResult(DrugSearchResult result) {
     final primary = DrugCategories.primaryCategoryFromRaw(result.category);
     return DrugCategoryColors.colorFor(primary);
@@ -123,6 +129,9 @@ class _LogEntryFormState extends State<LogEntryForm> {
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
+    final th = context.theme;
+    final targetAccent = widget.categoryAccent;
+    final targetIcon = widget.categoryIcon;
     final Future<Iterable<DrugSearchResult>> Function(String) optionsBuilder =
         widget.substanceOptionsBuilder ??
         (query) async {
@@ -144,84 +153,70 @@ class _LogEntryFormState extends State<LogEntryForm> {
       final lower = raw.toLowerCase();
       return routeOptions.contains(lower) ? lower : 'oral';
     }();
-    return Form(
-      key: widget.formKey,
-      child: Column(
-        crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
-        children: [
-          // Substance
-          CommonSearchField<DrugSearchResult>(
-            controller: widget.substanceCtrl,
-            labelText: 'Substance',
-            hintText: 'Start typing (e.g. dex...)',
-            accentColor: _substanceAccentColor,
-            prefixIcon: Icon(
-              Icons.science,
-              color: _substanceAccentColor ?? context.accent.primary,
-            ),
-            validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null,
-            onChanged: (v) {
-              widget.onSubstanceChanged?.call(v);
-              if (v.trim().isEmpty && _substanceAccentColor != null) {
-                setState(() {
-                  _substanceAccentColor = null;
-                });
-              }
-            },
-            optionsBuilder: (query) async {
-              // Includes canonical matches + aliases; aliases normalize to canonicalName.
-              return await optionsBuilder(query);
-            },
-            displayStringForOption: (r) => r.displayName,
-            itemBuilder: (context, r) {
-              final th = context.theme;
-              final category = DrugCategories.primaryCategoryFromRaw(
-                r.category,
-              );
-              final categoryColor = DrugCategoryColors.colorFor(category);
-              final categoryIcon =
-                  DrugCategories.categoryIconMap[category] ?? Icons.science;
-
-              return Row(
-                children: [
-                  Icon(categoryIcon, color: categoryColor, size: 18),
-                  CommonSpacer.horizontal(th.spacing.sm),
-                  Expanded(
-                    child: Text(
-                      r.displayName,
-                      style: th.text.body.copyWith(color: categoryColor),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+    return TweenAnimationBuilder<Color?>(
+      tween: ColorTween(
+        begin: context.accent.primary,
+        end: targetAccent ?? context.accent.primary,
+      ),
+      duration: context.animations.normal,
+      builder: (context, animatedAccent, _) {
+        return Form(
+          key: widget.formKey,
+          child: Column(
+            crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
+            children: [
+              // Substance
+              CommonSearchField<DrugSearchResult>(
+                controller: widget.substanceCtrl,
+                labelText: 'Substance',
+                hintText: 'Start typing (e.g. dex...)',
+                accentColor: targetAccent,
+                prefixIcon: AnimatedSwitcher(
+                  duration: context.animations.normal,
+                  child: Icon(
+                    targetIcon ?? Icons.science,
+                    key: ValueKey<String>('substance_icon_${targetIcon ?? Icons.science}'),
+                    color: (targetAccent ?? context.accent.primary),
                   ),
-                ],
-              );
-            },
-            onSelected: (r) {
-              // Normalize aliases to canonical name in the form state.
-              final nextAccent = _accentColorForResult(r);
-              if (kDebugMode) {
-                final parsedCategory = DrugCategories.primaryCategoryFromRaw(
-                  r.category,
-                );
-                debugPrint(
-                  '[SubstanceSelect] canonical="${r.canonicalName}" '
-                  'display="${r.displayName}" '
-                  'rawCategory="${r.category}" '
-                  'parsedCategory="$parsedCategory" '
-                  'color=0x${nextAccent.value.toRadixString(16).padLeft(8, '0')}',
-                );
-              }
-              if (nextAccent != _substanceAccentColor) {
-                setState(() {
-                  _substanceAccentColor = nextAccent;
-                });
-              }
+                ),
+                validator: (v) =>
+                    v == null || v.trim().isEmpty ? 'Required' : null,
+                onChanged: (v) {
+                  widget.onSubstanceChanged?.call(v);
+                },
+                optionsBuilder: (query) async {
+                  // Includes canonical matches + aliases; aliases normalize to canonicalName.
+                  return await optionsBuilder(query);
+                },
+                displayStringForOption: (r) => r.displayName,
+                itemBuilder: (context, r) {
+                  final category = DrugCategories.primaryCategoryFromRaw(
+                    r.category,
+                  );
+                  final categoryColor = DrugCategoryColors.colorFor(category);
+                  final categoryIcon =
+                      DrugCategories.categoryIconMap[category] ?? Icons.science;
 
-              widget.substanceCtrl?.text = r.canonicalName;
-              widget.onSubstanceChanged?.call(r.canonicalName);
-            },
-          ),
-          CommonSpacer.vertical(sp.md),
+                  return Row(
+                    children: [
+                      Icon(categoryIcon, color: categoryColor, size: 18),
+                      CommonSpacer.horizontal(th.spacing.sm),
+                      Expanded(
+                        child: Text(
+                          r.displayName,
+                          style: th.text.body.copyWith(color: categoryColor),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                onSelected: (r) {
+                  widget.substanceCtrl?.text = r.canonicalName;
+                  widget.onSubstanceChanged?.call(r.canonicalName);
+                },
+              ),
+              CommonSpacer.vertical(sp.md),
           // Dose & Unit
           Row(
             children: [
@@ -231,6 +226,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
                   controller: widget.doseCtrl,
                   labelText: 'Dose',
                   keyboardType: TextInputType.number,
+                  accentColor: targetAccent,
                   onChanged: (v) {
                     if (widget.onDoseChanged != null) {
                       final val = double.tryParse(v);
@@ -245,6 +241,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
                 child: CommonDropdown<String>(
                   value: widget.unit ?? 'mg',
                   items: const ['mg', 'g', 'ml', 'oz', 'pills', 'tabs'],
+                  accentColor: targetAccent,
                   onChanged: (v) => widget.onUnitChanged?.call(v ?? 'mg'),
                   hintText: 'Unit',
                 ),
@@ -258,6 +255,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
             items: routeOptions,
             itemLabel: (v) =>
                 v.isEmpty ? v : '${v[0].toUpperCase()}${v.substring(1)}',
+            accentColor: targetAccent,
             onChanged: (v) {
               if (v != null && widget.onRouteChanged != null) {
                 widget.onRouteChanged!(v);
@@ -273,6 +271,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
           CommonDropdown<String>(
             value: widget.location ?? DrugUseCatalog.locations.first,
             items: DrugUseCatalog.locations,
+            accentColor: targetAccent,
             onChanged: (v) {
               if (v != null && widget.onLocationChanged != null) {
                 widget.onLocationChanged!(v);
@@ -318,6 +317,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
                     min: 0.0,
                     max: 10.0,
                     divisions: 10,
+                    activeColor: targetAccent,
                     onChanged: (v) => widget.onCravingIntensityChanged?.call(v),
                   ),
                 ],
@@ -330,6 +330,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
               availableEmotions: DrugUseCatalog.primaryEmotions
                   .map((e) => e['name']!)
                   .toList(),
+              accentColor: targetAccent,
               onEmotionToggled: (emotion) {
                 if (widget.onFeelingsChanged != null) {
                   final current = List<String>.from(widget.feelings ?? []);
@@ -353,6 +354,8 @@ class _LogEntryFormState extends State<LogEntryForm> {
               options: triggers,
               selected: widget.selectedTriggers ?? [],
               onChanged: (v) => widget.onTriggersChanged?.call(v),
+              selectedColor: targetAccent,
+              selectedBorderColor: targetAccent,
             ),
             CommonSpacer.vertical(sp.md),
             // Body Signals
@@ -362,6 +365,8 @@ class _LogEntryFormState extends State<LogEntryForm> {
               options: physicalSensations,
               selected: widget.selectedBodySignals ?? [],
               onChanged: (v) => widget.onBodySignalsChanged?.call(v),
+              selectedColor: targetAccent,
+              selectedBorderColor: targetAccent,
             ),
             CommonSpacer.vertical(sp.md),
           ],
@@ -370,12 +375,20 @@ class _LogEntryFormState extends State<LogEntryForm> {
             controller: widget.notesCtrl,
             labelText: 'Notes',
             maxLines: 3,
+            accentColor: targetAccent,
           ),
           CommonSpacer.vertical(sp.lg),
           if (widget.showSaveButton && widget.onSave != null)
-            CommonPrimaryButton(onPressed: widget.onSave!, label: 'Save Entry'),
+            CommonPrimaryButton(
+              onPressed: widget.onSave!,
+              label: 'Save Entry',
+              backgroundColor: targetAccent,
+              icon: targetIcon,
+            ),
         ],
       ),
+        );
+      },
     );
   }
 
