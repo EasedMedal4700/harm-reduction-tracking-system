@@ -6,7 +6,9 @@
 // Common: COMPLETE
 // Notes: Log entry form widget.
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/data/drug_categories.dart';
 import 'package:mobile_drug_use_app/constants/data/drug_use_catalog.dart';
 import 'package:mobile_drug_use_app/constants/data/body_and_mind_catalog.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -18,7 +20,7 @@ import 'package:mobile_drug_use_app/common/text/common_section_header.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/features/catalog/services/drug_profile_service.dart';
 
-class LogEntryForm extends StatelessWidget {
+class LogEntryForm extends StatefulWidget {
   final GlobalKey<FormState>? formKey;
   final bool isSimpleMode;
   // Data
@@ -105,11 +107,24 @@ class LogEntryForm extends StatelessWidget {
     this.showSaveButton = true,
     this.substanceOptionsBuilder,
   });
+
+  @override
+  State<LogEntryForm> createState() => _LogEntryFormState();
+}
+
+class _LogEntryFormState extends State<LogEntryForm> {
+  Color? _substanceAccentColor;
+
+  Color _accentColorForResult(DrugSearchResult result) {
+    final primary = DrugCategories.primaryCategoryFromRaw(result.category);
+    return DrugCategoryColors.colorFor(primary);
+  }
+
   @override
   Widget build(BuildContext context) {
     final sp = context.spacing;
     final Future<Iterable<DrugSearchResult>> Function(String) optionsBuilder =
-        substanceOptionsBuilder ??
+        widget.substanceOptionsBuilder ??
         (query) async {
           // In production Supabase is initialized at startup.
           // In widget tests it often isn't, so we gracefully return no options
@@ -124,24 +139,35 @@ class LogEntryForm extends StatelessWidget {
         .map((m) => m['name']!)
         .toList(growable: false);
     final normalizedRoute = () {
-      final raw = route;
+      final raw = widget.route;
       if (raw == null || raw.trim().isEmpty) return 'oral';
       final lower = raw.toLowerCase();
       return routeOptions.contains(lower) ? lower : 'oral';
     }();
     return Form(
-      key: formKey,
+      key: widget.formKey,
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStretch,
         children: [
           // Substance
           CommonSearchField<DrugSearchResult>(
-            controller: substanceCtrl,
+            controller: widget.substanceCtrl,
             labelText: 'Substance',
             hintText: 'Start typing (e.g. dex...)',
-            prefixIcon: Icon(Icons.science, color: context.accent.primary),
+            accentColor: _substanceAccentColor,
+            prefixIcon: Icon(
+              Icons.science,
+              color: _substanceAccentColor ?? context.accent.primary,
+            ),
             validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null,
-            onChanged: (v) => onSubstanceChanged?.call(v),
+            onChanged: (v) {
+              widget.onSubstanceChanged?.call(v);
+              if (v.trim().isEmpty && _substanceAccentColor != null) {
+                setState(() {
+                  _substanceAccentColor = null;
+                });
+              }
+            },
             optionsBuilder: (query) async {
               // Includes canonical matches + aliases; aliases normalize to canonicalName.
               return await optionsBuilder(query);
@@ -149,15 +175,50 @@ class LogEntryForm extends StatelessWidget {
             displayStringForOption: (r) => r.displayName,
             itemBuilder: (context, r) {
               final th = context.theme;
-              return Text(
-                r.displayName,
-                style: th.text.body.copyWith(color: th.colors.textPrimary),
+              final category = DrugCategories.primaryCategoryFromRaw(
+                r.category,
+              );
+              final categoryColor = DrugCategoryColors.colorFor(category);
+              final categoryIcon =
+                  DrugCategories.categoryIconMap[category] ?? Icons.science;
+
+              return Row(
+                children: [
+                  Icon(categoryIcon, color: categoryColor, size: 18),
+                  CommonSpacer.horizontal(th.spacing.sm),
+                  Expanded(
+                    child: Text(
+                      r.displayName,
+                      style: th.text.body.copyWith(color: categoryColor),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               );
             },
             onSelected: (r) {
               // Normalize aliases to canonical name in the form state.
-              substanceCtrl?.text = r.canonicalName;
-              onSubstanceChanged?.call(r.canonicalName);
+              final nextAccent = _accentColorForResult(r);
+              if (kDebugMode) {
+                final parsedCategory = DrugCategories.primaryCategoryFromRaw(
+                  r.category,
+                );
+                debugPrint(
+                  '[SubstanceSelect] canonical="${r.canonicalName}" '
+                  'display="${r.displayName}" '
+                  'rawCategory="${r.category}" '
+                  'parsedCategory="$parsedCategory" '
+                  'color=0x${nextAccent.value.toRadixString(16).padLeft(8, '0')}',
+                );
+              }
+              if (nextAccent != _substanceAccentColor) {
+                setState(() {
+                  _substanceAccentColor = nextAccent;
+                });
+              }
+
+              widget.substanceCtrl?.text = r.canonicalName;
+              widget.onSubstanceChanged?.call(r.canonicalName);
             },
           ),
           CommonSpacer.vertical(sp.md),
@@ -167,13 +228,13 @@ class LogEntryForm extends StatelessWidget {
               Expanded(
                 flex: AppLayout.flex2,
                 child: CommonInputField(
-                  controller: doseCtrl,
+                  controller: widget.doseCtrl,
                   labelText: 'Dose',
                   keyboardType: TextInputType.number,
                   onChanged: (v) {
-                    if (onDoseChanged != null) {
+                    if (widget.onDoseChanged != null) {
                       final val = double.tryParse(v);
-                      if (val != null) onDoseChanged!(val);
+                      if (val != null) widget.onDoseChanged!(val);
                     }
                   },
                 ),
@@ -182,9 +243,9 @@ class LogEntryForm extends StatelessWidget {
               Expanded(
                 flex: AppLayout.flex1,
                 child: CommonDropdown<String>(
-                  value: unit ?? 'mg',
+                  value: widget.unit ?? 'mg',
                   items: const ['mg', 'g', 'ml', 'oz', 'pills', 'tabs'],
-                  onChanged: (v) => onUnitChanged?.call(v ?? 'mg'),
+                  onChanged: (v) => widget.onUnitChanged?.call(v ?? 'mg'),
                   hintText: 'Unit',
                 ),
               ),
@@ -198,8 +259,8 @@ class LogEntryForm extends StatelessWidget {
             itemLabel: (v) =>
                 v.isEmpty ? v : '${v[0].toUpperCase()}${v.substring(1)}',
             onChanged: (v) {
-              if (v != null && onRouteChanged != null) {
-                onRouteChanged!(v);
+              if (v != null && widget.onRouteChanged != null) {
+                widget.onRouteChanged!(v);
               }
             },
             hintText: 'Route of Administration',
@@ -210,11 +271,11 @@ class LogEntryForm extends StatelessWidget {
           CommonSpacer.vertical(sp.md),
           // Location
           CommonDropdown<String>(
-            value: location ?? DrugUseCatalog.locations.first,
+            value: widget.location ?? DrugUseCatalog.locations.first,
             items: DrugUseCatalog.locations,
             onChanged: (v) {
-              if (v != null && onLocationChanged != null) {
-                onLocationChanged!(v);
+              if (v != null && widget.onLocationChanged != null) {
+                widget.onLocationChanged!(v);
               }
             },
             hintText: 'Location',
@@ -223,19 +284,19 @@ class LogEntryForm extends StatelessWidget {
           // Medical Purpose
           CommonSwitchTile(
             title: 'Medical Purpose',
-            value: isMedicalPurpose ?? false,
-            onChanged: (v) => onMedicalPurposeChanged?.call(v),
+            value: widget.isMedicalPurpose ?? false,
+            onChanged: (v) => widget.onMedicalPurposeChanged?.call(v),
           ),
           CommonSpacer.vertical(sp.md),
           // Complex Mode Inputs
-          if (!isSimpleMode) ...[
+          if (!widget.isSimpleMode) ...[
             // Intention
             CommonDropdown<String>(
-              value: intention ?? intentions.first,
+              value: widget.intention ?? intentions.first,
               items: intentions,
               onChanged: (v) {
-                if (v != null && onIntentionChanged != null) {
-                  onIntentionChanged!(v);
+                if (v != null && widget.onIntentionChanged != null) {
+                  widget.onIntentionChanged!(v);
                 }
               },
               hintText: 'Intention',
@@ -253,11 +314,11 @@ class LogEntryForm extends StatelessWidget {
                   ),
                   CommonSpacer.vertical(sp.sm),
                   CommonSlider(
-                    value: cravingIntensity ?? 0.0,
+                    value: widget.cravingIntensity ?? 0.0,
                     min: 0.0,
                     max: 10.0,
                     divisions: 10,
-                    onChanged: (v) => onCravingIntensityChanged?.call(v),
+                    onChanged: (v) => widget.onCravingIntensityChanged?.call(v),
                   ),
                 ],
               ),
@@ -265,33 +326,33 @@ class LogEntryForm extends StatelessWidget {
             CommonSpacer.vertical(sp.md),
             // Emotions
             EmotionSelector(
-              selectedEmotions: feelings ?? [],
+              selectedEmotions: widget.feelings ?? [],
               availableEmotions: DrugUseCatalog.primaryEmotions
                   .map((e) => e['name']!)
                   .toList(),
               onEmotionToggled: (emotion) {
-                if (onFeelingsChanged != null) {
-                  final current = List<String>.from(feelings ?? []);
+                if (widget.onFeelingsChanged != null) {
+                  final current = List<String>.from(widget.feelings ?? []);
                   if (current.contains(emotion)) {
                     current.remove(emotion);
                   } else {
                     current.add(emotion);
                   }
-                  onFeelingsChanged!(current);
+                  widget.onFeelingsChanged!(current);
                 }
               },
             ),
             CommonSpacer.vertical(sp.md),
             // Secondary Emotions
-            if (feelings != null && feelings!.isNotEmpty)
+            if (widget.feelings != null && widget.feelings!.isNotEmpty)
               _buildSecondaryEmotions(context),
             // Triggers
             CommonChipGroup(
               title: 'Triggers',
               subtitle: 'What triggered this use?',
               options: triggers,
-              selected: selectedTriggers ?? [],
-              onChanged: (v) => onTriggersChanged?.call(v),
+              selected: widget.selectedTriggers ?? [],
+              onChanged: (v) => widget.onTriggersChanged?.call(v),
             ),
             CommonSpacer.vertical(sp.md),
             // Body Signals
@@ -299,20 +360,20 @@ class LogEntryForm extends StatelessWidget {
               title: 'Body Signals',
               subtitle: 'Physical sensations',
               options: physicalSensations,
-              selected: selectedBodySignals ?? [],
-              onChanged: (v) => onBodySignalsChanged?.call(v),
+              selected: widget.selectedBodySignals ?? [],
+              onChanged: (v) => widget.onBodySignalsChanged?.call(v),
             ),
             CommonSpacer.vertical(sp.md),
           ],
           // Notes
           CommonTextarea(
-            controller: notesCtrl,
+            controller: widget.notesCtrl,
             labelText: 'Notes',
             maxLines: 3,
           ),
           CommonSpacer.vertical(sp.lg),
-          if (showSaveButton && onSave != null)
-            CommonPrimaryButton(onPressed: onSave!, label: 'Save Entry'),
+          if (widget.showSaveButton && widget.onSave != null)
+            CommonPrimaryButton(onPressed: widget.onSave!, label: 'Save Entry'),
         ],
       ),
     );
@@ -321,8 +382,8 @@ class LogEntryForm extends StatelessWidget {
   Widget _buildTimeSelector(BuildContext context) {
     final th = context.theme;
     final time = TimeOfDay(
-      hour: hour ?? TimeOfDay.now().hour,
-      minute: minute ?? TimeOfDay.now().minute,
+      hour: widget.hour ?? TimeOfDay.now().hour,
+      minute: widget.minute ?? TimeOfDay.now().minute,
     );
     return InkWell(
       onTap: () async {
@@ -331,8 +392,8 @@ class LogEntryForm extends StatelessWidget {
           initialTime: time,
         );
         if (picked != null) {
-          onHourChanged?.call(picked.hour);
-          onMinuteChanged?.call(picked.minute);
+          widget.onHourChanged?.call(picked.hour);
+          widget.onMinuteChanged?.call(picked.minute);
         }
       },
       borderRadius: BorderRadius.circular(th.shapes.radiusMd),
@@ -363,7 +424,7 @@ class LogEntryForm extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
-      children: feelings!.map((emotion) {
+      children: widget.feelings!.map((emotion) {
         final secondaryOptions = DrugUseCatalog.secondaryEmotions[emotion];
         if (secondaryOptions == null || secondaryOptions.isEmpty) {
           return const SizedBox.shrink();
@@ -373,14 +434,14 @@ class LogEntryForm extends StatelessWidget {
           child: CommonChipGroup(
             title: '$emotion Details',
             options: secondaryOptions,
-            selected: secondaryFeelings?[emotion] ?? [],
+            selected: widget.secondaryFeelings?[emotion] ?? [],
             onChanged: (selected) {
-              if (onSecondaryFeelingsChanged != null) {
+              if (widget.onSecondaryFeelingsChanged != null) {
                 final current = Map<String, List<String>>.from(
-                  secondaryFeelings ?? {},
+                  widget.secondaryFeelings ?? {},
                 );
                 current[emotion] = selected;
-                onSecondaryFeelingsChanged!(current);
+                widget.onSecondaryFeelingsChanged!(current);
               }
             },
           ),

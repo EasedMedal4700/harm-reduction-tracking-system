@@ -193,8 +193,6 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final sp = context.spacing;
     final state = ref.watch(logEntryProvider);
     final notifier = ref.read(logEntryProvider.notifier);
 

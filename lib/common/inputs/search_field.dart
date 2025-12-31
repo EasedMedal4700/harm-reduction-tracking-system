@@ -15,6 +15,7 @@ class CommonSearchField<T extends Object> extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onChanged;
   final Widget? prefixIcon;
+  final Color? accentColor;
   final Future<Iterable<T>> Function(String) optionsBuilder;
   final Widget Function(BuildContext, T) itemBuilder;
   final ValueChanged<T> onSelected;
@@ -31,6 +32,7 @@ class CommonSearchField<T extends Object> extends StatefulWidget {
     this.validator,
     this.onChanged,
     this.prefixIcon,
+    this.accentColor,
     this.focusNode,
     super.key,
   });
@@ -90,6 +92,14 @@ class _CommonSearchFieldState<T extends Object> extends State<CommonSearchField<
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
+    final accentColor = widget.accentColor ?? th.accent.primary;
+    final baseFill = th.colors.surfaceVariant.withValues(alpha: 0.3);
+    final fillColor = widget.accentColor == null
+        ? baseFill
+        : Color.alphaBlend(
+            accentColor.withValues(alpha: th.isDark ? 0.14 : 0.10),
+            baseFill,
+          );
 
     return RawAutocomplete<T>(
       textEditingController: _controller,
@@ -140,10 +150,10 @@ class _CommonSearchFieldState<T extends Object> extends State<CommonSearchField<
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(th.shapes.radiusMd),
-                  borderSide: BorderSide(color: th.accent.primary, width: 2),
+                  borderSide: BorderSide(color: accentColor, width: 2),
                 ),
                 filled: true,
-                fillColor: th.colors.surfaceVariant.withValues(alpha: 0.3),
+                fillColor: fillColor,
               ),
               style: th.text.bodyLarge.copyWith(
                 color: th.colors.textPrimary,
@@ -151,7 +161,7 @@ class _CommonSearchFieldState<T extends Object> extends State<CommonSearchField<
               ),
               onChanged: widget.onChanged,
               onFieldSubmitted: (_) => onFieldSubmitted(),
-              cursorColor: th.accent.primary,
+              cursorColor: accentColor,
             );
           },
         );

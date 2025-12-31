@@ -42,6 +42,54 @@ class DrugCategories {
     "Experimental": Icons.science,
     "Placeholder": Icons.help_outline,
   };
+
+  static const Set<String> _ignoredCategoryTokens = {
+    'tentative',
+    'research chemical',
+    'habit-forming',
+    'common',
+    'inactive',
+    'unknown',
+  };
+
+  /// Picks a primary, known category key suitable for [categoryIconMap]
+  /// and [DrugCategoryColors.colorFor].
+  ///
+  /// Handles multi-category strings like "Stimulant, Cathinone".
+  /// Returns "Placeholder" when missing/empty and "Experimental" when
+  /// the value doesn't map to a known category.
+  static String primaryCategoryFromRaw(String? rawCategory) {
+    final raw = rawCategory?.trim();
+    if (raw == null || raw.isEmpty) return 'Placeholder';
+
+    final parts = raw
+        .split(RegExp(r'[,/;|]+'))
+        .map((p) => p.trim())
+        .where((p) => p.isNotEmpty)
+        .toList(growable: false);
+    if (parts.isEmpty) return 'Placeholder';
+
+    final filtered = parts
+        .where((p) => !_ignoredCategoryTokens.contains(p.toLowerCase()))
+        .toList(growable: false);
+    final candidates = filtered.isEmpty ? parts : filtered;
+
+    for (final priority in categoryPriority) {
+      if (candidates.any((c) => c.toLowerCase() == priority.toLowerCase())) {
+        return priority;
+      }
+    }
+
+    final first = candidates.first;
+    final firstLower = first.toLowerCase();
+    for (final key in categoryIconMap.keys) {
+      if (key.toLowerCase() == firstLower) return key;
+    }
+    if (DrugCategoryColors.map.containsKey(firstLower)) {
+      return first;
+    }
+    return 'Experimental';
+  }
 }
 
 /// Shared color palette for drug categories across the app.

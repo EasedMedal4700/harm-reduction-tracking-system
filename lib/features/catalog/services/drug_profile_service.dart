@@ -15,10 +15,12 @@ class DrugSearchResult {
   final String displayName;
   final String canonicalName;
   final bool isAlias;
+  final String? category;
   DrugSearchResult({
     required this.displayName,
     required this.canonicalName,
     required this.isAlias,
+    this.category,
   });
 }
 
@@ -41,17 +43,59 @@ class DrugProfileService {
     try {
       final client = Supabase.instance.client;
       // 1) Load all profiles
-      final allRows = await client
-          .from('drug_profiles')
-          .select('name, pretty_name, aliases')
-          .limit(2000);
+      dynamic allRows;
+      const selectAttempts = <String>[
+        'name, pretty_name, aliases, category, categories',
+        'name, aliases, category, categories',
+        'name, pretty_name, category, categories',
+        'name, category, categories',
+        'name, pretty_name, aliases, categories',
+        'name, aliases, categories',
+        'name, pretty_name, categories',
+        'name, categories',
+        'name, pretty_name, aliases',
+        'name, aliases',
+        'name, pretty_name',
+        'name',
+      ];
+      PostgrestException? lastSelectError;
+      for (final select in selectAttempts) {
+        try {
+          allRows = await client
+              .from('drug_profiles')
+              .select(select)
+              .limit(2000);
+          lastSelectError = null;
+          break;
+        } on PostgrestException catch (e) {
+          lastSelectError = e;
+        }
+      }
+      if (allRows == null) {
+        throw lastSelectError ?? Exception('Failed to load drug_profiles');
+      }
       final rows = allRows as List<dynamic>;
       final List<_ScoredResult> scored = [];
       // 2) Score canonical & aliases
       for (final row in rows) {
         final name = row['name'] as String?;
         final pretty = row['pretty_name'] as String?;
-        final aliases = (row['aliases'] ?? []) as List<dynamic>;
+        final aliases = (row['aliases'] ?? const []) as List<dynamic>;
+        String? category = row['category'] as String?;
+        if (category == null || category.trim().isEmpty) {
+          final categoriesRaw = row['categories'];
+          if (categoriesRaw is List) {
+            final list = categoriesRaw.whereType<String>().toList(
+              growable: false,
+            );
+            if (list.isNotEmpty) {
+              category = list.join(', ');
+            }
+          } else if (categoriesRaw is String &&
+              categoriesRaw.trim().isNotEmpty) {
+            category = categoriesRaw;
+          }
+        }
         final canonical = (pretty ?? name ?? '').trim();
         if (canonical.isEmpty) continue;
         // canonical scoring
@@ -63,6 +107,7 @@ class DrugProfileService {
                 displayName: canonical,
                 canonicalName: canonical,
                 isAlias: false,
+                category: category,
               ),
               canonicalScore,
             ),
@@ -80,6 +125,7 @@ class DrugProfileService {
                   displayName: '$alias → $canonical',
                   canonicalName: canonical,
                   isAlias: true,
+                  category: category,
                 ),
                 aliasScore + 0.5, // alias boost
               ),
