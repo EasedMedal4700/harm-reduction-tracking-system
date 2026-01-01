@@ -1,12 +1,13 @@
 // MIGRATION:
 // State: LEGACY
-// Navigation: LEGACY
+// Navigation: GOROUTER
 // Models: LEGACY
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Page for logging drug use. Uses Riverpod wrapper for legacy ChangeNotifier state.
+// Notes: Page for logging drug use. Uses Riverpod wrapper for legacy state.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/data/drug_categories.dart';
 
@@ -162,10 +163,7 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
         title: Text(title),
         content: Text(message),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
+          TextButton(onPressed: () => context.pop(), child: const Text('OK')),
         ],
       ),
     );
@@ -179,11 +177,11 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
         content: Text(message),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
+            onPressed: () => context.pop(false),
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
+            onPressed: () => context.pop(true),
             child: const Text('Continue'),
           ),
         ],
@@ -196,6 +194,7 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
   Widget build(BuildContext context) {
     final state = ref.watch(logEntryProvider);
     final notifier = ref.read(logEntryProvider.notifier);
+    final th = context.theme;
 
     String? rawCategory;
     final details = state.substanceDetails;
@@ -212,7 +211,7 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
       }
     }
 
-    final hasCategory = rawCategory != null && rawCategory!.trim().isNotEmpty;
+    final hasCategory = rawCategory != null && rawCategory.trim().isNotEmpty;
     final categoryKey = hasCategory
         ? DrugCategories.primaryCategoryFromRaw(rawCategory)
         : null;
@@ -224,7 +223,7 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
         : (DrugCategories.categoryIconMap[categoryKey] ?? Icons.science);
 
     return Scaffold(
-      backgroundColor: c.background,
+      backgroundColor: th.c.background,
       appBar: LogEntryAppBar(
         isSimpleMode: state.isSimpleMode,
         onSimpleModeChanged: notifier.setIsSimpleMode,
@@ -236,8 +235,8 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
         children: [
           FadeTransition(
             opacity: _fadeAnimation,
-            child: SingleChildScrollView(
-              padding: EdgeInsets.all(sp.md),
+            child: Padding(
+              padding: EdgeInsets.all(th.sp.md),
               child: LogEntryForm(
                 isSimpleMode: state.isSimpleMode,
                 dose: state.dose,
@@ -281,7 +280,7 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
             ),
           ),
           if (_isSaving)
-            Container(color: c.overlayHeavy, child: const CommonLoader()),
+            Container(color: th.c.overlayHeavy, child: const CommonLoader()),
         ],
       ),
     );

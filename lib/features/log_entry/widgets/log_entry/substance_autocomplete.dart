@@ -18,10 +18,10 @@ class SubstanceAutocomplete extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final ac = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
+    final th = context.theme;
+    final c = th.c;
+    final ac = th.accent;
+    final sh = th.shapes;
     return Autocomplete<String>(
       optionsBuilder: (TextEditingValue textEditingValue) {
         if (textEditingValue.text == '') {
@@ -73,7 +73,7 @@ class SubstanceAutocomplete extends StatelessWidget {
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   borderSide: BorderSide(
                     color: ac.primary,
-                    width: context.borders.medium,
+                    width: th.borders.medium,
                   ),
                 ),
                 filled: true,
@@ -98,13 +98,13 @@ class SubstanceAutocomplete extends StatelessWidget {
             return Align(
               alignment: sh.alignmentTopLeft,
               child: Material(
-                elevation: context.sizes.cardElevation,
+                elevation: th.sizes.cardElevation,
                 borderRadius: BorderRadius.circular(sh.radiusMd),
                 color: c.surface,
                 child: SizedBox(
                   width:
                       MediaQuery.of(context).size.width -
-                      (sp.md * 2), // Adjust width based on padding
+                      th.sp.xl, // Match page padding on both sides
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
@@ -116,7 +116,7 @@ class SubstanceAutocomplete extends StatelessWidget {
                           onSelected(option);
                         },
                         child: Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: EdgeInsets.all(th.sp.lg),
                           child: Text(
                             option,
                             style: TextStyle(color: c.textPrimary),

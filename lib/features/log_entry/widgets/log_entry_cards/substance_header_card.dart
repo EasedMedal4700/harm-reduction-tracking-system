@@ -25,33 +25,32 @@ class SubstanceHeaderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
-    final c = context.colors;
-    final ac = context.accent;
-    final sp = context.spacing;
+    final c = th.c;
+    final ac = th.accent;
     return CommonCard(
-      padding: EdgeInsets.all(sp.md),
+      padding: EdgeInsets.all(th.sp.md),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(th.sp.md),
             decoration: BoxDecoration(
-              color: ac.primary.withValues(alpha: 0.1),
-              shape: context.shapes.boxShapeCircle,
+              color: ac.primary.withValues(alpha: th.opacities.overlay),
+              shape: th.shapes.boxShapeCircle,
             ),
             child: Icon(
               Icons.science,
               color: ac.primary,
-              size: context.sizes.iconMd,
+              size: th.sizes.iconMd,
             ),
           ),
-          CommonSpacer.horizontal(sp.md),
+          CommonSpacer.horizontal(th.sp.md),
           Expanded(
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
                 Text(substanceName, style: th.text.heading3),
                 if (roa != null) ...[
-                  CommonSpacer.vertical(sp.xs),
+                  CommonSpacer.vertical(th.sp.xs),
                   Text(
                     roa!,
                     style: th.text.bodySmall.copyWith(color: c.textSecondary),

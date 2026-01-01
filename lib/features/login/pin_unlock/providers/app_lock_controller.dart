@@ -149,7 +149,10 @@ class AppLockController extends Notifier<AppLockState> {
 
     if (!requiresPin) {
       // Extend session on successful resume.
-      await prefs.setInt(_keyLastInteractionTimeMs, when.millisecondsSinceEpoch);
+      await prefs.setInt(
+        _keyLastInteractionTimeMs,
+        when.millisecondsSinceEpoch,
+      );
     }
 
     await prefs.remove(_keyBackgroundTimeMs);

@@ -49,4 +49,9 @@ class AppSizes {
   final double blurRadiusMd = 8.0;
   final double spreadRadiusSm = 1.0;
   final double spreadRadiusMd = 2.0;
+
+  // Draggable sheets
+  final double sheetInitialChildSize = 0.9;
+  final double sheetMinChildSize = 0.5;
+  final double sheetMaxChildSize = 0.95;
 }

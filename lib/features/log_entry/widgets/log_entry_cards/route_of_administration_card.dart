@@ -28,7 +28,7 @@ class RouteOfAdministrationCard extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final sp = context.spacing;
+    final th = context.theme;
     return CommonCard(
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -37,10 +37,10 @@ class RouteOfAdministrationCard extends StatelessWidget {
             title: "Route of Administration",
             subtitle: "How the substance was taken",
           ),
-          CommonSpacer.vertical(sp.md),
+          CommonSpacer.vertical(th.sp.md),
           Wrap(
-            spacing: sp.sm,
-            runSpacing: sp.sm,
+            spacing: th.sp.sm,
+            runSpacing: th.sp.sm,
             children: availableROAs.map((method) {
               final selected = route.toLowerCase() == method.toLowerCase();
               final validated = isROAValidated?.call(method) ?? true;

@@ -4,8 +4,8 @@
 // Riverpod: TODO
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
-import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import 'package:mobile_drug_use_app/features/stockpile/providers/stockpile_providers.dart';
 import 'package:mobile_drug_use_app/features/catalog/utils/drug_profile_utils.dart';
 import '../../../constants/theme/app_theme_extension.dart';
@@ -61,7 +61,7 @@ class _AddStockpileSheetState extends ConsumerState<AddStockpileSheet> {
             unitMg: 1.0, // Already converted to mg, so 1mg = 1mg
           );
       if (mounted) {
-        ref.read(navigationProvider).pop(true);
+        context.pop(true);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -100,10 +100,10 @@ class _AddStockpileSheetState extends ConsumerState<AddStockpileSheet> {
         ),
       ),
       padding: EdgeInsets.only(
-        left: th.spacing.lg,
-        right: th.spacing.lg,
-        top: th.spacing.lg,
-        bottom: MediaQuery.of(context).viewInsets.bottom + th.spacing.lg,
+        left: th.sp.lg,
+        right: th.sp.lg,
+        top: th.sp.lg,
+        bottom: MediaQuery.of(context).viewInsets.bottom + th.sp.lg,
       ),
       child: Form(
         key: _formKey,
@@ -124,7 +124,7 @@ class _AddStockpileSheetState extends ConsumerState<AddStockpileSheet> {
                           color: th.colors.textPrimary,
                         ),
                       ),
-                      const CommonSpacer.vertical(4),
+                      CommonSpacer.vertical(th.sp.xs),
                       Text(
                         widget.substanceName,
                         style: th.typography.body.copyWith(
@@ -136,12 +136,12 @@ class _AddStockpileSheetState extends ConsumerState<AddStockpileSheet> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.close),
-                  onPressed: () => ref.read(navigationProvider).pop(),
+                  onPressed: () => context.pop(),
                   color: th.colors.textSecondary,
                 ),
               ],
             ),
-            const CommonSpacer.vertical(24),
+            CommonSpacer.vertical(th.sp.xl),
             // Amount input
             CommonInputField(
               controller: _amountController,
@@ -162,7 +162,7 @@ class _AddStockpileSheetState extends ConsumerState<AddStockpileSheet> {
                 return null;
               },
             ),
-            const CommonSpacer.vertical(16),
+            CommonSpacer.vertical(th.sp.lg),
             // Unit dropdown
             CommonDropdown<String>(
               value: _selectedUnit,
@@ -174,7 +174,7 @@ class _AddStockpileSheetState extends ConsumerState<AddStockpileSheet> {
               },
               hintText: 'Unit',
             ),
-            CommonSpacer(height: th.spacing.xl),
+            CommonSpacer(height: th.sp.xl),
             // Save button
             CommonPrimaryButton(
               onPressed: _saveStockpile,

@@ -32,7 +32,7 @@ class MedicalPurposeCard extends StatelessWidget {
             title: "Purpose",
             subtitle: "Prescribed or therapeutic use",
           ),
-          CommonSpacer.vertical(th.spacing.md),
+          CommonSpacer.vertical(th.sp.md),
           CommonSwitchTile(
             title: "Medical Purpose",
             subtitle: "Prescribed or therapeutic use",

@@ -13,12 +13,6 @@ import '../../../constants/theme/app_theme_extension.dart';
 import '../../../common/cards/common_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-const double _borderWidth = 1.5;
-const double _dividerHeight = 1.0;
-const double _tagSpacing = 6.0;
-const double _tagPaddingH = 6.0;
-const double _tagPaddingV = 2.0;
-
 class SubstanceCard extends StatelessWidget {
   final Map<String, dynamic> substance;
   final VoidCallback onTap;
@@ -37,12 +31,15 @@ class SubstanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
-    final tx = context.text;
 
     final name = (substance['pretty_name'] ?? substance['name'] ?? '')
         .toString();
-    final substanceId = (substance['id'] ?? substance['substance_id'] ?? '')
-        .toString();
+    final substanceId =
+        ((substance['id'] ?? substance['substance_id']) ??
+                substance['name'] ??
+                substance['pretty_name'] ??
+                '')
+            .toString();
     final categories =
         (substance['categories'] as List?)?.map((e) => e.toString()).toList() ??
         <String>[];
@@ -71,7 +68,7 @@ class SubstanceCard extends StatelessWidget {
               topRight: Radius.circular(th.shapes.radiusLg),
             ),
             child: Padding(
-              padding: EdgeInsets.all(th.spacing.md),
+              padding: EdgeInsets.all(th.sp.md),
               child: Row(
                 children: [
                   Container(
@@ -80,25 +77,25 @@ class SubstanceCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          categoryColor.withValues(alpha: 0.2),
-                          categoryColor.withValues(alpha: 0.05),
+                          categoryColor.withValues(alpha: th.opacities.selected),
+                          categoryColor.withValues(alpha: th.opacities.splash),
                         ],
                         begin: context.shapes.alignmentTopLeft,
                         end: context.shapes.alignmentBottomRight,
                       ),
                       shape: context.shapes.boxShapeCircle,
                       border: Border.all(
-                        color: categoryColor.withValues(alpha: 0.3),
-                        width: _borderWidth,
+                        color: categoryColor.withValues(alpha: th.opacities.medium),
+                        width: th.borders.thin,
                       ),
                     ),
                     child: Icon(
                       categoryIcon,
                       color: categoryColor,
-                      size: context.sizes.iconLg,
+                      size: th.sizes.iconLg,
                     ),
                   ),
-                  SizedBox(width: th.spacing.md),
+                  SizedBox(width: th.sp.md),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -109,35 +106,33 @@ class SubstanceCard extends StatelessWidget {
                             color: th.colors.textPrimary,
                           ),
                         ),
-                        SizedBox(height: th.spacing.xs),
+                        SizedBox(height: th.sp.xs),
                         Wrap(
-                          spacing: _tagSpacing,
-                          runSpacing: th.spacing.xs,
+                          spacing: th.sp.xs,
+                          runSpacing: th.sp.xs,
                           children: categories.take(3).map((cat) {
                             return Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: _tagPaddingH,
-                                vertical: _tagPaddingV,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: th.sp.xs,
+                                vertical: th.sizes.borderRegular,
                               ),
                               decoration: BoxDecoration(
-                                color: categoryColor.withValues(alpha: 0.1),
+                                color: categoryColor.withValues(alpha: th.opacities.overlay),
                                 borderRadius: BorderRadius.circular(
                                   th.shapes.radiusXs,
                                 ),
                               ),
                               child: Text(
                                 cat,
-                                style: TextStyle(
-                                  fontSize: tx.caption.fontSize,
+                                style: th.tx.captionBold.copyWith(
                                   color: categoryColor,
-                                  fontWeight: tx.bodyBold.fontWeight,
                                 ),
                               ),
                             );
                           }).toList(),
                         ),
                         if (additionalInfo != null) ...[
-                          SizedBox(height: th.spacing.xs),
+                          SizedBox(height: th.sp.xs),
                           Text(
                             additionalInfo,
                             style: th.typography.bodySmall.copyWith(
@@ -150,17 +145,17 @@ class SubstanceCard extends StatelessWidget {
                   ),
                   Icon(
                     Icons.chevron_right,
-                    color: th.colors.textSecondary.withValues(alpha: 0.5),
+                    color: th.colors.textSecondary.withValues(alpha: th.opacities.slow),
                   ),
                 ],
               ),
             ),
           ),
-          Divider(height: _dividerHeight, color: th.colors.divider),
+          Divider(height: th.borders.thin, color: th.colors.divider),
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: th.spacing.md,
-              vertical: th.spacing.sm,
+              horizontal: th.sp.md,
+              vertical: th.sp.sm,
             ),
             child: Row(
               children: [
@@ -182,31 +177,30 @@ class SubstanceCard extends StatelessWidget {
                               : 'mg';
                           return Container(
                             padding: EdgeInsets.symmetric(
-                              horizontal: th.spacing.sm,
-                              vertical: 2,
+                              horizontal: th.sp.sm,
+                              vertical: th.sizes.borderRegular,
                             ),
                             decoration: BoxDecoration(
-                              color: th.colors.success.withValues(alpha: 0.1),
+                              color: th.colors.success.withValues(alpha: th.opacities.overlay),
                               borderRadius: BorderRadius.circular(
                                 th.shapes.radiusSm,
                               ),
                               border: Border.all(
-                                color: th.colors.success.withValues(alpha: 0.3),
+                                color: th.colors.success.withValues(alpha: th.opacities.medium),
                               ),
                             ),
                             child: Row(
                               children: [
                                 Icon(
                                   Icons.inventory_2_outlined,
-                                  size: th.spacing.md,
+                                  size: th.sizes.iconSm,
                                   color: th.colors.success,
                                 ),
-                                CommonSpacer.horizontal(th.spacing.xs),
+                                CommonSpacer.horizontal(th.sp.xs),
                                 Text(
                                   '${amount.toStringAsFixed(1)} $unit',
-                                  style: th.typography.label.copyWith(
+                                  style: th.tx.label.copyWith(
                                     color: th.colors.success,
-                                    fontWeight: tx.bodyBold.fontWeight,
                                   ),
                                 ),
                               ],
@@ -223,20 +217,17 @@ class SubstanceCard extends StatelessWidget {
                   onPressed: () => onAddStockpile(substanceId, name, substance),
                   icon: Icon(
                     Icons.add,
-                    size: th.spacing.lg,
+                    size: th.sizes.iconSm,
                     color: th.accent.primary,
                   ),
                   label: Text(
                     'Add Stockpile',
-                    style: th.typography.label.copyWith(
-                      color: th.accent.primary,
-                      fontWeight: tx.bodyBold.fontWeight,
-                    ),
+                    style: th.tx.label.copyWith(color: th.accent.primary),
                   ),
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.symmetric(
-                      horizontal: th.spacing.sm,
-                      vertical: th.spacing.xs,
+                      horizontal: th.sp.sm,
+                      vertical: th.sp.xs,
                     ),
                     minimumSize: Size.zero,
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,

@@ -18,7 +18,7 @@ class CatalogEmptyState extends StatelessWidget {
         mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
         children: [
           Container(
-            padding: EdgeInsets.all(th.spacing.xl),
+            padding: EdgeInsets.all(th.sp.xl),
             decoration: BoxDecoration(
               color: th.colors.surfaceVariant.withValues(
                 alpha: th.opacities.slow,
@@ -31,14 +31,14 @@ class CatalogEmptyState extends StatelessWidget {
               color: th.colors.textSecondary,
             ),
           ),
-          const CommonSpacer.vertical(24),
+          CommonSpacer.vertical(th.sp.xl),
           Text(
             'No substances found',
             style: th.typography.heading3.copyWith(
               color: th.colors.textPrimary,
             ),
           ),
-          const CommonSpacer.vertical(8),
+          CommonSpacer.vertical(th.sp.sm),
           Text(
             'Try adjusting your search or filters',
             style: th.typography.body.copyWith(color: th.colors.textSecondary),

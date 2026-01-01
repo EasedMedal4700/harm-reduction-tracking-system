@@ -30,10 +30,10 @@ class ComplexFields extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final ac = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
+    final th = context.theme;
+    final c = th.c;
+    final ac = th.accent;
+    final sh = th.shapes;
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
@@ -44,7 +44,7 @@ class ComplexFields extends StatelessWidget {
           onChanged: onRoaChanged,
           hintText: 'Route of Administration',
         ),
-        SizedBox(height: sp.md),
+        SizedBox(height: th.sp.md),
         // Location Field
         TextFormField(
           controller: locationController,
@@ -62,7 +62,7 @@ class ComplexFields extends StatelessWidget {
               borderRadius: BorderRadius.circular(sh.radiusMd),
               borderSide: BorderSide(
                 color: ac.primary,
-                width: context.borders.medium,
+                width: th.borders.medium,
               ),
             ),
             filled: true,
@@ -71,7 +71,7 @@ class ComplexFields extends StatelessWidget {
           ),
           style: TextStyle(color: c.textPrimary),
         ),
-        SizedBox(height: sp.md),
+        SizedBox(height: th.sp.md),
         // People Field
         TextFormField(
           controller: peopleController,
@@ -89,7 +89,7 @@ class ComplexFields extends StatelessWidget {
               borderRadius: BorderRadius.circular(sh.radiusMd),
               borderSide: BorderSide(
                 color: ac.primary,
-                width: context.borders.medium,
+                width: th.borders.medium,
               ),
             ),
             filled: true,
@@ -98,7 +98,7 @@ class ComplexFields extends StatelessWidget {
           ),
           style: TextStyle(color: c.textPrimary),
         ),
-        SizedBox(height: sp.md),
+        SizedBox(height: th.sp.md),
         // Cost Field
         TextFormField(
           controller: costController,
@@ -115,7 +115,10 @@ class ComplexFields extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: ac.primary, width: 2),
+              borderSide: BorderSide(
+                color: ac.primary,
+                width: th.borders.medium,
+              ),
             ),
             filled: true,
             fillColor: c.surface,
@@ -123,7 +126,7 @@ class ComplexFields extends StatelessWidget {
           ),
           style: TextStyle(color: c.textPrimary),
         ),
-        SizedBox(height: sp.md),
+        SizedBox(height: th.sp.md),
         // Notes Field
         TextFormField(
           controller: notesController,
@@ -140,7 +143,10 @@ class ComplexFields extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(sh.radiusMd),
-              borderSide: BorderSide(color: ac.primary, width: 2),
+              borderSide: BorderSide(
+                color: ac.primary,
+                width: th.borders.medium,
+              ),
             ),
             filled: true,
             fillColor: c.surface,

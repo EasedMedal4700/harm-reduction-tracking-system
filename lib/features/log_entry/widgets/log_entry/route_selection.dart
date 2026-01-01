@@ -28,10 +28,10 @@ class RouteSelection extends StatelessWidget {
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           const CommonSectionHeader(title: "Route of Administration"),
-          SizedBox(height: th.spacing.md),
+          SizedBox(height: th.sp.md),
           Wrap(
-            spacing: th.spacing.sm,
-            runSpacing: th.spacing.sm,
+            spacing: th.sp.sm,
+            runSpacing: th.sp.sm,
             children: DrugUseCatalog.consumptionMethods.map((method) {
               final String name = method['name']!;
               final String emoji = method['emoji']!;
@@ -40,12 +40,11 @@ class RouteSelection extends StatelessWidget {
                 label: Row(
                   mainAxisSize: AppLayout.mainAxisSizeMin,
                   children: [
-                    Text(emoji, style: const TextStyle(fontSize: 20.0)),
-                    SizedBox(width: th.spacing.xs),
+                    Text(emoji, style: TextStyle(fontSize: th.sizes.iconLg)),
+                    SizedBox(width: th.sp.xs),
                     Text(
                       name.toUpperCase(),
-                      style: th.typography.label.copyWith(
-                        fontWeight: th.text.bodyBold.fontWeight,
+                      style: th.text.bodyBold.copyWith(
                         color: selected
                             ? th.colors.textInverse
                             : th.colors.textPrimary,

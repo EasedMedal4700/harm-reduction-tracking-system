@@ -29,16 +29,16 @@ class TimeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final tx = context.text;
-    final ac = context.accent;
-    final sp = context.spacing;
-    final sh = context.shapes;
+    final th = context.theme;
+    final c = th.c;
+    final tx = th.text;
+    final ac = th.accent;
+    final sh = th.shapes;
     return InkWell(
       onTap: () => _selectTime(context),
       borderRadius: BorderRadius.circular(sh.radiusMd),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: sp.sm, horizontal: sp.md),
+        padding: EdgeInsets.symmetric(vertical: th.sp.sm, horizontal: th.sp.md),
         decoration: BoxDecoration(
           border: Border.all(color: c.border),
           borderRadius: BorderRadius.circular(sh.radiusMd),
@@ -47,19 +47,11 @@ class TimeSelector extends StatelessWidget {
         child: Row(
           mainAxisSize: AppLayout.mainAxisSizeMin,
           children: [
-            Icon(
-              Icons.access_time,
-              size: context.sizes.iconSm,
-              color: ac.primary,
-            ),
-            SizedBox(width: sp.sm),
+            Icon(Icons.access_time, size: th.sizes.iconSm, color: ac.primary),
+            SizedBox(width: th.sp.sm),
             Text(
               selectedTime.format(context),
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: tx.bodyMedium.fontWeight,
-                color: c.textPrimary,
-              ),
+              style: tx.bodyMedium.copyWith(color: c.textPrimary),
             ),
           ],
         ),

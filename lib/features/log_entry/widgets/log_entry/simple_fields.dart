@@ -38,7 +38,7 @@ class SimpleFields extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final sp = context.spacing;
+    final th = context.theme;
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
       children: [
@@ -47,13 +47,13 @@ class SimpleFields extends StatelessWidget {
           controller: substanceController,
           options: substanceOptions,
         ),
-        SizedBox(height: sp.md),
+        SizedBox(height: th.sp.md),
         // Dosage Input
         DosageInput(
           controller: dosageController,
           unit: 'mg', // TODO: Make dynamic based on substance
         ),
-        SizedBox(height: sp.md),
+        SizedBox(height: th.sp.md),
         // Date and Time Row
         Row(
           children: [
@@ -63,7 +63,7 @@ class SimpleFields extends StatelessWidget {
                 onDateChanged: onDateChanged,
               ),
             ),
-            SizedBox(width: sp.md),
+            SizedBox(width: th.sp.md),
             Expanded(
               child: TimeSelector(
                 selectedTime: selectedTime,
@@ -72,7 +72,7 @@ class SimpleFields extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: sp.md),
+        SizedBox(height: th.sp.md),
         // Feeling Selection
         FeelingSelection(
           selectedFeeling: selectedFeeling,

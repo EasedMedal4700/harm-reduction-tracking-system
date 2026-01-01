@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
@@ -54,10 +55,12 @@ void main() {
     final mockController = MockLogEntryController();
 
     await tester.pumpWidget(
-      AppThemeProvider(
-        theme: AppTheme.light(),
-        child: MaterialApp(
-          home: Scaffold(body: QuickLogEntryPage(controller: mockController)),
+      ProviderScope(
+        child: AppThemeProvider(
+          theme: AppTheme.light(),
+          child: MaterialApp(
+            home: Scaffold(body: QuickLogEntryPage(controller: mockController)),
+          ),
         ),
       ),
     );

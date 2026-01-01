@@ -22,7 +22,6 @@ class DosageGuideCard extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final tx = context.text;
     final th = context.theme;
     if (doseData == null) {
       return _buildWarningCard(
@@ -36,7 +35,7 @@ class DosageGuideCard extends StatelessWidget {
         Row(
           children: [
             Icon(Icons.medication_outlined, color: accentColor),
-            const CommonSpacer.horizontal(4),
+            CommonSpacer.horizontal(th.sp.xs),
             Text(
               'Dose Ranges (Informational)',
               style: th.tx.heading3.copyWith(color: th.colors.textPrimary),
@@ -44,36 +43,33 @@ class DosageGuideCard extends StatelessWidget {
             const Spacer(),
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: th.spacing.sm,
-                vertical: th.spacing.xs,
+                horizontal: th.sp.sm,
+                vertical: th.sp.xs,
               ),
               decoration: BoxDecoration(
-                color: accentColor.withValues(alpha: 0.1),
+                color: accentColor.withValues(alpha: th.opacities.overlay),
                 borderRadius: BorderRadius.circular(th.shapes.radiusMd),
               ),
               child: Text(
                 selectedMethod,
-                style: th.tx.label.copyWith(
-                  color: accentColor,
-                  fontWeight: tx.bodyBold.fontWeight,
-                ),
+                style: th.tx.label.copyWith(color: accentColor),
               ),
             ),
           ],
         ),
-        const CommonSpacer.vertical(16),
+        CommonSpacer.vertical(th.sp.lg),
         _buildDoseCard(context, 'Light', doseData!['Light'], th.colors.success),
-        const CommonSpacer.vertical(4),
+        CommonSpacer.vertical(th.sp.xs),
         _buildDoseCard(
           context,
           'Common',
           doseData!['Common'],
           th.colors.warning,
         ),
-        const CommonSpacer.vertical(4),
+        CommonSpacer.vertical(th.sp.xs),
         _buildDoseCard(context, 'Strong', doseData!['Strong'], th.colors.error),
         if (doseData!['Heavy'] != null) ...[
-          const CommonSpacer.vertical(4),
+          CommonSpacer.vertical(th.sp.xs),
           _buildDoseCard(
             context,
             'Heavy',
@@ -92,17 +88,16 @@ class DosageGuideCard extends StatelessWidget {
     Color color,
   ) {
     final th = context.theme;
-    final tx = context.text;
 
     if (range == null) return const SizedBox.shrink();
     return CommonCard(
-      padding: EdgeInsets.all(th.spacing.md),
+      padding: EdgeInsets.all(th.sp.md),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(th.spacing.xs),
+            padding: EdgeInsets.all(th.sp.xs),
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
+              color: color.withValues(alpha: th.opacities.overlay),
               shape: context.shapes.boxShapeCircle,
             ),
             child: Icon(
@@ -111,24 +106,18 @@ class DosageGuideCard extends StatelessWidget {
               size: th.sizes.iconSm,
             ),
           ),
-          const CommonSpacer.horizontal(16),
+          CommonSpacer.horizontal(th.sp.lg),
           Column(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
               Text(
                 label,
-                style: th.typography.captionBold.copyWith(
-                  fontWeight: tx.bodyBold.fontWeight,
-                  color: color,
-                ),
+                style: th.tx.captionBold.copyWith(color: color),
               ),
-              SizedBox(height: th.spacing.xs),
+              SizedBox(height: th.sp.xs),
               Text(
                 range,
-                style: th.typography.body.copyWith(
-                  fontWeight: tx.bodyBold.fontWeight,
-                  color: th.colors.textPrimary,
-                ),
+                style: th.tx.bodyBold.copyWith(color: th.colors.textPrimary),
               ),
             ],
           ),
@@ -156,9 +145,9 @@ class DosageGuideCard extends StatelessWidget {
     final th = context.theme;
 
     return Container(
-      padding: EdgeInsets.all(th.spacing.md),
+      padding: EdgeInsets.all(th.sp.md),
       decoration: BoxDecoration(
-        color: th.colors.warning.withValues(alpha: 0.1),
+        color: th.colors.warning.withValues(alpha: th.opacities.overlay),
         borderRadius: BorderRadius.circular(th.shapes.radiusMd),
         border: Border.all(
           color: th.colors.warning.withValues(alpha: th.opacities.slow),
@@ -168,11 +157,11 @@ class DosageGuideCard extends StatelessWidget {
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Icon(Icons.warning_amber_rounded, color: th.colors.warning),
-          SizedBox(width: th.spacing.sm),
+          SizedBox(width: th.sp.sm),
           Expanded(
             child: Text(
               message,
-              style: th.tx.body.copyWith(color: th.colors.warning, height: 1.4),
+              style: th.tx.body.copyWith(color: th.colors.warning),
             ),
           ),
         ],

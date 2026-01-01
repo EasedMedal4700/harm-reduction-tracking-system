@@ -38,7 +38,11 @@ class DosageInput extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: th.sp.sm),
-              child: Icon(Icons.scale, color: th.ac.primary, size: th.sizes.iconMd),
+              child: Icon(
+                Icons.scale,
+                color: th.ac.primary,
+                size: th.sizes.iconMd,
+              ),
             ),
             Expanded(
               child: TextFormField(

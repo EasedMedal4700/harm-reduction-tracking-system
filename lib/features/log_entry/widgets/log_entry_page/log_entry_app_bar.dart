@@ -96,19 +96,21 @@ class LogEntryAppBar extends StatelessWidget implements PreferredSizeWidget {
                           ),
                     shape: BoxShape.circle,
                   ),
-                  child: Builder(builder: (ctx) {
-                    final accent = categoryAccent;
-                    final badgeIconColor = accent == null
-                        ? th.c.info
-                        : (accent.computeLuminance() < 0.5
-                            ? Colors.white
-                            : Colors.black87);
-                    return Icon(
-                      categoryIcon ?? Icons.medication,
-                      color: badgeIconColor,
-                      size: th.sizes.iconSm,
-                    );
-                  }),
+                  child: Builder(
+                    builder: (ctx) {
+                      final accent = categoryAccent;
+                      final badgeIconColor = accent == null
+                          ? th.c.info
+                          : (accent.computeLuminance() < 0.5
+                                ? th.c.textInverse
+                                : th.c.textPrimary);
+                      return Icon(
+                        categoryIcon ?? Icons.medication,
+                        color: badgeIconColor,
+                        size: th.sizes.iconSm,
+                      );
+                    },
+                  ),
                 ),
 
                 CommonSpacer.horizontal(th.sp.md),

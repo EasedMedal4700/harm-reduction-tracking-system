@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:go_router/go_router.dart';
 import '../../../constants/data/drug_categories.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../constants/theme/app_typography.dart';
@@ -18,11 +18,6 @@ import '../../../common/cards/common_card.dart';
 import '../../../common/buttons/common_chip_group.dart';
 import 'dosage_guide_card.dart';
 import 'timing_info_card.dart';
-
-const double _handleWidth = 40.0;
-const double _lineHeightRelaxed = 1.6;
-const double _lineHeightNormal = 1.4;
-const double _lineHeightAliases = 1.5;
 
 class SubstanceDetailsSheet extends ConsumerStatefulWidget {
   final Map<String, dynamic> substance;
@@ -155,9 +150,9 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
         : 'Unknown';
     final accentColor = DrugCategoryColors.colorFor(primaryCategory);
     return DraggableScrollableSheet(
-      initialChildSize: 0.9,
-      minChildSize: 0.5,
-      maxChildSize: 0.95,
+      initialChildSize: th.sizes.sheetInitialChildSize,
+      minChildSize: th.sizes.sheetMinChildSize,
+      maxChildSize: th.sizes.sheetMaxChildSize,
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
@@ -171,9 +166,9 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
               // Handle
               Center(
                 child: Container(
-                  margin: EdgeInsets.symmetric(vertical: th.spacing.sm),
-                  width: _handleWidth,
-                  height: th.spacing.xs,
+                  margin: EdgeInsets.symmetric(vertical: th.sp.sm),
+                  width: th.sizes.iconXl,
+                  height: th.sp.xs,
                   decoration: BoxDecoration(
                     color: th.colors.divider,
                     borderRadius: BorderRadius.circular(th.shapes.radiusXs),
@@ -184,18 +179,18 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
               Expanded(
                 child: ListView(
                   controller: scrollController,
-                  padding: EdgeInsets.all(th.spacing.md),
+                  padding: EdgeInsets.all(th.sp.md),
                   children: [
                     // Header
                     _buildHeader(context, name, categories, accentColor),
-                    const CommonSpacer.vertical(24),
+                    CommonSpacer.vertical(th.sp.xl),
                     // Aliases
                     _buildAliases(context),
-                    const CommonSpacer.vertical(24),
+                    CommonSpacer.vertical(th.sp.xl),
                     // Method Selector
                     if (_availableMethods.length > 1) ...[
                       _buildMethodSelector(context, accentColor),
-                      const CommonSpacer.vertical(16),
+                      CommonSpacer.vertical(th.sp.lg),
                     ],
                     // Dosage Guide
                     DosageGuideCard(
@@ -207,7 +202,7 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
                       selectedMethod: _selectedMethod,
                       accentColor: accentColor,
                     ),
-                    SizedBox(height: th.spacing.xl),
+                        SizedBox(height: th.sp.xl),
                     // Timing
                     TimingInfoCard(
                       onset: _parsedOnset[_selectedMethod],
@@ -215,7 +210,7 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
                       afterEffects: _parsedAfterEffects[_selectedMethod],
                       accentColor: accentColor,
                     ),
-                    SizedBox(height: th.spacing.xl),
+                        SizedBox(height: th.sp.xl),
                     // Properties / Summary
                     _buildProperties(context),
                   ],
@@ -242,9 +237,9 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
         Row(
           children: [
             Container(
-              padding: EdgeInsets.all(th.spacing.sm),
+              padding: EdgeInsets.all(th.sp.sm),
               decoration: BoxDecoration(
-                color: accentColor.withValues(alpha: 0.2),
+                color: accentColor.withValues(alpha: th.opacities.selected),
                 borderRadius: BorderRadius.circular(th.shapes.radiusMd),
               ),
               child: Icon(
@@ -254,7 +249,7 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
                 size: th.sizes.iconLg,
               ),
             ),
-            SizedBox(width: th.spacing.md),
+            SizedBox(width: th.sp.md),
             Expanded(
               child: Column(
                 crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
@@ -265,16 +260,16 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
                       color: th.colors.textPrimary,
                     ),
                   ),
-                  SizedBox(height: th.spacing.xs),
+                  SizedBox(height: th.sp.xs),
                   Wrap(
-                    spacing: th.spacing.sm,
-                    runSpacing: th.spacing.xs,
+                    spacing: th.sp.sm,
+                    runSpacing: th.sp.xs,
                     children: categories
                         .map(
                           (cat) => Container(
                             padding: EdgeInsets.symmetric(
-                              horizontal: th.spacing.sm,
-                              vertical: 2,
+                              horizontal: th.sp.sm,
+                              vertical: th.sizes.borderRegular,
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -299,18 +294,18 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
             ),
             IconButton(
               icon: Container(
-                padding: EdgeInsets.all(th.spacing.sm),
+                padding: EdgeInsets.all(th.sp.sm),
                 decoration: BoxDecoration(
                   color: th.colors.surface,
                   shape: context.shapes.boxShapeCircle,
                 ),
                 child: const Icon(Icons.close),
               ),
-              onPressed: () => ref.read(navigationProvider).pop(),
+              onPressed: () => context.pop(),
             ),
           ],
         ),
-        SizedBox(height: th.spacing.md),
+        SizedBox(height: th.sp.md),
         // Add to Stockpile button
         SizedBox(
           width: double.infinity,
@@ -322,7 +317,7 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
                         widget.substance['pretty_name'] ??
                         widget.substance['name'] ??
                         'Unknown';
-                    ref.read(navigationProvider).pop();
+                    context.pop();
                     widget.onAddStockpile!(substanceId, name, widget.substance);
                   }
                 : null,
@@ -332,13 +327,13 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
               backgroundColor: accentColor,
               foregroundColor: th.colors.textInverse,
               padding: EdgeInsets.symmetric(
-                horizontal: th.spacing.md,
-                vertical: th.spacing.sm,
+                horizontal: th.sp.md,
+                vertical: th.sp.sm,
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(th.shapes.radiusMd),
               ),
-              elevation: context.sizes.elevationSm,
+              elevation: th.sizes.elevationSm,
             ),
           ),
         ),
@@ -348,14 +343,13 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
 
   Widget _buildAliases(BuildContext context) {
     final th = context.theme;
-    final tx = context.text;
 
     final aliases = (widget.substance['aliases'] as List?)
         ?.map((e) => e.toString())
         .toList();
     if (aliases == null || aliases.isEmpty) return const SizedBox.shrink();
     return CommonCard(
-      padding: EdgeInsets.all(th.spacing.md),
+      padding: EdgeInsets.all(th.sp.md),
       child: Column(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
@@ -363,25 +357,22 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
             children: [
               Icon(
                 Icons.alternate_email,
-                size: th.spacing.lg,
+                size: th.sizes.iconSm,
                 color: th.colors.textSecondary,
               ),
-              CommonSpacer.horizontal(th.spacing.sm),
+              CommonSpacer.horizontal(th.sp.sm),
               Text(
                 'Also Known As',
-                style: th.tx.body.copyWith(
-                  fontWeight: tx.bodyBold.fontWeight,
-                  color: th.colors.textPrimary,
-                ),
+                style: th.tx.bodyBold.copyWith(color: th.colors.textPrimary),
               ),
             ],
           ),
-          CommonSpacer.vertical(th.spacing.sm),
+          CommonSpacer.vertical(th.sp.sm),
           Text(
             aliases.join(', '),
             style: th.tx.body.copyWith(
               color: th.colors.textSecondary,
-              height: _lineHeightAliases,
+              height: AppTypographyConstants.lineHeightAliases,
             ),
           ),
         ],
@@ -416,32 +407,32 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
       children: [
         if (warning != null) ...[
           _buildWarningCard(context, warning.toString()),
-          CommonSpacer.vertical(th.spacing.lg),
+          CommonSpacer.vertical(th.sp.lg),
         ],
         if (summary != null) ...[
           Text(
             'Summary',
             style: th.tx.heading3.copyWith(color: th.colors.textPrimary),
           ),
-          CommonSpacer.vertical(th.spacing.sm),
+          CommonSpacer.vertical(th.sp.sm),
           Text(
             summary.toString(),
             style: th.tx.body.copyWith(
-              height: _lineHeightRelaxed,
+              height: AppTypographyConstants.lineHeightRelaxed,
               color: th.colors.textSecondary,
             ),
           ),
-          CommonSpacer.vertical(th.spacing.xl),
+          CommonSpacer.vertical(th.sp.xl),
         ],
         if (testKits != null) ...[
           Text(
             'Reagent Testing',
             style: th.tx.heading3.copyWith(color: th.colors.textPrimary),
           ),
-          CommonSpacer.vertical(th.spacing.sm),
+          CommonSpacer.vertical(th.sp.sm),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.all(th.spacing.lg),
+            padding: EdgeInsets.all(th.sp.lg),
             decoration: BoxDecoration(
               color: th.colors.surface,
               borderRadius: BorderRadius.circular(th.shapes.radiusMd),
@@ -464,20 +455,20 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
     final th = context.theme;
 
     return CommonCard(
-      padding: EdgeInsets.all(th.spacing.lg),
-      backgroundColor: th.colors.warning.withValues(alpha: 0.1),
+      padding: EdgeInsets.all(th.sp.lg),
+      backgroundColor: th.colors.warning.withValues(alpha: th.opacities.overlay),
       borderColor: th.colors.warning.withValues(alpha: th.opacities.slow),
       child: Row(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Icon(Icons.warning_amber_rounded, color: th.colors.warning),
-          CommonSpacer.horizontal(th.spacing.md),
+          CommonSpacer.horizontal(th.sp.md),
           Expanded(
             child: Text(
               message,
               style: th.tx.body.copyWith(
                 color: th.colors.warning,
-                height: _lineHeightNormal,
+                height: AppTypographyConstants.lineHeightNormal,
               ),
             ),
           ),

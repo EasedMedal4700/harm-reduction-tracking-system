@@ -23,10 +23,10 @@ class CatalogAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(th.spacing.xs),
-            margin: EdgeInsets.only(right: th.spacing.sm),
+            padding: EdgeInsets.all(th.sp.xs),
+            margin: EdgeInsets.only(right: th.sp.sm),
             decoration: BoxDecoration(
-              color: th.colors.surfaceVariant.withValues(alpha: 0.3),
+              color: th.colors.surfaceVariant.withValues(alpha: th.opacities.medium),
               borderRadius: BorderRadius.circular(th.shapes.radiusSm),
               border: Border.all(
                 color: accentColor.withValues(alpha: th.opacities.slow),

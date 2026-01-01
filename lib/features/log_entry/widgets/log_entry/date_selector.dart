@@ -54,16 +54,16 @@ class DateSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final t = context.text;
-    final sp = context.spacing;
-    final sh = context.shapes;
+    final th = context.theme;
+    final c = th.c;
+    final t = th.text;
+    final sh = th.shapes;
 
     return InkWell(
       onTap: () => _selectDate(context),
       borderRadius: BorderRadius.circular(sh.radiusMd),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: sp.lg, vertical: sp.md),
+        padding: EdgeInsets.symmetric(horizontal: th.sp.lg, vertical: th.sp.md),
         decoration: BoxDecoration(
           color: c.surface,
           borderRadius: BorderRadius.circular(sh.radiusMd),
@@ -72,12 +72,12 @@ class DateSelector extends StatelessWidget {
         child: Row(
           children: [
             Icon(Icons.calendar_today, color: c.textTertiary),
-            SizedBox(width: sp.sm),
+            SizedBox(width: th.sp.sm),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  DateFormat('d MMM y').format(selectedDate),
+                  DateFormat.yMMMd().format(selectedDate),
                   style: t.bodyMedium.copyWith(color: c.textPrimary),
                 ),
                 Text(

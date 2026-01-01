@@ -48,6 +48,7 @@ class _CommonSearchFieldState<T extends Object>
   bool _ownsController = false;
   bool _ownsFocusNode = false;
   bool _autoSelecting = false;
+  String? _lastAutoSelectQuery;
 
   @override
   void initState() {
@@ -100,18 +101,18 @@ class _CommonSearchFieldState<T extends Object>
     // If caller provided an explicit accentColor, use it exactly for the
     // fill so the field matches other UI elements (e.g., Save button).
     final fillColor = widget.accentColor == null
-      ? Color.alphaBlend(
-        accentColor.withValues(alpha: th.isDark ? 0.14 : 0.10),
-        baseFill,
-        )
-      : accentColor;
+        ? Color.alphaBlend(
+            accentColor.withValues(alpha: th.isDark ? 0.14 : 0.10),
+            baseFill,
+          )
+        : accentColor;
     // Choose readable text/icon color on top of the fill when accent provided.
     final bool accentIsDark = widget.accentColor != null
-      ? accentColor.computeLuminance() < 0.5
-      : false;
+        ? accentColor.computeLuminance() < 0.5
+        : false;
     final fillTextColor = widget.accentColor != null
-      ? (accentIsDark ? Colors.white : Colors.black87)
-      : th.colors.textPrimary;
+        ? (accentIsDark ? Colors.white : Colors.black87)
+        : th.colors.textPrimary;
 
     return RawAutocomplete<T>(
       textEditingController: _controller,
@@ -132,8 +133,14 @@ class _CommonSearchFieldState<T extends Object>
             // only one option is returned or the typed text exactly matches
             // a single option, auto-select it. Guard with `_autoSelecting`
             // to avoid recursive selection loops.
-            if (value.text.isNotEmpty && !_autoSelecting) {
-              final query = value.text;
+            final query = value.text;
+            if (query.isNotEmpty &&
+                !_autoSelecting &&
+                query != _lastAutoSelectQuery) {
+              // Prevent rescheduling on rebuilds (e.g. cursor blink) when
+              // the query hasn't changed.
+              _lastAutoSelectQuery = query;
+
               // Run async check off the build frame.
               Future.microtask(() async {
                 try {
@@ -145,7 +152,8 @@ class _CommonSearchFieldState<T extends Object>
                   } else {
                     final lower = query.trim().toLowerCase();
                     for (final o in list) {
-                      final label = widget.displayStringForOption(o)
+                      final label = widget
+                          .displayStringForOption(o)
                           .trim()
                           .toLowerCase();
                       if (label == lower) {
@@ -161,10 +169,12 @@ class _CommonSearchFieldState<T extends Object>
                     // selection.
                     controller.text = display;
                     controller.selection = TextSelection.collapsed(
-                        offset: controller.text.length);
+                      offset: controller.text.length,
+                    );
                     widget.onSelected(match);
-                    // allow future selections
-                    await Future.delayed(const Duration(milliseconds: 50));
+                    // Ensure subsequent rebuilds for the same display text
+                    // don't reschedule auto-select work.
+                    _lastAutoSelectQuery = controller.text;
                     _autoSelecting = false;
                   }
                 } catch (_) {
@@ -180,7 +190,7 @@ class _CommonSearchFieldState<T extends Object>
                 hintText: widget.hintText ?? 'Search...',
                 labelText: widget.labelText,
                 hintStyle: th.text.body.copyWith(
-                    color: (widget.accentColor != null)
+                  color: (widget.accentColor != null)
                       ? fillTextColor.withValues(alpha: 0.85)
                       : th.colors.textSecondary.withValues(alpha: 0.5),
                 ),
@@ -189,11 +199,14 @@ class _CommonSearchFieldState<T extends Object>
                       ? fillTextColor
                       : th.colors.textSecondary,
                 ),
-                prefixIcon: widget.prefixIcon ??
-                    Icon(Icons.search,
-                        color: widget.accentColor != null
-                            ? fillTextColor
-                            : th.colors.textSecondary),
+                prefixIcon:
+                    widget.prefixIcon ??
+                    Icon(
+                      Icons.search,
+                      color: widget.accentColor != null
+                          ? fillTextColor
+                          : th.colors.textSecondary,
+                    ),
                 suffixIcon: value.text.isNotEmpty
                     ? IconButton(
                         icon: Icon(Icons.clear, color: fillTextColor),

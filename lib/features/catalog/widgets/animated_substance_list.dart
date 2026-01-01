@@ -25,31 +25,20 @@ class AnimatedSubstanceList extends StatelessWidget {
   Widget build(BuildContext context) {
     final th = context.theme;
     return ListView.builder(
-      padding: EdgeInsets.all(th.spacing.md),
       itemCount: substances.length,
-      itemBuilder: (context, index) {
-        final substance = substances[index];
-        return TweenAnimationBuilder<double>(
-          duration: Duration(
-            milliseconds: th.animations.normal.inMilliseconds + (index * 30),
+      itemBuilder: (context, i) {
+        final s = substances[i];
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: th.sp.xs,
           ),
-          tween: Tween(begin: 0.0, end: 1.0),
-          curve: Curves.easeOutCubic,
-          builder: (context, value, child) {
-            return Transform.translate(
-              offset: Offset(0, 20 * (1 - value)),
-              child: Opacity(
-                opacity: value,
-                child: SubstanceCard(
-                  substance: substance,
-                  onTap: () => onSubstanceTap(substance),
-                  onAddStockpile: (substanceId, name, substance) =>
-                      onAddStockpile(substanceId, name, substance),
-                  getMostActiveDay: (name) => getMostActiveDay(name),
-                ),
-              ),
-            );
-          },
+          child: SubstanceCard(
+            substance: s,
+            onTap: () => onSubstanceTap(s),
+            onAddStockpile: (substanceId, name, substance) =>
+                onAddStockpile(substanceId, name, substance),
+            getMostActiveDay: (name) => getMostActiveDay(name),
+          ),
         );
       },
     );

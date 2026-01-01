@@ -34,7 +34,7 @@ class CatalogSearchFilters extends StatelessWidget {
   Widget build(BuildContext context) {
     final th = context.theme;
     return Container(
-      padding: EdgeInsets.all(th.spacing.md),
+      padding: EdgeInsets.all(th.sp.md),
       decoration: BoxDecoration(
         color: th.colors.surface,
         border: Border(
@@ -49,7 +49,7 @@ class CatalogSearchFilters extends StatelessWidget {
               onSearchChanged(searchController.text);
             },
           ),
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(th.sp.lg),
           CategoryFilterChips(
             selectedCategory: selectedCategories.isNotEmpty
                 ? selectedCategories.first
@@ -60,7 +60,7 @@ class CatalogSearchFilters extends StatelessWidget {
               }
             },
           ),
-          const CommonSpacer.vertical(16),
+          CommonSpacer.vertical(th.sp.lg),
           CommonFilterToggle(
             showCommonOnly: showCommonOnly,
             onChanged: onCommonOnlyChanged,

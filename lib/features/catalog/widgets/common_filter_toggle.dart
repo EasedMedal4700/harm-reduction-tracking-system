@@ -18,13 +18,12 @@ class CommonFilterToggle extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final tx = context.text;
     final th = context.theme;
     final accentColor = th.accent.primary;
     return CommonCard(
       padding: EdgeInsets.symmetric(
-        horizontal: th.spacing.md,
-        vertical: th.spacing.sm,
+        horizontal: th.sp.md,
+        vertical: th.sp.sm,
       ),
       borderColor: showCommonOnly ? accentColor : th.colors.border,
       child: Row(
@@ -34,14 +33,11 @@ class CommonFilterToggle extends StatelessWidget {
             color: showCommonOnly ? accentColor : th.colors.textSecondary,
             size: th.sizes.iconSm,
           ),
-          const CommonSpacer.horizontal(16),
+          CommonSpacer.horizontal(th.sp.lg),
           Expanded(
             child: Text(
               'Common Only',
-              style: th.tx.body.copyWith(
-                color: th.colors.textPrimary,
-                fontWeight: tx.bodyMedium.fontWeight,
-              ),
+              style: th.tx.bodyMedium.copyWith(color: th.colors.textPrimary),
             ),
           ),
           Switch(

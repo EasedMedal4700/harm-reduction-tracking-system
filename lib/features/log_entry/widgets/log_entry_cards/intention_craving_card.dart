@@ -33,7 +33,7 @@ class IntentionCravingCard extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final sp = context.spacing;
+    final th = context.theme;
     final validIntention = intentions.contains(intention) ? intention : null;
     return CommonCard(
       child: Column(
@@ -43,11 +43,11 @@ class IntentionCravingCard extends StatelessWidget {
             title: "Intention & Purpose",
             subtitle: "Why did you use this substance?",
           ),
-          CommonSpacer.vertical(sp.md),
+          CommonSpacer.vertical(th.sp.md),
 
           ///  MEDICAL PURPOSE SWITCH
           _buildMedicalToggle(context),
-          CommonSpacer.vertical(sp.lg),
+          CommonSpacer.vertical(th.sp.lg),
 
           ///  INTENTION DROPDOWN
           CommonDropdown<String>(
@@ -56,7 +56,7 @@ class IntentionCravingCard extends StatelessWidget {
             onChanged: onIntentionChanged,
             itemLabel: (v) => v,
           ),
-          CommonSpacer.vertical(sp.lg),
+          CommonSpacer.vertical(th.sp.lg),
 
           ///  CRAVING SLIDER
           _buildCravingSection(context),
@@ -69,9 +69,10 @@ class IntentionCravingCard extends StatelessWidget {
   // MEDICAL PURPOSE SWITCH
   // ----------------------------------------------------------
   Widget _buildMedicalToggle(BuildContext context) {
-    final tx = context.text;
-    final c = context.colors;
-    final sh = context.shapes;
+    final th = context.theme;
+    final tx = th.text;
+    final c = th.c;
+    final sh = th.shapes;
     final accent = c.success;
     return Container(
       decoration: BoxDecoration(
@@ -79,7 +80,7 @@ class IntentionCravingCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(sh.radiusMd),
         border: Border.all(
           color: isMedicalPurpose ? accent : c.border,
-          width: isMedicalPurpose ? 2 : 1,
+          width: isMedicalPurpose ? th.borders.medium : th.borders.thin,
         ),
       ),
       child: SwitchListTile(
@@ -107,10 +108,10 @@ class IntentionCravingCard extends StatelessWidget {
   // CRAVING SLIDER
   // ----------------------------------------------------------
   Widget _buildCravingSection(BuildContext context) {
-    final c = context.colors;
-    final tx = context.text;
-    final sp = context.spacing;
-    final sh = context.shapes;
+    final th = context.theme;
+    final c = th.c;
+    final tx = th.text;
+    final sh = th.shapes;
 
     final accent = c.warning;
     return Column(
@@ -120,7 +121,7 @@ class IntentionCravingCard extends StatelessWidget {
           "Craving Intensity",
           style: tx.body.copyWith(color: c.textPrimary),
         ),
-        CommonSpacer.vertical(sp.sm),
+        CommonSpacer.vertical(th.sp.sm),
         Row(
           children: [
             /// Slider (your CommonSlider)
@@ -133,13 +134,16 @@ class IntentionCravingCard extends StatelessWidget {
                 onChanged: onCravingIntensityChanged,
               ),
             ),
-            CommonSpacer.horizontal(sp.md),
+            CommonSpacer.horizontal(th.sp.md),
 
             /// Value indicator box
             Container(
-              padding: EdgeInsets.symmetric(horizontal: sp.md, vertical: sp.sm),
+              padding: EdgeInsets.symmetric(
+                horizontal: th.sp.md,
+                vertical: th.sp.sm,
+              ),
               decoration: BoxDecoration(
-                color: accent.withValues(alpha: 0.12),
+                color: accent.withValues(alpha: th.opacities.overlay),
                 borderRadius: BorderRadius.circular(sh.radiusMd),
                 border: Border.all(color: accent),
               ),

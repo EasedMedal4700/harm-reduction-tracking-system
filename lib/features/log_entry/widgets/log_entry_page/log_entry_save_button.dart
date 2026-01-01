@@ -16,7 +16,7 @@ class LogEntrySaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final th = context.theme;
     return Container(
-      padding: EdgeInsets.all(th.spacing.lg),
+      padding: EdgeInsets.all(th.sp.lg),
       decoration: BoxDecoration(
         color: th.colors.surface,
         border: Border(top: BorderSide(color: th.colors.border)),

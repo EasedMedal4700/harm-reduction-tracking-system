@@ -133,4 +133,41 @@ void main() {
       );
     });
   });
+
+  group('DrugCategories.primaryCategoryFromRaw', () {
+    test('returns Placeholder for null/empty', () {
+      expect(DrugCategories.primaryCategoryFromRaw(null), 'Placeholder');
+      expect(DrugCategories.primaryCategoryFromRaw(''), 'Placeholder');
+      expect(DrugCategories.primaryCategoryFromRaw('   '), 'Placeholder');
+    });
+
+    test('handles multi-category strings and priority ordering', () {
+      expect(
+        DrugCategories.primaryCategoryFromRaw('Stimulant, Cathinone'),
+        'Stimulant',
+      );
+      expect(
+        DrugCategories.primaryCategoryFromRaw('Empathogen / Psychedelic'),
+        'Psychedelic',
+      );
+    });
+
+    test('ignores metadata tokens like tentative/common', () {
+      expect(
+        DrugCategories.primaryCategoryFromRaw('Tentative, Stimulant'),
+        'Stimulant',
+      );
+      expect(
+        DrugCategories.primaryCategoryFromRaw('Common; Depressant'),
+        'Depressant',
+      );
+    });
+
+    test('returns Experimental for unknown categories', () {
+      expect(
+        DrugCategories.primaryCategoryFromRaw('MadeUpCategory'),
+        'Experimental',
+      );
+    });
+  });
 }

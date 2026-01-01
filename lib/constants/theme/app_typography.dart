@@ -21,6 +21,9 @@ class AppTypographyConstants {
   static const FontWeight fontSemiBold = FontWeight.w600;
   static const FontWeight fontMediumWeight = FontWeight.w500;
   static const double lineHeightTight = 1.2;
+  static const double lineHeightNormal = 1.4;
+  static const double lineHeightRelaxed = 1.6;
+  static const double lineHeightAliases = 1.5;
   static const String fontFamilyMonospace = 'monospace';
 }
 

@@ -98,21 +98,22 @@ class DrugCategories {
 class DrugCategoryColors {
   DrugCategoryColors._();
 
-  static const Color psychedelic     = Color(0xFF8B7CFF); // soft violet
-  static const Color deliriant        = Color(0xFFA07FE0); // lavender-violet
-  static const Color dissociative     = Color(0xFF4FA3C7); // airy cyan-blue
-  static const Color empathogen       = Color(0xFFE26AA6); // warm pink
-  static const Color opioid           = Color(0xFFE38B4F); // soft orange
-  static const Color depressant       = Color(0xFF4C86C6); // calm blue
-  static const Color benzodiazepine   = Color(0xFF7FA9D8); // light steel blue
-  static const Color barbiturate      = Color(0xFFE1C35C); // muted gold
-  static const Color stimulant        = Color(0xFF38C6D9); // balanced cyan
-  static const Color cathinone        = Color(0xFF3AB3CF); // blue-cyan
-  static const Color nootropic        = Color(0xFF46BFA1); // fresh teal
-  static const Color ssri             = Color(0xFF8FA0E8); // soft periwinkle
-  static const Color supplement       = Color(0xFF8ED37C); // gentle green
-  static const Color experimental     = Color(0xFF9CA3AF); // neutral gray
-  static const Color placeholder      = Color(0xFF9CA3AF);
+  // Keep these values stable: tests and UI rely on specific hex colors.
+  static const Color psychedelic = Color(0xFF9C6BFF);
+  static const Color deliriant = Color(0xFFC67EFF);
+  static const Color dissociative = Color(0xFF00BFFF);
+  static const Color empathogen = Color(0xFFFF5FB7);
+  static const Color opioid = Color(0xFFFF914D);
+  static const Color depressant = Color(0xFF1E90FF);
+  static const Color benzodiazepine = Color(0xFF6EB5FF);
+  static const Color barbiturate = Color(0xFFFFD86E);
+  static const Color stimulant = Color(0xFF00E0FF);
+  static const Color cathinone = Color(0xFF00C8FF);
+  static const Color nootropic = Color(0xFF00C896);
+  static const Color ssri = Color(0xFF8C9EFF);
+  static const Color supplement = Color(0xFFA7FF83);
+  static const Color experimental = Color(0xFF9CA3AF); // neutral gray
+  static const Color placeholder = Color(0xFF9CA3AF);
 
   static const Color defaultColor = stimulant;
 

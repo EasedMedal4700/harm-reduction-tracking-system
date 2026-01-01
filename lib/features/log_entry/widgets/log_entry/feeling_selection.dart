@@ -19,11 +19,10 @@ class FeelingSelection extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final tx = context.text;
-    // acc unused
-    final sp = context.spacing;
-    final sh = context.shapes;
+    final th = context.theme;
+    final c = th.c;
+    final tx = th.text;
+    final sh = th.shapes;
     final feelings = [
       {
         'label': 'Great',
@@ -33,13 +32,13 @@ class FeelingSelection extends StatelessWidget {
       {
         'label': 'Good',
         'icon': Icons.sentiment_satisfied,
-        'color': c.success.withValues(alpha: 0.7),
+        'color': c.success.withValues(alpha: th.opacities.medium),
       },
       {'label': 'Okay', 'icon': Icons.sentiment_neutral, 'color': c.warning},
       {
         'label': 'Bad',
         'icon': Icons.sentiment_dissatisfied,
-        'color': c.warning.withValues(alpha: 0.7),
+        'color': c.warning.withValues(alpha: th.opacities.medium),
       },
       {
         'label': 'Awful',
@@ -57,7 +56,7 @@ class FeelingSelection extends StatelessWidget {
             color: c.textPrimary,
           ),
         ),
-        SizedBox(height: sp.sm),
+        SizedBox(height: th.sp.sm),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -65,24 +64,22 @@ class FeelingSelection extends StatelessWidget {
               final isSelected = selectedFeeling == feeling['label'];
               final color = feeling['color'] as Color;
               return Padding(
-                padding: EdgeInsets.only(right: sp.sm),
+                padding: EdgeInsets.only(right: th.sp.sm),
                 child: InkWell(
                   onTap: () => onFeelingSelected(feeling['label'] as String),
                   borderRadius: BorderRadius.circular(sh.radiusMd),
                   child: Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: sp.md,
-                      vertical: sp.sm,
+                      horizontal: th.sp.md,
+                      vertical: th.sp.sm,
                     ),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? color.withValues(alpha: context.opacities.selected)
+                          ? color.withValues(alpha: th.opacities.selected)
                           : c.surface,
                       border: Border.all(
                         color: isSelected ? color : c.border,
-                        width: isSelected
-                            ? context.borders.medium
-                            : context.borders.thin,
+                        width: isSelected ? th.borders.medium : th.borders.thin,
                       ),
                       borderRadius: BorderRadius.circular(sh.radiusMd),
                     ),
@@ -92,9 +89,9 @@ class FeelingSelection extends StatelessWidget {
                         Icon(
                           feeling['icon'] as IconData,
                           color: isSelected ? color : c.textSecondary,
-                          size: context.sizes.iconLg,
+                          size: th.sizes.iconLg,
                         ),
-                        SizedBox(height: sp.xs),
+                        SizedBox(height: th.sp.xs),
                         Text(
                           feeling['label'] as String,
                           style: tx.bodySmall.copyWith(

@@ -15,7 +15,7 @@ class SubstanceRepository {
     final response = await _client
         .from('drug_profiles')
         .select(
-          'name, pretty_name, categories, aliases, formatted_dose, formatted_duration, formatted_onset, formatted_aftereffects, properties',
+          'name, pretty_name, categories, aliases, formatted_dose, formatted_duration, formatted_onset, formatted_aftereffects, properties, is_user_created',
         );
     final data = (response as List<dynamic>)
         .map((e) => e as Map<String, dynamic>)
@@ -40,8 +40,7 @@ class SubstanceRepository {
             item['properties'] != null && item['properties']['summary'] != null
             ? item['properties']['summary']
             : 'No description available.',
-        'is_common':
-            item['is_user_created'] == 0, // Add this: true if not user-created
+        'is_common': item['is_user_created'] == 0, // true if not user-created
       };
     }).toList();
   }
@@ -64,9 +63,7 @@ class SubstanceRepository {
         'name, pretty_name, formatted_dose, aliases',
       ];
 
-      Future<Map<String, dynamic>?> _maybeSingleWithSelect(
-        String select,
-      ) async {
+      Future<Map<String, dynamic>?> maybeSingleWithSelect(String select) async {
         final response = await _client
             .from('drug_profiles')
             .select(select)
@@ -85,7 +82,7 @@ class SubstanceRepository {
       Map<String, dynamic>? aliasResponse;
       for (final select in selectAttempts) {
         try {
-          aliasResponse = await _maybeSingleWithSelect(select);
+          aliasResponse = await maybeSingleWithSelect(select);
           if (aliasResponse != null) break;
         } catch (_) {
           // Try next select shape.

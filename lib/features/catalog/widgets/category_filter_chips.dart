@@ -19,6 +19,7 @@ class CategoryFilterChips extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final th = context.theme;
     final categories = <String?>[
       null, // "All" option
       ...DrugCategories.categoryPriority,
@@ -28,7 +29,7 @@ class CategoryFilterChips extends StatelessWidget {
       child: Row(
         children: categories.map((category) {
           return Padding(
-            padding: const EdgeInsets.only(right: 8),
+            padding: EdgeInsets.only(right: th.sp.sm),
             child: _buildFilterChip(context, category),
           );
         }).toList(),
@@ -37,8 +38,6 @@ class CategoryFilterChips extends StatelessWidget {
   }
 
   Widget _buildFilterChip(BuildContext context, String? category) {
-    final tx = context.text;
-
     final th = context.theme;
     final isSelected = selectedCategory == category;
     final label = category ?? 'All';
@@ -54,25 +53,25 @@ class CategoryFilterChips extends StatelessWidget {
           if (icon != null) ...[
             Icon(
               icon,
-              size: th.spacing.lg,
+              size: th.sizes.iconSm,
               color: isSelected ? accentColor : th.colors.textSecondary,
             ),
-            const CommonSpacer.horizontal(6),
+            CommonSpacer.horizontal(th.sp.xs),
           ],
           Text(label),
         ],
       ),
       onSelected: (_) => onCategorySelected(category),
-      selectedColor: accentColor.withValues(alpha: 0.2),
+      selectedColor: accentColor.withValues(alpha: th.opacities.selected),
       backgroundColor: th.colors.surface,
       labelStyle: th.typography.body.copyWith(
         color: isSelected ? accentColor : th.colors.textSecondary,
-        fontWeight: isSelected ? tx.bodyBold.fontWeight : FontWeight.normal,
+        fontWeight: isSelected ? th.tx.bodyBold.fontWeight : th.tx.body.fontWeight,
       ),
       side: BorderSide(color: isSelected ? accentColor : th.colors.border),
       padding: EdgeInsets.symmetric(
-        horizontal: th.spacing.md,
-        vertical: th.spacing.sm,
+        horizontal: th.sp.md,
+        vertical: th.sp.sm,
       ),
     );
   }

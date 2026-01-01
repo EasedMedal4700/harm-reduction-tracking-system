@@ -26,17 +26,15 @@ class DrugCatalogList extends StatelessWidget {
       return Center(
         child: Text(
           'No drugs found.',
-          style: th.typography.bodyMedium.copyWith(
-            color: th.colors.textSecondary,
-          ),
+          style: th.tx.bodyMedium.copyWith(color: th.colors.textSecondary),
         ),
       );
     }
     return ListView.separated(
-      padding: EdgeInsets.all(th.spacing.md),
+      padding: EdgeInsets.all(th.sp.md),
       itemCount: entries.length,
       separatorBuilder: (context, index) =>
-          CommonSpacer.vertical(th.spacing.md),
+          CommonSpacer.vertical(th.sp.md),
       itemBuilder: (context, index) {
         final drug = entries[index];
         return DrugCatalogTile(
@@ -67,17 +65,16 @@ class DrugCatalogTile extends StatelessWidget {
     final th = context.theme;
 
     final c = context.colors;
-    final tx = context.text;
     return CommonCard(
       child: Padding(
-        padding: EdgeInsets.all(th.spacing.md),
+        padding: EdgeInsets.all(th.sp.md),
         child: Column(
           crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
           children: [
             Row(
               mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
-                Expanded(child: Text(drug.name, style: tx.heading4)),
+                Expanded(child: Text(drug.name, style: th.tx.heading4)),
                 IconButton(
                   icon: Icon(
                     drug.favorite ? Icons.star : Icons.star_border,
@@ -87,7 +84,7 @@ class DrugCatalogTile extends StatelessWidget {
                 ),
               ],
             ),
-            const CommonSpacer.vertical(8),
+            CommonSpacer.vertical(th.sp.sm),
             _buildInfoRow(context, 'Categories:', drug.categories.join(', ')),
             _buildInfoRow(context, 'Total uses:', '${drug.totalUses}'),
             _buildInfoRow(
@@ -114,29 +111,23 @@ class DrugCatalogTile extends StatelessWidget {
 
   Widget _buildInfoRow(BuildContext context, String label, String value) {
     final th = context.theme;
-    final tx = context.text;
 
     return Padding(
-      padding: EdgeInsets.only(bottom: th.spacing.xs),
+      padding: EdgeInsets.only(bottom: th.sp.xs),
       child: Row(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           SizedBox(
-            width: context.sizes.cardWidthSm,
+            width: th.sizes.cardWidthSm,
             child: Text(
               label,
-              style: th.typography.bodySmall.copyWith(
-                color: th.colors.textSecondary,
-                fontWeight: tx.bodyBold.fontWeight,
-              ),
+              style: th.tx.bodySmall.copyWith(color: th.colors.textSecondary),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: th.typography.bodySmall.copyWith(
-                color: th.colors.textPrimary,
-              ),
+              style: th.tx.bodySmall.copyWith(color: th.colors.textPrimary),
             ),
           ),
         ],
