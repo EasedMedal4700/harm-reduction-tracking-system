@@ -110,10 +110,7 @@ class DosageGuideCard extends StatelessWidget {
           Column(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
-              Text(
-                label,
-                style: th.tx.captionBold.copyWith(color: color),
-              ),
+              Text(label, style: th.tx.captionBold.copyWith(color: color)),
               SizedBox(height: th.sp.xs),
               Text(
                 range,

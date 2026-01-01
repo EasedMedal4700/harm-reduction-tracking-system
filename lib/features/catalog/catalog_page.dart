@@ -326,8 +326,8 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
             },
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: th.sp.md,
-                  vertical: th.sp.sm,
+                horizontal: th.sp.md,
+                vertical: th.sp.sm,
               ),
               child: Row(
                 children: [

@@ -142,10 +142,7 @@ class TimingInfoCard extends StatelessWidget {
           Column(
             crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
             children: [
-              Text(
-                label,
-                style: th.tx.label.copyWith(color: color),
-              ),
+              Text(label, style: th.tx.label.copyWith(color: color)),
               Text(
                 value,
                 style: th.tx.bodyBold.copyWith(color: th.colors.textPrimary),

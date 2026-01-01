@@ -21,10 +21,7 @@ class CommonFilterToggle extends StatelessWidget {
     final th = context.theme;
     final accentColor = th.accent.primary;
     return CommonCard(
-      padding: EdgeInsets.symmetric(
-        horizontal: th.sp.md,
-        vertical: th.sp.sm,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: th.sp.md, vertical: th.sp.sm),
       borderColor: showCommonOnly ? accentColor : th.colors.border,
       child: Row(
         children: [

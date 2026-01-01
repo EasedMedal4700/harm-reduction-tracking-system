@@ -202,7 +202,7 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
                       selectedMethod: _selectedMethod,
                       accentColor: accentColor,
                     ),
-                        SizedBox(height: th.sp.xl),
+                    SizedBox(height: th.sp.xl),
                     // Timing
                     TimingInfoCard(
                       onset: _parsedOnset[_selectedMethod],
@@ -210,7 +210,7 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
                       afterEffects: _parsedAfterEffects[_selectedMethod],
                       accentColor: accentColor,
                     ),
-                        SizedBox(height: th.sp.xl),
+                    SizedBox(height: th.sp.xl),
                     // Properties / Summary
                     _buildProperties(context),
                   ],
@@ -456,7 +456,9 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
 
     return CommonCard(
       padding: EdgeInsets.all(th.sp.lg),
-      backgroundColor: th.colors.warning.withValues(alpha: th.opacities.overlay),
+      backgroundColor: th.colors.warning.withValues(
+        alpha: th.opacities.overlay,
+      ),
       borderColor: th.colors.warning.withValues(alpha: th.opacities.slow),
       child: Row(
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,

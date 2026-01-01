@@ -29,9 +29,7 @@ class AnimatedSubstanceList extends StatelessWidget {
       itemBuilder: (context, i) {
         final s = substances[i];
         return Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: th.sp.xs,
-          ),
+          padding: EdgeInsets.symmetric(vertical: th.sp.xs),
           child: SubstanceCard(
             substance: s,
             onTap: () => onSubstanceTap(s),

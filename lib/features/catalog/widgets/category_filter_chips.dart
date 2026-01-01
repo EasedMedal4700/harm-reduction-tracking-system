@@ -66,13 +66,12 @@ class CategoryFilterChips extends StatelessWidget {
       backgroundColor: th.colors.surface,
       labelStyle: th.typography.body.copyWith(
         color: isSelected ? accentColor : th.colors.textSecondary,
-        fontWeight: isSelected ? th.tx.bodyBold.fontWeight : th.tx.body.fontWeight,
+        fontWeight: isSelected
+            ? th.tx.bodyBold.fontWeight
+            : th.tx.body.fontWeight,
       ),
       side: BorderSide(color: isSelected ? accentColor : th.colors.border),
-      padding: EdgeInsets.symmetric(
-        horizontal: th.sp.md,
-        vertical: th.sp.sm,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: th.sp.md, vertical: th.sp.sm),
     );
   }
 }

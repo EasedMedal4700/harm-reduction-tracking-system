@@ -33,8 +33,7 @@ class DrugCatalogList extends StatelessWidget {
     return ListView.separated(
       padding: EdgeInsets.all(th.sp.md),
       itemCount: entries.length,
-      separatorBuilder: (context, index) =>
-          CommonSpacer.vertical(th.sp.md),
+      separatorBuilder: (context, index) => CommonSpacer.vertical(th.sp.md),
       itemBuilder: (context, index) {
         final drug = entries[index];
         return DrugCatalogTile(

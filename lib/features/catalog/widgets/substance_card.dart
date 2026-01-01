@@ -77,7 +77,9 @@ class SubstanceCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          categoryColor.withValues(alpha: th.opacities.selected),
+                          categoryColor.withValues(
+                            alpha: th.opacities.selected,
+                          ),
                           categoryColor.withValues(alpha: th.opacities.splash),
                         ],
                         begin: context.shapes.alignmentTopLeft,
@@ -85,7 +87,9 @@ class SubstanceCard extends StatelessWidget {
                       ),
                       shape: context.shapes.boxShapeCircle,
                       border: Border.all(
-                        color: categoryColor.withValues(alpha: th.opacities.medium),
+                        color: categoryColor.withValues(
+                          alpha: th.opacities.medium,
+                        ),
                         width: th.borders.thin,
                       ),
                     ),
@@ -117,7 +121,9 @@ class SubstanceCard extends StatelessWidget {
                                 vertical: th.sizes.borderRegular,
                               ),
                               decoration: BoxDecoration(
-                                color: categoryColor.withValues(alpha: th.opacities.overlay),
+                                color: categoryColor.withValues(
+                                  alpha: th.opacities.overlay,
+                                ),
                                 borderRadius: BorderRadius.circular(
                                   th.shapes.radiusXs,
                                 ),
@@ -145,7 +151,9 @@ class SubstanceCard extends StatelessWidget {
                   ),
                   Icon(
                     Icons.chevron_right,
-                    color: th.colors.textSecondary.withValues(alpha: th.opacities.slow),
+                    color: th.colors.textSecondary.withValues(
+                      alpha: th.opacities.slow,
+                    ),
                   ),
                 ],
               ),
@@ -181,12 +189,16 @@ class SubstanceCard extends StatelessWidget {
                               vertical: th.sizes.borderRegular,
                             ),
                             decoration: BoxDecoration(
-                              color: th.colors.success.withValues(alpha: th.opacities.overlay),
+                              color: th.colors.success.withValues(
+                                alpha: th.opacities.overlay,
+                              ),
                               borderRadius: BorderRadius.circular(
                                 th.shapes.radiusSm,
                               ),
                               border: Border.all(
-                                color: th.colors.success.withValues(alpha: th.opacities.medium),
+                                color: th.colors.success.withValues(
+                                  alpha: th.opacities.medium,
+                                ),
                               ),
                             ),
                             child: Row(
