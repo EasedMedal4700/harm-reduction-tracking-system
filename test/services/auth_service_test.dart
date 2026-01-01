@@ -1,12 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/services/auth_service.dart';
+import 'package:mobile_drug_use_app/features/login/services/auth_service.dart';
+import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
   group('AuthService', () {
     late AuthService service;
 
     setUp(() {
-      service = AuthService();
+      service = AuthService(
+        client: SupabaseClient('http://localhost', 'anon'),
+        encryption: EncryptionServiceV2(),
+      );
     });
 
     test('AuthService can be instantiated', () {
@@ -32,8 +37,14 @@ void main() {
     });
 
     test('AuthService is not a singleton', () {
-      final service1 = AuthService();
-      final service2 = AuthService();
+      final service1 = AuthService(
+        client: SupabaseClient('http://localhost', 'anon'),
+        encryption: EncryptionServiceV2(),
+      );
+      final service2 = AuthService(
+        client: SupabaseClient('http://localhost', 'anon'),
+        encryption: EncryptionServiceV2(),
+      );
       // Each call creates a new instance
       expect(service1, isA<AuthService>());
       expect(service2, isA<AuthService>());

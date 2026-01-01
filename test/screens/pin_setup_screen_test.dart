@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/screens/pin_setup_screen.dart';
+import 'package:mobile_drug_use_app/features/setup_account/pages/pin_setup_page.dart';
+import '../helpers/test_app_wrapper.dart';
 
 void main() {
   group('PinSetupScreen Widget Tests', () {
     testWidgets('renders PIN setup screen correctly', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
       // Check for title in AppBar
       expect(find.text('Setup Encryption'), findsOneWidget);
-      
+
       // Check for PIN input labels
       expect(find.textContaining('Create'), findsWidgets);
       expect(find.text('Confirm PIN'), findsOneWidget);
@@ -21,7 +21,7 @@ void main() {
 
     testWidgets('has AppBar with no back button', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -31,7 +31,7 @@ void main() {
 
     testWidgets('has two PIN input fields', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -41,7 +41,7 @@ void main() {
 
     testWidgets('PIN fields are obscured by default', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -53,7 +53,7 @@ void main() {
 
     testWidgets('PIN fields have maxLength of 6', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -65,7 +65,7 @@ void main() {
 
     testWidgets('PIN fields have number keyboard type', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -77,7 +77,7 @@ void main() {
 
     testWidgets('has visibility toggle for both PIN fields', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -87,7 +87,7 @@ void main() {
 
     testWidgets('has Create PIN button', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -96,7 +96,7 @@ void main() {
 
     testWidgets('can enter PIN in first field', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -110,7 +110,7 @@ void main() {
 
     testWidgets('can enter PIN in second field', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -124,7 +124,7 @@ void main() {
 
     testWidgets('screen is wrapped in PopScope', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -133,7 +133,7 @@ void main() {
 
     testWidgets('has lock icon', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -142,7 +142,7 @@ void main() {
 
     testWidgets('has descriptive text about encryption', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
@@ -150,19 +150,21 @@ void main() {
       expect(find.textContaining('6-digit'), findsOneWidget);
     });
 
-    testWidgets('toggling visibility icon changes PIN visibility', (tester) async {
+    testWidgets('toggling visibility icon changes PIN visibility', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        const MaterialApp(home: PinSetupScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const PinSetupScreen()),
       );
       await tester.pump();
 
       // Initially all visibility icons (text obscured)
       expect(find.byIcon(Icons.visibility), findsNWidgets(2));
-      
+
       // Tap first visibility icon
       await tester.tap(find.byIcon(Icons.visibility).first);
       await tester.pump();
-      
+
       // Now should have one visibility and one visibility_off
       expect(find.byIcon(Icons.visibility), findsNWidgets(1));
       expect(find.byIcon(Icons.visibility_off), findsNWidgets(1));

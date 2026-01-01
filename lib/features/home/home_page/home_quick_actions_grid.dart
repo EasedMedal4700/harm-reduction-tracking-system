@@ -1,0 +1,158 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Quick actions are feature-flag gated.
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../constants/config/feature_flags.dart';
+import 'package:mobile_drug_use_app/core/services/user_service.dart';
+import '../../../../common/cards/common_action_card.dart';
+import 'package:mobile_drug_use_app/features/feature_flags/providers/feature_flag_providers.dart';
+
+class HomeQuickActionsGrid extends ConsumerStatefulWidget {
+  final VoidCallback onLogEntry;
+  final VoidCallback onReflection;
+  final VoidCallback onAnalytics;
+  final VoidCallback onCravings;
+  final VoidCallback onActivity;
+  final VoidCallback onLibrary;
+  final VoidCallback onCatalog;
+  final VoidCallback onBloodLevels;
+  const HomeQuickActionsGrid({
+    super.key,
+    required this.onLogEntry,
+    required this.onReflection,
+    required this.onAnalytics,
+    required this.onCravings,
+    required this.onActivity,
+    required this.onLibrary,
+    required this.onCatalog,
+    required this.onBloodLevels,
+  });
+  @override
+  ConsumerState<HomeQuickActionsGrid> createState() =>
+      _HomeQuickActionsGridState();
+}
+
+class _HomeQuickActionsGridState extends ConsumerState<HomeQuickActionsGrid> {
+  bool _isAdmin = false;
+  @override
+  void initState() {
+    super.initState();
+    _loadAdminStatus();
+  }
+
+  Future<void> _loadAdminStatus() async {
+    final isAdmin = await UserService.isAdmin();
+    if (mounted) {
+      setState(() => _isAdmin = isAdmin);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Define all quick actions with their feature flags
+    final allActions = [
+      _QuickAction(
+        'log_usage',
+        Icons.note_add,
+        'Log Entry',
+        widget.onLogEntry,
+        FeatureFlags.logEntryPage,
+      ),
+      _QuickAction(
+        'reflection',
+        Icons.self_improvement,
+        'Reflection',
+        widget.onReflection,
+        FeatureFlags.reflectionPage,
+      ),
+      _QuickAction(
+        'analytics',
+        Icons.analytics,
+        'Analytics',
+        widget.onAnalytics,
+        FeatureFlags.analyticsPage,
+      ),
+      _QuickAction(
+        'cravings',
+        Icons.local_fire_department,
+        'Cravings',
+        widget.onCravings,
+        FeatureFlags.cravingsPage,
+      ),
+      _QuickAction(
+        'activity',
+        Icons.directions_run,
+        'Activity',
+        widget.onActivity,
+        FeatureFlags.activityPage,
+      ),
+      _QuickAction(
+        'library',
+        Icons.menu_book,
+        'Library',
+        widget.onLibrary,
+        FeatureFlags.personalLibraryPage,
+      ),
+      _QuickAction(
+        'catalog',
+        Icons.inventory,
+        'Catalog',
+        widget.onCatalog,
+        FeatureFlags.catalogPage,
+      ),
+      _QuickAction(
+        'blood_levels',
+        Icons.bloodtype,
+        'Blood Levels',
+        widget.onBloodLevels,
+        FeatureFlags.bloodLevelsPage,
+      ),
+    ];
+    final flags = ref.watch(featureFlagServiceProvider);
+    final enabledActions = allActions
+        .where((action) => flags.isEnabled(action.flagName, isAdmin: _isAdmin))
+        .toList();
+    if (enabledActions.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisSpacing: context.spacing.md,
+      mainAxisSpacing: context.spacing.md,
+      childAspectRatio: 1.0,
+      children: enabledActions
+          .map(
+            (action) => CommonActionCard(
+              icon: action.icon,
+              title: action.label,
+              onTap: action.onTap,
+            ),
+          )
+          .toList(),
+    );
+  }
+}
+
+/// Helper class to hold quick action data.
+class _QuickAction {
+  final String key;
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  final String flagName;
+  const _QuickAction(
+    this.key,
+    this.icon,
+    this.label,
+    this.onTap,
+    this.flagName,
+  );
+}

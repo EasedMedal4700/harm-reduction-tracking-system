@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/widgets/quick_action_button.dart';
+import 'package:mobile_drug_use_app/features/home/widgets/quick_action_button.dart';
+import '../flutter_test_config.dart'; // Provides TestUtils
 
 void main() {
   group('QuickActionButton', () {
     testWidgets('renders icon and label', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: QuickActionButton(
-              icon: Icons.add,
-              label: 'Add Entry',
-              onPressed: () {},
-            ),
+        TestUtils.createTestApp(
+          child: QuickActionButton(
+            icon: Icons.add,
+            label: 'Add Entry',
+            onPressed: () {},
           ),
         ),
       );
@@ -23,15 +22,13 @@ void main() {
 
     testWidgets('calls onPressed when tapped', (tester) async {
       bool pressed = false;
-      
+
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: QuickActionButton(
-              icon: Icons.analytics,
-              label: 'Analytics',
-              onPressed: () => pressed = true,
-            ),
+        TestUtils.createTestApp(
+          child: QuickActionButton(
+            icon: Icons.analytics,
+            label: 'Analytics',
+            onPressed: () => pressed = true,
           ),
         ),
       );
@@ -42,13 +39,11 @@ void main() {
 
     testWidgets('is an ElevatedButton.icon', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: QuickActionButton(
-              icon: Icons.note_add,
-              label: 'Log Entry',
-              onPressed: () {},
-            ),
+        TestUtils.createTestApp(
+          child: QuickActionButton(
+            icon: Icons.note_add,
+            label: 'Log Entry',
+            onPressed: () {},
           ),
         ),
       );
@@ -61,23 +56,22 @@ void main() {
 
     testWidgets('has correct padding', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: QuickActionButton(
-              icon: Icons.home,
-              label: 'Home',
-              onPressed: () {},
-            ),
+        TestUtils.createTestApp(
+          child: QuickActionButton(
+            icon: Icons.home,
+            label: 'Home',
+            onPressed: () {},
           ),
         ),
       );
 
       final paddings = find.byType(Padding);
       expect(paddings, findsWidgets);
-      
+
       // Find the Padding widget that is a direct child of QuickActionButton
-      final padding = tester.widgetList<Padding>(paddings)
-        .firstWhere((p) => p.padding == const EdgeInsets.only(bottom: 8));
+      final padding = tester
+          .widgetList<Padding>(paddings)
+          .firstWhere((p) => p.padding == const EdgeInsets.only(bottom: 8));
       expect(padding.padding, const EdgeInsets.only(bottom: 8));
     });
 
@@ -92,13 +86,11 @@ void main() {
 
       for (final icon in icons) {
         await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: QuickActionButton(
-                icon: icon,
-                label: 'Test',
-                onPressed: () {},
-              ),
+          TestUtils.createTestApp(
+            child: QuickActionButton(
+              icon: icon,
+              label: 'Test',
+              onPressed: () {},
             ),
           ),
         );
@@ -109,31 +101,30 @@ void main() {
 
     testWidgets('handles long labels', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: QuickActionButton(
-              icon: Icons.add,
-              label: 'This is a very long label that might wrap',
-              onPressed: () {},
-            ),
+        TestUtils.createTestApp(
+          child: QuickActionButton(
+            icon: Icons.add,
+            label: 'This is a very long label that might wrap',
+            onPressed: () {},
           ),
         ),
       );
 
-      expect(find.text('This is a very long label that might wrap'), findsOneWidget);
+      expect(
+        find.text('This is a very long label that might wrap'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('maintains button state', (tester) async {
       int tapCount = 0;
-      
+
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: QuickActionButton(
-              icon: Icons.add,
-              label: 'Tap Me',
-              onPressed: () => tapCount++,
-            ),
+        TestUtils.createTestApp(
+          child: QuickActionButton(
+            icon: Icons.add,
+            label: 'Tap Me',
+            onPressed: () => tapCount++,
           ),
         ),
       );

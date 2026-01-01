@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Data catalog.
 // Intentions
 const List<String> intentions = [
   '-- Select Intention--',
@@ -20,7 +27,6 @@ const List<String> intentions = [
   'Peer Pressure',
   'Other',
 ];
-
 const List<String> physicalSensations = [
   'heart racing',
   'sweating',
@@ -35,7 +41,6 @@ const List<String> physicalSensations = [
   'fatigue',
   'hot/flushed',
 ];
-
 const List<String> triggers = [
   'stress',
   'social pressure',
@@ -50,7 +55,6 @@ const List<String> triggers = [
   'environment cues',
   'physical pain',
 ];
-
 const List<String> copingStrategies = [
   'deep breathing',
   'meditation',

@@ -296,7 +296,10 @@ void main() {
 
     test('isEncrypted returns false for incomplete JSON', () {
       expect(service.isEncrypted('{"nonce": "abc"}'), isFalse);
-      expect(service.isEncrypted('{"nonce": "abc", "ciphertext": "def"}'), isFalse);
+      expect(
+        service.isEncrypted('{"nonce": "abc", "ciphertext": "def"}'),
+        isFalse,
+      );
     });
 
     test('isEncrypted returns false for non-object JSON', () {
@@ -309,45 +312,45 @@ void main() {
     test('deriveKey produces 256-bit key', () async {
       final salt = Uint8List.fromList(List.generate(16, (i) => i));
       final key = await service.deriveKey('123456', salt, 1000);
-      
+
       final keyData = await key.extractBytes();
       expect(keyData.length, equals(32)); // 256 bits = 32 bytes
     });
 
     test('deriveKey produces consistent results with same inputs', () async {
       final salt = Uint8List.fromList(List.generate(16, (i) => i));
-      
+
       final key1 = await service.deriveKey('123456', salt, 1000);
       final key2 = await service.deriveKey('123456', salt, 1000);
-      
+
       final keyData1 = await key1.extractBytes();
       final keyData2 = await key2.extractBytes();
-      
+
       expect(keyData1, equals(keyData2));
     });
 
     test('deriveKey produces different results with different PINs', () async {
       final salt = Uint8List.fromList(List.generate(16, (i) => i));
-      
+
       final key1 = await service.deriveKey('123456', salt, 1000);
       final key2 = await service.deriveKey('654321', salt, 1000);
-      
+
       final keyData1 = await key1.extractBytes();
       final keyData2 = await key2.extractBytes();
-      
+
       expect(keyData1, isNot(equals(keyData2)));
     });
 
     test('deriveKey produces different results with different salts', () async {
       final salt1 = Uint8List.fromList(List.generate(16, (i) => i));
       final salt2 = Uint8List.fromList(List.generate(16, (i) => i + 1));
-      
+
       final key1 = await service.deriveKey('123456', salt1, 1000);
       final key2 = await service.deriveKey('123456', salt2, 1000);
-      
+
       final keyData1 = await key1.extractBytes();
       final keyData2 = await key2.extractBytes();
-      
+
       expect(keyData1, isNot(equals(keyData2)));
     });
   });
@@ -357,9 +360,9 @@ void main() {
       final salt = Uint8List.fromList(List.generate(16, (i) => i));
       final masterKey = await service.deriveKey('123456', salt, 1000);
       final dataKey = Uint8List.fromList(List.generate(32, (i) => i));
-      
+
       final encrypted = await service.encryptDataKey(masterKey, dataKey);
-      
+
       final parsed = jsonDecode(encrypted);
       expect(parsed['nonce'], isNotNull);
       expect(parsed['ciphertext'], isNotNull);
@@ -370,10 +373,10 @@ void main() {
       final salt = Uint8List.fromList(List.generate(16, (i) => i));
       final masterKey = await service.deriveKey('123456', salt, 1000);
       final dataKey = Uint8List.fromList(List.generate(32, (i) => i * 2));
-      
+
       final encrypted = await service.encryptDataKey(masterKey, dataKey);
       final decrypted = await service.decryptDataKey(masterKey, encrypted);
-      
+
       expect(decrypted, equals(dataKey));
     });
 
@@ -382,34 +385,51 @@ void main() {
       final correctKey = await service.deriveKey('123456', salt, 1000);
       final wrongKey = await service.deriveKey('654321', salt, 1000);
       final dataKey = Uint8List.fromList(List.generate(32, (i) => i));
-      
+
       final encrypted = await service.encryptDataKey(correctKey, dataKey);
       final decrypted = await service.decryptDataKey(wrongKey, encrypted);
-      
+
       expect(decrypted, isNull);
     });
 
     test('decryptDataKey returns null for invalid JSON', () async {
       final salt = Uint8List.fromList(List.generate(16, (i) => i));
       final masterKey = await service.deriveKey('123456', salt, 1000);
-      
+
       final decrypted = await service.decryptDataKey(masterKey, 'invalid json');
-      
+
       expect(decrypted, isNull);
     });
 
     test('decryptDataKey returns null for corrupted ciphertext', () async {
       final salt = Uint8List.fromList(List.generate(16, (i) => i));
       final masterKey = await service.deriveKey('123456', salt, 1000);
-      
+
       final corrupted = jsonEncode({
         'nonce': base64Encode([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
         'ciphertext': base64Encode([1, 2, 3]),
-        'mac': base64Encode([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]),
+        'mac': base64Encode([
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+        ]),
       });
-      
+
       final decrypted = await service.decryptDataKey(masterKey, corrupted);
-      
+
       expect(decrypted, isNull);
     });
   });
@@ -425,34 +445,37 @@ void main() {
 
     test('encryptText and decryptText roundtrip works', () async {
       const originalText = 'This is a secret message!';
-      
+
       final encrypted = await service.encryptText(originalText);
       final decrypted = await service.decryptText(encrypted);
-      
+
       expect(decrypted, equals(originalText));
     });
 
     test('encryptText produces encrypted JSON format', () async {
       const text = 'Secret';
-      
+
       final encrypted = await service.encryptText(text);
-      
+
       expect(service.isEncrypted(encrypted), isTrue);
     });
 
-    test('encryptText produces different ciphertext each time (random nonce)', () async {
-      const text = 'Same message';
-      
-      final encrypted1 = await service.encryptText(text);
-      final encrypted2 = await service.encryptText(text);
-      
-      expect(encrypted1, isNot(equals(encrypted2)));
-      
-      // But both decrypt to the same value
-      final decrypted1 = await service.decryptText(encrypted1);
-      final decrypted2 = await service.decryptText(encrypted2);
-      expect(decrypted1, equals(decrypted2));
-    });
+    test(
+      'encryptText produces different ciphertext each time (random nonce)',
+      () async {
+        const text = 'Same message';
+
+        final encrypted1 = await service.encryptText(text);
+        final encrypted2 = await service.encryptText(text);
+
+        expect(encrypted1, isNot(equals(encrypted2)));
+
+        // But both decrypt to the same value
+        final decrypted1 = await service.decryptText(encrypted1);
+        final decrypted2 = await service.decryptText(encrypted2);
+        expect(decrypted1, equals(decrypted2));
+      },
+    );
 
     test('encryptText handles empty string', () async {
       final encrypted = await service.encryptText('');
@@ -466,51 +489,48 @@ void main() {
 
     test('decryptText returns plaintext for non-encrypted input', () async {
       const plaintext = 'This is not encrypted';
-      
+
       final result = await service.decryptText(plaintext);
-      
+
       expect(result, equals(plaintext));
     });
 
     test('encryptText handles special characters', () async {
       const specialText = 'Hello 世界! 🎉 Ümläuts & "quotes" <tags>';
-      
+
       final encrypted = await service.encryptText(specialText);
       final decrypted = await service.decryptText(encrypted);
-      
+
       expect(decrypted, equals(specialText));
     });
 
     test('encryptText handles long text', () async {
       final longText = 'A' * 10000;
-      
+
       final encrypted = await service.encryptText(longText);
       final decrypted = await service.decryptText(encrypted);
-      
+
       expect(decrypted, equals(longText));
     });
 
     test('encryptText handles multiline text', () async {
       const multiline = 'Line 1\nLine 2\nLine 3\n\tIndented';
-      
+
       final encrypted = await service.encryptText(multiline);
       final decrypted = await service.decryptText(encrypted);
-      
+
       expect(decrypted, equals(multiline));
     });
 
     test('encryptText throws when not ready', () async {
       service.lock();
-      
-      expect(
-        () => service.encryptText('test'),
-        throwsA(isA<Exception>()),
-      );
+
+      expect(() => service.encryptText('test'), throwsA(isA<Exception>()));
     });
 
     test('decryptText throws when not ready', () async {
       service.lock();
-      
+
       expect(
         () => service.decryptText('{"nonce":"a","ciphertext":"b","mac":"c"}'),
         throwsA(isA<Exception>()),
@@ -552,10 +572,10 @@ void main() {
 
     test('encryptTextNullable and decryptTextNullable roundtrip', () async {
       const original = 'Secret note';
-      
+
       final encrypted = await service.encryptTextNullable(original);
       final decrypted = await service.decryptTextNullable(encrypted);
-      
+
       expect(decrypted, equals(original));
     });
   });
@@ -572,9 +592,9 @@ void main() {
         'notes': 'Secret notes',
         'public': 'visible',
       };
-      
+
       final encrypted = await service.encryptFields(data, ['notes']);
-      
+
       expect(encrypted['name'], equals('John'));
       expect(encrypted['public'], equals('visible'));
       expect(service.isEncrypted(encrypted['notes']), isTrue);
@@ -582,29 +602,29 @@ void main() {
 
     test('encryptFields ignores non-existent fields', () async {
       final data = {'name': 'John'};
-      
+
       final encrypted = await service.encryptFields(data, ['nonexistent']);
-      
+
       expect(encrypted, equals(data));
     });
 
     test('encryptFields ignores empty string fields', () async {
       final data = {'notes': ''};
-      
+
       final encrypted = await service.encryptFields(data, ['notes']);
-      
+
       expect(encrypted['notes'], equals(''));
     });
 
     test('encryptFields ignores non-string fields', () async {
-      final data = {
-        'count': 42,
-        'active': true,
-        'notes': 'secret',
-      };
-      
-      final encrypted = await service.encryptFields(data, ['count', 'active', 'notes']);
-      
+      final data = {'count': 42, 'active': true, 'notes': 'secret'};
+
+      final encrypted = await service.encryptFields(data, [
+        'count',
+        'active',
+        'notes',
+      ]);
+
       expect(encrypted['count'], equals(42));
       expect(encrypted['active'], equals(true));
       expect(service.isEncrypted(encrypted['notes']), isTrue);
@@ -613,15 +633,12 @@ void main() {
     test('decryptFields decrypts specified fields', () async {
       final testDataKey = SecretKey(List.generate(32, (i) => i));
       service.setDataKey(testDataKey);
-      
+
       final encrypted = await service.encryptText('Secret');
-      final data = {
-        'name': 'John',
-        'notes': encrypted,
-      };
-      
+      final data = {'name': 'John', 'notes': encrypted};
+
       final decrypted = await service.decryptFields(data, ['notes']);
-      
+
       expect(decrypted['name'], equals('John'));
       expect(decrypted['notes'], equals('Secret'));
     });
@@ -633,16 +650,16 @@ void main() {
         'action': 'Private action',
         'id': 123,
       };
-      
-      final encrypted = await service.encryptFields(
-        original,
-        ['notes', 'action'],
-      );
-      final decrypted = await service.decryptFields(
-        encrypted,
-        ['notes', 'action'],
-      );
-      
+
+      final encrypted = await service.encryptFields(original, [
+        'notes',
+        'action',
+      ]);
+      final decrypted = await service.decryptFields(encrypted, [
+        'notes',
+        'action',
+      ]);
+
       expect(decrypted['name'], equals('Test'));
       expect(decrypted['notes'], equals('Secret message'));
       expect(decrypted['action'], equals('Private action'));
@@ -651,7 +668,7 @@ void main() {
 
     test('encryptFields throws when not ready', () async {
       service.lock();
-      
+
       expect(
         () => service.encryptFields({'a': 'b'}, ['a']),
         throwsA(isA<Exception>()),
@@ -660,7 +677,7 @@ void main() {
 
     test('decryptFields throws when not ready', () async {
       service.lock();
-      
+
       expect(
         () => service.decryptFields({'a': 'b'}, ['a']),
         throwsA(isA<Exception>()),
@@ -676,7 +693,7 @@ void main() {
     test('isReady is true after setDataKey', () async {
       final key = SecretKey(List.generate(32, (i) => i));
       service.setDataKey(key);
-      
+
       expect(service.isReady, isTrue);
     });
 
@@ -684,7 +701,7 @@ void main() {
       final key = SecretKey(List.generate(32, (i) => i));
       service.setDataKey(key);
       service.lock();
-      
+
       expect(service.isReady, isFalse);
     });
   });
@@ -696,26 +713,26 @@ void main() {
       final salt = service.randomBytes(16);
       final dataKeyBytes = service.randomBytes(32);
       const iterations = 1000; // Lower for testing speed
-      
+
       // 1. Derive key from PIN
       final kPin = await service.deriveKey(pin, salt, iterations);
-      
+
       // 2. Encrypt dataKey with PIN
       final encryptedKey = await service.encryptDataKey(kPin, dataKeyBytes);
-      
+
       // 3. Simulate unlock with correct PIN
       final kPin2 = await service.deriveKey(pin, salt, iterations);
       final decryptedKey = await service.decryptDataKey(kPin2, encryptedKey);
-      
+
       expect(decryptedKey, equals(dataKeyBytes));
-      
+
       // 4. Set up encryption and verify it works
       service.setDataKey(SecretKey(decryptedKey!));
-      
+
       const testMessage = 'This is a secret note';
       final encrypted = await service.encryptText(testMessage);
       final decrypted = await service.decryptText(encrypted);
-      
+
       expect(decrypted, equals(testMessage));
     });
 
@@ -725,15 +742,15 @@ void main() {
       final salt = service.randomBytes(16);
       final dataKeyBytes = service.randomBytes(32);
       const iterations = 1000;
-      
+
       // Setup with correct PIN
       final kPin = await service.deriveKey(correctPin, salt, iterations);
       final encryptedKey = await service.encryptDataKey(kPin, dataKeyBytes);
-      
+
       // Try to unlock with wrong PIN
       final kWrong = await service.deriveKey(wrongPin, salt, iterations);
       final decryptedKey = await service.decryptDataKey(kWrong, encryptedKey);
-      
+
       expect(decryptedKey, isNull);
     });
 
@@ -744,24 +761,41 @@ void main() {
       final saltRecovery = service.randomBytes(16);
       final dataKeyBytes = service.randomBytes(32);
       const iterations = 1000;
-      
+
       // Setup with both PIN and recovery key
       final kPin = await service.deriveKey(pin, saltPin, iterations);
-      final kRec = await service.deriveKey(recoveryKey, saltRecovery, iterations);
-      
+      final kRec = await service.deriveKey(
+        recoveryKey,
+        saltRecovery,
+        iterations,
+      );
+
       final encryptedKeyPin = await service.encryptDataKey(kPin, dataKeyBytes);
-      final encryptedKeyRecovery = await service.encryptDataKey(kRec, dataKeyBytes);
-      
+      final encryptedKeyRecovery = await service.encryptDataKey(
+        kRec,
+        dataKeyBytes,
+      );
+
       // Unlock with recovery key
-      final kRec2 = await service.deriveKey(recoveryKey, saltRecovery, iterations);
-      final decryptedKey = await service.decryptDataKey(kRec2, encryptedKeyRecovery);
-      
+      final kRec2 = await service.deriveKey(
+        recoveryKey,
+        saltRecovery,
+        iterations,
+      );
+      final decryptedKey = await service.decryptDataKey(
+        kRec2,
+        encryptedKeyRecovery,
+      );
+
       expect(decryptedKey, equals(dataKeyBytes));
-      
+
       // Verify both keys decrypt to the same dataKey
       final kPin2 = await service.deriveKey(pin, saltPin, iterations);
-      final decryptedKeyPin = await service.decryptDataKey(kPin2, encryptedKeyPin);
-      
+      final decryptedKeyPin = await service.decryptDataKey(
+        kPin2,
+        encryptedKeyPin,
+      );
+
       expect(decryptedKeyPin, equals(dataKeyBytes));
     });
 
@@ -774,101 +808,169 @@ void main() {
       final newSaltPin = service.randomBytes(16);
       final dataKeyBytes = service.randomBytes(32);
       const iterations = 1000;
-      
+
       // Initial setup
       final kPin = await service.deriveKey(originalPin, saltPin, iterations);
-      final kRec = await service.deriveKey(recoveryKey, saltRecovery, iterations);
-      
+      final kRec = await service.deriveKey(
+        recoveryKey,
+        saltRecovery,
+        iterations,
+      );
+
       await service.encryptDataKey(kPin, dataKeyBytes);
-      final encryptedKeyRecovery = await service.encryptDataKey(kRec, dataKeyBytes);
-      
+      final encryptedKeyRecovery = await service.encryptDataKey(
+        kRec,
+        dataKeyBytes,
+      );
+
       // Reset PIN using recovery key
       // 1. Decrypt dataKey with recovery key
-      final kRec2 = await service.deriveKey(recoveryKey, saltRecovery, iterations);
-      final recoveredDataKey = await service.decryptDataKey(kRec2, encryptedKeyRecovery);
-      
+      final kRec2 = await service.deriveKey(
+        recoveryKey,
+        saltRecovery,
+        iterations,
+      );
+      final recoveredDataKey = await service.decryptDataKey(
+        kRec2,
+        encryptedKeyRecovery,
+      );
+
       expect(recoveredDataKey, isNotNull);
-      
+
       // 2. Re-encrypt with new PIN
       final kNewPin = await service.deriveKey(newPin, newSaltPin, iterations);
-      final newEncryptedKey = await service.encryptDataKey(kNewPin, recoveredDataKey!);
-      
+      final newEncryptedKey = await service.encryptDataKey(
+        kNewPin,
+        recoveredDataKey!,
+      );
+
       // 3. Verify new PIN works
       final kNewPin2 = await service.deriveKey(newPin, newSaltPin, iterations);
-      final decryptedNewKey = await service.decryptDataKey(kNewPin2, newEncryptedKey);
-      
+      final decryptedNewKey = await service.decryptDataKey(
+        kNewPin2,
+        newEncryptedKey,
+      );
+
       expect(decryptedNewKey, equals(dataKeyBytes));
-      
+
       // 4. Verify old PIN no longer works for new encrypted key
-      final kOldPin = await service.deriveKey(originalPin, newSaltPin, iterations);
+      final kOldPin = await service.deriveKey(
+        originalPin,
+        newSaltPin,
+        iterations,
+      );
       final shouldFail = await service.decryptDataKey(kOldPin, newEncryptedKey);
-      
+
       expect(shouldFail, isNull);
     });
 
     test('simulates PIN change with old PIN (changePin flow)', () async {
       // This tests the critical changePin() flow that re-wraps dataKey
       // WITHOUT regenerating the dataKey itself
-      
+
       const originalPin = '920894';
       const newPin = '111222';
       final originalSalt = service.randomBytes(16);
       final newSalt = service.randomBytes(16);
       final dataKeyBytes = service.randomBytes(32);
       const iterations = 1000;
-      
+
       // Step 1: Initial PIN setup (simulates setupNewSecrets)
-      final kOriginalPin = await service.deriveKey(originalPin, originalSalt, iterations);
-      final encryptedKeyWithOriginal = await service.encryptDataKey(kOriginalPin, dataKeyBytes);
-      
+      final kOriginalPin = await service.deriveKey(
+        originalPin,
+        originalSalt,
+        iterations,
+      );
+      final encryptedKeyWithOriginal = await service.encryptDataKey(
+        kOriginalPin,
+        dataKeyBytes,
+      );
+
       // Set up encryption with the dataKey
       service.setDataKey(SecretKey(dataKeyBytes));
-      
+
       // Encrypt some test data with the original dataKey
       const testMessage = 'My secret drug use note';
       final encryptedTestData = await service.encryptText(testMessage);
-      
+
       // Step 2: Change PIN (simulates changePin method)
       // 2a. Verify old PIN by decrypting dataKey
-      final kOldPinForChange = await service.deriveKey(originalPin, originalSalt, iterations);
-      final recoveredDataKey = await service.decryptDataKey(kOldPinForChange, encryptedKeyWithOriginal);
-      
-      expect(recoveredDataKey, isNotNull, reason: 'Old PIN should decrypt dataKey');
-      expect(recoveredDataKey, equals(dataKeyBytes), reason: 'DataKey should match original');
-      
+      final kOldPinForChange = await service.deriveKey(
+        originalPin,
+        originalSalt,
+        iterations,
+      );
+      final recoveredDataKey = await service.decryptDataKey(
+        kOldPinForChange,
+        encryptedKeyWithOriginal,
+      );
+
+      expect(
+        recoveredDataKey,
+        isNotNull,
+        reason: 'Old PIN should decrypt dataKey',
+      );
+      expect(
+        recoveredDataKey,
+        equals(dataKeyBytes),
+        reason: 'DataKey should match original',
+      );
+
       // 2b. Re-encrypt the SAME dataKey with new PIN (this is the critical part)
       final kNewPin = await service.deriveKey(newPin, newSalt, iterations);
-      final encryptedKeyWithNew = await service.encryptDataKey(kNewPin, recoveredDataKey!);
-      
+      final encryptedKeyWithNew = await service.encryptDataKey(
+        kNewPin,
+        recoveredDataKey!,
+      );
+
       // Step 3: Verify the change worked correctly
       // 3a. New PIN should unlock
       final kNewPin2 = await service.deriveKey(newPin, newSalt, iterations);
-      final decryptedWithNewPin = await service.decryptDataKey(kNewPin2, encryptedKeyWithNew);
-      
-      expect(decryptedWithNewPin, equals(dataKeyBytes), 
-          reason: 'New PIN should decrypt to same dataKey');
-      
+      final decryptedWithNewPin = await service.decryptDataKey(
+        kNewPin2,
+        encryptedKeyWithNew,
+      );
+
+      expect(
+        decryptedWithNewPin,
+        equals(dataKeyBytes),
+        reason: 'New PIN should decrypt to same dataKey',
+      );
+
       // 3b. Old PIN should NOT work with new encrypted key
-      final kOldPinFail = await service.deriveKey(originalPin, newSalt, iterations);
-      final shouldFail = await service.decryptDataKey(kOldPinFail, encryptedKeyWithNew);
-      
-      expect(shouldFail, isNull, 
-          reason: 'Old PIN should not work with new encryption');
-      
+      final kOldPinFail = await service.deriveKey(
+        originalPin,
+        newSalt,
+        iterations,
+      );
+      final shouldFail = await service.decryptDataKey(
+        kOldPinFail,
+        encryptedKeyWithNew,
+      );
+
+      expect(
+        shouldFail,
+        isNull,
+        reason: 'Old PIN should not work with new encryption',
+      );
+
       // Step 4: CRITICAL - Verify existing encrypted data is still readable
       // The dataKey never changed, so old data should still decrypt
       service.setDataKey(SecretKey(decryptedWithNewPin!));
-      
+
       final decryptedTestData = await service.decryptText(encryptedTestData);
-      
-      expect(decryptedTestData, equals(testMessage),
-          reason: 'Changing PIN should NOT break existing encrypted data');
+
+      expect(
+        decryptedTestData,
+        equals(testMessage),
+        reason: 'Changing PIN should NOT break existing encrypted data',
+      );
     });
 
     test('verifies data key consistency during PIN change', () async {
       // This test explicitly verifies that the dataKey remains unchanged
       // during a PIN change operation
-      
+
       const pin1 = '111111';
       const pin2 = '222222';
       const pin3 = '333333';
@@ -877,44 +979,58 @@ void main() {
       final salt3 = service.randomBytes(16);
       final originalDataKey = service.randomBytes(32);
       const iterations = 1000;
-      
+
       // Multiple encryption operations with same dataKey
       service.setDataKey(SecretKey(originalDataKey));
-      
+
       const message1 = 'First message';
       const message2 = 'Second message';
       const message3 = 'Third message';
-      
+
       final encrypted1 = await service.encryptText(message1);
       final encrypted2 = await service.encryptText(message2);
-      
+
       // Now simulate multiple PIN changes
       // PIN 1 -> PIN 2
       final k1 = await service.deriveKey(pin1, salt1, iterations);
       final encryptedKey1 = await service.encryptDataKey(k1, originalDataKey);
-      
+
       // Recover and re-wrap for PIN 2
       final recoveredKey1 = await service.decryptDataKey(k1, encryptedKey1);
       final k2 = await service.deriveKey(pin2, salt2, iterations);
       await service.encryptDataKey(k2, recoveredKey1!);
-      
+
       // Encrypt more data (simulating use after first PIN change)
       final encrypted3 = await service.encryptText(message3);
-      
+
       // PIN 2 -> PIN 3
-      final recoveredKey2 = await service.decryptDataKey(k2, 
-          await service.encryptDataKey(k2, originalDataKey));
+      final recoveredKey2 = await service.decryptDataKey(
+        k2,
+        await service.encryptDataKey(k2, originalDataKey),
+      );
       final k3 = await service.deriveKey(pin3, salt3, iterations);
       await service.encryptDataKey(k3, recoveredKey2!);
-      
+
       // Verify ALL encrypted data is still readable
       final decrypted1 = await service.decryptText(encrypted1);
       final decrypted2 = await service.decryptText(encrypted2);
       final decrypted3 = await service.decryptText(encrypted3);
-      
-      expect(decrypted1, equals(message1), reason: 'Message 1 should still decrypt');
-      expect(decrypted2, equals(message2), reason: 'Message 2 should still decrypt');
-      expect(decrypted3, equals(message3), reason: 'Message 3 should still decrypt');
+
+      expect(
+        decrypted1,
+        equals(message1),
+        reason: 'Message 1 should still decrypt',
+      );
+      expect(
+        decrypted2,
+        equals(message2),
+        reason: 'Message 2 should still decrypt',
+      );
+      expect(
+        decrypted3,
+        equals(message3),
+        reason: 'Message 3 should still decrypt',
+      );
     });
 
     test('wrong old PIN fails changePin', () async {
@@ -924,18 +1040,21 @@ void main() {
       final salt = service.randomBytes(16);
       final dataKeyBytes = service.randomBytes(32);
       const iterations = 1000;
-      
+
       // Setup with correct PIN
       final kCorrect = await service.deriveKey(correctPin, salt, iterations);
       final encryptedKey = await service.encryptDataKey(kCorrect, dataKeyBytes);
-      
+
       // Try to change with wrong old PIN
       final kWrong = await service.deriveKey(wrongPin, salt, iterations);
       final recoveredKey = await service.decryptDataKey(kWrong, encryptedKey);
-      
+
       // Should fail - can't proceed with PIN change
-      expect(recoveredKey, isNull, 
-          reason: 'Wrong old PIN should fail to decrypt dataKey');
+      expect(
+        recoveredKey,
+        isNull,
+        reason: 'Wrong old PIN should fail to decrypt dataKey',
+      );
     });
   });
 
@@ -944,13 +1063,13 @@ void main() {
       const pin = '000001';
       final salt = service.randomBytes(16);
       final dataKeyBytes = service.randomBytes(32);
-      
+
       final kPin = await service.deriveKey(pin, salt, 1000);
       final encrypted = await service.encryptDataKey(kPin, dataKeyBytes);
-      
+
       final kPin2 = await service.deriveKey(pin, salt, 1000);
       final decrypted = await service.decryptDataKey(kPin2, encrypted);
-      
+
       expect(decrypted, equals(dataKeyBytes));
     });
 
@@ -958,38 +1077,38 @@ void main() {
       const recoveryKey = 'aabbccddeeff001122334455';
       final salt = service.randomBytes(16);
       final dataKeyBytes = service.randomBytes(32);
-      
+
       final kRec = await service.deriveKey(recoveryKey, salt, 1000);
       final encrypted = await service.encryptDataKey(kRec, dataKeyBytes);
-      
+
       final kRec2 = await service.deriveKey(recoveryKey, salt, 1000);
       final decrypted = await service.decryptDataKey(kRec2, encrypted);
-      
+
       expect(decrypted, equals(dataKeyBytes));
     });
 
     test('handles very long text encryption', () async {
       final key = SecretKey(List.generate(32, (i) => i));
       service.setDataKey(key);
-      
+
       final longText = 'X' * 100000;
-      
+
       final encrypted = await service.encryptText(longText);
       final decrypted = await service.decryptText(encrypted);
-      
+
       expect(decrypted, equals(longText));
     });
 
     test('handles JSON text that looks like encrypted data', () async {
       final key = SecretKey(List.generate(32, (i) => i));
       service.setDataKey(key);
-      
+
       // Text that contains JSON but isn't our encrypted format
       const textWithJson = 'Notes: {"key": "value", "array": [1,2,3]}';
-      
+
       final encrypted = await service.encryptText(textWithJson);
       final decrypted = await service.decryptText(encrypted);
-      
+
       expect(decrypted, equals(textWithJson));
     });
   });

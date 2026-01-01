@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/utils/parsing_utils.dart';
+import 'package:mobile_drug_use_app/core/utils/parsing_utils.dart';
 
 void main() {
   group('ParsingUtils', () {
@@ -53,16 +53,27 @@ void main() {
       });
 
       test('splits comma-separated string', () {
-        expect(ParsingUtils.toList('happy,sad,angry'), ['happy', 'sad', 'angry']);
+        expect(ParsingUtils.toList('happy,sad,angry'), [
+          'happy',
+          'sad',
+          'angry',
+        ]);
       });
 
       test('splits semicolon-separated string', () {
-        expect(ParsingUtils.toList('item1;item2;item3'), ['item1', 'item2', 'item3']);
+        expect(ParsingUtils.toList('item1;item2;item3'), [
+          'item1',
+          'item2',
+          'item3',
+        ]);
       });
 
       test('splits space-separated string when splitBySpace=true', () {
-        expect(ParsingUtils.toList('John Jane Bob', splitBySpace: true), 
-               ['John', 'Jane', 'Bob']);
+        expect(ParsingUtils.toList('John Jane Bob', splitBySpace: true), [
+          'John',
+          'Jane',
+          'Bob',
+        ]);
       });
 
       test('trims whitespace from split strings', () {
@@ -78,14 +89,24 @@ void main() {
       });
 
       test('handles mixed whitespace splitting', () {
-        expect(ParsingUtils.toList('a  b   c', splitBySpace: true), ['a', 'b', 'c']);
+        expect(ParsingUtils.toList('a  b   c', splitBySpace: true), [
+          'a',
+          'b',
+          'c',
+        ]);
       });
     });
 
     group('toMap', () {
       test('converts Map to Map<String, List<String>>', () {
-        final input = {'key1': ['a', 'b'], 'key2': ['c']};
-        expect(ParsingUtils.toMap(input), {'key1': ['a', 'b'], 'key2': ['c']});
+        final input = {
+          'key1': ['a', 'b'],
+          'key2': ['c'],
+        };
+        expect(ParsingUtils.toMap(input), {
+          'key1': ['a', 'b'],
+          'key2': ['c'],
+        });
       });
 
       test('converts single values to lists', () {
@@ -97,7 +118,10 @@ void main() {
       });
 
       test('converts mixed Map types', () {
-        final input = {'list': ['a', 'b'], 'single': 'value'};
+        final input = {
+          'list': ['a', 'b'],
+          'single': 'value',
+        };
         expect(ParsingUtils.toMap(input), {
           'list': ['a', 'b'],
           'single': ['value'],
@@ -105,7 +129,10 @@ void main() {
       });
 
       test('converts keys to strings', () {
-        final input = {1: ['a'], 2: ['b']};
+        final input = {
+          1: ['a'],
+          2: ['b'],
+        };
         expect(ParsingUtils.toMap(input), {
           '1': ['a'],
           '2': ['b'],
@@ -113,11 +140,15 @@ void main() {
       });
 
       test('converts string to default key map', () {
-        expect(ParsingUtils.toMap('a,b,c'), {'default': ['a', 'b', 'c']});
+        expect(ParsingUtils.toMap('a,b,c'), {
+          'default': ['a', 'b', 'c'],
+        });
       });
 
       test('converts List to default key map', () {
-        expect(ParsingUtils.toMap(['x', 'y']), {'default': ['x', 'y']});
+        expect(ParsingUtils.toMap(['x', 'y']), {
+          'default': ['x', 'y'],
+        });
       });
 
       test('returns empty map for null', () {

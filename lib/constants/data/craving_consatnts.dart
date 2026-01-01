@@ -1,7 +1,13 @@
-  // ============================================================================
-  // CRAVING CATEGORIES
-  // ============================================================================
-
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Data catalog.
+// ============================================================================
+// CRAVING CATEGORIES
+// ============================================================================
 const Map<String, String> cravingCategories = {
   'Stimulants ⚡': 'Stimulant',
   'Depressants 🌙': 'Depressant',

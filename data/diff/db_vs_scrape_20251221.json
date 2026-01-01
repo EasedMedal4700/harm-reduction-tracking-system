@@ -1,0 +1,2206 @@
+[
+  {
+    "drug": "1,4-butanediol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "1b-lsd",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "1cp-lsd",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "1p-eth-lad",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "1p-lsd",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-ai",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-chloro-ephenidine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-dpmp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-fa",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-fdck",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-fea",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-fma",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-me-dmt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-mec",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-methyl-2-butanol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-methylamphetamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-mmc",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-mppp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-nmc",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-pa",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2-pta",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-b",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-b-an",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-b-fly",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-b-fly-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-c",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-d",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-e",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-g",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-i",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-ip",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-n",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-p",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-t",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-t-2",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-t-4",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-t-7",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "2c-t-21",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-cmc",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-fa",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-fea",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-fma",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-fmc",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-fpm",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-ho-pce",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-ho-pcp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-mec",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-meo-pce",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-meo-pcmo",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-meo-pcp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-meo-pcpr",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-meo-pcpy",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-meomc",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-mmc",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3-oh-phenazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3,4-ctmp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3,6-dmpm",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3c-e",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "3c-p",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-aco-dalt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-aco-det",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-aco-dipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-aco-dmt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-aco-dpt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-aco-met",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-aco-mipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-benzylpiperidine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-cbc",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-chlorodiazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-cic",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-cma",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-cmc",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-emc",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-epd",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-fa",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-fea",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-fluoroethylphenidate",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-fluoromethylphenidate",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-fluoropentedrone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-fma",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-fmc",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-fpm",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-fpp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-ho-det",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-ho-dipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-ho-dpt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-ho-ept",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-ho-mcpt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-ho-met",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-ho-mipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-ho-mpmi",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-ho-mpt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-mec",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-meo-butryfentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-meo-mipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-meo-pcp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-methylaminorex",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-methylmethylphenidate",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-mpd",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4-mta",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4,4-dmar",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4f-neb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4f-php",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "4f-pvp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-apb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-apdb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-apdi",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-bpdi",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-br-dmt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-dbfpv",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-eapb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-htp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-iai",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-it",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-mapb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-mapdb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-amt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-dalt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-dibf",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-dipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-dmt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-dpt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-eipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-malt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-met",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-mipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-nipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-meo-pyr-t",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-methyl-bk-mdea",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5-ppdi",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5f-akb48",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "5f-pb-22",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "6-apb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "6-apdb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "6-eapb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "6-mapb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "6-mddm",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25b-nboh",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25b-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25c-nboh",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25c-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25d-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25e-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25g-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25h-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25i-nbf",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25i-nbmd",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25i-nboh",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25i-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25ip-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25n-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25p-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25t-2-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "25t-4-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "a-pihp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "a-pvp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "a-pvt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ab-chminaca",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ab-fubinaca",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "acetildenafil",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "acetylfentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "acryl-fentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "adderall",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "adinazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "adrafinil",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "aet",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "afloqualone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ah-7921",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "al-lad",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "alcohol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ald-52",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "aleph",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "aleph-2",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "allobarbital",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "allylescaline",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "alpha-php",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "alprazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "am-2201",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "amfecloral",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "amfonelicacid",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "aminorex",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "aminotadalafil",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "amobarbital",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "amphetamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "amt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "aniracetam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "apap",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "armodafinil",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ashwagandha",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "aspirin",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "atomoxetine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ayahuasca",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "baclofen",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "barbital",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bentazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "benzodioxole-fentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "benzydamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bk-2c-b",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bk-2c-i",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bk-ivp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bod",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bromadol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bromantane",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bromazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bromazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bromo-dragonfly",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "brotizolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "buphedrone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "buprenorphine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bupropion",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "butylone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "butyrfentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "bzp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "c30-nbome",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "caffeine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "camazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "cannabis",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "carisoprodol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "carphedon",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "centrophenoxine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "changa",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "chloral-betaine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "chloroform",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "cialis",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "cinolazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "citalopram",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "clobazam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "clomethiazole",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "clonazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "clonazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "clonidine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "cloniprazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "clonitazene",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "clorazepate",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "clotiazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "cloxazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "cocaine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "codeine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "coluracetam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "coronaridine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "crl-40-940",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "crl-40-941",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "cyclizine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "cyclo-methiodrone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "cyclobenzaprine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "cyclopentyl-fentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "cyclopropylmescaline",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "d2pm",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dalt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "datura",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "db-mdbp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dehydroxyfluorafinil",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "delorazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "demerol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "deschloroetizolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "deschloroketamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "desmethylflunitrazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "det",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dexedrine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dextromethorphan",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dextropropoxyphene",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "diazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dibutylone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "diclazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "diclofensine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "diethyl-ether",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dihydrocodeine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dimemebfe",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dimethylone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "diphenhydramine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "diphenidine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dipipanone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dmaa",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dmt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dob",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "doc",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "doet",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "doi",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "doip",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dom",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "don",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dopr",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "doxylamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dpt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "dramamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "eflea",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ephedrine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ephenidine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ept",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "escaline",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "escitalopram",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "estazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "eszopiclone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "eth-lad",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ethaqualone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ethketamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ethyl-pentedrone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ethylcathinone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ethylmorphine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ethylone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ethylphenidate",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "etizolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "etodesnitazene",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "fasoracetam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "fentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "flualprazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "flubromazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "flubromazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "fluclotizolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "flunitrazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "flunitrazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "fluorolintane",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "fluorophenibut",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "fluoxetine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "flurazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "flutazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "flutoprazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "fluvoxamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "focalin",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "furanylfentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "g-130",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "gaba",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "gabapentin",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "gbl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ghb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "glaucine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "glutethimide",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "halazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "halothane",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "hdep-28",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "hdmp-28",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "heroin",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "hexedrone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "hexen",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "hexobarbital",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "homomazindol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "homosildenafil",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "hot-2",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "hot-7",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "huperzine-a",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "hydrocodone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "hydromorphone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "hydroxyzine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ibogaine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ibuprofen",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "indapex",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "indapyrophenidone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "isomethadone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "isophenmetrazine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "isopropylphenidate",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "isoproscaline",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "jenkem",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "kanna",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "kava",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ketamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ketazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ketobemidone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "khat",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "kratom",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "l-theanine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "librium",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "lithium",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "loprazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "lorazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "lormetazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "lsa",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "lsd",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "lsm-775",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "lsz",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "marinol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mbdb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mbzp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mcpp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mda",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mdai",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mdea",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mdma",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mdoh",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mdpa",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mdphp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mdpv",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mebroqualone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "meclonazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "medazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "melatonin",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mem",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "memantine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mephedrone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mephenmetrazine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mephtetramine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mescaline",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "met",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "metaclazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "metaxalone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methadone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methallylescaline",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methamnetamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methamphetamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methaqualone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methedrone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methoxphenidine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methoxyacetyl-fentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methoxyketamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methoxypiperamide",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methylmethaqualone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methylmorphenate",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methylone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methylphenidate",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "methyprylon",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "metizolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mexamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mexazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mexedrone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "midazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mk-801",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "moclobemide",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "modafinil",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "morpheridine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "morphine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mpa",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mt-45",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mushrooms",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mxe",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "mxm",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "naphyrone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "naproxen",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "neb",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nefiracetam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nicomorphine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nicotine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nifoxipam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nimetazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nitemazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nitracaine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nitrazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nitrazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nitrous",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nm-2-ai",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "noctec",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "noopept",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "nordazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "norflurazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "o-desmethyltramadol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "o-pce",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "opium",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "oxazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "oxazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "oxiracetam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "oxycodone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "oxymorphone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pagoclone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "palfium",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "parafluorobutyrfentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "parafluorofentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "paroxetine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pce",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pcp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pemoline",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pentazocine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pentedrone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pentobarbital",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pentylone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "peyote",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pfbt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "phenazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "phenethylamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "phenetrazine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "phenibut",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "phenmetrazine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "phenobarbital",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "phentermine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "picamilon",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pinazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pipt",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "piracetam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "placdyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pma",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pramiracetam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "prazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pre-084",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pregabalin",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "prl-8-53",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pro-lad",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "prolintane",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "promethazine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "propofol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "propoxyphene",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "propranolol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "propylhexedrine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "propylphenidate",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "proscaline",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pseudoephedrine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "psilocin",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pst",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pv-8",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pv-9",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pv-10",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pyrazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "pyrophenidone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "quazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "quetiapine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "rilmazafone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "rolicyclidine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "ronlax",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "rti-111",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "salvia",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "scopolamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "secobarbital",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "sertraline",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "sinicuichi",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "sonata",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "sufentanil",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "sulbutiamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "tapentadol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "temazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "tetrahydrofuran-fentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "tetrazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "th-pvp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "theacrine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "theobromine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "thiopental",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "thiopropamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "tianeptine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "tiletamine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "tilidine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "tma-2",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "tma-6",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "tolibut",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "tramadol",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "trazodone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "triazolam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "troparil",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "truffles",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "tuinal",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "u-47700",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "u-49900",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "u-51754",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "valerylfentanyl",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "viagra",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "viloxazine",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "vyvanse",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "w-15",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "yerba-mate",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "yopo",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "zolazepam",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "zolpidem",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "zopiclone",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "\u03b1-pbp",
+    "change": "missing_in_db"
+  },
+  {
+    "drug": "\u03b2h-2c-b",
+    "change": "missing_in_db"
+  }
+]

@@ -1,0 +1,130 @@
+﻿lib\features\blood_levels\widgets\blood_levels_app_bar.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\blood_levels_app_bar.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:, // Notes:
+lib\features\blood_levels\widgets\blood_levels_content.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\blood_levels_content.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\blood_levels_empty_state.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\blood_levels_empty_state.dart : Missing // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\blood_levels_error_state.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\blood_levels_error_state.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\blood_levels_loading_state.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\blood_levels_loading_state.dart : Missing // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\blood_levels_time_display.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\blood_levels_time_display.dart : Missing // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\blood_levels_timeline_section.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\blood_levels_timeline_section.dart : Missing // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\current_status_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\current_status_card.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\dose_tier_legend.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\dose_tier_legend.dart : Missing // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\level_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\level_card.dart : Missing // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\metabolism_timeline_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\metabolism_timeline_card.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\metabolism_timeline_controls.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\metabolism_timeline_controls.dart : Missing // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\risk_assessment_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\risk_assessment_card.dart : Missing // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\substance_list_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\substance_list_card.dart : Missing // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\system_overview_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\system_overview_card.dart : Missing // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\timeframe_selector.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\timeframe_selector.dart : Missing // State:, // Navigation:, // Models:
+lib\features\blood_levels\widgets\timeline_legend.dart : Header must start with exact '// MIGRATION:'
+lib\features\blood_levels\widgets\timeline_legend.dart : Missing // State:, // Navigation:, // Models:
+lib\features\catalog\widgets\add_stockpile_sheet.dart : Header must start with exact '// MIGRATION:'
+lib\features\catalog\widgets\add_stockpile_sheet.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:, // Notes:
+lib\features\catalog\widgets\catalog_empty_state.dart : Header must start with exact '// MIGRATION:'
+lib\features\catalog\widgets\catalog_empty_state.dart : Missing // State:, // Navigation:, // Models:
+lib\features\catalog\widgets\catalog_search_bar.dart : Header must start with exact '// MIGRATION:'
+lib\features\catalog\widgets\catalog_search_bar.dart : Missing // State:, // Navigation:, // Models:
+lib\features\catalog\widgets\catalog_search_filters.dart : Header must start with exact '// MIGRATION:'
+lib\features\catalog\widgets\catalog_search_filters.dart : Missing // State:, // Navigation:, // Models:
+lib\features\catalog\widgets\category_filter_chips.dart : Header must start with exact '// MIGRATION:'
+lib\features\catalog\widgets\category_filter_chips.dart : Missing // State:, // Navigation:, // Models:
+lib\features\catalog\widgets\common_filter_toggle.dart : Header must start with exact '// MIGRATION:'
+lib\features\catalog\widgets\common_filter_toggle.dart : Missing // State:, // Navigation:, // Models:
+lib\features\catalog\widgets\dosage_guide_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\catalog\widgets\dosage_guide_card.dart : Missing // State:, // Navigation:, // Models:
+lib\features\catalog\widgets\drug_catalog_list.dart : Header must start with exact '// MIGRATION:'
+lib\features\catalog\widgets\drug_catalog_list.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\catalog\widgets\substance_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\catalog\widgets\substance_card.dart : Missing // State:, // Navigation:, // Models:
+lib\features\catalog\widgets\timing_info_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\catalog\widgets\timing_info_card.dart : Missing // State:, // Navigation:, // Models:
+lib\features\craving\widgets\body_mind_signals_section.dart : Header must start with exact '// MIGRATION:'
+lib\features\craving\widgets\body_mind_signals_section.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\craving\widgets\craving_details_section.dart : Header must start with exact '// MIGRATION:'
+lib\features\craving\widgets\craving_details_section.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\craving\widgets\emotional_state_section.dart : Header must start with exact '// MIGRATION:'
+lib\features\craving\widgets\emotional_state_section.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\craving\widgets\outcome_section.dart : Header must start with exact '// MIGRATION:'
+lib\features\craving\widgets\outcome_section.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\daily_chekin\widgets\checkin_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\daily_chekin\widgets\checkin_card.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\daily_chekin\widgets\emotion_selector.dart : Header must start with exact '// MIGRATION:'
+lib\features\daily_chekin\widgets\emotion_selector.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\daily_chekin\widgets\existing_checkin_notice.dart : Header must start with exact '// MIGRATION:'
+lib\features\daily_chekin\widgets\existing_checkin_notice.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\daily_chekin\widgets\mood_selector.dart : Header must start with exact '// MIGRATION:'
+lib\features\daily_chekin\widgets\mood_selector.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\daily_chekin\widgets\notes_input.dart : Header must start with exact '// MIGRATION:'
+lib\features\daily_chekin\widgets\notes_input.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\daily_chekin\widgets\readonly_field.dart : Header must start with exact '// MIGRATION:'
+lib\features\daily_chekin\widgets\readonly_field.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\daily_chekin\widgets\save_button.dart : Header must start with exact '// MIGRATION:'
+lib\features\daily_chekin\widgets\save_button.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\daily_chekin\widgets\time_of_day_indicator.dart : Header must start with exact '// MIGRATION:'
+lib\features\daily_chekin\widgets\time_of_day_indicator.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\debug\widgets\deep_link_debug_widget.dart : Header must start with exact '// MIGRATION:'
+lib\features\debug\widgets\deep_link_debug_widget.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\edit_craving\widgets\craving_app_bar.dart : Header must start with exact '// MIGRATION:'
+lib\features\edit_craving\widgets\craving_app_bar.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\edit_log_entry\widgets\delete_confirmation_dialog.dart : Header must start with exact '// MIGRATION:'
+lib\features\edit_log_entry\widgets\delete_confirmation_dialog.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\edit_log_entry\widgets\edit_app_bar.dart : Header must start with exact '// MIGRATION:'
+lib\features\edit_log_entry\widgets\edit_app_bar.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\edit_log_entry\widgets\loading_overlay.dart : Header must start with exact '// MIGRATION:'
+lib\features\edit_log_entry\widgets\loading_overlay.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\edit_log_entry\widgets\save_button.dart : Header must start with exact '// MIGRATION:'
+lib\features\edit_log_entry\widgets\save_button.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\edit_reflection\widgets\reflection_app_bar.dart : Header must start with exact '// MIGRATION:'
+lib\features\edit_reflection\widgets\reflection_app_bar.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\feature_flags\widgets\feature_flags.dart : Header must start with exact '// MIGRATION:'
+lib\features\feature_flags\widgets\feature_flags.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\home\home_page\home_progress_stats.dart : Header must start with exact '// MIGRATION:'
+lib\features\home\home_page\home_progress_stats.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\home\home_redesign\daily_checkin_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\home\home_redesign\daily_checkin_card.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\home\home_redesign\header_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\home\home_redesign\header_card.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\home\widgets\greeting_banner.dart : Header must start with exact '// MIGRATION:'
+lib\features\home\widgets\greeting_banner.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\home\widgets\progress_overview_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\home\widgets\progress_overview_card.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\home\widgets\quick_action_button.dart : Header must start with exact '// MIGRATION:'
+lib\features\home\widgets\quick_action_button.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\home\widgets\quick_actions_grid.dart : Header must start with exact '// MIGRATION:'
+lib\features\home\widgets\quick_actions_grid.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\home\widgets\theme_example_widget.dart : Header must start with exact '// MIGRATION:'
+lib\features\home\widgets\theme_example_widget.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\log_entry\log_entry_service.dart : Header must start with exact '// MIGRATION:'
+lib\features\log_entry\log_entry_service.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\log_entry\models\serialization\log_entry_serializer.dart : Header must start with exact '// MIGRATION:'
+lib\features\log_entry\models\serialization\log_entry_serializer.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:, // Theme:, // Common:, // Notes:
+lib\features\profile\widgets\account_info_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\profile\widgets\account_info_card.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\profile\widgets\info_row.dart : Header must start with exact '// MIGRATION:'
+lib\features\profile\widgets\info_row.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\profile\widgets\logout_button.dart : Header must start with exact '// MIGRATION:'
+lib\features\profile\widgets\logout_button.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\profile\widgets\profile_header.dart : Header must start with exact '// MIGRATION:'
+lib\features\profile\widgets\profile_header.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\profile\widgets\stat_item.dart : Header must start with exact '// MIGRATION:'
+lib\features\profile\widgets\stat_item.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\profile\widgets\statistics_card.dart : Header must start with exact '// MIGRATION:'
+lib\features\profile\widgets\statistics_card.dart : Missing // MIGRATION:, // State:, // Navigation:, // Models:
+lib\features\stockpile\models\day_usage_models.dart : Missing // Notes:
+lib\features\stockpile\models\personal_library_state.dart : Missing // Notes:
+lib\features\stockpile\providers\stockpile_providers.dart : Missing // Notes:
+lib\features\stockpile\services\day_usage_service.dart : Missing // Notes:

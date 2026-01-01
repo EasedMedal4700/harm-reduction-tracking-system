@@ -1,0 +1,67 @@
+pipeline:
+  # Global settings
+  colors:
+    success: "green"
+    failure: "red"
+    warning: "yellow"
+    info: "blue"
+    neutral: "white"
+  
+  # Output verbosity
+  output:
+    show_successes: false  # If false, only show failures
+    show_progress: true    # Show progress bars
+    verbose: false         # Show detailed logs
+
+  # Step configuration
+  steps:
+    format:
+      enabled: true
+      exclude:
+        - "lib/generated/**"
+        - "**/*.g.dart"
+      
+    analyze:
+      enabled: true
+      fatal_infos: false   # Treat info level issues as failures
+      exclude:
+        - "lib/generated/**"
+
+    tests:
+      enabled: true
+      exclude_tags:        # Exclude tests with these tags
+        - "slow"
+        - "integration"
+      allow_failure: false # If true, pipeline continues even if tests fail
+      
+    imports:
+      enabled: true
+      max_imports: 15
+      allowed_prefixes:
+        - "package:mobile_drug_use_app"
+        - "package:flutter"
+        - "dart:"
+      exclude:
+        - "lib/generated/**"
+        - "**/*.g.dart"
+        - "**/*.freezed.dart"
+      
+    coverage:
+      enabled: true
+      min_coverage: 45.0
+      exclude:
+        - "**/*.g.dart"
+        - "lib/generated/**"
+
+    freezed:
+      enabled: true
+
+    navigation:
+      enabled: true
+
+    riverpod:
+      enabled: true
+
+    design_system:
+      enabled: true
+      allow_warnings: true

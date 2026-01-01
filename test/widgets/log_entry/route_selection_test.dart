@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/widgets/log_entry/route_selection.dart';
+import 'package:mobile_drug_use_app/features/log_entry/widgets/log_entry/route_selection.dart';
+import '../../helpers/test_app_wrapper.dart';
 
 void main() {
   group('RouteSelection Widget', () {
     testWidgets('renders all consumption methods', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: RouteSelection(
-              route: 'oral',
-              onRouteChanged: (_) {},
-            ),
-          ),
-        ),
+        wrapWithAppTheme(RouteSelection(route: 'oral', onRouteChanged: (_) {})),
       );
 
       // Check that consumption method chips are displayed
@@ -23,14 +17,7 @@ void main() {
 
     testWidgets('selects initial route', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: RouteSelection(
-              route: 'oral',
-              onRouteChanged: (_) {},
-            ),
-          ),
-        ),
+        wrapWithAppTheme(RouteSelection(route: 'oral', onRouteChanged: (_) {})),
       );
 
       final oralChip = tester.widget<ChoiceChip>(
@@ -47,14 +34,12 @@ void main() {
       String? selectedRoute;
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: RouteSelection(
-              route: 'oral',
-              onRouteChanged: (route) {
-                selectedRoute = route;
-              },
-            ),
+        wrapWithAppTheme(
+          RouteSelection(
+            route: 'oral',
+            onRouteChanged: (route) {
+              selectedRoute = route;
+            },
           ),
         ),
       );
@@ -67,14 +52,7 @@ void main() {
 
     testWidgets('displays emojis for each method', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: RouteSelection(
-              route: 'oral',
-              onRouteChanged: (_) {},
-            ),
-          ),
-        ),
+        wrapWithAppTheme(RouteSelection(route: 'oral', onRouteChanged: (_) {})),
       );
 
       // Check that text contains emoji characters (checking for common patterns)
@@ -84,14 +62,7 @@ void main() {
 
     testWidgets('renders as Wrap widget for responsive layout', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: RouteSelection(
-              route: 'oral',
-              onRouteChanged: (_) {},
-            ),
-          ),
-        ),
+        wrapWithAppTheme(RouteSelection(route: 'oral', onRouteChanged: (_) {})),
       );
 
       expect(find.byType(Wrap), findsOneWidget);
@@ -99,14 +70,7 @@ void main() {
 
     testWidgets('multiple routes can be displayed', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: RouteSelection(
-              route: 'oral',
-              onRouteChanged: (_) {},
-            ),
-          ),
-        ),
+        wrapWithAppTheme(RouteSelection(route: 'oral', onRouteChanged: (_) {})),
       );
 
       // Should have multiple ChoiceChips for different routes
@@ -117,20 +81,18 @@ void main() {
       String currentRoute = 'oral';
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: StatefulBuilder(
-              builder: (context, setState) {
-                return RouteSelection(
-                  route: currentRoute,
-                  onRouteChanged: (route) {
-                    setState(() {
-                      currentRoute = route;
-                    });
-                  },
-                );
-              },
-            ),
+        wrapWithAppTheme(
+          StatefulBuilder(
+            builder: (context, setState) {
+              return RouteSelection(
+                route: currentRoute,
+                onRouteChanged: (route) {
+                  setState(() {
+                    currentRoute = route;
+                  });
+                },
+              );
+            },
           ),
         ),
       );

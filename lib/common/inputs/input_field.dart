@@ -1,11 +1,16 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Common UI component.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
-/// Single-line text input field with consistent styling
-/// Used for dosage, location, etc.
 class CommonInputField extends StatelessWidget {
   final TextEditingController? controller;
+  final String? initialValue;
   final String? hintText;
   final String? labelText;
   final TextInputType? keyboardType;
@@ -21,9 +26,11 @@ class CommonInputField extends StatelessWidget {
   final FocusNode? focusNode;
   final VoidCallback? onTap;
   final bool readOnly;
-
+  final ValueChanged<String>? onFieldSubmitted;
+  final Color? accentColor;
   const CommonInputField({
     this.controller,
+    this.initialValue,
     this.hintText,
     this.labelText,
     this.keyboardType,
@@ -39,15 +46,24 @@ class CommonInputField extends StatelessWidget {
     this.focusNode,
     this.onTap,
     this.readOnly = false,
+    this.onFieldSubmitted,
+    this.accentColor,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+    final th = context.theme;
+    final accent = accentColor;
+    final baseFill = th.colors.surfaceVariant.withValues(alpha: 0.3);
+    final fillColor = accent == null
+        ? baseFill
+        : Color.alphaBlend(
+            accent.withValues(alpha: th.isDark ? 0.14 : 0.10),
+            baseFill,
+          );
     return TextFormField(
       controller: controller,
+      initialValue: initialValue,
       keyboardType: keyboardType,
       onChanged: onChanged,
       validator: validator,
@@ -59,67 +75,48 @@ class CommonInputField extends StatelessWidget {
       focusNode: focusNode,
       onTap: onTap,
       readOnly: readOnly,
+      onFieldSubmitted: onFieldSubmitted,
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,
-        hintStyle: TextStyle(
-          color: isDark 
-              ? UIColors.darkTextSecondary.withOpacity(0.5)
-              : UIColors.lightTextSecondary.withOpacity(0.5),
+        hintStyle: th.text.body.copyWith(
+          color: th.colors.textSecondary.withValues(alpha: 0.5),
         ),
+        labelStyle: th.text.body.copyWith(color: th.colors.textSecondary),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          borderSide: BorderSide(
-            color: isDark 
-                ? const Color(0x14FFFFFF)
-                : UIColors.lightBorder,
-          ),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          borderSide: BorderSide(
-            color: isDark 
-                ? const Color(0x14FFFFFF)
-                : UIColors.lightBorder,
-          ),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          borderSide: BorderSide(
-            color: isDark 
-                ? UIColors.darkNeonCyan
-                : UIColors.lightAccentBlue,
-            width: 2,
-          ),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: accent ?? th.accent.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          borderSide: BorderSide(
-            color: isDark 
-                ? UIColors.darkNeonOrange
-                : UIColors.lightAccentRed,
-          ),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          borderSide: BorderSide(
-            color: isDark 
-                ? UIColors.darkNeonOrange
-                : UIColors.lightAccentRed,
-            width: 2,
-          ),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.error, width: 2),
         ),
         filled: true,
-        fillColor: isDark 
-            ? const Color(0x08FFFFFF)
-            : Colors.grey.shade50,
+        fillColor: fillColor,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: th.spacing.md,
+          vertical: th.spacing.md,
+        ),
       ),
-      style: TextStyle(
-        color: isDark ? UIColors.darkText : UIColors.lightText,
-        fontSize: ThemeConstants.fontLarge,
+      style: th.text.bodyLarge.copyWith(
+        color: th.colors.textPrimary,
+        fontSize: 18.0,
       ),
+      cursorColor: accent ?? th.accent.primary,
     );
   }
 }

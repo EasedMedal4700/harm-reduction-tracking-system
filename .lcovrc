@@ -1,0 +1,5 @@
+# .lcovrc
+exclude:
+  - '*/models/*'
+  - '*/tolerance_controller.dart'
+  - '*/tolerance_repository.dart'

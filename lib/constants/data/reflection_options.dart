@@ -1,3 +1,10 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: N/A
+// Common: N/A
+// Notes: Data catalog.
 /// Predefined options for reflection form fields
 class ReflectionOptions {
   // Next day mood options
@@ -15,7 +22,6 @@ class ReflectionOptions {
     'Content',
     'Neutral',
   ];
-
   // Side effects options
   static const List<String> sideEffectsOptions = [
     'None',
@@ -37,7 +43,6 @@ class ReflectionOptions {
     'Mood swings',
     'Irritability',
   ];
-
   // Coping strategies options
   static const List<String> copingStrategiesOptions = [
     'Meditation',

@@ -1,116 +1,173 @@
 # Constants Directory
 
-This directory contains all application-wide constants, configuration, and data assets organized by category.
+This directory contains application-wide constants, configuration, and theme infrastructure for the mobile drug use tracking app.
+
+## Overview
+
+The constants directory is organized into logical subfolders to keep related functionality together. It provides:
+
+- **Theme system** for consistent UI styling
+- **Static data** for app content (substances, emotions, etc.)
+- **Configuration** for feature flags and app settings
+- **Type definitions** for enums and constants
+- **Color schemes** for light and dark themes
 
 ## Directory Structure
 
-### `colors/`
-Theme-aware color definitions for light and dark modes.
-- `app_colors_dark.dart` - Dark theme color palette
-- `app_colors_light.dart` - Light theme color palette
+### 🎨 `theme/` - Theme System
 
-### `config/`
-Application configuration and feature flags.
-- `feature_flags.dart` - Feature toggles and experimental settings
+The theme folder contains the complete theming infrastructure. Most components should access theme values through the context extensions.
 
-### `data/`
-Static data assets and catalogs used throughout the application.
-- `base_substances.json` - Core substance database
-- `body_and_mind_catalog.dart` - Body and mind state definitions
-- `craving_consatnts.dart` - Craving intensity definitions
-- `drug_categories.dart` - Drug classification categories
-- `drug_use_catalog.dart` - Drug use patterns and definitions
-- `refelction_constants.dart` - Reflection and journaling constants
-- `reflection_options.dart` - Available reflection options
+**Key Files:**
+- `app_theme.dart` - Main theme composition
+- `app_theme_provider.dart` - Theme provider for the widget tree
+- `app_theme_extension.dart` - **PRIMARY ENTRY POINT** for widgets
+- `app_spacing.dart` - Spacing and sizing constants
+- `app_typography.dart` - Text styles and fonts
+- `app_colors.dart` / `app_color_palette.dart` - Color definitions
+- `app_shapes.dart` - Border radius and shapes
+- `app_shadows.dart` - Shadow and elevation definitions
+- `app_animations.dart` - Animation durations and curves
+- `app_layout.dart` - Layout constants
+- `app_sizes.dart` - Size tokens
+- `app_borders.dart` - Border styles
+- `app_radius.dart` - Border radius values
+- `app_opacities.dart` - Opacity values
 
-### `deprecated/`
-Legacy constants that are no longer used but kept for reference during migration.
-- `color_schemes.dart` - Old color scheme definitions
-- `drug_theme.dart` - Legacy theme constants
-- `theme_constants.dart` - Old theme constants (replaced by theme/)
-- `ui_colors.dart` - Old UI color definitions (replaced by colors/)
-
-### `emus/`
-Enumeration definitions for type-safe constants.
-- `app_mood.dart` - Mood state enumerations
-- `time_period.dart` - Time period enumerations
-
-### `theme/`
-Comprehensive theme system with spacing, typography, colors, and extensions.
-- `app_colors.dart` - Unified color system
-- `app_radius.dart` - Border radius constants
-- `app_spacing.dart` - Spacing and padding constants
-- `app_theme_constants.dart` - Core theme constants
-- `app_theme_extension.dart` - Theme extension utilities
-- `app_theme_provider.dart` - Theme provider implementation
-- `app_theme.dart` - Main theme definitions
-- `app_typography.dart` - Typography and font constants
-
-## Usage Guidelines
-
-### Importing Constants
+**Usage in Widgets:**
 ```dart
-// Import specific constants
-import 'package:mobile_drug_use_app/constants/theme/app_theme_constants.dart';
-import 'package:mobile_drug_use_app/constants/colors/app_colors_dark.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 
-// Import data assets
-import 'package:mobile_drug_use_app/constants/data/drug_categories.dart';
+// Access theme through BuildContext
+final theme = Theme.of(context);
+final colors = context.colors;
+final spacing = context.spacing;
+final text = context.text;
+
+Container(
+  padding: EdgeInsets.all(spacing.md),
+  decoration: BoxDecoration(
+    color: colors.surface,
+    borderRadius: BorderRadius.circular(context.shapes.radiusMd),
+    boxShadow: [context.shadows.sm],
+  ),
+  child: Text('Hello', style: text.body),
+);
 ```
 
-### Theme Constants
-Use the theme constants from `theme/` for consistent styling:
+### 📊 `data/` - Static Application Data
+
+Contains static data used throughout the app, such as catalogs, options, and predefined content.
+
+**Files:**
+- `drug_use_catalog.dart` - Substance and drug information
+- `body_and_mind_catalog.dart` - Body and mind signal definitions
+- `reflection_options.dart` - Reflection and journaling options
+- `craving_consatnts.dart` - Craving-related constants
+- `drug_categories.dart` - Drug categorization data
+- `refelction_constants.dart` - Reflection constants
+- `base_substances.json` - Base substance data (JSON format)
+
+**Usage:**
 ```dart
-// Spacing
-padding: EdgeInsets.all(AppThemeConstants.cardPadding),
+import 'package:mobile_drug_use_app/constants/data/drug_use_catalog.dart';
+import 'package:mobile_drug_use_app/constants/data/body_and_mind_catalog.dart';
 
-// Colors (theme-aware)
-color: isDark ? AppColorsDark.primary : AppColorsLight.primary,
-
-// Typography
-style: AppTypography.headlineMedium,
+// Direct import is fine for data constants
+final substances = DrugUseCatalog.substances;
+final bodySignals = BodyAndMindCatalog.bodySignals;
 ```
 
-### Data Constants
-Access static data through the data constants:
+### ⚙️ `config/` - Configuration & Feature Flags
+
+Application configuration and feature gating.
+
+**Files:**
+- `feature_flags.dart` - Feature flags for A/B testing and gradual rollouts
+
+**Usage:**
 ```dart
-// Get drug categories
-final categories = DrugCategories.all;
+import 'package:mobile_drug_use_app/constants/config/feature_flags.dart';
 
-// Access substance data
-final substances = await SubstanceRepository.loadBaseSubstances();
-```
-
-## Migration Notes
-
-### From Deprecated Constants
-The `deprecated/` folder contains old constants that have been replaced:
-
-- `theme_constants.dart` → `theme/app_theme_constants.dart`
-- `ui_colors.dart` → `colors/app_colors_*.dart`
-- `color_schemes.dart` → `theme/app_colors.dart`
-
-### Feature Flags
-Use `config/feature_flags.dart` to control experimental features:
-```dart
-if (FeatureFlags.analyticsPage) {
-  // Enable analytics feature
+// Check if a feature is enabled
+if (FeatureFlags.isEnabled(Feature.analytics)) {
+  // Enable analytics
 }
 ```
 
-## Architecture
+### 🏷️ `enums/` - Type Definitions
 
-This constants structure supports:
-- **Theme Consistency**: Unified theming across light/dark modes
-- **Type Safety**: Enums for compile-time safety
-- **Maintainability**: Centralized configuration management
-- **Scalability**: Organized by concern for easy extension
-- **Migration Safety**: Deprecated folder preserves old code during transitions
+Typed enumerations for type safety and consistency.
 
-## Adding New Constants
+**Files:**
+- `app_mood.dart` - Mood states and values
+- `time_period.dart` - Time period definitions
 
-1. **Choose appropriate subfolder** based on the constant type
-2. **Follow naming conventions** (PascalCase for classes, camelCase for instances)
-3. **Add documentation** for all public constants
-4. **Update this README** when adding new subfolders or major changes</content>
-<parameter name="filePath">c:\Users\user\Desktop\Power BI\mobile_drug_use_app\lib\constants\README.md
+**Usage:**
+```dart
+import 'package:mobile_drug_use_app/constants/enums/app_mood.dart';
+import 'package:mobile_drug_use_app/constants/enums/time_period.dart';
+
+// Use typed enums instead of strings
+final mood = AppMood.happy;
+final period = TimePeriod.daily;
+```
+
+### 🎨 `colors/` - Color Schemes
+
+Light and dark theme color definitions.
+
+**Files:**
+- `app_colors_light.dart` - Light theme colors
+- `app_colors_dark.dart` - Dark theme colors
+
+**Note:** These are typically accessed through the theme system rather than imported directly.
+
+## Usage Guidelines
+
+### ✅ Recommended Patterns
+
+1. **Theme Access**: Use `context` extensions for theme values in widgets
+2. **Data Constants**: Import data files directly where needed
+3. **Feature Flags**: Check feature availability through the config system
+4. **Enums**: Use typed enums for state and configuration values
+
+### ⚠️ Best Practices
+
+- **Theme Consistency**: Always use theme values instead of hardcoded colors/sizes
+- **Type Safety**: Prefer enums over string constants
+- **Feature Gating**: Use feature flags for experimental features
+- **Data Separation**: Keep UI data separate from business logic
+
+### ❌ Avoid These Patterns
+
+- Hardcoded colors: `Color(0xFF123456)` or `Colors.blue`
+- Magic numbers: `SizedBox(height: 24)` → `SizedBox(height: context.spacing.xl)`
+- String literals for states: `'happy'` → `AppMood.happy`
+- Direct theme imports in widgets (except `app_theme_extension.dart`)
+
+## Migration & Development
+
+### For New Features
+
+1. Check if the needed constant exists in the theme system
+2. If missing, extend the theme system rather than adding direct constants
+3. Use enums for any new state or configuration values
+4. Add feature flags for experimental features
+
+### For Existing Code
+
+- Gradually migrate hardcoded values to theme constants
+- Replace string literals with enums where appropriate
+- Update imports to use the recommended patterns
+
+## Architecture Notes
+
+This structure supports:
+- **Theme Consistency**: Centralized theming prevents visual inconsistencies
+- **Maintainability**: Clear organization makes updates easier
+- **Type Safety**: Enums prevent typos and invalid states
+- **Feature Control**: Feature flags enable safe rollouts
+- **Data Management**: Static data is versioned and testable
+
+The theme system is designed to be context-aware, automatically adapting to light/dark modes and providing consistent spacing, colors, and typography across the entire app.

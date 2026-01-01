@@ -1,97 +1,98 @@
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Common UI component.
 import 'package:flutter/material.dart';
-import '../../constants/deprecated/ui_colors.dart';
-import '../../constants/deprecated/theme_constants.dart';
+import '../../constants/theme/app_theme_extension.dart';
 
-/// Dropdown selector with consistent styling
 class CommonDropdown<T> extends StatelessWidget {
-  final T value;
+  final T? value;
   final List<T> items;
   final ValueChanged<T?> onChanged;
   final String Function(T)? itemLabel;
+  final Widget Function(BuildContext, T)? itemBuilder;
   final String? hintText;
   final FormFieldValidator<T>? validator;
+  final Color? accentColor;
   final bool enabled;
-
   const CommonDropdown({
     required this.value,
     required this.items,
     required this.onChanged,
     this.itemLabel,
+    this.itemBuilder,
     this.hintText,
     this.validator,
+    this.accentColor,
     this.enabled = true,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+    final th = context.theme;
+    final accent = accentColor;
+    final baseFill = th.colors.surfaceVariant.withValues(alpha: 0.3);
+    final fillColor = accent == null
+        ? baseFill
+        : Color.alphaBlend(
+            accent.withValues(alpha: th.isDark ? 0.14 : 0.10),
+            baseFill,
+          );
+    final uniqueItems = <T>[];
+    for (final item in items) {
+      if (!uniqueItems.contains(item)) {
+        uniqueItems.add(item);
+      }
+    }
+    final selectedMatches = value == null
+        ? 0
+        : uniqueItems.where((item) => item == value).length;
+    final safeValue = selectedMatches == 1 ? value : null;
     return DropdownButtonFormField<T>(
-      value: value,
-      items: items.map((item) {
+      initialValue: safeValue,
+      items: uniqueItems.map((item) {
         return DropdownMenuItem<T>(
           value: item,
-          child: Text(
-            itemLabel != null ? itemLabel!(item) : item.toString(),
-            style: TextStyle(
-              color: isDark ? UIColors.darkText : UIColors.lightText,
-            ),
-          ),
+          child: itemBuilder != null
+              ? itemBuilder!(context, item)
+              : Text(
+                  itemLabel != null ? itemLabel!(item) : item.toString(),
+                  style: th.text.body.copyWith(color: th.colors.textPrimary),
+                ),
         );
       }).toList(),
       onChanged: enabled ? onChanged : null,
       validator: validator,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(
-          color: isDark 
-              ? UIColors.darkTextSecondary.withOpacity(0.5)
-              : UIColors.lightTextSecondary.withOpacity(0.5),
+        hintStyle: th.text.body.copyWith(
+          color: th.colors.textSecondary.withValues(alpha: 0.5),
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          borderSide: BorderSide(
-            color: isDark 
-                ? const Color(0x14FFFFFF)
-                : UIColors.lightBorder,
-          ),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          borderSide: BorderSide(
-            color: isDark 
-                ? const Color(0x14FFFFFF)
-                : UIColors.lightBorder,
-          ),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: th.colors.border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(ThemeConstants.radiusMedium),
-          borderSide: BorderSide(
-            color: isDark 
-                ? UIColors.darkNeonCyan
-                : UIColors.lightAccentBlue,
-            width: 2,
-          ),
+          borderRadius: BorderRadius.circular(th.shapes.radiusMd),
+          borderSide: BorderSide(color: accent ?? th.accent.primary, width: 2),
         ),
         filled: true,
-        fillColor: isDark 
-            ? const Color(0x08FFFFFF)
-            : Colors.grey.shade50,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: ThemeConstants.space12,
-          vertical: ThemeConstants.space12,
+        fillColor: fillColor,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: th.spacing.md,
+          vertical: th.spacing.md,
         ),
       ),
-      style: TextStyle(
-        color: isDark ? UIColors.darkText : UIColors.lightText,
-        fontSize: ThemeConstants.fontMedium,
-      ),
-      dropdownColor: isDark ? UIColors.darkSurface : Colors.white,
-      icon: Icon(
-        Icons.arrow_drop_down,
-        color: isDark ? UIColors.darkTextSecondary : UIColors.lightTextSecondary,
-      ),
+      style: th.text.body.copyWith(color: th.colors.textPrimary),
+      dropdownColor: th.colors.surface,
+      icon: Icon(Icons.arrow_drop_down, color: th.colors.textSecondary),
     );
   }
 }

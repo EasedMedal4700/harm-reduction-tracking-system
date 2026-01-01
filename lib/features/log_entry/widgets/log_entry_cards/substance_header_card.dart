@@ -1,0 +1,72 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Substance header card.
+import 'package:flutter/material.dart';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
+import '../../../../common/cards/common_card.dart';
+import '../../../../common/layout/common_spacer.dart';
+import '../../../../common/buttons/common_icon_button.dart';
+
+class SubstanceHeaderCard extends StatelessWidget {
+  final String substanceName;
+  final String? roa;
+  final VoidCallback? onEdit;
+  const SubstanceHeaderCard({
+    super.key,
+    required this.substanceName,
+    this.roa,
+    this.onEdit,
+  });
+  @override
+  Widget build(BuildContext context) {
+    final th = context.theme;
+    final c = th.c;
+    final ac = th.accent;
+    return CommonCard(
+      padding: EdgeInsets.all(th.sp.md),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.all(th.sp.md),
+            decoration: BoxDecoration(
+              color: ac.primary.withValues(alpha: th.opacities.overlay),
+              shape: th.shapes.boxShapeCircle,
+            ),
+            child: Icon(
+              Icons.science,
+              color: ac.primary,
+              size: th.sizes.iconMd,
+            ),
+          ),
+          CommonSpacer.horizontal(th.sp.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+              children: [
+                Text(substanceName, style: th.text.heading3),
+                if (roa != null) ...[
+                  CommonSpacer.vertical(th.sp.xs),
+                  Text(
+                    roa!,
+                    style: th.text.bodySmall.copyWith(color: c.textSecondary),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          if (onEdit != null)
+            CommonIconButton(
+              icon: Icons.edit,
+              color: c.textSecondary,
+              onPressed: onEdit,
+            ),
+        ],
+      ),
+    );
+  }
+}

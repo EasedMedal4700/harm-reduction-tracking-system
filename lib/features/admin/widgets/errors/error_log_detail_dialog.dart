@@ -1,0 +1,196 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: FREEZED
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Fully theme-based, correct typography & colors.
+import 'dart:convert';
+import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../../../../constants/theme/app_theme_extension.dart';
+import '../../../../constants/theme/app_typography.dart';
+import 'package:mobile_drug_use_app/common/cards/common_card.dart';
+
+import '../../models/error_log_entry.dart';
+import 'severity_badge.dart';
+
+/// Bottom sheet dialog showing detailed error log information
+class ErrorLogDetailDialog extends StatelessWidget {
+  final ErrorLogEntry log;
+  const ErrorLogDetailDialog({required this.log, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    final sp = context.spacing;
+    final tx = context.text;
+    final sh = context.shapes;
+    final createdAt = log.createdAt;
+    final extra = log.parseExtraDataAsMap();
+    final severity = log.severity;
+    final errorCode = log.errorCode ?? '';
+    return DraggableScrollableSheet(
+      expand: false,
+      builder: (context, controller) {
+        return Container(
+          decoration: BoxDecoration(
+            color: c.surface,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(sh.radiusLg),
+            ),
+            border: Border.all(color: c.border),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(sp.lg),
+            child: ListView(
+              controller: controller,
+              children: [
+                /// HEADER
+                Row(
+                  children: [
+                    Icon(Icons.bug_report, color: c.error),
+                    SizedBox(width: sp.sm),
+                    Expanded(
+                      child: Text(
+                        log.errorMessage ?? 'Unknown error',
+                        style: tx.heading4.copyWith(color: c.textPrimary),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: sp.md),
+
+                /// SEVERITY + ERROR CODE
+                Row(
+                  children: [
+                    SeverityBadge(severity: severity, compact: false),
+                    if (errorCode.isNotEmpty) ...[
+                      SizedBox(width: sp.sm),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: sp.sm,
+                          vertical: sp.xs,
+                        ),
+                        decoration: BoxDecoration(
+                          color: c.surfaceVariant,
+                          borderRadius: BorderRadius.circular(sh.radiusSm),
+                        ),
+                        child: Text(
+                          errorCode,
+                          style: tx.caption.copyWith(
+                            fontFamily:
+                                AppTypographyConstants.fontFamilyMonospace,
+                            fontWeight: tx.bodyBold.fontWeight,
+                            color: c.textPrimary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+                SizedBox(height: sp.md),
+
+                /// METADATA
+                _buildKeyValue(
+                  context,
+                  'Created',
+                  createdAt != null
+                      ? DateFormat(
+                          'MMM dd, yyyy HH:mm:ss',
+                        ).format(createdAt.toLocal())
+                      : 'Unknown',
+                ),
+                _buildKeyValue(context, 'Platform', log.platform ?? 'Unknown'),
+                _buildKeyValue(
+                  context,
+                  'OS Version',
+                  log.osVersion ?? 'Unknown',
+                ),
+                _buildKeyValue(context, 'Device', log.deviceModel ?? 'Unknown'),
+                _buildKeyValue(
+                  context,
+                  'App Version',
+                  log.appVersion ?? 'Unknown',
+                ),
+                _buildKeyValue(context, 'Screen', log.screenName ?? 'Unknown'),
+                SizedBox(height: sp.md),
+
+                /// STACKTRACE
+                Text(
+                  'Stacktrace',
+                  style: tx.bodyBold.copyWith(color: c.textPrimary),
+                ),
+                SizedBox(height: sp.xs),
+                CommonCard(
+                  padding: EdgeInsets.all(sp.md),
+                  backgroundColor: c.surfaceVariant,
+                  borderRadius: sh.radiusMd,
+                  borderColor: c.border,
+                  child: SelectableText(
+                    log.stacktrace ?? 'Unavailable',
+                    style: tx.caption.copyWith(
+                      fontFamily: AppTypographyConstants.fontFamilyMonospace,
+                      fontSize: tx.label.fontSize,
+                      color: c.textPrimary,
+                    ),
+                  ),
+                ),
+
+                /// EXTRA DATA
+                if (extra != null) ...[
+                  SizedBox(height: sp.lg),
+                  Text(
+                    'Extra Data',
+                    style: tx.bodyBold.copyWith(color: c.textPrimary),
+                  ),
+                  SizedBox(height: sp.xs),
+                  CommonCard(
+                    padding: EdgeInsets.all(sp.md),
+                    backgroundColor: c.surfaceVariant,
+                    borderRadius: sh.radiusMd,
+                    borderColor: c.border,
+                    child: SelectableText(
+                      const JsonEncoder.withIndent('  ').convert(extra),
+                      style: tx.caption.copyWith(
+                        fontFamily: AppTypographyConstants.fontFamilyMonospace,
+                        fontSize: tx.label.fontSize,
+                        color: c.textPrimary,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildKeyValue(BuildContext context, String label, String value) {
+    final c = context.colors;
+    final tx = context.text;
+    final sp = context.spacing;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: sp.xs),
+      child: Row(
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+        children: [
+          SizedBox(
+            width: context.sizes.labelWidthMd,
+            child: Text(
+              '$label:',
+              style: tx.bodyBold.copyWith(color: c.textSecondary),
+            ),
+          ),
+          Expanded(
+            child: Text(value, style: tx.body.copyWith(color: c.textPrimary)),
+          ),
+        ],
+      ),
+    );
+  }
+}

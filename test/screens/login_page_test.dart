@@ -72,7 +72,7 @@ void main() {
       final email1 = TestCredentials.email;
       TestCredentials.clear();
       final email2 = TestCredentials.email;
-      
+
       expect(email1, equals(email2));
     });
   });
@@ -100,11 +100,11 @@ void main() {
     test('loading state handling', () {
       // Test loading state transitions
       bool isLoading = false;
-      
+
       // Simulate starting login
       isLoading = true;
       expect(isLoading, isTrue);
-      
+
       // Simulate finishing login
       isLoading = false;
       expect(isLoading, isFalse);
@@ -112,15 +112,15 @@ void main() {
 
     test('error message handling', () {
       String? errorMessage;
-      
+
       // No error initially
       expect(errorMessage, isNull);
-      
+
       // Set error
       errorMessage = 'Invalid credentials';
       expect(errorMessage, isNotNull);
       expect(errorMessage, equals('Invalid credentials'));
-      
+
       // Clear error
       errorMessage = null;
       expect(errorMessage, isNull);

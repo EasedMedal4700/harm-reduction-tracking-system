@@ -5,7 +5,6 @@ void main() {
   group('EmotionalStateSection widget tests', () {
     testWidgets('displays emotion selection chips', (tester) async {
       final primaryEmotions = <String>[];
-      final secondaryEmotions = <String, List<String>>{};
 
       await tester.pumpWidget(
         MaterialApp(
@@ -44,7 +43,6 @@ void main() {
 
     testWidgets('primary emotion can be selected', (tester) async {
       var primaryEmotions = <String>[];
-      final secondaryEmotions = <String, List<String>>{};
 
       await tester.pumpWidget(
         MaterialApp(
@@ -61,7 +59,9 @@ void main() {
                           if (selected) {
                             primaryEmotions = [...primaryEmotions, 'Happy'];
                           } else {
-                            primaryEmotions = primaryEmotions.where((e) => e != 'Happy').toList();
+                            primaryEmotions = primaryEmotions
+                                .where((e) => e != 'Happy')
+                                .toList();
                           }
                         });
                       },
@@ -143,7 +143,9 @@ void main() {
       expect(selectedEmotions.length, 2);
     });
 
-    testWidgets('secondary emotions display when primary selected', (tester) async {
+    testWidgets('secondary emotions display when primary selected', (
+      tester,
+    ) async {
       var primaryEmotions = <String>['Happy'];
       final secondaryEmotions = <String, List<String>>{};
 
@@ -164,12 +166,16 @@ void main() {
                     children: [
                       FilterChip(
                         label: const Text('Joyful'),
-                        selected: secondaryEmotions['Happy']?.contains('Joyful') ?? false,
+                        selected:
+                            secondaryEmotions['Happy']?.contains('Joyful') ??
+                            false,
                         onSelected: (selected) {},
                       ),
                       FilterChip(
                         label: const Text('Excited'),
-                        selected: secondaryEmotions['Happy']?.contains('Excited') ?? false,
+                        selected:
+                            secondaryEmotions['Happy']?.contains('Excited') ??
+                            false,
                         onSelected: (selected) {},
                       ),
                     ],
@@ -194,13 +200,21 @@ void main() {
               builder: (context, setState) {
                 return FilterChip(
                   label: const Text('Joyful'),
-                  selected: secondaryEmotions['Happy']?.contains('Joyful') ?? false,
+                  selected:
+                      secondaryEmotions['Happy']?.contains('Joyful') ?? false,
                   onSelected: (selected) {
                     setState(() {
                       if (selected) {
-                        secondaryEmotions['Happy'] = [...(secondaryEmotions['Happy'] ?? []), 'Joyful'];
+                        secondaryEmotions['Happy'] = [
+                          ...(secondaryEmotions['Happy'] ?? []),
+                          'Joyful',
+                        ];
                       } else {
-                        secondaryEmotions['Happy'] = secondaryEmotions['Happy']?.where((e) => e != 'Joyful').toList() ?? [];
+                        secondaryEmotions['Happy'] =
+                            secondaryEmotions['Happy']
+                                ?.where((e) => e != 'Joyful')
+                                .toList() ??
+                            [];
                       }
                     });
                   },
@@ -243,7 +257,10 @@ void main() {
       expect(find.text('What are you thinking?'), findsOneWidget);
 
       // Enter text
-      await tester.enterText(find.byType(TextField), 'I feel stressed about work');
+      await tester.enterText(
+        find.byType(TextField),
+        'I feel stressed about work',
+      );
       await tester.pump();
 
       expect(thoughtsController.text, 'I feel stressed about work');
@@ -299,11 +316,13 @@ void main() {
           home: Scaffold(
             body: Wrap(
               children: emotions
-                  .map((e) => ChoiceChip(
-                        label: Text(e),
-                        selected: false,
-                        onSelected: (_) {},
-                      ))
+                  .map(
+                    (e) => ChoiceChip(
+                      label: Text(e),
+                      selected: false,
+                      onSelected: (_) {},
+                    ),
+                  )
                   .toList(),
             ),
           ),
@@ -324,11 +343,13 @@ void main() {
             body: SingleChildScrollView(
               child: Wrap(
                 children: emotions
-                    .map((e) => ChoiceChip(
-                          label: Text(e),
-                          selected: false,
-                          onSelected: (_) {},
-                        ))
+                    .map(
+                      (e) => ChoiceChip(
+                        label: Text(e),
+                        selected: false,
+                        onSelected: (_) {},
+                      ),
+                    )
                     .toList(),
               ),
             ),

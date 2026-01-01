@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/utils/error_reporter.dart';
+import 'package:mobile_drug_use_app/core/utils/error_reporter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
@@ -18,7 +18,10 @@ void main() {
       });
 
       test('maps database errors to high severity', () {
-        final error = PostgrestException(message: 'Database error', code: '500');
+        final error = PostgrestException(
+          message: 'Database error',
+          code: '500',
+        );
         final severity = ErrorReporter.mapSeverity(error, null);
         expect(severity, ErrorSeverity.high);
       });
@@ -74,7 +77,9 @@ void main() {
       });
 
       test('generates NULL_CAST for null cast errors', () {
-        final error = Exception("type 'Null' is not a subtype of type 'int' in type cast");
+        final error = Exception(
+          "type 'Null' is not a subtype of type 'int' in type cast",
+        );
         final code = ErrorReporter.generateErrorCode(error);
         expect(code, 'NULL_CAST');
       });

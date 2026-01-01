@@ -1,17 +1,24 @@
-import 'app_theme_constants.dart';
+// MIGRATION:
+// State: N/A
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: N/A
+// Notes: Theme definition.
+import 'app_shapes.dart';
 
-/// Provides global radius tokens from AppThemeConstants.
+/// Provides global radius tokens.
 ///
 /// Usage:
 ///   BorderRadius.circular(AppRadius.md)
 ///   BorderRadius.vertical(top: AppRadius.lg)
 ///
 class AppRadius {
-  static const double xs = AppThemeConstants.radiusXs;
-  static const double sm = AppThemeConstants.radiusSm;
-  static const double md = AppThemeConstants.radiusMd;
-  static const double lg = AppThemeConstants.radiusLg;
-  static const double xl = AppThemeConstants.radiusXl;
-  static const double xl2 = AppThemeConstants.radius2xl;
-  static const double full = AppThemeConstants.radiusFull;
+  static const double xs = AppShapeConstants.radiusXs;
+  static const double sm = AppShapeConstants.radiusSm;
+  static const double md = AppShapeConstants.radiusMd;
+  static const double lg = AppShapeConstants.radiusLg;
+  static const double xl = AppShapeConstants.radiusXl;
+  static const double xl2 = AppShapeConstants.radius2xl;
+  static const double full = AppShapeConstants.radiusFull;
 }

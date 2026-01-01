@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/screens/recovery_key_screen.dart';
+import 'package:mobile_drug_use_app/features/setup_account/pages/recovery_key_page.dart';
+import '../helpers/test_app_wrapper.dart';
 
 void main() {
   group('RecoveryKeyScreen Widget Tests', () {
     testWidgets('renders recovery key screen correctly', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
       // Check for title
       expect(find.text('Enter Recovery Key'), findsOneWidget);
-      
+
       // Check for continue button
       expect(find.text('Continue'), findsOneWidget);
-      
+
       // Check for back button text
       expect(find.text('Back to PIN Unlock'), findsOneWidget);
     });
 
     testWidgets('has AppBar with Recovery Key title', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
@@ -31,7 +32,7 @@ void main() {
 
     testWidgets('has key icon', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
@@ -40,7 +41,7 @@ void main() {
 
     testWidgets('has recovery key input field', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
@@ -49,7 +50,7 @@ void main() {
 
     testWidgets('recovery key field is obscured by default', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
@@ -59,33 +60,35 @@ void main() {
 
     testWidgets('has visibility toggle for recovery key', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
       expect(find.byIcon(Icons.visibility), findsOneWidget);
     });
 
-    testWidgets('toggling visibility icon shows/hides recovery key', (tester) async {
+    testWidgets('toggling visibility icon shows/hides recovery key', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
       // Initially visibility icon (text obscured)
       expect(find.byIcon(Icons.visibility), findsOneWidget);
-      
+
       // Tap visibility icon
       await tester.tap(find.byIcon(Icons.visibility));
       await tester.pump();
-      
+
       // Now should show visibility_off (text visible)
       expect(find.byIcon(Icons.visibility_off), findsOneWidget);
     });
 
     testWidgets('can enter recovery key', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
@@ -94,12 +97,15 @@ void main() {
       await tester.pump();
 
       final textFieldWidget = tester.widget<TextField>(textField);
-      expect(textFieldWidget.controller?.text, equals('abc123def456789012345678'));
+      expect(
+        textFieldWidget.controller?.text,
+        equals('abc123def456789012345678'),
+      );
     });
 
     testWidgets('has info box explaining recovery key format', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
@@ -109,7 +115,7 @@ void main() {
 
     testWidgets('has continue button', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
@@ -119,7 +125,7 @@ void main() {
 
     testWidgets('has back to PIN unlock link', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
@@ -129,7 +135,7 @@ void main() {
 
     testWidgets('shows description text', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 
@@ -138,7 +144,7 @@ void main() {
 
     testWidgets('layout uses SingleChildScrollView', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: RecoveryKeyScreen()),
+        wrapWithAppThemeAndProvidersApp(home: const RecoveryKeyScreen()),
       );
       await tester.pump();
 

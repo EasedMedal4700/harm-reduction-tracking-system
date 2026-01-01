@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/utils/error_reporter.dart';
-import 'package:mobile_drug_use_app/utils/error_handler.dart';
+import 'package:mobile_drug_use_app/core/utils/error_reporter.dart';
+import 'package:mobile_drug_use_app/core/utils/error_handler.dart';
 
 /// Wrapper for test functions that logs failures to ErrorReporter
-/// 
+///
 /// Usage:
 /// ```dart
 /// testWithErrorLogging('my test description', () {
@@ -26,7 +26,7 @@ void testWithErrorLogging(
       try {
         await body();
       } catch (error, stackTrace) {
-        // Log test failure to ErrorReporter  
+        // Log test failure to ErrorReporter
         try {
           await ErrorReporter.instance.reportError(
             error: error,
@@ -43,7 +43,7 @@ void testWithErrorLogging(
           // If error reporting fails, just log it
           ErrorHandler.logError('testWithErrorLogging', reportError);
         }
-        
+
         // Re-throw to fail the test
         rethrow;
       }
@@ -58,7 +58,7 @@ void testWithErrorLogging(
 }
 
 /// Wrapper for widget tests that logs failures to ErrorReporter
-/// 
+///
 /// Usage:
 /// ```dart
 /// testWidgetsWithErrorLogging('renders correctly', (WidgetTester tester) async {
@@ -99,7 +99,7 @@ void testWidgetsWithErrorLogging(
           // If error reporting fails, just log it
           ErrorHandler.logError('testWidgetsWithErrorLogging', reportError);
         }
-        
+
         // Re-throw to fail the test
         rethrow;
       }
@@ -113,7 +113,7 @@ void testWidgetsWithErrorLogging(
 }
 
 /// Wrapper for test groups that logs setup/teardown failures
-/// 
+///
 /// Usage:
 /// ```dart
 /// groupWithErrorLogging('MyClass', () {
@@ -121,35 +121,26 @@ void testWidgetsWithErrorLogging(
 ///   testWithErrorLogging('test 2', () { ... });
 /// });
 /// ```
-void groupWithErrorLogging(
-  String description,
-  dynamic Function() body,
-) {
-  group(
-    description,
-    () {
+void groupWithErrorLogging(String description, dynamic Function() body) {
+  group(description, () {
+    try {
+      body();
+    } catch (error, stackTrace) {
+      // Log group setup failure
       try {
-        body();
-      } catch (error, stackTrace) {
-        // Log group setup failure
-        try {
-          ErrorReporter.instance.reportError(
-            error: error,
-            stackTrace: stackTrace,
-            screenName: 'test_group',
-            context: 'Test group "$description" setup failed',
-            extraData: {
-              'test_group': description,
-              'test_type': 'group_setup',
-            },
-          );
-        } catch (reportError) {
-          // If error reporting fails, just log it
-          ErrorHandler.logError('groupWithErrorLogging', reportError);
-        }
-        
-        rethrow;
+        ErrorReporter.instance.reportError(
+          error: error,
+          stackTrace: stackTrace,
+          screenName: 'test_group',
+          context: 'Test group "$description" setup failed',
+          extraData: {'test_group': description, 'test_type': 'group_setup'},
+        );
+      } catch (reportError) {
+        // If error reporting fails, just log it
+        ErrorHandler.logError('groupWithErrorLogging', reportError);
       }
-    },
-  );
+
+      rethrow;
+    }
+  });
 }

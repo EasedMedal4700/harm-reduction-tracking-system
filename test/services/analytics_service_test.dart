@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_drug_use_app/constants/emus/time_period.dart';
-import 'package:mobile_drug_use_app/models/log_entry_model.dart';
-import 'package:mobile_drug_use_app/services/analytics_service.dart';
+import 'package:mobile_drug_use_app/constants/enums/time_period.dart';
+import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_model.dart';
+import 'package:mobile_drug_use_app/features/analytics/services/analytics_service.dart';
 
 void main() {
   LogEntry buildEntry({
@@ -59,11 +59,20 @@ void main() {
     test('filterEntriesByPeriod filters relative to now', () {
       final now = DateTime.now();
       final entries = [
-        buildEntry(substance: 'Recent', dateTime: now.subtract(const Duration(days: 3))),
-        buildEntry(substance: 'Old', dateTime: now.subtract(const Duration(days: 20))),
+        buildEntry(
+          substance: 'Recent',
+          dateTime: now.subtract(const Duration(days: 3)),
+        ),
+        buildEntry(
+          substance: 'Old',
+          dateTime: now.subtract(const Duration(days: 20)),
+        ),
       ];
 
-      final filtered = service.filterEntriesByPeriod(entries, TimePeriod.last7Days);
+      final filtered = service.filterEntriesByPeriod(
+        entries,
+        TimePeriod.last7Days,
+      );
 
       expect(filtered.length, 1);
       expect(filtered.first.substance, 'Recent');

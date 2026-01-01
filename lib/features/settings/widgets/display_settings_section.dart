@@ -1,0 +1,60 @@
+// MIGRATION:
+// State: MODERN
+// Navigation: N/A
+// Models: N/A
+// Theme: COMPLETE
+// Common: COMPLETE
+// Notes: Display settings section.
+import 'package:flutter/material.dart';
+import '../providers/settings_provider.dart';
+import '../models/app_settings_model.dart';
+import 'settings_section.dart';
+import '../../../common/inputs/switch_tile.dart';
+import '../../../constants/theme/app_theme_extension.dart';
+
+/// Display settings section widget
+class DisplaySettingsSection extends StatelessWidget {
+  final AppSettings settings;
+  final SettingsController controller;
+  final VoidCallback onDateFormatTap;
+  const DisplaySettingsSection({
+    required this.settings,
+    required this.controller,
+    required this.onDateFormatTap,
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context) {
+    // final settings = controller.settings;
+    final th = context.theme;
+    return SettingsSection(
+      title: 'Display',
+      icon: Icons.display_settings,
+      children: [
+        CommonSwitchTile(
+          title: '24-Hour Time',
+          value: settings.show24HourTime,
+          onChanged: controller.setShow24HourTime,
+        ),
+        ListTile(
+          title: const Text('Date Format'),
+          subtitle: Text(settings.dateFormat),
+          trailing: Icon(Icons.chevron_right, size: th.sizes.iconSm),
+          onTap: onDateFormatTap,
+        ),
+        CommonSwitchTile(
+          title: 'Show Blood Levels',
+          subtitle: 'Display pharmacokinetic graphs',
+          value: settings.showBloodLevels,
+          onChanged: controller.setShowBloodLevels,
+        ),
+        CommonSwitchTile(
+          title: 'Show Analytics',
+          subtitle: 'Display usage statistics',
+          value: settings.showAnalytics,
+          onChanged: controller.setShowAnalytics,
+        ),
+      ],
+    );
+  }
+}
