@@ -11,7 +11,7 @@ import '../../../common/layout/common_spacer.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/dropdown.dart';
 
-class ReflectionForm extends StatelessWidget {
+class ReflectionForm extends StatefulWidget {
   final int selectedCount;
   final double effectiveness;
   final ValueChanged<double> onEffectivenessChanged;
@@ -62,6 +62,21 @@ class ReflectionForm extends StatelessWidget {
     required this.onNotesChanged,
   });
   @override
+  State<ReflectionForm> createState() => _ReflectionFormState();
+}
+
+class _ReflectionFormState extends State<ReflectionForm> {
+  bool _copingNA = false;
+  bool _sleepNA = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _copingNA = widget.copingStrategies.isEmpty || widget.copingEffectiveness.isNaN;
+    _sleepNA = widget.sleepHours.isNaN;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final th = context.theme;
     return SingleChildScrollView(
@@ -70,7 +85,7 @@ class ReflectionForm extends StatelessWidget {
         crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
         children: [
           Text(
-            'Reflecting on $selectedCount entries',
+            'Reflecting on ${widget.selectedCount} entries',
             style: th.typography.heading2,
           ),
           CommonSpacer.vertical(th.spacing.sm),
@@ -84,8 +99,8 @@ class ReflectionForm extends StatelessWidget {
             _buildSlider(
               context,
               'Effectiveness',
-              effectiveness,
-              onEffectivenessChanged,
+              widget.effectiveness,
+              widget.onEffectivenessChanged,
               minLabel: 'Ineffective',
               maxLabel: 'Highly Effective',
             ),
@@ -93,8 +108,8 @@ class ReflectionForm extends StatelessWidget {
             _buildSlider(
               context,
               'Overall Satisfaction',
-              overallSatisfaction,
-              onOverallSatisfactionChanged,
+              widget.overallSatisfaction,
+              widget.onOverallSatisfactionChanged,
               minLabel: 'Dissatisfied',
               maxLabel: 'Very Satisfied',
             ),
@@ -104,45 +119,72 @@ class ReflectionForm extends StatelessWidget {
           _buildSectionCard(context, 'Sleep & Recovery', Icons.bedtime, [
             Row(
               children: [
-                Expanded(
-                  child: _buildNumberInput(
-                    context,
-                    'Sleep Hours',
-                    sleepHours,
-                    onSleepHoursChanged,
-                  ),
+                Checkbox(
+                  value: _sleepNA,
+                  onChanged: (v) {
+                    setState(() {
+                      _sleepNA = v ?? false;
+                    });
+                    if (_sleepNA) {
+                      widget.onSleepHoursChanged(double.nan);
+                      widget.onSleepQualityChanged('');
+                    } else {
+                      widget.onSleepHoursChanged(8.0);
+                      widget.onSleepQualityChanged('Good');
+                    }
+                  },
                 ),
-                CommonSpacer.horizontal(th.spacing.md),
-                Expanded(
-                  child: _buildDropdown(
-                    context,
-                    'Sleep Quality',
-                    sleepQuality,
-                    ['Poor', 'Fair', 'Good', 'Excellent'],
-                    onSleepQualityChanged,
-                  ),
-                ),
+                Text('Sleep: N/A', style: th.typography.body),
+                const Spacer(),
               ],
             ),
+            CommonSpacer.vertical(th.spacing.sm),
+            _sleepNA
+                ? Padding(
+                    padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
+                    child: Text('Sleep marked N/A', style: th.typography.bodySmall),
+                  )
+                : Row(
+                    children: [
+                      Expanded(
+                        child: _buildNumberInput(
+                          context,
+                          'Sleep Hours',
+                          widget.sleepHours,
+                          widget.onSleepHoursChanged,
+                        ),
+                      ),
+                      CommonSpacer.horizontal(th.spacing.md),
+                      Expanded(
+                        child: _buildDropdown(
+                          context,
+                          'Sleep Quality',
+                          widget.sleepQuality,
+                          ['Poor', 'Fair', 'Good', 'Excellent'],
+                          widget.onSleepQualityChanged,
+                        ),
+                      ),
+                    ],
+                  ),
             CommonSpacer.vertical(th.spacing.md),
             Row(
               children: [
                 Expanded(
-                  child: _buildDropdown(context, 'Next Day Mood', nextDayMood, [
+                  child: _buildDropdown(context, 'Next Day Mood', widget.nextDayMood, [
                     'Depressed',
                     'Anxious',
                     'Neutral',
                     'Good',
                     'Great',
-                  ], onNextDayMoodChanged),
+                  ], widget.onNextDayMoodChanged),
                 ),
                 CommonSpacer.horizontal(th.spacing.md),
                 Expanded(
-                  child: _buildDropdown(context, 'Energy Level', energyLevel, [
+                  child: _buildDropdown(context, 'Energy Level', widget.energyLevel, [
                     'Low',
                     'Medium',
                     'High',
-                  ], onEnergyLevelChanged),
+                  ], widget.onEnergyLevelChanged),
                 ),
               ],
             ),
@@ -157,16 +199,16 @@ class ReflectionForm extends StatelessWidget {
               _buildTextInput(
                 context,
                 'Side Effects',
-                sideEffects,
-                onSideEffectsChanged,
+                widget.sideEffects,
+                widget.onSideEffectsChanged,
                 hint: 'Headache, nausea, anxiety...',
               ),
               CommonSpacer.vertical(th.spacing.md),
               _buildSlider(
                 context,
                 'Post-Use Craving',
-                postUseCraving,
-                onPostUseCravingChanged,
+                widget.postUseCraving,
+                widget.onPostUseCravingChanged,
                 minLabel: 'None',
                 maxLabel: 'Intense',
               ),
@@ -175,28 +217,60 @@ class ReflectionForm extends StatelessWidget {
           CommonSpacer.vertical(th.spacing.lg),
           // 4. Coping & Notes
           _buildSectionCard(context, 'Coping & Notes', Icons.psychology, [
-            _buildTextInput(
-              context,
-              'Coping Strategies',
-              copingStrategies,
-              onCopingStrategiesChanged,
-              hint: 'Meditation, exercise, talking to a friend...',
+            Row(
+              children: [
+                Checkbox(
+                  value: _copingNA,
+                  onChanged: (v) {
+                    setState(() {
+                      _copingNA = v ?? false;
+                    });
+                    if (_copingNA) {
+                      widget.onCopingStrategiesChanged('');
+                      widget.onCopingEffectivenessChanged(double.nan);
+                    } else {
+                      widget.onCopingStrategiesChanged('');
+                      widget.onCopingEffectivenessChanged(5.0);
+                    }
+                  },
+                ),
+                Text('Coping: N/A', style: th.typography.body),
+                const Spacer(),
+              ],
             ),
+            CommonSpacer.vertical(th.spacing.sm),
+            _copingNA
+                ? Padding(
+                    padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
+                    child: Text('Coping marked N/A', style: th.typography.bodySmall),
+                  )
+                : _buildTextInput(
+                        context,
+                        'Coping Strategies',
+                        widget.copingStrategies,
+                        widget.onCopingStrategiesChanged,
+                        hint: 'Meditation, exercise, talking to a friend...',
+                      ),
             CommonSpacer.vertical(th.spacing.md),
-            _buildSlider(
-              context,
-              'Coping Effectiveness',
-              copingEffectiveness,
-              onCopingEffectivenessChanged,
-              minLabel: 'Not Helpful',
-              maxLabel: 'Very Helpful',
-            ),
+            _copingNA
+                ? Padding(
+                    padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
+                    child: Text('Effectiveness: N/A', style: th.typography.bodySmall),
+                  )
+                : _buildSlider(
+                  context,
+                  'Coping Effectiveness',
+                  widget.copingEffectiveness,
+                  widget.onCopingEffectivenessChanged,
+                    minLabel: 'Not Helpful',
+                    maxLabel: 'Very Helpful',
+                  ),
             CommonSpacer.vertical(th.spacing.md),
             _buildTextInput(
               context,
               'Additional Notes',
-              notes,
-              onNotesChanged,
+              widget.notes,
+              widget.onNotesChanged,
               maxLines: 3,
               hint: 'Any other thoughts or observations...',
             ),

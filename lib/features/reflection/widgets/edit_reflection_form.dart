@@ -83,7 +83,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
     super.initState();
     // Initialize controllers with current values
     _sleepHoursController = TextEditingController(
-      text: widget.sleepHours.toString(),
+      text: widget.sleepHours.isNaN ? '' : widget.sleepHours.toString(),
     );
     _nextDayMoodController = TextEditingController(text: widget.nextDayMood);
     _sideEffectsController = TextEditingController(text: widget.sideEffects);
@@ -98,7 +98,7 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
     super.didUpdateWidget(oldWidget);
     // Update controller text when the parent supplies new initial values
     if (oldWidget.sleepHours != widget.sleepHours) {
-      _sleepHoursController.text = widget.sleepHours.toString();
+      _sleepHoursController.text = widget.sleepHours.isNaN ? '' : widget.sleepHours.toString();
     }
     if (oldWidget.nextDayMood != widget.nextDayMood) {
       _nextDayMoodController.text = widget.nextDayMood;
@@ -160,23 +160,61 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
-                CommonInputField(
-                  controller: _sleepHoursController,
-                  labelText: 'Sleep Hours',
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    final parsed = double.tryParse(value) ?? 8.0;
-                    widget.onSleepHoursChanged(parsed);
-                  },
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _sleepHoursController.text.isEmpty || widget.sleepHours.isNaN,
+                      onChanged: (v) {
+                        final checked = v ?? false;
+                        setState(() {
+                          if (checked) {
+                            _sleepHoursController.text = '';
+                            widget.onSleepHoursChanged(double.nan);
+                            widget.onSleepQualityChanged('');
+                          } else {
+                            widget.onSleepHoursChanged(8.0);
+                            widget.onSleepQualityChanged('Good');
+                            _sleepHoursController.text = '8.0';
+                          }
+                        });
+                      },
+                    ),
+                    Text('Sleep: N/A', style: th.typography.body),
+                    const Spacer(),
+                  ],
                 ),
-                CommonSpacer.vertical(th.spacing.lg),
-                _buildDropdown(
-                  context,
-                  'Sleep Quality',
-                  widget.sleepQuality.isEmpty ? 'Good' : widget.sleepQuality,
-                  ['Poor', 'Fair', 'Good', 'Excellent'],
-                  (value) => widget.onSleepQualityChanged(value),
-                ),
+                CommonSpacer.vertical(th.spacing.sm),
+                (_sleepHoursController.text.isEmpty || widget.sleepHours.isNaN)
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
+                        child: Text('Sleep marked N/A', style: th.typography.bodySmall),
+                      )
+                    : Column(
+                        children: [
+                          CommonInputField(
+                            controller: _sleepHoursController,
+                            labelText: 'Sleep Hours',
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              final trimmed = value.trim();
+                              if (trimmed.isEmpty) {
+                                widget.onSleepHoursChanged(double.nan);
+                                return;
+                              }
+                              final parsed = double.tryParse(trimmed);
+                              widget.onSleepHoursChanged(parsed ?? double.nan);
+                            },
+                          ),
+                          CommonSpacer.vertical(th.spacing.lg),
+                          _buildDropdown(
+                            context,
+                            'Sleep Quality',
+                            widget.sleepQuality.isEmpty ? 'Good' : widget.sleepQuality,
+                            ['Poor', 'Fair', 'Good', 'Excellent'],
+                            (value) => widget.onSleepQualityChanged(value),
+                          ),
+                        ],
+                      ),
               ],
             ),
           ),
@@ -227,6 +265,30 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
             child: Column(
               crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
               children: [
+                // Checkbox to mark coping as N/A
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _copingStrategiesController.text.isEmpty || widget.copingEffectiveness.isNaN,
+                      onChanged: (v) {
+                        final checked = v ?? false;
+                        setState(() {
+                          if (checked) {
+                            _copingStrategiesController.text = '';
+                            _notesController.text = _notesController.text; // keep notes unchanged
+                            widget.onCopingStrategiesChanged('');
+                            widget.onCopingEffectivenessChanged(double.nan);
+                          } else {
+                            widget.onCopingEffectivenessChanged(5.0);
+                          }
+                        });
+                      },
+                    ),
+                    Text('Coping: N/A', style: th.typography.body),
+                    const Spacer(),
+                  ],
+                ),
+                CommonSpacer.vertical(th.spacing.sm),
                 _buildSlider(
                   context,
                   'Post Use Craving',
@@ -236,22 +298,32 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   maxLabel: 'Intense',
                 ),
                 CommonSpacer.vertical(th.spacing.lg),
-                CommonTextarea(
-                  controller: _copingStrategiesController,
-                  labelText: 'Coping Strategies',
-                  onChanged: widget.onCopingStrategiesChanged,
-                  maxLines: 2,
-                  minLines: 1,
-                ),
+                (_copingStrategiesController.text.isEmpty || widget.copingEffectiveness.isNaN)
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
+                        child: Text('Coping marked N/A', style: th.typography.bodySmall),
+                      )
+                    : CommonTextarea(
+                        controller: _copingStrategiesController,
+                        labelText: 'Coping Strategies',
+                        onChanged: widget.onCopingStrategiesChanged,
+                        maxLines: 2,
+                        minLines: 1,
+                      ),
                 CommonSpacer.vertical(th.spacing.lg),
-                _buildSlider(
-                  context,
-                  'Coping Effectiveness',
-                  widget.copingEffectiveness,
-                  widget.onCopingEffectivenessChanged,
-                  minLabel: 'Not Helpful',
-                  maxLabel: 'Very Helpful',
-                ),
+                (_copingStrategiesController.text.isEmpty || widget.copingEffectiveness.isNaN)
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
+                        child: Text('Effectiveness: N/A', style: th.typography.bodySmall),
+                      )
+                    : _buildSlider(
+                        context,
+                        'Coping Effectiveness',
+                        widget.copingEffectiveness,
+                        widget.onCopingEffectivenessChanged,
+                        minLabel: 'Not Helpful',
+                        maxLabel: 'Very Helpful',
+                      ),
               ],
             ),
           ),

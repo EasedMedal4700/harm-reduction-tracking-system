@@ -71,14 +71,14 @@ abstract class Reflection with _$Reflection {
 
   Map<String, dynamic> toJson() => {
     'effectiveness': effectiveness.round(),
-    'sleep_hours': sleepHours,
-    'sleep_quality': sleepQuality,
+    'sleep_hours': sleepHours.isNaN ? null : sleepHours,
+    'sleep_quality': sleepHours.isNaN ? null : sleepQuality,
     'next_day_mood': nextDayMood.isEmpty ? null : nextDayMood,
     'energy_level': energyLevel,
     'side_effects': sideEffects.isEmpty ? null : sideEffects,
     'post_use_craving': postUseCraving.round(),
     'coping_strategies': copingStrategies.isEmpty ? null : copingStrategies,
-    'coping_effectiveness': copingEffectiveness.round(),
+    'coping_effectiveness': copingEffectiveness.isNaN ? null : copingEffectiveness.round(),
     'overall_satisfaction': overallSatisfaction.round(),
     'notes': notes,
   };
