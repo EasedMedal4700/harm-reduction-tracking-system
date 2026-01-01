@@ -12,16 +12,37 @@ import '../../../common/logging/app_log.dart';
 class SubstanceRepository {
   SupabaseClient get _client => Supabase.instance.client;
   Future<List<Map<String, dynamic>>> fetchSubstancesCatalog() async {
-    final response = await _client
-        .from('drug_profiles')
-        .select(
-          'name, pretty_name, categories, aliases, formatted_dose, formatted_duration, formatted_onset, formatted_aftereffects, properties, is_user_created',
-        );
-    final data = (response as List<dynamic>)
-        .map((e) => e as Map<String, dynamic>)
-        .toList();
+    const selectAttempts = <String>[
+      'name, pretty_name, categories, aliases, formatted_dose, formatted_duration, formatted_onset, formatted_aftereffects, properties, is_user_created',
+      'name, pretty_name, categories, aliases, formatted_dose, formatted_duration, formatted_onset, formatted_aftereffects, properties',
+    ];
+
+    List<dynamic>? response;
+    Object? lastError;
+    for (final select in selectAttempts) {
+      try {
+        response = await _client.from('drug_profiles').select(select);
+        lastError = null;
+        break;
+      } catch (e) {
+        lastError = e;
+      }
+    }
+
+    if (response == null) {
+      throw lastError ?? StateError('Failed to load substances catalog');
+    }
+
+    final data = response.map((e) => e as Map<String, dynamic>).toList();
     // Parse JSON fields
     return data.map((item) {
+      final rawIsUserCreated = item['is_user_created'];
+      final bool isUserCreated = switch (rawIsUserCreated) {
+        final bool v => v,
+        final num v => v != 0,
+        _ => false,
+      };
+
       return {
         'name': item['name'] ?? '',
         'pretty_name': item['pretty_name'] ?? item['name'] ?? '',
@@ -40,7 +61,7 @@ class SubstanceRepository {
             item['properties'] != null && item['properties']['summary'] != null
             ? item['properties']['summary']
             : 'No description available.',
-        'is_common': item['is_user_created'] == 0, // true if not user-created
+        'is_common': !isUserCreated,
       };
     }).toList();
   }
