@@ -98,7 +98,9 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
     super.didUpdateWidget(oldWidget);
     // Update controller text when the parent supplies new initial values
     if (oldWidget.sleepHours != widget.sleepHours) {
-      _sleepHoursController.text = widget.sleepHours.isNaN ? '' : widget.sleepHours.toString();
+      _sleepHoursController.text = widget.sleepHours.isNaN
+          ? ''
+          : widget.sleepHours.toString();
     }
     if (oldWidget.nextDayMood != widget.nextDayMood) {
       _nextDayMoodController.text = widget.nextDayMood;
@@ -163,7 +165,9 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                 Row(
                   children: [
                     Checkbox(
-                      value: _sleepHoursController.text.isEmpty || widget.sleepHours.isNaN,
+                      value:
+                          _sleepHoursController.text.isEmpty ||
+                          widget.sleepHours.isNaN,
                       onChanged: (v) {
                         final checked = v ?? false;
                         setState(() {
@@ -187,7 +191,10 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                 (_sleepHoursController.text.isEmpty || widget.sleepHours.isNaN)
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
-                        child: Text('Sleep marked N/A', style: th.typography.bodySmall),
+                        child: Text(
+                          'Sleep marked N/A',
+                          style: th.typography.bodySmall,
+                        ),
                       )
                     : Column(
                         children: [
@@ -209,7 +216,9 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                           _buildDropdown(
                             context,
                             'Sleep Quality',
-                            widget.sleepQuality.isEmpty ? 'Good' : widget.sleepQuality,
+                            widget.sleepQuality.isEmpty
+                                ? 'Good'
+                                : widget.sleepQuality,
                             ['Poor', 'Fair', 'Good', 'Excellent'],
                             (value) => widget.onSleepQualityChanged(value),
                           ),
@@ -269,13 +278,16 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                 Row(
                   children: [
                     Checkbox(
-                      value: _copingStrategiesController.text.isEmpty || widget.copingEffectiveness.isNaN,
+                      value:
+                          _copingStrategiesController.text.isEmpty ||
+                          widget.copingEffectiveness.isNaN,
                       onChanged: (v) {
                         final checked = v ?? false;
                         setState(() {
                           if (checked) {
                             _copingStrategiesController.text = '';
-                            _notesController.text = _notesController.text; // keep notes unchanged
+                            _notesController.text =
+                                _notesController.text; // keep notes unchanged
                             widget.onCopingStrategiesChanged('');
                             widget.onCopingEffectivenessChanged(double.nan);
                           } else {
@@ -298,10 +310,14 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                   maxLabel: 'Intense',
                 ),
                 CommonSpacer.vertical(th.spacing.lg),
-                (_copingStrategiesController.text.isEmpty || widget.copingEffectiveness.isNaN)
+                (_copingStrategiesController.text.isEmpty ||
+                        widget.copingEffectiveness.isNaN)
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
-                        child: Text('Coping marked N/A', style: th.typography.bodySmall),
+                        child: Text(
+                          'Coping marked N/A',
+                          style: th.typography.bodySmall,
+                        ),
                       )
                     : CommonTextarea(
                         controller: _copingStrategiesController,
@@ -311,10 +327,14 @@ class _EditReflectionFormState extends State<EditReflectionForm> {
                         minLines: 1,
                       ),
                 CommonSpacer.vertical(th.spacing.lg),
-                (_copingStrategiesController.text.isEmpty || widget.copingEffectiveness.isNaN)
+                (_copingStrategiesController.text.isEmpty ||
+                        widget.copingEffectiveness.isNaN)
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
-                        child: Text('Effectiveness: N/A', style: th.typography.bodySmall),
+                        child: Text(
+                          'Effectiveness: N/A',
+                          style: th.typography.bodySmall,
+                        ),
                       )
                     : _buildSlider(
                         context,

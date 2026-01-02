@@ -78,7 +78,9 @@ abstract class Reflection with _$Reflection {
     'side_effects': sideEffects.isEmpty ? null : sideEffects,
     'post_use_craving': postUseCraving.round(),
     'coping_strategies': copingStrategies.isEmpty ? null : copingStrategies,
-    'coping_effectiveness': copingEffectiveness.isNaN ? null : copingEffectiveness.round(),
+    'coping_effectiveness': copingEffectiveness.isNaN
+        ? null
+        : copingEffectiveness.round(),
     'overall_satisfaction': overallSatisfaction.round(),
     'notes': notes,
   };

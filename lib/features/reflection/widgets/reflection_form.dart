@@ -72,7 +72,8 @@ class _ReflectionFormState extends State<ReflectionForm> {
   @override
   void initState() {
     super.initState();
-    _copingNA = widget.copingStrategies.isEmpty || widget.copingEffectiveness.isNaN;
+    _copingNA =
+        widget.copingStrategies.isEmpty || widget.copingEffectiveness.isNaN;
     _sleepNA = widget.sleepHours.isNaN;
   }
 
@@ -142,7 +143,10 @@ class _ReflectionFormState extends State<ReflectionForm> {
             _sleepNA
                 ? Padding(
                     padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
-                    child: Text('Sleep marked N/A', style: th.typography.bodySmall),
+                    child: Text(
+                      'Sleep marked N/A',
+                      style: th.typography.bodySmall,
+                    ),
                   )
                 : Row(
                     children: [
@@ -170,21 +174,23 @@ class _ReflectionFormState extends State<ReflectionForm> {
             Row(
               children: [
                 Expanded(
-                  child: _buildDropdown(context, 'Next Day Mood', widget.nextDayMood, [
-                    'Depressed',
-                    'Anxious',
-                    'Neutral',
-                    'Good',
-                    'Great',
-                  ], widget.onNextDayMoodChanged),
+                  child: _buildDropdown(
+                    context,
+                    'Next Day Mood',
+                    widget.nextDayMood,
+                    ['Depressed', 'Anxious', 'Neutral', 'Good', 'Great'],
+                    widget.onNextDayMoodChanged,
+                  ),
                 ),
                 CommonSpacer.horizontal(th.spacing.md),
                 Expanded(
-                  child: _buildDropdown(context, 'Energy Level', widget.energyLevel, [
-                    'Low',
-                    'Medium',
-                    'High',
-                  ], widget.onEnergyLevelChanged),
+                  child: _buildDropdown(
+                    context,
+                    'Energy Level',
+                    widget.energyLevel,
+                    ['Low', 'Medium', 'High'],
+                    widget.onEnergyLevelChanged,
+                  ),
                 ),
               ],
             ),
@@ -242,26 +248,32 @@ class _ReflectionFormState extends State<ReflectionForm> {
             _copingNA
                 ? Padding(
                     padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
-                    child: Text('Coping marked N/A', style: th.typography.bodySmall),
+                    child: Text(
+                      'Coping marked N/A',
+                      style: th.typography.bodySmall,
+                    ),
                   )
                 : _buildTextInput(
-                        context,
-                        'Coping Strategies',
-                        widget.copingStrategies,
-                        widget.onCopingStrategiesChanged,
-                        hint: 'Meditation, exercise, talking to a friend...',
-                      ),
+                    context,
+                    'Coping Strategies',
+                    widget.copingStrategies,
+                    widget.onCopingStrategiesChanged,
+                    hint: 'Meditation, exercise, talking to a friend...',
+                  ),
             CommonSpacer.vertical(th.spacing.md),
             _copingNA
                 ? Padding(
                     padding: EdgeInsets.symmetric(vertical: th.spacing.sm),
-                    child: Text('Effectiveness: N/A', style: th.typography.bodySmall),
+                    child: Text(
+                      'Effectiveness: N/A',
+                      style: th.typography.bodySmall,
+                    ),
                   )
                 : _buildSlider(
-                  context,
-                  'Coping Effectiveness',
-                  widget.copingEffectiveness,
-                  widget.onCopingEffectivenessChanged,
+                    context,
+                    'Coping Effectiveness',
+                    widget.copingEffectiveness,
+                    widget.onCopingEffectivenessChanged,
                     minLabel: 'Not Helpful',
                     maxLabel: 'Very Helpful',
                   ),
