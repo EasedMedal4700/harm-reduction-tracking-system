@@ -28,10 +28,10 @@ except ImportError:
 def get_coverage_percentage(lcov_path):
     if not os.path.exists(lcov_path):
         return 0.0
-    
+
     total_lines = 0
     covered_lines = 0
-    
+
     try:
         with open(lcov_path, 'r') as f:
             for line in f:
@@ -45,7 +45,7 @@ def get_coverage_percentage(lcov_path):
 
     if total_lines == 0:
         return 0.0
-        
+
     return (covered_lines / total_lines) * 100
 
 def main():
@@ -84,7 +84,7 @@ def main():
     if current_coverage < min_coverage:
         print(f"Coverage {current_coverage:.2f}% is below minimum {min_coverage:.2f}%")
         sys.exit(1)
-    
+
     print("Coverage check passed.")
     sys.exit(0)
 

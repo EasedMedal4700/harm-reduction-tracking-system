@@ -96,4 +96,4 @@ class UnifiedReport:
             "summary": self.summary,
             "issues": [issue.to_dict() for issue in self.issues]
         }
-    
+

@@ -37,7 +37,7 @@ def find_dart_files(root_dir, excludes=None):
         for file in files:
             if file.endswith('.dart') and not file.endswith('.freezed.dart') and not file.endswith('.g.dart'):
                 full_path = os.path.join(root, file)
-                
+
                 # Check exclusions
                 is_excluded = False
                 # Normalize path for matching
@@ -50,7 +50,7 @@ def find_dart_files(root_dir, excludes=None):
                 except ValueError:
                     # Handle case where paths are on different drives
                     pass
-                
+
                 if not is_excluded:
                     dart_files.append(full_path)
     return dart_files
@@ -70,7 +70,7 @@ def count_imports(file_path):
 def main():
     project_root = os.getcwd()
     lib_dir = os.path.join(project_root, 'lib')
-    
+
     if not os.path.exists(lib_dir):
         print("Error: lib directory not found.")
         sys.exit(1)
@@ -85,11 +85,11 @@ def main():
     warnings = 0
 
     print("Checking imports...")
-    
+
     for file_path in files:
         count = count_imports(file_path)
         rel_path = os.path.relpath(file_path, project_root)
-        
+
         status = "OK"
         if count > max_imports:
             status = "SMELL"
@@ -97,7 +97,7 @@ def main():
         elif count > 10:
             status = "WARNING"
             warnings += 1
-            
+
         if status != "OK":
             results.append({
                 "file": rel_path,
@@ -140,13 +140,13 @@ def main():
     # Print summary
     print(f"Checked {len(files)} files.")
     print(f"Found {violations} violations (> {max_imports} imports) and {warnings} warnings (11-{max_imports} imports).")
-    
+
     if violations > 0:
         print("\nTop offenders:")
         for issue in results[:5]:
             print(f"{issue['count']} imports: {issue['file']}")
         sys.exit(1)
-    
+
     sys.exit(0)
 
 if __name__ == "__main__":
