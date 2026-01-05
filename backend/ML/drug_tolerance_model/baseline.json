@@ -1,0 +1,139 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "purpose": "Canonical baseline references for neurochemical tolerance modeling",
+    "rules": [
+      "Baselines are fixed and must never be ML-generated",
+      "All substance parameters are defined relative to these baselines",
+      "Weights of 1.0 represent full canonical activation of the bucket"
+    ]
+  },
+
+  "buckets": {
+    "stimulant": {
+      "reference_substance": "dexedrine",
+      "notes": "Canonical dopaminergic stimulant reference. Clean dopamine/norepinephrine release with well-characterized tolerance.",
+      "neuro_buckets": {
+        "stimulant": {
+          "weight": 1.0,
+          "tolerance_type": "stimulant"
+        }
+      },
+      "half_life_hours": 12,
+      "active_threshold": 0.05,
+      "standard_unit_mg": 10,
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.25,
+      "tolerance_decay_days": 5
+    },
+
+    "serotonin_release": {
+      "reference_substance": "mdma",
+      "notes": "Canonical serotonin-releasing agent. Produces strong long-term serotonergic tolerance with slow recovery.",
+      "neuro_buckets": {
+        "serotonin_release": {
+          "weight": 1.0,
+          "tolerance_type": "serotonin_release"
+        }
+      },
+      "half_life_hours": 9,
+      "active_threshold": 0.05,
+      "standard_unit_mg": 100,
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 30
+    },
+
+    "serotonin_psychedelic": {
+      "reference_substance": "lsd",
+      "notes": "Canonical 5-HT2A agonist. Extremely rapid tolerance development with strong class-wide cross-tolerance.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": {
+          "weight": 1.0,
+          "tolerance_type": "serotonin_psychedelic"
+        }
+      },
+      "half_life_hours": 10,
+      "active_threshold": 0.05,
+      "standard_unit_mcg": 100,
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7
+    },
+
+    "gaba": {
+      "reference_substance": "diazepam",
+      "notes": "Clinical gold-standard GABA-A PAM. Strong GABA tolerance and cross-tolerance within benzodiazepines and Z-drugs.",
+      "neuro_buckets": {
+        "gaba": {
+          "weight": 1.0,
+          "tolerance_type": "gaba"
+        }
+      },
+      "half_life_hours": 20,
+      "active_threshold": 0.05,
+      "standard_unit_mg": 10,
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 10
+    },
+
+    "opioid": {
+      "reference_substance": "morphine",
+      "notes": "Canonical mu-opioid receptor agonist. Used as the baseline for opioid tolerance and dependence modeling.",
+      "neuro_buckets": {
+        "opioid": {
+          "weight": 1.0,
+          "tolerance_type": "opioid"
+        }
+      },
+      "half_life_hours": 3,
+      "active_threshold": 0.05,
+      "standard_unit_mg": 10,
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 7
+    },
+
+    "nmda": {
+      "reference_substance": "ketamine",
+      "notes": "Canonical NMDA antagonist. Dissociative reference with moderate tolerance and class cross-tolerance.",
+      "neuro_buckets": {
+        "nmda": {
+          "weight": 1.0,
+          "tolerance_type": "nmda"
+        }
+      },
+      "half_life_hours": 3,
+      "active_threshold": 0.05,
+      "standard_unit_mg": 50,
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.75,
+      "tolerance_decay_days": 5
+    },
+
+    "cannabinoid": {
+      "reference_substance": "thc",
+      "notes": "Canonical CB1 agonist. Moderate tolerance buildup with relatively slow recovery.",
+      "neuro_buckets": {
+        "cannabinoid": {
+          "weight": 1.0,
+          "tolerance_type": "cannabinoid"
+        }
+      },
+      "half_life_hours": 24,
+      "active_threshold": 0.05,
+      "standard_unit_mg": 10,
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.6,
+      "tolerance_decay_days": 10
+    }
+  }
+}
