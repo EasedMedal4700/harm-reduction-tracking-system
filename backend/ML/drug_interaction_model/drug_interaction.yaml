@@ -1,0 +1,123 @@
+exclude:
+  - l-theanine
+  - melatonin
+  - rti-111
+  - crl-40-940
+  - crl-40-941
+  - db-mdbp
+  - mexamine
+  - ibuprofen
+  - naproxen
+  - aspirin
+  - apap
+
+aliases:
+  yopo: bufotenine
+  peyote: mescaline
+  san_pedro: mescaline
+  peruvian_torch: mescaline
+  morning_glory: lsa
+  hawaiian_baby_woodrose: lsa
+  magic_mushrooms: psilocin
+  truffles: psilocin
+  vyvanse: dexamphetamine
+  changa: dmt_maoi
+  ayahuasca: dmt_maoi
+
+groups:
+  lsd:
+    canonical: lsd
+    members:
+      - lsd
+      - 1p-lsd
+      - 1b-lsd
+      - 1a-lsd
+      - ald-52
+      - eth-lad
+      - pro-lad
+      - lsz
+
+  psilocybin:
+    canonical: psilocin
+    members:
+      - psilocybin
+      - psilocin
+      - 4-ho-dmt
+
+  dmt:
+    canonical: dmt
+    members:
+      - dmt
+      - 4-aco-dmt
+
+  mescaline:
+    canonical: mescaline
+    members:
+      - mescaline
+
+  mdma:
+    canonical: mdma
+    members:
+      - mdma
+      - mda
+      - mdea
+      - methylone
+      - ethylone
+      - butylone
+
+  benzodiazepines:
+    canonical: benzodiazepines
+    members:
+      - diazepam
+      - alprazolam
+      - bromazolam
+      - flubromazepam
+      - norflurazepam
+      - clonazepam
+      - temazepam
+      - triazolam
+      - zolpidem
+      - zopiclone
+
+  opioids:
+    canonical: opioids
+    members:
+      - morphine
+      - heroin
+      - oxycodone
+      - hydrocodone
+      - fentanyl
+      - u-47700
+      - isotonitazene
+      - etodesnitazene
+      - tapentadol
+      - tramadol
+
+  ghb:
+    canonical: ghb
+    members:
+      - ghb
+      - gbl
+      - 1,4-butanediol
+
+  amphetamines:
+    canonical: amphetamine
+    members:
+      - amphetamine
+      - dexamphetamine
+      - methamphetamine
+
+  ssris:
+    canonical: ssri
+    members:
+      - fluoxetine
+      - sertraline
+      - citalopram
+      - escitalopram
+      - paroxetine
+      - fluvoxamine
+      - trazodone
+      - viloxazine
+
+separate:
+  - 5-meo-dmt
