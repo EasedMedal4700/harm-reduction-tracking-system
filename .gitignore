@@ -119,7 +119,6 @@ scripts/ci/design_system/reports/*
 
 # CI test reports and caches (machine output, summaries, and caches)
 /scripts/ci/test_report.json
-/scripts/ci/test_count_cache.txt
 /scripts/ci/import_report.json
 /scripts/ci/analyze_report.json
 /scripts/ci/coverage_cache.json
