@@ -15,7 +15,7 @@ class CIConfig:
     def _load_config(self):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         config_path = os.path.join(base_dir, "ci_config.yaml")
-        
+
         if os.path.exists(config_path):
             with open(config_path, 'r') as f:
                 self._config = yaml.safe_load(f) or {}
