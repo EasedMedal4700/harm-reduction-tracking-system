@@ -67,7 +67,7 @@ def show_all_summary(results: Dict[str, Tuple[bool, str, str]]) -> Dict[str, str
     print()
 
     # Overall status
-    # Note: design_success might be False if warnings exist but are allowed, 
+    # Note: design_success might be False if warnings exist but are allowed,
     # so we should rely on the success flag returned by the pipeline step which handles allow_warnings
     all_passed = (
         format_success and analyze_success and tests_success and
@@ -75,7 +75,7 @@ def show_all_summary(results: Dict[str, Tuple[bool, str, str]]) -> Dict[str, str
         freezed_success and navigation_success and riverpod_success and
         design_success
     )
-    
+
     overall = Colors.colorize("✅ PASS", 'success') if all_passed else Colors.colorize("❌ FAIL", 'failure')
     print(f"Overall Status: {overall}")
     print()

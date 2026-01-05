@@ -78,7 +78,7 @@ def run_design_system_checks() -> Tuple[bool, str, str]:
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
     run_py = os.path.join(base_dir, "design_system", "run.py")
-    
+
     # Use virtual environment Python
     project_root = find_project_root()
     venv_python = os.path.join(project_root, ".venv", "Scripts", "python.exe")
@@ -91,20 +91,20 @@ def run_design_system_checks() -> Tuple[bool, str, str]:
         summary = report["summary"]
         blocking = summary.get("blocking", 0)
         warnings = summary.get("warnings", 0)
-        
+
         allow_warnings = config.get_step_config('design_system').get('allow_warnings', True)
-        
+
         if blocking > 0:
-             status_msg = Colors.colorize(f"Design system checks failed\nBlocking: {blocking}", 'failure')
-             success = False
+            status_msg = Colors.colorize(f"Design system checks failed\nBlocking: {blocking}", 'failure')
+            success = False
         elif warnings > 0:
-             if allow_warnings:
-                 status_msg = Colors.colorize(f"Design system checks passed with warnings\nWarnings: {warnings}", 'warning')
-             else:
-                 status_msg = Colors.colorize(f"Design system checks failed (Warnings not allowed)\nWarnings: {warnings}", 'failure')
-                 success = False
+            if allow_warnings:
+                status_msg = Colors.colorize(f"Design system checks passed with warnings\nWarnings: {warnings}", 'warning')
+            else:
+                status_msg = Colors.colorize(f"Design system checks failed (Warnings not allowed)\nWarnings: {warnings}", 'failure')
+                success = False
         else:
-             status_msg = Colors.colorize("Design system checks completed\n✅ OK", 'success')
+            status_msg = Colors.colorize("Design system checks completed\n✅ OK", 'success')
     else:
         status_msg = Colors.colorize("Design system checks completed\nUnable to read results", 'warning')
 
@@ -158,7 +158,7 @@ def run_dart_format() -> Tuple[bool, str, str]:
     for line in output.splitlines():
         if line.startswith("Formatted") and "files (" not in line:
             formatted_files.append(line)
-    
+
     if formatted_files:
         count = len(formatted_files)
         status_msg = Colors.colorize(f"✅ Auto-formatted {count} file(s)", 'success')
@@ -396,7 +396,7 @@ def run_tests() -> Tuple[bool, str, str]:
 
     # Create status message
     allow_failure = config.get_step_config('tests').get('allow_failure', False)
-    
+
     if failed_tests:
         msg = f"❌ {len(failed_tests)} test(s) failed"
         if allow_failure:
@@ -422,16 +422,16 @@ def run_dart_analyze() -> Tuple[bool, str, str]:
     # Run with --format=json to get machine readable output
     step = PipelineStep("Dart Analyze", "dart analyze --format=json")
     success, json_output = step.execute()
-    
+
     # Filter exclusions from JSON output
     filtered_issues = []
     try:
         data = json.loads(json_output)
         diagnostics = data.get('diagnostics', [])
-        
+
         excludes = config.get_step_config('analyze').get('exclude', [])
         fatal_infos = config.get_step_config('analyze').get('fatal_infos', False)
-        
+
         for issue in diagnostics:
             file_path = issue.get('location', {}).get('file', '')
             # Check exclusions
@@ -440,21 +440,19 @@ def run_dart_analyze() -> Tuple[bool, str, str]:
                 # Simple containment check for now, can be improved with glob
                 clean_pattern = pattern.replace('**', '').replace('*', '')
                 if clean_pattern and clean_pattern in file_path.replace('\\', '/'):
-                     is_excluded = True
-                     break
-            
+                    is_excluded = True
+                    break
+
             if not is_excluded:
                 filtered_issues.append(issue)
-                
         # Re-evaluate success based on filtered issues
         error_count = 0
         for issue in filtered_issues:
             severity = issue.get('severity', 'INFO')
             if severity == 'ERROR' or severity == 'WARNING' or (fatal_infos and severity == 'INFO'):
-                 error_count += 1
-        
+                error_count += 1
+
         success = error_count == 0
-        
         # Deterministic report (no timestamps)
         details = []
         for issue in filtered_issues:
@@ -481,7 +479,7 @@ def run_dart_analyze() -> Tuple[bool, str, str]:
             },
             details=details,
         )
-            
+
     except json.JSONDecodeError:
         pass
 
@@ -502,19 +500,19 @@ def run_import_check() -> Tuple[bool, str, str]:
     print("Running Import Check...")
     base_dir = os.path.dirname(os.path.abspath(__file__))
     script_path = os.path.join(base_dir, "check_imports.py")
-    
+
     # Use virtual environment Python
     project_root = find_project_root()
     venv_python = os.path.join(project_root, ".venv", "Scripts", "python.exe")
-    
+
     step = PipelineStep("Import Check", f'"{venv_python}" "{script_path}"')
     success, output = step.execute()
-    
+
     if success:
         status_msg = Colors.colorize("✅ Imports OK", 'success')
     else:
         status_msg = Colors.colorize("❌ Import violations found", 'failure')
-        
+
     return success, status_msg, output
 
 
@@ -599,11 +597,11 @@ def run_coverage_check() -> Tuple[bool, str, str]:
     print("Running Coverage Check...")
     base_dir = os.path.dirname(os.path.abspath(__file__))
     script_path = os.path.join(base_dir, "check_coverage.py")
-    
+
     # Use virtual environment Python
     project_root = find_project_root()
     venv_python = os.path.join(project_root, ".venv", "Scripts", "python.exe")
-    
+
     step = PipelineStep("Coverage Check", f'"{venv_python}" "{script_path}"')
     success, output = step.execute()
 
