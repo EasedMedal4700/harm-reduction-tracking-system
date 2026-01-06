@@ -1,4 +1,4 @@
-exclude:
+exclude from all:
   - l-theanine
   - melatonin
   - rti-111
@@ -10,6 +10,25 @@ exclude:
   - naproxen
   - aspirin
   - apap
+  - 4-cic
+  - 4-cma
+  - 4f-neb
+  - aminotadalafil
+  - tadalafil
+  - db-mdbp
+  - dibutylone
+  - dimethylone
+  - prl-8-53
+  - pv-10
+  - pv-9
+  - 2-nmc
+
+exlude from neuro-bucket:
+  - moclobemide
+  - oxiracetam
+  - pre-084
+  - viagra
+
 
 aliases:
   yopo: bufotenine
