@@ -105,7 +105,8 @@ void main() {
     final sliderFinder = find.byType(Slider);
     expect(sliderFinder, findsOneWidget);
 
-    await tester.tap(sliderFinder);
+    await tester.ensureVisible(sliderFinder);
+    await tester.drag(sliderFinder, const Offset(100, 0));
     await tester.pump();
 
     expect(craving, isNotNull);

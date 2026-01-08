@@ -7,9 +7,10 @@
 // Notes: Page for logging drug use. Uses Riverpod wrapper for legacy state.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/constants/data/drug_categories.dart';
+
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 
 import '../../common/feedback/common_loader.dart';
 import '../../common/layout/common_drawer.dart';
@@ -163,7 +164,10 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
         title: Text(title),
         content: Text(message),
         actions: [
-          TextButton(onPressed: () => context.pop(), child: const Text('OK')),
+          TextButton(
+            onPressed: () => ref.read(navigationProvider).pop(),
+            child: const Text('OK'),
+          ),
         ],
       ),
     );
@@ -177,11 +181,11 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
         content: Text(message),
         actions: [
           TextButton(
-            onPressed: () => context.pop(false),
+            onPressed: () => ref.read(navigationProvider).pop(false),
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () => context.pop(true),
+            onPressed: () => ref.read(navigationProvider).pop(true),
             child: const Text('Continue'),
           ),
         ],

@@ -18,6 +18,7 @@ import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/text/common_section_header.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/features/catalog/services/drug_profile_service.dart';
+import 'package:mobile_drug_use_app/features/log_entry/widgets/log_entry/date_selector.dart';
 
 class LogEntryForm extends StatefulWidget {
   final GlobalKey<FormState>? formKey;
@@ -310,8 +311,33 @@ class _LogEntryFormState extends State<LogEntryForm> {
                             hintText: 'Route of Administration',
                           ),
                           CommonSpacer.vertical(fieldGap),
-                          // Time Selector
-                          _buildTimeSelector(context),
+                          // Date & Time
+                          Row(
+                            children: [
+                              Expanded(
+                                child: DateSelector(
+                                  selectedDate: DateTime(
+                                    (widget.date ?? DateTime.now()).year,
+                                    (widget.date ?? DateTime.now()).month,
+                                    (widget.date ?? DateTime.now()).day,
+                                    widget.hour ?? TimeOfDay.now().hour,
+                                    widget.minute ?? TimeOfDay.now().minute,
+                                  ),
+                                  onDateChanged: (value) {
+                                    widget.onDateChanged?.call(
+                                      DateTime(
+                                        value.year,
+                                        value.month,
+                                        value.day,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: th.sp.md),
+                              Expanded(child: _buildTimeSelector(context)),
+                            ],
+                          ),
                           CommonSpacer.vertical(fieldGap),
                           // Location
                           CommonDropdown<String>(
@@ -553,11 +579,21 @@ class _LogEntryFormState extends State<LogEntryForm> {
       hour: widget.hour ?? TimeOfDay.now().hour,
       minute: widget.minute ?? TimeOfDay.now().minute,
     );
+    final timeLabel = MaterialLocalizations.of(
+      context,
+    ).formatTimeOfDay(time, alwaysUse24HourFormat: true);
     return InkWell(
       onTap: () async {
         final picked = await showTimePicker(
           context: context,
           initialTime: time,
+          builder: (context, child) {
+            final media = MediaQuery.of(context);
+            return MediaQuery(
+              data: media.copyWith(alwaysUse24HourFormat: true),
+              child: child ?? const SizedBox.shrink(),
+            );
+          },
         );
         if (picked != null) {
           widget.onHourChanged?.call(picked.hour);
@@ -579,7 +615,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
         child: Row(
           mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: [
-            Text(time.format(context), style: th.text.body),
+            Text(timeLabel, style: th.text.body),
             Icon(Icons.access_time, color: th.colors.textSecondary),
           ],
         ),

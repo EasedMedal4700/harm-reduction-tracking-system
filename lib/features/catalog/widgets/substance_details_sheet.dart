@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 import '../../../constants/data/drug_categories.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../constants/theme/app_typography.dart';
@@ -301,7 +301,7 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
                 ),
                 child: const Icon(Icons.close),
               ),
-              onPressed: () => context.pop(),
+              onPressed: () => ref.read(navigationProvider).pop(),
             ),
           ],
         ),
@@ -317,7 +317,7 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
                         widget.substance['pretty_name'] ??
                         widget.substance['name'] ??
                         'Unknown';
-                    context.pop();
+                    ref.read(navigationProvider).pop();
                     widget.onAddStockpile!(substanceId, name, widget.substance);
                   }
                 : null,

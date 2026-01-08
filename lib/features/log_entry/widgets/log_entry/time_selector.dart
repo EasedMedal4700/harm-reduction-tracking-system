@@ -21,6 +21,13 @@ class TimeSelector extends StatelessWidget {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTime,
+      builder: (context, child) {
+        final media = MediaQuery.of(context);
+        return MediaQuery(
+          data: media.copyWith(alwaysUse24HourFormat: true),
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
     if (picked != null && picked != selectedTime) {
       onTimeChanged(picked);
@@ -34,6 +41,9 @@ class TimeSelector extends StatelessWidget {
     final tx = th.text;
     final ac = th.accent;
     final sh = th.shapes;
+    final timeLabel = MaterialLocalizations.of(
+      context,
+    ).formatTimeOfDay(selectedTime, alwaysUse24HourFormat: true);
     return InkWell(
       onTap: () => _selectTime(context),
       borderRadius: BorderRadius.circular(sh.radiusMd),
@@ -50,7 +60,7 @@ class TimeSelector extends StatelessWidget {
             Icon(Icons.access_time, size: th.sizes.iconSm, color: ac.primary),
             SizedBox(width: th.sp.sm),
             Text(
-              selectedTime.format(context),
+              timeLabel,
               style: tx.bodyMedium.copyWith(color: c.textPrimary),
             ),
           ],
