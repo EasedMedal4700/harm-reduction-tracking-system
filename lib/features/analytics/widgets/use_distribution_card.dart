@@ -35,6 +35,12 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
   int _touchedIndex = -1;
   String? _selectedCategory;
 
+  List<MapEntry<String, int>> _orderedEntries(Map<String, int> data) {
+    final entries = data.entries.toList(growable: false);
+    entries.sort((a, b) => b.value.compareTo(a.value));
+    return entries;
+  }
+
   @override
   Widget build(BuildContext context) {
     final th = context.theme;
@@ -123,6 +129,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
     Map<String, int> data,
     int total,
   ) {
+    final ordered = _orderedEntries(data);
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
@@ -142,7 +149,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                 PieChartData(
                   sectionsSpace: context.spacing.xs,
                   centerSpaceRadius: innerRadius,
-                  sections: _buildSections(data, radiusBase),
+                  sections: _buildSections(ordered, radiusBase),
                   pieTouchData: PieTouchData(
                     enabled: true,
                     touchCallback: (event, response) {
@@ -153,13 +160,12 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
                       }
                       final index =
                           response!.touchedSection!.touchedSectionIndex;
-                      final keys = data.keys.toList();
-                      if (index < 0 || index >= keys.length) return;
+                      if (index < 0 || index >= ordered.length) return;
                       setState(() => _touchedIndex = index);
                       // Drill-down on category slices
                       if (event is FlTapUpEvent &&
                           _viewType == DistributionViewType.category) {
-                        final category = keys[index];
+                        final category = ordered[index].key;
                         setState(() {
                           _selectedCategory = category;
                           _viewType = DistributionViewType.substance;
@@ -183,12 +189,11 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
   }
 
   List<PieChartSectionData> _buildSections(
-    Map<String, int> data,
+    List<MapEntry<String, int>> entries,
     double radiusBase,
   ) {
     final tx = context.text;
-    final entries = data.entries.toList();
-    final total = data.values.fold<int>(0, (sum, v) => sum + v);
+    final total = entries.fold<int>(0, (sum, e) => sum + e.value);
     if (total == 0) return [];
     return List.generate(entries.length, (index) {
       final e = entries[index];
@@ -291,7 +296,9 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
     required int index,
     required int total,
   }) {
-    final base = context.accent.primary;
+    final base = _selectedCategory == null
+        ? context.accent.primary
+        : DrugCategoryColors.colorFor(_selectedCategory);
     if (total <= 1) return base;
 
     final hsl = HSLColor.fromColor(base);
