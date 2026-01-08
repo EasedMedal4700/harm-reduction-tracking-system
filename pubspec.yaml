@@ -56,3 +56,4 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - backend/ML/drug_tolerance_model/outputs/tolerance_neuro_buckets.json
