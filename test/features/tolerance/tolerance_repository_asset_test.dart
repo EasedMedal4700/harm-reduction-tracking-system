@@ -4,11 +4,15 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_drug_use_app/features/tolerance/controllers/tolerance_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   test('ToleranceRepository parses tolerance neuro buckets asset shape', () async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+
     // Provide a minimal fake asset bundle response for the repository to parse.
     ServicesBinding.instance.defaultBinaryMessenger.setMockMessageHandler(
       'flutter/assets',
@@ -36,7 +40,7 @@ void main() {
       },
     );
 
-    final repo = ToleranceRepository(null);
+    final repo = ToleranceRepository(null, prefs: prefs);
     final models = await repo.fetchToleranceModels();
 
     expect(models, isNotEmpty);

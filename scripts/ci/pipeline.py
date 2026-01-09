@@ -238,6 +238,7 @@ def run_tests() -> Tuple[bool, str, str]:
         passed_tests = 0
         completed = 0
         current_test = None
+        done_success: Optional[bool] = None
         output_lines = []
 
         while True:
@@ -308,6 +309,7 @@ def run_tests() -> Tuple[bool, str, str]:
                         print(f"\rProgress: [{progress_bar}] {percentage:.1f}% | ⏱️  Elapsed: {elapsed:.1f}s", end='', flush=True)
 
                 elif event_type == 'done':
+                    done_success = event.get('success')
                     break
 
             except json.JSONDecodeError:
@@ -315,7 +317,9 @@ def run_tests() -> Tuple[bool, str, str]:
 
         # Wait for process to complete
         process.wait()
-        success = process.returncode == 0
+        runner_success = process.returncode == 0
+        if done_success is not None:
+            runner_success = bool(done_success)
 
         elapsed = time.time() - start_time
         print()  # New line after progress
@@ -371,16 +375,19 @@ def run_tests() -> Tuple[bool, str, str]:
     except Exception as e:
         return False, Colors.colorize(f"❌ Test execution failed: {str(e)}", 'failure'), str(e)
 
+    base_success = runner_success and (len(failed_tests) == 0)
+
     # Deterministic report (no timestamps)
-    # Note: allow_failure is applied later to the step success, but total still
-    # reflects real failures.
+    # Note: allow_failure is applied later to the step success.
     write_report(
         name="tests",
-        success=(len(failed_tests) == 0),
+        success=base_success,
         summary={
             "total_tests": int(total_tests),
             "passed_tests": int(passed_tests),
             "failed_tests": int(len(failed_tests)),
+            "exit_code": int(process.returncode or 0),
+            "runner_success": bool(runner_success),
             "total": int(len(failed_tests)),
         },
         details=[
@@ -406,7 +413,20 @@ def run_tests() -> Tuple[bool, str, str]:
             status_msg = Colors.colorize(msg, 'failure')
             success = False
     else:
-        status_msg = Colors.colorize(f"✅ All {total_tests} tests passed", 'success')
+        if runner_success:
+            status_msg = Colors.colorize(f"✅ All {total_tests} tests passed", 'success')
+            success = True
+        else:
+            msg = (
+                f"⚠️  All {total_tests} tests passed, but the test runner reported failure "
+                f"(exit code {process.returncode})."
+            )
+            if allow_failure:
+                status_msg = Colors.colorize(msg + " (Allowed Failure)", 'warning')
+                success = True
+            else:
+                status_msg = Colors.colorize(msg, 'failure')
+                success = False
 
     output = ''.join(output_lines)
     return success, status_msg, output

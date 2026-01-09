@@ -8,6 +8,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../common/logging/logger.dart';
+import '../../../core/providers/shared_preferences_provider.dart';
 import '../constants/blood_levels_constants.dart';
 import '../models/blood_levels_models.dart';
 import '../models/blood_levels_state.dart';
@@ -18,7 +19,7 @@ part 'blood_levels_providers.g.dart';
 
 @riverpod
 BloodLevelsService bloodLevelsService(Ref ref) {
-  return BloodLevelsService();
+  return BloodLevelsService(prefs: ref.watch(sharedPreferencesProvider));
 }
 
 @Riverpod(dependencies: [bloodLevelsService])

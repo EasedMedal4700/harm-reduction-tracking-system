@@ -10,6 +10,8 @@ import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
+import 'package:mobile_drug_use_app/core/providers/shared_preferences_provider.dart';
+import 'package:mobile_drug_use_app/core/utils/custom_dose_unit_manager.dart';
 import '../../../constants/data/drug_categories.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../constants/theme/app_typography.dart';
@@ -44,10 +46,41 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
   Map<String, dynamic> _parsedDuration = {};
   Map<String, dynamic> _parsedOnset = {};
   Map<String, dynamic> _parsedAfterEffects = {};
+
+  Map<String, double> _customUnitToMg = const {};
+  final TextEditingController _customUnitController = TextEditingController();
+  final TextEditingController _customMgController = TextEditingController();
+  String? _customUnitError;
+
   @override
   void initState() {
     super.initState();
     _parseData();
+    _loadCustomUnits();
+  }
+
+  @override
+  void dispose() {
+    _customUnitController.dispose();
+    _customMgController.dispose();
+    super.dispose();
+  }
+
+  String _substanceKey() {
+    final raw =
+        widget.substance['name'] ??
+        widget.substance['slug'] ??
+        widget.substance['pretty_name'] ??
+        '';
+    return raw.toString();
+  }
+
+  void _loadCustomUnits() {
+    final prefs = ref.read(sharedPreferencesProvider);
+    final key = _substanceKey();
+    setState(() {
+      _customUnitToMg = CustomDoseUnitManager.readUnitToMg(prefs, key);
+    });
   }
 
   void _parseData() {
@@ -210,6 +243,8 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
                       afterEffects: _parsedAfterEffects[_selectedMethod],
                       accentColor: accentColor,
                     ),
+                    SizedBox(height: th.sp.xl),
+                    _buildCustomUnits(context, accentColor),
                     SizedBox(height: th.sp.xl),
                     // Properties / Summary
                     _buildProperties(context),
@@ -448,6 +483,160 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
           ),
         ],
       ],
+    );
+  }
+
+  Widget _buildCustomUnits(BuildContext context, Color accentColor) {
+    final th = context.theme;
+
+    final entries = _customUnitToMg.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+
+    return CommonCard(
+      padding: EdgeInsets.all(th.sp.md),
+      child: Column(
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.straighten,
+                size: th.sizes.iconSm,
+                color: th.colors.textSecondary,
+              ),
+              CommonSpacer.horizontal(th.sp.sm),
+              Expanded(
+                child: Text(
+                  'Custom Units',
+                  style: th.tx.bodyBold.copyWith(color: th.colors.textPrimary),
+                ),
+              ),
+            ],
+          ),
+          CommonSpacer.vertical(th.sp.sm),
+          Text(
+            'Define what a unit means in mg (e.g. “pill = 140 mg”, “line = 30 mg”).',
+            style: th.tx.body.copyWith(
+              color: th.colors.textSecondary,
+              height: AppTypographyConstants.lineHeightNormal,
+            ),
+          ),
+          CommonSpacer.vertical(th.sp.md),
+
+          if (entries.isEmpty)
+            Text(
+              'No custom units set.',
+              style: th.tx.body.copyWith(color: th.colors.textSecondary),
+            )
+          else
+            ...entries.map(
+              (e) => Padding(
+                padding: EdgeInsets.only(bottom: th.sp.xs),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '${e.key} = ${e.value.toStringAsFixed(0)} mg',
+                        style: th.tx.body.copyWith(
+                          color: th.colors.textPrimary,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.delete_outline,
+                        color: th.colors.textSecondary,
+                      ),
+                      onPressed: () async {
+                        final prefs = ref.read(sharedPreferencesProvider);
+                        await CustomDoseUnitManager.deleteUnit(
+                          prefs,
+                          _substanceKey(),
+                          e.key,
+                        );
+                        _loadCustomUnits();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+          CommonSpacer.vertical(th.sp.md),
+
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: TextField(
+                  controller: _customUnitController,
+                  decoration: const InputDecoration(
+                    labelText: 'Unit (e.g. pill)',
+                  ),
+                ),
+              ),
+              CommonSpacer.horizontal(th.sp.sm),
+              Expanded(
+                flex: 2,
+                child: TextField(
+                  controller: _customMgController,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  decoration: const InputDecoration(labelText: 'mg per unit'),
+                ),
+              ),
+              CommonSpacer.horizontal(th.sp.sm),
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: accentColor,
+                    foregroundColor: th.colors.textInverse,
+                  ),
+                  onPressed: () async {
+                    final unit = CustomDoseUnitManager.normalizeUnitKey(
+                      _customUnitController.text,
+                    );
+                    final mg = double.tryParse(_customMgController.text.trim());
+
+                    if (unit.isEmpty || mg == null || mg <= 0) {
+                      setState(() {
+                        _customUnitError =
+                            'Enter a unit and a positive mg value.';
+                      });
+                      return;
+                    }
+
+                    final prefs = ref.read(sharedPreferencesProvider);
+                    final updated = {..._customUnitToMg, unit: mg};
+                    await CustomDoseUnitManager.writeUnitToMg(
+                      prefs,
+                      _substanceKey(),
+                      updated,
+                    );
+
+                    setState(() {
+                      _customUnitController.clear();
+                      _customMgController.clear();
+                      _customUnitError = null;
+                      _customUnitToMg = updated;
+                    });
+                  },
+                  child: const Text('Add'),
+                ),
+              ),
+            ],
+          ),
+
+          if (_customUnitError != null) ...[
+            CommonSpacer.vertical(th.sp.sm),
+            Text(
+              _customUnitError!,
+              style: th.tx.label.copyWith(color: th.colors.warning),
+            ),
+          ],
+        ],
+      ),
     );
   }
 

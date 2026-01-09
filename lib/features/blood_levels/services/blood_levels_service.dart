@@ -8,12 +8,19 @@
 import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/core/services/user_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../common/logging/logger.dart';
+
+import '../../../core/utils/dose_string_to_mg.dart';
 
 import '../models/blood_levels_models.dart';
 
 /// Service for calculating drug blood levels and metabolism
 class BloodLevelsService {
+  BloodLevelsService({SharedPreferences? prefs}) : _prefs = prefs;
+
+  final SharedPreferences? _prefs;
+
   /// Calculate remaining drug levels from usage data
   Future<Map<String, DrugLevel>> calculateLevels({
     DateTime? referenceTime,
@@ -56,7 +63,7 @@ class BloodLevelsService {
           entry['start_time']?.toString() ?? '',
         );
         if (startTime == null || startTime.isAfter(now)) continue;
-        final doseMg = _parseDose(doseString);
+        final doseMg = _parseDoseMg(doseString, substance: drugName);
         if (doseMg <= 0) continue;
         final hoursSinceDose = now.difference(startTime).inMinutes / 60.0;
         // Get profile data for this drug
@@ -196,10 +203,19 @@ class BloodLevelsService {
   }
 
   /// Parse dose from string like "10mg" or "5-10 mg"
-  double _parseDose(String doseString) {
-    final regex = RegExp(r'(\d+(?:\.\d+)?)');
-    final match = regex.firstMatch(doseString);
-    return match != null ? double.tryParse(match.group(1)!) ?? 0.0 : 0.0;
+  double _parseDoseMg(String doseString, {required String substance}) {
+    final prefs = _prefs;
+    if (prefs == null) {
+      // Fallback to legacy behavior when prefs aren't available.
+      final match = RegExp(r'(\d+(?:\.\d+)?)').firstMatch(doseString);
+      return match != null ? double.tryParse(match.group(1)!) ?? 0.0 : 0.0;
+    }
+
+    return DoseStringToMg.parse(
+      prefs: prefs,
+      substance: substance,
+      dose: doseString,
+    );
   }
 
   /// Get all doses for a drug within a time window (for timeline visualization)
@@ -241,7 +257,7 @@ class BloodLevelsService {
           entry['start_time']?.toString() ?? '',
         );
         if (startTime == null) continue;
-        final doseMg = _parseDose(doseString);
+        final doseMg = _parseDoseMg(doseString, substance: drugName);
         if (doseMg <= 0) continue;
         final hoursSinceDose =
             referenceTime.difference(startTime).inMinutes / 60.0;

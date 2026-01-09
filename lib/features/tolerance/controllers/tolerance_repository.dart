@@ -9,9 +9,12 @@
 import 'dart:convert';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import '../../../common/logging/app_log.dart';
+import '../../../core/providers/shared_preferences_provider.dart';
+import '../../../core/utils/dose_string_to_mg.dart';
 import '../models/tolerance_models.dart';
 
 part 'tolerance_repository.g.dart';
@@ -24,7 +27,10 @@ ToleranceRepository toleranceRepository(Ref ref) {
   } catch (_) {
     client = null;
   }
-  return ToleranceRepository(client);
+  return ToleranceRepository(
+    client,
+    prefs: ref.watch(sharedPreferencesProvider),
+  );
 }
 
 class ToleranceRepository {
@@ -32,8 +38,10 @@ class ToleranceRepository {
       'backend/ML/drug_tolerance_model/outputs/tolerance_neuro_buckets.json';
 
   final SupabaseClient? _supabase;
+  final SharedPreferences _prefs;
 
-  ToleranceRepository(this._supabase);
+  ToleranceRepository(this._supabase, {required SharedPreferences prefs})
+    : _prefs = prefs;
 
   Future<Map<String, ToleranceModel>> fetchToleranceModels() async {
     try {
@@ -170,7 +178,12 @@ class ToleranceRepository {
       for (final row in response as List) {
         final name = row['name'] as String;
         final rawDose = row['dose'];
-        final parsedDose = _parseNum(rawDose, 0.0);
+        final parsedDose = DoseStringToMg.parse(
+          prefs: _prefs,
+          substance: name,
+          dose: rawDose,
+          defaultValue: 0.0,
+        );
 
         if (logs.length < 5) {
           AppLog.d(
@@ -218,18 +231,15 @@ class ToleranceRepository {
     if (value == null) return defaultValue;
     if (value is num) return value.toDouble();
     if (value is String) {
-      // Try direct parse
       final direct = double.tryParse(value);
       if (direct != null) return direct;
 
-      // Try extracting first number (e.g. "10 mg" -> 10.0)
       final match = RegExp(r'(\d+(\.\d+)?)').firstMatch(value);
       if (match != null) {
         return double.tryParse(match.group(1)!) ?? defaultValue;
       }
     }
     if (value is Map) {
-      // Check common keys for dose value
       for (final key in ['value', 'amount', 'dose', 'quantity']) {
         if (value[key] != null) return _parseNum(value[key], defaultValue);
       }
