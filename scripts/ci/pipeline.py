@@ -232,6 +232,34 @@ def run_tests() -> Tuple[bool, str, str]:
         )
 
         # Parse output in real-time
+        json_decoder = json.JSONDecoder()
+
+        def iter_json_events(raw: str):
+            """Yield one or more JSON events from a raw stdout line.
+
+            Flutter's `--machine` output is supposed to be one JSON object per
+            line, but in practice multiple JSON objects can appear on a single
+            line (e.g. when output is buffered). This helper makes parsing
+            resilient by decoding concatenated JSON payloads.
+            """
+            s = (raw or "").strip()
+            if not s:
+                return
+
+            idx = 0
+            length = len(s)
+            while idx < length:
+                # Skip whitespace between concatenated JSON payloads
+                while idx < length and s[idx].isspace():
+                    idx += 1
+                if idx >= length:
+                    break
+                try:
+                    obj, next_idx = json_decoder.raw_decode(s, idx)
+                except json.JSONDecodeError:
+                    break
+                yield obj
+                idx = next_idx
         failed_tests = []
         test_names = {}  # testID -> name
         total_tests = 0
@@ -252,68 +280,77 @@ def run_tests() -> Tuple[bool, str, str]:
             if not line:
                 continue
 
-            try:
-                event = json.loads(line)
-                if not isinstance(event, dict):
-                    continue
+            for event in iter_json_events(line):
+                # Some events arrive as a JSON list (e.g. plugin events).
+                if isinstance(event, list):
+                    events_to_handle = event
+                else:
+                    events_to_handle = [event]
 
-                event_type = event.get('type')
-
-                if event_type == 'testStart':
-                    test_id = event.get('test', {}).get('id')
-                    test_name = event.get('test', {}).get('name')
-                    if test_id and test_name:
-                        # The runner emits a hidden "loading <path>" test per suite.
-                        # Exclude these so totals/progress match `flutter test` summary.
-                        if not str(test_name).startswith('loading '):
-                            test_names[test_id] = test_name
-                            current_test = test_name
-
-                elif event_type == 'testDone':
-                    test_id = event.get('testID')
-                    result = event.get('result')
-                    skipped = event.get('skipped', False)
-                    hidden = event.get('hidden', False)
-
-                    # Ignore hidden tests (not counted in `flutter test` summary)
-                    if hidden:
+                for ev in events_to_handle:
+                    if not isinstance(ev, dict):
                         continue
 
-                    # Count non-hidden tests as completed (including skipped) for progress
-                    completed += 1
+                    event_type = ev.get('type')
 
-                    # Lock total on first testDone if not cached
-                    if not total_known:
-                        total_known = True
-                        fixed_total = len(test_names)
+                    if event_type == 'testStart':
+                        test_id = ev.get('test', {}).get('id')
+                        test_name = ev.get('test', {}).get('name')
+                        if test_id and test_name:
+                            # The runner emits a hidden "loading <path>" test per suite.
+                            # Exclude these so totals/progress match `flutter test` summary.
+                            if not str(test_name).startswith('loading '):
+                                test_names[test_id] = test_name
+                                current_test = test_name
 
-                    # Match console summary: exclude skipped tests from passed/failed totals
-                    if not skipped:
-                        total_tests += 1
-                        if result == 'success':
-                            passed_tests += 1
-                        else:
-                            test_name = test_names.get(test_id, f'Test {test_id}')
-                            failed_tests.append({
-                                'id': test_id,
-                                'name': test_name,
-                                'result': result,
-                                'time': event.get('time', 0)
-                            })
+                    elif event_type == 'testDone':
+                        test_id = ev.get('testID')
+                        result = ev.get('result')
+                        skipped = ev.get('skipped', False)
+                        hidden = ev.get('hidden', False)
 
-                    # Update progress on every testDone if total known
-                    if total_known and config.should_show_progress():
-                        percentage = (completed / fixed_total) * 100
-                        elapsed = time.time() - start_time
-                        progress_bar = create_progress_bar(percentage)
-                        print(f"\rProgress: [{progress_bar}] {percentage:.1f}% | ⏱️  Elapsed: {elapsed:.1f}s", end='', flush=True)
+                        # Ignore hidden tests (not counted in `flutter test` summary)
+                        if hidden:
+                            continue
 
-                elif event_type == 'done':
-                    done_success = event.get('success')
+                        # Count non-hidden tests as completed (including skipped) for progress
+                        completed += 1
+
+                        # Lock total on first testDone if not cached
+                        if not total_known:
+                            total_known = True
+                            fixed_total = len(test_names)
+
+                        # Match console summary: exclude skipped tests from passed/failed totals
+                        if not skipped:
+                            total_tests += 1
+                            if result == 'success':
+                                passed_tests += 1
+                            else:
+                                test_name = test_names.get(test_id, f'Test {test_id}')
+                                failed_tests.append({
+                                    'id': test_id,
+                                    'name': test_name,
+                                    'result': result,
+                                    'time': ev.get('time', 0)
+                                })
+
+                        # Update progress on every testDone if total known
+                        if total_known and config.should_show_progress() and fixed_total > 0:
+                            percentage = min(100.0, (completed / fixed_total) * 100)
+                            elapsed = time.time() - start_time
+                            progress_bar = create_progress_bar(percentage)
+                            print(f"\rProgress: [{progress_bar}] {percentage:.1f}% | ⏱️  Elapsed: {elapsed:.1f}s", end='', flush=True)
+
+                    elif event_type == 'done':
+                        done_success = ev.get('success')
+                        break
+
+                if done_success is not None:
                     break
 
-            except json.JSONDecodeError:
-                continue
+            if done_success is not None:
+                break
 
         # Wait for process to complete
         process.wait()
@@ -342,23 +379,12 @@ def run_tests() -> Tuple[bool, str, str]:
                     authoritative_total += 1
 
             for raw_line in output_lines:
-                line = (raw_line or '').strip()
-                if not line:
-                    continue
-                try:
-                    ev = json.loads(line)
-                except json.JSONDecodeError:
-                    # Try to clean trailing commas
-                    try:
-                        ev = json.loads(line.rstrip(','))
-                    except Exception:
-                        continue
-
-                if isinstance(ev, list):
-                    for item in ev:
-                        handle_event(item)
-                else:
-                    handle_event(ev)
+                for ev in iter_json_events(raw_line):
+                    if isinstance(ev, list):
+                        for item in ev:
+                            handle_event(item)
+                    else:
+                        handle_event(ev)
 
             # Use authoritative total if we found any events
             if authoritative_total > 0:

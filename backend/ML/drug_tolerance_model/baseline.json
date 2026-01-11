@@ -5,27 +5,32 @@
     "rules": [
       "Baselines are fixed and must never be ML-generated",
       "All substance parameters are defined relative to these baselines",
-      "Weights of 1.0 represent full canonical activation of the bucket"
+      "Weights of 1.0 represent full canonical activation of the bucket",
+      "Baseline units must never be overridden by downstream normalization",
+      "Baselines are not substances and must not appear in user-facing catalogs"
     ]
   },
 
   "buckets": {
     "stimulant": {
       "reference_substance": "dexedrine",
-      "notes": "Canonical dopaminergic stimulant reference. Clean dopamine/norepinephrine release with well-characterized tolerance.",
+      "notes": "Canonical dopaminergic stimulant reference. Clean dopamine/norepinephrine action with well-characterized tolerance dynamics.",
       "neuro_buckets": {
         "stimulant": {
           "weight": 1.0,
           "tolerance_type": "stimulant"
         }
       },
-      "half_life_hours": 12,
+      "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 0.25,
-      "tolerance_decay_days": 5
+      "tolerance_decay_days": 5.0
     },
 
     "serotonin_release": {
@@ -37,13 +42,16 @@
           "tolerance_type": "serotonin_release"
         }
       },
-      "half_life_hours": 9,
+      "half_life_hours": 9.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 100,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 30
+      "tolerance_decay_days": 30.0
     },
 
     "serotonin_psychedelic": {
@@ -55,67 +63,79 @@
           "tolerance_type": "serotonin_psychedelic"
         }
       },
-      "half_life_hours": 10,
+      "half_life_hours": 10.0,
       "active_threshold": 0.05,
-      "standard_unit_mcg": 100,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 2.0,
-      "tolerance_decay_days": 7
+      "tolerance_decay_days": 7.0
     },
 
     "gaba": {
       "reference_substance": "diazepam",
-      "notes": "Clinical gold-standard GABA-A PAM. Strong GABA tolerance and cross-tolerance within benzodiazepines and Z-drugs.",
+      "notes": "Clinical gold-standard GABA-A PAM. Strong tolerance and cross-tolerance across benzodiazepines and related sedatives.",
       "neuro_buckets": {
         "gaba": {
           "weight": 1.0,
           "tolerance_type": "gaba"
         }
       },
-      "half_life_hours": 20,
+      "half_life_hours": 20.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 10
+      "tolerance_decay_days": 10.0
     },
 
     "opioid": {
       "reference_substance": "morphine",
-      "notes": "Canonical mu-opioid receptor agonist. Used as the baseline for opioid tolerance and dependence modeling.",
+      "notes": "Canonical mu-opioid receptor agonist. Baseline for opioid tolerance and dependence modeling.",
       "neuro_buckets": {
         "opioid": {
           "weight": 1.0,
           "tolerance_type": "opioid"
         }
       },
-      "half_life_hours": 3,
+      "half_life_hours": 3.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 7
+      "tolerance_decay_days": 7.0
     },
 
     "nmda": {
       "reference_substance": "ketamine",
-      "notes": "Canonical NMDA antagonist. Dissociative reference with moderate tolerance and class cross-tolerance.",
+      "notes": "Canonical NMDA antagonist. Dissociative reference with moderate tolerance and clear class cross-tolerance.",
       "neuro_buckets": {
         "nmda": {
           "weight": 1.0,
           "tolerance_type": "nmda"
         }
       },
-      "half_life_hours": 3,
+      "half_life_hours": 3.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 50,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 0.75,
-      "tolerance_decay_days": 5
+      "tolerance_decay_days": 5.0
     },
 
     "cannabinoid": {
@@ -127,13 +147,16 @@
           "tolerance_type": "cannabinoid"
         }
       },
-      "half_life_hours": 24,
+      "half_life_hours": 24.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 0.6,
-      "tolerance_decay_days": 10
+      "tolerance_decay_days": 10.0
     }
   }
 }

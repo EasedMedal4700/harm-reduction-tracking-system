@@ -14,7 +14,6 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/inputs.dart';
 import 'package:mobile_drug_use_app/common/inputs/search_field.dart';
 import 'package:mobile_drug_use_app/common/buttons/buttons.dart';
-import 'package:mobile_drug_use_app/common/buttons/common_chip.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/text/common_section_header.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';

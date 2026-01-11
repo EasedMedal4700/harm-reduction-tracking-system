@@ -6,7 +6,8 @@
       "All neuro bucket weights are in [0,1]",
       "Profiles are illustrative, not authoritative",
       "Used only for ML inspiration and relative calibration",
-      "Baselines are defined elsewhere and must not be inferred from this file"
+      "Baselines are defined elsewhere and must not be inferred from this file",
+      "Standard units are descriptive only and must not override baseline units"
     ]
   },
 
@@ -19,12 +20,13 @@
         "opioid": { "weight": 0.2, "tolerance_type": "opioid" },
         "stimulant": { "weight": 0.2, "tolerance_type": "stimulant" }
       },
-      "half_life_hours": 8,
+      "half_life_hours": 8.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 1.0, "unit": "drink" },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 3
+      "tolerance_decay_days": 3.0
     },
 
     "dexedrine": {
@@ -32,13 +34,13 @@
       "neuro_buckets": {
         "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
       },
-      "half_life_hours": 12,
+      "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
-      "tolerance_decay_days": 5
+      "tolerance_decay_days": 5.0
     },
 
     "mdma": {
@@ -47,12 +49,13 @@
         "serotonin_release": { "weight": 1.0, "tolerance_type": "serotonin_release" },
         "stimulant": { "weight": 0.35, "tolerance_type": "stimulant" }
       },
-      "half_life_hours": 9,
+      "half_life_hours": 9.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 100.0, "unit": "mg" },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 30
+      "tolerance_decay_days": 30.0
     },
 
     "lsd": {
@@ -60,12 +63,13 @@
       "neuro_buckets": {
         "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
       },
-      "half_life_hours": 10,
+      "half_life_hours": 10.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 100.0, "unit": "mcg" },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 2.0,
-      "tolerance_decay_days": 7
+      "tolerance_decay_days": 7.0
     },
 
     "ketamine": {
@@ -73,12 +77,13 @@
       "neuro_buckets": {
         "nmda": { "weight": 1.0, "tolerance_type": "nmda" }
       },
-      "half_life_hours": 3,
+      "half_life_hours": 3.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 50.0, "unit": "mg" },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 0.75,
-      "tolerance_decay_days": 5
+      "tolerance_decay_days": 5.0
     },
 
     "morphine": {
@@ -86,12 +91,13 @@
       "neuro_buckets": {
         "opioid": { "weight": 1.0, "tolerance_type": "opioid" }
       },
-      "half_life_hours": 3,
+      "half_life_hours": 3.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 7
+      "tolerance_decay_days": 7.0
     },
 
     "diazepam": {
@@ -99,12 +105,13 @@
       "neuro_buckets": {
         "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
       },
-      "half_life_hours": 20,
+      "half_life_hours": 20.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 10
+      "tolerance_decay_days": 10.0
     },
 
     "bromazolam": {
@@ -112,12 +119,13 @@
       "neuro_buckets": {
         "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
       },
-      "half_life_hours": 12,
+      "half_life_hours": 12.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 1.0, "unit": "mg" },
       "potency_multiplier": 1.8,
       "duration_multiplier": 1.05,
       "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 9
+      "tolerance_decay_days": 9.0
     },
 
     "flutoprazepam": {
@@ -125,12 +133,13 @@
       "neuro_buckets": {
         "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
       },
-      "half_life_hours": 16,
+      "half_life_hours": 16.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
       "potency_multiplier": 1.2,
       "duration_multiplier": 1.15,
       "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 10
+      "tolerance_decay_days": 10.0
     },
 
     "mdpv": {
@@ -138,12 +147,13 @@
       "neuro_buckets": {
         "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
       },
-      "half_life_hours": 6,
+      "half_life_hours": 6.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 5.0, "unit": "mg" },
       "potency_multiplier": 3.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 1.2,
-      "tolerance_decay_days": 7
+      "tolerance_decay_days": 7.0
     },
 
     "methylphenidate": {
@@ -151,12 +161,13 @@
       "neuro_buckets": {
         "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
       },
-      "half_life_hours": 3,
+      "half_life_hours": 3.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
       "potency_multiplier": 0.4,
       "duration_multiplier": 0.8,
       "tolerance_gain_rate": 0.3,
-      "tolerance_decay_days": 2
+      "tolerance_decay_days": 2.0
     },
 
     "caffeine": {
@@ -164,12 +175,13 @@
       "neuro_buckets": {
         "stimulant": { "weight": 0.3, "tolerance_type": "stimulant" }
       },
-      "half_life_hours": 5,
+      "half_life_hours": 5.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 100.0, "unit": "mg" },
       "potency_multiplier": 0.15,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 0.4,
-      "tolerance_decay_days": 2
+      "tolerance_decay_days": 2.0
     },
 
     "nicotine": {
@@ -177,12 +189,13 @@
       "neuro_buckets": {
         "stimulant": { "weight": 0.05, "tolerance_type": "stimulant" }
       },
-      "half_life_hours": 2,
+      "half_life_hours": 2.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 1.0, "unit": "mg" },
       "potency_multiplier": 0.01,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 0.1,
-      "tolerance_decay_days": 2
+      "tolerance_decay_days": 2.0
     },
 
     "thc": {
@@ -190,12 +203,13 @@
       "neuro_buckets": {
         "cannabinoid": { "weight": 1.0, "tolerance_type": "cannabinoid" }
       },
-      "half_life_hours": 24,
+      "half_life_hours": 24.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 0.6,
-      "tolerance_decay_days": 10
+      "tolerance_decay_days": 10.0
     },
 
     "psilocybin": {
@@ -203,12 +217,13 @@
       "neuro_buckets": {
         "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
       },
-      "half_life_hours": 6,
+      "half_life_hours": 6.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 20.0, "unit": "mg" },
       "potency_multiplier": 0.8,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 2.0,
-      "tolerance_decay_days": 7
+      "tolerance_decay_days": 7.0
     },
 
     "ghb": {
@@ -216,12 +231,13 @@
       "neuro_buckets": {
         "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
       },
-      "half_life_hours": 1,
+      "half_life_hours": 1.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 1.0, "unit": "g" },
       "potency_multiplier": 1.3,
       "duration_multiplier": 0.7,
       "tolerance_gain_rate": 1.1,
-      "tolerance_decay_days": 4
+      "tolerance_decay_days": 4.0
     },
 
     "dxm": {
@@ -230,12 +246,13 @@
         "nmda": { "weight": 0.7, "tolerance_type": "nmda" },
         "serotonin_release": { "weight": 0.2, "tolerance_type": "serotonin_release" }
       },
-      "half_life_hours": 6,
+      "half_life_hours": 6.0,
       "active_threshold": 0.05,
+      "standard_unit": { "value": 30.0, "unit": "mg" },
       "potency_multiplier": 0.6,
       "duration_multiplier": 1.1,
       "tolerance_gain_rate": 0.8,
-      "tolerance_decay_days": 5
+      "tolerance_decay_days": 5.0
     },
 
     "bupropion": {
@@ -243,25 +260,30 @@
       "neuro_buckets": {
         "stimulant": { "weight": 0.2, "tolerance_type": "stimulant" }
       },
-      "half_life_hours": 32,
+      "half_life_hours": 32.0,
       "active_threshold": 0.15,
+      "standard_unit": { "value": 150.0, "unit": "mg" },
       "potency_multiplier": 0.2,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 0.5,
-      "tolerance_decay_days": 3
+      "tolerance_decay_days": 3.0
     },
 
-    "melatonin": {
-      "notes": "Circadian hormone with very mild GABAergic calming influence and negligible tolerance.",
+    "4-ho-mipt": {
+      "notes": "Synthetic tryptamine psychedelic acting primarily as a 5-HT2A agonist. Similar tolerance dynamics to other classic serotonergic psychedelics with rapid onset and moderate duration.",
       "neuro_buckets": {
-        "gaba": { "weight": 0.1, "tolerance_type": "gaba" }
+        "serotonin_psychedelic": {
+          "weight": 1.0,
+          "tolerance_type": "serotonin_psychedelic"
+        }
       },
-      "half_life_hours": 1,
+      "half_life_hours": 6.0,
       "active_threshold": 0.05,
-      "potency_multiplier": 0.1,
-      "duration_multiplier": 0.8,
-      "tolerance_gain_rate": 0.05,
-      "tolerance_decay_days": 1
+      "standard_unit": { "value": 20.0, "unit": "mg" },
+      "potency_multiplier": 0.9,
+      "duration_multiplier": 0.9,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
     }
   }
 }
