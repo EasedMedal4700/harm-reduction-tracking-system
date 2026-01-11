@@ -14,11 +14,13 @@ import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
 import 'package:mobile_drug_use_app/common/inputs/inputs.dart';
 import 'package:mobile_drug_use_app/common/inputs/search_field.dart';
 import 'package:mobile_drug_use_app/common/buttons/buttons.dart';
+import 'package:mobile_drug_use_app/common/buttons/common_chip.dart';
 import 'package:mobile_drug_use_app/common/cards/common_card.dart';
 import 'package:mobile_drug_use_app/common/text/common_section_header.dart';
 import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/features/catalog/services/drug_profile_service.dart';
 import 'package:mobile_drug_use_app/features/log_entry/widgets/log_entry/date_selector.dart';
+import 'package:mobile_drug_use_app/features/log_entry/utils/roa_normalization.dart';
 
 class LogEntryForm extends StatefulWidget {
   final GlobalKey<FormState>? formKey;
@@ -35,6 +37,13 @@ class LogEntryForm extends StatefulWidget {
   final String? unit;
   final String? substance;
   final String? route;
+
+  /// Optional DB-driven ROA options (already normalized for UI display).
+  /// If provided, ROA selection is rendered as a button grid.
+  final List<String>? availableROAs;
+
+  /// Optional DB-driven ROA validation (already normalized for UI display).
+  final bool Function(String roa)? isROAValidated;
   final List<String>? feelings;
   final Map<String, List<String>>? secondaryFeelings;
   final String? location;
@@ -83,6 +92,8 @@ class LogEntryForm extends StatefulWidget {
     this.unit,
     this.substance,
     this.route,
+    this.availableROAs,
+    this.isROAValidated,
     this.feelings,
     this.secondaryFeelings,
     this.location,
@@ -151,14 +162,13 @@ class _LogEntryFormState extends State<LogEntryForm> {
             return const <DrugSearchResult>[];
           }
         };
-    final routeOptions = DrugUseCatalog.consumptionMethods
-        .map((m) => m['name']!)
-        .toList(growable: false);
-    final normalizedRoute = () {
+    final availableROAs =
+        widget.availableROAs ?? RoaNormalization.primaryDisplayROAs;
+    final selectedRoute = () {
       final raw = widget.route;
       if (raw == null || raw.trim().isEmpty) return 'oral';
       final lower = raw.toLowerCase();
-      return routeOptions.contains(lower) ? lower : 'oral';
+      return availableROAs.contains(lower) ? lower : 'oral';
     }();
     return TweenAnimationBuilder<Color?>(
       tween: ColorTween(
@@ -296,19 +306,11 @@ class _LogEntryFormState extends State<LogEntryForm> {
                           ),
                           CommonSpacer.vertical(fieldGap),
                           // Route
-                          CommonDropdown<String>(
-                            value: normalizedRoute,
-                            items: routeOptions,
-                            itemLabel: (v) => v.isEmpty
-                                ? v
-                                : '${v[0].toUpperCase()}${v.substring(1)}',
+                          _buildROASelector(
+                            context,
+                            availableROAs: availableROAs,
+                            selectedRoute: selectedRoute,
                             accentColor: targetAccent,
-                            onChanged: (v) {
-                              if (v != null && widget.onRouteChanged != null) {
-                                widget.onRouteChanged!(v);
-                              }
-                            },
-                            hintText: 'Route of Administration',
                           ),
                           CommonSpacer.vertical(fieldGap),
                           // Date & Time
@@ -464,27 +466,9 @@ class _LogEntryFormState extends State<LogEntryForm> {
                                     // Emotions
                                     SizedBox(
                                       width: double.infinity,
-                                      child: EmotionSelector(
-                                        selectedEmotions: widget.feelings ?? [],
-                                        availableEmotions: DrugUseCatalog
-                                            .primaryEmotions
-                                            .map((e) => e['name']!)
-                                            .toList(),
+                                      child: _buildPrimaryEmotionsGrid(
+                                        context,
                                         accentColor: targetAccent,
-                                        onEmotionToggled: (emotion) {
-                                          if (widget.onFeelingsChanged !=
-                                              null) {
-                                            final current = List<String>.from(
-                                              widget.feelings ?? [],
-                                            );
-                                            if (current.contains(emotion)) {
-                                              current.remove(emotion);
-                                            } else {
-                                              current.add(emotion);
-                                            }
-                                            widget.onFeelingsChanged!(current);
-                                          }
-                                        },
                                       ),
                                     ),
                                     CommonSpacer.vertical(th.sp.md),
@@ -498,32 +482,35 @@ class _LogEntryFormState extends State<LogEntryForm> {
                                     // Triggers
                                     SizedBox(
                                       width: double.infinity,
-                                      child: CommonChipGroup(
+                                      child: _buildMultiSelectGridCard(
+                                        context,
                                         title: 'Triggers',
                                         subtitle: 'What triggered this use?',
                                         options: triggers,
-                                        selected: widget.selectedTriggers ?? [],
-                                        onChanged: (v) =>
-                                            widget.onTriggersChanged?.call(v),
+                                        selected:
+                                            widget.selectedTriggers ?? const [],
+                                        onChanged: widget.onTriggersChanged,
+                                        columnsWide: 4,
+                                        columnsNarrow: 2,
                                         selectedColor: targetAccent,
-                                        selectedBorderColor: targetAccent,
                                       ),
                                     ),
                                     CommonSpacer.vertical(th.sp.md),
                                     // Body Signals
                                     SizedBox(
                                       width: double.infinity,
-                                      child: CommonChipGroup(
+                                      child: _buildMultiSelectGridCard(
+                                        context,
                                         title: 'Body Signals',
                                         subtitle: 'Physical sensations',
                                         options: physicalSensations,
                                         selected:
-                                            widget.selectedBodySignals ?? [],
-                                        onChanged: (v) => widget
-                                            .onBodySignalsChanged
-                                            ?.call(v),
+                                            widget.selectedBodySignals ??
+                                            const [],
+                                        onChanged: widget.onBodySignalsChanged,
+                                        columnsWide: 4,
+                                        columnsNarrow: 2,
                                         selectedColor: targetAccent,
-                                        selectedBorderColor: targetAccent,
                                       ),
                                     ),
                                     CommonSpacer.vertical(th.sp.md),
@@ -573,6 +560,200 @@ class _LogEntryFormState extends State<LogEntryForm> {
     );
   }
 
+  Widget _buildROASelector(
+    BuildContext context, {
+    required List<String> availableROAs,
+    required String selectedRoute,
+    required Color? accentColor,
+  }) {
+    final th = context.theme;
+
+    final normalizedAvailable = availableROAs
+        .map((r) => r.trim().toLowerCase())
+        .where((r) => r.isNotEmpty)
+        .toSet()
+        .toList(growable: false);
+
+    final extras = normalizedAvailable
+        .where((r) => !RoaNormalization.primaryDisplayROAs.contains(r))
+        .toList(growable: false);
+
+    final display = <String>[...RoaNormalization.primaryDisplayROAs, ...extras];
+
+    final chips = display
+        .map((roa) {
+          final isSelected = selectedRoute.toLowerCase() == roa.toLowerCase();
+          final validated = widget.isROAValidated?.call(roa) ?? true;
+
+          final emoji = RoaNormalization.primaryEmoji[roa];
+          final label = roa.isEmpty
+              ? roa
+              : '${roa[0].toUpperCase()}${roa.substring(1)}';
+
+          final chipAccent = validated ? accentColor : th.c.warning;
+
+          return CommonChip(
+            key: ValueKey('roa_$roa'),
+            label: label,
+            emoji: emoji,
+            icon: validated ? null : Icons.warning_amber_rounded,
+            isSelected: isSelected,
+            showGlow: isSelected,
+            selectedColor: chipAccent,
+            selectedBorderColor: chipAccent,
+            onTap: () => widget.onRouteChanged?.call(roa),
+          );
+        })
+        .toList(growable: false);
+
+    return _buildFixedWidthGrid(
+      context,
+      children: chips,
+      columnsWide: 3,
+      columnsNarrow: 2,
+      narrowBreakpoint: 360,
+      spacing: th.sp.sm,
+    );
+  }
+
+  Widget _buildPrimaryEmotionsGrid(
+    BuildContext context, {
+    required Color? accentColor,
+  }) {
+    final th = context.theme;
+    final selected = widget.feelings ?? const <String>[];
+
+    final chips = DrugUseCatalog.primaryEmotions
+        .map((e) {
+          final name = e['name']!;
+          final emoji = e['emoji'];
+          final isSelected = selected.contains(name);
+
+          return CommonChip(
+            key: ValueKey('primary_emotion_$name'),
+            label: name,
+            emoji: emoji,
+            isSelected: isSelected,
+            showGlow: isSelected,
+            selectedColor: accentColor,
+            selectedBorderColor: accentColor,
+            onTap: () {
+              if (widget.onFeelingsChanged == null) return;
+              final current = List<String>.from(selected);
+              isSelected ? current.remove(name) : current.add(name);
+              widget.onFeelingsChanged!(current);
+            },
+          );
+        })
+        .toList(growable: false);
+
+    return CommonCard(
+      padding: EdgeInsets.all(th.sp.cardPadding),
+      child: Column(
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+        children: [
+          const CommonSectionHeader(
+            title: 'Emotions',
+            subtitle: 'How did you feel?',
+          ),
+          CommonSpacer.vertical(th.sp.md),
+          // 8 emotions -> 2 columns -> 4 rows.
+          _buildFixedWidthGrid(
+            context,
+            children: chips,
+            columnsWide: 2,
+            columnsNarrow: 2,
+            narrowBreakpoint: 0,
+            spacing: th.sp.sm,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMultiSelectGridCard(
+    BuildContext context, {
+    required String title,
+    String? subtitle,
+    required List<String> options,
+    required List<String> selected,
+    required ValueChanged<List<String>>? onChanged,
+    required int columnsWide,
+    required int columnsNarrow,
+    required Color? selectedColor,
+  }) {
+    final th = context.theme;
+
+    final children = options
+        .map((opt) {
+          final isSelected = selected.contains(opt);
+          return CommonChip(
+            key: ValueKey('${title}_$opt'),
+            label: opt,
+            isSelected: isSelected,
+            showGlow: isSelected,
+            selectedColor: selectedColor,
+            selectedBorderColor: selectedColor,
+            onTap: () {
+              if (onChanged == null) return;
+              final updated = List<String>.from(selected);
+              isSelected ? updated.remove(opt) : updated.add(opt);
+              onChanged(updated);
+            },
+          );
+        })
+        .toList(growable: false);
+
+    return CommonCard(
+      padding: EdgeInsets.all(th.sp.cardPadding),
+      child: Column(
+        crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+        children: [
+          CommonSectionHeader(title: title, subtitle: subtitle),
+          CommonSpacer.vertical(th.sp.md),
+          _buildFixedWidthGrid(
+            context,
+            children: children,
+            columnsWide: columnsWide,
+            columnsNarrow: columnsNarrow,
+            narrowBreakpoint: 360,
+            spacing: th.sp.sm,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFixedWidthGrid(
+    BuildContext context, {
+    required List<Widget> children,
+    required int columnsWide,
+    required int columnsNarrow,
+    required double narrowBreakpoint,
+    required double spacing,
+  }) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final maxWidth = constraints.maxWidth;
+        final columns = (narrowBreakpoint > 0 && maxWidth < narrowBreakpoint)
+            ? columnsNarrow
+            : columnsWide;
+
+        final safeColumns = columns <= 0 ? 1 : columns;
+        final totalGaps = spacing * (safeColumns - 1);
+        final itemWidth = (maxWidth - totalGaps) / safeColumns;
+
+        return Wrap(
+          spacing: spacing,
+          runSpacing: spacing,
+          children: children
+              .map((child) => SizedBox(width: itemWidth, child: child))
+              .toList(growable: false),
+        );
+      },
+    );
+  }
+
   Widget _buildTimeSelector(BuildContext context) {
     final th = context.theme;
     final time = TimeOfDay(
@@ -615,7 +796,14 @@ class _LogEntryFormState extends State<LogEntryForm> {
         child: Row(
           mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
           children: [
-            Text(timeLabel, style: th.text.body),
+            Expanded(
+              child: Text(
+                timeLabel,
+                style: th.text.body,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
             Icon(Icons.access_time, color: th.colors.textSecondary),
           ],
         ),
@@ -628,29 +816,62 @@ class _LogEntryFormState extends State<LogEntryForm> {
 
     return Column(
       crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
-      children: widget.feelings!.map((emotion) {
-        final secondaryOptions = DrugUseCatalog.secondaryEmotions[emotion];
-        if (secondaryOptions == null || secondaryOptions.isEmpty) {
-          return const SizedBox.shrink();
-        }
-        return Padding(
-          padding: EdgeInsets.only(bottom: th.sp.md),
-          child: CommonChipGroup(
-            title: '$emotion Details',
-            options: secondaryOptions,
-            selected: widget.secondaryFeelings?[emotion] ?? [],
-            onChanged: (selected) {
-              if (widget.onSecondaryFeelingsChanged != null) {
-                final current = Map<String, List<String>>.from(
-                  widget.secondaryFeelings ?? {},
-                );
-                current[emotion] = selected;
-                widget.onSecondaryFeelingsChanged!(current);
-              }
-            },
-          ),
-        );
-      }).toList(),
+      children: widget.feelings!
+          .map((emotion) {
+            final secondaryOptions = DrugUseCatalog.secondaryEmotions[emotion];
+            if (secondaryOptions == null || secondaryOptions.isEmpty) {
+              return const SizedBox.shrink();
+            }
+
+            final selected =
+                widget.secondaryFeelings?[emotion] ?? const <String>[];
+
+            final chips = secondaryOptions
+                .map((opt) {
+                  final isSelected = selected.contains(opt);
+                  return CommonChip(
+                    key: ValueKey('secondary_${emotion}_$opt'),
+                    label: opt,
+                    isSelected: isSelected,
+                    showGlow: isSelected,
+                    onTap: () {
+                      if (widget.onSecondaryFeelingsChanged == null) return;
+                      final updated = List<String>.from(selected);
+                      isSelected ? updated.remove(opt) : updated.add(opt);
+                      final current = Map<String, List<String>>.from(
+                        widget.secondaryFeelings ?? {},
+                      );
+                      current[emotion] = updated;
+                      widget.onSecondaryFeelingsChanged!(current);
+                    },
+                  );
+                })
+                .toList(growable: false);
+
+            return Padding(
+              padding: EdgeInsets.only(bottom: th.sp.md),
+              child: CommonCard(
+                padding: EdgeInsets.all(th.sp.cardPadding),
+                child: Column(
+                  crossAxisAlignment: AppLayout.crossAxisAlignmentStart,
+                  children: [
+                    CommonSectionHeader(title: '$emotion Details'),
+                    CommonSpacer.vertical(th.sp.md),
+                    // 4 per row when possible (25% each).
+                    _buildFixedWidthGrid(
+                      context,
+                      children: chips,
+                      columnsWide: 4,
+                      columnsNarrow: 4,
+                      narrowBreakpoint: 0,
+                      spacing: th.sp.sm,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          })
+          .toList(growable: false),
     );
   }
 }

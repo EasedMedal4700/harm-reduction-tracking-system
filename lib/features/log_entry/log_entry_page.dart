@@ -247,6 +247,8 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
                 unit: state.unit,
                 substance: state.substance,
                 route: state.route,
+                availableROAs: notifier.getAvailableROAs(),
+                isROAValidated: notifier.isROAValidated,
                 feelings: state.feelings,
                 secondaryFeelings: state.secondaryFeelings,
                 location: state.location,

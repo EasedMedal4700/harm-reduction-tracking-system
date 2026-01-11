@@ -53,6 +53,7 @@ class CommonDropdown<T> extends StatelessWidget {
     final safeValue = selectedMatches == 1 ? value : null;
     return DropdownButtonFormField<T>(
       initialValue: safeValue,
+      isExpanded: true,
       items: uniqueItems.map((item) {
         return DropdownMenuItem<T>(
           value: item,
@@ -60,6 +61,8 @@ class CommonDropdown<T> extends StatelessWidget {
               ? itemBuilder!(context, item)
               : Text(
                   itemLabel != null ? itemLabel!(item) : item.toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: th.text.body.copyWith(color: th.colors.textPrimary),
                 ),
         );

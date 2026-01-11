@@ -73,18 +73,25 @@ class DateSelector extends StatelessWidget {
           children: [
             Icon(Icons.calendar_today, color: c.textTertiary),
             SizedBox(width: th.sp.sm),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  DateFormat.yMMMd().format(selectedDate),
-                  style: t.bodyMedium.copyWith(color: c.textPrimary),
-                ),
-                Text(
-                  _relativeLabel(selectedDate),
-                  style: t.bodySmall.copyWith(color: c.textSecondary),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    DateFormat.yMMMd().format(selectedDate),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: t.bodyMedium.copyWith(color: c.textPrimary),
+                  ),
+                  Text(
+                    _relativeLabel(selectedDate),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: t.bodySmall.copyWith(color: c.textSecondary),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

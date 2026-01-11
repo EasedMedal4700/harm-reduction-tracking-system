@@ -12,6 +12,7 @@ import 'log_entry_service.dart';
 import '../stockpile/repo/substance_repository.dart';
 import '../stockpile/repo/stockpile_repository.dart';
 import 'package:mobile_drug_use_app/features/catalog/utils/drug_profile_utils.dart';
+import 'utils/roa_normalization.dart';
 
 /// Pure business logic for log entry operations
 /// Riverpod-ready: No BuildContext, no legacy notifier base class, no UI state
@@ -41,14 +42,17 @@ class LogEntryController {
 
   /// Get available ROAs for substance (base 4 + substance-specific)
   List<String> getAvailableROAs(Map<String, dynamic>? substanceDetails) {
-    const baseROAs = ['oral', 'insufflated', 'inhaled', 'sublingual'];
-    final dbROAs = _substanceRepo.getAvailableROAs(substanceDetails);
-    return {...baseROAs, ...dbROAs}.toList();
+    final dbROAsLower = _substanceRepo.getAvailableROAs(substanceDetails);
+    return RoaNormalization.buildDisplayROAs(dbROAsLower);
   }
 
   /// Check if a specific ROA is validated in DB for this substance
   bool isROAValidated(String roa, Map<String, dynamic>? substanceDetails) {
-    return _substanceRepo.isROAValid(roa, substanceDetails);
+    final dbROAsLower = _substanceRepo.getAvailableROAs(substanceDetails);
+    return RoaNormalization.isDisplayValidated(
+      displayRoa: roa,
+      dbROAsLower: dbROAsLower,
+    );
   }
 
   /// Validate substance exists in database
@@ -109,11 +113,18 @@ class LogEntryController {
   /// Save log entry to database
   Future<SaveResult> saveLogEntry(LogEntryFormData data) async {
     try {
+      final dbROAsLower = _substanceRepo.getAvailableROAs(
+        data.substanceDetails,
+      );
+      final normalizedRoute = RoaNormalization.normalizeOrFallback(
+        displayRoa: data.route,
+        dbROAsLower: dbROAsLower,
+      );
       final entry = LogEntry(
         substance: DrugProfileUtils.toTitleCase(data.substance),
         dosage: data.dose,
         unit: data.unit,
-        route: data.route,
+        route: normalizedRoute,
         feelings: data.feelings,
         secondaryFeelings: data.secondaryFeelings,
         datetime: data.selectedDateTime,

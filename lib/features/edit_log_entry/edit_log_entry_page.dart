@@ -284,6 +284,13 @@ class _EditDrugUsePageState extends ConsumerState<EditDrugUsePage>
                       unit: _formData.unit,
                       substance: _formData.substance,
                       route: _formData.route,
+                      availableROAs: _controller.getAvailableROAs(
+                        _formData.substanceDetails,
+                      ),
+                      isROAValidated: (roa) => _controller.isROAValidated(
+                        roa,
+                        _formData.substanceDetails,
+                      ),
                       feelings: _formData.feelings,
                       secondaryFeelings: _formData.secondaryFeelings,
                       location: _formData.location,

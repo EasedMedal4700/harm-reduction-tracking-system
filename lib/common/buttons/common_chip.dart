@@ -85,13 +85,18 @@ class CommonChip extends StatelessWidget {
               ),
               SizedBox(width: th.spacing.sm),
             ],
-            Text(
-              label,
-              style: th.text.bodySmall.copyWith(
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected
-                    ? th.colors.textPrimary
-                    : th.colors.textSecondary,
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
+                style: th.text.bodySmall.copyWith(
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  color: isSelected
+                      ? th.colors.textPrimary
+                      : th.colors.textSecondary,
+                ),
               ),
             ),
           ],
