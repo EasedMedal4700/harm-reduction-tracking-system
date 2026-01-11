@@ -13,20 +13,20 @@
 
   "substances": {
     "alcohol": {
-      "notes": "Mixed CNS depressant acting primarily via GABA-A and NMDA antagonism with secondary opioid and dopaminergic effects.",
+      "notes": "CNS depressant acting primarily via GABA-A modulation and NMDA antagonism. Modeled with an approximated half-life due to zero-order metabolism.",
       "neuro_buckets": {
         "gaba": { "weight": 0.9, "tolerance_type": "gaba" },
         "nmda": { "weight": 0.6, "tolerance_type": "nmda" },
-        "opioid": { "weight": 0.2, "tolerance_type": "opioid" },
-        "stimulant": { "weight": 0.2, "tolerance_type": "stimulant" }
+        "opioid": { "weight": 0.3, "tolerance_type": "opioid" },
+        "stimulant": { "weight": 0.1, "tolerance_type": "stimulant" }
       },
-      "half_life_hours": 8.0,
-      "active_threshold": 0.05,
+      "half_life_hours": 1.5,
+      "active_threshold": 0.02,
       "standard_unit": { "value": 1.0, "unit": "drink" },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 3.0
+      "tolerance_decay_days": 7.0
     },
 
     "dexedrine": {
