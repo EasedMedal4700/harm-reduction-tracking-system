@@ -37,14 +37,15 @@ android {
 
     buildTypes {
         getByName("release") {
-            signingConfig =
-                if (signingReady) signingConfigs.getByName("release") else signingConfigs.getByName("debug")
+            if (!signingReady) {
+                throw GradleException(
+                    "Release signing config is missing or invalid. Refusing to build."
+                )
+            }
+
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
-        }
-
-        getByName("debug") {
-            // No signing config for debug
         }
     }
 
