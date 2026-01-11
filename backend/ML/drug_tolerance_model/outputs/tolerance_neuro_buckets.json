@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_at": "2026-01-11T19:59:37.293336+00:00",
+    "generated_at": "2026-01-11T20:02:57.931800+00:00",
     "source_files": {
       "drugs_json": "..\\drugs.json",
       "baseline_json": "baseline.json",
@@ -176,7 +176,10 @@
     "default_tolerance_params": {
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -184,11 +187,8 @@
     },
     "notes": [
       "Bucket weights are inferred from drugs.json using a heuristic prior + residual ML fit to inspo.json.",
-      "Excluded substances (yaml) are omitted from the export.",
-      "Alias keys are de-duplicated (only the alias target is exported when present).",
-      "Group members share the same neuro-bucket keys; weights may differ per substance.",
-      "Tolerance parameters are exported per substance; half_life_hours is parsed from drugs.json when available, otherwise defaults apply.",
-      "This is a single JSON document suitable for Postgres JSONB."
+      "Group members share the same neuro-bucket keys; weights may differ.",
+      "Standard units are derived from drugs.json (Common/Light dose) or inspo.json."
     ]
   },
   "substances": {
@@ -201,7 +201,10 @@
       },
       "half_life_hours": 0.419,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.25,
+        "unit": "ml"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -216,7 +219,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 87.5,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -231,7 +237,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -246,7 +255,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 80.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -261,7 +273,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 87.5,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -280,7 +295,10 @@
       },
       "half_life_hours": 1.5,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -295,7 +313,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 152.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -310,7 +331,10 @@
       },
       "half_life_hours": 18.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 5.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -325,7 +349,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -340,7 +367,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -355,7 +385,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -370,7 +403,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -393,7 +429,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 62.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -408,7 +447,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -431,7 +473,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 6.25,
+        "unit": "g"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -446,7 +491,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 40.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -461,7 +509,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -476,7 +527,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -491,7 +545,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -506,7 +563,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -529,7 +589,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 600.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -552,7 +615,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 275.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -575,7 +641,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1000.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -602,7 +671,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 625.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -625,7 +697,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 750.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -648,7 +723,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 300.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -671,7 +749,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1750.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -694,7 +775,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -709,7 +793,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -724,7 +811,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1750.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -747,7 +837,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 800.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -770,7 +863,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 625.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -793,7 +889,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 875.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -816,7 +915,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 550.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -839,7 +941,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 575.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -854,7 +959,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 450.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -869,7 +977,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 525.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -892,7 +1003,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -907,7 +1021,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 57.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -930,7 +1047,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 14.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -949,7 +1069,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -976,7 +1099,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 20.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -995,7 +1121,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 35.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1018,7 +1147,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1041,7 +1173,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 27.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1064,7 +1199,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1087,7 +1225,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1110,7 +1251,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 112.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1133,7 +1277,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 5.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1152,7 +1299,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1175,7 +1325,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1198,7 +1351,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 6.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1213,7 +1369,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1236,7 +1395,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1251,7 +1413,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 5.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1266,7 +1431,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1281,7 +1449,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 80.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1296,7 +1467,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1311,7 +1485,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 40.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1326,7 +1503,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1341,7 +1521,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1356,7 +1539,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1375,7 +1561,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1394,7 +1583,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 4.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1409,7 +1601,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 137.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1428,7 +1623,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1447,7 +1645,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 102.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1466,7 +1667,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1485,7 +1689,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 11.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1504,7 +1711,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 6.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1523,7 +1733,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1542,7 +1755,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 112.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1557,7 +1773,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1580,7 +1799,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 42.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1603,7 +1825,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1622,7 +1847,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 90.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1645,7 +1873,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 60.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1660,7 +1891,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1683,7 +1917,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1702,7 +1939,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1717,7 +1957,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 20.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1740,7 +1983,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1759,7 +2005,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1774,7 +2023,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 162.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1793,7 +2045,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 85.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1808,7 +2063,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1823,7 +2081,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1838,7 +2099,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1853,7 +2117,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 25.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1876,7 +2143,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 90.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1891,7 +2161,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 62.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1906,7 +2179,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 20.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1921,7 +2197,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1936,7 +2215,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1955,7 +2237,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1970,7 +2255,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -1985,7 +2273,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2008,7 +2299,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 60.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2031,7 +2325,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2054,7 +2351,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2069,7 +2369,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 62.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2084,7 +2387,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 25.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2099,7 +2405,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2118,7 +2427,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2133,7 +2445,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2156,7 +2471,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2171,7 +2489,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2186,7 +2507,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2201,7 +2525,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2224,7 +2551,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2243,7 +2573,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2258,7 +2591,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2273,7 +2609,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2288,7 +2627,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2303,7 +2645,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2318,7 +2663,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2333,7 +2681,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2360,7 +2711,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 85.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2383,7 +2737,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2398,7 +2755,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2413,7 +2773,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2428,7 +2791,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2443,7 +2809,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2466,7 +2835,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 80.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2481,7 +2853,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2504,7 +2879,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2527,7 +2905,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2550,7 +2931,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 70.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2573,7 +2957,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 97.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2596,7 +2983,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 3.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2619,7 +3009,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 16.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2634,7 +3027,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2657,7 +3053,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 11.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2676,7 +3075,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2699,7 +3101,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 4.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2722,7 +3127,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2745,7 +3153,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2768,7 +3179,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 20.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2795,7 +3209,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 6.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2810,7 +3227,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 11.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2825,7 +3245,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.25,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2840,7 +3263,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 175.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2855,7 +3281,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 40.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2870,7 +3299,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 750.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2885,7 +3317,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 4.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2908,7 +3343,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2931,7 +3369,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 57.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2954,7 +3395,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 87.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2977,7 +3421,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 60.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -2996,7 +3443,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 218.5,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3015,7 +3465,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3038,7 +3491,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3053,7 +3509,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3068,7 +3527,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 175.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3087,7 +3549,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3102,7 +3567,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3121,7 +3589,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 4.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3140,7 +3611,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 18.75,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3155,7 +3629,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 27.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3170,7 +3647,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3185,7 +3665,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 325.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3208,7 +3691,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 112.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3223,7 +3709,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 87.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3242,7 +3731,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3261,7 +3753,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3288,7 +3783,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 3.0,
+        "unit": "units"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3303,7 +3801,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 112.5,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3322,7 +3823,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 5.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3345,7 +3849,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3360,7 +3867,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1250.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3383,7 +3893,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 35.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3398,7 +3911,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3413,7 +3929,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3428,7 +3947,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 750.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3447,7 +3969,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3462,7 +3987,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3477,7 +4005,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 6.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3492,7 +4023,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 62.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3511,7 +4045,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 35.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3534,7 +4071,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 32.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3549,7 +4089,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1500.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3564,7 +4107,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3583,7 +4129,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 750.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3598,7 +4147,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 29.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3625,7 +4177,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3640,7 +4195,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 35.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3655,7 +4213,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 810.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3670,7 +4231,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 40.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3689,7 +4253,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3712,7 +4279,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 750.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3735,7 +4305,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 90.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3758,7 +4331,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3773,7 +4349,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3796,7 +4375,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 25.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3815,7 +4397,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3834,7 +4419,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3849,7 +4437,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3864,7 +4455,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3887,7 +4481,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 250.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3902,7 +4499,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 300.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3917,7 +4517,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 40.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3936,7 +4539,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 0.6,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3951,7 +4557,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3974,7 +4583,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 85.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -3993,7 +4605,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1150.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4008,7 +4623,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 85.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4023,7 +4641,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4038,7 +4659,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4053,7 +4677,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4068,7 +4695,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 40.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4083,7 +4713,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 412.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4098,7 +4731,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4113,7 +4749,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 250.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4128,7 +4767,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4143,7 +4785,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 375.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4158,7 +4803,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4173,7 +4821,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4188,7 +4839,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 45.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4203,7 +4857,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4218,7 +4875,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4233,7 +4893,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 175.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4248,7 +4911,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 0.75,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4263,7 +4929,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 300.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4282,7 +4951,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4297,7 +4969,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4316,7 +4991,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4331,7 +5009,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4346,7 +5027,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4361,7 +5045,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 4.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4380,7 +5067,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4399,7 +5089,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4414,7 +5107,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4429,7 +5125,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4444,7 +5143,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4463,7 +5165,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 55.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4482,7 +5187,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4501,7 +5209,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4516,7 +5227,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 65.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4531,7 +5245,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 27.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4554,7 +5271,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4581,7 +5301,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4596,7 +5319,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4611,7 +5337,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4630,7 +5359,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4645,7 +5377,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 5.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4664,7 +5399,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 20.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4679,7 +5417,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4702,7 +5443,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 65.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4721,7 +5465,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4740,7 +5487,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 5.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4759,7 +5509,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 82.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4774,7 +5527,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4789,7 +5545,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4804,7 +5563,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4819,7 +5581,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4838,7 +5603,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4857,7 +5625,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 62.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4880,7 +5651,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 350.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4903,7 +5677,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 97.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4922,7 +5699,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4945,7 +5725,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 40.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4960,7 +5743,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 35.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -4979,7 +5765,10 @@
       },
       "half_life_hours": 0.25,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5002,7 +5791,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 925.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5025,7 +5817,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.75,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5048,7 +5843,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 5.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5071,7 +5869,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5090,7 +5891,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 2.25,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5113,7 +5917,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 3.75,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5136,7 +5943,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 4.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5159,7 +5969,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 3.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5174,7 +5987,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 275.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5189,7 +6005,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 162.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5208,7 +6027,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 250.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5223,7 +6045,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5238,7 +6063,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 25.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5261,7 +6089,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 92.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5276,7 +6107,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 87.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5299,7 +6133,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 52.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5314,7 +6151,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5329,7 +6169,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5344,7 +6187,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5359,7 +6205,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 80.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5374,7 +6223,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 237.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5393,7 +6245,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 65.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5412,7 +6267,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5435,7 +6293,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 115.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5454,7 +6315,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5477,7 +6341,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 225.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5496,7 +6363,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 70.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5511,7 +6381,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5526,7 +6399,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5541,7 +6417,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5556,7 +6435,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5571,7 +6453,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 0.375,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5586,7 +6471,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 6.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5601,7 +6489,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 300.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5616,7 +6507,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 375.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5631,7 +6525,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5646,7 +6543,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 115.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5665,7 +6565,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5680,7 +6583,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5695,7 +6601,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5710,7 +6619,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5725,7 +6637,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5740,7 +6655,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 2.25,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5755,7 +6673,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5774,7 +6695,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 25.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5793,7 +6717,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 700.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5808,7 +6735,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5823,7 +6753,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 600.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5842,7 +6775,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 750.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5857,7 +6793,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.05,
+        "unit": "ml"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5872,7 +6811,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.75,
+        "unit": "g"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5891,7 +6833,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5906,7 +6851,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 500.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5921,7 +6869,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5936,7 +6887,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5951,7 +6905,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 40.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5966,7 +6923,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5981,7 +6941,10 @@
       },
       "half_life_hours": 0.042,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 27.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -5996,7 +6959,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 85.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6015,7 +6981,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 32.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6030,7 +6999,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6045,7 +7017,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6060,7 +7035,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6083,7 +7061,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 13.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6102,7 +7083,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 25.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6117,7 +7101,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 112.5,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6132,7 +7119,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6151,7 +7141,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 3.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6166,7 +7159,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 62.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6197,7 +7193,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 19.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6220,7 +7219,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 87.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6235,7 +7237,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6254,7 +7259,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 5.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6269,7 +7277,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6284,7 +7295,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6307,7 +7321,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 55.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6322,7 +7339,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6337,7 +7357,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 750.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6352,7 +7375,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 110.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6367,7 +7393,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 87.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6382,7 +7411,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6401,7 +7433,10 @@
       },
       "half_life_hours": 2.35,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6416,7 +7451,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6439,7 +7477,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 2.25,
+        "unit": "g"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6454,7 +7495,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6469,7 +7513,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6484,7 +7531,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6499,7 +7549,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6514,7 +7567,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6537,7 +7593,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 4.0,
+        "unit": "seeds"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6552,7 +7611,10 @@
       },
       "half_life_hours": 4.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6567,7 +7629,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 0.875,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6582,7 +7647,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 225.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6597,7 +7665,10 @@
       },
       "half_life_hours": 0.505,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 25.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6616,7 +7687,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 195.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6631,7 +7705,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6646,7 +7723,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6669,7 +7749,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 60.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6692,7 +7775,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6715,7 +7801,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6738,7 +7827,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6761,7 +7853,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 135.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6776,7 +7871,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6791,7 +7889,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 27.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6806,7 +7907,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 11.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6821,7 +7925,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 11.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6836,7 +7943,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 4.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6851,7 +7961,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6874,7 +7987,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6889,7 +8005,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6912,7 +8031,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6931,7 +8053,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 20.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6946,7 +8071,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6969,7 +8097,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 250.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -6992,7 +8123,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7007,7 +8141,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 18.75,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7022,7 +8159,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1200.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7045,7 +8185,10 @@
       },
       "half_life_hours": 15.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7068,7 +8211,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 32.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7091,7 +8237,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7110,7 +8259,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 20.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7133,7 +8285,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 225.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7148,7 +8303,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7163,7 +8321,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 97.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7182,7 +8343,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7201,7 +8365,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 95.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7216,7 +8383,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7235,7 +8405,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7250,7 +8423,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7273,7 +8449,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 200.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7288,7 +8467,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7303,7 +8485,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 250.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7318,7 +8503,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 3.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7333,7 +8521,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7356,7 +8547,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 175.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7371,7 +8565,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7394,7 +8591,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7413,7 +8613,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7428,7 +8631,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 200.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7447,7 +8653,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7462,7 +8671,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7477,7 +8689,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7496,7 +8711,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 52.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7515,7 +8733,10 @@
       },
       "half_life_hours": 2.5,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 2.5,
+        "unit": "g"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7538,7 +8759,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7561,7 +8785,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7576,7 +8803,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 27.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7591,7 +8821,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 65.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7606,7 +8839,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 300.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7625,7 +8861,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7640,7 +8879,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7655,7 +8897,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 500.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7670,7 +8915,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7685,7 +8933,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 2.25,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7700,7 +8951,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7715,7 +8969,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7730,7 +8987,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7749,7 +9009,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7768,7 +9031,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7783,7 +9049,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 350.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7802,7 +9071,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7817,7 +9089,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7832,7 +9107,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7851,7 +9129,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7870,7 +9151,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7893,7 +9177,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 416.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7908,7 +9195,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 20.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7923,7 +9213,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7938,7 +9231,10 @@
       },
       "half_life_hours": 3.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7957,7 +9253,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7972,7 +9271,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -7991,7 +9293,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 6.25,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8010,7 +9315,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 750.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8029,7 +9337,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 32.5,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8044,7 +9355,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8059,7 +9373,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 5.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8074,7 +9391,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8089,7 +9409,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8108,7 +9431,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 20.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8123,7 +9449,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8138,7 +9467,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 150.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8161,7 +9493,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8176,7 +9511,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 60.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8191,7 +9529,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8206,7 +9547,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 400.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8221,7 +9565,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8252,7 +9599,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 900.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8267,7 +9617,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8282,7 +9635,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8297,7 +9653,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8312,7 +9671,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 110.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8327,7 +9689,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8350,7 +9715,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 17.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8369,7 +9737,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 3000.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8384,7 +9755,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 350.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8399,7 +9773,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8414,7 +9791,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 800.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8429,7 +9809,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8460,7 +9843,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 450.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8475,7 +9861,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8490,7 +9879,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8505,7 +9897,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8520,7 +9915,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 45.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8539,7 +9937,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8558,7 +9959,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 60.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8577,7 +9981,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 52.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8592,7 +9999,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 42.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8615,7 +10025,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 35.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8630,7 +10043,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8645,7 +10061,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8664,7 +10083,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8679,7 +10101,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8694,7 +10119,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 2.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8709,7 +10137,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8724,7 +10155,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8743,7 +10177,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8758,7 +10195,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8777,7 +10217,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 6.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8792,7 +10235,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8811,7 +10257,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8830,7 +10279,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8845,7 +10297,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8860,7 +10315,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8875,7 +10333,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8894,7 +10355,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8913,7 +10377,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mcg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8928,7 +10395,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 300.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8943,7 +10413,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 62.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8958,7 +10431,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8977,7 +10453,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -8992,7 +10471,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9007,7 +10489,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 40.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9022,7 +10507,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9037,7 +10525,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 250.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9052,7 +10543,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9067,7 +10561,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9090,7 +10587,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 12.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9109,7 +10609,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9128,7 +10631,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9151,7 +10657,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9174,7 +10683,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 35.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9189,7 +10701,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9204,7 +10719,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 175.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9219,7 +10737,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 75.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9234,7 +10755,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 0.375,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9249,7 +10773,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 25.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9264,7 +10791,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 112.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9279,7 +10809,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 11.25,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9298,7 +10831,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9321,7 +10857,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 4.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9340,7 +10879,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9355,7 +10897,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 112.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9370,7 +10915,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 40.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9389,7 +10937,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9408,7 +10959,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 1250.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9427,7 +10981,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9442,7 +10999,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9457,7 +11017,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9472,7 +11035,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 6.25,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9487,7 +11053,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 37.5,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
@@ -9502,7 +11071,10 @@
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
-      "standard_unit_mg": 10.0,
+      "standard_unit": {
+        "value": 50.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.0,
       "duration_multiplier": 1.2,
       "tolerance_gain_rate": 0.25,
