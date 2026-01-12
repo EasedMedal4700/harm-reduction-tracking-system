@@ -55,7 +55,7 @@ final class BloodLevelsServiceProvider
 }
 
 String _$bloodLevelsServiceHash() =>
-    r'fff278442dac8c65c2e9558314b8ff97411b3b96';
+    r'f46477b13040c947f8d3cb9184e383257af9eef5';
 
 @ProviderFor(BloodLevelsController)
 final bloodLevelsControllerProvider = BloodLevelsControllerProvider._();

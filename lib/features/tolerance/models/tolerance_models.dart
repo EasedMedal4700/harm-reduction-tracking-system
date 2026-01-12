@@ -42,8 +42,14 @@ abstract class NeuroBucket with _$NeuroBucket {
     String? toleranceType,
   }) = _NeuroBucket;
 
-  factory NeuroBucket.fromJson(Map<String, dynamic> json) =>
-      _$NeuroBucketFromJson(json);
+  factory NeuroBucket.fromJson(Map<String, dynamic> json) {
+    return NeuroBucket(
+      name: json['name'] as String? ?? '',
+      weight: (json['weight'] as num?)?.toDouble() ?? 1.0,
+      toleranceType:
+          json['toleranceType'] as String? ?? json['tolerance_type'] as String?,
+    );
+  }
 }
 
 @freezed
@@ -60,8 +66,66 @@ abstract class ToleranceModel with _$ToleranceModel {
     @Default(0.05) double activeThreshold,
   }) = _ToleranceModel;
 
-  factory ToleranceModel.fromJson(Map<String, dynamic> json) =>
-      _$ToleranceModelFromJson(json);
+  factory ToleranceModel.fromJson(Map<String, dynamic> json) {
+    final nbRaw = json['neuroBuckets'] ?? json['neuro_buckets'];
+    final nbMap = <String, NeuroBucket>{};
+
+    if (nbRaw is Map) {
+      nbRaw.forEach((k, v) {
+        if (v is Map<String, dynamic>) {
+          // Inject key as name if missing
+          if (!v.containsKey('name')) {
+            v['name'] = k.toString();
+          }
+          nbMap[k.toString()] = NeuroBucket.fromJson(v);
+        }
+      });
+    }
+
+    // Handle standard_unit extraction
+    double stdUnit = 10.0;
+    final suRaw =
+        json['standardUnitMg'] ??
+        json['standard_unit_mg'] ??
+        json['standard_unit'];
+    if (suRaw is num) {
+      stdUnit = suRaw.toDouble();
+    } else if (suRaw is Map) {
+      // Handle {"value": 150.0, "unit": "mg"}
+      final val = suRaw['value'];
+      if (val is num) stdUnit = val.toDouble();
+    }
+
+    return ToleranceModel(
+      notes: json['notes'] as String? ?? '',
+      neuroBuckets: nbMap,
+      halfLifeHours:
+          (json['halfLifeHours'] ?? json['half_life_hours'] as num?)
+              ?.toDouble() ??
+          6.0,
+      toleranceDecayDays:
+          (json['toleranceDecayDays'] ?? json['tolerance_decay_days'] as num?)
+              ?.toDouble() ??
+          2.0,
+      standardUnitMg: stdUnit,
+      potencyMultiplier:
+          (json['potencyMultiplier'] ?? json['potency_multiplier'] as num?)
+              ?.toDouble() ??
+          1.0,
+      durationMultiplier:
+          (json['durationMultiplier'] ?? json['duration_multiplier'] as num?)
+              ?.toDouble() ??
+          1.0,
+      toleranceGainRate:
+          (json['toleranceGainRate'] ?? json['tolerance_gain_rate'] as num?)
+              ?.toDouble() ??
+          1.0,
+      activeThreshold:
+          (json['activeThreshold'] ?? json['active_threshold'] as num?)
+              ?.toDouble() ??
+          0.05,
+    );
+  }
 }
 
 @freezed
@@ -73,7 +137,9 @@ abstract class ToleranceResult with _$ToleranceResult {
     required Map<String, double> daysUntilBaseline,
     required double overallDaysUntilBaseline,
     @Default({}) Map<String, Map<String, double>> substanceContributions,
+    @Default({}) Map<String, Map<String, double>> logImpacts,
     @Default({}) Map<String, bool> substanceActiveStates,
+    @Default({}) Map<String, List<UseLogEntry>> relevantLogs,
   }) = _ToleranceResult;
 
   factory ToleranceResult.fromJson(Map<String, dynamic> json) =>

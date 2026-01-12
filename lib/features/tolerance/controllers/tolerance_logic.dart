@@ -76,12 +76,13 @@ class ToleranceLogic {
       AppLog.d(
         '[ToleranceLogic] Processing substance: $slug with ${entry.value.length} logs, ${model.neuroBuckets.length} buckets',
       );
-      final bucketLoads = _computeRawLoadsForSubstance(
+      final computation = _computeRawLoadsAndDetailsForSubstance(
         slug: slug,
         logs: entry.value,
         model: model,
         now: now,
       );
+      final bucketLoads = computation.loads;
 
       bucketLoads.forEach((bucket, value) {
         rawLoads[bucket] = (rawLoads[bucket] ?? 0.0) + value;
@@ -172,9 +173,13 @@ class ToleranceLogic {
       (a, b) => math.max(a, b),
     );
 
-    // Compute contributions
+    // Compute contributions and impact tracking
     final substanceContributions = <String, Map<String, double>>{};
     final substanceActiveStates = <String, bool>{};
+    final logImpacts =
+        <String, Map<String, double>>{}; // bucket -> logId -> impact
+    final relevantLogs =
+        <String, List<UseLogEntry>>{}; // bucket -> list of logs
 
     for (final entry in logsBySubstance.entries) {
       final slug = entry.key;
@@ -182,13 +187,17 @@ class ToleranceLogic {
       if (model == null) continue;
 
       // Compute for single substance
-      final singleSubstanceLoads = _computeRawLoadsForSubstance(
+      final computation = _computeRawLoadsAndDetailsForSubstance(
         slug: slug,
         logs: entry.value,
         model: model,
         now: now,
       );
 
+      final singleSubstanceLoads = computation.loads;
+      final details = computation.logDetails; // logId -> bucket -> impact
+
+      // Aggregate loads
       singleSubstanceLoads.forEach((bucket, rawLoad) {
         final pct = loadToPercent(rawLoad);
         if (pct > 0.1) {
@@ -197,9 +206,42 @@ class ToleranceLogic {
           if (rawLoad > 0.0) {
             substanceActiveStates[slug] = true;
           }
+
+          relevantLogs.putIfAbsent(bucket, () => []);
+          // Only add logs that actually affected this bucket
+          relevantLogs[bucket]!.addAll(
+            entry.value.where((log) {
+              final logKey = log.timestamp.toIso8601String();
+              final impacts = details[logKey];
+              return impacts != null && (impacts[bucket] ?? 0.0) > 0.001;
+            }),
+          );
         }
       });
+
+      // Aggregate log impacts per bucket
+      details.forEach((logKey, bucketImpacts) {
+        bucketImpacts.forEach((bucket, impact) {
+          logImpacts.putIfAbsent(bucket, () => {});
+          // Store as % impact
+          logImpacts[bucket]![logKey] = loadToPercent(impact);
+        });
+      });
     }
+
+    // Deduplicate logs in relevantLogs
+    relevantLogs.forEach((bucket, logs) {
+      final seen = <String>{};
+      final unique = <UseLogEntry>[];
+      for (final l in logs) {
+        final k = l.timestamp.toIso8601String();
+        if (!seen.contains(k)) {
+          seen.add(k);
+          unique.add(l);
+        }
+      }
+      relevantLogs[bucket] = unique;
+    });
 
     return ToleranceResult(
       bucketPercents: bucketPercents,
@@ -209,21 +251,23 @@ class ToleranceLogic {
       overallDaysUntilBaseline: overallDays,
       substanceContributions: substanceContributions,
       substanceActiveStates: substanceActiveStates,
+      logImpacts: logImpacts,
+      relevantLogs: relevantLogs,
     );
   }
 
-  static Map<String, double> _computeRawLoadsForSubstance({
+  static _ComputationResult _computeRawLoadsAndDetailsForSubstance({
     required String slug,
     required List<UseLogEntry> logs,
     required ToleranceModel model,
     required DateTime now,
   }) {
-    // print('\n>>> Computing raw loads for "$slug" (${logs.length} logs)');
+    final resultLoads = <String, double>{};
+    final logDetails =
+        <String, Map<String, double>>{}; // timestamp -> bucket -> rawImpact
 
-    final result = <String, double>{};
     if (model.neuroBuckets.isEmpty) {
-      // print('    No neuro buckets!');
-      return result;
+      return _ComputationResult(resultLoads, logDetails);
     }
 
     final halfLife = model.halfLifeHours;
@@ -241,20 +285,10 @@ class ToleranceLogic {
         ? -halfLife * math.log(activeThreshold)
         : 0.0;
 
-    // print(
-    //   '    Model params: halfLife=${halfLife}h, decayDays=$decayDays, standardUnit=$standardUnit, potency=$potency, gain=$gain',
-    // );
-    // print(
-    //   '    Active window: ${activeWindowHours.toStringAsFixed(1)} hours, threshold=$activeThreshold',
-    // );
-
     for (final bucketEntry in model.neuroBuckets.entries) {
       final bucketName = bucketEntry.key;
       final bucket = bucketEntry.value;
       double rawTotal = 0.0;
-
-      // print('    Processing bucket: $bucketName (weight=${bucket.weight})');
-      // int logCount = 0;
 
       for (final log in logs) {
         final hoursSince = now.difference(log.timestamp).inMinutes / 60.0;
@@ -287,23 +321,19 @@ class ToleranceLogic {
         final eventTolNow = baseContribution * decayFactor;
         rawTotal += eventTolNow;
 
-        // if (logCount < 3) {
-        //   print(
-        //     '      Log ${logCount + 1}: dose=${log.doseUnits}, ${hoursSince.toStringAsFixed(1)}h ago, activeLevel=${activeLevel.toStringAsFixed(3)}, decayFactor=${decayFactor.toStringAsFixed(3)}, contribution=${eventTolNow.toStringAsFixed(4)}',
-        //   );
-        // }
-        // logCount++;
+        // Track individual impact
+        if (eventTolNow > 0) {
+          final logKey = log.timestamp.toIso8601String();
+          logDetails.putIfAbsent(logKey, () => {});
+          logDetails[logKey]![bucketName] = eventTolNow;
+        }
       }
-
-      // print(
-      //   '    Bucket $bucketName total: ${rawTotal.toStringAsFixed(4)} (from $logCount logs)',
-      // );
 
       if (rawTotal > 0) {
-        result[bucketName] = rawTotal;
+        resultLoads[bucketName] = rawTotal;
       }
     }
-    return result;
+    return _ComputationResult(resultLoads, logDetails);
   }
 
   static ToleranceSystemState classifyState(double pct) {
@@ -319,4 +349,10 @@ class ToleranceLogic {
       return ToleranceSystemState.depleted;
     }
   }
+}
+
+class _ComputationResult {
+  final Map<String, double> loads;
+  final Map<String, Map<String, double>> logDetails;
+  _ComputationResult(this.loads, this.logDetails);
 }

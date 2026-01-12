@@ -280,7 +280,6 @@ as double,
 
 }
 
-
 /// @nodoc
 mixin _$NeuroBucket {
 
@@ -291,8 +290,6 @@ mixin _$NeuroBucket {
 @pragma('vm:prefer-inline')
 $NeuroBucketCopyWith<NeuroBucket> get copyWith => _$NeuroBucketCopyWithImpl<NeuroBucket>(this as NeuroBucket, _$identity);
 
-  /// Serializes this NeuroBucket to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -300,7 +297,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is NeuroBucket&&(identical(other.name, name) || other.name == name)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.toleranceType, toleranceType) || other.toleranceType == toleranceType));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode => Object.hash(runtimeType,name,weight,toleranceType);
 
@@ -477,11 +474,11 @@ return $default(_that.name,_that.weight,_that.toleranceType);case _:
 }
 
 /// @nodoc
-@JsonSerializable()
+
 
 class _NeuroBucket implements NeuroBucket {
   const _NeuroBucket({required this.name, required this.weight, this.toleranceType});
-  factory _NeuroBucket.fromJson(Map<String, dynamic> json) => _$NeuroBucketFromJson(json);
+  
 
 @override final  String name;
 @override final  double weight;
@@ -493,17 +490,14 @@ class _NeuroBucket implements NeuroBucket {
 @pragma('vm:prefer-inline')
 _$NeuroBucketCopyWith<_NeuroBucket> get copyWith => __$NeuroBucketCopyWithImpl<_NeuroBucket>(this, _$identity);
 
-@override
-Map<String, dynamic> toJson() {
-  return _$NeuroBucketToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _NeuroBucket&&(identical(other.name, name) || other.name == name)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.toleranceType, toleranceType) || other.toleranceType == toleranceType));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode => Object.hash(runtimeType,name,weight,toleranceType);
 
@@ -549,7 +543,6 @@ as String?,
 
 }
 
-
 /// @nodoc
 mixin _$ToleranceModel {
 
@@ -560,8 +553,6 @@ mixin _$ToleranceModel {
 @pragma('vm:prefer-inline')
 $ToleranceModelCopyWith<ToleranceModel> get copyWith => _$ToleranceModelCopyWithImpl<ToleranceModel>(this as ToleranceModel, _$identity);
 
-  /// Serializes this ToleranceModel to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -569,7 +560,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is ToleranceModel&&(identical(other.notes, notes) || other.notes == notes)&&const DeepCollectionEquality().equals(other.neuroBuckets, neuroBuckets)&&(identical(other.halfLifeHours, halfLifeHours) || other.halfLifeHours == halfLifeHours)&&(identical(other.toleranceDecayDays, toleranceDecayDays) || other.toleranceDecayDays == toleranceDecayDays)&&(identical(other.standardUnitMg, standardUnitMg) || other.standardUnitMg == standardUnitMg)&&(identical(other.potencyMultiplier, potencyMultiplier) || other.potencyMultiplier == potencyMultiplier)&&(identical(other.durationMultiplier, durationMultiplier) || other.durationMultiplier == durationMultiplier)&&(identical(other.toleranceGainRate, toleranceGainRate) || other.toleranceGainRate == toleranceGainRate)&&(identical(other.activeThreshold, activeThreshold) || other.activeThreshold == activeThreshold));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode => Object.hash(runtimeType,notes,const DeepCollectionEquality().hash(neuroBuckets),halfLifeHours,toleranceDecayDays,standardUnitMg,potencyMultiplier,durationMultiplier,toleranceGainRate,activeThreshold);
 
@@ -752,11 +743,11 @@ return $default(_that.notes,_that.neuroBuckets,_that.halfLifeHours,_that.toleran
 }
 
 /// @nodoc
-@JsonSerializable()
+
 
 class _ToleranceModel implements ToleranceModel {
   const _ToleranceModel({this.notes = '', required final  Map<String, NeuroBucket> neuroBuckets, this.halfLifeHours = 6.0, this.toleranceDecayDays = 2.0, this.standardUnitMg = 10.0, this.potencyMultiplier = 1.0, this.durationMultiplier = 1.0, this.toleranceGainRate = 1.0, this.activeThreshold = 0.05}): _neuroBuckets = neuroBuckets;
-  factory _ToleranceModel.fromJson(Map<String, dynamic> json) => _$ToleranceModelFromJson(json);
+  
 
 @override@JsonKey() final  String notes;
  final  Map<String, NeuroBucket> _neuroBuckets;
@@ -780,17 +771,14 @@ class _ToleranceModel implements ToleranceModel {
 @pragma('vm:prefer-inline')
 _$ToleranceModelCopyWith<_ToleranceModel> get copyWith => __$ToleranceModelCopyWithImpl<_ToleranceModel>(this, _$identity);
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ToleranceModelToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _ToleranceModel&&(identical(other.notes, notes) || other.notes == notes)&&const DeepCollectionEquality().equals(other._neuroBuckets, _neuroBuckets)&&(identical(other.halfLifeHours, halfLifeHours) || other.halfLifeHours == halfLifeHours)&&(identical(other.toleranceDecayDays, toleranceDecayDays) || other.toleranceDecayDays == toleranceDecayDays)&&(identical(other.standardUnitMg, standardUnitMg) || other.standardUnitMg == standardUnitMg)&&(identical(other.potencyMultiplier, potencyMultiplier) || other.potencyMultiplier == potencyMultiplier)&&(identical(other.durationMultiplier, durationMultiplier) || other.durationMultiplier == durationMultiplier)&&(identical(other.toleranceGainRate, toleranceGainRate) || other.toleranceGainRate == toleranceGainRate)&&(identical(other.activeThreshold, activeThreshold) || other.activeThreshold == activeThreshold));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode => Object.hash(runtimeType,notes,const DeepCollectionEquality().hash(_neuroBuckets),halfLifeHours,toleranceDecayDays,standardUnitMg,potencyMultiplier,durationMultiplier,toleranceGainRate,activeThreshold);
 
@@ -846,7 +834,7 @@ as double,
 /// @nodoc
 mixin _$ToleranceResult {
 
- Map<String, double> get bucketPercents; Map<String, double> get bucketRawLoads; double get toleranceScore; Map<String, double> get daysUntilBaseline; double get overallDaysUntilBaseline; Map<String, Map<String, double>> get substanceContributions; Map<String, bool> get substanceActiveStates;
+ Map<String, double> get bucketPercents; Map<String, double> get bucketRawLoads; double get toleranceScore; Map<String, double> get daysUntilBaseline; double get overallDaysUntilBaseline; Map<String, Map<String, double>> get substanceContributions; Map<String, Map<String, double>> get logImpacts; Map<String, bool> get substanceActiveStates; Map<String, List<UseLogEntry>> get relevantLogs;
 /// Create a copy of ToleranceResult
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -859,16 +847,16 @@ $ToleranceResultCopyWith<ToleranceResult> get copyWith => _$ToleranceResultCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ToleranceResult&&const DeepCollectionEquality().equals(other.bucketPercents, bucketPercents)&&const DeepCollectionEquality().equals(other.bucketRawLoads, bucketRawLoads)&&(identical(other.toleranceScore, toleranceScore) || other.toleranceScore == toleranceScore)&&const DeepCollectionEquality().equals(other.daysUntilBaseline, daysUntilBaseline)&&(identical(other.overallDaysUntilBaseline, overallDaysUntilBaseline) || other.overallDaysUntilBaseline == overallDaysUntilBaseline)&&const DeepCollectionEquality().equals(other.substanceContributions, substanceContributions)&&const DeepCollectionEquality().equals(other.substanceActiveStates, substanceActiveStates));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ToleranceResult&&const DeepCollectionEquality().equals(other.bucketPercents, bucketPercents)&&const DeepCollectionEquality().equals(other.bucketRawLoads, bucketRawLoads)&&(identical(other.toleranceScore, toleranceScore) || other.toleranceScore == toleranceScore)&&const DeepCollectionEquality().equals(other.daysUntilBaseline, daysUntilBaseline)&&(identical(other.overallDaysUntilBaseline, overallDaysUntilBaseline) || other.overallDaysUntilBaseline == overallDaysUntilBaseline)&&const DeepCollectionEquality().equals(other.substanceContributions, substanceContributions)&&const DeepCollectionEquality().equals(other.logImpacts, logImpacts)&&const DeepCollectionEquality().equals(other.substanceActiveStates, substanceActiveStates)&&const DeepCollectionEquality().equals(other.relevantLogs, relevantLogs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(bucketPercents),const DeepCollectionEquality().hash(bucketRawLoads),toleranceScore,const DeepCollectionEquality().hash(daysUntilBaseline),overallDaysUntilBaseline,const DeepCollectionEquality().hash(substanceContributions),const DeepCollectionEquality().hash(substanceActiveStates));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(bucketPercents),const DeepCollectionEquality().hash(bucketRawLoads),toleranceScore,const DeepCollectionEquality().hash(daysUntilBaseline),overallDaysUntilBaseline,const DeepCollectionEquality().hash(substanceContributions),const DeepCollectionEquality().hash(logImpacts),const DeepCollectionEquality().hash(substanceActiveStates),const DeepCollectionEquality().hash(relevantLogs));
 
 @override
 String toString() {
-  return 'ToleranceResult(bucketPercents: $bucketPercents, bucketRawLoads: $bucketRawLoads, toleranceScore: $toleranceScore, daysUntilBaseline: $daysUntilBaseline, overallDaysUntilBaseline: $overallDaysUntilBaseline, substanceContributions: $substanceContributions, substanceActiveStates: $substanceActiveStates)';
+  return 'ToleranceResult(bucketPercents: $bucketPercents, bucketRawLoads: $bucketRawLoads, toleranceScore: $toleranceScore, daysUntilBaseline: $daysUntilBaseline, overallDaysUntilBaseline: $overallDaysUntilBaseline, substanceContributions: $substanceContributions, logImpacts: $logImpacts, substanceActiveStates: $substanceActiveStates, relevantLogs: $relevantLogs)';
 }
 
 
@@ -879,7 +867,7 @@ abstract mixin class $ToleranceResultCopyWith<$Res>  {
   factory $ToleranceResultCopyWith(ToleranceResult value, $Res Function(ToleranceResult) _then) = _$ToleranceResultCopyWithImpl;
 @useResult
 $Res call({
- Map<String, double> bucketPercents, Map<String, double> bucketRawLoads, double toleranceScore, Map<String, double> daysUntilBaseline, double overallDaysUntilBaseline, Map<String, Map<String, double>> substanceContributions, Map<String, bool> substanceActiveStates
+ Map<String, double> bucketPercents, Map<String, double> bucketRawLoads, double toleranceScore, Map<String, double> daysUntilBaseline, double overallDaysUntilBaseline, Map<String, Map<String, double>> substanceContributions, Map<String, Map<String, double>> logImpacts, Map<String, bool> substanceActiveStates, Map<String, List<UseLogEntry>> relevantLogs
 });
 
 
@@ -896,7 +884,7 @@ class _$ToleranceResultCopyWithImpl<$Res>
 
 /// Create a copy of ToleranceResult
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? bucketPercents = null,Object? bucketRawLoads = null,Object? toleranceScore = null,Object? daysUntilBaseline = null,Object? overallDaysUntilBaseline = null,Object? substanceContributions = null,Object? substanceActiveStates = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? bucketPercents = null,Object? bucketRawLoads = null,Object? toleranceScore = null,Object? daysUntilBaseline = null,Object? overallDaysUntilBaseline = null,Object? substanceContributions = null,Object? logImpacts = null,Object? substanceActiveStates = null,Object? relevantLogs = null,}) {
   return _then(_self.copyWith(
 bucketPercents: null == bucketPercents ? _self.bucketPercents : bucketPercents // ignore: cast_nullable_to_non_nullable
 as Map<String, double>,bucketRawLoads: null == bucketRawLoads ? _self.bucketRawLoads : bucketRawLoads // ignore: cast_nullable_to_non_nullable
@@ -904,8 +892,10 @@ as Map<String, double>,toleranceScore: null == toleranceScore ? _self.toleranceS
 as double,daysUntilBaseline: null == daysUntilBaseline ? _self.daysUntilBaseline : daysUntilBaseline // ignore: cast_nullable_to_non_nullable
 as Map<String, double>,overallDaysUntilBaseline: null == overallDaysUntilBaseline ? _self.overallDaysUntilBaseline : overallDaysUntilBaseline // ignore: cast_nullable_to_non_nullable
 as double,substanceContributions: null == substanceContributions ? _self.substanceContributions : substanceContributions // ignore: cast_nullable_to_non_nullable
+as Map<String, Map<String, double>>,logImpacts: null == logImpacts ? _self.logImpacts : logImpacts // ignore: cast_nullable_to_non_nullable
 as Map<String, Map<String, double>>,substanceActiveStates: null == substanceActiveStates ? _self.substanceActiveStates : substanceActiveStates // ignore: cast_nullable_to_non_nullable
-as Map<String, bool>,
+as Map<String, bool>,relevantLogs: null == relevantLogs ? _self.relevantLogs : relevantLogs // ignore: cast_nullable_to_non_nullable
+as Map<String, List<UseLogEntry>>,
   ));
 }
 
@@ -990,10 +980,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Map<String, double> bucketPercents,  Map<String, double> bucketRawLoads,  double toleranceScore,  Map<String, double> daysUntilBaseline,  double overallDaysUntilBaseline,  Map<String, Map<String, double>> substanceContributions,  Map<String, bool> substanceActiveStates)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Map<String, double> bucketPercents,  Map<String, double> bucketRawLoads,  double toleranceScore,  Map<String, double> daysUntilBaseline,  double overallDaysUntilBaseline,  Map<String, Map<String, double>> substanceContributions,  Map<String, Map<String, double>> logImpacts,  Map<String, bool> substanceActiveStates,  Map<String, List<UseLogEntry>> relevantLogs)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ToleranceResult() when $default != null:
-return $default(_that.bucketPercents,_that.bucketRawLoads,_that.toleranceScore,_that.daysUntilBaseline,_that.overallDaysUntilBaseline,_that.substanceContributions,_that.substanceActiveStates);case _:
+return $default(_that.bucketPercents,_that.bucketRawLoads,_that.toleranceScore,_that.daysUntilBaseline,_that.overallDaysUntilBaseline,_that.substanceContributions,_that.logImpacts,_that.substanceActiveStates,_that.relevantLogs);case _:
   return orElse();
 
 }
@@ -1011,10 +1001,10 @@ return $default(_that.bucketPercents,_that.bucketRawLoads,_that.toleranceScore,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Map<String, double> bucketPercents,  Map<String, double> bucketRawLoads,  double toleranceScore,  Map<String, double> daysUntilBaseline,  double overallDaysUntilBaseline,  Map<String, Map<String, double>> substanceContributions,  Map<String, bool> substanceActiveStates)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Map<String, double> bucketPercents,  Map<String, double> bucketRawLoads,  double toleranceScore,  Map<String, double> daysUntilBaseline,  double overallDaysUntilBaseline,  Map<String, Map<String, double>> substanceContributions,  Map<String, Map<String, double>> logImpacts,  Map<String, bool> substanceActiveStates,  Map<String, List<UseLogEntry>> relevantLogs)  $default,) {final _that = this;
 switch (_that) {
 case _ToleranceResult():
-return $default(_that.bucketPercents,_that.bucketRawLoads,_that.toleranceScore,_that.daysUntilBaseline,_that.overallDaysUntilBaseline,_that.substanceContributions,_that.substanceActiveStates);case _:
+return $default(_that.bucketPercents,_that.bucketRawLoads,_that.toleranceScore,_that.daysUntilBaseline,_that.overallDaysUntilBaseline,_that.substanceContributions,_that.logImpacts,_that.substanceActiveStates,_that.relevantLogs);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1031,10 +1021,10 @@ return $default(_that.bucketPercents,_that.bucketRawLoads,_that.toleranceScore,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Map<String, double> bucketPercents,  Map<String, double> bucketRawLoads,  double toleranceScore,  Map<String, double> daysUntilBaseline,  double overallDaysUntilBaseline,  Map<String, Map<String, double>> substanceContributions,  Map<String, bool> substanceActiveStates)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Map<String, double> bucketPercents,  Map<String, double> bucketRawLoads,  double toleranceScore,  Map<String, double> daysUntilBaseline,  double overallDaysUntilBaseline,  Map<String, Map<String, double>> substanceContributions,  Map<String, Map<String, double>> logImpacts,  Map<String, bool> substanceActiveStates,  Map<String, List<UseLogEntry>> relevantLogs)?  $default,) {final _that = this;
 switch (_that) {
 case _ToleranceResult() when $default != null:
-return $default(_that.bucketPercents,_that.bucketRawLoads,_that.toleranceScore,_that.daysUntilBaseline,_that.overallDaysUntilBaseline,_that.substanceContributions,_that.substanceActiveStates);case _:
+return $default(_that.bucketPercents,_that.bucketRawLoads,_that.toleranceScore,_that.daysUntilBaseline,_that.overallDaysUntilBaseline,_that.substanceContributions,_that.logImpacts,_that.substanceActiveStates,_that.relevantLogs);case _:
   return null;
 
 }
@@ -1046,7 +1036,7 @@ return $default(_that.bucketPercents,_that.bucketRawLoads,_that.toleranceScore,_
 @JsonSerializable()
 
 class _ToleranceResult implements ToleranceResult {
-  const _ToleranceResult({required final  Map<String, double> bucketPercents, required final  Map<String, double> bucketRawLoads, required this.toleranceScore, required final  Map<String, double> daysUntilBaseline, required this.overallDaysUntilBaseline, final  Map<String, Map<String, double>> substanceContributions = const {}, final  Map<String, bool> substanceActiveStates = const {}}): _bucketPercents = bucketPercents,_bucketRawLoads = bucketRawLoads,_daysUntilBaseline = daysUntilBaseline,_substanceContributions = substanceContributions,_substanceActiveStates = substanceActiveStates;
+  const _ToleranceResult({required final  Map<String, double> bucketPercents, required final  Map<String, double> bucketRawLoads, required this.toleranceScore, required final  Map<String, double> daysUntilBaseline, required this.overallDaysUntilBaseline, final  Map<String, Map<String, double>> substanceContributions = const {}, final  Map<String, Map<String, double>> logImpacts = const {}, final  Map<String, bool> substanceActiveStates = const {}, final  Map<String, List<UseLogEntry>> relevantLogs = const {}}): _bucketPercents = bucketPercents,_bucketRawLoads = bucketRawLoads,_daysUntilBaseline = daysUntilBaseline,_substanceContributions = substanceContributions,_logImpacts = logImpacts,_substanceActiveStates = substanceActiveStates,_relevantLogs = relevantLogs;
   factory _ToleranceResult.fromJson(Map<String, dynamic> json) => _$ToleranceResultFromJson(json);
 
  final  Map<String, double> _bucketPercents;
@@ -1079,11 +1069,25 @@ class _ToleranceResult implements ToleranceResult {
   return EqualUnmodifiableMapView(_substanceContributions);
 }
 
+ final  Map<String, Map<String, double>> _logImpacts;
+@override@JsonKey() Map<String, Map<String, double>> get logImpacts {
+  if (_logImpacts is EqualUnmodifiableMapView) return _logImpacts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_logImpacts);
+}
+
  final  Map<String, bool> _substanceActiveStates;
 @override@JsonKey() Map<String, bool> get substanceActiveStates {
   if (_substanceActiveStates is EqualUnmodifiableMapView) return _substanceActiveStates;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableMapView(_substanceActiveStates);
+}
+
+ final  Map<String, List<UseLogEntry>> _relevantLogs;
+@override@JsonKey() Map<String, List<UseLogEntry>> get relevantLogs {
+  if (_relevantLogs is EqualUnmodifiableMapView) return _relevantLogs;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_relevantLogs);
 }
 
 
@@ -1100,16 +1104,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ToleranceResult&&const DeepCollectionEquality().equals(other._bucketPercents, _bucketPercents)&&const DeepCollectionEquality().equals(other._bucketRawLoads, _bucketRawLoads)&&(identical(other.toleranceScore, toleranceScore) || other.toleranceScore == toleranceScore)&&const DeepCollectionEquality().equals(other._daysUntilBaseline, _daysUntilBaseline)&&(identical(other.overallDaysUntilBaseline, overallDaysUntilBaseline) || other.overallDaysUntilBaseline == overallDaysUntilBaseline)&&const DeepCollectionEquality().equals(other._substanceContributions, _substanceContributions)&&const DeepCollectionEquality().equals(other._substanceActiveStates, _substanceActiveStates));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ToleranceResult&&const DeepCollectionEquality().equals(other._bucketPercents, _bucketPercents)&&const DeepCollectionEquality().equals(other._bucketRawLoads, _bucketRawLoads)&&(identical(other.toleranceScore, toleranceScore) || other.toleranceScore == toleranceScore)&&const DeepCollectionEquality().equals(other._daysUntilBaseline, _daysUntilBaseline)&&(identical(other.overallDaysUntilBaseline, overallDaysUntilBaseline) || other.overallDaysUntilBaseline == overallDaysUntilBaseline)&&const DeepCollectionEquality().equals(other._substanceContributions, _substanceContributions)&&const DeepCollectionEquality().equals(other._logImpacts, _logImpacts)&&const DeepCollectionEquality().equals(other._substanceActiveStates, _substanceActiveStates)&&const DeepCollectionEquality().equals(other._relevantLogs, _relevantLogs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_bucketPercents),const DeepCollectionEquality().hash(_bucketRawLoads),toleranceScore,const DeepCollectionEquality().hash(_daysUntilBaseline),overallDaysUntilBaseline,const DeepCollectionEquality().hash(_substanceContributions),const DeepCollectionEquality().hash(_substanceActiveStates));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_bucketPercents),const DeepCollectionEquality().hash(_bucketRawLoads),toleranceScore,const DeepCollectionEquality().hash(_daysUntilBaseline),overallDaysUntilBaseline,const DeepCollectionEquality().hash(_substanceContributions),const DeepCollectionEquality().hash(_logImpacts),const DeepCollectionEquality().hash(_substanceActiveStates),const DeepCollectionEquality().hash(_relevantLogs));
 
 @override
 String toString() {
-  return 'ToleranceResult(bucketPercents: $bucketPercents, bucketRawLoads: $bucketRawLoads, toleranceScore: $toleranceScore, daysUntilBaseline: $daysUntilBaseline, overallDaysUntilBaseline: $overallDaysUntilBaseline, substanceContributions: $substanceContributions, substanceActiveStates: $substanceActiveStates)';
+  return 'ToleranceResult(bucketPercents: $bucketPercents, bucketRawLoads: $bucketRawLoads, toleranceScore: $toleranceScore, daysUntilBaseline: $daysUntilBaseline, overallDaysUntilBaseline: $overallDaysUntilBaseline, substanceContributions: $substanceContributions, logImpacts: $logImpacts, substanceActiveStates: $substanceActiveStates, relevantLogs: $relevantLogs)';
 }
 
 
@@ -1120,7 +1124,7 @@ abstract mixin class _$ToleranceResultCopyWith<$Res> implements $ToleranceResult
   factory _$ToleranceResultCopyWith(_ToleranceResult value, $Res Function(_ToleranceResult) _then) = __$ToleranceResultCopyWithImpl;
 @override @useResult
 $Res call({
- Map<String, double> bucketPercents, Map<String, double> bucketRawLoads, double toleranceScore, Map<String, double> daysUntilBaseline, double overallDaysUntilBaseline, Map<String, Map<String, double>> substanceContributions, Map<String, bool> substanceActiveStates
+ Map<String, double> bucketPercents, Map<String, double> bucketRawLoads, double toleranceScore, Map<String, double> daysUntilBaseline, double overallDaysUntilBaseline, Map<String, Map<String, double>> substanceContributions, Map<String, Map<String, double>> logImpacts, Map<String, bool> substanceActiveStates, Map<String, List<UseLogEntry>> relevantLogs
 });
 
 
@@ -1137,7 +1141,7 @@ class __$ToleranceResultCopyWithImpl<$Res>
 
 /// Create a copy of ToleranceResult
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? bucketPercents = null,Object? bucketRawLoads = null,Object? toleranceScore = null,Object? daysUntilBaseline = null,Object? overallDaysUntilBaseline = null,Object? substanceContributions = null,Object? substanceActiveStates = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? bucketPercents = null,Object? bucketRawLoads = null,Object? toleranceScore = null,Object? daysUntilBaseline = null,Object? overallDaysUntilBaseline = null,Object? substanceContributions = null,Object? logImpacts = null,Object? substanceActiveStates = null,Object? relevantLogs = null,}) {
   return _then(_ToleranceResult(
 bucketPercents: null == bucketPercents ? _self._bucketPercents : bucketPercents // ignore: cast_nullable_to_non_nullable
 as Map<String, double>,bucketRawLoads: null == bucketRawLoads ? _self._bucketRawLoads : bucketRawLoads // ignore: cast_nullable_to_non_nullable
@@ -1145,8 +1149,10 @@ as Map<String, double>,toleranceScore: null == toleranceScore ? _self.toleranceS
 as double,daysUntilBaseline: null == daysUntilBaseline ? _self._daysUntilBaseline : daysUntilBaseline // ignore: cast_nullable_to_non_nullable
 as Map<String, double>,overallDaysUntilBaseline: null == overallDaysUntilBaseline ? _self.overallDaysUntilBaseline : overallDaysUntilBaseline // ignore: cast_nullable_to_non_nullable
 as double,substanceContributions: null == substanceContributions ? _self._substanceContributions : substanceContributions // ignore: cast_nullable_to_non_nullable
+as Map<String, Map<String, double>>,logImpacts: null == logImpacts ? _self._logImpacts : logImpacts // ignore: cast_nullable_to_non_nullable
 as Map<String, Map<String, double>>,substanceActiveStates: null == substanceActiveStates ? _self._substanceActiveStates : substanceActiveStates // ignore: cast_nullable_to_non_nullable
-as Map<String, bool>,
+as Map<String, bool>,relevantLogs: null == relevantLogs ? _self._relevantLogs : relevantLogs // ignore: cast_nullable_to_non_nullable
+as Map<String, List<UseLogEntry>>,
   ));
 }
 

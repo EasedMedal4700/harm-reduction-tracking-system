@@ -107,6 +107,9 @@ abstract class ToleranceModel with _$ToleranceModel {
           (json['toleranceDecayDays'] as num?)?.toDouble() ??
           2.0,
       standardUnitMg:
+          (json['standard_unit'] is Map
+              ? (json['standard_unit']['value'] as num?)?.toDouble()
+              : null) ??
           (json['standard_unit_mg'] as num?)?.toDouble() ??
           (json['standardUnitMg'] as num?)?.toDouble() ??
           10.0,

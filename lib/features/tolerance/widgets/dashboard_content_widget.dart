@@ -73,6 +73,8 @@ class DashboardContentWidget extends StatelessWidget {
                   systemTolerance!.bucketPercents[selectedBucket] ?? 0.0,
               substanceContributions:
                   substanceContributions[selectedBucket] ?? {},
+              relevantLogs: systemTolerance!.relevantLogs[selectedBucket] ?? [],
+              logImpacts: systemTolerance!.logImpacts[selectedBucket] ?? {},
               onClose: () => onBucketSelected(null),
             ),
           ],

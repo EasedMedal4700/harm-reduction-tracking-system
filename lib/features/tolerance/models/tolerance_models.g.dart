@@ -19,48 +19,6 @@ Map<String, dynamic> _$UseLogEntryToJson(_UseLogEntry instance) =>
       'doseUnits': instance.doseUnits,
     };
 
-_NeuroBucket _$NeuroBucketFromJson(Map<String, dynamic> json) => _NeuroBucket(
-  name: json['name'] as String,
-  weight: (json['weight'] as num).toDouble(),
-  toleranceType: json['toleranceType'] as String?,
-);
-
-Map<String, dynamic> _$NeuroBucketToJson(_NeuroBucket instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'weight': instance.weight,
-      'toleranceType': instance.toleranceType,
-    };
-
-_ToleranceModel _$ToleranceModelFromJson(
-  Map<String, dynamic> json,
-) => _ToleranceModel(
-  notes: json['notes'] as String? ?? '',
-  neuroBuckets: (json['neuroBuckets'] as Map<String, dynamic>).map(
-    (k, e) => MapEntry(k, NeuroBucket.fromJson(e as Map<String, dynamic>)),
-  ),
-  halfLifeHours: (json['halfLifeHours'] as num?)?.toDouble() ?? 6.0,
-  toleranceDecayDays: (json['toleranceDecayDays'] as num?)?.toDouble() ?? 2.0,
-  standardUnitMg: (json['standardUnitMg'] as num?)?.toDouble() ?? 10.0,
-  potencyMultiplier: (json['potencyMultiplier'] as num?)?.toDouble() ?? 1.0,
-  durationMultiplier: (json['durationMultiplier'] as num?)?.toDouble() ?? 1.0,
-  toleranceGainRate: (json['toleranceGainRate'] as num?)?.toDouble() ?? 1.0,
-  activeThreshold: (json['activeThreshold'] as num?)?.toDouble() ?? 0.05,
-);
-
-Map<String, dynamic> _$ToleranceModelToJson(_ToleranceModel instance) =>
-    <String, dynamic>{
-      'notes': instance.notes,
-      'neuroBuckets': instance.neuroBuckets,
-      'halfLifeHours': instance.halfLifeHours,
-      'toleranceDecayDays': instance.toleranceDecayDays,
-      'standardUnitMg': instance.standardUnitMg,
-      'potencyMultiplier': instance.potencyMultiplier,
-      'durationMultiplier': instance.durationMultiplier,
-      'toleranceGainRate': instance.toleranceGainRate,
-      'activeThreshold': instance.activeThreshold,
-    };
-
 _ToleranceResult _$ToleranceResultFromJson(Map<String, dynamic> json) =>
     _ToleranceResult(
       bucketPercents: (json['bucketPercents'] as Map<String, dynamic>).map(
@@ -84,9 +42,29 @@ _ToleranceResult _$ToleranceResultFromJson(Map<String, dynamic> json) =>
             ),
           ) ??
           const {},
+      logImpacts:
+          (json['logImpacts'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(
+              k,
+              (e as Map<String, dynamic>).map(
+                (k, e) => MapEntry(k, (e as num).toDouble()),
+              ),
+            ),
+          ) ??
+          const {},
       substanceActiveStates:
           (json['substanceActiveStates'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, e as bool),
+          ) ??
+          const {},
+      relevantLogs:
+          (json['relevantLogs'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(
+              k,
+              (e as List<dynamic>)
+                  .map((e) => UseLogEntry.fromJson(e as Map<String, dynamic>))
+                  .toList(),
+            ),
           ) ??
           const {},
     );
@@ -99,5 +77,7 @@ Map<String, dynamic> _$ToleranceResultToJson(_ToleranceResult instance) =>
       'daysUntilBaseline': instance.daysUntilBaseline,
       'overallDaysUntilBaseline': instance.overallDaysUntilBaseline,
       'substanceContributions': instance.substanceContributions,
+      'logImpacts': instance.logImpacts,
       'substanceActiveStates': instance.substanceActiveStates,
+      'relevantLogs': instance.relevantLogs,
     };

@@ -5,6 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
+import 'package:cryptography/cryptography.dart' as _i6;
 import 'package:mobile_drug_use_app/core/services/encryption_service_v2.dart'
     as _i5;
 import 'package:mockito/mockito.dart' as _i1;
@@ -1649,6 +1650,12 @@ class MockEncryptionServiceV2 extends _i1.Mock
   bool get isReady =>
       (super.noSuchMethod(Invocation.getter(#isReady), returnValue: false)
           as bool);
+
+  @override
+  void setDataKeyForTesting(_i6.SecretKey? dataKey) => super.noSuchMethod(
+    Invocation.method(#setDataKeyForTesting, [dataKey]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   _i3.Future<String> setupNewSecrets(String? uuidUserId, String? pin) =>

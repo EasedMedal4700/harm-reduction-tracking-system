@@ -12,14 +12,17 @@ import '../../../common/buttons/common_icon_button.dart';
 import '../../../common/cards/common_card.dart';
 import '../../../common/layout/common_spacer.dart';
 import '../models/bucket_definitions.dart';
-import '../controllers/tolerance_logic.dart';
 import '../models/tolerance_models.dart';
+import '../controllers/tolerance_logic.dart';
 import 'bucket_utils.dart';
+import 'bucket_impact_breakdown_widget.dart';
 
 class BucketDetailsWidget extends StatelessWidget {
   final String bucketType;
   final double tolerancePercent;
   final Map<String, double> substanceContributions;
+  final List<UseLogEntry> relevantLogs;
+  final Map<String, double> logImpacts;
   final VoidCallback onClose;
 
   const BucketDetailsWidget({
@@ -27,6 +30,8 @@ class BucketDetailsWidget extends StatelessWidget {
     required this.bucketType,
     required this.tolerancePercent,
     required this.substanceContributions,
+    this.relevantLogs = const [],
+    this.logImpacts = const {},
     required this.onClose,
   });
 
@@ -119,6 +124,15 @@ class BucketDetailsWidget extends StatelessWidget {
               'No active contributions',
               style: tx.bodyMedium.copyWith(color: c.textSecondary),
             ),
+
+          if (relevantLogs.isNotEmpty) ...[
+            CommonSpacer.vertical(sp.md),
+            BucketImpactBreakdownWidget(
+              bucketType: bucketType,
+              relevantLogs: relevantLogs,
+              logImpacts: logImpacts,
+            ),
+          ],
         ],
       ),
     );
