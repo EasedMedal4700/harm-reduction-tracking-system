@@ -55,7 +55,6 @@ This app helps users track their drug use patterns, monitor tolerance buildup, m
 - Flutter SDK ^3.9.2
 - Android Studio or VS Code with Flutter extensions
 - Dart SDK (included with Flutter)
-- Dart SDK (included with Flutter)
 - A Supabase account and project
 - Python 3.8+ (for backend data pipeline - optional)
 - Python 3.8+ (for backend data pipeline - optional)
