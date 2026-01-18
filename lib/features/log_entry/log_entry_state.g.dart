@@ -41,7 +41,7 @@ final class LogEntryNotifierProvider
   }
 }
 
-String _$logEntryNotifierHash() => r'17f1b26f0e1e5462ba4d6a6b8b5f259d2149284a';
+String _$logEntryNotifierHash() => r'c43f0dcc22c3abc77617aff08c0bdf73c4930e6d';
 
 abstract class _$LogEntryNotifier extends $Notifier<LogEntryFormData> {
   LogEntryFormData build();

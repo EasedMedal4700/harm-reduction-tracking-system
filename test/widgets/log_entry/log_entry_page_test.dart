@@ -5,8 +5,8 @@ import 'package:mockito/mockito.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_controller.dart';
-import 'package:mobile_drug_use_app/features/log_entry/log_entry_state.dart';
 import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_form_data.dart';
+import 'package:mobile_drug_use_app/features/log_entry/providers/log_entry_providers.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 import 'log_entry_page_test.mocks.dart';
@@ -48,10 +48,13 @@ void main() {
 
   Widget createWidgetUnderTest() {
     return ProviderScope(
-      overrides: [logEntryProvider.overrideWith(() => FakeLogEntryNotifier())],
+      overrides: [
+        logEntryProvider.overrideWith(() => FakeLogEntryNotifier()),
+        logEntryControllerProvider.overrideWithValue(mockController),
+      ],
       child: AppThemeProvider(
         theme: AppTheme.light(),
-        child: MaterialApp(home: QuickLogEntryPage(controller: mockController)),
+        child: const MaterialApp(home: QuickLogEntryPage()),
       ),
     );
   }

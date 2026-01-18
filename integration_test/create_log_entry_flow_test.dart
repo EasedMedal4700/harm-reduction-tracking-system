@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_controller.dart';
+import 'package:mobile_drug_use_app/features/log_entry/providers/log_entry_providers.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_provider.dart';
 import 'package:mobile_drug_use_app/features/log_entry/models/log_entry_form_data.dart';
@@ -56,11 +57,12 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
+        overrides: [
+          logEntryControllerProvider.overrideWithValue(mockController),
+        ],
         child: AppThemeProvider(
           theme: AppTheme.light(),
-          child: MaterialApp(
-            home: Scaffold(body: QuickLogEntryPage(controller: mockController)),
-          ),
+          child: MaterialApp(home: const Scaffold(body: QuickLogEntryPage())),
         ),
       ),
     );

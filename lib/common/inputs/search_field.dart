@@ -49,6 +49,34 @@ class _CommonSearchFieldState<T extends Object>
   bool _ownsFocusNode = false;
   bool _autoSelecting = false;
   String? _lastAutoSelectQuery;
+  bool _suppressOptionsUntilUserInput = false;
+  String? _suppressedText;
+
+  void _suppressOptions() {
+    if (!mounted) return;
+    setState(() {
+      _suppressOptionsUntilUserInput = true;
+      _suppressedText = _controller.text;
+    });
+  }
+
+  void _clearSuppressionIfUserInput(String newText) {
+    if (!_suppressOptionsUntilUserInput) return;
+    if (newText == _suppressedText) return;
+    if (!mounted) return;
+    setState(() {
+      _suppressOptionsUntilUserInput = false;
+      _suppressedText = null;
+    });
+  }
+
+  void _handleSelected(T selection) {
+    // Forward selection first (callers may normalize controller text).
+    widget.onSelected(selection);
+    // After a selection/normalization, keep the overlay closed until
+    // the user types again.
+    _suppressOptions();
+  }
 
   @override
   void initState() {
@@ -121,10 +149,16 @@ class _CommonSearchFieldState<T extends Object>
         if (textEditingValue.text.isEmpty) {
           return const Iterable<Never>.empty();
         }
+        // If the text was set programmatically via selection/normalization,
+        // don't immediately re-open suggestions until the user types again.
+        if (_suppressOptionsUntilUserInput &&
+            textEditingValue.text == _suppressedText) {
+          return const Iterable<Never>.empty();
+        }
         return await widget.optionsBuilder(textEditingValue.text);
       },
       displayStringForOption: widget.displayStringForOption,
-      onSelected: widget.onSelected,
+      onSelected: _handleSelected,
       fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
         return ValueListenableBuilder<TextEditingValue>(
           valueListenable: controller,
@@ -136,6 +170,7 @@ class _CommonSearchFieldState<T extends Object>
             final query = value.text;
             if (query.isNotEmpty &&
                 !_autoSelecting &&
+                !_suppressOptionsUntilUserInput &&
                 query != _lastAutoSelectQuery) {
               // Prevent rescheduling on rebuilds (e.g. cursor blink) when
               // the query hasn't changed.
@@ -171,7 +206,7 @@ class _CommonSearchFieldState<T extends Object>
                     controller.selection = TextSelection.collapsed(
                       offset: controller.text.length,
                     );
-                    widget.onSelected(match);
+                    _handleSelected(match);
                     // Ensure subsequent rebuilds for the same display text
                     // don't reschedule auto-select work.
                     _lastAutoSelectQuery = controller.text;
@@ -236,7 +271,10 @@ class _CommonSearchFieldState<T extends Object>
                 color: fillTextColor,
                 fontSize: 18.0,
               ),
-              onChanged: widget.onChanged,
+              onChanged: (v) {
+                _clearSuppressionIfUserInput(v);
+                widget.onChanged?.call(v);
+              },
               onFieldSubmitted: (_) => onFieldSubmitted(),
               cursorColor: accentColor,
             );

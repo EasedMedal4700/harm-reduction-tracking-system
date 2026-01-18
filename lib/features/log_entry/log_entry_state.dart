@@ -8,6 +8,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'models/log_entry_form_data.dart';
 import 'log_entry_controller.dart';
+import 'providers/log_entry_providers.dart';
 
 part 'log_entry_state.g.dart';
 
@@ -17,7 +18,7 @@ class LogEntryNotifier extends _$LogEntryNotifier {
 
   @override
   LogEntryFormData build() {
-    _controller = LogEntryController();
+    _controller = ref.read(logEntryControllerProvider);
     return LogEntryFormData.initial();
   }
 

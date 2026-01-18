@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_page.dart';
 import 'package:mobile_drug_use_app/features/log_entry/log_entry_controller.dart';
+import 'package:mobile_drug_use_app/features/log_entry/providers/log_entry_providers.dart';
 import 'package:mobile_drug_use_app/features/daily_chekin/daily_checkin_page.dart';
 import 'package:mobile_drug_use_app/features/daily_chekin/providers/daily_checkin_providers.dart';
 import 'package:mobile_drug_use_app/features/stockpile/repo/stockpile_repository.dart';
@@ -56,7 +57,10 @@ void main() {
     testWidgets('Log Entry Flow - Create Entry', (tester) async {
       await tester.pumpWidget(
         createEnhancedTestWrapper(
-          child: QuickLogEntryPage(controller: logEntryController),
+          providerOverrides: [
+            logEntryControllerProvider.overrideWithValue(logEntryController),
+          ],
+          child: const QuickLogEntryPage(),
         ),
       );
       await tester.pumpAndSettle();

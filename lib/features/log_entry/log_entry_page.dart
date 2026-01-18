@@ -1,10 +1,10 @@
 // MIGRATION:
-// State: LEGACY
+// State: MODERN (UI-only)
 // Navigation: GOROUTER
-// Models: LEGACY
+// Models: FREEZED
 // Theme: COMPLETE
 // Common: COMPLETE
-// Notes: Page for logging drug use. Uses Riverpod wrapper for legacy state.
+// Notes: Log entry page using Riverpod state + provider-driven save flow.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_drug_use_app/constants/theme/app_theme_extension.dart';
@@ -14,14 +14,13 @@ import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 
 import '../../common/feedback/common_loader.dart';
 import '../../common/layout/common_drawer.dart';
-import 'log_entry_controller.dart';
 import 'log_entry_state.dart';
+import 'providers/log_entry_save_controller.dart';
 import 'widgets/log_entry/log_entry_form.dart';
 import 'widgets/log_entry_page/log_entry_app_bar.dart';
 
 class QuickLogEntryPage extends ConsumerStatefulWidget {
-  final LogEntryController? controller;
-  const QuickLogEntryPage({super.key, this.controller});
+  const QuickLogEntryPage({super.key});
 
   @override
   ConsumerState<QuickLogEntryPage> createState() => _QuickLogEntryPageState();
@@ -29,8 +28,6 @@ class QuickLogEntryPage extends ConsumerStatefulWidget {
 
 class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
     with SingleTickerProviderStateMixin {
-  late final LogEntryController _controller;
-
   AnimationController? _animationController;
   late Animation<double> _fadeAnimation;
 
@@ -39,24 +36,15 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
   final _doseCtrl = TextEditingController();
   final _substanceCtrl = TextEditingController();
 
-  bool _isSaving = false;
-
   @override
   void initState() {
     super.initState();
-    _controller = widget.controller ?? LogEntryController();
 
-    _notesCtrl.addListener(
-      () => ref.read(logEntryProvider.notifier).setNotes(_notesCtrl.text),
-    );
-    _doseCtrl.addListener(() {
-      final value = double.tryParse(_doseCtrl.text);
-      if (value != null) ref.read(logEntryProvider.notifier).setDose(value);
+    // Notes field currently doesn't emit onChanged from the shared textarea,
+    // so we bridge it here.
+    _notesCtrl.addListener(() {
+      ref.read(logEntryProvider.notifier).setNotes(_notesCtrl.text);
     });
-    _substanceCtrl.addListener(
-      () =>
-          ref.read(logEntryProvider.notifier).setSubstance(_substanceCtrl.text),
-    );
   }
 
   @override
@@ -89,55 +77,7 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
       return;
     }
 
-    final data = ref.read(logEntryProvider);
-
-    final substanceValidation = await _controller.validateSubstance(data);
-    if (!substanceValidation.isValid) {
-      _showErrorDialog(
-        substanceValidation.title!,
-        substanceValidation.message!,
-      );
-      return;
-    }
-
-    final roaValidation = _controller.validateROA(data);
-    if (roaValidation.needsConfirmation) {
-      final confirmed = await _showConfirmDialog(
-        roaValidation.title!,
-        roaValidation.message!,
-      );
-      if (!confirmed) return;
-    }
-
-    final emotionsValidation = _controller.validateEmotions(data);
-    if (emotionsValidation.needsConfirmation) {
-      final confirmed = await _showConfirmDialog(
-        emotionsValidation.title!,
-        emotionsValidation.message!,
-      );
-      if (!confirmed) return;
-    }
-
-    final cravingValidation = _controller.validateCraving(data);
-    if (cravingValidation.needsConfirmation) {
-      final confirmed = await _showConfirmDialog(
-        cravingValidation.title!,
-        cravingValidation.message!,
-      );
-      if (!confirmed) return;
-    }
-
-    setState(() => _isSaving = true);
-    final result = await _controller.saveLogEntry(data);
-    if (!mounted) return;
-    setState(() => _isSaving = false);
-
-    if (result.isSuccess) {
-      _showSnackBar(result.message, duration: context.animations.longSnackbar);
-      _resetForm();
-    } else {
-      _showSnackBar(result.message);
-    }
+    await ref.read(logEntrySaveControllerProvider.notifier).requestSave();
   }
 
   void _resetForm() {
@@ -196,8 +136,51 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(logEntrySaveControllerProvider, (prev, next) async {
+      final notifier = ref.read(logEntrySaveControllerProvider.notifier);
+
+      final pending = next.pendingConfirmation;
+      final prevPending = prev?.pendingConfirmation;
+      if (pending != null && pending != prevPending) {
+        final confirmed = await _showConfirmDialog(
+          pending.title,
+          pending.message,
+        );
+        if (!mounted) return;
+        await notifier.resolvePendingConfirmation(confirmed);
+        return;
+      }
+
+      if (next.hasError &&
+          (prev?.errorMessage != next.errorMessage ||
+              prev?.errorTitle != next.errorTitle)) {
+        _showErrorDialog(
+          next.errorTitle ?? 'Error',
+          next.errorMessage ?? 'Unknown error.',
+        );
+        notifier.clearError();
+        return;
+      }
+
+      final result = next.lastResult;
+      final prevResult = prev?.lastResult;
+      if (result != null && result != prevResult) {
+        if (result.isSuccess) {
+          _showSnackBar(
+            result.message,
+            duration: context.animations.longSnackbar,
+          );
+          _resetForm();
+        } else {
+          _showSnackBar(result.message);
+        }
+        notifier.clearResult();
+      }
+    });
+
     final state = ref.watch(logEntryProvider);
     final notifier = ref.read(logEntryProvider.notifier);
+    final saveState = ref.watch(logEntrySaveControllerProvider);
     final th = context.theme;
 
     String? rawCategory;
@@ -285,7 +268,7 @@ class _QuickLogEntryPageState extends ConsumerState<QuickLogEntryPage>
               ),
             ),
           ),
-          if (_isSaving)
+          if (saveState.isSaving)
             Container(color: th.c.overlayHeavy, child: const CommonLoader()),
         ],
       ),
