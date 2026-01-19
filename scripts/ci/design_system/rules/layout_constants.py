@@ -64,7 +64,11 @@ RULES = [
     # (Excludes EdgeInsets.zero to avoid noise)
     # -------------------------------------------------------------------------
     (
-        r"EdgeInsets\.(all|only|symmetric)\s*\([^)]*\d+\.?\d*",
+        r"(?:"
+        r"EdgeInsets\.all\s*\(\s*\d+\.?\d*\b"
+        r"|EdgeInsets\.symmetric\s*\([^)]*\b(horizontal|vertical)\s*:\s*\d+\.?\d*\b"
+        r"|EdgeInsets\.only\s*\([^)]*\b(left|top|right|bottom)\s*:\s*\d+\.?\d*\b"
+        r")",
         "Hardcoded padding/margin - use spacing tokens",
         RuleClass.HYGIENE,
     ),

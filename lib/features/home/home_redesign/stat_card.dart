@@ -64,10 +64,10 @@ class StatCard extends StatelessWidget {
               mainAxisAlignment: AppLayout.mainAxisAlignmentSpaceBetween,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(sp.sm),
                   decoration: BoxDecoration(
                     color: cardColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(sh.radiusSm),
                   ),
                   child: Icon(
                     icon,
@@ -86,8 +86,7 @@ class StatCard extends StatelessWidget {
             const Spacer(),
             Text(
               value,
-              style: TextStyle(
-                fontSize: tx.heading2.fontSize,
+              style: tx.heading2.copyWith(
                 fontWeight: tx.bodyBold.fontWeight,
                 color: c.textPrimary,
               ),
@@ -95,8 +94,7 @@ class StatCard extends StatelessWidget {
             SizedBox(height: sp.xs),
             Text(
               title,
-              style: TextStyle(
-                fontSize: tx.label.fontSize,
+              style: tx.label.copyWith(
                 color: c.textSecondary,
                 fontWeight: tx.bodyMedium.fontWeight,
               ),
@@ -104,11 +102,10 @@ class StatCard extends StatelessWidget {
               overflow: AppLayout.textOverflowEllipsis,
             ),
             if (subtitle != null) ...[
-              SizedBox(height: 2),
+              SizedBox(height: sp.xs / 2),
               Text(
                 subtitle!,
-                style: TextStyle(
-                  fontSize: tx.caption.fontSize,
+                style: tx.caption.copyWith(
                   color: c.textSecondary.withValues(alpha: 0.7),
                 ),
                 maxLines: 1,

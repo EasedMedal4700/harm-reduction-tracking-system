@@ -28,6 +28,8 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final PageController _pageController = PageController();
+
+  static const double _welcomeTitleLetterSpacing = -1.0;
   @override
   void initState() {
     super.initState();
@@ -228,7 +230,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               boxShadow: [
                 BoxShadow(
                   color: ac.primary.withValues(alpha: context.opacities.medium),
-                  blurRadius: 20,
+                  blurRadius: th.sizes.blurRadiusXl,
                   offset: const Offset(0, 10),
                 ),
               ],
@@ -245,7 +247,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             'SubstanceCheck',
             style: th.typography.heading1.copyWith(
               fontWeight: tx.bodyBold.fontWeight,
-              letterSpacing: -1,
+              letterSpacing: _welcomeTitleLetterSpacing,
               color: c.textPrimary,
             ),
           ),
@@ -711,7 +713,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     height: 28,
                     decoration: BoxDecoration(
                       color: privacyAccepted ? c.success : c.transparent,
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(sh.radiusSm),
                       border: Border.all(
                         color: privacyAccepted ? c.success : c.border,
                         width: context.sizes.borderRegular,
@@ -826,10 +828,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   ),
                   child: Row(
                     children: [
-                      Text(
-                        frequency.icon,
-                        style: TextStyle(fontSize: tx.heading1.fontSize),
-                      ),
+                      Text(frequency.icon, style: tx.heading1),
                       CommonSpacer.horizontal(sp.md),
                       Expanded(
                         child: Column(

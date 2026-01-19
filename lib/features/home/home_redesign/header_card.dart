@@ -44,10 +44,7 @@ class HeaderCard extends StatelessWidget {
             CommonSpacer.vertical(sp.xs),
             Text(
               userName,
-              style: th.typography.heading2.copyWith(
-                color: c.textPrimary,
-                letterSpacing: -0.5,
-              ),
+              style: th.typography.heading2.copyWith(color: c.textPrimary),
             ),
           ],
         ),

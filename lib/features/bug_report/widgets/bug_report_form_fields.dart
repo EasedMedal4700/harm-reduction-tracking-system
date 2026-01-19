@@ -39,6 +39,7 @@ class BugReportFormFields extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final tx = context.text;
+    final sp = context.spacing;
     return Column(
       children: [
         // Title
@@ -87,7 +88,7 @@ class BugReportFormFields extends StatelessWidget {
           hintText: 'Detailed explanation of what happened',
           maxLines: 3,
           prefixIcon: Padding(
-            padding: EdgeInsets.only(bottom: 48), // Align icon to top
+            padding: EdgeInsets.only(bottom: sp.xl3), // Align icon to top
             child: Icon(Icons.description, color: c.textSecondary),
           ),
         ),
@@ -99,7 +100,7 @@ class BugReportFormFields extends StatelessWidget {
           hintText: '1. Go to screen X\n2. Click button Y',
           maxLines: 3,
           prefixIcon: Padding(
-            padding: EdgeInsets.only(bottom: 48), // Align icon to top
+            padding: EdgeInsets.only(bottom: sp.xl3), // Align icon to top
             child: Icon(Icons.format_list_numbered, color: c.textSecondary),
           ),
         ),

@@ -18,6 +18,7 @@ import 'package:mobile_drug_use_app/common/layout/common_spacer.dart';
 import 'package:mobile_drug_use_app/core/providers/navigation_provider.dart';
 
 const double _handleWidth = 40.0;
+const double _timeColumnWidth = 60.0;
 
 class DayUsageSheet extends ConsumerStatefulWidget {
   final String substanceName;
@@ -202,7 +203,7 @@ class _DayUsageSheetState extends ConsumerState<DayUsageSheet> {
                       children: [
                         // Time
                         SizedBox(
-                          width: 60,
+                          width: _timeColumnWidth,
                           child: Column(
                             crossAxisAlignment:
                                 AppLayout.crossAxisAlignmentStart,

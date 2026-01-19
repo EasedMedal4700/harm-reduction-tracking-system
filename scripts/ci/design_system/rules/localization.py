@@ -11,6 +11,23 @@ from typing import List
 from models import Issue, RuleClass
 
 
+def _has_localization_setup(project_root: Path) -> bool:
+    """Return True if the project appears to have localization configured."""
+    # Common Flutter localization conventions.
+    if (project_root / "l10n.yaml").exists():
+        return True
+    lib_dir = project_root / "lib"
+    if (lib_dir / "l10n").exists():
+        return True
+    # Any ARB files under the project usually indicates gen-l10n.
+    try:
+        if any(project_root.rglob("*.arb")):
+            return True
+    except Exception:
+        pass
+    return False
+
+
 # -----------------------------------------------------------------------------
 # Allowlists (trusted / non-UI sources)
 # -----------------------------------------------------------------------------
@@ -131,6 +148,17 @@ def _is_likely_non_user_text(text: str) -> bool:
 # -----------------------------------------------------------------------------
 def run(files: List[Path]) -> List[Issue]:
     issues: List[Issue] = []
+
+    # If localization isn't wired, don't emit warnings.
+    # This keeps the checker actionable and avoids forcing a massive migration.
+    if not files:
+        return issues
+    project_root = files[0]
+    # files are absolute Paths; walk up to find pubspec.yaml.
+    while project_root.parent != project_root and not (project_root / "pubspec.yaml").exists():
+        project_root = project_root.parent
+    if not _has_localization_setup(project_root):
+        return issues
 
     for file_path in files:
         if should_ignore_file(file_path):

@@ -158,10 +158,10 @@ class _FormContent extends StatelessWidget {
               autocorrect: false,
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (_) => onSubmit(),
-              style: TextStyle(color: c.textPrimary),
+              style: tx.bodyMedium.copyWith(color: c.textPrimary),
               decoration: InputDecoration(
                 labelText: 'Email',
-                labelStyle: TextStyle(color: c.textSecondary),
+                labelStyle: tx.label.copyWith(color: c.textSecondary),
                 prefixIcon: Icon(Icons.email_outlined, color: c.textSecondary),
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.symmetric(

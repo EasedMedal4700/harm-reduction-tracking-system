@@ -40,6 +40,7 @@ class SubstanceDetailsSheet extends ConsumerStatefulWidget {
 }
 
 class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
+  static const int _customUnitInputFlex = 2;
   String _selectedMethod = 'Oral';
   List<String> _availableMethods = ['Oral'];
   Map<String, dynamic> _parsedDosage = {};
@@ -567,7 +568,7 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
           Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: _customUnitInputFlex,
                 child: TextField(
                   controller: _customUnitController,
                   decoration: const InputDecoration(
@@ -577,7 +578,7 @@ class _SubstanceDetailsSheetState extends ConsumerState<SubstanceDetailsSheet> {
               ),
               CommonSpacer.horizontal(th.sp.sm),
               Expanded(
-                flex: 2,
+                flex: _customUnitInputFlex,
                 child: TextField(
                   controller: _customMgController,
                   keyboardType: const TextInputType.numberWithOptions(

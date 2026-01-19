@@ -10,15 +10,34 @@ from pathlib import Path
 from typing import List
 from models import Issue, RuleClass
 import re
-EDGEINSETS_PATTERN = re.compile(r"EdgeInsets\.(all|symmetric|only)\(|EdgeInsets\(|SizedBox\(|height:\s*\d+\.?\d*|width:\s*\d+\.?\d*")
-GAP_LITERAL = re.compile(r"\b(gap|spacing)\s*:\s*\d+\.?\d*")
 
-# Patterns for various forbidden spacing usages that should be migrated to the
-# canonical `sp` prelude or `context.spacing` when using the canonical prelude.
-PAT_T_DOT_SPACING = re.compile(r"\b\w+\.spacing\.\w+")
-PAT_CONTEXT_THEME_SPACING = re.compile(r"\bcontext\.theme\.spacing\.\w+")
-PAT_BARE_SPACING = re.compile(r"\bspacing\.\w+")
-FORBIDDEN_SPACING_IDENT = re.compile(r"\b(final|var)\s+spacing\s*=")
+# v1.2: Be precise.
+# The previous regex flagged *any* EdgeInsets/SizedBox usage (even tokenized),
+# causing massive false-positive noise. We now only flag explicit numeric
+# literals used for spacing.
+
+# EdgeInsets with direct numeric literals.
+EDGEINSETS_ALL_NUMERIC = re.compile(
+    r"EdgeInsets\.all\s*\(\s*(\d+\.?\d*)\s*\)",
+    re.MULTILINE,
+)
+EDGEINSETS_SYMM_NUMERIC = re.compile(
+    r"EdgeInsets\.symmetric\s*\([^)]*\b(horizontal|vertical)\s*:\s*(\d+\.?\d*)\b",
+    re.MULTILINE,
+)
+EDGEINSETS_ONLY_NUMERIC = re.compile(
+    r"EdgeInsets\.only\s*\([^)]*\b(left|top|right|bottom)\s*:\s*(\d+\.?\d*)\b",
+    re.MULTILINE,
+)
+
+# SizedBox with direct numeric width/height.
+SIZEDBOX_NUMERIC = re.compile(
+    r"SizedBox\s*\([^)]*\b(width|height)\s*:\s*(\d+\.?\d*)\b",
+    re.MULTILINE,
+)
+
+# Gap-like parameters with direct numeric literal (e.g., Wrap(spacing: 8)).
+GAP_LITERAL = re.compile(r"\b(gap|spacing|runSpacing)\s*:\s*(\d+\.?\d*)\b")
 
 
 IGNORE_PATH_KEYWORDS = [".g.dart", "build/", "generated/", "*.freezed.dart"]
@@ -64,8 +83,38 @@ def run(files: List[Path]) -> List[Issue]:
         except Exception:
             continue
 
-        # Hardcoded EdgeInsets / SizedBox / numeric height/width
-        for m in EDGEINSETS_PATTERN.finditer(text):
+        # Hardcoded spacing numeric literals.
+        for m in EDGEINSETS_ALL_NUMERIC.finditer(text):
+            _report_match(
+                issues,
+                file_path,
+                text,
+                m,
+                "spacing_literals",
+                "Hardcoded spacing detected. Use design-system spacing tokens (e.g., prelude `sp` or `context.spacing`) instead of numeric literals.",
+            )
+
+        for m in EDGEINSETS_SYMM_NUMERIC.finditer(text):
+            _report_match(
+                issues,
+                file_path,
+                text,
+                m,
+                "spacing_literals",
+                "Hardcoded spacing detected. Use design-system spacing tokens (e.g., prelude `sp` or `context.spacing`) instead of numeric literals.",
+            )
+
+        for m in EDGEINSETS_ONLY_NUMERIC.finditer(text):
+            _report_match(
+                issues,
+                file_path,
+                text,
+                m,
+                "spacing_literals",
+                "Hardcoded spacing detected. Use design-system spacing tokens (e.g., prelude `sp` or `context.spacing`) instead of numeric literals.",
+            )
+
+        for m in SIZEDBOX_NUMERIC.finditer(text):
             _report_match(
                 issues,
                 file_path,
@@ -82,52 +131,8 @@ def run(files: List[Path]) -> List[Issue]:
                 file_path,
                 text,
                 m,
-                "gap_literal",
+                "spacing_literals",
                 "Found direct gap/spacing numeric literal. Prefer using `sp` prelude token or `context.spacing` from the canonical prelude.",
-            )
-
-        # t.spacing.x or someVar.spacing.x (legacy token access)
-        for m in PAT_T_DOT_SPACING.finditer(text):
-            _report_match(
-                issues,
-                file_path,
-                text,
-                m,
-                "legacy_spacing_access",
-                "Found legacy spacing access like `t.spacing.x`. Migrate to the canonical prelude `sp.x` or use `context.spacing` via the prelude.",
-            )
-
-        # context.theme.spacing.x usage
-        for m in PAT_CONTEXT_THEME_SPACING.finditer(text):
-            _report_match(
-                issues,
-                file_path,
-                text,
-                m,
-                "context_theme_spacing",
-                "Found `context.theme.spacing.*` usage. Prefer `sp.*` or declare the canonical prelude and use `context.spacing`.",
-            )
-
-        # bare spacing.* usages
-        for m in PAT_BARE_SPACING.finditer(text):
-            _report_match(
-                issues,
-                file_path,
-                text,
-                m,
-                "spacing_identifier_usage",
-                "Usage of `spacing.*` detected. Use the canonical shorthand `sp.*` per theme rules.",
-            )
-
-        # Declarations that name the spacing identifier `spacing` — recommend `sp`.
-        for m in FORBIDDEN_SPACING_IDENT.finditer(text):
-            _report_match(
-                issues,
-                file_path,
-                text,
-                m,
-                "spacing_identifier_declaration",
-                "Avoid declaring `spacing` as prelude identifier. Use `sp` as the canonical spacing shorthand.",
             )
 
     # deduplicate

@@ -76,6 +76,9 @@ def run(files: List[Path]) -> List[Issue]:
             continue
 
         for line_number, line in enumerate(lines, start=1):
+            stripped = line.lstrip()
+            if stripped.startswith("//"):
+                continue
             for pattern, description, rule_class in RULES:
                 if re.search(pattern, line):
                     issues.append(Issue(

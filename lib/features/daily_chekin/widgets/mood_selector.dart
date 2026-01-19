@@ -5,6 +5,7 @@
 // Notes: Migrated to CommonCard and AppTheme. Kept custom slider logic.
 import 'package:flutter/material.dart';
 import 'package:mobile_drug_use_app/constants/layout/app_layout.dart';
+import 'package:mobile_drug_use_app/constants/theme/app_animations.dart';
 import '../../../constants/enums/app_mood.dart';
 import '../../../constants/theme/app_theme_extension.dart';
 import '../../../constants/theme/app_color_palette.dart';
@@ -39,7 +40,7 @@ class _MoodSelectorState extends State<MoodSelector>
     _scaleController = AnimationController(
       // Don't read inherited widgets in initState (AppThemeProvider).
       // We update the duration in didChangeDependencies instead.
-      duration: const Duration(milliseconds: 250),
+      duration: const AppAnimations().normal,
       vsync: this,
     );
     _scaleAnimation = Tween<double>(
@@ -148,12 +149,7 @@ class _MoodSelectorState extends State<MoodSelector>
                       scale: isSelected ? _scaleAnimation.value : 1.0,
                       child: Opacity(
                         opacity: isSelected ? _fadeAnimation.value : 0.7,
-                        child: Text(
-                          emoji,
-                          style: TextStyle(
-                            fontSize: th.typography.displaySmall.fontSize,
-                          ),
-                        ),
+                        child: Text(emoji, style: th.typography.displaySmall),
                       ),
                     );
                   },

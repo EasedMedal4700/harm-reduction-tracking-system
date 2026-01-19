@@ -40,7 +40,7 @@ class RouteSelection extends StatelessWidget {
                 label: Row(
                   mainAxisSize: AppLayout.mainAxisSizeMin,
                   children: [
-                    Text(emoji, style: TextStyle(fontSize: th.sizes.iconLg)),
+                    Text(emoji, style: th.tx.heading3),
                     SizedBox(width: th.sp.xs),
                     Text(
                       name.toUpperCase(),

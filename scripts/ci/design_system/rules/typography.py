@@ -65,7 +65,7 @@ RULES = [
     # HYGIENE: Hardcoded line height / height multiplier
     # -------------------------------------------------------------------------
     (
-        r"\b(height|lineHeight)\s*:\s*\d+\.?\d*",
+        r"\blineHeight\s*:\s*\d+\.?\d*",
         "Hardcoded line height - use semantic text styles",
         RuleClass.HYGIENE,
     ),

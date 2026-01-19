@@ -52,7 +52,10 @@ class FilterPanel extends StatelessWidget {
               if (includedDrugs.isNotEmpty || excludedDrugs.isNotEmpty)
                 TextButton(
                   onPressed: onClearAll,
-                  child: Text('Clear All', style: TextStyle(color: ac.primary)),
+                  child: Text(
+                    'Clear All',
+                    style: tx.bodyMedium.copyWith(color: ac.primary),
+                  ),
                 ),
             ],
           ),
@@ -73,7 +76,7 @@ class FilterPanel extends StatelessWidget {
                   alpha: context.opacities.selected,
                 ),
                 checkmarkColor: ac.primary,
-                labelStyle: TextStyle(
+                labelStyle: tx.bodySmall.copyWith(
                   color: isSelected ? ac.primary : c.textPrimary,
                 ),
               );
@@ -97,7 +100,7 @@ class FilterPanel extends StatelessWidget {
                   alpha: context.opacities.veryLow,
                 ),
                 checkmarkColor: excludeColor,
-                labelStyle: TextStyle(
+                labelStyle: tx.bodySmall.copyWith(
                   color: isSelected ? excludeColor : c.textPrimary,
                 ),
               );

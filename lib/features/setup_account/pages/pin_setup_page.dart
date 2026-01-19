@@ -28,6 +28,9 @@ class PinSetupScreen extends ConsumerStatefulWidget {
 class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
   final _pin1Controller = TextEditingController();
   final _pin2Controller = TextEditingController();
+
+  static const double _pinLetterSpacing = 8.0;
+  static const double _recoveryKeyLetterSpacing = 2.0;
   @override
   void dispose() {
     _pin1Controller.dispose();
@@ -149,7 +152,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                       keyboardType: TextInputType.number,
                       maxLength: 6,
                       style: tx.heading3.copyWith(
-                        letterSpacing: 8,
+                        letterSpacing: _pinLetterSpacing,
                         color: c.textPrimary,
                       ),
                       decoration: InputDecoration(
@@ -196,7 +199,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                       keyboardType: TextInputType.number,
                       maxLength: 6,
                       style: tx.heading3.copyWith(
-                        letterSpacing: 8,
+                        letterSpacing: _pinLetterSpacing,
                         color: c.textPrimary,
                       ),
                       decoration: InputDecoration(
@@ -356,7 +359,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
                       recoveryKey,
                       style: tx.heading3.copyWith(
                         fontWeight: tx.bodyBold.fontWeight,
-                        letterSpacing: 2,
+                        letterSpacing: _recoveryKeyLetterSpacing,
                         color: ac.primary,
                         fontFamily: AppTypographyConstants.fontFamilyMonospace,
                       ),

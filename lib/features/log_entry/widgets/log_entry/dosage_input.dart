@@ -51,7 +51,7 @@ class DosageInput extends StatelessWidget {
                   decimal: true,
                 ),
                 decoration: InputDecoration.collapsed(hintText: 'Dosage'),
-                style: TextStyle(color: th.c.textPrimary),
+                style: th.tx.bodyMedium.copyWith(color: th.c.textPrimary),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter dosage';
@@ -78,7 +78,7 @@ class DosageInput extends StatelessWidget {
                 onChanged: (v) {
                   if (v != null) onUnitChanged!(v);
                 },
-                style: TextStyle(color: th.c.textPrimary),
+                style: th.tx.bodyMedium.copyWith(color: th.c.textPrimary),
                 iconEnabledColor: th.c.textSecondary,
               ),
             ),
@@ -110,9 +110,9 @@ class DosageInput extends StatelessWidget {
         ),
         filled: true,
         fillColor: th.c.surface,
-        labelStyle: TextStyle(color: th.c.textSecondary),
+        labelStyle: th.tx.label.copyWith(color: th.c.textSecondary),
       ),
-      style: TextStyle(color: th.c.textPrimary),
+      style: th.tx.bodyMedium.copyWith(color: th.c.textPrimary),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter dosage';

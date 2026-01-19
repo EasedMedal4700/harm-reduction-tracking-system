@@ -75,7 +75,10 @@ class _SetNewPasswordPageState extends ConsumerState<SetNewPasswordPage> {
         appBar: AppBar(
           backgroundColor: c.transparent,
           elevation: context.sizes.elevationNone,
-          title: Text('Reset Password', style: TextStyle(color: c.textPrimary)),
+          title: Text(
+            'Reset Password',
+            style: tx.titleMedium.copyWith(color: c.textPrimary),
+          ),
         ),
         body: SafeArea(
           child: Padding(
@@ -121,7 +124,7 @@ class _SetNewPasswordPageState extends ConsumerState<SetNewPasswordPage> {
                   onPressed: () => nav.replace(AppRoutePaths.login),
                   child: Text(
                     'Back to Login',
-                    style: TextStyle(color: ac.primary),
+                    style: tx.bodyMedium.copyWith(color: ac.primary),
                   ),
                 ),
               ],
@@ -144,7 +147,7 @@ class _SetNewPasswordPageState extends ConsumerState<SetNewPasswordPage> {
         ),
         title: Text(
           'Set New Password',
-          style: TextStyle(
+          style: tx.titleMedium.copyWith(
             color: c.textPrimary,
             fontWeight: tx.bodyBold.fontWeight,
           ),
@@ -224,10 +227,7 @@ class _SetNewPasswordPageState extends ConsumerState<SetNewPasswordPage> {
                         Expanded(
                           child: Text(
                             flow.errorMessage!,
-                            style: TextStyle(
-                              color: c.error,
-                              fontSize: tx.bodySmall.fontSize,
-                            ),
+                            style: tx.bodySmall.copyWith(color: c.error),
                           ),
                         ),
                       ],

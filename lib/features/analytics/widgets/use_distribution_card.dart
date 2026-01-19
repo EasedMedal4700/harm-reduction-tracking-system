@@ -210,8 +210,7 @@ class _UseDistributionCardState extends State<UseDistributionCard> {
         color: color,
         radius: radius,
         title: showLabel ? '${(slicePercent * 100).round()}%' : '',
-        titleStyle: TextStyle(
-          fontSize: tx.bodySmall.fontSize,
+        titleStyle: tx.bodySmall.copyWith(
           fontWeight: tx.bodyBold.fontWeight,
           color: context.colors.surface,
         ),

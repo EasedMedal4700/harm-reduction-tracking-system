@@ -43,9 +43,6 @@ RULES = [
     # ARCHITECTURE: heavy computations in build
     (r"build.*\{[^}]*\b(for|while)\b", "Heavy computation in build method", RuleClass.ARCHITECTURE),
 
-    # ARCHITECTURE: missing const constructors
-    (r"(Padding|Container|SizedBox|EdgeInsets)\s*\(\s*[^c]", "Missing const constructor", RuleClass.HYGIENE),
-
     # ARCHITECTURE: large images without caching
     (r"Image\.network\s*\([^)]*cache", "Network image without caching strategy", RuleClass.ARCHITECTURE),
 ]

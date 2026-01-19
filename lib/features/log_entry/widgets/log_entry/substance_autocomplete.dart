@@ -78,9 +78,9 @@ class SubstanceAutocomplete extends StatelessWidget {
                 ),
                 filled: true,
                 fillColor: c.surface,
-                labelStyle: TextStyle(color: c.textSecondary),
+                labelStyle: th.tx.label.copyWith(color: c.textSecondary),
               ),
-              style: TextStyle(color: c.textPrimary),
+              style: th.tx.bodyMedium.copyWith(color: c.textPrimary),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a substance';
@@ -119,7 +119,9 @@ class SubstanceAutocomplete extends StatelessWidget {
                           padding: EdgeInsets.all(th.sp.lg),
                           child: Text(
                             option,
-                            style: TextStyle(color: c.textPrimary),
+                            style: th.tx.bodyMedium.copyWith(
+                              color: c.textPrimary,
+                            ),
                           ),
                         ),
                       );

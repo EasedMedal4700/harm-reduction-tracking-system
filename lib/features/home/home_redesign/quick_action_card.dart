@@ -60,7 +60,7 @@ class QuickActionCard extends StatelessWidget {
             mainAxisAlignment: AppLayout.mainAxisAlignmentCenter,
             children: [
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(sp.md),
                 decoration: BoxDecoration(
                   color: cardColor.withValues(alpha: 0.1),
                   shape: sh.boxShapeCircle,
@@ -71,8 +71,7 @@ class QuickActionCard extends StatelessWidget {
               Text(
                 title,
                 textAlign: AppLayout.textAlignCenter,
-                style: TextStyle(
-                  fontSize: tx.label.fontSize,
+                style: tx.label.copyWith(
                   fontWeight: tx.bodyBold.fontWeight,
                   color: c.textPrimary,
                 ),

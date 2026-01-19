@@ -29,6 +29,8 @@ class _RecoveryKeyScreenState extends ConsumerState<RecoveryKeyScreen> {
   final _newPinController = TextEditingController();
   final _confirmPinController = TextEditingController();
 
+  static const double _pinLetterSpacing = 8.0;
+
   @override
   void dispose() {
     _recoveryKeyController.dispose();
@@ -192,13 +194,13 @@ class _RecoveryKeyScreenState extends ConsumerState<RecoveryKeyScreen> {
                 enableSuggestions: false,
                 style: tx.bodyLarge.copyWith(
                   fontFamily: AppTypographyConstants.fontFamilyMonospace,
-                  letterSpacing: 1,
+                  letterSpacing: context.sizes.letterSpacingMd,
                   color: c.textPrimary,
                 ),
                 maxLines: 1,
                 decoration: InputDecoration(
                   hintText: 'Enter your 24-character recovery key',
-                  hintStyle: TextStyle(color: c.textSecondary),
+                  hintStyle: tx.bodyLarge.copyWith(color: c.textSecondary),
                   border: InputBorder.none,
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -336,15 +338,15 @@ class _RecoveryKeyScreenState extends ConsumerState<RecoveryKeyScreen> {
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 style: tx.heading3.copyWith(
                   fontWeight: tx.bodyBold.fontWeight,
-                  letterSpacing: 8,
+                  letterSpacing: _pinLetterSpacing,
                   color: c.textPrimary,
                 ),
                 textAlign: AppLayout.textAlignCenter,
                 decoration: InputDecoration(
                   hintText: '• • • • • •',
-                  hintStyle: TextStyle(
+                  hintStyle: tx.heading3.copyWith(
                     color: c.textSecondary,
-                    letterSpacing: 8,
+                    letterSpacing: _pinLetterSpacing,
                   ),
                   border: InputBorder.none,
                   counterText: '',
@@ -393,15 +395,15 @@ class _RecoveryKeyScreenState extends ConsumerState<RecoveryKeyScreen> {
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 style: tx.heading3.copyWith(
                   fontWeight: tx.bodyBold.fontWeight,
-                  letterSpacing: 8,
+                  letterSpacing: _pinLetterSpacing,
                   color: c.textPrimary,
                 ),
                 textAlign: AppLayout.textAlignCenter,
                 decoration: InputDecoration(
                   hintText: '• • • • • •',
-                  hintStyle: TextStyle(
+                  hintStyle: tx.heading3.copyWith(
                     color: c.textSecondary,
-                    letterSpacing: 8,
+                    letterSpacing: _pinLetterSpacing,
                   ),
                   border: InputBorder.none,
                   counterText: '',

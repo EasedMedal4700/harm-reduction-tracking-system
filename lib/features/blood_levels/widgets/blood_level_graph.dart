@@ -159,10 +159,9 @@ class BloodLevelGraph extends StatelessWidget {
                 final substance = substanceCurves.keys.elementAt(spot.barIndex);
                 return LineTooltipItem(
                   '$substance\n${spot.y.toStringAsFixed(1)}%',
-                  TextStyle(
+                  tx.label.copyWith(
                     color: c.textPrimary,
                     fontWeight: tx.bodyBold.fontWeight,
-                    fontSize: tx.label.fontSize,
                   ),
                 );
               }).toList();
@@ -183,8 +182,7 @@ class BloodLevelGraph extends StatelessWidget {
         padding: EdgeInsets.only(right: sp.sm),
         child: Text(
           '${value.toInt()}%',
-          style: TextStyle(
-            fontSize: tx.bodySmall.fontSize,
+          style: tx.bodySmall.copyWith(
             color: c.textSecondary,
             fontWeight: tx.bodyMedium.fontWeight,
           ),
@@ -206,8 +204,7 @@ class BloodLevelGraph extends StatelessWidget {
         padding: EdgeInsets.only(top: sp.sm),
         child: Text(
           '${hoursDiff}h',
-          style: TextStyle(
-            fontSize: tx.bodySmall.fontSize,
+          style: tx.bodySmall.copyWith(
             color: c.textSecondary,
             fontWeight: tx.bodyMedium.fontWeight,
           ),

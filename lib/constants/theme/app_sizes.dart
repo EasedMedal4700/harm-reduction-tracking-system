@@ -47,6 +47,8 @@ class AppSizes {
   final double letterSpacingMd = 1.0;
   final double blurRadiusSm = 4.0;
   final double blurRadiusMd = 8.0;
+  final double blurRadiusLg = 12.0;
+  final double blurRadiusXl = 20.0;
   final double spreadRadiusSm = 1.0;
   final double spreadRadiusMd = 2.0;
 

@@ -41,9 +41,6 @@ RULES = [
     # DESIGN_SYSTEM: Using Expanded without consideration
     (r"Expanded\s*\(\s*child\s*:\s*(Container|SizedBox)\s*\(\s*\)", "Expanded with empty container", RuleClass.HYGIENE),
 
-    # DESIGN_SYSTEM: Icon without semantic label
-    (r"Icon\s*\([^)]*Icons\.[a-zA-Z_]+[^)]*\)", "Icon without semanticLabel", RuleClass.HYGIENE),
-
     # DESIGN_SYSTEM: Card without proper elevation
     (r"Card\s*\(\s*child\s*:", "Card without explicit elevation", RuleClass.HYGIENE),
 

@@ -285,13 +285,14 @@ class _FeatureFlagsScreenState extends ConsumerState<FeatureFlagsScreen> {
     final c = context.colors;
     final tx = context.text;
     final sp = context.spacing;
+    final sh = context.shapes;
 
     final ac = context.accent;
     return Container(
       padding: EdgeInsets.all(sp.md),
       decoration: BoxDecoration(
         color: ac.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(sh.radiusMd),
         border: Border.all(color: ac.primary.withValues(alpha: 0.3)),
       ),
       child: Row(
