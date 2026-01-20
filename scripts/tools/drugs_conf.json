@@ -1,0 +1,1217 @@
+{
+  "1,4-butanediol": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Based on **non-pure** products with **variable purity**. Needs clearer **warning about dosing uncertainty** and **long-term health risks**, especially with other CNS depressants.",
+    "number": 0
+  },
+  "1b-lsd": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Information about potency compared to 1P-LSD is based on **anecdotal reports** and lacks **clinical validation**. The dosing ranges are also not backed by studies and are highly **tentative**.",
+    "number": 1
+  },
+  "1cp-lsd": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Very little information is available on 1cP-LSD's **long-term safety**, and it is marketed based on **assumed similarities to 1P-LSD**. A proper risk warning is needed to address **uncertainty around potency**.",
+    "number": 2
+  },
+  "1p-eth-lad": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Dosing ranges are highly **tentative**, and the **lack of studies** leaves its safety profile unclear. Proper references or warnings about **uncertainty** should be added.",
+    "number": 3
+  },
+  "1p-lsd": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Though **lacking clinical studies**, this drug has substantial **anecdotal evidence** and **user-based dosing** information. However, consider adding more **risk warnings** on long-term safety.",
+    "number": 4
+  },
+  "2-ai": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Dosing information is based on **very limited reports**. It should be clarified that the substance is not well-studied and is highly **variable** in effects. A **stronger caution** on potential side effects is needed.",
+    "number": 5
+  },
+  "2-chloro-ephenidine": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Data for **2-chloro-ephenidine** is largely **unknown**, and the dosing range is not supported by research. This drug should be flagged with a **strong warning** and better sourced references.",
+    "number": 6
+  },
+  "2-dpmp": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "The **dosing information** is consistent with what’s available from **user reports**, but more **scientific studies** are needed to confirm the **long-term safety**. It is reasonably well understood in **anecdotal usage**.",
+    "number": 7
+  },
+  "2-fa": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "2-FA is generally **consistent with user experiences**, but should have a more prominent **warning on neurotoxicity** risk. Otherwise, the data appears sound.",
+    "number": 8
+  },
+  "2-fdck": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "This substance is **poorly studied**, with very little data available on its **effects**. It should be flagged with **high caution**, and the data should include stronger **warnings about potential dangers**.",
+    "number": 9
+  },
+  "2-fea": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "This stimulant lacks **data** on **long-term effects**, making the dosing highly **uncertain**. The note should state that **toxicology is unknown** and include a **stronger caution message**.",
+    "number": 10
+  },
+  "2-fma": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Reasonable user data available, but lacks clinical studies. Consider adding a **warning on neurotoxicity**.",
+    "number": 11
+  },
+  "2-me-dmt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Very little data available. The **dose curve is unpredictable** and **lack of toxicology** data makes it highly uncertain.",
+    "number": 12
+  },
+  "2-mec": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Consistent with user reports, but should include more caution on **neurotoxicity** risks and **long-term effects**.",
+    "number": 13
+  },
+  "2-methyl-2-butanol": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Limited data and poor research backing. Needs clearer **warnings** on **unknown toxicology** and **dosing uncertainty**.",
+    "number": 14
+  },
+  "2-methylamphetamine": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Minimal information available. **Safety is unclear** and needs **stronger caution** about potential **side effects**.",
+    "number": 15
+  },
+  "2-mmc": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Reasonable consistency with user experiences. Needs **stronger warnings on neurotoxicity** and **long-term safety** concerns.",
+    "number": 16
+  },
+  "2-mppp": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Limited data and speculative dosing information. Needs **strong caution** and **unknown safety** risks highlighted.",
+    "number": 17
+  },
+  "2-nmc": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "This substance is poorly studied, and the safety profile is **uncertain**. Needs stronger **warnings** about its **unknown effects**.",
+    "number": 18
+  },
+  "2-pa": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Very little data on safety and effects. Needs **strong caution** on **dosing uncertainty** and potential **unknown risks**.",
+    "number": 19
+  },
+  "2-pta": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Limited reports, no safety information available. Needs **clearer dosing guidance** and a **stronger caution message**.",
+    "number": 20
+  },
+  "25b-nboh": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Very little data available, and this substance is highly **tentative**. Needs clearer **warnings on dosing uncertainty** and **long-term health risks**, especially with similar compounds.",
+    "number": 21
+  },
+  "25b-nbome": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "The data seems reasonably consistent, but a **neurotoxicity warning** and **caution about overdose risks** are needed due to the high potency.",
+    "number": 22
+  },
+  "25c-nboh": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Very limited data and **highly uncertain** dosing ranges. Needs a **stronger warning about overdose risk** and **lack of studies**.",
+    "number": 23
+  },
+  "25c-nbome": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Consistent with user reports, but **overdose and vasoconstriction** warnings need to be emphasized for safety. Also, **cross-tolerance** with LSD needs clearer mention.",
+    "number": 24
+  },
+  "25e-nbome": {
+    "confidence": "medium",
+    "needs_edit": true,
+    "edit_reason": "Dosing data available, but should include **more caution on vasoconstriction** and **risks at high doses**. The substance needs to be flagged for **potency and unpredictability**.",
+    "number": 25
+  },
+  "25g-nbome": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Data is **scarce**, and the **response curve** can vary greatly between users. **Caution** should be added to prevent dangerous overdoses.",
+    "number": 26
+  },
+  "25h-nbome": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "The **dose response is highly variable**, and this substance could have **severe risks** at higher doses. Needs **stronger warnings on dosing uncertainty** and **safety**.",
+    "number": 27
+  },
+  "25i-nbf": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Lacks **substantial data** on its **potency and safety**. Requires **clear caution** about **unknown toxicology** and **long-term effects**.",
+    "number": 28
+  },
+  "25i-nbmd": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Limited data available. Needs **warnings on potency** and **caution with dosing**, as this compound has not been widely researched.",
+    "number": 29
+  },
+  "25j-nboh": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Very little known about this compound. Needs **stronger caution on unknown effects** and **long-term safety concerns**.",
+    "number": 30
+  },
+  "25i-nbome": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Data is consistent with user reports, but needs **stronger warnings on overdosing** and **cross-tolerance** with other psychedelics.",
+    "number": 31
+  },
+  "25ip-nbome": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Very limited data available. Needs **stronger caution** about **unknown safety** risks and **unpredictable effects**.",
+    "number": 32
+  },
+  "25n-nbome": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Data is **uncertain** and dosing information is speculative. Needs **clearer warnings** and **more research references**.",
+    "number": 33
+  },
+  "25p-nbome": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Reasonable data available, but needs **stronger caution** on **potential vasoconstriction** and **long-term safety risks**.",
+    "number": 34
+  },
+  "25t-2-nbome": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Data is **speculative** and lacks clarity on **safe dosages**. Needs **stronger warnings** about **unknown safety risks**.",
+    "number": 35
+  },
+  "25t-4-nbome": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Limited human use data. Needs **clearer dosing guidance** and **stronger caution** on **unknown effects**.",
+    "number": 36
+  },
+  "2c-b": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "Well-documented effects with reliable dosing data. Needs to emphasize **potential for abuse** and **tolerance**.",
+    "number": 37
+  },
+  "2c-b-an": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Very little data available. Needs **stronger caution** on **unknown effects** and **toxicity** risks.",
+    "number": 38
+  },
+  "2c-b-fly": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Data is consistent with **user experiences**, but **long-term safety** is not well-established.",
+    "number": 39
+  },
+  "2c-b-fly-nbome": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Very limited data. Needs **stronger caution** and **warnings about overdose risks**.",
+    "number": 40
+  },
+  "2c-c": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Reasonable consistency with user experiences, but should include **stronger caution** on **long-term effects**.",
+    "number": 41
+  },
+  "2c-d": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Consistent with user reports but needs **stronger caution** on **neurotoxicity** risks and **long-term safety** concerns.",
+    "number": 42
+  },
+  "2c-e": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Well-documented effects with reliable dosing data. Needs emphasis on **potential body load** and **risks at higher doses**.",
+    "number": 43
+  },
+  "2c-i": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Reliable data, but needs a **stronger caution** on **body load** and **neurotoxicity** risks at higher doses.",
+    "number": 44
+  },
+  "2c-p": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Effects are well-documented but should include **stronger warnings** about **long-duration effects** and **potential body load**.",
+    "number": 45
+  },
+  "2c-t": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Limited human use and insufficient data. Needs **stronger caution** on **body load** and **neurotoxicity** risks.",
+    "number": 46
+  },
+  "2c-t-2": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Limited information on safety and effects. Needs clearer **dosing guidance** and **warnings** about **potentially unsafe** interactions.",
+    "number": 47
+  },
+  "2c-b-fly": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Consistent with user experiences, but needs more emphasis on **long-term effects** and **neurotoxicity** risks.",
+    "number": 48
+  },
+  "2c-b-fly-nbome": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Limited data and highly speculative. Needs **stronger caution** and **warnings about overdose risks**.",
+    "number": 49
+  },
+  "2c-n": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Limited data and effects are not well-documented. Needs **stronger warnings** on **safety** and **dosing uncertainty**.",
+    "number": 50
+  },
+  "2c-t-21": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Uncertain due to lack of studies and variable potency.",
+    "number": 51
+  },
+  "2c-t-4": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Longer onset and duration compared to the more common 2C-T-x (2 and 7).",
+    "number": 52
+  },
+  "2c-t-7": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Dangerous potential, unpredictable dosage curve.",
+    "number": 53
+  },
+  "3-cmc": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Reasonable consistency with user experiences. Needs stronger warnings on neurotoxicity and long-term safety concerns.",
+    "number": 54
+  },
+  "3-fa": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Reasonable data available, but needs stronger caution on potential vasoconstriction and long-term safety risks.",
+    "number": 55
+  },
+  "3-fea": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A novel fluorinated amphetamine with serotonergic properties. Effects are similar to 4-FA, but with stronger serotonin effects.",
+    "number": 56
+  },
+  "3-fma": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A stimulant drug related to the amphetamine family. Observed as being relatively benign in low doses, but seems to cause worrying health effects for heavy users.",
+    "number": 57
+  },
+  "3-fmc": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A stimulant drug related to mephedrone. A member of the cathinone class, it is also an amphetamine. Effects similar to other drugs of its class, but may possess high addiction potential.",
+    "number": 58
+  },
+  "3-fpm": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A functional stimulant related to phenmetrazine. Effects similar to amphetamine, but longer and more focused. Pain from insufflation is eye-wateringly intense, but short.",
+    "number": 59
+  },
+  "3-ho-pce": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare and potent PCP analogue. Highly potent NMDA receptor antagonist and also a μ-opioid receptor agonist. Similar in structure to methoxetamine.",
+    "number": 60
+  },
+  "3-ho-pcp": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "An arylcyclohexamine dissociative analogue of PCP, this drug is relatively uncommon, and little information is available. It is reported to not only have dissociative activity but also be an opioid. Some trip reports suggest very negative side-effects including intense muscle tension.",
+    "number": 61
+  },
+  "3-mec": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Another cathinone-based stimulant, weaker than 4-MEC. Very few reports since it is quite unpopular.",
+    "number": 62
+  },
+  "3-meo-pce": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "3-MeO-PCP with a change of a ring replacement. Slightly more potent than 3-MeO-PCP.",
+    "number": 63
+  },
+  "3-meo-pcmo": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A less common dissociative anaesthetic compound related to PCP. An analogue of 3-meo-pcp, but far less potent. Possibly an antitussive and antidepressant.",
+    "number": 64
+  },
+  "3-meo-pcp": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A potent dissociative often compared to MXE but with a longer duration, much less sedating effects, and causing an overall different experience. Roughtly ten times more potent than 4-MeO-PCP.",
+    "number": 65
+  },
+  "3-meo-pcpr": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "This is the N-Propyl homologue of 3-MeO-PCE. It is slightly less potent than PCP. Yet seems slightly less manic inducing.",
+    "number": 66
+  },
+  "3-meo-pcpy": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "3-Methoxy analogue of Rolicyclidine (PCPy) less opioid effects than Phenylcyclidine (PCP) Yet still prominent.",
+    "number": 67
+  },
+  "3-meomc": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A cathinone that has a short history of human use.",
+    "number": 68
+  },
+  "3-mmc": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A euphoric stimulant similar to mephedrone but said to lack much of the 'magic.' Never gained the same popularity. Slightly less potent.",
+    "number": 69
+  },
+  "3-oh-phenazepam": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "The 3-OH analogue of Phenazepam, which cuts the half-life down quite a bit. Psychoactive effects are mostly lead by its metabolites, rather than the drug itself.",
+    "number": 70
+  },
+  "3,4-ctmp": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A strong stimulant, NDRI, and analogue of methylphenidate. Said to be seven times more potent than methylphenidate but with a slower onset.",
+    "number": 71
+  },
+  "3,6-dmpm": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Stimulant related to Phenmetrazine. Very little information on dose or effects.",
+    "number": 72
+  },
+  "3c-e": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Three-Carbon Analog of Escaline. Substituted Amphetamine.",
+    "number": 73
+  },
+  "3c-p": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A new and uncommon stimulant, psychedelic, and amphetamine with properties similar to the 2Cx class of drugs.",
+    "number": 74
+  },
+  "4-aco-dalt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare psychedelic tryptamine which is thought to be metabolized into 4-HO-DALT. Little is known about the pharmacology or effects of this compound.",
+    "number": 75
+  },
+  "4-aco-det": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Rare drug in the tryptamine family. Comparable to Psilocybin. Expected to quickly hydrolyze into the free phenolic 4-HO-DET.",
+    "number": 76
+  },
+  "4-aco-dipt": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "An uncommon psychedelic tryptamine with effects similar to 2C-B and mushrooms.",
+    "number": 77
+  },
+  "4-aco-dmt": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A prodrug for Psilocin with extremely similar effects as mushrooms.",
+    "number": 78
+  },
+
+
+  "4-aco-dpt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Research chemical of the Tryptamine class. First noted being sold in 2012, yet never received much attention. Conflicting reports. Doesn't dissolve well in nearly all tested solutions.",
+    "number": 79
+  },
+  "4-aco-met": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A rare psychedelic tryptamine thought to be metabolized into 4-HO-MET. Onset and duration, intensity will vary but effect profile is largely the same.",
+    "number": 80
+  },
+  "4-aco-mipt": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A potent tryptamine related to Psilocybin with visuals, safe dosing. Similar to 2C-B.",
+    "number": 81
+  },
+  "4-benzylpiperidine": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A dopamine releasing agent with weak serotonin releasing properties. Potentially dangerous in overdose due to MAOI + monoamine releasing properties.",
+    "number": 82
+  },
+  "4-cbc": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Potentially neurotoxic Cathinone. No scientific reports on neurotoxicity or cardiotoxicity. Move on with extreme caution.",
+    "number": 83
+  },
+  "4-chlorodiazepam": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Benzodiazepine derivative of Diazepam, lacks GABA(a) affinity, but still sedative. Pro-convulsant effects at higher doses.",
+    "number": 84
+  },
+  "4-cic": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Inactive.",
+    "number": 85
+  },
+  "4-cma": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Prodrug of neurotoxic para-Chloroamphetamine. Warning of potential neurotoxicity.",
+    "number": 86
+  },
+  "4-cmc": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A stimulant similar to mephedrone but lacks the 'magic'. Less potent, but with effects like other cathinones.",
+    "number": 87
+  },
+  "4-emc": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A stimulant and structural isomer of 4-MEC.",
+    "number": 88
+  },
+  "4-epd": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "An obscure analogue of Pentedrone, likely shares the same general effects of other Pentedrone family compounds.",
+    "number": 89
+  },
+  "4-fa": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "An empathogen with similar effects to MDMA, but with a longer stimulant tail.",
+    "number": 90
+  },
+  "4-fea": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Stimulant and the ethyl analogue of 4-FMA.",
+    "number": 91
+  },
+  "4-fluoroethylphenidate": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A more potent and longer lasting analogue of Ethylphenidate.",
+    "number": 92
+  },
+  "4-fluoromethylphenidate": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A more serotonergic derivative of methylphenidate, with similar stimulant effects.",
+    "number": 93
+  },
+  "4-fluoropentedrone": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "An obscure analogue of pentedrone with effects likely similar to mephedrone and other cathinones.",
+    "number": 94
+  },
+  "4-aco-dpt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Research chemical of the tryptamine class with poor oral bioavailability and limited reports.",
+    "number": 95
+  },
+  "4-benzylpiperidine": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A dopamine releasing agent with weak serotonin releasing properties. Potentially dangerous in overdose due to MAOI + monoamine releasing properties.",
+    "number": 96
+  },
+  "4-cbc": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Potentially neurotoxic cathinone. Little scientific data available on its safety.",
+    "number": 97
+  },
+  "4-chlorodiazepam": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Benzodiazepine derivative with pro-convulsant effects at higher doses. Potential neuroprotective effects at lower doses.",
+    "number": 98
+  },
+  "4-ho-det": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare compound first produced by Albert Hoffman, structurally related to 4-HO-MET and psilocin, with effects similar to mushrooms.",
+    "number": 99
+  },
+  "4-ho-dipt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A psychedelic tryptamine known as iprocin, with effects similar to psychedelic mushrooms. Has a rapid onset and relatively short duration.",
+    "number": 100
+  },
+  "4-ho-dpt": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A psychedelic hallucinogenic first synthesized by Alexander Shulgin, with enhanced cognition and visuals at light doses.",
+    "number": 101
+  },
+  "4-ho-ept": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "The 4-Hydroxy version of EPT, slightly more potent than the prior version.",
+    "number": 102
+  },
+  "4-ho-mcpt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A novel synthetic tryptamine, cyclopropyl homologue of Psilocin, very little is known about its effects.",
+    "number": 103
+  },
+  "4-ho-met": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A prodrug of psilocin, with effects similar to mushrooms. Known for its psychedelic effects.",
+    "number": 104
+  },
+  "4-ho-mipt": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A popular tryptamine derivative with effects similar to psilocybin and a shorter duration.",
+    "number": 105
+  },
+  "4-epd": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "An obscure analogue of Pentedrone, with similar effects to other Pentedrone family compounds.",
+    "number": 106
+  },
+  "4-fa": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Empathogen similar to MDMA, with a longer stimulant 'tail' during which effects are more like amphetamines.",
+    "number": 107
+  },
+  "4-fea": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Ethyl analogue of 4-FMA, a stimulant with a similar effect profile.",
+    "number": 108
+  },
+  
+  "4-meo-butryfentanyl": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Rare opioid and fentanyl analogue with virtually no reliable information. Extreme caution is needed due to the risk of overdose and respiratory depression.",
+    "number": 109
+  },
+  "4-meo-mipt": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A rare psychedelic tryptamine, said to be a milder visual compound than most other tryptamines, with effects similar to psilocybin.",
+    "number": 110
+  },
+  "4-meo-pcp": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A dissociative anaesthetic related to PCP, less potent and with a longer duration.",
+    "number": 111
+  },
+  "4-methylaminorex": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A potent stimulant with a long duration of action, known for its strong stimulant effects and long-lasting effects.",
+    "number": 112
+  },
+  "4-methylmethylphenidate": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A stimulant related to methylphenidate with similar effects, but with a potentially lower potency and a stronger stimulating character.",
+    "number": 113
+  },
+  "4-mpd": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A stimulant of the cathinone class, a higher homologue of Mephedrone, and the p-Methyl analogue of Pentedrone.",
+    "number": 114
+  },
+  "4-mta": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Empathogen with mixed serotonin release and MAOI activity. Risk of acute harm and long-term toxicity.",
+    "number": 115
+  },
+  "4-pmc": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A stimulant cathinone, similar to mephedrone, known for euphoria, increased sociability, and empathy, but with a risk of side effects.",
+    "number": 116
+  },
+  "4,4-dmar": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A stimulant and empathogen similar to Aminorex and Pemoline, with reports linking it to serious health concerns.",
+    "number": 117
+  },
+  "4f-neb": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "The 4-Fluoro analogue of N-Ethylbuphedrone (NEB), part of the cathinone class. Little data available on its safety and effects.",
+    "number": 118
+  },
+  
+  "4f-php": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "4-Fluoro analogue of a-PHP with less mania. Dose and effects are similar, but further research is needed.",
+    "number": 119
+  },
+  "4f-pvp": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Fluornated analogue of a-PVP, slightly less potent. Dose is tentative and further research is needed.",
+    "number": 120
+  },
+  "5-apb": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "An empathogen with effects similar to MDA, but with a risk of cardiotoxicity at long-term use due to its 5-HT2B agonism.",
+    "number": 121
+  },
+  "5-apdb": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "An entactogenic amphetamine stimulant with similar structure and effects to MDMA, but with serotonin reuptake inhibition properties.",
+    "number": 122
+  },
+  "5-apdi": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "Selective serotonin releasing agent with psychedelic and empathogenic properties, but can cause overheating and unwanted bowel movements.",
+    "number": 123
+  },
+  "5-bpdi": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "An analogue of a-PHP with a similar effect profile, but potentially lighter and with less of an urge to redose.",
+    "number": 124
+  },
+  "5-br-dmt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Psychedelic drug with limited data, but found in marine invertebrates. Animal studies show potential use as a sedative and antidepressant.",
+    "number": 125
+  },
+  "5-dbfpv": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A stimulant in the cathinone class with limited data. Its effect profile is similar to MDPV, but with a dihydrobenzofuran substitution.",
+    "number": 126
+  },
+  "5-eapb": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "An empathogen sold as a replacement to 5-MAPB after it was banned in the UK. Less popular and less enjoyable for most users.",
+    "number": 127
+  },
+  "5-htp": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A serotonin precursor used for mood stabilization and insomnia. Should not be taken with serotonergic drugs due to risk of serotonin syndrome.",
+    "number": 128
+  },
+  "5-iai": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "Rare and poorly documented, this compound is likely a serotonin releasing agent with effects similar to MDMA. Its neurotoxicity is unclear.",
+    "number": 129
+  },
+  "5-it": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A stimulant and empathogen with a very long duration and potential for dangerous overheating. Related to αMT but with stronger stimulating effects.",
+    "number": 130
+  },
+  "5-mapb": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "An empathogen structurally similar to MDMA, though less stimulating and more relaxing. Longer lasting than MDMA with a more visual effect.",
+    "number": 131
+  },
+  "5-mapdb": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A stimulant and empathogen related to 5-MAPB with serotonin-releasing properties. Likely to show neurotoxicity like MDMA.",
+    "number": 132
+  },
+  "5-meo-amt": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A long-acting psychedelic and entactogenic tryptamine related to aMT. Very potent and may be sold on blotters. Possible MAOI activity.",
+    "number": 133
+  },
+  "5-meo-dalt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A psychedelic with an unknown mechanism of action. Little human usage data available. The effects are rapid and short-acting when smoked.",
+    "number": 134
+  },
+  "5-meo-dibf": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A new tryptamine with little human usage. A serotonin receptor partial agonist, related to 5-MeO-DiPT.",
+    "number": 135
+  },
+  "5-meo-dipt": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A psychedelic tryptamine related to DMT, known for its strong visual and audio distortions. Some users report heavy body load at higher doses.",
+    "number": 136
+  },
+  "5-meo-dmt": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A potent psychedelic tryptamine, found in plants and toad venom, known for intense visual and ego-dissolution effects. Highly potent and fast-acting.",
+    "number": 137
+  },
+  "5-meo-dpt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare tryptamine psychedelic with effects similar to DPT and DMT. Further research on its effects and safety is needed.",
+    "number": 138
+  },
+  
+  "5-meo-eipt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A little known and little studied tryptamine and analogue of EiPT, likely a psychedelic. Further research needed.",
+    "number": 139
+  },
+  "5-meo-malt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A new psychedelic tryptamine related to 5-MeO-DALT. Effects are likely similar to other psychedelic tryptamines, but further reports are needed.",
+    "number": 140
+  },
+  "5-meo-met": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "An obscure psychedelic tryptamine, possibly related to 5-MeO-DMT. Further research is needed on its effects and safety.",
+    "number": 141
+  },
+  "5-meo-mipt": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A stimulating psychedelic tryptamine with strong empathogenic effects. It has a relatively short duration and is similar to 5-MeO-DiPT.",
+    "number": 142
+  },
+  "5-meo-dmt": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A potent psychedelic found in plants and toad venom, known for its intense visual effects and ego dissolution. Highly potent and fast-acting.",
+    "number": 143
+  },
+  "5-meo-dpt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare tryptamine psychedelic with effects similar to DPT and DMT. Further research on its effects and safety is needed.",
+    "number": 144
+  },
+  "5-meo-pyr-t": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A very potent and obscure tryptamine. Reports suggest a very strong effect, but data is limited. Exercise extreme caution.",
+    "number": 145
+  },
+  "5-methyl-bk-mdea": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A cathinone analogue of ethylone with an effect profile similar to other stimulants in the cathinone class. Effects include euphoria and increased sociability.",
+    "number": 146
+  },
+  "5-ppdi": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "An analogue of α-PBP, likely to have effects similar to α-PVP. Little human usage data exists, and reports suggest it may be inactive.",
+    "number": 147
+  },
+  "5f-akb48": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A synthetic cannabinoid with effects similar to cannabis, but with a very short duration. Further research is needed.",
+    "number": 148
+  },
+  "5f-pb-22": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A synthetic cannabinoid with strong sedating effects. It has a fast onset and should be used with caution.",
+    "number": 149
+  },
+  
+  "6-apb": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "Well-documented stimulant and empathogen with effects similar to MDMA, but with a longer duration and a more visual psychedelic headspace.",
+    "number": 150
+  },
+  "6-apdb": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A stimulant and entactogen related to MDMA, similar to MDA, with a longer duration and moderate visual effects.",
+    "number": 151
+  },
+  "6-eapb": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare entactogen benzofuran related to MDMA and 6-APB. The pharmacology is unclear, but it may be a monoamine releaser.",
+    "number": 152
+  },
+  "6-mapb": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "An empathogen drug structurally related to 6-APB and MDMA. More research is needed to understand its effects and duration.",
+    "number": 153
+  },
+  "6-mddm": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A semisynthetic opioid derivative of Hydromorphone with little human usage data. Known to be much more potent than Morphine.",
+    "number": 154
+  },
+  "a-pihp": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare stimulant related to a-PVP. Data on its effects is minimal, but it may have a fast tolerance build-up.",
+    "number": 155
+  },
+  "a-pvp": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A potent stimulant that is a pyrrolidine-type compound. Known to cause intense stimulation, and compulsive redosing.",
+    "number": 156
+  },
+  "a-pvt": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare stimulant related to a-PVP with little available data on human effects. Likely less potent but requires more research.",
+    "number": 157
+  },
+  "ab-chminaca": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A synthetic cannabinoid with reports of death in overdose. It has a low threshold dose, so extreme caution is necessary.",
+    "number": 158
+  },
+  "ab-fubinaca": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A synthetic cannabinoid with effects similar to cannabis but much more potent. Its popularity has been rising, but it is dangerous due to its high potency.",
+    "number": 159
+  },
+  
+  "acetildenafil": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A sildenafil analogue, often missold as a hidden ingredient in supplements. Minimal information available.",
+    "number": 160
+  },
+  "acetylfentanyl": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A potent opioid analgesic analogue of fentanyl. Known to be roughly 6.67 times more potent than morphine.",
+    "number": 161
+  },
+  "acryl-fentanyl": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A fentanyl analogue with potent effects and very little reliable information. Extreme caution is necessary due to its potential neurotoxicity and overdose risks.",
+    "number": 162
+  },
+  "adderall": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A mixture of dextroamphetamine and levoamphetamine. Widely used for ADHD and narcolepsy treatment. Highly abused as a stimulant, particularly in the US.",
+    "number": 163
+  },
+  "adinazolam": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A benzodiazepine derivative with antidepressant properties but no FDA approval. Limited use as a research chemical.",
+    "number": 164
+  },
+  "adrafinil": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A prodrug to modafinil, commonly used to increase wakefulness and alertness. Known for its slower onset and liver metabolism.",
+    "number": 165
+  },
+  "aet": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare psychedelic tryptamine, structurally related to LSD. Limited reports on its effects, with potential serotonin neurotoxicity.",
+    "number": 166
+  },
+  "afloqualone": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A methaqualone analogue with sedative, muscle-relaxant properties. Has limited popularity and use due to side effects like photosensitivity.",
+    "number": 167
+  },
+  "ah-7921": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "An opioid analgesic with potency similar to morphine. Known for its risk of overdose and potential for respiratory depression.",
+    "number": 168
+  },
+  "al-lad": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A hallucinogenic drug structurally similar to LSD. Known for its strong visual effects and a somewhat shorter duration compared to LSD.",
+    "number": 169
+  },
+  
+  "alcohol": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A common CNS depressant, alcohol is widely consumed for its relaxing and euphoric effects. It has extensive research and use data.",
+    "number": 170
+  },
+  "ald-52": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A lesser-known LSD analogue. It produces similar effects to LSD but is shorter in duration. Has limited human usage data.",
+    "number": 171
+  },
+  "aleph": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare psychedelic phenethylamine with limited data and human use reports. Known for its unique properties.",
+    "number": 172
+  },
+  "aleph-2": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare phenethylamine with little data on its effects. It is related to DOT-2 and has a strong visual impact.",
+    "number": 173
+  },
+  "allobarbital": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A barbiturate with a long history but little modern use. Known for its sedative and hypnotic effects.",
+    "number": 174
+  },
+  "allylescaline": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A mescaline analogue with a lower dose range. Known for its color-related psychedelic effects.",
+    "number": 175
+  },
+  "alpha-php": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A stimulant cathinone analogue of a-PVP, known for its potent effects and potential for compulsive redosing.",
+    "number": 176
+  },
+  "alprazolam": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A widely used benzodiazepine, also known as Xanax. Commonly prescribed for anxiety and panic disorders.",
+    "number": 177
+  },
+  "am-2201": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A synthetic cannabinoid, known for its potency and risks, including convulsions at high doses.",
+    "number": 178
+  },
+  "amfecloral": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A stimulant prodrug to both Amphetamine and Chloral Hydrate, once marketed as an appetite suppressant. Little modern usage.",
+    "number": 179
+  },
+  
+  "amfonelicacid": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A dopaminergic stimulant discontinued due to undesirable stimulant effects. Has had some recreational use.",
+    "number": 180
+  },
+  "aminorex": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "An anorectic stimulant that was removed from the market due to pulmonary hypertension. Approximately 2.5 times more potent than dextroamphetamine.",
+    "number": 181
+  },
+  "aminotadalafil": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "An analogue of tadalafil (Cialis). Known for being missold in some supplements.",
+    "number": 182
+  },
+  "amobarbital": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A barbiturate that was once widely used recreationally and medically. Less commonly used today due to safer alternatives.",
+    "number": 183
+  },
+  "amphetamine": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A popular CNS stimulant widely abused recreationally and commonly used in the treatment of ADHD and narcolepsy.",
+    "number": 184
+  },
+  "amt": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A long-acting psychedelic stimulant, a potent tryptamine with empathogenic properties. Often used recreationally but with caution due to potential for harmful interactions.",
+    "number": 185
+  },
+  "aniracetam": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A nootropic known for its anxiolytic and cognitive enhancement properties. Limited recreational use.",
+    "number": 186
+  },
+  "apap": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A common over-the-counter painkiller and fever reducer, with known liver toxicity at high doses.",
+    "number": 187
+  },
+  "armodafinil": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A potent wakefulness-promoting agent, similar to modafinil, used to treat narcolepsy and ADHD. It is commonly used for cognitive enhancement.",
+    "number": 188
+  },
+  "ashwagandha": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "An adaptogen herb commonly used for reducing anxiety and improving overall well-being. Has a long history of use in traditional medicine.",
+    "number": 189
+  },
+   "aspirin": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A widely used over-the-counter medication, commonly used for pain relief, inflammation, and heart health.",
+    "number": 190
+  },
+  "atomoxetine": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A NRI medication commonly used for ADHD, with some off-label uses. Its pharmacological background is quite unusual.",
+    "number": 191
+  },
+  "ayahuasca": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A powerful psychoactive brew made from plants containing DMT and an MAOI, known for inducing intense spiritual experiences.",
+    "number": 192
+  },
+  "baclofen": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A GABAb receptor agonist used to treat spasticity and has potential in treating alcoholism, with mild sedative effects.",
+    "number": 193
+  },
+  "barbital": {
+    "confidence": "high",
+    "needs_edit": false,
+    "edit_reason": "A barbiturate used historically as a sedative and hypnotic. It is now mostly replaced by benzodiazepines.",
+    "number": 194
+  },
+  "bentazepam": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A thienodiazepine anxiolytic with potential liver toxicity. Often used for anxiety but with risks for long-term use.",
+    "number": 195
+  },
+  "benzodioxole-fentanyl": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A fentanyl analogue with little documented data. It is highly potent and may cause severe toxicity.",
+    "number": 196
+  },
+  "benzydamine": {
+    "confidence": "low",
+    "needs_edit": false,
+    "edit_reason": "A nonsteroidal anti-inflammatory drug (NSAID) with local anesthetic properties, known for some recreational use and delirium at high doses.",
+    "number": 197
+  },
+  "bk-2c-b": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A psychedelic with empathogenic properties. It is a longer-acting analog of 2C-B, though it has less visual potency.",
+    "number": 198
+  },
+  "bk-2c-i": {
+    "confidence": "medium",
+    "needs_edit": false,
+    "edit_reason": "A psychedelic, beta-ketone derivative of 2C-I, known for its effects, though with some risks related to dosage.",
+    "number": 199
+  },
+  "bk-ivp": {
+    "confidence": "low",
+    "needs_edit": true,
+    "edit_reason": "A rare stimulant, beta-ketone analogue of IVP, with effects similar to MDPV or amphetamines.",
+    "number": 200
+  }
+}
