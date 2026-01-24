@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "purpose": "Inspiration dataset for ML-assisted substance profile estimation",
     "rules": [
       "All neuro bucket weights are in [0,1]",
@@ -284,6 +284,1396 @@
       "duration_multiplier": 0.9,
       "tolerance_gain_rate": 2.0,
       "tolerance_decay_days": 7.0
-    }
+    },
+    "ic-26": {
+      "notes": "Synthetic opioid research compound with primary mu-opioid receptor agonism. Limited human data; modeled conservatively as a morphine-adjacent opioid.",
+      "neuro_buckets": {
+        "opioid": {
+          "weight": 1.0,
+          "tolerance_type": "opioid"
+        }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 5.0, "unit": "mg" },
+      "potency_multiplier": 1.2,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "1p-lsd": {
+      "notes": "Well-known LSD prodrug with equivalent psychedelic tolerance dynamics.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 10.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 100.0, "unit": "mcg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "1cp-lsd": {
+      "notes": "LSD prodrug with near-identical serotonergic psychedelic profile.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 10.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 100.0, "unit": "mcg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "1b-lsd": {
+      "notes": "Lysergamide psychedelic prodrug with effects and tolerance comparable to LSD.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 10.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 100.0, "unit": "mcg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "1p-eth-lad": {
+      "notes": "Lysergamide psychedelic related to ETH-LAD with strong 5-HT2A agonism.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 11.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 100.0, "unit": "mcg" },
+      "potency_multiplier": 1.1,
+      "duration_multiplier": 1.1,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "2-fdck": {
+      "notes": "Ketamine analogue dissociative with NMDA antagonism.",
+      "neuro_buckets": {
+        "nmda": { "weight": 1.0, "tolerance_type": "nmda" }
+      },
+      "half_life_hours": 4.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 40.0, "unit": "mg" },
+      "potency_multiplier": 0.9,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.75,
+      "tolerance_decay_days": 5.0
+    },
+
+    "deschloroketamine": {
+      "notes": "Ketamine analogue dissociative with NMDA antagonism.",
+      "neuro_buckets": {
+        "nmda": { "weight": 1.0, "tolerance_type": "nmda" }
+      },
+      "half_life_hours": 5.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 40.0, "unit": "mg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.1,
+      "tolerance_gain_rate": 0.75,
+      "tolerance_decay_days": 5.0
+    },
+
+    "2-chloro-ephenidine": {
+      "notes": "Dissociative NMDA antagonist related to ephenidine.",
+      "neuro_buckets": {
+        "nmda": { "weight": 1.0, "tolerance_type": "nmda" }
+      },
+      "half_life_hours": 5.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 20.0, "unit": "mg" },
+      "potency_multiplier": 1.2,
+      "duration_multiplier": 1.1,
+      "tolerance_gain_rate": 0.8,
+      "tolerance_decay_days": 5.0
+    },
+
+    "o-desmethyltramadol": {
+      "notes": "Active opioid metabolite of tramadol with mu-opioid agonism.",
+      "neuro_buckets": {
+        "opioid": { "weight": 1.0, "tolerance_type": "opioid" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "1,4-butanediol": {
+      "notes": "Prodrug of GHB with GABA-B agonism and similar tolerance and withdrawal risks.",
+      "neuro_buckets": {
+        "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 1.2,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 1.0, "unit": "g" },
+      "potency_multiplier": 1.1,
+      "duration_multiplier": 0.8,
+      "tolerance_gain_rate": 1.1,
+      "tolerance_decay_days": 4.0
+    },
+
+    "2-fa": {
+      "notes": "Fluorinated amphetamine stimulant with moderate duration.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 7.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 20.0, "unit": "mg" },
+      "potency_multiplier": 0.8,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.4,
+      "tolerance_decay_days": 3.0
+    },
+
+    "2-ai": {
+      "notes": "Amphetamine-like stimulant with primary dopaminergic activity.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 20.0, "unit": "mg" },
+      "potency_multiplier": 0.7,
+      "duration_multiplier": 0.9,
+      "tolerance_gain_rate": 0.4,
+      "tolerance_decay_days": 3.0
+    },
+
+    "2-dpmp": {
+      "notes": "Long-acting stimulant with strong dopamine reuptake inhibition.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 24.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
+      "potency_multiplier": 1.5,
+      "duration_multiplier": 2.0,
+      "tolerance_gain_rate": 0.6,
+      "tolerance_decay_days": 6.0
+    },
+
+    "2-mmc": {
+      "notes": "Cathinone stimulant with mild serotonergic release.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 0.85, "tolerance_type": "stimulant" },
+        "serotonin_release": { "weight": 0.15, "tolerance_type": "serotonin_release" }
+      },
+      "half_life_hours": 4.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 50.0, "unit": "mg" },
+      "potency_multiplier": 0.9,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.7,
+      "tolerance_decay_days": 5.0
+    },
+
+    "4-pmc": {
+      "notes": "Cathinone stimulant with minor serotonergic activity.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 0.9, "tolerance_type": "stimulant" },
+        "serotonin_release": { "weight": 0.1, "tolerance_type": "serotonin_release" }
+      },
+      "half_life_hours": 4.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 50.0, "unit": "mg" },
+      "potency_multiplier": 0.8,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.7,
+      "tolerance_decay_days": 5.0
+    },
+
+    "ethyl-pentedrone": {
+      "notes": "Potent cathinone stimulant with strong dopaminergic action.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 4.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 20.0, "unit": "mg" },
+      "potency_multiplier": 1.2,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.8,
+      "tolerance_decay_days": 5.0
+    },
+
+    "2c-b": {
+      "notes": "Phenethylamine psychedelic with mixed serotonergic and stimulant effects.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 0.85, "tolerance_type": "serotonin_psychedelic" },
+        "stimulant": { "weight": 0.15, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 20.0, "unit": "mg" },
+      "potency_multiplier": 0.8,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.5,
+      "tolerance_decay_days": 7.0
+    },
+
+    "dxme": {
+      "notes": "Deoxymethoxetamine (DXME) is a dissociative NMDA antagonist related to methoxetamine, with longer duration and moderate tolerance buildup similar to other arylcyclohexylamines.",
+      "neuro_buckets": {
+        "nmda": { "weight": 1.0, "tolerance_type": "nmda" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 20.0, "unit": "mg" },
+      "potency_multiplier": 1.1,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 0.8,
+      "tolerance_decay_days": 5.0
+    },
+    "2-fea": {
+      "notes": "Fluorinated amphetamine stimulant with dopaminergic and mild serotonergic activity.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 0.9, "tolerance_type": "stimulant" },
+        "serotonin_release": { "weight": 0.1, "tolerance_type": "serotonin_release" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 20.0, "unit": "mg" },
+      "potency_multiplier": 0.8,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.5,
+      "tolerance_decay_days": 3.0
+    },
+
+    "2-fma": {
+      "notes": "Fluorinated methamphetamine analogue with strong dopaminergic stimulation and longer duration.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 10.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 15.0, "unit": "mg" },
+      "potency_multiplier": 1.1,
+      "duration_multiplier": 1.3,
+      "tolerance_gain_rate": 0.6,
+      "tolerance_decay_days": 4.0
+    },
+
+    "2-me-dmt": {
+      "notes": "Tryptamine psychedelic related to DMT with serotonergic psychedelic activity.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 1.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 15.0, "unit": "mg" },
+      "potency_multiplier": 0.7,
+      "duration_multiplier": 0.4,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "2-mec": {
+      "notes": "Cathinone stimulant with dopaminergic and noradrenergic effects.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 4.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 40.0, "unit": "mg" },
+      "potency_multiplier": 0.8,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.7,
+      "tolerance_decay_days": 5.0
+    },
+
+    "2-methyl-2-butanol": {
+      "notes": "Tertiary alcohol with sedative effects similar to other aliphatic alcohols; GABAergic depressant.",
+      "neuro_buckets": {
+        "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 3.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 1.0, "unit": "g" },
+      "potency_multiplier": 0.6,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.9,
+      "tolerance_decay_days": 6.0
+    },
+
+    "2-methylamphetamine": {
+      "notes": "Methamphetamine isomer with strong dopaminergic stimulant effects.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 12.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
+      "potency_multiplier": 1.3,
+      "duration_multiplier": 1.4,
+      "tolerance_gain_rate": 0.8,
+      "tolerance_decay_days": 5.0
+    },
+
+    "2-mppp": {
+      "notes": "Synthetic opioid analgesic (piperidine class) with mu-opioid receptor agonism.",
+      "neuro_buckets": {
+        "opioid": { "weight": 1.0, "tolerance_type": "opioid" }
+      },
+      "half_life_hours": 4.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "2-nmc": {
+      "notes": "Cathinone stimulant related to mephedrone with dopaminergic and mild serotonergic effects.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 0.85, "tolerance_type": "stimulant" },
+        "serotonin_release": { "weight": 0.15, "tolerance_type": "serotonin_release" }
+      },
+      "half_life_hours": 4.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 40.0, "unit": "mg" },
+      "potency_multiplier": 0.9,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.7,
+      "tolerance_decay_days": 5.0
+    },
+
+    "2-pa": {
+      "notes": "Phenethylamine stimulant with primary dopaminergic and noradrenergic effects.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 5.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 20.0, "unit": "mg" },
+      "potency_multiplier": 0.6,
+      "duration_multiplier": 0.9,
+      "tolerance_gain_rate": 0.5,
+      "tolerance_decay_days": 4.0
+    },
+
+    "2-pta": {
+      "notes": "Phenethylamine-derived stimulant with limited human data; modeled conservatively.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 5.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 20.0, "unit": "mg" },
+      "potency_multiplier": 0.6,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.5,
+      "tolerance_decay_days": 4.0
+    },
+    "3-fpm": {
+      "notes": "Stimulant related to phenmetrazine with dopaminergic and noradrenergic activity.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 25.0, "unit": "mg" },
+      "potency_multiplier": 0.9,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.6,
+      "tolerance_decay_days": 4.0
+    },
+
+    "3-meo-pcp": {
+      "notes": "Potent arylcyclohexylamine dissociative with NMDA antagonism and notable dopaminergic stimulation.",
+      "neuro_buckets": {
+        "nmda": { "weight": 0.85, "tolerance_type": "nmda" },
+        "stimulant": { "weight": 0.15, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 12.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 5.0, "unit": "mg" },
+      "potency_multiplier": 1.4,
+      "duration_multiplier": 1.5,
+      "tolerance_gain_rate": 0.9,
+      "tolerance_decay_days": 6.0
+    },
+
+    "25b-nbome": {
+      "notes": "Highly potent NBOMe-class psychedelic acting as a strong 5-HT2A agonist.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 8.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 500.0, "unit": "mcg" },
+      "potency_multiplier": 1.3,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "truffles": {
+      "notes": "Psilocybin-containing sclerotia with classic serotonergic psychedelic effects.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "g" },
+      "potency_multiplier": 0.6,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "2c-e": {
+      "notes": "Phenethylamine psychedelic with strong serotonergic psychedelic effects and moderate stimulation.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 0.9, "tolerance_type": "serotonin_psychedelic" },
+        "stimulant": { "weight": 0.1, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 8.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 15.0, "unit": "mg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 1.8,
+      "tolerance_decay_days": 7.0
+    },
+
+    "3c-e": {
+      "notes": "Shorter-acting phenethylamine psychedelic related to the 2C family.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 0.85, "tolerance_type": "serotonin_psychedelic" },
+        "stimulant": { "weight": 0.15, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 5.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 25.0, "unit": "mg" },
+      "potency_multiplier": 0.8,
+      "duration_multiplier": 0.9,
+      "tolerance_gain_rate": 1.6,
+      "tolerance_decay_days": 6.0
+    },
+
+    "picamilon": {
+      "notes": "GABA-niacin compound acting as a mild GABAergic anxiolytic with minimal tolerance.",
+      "neuro_buckets": {
+        "gaba": { "weight": 0.5, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 2.0,
+      "active_threshold": 0.1,
+      "standard_unit": { "value": 50.0, "unit": "mg" },
+      "potency_multiplier": 0.3,
+      "duration_multiplier": 0.8,
+      "tolerance_gain_rate": 0.2,
+      "tolerance_decay_days": 2.0
+    },
+
+    "scopolamine": {
+      "notes": "Anticholinergic deliriant with central muscarinic antagonism.",
+      "neuro_buckets": {
+        "gaba": { "weight": 0.2, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 8.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 0.5, "unit": "mg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 0.3,
+      "tolerance_decay_days": 3.0
+    },
+
+    "eszopiclone": {
+      "notes": "Non-benzodiazepine hypnotic (Z-drug) acting at the GABA-A receptor complex.",
+      "neuro_buckets": {
+        "gaba": { "weight": 0.8, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 2.0, "unit": "mg" },
+      "potency_multiplier": 0.7,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.6,
+      "tolerance_decay_days": 5.0
+    },
+
+    "4f-pvp": {
+      "notes": "Fluorinated pyrrolidinophenone stimulant with strong dopamine reuptake inhibition.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
+      "potency_multiplier": 1.5,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 0.9,
+      "tolerance_decay_days": 5.0
+    },
+
+    "mbdb": {
+      "notes": "Entactogenic phenethylamine related to MDMA with primary serotonergic release and reduced stimulant load.",
+      "neuro_buckets": {
+        "serotonin_release": { "weight": 0.9, "tolerance_type": "serotonin_release" },
+        "stimulant": { "weight": 0.1, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 8.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 195.0, "unit": "mg" },
+      "potency_multiplier": 0.7,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.9,
+      "tolerance_decay_days": 25.0
+    },
+
+    "4-fluoropentedrone": {
+      "notes": "Fluorinated cathinone stimulant with dopaminergic and noradrenergic activity.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 5.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 30.0, "unit": "mg" },
+      "potency_multiplier": 1.1,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.8,
+      "tolerance_decay_days": 5.0
+    },
+
+    "3,4-ctmp": {
+      "notes": "Potent stimulant (methylphenidate analogue) with strong dopamine reuptake inhibition.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 12.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 5.0, "unit": "mg" },
+      "potency_multiplier": 1.6,
+      "duration_multiplier": 1.4,
+      "tolerance_gain_rate": 0.7,
+      "tolerance_decay_days": 4.0
+    },
+
+    "metaxalone": {
+      "notes": "Centrally acting muscle relaxant with sedative and GABAergic-modulating properties.",
+      "neuro_buckets": {
+        "gaba": { "weight": 0.6, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 9.0,
+      "active_threshold": 0.1,
+      "standard_unit": { "value": 1200.0, "unit": "mg" },
+      "potency_multiplier": 0.5,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.4,
+      "tolerance_decay_days": 5.0
+    },
+
+    "a-pvt": {
+      "notes": "Pyrrolidinophenone stimulant with strong dopaminergic reuptake inhibition.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 10.0, "unit": "mg" },
+      "potency_multiplier": 1.4,
+      "duration_multiplier": 1.1,
+      "tolerance_gain_rate": 0.9,
+      "tolerance_decay_days": 5.0
+    },
+
+    "oxiracetam": {
+      "notes": "Racetam-class nootropic with cholinergic modulation and minimal tolerance development.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 0.3, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 8.0,
+      "active_threshold": 0.2,
+      "standard_unit": { "value": 1800.0, "unit": "mg" },
+      "potency_multiplier": 0.2,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.1,
+      "tolerance_decay_days": 2.0
+    },
+
+    "dimemebfe": {
+      "notes": "Synthetic stimulant with limited human data; modeled conservatively as dopaminergic.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 62.5, "unit": "mg" },
+      "potency_multiplier": 0.9,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.6,
+      "tolerance_decay_days": 4.0
+    },
+
+    "dehydroxyfluorafinil": {
+      "notes": "Wakefulness-promoting agent related to modafinil with dopaminergic activity.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 0.8, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 14.0,
+      "active_threshold": 0.1,
+      "standard_unit": { "value": 125.0, "unit": "mg" },
+      "potency_multiplier": 0.7,
+      "duration_multiplier": 1.3,
+      "tolerance_gain_rate": 0.3,
+      "tolerance_decay_days": 3.0
+    },
+
+    "glutethimide": {
+      "notes": "Sedative-hypnotic acting via GABAergic mechanisms; barbiturate-like tolerance profile.",
+      "neuro_buckets": {
+        "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 10.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 500.0, "unit": "mg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 8.0
+    },
+
+    "adrafinil": {
+      "notes": "Prodrug of modafinil with wakefulness-promoting effects and dopaminergic modulation.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 0.7, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 15.0,
+      "active_threshold": 0.1,
+      "standard_unit": { "value": 325.0, "unit": "mg" },
+      "potency_multiplier": 0.6,
+      "duration_multiplier": 1.3,
+      "tolerance_gain_rate": 0.3,
+      "tolerance_decay_days": 3.0
+    },
+
+    "4-aco-det": {
+      "notes": "Acetylated tryptamine psychedelic prodrug acting primarily via 5-HT2A agonism, similar tolerance dynamics to psilocybin.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 12.5, "unit": "mg" },
+      "potency_multiplier": 0.9,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "ethylcathinone": {
+      "notes": "Cathinone stimulant with dopaminergic and noradrenergic activity and moderate tolerance development.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 4.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 115.0, "unit": "mg" },
+      "potency_multiplier": 0.7,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.7,
+      "tolerance_decay_days": 5.0
+    },
+
+    "camazepam": {
+      "notes": "Benzodiazepine anxiolytic metabolized to diazepam; GABA-A PAM with cross-tolerance to other benzodiazepines.",
+      "neuro_buckets": {
+        "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 12.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 30.0, "unit": "mg" },
+      "potency_multiplier": 0.8,
+      "duration_multiplier": 1.1,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 9.0
+    },
+
+    "ept": {
+      "notes": "Simple tryptamine psychedelic with serotonergic activity and relatively mild potency.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 4.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 87.5, "unit": "mg" },
+      "potency_multiplier": 0.6,
+      "duration_multiplier": 0.9,
+      "tolerance_gain_rate": 1.8,
+      "tolerance_decay_days": 7.0
+    },
+
+    "citalopram": {
+      "notes": "SSRI antidepressant with selective serotonin reuptake inhibition and minimal recreational tolerance crossover.",
+      "neuro_buckets": {
+        "serotonin_reuptake": { "weight": 1.0, "tolerance_type": "serotonin_reuptake" }
+      },
+      "half_life_hours": 35.0,
+      "active_threshold": 0.2,
+      "standard_unit": { "value": 30.0, "unit": "mg" },
+      "potency_multiplier": 0.3,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.2,
+      "tolerance_decay_days": 5.0
+    },
+
+    "proscaline": {
+      "notes": "Phenethylamine psychedelic with serotonergic and mild stimulant effects.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 0.8, "tolerance_type": "serotonin_psychedelic" },
+        "stimulant": { "weight": 0.2, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 35.0, "unit": "mg" },
+      "potency_multiplier": 0.7,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.6,
+      "tolerance_decay_days": 7.0
+    },
+
+    "methoxypiperamide": {
+      "notes": "Poorly characterized synthetic compound with limited data; modeled conservatively as a mild stimulant-like agent.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 0.5, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.1,
+      "standard_unit": { "value": 50.0, "unit": "mg" },
+      "potency_multiplier": 0.4,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.4,
+      "tolerance_decay_days": 4.0
+    },
+
+    "6-apb": {
+      "notes": "Entactogenic benzofuran with strong serotonergic release and long recovery period.",
+      "neuro_buckets": {
+        "serotonin_release": { "weight": 1.0, "tolerance_type": "serotonin_release" }
+      },
+      "half_life_hours": 10.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 100.0, "unit": "mg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 1.2,
+      "tolerance_decay_days": 30.0
+    },
+
+    "2c-c": {
+      "notes": "Phenethylamine psychedelic with primary serotonergic 5-HT2A agonism and mild stimulant character.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 0.9, "tolerance_type": "serotonin_psychedelic" },
+        "stimulant": { "weight": 0.1, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 20.0, "unit": "mg" },
+      "potency_multiplier": 0.7,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.5,
+      "tolerance_decay_days": 7.0
+    },
+
+    "pyrophenidone": {
+      "notes": "Potent phenidate-class stimulant with dopamine reuptake inhibition.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 8.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 50.0, "unit": "mg" },
+      "potency_multiplier": 1.3,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 0.7,
+      "tolerance_decay_days": 4.0
+    },
+
+    "clonazolam": {
+      "notes": "Ultra-potent triazolobenzodiazepine GABA-A PAM with rapid tolerance and strong cross-tolerance to other benzodiazepines.",
+      "neuro_buckets": {
+        "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 18.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 0.3, "unit": "mg" },
+      "potency_multiplier": 3.0,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 1.2,
+      "tolerance_decay_days": 12.0
+    },
+
+    "cannabis": {
+      "notes": "Whole-plant cannabis exposure dominated by THC CB1 agonism; tolerance builds with frequent use and recovers slowly.",
+      "neuro_buckets": {
+        "cannabinoid": { "weight": 1.0, "tolerance_type": "cannabinoid" }
+      },
+      "half_life_hours": 24.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 40.0, "unit": "mg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.6,
+      "tolerance_decay_days": 10.0
+    },
+
+    "flurazepam": {
+      "notes": "Long-acting benzodiazepine hypnotic with active metabolites and prolonged GABAergic effects.",
+      "neuro_buckets": {
+        "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 24.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 22.5, "unit": "mg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.3,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 12.0
+    },
+
+    "pv-8": {
+      "notes": "Synthetic stimulant with dopaminergic activity; moderate duration and tolerance development.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 30.0, "unit": "mg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.6,
+      "tolerance_decay_days": 4.0
+    },
+
+    "5f-pb-22": {
+      "notes": "Highly potent synthetic cannabinoid CB1 agonist with rapid tolerance and high adverse-effect risk.",
+      "neuro_buckets": {
+        "cannabinoid": { "weight": 1.0, "tolerance_type": "cannabinoid" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 4.0, "unit": "mg" },
+      "potency_multiplier": 3.0,
+      "duration_multiplier": 1.1,
+      "tolerance_gain_rate": 1.2,
+      "tolerance_decay_days": 12.0
+    },
+
+    "ald-52": {
+      "notes": "Lysergamide psychedelic (LSD prodrug) with classic 5-HT2A agonism and rapid class-wide tolerance.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 10.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 112.5, "unit": "mcg" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "doxylamine": {
+      "notes": "Sedating first-generation antihistamine with anticholinergic properties.",
+      "neuro_buckets": {
+        "gaba": { "weight": 0.3, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 10.0,
+      "active_threshold": 0.1,
+      "standard_unit": { "value": 275.0, "unit": "mg" },
+      "potency_multiplier": 0.4,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.3,
+      "tolerance_decay_days": 3.0
+    },
+
+    "apap": {
+      "notes": "Acetaminophen (paracetamol) analgesic/antipyretic with minimal neurochemical tolerance relevance.",
+      "neuro_buckets": {
+        "opioid": { "weight": 0.05, "tolerance_type": "opioid" }
+      },
+      "half_life_hours": 3.0,
+      "active_threshold": 0.2,
+      "standard_unit": { "value": 350.0, "unit": "mg" },
+      "potency_multiplier": 0.1,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.1,
+      "tolerance_decay_days": 1.0
+    },
+
+    "5-meo-pyr-t": {
+      "notes": "Potent synthetic tryptamine with serotonergic psychedelic activity and rapid tolerance.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 4.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 1.25, "unit": "mg" },
+      "potency_multiplier": 1.5,
+      "duration_multiplier": 0.8,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "ab-chminaca": {
+      "notes": "Extremely potent synthetic cannabinoid CB1 agonist with severe tolerance and toxicity risk.",
+      "neuro_buckets": {
+        "cannabinoid": { "weight": 1.0, "tolerance_type": "cannabinoid" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 0.175, "unit": "mg" },
+      "potency_multiplier": 4.0,
+      "duration_multiplier": 1.1,
+      "tolerance_gain_rate": 1.3,
+      "tolerance_decay_days": 14.0
+    },
+
+    "dramamine": {
+      "notes": "Dimenhydrinate; sedating antihistamine with anticholinergic properties, commonly used for motion sickness.",
+      "neuro_buckets": {
+        "gaba": { "weight": 0.25, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.1,
+      "standard_unit": { "value": 325.0, "unit": "mg" },
+      "potency_multiplier": 0.4,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.3,
+      "tolerance_decay_days": 3.0
+    },
+
+    "sonata": {
+      "notes": "Zaleplon (Sonata); non-benzodiazepine hypnotic acting at the GABA-A receptor with short duration.",
+      "neuro_buckets": {
+        "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 1.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 7.5, "unit": "mg" },
+      "potency_multiplier": 0.7,
+      "duration_multiplier": 0.6,
+      "tolerance_gain_rate": 0.6,
+      "tolerance_decay_days": 4.0
+    },
+
+    "2c-b-fly": {
+      "notes": "Phenethylamine psychedelic with strong 5-HT2A agonism and longer duration than 2C-B.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 8.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 14.0, "unit": "mg" },
+      "potency_multiplier": 1.1,
+      "duration_multiplier": 1.3,
+      "tolerance_gain_rate": 1.8,
+      "tolerance_decay_days": 7.0
+    },
+
+    "deschloroetizolam": {
+      "notes": "Thienodiazepine analogue with GABA-A PAM activity and benzodiazepine-like tolerance dynamics.",
+      "neuro_buckets": {
+        "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 10.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 5.0, "unit": "mg" },
+      "potency_multiplier": 1.3,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 10.0
+    },
+
+    "gabapentin": {
+      "notes": "GABA analogue anticonvulsant acting via calcium channel modulation; weak direct GABAergic tolerance.",
+      "neuro_buckets": {
+        "gaba": { "weight": 0.4, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.15,
+      "standard_unit": { "value": 750.0, "unit": "mg" },
+      "potency_multiplier": 0.5,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.4,
+      "tolerance_decay_days": 4.0
+    },
+
+    "butyrfentanyl": {
+      "notes": "Short-acting fentanyl analogue with strong mu-opioid receptor agonism and high overdose risk.",
+      "neuro_buckets": {
+        "opioid": { "weight": 1.0, "tolerance_type": "opioid" }
+      },
+      "half_life_hours": 3.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 1.15, "unit": "mg" },
+      "potency_multiplier": 3.0,
+      "duration_multiplier": 0.9,
+      "tolerance_gain_rate": 1.2,
+      "tolerance_decay_days": 7.0
+    },
+
+    "fluorophenibut": {
+      "notes": "Fluorinated phenibut analogue acting primarily as a GABA-B agonist with sedative and anxiolytic effects.",
+      "neuro_buckets": {
+        "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 5.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 125.0, "unit": "mg" },
+      "potency_multiplier": 1.1,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.9,
+      "tolerance_decay_days": 6.0
+    },
+
+    "25b-nboh": {
+      "notes": "Highly potent NBx phenethylamine psychedelic with strong 5-HT2A agonism.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 0.6, "unit": "mg" },
+      "potency_multiplier": 2.0,
+      "duration_multiplier": 1.1,
+      "tolerance_gain_rate": 2.0,
+      "tolerance_decay_days": 7.0
+    },
+
+    "alpha-pbp": {
+      "notes": "Synthetic cathinone stimulant with strong dopaminergic activity and moderate duration.",
+      "neuro_buckets": {
+        "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+      },
+      "half_life_hours": 5.0,
+      "active_threshold": 0.05,
+      "standard_unit": { "value": 37.5, "unit": "mg" },
+      "potency_multiplier": 1.2,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.8,
+      "tolerance_decay_days": 5.0
+    },
+
+    "halothane": {
+      "notes": "Volatile halogenated anesthetic with CNS depressant effects via GABAergic and membrane mechanisms.",
+      "neuro_buckets": {
+        "gaba": { "weight": 0.6, "tolerance_type": "gaba" }
+      },
+      "half_life_hours": 4.0,
+      "active_threshold": 0.2,
+      "standard_unit": { "value": 1.0, "unit": "percent_inhaled" },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 0.8,
+      "tolerance_gain_rate": 0.2,
+      "tolerance_decay_days": 2.0
+    },
+
+"meclonazepam": {
+  "notes": "Benzodiazepine analogue with GABA-A PAM activity; reported to have sedative and anxiolytic effects with benzodiazepine-class tolerance.",
+  "neuro_buckets": {
+    "gaba": { "weight": 1.0, "tolerance_type": "gaba" }
+  },
+  "half_life_hours": 18.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 4.5, "unit": "mg" },
+  "potency_multiplier": 1.1,
+  "duration_multiplier": 1.1,
+  "tolerance_gain_rate": 1.0,
+  "tolerance_decay_days": 10.0
+},
+
+"propylhexedrine": {
+  "notes": "Stimulant structurally related to amphetamines; primarily releases norepinephrine with secondary dopaminergic effects.",
+  "neuro_buckets": {
+    "stimulant": { "weight": 0.9, "tolerance_type": "stimulant" }
+  },
+  "half_life_hours": 6.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 52.5, "unit": "mg" },
+  "potency_multiplier": 0.7,
+  "duration_multiplier": 1.0,
+  "tolerance_gain_rate": 0.5,
+  "tolerance_decay_days": 4.0
+},
+
+"eth-lad": {
+  "notes": "Potent lysergamide psychedelic with strong 5-HT2A agonism and intense visual effects.",
+  "neuro_buckets": {
+    "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+  },
+  "half_life_hours": 10.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 80.0, "unit": "mcg" },
+  "potency_multiplier": 1.2,
+  "duration_multiplier": 1.2,
+  "tolerance_gain_rate": 2.0,
+  "tolerance_decay_days": 7.0
+},
+
+"mdai": {
+  "notes": "Entactogenic compound acting primarily as a serotonin releasing agent with minimal stimulant properties.",
+  "neuro_buckets": {
+    "serotonin_release": { "weight": 1.0, "tolerance_type": "serotonin_release" }
+  },
+  "half_life_hours": 8.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 125.0, "unit": "mg" },
+  "potency_multiplier": 0.8,
+  "duration_multiplier": 1.0,
+  "tolerance_gain_rate": 1.0,
+  "tolerance_decay_days": 21.0
+},
+
+"alpha-php": {
+  "notes": "Potent synthetic cathinone stimulant with strong dopamine reuptake inhibition and compulsive redosing risk.",
+  "neuro_buckets": {
+    "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+  },
+  "half_life_hours": 4.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 15.0, "unit": "mg" },
+  "potency_multiplier": 1.5,
+  "duration_multiplier": 0.9,
+  "tolerance_gain_rate": 1.0,
+  "tolerance_decay_days": 5.0
+},
+
+"amfonelicacid": {
+  "notes": "Atypical stimulant acting as a dopamine reuptake inhibitor with minimal serotonergic activity.",
+  "neuro_buckets": {
+    "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+  },
+  "half_life_hours": 12.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 7.0, "unit": "mg" },
+  "potency_multiplier": 1.3,
+  "duration_multiplier": 1.2,
+  "tolerance_gain_rate": 0.4,
+  "tolerance_decay_days": 4.0
+},
+
+"isopropylphenidate": {
+  "notes": "Phenidate stimulant related to methylphenidate with dopaminergic and noradrenergic reuptake inhibition.",
+  "neuro_buckets": {
+    "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+  },
+  "half_life_hours": 6.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 12.5, "unit": "mg" },
+  "potency_multiplier": 0.9,
+  "duration_multiplier": 1.0,
+  "tolerance_gain_rate": 0.4,
+  "tolerance_decay_days": 3.0
+},
+
+"parafluorofentanyl": {
+  "notes": "Extremely potent fentanyl analogue with strong mu-opioid receptor agonism and high overdose risk.",
+  "neuro_buckets": {
+    "opioid": { "weight": 1.0, "tolerance_type": "opioid" }
+  },
+  "half_life_hours": 3.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 0.0325, "unit": "mg" },
+  "potency_multiplier": 5.0,
+  "duration_multiplier": 0.9,
+  "tolerance_gain_rate": 1.3,
+  "tolerance_decay_days": 7.0
+},
+
+"5-apdb": {
+  "notes": "Entactogenic benzofuran related to 6-APB with strong serotonergic release and moderate stimulant effects.",
+  "neuro_buckets": {
+    "serotonin_release": { "weight": 0.85, "tolerance_type": "serotonin_release" },
+    "stimulant": { "weight": 0.15, "tolerance_type": "stimulant" }
+  },
+  "half_life_hours": 9.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 100.0, "unit": "mg" },
+  "potency_multiplier": 1.0,
+  "duration_multiplier": 1.1,
+  "tolerance_gain_rate": 1.0,
+  "tolerance_decay_days": 25.0
+},
+
+"lsa": {
+  "notes": "Naturally occurring ergoline psychedelic found in morning glory and HBWR seeds; partial 5-HT2A agonist with sedating components.",
+  "neuro_buckets": {
+    "serotonin_psychedelic": { "weight": 0.8, "tolerance_type": "serotonin_psychedelic" },
+    "gaba": { "weight": 0.2, "tolerance_type": "gaba" }
+  },
+  "half_life_hours": 6.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 4.0, "unit": "seeds" },
+  "potency_multiplier": 0.7,
+  "duration_multiplier": 1.0,
+  "tolerance_gain_rate": 1.5,
+  "tolerance_decay_days": 7.0
+},
+
+"u-49900": {
+  "notes": "Synthetic opioid research compound with primary mu-opioid receptor agonism; limited human data.",
+  "neuro_buckets": {
+    "opioid": { "weight": 1.0, "tolerance_type": "opioid" }
+  },
+  "half_life_hours": 6.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 5.0, "unit": "mg" },
+  "potency_multiplier": 1.2,
+  "duration_multiplier": 1.0,
+  "tolerance_gain_rate": 1.0,
+  "tolerance_decay_days": 7.0
+},
+
+"3-meo-pcpy": {
+  "notes": "Arylcyclohexylamine dissociative with NMDA antagonism; shorter and more stimulating than 3-MeO-PCP.",
+  "neuro_buckets": {
+    "nmda": { "weight": 1.0, "tolerance_type": "nmda" }
+  },
+  "half_life_hours": 6.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 6.0, "unit": "mg" },
+  "potency_multiplier": 1.1,
+  "duration_multiplier": 1.0,
+  "tolerance_gain_rate": 0.8,
+  "tolerance_decay_days": 5.0
+},
+
+"db-mdbp": {
+  "notes": "Synthetic stimulant with dopaminergic reuptake inhibition; limited characterization.",
+  "neuro_buckets": {
+    "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+  },
+  "half_life_hours": 6.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 10.0, "unit": "mg" },
+  "potency_multiplier": 1.0,
+  "duration_multiplier": 1.0,
+  "tolerance_gain_rate": 0.6,
+  "tolerance_decay_days": 4.0
+},
+
+"4-methylmethylphenidate": {
+  "notes": "Phenidate stimulant related to methylphenidate with dopaminergic and noradrenergic reuptake inhibition.",
+  "neuro_buckets": {
+    "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+  },
+  "half_life_hours": 4.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 50.0, "unit": "mg" },
+  "potency_multiplier": 0.7,
+  "duration_multiplier": 0.9,
+  "tolerance_gain_rate": 0.4,
+  "tolerance_decay_days": 3.0
+},
+
+"5-meo-nipt": {
+  "notes": "Synthetic tryptamine psychedelic with serotonergic activity and moderate stimulation.",
+  "neuro_buckets": {
+    "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+  },
+  "half_life_hours": 5.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 11.5, "unit": "mg" },
+  "potency_multiplier": 0.9,
+  "duration_multiplier": 0.9,
+  "tolerance_gain_rate": 1.8,
+  "tolerance_decay_days": 7.0
+},
+
+"methadone": {
+  "notes": "Long-acting synthetic opioid with mu-opioid agonism and NMDA antagonism; used in maintenance therapy.",
+  "neuro_buckets": {
+    "opioid": { "weight": 0.9, "tolerance_type": "opioid" },
+    "nmda": { "weight": 0.1, "tolerance_type": "nmda" }
+  },
+  "half_life_hours": 24.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 15.0, "unit": "mg" },
+  "potency_multiplier": 1.1,
+  "duration_multiplier": 1.5,
+  "tolerance_gain_rate": 1.0,
+  "tolerance_decay_days": 10.0
+},
+
+"ephenidine": {
+  "notes": "Dissociative NMDA antagonist related to diphenidine; longer-lasting than ketamine.",
+  "neuro_buckets": {
+    "nmda": { "weight": 1.0, "tolerance_type": "nmda" }
+  },
+  "half_life_hours": 7.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 92.5, "unit": "mg" },
+  "potency_multiplier": 1.0,
+  "duration_multiplier": 1.2,
+  "tolerance_gain_rate": 0.8,
+  "tolerance_decay_days": 5.0
+},
+
+"doc": {
+  "notes": "Long-acting psychedelic amphetamine with potent 5-HT2A agonism and stimulant properties.",
+  "neuro_buckets": {
+    "serotonin_psychedelic": { "weight": 0.85, "tolerance_type": "serotonin_psychedelic" },
+    "stimulant": { "weight": 0.15, "tolerance_type": "stimulant" }
+  },
+  "half_life_hours": 16.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 1.75, "unit": "mg" },
+  "potency_multiplier": 1.5,
+  "duration_multiplier": 1.8,
+  "tolerance_gain_rate": 2.0,
+  "tolerance_decay_days": 10.0
+},
+
+"5-meo-dipt": {
+  "notes": "Synthetic tryptamine psychedelic (\"Foxy\") with serotonergic agonism and moderate stimulation.",
+  "neuro_buckets": {
+    "serotonin_psychedelic": { "weight": 1.0, "tolerance_type": "serotonin_psychedelic" }
+  },
+  "half_life_hours": 5.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 11.5, "unit": "mg" },
+  "potency_multiplier": 0.9,
+  "duration_multiplier": 0.9,
+  "tolerance_gain_rate": 1.8,
+  "tolerance_decay_days": 7.0
+},
+
+"4,4-dmar": {
+  "notes": "Stimulant with dopaminergic and noradrenergic activity; associated with high toxicity risk.",
+  "neuro_buckets": {
+    "stimulant": { "weight": 1.0, "tolerance_type": "stimulant" }
+  },
+  "half_life_hours": 10.0,
+  "active_threshold": 0.05,
+  "standard_unit": { "value": 90.0, "unit": "mg" },
+  "potency_multiplier": 1.2,
+  "duration_multiplier": 1.3,
+  "tolerance_gain_rate": 0.8,
+  "tolerance_decay_days": 6.0
+}
+
+
+
   }
 }
