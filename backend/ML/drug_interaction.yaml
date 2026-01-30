@@ -23,6 +23,8 @@ exclude from all:
   - pv-9
   - 2-nmc
   - huperzine-a
+  - jenkem
+  - lithium
 
 exlude from neuro-bucket:
   - moclobemide

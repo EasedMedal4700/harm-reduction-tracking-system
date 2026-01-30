@@ -2,23 +2,36 @@ version: 1.0.0
 purpose: Control how strongly ML output is anchored to inspo priors
 
 inspo_anchor:
-  weight: 2.0
+  weight: 1.0
   description: >
     Controls how strongly inspo.json influences ML-derived values.
-    Higher values force ML output to stay closer to inspo priors.
-    Lower values allow greater ML-driven differentiation.
+    A value of 1.0 represents a neutral balance between inspo priors
+    and ML inference.
+    Values above 1.0 increasingly constrain ML output toward inspo.json.
+    Values below 1.0 allow ML to diverge more freely from inspo priors.
 
 constraints:
   weight:
     min: 0.5
     max: 2.0
+  behavior:
+    - anchor_scales_all_neuro_bucket_weights: true
+    - anchor_scales_tolerance_parameters: true
+    - anchor_does_not_create_new_buckets: true
+    - anchor_cannot_override_hard_pharmacology_rules: true
 
 defaults:
   interpretation:
-    0.5: "ML-dominant (high freedom)"
-    1.0: "Balanced (default)"
-    1.1: "Light inspo bias"
-    1.2: "Moderate inspo bias"
-    1.3: "Strong inspo bias"
-    1.5: "Very strong inspo bias"
-    2.0: "Inspo nearly authoritative"
+    0.5: "ML-dominant (high freedom, exploratory)"
+    1.0: "Balanced (default, recommended)"
+    1.1: "Light inspo bias (minor stabilization)"
+    1.2: "Moderate inspo bias (preferred for known substances)"
+    1.3: "Strong inspo bias (limits speculative drift)"
+    1.5: "Very strong inspo bias (near-prior locking)"
+    2.0: "Inspo nearly authoritative (manual override mode)"
+
+notes:
+  - inspo_anchor affects relative weighting, not absolute truth
+  - inspo_anchor should be increased for well-characterized substances
+  - inspo_anchor should be decreased for novel or poorly studied compounds
+  - inspo_anchor must not be used to justify unsupported neuro buckets

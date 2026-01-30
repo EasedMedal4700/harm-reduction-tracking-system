@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_at": "2026-01-24T18:39:30.766476+00:00",
+    "generated_at": "2026-01-26T19:20:24.812045+00:00",
     "source_files": {
       "drugs_json": "..\\drugs.json",
       "baseline_json": "baseline.json",
@@ -33,7 +33,9 @@
         "dimethylone",
         "huperzine-a",
         "ibuprofen",
+        "jenkem",
         "l-theanine",
+        "lithium",
         "melatonin",
         "mexamine",
         "moclobemide",
@@ -202,7 +204,7 @@
     "1,4-butanediol": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.984,
+          "weight": 0.985,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
@@ -224,7 +226,7 @@
     "1b-lsd": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.938,
+          "weight": 0.937,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -242,7 +244,7 @@
     "1cp-lsd": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.938,
+          "weight": 0.937,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -260,7 +262,7 @@
     "1p-eth-lad": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.938,
+          "weight": 0.937,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -314,7 +316,7 @@
     "2-chloro-ephenidine": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.879,
+          "weight": 0.882,
           "tolerance_type": "nmda"
         }
       },
@@ -332,12 +334,8 @@
     "2-dpmp": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.959,
+          "weight": 0.963,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.052,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 18.0,
@@ -354,7 +352,7 @@
     "2-fa": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.921,
+          "weight": 0.928,
           "tolerance_type": "stimulant"
         }
       },
@@ -372,7 +370,7 @@
     "2-fdck": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.898,
+          "weight": 0.901,
           "tolerance_type": "nmda"
         }
       },
@@ -390,7 +388,7 @@
     "2-fea": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.866,
+          "weight": 0.864,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
@@ -412,7 +410,7 @@
     "2-fma": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.997,
+          "weight": 1.0,
           "tolerance_type": "stimulant"
         }
       },
@@ -466,7 +464,7 @@
     "2-methyl-2-butanol": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.969,
+          "weight": 0.967,
           "tolerance_type": "gaba"
         }
       },
@@ -484,12 +482,8 @@
     "2-methylamphetamine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.959,
+          "weight": 0.963,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.052,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -528,11 +522,11 @@
     "2-mppp": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.719,
+          "weight": 0.712,
           "tolerance_type": "opioid"
         },
         "stimulant": {
-          "weight": 0.292,
+          "weight": 0.296,
           "tolerance_type": "stimulant"
         }
       },
@@ -626,7 +620,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -644,11 +638,11 @@
     "25c-nbome": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.821,
+          "weight": 0.827,
           "tolerance_type": "serotonin_psychedelic"
         },
         "gaba": {
-          "weight": 0.56,
+          "weight": 0.552,
           "tolerance_type": "gaba"
         },
         "serotonin_release": {
@@ -656,7 +650,7 @@
           "tolerance_type": "serotonin_release"
         },
         "stimulant": {
-          "weight": 0.201,
+          "weight": 0.229,
           "tolerance_type": "stimulant"
         }
       },
@@ -674,7 +668,7 @@
     "25d-nbome": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.911,
+          "weight": 0.913,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -692,7 +686,7 @@
     "25e-nbome": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.911,
+          "weight": 0.913,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -714,7 +708,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -736,7 +730,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -754,12 +748,16 @@
     "25i-nbf": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -776,12 +774,16 @@
     "25i-nbmd": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -802,7 +804,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -824,16 +826,12 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.09,
+          "weight": 0.084,
           "tolerance_type": "stimulant"
         },
         "nmda": {
           "weight": 0.058,
           "tolerance_type": "nmda"
-        },
-        "cannabinoid": {
-          "weight": 0.054,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -854,7 +852,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -876,7 +874,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -898,7 +896,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -916,12 +914,16 @@
     "25t-2-nbome": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -938,12 +940,16 @@
     "25t-4-nbome": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -982,12 +988,16 @@
     "2c-b-an": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -1004,7 +1014,7 @@
     "2c-b-fly": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.97,
+          "weight": 0.971,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -1022,12 +1032,16 @@
     "2c-b-fly-nbome": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.59,
+          "weight": 0.586,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
-          "weight": 0.393,
+          "weight": 0.395,
           "tolerance_type": "serotonin_release"
+        },
+        "cannabinoid": {
+          "weight": 0.059,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -1044,11 +1058,11 @@
     "2c-c": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.898,
+          "weight": 0.899,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.101,
+          "weight": 0.106,
           "tolerance_type": "stimulant"
         }
       },
@@ -1066,16 +1080,8 @@
     "2c-d": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.746,
+          "weight": 0.896,
           "tolerance_type": "serotonin_psychedelic"
-        },
-        "gaba": {
-          "weight": 0.202,
-          "tolerance_type": "gaba"
-        },
-        "opioid": {
-          "weight": 0.123,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -1084,10 +1090,10 @@
         "value": 35.0,
         "unit": "mg"
       },
-      "potency_multiplier": 1.0,
-      "duration_multiplier": 1.2,
-      "tolerance_gain_rate": 0.25,
-      "tolerance_decay_days": 5.0
+      "potency_multiplier": 0.7,
+      "duration_multiplier": 0.8,
+      "tolerance_gain_rate": 1.8,
+      "tolerance_decay_days": 7.0
     },
     "2c-e": {
       "neuro_buckets": {
@@ -1118,7 +1124,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -1133,14 +1139,36 @@
       "tolerance_gain_rate": 0.25,
       "tolerance_decay_days": 5.0
     },
+    "2c-g-5": {
+      "neuro_buckets": {
+        "serotonin_psychedelic": {
+          "weight": 0.712,
+          "tolerance_type": "serotonin_psychedelic"
+        },
+        "serotonin_release": {
+          "weight": 0.054,
+          "tolerance_type": "serotonin_release"
+        }
+      },
+      "half_life_hours": 12.0,
+      "active_threshold": 0.05,
+      "standard_unit": {
+        "value": 10.0,
+        "unit": "mg"
+      },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 0.25,
+      "tolerance_decay_days": 5.0
+    },
     "2c-i": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.968,
+          "weight": 0.967,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.095,
+          "weight": 0.085,
           "tolerance_type": "stimulant"
         }
       },
@@ -1162,7 +1190,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -1184,7 +1212,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -1202,15 +1230,15 @@
     "2c-p": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.852,
+          "weight": 0.855,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.107,
+          "weight": 0.113,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.077,
+          "weight": 0.076,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -1228,12 +1256,16 @@
     "2c-t": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.59,
+          "weight": 0.586,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
-          "weight": 0.393,
+          "weight": 0.395,
           "tolerance_type": "serotonin_release"
+        },
+        "cannabinoid": {
+          "weight": 0.059,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -1254,7 +1286,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.162,
+          "weight": 0.19,
           "tolerance_type": "stimulant"
         }
       },
@@ -1276,7 +1308,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -1294,11 +1326,11 @@
     "2c-t-4": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.684,
+          "weight": 0.687,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
-          "weight": 0.069,
+          "weight": 0.068,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -1316,7 +1348,7 @@
     "2c-t-7": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.79,
+          "weight": 0.797,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
@@ -1324,7 +1356,7 @@
           "tolerance_type": "serotonin_release"
         },
         "stimulant": {
-          "weight": 0.057,
+          "weight": 0.078,
           "tolerance_type": "stimulant"
         }
       },
@@ -1342,7 +1374,7 @@
     "3,4-ctmp": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.921,
+          "weight": 0.928,
           "tolerance_type": "stimulant"
         }
       },
@@ -1360,11 +1392,11 @@
     "3,6-dmpm": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.799,
+          "weight": 0.793,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.077,
+          "weight": 0.07,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -1382,12 +1414,8 @@
     "3-cmc": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.877,
+          "weight": 0.963,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.156,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -1397,18 +1425,18 @@
         "unit": "mg"
       },
       "potency_multiplier": 1.0,
-      "duration_multiplier": 1.2,
-      "tolerance_gain_rate": 0.25,
-      "tolerance_decay_days": 5.0
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.6,
+      "tolerance_decay_days": 7.0
     },
     "3-fa": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.877,
+          "weight": 0.889,
           "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.156,
+          "weight": 0.136,
           "tolerance_type": "opioid"
         }
       },
@@ -1426,7 +1454,7 @@
     "3-fea": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -1448,15 +1476,15 @@
     "3-fma": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.762,
+          "weight": 0.784,
           "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.126,
+          "weight": 0.11,
           "tolerance_type": "opioid"
         },
         "serotonin_release": {
-          "weight": 0.059,
+          "weight": 0.058,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -1474,15 +1502,15 @@
     "3-fmc": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.762,
+          "weight": 0.784,
           "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.126,
+          "weight": 0.11,
           "tolerance_type": "opioid"
         },
         "serotonin_release": {
-          "weight": 0.059,
+          "weight": 0.058,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -1500,7 +1528,7 @@
     "3-fpm": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.975,
+          "weight": 0.972,
           "tolerance_type": "stimulant"
         }
       },
@@ -1518,20 +1546,16 @@
     "3-ho-pce": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.685,
+          "weight": 0.696,
           "tolerance_type": "nmda"
         },
         "cannabinoid": {
-          "weight": 0.16,
+          "weight": 0.146,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.134,
+          "weight": 0.141,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.052,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -1548,20 +1572,16 @@
     "3-ho-pcp": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.685,
+          "weight": 0.696,
           "tolerance_type": "nmda"
         },
         "cannabinoid": {
-          "weight": 0.16,
+          "weight": 0.146,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.134,
+          "weight": 0.141,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.052,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -1578,7 +1598,7 @@
     "3-mec": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -1600,20 +1620,16 @@
     "3-meo-pce": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.685,
+          "weight": 0.696,
           "tolerance_type": "nmda"
         },
         "cannabinoid": {
-          "weight": 0.16,
+          "weight": 0.146,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.134,
+          "weight": 0.141,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.052,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -1630,15 +1646,15 @@
     "3-meo-pcmo": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.678,
+          "weight": 0.692,
           "tolerance_type": "nmda"
         },
         "gaba": {
-          "weight": 0.436,
+          "weight": 0.418,
           "tolerance_type": "gaba"
         },
         "serotonin_psychedelic": {
-          "weight": 0.087,
+          "weight": 0.089,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -1656,7 +1672,7 @@
     "3-meo-pcp": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.849,
+          "weight": 0.85,
           "tolerance_type": "nmda"
         },
         "stimulant": {
@@ -1678,20 +1694,16 @@
     "3-meo-pcpr": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.685,
+          "weight": 0.696,
           "tolerance_type": "nmda"
         },
         "cannabinoid": {
-          "weight": 0.16,
+          "weight": 0.146,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.134,
+          "weight": 0.141,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.052,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -1708,7 +1720,7 @@
     "3-meo-pcpy": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.909,
+          "weight": 0.914,
           "tolerance_type": "nmda"
         },
         "gaba": {
@@ -1730,11 +1742,11 @@
     "3-meomc": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.576,
+          "weight": 0.591,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.482,
+          "weight": 0.48,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -1752,15 +1764,15 @@
     "3-mmc": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.677,
+          "weight": 0.691,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.459,
+          "weight": 0.46,
           "tolerance_type": "serotonin_release"
         },
         "gaba": {
-          "weight": 0.08,
+          "weight": 0.094,
           "tolerance_type": "gaba"
         }
       },
@@ -1778,7 +1790,7 @@
     "3-oh-phenazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.956,
+          "weight": 0.929,
           "tolerance_type": "gaba"
         }
       },
@@ -1818,11 +1830,11 @@
     "3c-p": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.81,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.497,
+          "weight": 0.499,
           "tolerance_type": "stimulant"
         }
       },
@@ -1840,11 +1852,11 @@
     "4,4-dmar": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.897,
+          "weight": 0.899,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.137,
+          "weight": 0.138,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -1862,7 +1874,7 @@
     "4-aco-dalt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.911,
+          "weight": 0.913,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -1880,7 +1892,7 @@
     "4-aco-det": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.938,
+          "weight": 0.937,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -1898,7 +1910,7 @@
     "4-aco-dipt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.911,
+          "weight": 0.913,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -1916,11 +1928,11 @@
     "4-aco-dmt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.84,
+          "weight": 0.842,
           "tolerance_type": "serotonin_psychedelic"
         },
         "opioid": {
-          "weight": 0.015,
+          "weight": 0.01,
           "tolerance_type": "opioid"
         }
       },
@@ -1938,12 +1950,16 @@
     "4-aco-dpt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -1960,7 +1976,7 @@
     "4-aco-met": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.989,
+          "weight": 0.995,
           "tolerance_type": "serotonin_psychedelic"
         },
         "gaba": {
@@ -1982,12 +1998,16 @@
     "4-aco-mipt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.59,
+          "weight": 0.586,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
-          "weight": 0.393,
+          "weight": 0.395,
           "tolerance_type": "serotonin_release"
+        },
+        "cannabinoid": {
+          "weight": 0.059,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -2004,11 +2024,11 @@
     "4-benzylpiperidine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.877,
+          "weight": 0.889,
           "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.156,
+          "weight": 0.136,
           "tolerance_type": "opioid"
         }
       },
@@ -2026,16 +2046,12 @@
     "4-cbc": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.652,
+          "weight": 0.671,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.499,
+          "weight": 0.495,
           "tolerance_type": "serotonin_release"
-        },
-        "cannabinoid": {
-          "weight": 0.056,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -2052,7 +2068,7 @@
     "4-chlorodiazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.514,
+          "weight": 0.51,
           "tolerance_type": "gaba"
         }
       },
@@ -2070,15 +2086,15 @@
     "4-cmc": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.762,
+          "weight": 0.784,
           "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.126,
+          "weight": 0.11,
           "tolerance_type": "opioid"
         },
         "serotonin_release": {
-          "weight": 0.059,
+          "weight": 0.058,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -2096,15 +2112,15 @@
     "4-emc": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.762,
+          "weight": 0.784,
           "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.126,
+          "weight": 0.11,
           "tolerance_type": "opioid"
         },
         "serotonin_release": {
-          "weight": 0.059,
+          "weight": 0.058,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -2122,7 +2138,7 @@
     "4-epd": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.746,
+          "weight": 0.744,
           "tolerance_type": "stimulant"
         }
       },
@@ -2140,7 +2156,7 @@
     "4-fa": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.848,
+          "weight": 0.854,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
@@ -2162,11 +2178,11 @@
     "4-fea": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.799,
+          "weight": 0.793,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.077,
+          "weight": 0.07,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -2184,7 +2200,7 @@
     "4-fluoroethylphenidate": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -2206,7 +2222,7 @@
     "4-fluoromethylphenidate": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -2246,15 +2262,15 @@
     "4-fma": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.707,
+          "weight": 0.736,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.453,
+          "weight": 0.452,
           "tolerance_type": "serotonin_release"
         },
         "opioid": {
-          "weight": 0.128,
+          "weight": 0.113,
           "tolerance_type": "opioid"
         }
       },
@@ -2272,15 +2288,15 @@
     "4-fmc": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.762,
+          "weight": 0.784,
           "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.126,
+          "weight": 0.11,
           "tolerance_type": "opioid"
         },
         "serotonin_release": {
-          "weight": 0.059,
+          "weight": 0.058,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -2297,13 +2313,13 @@
     },
     "4-fpm": {
       "neuro_buckets": {
-        "cannabinoid": {
-          "weight": 0.077,
-          "tolerance_type": "cannabinoid"
-        },
         "stimulant": {
-          "weight": 0.077,
+          "weight": 0.08,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.06,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -2320,20 +2336,16 @@
     "4-fpp": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.562,
+          "weight": 0.567,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.443,
+          "weight": 0.436,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
-          "weight": 0.401,
+          "weight": 0.406,
           "tolerance_type": "serotonin_release"
-        },
-        "gaba": {
-          "weight": 0.053,
-          "tolerance_type": "gaba"
         }
       },
       "half_life_hours": 12.0,
@@ -2350,7 +2362,7 @@
     "4-ho-det": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.911,
+          "weight": 0.913,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -2368,7 +2380,7 @@
     "4-ho-dipt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.911,
+          "weight": 0.913,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -2386,12 +2398,16 @@
     "4-ho-dpt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -2408,7 +2424,7 @@
     "4-ho-ept": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.768,
+          "weight": 0.763,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -2426,12 +2442,16 @@
     "4-ho-mcpt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -2448,7 +2468,7 @@
     "4-ho-met": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.792,
+          "weight": 0.8,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
@@ -2492,7 +2512,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -2510,12 +2530,16 @@
     "4-ho-mpt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -2532,15 +2556,15 @@
     "4-mec": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.762,
+          "weight": 0.784,
           "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.126,
+          "weight": 0.11,
           "tolerance_type": "opioid"
         },
         "serotonin_release": {
-          "weight": 0.059,
+          "weight": 0.058,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -2558,16 +2582,16 @@
     "4-meo-butryfentanyl": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.758,
+          "weight": 0.765,
           "tolerance_type": "opioid"
         },
-        "cannabinoid": {
-          "weight": 0.195,
-          "tolerance_type": "cannabinoid"
-        },
         "stimulant": {
-          "weight": 0.172,
+          "weight": 0.174,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.138,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -2588,7 +2612,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -2606,16 +2630,16 @@
     "4-meo-pcp": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.666,
+          "weight": 0.68,
           "tolerance_type": "nmda"
         },
-        "cannabinoid": {
-          "weight": 0.144,
-          "tolerance_type": "cannabinoid"
-        },
         "serotonin_release": {
-          "weight": 0.097,
+          "weight": 0.091,
           "tolerance_type": "serotonin_release"
+        },
+        "cannabinoid": {
+          "weight": 0.089,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -2632,7 +2656,7 @@
     "4-methylaminorex": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -2654,12 +2678,8 @@
     "4-methylmethylphenidate": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.959,
+          "weight": 0.963,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.052,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -2676,7 +2696,7 @@
     "4-mpd": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.746,
+          "weight": 0.744,
           "tolerance_type": "stimulant"
         }
       },
@@ -2694,15 +2714,15 @@
     "4-mta": {
       "neuro_buckets": {
         "serotonin_release": {
-          "weight": 0.34,
+          "weight": 0.343,
           "tolerance_type": "serotonin_release"
         },
         "stimulant": {
-          "weight": 0.136,
+          "weight": 0.137,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
-          "weight": 0.091,
+          "weight": 0.119,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -2720,7 +2740,7 @@
     "4f-php": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -2764,15 +2784,15 @@
           "tolerance_type": "serotonin_release"
         },
         "gaba": {
-          "weight": 0.661,
+          "weight": 0.688,
           "tolerance_type": "gaba"
         },
         "stimulant": {
-          "weight": 0.553,
+          "weight": 0.574,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.297,
+          "weight": 0.302,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -2790,15 +2810,15 @@
     "5-apdb": {
       "neuro_buckets": {
         "serotonin_release": {
-          "weight": 0.792,
+          "weight": 0.791,
           "tolerance_type": "serotonin_release"
         },
         "stimulant": {
-          "weight": 0.235,
+          "weight": 0.241,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.054,
+          "weight": 0.055,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -2816,15 +2836,15 @@
     "5-apdi": {
       "neuro_buckets": {
         "serotonin_release": {
-          "weight": 0.464,
+          "weight": 0.47,
           "tolerance_type": "serotonin_release"
         },
         "cannabinoid": {
-          "weight": 0.069,
+          "weight": 0.129,
           "tolerance_type": "cannabinoid"
         },
         "opioid": {
-          "weight": 0.069,
+          "weight": 0.055,
           "tolerance_type": "opioid"
         }
       },
@@ -2842,7 +2862,7 @@
     "5-bpdi": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -2864,12 +2884,16 @@
     "5-br-dmt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -2886,7 +2910,7 @@
     "5-dbfpv": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -2908,15 +2932,15 @@
     "5-eapb": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.658,
+          "weight": 0.681,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.53,
+          "weight": 0.528,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.3,
+          "weight": 0.304,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -2952,15 +2976,15 @@
     "5-iai": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.658,
+          "weight": 0.681,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.53,
+          "weight": 0.528,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.3,
+          "weight": 0.304,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -2978,15 +3002,15 @@
     "5-it": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.658,
+          "weight": 0.681,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.53,
+          "weight": 0.528,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.3,
+          "weight": 0.304,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3004,15 +3028,15 @@
     "5-mapb": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.658,
+          "weight": 0.681,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.53,
+          "weight": 0.528,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.3,
+          "weight": 0.304,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3030,15 +3054,15 @@
     "5-mapdb": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.633,
+          "weight": 0.649,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.466,
+          "weight": 0.468,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.378,
+          "weight": 0.376,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3060,11 +3084,11 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.441,
+          "weight": 0.45,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.305,
+          "weight": 0.304,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -3082,15 +3106,15 @@
     "5-meo-dalt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.906,
+          "weight": 0.918,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.093,
+          "weight": 0.121,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
-          "weight": 0.074,
+          "weight": 0.066,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -3108,15 +3132,15 @@
     "5-meo-dibf": {
       "neuro_buckets": {
         "serotonin_release": {
-          "weight": 0.34,
+          "weight": 0.343,
           "tolerance_type": "serotonin_release"
         },
         "stimulant": {
-          "weight": 0.136,
+          "weight": 0.137,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
-          "weight": 0.091,
+          "weight": 0.119,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -3134,7 +3158,7 @@
     "5-meo-dipt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.895,
+          "weight": 0.896,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
@@ -3156,11 +3180,11 @@
     "5-meo-dmt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.63,
+          "weight": 0.632,
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.076,
+          "weight": 0.063,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -3178,7 +3202,7 @@
     "5-meo-dpt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.911,
+          "weight": 0.913,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3200,7 +3224,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -3218,7 +3242,7 @@
     "5-meo-malt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.911,
+          "weight": 0.913,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3236,7 +3260,7 @@
     "5-meo-met": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.911,
+          "weight": 0.913,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3254,15 +3278,15 @@
     "5-meo-mipt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.796,
+          "weight": 0.803,
           "tolerance_type": "serotonin_psychedelic"
         },
         "gaba": {
-          "weight": 0.507,
+          "weight": 0.496,
           "tolerance_type": "gaba"
         },
         "stimulant": {
-          "weight": 0.123,
+          "weight": 0.155,
           "tolerance_type": "stimulant"
         }
       },
@@ -3280,7 +3304,7 @@
     "5-meo-nipt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.938,
+          "weight": 0.937,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3298,7 +3322,7 @@
     "5-meo-pyr-t": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.938,
+          "weight": 0.937,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3316,7 +3340,7 @@
     "5-methyl-bk-mdea": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.793,
+          "weight": 0.795,
           "tolerance_type": "stimulant"
         }
       },
@@ -3334,11 +3358,11 @@
     "5-ppdi": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.932,
+          "weight": 0.931,
           "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.068,
+          "weight": 0.061,
           "tolerance_type": "opioid"
         }
       },
@@ -3355,13 +3379,13 @@
     },
     "5f-akb48": {
       "neuro_buckets": {
-        "cannabinoid": {
-          "weight": 0.223,
-          "tolerance_type": "cannabinoid"
-        },
         "stimulant": {
           "weight": 0.216,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.206,
+          "tolerance_type": "cannabinoid"
         },
         "serotonin_psychedelic": {
           "weight": 0.1,
@@ -3390,7 +3414,7 @@
     "5f-pb-22": {
       "neuro_buckets": {
         "cannabinoid": {
-          "weight": 0.741,
+          "weight": 0.735,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
@@ -3412,11 +3436,11 @@
     "6-apb": {
       "neuro_buckets": {
         "serotonin_release": {
-          "weight": 0.946,
+          "weight": 0.945,
           "tolerance_type": "serotonin_release"
         },
         "stimulant": {
-          "weight": 0.064,
+          "weight": 0.07,
           "tolerance_type": "stimulant"
         }
       },
@@ -3434,15 +3458,15 @@
     "6-apdb": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.658,
+          "weight": 0.681,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.53,
+          "weight": 0.528,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.3,
+          "weight": 0.304,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3460,15 +3484,15 @@
     "6-eapb": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.658,
+          "weight": 0.681,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.53,
+          "weight": 0.528,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.3,
+          "weight": 0.304,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3486,15 +3510,15 @@
     "6-mapb": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.658,
+          "weight": 0.681,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.53,
+          "weight": 0.528,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.3,
+          "weight": 0.304,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3512,16 +3536,8 @@
     "6-mddm": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.91,
+          "weight": 0.94,
           "tolerance_type": "opioid"
-        },
-        "gaba": {
-          "weight": 0.067,
-          "tolerance_type": "gaba"
-        },
-        "nmda": {
-          "weight": 0.054,
-          "tolerance_type": "nmda"
         }
       },
       "half_life_hours": 12.0,
@@ -3538,15 +3554,15 @@
     "a-pihp": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.767,
+          "weight": 0.776,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.429,
+          "weight": 0.43,
           "tolerance_type": "serotonin_release"
         },
         "cannabinoid": {
-          "weight": 0.071,
+          "weight": 0.075,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -3564,7 +3580,7 @@
     "a-pvp": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.883,
+          "weight": 0.873,
           "tolerance_type": "stimulant"
         },
         "nmda": {
@@ -3604,7 +3620,7 @@
     "ab-chminaca": {
       "neuro_buckets": {
         "cannabinoid": {
-          "weight": 0.741,
+          "weight": 0.735,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
@@ -3626,24 +3642,24 @@
     "ab-fubinaca": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.273,
+          "weight": 0.269,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
-          "weight": 0.25,
+          "weight": 0.239,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_psychedelic": {
-          "weight": 0.149,
+          "weight": 0.146,
           "tolerance_type": "serotonin_psychedelic"
         },
-        "opioid": {
-          "weight": 0.059,
-          "tolerance_type": "opioid"
-        },
         "nmda": {
-          "weight": 0.053,
+          "weight": 0.054,
           "tolerance_type": "nmda"
+        },
+        "opioid": {
+          "weight": 0.053,
+          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -3659,13 +3675,13 @@
     },
     "acetildenafil": {
       "neuro_buckets": {
-        "cannabinoid": {
-          "weight": 0.077,
-          "tolerance_type": "cannabinoid"
-        },
         "stimulant": {
-          "weight": 0.077,
+          "weight": 0.08,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.06,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -3685,13 +3701,13 @@
           "weight": 1.0,
           "tolerance_type": "opioid"
         },
-        "cannabinoid": {
-          "weight": 0.078,
-          "tolerance_type": "cannabinoid"
-        },
         "serotonin_release": {
           "weight": 0.066,
           "tolerance_type": "serotonin_release"
+        },
+        "cannabinoid": {
+          "weight": 0.05,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -3708,16 +3724,16 @@
     "acryl-fentanyl": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.928,
+          "weight": 0.956,
           "tolerance_type": "opioid"
         },
-        "stimulant": {
-          "weight": 0.161,
-          "tolerance_type": "stimulant"
-        },
         "cannabinoid": {
-          "weight": 0.125,
+          "weight": 0.149,
           "tolerance_type": "cannabinoid"
+        },
+        "stimulant": {
+          "weight": 0.14,
+          "tolerance_type": "stimulant"
         }
       },
       "half_life_hours": 12.0,
@@ -3734,7 +3750,7 @@
     "adderall": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.853,
+          "weight": 0.837,
           "tolerance_type": "stimulant"
         }
       },
@@ -3752,15 +3768,19 @@
     "adinazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.876,
+          "weight": 0.837,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.088,
+          "weight": 0.09,
           "tolerance_type": "nmda"
         },
+        "cannabinoid": {
+          "weight": 0.076,
+          "tolerance_type": "cannabinoid"
+        },
         "opioid": {
-          "weight": 0.06,
+          "weight": 0.058,
           "tolerance_type": "opioid"
         }
       },
@@ -3778,7 +3798,7 @@
     "adrafinil": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.72,
+          "weight": 0.722,
           "tolerance_type": "stimulant"
         }
       },
@@ -3796,15 +3816,15 @@
     "aet": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.716,
+          "weight": 0.71,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.556,
+          "weight": 0.555,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.235,
+          "weight": 0.239,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -3825,16 +3845,16 @@
           "weight": 1.0,
           "tolerance_type": "gaba"
         },
-        "stimulant": {
-          "weight": 0.157,
-          "tolerance_type": "stimulant"
-        },
         "cannabinoid": {
-          "weight": 0.115,
+          "weight": 0.18,
           "tolerance_type": "cannabinoid"
         },
+        "stimulant": {
+          "weight": 0.147,
+          "tolerance_type": "stimulant"
+        },
         "serotonin_psychedelic": {
-          "weight": 0.102,
+          "weight": 0.092,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -3852,15 +3872,15 @@
     "ah-7921": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.899,
+          "weight": 0.931,
           "tolerance_type": "opioid"
         },
         "cannabinoid": {
-          "weight": 0.109,
+          "weight": 0.092,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
-          "weight": 0.065,
+          "weight": 0.07,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -3878,11 +3898,11 @@
     "al-lad": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.819,
+          "weight": 0.822,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.184,
+          "weight": 0.19,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
@@ -3904,11 +3924,11 @@
     "alcohol": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.906,
+          "weight": 0.904,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.588,
+          "weight": 0.589,
           "tolerance_type": "nmda"
         },
         "opioid": {
@@ -3952,12 +3972,16 @@
     "aleph": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.59,
+          "weight": 0.586,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
-          "weight": 0.393,
+          "weight": 0.395,
           "tolerance_type": "serotonin_release"
+        },
+        "cannabinoid": {
+          "weight": 0.059,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -3978,7 +4002,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -3996,15 +4020,19 @@
     "allobarbital": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.876,
+          "weight": 0.837,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.088,
+          "weight": 0.09,
           "tolerance_type": "nmda"
         },
+        "cannabinoid": {
+          "weight": 0.076,
+          "tolerance_type": "cannabinoid"
+        },
         "opioid": {
-          "weight": 0.06,
+          "weight": 0.058,
           "tolerance_type": "opioid"
         }
       },
@@ -4022,11 +4050,11 @@
     "allylescaline": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.963,
+          "weight": 0.967,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.229,
+          "weight": 0.236,
           "tolerance_type": "stimulant"
         }
       },
@@ -4079,13 +4107,13 @@
     },
     "am-2201": {
       "neuro_buckets": {
-        "cannabinoid": {
-          "weight": 0.223,
-          "tolerance_type": "cannabinoid"
-        },
         "stimulant": {
           "weight": 0.216,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.206,
+          "tolerance_type": "cannabinoid"
         },
         "serotonin_psychedelic": {
           "weight": 0.1,
@@ -4114,11 +4142,11 @@
     "amfecloral": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.577,
+          "weight": 0.572,
           "tolerance_type": "stimulant"
         },
         "gaba": {
-          "weight": 0.486,
+          "weight": 0.431,
           "tolerance_type": "gaba"
         }
       },
@@ -4136,7 +4164,7 @@
     "amfonelicacid": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.945,
+          "weight": 0.947,
           "tolerance_type": "stimulant"
         }
       },
@@ -4154,7 +4182,7 @@
     "aminorex": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.746,
+          "weight": 0.744,
           "tolerance_type": "stimulant"
         }
       },
@@ -4172,7 +4200,7 @@
     "amobarbital": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.845,
+          "weight": 0.841,
           "tolerance_type": "gaba"
         }
       },
@@ -4190,11 +4218,11 @@
     "amphetamine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.68,
+          "weight": 0.654,
           "tolerance_type": "stimulant"
         },
         "gaba": {
-          "weight": 0.071,
+          "weight": 0.079,
           "tolerance_type": "gaba"
         }
       },
@@ -4212,11 +4240,11 @@
     "amt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.81,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.497,
+          "weight": 0.499,
           "tolerance_type": "stimulant"
         }
       },
@@ -4238,12 +4266,8 @@
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.075,
+          "weight": 0.077,
           "tolerance_type": "serotonin_psychedelic"
-        },
-        "cannabinoid": {
-          "weight": 0.069,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -4260,11 +4284,11 @@
     "armodafinil": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.879,
+          "weight": 0.863,
           "tolerance_type": "stimulant"
         },
         "gaba": {
-          "weight": 0.053,
+          "weight": 0.063,
           "tolerance_type": "gaba"
         }
       },
@@ -4282,8 +4306,12 @@
     "ashwagandha": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.519,
+          "weight": 0.473,
           "tolerance_type": "gaba"
+        },
+        "cannabinoid": {
+          "weight": 0.078,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -4300,7 +4328,7 @@
     "atomoxetine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.722,
+          "weight": 0.713,
           "tolerance_type": "stimulant"
         }
       },
@@ -4318,19 +4346,19 @@
     "ayahuasca": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.691,
+          "weight": 0.69,
           "tolerance_type": "serotonin_psychedelic"
         },
         "gaba": {
-          "weight": 0.495,
+          "weight": 0.496,
           "tolerance_type": "gaba"
         },
         "stimulant": {
-          "weight": 0.231,
+          "weight": 0.243,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.193,
+          "weight": 0.194,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -4348,11 +4376,11 @@
     "baclofen": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -4370,11 +4398,11 @@
     "barbital": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -4392,7 +4420,7 @@
     "bentazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.963,
+          "weight": 0.948,
           "tolerance_type": "gaba"
         }
       },
@@ -4414,15 +4442,19 @@
           "tolerance_type": "opioid"
         },
         "gaba": {
-          "weight": 0.176,
+          "weight": 0.14,
           "tolerance_type": "gaba"
         },
         "stimulant": {
-          "weight": 0.118,
+          "weight": 0.107,
           "tolerance_type": "stimulant"
         },
+        "cannabinoid": {
+          "weight": 0.095,
+          "tolerance_type": "cannabinoid"
+        },
         "serotonin_psychedelic": {
-          "weight": 0.088,
+          "weight": 0.077,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -4442,10 +4474,6 @@
         "stimulant": {
           "weight": 1.0,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.051,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -4466,7 +4494,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.07,
+          "weight": 0.054,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -4488,7 +4516,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -4506,11 +4534,11 @@
     "bk-ivp": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.799,
+          "weight": 0.793,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.077,
+          "weight": 0.07,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -4532,7 +4560,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -4550,11 +4578,11 @@
     "bromadol": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.765,
+          "weight": 0.77,
           "tolerance_type": "opioid"
         },
         "gaba": {
-          "weight": 0.582,
+          "weight": 0.565,
           "tolerance_type": "gaba"
         }
       },
@@ -4572,11 +4600,11 @@
     "bromantane": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.913,
+          "weight": 0.891,
           "tolerance_type": "stimulant"
         },
         "gaba": {
-          "weight": 0.387,
+          "weight": 0.349,
           "tolerance_type": "gaba"
         }
       },
@@ -4612,7 +4640,7 @@
     "bromazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.959,
+          "weight": 0.966,
           "tolerance_type": "gaba"
         }
       },
@@ -4630,7 +4658,7 @@
     "bromo-dragonfly": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.911,
+          "weight": 0.913,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -4666,16 +4694,12 @@
     "buphedrone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.708,
+          "weight": 0.719,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.105,
+          "weight": 0.102,
           "tolerance_type": "serotonin_release"
-        },
-        "cannabinoid": {
-          "weight": 0.057,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -4692,8 +4716,12 @@
     "buprenorphine": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.885,
+          "weight": 0.916,
           "tolerance_type": "opioid"
+        },
+        "serotonin_release": {
+          "weight": 0.055,
+          "tolerance_type": "serotonin_release"
         }
       },
       "half_life_hours": 12.0,
@@ -4710,7 +4738,7 @@
     "bupropion": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.344,
+          "weight": 0.346,
           "tolerance_type": "stimulant"
         }
       },
@@ -4728,16 +4756,20 @@
     "butylone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.548,
+          "weight": 0.574,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.551,
+          "weight": 0.548,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.28,
+          "weight": 0.287,
           "tolerance_type": "serotonin_psychedelic"
+        },
+        "gaba": {
+          "weight": 0.001,
+          "tolerance_type": "gaba"
         }
       },
       "half_life_hours": 12.0,
@@ -4754,11 +4786,11 @@
     "butyrfentanyl": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.926,
+          "weight": 0.928,
           "tolerance_type": "opioid"
         },
         "gaba": {
-          "weight": 0.18,
+          "weight": 0.176,
           "tolerance_type": "gaba"
         }
       },
@@ -4776,16 +4808,12 @@
     "bzp": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.708,
+          "weight": 0.719,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.105,
+          "weight": 0.102,
           "tolerance_type": "serotonin_release"
-        },
-        "cannabinoid": {
-          "weight": 0.057,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -4802,12 +4830,8 @@
     "c30-nbome": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.218,
+          "weight": 0.22,
           "tolerance_type": "stimulant"
-        },
-        "cannabinoid": {
-          "weight": 0.051,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -4824,7 +4848,7 @@
     "caffeine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.332,
+          "weight": 0.284,
           "tolerance_type": "stimulant"
         }
       },
@@ -4836,13 +4860,13 @@
       },
       "potency_multiplier": 0.15,
       "duration_multiplier": 1.0,
-      "tolerance_gain_rate": 0.4,
+      "tolerance_gain_rate": 0.3,
       "tolerance_decay_days": 2.0
     },
     "camazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.999,
+          "weight": 0.989,
           "tolerance_type": "gaba"
         }
       },
@@ -4882,7 +4906,7 @@
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.099,
+          "weight": 0.123,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -4900,7 +4924,7 @@
     "carphedon": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.7,
+          "weight": 0.701,
           "tolerance_type": "stimulant"
         }
       },
@@ -4918,16 +4942,12 @@
     "centrophenoxine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.738,
+          "weight": 0.726,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.059,
+          "weight": 0.051,
           "tolerance_type": "serotonin_psychedelic"
-        },
-        "gaba": {
-          "weight": 0.054,
-          "tolerance_type": "gaba"
         }
       },
       "half_life_hours": 12.0,
@@ -4944,7 +4964,7 @@
     "changa": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.765,
+          "weight": 0.763,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -4962,15 +4982,15 @@
     "chloral-betaine": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.465,
+          "weight": 0.438,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.08,
+          "weight": 0.134,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
-          "weight": 0.052,
+          "weight": 0.056,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -4988,15 +5008,19 @@
     "chloroform": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.876,
+          "weight": 0.837,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.088,
+          "weight": 0.09,
           "tolerance_type": "nmda"
         },
+        "cannabinoid": {
+          "weight": 0.076,
+          "tolerance_type": "cannabinoid"
+        },
         "opioid": {
-          "weight": 0.06,
+          "weight": 0.058,
           "tolerance_type": "opioid"
         }
       },
@@ -5032,11 +5056,11 @@
     "cinolazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -5054,7 +5078,7 @@
     "citalopram": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.013,
+          "weight": 0.012,
           "tolerance_type": "stimulant"
         }
       },
@@ -5093,16 +5117,16 @@
           "weight": 1.0,
           "tolerance_type": "gaba"
         },
-        "stimulant": {
-          "weight": 0.234,
-          "tolerance_type": "stimulant"
-        },
         "cannabinoid": {
-          "weight": 0.192,
+          "weight": 0.24,
           "tolerance_type": "cannabinoid"
         },
+        "stimulant": {
+          "weight": 0.227,
+          "tolerance_type": "stimulant"
+        },
         "serotonin_psychedelic": {
-          "weight": 0.15,
+          "weight": 0.14,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -5120,7 +5144,7 @@
     "clonazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.945,
+          "weight": 0.955,
           "tolerance_type": "gaba"
         }
       },
@@ -5156,7 +5180,7 @@
     "clonidine": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.896,
+          "weight": 0.855,
           "tolerance_type": "gaba"
         }
       },
@@ -5174,7 +5198,7 @@
     "cloniprazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.998,
+          "weight": 0.966,
           "tolerance_type": "gaba"
         }
       },
@@ -5192,16 +5216,16 @@
     "clonitazene": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.753,
+          "weight": 0.761,
           "tolerance_type": "opioid"
         },
-        "cannabinoid": {
-          "weight": 0.128,
-          "tolerance_type": "cannabinoid"
-        },
         "gaba": {
-          "weight": 0.128,
+          "weight": 0.129,
           "tolerance_type": "gaba"
+        },
+        "cannabinoid": {
+          "weight": 0.126,
+          "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
           "weight": 0.082,
@@ -5222,7 +5246,7 @@
     "clorazepate": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.967,
+          "weight": 0.97,
           "tolerance_type": "gaba"
         }
       },
@@ -5240,7 +5264,7 @@
     "clotiazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.921,
+          "weight": 0.884,
           "tolerance_type": "gaba"
         }
       },
@@ -5258,15 +5282,15 @@
     "cloxazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.465,
+          "weight": 0.438,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.08,
+          "weight": 0.134,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
-          "weight": 0.052,
+          "weight": 0.056,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -5284,15 +5308,15 @@
     "cocaine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.718,
+          "weight": 0.694,
           "tolerance_type": "stimulant"
         },
         "gaba": {
-          "weight": 0.123,
+          "weight": 0.125,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.069,
+          "weight": 0.075,
           "tolerance_type": "nmda"
         }
       },
@@ -5328,15 +5352,15 @@
     "coluracetam": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.458,
+          "weight": 0.437,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
-          "weight": 0.098,
+          "weight": 0.088,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_psychedelic": {
-          "weight": 0.062,
+          "weight": 0.058,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -5354,7 +5378,7 @@
     "coronaridine": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.768,
+          "weight": 0.763,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -5372,8 +5396,12 @@
     "cyclizine": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.413,
+          "weight": 0.363,
           "tolerance_type": "gaba"
+        },
+        "opioid": {
+          "weight": 0.052,
+          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -5390,15 +5418,15 @@
     "cyclo-methiodrone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.767,
+          "weight": 0.776,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.429,
+          "weight": 0.43,
           "tolerance_type": "serotonin_release"
         },
         "cannabinoid": {
-          "weight": 0.071,
+          "weight": 0.075,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -5416,16 +5444,16 @@
     "cyclobenzaprine": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.506,
+          "weight": 0.48,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.106,
+          "weight": 0.166,
           "tolerance_type": "cannabinoid"
         },
-        "stimulant": {
-          "weight": 0.051,
-          "tolerance_type": "stimulant"
+        "serotonin_release": {
+          "weight": 0.05,
+          "tolerance_type": "serotonin_release"
         }
       },
       "half_life_hours": 12.0,
@@ -5442,19 +5470,19 @@
     "cyclopentyl-fentanyl": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.783,
+          "weight": 0.786,
           "tolerance_type": "opioid"
         },
-        "gaba": {
-          "weight": 0.163,
-          "tolerance_type": "gaba"
-        },
         "cannabinoid": {
-          "weight": 0.144,
+          "weight": 0.183,
           "tolerance_type": "cannabinoid"
         },
+        "gaba": {
+          "weight": 0.147,
+          "tolerance_type": "gaba"
+        },
         "stimulant": {
-          "weight": 0.142,
+          "weight": 0.138,
           "tolerance_type": "stimulant"
         }
       },
@@ -5472,12 +5500,16 @@
     "cyclopropylmescaline": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -5494,7 +5526,7 @@
     "d2pm": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.746,
+          "weight": 0.744,
           "tolerance_type": "stimulant"
         }
       },
@@ -5516,7 +5548,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -5534,11 +5566,11 @@
     "datura": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.747,
+          "weight": 0.744,
           "tolerance_type": "serotonin_psychedelic"
         },
         "gaba": {
-          "weight": 0.529,
+          "weight": 0.481,
           "tolerance_type": "gaba"
         }
       },
@@ -5556,7 +5588,7 @@
     "dehydroxyfluorafinil": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.805,
+          "weight": 0.802,
           "tolerance_type": "stimulant"
         }
       },
@@ -5574,7 +5606,7 @@
     "delorazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.967,
+          "weight": 0.97,
           "tolerance_type": "gaba"
         }
       },
@@ -5592,7 +5624,7 @@
     "demerol": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.881,
+          "weight": 0.915,
           "tolerance_type": "opioid"
         }
       },
@@ -5610,7 +5642,7 @@
     "deschloroetizolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.982,
+          "weight": 0.981,
           "tolerance_type": "gaba"
         }
       },
@@ -5646,7 +5678,7 @@
     "desmethylflunitrazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.921,
+          "weight": 0.912,
           "tolerance_type": "gaba"
         }
       },
@@ -5668,7 +5700,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -5686,7 +5718,7 @@
     "dexedrine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.896,
+          "weight": 0.897,
           "tolerance_type": "stimulant"
         }
       },
@@ -5726,7 +5758,7 @@
     "dextropropoxyphene": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.735,
+          "weight": 0.745,
           "tolerance_type": "opioid"
         },
         "gaba": {
@@ -5748,7 +5780,7 @@
     "diazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.995,
+          "weight": 0.994,
           "tolerance_type": "gaba"
         }
       },
@@ -5784,7 +5816,7 @@
     "diclofensine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -5806,15 +5838,19 @@
     "diethyl-ether": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.876,
+          "weight": 0.837,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.088,
+          "weight": 0.09,
           "tolerance_type": "nmda"
         },
+        "cannabinoid": {
+          "weight": 0.076,
+          "tolerance_type": "cannabinoid"
+        },
         "opioid": {
-          "weight": 0.06,
+          "weight": 0.058,
           "tolerance_type": "opioid"
         }
       },
@@ -5834,6 +5870,10 @@
         "opioid": {
           "weight": 1.0,
           "tolerance_type": "opioid"
+        },
+        "serotonin_release": {
+          "weight": 0.05,
+          "tolerance_type": "serotonin_release"
         }
       },
       "half_life_hours": 12.0,
@@ -5850,15 +5890,15 @@
     "dimemebfe": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.677,
+          "weight": 0.68,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.197,
+          "weight": 0.195,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
-          "weight": 0.131,
+          "weight": 0.132,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -5873,6 +5913,28 @@
       "tolerance_gain_rate": 0.6,
       "tolerance_decay_days": 4.0
     },
+    "dimethocaine": {
+      "neuro_buckets": {
+        "stimulant": {
+          "weight": 1.0,
+          "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.087,
+          "tolerance_type": "cannabinoid"
+        }
+      },
+      "half_life_hours": 12.0,
+      "active_threshold": 0.05,
+      "standard_unit": {
+        "value": 22.5,
+        "unit": "mg"
+      },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 0.25,
+      "tolerance_decay_days": 5.0
+    },
     "diphenhydramine": {
       "neuro_buckets": {
         "gaba": {
@@ -5880,7 +5942,7 @@
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.067,
+          "weight": 0.06,
           "tolerance_type": "nmda"
         }
       },
@@ -5902,16 +5964,16 @@
           "tolerance_type": "nmda"
         },
         "stimulant": {
-          "weight": 0.311,
+          "weight": 0.314,
           "tolerance_type": "stimulant"
         },
-        "gaba": {
-          "weight": 0.075,
-          "tolerance_type": "gaba"
-        },
         "serotonin_psychedelic": {
-          "weight": 0.071,
+          "weight": 0.072,
           "tolerance_type": "serotonin_psychedelic"
+        },
+        "gaba": {
+          "weight": 0.064,
+          "tolerance_type": "gaba"
         }
       },
       "half_life_hours": 12.0,
@@ -5928,7 +5990,7 @@
     "dipipanone": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.881,
+          "weight": 0.915,
           "tolerance_type": "opioid"
         }
       },
@@ -5946,7 +6008,7 @@
     "dipt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.89,
+          "weight": 0.892,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -5964,11 +6026,11 @@
     "dmaa": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.724,
+          "weight": 0.732,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.086,
+          "weight": 0.081,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -5986,11 +6048,11 @@
     "dmt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.721,
+          "weight": 0.731,
           "tolerance_type": "serotonin_psychedelic"
         },
         "opioid": {
-          "weight": 0.093,
+          "weight": 0.081,
           "tolerance_type": "opioid"
         }
       },
@@ -6008,11 +6070,11 @@
     "dob": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.81,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.497,
+          "weight": 0.499,
           "tolerance_type": "stimulant"
         }
       },
@@ -6030,11 +6092,11 @@
     "doc": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.853,
+          "weight": 0.852,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.285,
+          "weight": 0.284,
           "tolerance_type": "stimulant"
         }
       },
@@ -6056,7 +6118,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -6074,11 +6136,11 @@
     "doi": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.81,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.497,
+          "weight": 0.499,
           "tolerance_type": "stimulant"
         }
       },
@@ -6096,11 +6158,11 @@
     "doip": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.714,
+          "weight": 0.709,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.695,
+          "weight": 0.696,
           "tolerance_type": "stimulant"
         }
       },
@@ -6118,11 +6180,11 @@
     "dom": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.668,
+          "weight": 0.666,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.638,
+          "weight": 0.642,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
@@ -6148,7 +6210,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -6170,7 +6232,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -6188,7 +6250,7 @@
     "doxylamine": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.34,
+          "weight": 0.33,
           "tolerance_type": "gaba"
         }
       },
@@ -6206,7 +6268,7 @@
     "dpt": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.733,
+          "weight": 0.731,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -6224,7 +6286,7 @@
     "dramamine": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.255,
+          "weight": 0.254,
           "tolerance_type": "gaba"
         }
       },
@@ -6239,14 +6301,32 @@
       "tolerance_gain_rate": 0.3,
       "tolerance_decay_days": 3.0
     },
+    "dxme": {
+      "neuro_buckets": {
+        "nmda": {
+          "weight": 0.981,
+          "tolerance_type": "nmda"
+        }
+      },
+      "half_life_hours": 12.0,
+      "active_threshold": 0.05,
+      "standard_unit": {
+        "value": 40.0,
+        "unit": "mg"
+      },
+      "potency_multiplier": 1.1,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 0.8,
+      "tolerance_decay_days": 5.0
+    },
     "eflea": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.94,
+          "weight": 0.933,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.062,
+          "weight": 0.054,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -6264,11 +6344,11 @@
     "ephedrine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.631,
+          "weight": 0.639,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.089,
+          "weight": 0.086,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -6304,7 +6384,7 @@
     "ept": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.938,
+          "weight": 0.937,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -6322,11 +6402,11 @@
     "escaline": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.99,
+          "weight": 0.997,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.16,
+          "weight": 0.177,
           "tolerance_type": "stimulant"
         }
       },
@@ -6362,7 +6442,7 @@
     "estazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.967,
+          "weight": 0.97,
           "tolerance_type": "gaba"
         }
       },
@@ -6380,7 +6460,7 @@
     "eszopiclone": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.815,
+          "weight": 0.814,
           "tolerance_type": "gaba"
         }
       },
@@ -6398,7 +6478,7 @@
     "eth-lad": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.895,
+          "weight": 0.896,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -6416,12 +6496,16 @@
     "ethaqualone": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.803,
+          "weight": 0.805,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.086,
+          "weight": 0.068,
           "tolerance_type": "cannabinoid"
+        },
+        "stimulant": {
+          "weight": 0.051,
+          "tolerance_type": "stimulant"
         }
       },
       "half_life_hours": 12.0,
@@ -6438,16 +6522,16 @@
     "ethketamine": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.666,
+          "weight": 0.68,
           "tolerance_type": "nmda"
         },
-        "cannabinoid": {
-          "weight": 0.144,
-          "tolerance_type": "cannabinoid"
-        },
         "serotonin_release": {
-          "weight": 0.097,
+          "weight": 0.091,
           "tolerance_type": "serotonin_release"
+        },
+        "cannabinoid": {
+          "weight": 0.089,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -6464,11 +6548,11 @@
     "ethyl-pentedrone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.914,
+          "weight": 0.915,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.122,
+          "weight": 0.123,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -6486,15 +6570,15 @@
     "ethylcathinone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.868,
+          "weight": 0.874,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.168,
+          "weight": 0.171,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
-          "weight": 0.053,
+          "weight": 0.051,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -6530,16 +6614,20 @@
     "ethylone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.548,
+          "weight": 0.574,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.551,
+          "weight": 0.548,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.28,
+          "weight": 0.287,
           "tolerance_type": "serotonin_psychedelic"
+        },
+        "gaba": {
+          "weight": 0.001,
+          "tolerance_type": "gaba"
         }
       },
       "half_life_hours": 12.0,
@@ -6556,11 +6644,11 @@
     "ethylphenidate": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.784,
+          "weight": 0.763,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.604,
+          "weight": 0.602,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -6596,7 +6684,7 @@
     "etodesnitazene": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.705,
+          "weight": 0.712,
           "tolerance_type": "opioid"
         }
       },
@@ -6613,16 +6701,16 @@
     },
     "fasoracetam": {
       "neuro_buckets": {
-        "stimulant": {
-          "weight": 0.208,
-          "tolerance_type": "stimulant"
-        },
         "serotonin_psychedelic": {
-          "weight": 0.207,
+          "weight": 0.201,
           "tolerance_type": "serotonin_psychedelic"
         },
+        "stimulant": {
+          "weight": 0.198,
+          "tolerance_type": "stimulant"
+        },
         "cannabinoid": {
-          "weight": 0.085,
+          "weight": 0.097,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -6658,7 +6746,7 @@
     "flualprazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.878,
+          "weight": 0.898,
           "tolerance_type": "gaba"
         }
       },
@@ -6694,7 +6782,7 @@
     "flubromazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.974,
+          "weight": 0.986,
           "tolerance_type": "gaba"
         }
       },
@@ -6712,7 +6800,7 @@
     "fluclotizolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.501,
+          "weight": 0.517,
           "tolerance_type": "gaba"
         }
       },
@@ -6748,7 +6836,7 @@
     "flunitrazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.999,
+          "weight": 0.983,
           "tolerance_type": "gaba"
         }
       },
@@ -6766,20 +6854,16 @@
     "fluorolintane": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.685,
+          "weight": 0.696,
           "tolerance_type": "nmda"
         },
         "cannabinoid": {
-          "weight": 0.16,
+          "weight": 0.146,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.134,
+          "weight": 0.141,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.052,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -6796,8 +6880,12 @@
     "fluorophenibut": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.833,
+          "weight": 0.818,
           "tolerance_type": "gaba"
+        },
+        "cannabinoid": {
+          "weight": 0.064,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -6832,7 +6920,7 @@
     "flurazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.989,
+          "weight": 0.99,
           "tolerance_type": "gaba"
         }
       },
@@ -6850,7 +6938,7 @@
     "flutazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.967,
+          "weight": 0.97,
           "tolerance_type": "gaba"
         }
       },
@@ -6868,7 +6956,7 @@
     "flutoprazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.989,
+          "weight": 0.99,
           "tolerance_type": "gaba"
         }
       },
@@ -6904,11 +6992,11 @@
     "focalin": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.688,
+          "weight": 0.692,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.083,
+          "weight": 0.08,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -6926,19 +7014,19 @@
     "furanylfentanyl": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.783,
+          "weight": 0.786,
           "tolerance_type": "opioid"
         },
-        "gaba": {
-          "weight": 0.163,
-          "tolerance_type": "gaba"
-        },
         "cannabinoid": {
-          "weight": 0.144,
+          "weight": 0.183,
           "tolerance_type": "cannabinoid"
         },
+        "gaba": {
+          "weight": 0.147,
+          "tolerance_type": "gaba"
+        },
         "stimulant": {
-          "weight": 0.142,
+          "weight": 0.138,
           "tolerance_type": "stimulant"
         }
       },
@@ -6956,11 +7044,11 @@
     "g-130": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.799,
+          "weight": 0.793,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.077,
+          "weight": 0.07,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -6978,7 +7066,7 @@
     "gaba": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.778,
+          "weight": 0.732,
           "tolerance_type": "gaba"
         }
       },
@@ -7014,11 +7102,11 @@
     "gbl": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.333,
+          "weight": 0.287,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.092,
+          "weight": 0.134,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -7036,11 +7124,11 @@
     "ghb": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.918,
+          "weight": 0.913,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.018,
+          "weight": 0.028,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -7058,19 +7146,19 @@
     "glaucine": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.769,
+          "weight": 0.771,
           "tolerance_type": "opioid"
         },
         "gaba": {
-          "weight": 0.205,
+          "weight": 0.183,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.067,
+          "weight": 0.123,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.066,
+          "weight": 0.058,
           "tolerance_type": "stimulant"
         }
       },
@@ -7088,7 +7176,7 @@
     "glutethimide": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.947,
+          "weight": 0.94,
           "tolerance_type": "gaba"
         }
       },
@@ -7106,7 +7194,7 @@
     "halazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.967,
+          "weight": 0.97,
           "tolerance_type": "gaba"
         }
       },
@@ -7124,7 +7212,7 @@
     "halothane": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.571,
+          "weight": 0.55,
           "tolerance_type": "gaba"
         }
       },
@@ -7142,7 +7230,7 @@
     "hdep-28": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -7164,7 +7252,7 @@
     "hdmp-28": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -7226,15 +7314,15 @@
           "tolerance_type": "stimulant"
         },
         "gaba": {
-          "weight": 0.468,
+          "weight": 0.458,
           "tolerance_type": "gaba"
         },
         "opioid": {
-          "weight": 0.092,
+          "weight": 0.087,
           "tolerance_type": "opioid"
         },
         "nmda": {
-          "weight": 0.065,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -7252,15 +7340,19 @@
     "hexobarbital": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.876,
+          "weight": 0.837,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.088,
+          "weight": 0.09,
           "tolerance_type": "nmda"
         },
+        "cannabinoid": {
+          "weight": 0.076,
+          "tolerance_type": "cannabinoid"
+        },
         "opioid": {
-          "weight": 0.06,
+          "weight": 0.058,
           "tolerance_type": "opioid"
         }
       },
@@ -7278,7 +7370,7 @@
     "homomazindol": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -7299,13 +7391,13 @@
     },
     "homosildenafil": {
       "neuro_buckets": {
-        "cannabinoid": {
-          "weight": 0.077,
-          "tolerance_type": "cannabinoid"
-        },
         "stimulant": {
-          "weight": 0.077,
+          "weight": 0.08,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.06,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -7326,7 +7418,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -7344,15 +7436,15 @@
     "hot-7": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.817,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
-          "weight": 0.21,
+          "weight": 0.212,
           "tolerance_type": "serotonin_release"
         },
         "cannabinoid": {
-          "weight": 0.058,
+          "weight": 0.08,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -7388,7 +7480,7 @@
     "hydromorphone": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.881,
+          "weight": 0.915,
           "tolerance_type": "opioid"
         }
       },
@@ -7406,7 +7498,7 @@
     "hydroxyzine": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.421,
+          "weight": 0.391,
           "tolerance_type": "gaba"
         }
       },
@@ -7428,7 +7520,7 @@
           "tolerance_type": "nmda"
         },
         "opioid": {
-          "weight": 0.4,
+          "weight": 0.402,
           "tolerance_type": "opioid"
         },
         "serotonin_psychedelic": {
@@ -7447,6 +7539,24 @@
       "tolerance_gain_rate": 0.3,
       "tolerance_decay_days": 10.0
     },
+    "ic-26": {
+      "neuro_buckets": {
+        "opioid": {
+          "weight": 0.983,
+          "tolerance_type": "opioid"
+        }
+      },
+      "half_life_hours": 12.0,
+      "active_threshold": 0.05,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
+      "potency_multiplier": 1.2,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 7.0
+    },
     "indapex": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
@@ -7454,7 +7564,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -7472,7 +7582,7 @@
     "indapyrophenidone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -7494,16 +7604,8 @@
     "isomethadone": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.91,
+          "weight": 0.94,
           "tolerance_type": "opioid"
-        },
-        "gaba": {
-          "weight": 0.067,
-          "tolerance_type": "gaba"
-        },
-        "nmda": {
-          "weight": 0.054,
-          "tolerance_type": "nmda"
         }
       },
       "half_life_hours": 12.0,
@@ -7520,7 +7622,7 @@
     "isophenmetrazine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -7564,7 +7666,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -7579,36 +7681,14 @@
       "tolerance_gain_rate": 0.25,
       "tolerance_decay_days": 5.0
     },
-    "jenkem": {
-      "neuro_buckets": {
-        "serotonin_psychedelic": {
-          "weight": 0.131,
-          "tolerance_type": "serotonin_psychedelic"
-        },
-        "stimulant": {
-          "weight": 0.123,
-          "tolerance_type": "stimulant"
-        }
-      },
-      "half_life_hours": 12.0,
-      "active_threshold": 0.05,
-      "standard_unit": {
-        "value": 10.0,
-        "unit": "mg"
-      },
-      "potency_multiplier": 1.0,
-      "duration_multiplier": 1.2,
-      "tolerance_gain_rate": 0.25,
-      "tolerance_decay_days": 5.0
-    },
     "kanna": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -7626,15 +7706,15 @@
     "kava": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.465,
+          "weight": 0.438,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.08,
+          "weight": 0.134,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
-          "weight": 0.052,
+          "weight": 0.056,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -7670,11 +7750,11 @@
     "ketazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -7692,7 +7772,7 @@
     "ketobemidone": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.881,
+          "weight": 0.915,
           "tolerance_type": "opioid"
         }
       },
@@ -7710,11 +7790,11 @@
     "khat": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.631,
+          "weight": 0.639,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.089,
+          "weight": 0.086,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -7732,11 +7812,11 @@
     "kratom": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.886,
+          "weight": 0.902,
           "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.545,
+          "weight": 0.525,
           "tolerance_type": "opioid"
         },
         "serotonin_release": {
@@ -7758,7 +7838,7 @@
     "librium": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.967,
+          "weight": 0.97,
           "tolerance_type": "gaba"
         }
       },
@@ -7773,36 +7853,18 @@
       "tolerance_gain_rate": 0.25,
       "tolerance_decay_days": 5.0
     },
-    "lithium": {
-      "neuro_buckets": {
-        "stimulant": {
-          "weight": 0.1,
-          "tolerance_type": "stimulant"
-        }
-      },
-      "half_life_hours": 12.0,
-      "active_threshold": 0.05,
-      "standard_unit": {
-        "value": 10.0,
-        "unit": "mg"
-      },
-      "potency_multiplier": 1.0,
-      "duration_multiplier": 1.2,
-      "tolerance_gain_rate": 0.25,
-      "tolerance_decay_days": 5.0
-    },
     "loprazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.465,
+          "weight": 0.438,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.08,
+          "weight": 0.134,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
-          "weight": 0.052,
+          "weight": 0.056,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -7838,7 +7900,7 @@
     "lormetazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.963,
+          "weight": 0.948,
           "tolerance_type": "gaba"
         }
       },
@@ -7856,11 +7918,11 @@
     "lsa": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.81,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "gaba": {
-          "weight": 0.201,
+          "weight": 0.2,
           "tolerance_type": "gaba"
         }
       },
@@ -7896,12 +7958,16 @@
     "lsm-775": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -7918,7 +7984,7 @@
     "lsz": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.911,
+          "weight": 0.913,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -7935,21 +8001,13 @@
     },
     "marinol": {
       "neuro_buckets": {
+        "cannabinoid": {
+          "weight": 0.701,
+          "tolerance_type": "cannabinoid"
+        },
         "gaba": {
-          "weight": 0.513,
+          "weight": 0.15,
           "tolerance_type": "gaba"
-        },
-        "serotonin_psychedelic": {
-          "weight": 0.113,
-          "tolerance_type": "serotonin_psychedelic"
-        },
-        "stimulant": {
-          "weight": 0.085,
-          "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.055,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 0.505,
@@ -7959,9 +8017,9 @@
         "unit": "mg"
       },
       "potency_multiplier": 1.0,
-      "duration_multiplier": 1.2,
-      "tolerance_gain_rate": 0.25,
-      "tolerance_decay_days": 5.0
+      "duration_multiplier": 1.6,
+      "tolerance_gain_rate": 0.18,
+      "tolerance_decay_days": 10.0
     },
     "mbdb": {
       "neuro_buckets": {
@@ -7970,7 +8028,7 @@
           "tolerance_type": "serotonin_release"
         },
         "stimulant": {
-          "weight": 0.322,
+          "weight": 0.325,
           "tolerance_type": "stimulant"
         }
       },
@@ -7988,7 +8046,7 @@
     "mbzp": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -8010,11 +8068,11 @@
     "mcpp": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.799,
+          "weight": 0.793,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.077,
+          "weight": 0.07,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -8032,16 +8090,20 @@
     "mda": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.528,
+          "weight": 0.546,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.828,
+          "weight": 0.826,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.281,
+          "weight": 0.285,
           "tolerance_type": "serotonin_psychedelic"
+        },
+        "gaba": {
+          "weight": 0.061,
+          "tolerance_type": "gaba"
         }
       },
       "half_life_hours": 12.0,
@@ -8058,15 +8120,15 @@
     "mdai": {
       "neuro_buckets": {
         "serotonin_release": {
-          "weight": 0.85,
+          "weight": 0.849,
           "tolerance_type": "serotonin_release"
         },
         "stimulant": {
-          "weight": 0.183,
+          "weight": 0.271,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.093,
+          "weight": 0.096,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -8079,21 +8141,25 @@
       "potency_multiplier": 0.8,
       "duration_multiplier": 1.0,
       "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 21.0
+      "tolerance_decay_days": 35.0
     },
     "mdea": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.666,
+          "weight": 0.665,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.349,
+          "weight": 0.354,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
           "weight": 0.001,
           "tolerance_type": "serotonin_psychedelic"
+        },
+        "gaba": {
+          "weight": 0.021,
+          "tolerance_type": "gaba"
         }
       },
       "half_life_hours": 12.0,
@@ -8110,16 +8176,20 @@
     "mdma": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.409,
+          "weight": 0.415,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.943,
+          "weight": 0.942,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.094,
+          "weight": 0.095,
           "tolerance_type": "serotonin_psychedelic"
+        },
+        "gaba": {
+          "weight": 0.02,
+          "tolerance_type": "gaba"
         }
       },
       "half_life_hours": 12.0,
@@ -8136,7 +8206,7 @@
     "mdoh": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.663,
+          "weight": 0.678,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
@@ -8162,15 +8232,15 @@
     "mdpa": {
       "neuro_buckets": {
         "serotonin_release": {
-          "weight": 0.404,
+          "weight": 0.403,
           "tolerance_type": "serotonin_release"
         },
         "cannabinoid": {
-          "weight": 0.222,
+          "weight": 0.207,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.161,
+          "weight": 0.168,
           "tolerance_type": "stimulant"
         },
         "opioid": {
@@ -8178,7 +8248,7 @@
           "tolerance_type": "opioid"
         },
         "nmda": {
-          "weight": 0.054,
+          "weight": 0.055,
           "tolerance_type": "nmda"
         }
       },
@@ -8200,15 +8270,15 @@
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
-          "weight": 0.074,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         },
         "opioid": {
-          "weight": 0.059,
+          "weight": 0.074,
           "tolerance_type": "opioid"
         },
         "serotonin_psychedelic": {
-          "weight": 0.051,
+          "weight": 0.054,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -8226,7 +8296,7 @@
     "mdpv": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.976,
+          "weight": 0.978,
           "tolerance_type": "stimulant"
         }
       },
@@ -8247,16 +8317,16 @@
           "weight": 1.0,
           "tolerance_type": "gaba"
         },
-        "stimulant": {
-          "weight": 0.234,
-          "tolerance_type": "stimulant"
-        },
         "cannabinoid": {
-          "weight": 0.192,
+          "weight": 0.24,
           "tolerance_type": "cannabinoid"
         },
+        "stimulant": {
+          "weight": 0.227,
+          "tolerance_type": "stimulant"
+        },
         "serotonin_psychedelic": {
-          "weight": 0.15,
+          "weight": 0.14,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -8274,7 +8344,7 @@
     "meclonazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 1.0,
+          "weight": 0.996,
           "tolerance_type": "gaba"
         }
       },
@@ -8292,7 +8362,7 @@
     "medazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.963,
+          "weight": 0.948,
           "tolerance_type": "gaba"
         }
       },
@@ -8314,7 +8384,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -8332,7 +8402,7 @@
     "memantine": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.646,
+          "weight": 0.654,
           "tolerance_type": "nmda"
         }
       },
@@ -8350,7 +8420,7 @@
     "mephedrone": {
       "neuro_buckets": {
         "serotonin_release": {
-          "weight": 0.738,
+          "weight": 0.734,
           "tolerance_type": "serotonin_release"
         },
         "stimulant": {
@@ -8358,11 +8428,11 @@
           "tolerance_type": "stimulant"
         },
         "nmda": {
-          "weight": 0.12,
+          "weight": 0.121,
           "tolerance_type": "nmda"
         },
         "gaba": {
-          "weight": 0.085,
+          "weight": 0.109,
           "tolerance_type": "gaba"
         }
       },
@@ -8380,15 +8450,15 @@
     "mephenmetrazine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.767,
+          "weight": 0.776,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.429,
+          "weight": 0.43,
           "tolerance_type": "serotonin_release"
         },
         "cannabinoid": {
-          "weight": 0.071,
+          "weight": 0.075,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -8406,15 +8476,15 @@
     "mephtetramine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.192,
+          "weight": 0.185,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.178,
+          "weight": 0.172,
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.093,
+          "weight": 0.117,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -8432,7 +8502,7 @@
     "mescaline": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.135,
+          "weight": 0.129,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
@@ -8458,7 +8528,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -8476,15 +8546,19 @@
     "metaclazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.876,
+          "weight": 0.837,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.088,
+          "weight": 0.09,
           "tolerance_type": "nmda"
         },
+        "cannabinoid": {
+          "weight": 0.076,
+          "tolerance_type": "cannabinoid"
+        },
         "opioid": {
-          "weight": 0.06,
+          "weight": 0.058,
           "tolerance_type": "opioid"
         }
       },
@@ -8502,7 +8576,7 @@
     "metaxalone": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.559,
+          "weight": 0.544,
           "tolerance_type": "gaba"
         }
       },
@@ -8520,11 +8594,11 @@
     "methadone": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.895,
+          "weight": 0.905,
           "tolerance_type": "opioid"
         },
         "nmda": {
-          "weight": 0.077,
+          "weight": 0.073,
           "tolerance_type": "nmda"
         }
       },
@@ -8536,17 +8610,17 @@
       },
       "potency_multiplier": 1.1,
       "duration_multiplier": 1.5,
-      "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 10.0
+      "tolerance_gain_rate": 0.9,
+      "tolerance_decay_days": 30.0
     },
     "methallylescaline": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.978,
+          "weight": 0.991,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
-          "weight": 0.195,
+          "weight": 0.224,
           "tolerance_type": "stimulant"
         }
       },
@@ -8564,7 +8638,7 @@
     "methamnetamine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.663,
+          "weight": 0.678,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
@@ -8590,11 +8664,11 @@
     "methamphetamine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.673,
+          "weight": 0.645,
           "tolerance_type": "stimulant"
         },
         "gaba": {
-          "weight": 0.113,
+          "weight": 0.118,
           "tolerance_type": "gaba"
         }
       },
@@ -8612,15 +8686,15 @@
     "methaqualone": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.75,
+          "weight": 0.759,
           "tolerance_type": "gaba"
         },
         "opioid": {
-          "weight": 0.13,
+          "weight": 0.131,
           "tolerance_type": "opioid"
         },
         "nmda": {
-          "weight": 0.06,
+          "weight": 0.063,
           "tolerance_type": "nmda"
         }
       },
@@ -8638,16 +8712,12 @@
     "methedrone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.708,
+          "weight": 0.719,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.105,
+          "weight": 0.102,
           "tolerance_type": "serotonin_release"
-        },
-        "cannabinoid": {
-          "weight": 0.057,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -8682,16 +8752,16 @@
     "methoxyacetyl-fentanyl": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.753,
+          "weight": 0.761,
           "tolerance_type": "opioid"
         },
-        "cannabinoid": {
-          "weight": 0.128,
-          "tolerance_type": "cannabinoid"
-        },
         "gaba": {
-          "weight": 0.128,
+          "weight": 0.129,
           "tolerance_type": "gaba"
+        },
+        "cannabinoid": {
+          "weight": 0.126,
+          "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
           "weight": 0.082,
@@ -8712,16 +8782,16 @@
     "methoxyketamine": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.666,
+          "weight": 0.68,
           "tolerance_type": "nmda"
         },
-        "cannabinoid": {
-          "weight": 0.144,
-          "tolerance_type": "cannabinoid"
-        },
         "serotonin_release": {
-          "weight": 0.097,
+          "weight": 0.091,
           "tolerance_type": "serotonin_release"
+        },
+        "cannabinoid": {
+          "weight": 0.089,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -8738,7 +8808,7 @@
     "methoxypiperamide": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.406,
+          "weight": 0.407,
           "tolerance_type": "stimulant"
         }
       },
@@ -8760,11 +8830,11 @@
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.176,
+          "weight": 0.183,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.119,
+          "weight": 0.122,
           "tolerance_type": "stimulant"
         }
       },
@@ -8782,7 +8852,7 @@
     "methylmorphenate": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -8804,16 +8874,20 @@
     "methylone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.613,
+          "weight": 0.621,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.8,
+          "weight": 0.796,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.37,
+          "weight": 0.375,
           "tolerance_type": "serotonin_psychedelic"
+        },
+        "gaba": {
+          "weight": 0.015,
+          "tolerance_type": "gaba"
         }
       },
       "half_life_hours": 12.0,
@@ -8830,14 +8904,14 @@
     "methylphenidate": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.99,
+          "weight": 0.989,
           "tolerance_type": "stimulant"
         }
       },
       "half_life_hours": 12.0,
       "active_threshold": 0.05,
       "standard_unit": {
-        "value": 50.0,
+        "value": 15.0,
         "unit": "mg"
       },
       "potency_multiplier": 0.4,
@@ -8848,15 +8922,19 @@
     "methyprylon": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.876,
+          "weight": 0.837,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.088,
+          "weight": 0.09,
           "tolerance_type": "nmda"
         },
+        "cannabinoid": {
+          "weight": 0.076,
+          "tolerance_type": "cannabinoid"
+        },
         "opioid": {
-          "weight": 0.06,
+          "weight": 0.058,
           "tolerance_type": "opioid"
         }
       },
@@ -8892,15 +8970,15 @@
     "mexazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.465,
+          "weight": 0.438,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.08,
+          "weight": 0.134,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
-          "weight": 0.052,
+          "weight": 0.056,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -8918,11 +8996,11 @@
     "mexedrone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.695,
+          "weight": 0.736,
           "tolerance_type": "stimulant"
         },
         "gaba": {
-          "weight": 0.454,
+          "weight": 0.445,
           "tolerance_type": "gaba"
         },
         "serotonin_release": {
@@ -8930,7 +9008,7 @@
           "tolerance_type": "serotonin_release"
         },
         "cannabinoid": {
-          "weight": 0.095,
+          "weight": 0.093,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -8948,7 +9026,7 @@
     "midazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.967,
+          "weight": 0.97,
           "tolerance_type": "gaba"
         }
       },
@@ -8970,7 +9048,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -8988,20 +9066,16 @@
     "mk-801": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.685,
+          "weight": 0.696,
           "tolerance_type": "nmda"
         },
         "cannabinoid": {
-          "weight": 0.16,
+          "weight": 0.146,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.134,
+          "weight": 0.141,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.052,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -9018,11 +9092,11 @@
     "modafinil": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.999,
+          "weight": 0.984,
           "tolerance_type": "stimulant"
         },
         "gaba": {
-          "weight": 0.095,
+          "weight": 0.109,
           "tolerance_type": "gaba"
         }
       },
@@ -9040,19 +9114,19 @@
     "morpheridine": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.769,
+          "weight": 0.771,
           "tolerance_type": "opioid"
         },
         "gaba": {
-          "weight": 0.205,
+          "weight": 0.183,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.067,
+          "weight": 0.123,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.066,
+          "weight": 0.058,
           "tolerance_type": "stimulant"
         }
       },
@@ -9106,15 +9180,15 @@
     "mt-45": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.899,
+          "weight": 0.931,
           "tolerance_type": "opioid"
         },
         "cannabinoid": {
-          "weight": 0.109,
+          "weight": 0.092,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
-          "weight": 0.065,
+          "weight": 0.07,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -9132,11 +9206,11 @@
     "mushrooms": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.769,
+          "weight": 0.775,
           "tolerance_type": "serotonin_psychedelic"
         },
         "gaba": {
-          "weight": 0.388,
+          "weight": 0.378,
           "tolerance_type": "gaba"
         }
       },
@@ -9154,11 +9228,11 @@
     "mxe": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.89,
+          "weight": 0.895,
           "tolerance_type": "nmda"
         },
         "gaba": {
-          "weight": 0.429,
+          "weight": 0.443,
           "tolerance_type": "gaba"
         }
       },
@@ -9176,20 +9250,16 @@
     "mxm": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.708,
+          "weight": 0.725,
           "tolerance_type": "nmda"
         },
         "gaba": {
-          "weight": 0.389,
+          "weight": 0.407,
           "tolerance_type": "gaba"
         },
         "serotonin_release": {
-          "weight": 0.076,
+          "weight": 0.068,
           "tolerance_type": "serotonin_release"
-        },
-        "cannabinoid": {
-          "weight": 0.054,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -9206,16 +9276,12 @@
     "naphyrone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.708,
+          "weight": 0.719,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.105,
+          "weight": 0.102,
           "tolerance_type": "serotonin_release"
-        },
-        "cannabinoid": {
-          "weight": 0.057,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -9232,16 +9298,12 @@
     "neb": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.708,
+          "weight": 0.719,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.105,
+          "weight": 0.102,
           "tolerance_type": "serotonin_release"
-        },
-        "cannabinoid": {
-          "weight": 0.057,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -9257,16 +9319,16 @@
     },
     "nefiracetam": {
       "neuro_buckets": {
-        "stimulant": {
-          "weight": 0.208,
-          "tolerance_type": "stimulant"
-        },
         "serotonin_psychedelic": {
-          "weight": 0.207,
+          "weight": 0.201,
           "tolerance_type": "serotonin_psychedelic"
         },
+        "stimulant": {
+          "weight": 0.198,
+          "tolerance_type": "stimulant"
+        },
         "cannabinoid": {
-          "weight": 0.085,
+          "weight": 0.097,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -9284,11 +9346,11 @@
     "nicomorphine": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.765,
+          "weight": 0.77,
           "tolerance_type": "opioid"
         },
         "gaba": {
-          "weight": 0.582,
+          "weight": 0.565,
           "tolerance_type": "gaba"
         }
       },
@@ -9324,7 +9386,7 @@
     "nifoxipam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.976,
+          "weight": 0.974,
           "tolerance_type": "gaba"
         }
       },
@@ -9342,7 +9404,7 @@
     "nimetazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.967,
+          "weight": 0.97,
           "tolerance_type": "gaba"
         }
       },
@@ -9360,7 +9422,7 @@
     "nitemazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.921,
+          "weight": 0.884,
           "tolerance_type": "gaba"
         }
       },
@@ -9378,7 +9440,7 @@
     "nitracaine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.746,
+          "weight": 0.744,
           "tolerance_type": "stimulant"
         }
       },
@@ -9414,7 +9476,7 @@
     "nitrazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.998,
+          "weight": 0.966,
           "tolerance_type": "gaba"
         }
       },
@@ -9432,11 +9494,11 @@
     "nitrous": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.897,
+          "weight": 0.915,
           "tolerance_type": "nmda"
         },
         "opioid": {
-          "weight": 0.065,
+          "weight": 0.071,
           "tolerance_type": "opioid"
         }
       },
@@ -9454,11 +9516,11 @@
     "nm-2-ai": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.551,
+          "weight": 0.56,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.418,
+          "weight": 0.42,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -9476,11 +9538,11 @@
     "noctec": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -9498,16 +9560,16 @@
     "noopept": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.502,
+          "weight": 0.494,
           "tolerance_type": "stimulant"
-        },
-        "cannabinoid": {
-          "weight": 0.078,
-          "tolerance_type": "cannabinoid"
         },
         "serotonin_psychedelic": {
           "weight": 0.064,
           "tolerance_type": "serotonin_psychedelic"
+        },
+        "cannabinoid": {
+          "weight": 0.06,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -9524,7 +9586,7 @@
     "nordazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.963,
+          "weight": 0.948,
           "tolerance_type": "gaba"
         }
       },
@@ -9542,7 +9604,7 @@
     "norflurazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.998,
+          "weight": 0.966,
           "tolerance_type": "gaba"
         }
       },
@@ -9560,7 +9622,7 @@
     "o-desmethyltramadol": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.975,
+          "weight": 0.985,
           "tolerance_type": "opioid"
         }
       },
@@ -9578,19 +9640,15 @@
     "o-pce": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.726,
+          "weight": 0.741,
           "tolerance_type": "nmda"
         },
         "gaba": {
-          "weight": 0.423,
+          "weight": 0.424,
           "tolerance_type": "gaba"
         },
-        "cannabinoid": {
-          "weight": 0.07,
-          "tolerance_type": "cannabinoid"
-        },
         "stimulant": {
-          "weight": 0.06,
+          "weight": 0.069,
           "tolerance_type": "stimulant"
         }
       },
@@ -9608,11 +9666,11 @@
     "opium": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.891,
+          "weight": 0.917,
           "tolerance_type": "opioid"
         },
         "cannabinoid": {
-          "weight": 0.058,
+          "weight": 0.065,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -9630,7 +9688,7 @@
     "oxazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.969,
+          "weight": 0.962,
           "tolerance_type": "gaba"
         }
       },
@@ -9648,15 +9706,15 @@
     "oxazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.465,
+          "weight": 0.438,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.08,
+          "weight": 0.134,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
-          "weight": 0.052,
+          "weight": 0.056,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -9674,7 +9732,7 @@
     "oxycodone": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.957,
+          "weight": 0.988,
           "tolerance_type": "opioid"
         }
       },
@@ -9692,7 +9750,7 @@
     "oxymorphone": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.881,
+          "weight": 0.915,
           "tolerance_type": "opioid"
         }
       },
@@ -9710,24 +9768,24 @@
     "pagoclone": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.458,
+          "weight": 0.419,
           "tolerance_type": "gaba"
         },
-        "stimulant": {
-          "weight": 0.186,
-          "tolerance_type": "stimulant"
-        },
         "cannabinoid": {
-          "weight": 0.173,
+          "weight": 0.251,
           "tolerance_type": "cannabinoid"
         },
-        "serotonin_psychedelic": {
-          "weight": 0.082,
-          "tolerance_type": "serotonin_psychedelic"
+        "stimulant": {
+          "weight": 0.18,
+          "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.078,
+          "weight": 0.074,
           "tolerance_type": "opioid"
+        },
+        "serotonin_psychedelic": {
+          "weight": 0.071,
+          "tolerance_type": "serotonin_psychedelic"
         }
       },
       "half_life_hours": 12.0,
@@ -9744,7 +9802,7 @@
     "palfium": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.735,
+          "weight": 0.745,
           "tolerance_type": "opioid"
         },
         "gaba": {
@@ -9766,15 +9824,15 @@
     "parafluorobutyrfentanyl": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.899,
+          "weight": 0.931,
           "tolerance_type": "opioid"
         },
         "cannabinoid": {
-          "weight": 0.109,
+          "weight": 0.092,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
-          "weight": 0.065,
+          "weight": 0.07,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -9792,11 +9850,11 @@
     "parafluorofentanyl": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.923,
+          "weight": 0.924,
           "tolerance_type": "opioid"
         },
         "gaba": {
-          "weight": 0.068,
+          "weight": 0.061,
           "tolerance_type": "gaba"
         }
       },
@@ -9832,15 +9890,15 @@
     "pce": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.695,
+          "weight": 0.703,
           "tolerance_type": "nmda"
         },
         "cannabinoid": {
-          "weight": 0.083,
+          "weight": 0.086,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.057,
+          "weight": 0.061,
           "tolerance_type": "stimulant"
         }
       },
@@ -9858,7 +9916,7 @@
     "pcp": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.882,
+          "weight": 0.881,
           "tolerance_type": "nmda"
         }
       },
@@ -9876,11 +9934,11 @@
     "pemoline": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.631,
+          "weight": 0.639,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.089,
+          "weight": 0.086,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -9898,7 +9956,7 @@
     "pentazocine": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.735,
+          "weight": 0.745,
           "tolerance_type": "opioid"
         },
         "gaba": {
@@ -9920,16 +9978,12 @@
     "pentedrone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.708,
+          "weight": 0.719,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.105,
+          "weight": 0.102,
           "tolerance_type": "serotonin_release"
-        },
-        "cannabinoid": {
-          "weight": 0.057,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -9946,11 +10000,11 @@
     "pentobarbital": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -9968,15 +10022,15 @@
     "pentylone": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.604,
+          "weight": 0.622,
           "tolerance_type": "stimulant"
         },
         "serotonin_psychedelic": {
-          "weight": 0.505,
+          "weight": 0.513,
           "tolerance_type": "serotonin_psychedelic"
         },
         "serotonin_release": {
-          "weight": 0.158,
+          "weight": 0.154,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -9994,7 +10048,7 @@
     "pfbt": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -10016,7 +10070,7 @@
     "phenazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.925,
+          "weight": 0.934,
           "tolerance_type": "gaba"
         }
       },
@@ -10034,7 +10088,7 @@
     "phenethylamine": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.428,
+          "weight": 0.429,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -10052,7 +10106,7 @@
     "phenetrazine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.746,
+          "weight": 0.744,
           "tolerance_type": "stimulant"
         }
       },
@@ -10070,27 +10124,27 @@
     "phenibut": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.919,
+          "weight": 0.939,
           "tolerance_type": "gaba"
         },
         "stimulant": {
-          "weight": 0.342,
+          "weight": 0.352,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.164,
+          "weight": 0.161,
           "tolerance_type": "serotonin_release"
         },
         "opioid": {
-          "weight": 0.078,
+          "weight": 0.08,
           "tolerance_type": "opioid"
         },
         "serotonin_psychedelic": {
-          "weight": 0.07,
+          "weight": 0.076,
           "tolerance_type": "serotonin_psychedelic"
         },
         "nmda": {
-          "weight": 0.055,
+          "weight": 0.056,
           "tolerance_type": "nmda"
         }
       },
@@ -10108,11 +10162,11 @@
     "phenmetrazine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.631,
+          "weight": 0.639,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.089,
+          "weight": 0.086,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -10130,11 +10184,11 @@
     "phenobarbital": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -10152,7 +10206,7 @@
     "phentermine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.722,
+          "weight": 0.713,
           "tolerance_type": "stimulant"
         }
       },
@@ -10170,7 +10224,7 @@
     "picamilon": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.492,
+          "weight": 0.485,
           "tolerance_type": "gaba"
         }
       },
@@ -10188,7 +10242,7 @@
     "pinazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.963,
+          "weight": 0.948,
           "tolerance_type": "gaba"
         }
       },
@@ -10210,7 +10264,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -10228,7 +10282,7 @@
     "piracetam": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.372,
+          "weight": 0.346,
           "tolerance_type": "stimulant"
         }
       },
@@ -10246,11 +10300,11 @@
     "placdyl": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -10268,7 +10322,7 @@
     "pma": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.722,
+          "weight": 0.713,
           "tolerance_type": "stimulant"
         }
       },
@@ -10304,7 +10358,7 @@
     "prazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.967,
+          "weight": 0.957,
           "tolerance_type": "gaba"
         }
       },
@@ -10330,11 +10384,11 @@
           "tolerance_type": "serotonin_release"
         },
         "opioid": {
-          "weight": 0.145,
+          "weight": 0.137,
           "tolerance_type": "opioid"
         },
         "cannabinoid": {
-          "weight": 0.124,
+          "weight": 0.128,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -10352,7 +10406,7 @@
     "pro-lad": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.768,
+          "weight": 0.763,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -10370,7 +10424,7 @@
     "prolintane": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -10392,7 +10446,7 @@
     "promethazine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.057,
+          "weight": 0.053,
           "tolerance_type": "stimulant"
         }
       },
@@ -10410,15 +10464,15 @@
     "propofol": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.465,
+          "weight": 0.438,
           "tolerance_type": "gaba"
         },
         "cannabinoid": {
-          "weight": 0.08,
+          "weight": 0.134,
           "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
-          "weight": 0.052,
+          "weight": 0.056,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -10436,19 +10490,19 @@
     "propoxyphene": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.739,
+          "weight": 0.746,
           "tolerance_type": "opioid"
         },
         "gaba": {
-          "weight": 0.17,
+          "weight": 0.166,
           "tolerance_type": "gaba"
         },
         "serotonin_release": {
-          "weight": 0.065,
+          "weight": 0.066,
           "tolerance_type": "serotonin_release"
         },
         "cannabinoid": {
-          "weight": 0.051,
+          "weight": 0.066,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -10466,7 +10520,7 @@
     "propranolol": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.896,
+          "weight": 0.855,
           "tolerance_type": "gaba"
         }
       },
@@ -10484,7 +10538,7 @@
     "propylhexedrine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.829,
+          "weight": 0.831,
           "tolerance_type": "stimulant"
         }
       },
@@ -10502,7 +10556,7 @@
     "propylphenidate": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -10524,7 +10578,7 @@
     "proscaline": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.837,
+          "weight": 0.838,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
@@ -10546,7 +10600,7 @@
     "pseudoephedrine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.664,
+          "weight": 0.661,
           "tolerance_type": "stimulant"
         }
       },
@@ -10564,11 +10618,11 @@
     "psilocin": {
       "neuro_buckets": {
         "serotonin_release": {
-          "weight": 0.018,
+          "weight": 0.017,
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.879,
+          "weight": 0.88,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -10586,7 +10640,7 @@
     "pst": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.735,
+          "weight": 0.745,
           "tolerance_type": "opioid"
         },
         "gaba": {
@@ -10662,7 +10716,7 @@
     "quazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.886,
+          "weight": 0.867,
           "tolerance_type": "gaba"
         }
       },
@@ -10680,7 +10734,7 @@
     "quetiapine": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.86,
+          "weight": 0.783,
           "tolerance_type": "gaba"
         }
       },
@@ -10716,19 +10770,15 @@
     "rolicyclidine": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.726,
+          "weight": 0.741,
           "tolerance_type": "nmda"
         },
         "gaba": {
-          "weight": 0.423,
+          "weight": 0.424,
           "tolerance_type": "gaba"
         },
-        "cannabinoid": {
-          "weight": 0.07,
-          "tolerance_type": "cannabinoid"
-        },
         "stimulant": {
-          "weight": 0.06,
+          "weight": 0.069,
           "tolerance_type": "stimulant"
         }
       },
@@ -10746,11 +10796,11 @@
     "ronlax": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -10768,11 +10818,11 @@
     "salvia": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.652,
+          "weight": 0.689,
           "tolerance_type": "nmda"
         },
         "gaba": {
-          "weight": 0.347,
+          "weight": 0.283,
           "tolerance_type": "gaba"
         }
       },
@@ -10808,11 +10858,11 @@
     "secobarbital": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -10848,7 +10898,7 @@
     "sinicuichi": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.768,
+          "weight": 0.763,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -10866,7 +10916,7 @@
     "sonata": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.961,
+          "weight": 0.954,
           "tolerance_type": "gaba"
         }
       },
@@ -10884,19 +10934,19 @@
     "sufentanil": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.739,
+          "weight": 0.746,
           "tolerance_type": "opioid"
         },
         "gaba": {
-          "weight": 0.17,
+          "weight": 0.166,
           "tolerance_type": "gaba"
         },
         "serotonin_release": {
-          "weight": 0.065,
+          "weight": 0.066,
           "tolerance_type": "serotonin_release"
         },
         "cannabinoid": {
-          "weight": 0.051,
+          "weight": 0.066,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -10914,7 +10964,7 @@
     "sulbutiamine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.746,
+          "weight": 0.744,
           "tolerance_type": "stimulant"
         }
       },
@@ -10932,7 +10982,7 @@
     "tapentadol": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.881,
+          "weight": 0.915,
           "tolerance_type": "opioid"
         }
       },
@@ -10950,7 +11000,7 @@
     "temazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.967,
+          "weight": 0.97,
           "tolerance_type": "gaba"
         }
       },
@@ -10968,16 +11018,16 @@
     "tetrahydrofuran-fentanyl": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.753,
+          "weight": 0.761,
           "tolerance_type": "opioid"
         },
-        "cannabinoid": {
-          "weight": 0.128,
-          "tolerance_type": "cannabinoid"
-        },
         "gaba": {
-          "weight": 0.128,
+          "weight": 0.129,
           "tolerance_type": "gaba"
+        },
+        "cannabinoid": {
+          "weight": 0.126,
+          "tolerance_type": "cannabinoid"
         },
         "serotonin_release": {
           "weight": 0.082,
@@ -10998,7 +11048,7 @@
     "tetrazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.963,
+          "weight": 0.948,
           "tolerance_type": "gaba"
         }
       },
@@ -11016,7 +11066,7 @@
     "th-pvp": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -11038,7 +11088,7 @@
     "theacrine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.623,
+          "weight": 0.621,
           "tolerance_type": "stimulant"
         }
       },
@@ -11055,9 +11105,9 @@
     },
     "theobromine": {
       "neuro_buckets": {
-        "opioid": {
+        "gaba": {
           "weight": 0.1,
-          "tolerance_type": "opioid"
+          "tolerance_type": "gaba"
         }
       },
       "half_life_hours": 12.0,
@@ -11074,11 +11124,11 @@
     "thiopental": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -11096,16 +11146,12 @@
     "thiopropamine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.708,
+          "weight": 0.719,
           "tolerance_type": "stimulant"
         },
         "serotonin_release": {
-          "weight": 0.105,
+          "weight": 0.102,
           "tolerance_type": "serotonin_release"
-        },
-        "cannabinoid": {
-          "weight": 0.057,
-          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,
@@ -11122,11 +11168,11 @@
     "tianeptine": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.603,
+          "weight": 0.611,
           "tolerance_type": "opioid"
         },
         "stimulant": {
-          "weight": 0.431,
+          "weight": 0.428,
           "tolerance_type": "stimulant"
         }
       },
@@ -11144,20 +11190,16 @@
     "tiletamine": {
       "neuro_buckets": {
         "nmda": {
-          "weight": 0.685,
+          "weight": 0.696,
           "tolerance_type": "nmda"
         },
         "cannabinoid": {
-          "weight": 0.16,
+          "weight": 0.146,
           "tolerance_type": "cannabinoid"
         },
         "stimulant": {
-          "weight": 0.134,
+          "weight": 0.141,
           "tolerance_type": "stimulant"
-        },
-        "opioid": {
-          "weight": 0.052,
-          "tolerance_type": "opioid"
         }
       },
       "half_life_hours": 12.0,
@@ -11174,7 +11216,7 @@
     "tilidine": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.735,
+          "weight": 0.745,
           "tolerance_type": "opioid"
         },
         "gaba": {
@@ -11200,7 +11242,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -11222,7 +11264,7 @@
           "tolerance_type": "serotonin_psychedelic"
         },
         "cannabinoid": {
-          "weight": 0.059,
+          "weight": 0.079,
           "tolerance_type": "cannabinoid"
         }
       },
@@ -11240,24 +11282,24 @@
     "tolibut": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.458,
+          "weight": 0.419,
           "tolerance_type": "gaba"
         },
-        "stimulant": {
-          "weight": 0.186,
-          "tolerance_type": "stimulant"
-        },
         "cannabinoid": {
-          "weight": 0.173,
+          "weight": 0.251,
           "tolerance_type": "cannabinoid"
         },
-        "serotonin_psychedelic": {
-          "weight": 0.082,
-          "tolerance_type": "serotonin_psychedelic"
+        "stimulant": {
+          "weight": 0.18,
+          "tolerance_type": "stimulant"
         },
         "opioid": {
-          "weight": 0.078,
+          "weight": 0.074,
           "tolerance_type": "opioid"
+        },
+        "serotonin_psychedelic": {
+          "weight": 0.071,
+          "tolerance_type": "serotonin_psychedelic"
         }
       },
       "half_life_hours": 12.0,
@@ -11274,7 +11316,7 @@
     "tramadol": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.472,
+          "weight": 0.45,
           "tolerance_type": "opioid"
         }
       },
@@ -11310,7 +11352,7 @@
     "triazolam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.965,
+          "weight": 0.953,
           "tolerance_type": "gaba"
         }
       },
@@ -11328,7 +11370,7 @@
     "troparil": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -11350,11 +11392,11 @@
     "tuinal": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.842,
+          "weight": 0.819,
           "tolerance_type": "gaba"
         },
         "nmda": {
-          "weight": 0.07,
+          "weight": 0.074,
           "tolerance_type": "nmda"
         }
       },
@@ -11390,11 +11432,11 @@
     "u-49900": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.916,
+          "weight": 0.915,
           "tolerance_type": "opioid"
         },
         "nmda": {
-          "weight": 0.162,
+          "weight": 0.164,
           "tolerance_type": "nmda"
         }
       },
@@ -11412,15 +11454,15 @@
     "u-51754": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.772,
+          "weight": 0.766,
           "tolerance_type": "opioid"
         },
         "nmda": {
-          "weight": 0.467,
+          "weight": 0.47,
           "tolerance_type": "nmda"
         },
         "gaba": {
-          "weight": 0.142,
+          "weight": 0.096,
           "tolerance_type": "gaba"
         }
       },
@@ -11438,19 +11480,19 @@
     "valerylfentanyl": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.783,
+          "weight": 0.786,
           "tolerance_type": "opioid"
         },
-        "gaba": {
-          "weight": 0.163,
-          "tolerance_type": "gaba"
-        },
         "cannabinoid": {
-          "weight": 0.144,
+          "weight": 0.183,
           "tolerance_type": "cannabinoid"
         },
+        "gaba": {
+          "weight": 0.147,
+          "tolerance_type": "gaba"
+        },
         "stimulant": {
-          "weight": 0.142,
+          "weight": 0.138,
           "tolerance_type": "stimulant"
         }
       },
@@ -11468,7 +11510,7 @@
     "viloxazine": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.722,
+          "weight": 0.713,
           "tolerance_type": "stimulant"
         }
       },
@@ -11486,7 +11528,7 @@
     "vyvanse": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.767,
+          "weight": 0.774,
           "tolerance_type": "stimulant"
         }
       },
@@ -11504,16 +11546,8 @@
     "w-15": {
       "neuro_buckets": {
         "opioid": {
-          "weight": 0.924,
+          "weight": 0.985,
           "tolerance_type": "opioid"
-        },
-        "stimulant": {
-          "weight": 0.087,
-          "tolerance_type": "stimulant"
-        },
-        "serotonin_psychedelic": {
-          "weight": 0.06,
-          "tolerance_type": "serotonin_psychedelic"
         }
       },
       "half_life_hours": 12.0,
@@ -11522,19 +11556,23 @@
         "value": 7.5,
         "unit": "mg"
       },
-      "potency_multiplier": 1.0,
+      "potency_multiplier": 1.5,
       "duration_multiplier": 1.2,
-      "tolerance_gain_rate": 0.25,
-      "tolerance_decay_days": 5.0
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 21.0
     },
     "yerba-mate": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.704,
+          "weight": 0.705,
           "tolerance_type": "stimulant"
         },
+        "gaba": {
+          "weight": 0.067,
+          "tolerance_type": "gaba"
+        },
         "serotonin_release": {
-          "weight": 0.063,
+          "weight": 0.06,
           "tolerance_type": "serotonin_release"
         }
       },
@@ -11556,7 +11594,7 @@
           "tolerance_type": "serotonin_release"
         },
         "serotonin_psychedelic": {
-          "weight": 0.412,
+          "weight": 0.413,
           "tolerance_type": "serotonin_psychedelic"
         }
       },
@@ -11574,7 +11612,7 @@
     "zolazepam": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.963,
+          "weight": 0.948,
           "tolerance_type": "gaba"
         }
       },
@@ -11592,7 +11630,7 @@
     "zolpidem": {
       "neuro_buckets": {
         "gaba": {
-          "weight": 0.969,
+          "weight": 0.958,
           "tolerance_type": "gaba"
         }
       },
@@ -11628,7 +11666,7 @@
     "α-pbp": {
       "neuro_buckets": {
         "stimulant": {
-          "weight": 0.823,
+          "weight": 0.824,
           "tolerance_type": "stimulant"
         },
         "cannabinoid": {
@@ -11650,12 +11688,16 @@
     "βh-2c-b": {
       "neuro_buckets": {
         "serotonin_psychedelic": {
-          "weight": 0.815,
+          "weight": 0.811,
           "tolerance_type": "serotonin_psychedelic"
         },
         "stimulant": {
           "weight": 0.088,
           "tolerance_type": "stimulant"
+        },
+        "cannabinoid": {
+          "weight": 0.057,
+          "tolerance_type": "cannabinoid"
         }
       },
       "half_life_hours": 12.0,

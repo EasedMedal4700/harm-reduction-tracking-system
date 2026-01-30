@@ -171,16 +171,22 @@
     },
 
     "caffeine": {
-      "notes": "Adenosine antagonist with indirect stimulant effects and rapid tolerance.",
+      "notes": "Adenosine antagonist with indirect stimulant effects; stimulant bucket used as proxy only.",
       "neuro_buckets": {
-        "stimulant": { "weight": 0.3, "tolerance_type": "stimulant" }
+        "stimulant": {
+          "weight": 0.25,
+          "tolerance_type": "stimulant"
+        }
       },
       "half_life_hours": 5.0,
-      "active_threshold": 0.05,
-      "standard_unit": { "value": 100.0, "unit": "mg" },
+      "active_threshold": 0.15,
+      "standard_unit": {
+        "value": 100.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 0.15,
       "duration_multiplier": 1.0,
-      "tolerance_gain_rate": 0.4,
+      "tolerance_gain_rate": 0.3,
       "tolerance_decay_days": 2.0
     },
 
@@ -233,6 +239,7 @@
       },
       "half_life_hours": 1.0,
       "active_threshold": 0.05,
+      "comemnt":"fix soon ish",
       "standard_unit": { "value": 1.0, "unit": "g" },
       "potency_multiplier": 1.3,
       "duration_multiplier": 0.7,
@@ -1431,20 +1438,6 @@
       "tolerance_decay_days": 7.0
     },
 
-    "mdai": {
-      "notes": "Entactogenic compound acting primarily as a serotonin releasing agent with minimal stimulant properties.",
-      "neuro_buckets": {
-        "serotonin_release": { "weight": 1.0, "tolerance_type": "serotonin_release" }
-      },
-      "half_life_hours": 8.0,
-      "active_threshold": 0.05,
-      "standard_unit": { "value": 125.0, "unit": "mg" },
-      "potency_multiplier": 0.8,
-      "duration_multiplier": 1.0,
-      "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 21.0
-    },
-
     "alpha-php": {
       "notes": "Potent synthetic cathinone stimulant with strong dopamine reuptake inhibition and compulsive redosing risk.",
       "neuro_buckets": {
@@ -1602,18 +1595,27 @@
     },
 
     "methadone": {
-      "notes": "Long-acting synthetic opioid with mu-opioid agonism and NMDA antagonism; used in maintenance therapy.",
+      "notes": "Long-acting synthetic opioid with mu-opioid agonism and clinically relevant NMDA antagonism; used in maintenance therapy with significant accumulation risk.",
       "neuro_buckets": {
-        "opioid": { "weight": 0.9, "tolerance_type": "opioid" },
-        "nmda": { "weight": 0.1, "tolerance_type": "nmda" }
+        "opioid": {
+          "weight": 0.9,
+          "tolerance_type": "opioid"
+        },
+        "nmda": {
+          "weight": 0.1,
+          "tolerance_type": "nmda"
+        }
       },
-      "half_life_hours": 24.0,
-      "active_threshold": 0.05,
-      "standard_unit": { "value": 15.0, "unit": "mg" },
+      "half_life_hours": 36.0,
+      "active_threshold": 0.15,
+      "standard_unit": {
+        "value": 15.0,
+        "unit": "mg"
+      },
       "potency_multiplier": 1.1,
       "duration_multiplier": 1.5,
-      "tolerance_gain_rate": 1.0,
-      "tolerance_decay_days": 10.0
+      "tolerance_gain_rate": 0.9,
+      "tolerance_decay_days": 30.0
     },
 
     "ephenidine": {
@@ -1719,6 +1721,111 @@
       "duration_multiplier": 1.5,
       "tolerance_gain_rate": 0.30,
       "tolerance_decay_days": 10.0
+    },
+
+    "2c-d": {
+      "notes": "Phenethylamine psychedelic acting primarily as a 5-HT2A agonist. Known for mild, clear-headed psychedelic effects and rapid tolerance similar to other classic psychedelics.",
+      "neuro_buckets": {
+        "serotonin_psychedelic": {
+          "weight": 0.9,
+          "tolerance_type": "serotonin_psychedelic"
+        }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.05,
+      "standard_unit": {
+        "value": 30.0,
+        "unit": "mg"
+      },
+      "potency_multiplier": 0.7,
+      "duration_multiplier": 0.8,
+      "tolerance_gain_rate": 1.8,
+      "tolerance_decay_days": 7.0
+    },
+
+    "marinol": {
+      "neuro_buckets": {
+        "cannabinoid": {
+          "weight": 1.0,
+          "tolerance_type": "cannabinoid"
+        }
+      },
+      "half_life_hours": 30.0,
+      "active_threshold": 0.15,
+      "standard_unit": {
+        "value": 5.0,
+        "unit": "mg"
+      },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.6,
+      "tolerance_gain_rate": 0.18,
+      "tolerance_decay_days": 10.0,
+      "route": "oral",
+      "is_medical": true,
+      "notes": "Synthetic oral THC (dronabinol). Strong CB1 agonism with delayed onset and long-lasting tolerance due to 11-hydroxy-THC metabolite."
+    },
+
+    "mdai": {
+      "neuro_buckets": {
+        "serotonin_release": {
+          "weight": 1.0,
+          "tolerance_type": "serotonin_release"
+        },
+        "stimulant": {
+          "weight": 0.12,
+          "tolerance_type": "stimulant"
+        }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.2,
+      "standard_unit": {
+        "value": 125.0,
+        "unit": "mg"
+      },
+      "potency_multiplier": 0.8,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 35.0
+    },
+
+    "3-cmc": {
+      "notes": "Synthetic cathinone stimulant acting primarily via monoamine transporters (DAT/NET; serotonergic contribution uncertain). No opioid or GABAergic activity.",
+      "neuro_buckets": {
+        "stimulant": {
+          "weight": 1.0,
+          "tolerance_type": "stimulant"
+        }
+      },
+      "half_life_hours": 6.0,
+      "active_threshold": 0.1,
+      "standard_unit": {
+        "value": 80.0,
+        "unit": "mg"
+      },
+      "potency_multiplier": 1.0,
+      "duration_multiplier": 1.0,
+      "tolerance_gain_rate": 0.6,
+      "tolerance_decay_days": 7.0
+    },
+
+    "w-15": {
+      "notes": "Potent synthetic opioid receptor agonist. No stimulant or psychedelic activity. High risk of rapid tolerance and respiratory depression.",
+      "neuro_buckets": {
+        "opioid": {
+          "weight": 1.0,
+          "tolerance_type": "opioid"
+        }
+      },
+      "half_life_hours": 12.0,
+      "active_threshold": 0.1,
+      "standard_unit": {
+        "value": 7.5,
+        "unit": "mg"
+      },
+      "potency_multiplier": 1.5,
+      "duration_multiplier": 1.2,
+      "tolerance_gain_rate": 1.0,
+      "tolerance_decay_days": 21.0
     }
 
 
